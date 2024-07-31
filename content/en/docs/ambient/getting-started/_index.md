@@ -57,12 +57,7 @@ You can verify the installed components using the command `istioctl verify-insta
 
 ## Install the Kubernetes Gateway API CRDs
 
-You need to install the Kubernetes Gateway API CRDs, which don’t come installed by default on most Kubernetes clusters:
-
-{{< text syntax=bash snip_id=install_k8s_gateway_api >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.1.0" | kubectl apply -f -; }
-{{< /text >}}
+{{< boilerplate gateway-api-install-crds >}}
 
 You will use the Kubernetes Gateway API to configure traffic routing.
 

@@ -6,7 +6,7 @@ aliases:
   - /docs/ops/ambient/usage/waypoint
   - /latest/docs/ops/ambient/usage/waypoint
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
 A **waypoint proxy** is an optional deployment of the Envoy-based proxy to add Layer 7 (L7) processing to a defined set of workloads.
@@ -31,13 +31,17 @@ When you configure redirection to a waypoint, traffic will be forwarded by ztunn
 
 ## Deploy a waypoint proxy
 
-Waypoint proxies are deployed declaratively using Kubernetes Gateway resources. You can use istioctl experimental subcommands to generate, apply or list these resources.
+Waypoint proxies are deployed using Kubernetes Gateway resources.
+
+{{< boilerplate gateway-api-install-crds >}}
+
+You can use istioctl waypoint subcommands to generate, apply or list these resources.
 
 After the waypoint is deployed, the entire namespace (or whichever services or pods you choose) must be [enrolled](#useawaypoint) to use it.
 
 Before you deploy a waypoint proxy for a specific namespace, confirm the namespace is labeled with `istio.io/dataplane-mode: ambient`:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=check_ns_label >}}
 $ kubectl get ns -L istio.io/dataplane-mode
 NAME              STATUS   AGE   DATAPLANE-MODE
 istio-system      Active   24h
@@ -46,8 +50,8 @@ default           Active   24h   ambient
 
 `istioctl` can generate a Kubernetes Gateway resource for a waypoint proxy. For example, to generate a waypoint proxy named `waypoint` for the `default` namespace that can process traffic for services in the namespace:
 
-{{< text bash >}}
-$ istioctl experimental waypoint generate --for service -n default
+{{< text syntax=bash snip_id=gen_waypoint_resource >}}
+$ istioctl waypoint generate --for service -n default
 kind: Gateway
 metadata:
   labels:
@@ -66,14 +70,14 @@ Note the Gateway resource has the `istio-waypoint` label set to `gatewayClassNam
 
 To deploy a waypoint proxy directly, use `apply` instead of `generate`:
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default
-waypoint default/namespace applied
+{{< text syntax=bash snip_id=apply_waypoint >}}
+$ istioctl waypoint apply -n default
+waypoint default/waypoint applied
 {{< /text >}}
 
 Or, you can deploy the generated Gateway resource:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
 kind: Gateway
 metadata:
@@ -98,7 +102,7 @@ By default, a waypoint will only handle traffic destined for **services** in its
 
 It is also possible for the waypoint to handle all traffic, only handle traffic sent directly to **workloads** (pods or VMs) in the cluster, or no traffic at all. The types of traffic that will be redirected to the waypoint are determined by the `istio.io/waypoint-for` label on the `Gateway` object.
 
-The `--for` parameter to `istioctl experimental waypoint apply` can be used to change the [traffic type](#waypoint-traffic-types) redirected to the waypoint:
+The `--for` parameter to `istioctl waypoint apply` can be used to change the [traffic type](#waypoint-traffic-types) redirected to the waypoint:
 
 | `waypoint-for` value | Traffic type |
 | -------------------- | ------------ |
@@ -119,15 +123,15 @@ Most users will want to apply a waypoint to an entire namespace, and we recommen
 
 If you use `istioctl` to deploy your namespace waypoint, you can use the `--enroll-namespace` parameter to automatically label a namespace:
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --enroll-namespace
+{{< text syntax=bash snip_id=enroll_ns_waypoint >}}
+$ istioctl waypoint apply -n default --enroll-namespace
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
 Alternatively, you may add the `istio.io/use-waypoint: waypoint` label to the `default` namespace using `kubectl`:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 {{< /text >}}
@@ -145,14 +149,14 @@ If the `istio.io/use-waypoint` label exists on both a namespace and a service, t
 
 Using the services from the sample [bookinfo application](/docs/examples/bookinfo/), we can deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --name reviews-svc-waypoint
+{{< text syntax=bash >}}
+$ istioctl waypoint apply -n default --name reviews-svc-waypoint
 waypoint default/reviews-svc-waypoint applied
 {{< /text >}}
 
 Label the `reviews` service to use the `reviews-svc-waypoint` waypoint:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
@@ -167,16 +171,27 @@ Deploy a waypoint called `reviews-v2-pod-waypoint` for the `reviews-v2` pod.
 Recall the default for waypoints is to target services; as we explicitly want to target a pod, we need to use the `istio.io/waypoint-for: workload` label, which we can generate by using the `--for workload` parameter to istioctl.
 {{< /tip >}}
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
+{{< text syntax=bash >}}
+$ istioctl waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
 waypoint default/reviews-v2-pod-waypoint applied
 {{< /text >}}
 
 Label the `reviews-v2` pod to use the `reviews-v2-pod-waypoint` waypoint:
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod-waypoint
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
 Any requests from pods in the ambient mesh to the `reviews-v2` pod IP will now be routed through the `reviews-v2-pod-waypoint` waypoint for L7 processing and policy enforcement.
+
+### Cleaning up
+
+You can remove all waypoints from a namespace by doing the following:
+
+{{< text syntax=bash snip_id=delete_waypoint >}}
+$ istioctl waypoint delete --all -n default
+$ kubectl label ns default istio.io/use-waypoint-
+{{< /text >}}
+
+{{< boilerplate gateway-api-remove-crds >}}

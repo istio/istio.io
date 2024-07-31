@@ -6,10 +6,10 @@ aliases:
   - /zh/docs/ops/ambient/usage/waypoint
   - /zh/latest/docs/ops/ambient/usage/waypoint
 owner: istio/wg-networking-maintainers
-test: no
+test: yes
 ---
 
-**waypoint 代理** 是基于 Envoy 代理的可选部署，用于将 Layer 7（L7）处理添加到一组定义的工作负载中。
+**waypoint 代理**是基于 Envoy 代理的可选部署，用于将 Layer 7（L7）处理添加到一组定义的工作负载中。
 
 waypoint 代理的安装、升级和扩缩独立于应用；应用所有者不会感知到它们的存在。
 与每个工作负载并行运行 Envoy 代理实例的 Sidecar {{< gloss "data plane" >}}数据平面{{< /gloss >}}模式相比，
@@ -39,15 +39,18 @@ ztunnel 的范围仅限于处理 Layer 4（L4）的流量，因此它可以作�
 
 ## 部署 waypoint 代理 {#deploy-a-waypoint-proxy}
 
-waypoint 代理使用 Kubernetes Gateway 资源被以声明方式部署。
-您可以使用 istioctl experimental 子命令来生成、应用或列举这些资源。
+waypoint 代理是使用 Kubernetes Gateway 资源部署的。
 
-部署 waypoint 后，整个命名空间（或您选择的任何服务或 Pod）必须先[注册](#useawaypoint)才能使用。
+{{< boilerplate gateway-api-install-crds >}}
+
+您可以使用 istioctl waypoint 子命令来生成、应用或列出这些资源。
+
+部署 waypoint 后，整个命名空间（或您选择的任何服务或 Pod）必须先进行[注册](#useawaypoint)才能使用。
 
 您在为特定命名空间部署 waypoint 代理之前，
 请先确认该命名空间带有 `istio.io/dataplane-mode: ambient` 标签：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=check_ns_label >}}
 $ kubectl get ns -L istio.io/dataplane-mode
 NAME              STATUS   AGE   DATAPLANE-MODE
 istio-system      Active   24h
@@ -57,8 +60,8 @@ default           Active   24h   ambient
 `istioctl` 可以为 waypoint 代理生成 Kubernetes Gateway 资源。
 例如，要为 `default` 命名空间生成名为 `waypoint` 的 waypoint 代理，该代理可以处理命名空间中这些服务的流量：
 
-{{< text bash >}}
-$ istioctl experimental waypoint generate --for service -n default
+{{< text syntax=bash snip_id=gen_waypoint_resource >}}
+$ istioctl waypoint generate --for service -n default
 kind: Gateway
 metadata:
   labels:
@@ -79,14 +82,14 @@ spec:
 
 要直接部署 waypoint 代理，请使用 `apply` 代替 `generate`：
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default
-waypoint default/namespace applied
+{{< text syntax=bash snip_id=apply_waypoint >}}
+$ istioctl waypoint apply -n default
+waypoint default/waypoint applied
 {{< /text >}}
 
 或者，您可以部署生成的 Gateway 资源：
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
 kind: Gateway
 metadata:
@@ -103,7 +106,8 @@ spec:
 EOF
 {{< /text >}}
 
-当 Gateway 资源被应用后，Istiod 会监控资源，自动为用户部署和管理相应的 waypoint Deployment 和服务。
+当 Gateway 资源被应用后，istiod 会监控资源，
+自动为用户部署和管理相应的 waypoint Deployment 和服务。
 
 ### waypoint 流量类型 {#waypoint-traffic-types}
 
@@ -113,39 +117,42 @@ EOF
 而且通过 L7 处理会产生额外开销，这是预期之外的开销。
 
 waypoint 也可以处理所有流量，仅处理直接发送到集群中**工作负载**（Pod 或 VM）的流量，
-或者根本不处理任何流量。被重定向到 waypoint 的流量类型由`Gateway` 对象上的 `istio.io/waypoint-for` 标签决定。
+或者根本不处理任何流量。被重定向到 waypoint 的流量类型由
+`Gateway` 对象上的 `istio.io/waypoint-for` 标签决定。
 
-`istioctl experimental waypoint apply` 的 `--for` 参数可用于更改重定向到 waypoint
+`istioctl waypoint apply` 的 `--for` 参数可用于更改重定向到 waypoint
 的[流量类型](#waypoint-traffic-types)：
 
-| `waypoint-for` 值 | 流量类型 |
-| ----------------- | ------- |
-| `service`         | Kubernetes 服务 |
-| `workload`        | Pod 或 VM IP |
-| `all`             | 服务和工作负载流量 |
-| `none`            | 无流量（用于测试） |
+| `waypoint-for` 值 | 流量类型             |
+|------------------|----------------------|
+| `service`        | Kubernetes 服务      |
+| `workload`       | Pod 或 VM IP         |
+| `all`            | 服务和工作负载流量     |
+| `none`           | 无流量（用于测试）     |
 
 ## 使用 waypoint 代理 {#useawaypoint}
 
 当 waypoint 代理被部署后，除非您显式配置某些资源来使用它，否则它默认不会被任何资源使用。
 
-要使命名空间、服务或 Pod 能够使用 waypoint，请添加 `istio.io/use-waypoint` 标签，取值为 waypoint 名称。
+要使命名空间、服务或 Pod 能够使用 waypoint，
+请添加 `istio.io/use-waypoint` 标签，取值为 waypoint 名称。
 
 {{< tip >}}
 大多数用户希望将 waypoint 应用到整个命名空间，我们建议您从这种方法开始。
 {{< /tip >}}
 
-如果您使用 `istioctl` 部署命名空间的 waypoint，则可以使用 `--enroll-namespace` 参数自动标记一个命名空间：
+如果您使用 `istioctl` 部署命名空间的 waypoint，
+则可以使用 `--enroll-namespace` 参数自动标记一个命名空间：
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --enroll-namespace
+{{< text syntax=bash snip_id=enroll_ns_waypoint >}}
+$ istioctl waypoint apply -n default --enroll-namespace
 waypoint default/waypoint applied
 namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
 或者，您可以使用 `kubectl` 将 `istio.io/use-waypoint: waypoint` 标签添加到 `default` 命名空间：
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 {{< /text >}}
@@ -161,9 +168,9 @@ namespace/default labeled
 
 {{< tip >}}
 如果命名空间和服务上都存在 `istio.io/use-waypoint` 标签，
-则只要服务的 waypoint 可以处理 `service` 或 `all` 的流量，
+那么只要服务的 waypoint 可以处理 `service` 或 `all` 的流量，
 该服务的 waypoint 优先级就高于命名空间的 waypoint。
-同样，Pod 上的标签优先级高于命名空间标签。
+同样，Pod 上的标签优先级也高于命名空间标签。
 {{< /tip >}}
 
 ### 配置服务以使用特定 waypoint {#configure-a-service-to-use-a-specific-waypoint}
@@ -171,19 +178,20 @@ namespace/default labeled
 使用示例 [Bookinfo 应用](/zh/docs/examples/bookinfo/)中的服务，
 我们可以为 `reviews` 服务部署一个名为 `reviews-svc-waypoint` 的 waypoint：
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --name reviews-svc-waypoint
+{{< text syntax=bash >}}
+$ istioctl waypoint apply -n default --name reviews-svc-waypoint
 waypoint default/reviews-svc-waypoint applied
 {{< /text >}}
 
 为 `reviews` 服务打标签以使用 `reviews-svc-waypoint` waypoint：
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
 
-从网格中的 Pod 到 `reviews` 服务的所有请求现在都将通过 `reviews-svc-waypoint` waypoint 进行路由。
+从网格中的 Pod 到 `reviews` 服务的所有请求现在都将通过
+`reviews-svc-waypoint` waypoint 进行路由。
 
 ### 配置 Pod 以使用特定 waypoint {#configure-a-pod-to-use-a-specific-waypoint}
 
@@ -195,17 +203,28 @@ service/reviews labeled
 我们可以通过使用 istioctl 的 `--for workload` 参数来生成此标签。
 {{< /tip >}}
 
-{{< text bash >}}
-$ istioctl experimental waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
+{{< text syntax=bash >}}
+$ istioctl waypoint apply -n default --name reviews-v2-pod-waypoint --for workload
 waypoint default/reviews-v2-pod-waypoint applied
 {{< /text >}}
 
 为 `reviews-v2` Pod 打标签以使用 `reviews-v2-pod-waypoint` waypoint：
 
-{{< text bash >}}
+{{< text syntax=bash >}}
 $ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod-waypoint
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
 从 Ambient 网格中的 Pod 到 `reviews-v2` Pod IP 的所有请求现在都将通过
 `reviews-v2-pod-waypoint` waypoint 进行路由，以进行 L7 处理和策略执行。
+
+### 清理 {#cleaning-up}
+
+您可以通过执行以下操作从命名空间中删除所有 waypoint：
+
+{{< text syntax=bash snip_id=delete_waypoint >}}
+$ istioctl waypoint delete --all -n default
+$ kubectl label ns default istio.io/use-waypoint-
+{{< /text >}}
+
+{{< boilerplate gateway-api-remove-crds >}}
