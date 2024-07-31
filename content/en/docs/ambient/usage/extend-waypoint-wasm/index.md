@@ -84,7 +84,7 @@ The Istio agent will interpret the WasmPlugin configuration, download remote Was
     200
     {{< /text >}}
 
-## At a waypoint, for all services
+## At a waypoint, for all services in a namespace
 
 Waypoint proxies play a crucial role in Istio's ambient mode, facilitating secure and efficient communication within the service mesh. Below, we will explore how to apply Wasm configuration to the waypoint, enhancing the proxy functionality dynamically.
 
