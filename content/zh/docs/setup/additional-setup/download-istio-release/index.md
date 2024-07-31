@@ -1,36 +1,33 @@
 ---
-title: Download the Istio release 
-description: Get the files required to install and explore Istio.
+title: 下载 Istio 发行版 
+description: 获取安装和探索 Istio 所需的文件。
 weight: 30
 keywords: [profiles,install,release,istioctl]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-Each Istio release includes a _release archive_ which contains:
+每个 Istio 版本中都包含一个**发布档案**，其中包含：
 
-- the [`istioctl`](/docs/ops/diagnostic-tools/istioctl/) binary
-- [installation profiles](/docs/setup/additional-setup/config-profiles/) and [Helm charts](/docs/setup/install/helm)
-- samples, including the [Bookinfo](/docs/examples/bookinfo/) application
+- [`istioctl`](/zh/docs/ops/diagnostic-tools/istioctl/) 二进制文件
+- [安装配置文件](/zh/docs/setup/additional-setup/config-profiles/)和
+  [Helm Chart](/zh/docs/setup/install/helm)
+- 示例，包括 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序
 
-A release archive is built for each supported processor architecture and operating system.
+发布档案是为每个受支持的处理器架构和操作系统构建的。
 
-## Download Istio {#download}
+## 下载 Istio {#download}
 
-1.  Go to the [Istio release]({{< istio_release_url >}}) page to
-    download the installation file for your OS, or download and
-    extract the latest release automatically (Linux or macOS):
+1.  前往 [Istio 发布版本]({{< istio_release_url >}})页面下载适用于您的操作系统的安装文件，
+    或者自动下载并解压最新版本（Linux 或 macOS）：
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
     {{< tip >}}
-    The command above downloads the latest release (numerically) of Istio.
-    You can pass variables on the command line to download a specific version
-    or to override the processor architecture.
-    For example, to download Istio {{< istio_full_version >}} for the x86_64 architecture,
-    run:
+    上述命令下载 Istio 的最新版本（以数字表示）。您可以在命令行中传递变量来下载特定版本或覆盖处理器架构。
+    例如，要下载适用于 x86_64 体系结构的 Istio {{< istio_full_version >}}，请运行：
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} TARGET_ARCH=x86_64 sh -
@@ -38,20 +35,18 @@ A release archive is built for each supported processor architecture and operati
 
     {{< /tip >}}
 
-1.  Move to the Istio package directory. For example, if the package is
-    `istio-{{< istio_full_version >}}`:
+1.  转到 Istio 软件包目录。例如，如果软件包是 `istio-{{< istio_full_version >}}`：
 
     {{< text syntax=bash snip_id=none >}}
     $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
-    The installation directory contains:
+    安装目录中包含：
 
-    - Sample applications in `samples/`
-    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
-      `bin/` directory.
+    - `samples/` 中的示例应用程序
+    - `bin/` 目录中的 [`istioctl`](/zh/docs/reference/commands/istioctl) 客户端二进制文件。
 
-1.  Add the `istioctl` client to your path (Linux or macOS):
+1.  将 `istioctl` 客户端添加到您的 Path 中（Linux 或 macOS）：
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
