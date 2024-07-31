@@ -30,15 +30,10 @@ source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
 bpsnip_gateway_api_install_crds_install_crds
 
-_wait_for_deployment istio-system istiod
-_wait_for_daemonset istio-system ztunnel
-_wait_for_daemonset istio-system istio-cni-node
-
 snip_deploy_the_bookinfo_application_1
 snip_deploy_bookinfo_gateway
-_wait_for_deployment default bookinfo-gateway-istio
 snip_annotate_bookinfo_gateway
-_wait_for_deployment default bookinfo-gateway-istio
+_wait_for_gateway default bookinfo-gateway
 _verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_configure_the_ingress_gateway_3_out"
 
 _verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
