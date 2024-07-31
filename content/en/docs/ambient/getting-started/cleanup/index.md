@@ -46,8 +46,4 @@ $ kubectl delete -f {{< github_file >}}/samples/sleep/sleep.yaml
 
 ## Remove the Kubernetes Gateway API CRDs
 
-If you installed the Gateway API CRDs, remove them:
-
-{{< text bash >}}
-$ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
-{{< /text >}}
+{{< boilerplate gateway-api-remove-crds >}}

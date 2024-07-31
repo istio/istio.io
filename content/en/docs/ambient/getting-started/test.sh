@@ -21,13 +21,14 @@ set -e
 set -u
 set -o pipefail
 
+source "content/en/boilerplates/snips/gateway-api-remove-crds.sh"
 source "content/en/docs/ambient/getting-started/deploy-sample-app/snips.sh"
 source "content/en/docs/ambient/getting-started/secure-and-visualize/snips.sh"
 source "content/en/docs/ambient/getting-started/enforce-auth-policies/snips.sh"
 source "content/en/docs/ambient/getting-started/manage-traffic/snips.sh"
 source "content/en/docs/ambient/getting-started/cleanup/snips.sh"
 
-snip_install_k8s_gateway_api
+bpsnip_gateway_api_install_crds_install_crds
 
 snip_deploy_the_bookinfo_application_1
 snip_deploy_bookinfo_gateway
@@ -66,4 +67,4 @@ snip_remove_the_ambient_and_waypoint_labels_1
 snip_remove_waypoint_proxies_1
 snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
-snip_remove_the_kubernetes_gateway_api_crds_1
+bpsnip_gateway_api_remove_crds_remove_crds
