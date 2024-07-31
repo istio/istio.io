@@ -118,7 +118,8 @@ Before the test steps, there must be one line that specifies the istio setup con
 ```
 
 Currently supported setup configurations include: `profile=default` to install the default profile,
-`profile=demo` to install the demo profile, and `profile=none` to not install istio at all.
+`profile=demo` to install the demo profile, `profile=ambient` to install the ambient profile,
+and `profile=none` to not install istio at all.
 
 Choose the setup configuration that best matches the document prerequisites. For example, if the
 document being tested includes snips with explicit install commands (e.g., setup docs), use:

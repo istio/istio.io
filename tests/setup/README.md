@@ -1,6 +1,12 @@
 # Setup Configs for istio.io Doc Tests
 
-Each folder under `tests/setup` corresponds to an istio setup configuration. Currently supported setup configurations include: `profile_default` to install the default profile, `profile_demo` to install the demo profile, `profile_minimal` to install the minimal profile and `profile_none` to not install istio at all.
+Each folder under `tests/setup` corresponds to an Istio setup configuration. Currently supported setup configurations include: 
+
+* `profile_ambient` to install the ambient profile
+* `profile_default` to install the default profile
+* `profile_demo` to install the demo profile
+* `profile_minimal` to install the minimal profile 
+* `profile_none` to not install istio at all.
 
 ## Adding a Setup Config
 
