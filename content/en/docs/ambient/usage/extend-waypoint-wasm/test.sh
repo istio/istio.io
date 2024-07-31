@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2154
+# shellcheck disable=SC2034,SC2154
 
 # Copyright 2023 Istio Authors
 #
