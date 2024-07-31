@@ -95,7 +95,7 @@ Waypoint 代理在 Istio 的 Ambient 模式中扮演了一个重要的角色：�
 
 ### 部署 waypoint 代理 {#deploy-a-waypoint-proxy}
 
-遵循 [waypoint 部署说明](/zh/docs/ambient/getting-started/#layer-7-authorization-policy)将
+遵循 [waypoint 部署说明](/zh/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy)将
 waypoint 代理部署到 bookinfo 命名空间中。
 
 {{< text bash >}}
