@@ -47,7 +47,7 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-admin">istioctl admin</h2>
+<h3 id="istioctl-admin">istioctl admin</h3>
 <p>A group of commands used to manage istiod configuration</p>
 <pre class="language-bash"><code>istioctl admin [flags]
 </code></pre>
@@ -95,11 +95,11 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-admin Examples">Examples</h3>
+<h4 id="istioctl-admin Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve information about istiod configuration.
   istioctl admin log
 </code></pre>
-<h2 id="istioctl-admin-log">istioctl admin log</h2>
+<h3 id="istioctl-admin-log">istioctl admin log</h3>
 <p>Retrieve or update logging levels of istiod components.</p>
 <pre class="language-bash"><code>istioctl admin log [&lt;pod-name&gt;]|[-r|--revision] [--level &lt;scope&gt;:&lt;level&gt;][--stack-trace-level &lt;scope&gt;:&lt;level&gt;]|[--reset]|[--output|-o short|json|yaml] [flags]
 </code></pre>
@@ -177,7 +177,7 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-admin-log Examples">Examples</h3>
+<h4 id="istioctl-admin-log Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve information about istiod logging levels.
   istioctl admin log
 
@@ -194,7 +194,7 @@ debug and diagnose their Istio mesh.
   istioctl admin log --reset
 
 </code></pre>
-<h2 id="istioctl-analyze">istioctl analyze</h2>
+<h3 id="istioctl-analyze">istioctl analyze</h3>
 <p>Analyze Istio configuration and print validation messages</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
 </code></pre>
@@ -304,7 +304,7 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-analyze Examples">Examples</h3>
+<h4 id="istioctl-analyze Examples">Examples</h4>
 <pre class="language-bash"><code>  # Analyze the current live cluster
   istioctl analyze
 
@@ -330,7 +330,7 @@ debug and diagnose their Istio mesh.
   # List available analyzers
   istioctl analyze -L
 </code></pre>
-<h2 id="istioctl-authz">istioctl authz</h2>
+<h3 id="istioctl-authz">istioctl authz</h3>
 <p>(authz is experimental. Use `istioctl experimental authz`)</p>
 <pre class="language-bash"><code>istioctl authz [flags]
 </code></pre>
@@ -370,7 +370,7 @@ debug and diagnose their Istio mesh.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-bug-report">istioctl bug-report</h2>
+<h3 id="istioctl-bug-report">istioctl bug-report</h3>
 <p>bug-report selectively captures cluster information and logs into an archive to help diagnose problems.
 Proxy logs can be filtered using:
   --include|--exclude ns1,ns2.../dep1,dep2.../pod1,pod2.../lbl1=val1,lbl2=val2.../ann1=val1,ann2=val2.../cntr1,cntr...
@@ -495,7 +495,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-bug-report-version">istioctl bug-report version</h2>
+<h3 id="istioctl-bug-report-version">istioctl bug-report version</h3>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>istioctl bug-report version [flags]
 </code></pre>
@@ -620,7 +620,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-completion">istioctl completion</h2>
+<h3 id="istioctl-completion">istioctl completion</h3>
 <p>Generate the autocompletion script for istioctl for the specified shell.
 See each sub-command&#39;s help for details on how to use the generated script.
 </p>
@@ -660,7 +660,7 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-completion-bash">istioctl completion bash</h2>
+<h3 id="istioctl-completion-bash">istioctl completion bash</h3>
 <p>Generate the autocompletion script for the bash shell.</p>
 <p>This script depends on the &#39;bash-completion&#39; package.
 If it is not installed already, you can install it via your OS&#39;s package manager.</p>
@@ -716,7 +716,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-completion-fish">istioctl completion fish</h2>
+<h3 id="istioctl-completion-fish">istioctl completion fish</h3>
 <p>Generate the autocompletion script for the fish shell.</p>
 <p>To load completions in your current shell session:</p>
 <p>	istioctl completion fish | source</p>
@@ -767,7 +767,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-completion-powershell">istioctl completion powershell</h2>
+<h3 id="istioctl-completion-powershell">istioctl completion powershell</h3>
 <p>Generate the autocompletion script for powershell.</p>
 <p>To load completions in your current shell session:</p>
 <p>	istioctl completion powershell | Out-String | Invoke-Expression</p>
@@ -817,7 +817,7 @@ to your powershell profile.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-completion-zsh">istioctl completion zsh</h2>
+<h3 id="istioctl-completion-zsh">istioctl completion zsh</h3>
 <p>Generate the autocompletion script for the zsh shell.</p>
 <p>If shell completion is not already enabled in your environment you will need
 to enable it.  You can execute the following once:</p>
@@ -874,7 +874,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-create-remote-secret">istioctl create-remote-secret</h2>
+<h3 id="istioctl-create-remote-secret">istioctl create-remote-secret</h3>
 <p>Create a secret with credentials to allow Istio to access remote Kubernetes apiservers</p>
 <pre class="language-bash"><code>istioctl create-remote-secret [flags]
 </code></pre>
@@ -965,7 +965,7 @@ to enable it.  You can execute the following once:</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-create-remote-secret Examples">Examples</h3>
+<h4 id="istioctl-create-remote-secret Examples">Examples</h4>
 <pre class="language-bash"><code>  # Create a secret to access cluster c0&#39;s apiserver and install it in cluster c1.
   istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 \
     | kubectl --kubeconfig=c1.yaml apply -f -
@@ -978,7 +978,7 @@ to enable it.  You can execute the following once:</p>
   istioctl --kubeconfig=c0.yaml create-remote-secret --name c0 --auth-type=plugin --auth-plugin-name=gcp \
     | kubectl --kubeconfig=c1.yaml apply -f -
 </code></pre>
-<h2 id="istioctl-dashboard">istioctl dashboard</h2>
+<h3 id="istioctl-dashboard">istioctl dashboard</h3>
 <p>Access to Istio web UIs</p>
 <pre class="language-bash"><code>istioctl dashboard [flags]
 </code></pre>
@@ -1037,7 +1037,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-dashboard-controlz">istioctl dashboard controlz</h2>
+<h3 id="istioctl-dashboard-controlz">istioctl dashboard controlz</h3>
 <p>Open the ControlZ web UI for a pod in the Istio control plane</p>
 <pre class="language-bash"><code>istioctl dashboard controlz [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -1102,7 +1102,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-controlz Examples">Examples</h3>
+<h4 id="istioctl-dashboard-controlz Examples">Examples</h4>
 <pre class="language-bash"><code>  # Open ControlZ web UI for the istiod-123-456.istio-system pod
   istioctl dashboard controlz istiod-123-456.istio-system
 
@@ -1117,7 +1117,7 @@ istioctl d [flags]
   istioctl d controlz pilot-123-456.istio-system
 
 </code></pre>
-<h2 id="istioctl-dashboard-envoy">istioctl dashboard envoy</h2>
+<h3 id="istioctl-dashboard-envoy">istioctl dashboard envoy</h3>
 <p>Open the Envoy admin dashboard for a sidecar</p>
 <p>Note: envoy command is deprecated and can be replaced with proxy command, e.g. `istioctl dashboard proxy --help`
 </p>
@@ -1184,7 +1184,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-envoy Examples">Examples</h3>
+<h4 id="istioctl-dashboard-envoy Examples">Examples</h4>
 <pre class="language-bash"><code>  # Open Envoy dashboard for the productpage-123-456.default pod
   istioctl dashboard envoy productpage-123-456.default
 
@@ -1196,7 +1196,7 @@ istioctl d [flags]
   istioctl d envoy productpage-123-456.default
 
 </code></pre>
-<h2 id="istioctl-dashboard-grafana">istioctl dashboard grafana</h2>
+<h3 id="istioctl-dashboard-grafana">istioctl dashboard grafana</h3>
 <p>Open Istio&#39;s Grafana dashboard</p>
 <pre class="language-bash"><code>istioctl dashboard grafana [flags]
 </code></pre>
@@ -1256,14 +1256,14 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-grafana Examples">Examples</h3>
+<h4 id="istioctl-dashboard-grafana Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl dashboard grafana
 
   # with short syntax
   istioctl dash grafana
   istioctl d grafana
 </code></pre>
-<h2 id="istioctl-dashboard-istiod-debug">istioctl dashboard istiod-debug</h2>
+<h3 id="istioctl-dashboard-istiod-debug">istioctl dashboard istiod-debug</h3>
 <p>Open the debug web UI for a Istio control plane pod</p>
 <pre class="language-bash"><code>istioctl dashboard istiod-debug [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -1323,7 +1323,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-istiod-debug Examples">Examples</h3>
+<h4 id="istioctl-dashboard-istiod-debug Examples">Examples</h4>
 <pre class="language-bash"><code>  # Open Istio debug web UI for the istiod-123-456.istio-system pod
   istioctl dashboard istiod-debug istiod-123-456.istio-system
 
@@ -1338,7 +1338,7 @@ istioctl d [flags]
   istioctl d istiod-debug pilot-123-456.istio-system
 
 </code></pre>
-<h2 id="istioctl-dashboard-jaeger">istioctl dashboard jaeger</h2>
+<h3 id="istioctl-dashboard-jaeger">istioctl dashboard jaeger</h3>
 <p>Open Istio&#39;s Jaeger dashboard</p>
 <pre class="language-bash"><code>istioctl dashboard jaeger [flags]
 </code></pre>
@@ -1398,14 +1398,14 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-jaeger Examples">Examples</h3>
+<h4 id="istioctl-dashboard-jaeger Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl dashboard jaeger
 
   # with short syntax
   istioctl dash jaeger
   istioctl d jaeger
 </code></pre>
-<h2 id="istioctl-dashboard-kiali">istioctl dashboard kiali</h2>
+<h3 id="istioctl-dashboard-kiali">istioctl dashboard kiali</h3>
 <p>Open Istio&#39;s Kiali dashboard</p>
 <pre class="language-bash"><code>istioctl dashboard kiali [flags]
 </code></pre>
@@ -1465,14 +1465,14 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-kiali Examples">Examples</h3>
+<h4 id="istioctl-dashboard-kiali Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl dashboard kiali
 
   # with short syntax
   istioctl dash kiali
   istioctl d kiali
 </code></pre>
-<h2 id="istioctl-dashboard-prometheus">istioctl dashboard prometheus</h2>
+<h3 id="istioctl-dashboard-prometheus">istioctl dashboard prometheus</h3>
 <p>Open Istio&#39;s Prometheus dashboard</p>
 <pre class="language-bash"><code>istioctl dashboard prometheus [flags]
 </code></pre>
@@ -1532,14 +1532,14 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-prometheus Examples">Examples</h3>
+<h4 id="istioctl-dashboard-prometheus Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl dashboard prometheus
 
   # with short syntax
   istioctl dash prometheus
   istioctl d prometheus
 </code></pre>
-<h2 id="istioctl-dashboard-proxy">istioctl dashboard proxy</h2>
+<h3 id="istioctl-dashboard-proxy">istioctl dashboard proxy</h3>
 <p>Open the admin dashboard for a proxy, like envoy and ztunnel pods</p>
 <pre class="language-bash"><code>istioctl dashboard proxy [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -1604,7 +1604,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-proxy Examples">Examples</h3>
+<h4 id="istioctl-dashboard-proxy Examples">Examples</h4>
 <pre class="language-bash"><code>  # Open envoy admin dashboard for the productpage-123-456.default pod
   istioctl dashboard proxy productpage-123-456.default
 
@@ -1622,7 +1622,7 @@ istioctl d [flags]
   istioctl d proxy ztunnel-bwh89.istio-system
 
 </code></pre>
-<h2 id="istioctl-dashboard-skywalking">istioctl dashboard skywalking</h2>
+<h3 id="istioctl-dashboard-skywalking">istioctl dashboard skywalking</h3>
 <p>Open the Istio dashboard in the SkyWalking UI</p>
 <pre class="language-bash"><code>istioctl dashboard skywalking [flags]
 </code></pre>
@@ -1682,14 +1682,14 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-skywalking Examples">Examples</h3>
+<h4 id="istioctl-dashboard-skywalking Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl dashboard skywalking
 
   # with short syntax
   istioctl dash skywalking
   istioctl d skywalking
 </code></pre>
-<h2 id="istioctl-dashboard-zipkin">istioctl dashboard zipkin</h2>
+<h3 id="istioctl-dashboard-zipkin">istioctl dashboard zipkin</h3>
 <p>Open Istio&#39;s Zipkin dashboard</p>
 <pre class="language-bash"><code>istioctl dashboard zipkin [flags]
 </code></pre>
@@ -1749,14 +1749,14 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-dashboard-zipkin Examples">Examples</h3>
+<h4 id="istioctl-dashboard-zipkin Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl dashboard zipkin
 
   # with short syntax
   istioctl dash zipkin
   istioctl d zipkin
 </code></pre>
-<h2 id="istioctl-experimental">istioctl experimental</h2>
+<h3 id="istioctl-experimental">istioctl experimental</h3>
 <p>Experimental commands that may be modified or deprecated</p>
 <table class="command-flags">
 <thead>
@@ -1794,7 +1794,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-authz">istioctl experimental authz</h2>
+<h3 id="istioctl-experimental-authz">istioctl experimental authz</h3>
 <p></p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <table class="command-flags">
@@ -1833,7 +1833,7 @@ istioctl d [flags]
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-authz-check">istioctl experimental authz check</h2>
+<h3 id="istioctl-experimental-authz-check">istioctl experimental authz check</h3>
 <p>Check prints the AuthorizationPolicy applied to a pod by directly checking
 the Envoy configuration of the pod. The command is especially useful for inspecting
 the policy propagation from Istiod to Envoy and the final AuthorizationPolicy list merged
@@ -1882,7 +1882,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-authz-check Examples">Examples</h3>
+<h4 id="istioctl-experimental-authz-check Examples">Examples</h4>
 <pre class="language-bash"><code>  # Check AuthorizationPolicy applied to pod httpbin-88ddbcfdd-nt5jb:
   istioctl x authz check httpbin-88ddbcfdd-nt5jb
 
@@ -1892,7 +1892,7 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
   # Check AuthorizationPolicy from Envoy config dump file:
   istioctl x authz check -f httpbin_config_dump.json
 </code></pre>
-<h2 id="istioctl-experimental-check-inject">istioctl experimental check-inject</h2>
+<h3 id="istioctl-experimental-check-inject">istioctl experimental check-inject</h3>
 <p>
 Checks associated resources of the given resource, and running webhooks to examine whether the pod can be or will be injected or not.</p>
 <pre class="language-bash"><code>istioctl experimental check-inject [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
@@ -1938,7 +1938,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-check-inject Examples">Examples</h3>
+<h4 id="istioctl-experimental-check-inject Examples">Examples</h4>
 <pre class="language-bash"><code>  # Check the injection status of a pod
   istioctl experimental check-inject details-v1-fcff6c49c-kqnfk.test
 	
@@ -1952,7 +1952,7 @@ Checks associated resources of the given resource, and running webhooks to exami
   istioctl x check-inject -n test -l app=helloworld,version=v1
 
 </code></pre>
-<h2 id="istioctl-experimental-config">istioctl experimental config</h2>
+<h3 id="istioctl-experimental-config">istioctl experimental config</h3>
 <p>Configure istioctl defaults</p>
 <table class="command-flags">
 <thead>
@@ -1990,11 +1990,11 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-config Examples">Examples</h3>
+<h4 id="istioctl-experimental-config Examples">Examples</h4>
 <pre class="language-bash"><code>  # list configuration parameters
   istioctl experimental config list
 </code></pre>
-<h2 id="istioctl-experimental-config-list">istioctl experimental config list</h2>
+<h3 id="istioctl-experimental-config-list">istioctl experimental config list</h3>
 <p>List istio configurable defaults</p>
 <pre class="language-bash"><code>istioctl experimental config list [flags]
 </code></pre>
@@ -2034,7 +2034,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-describe">istioctl experimental describe</h2>
+<h3 id="istioctl-experimental-describe">istioctl experimental describe</h3>
 <p>Describe resource and related Istio configuration</p>
 <pre class="language-bash"><code>istioctl experimental describe [flags]
 </code></pre>
@@ -2077,7 +2077,7 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-experimental-describe-pod">istioctl experimental describe pod</h2>
+<h3 id="istioctl-experimental-describe-pod">istioctl experimental describe pod</h3>
 <p>Analyzes pod, its Services, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that pod.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
@@ -2127,10 +2127,10 @@ the configuration objects that affect that pod.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-describe-pod Examples">Examples</h3>
+<h4 id="istioctl-experimental-describe-pod Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl experimental describe pod productpage-v1-c7765c886-7zzd4
 </code></pre>
-<h2 id="istioctl-experimental-describe-service">istioctl experimental describe service</h2>
+<h3 id="istioctl-experimental-describe-service">istioctl experimental describe service</h3>
 <p>Analyzes service, pods, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that service.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
@@ -2180,10 +2180,10 @@ the configuration objects that affect that service.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-describe-service Examples">Examples</h3>
+<h4 id="istioctl-experimental-describe-service Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl experimental describe service productpage
 </code></pre>
-<h2 id="istioctl-experimental-envoy-stats">istioctl experimental envoy-stats</h2>
+<h3 id="istioctl-experimental-envoy-stats">istioctl experimental envoy-stats</h3>
 <p>Retrieve Envoy emitted metrics for the specified pod.</p>
 <pre class="language-bash"><code>istioctl experimental envoy-stats [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -2241,7 +2241,7 @@ the configuration objects that affect that service.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-envoy-stats Examples">Examples</h3>
+<h4 id="istioctl-experimental-envoy-stats Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve Envoy emitted metrics for the specified pod.
   istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt;
 
@@ -2258,7 +2258,7 @@ the configuration objects that affect that service.</p>
   istioctl experimental envoy-stats &lt;pod-name[.namespace]&gt; --type clusters
 
 </code></pre>
-<h2 id="istioctl-experimental-injector">istioctl experimental injector</h2>
+<h3 id="istioctl-experimental-injector">istioctl experimental injector</h3>
 <p>List sidecar injector and sidecar versions</p>
 <pre class="language-bash"><code>istioctl experimental injector [flags]
 </code></pre>
@@ -2298,10 +2298,10 @@ the configuration objects that affect that service.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-injector Examples">Examples</h3>
+<h4 id="istioctl-experimental-injector Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl experimental injector list
 </code></pre>
-<h2 id="istioctl-experimental-injector-list">istioctl experimental injector list</h2>
+<h3 id="istioctl-experimental-injector-list">istioctl experimental injector list</h3>
 <p>List sidecar injector and sidecar versions</p>
 <pre class="language-bash"><code>istioctl experimental injector list [flags]
 </code></pre>
@@ -2341,10 +2341,10 @@ the configuration objects that affect that service.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-injector-list Examples">Examples</h3>
+<h4 id="istioctl-experimental-injector-list Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl experimental injector list
 </code></pre>
-<h2 id="istioctl-experimental-internal-debug">istioctl experimental internal-debug</h2>
+<h3 id="istioctl-experimental-internal-debug">istioctl experimental internal-debug</h3>
 <p>
 Retrieves the debug information from Istiod or Pods in the mesh using the service account from the pod if --cert-dir is empty.
 By default it will use the default serviceAccount from (istio-system) namespace if the pod is not specified.</p>
@@ -2438,7 +2438,7 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-internal-debug Examples">Examples</h3>
+<h4 id="istioctl-experimental-internal-debug Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
   istioctl x internal-debug syncz
 
@@ -2464,7 +2464,7 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
   istioctl x internal-debug syncz --xds-label istio.io/rev=default
 
 </code></pre>
-<h2 id="istioctl-experimental-metrics">istioctl experimental metrics</h2>
+<h3 id="istioctl-experimental-metrics">istioctl experimental metrics</h3>
 <p>
 Prints the metrics for the specified service(s) when running in Kubernetes.</p>
 <p>This command finds a Prometheus pod running in the specified istio system
@@ -2523,7 +2523,7 @@ calculated over a time interval of 1 minute.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-metrics Examples">Examples</h3>
+<h4 id="istioctl-experimental-metrics Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve workload metrics for productpage-v1 workload
   istioctl experimental metrics productpage-v1
 
@@ -2533,7 +2533,7 @@ calculated over a time interval of 1 minute.
   # Retrieve workload metrics for various services in the different namespaces
   istioctl experimental metrics productpage-v1.foo reviews-v1.bar ratings-v1.baz
 </code></pre>
-<h2 id="istioctl-experimental-precheck">istioctl experimental precheck</h2>
+<h3 id="istioctl-experimental-precheck">istioctl experimental precheck</h3>
 <p>precheck inspects a Kubernetes cluster for Istio install and upgrade requirements.</p>
 <pre class="language-bash"><code>istioctl experimental precheck [flags]
 </code></pre>
@@ -2598,7 +2598,7 @@ calculated over a time interval of 1 minute.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-precheck Examples">Examples</h3>
+<h4 id="istioctl-experimental-precheck Examples">Examples</h4>
 <pre class="language-bash"><code>  # Verify that Istio can be installed or upgraded
   istioctl x precheck
 
@@ -2608,7 +2608,7 @@ calculated over a time interval of 1 minute.
   # Check for behavioral changes since a specific version
   istioctl x precheck --from-version 1.10
 </code></pre>
-<h2 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h2>
+<h3 id="istioctl-experimental-proxy-status">istioctl experimental proxy-status</h3>
 <p>
 Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh
 </p>
@@ -2713,7 +2713,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-proxy-status Examples">Examples</h3>
+<h4 id="istioctl-experimental-proxy-status Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
   istioctl proxy-status
 
@@ -2742,7 +2742,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl ps --xds-label istio.io/rev=default
 
 </code></pre>
-<h2 id="istioctl-experimental-version">istioctl experimental version</h2>
+<h3 id="istioctl-experimental-version">istioctl experimental version</h3>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>istioctl experimental version [flags]
 </code></pre>
@@ -2842,7 +2842,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-version Examples">Examples</h3>
+<h4 id="istioctl-experimental-version Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve version information directly from the control plane, using token security
   # (This is the usual way to get the control plane version with an out-of-cluster control plane.)
   istioctl x version --xds-address istio.cloudprovider.example.com:15012
@@ -2860,7 +2860,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl x version --xds-label istio.io/rev=default
 
 </code></pre>
-<h2 id="istioctl-experimental-workload">istioctl experimental workload</h2>
+<h3 id="istioctl-experimental-workload">istioctl experimental workload</h3>
 <p>Commands to assist in configuring and deploying workloads running on VMs and other non-Kubernetes environments</p>
 <table class="command-flags">
 <thead>
@@ -2898,14 +2898,14 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-workload Examples">Examples</h3>
+<h4 id="istioctl-experimental-workload Examples">Examples</h4>
 <pre class="language-bash"><code>  # workload group yaml generation
   istioctl x workload group create
 
   # workload entry configuration generation
   istioctl x workload entry configure
 </code></pre>
-<h2 id="istioctl-experimental-workload-entry">istioctl experimental workload entry</h2>
+<h3 id="istioctl-experimental-workload-entry">istioctl experimental workload entry</h3>
 <p>Commands dealing with WorkloadEntry resources</p>
 <table class="command-flags">
 <thead>
@@ -2943,10 +2943,10 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-workload-entry Examples">Examples</h3>
+<h4 id="istioctl-experimental-workload-entry Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl x workload entry configure -f workloadgroup.yaml -o outputDir
 </code></pre>
-<h2 id="istioctl-experimental-workload-entry-configure">istioctl experimental workload entry configure</h2>
+<h3 id="istioctl-experimental-workload-entry-configure">istioctl experimental workload entry configure</h3>
 <p>Generates all the required configuration files for workload instance on a VM or non-Kubernetes environment from a WorkloadGroup artifact.
 This includes a MeshConfig resource, the cluster.env file, and necessary certificates and security tokens.
 Configure requires either the WorkloadGroup artifact path or its location on the API server.</p>
@@ -3048,14 +3048,14 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-workload-entry-configure Examples">Examples</h3>
+<h4 id="istioctl-experimental-workload-entry-configure Examples">Examples</h4>
 <pre class="language-bash"><code>  # configure example using a local WorkloadGroup artifact
   istioctl x workload entry configure -f workloadgroup.yaml -o config
 
   # configure example using the API server
   istioctl x workload entry configure --name foo --namespace bar -o config
 </code></pre>
-<h2 id="istioctl-experimental-workload-group">istioctl experimental workload group</h2>
+<h3 id="istioctl-experimental-workload-group">istioctl experimental workload group</h3>
 <p>Commands dealing with WorkloadGroup resources</p>
 <table class="command-flags">
 <thead>
@@ -3093,10 +3093,10 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-workload-group Examples">Examples</h3>
+<h4 id="istioctl-experimental-workload-group Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl x workload group create --name foo --namespace bar --labels app=foobar
 </code></pre>
-<h2 id="istioctl-experimental-workload-group-create">istioctl experimental workload group create</h2>
+<h3 id="istioctl-experimental-workload-group-create">istioctl experimental workload group create</h3>
 <p>Creates a WorkloadGroup resource that provides a template for associated WorkloadEntries.
 The default output is serialized YAML, which can be piped into &#39;kubectl apply -f -&#39; to send the artifact to the API Server.</p>
 <pre class="language-bash"><code>istioctl experimental workload group create [flags]
@@ -3162,10 +3162,10 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-experimental-workload-group-create Examples">Examples</h3>
+<h4 id="istioctl-experimental-workload-group-create Examples">Examples</h4>
 <pre class="language-bash"><code>  istioctl x workload group create --name foo --namespace bar --labels app=foo,bar=baz --ports grpc=3550,http=8080 --annotations annotation=foobar --serviceAccount sa
 </code></pre>
-<h2 id="istioctl-install">istioctl install</h2>
+<h3 id="istioctl-install">istioctl install</h3>
 <p>The install command generates an Istio install manifest and applies it to a cluster.</p>
 <pre class="language-bash"><code>istioctl install [flags]
 </code></pre>
@@ -3264,7 +3264,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-install Examples">Examples</h3>
+<h4 id="istioctl-install Examples">Examples</h4>
 <pre class="language-bash"><code>  # Apply a default Istio installation
   istioctl install
 
@@ -3278,7 +3278,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
-<h2 id="istioctl-kube-inject">istioctl kube-inject</h2>
+<h3 id="istioctl-kube-inject">istioctl kube-inject</h3>
 <p>
 kube-inject manually injects the Istio sidecar into Kubernetes
 workloads. Unsupported resources are left unmodified so it is safe to
@@ -3410,7 +3410,7 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-kube-inject Examples">Examples</h3>
+<h4 id="istioctl-kube-inject Examples">Examples</h4>
 <pre class="language-bash"><code>  # Update resources on the fly before applying.
   kubectl apply -f &lt;(istioctl kube-inject -f &lt;resource.yaml&gt;)
 
@@ -3432,7 +3432,7 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
     --valuesFile /tmp/values.json
 
 </code></pre>
-<h2 id="istioctl-manifest">istioctl manifest</h2>
+<h3 id="istioctl-manifest">istioctl manifest</h3>
 <p>The manifest command generates and diffs Istio manifests.</p>
 <table class="command-flags">
 <thead>
@@ -3475,7 +3475,7 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-manifest-diff">istioctl manifest diff</h2>
+<h3 id="istioctl-manifest-diff">istioctl manifest diff</h3>
 <p>The diff subcommand compares manifests from two files or directories. The output is a list of
 changed paths with the value changes shown as OLD-VALUE -&gt; NEW-VALUE.
 List order changes are shown as [OLD-INDEX-&gt;NEW-INDEX], with ? used where a list item is added or
@@ -3554,7 +3554,7 @@ e.g.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-manifest-generate">istioctl manifest generate</h2>
+<h3 id="istioctl-manifest-generate">istioctl manifest generate</h3>
 <p>The generate subcommand generates an Istio install manifest and outputs to the console by default.</p>
 <pre class="language-bash"><code>istioctl manifest generate [flags]
 </code></pre>
@@ -3649,7 +3649,7 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-manifest-generate Examples">Examples</h3>
+<h4 id="istioctl-manifest-generate Examples">Examples</h4>
 <pre class="language-bash"><code>  # Generate a default Istio installation
   istioctl manifest generate
 
@@ -3663,7 +3663,7 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
   istioctl manifest generate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
-<h2 id="istioctl-manifest-install">istioctl manifest install</h2>
+<h3 id="istioctl-manifest-install">istioctl manifest install</h3>
 <p>The install command generates an Istio install manifest and applies it to a cluster.</p>
 <pre class="language-bash"><code>istioctl manifest install [flags]
 </code></pre>
@@ -3762,7 +3762,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-manifest-install Examples">Examples</h3>
+<h4 id="istioctl-manifest-install Examples">Examples</h4>
 <pre class="language-bash"><code>  # Apply a default Istio installation
   istioctl install
 
@@ -3776,7 +3776,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
-<h2 id="istioctl-operator">istioctl operator</h2>
+<h3 id="istioctl-operator">istioctl operator</h3>
 <p>The operator command installs, dumps, removes and shows the status of the operator controller.</p>
 <table class="command-flags">
 <thead>
@@ -3814,7 +3814,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-operator-dump">istioctl operator dump</h2>
+<h3 id="istioctl-operator-dump">istioctl operator dump</h3>
 <p>The dump subcommand dumps the Istio operator controller manifest.</p>
 <pre class="language-bash"><code>istioctl operator dump [flags]
 </code></pre>
@@ -3907,7 +3907,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-operator-init">istioctl operator init</h2>
+<h3 id="istioctl-operator-init">istioctl operator init</h3>
 <p>The init subcommand installs the Istio operator controller in the cluster.</p>
 <pre class="language-bash"><code>istioctl operator init [flags]
 </code></pre>
@@ -4001,7 +4001,7 @@ could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSe
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-operator-remove">istioctl operator remove</h2>
+<h3 id="istioctl-operator-remove">istioctl operator remove</h3>
 <p>The remove subcommand removes the Istio operator controller from the cluster.</p>
 <pre class="language-bash"><code>istioctl operator remove [flags]
 </code></pre>
@@ -4072,7 +4072,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-options">istioctl options</h2>
+<h3 id="istioctl-options">istioctl options</h3>
 <p>Displays istioctl global options</p>
 <table class="command-flags">
 <thead>
@@ -4110,7 +4110,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-profile">istioctl profile</h2>
+<h3 id="istioctl-profile">istioctl profile</h3>
 <p>The profile command lists, dumps or diffs Istio configuration profiles.</p>
 <table class="command-flags">
 <thead>
@@ -4153,11 +4153,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-profile Examples">Examples</h3>
+<h4 id="istioctl-profile Examples">Examples</h4>
 <pre class="language-bash"><code>istioctl profile list
 istioctl install --set profile=demo  # Use a profile from the list
 </code></pre>
-<h2 id="istioctl-profile-diff">istioctl profile diff</h2>
+<h3 id="istioctl-profile-diff">istioctl profile diff</h3>
 <p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
 <pre class="language-bash"><code>istioctl profile diff &lt;profile|file1.yaml&gt; &lt;profile|file2.yaml&gt; [flags]
 </code></pre>
@@ -4214,14 +4214,14 @@ istioctl install --set profile=demo  # Use a profile from the list
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-profile-diff Examples">Examples</h3>
+<h4 id="istioctl-profile-diff Examples">Examples</h4>
 <pre class="language-bash"><code>  # Profile diff by providing yaml files
   istioctl profile diff manifests/profiles/default.yaml manifests/profiles/demo.yaml
 
   # Profile diff by providing a profile name
   istioctl profile diff default demo
 </code></pre>
-<h2 id="istioctl-profile-dump">istioctl profile dump</h2>
+<h3 id="istioctl-profile-dump">istioctl profile dump</h3>
 <p>The dump subcommand dumps the values in an Istio configuration profile.</p>
 <pre class="language-bash"><code>istioctl profile dump [&lt;profile&gt;] [flags]
 </code></pre>
@@ -4294,7 +4294,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-profile-list">istioctl profile list</h2>
+<h3 id="istioctl-profile-list">istioctl profile list</h3>
 <p>The list subcommand lists the available Istio configuration profiles.</p>
 <pre class="language-bash"><code>istioctl profile list [flags]
 </code></pre>
@@ -4351,7 +4351,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-proxy-config">istioctl proxy-config</h2>
+<h3 id="istioctl-proxy-config">istioctl proxy-config</h3>
 <p>A group of commands used to retrieve information about proxy configuration from the Envoy config dump</p>
 <table class="command-flags">
 <thead>
@@ -4399,11 +4399,11 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config Examples">Examples</h3>
+<h4 id="istioctl-proxy-config Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve information about proxy configuration from an Envoy instance.
   istioctl proxy-config &lt;clusters|listeners|routes|endpoints|bootstrap|log|secret&gt; &lt;pod-name[.namespace]&gt;
 </code></pre>
-<h2 id="istioctl-proxy-config-all">istioctl proxy-config all</h2>
+<h3 id="istioctl-proxy-config-all">istioctl proxy-config all</h3>
 <p>Retrieve information about all configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config all [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -4501,7 +4501,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-all Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-all Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about all configuration for a given pod from Envoy.
   istioctl proxy-config all &lt;pod-name[.namespace]&gt;
 
@@ -4516,7 +4516,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
   istioctl proxy-config all --file envoy-config.json
 
 </code></pre>
-<h2 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h2>
+<h3 id="istioctl-proxy-config-bootstrap">istioctl proxy-config bootstrap</h3>
 <p>Retrieve information about bootstrap configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config bootstrap [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -4574,7 +4574,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-bootstrap Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-bootstrap Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full bootstrap configuration for a given pod from Envoy.
   istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt;
 
@@ -4586,7 +4586,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
   istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt; -o short
 
 </code></pre>
-<h2 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h2>
+<h3 id="istioctl-proxy-config-cluster">istioctl proxy-config cluster</h3>
 <p>Retrieve information about cluster configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config cluster [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -4665,7 +4665,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-cluster Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-cluster Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about cluster configuration for a given pod from Envoy.
   istioctl proxy-config clusters &lt;pod-name[.namespace]&gt;
 
@@ -4680,7 +4680,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config clusters --file envoy-config.json
 
 </code></pre>
-<h2 id="istioctl-proxy-config-ecds">istioctl proxy-config ecds</h2>
+<h3 id="istioctl-proxy-config-ecds">istioctl proxy-config ecds</h3>
 <p>Retrieve information about typed extension configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config ecds [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -4738,7 +4738,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-ecds Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-ecds Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full typed extension configuration for a given pod from Envoy.
   istioctl proxy-config ecds &lt;pod-name[.namespace]&gt;
 
@@ -4747,7 +4747,7 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config ecds --file envoy-config.json
 
 </code></pre>
-<h2 id="istioctl-proxy-config-endpoint">istioctl proxy-config endpoint</h2>
+<h3 id="istioctl-proxy-config-endpoint">istioctl proxy-config endpoint</h3>
 <p>Retrieve information about endpoint configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config endpoint [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -4826,7 +4826,7 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-endpoint Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-endpoint Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full endpoint configuration for a given pod from Envoy.
   istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt;
 
@@ -4846,7 +4846,7 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config endpoints --file envoy-clusters.json
 
 </code></pre>
-<h2 id="istioctl-proxy-config-listener">istioctl proxy-config listener</h2>
+<h3 id="istioctl-proxy-config-listener">istioctl proxy-config listener</h3>
 <p>Retrieve information about listener configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config listener [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -4925,7 +4925,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-listener Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-listener Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about listener configuration for a given pod from Envoy.
   istioctl proxy-config listeners &lt;pod-name[.namespace]&gt;
 
@@ -4940,7 +4940,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config listeners --file envoy-config.json
 
 </code></pre>
-<h2 id="istioctl-proxy-config-log">istioctl proxy-config log</h2>
+<h3 id="istioctl-proxy-config-log">istioctl proxy-config log</h3>
 <p>Retrieve information about logging levels of the Envoy instance in the specified pod, and update optionally</p>
 <pre class="language-bash"><code>istioctl proxy-config log [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -5008,7 +5008,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-log Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-log Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve information about logging levels for a given pod from Envoy.
   istioctl proxy-config log &lt;pod-name[.namespace]&gt;
 
@@ -5022,7 +5022,7 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config log &lt;pod-name[.namespace]&gt; -r
 
 </code></pre>
-<h2 id="istioctl-proxy-config-rootca-compare">istioctl proxy-config rootca-compare</h2>
+<h3 id="istioctl-proxy-config-rootca-compare">istioctl proxy-config rootca-compare</h3>
 <p>Compare ROOTCA values for given 2 pods to check the connectivity between them.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <pre class="language-bash"><code>istioctl proxy-config rootca-compare [pod/]&lt;name-1&gt;[.&lt;namespace-1&gt;] [pod/]&lt;name-2&gt;[.&lt;namespace-2&gt;] [flags]
@@ -5076,11 +5076,11 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-rootca-compare Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-rootca-compare Examples">Examples</h4>
 <pre class="language-bash"><code>  # Compare ROOTCA values for given 2 pods to check the connectivity between them.
   istioctl proxy-config rootca-compare &lt;pod-name-1[.namespace]&gt; &lt;pod-name-2[.namespace]&gt;
 </code></pre>
-<h2 id="istioctl-proxy-config-route">istioctl proxy-config route</h2>
+<h3 id="istioctl-proxy-config-route">istioctl proxy-config route</h3>
 <p>Retrieve information about route configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config route [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -5149,7 +5149,7 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-route Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-route Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about route configuration for a given pod from Envoy.
   istioctl proxy-config routes &lt;pod-name[.namespace]&gt;
 
@@ -5164,7 +5164,7 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   istioctl proxy-config routes --file envoy-config.json
 
 </code></pre>
-<h2 id="istioctl-proxy-config-secret">istioctl proxy-config secret</h2>
+<h3 id="istioctl-proxy-config-secret">istioctl proxy-config secret</h3>
 <p>Retrieve information about secret configuration for the Envoy instance in the specified pod.</p>
 <pre class="language-bash"><code>istioctl proxy-config secret [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -5223,7 +5223,7 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-config-secret Examples">Examples</h3>
+<h4 id="istioctl-proxy-config-secret Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full secret configuration for a given pod from Envoy.
   istioctl proxy-config secret &lt;pod-name[.namespace]&gt;
 
@@ -5231,7 +5231,7 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config secret --file envoy-config.json
 </code></pre>
-<h2 id="istioctl-proxy-status">istioctl proxy-status</h2>
+<h3 id="istioctl-proxy-status">istioctl proxy-status</h3>
 <p>
 Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in the mesh
 </p>
@@ -5326,7 +5326,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-proxy-status Examples">Examples</h3>
+<h4 id="istioctl-proxy-status Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve sync status for all Envoys in a mesh
   istioctl proxy-status
 
@@ -5355,7 +5355,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   istioctl ps --xds-label istio.io/rev=default
 
 </code></pre>
-<h2 id="istioctl-remote-clusters">istioctl remote-clusters</h2>
+<h3 id="istioctl-remote-clusters">istioctl remote-clusters</h3>
 <p>Lists the remote clusters each istiod instance is connected to.</p>
 <pre class="language-bash"><code>istioctl remote-clusters [flags]
 </code></pre>
@@ -5400,7 +5400,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-tag">istioctl tag</h2>
+<h3 id="istioctl-tag">istioctl tag</h3>
 <p>Command group used to interact with revision tags. Revision tags allow for the creation of mutable aliases
 referring to control plane revisions for sidecar injection.</p>
 <p>With revision tags, rather than relabeling a namespace from &#34;istio.io/rev=revision-a&#34; to &#34;istio.io/rev=revision-b&#34; to
@@ -5448,7 +5448,7 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-tag-generate">istioctl tag generate</h2>
+<h3 id="istioctl-tag-generate">istioctl tag generate</h3>
 <p>Create a revision tag and output to the command&#39;s stdout. Tag an Istio control plane revision for use with namespace istio.io/rev
 injection labels.</p>
 <pre class="language-bash"><code>istioctl tag generate &lt;revision-tag&gt; [flags]
@@ -5522,7 +5522,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-tag-generate Examples">Examples</h3>
+<h4 id="istioctl-tag-generate Examples">Examples</h4>
 <pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
   istioctl tag generate prod --revision 1-8-0 &gt; tag.yaml
 
@@ -5536,7 +5536,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   kubectl rollout restart deployments -n test-ns
 
 </code></pre>
-<h2 id="istioctl-tag-list">istioctl tag list</h2>
+<h3 id="istioctl-tag-list">istioctl tag list</h3>
 <p>List existing revision tags</p>
 <pre class="language-bash"><code>istioctl tag list [flags]
 </code></pre>
@@ -5584,10 +5584,10 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-tag-list Examples">Examples</h3>
+<h4 id="istioctl-tag-list Examples">Examples</h4>
 <pre class="language-bash"><code>istioctl tag list
 </code></pre>
-<h2 id="istioctl-tag-remove">istioctl tag remove</h2>
+<h3 id="istioctl-tag-remove">istioctl tag remove</h3>
 <p>Remove Istio control plane revision tag.</p>
 <p>Removing a revision tag should be done with care. Removing a revision tag will disrupt sidecar injection in namespaces
 that reference the tag in an &#34;istio.io/rev&#34; label. Verify that there are no remaining namespaces referencing a
@@ -5640,12 +5640,12 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-tag-remove Examples">Examples</h3>
+<h4 id="istioctl-tag-remove Examples">Examples</h4>
 <pre class="language-bash"><code>  # Remove the revision tag &#34;prod&#34;
   istioctl tag remove prod
 
 </code></pre>
-<h2 id="istioctl-tag-set">istioctl tag set</h2>
+<h3 id="istioctl-tag-set">istioctl tag set</h3>
 <p>Create or modify revision tags. Tag an Istio control plane revision for use with namespace istio.io/rev
 injection labels.</p>
 <pre class="language-bash"><code>istioctl tag set &lt;revision-tag&gt; [flags]
@@ -5719,7 +5719,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-tag-set Examples">Examples</h3>
+<h4 id="istioctl-tag-set Examples">Examples</h4>
 <pre class="language-bash"><code>  # Create a revision tag from the &#34;1-8-0&#34; revision
   istioctl tag set prod --revision 1-8-0
 
@@ -5737,7 +5737,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   kubectl rollout restart deployments -n test-ns
 
 </code></pre>
-<h2 id="istioctl-uninstall">istioctl uninstall</h2>
+<h3 id="istioctl-uninstall">istioctl uninstall</h3>
 <p>The uninstall command uninstalls Istio from a cluster</p>
 <pre class="language-bash"><code>istioctl uninstall [flags]
 </code></pre>
@@ -5827,7 +5827,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-uninstall Examples">Examples</h3>
+<h4 id="istioctl-uninstall Examples">Examples</h4>
 <pre class="language-bash"><code>  # Uninstall a single control plane by revision
   istioctl uninstall --revision foo
 
@@ -5837,7 +5837,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   # Uninstall all control planes and shared resources
   istioctl uninstall --purge
 </code></pre>
-<h2 id="istioctl-upgrade">istioctl upgrade</h2>
+<h3 id="istioctl-upgrade">istioctl upgrade</h3>
 <p>The upgrade command is an alias for the install command</p>
 <pre class="language-bash"><code>istioctl upgrade [flags]
 </code></pre>
@@ -5933,7 +5933,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-validate">istioctl validate</h2>
+<h3 id="istioctl-validate">istioctl validate</h3>
 <p>Validate Istio policy and rules files</p>
 <pre class="language-bash"><code>istioctl validate -f FILENAME [options] [flags]
 </code></pre>
@@ -5981,7 +5981,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-validate Examples">Examples</h3>
+<h4 id="istioctl-validate Examples">Examples</h4>
 <pre class="language-bash"><code>  # Validate bookinfo-gateway.yaml
   istioctl validate -f samples/bookinfo/networking/bookinfo-gateway.yaml
 
@@ -6001,7 +6001,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml
 
 </code></pre>
-<h2 id="istioctl-verify-install">istioctl verify-install</h2>
+<h3 id="istioctl-verify-install">istioctl verify-install</h3>
 <p>
 verify-install verifies Istio installation status against the installation file
 you specified when you installed Istio. It loops through all the installation
@@ -6066,7 +6066,7 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-verify-install Examples">Examples</h3>
+<h4 id="istioctl-verify-install Examples">Examples</h4>
 <pre class="language-bash"><code>  # Verify that Istio is installed correctly via Istio Operator
   istioctl verify-install
 
@@ -6079,7 +6079,7 @@ istioctl experimental precheck.
   # Verify the installation of specific revision
   istioctl verify-install -r 1-9-0
 </code></pre>
-<h2 id="istioctl-version">istioctl version</h2>
+<h3 id="istioctl-version">istioctl version</h3>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>istioctl version [flags]
 </code></pre>
@@ -6139,7 +6139,7 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h2 id="istioctl-waypoint">istioctl waypoint</h2>
+<h3 id="istioctl-waypoint">istioctl waypoint</h3>
 <p>A group of commands used to manage waypoint configuration</p>
 <pre class="language-bash"><code>istioctl waypoint [flags]
 </code></pre>
@@ -6184,7 +6184,7 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-waypoint Examples">Examples</h3>
+<h4 id="istioctl-waypoint Examples">Examples</h4>
 <pre class="language-bash"><code>  # Apply a waypoint to the current namespace
   istioctl waypoint apply
 
@@ -6194,7 +6194,7 @@ istioctl experimental precheck.
   # List all waypoints in a specific namespace
   istioctl waypoint list --namespace default
 </code></pre>
-<h2 id="istioctl-waypoint-apply">istioctl waypoint apply</h2>
+<h3 id="istioctl-waypoint-apply">istioctl waypoint apply</h3>
 <p>Apply a waypoint configuration to the cluster</p>
 <pre class="language-bash"><code>istioctl waypoint apply [flags]
 </code></pre>
@@ -6264,14 +6264,14 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-waypoint-apply Examples">Examples</h3>
+<h4 id="istioctl-waypoint-apply Examples">Examples</h4>
 <pre class="language-bash"><code>  # Apply a waypoint to the current namespace
   istioctl waypoint apply
 
   # Apply a waypoint to a specific namespace and wait for it to be ready
   istioctl waypoint apply --namespace default --wait
 </code></pre>
-<h2 id="istioctl-waypoint-delete">istioctl waypoint delete</h2>
+<h3 id="istioctl-waypoint-delete">istioctl waypoint delete</h3>
 <p>Delete a waypoint configuration from the cluster</p>
 <pre class="language-bash"><code>istioctl waypoint delete [flags]
 </code></pre>
@@ -6321,7 +6321,7 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-waypoint-delete Examples">Examples</h3>
+<h4 id="istioctl-waypoint-delete Examples">Examples</h4>
 <pre class="language-bash"><code>  # Delete a waypoint from the default namespace
   istioctl waypoint delete
 
@@ -6334,7 +6334,7 @@ istioctl experimental precheck.
   # Delete all waypoints in a specific namespace
   istioctl waypoint delete --all --namespace default
 </code></pre>
-<h2 id="istioctl-waypoint-generate">istioctl waypoint generate</h2>
+<h3 id="istioctl-waypoint-generate">istioctl waypoint generate</h3>
 <p>Generate a waypoint configuration as YAML</p>
 <pre class="language-bash"><code>istioctl waypoint generate [flags]
 </code></pre>
@@ -6389,11 +6389,11 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-waypoint-generate Examples">Examples</h3>
+<h4 id="istioctl-waypoint-generate Examples">Examples</h4>
 <pre class="language-bash"><code>  # Generate a waypoint as yaml
   istioctl waypoint generate --namespace default
 </code></pre>
-<h2 id="istioctl-waypoint-list">istioctl waypoint list</h2>
+<h3 id="istioctl-waypoint-list">istioctl waypoint list</h3>
 <p>List managed waypoint configurations in the cluster</p>
 <pre class="language-bash"><code>istioctl waypoint list [flags]
 </code></pre>
@@ -6443,14 +6443,14 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-waypoint-list Examples">Examples</h3>
+<h4 id="istioctl-waypoint-list Examples">Examples</h4>
 <pre class="language-bash"><code>  # List all waypoints in a specific namespace
   istioctl waypoint list --namespace default
 
   # List all waypoints in the cluster
   istioctl waypoint list -A
 </code></pre>
-<h2 id="istioctl-waypoint-status">istioctl waypoint status</h2>
+<h3 id="istioctl-waypoint-status">istioctl waypoint status</h3>
 <p>Show the status of waypoints for the namespace provided or default namespace if none is provided</p>
 <pre class="language-bash"><code>istioctl waypoint status [flags]
 </code></pre>
@@ -6495,14 +6495,14 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-waypoint-status Examples">Examples</h3>
+<h4 id="istioctl-waypoint-status Examples">Examples</h4>
 <pre class="language-bash"><code>  # Show the status of the waypoint in the default namespace
 		 istioctl waypoint status
 		  
 		 # Show the status of the waypoint in a specific namespace
   		 istioctl waypoint status --namespace default
 </code></pre>
-<h2 id="istioctl-ztunnel-config">istioctl ztunnel-config</h2>
+<h3 id="istioctl-ztunnel-config">istioctl ztunnel-config</h3>
 <p>A group of commands used to update or retrieve Ztunnel configuration from a Ztunnel instance.</p>
 <table class="command-flags">
 <thead>
@@ -6540,14 +6540,14 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about workload configuration
   istioctl ztunnel-config workload
 
   # Retrieve summary about certificates
   istioctl ztunnel-config certificates
 </code></pre>
-<h2 id="istioctl-ztunnel-config-all">istioctl ztunnel-config all</h2>
+<h3 id="istioctl-ztunnel-config-all">istioctl ztunnel-config all</h3>
 <p>Retrieve information about all configuration for the Ztunnel instance.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config all [flags]
 </code></pre>
@@ -6607,7 +6607,7 @@ istioctl experimental precheck.
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config-all Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config-all Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about all configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config all
 
@@ -6615,7 +6615,7 @@ istioctl experimental precheck.
   istioctl ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
-<h2 id="istioctl-ztunnel-config-certificate">istioctl ztunnel-config certificate</h2>
+<h3 id="istioctl-ztunnel-config-certificate">istioctl ztunnel-config certificate</h3>
 <p>Retrieve information about certificates for the Ztunnel instance.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config certificate [flags]
 </code></pre>
@@ -6680,7 +6680,7 @@ istioctl ztunnel-config cert [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config-certificate Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config-certificate Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about workload configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config certificates
 
@@ -6688,7 +6688,7 @@ istioctl ztunnel-config cert [flags]
   istioctl ztunnel-config certificates &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
-<h2 id="istioctl-ztunnel-config-log">istioctl ztunnel-config log</h2>
+<h3 id="istioctl-ztunnel-config-log">istioctl ztunnel-config log</h3>
 <p>Retrieve information about logging levels of the Ztunnel instance in the specified pod, and update optionally.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config log [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -6761,7 +6761,7 @@ istioctl ztunnel-config cert [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config-log Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config-log Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve information about logging levels from all Ztunnel pods
  istioctl ztunnel-config log
 
@@ -6775,7 +6775,7 @@ istioctl ztunnel-config cert [flags]
  istioctl ztunnel-config log &lt;pod-name[.namespace]&gt; -r
 
 </code></pre>
-<h2 id="istioctl-ztunnel-config-policy">istioctl ztunnel-config policy</h2>
+<h3 id="istioctl-ztunnel-config-policy">istioctl ztunnel-config policy</h3>
 <p>Retrieve information about policies for the Ztunnel instance.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config policy [flags]
 </code></pre>
@@ -6845,7 +6845,7 @@ istioctl ztunnel-config pol [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config-policy Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config-policy Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about policy configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config policies
 
@@ -6853,7 +6853,7 @@ istioctl ztunnel-config pol [flags]
   istioctl ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
-<h2 id="istioctl-ztunnel-config-service">istioctl ztunnel-config service</h2>
+<h3 id="istioctl-ztunnel-config-service">istioctl ztunnel-config service</h3>
 <p>Retrieve information about services for the Ztunnel instance.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config service [flags]
 </code></pre>
@@ -6923,7 +6923,7 @@ istioctl ztunnel-config svc [flags]
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config-service Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config-service Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about services configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config services
 
@@ -6931,7 +6931,7 @@ istioctl ztunnel-config svc [flags]
   istioctl ztunnel-config services &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
-<h2 id="istioctl-ztunnel-config-workload">istioctl ztunnel-config workload</h2>
+<h3 id="istioctl-ztunnel-config-workload">istioctl ztunnel-config workload</h3>
 <p>Retrieve information about workload configuration for the Ztunnel instance.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config workload [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
@@ -7010,7 +7010,7 @@ istioctl ztunnel-config workloads [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-ztunnel-config-workload Examples">Examples</h3>
+<h4 id="istioctl-ztunnel-config-workload Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about workload configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config workload
 
