@@ -15,7 +15,7 @@ test: yes
 
 ## 先决条件 {#prerequisites}
 
-1. [下载 Istio 发行版](/zh/docs/setup/getting-started/#download)
+1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)
 1. 执行必要的[平台安装](/zh/docs/setup/platform-setup/)
 1. 检查 [Pod 和 Service 的要求](/zh/docs/ops/deployment/application-requirements/)
 1. 虚拟机必须 IP 连通到目标网格的入口网关，如果有更高的性能需求，也可通过三层网络连通网格中的每个 Pod。

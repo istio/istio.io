@@ -28,7 +28,7 @@ Istio 项目还提供了两个在 Bash 和 Zsh 环境下用于自动补全 `isti
 使用相匹配的版本有助于避免产生意外的问题。
 
 {{< tip >}}
-如果您已经[下载 Istio 发行版](/zh/docs/setup/getting-started/#download)，
+如果您已经[下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)，
 则应该已经具有 `istioctl`，而无需再次安装。
 {{< /tip >}}
 
@@ -166,7 +166,7 @@ $ chmod -R go-w "$(brew --prefix)/share"
 
 {{< warning >}}
 您需要下载包含自动补全文件（在`/tools`目录下）的 Istio 完整发行版本。如果您没有这么做，
-现在请[下载 Istio 完整发行版本](/zh/docs/setup/getting-started/#download) 。
+现在请[下载 Istio 完整发行版本](/zh/docs/setup/additional-setup/download-istio-release/) 。
 {{< /warning >}}
 
 {{< tabset category-name="profile" >}}

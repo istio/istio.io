@@ -14,4 +14,4 @@ weight: 20
 
 Gateway API 集成已升级为读取 `v1beta1` 版本的 `HTTPRoute`、`Gateway` 和 `GatewayClass` 资源。
 如果使用目前处于 Beta 阶段的 Gateway API 新特性进行流量管理，则此项更改将要求 gateway-api 为 0.5.0 或更高版本。
-有关详细信息，请参阅 Kubernetes Gateway API [入门指南](/zh/docs/setup/additional-setup/getting-started)。
+有关详细信息，请参阅 Kubernetes Gateway API [入门指南](/zh/docs/setup/getting-started/)。

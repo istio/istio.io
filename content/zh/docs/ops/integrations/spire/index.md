@@ -98,7 +98,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     示例 ClusterSPIFFEID 允许自动注册所有具有 `spiffe.io/spire-managed-identity: "true"` 标签的工作负载。
     对于具有此标签的 Pod，将提取 `spiffeIDTemplate` 中指定的值以形成 SPIFFE ID。
 
-1. [下载 Istio](/zh/docs/setup/getting-started/#download)。
+1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
 
 1. 创建具有自定义补丁的 Ingress Gateway 和 istio-proxy 的 Istio 配置。Ingress Gateway 组件包括
    `spiffe.io/spire-managed-identity: "true"` 标签。
@@ -200,7 +200,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
 
 ### 选项 2：手动工作负载注册 {#option-2-configuration-for-manual-workload-registration-with-spire}
 
-1. [下载 Istio](/zh/docs/setup/getting-started/#download)。
+1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
 
 1. 在[部署 SPIRE](#install-spire) 到您的环境并确保所有 Deployment 都处于 `Ready` 状态后，
    使用 Ingress-gateway 和 istio-proxy 的自定义补丁来配置 Istio。

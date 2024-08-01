@@ -58,7 +58,7 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     Switched to context "kind-istio-testing".
     {{< /text >}}
 
-    kind 集群设置完成后，就可以开始在它上面[安装 Istio](/zh/docs/setup/getting-started/#download) 了。
+    kind 集群设置完成后，就可以开始在它上面[安装 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)了。
 
 1. 当体验过后，想删除集群时，可以使用以下命令：
 

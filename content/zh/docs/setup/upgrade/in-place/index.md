@@ -42,7 +42,7 @@ Istio 的升级指令同样可以执行回退操作。
 
 本节所使用的所有命令应该使用新版本的 `istioctl` 运行，可执行文件可以在下载包的 `bin/` 目录下找到。
 
-1. [下载新版 Istio](/zh/docs/setup/getting-started/#download)，并且切换到该目录。
+1. [下载新版 Istio](/zh/docs/setup/additional-setup/download-istio-release/)，并且切换到该目录。
 
 1. 确保您的 Kubernetes 配置指向的是要升级的集群：
 
