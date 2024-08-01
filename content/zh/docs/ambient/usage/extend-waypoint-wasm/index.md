@@ -40,7 +40,8 @@ HTTP [基本身份验证模块](https://github.com/istio-ecosystem/wasm-extensio
 这些步骤与[分发 WebAssembly 模块](/zh/docs/tasks/extensibility/wasm-module-distribution/)中的步骤类似，
 不同之处在于使用 `targetRefs` 字段而不是标签选择器。
 
-要使用远程 Wasm 模块配置一个 WebAssembly 过滤器，请创建一个针对 `bookinfo-gateway` 的 `WasmPlugin` 资源：
+要使用远程 Wasm 模块配置一个 WebAssembly 过滤器，
+请创建一个针对 `bookinfo-gateway` 的 `WasmPlugin` 资源：
 
 {{< text syntax=bash snip_id=get_gateway >}}
 $ kubectl get gateway
@@ -73,9 +74,8 @@ spec:
 EOF
 {{< /text >}}
 
-HTTP 过滤器将被作为身份验证过滤器注入网关。
-Istio 代理将解释 WasmPlugin 配置，从 OCI 镜像仓库下载远程 Wasm 模块到本地文件，
-并通过引用该文件在网关注入 HTTP 过滤器。
+HTTP 过滤器将被作为身份验证过滤器注入网关。Istio 代理将解释 WasmPlugin 配置，
+从 OCI 镜像仓库下载远程 Wasm 模块到本地文件，并通过引用该文件在网关注入 HTTP 过滤器。
 
 ### 通过网关来验证流量 {#verify-the-traffic-via-the-gateway}
 
@@ -95,7 +95,8 @@ Istio 代理将解释 WasmPlugin 配置，从 OCI 镜像仓库下载远程 Wasm 
 
 ## 在一个 waypoint 中针对命名空间中的所有服务 {#at-a-waypoint-for-all-services-in-a-namespace}
 
-Waypoint 代理在 Istio 的 Ambient 模式中扮演了一个重要的角色：在服务网格内确保通讯安全和高效。
+Waypoint 代理在 Istio 的 Ambient 模式中扮演了一个重要的角色：
+在服务网格内确保通讯安全和高效。
 下文将探索如何将 Wasm 配置应用到 waypoint，动态增强代理功能。
 
 ### 部署 waypoint 代理 {#deploy-a-waypoint-proxy}
@@ -116,7 +117,8 @@ $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://pro
 
 ### 为 waypoint 配置 WebAssembly 插件 {#configure-a-WebAssembly-plugin-for-a-waypoint}
 
-要用远程 Wasm 模块配置 WebAssembly 过滤器，创建指向 `waypoint` 网关的 `WasmPlugin` 资源：
+要用远程 Wasm 模块配置 WebAssembly 过滤器，
+创建指向 `waypoint` 网关的 `WasmPlugin` 资源：
 
 {{< text syntax=bash snip_id=get_gateway_waypoint >}}
 $ kubectl get gateway
@@ -232,8 +234,8 @@ EOF
     401
     {{< /text >}}
 
-当在没有凭据的情况下执行提供的命令时，它会验证访问内部 `/productpage` 会造成 401 未经授权的响应，
-这确认了在没有正确身份验证凭据的情况下访问资源会失败的预期行为。
+当在没有凭据的情况下执行提供的命令时，它会验证访问内部 `/productpage`
+会造成 401 未经授权的响应，这确认了在没有正确身份验证凭据的情况下访问资源会失败的预期行为。
 
 ## 清理 {#cleanup}
 
