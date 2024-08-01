@@ -28,7 +28,7 @@ export MYTAG=tagname
 snip_list_revisions
 snip_update_helm
 snip_istioctl_precheck
-snip_prerequisites_4
+snip_upgrade_the_istio_crds_1
 
 
 _rewrite_helm_repo snip_upgrade_istiod
