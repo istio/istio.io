@@ -47,7 +47,7 @@ Create the Istio configuration for `cluster1`:
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Install Istio as primary in `cluster1` using `istioctl` and the `IstioOperator` api.
+Install Istio as primary in `cluster1` using `istioctl` and the `IstioOperator` API.
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
