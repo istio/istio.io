@@ -24,7 +24,7 @@ set -o pipefail
 source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
 
-function install_istio_on_cluster1 {
+function install_istio_on_cluster1_istioctl {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
     snip_configure_cluster1_as_a_primary_1
     echo y | snip_configure_cluster1_as_a_primary_2
@@ -33,8 +33,24 @@ function install_istio_on_cluster1 {
     snip_install_the_eastwest_gateway_in_cluster1_1
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster1_2 "$snip_install_the_eastwest_gateway_in_cluster1_2_out"
+    _verify_like snip_install_the_eastwest_gateway_in_cluster1_3 "$snip_install_the_eastwest_gateway_in_cluster1_3_out"
+    snip_install_the_eastwest_gateway_in_cluster1_3
+
+    echo "Exposing istiod via the east-west gateway"
+    snip_expose_the_control_plane_in_cluster1_1
+}
+
+function install_istio_on_cluster1_helm {
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
+    snip_configure_cluster1_as_a_primary_3
+    echo y | snip_configure_cluster1_as_a_primary_4
+
+    echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster1_2
+
+    echo "Waiting for the east-west gateway to have an external IP"
+    _verify_like snip_install_the_eastwest_gateway_in_cluster1_3 "$snip_install_the_eastwest_gateway_in_cluster1_3_out"
+    snip_install_the_eastwest_gateway_in_cluster1_3
 
     echo "Exposing istiod via the east-west gateway"
     snip_expose_the_control_plane_in_cluster1_1
@@ -44,7 +60,7 @@ function enable_api_server_access {
     snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
 }
 
-function install_istio_on_cluster2 {
+function install_istio_on_cluster2_istioctl {
     echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
     snip_set_the_control_plane_cluster_for_cluster2_1
     snip_configure_cluster2_as_a_remote_1
@@ -52,8 +68,28 @@ function install_istio_on_cluster2 {
     echo y | snip_configure_cluster2_as_a_remote_3
 }
 
-time install_istio_on_cluster1
-time install_istio_on_cluster2
+function install_istio_on_cluster2_helm {
+    echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
+    snip_set_the_control_plane_cluster_for_cluster2_1
+    snip_configure_cluster2_as_a_remote_1
+    snip_configure_cluster2_as_a_remote_2
+    echo y | snip_configure_cluster2_as_a_remote_4
+}
+
+time install_istio_on_cluster1_istioctl
+time install_istio_on_cluster2_istioctl
+time enable_api_server_access
+time verify_load_balancing
+
+# @cleanup
+source content/en/docs/setup/install/multicluster/common.sh
+set_single_network_vars
+time cleanup
+
+# After cleanup, repeat installation steps with Helm
+
+time install_istio_on_cluster1_helm
+time install_istio_on_cluster2_helm
 time enable_api_server_access
 time verify_load_balancing
 
