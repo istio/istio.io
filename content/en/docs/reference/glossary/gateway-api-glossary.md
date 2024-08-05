@@ -1,9 +1,4 @@
 
-#### Adding Glossary Entries
-
-You should also add glossary entries for the key concepts. Create a new file named `gateway-api-glossary.md` in the `content/en/docs/reference/glossary` directory with the following content:
-
-```markdown
 ---
 title: Gateway API Glossary
 description: Glossary of terms related to the Gateway API.
