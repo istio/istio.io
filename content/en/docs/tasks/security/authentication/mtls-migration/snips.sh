@@ -35,7 +35,7 @@ kubectl apply -f samples/sleep/sleep.yaml -n legacy
 }
 
 snip_set_up_the_cluster_3() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! IFS=$'\n' read -r -d '' snip_set_up_the_cluster_3_out <<\ENDSNIP
@@ -76,7 +76,7 @@ EOF
 }
 
 snip_lock_down_to_mutual_tls_by_namespace_2() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! IFS=$'\n' read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_2_out <<\ENDSNIP
@@ -90,7 +90,7 @@ sleep.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_lock_down_to_mutual_tls_by_namespace_3() {
-kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 80  -A
+kubectl exec -nfoo "$(kubectl get pod -nfoo -lapp=httpbin -ojsonpath={.items..metadata.name})" -c istio-proxy -- sudo tcpdump dst port 8080 -A
 }
 
 ! IFS=$'\n' read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_3_out <<\ENDSNIP
@@ -111,7 +111,7 @@ EOF
 }
 
 snip_lock_down_mutual_tls_for_the_entire_mesh_2() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 snip_clean_up_the_example_1() {
