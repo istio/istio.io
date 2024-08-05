@@ -42,24 +42,6 @@ function install_istio_on_cluster1_istioctl {
     snip_expose_services_in_cluster1_1
 }
 
-function install_istio_on_cluster1_helm {
-    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
-
-    snip_set_the_default_network_for_cluster1_1
-
-    snip_configure_cluster1_as_a_primary_3
-    echo y | snip_configure_cluster1_as_a_primary_4
-
-    echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_in_cluster1_2
-
-    echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster1_3 "$snip_install_the_eastwest_gateway_in_cluster1_3_out"
-
-    echo "Exposing services via the east-west gateway"
-    snip_expose_services_in_cluster1_1
-}
-
 function install_istio_on_cluster2_istioctl {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
 
@@ -78,37 +60,11 @@ function install_istio_on_cluster2_istioctl {
     snip_expose_services_in_cluster2_1
 }
 
-function install_istio_on_cluster2_helm {
-    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
-
-    snip_set_the_default_network_for_cluster2_1
-
-    snip_configure_cluster2_as_a_primary_3
-    echo y | snip_configure_cluster2_as_a_primary_4
-
-    echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_in_cluster2_3
-
-    echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
-
-    echo "Exposing services via the east-west gateway"
-    snip_expose_services_in_cluster2_1
-}
-
 function install_istio_istioctl {
   # Install Istio on the 2 clusters. Executing in
   # parallel to reduce test time.
   install_istio_on_cluster1_istioctl &
   install_istio_on_cluster2_istioctl &
-  wait
-}
-
-function install_istio_helm {
-  # Install Istio on the 2 clusters. Executing in
-  # parallel to reduce test time.
-  install_istio_on_cluster1_helm &
-  install_istio_on_cluster2_helm &
   wait
 }
 
@@ -119,18 +75,6 @@ function enable_endpoint_discovery {
 
 time configure_trust
 time install_istio_istioctl
-time enable_endpoint_discovery
-time verify_load_balancing
-
-# @cleanup
-source content/en/docs/setup/install/multicluster/common.sh
-set_multi_network_vars
-time cleanup
-
-# After cleanup, repeat installation steps with Helm
-
-time configure_trust
-time install_istio_helm
 time enable_endpoint_discovery
 time verify_load_balancing
 
