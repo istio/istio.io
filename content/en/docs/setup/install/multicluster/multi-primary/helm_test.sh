@@ -24,24 +24,24 @@ set -o pipefail
 source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
 
-function install_istio_on_cluster1_istioctl {
-    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
-    snip_configure_cluster1_as_a_primary_1
-    echo y | snip_configure_cluster1_as_a_primary_2
-}
-
-function install_istio_on_cluster1_helm {
-    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
-    snip_configure_cluster1_as_a_primary_3
-    echo y | snip_configure_cluster1_as_a_primary_4
-}
-
-function install_istio_istioctl {
+function install_istio_helm {
   # Install Istio on the 2 clusters. Executing in
   # parallel to reduce test time.
-  install_istio_on_cluster1_istioctl &
-  install_istio_on_cluster2_istioctl &
+  install_istio_on_cluster1_helm &
+  install_istio_on_cluster2_helm &
   wait
+}
+
+function install_istio_on_cluster2_istioctl {
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
+    snip_configure_cluster2_as_a_primary_1
+    echo y | snip_configure_cluster2_as_a_primary_2
+}
+
+function install_istio_on_cluster2_helm {
+    echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
+    snip_configure_cluster2_as_a_primary_3
+    echo y | snip_configure_cluster2_as_a_primary_4
 }
 
 function enable_endpoint_discovery {
@@ -50,7 +50,7 @@ function enable_endpoint_discovery {
 }
 
 time configure_trust
-time install_istio_istioctl
+time install_istio_helm
 time enable_endpoint_discovery
 time verify_load_balancing
 
