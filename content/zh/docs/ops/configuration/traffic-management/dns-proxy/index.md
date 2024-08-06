@@ -213,7 +213,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
-.   kind: ServiceEntry
+    kind: ServiceEntry
     metadata:
       name: external-svc-1
     spec:
@@ -226,7 +226,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
       resolution: DNS
     ---
     apiVersion: networking.istio.io/v1
-.   kind: ServiceEntry
+    kind: ServiceEntry
     metadata:
       name: external-svc-2
     spec:

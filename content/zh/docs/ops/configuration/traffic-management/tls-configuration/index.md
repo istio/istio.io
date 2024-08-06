@@ -118,7 +118,7 @@ kind: Gateway
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1
-.   kind: Gateway
+    kind: Gateway
     ...
       servers:
       - port:
@@ -137,7 +137,7 @@ kind: Gateway
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1
-.   kind: Gateway
+    kind: Gateway
     ...
       servers:
       - port:

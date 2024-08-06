@@ -124,7 +124,7 @@ kubectl -n external-2 apply -f samples/tcp-echo/tcp-echo.yaml
 snip_external_tcp_services_without_vips_4() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
-.   kind: ServiceEntry
+kind: ServiceEntry
 metadata:
   name: external-svc-1
 spec:
@@ -137,7 +137,7 @@ spec:
   resolution: DNS
 ---
 apiVersion: networking.istio.io/v1
-.   kind: ServiceEntry
+kind: ServiceEntry
 metadata:
   name: external-svc-2
 spec:

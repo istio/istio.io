@@ -363,7 +363,7 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     {{< text syntax=bash snip_id=get_external_istiod_gateway_config >}}
     $ cat <<EOF > external-istiod-gw.yaml
     apiVersion: networking.istio.io/v1
-.   kind: Gateway
+    kind: Gateway
     metadata:
       name: external-istiod-gw
       namespace: external-istiod
@@ -391,7 +391,7 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
           - $EXTERNAL_ISTIOD_ADDR
     ---
     apiVersion: networking.istio.io/v1
-.   kind: VirtualService
+    kind: VirtualService
     metadata:
        name: external-istiod-vs
        namespace: external-istiod

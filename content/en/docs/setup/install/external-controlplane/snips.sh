@@ -233,7 +233,7 @@ ENDSNIP
 snip_get_external_istiod_gateway_config() {
 cat <<EOF > external-istiod-gw.yaml
 apiVersion: networking.istio.io/v1
-.   kind: Gateway
+kind: Gateway
 metadata:
   name: external-istiod-gw
   namespace: external-istiod
@@ -261,7 +261,7 @@ spec:
       - $EXTERNAL_ISTIOD_ADDR
 ---
 apiVersion: networking.istio.io/v1
-.   kind: VirtualService
+kind: VirtualService
 metadata:
    name: external-istiod-vs
    namespace: external-istiod

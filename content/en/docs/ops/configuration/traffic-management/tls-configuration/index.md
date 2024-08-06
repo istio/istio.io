@@ -120,7 +120,7 @@ For TLS connections, there are a few more options:
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1
-.   kind: Gateway
+    kind: Gateway
     ...
       servers:
       - port:
@@ -139,7 +139,7 @@ For TLS connections, there are a few more options:
 
     {{< text yaml >}}
     apiVersion: networking.istio.io/v1
-.   kind: Gateway
+    kind: Gateway
     ...
       servers:
       - port:

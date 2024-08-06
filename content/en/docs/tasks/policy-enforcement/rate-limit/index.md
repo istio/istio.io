@@ -173,7 +173,7 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
-.   kind: VirtualService
+    kind: VirtualService
     metadata:
       name: bookinfo
     spec:
