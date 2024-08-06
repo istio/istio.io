@@ -29,37 +29,18 @@ test: yes
 
     1. 安装 `ratings` 服务的 `v2` 版本。
 
-        如果使用的是启用了 Sidecar 自动注入的集群，可以使用 `kubectl` 进行服务部署：
-
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         serviceaccount/bookinfo-ratings-v2 created
         deployment.apps/ratings-v2 created
         {{< /text >}}
 
-        如果使用手工的 Sidecar 注入方式，就需要使用下面的命令：
-
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
-        deployment "ratings-v2" configured
-        {{< /text >}}
-
     1. 安装 `mongodb` 服务：
-
-        如果使用的是启用了 Sidecar 自动注入的集群，可以使用 `kubectl` 进行服务部署：
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
         service/mongodb created
         deployment.apps/mongodb-v1 created
-        {{< /text >}}
-
-        如果使用手工的 Sidecar 注入方式，就需要使用下面的命令：
-
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
-        service "mongodb" configured
-        deployment "mongodb-v1" configured
         {{< /text >}}
 
     1. Bookinfo 示例部署了每个微服务的多个版本，因此您将首先创建目标规则定义每个版本对应的服务子集，

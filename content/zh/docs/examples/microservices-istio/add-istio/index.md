@@ -2,7 +2,6 @@
 title: 在 productpage 启用 Istio
 overview: 在一个微服务上部署 Istio 控制平面并启用 Istio。
 weight: 60
-
 owner: istio/wg-docs-maintainers
 test: no
 ---
@@ -23,9 +22,8 @@ test: no
 1. 重新部署 `productpage` 微服务，启用 Istio：
 
     {{< tip >}}
-    本教程为了教学目的将会逐步演示如何手动注入 Sidecar 启用 Istio，
-    但是[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
-    更加便捷。
+    本教程步骤演示了手动 Sidecar 注入，以演示如何逐个服务启用 Istio 以用于教学目的。
+    [自动 Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)是推荐用于生产用途的方法。
     {{< /tip >}}
 
     {{< text bash >}}
