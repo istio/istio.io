@@ -135,7 +135,7 @@ $ helm install istio-cni istio/cni -n istio-system --wait
 $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
 {{< /text >}}
 
-### 附加配置 {##additional-configuration}
+### 附加配置 {#additional-configuration}
 
 除了上述基本配置外，还有其他可设置的配置标志：
 
@@ -151,7 +151,7 @@ $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true 
 则可能未正确设置流量重定向，流量将能够绕过 Istio Sidecar。
 
 对于 Sidecar 数据平面模式，此竞争条件可通过“检测和修复”方法缓解。
-请参阅[竞争条件和缓解](#race-condition--mitigation)部分以了解此缓解措施的含义以及配置说明。
+请参阅[竞争条件和缓解](#race-condition-mitigation)部分以了解此缓解措施的含义以及配置说明。
 {{< /tip >}}
 
 ### 处理修订的 Init 容器注入 {#handling-init-container-injection-for-revisions}
@@ -207,7 +207,7 @@ spec:
 $ helm upgrade istio-cni istio/cni -n istio-system --wait
 {{< /text >}}
 
-### 竞争条件和缓解 {#race-condition--mitigation}
+### 竞争条件和缓解 {#race-condition-mitigation}
 
 Istio CNI DaemonSet 在每个节点上安装 CNI 网络插件。但是，DaemonSet Pod
 被调度到节点上与 CNI 插件安装并准备使用之间存在时间间隔。
