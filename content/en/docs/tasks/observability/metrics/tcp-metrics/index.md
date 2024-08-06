@@ -31,39 +31,18 @@ example configuration and commands.
 
     1.  Install `v2` of the `ratings` service.
 
-        If you are using a cluster with automatic sidecar injection enabled,
-        deploy the services using `kubectl`:
-
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@
         serviceaccount/bookinfo-ratings-v2 created
         deployment.apps/ratings-v2 created
         {{< /text >}}
 
-        If you are using manual sidecar injection, run the following command instead:
-
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-ratings-v2.yaml@)
-        deployment "ratings-v2" configured
-        {{< /text >}}
-
     1.  Install the `mongodb` service:
-
-        If you are using a cluster with automatic sidecar injection enabled,
-        deploy the services using `kubectl`:
 
         {{< text bash >}}
         $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@
         service/mongodb created
         deployment.apps/mongodb-v1 created
-        {{< /text >}}
-
-        If you are using manual sidecar injection, run the following command instead:
-
-        {{< text bash >}}
-        $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo-db.yaml@)
-        service "mongodb" configured
-        deployment "mongodb-v1" configured
         {{< /text >}}
 
     1.  The Bookinfo sample deploys multiple versions of each microservice, so begin by creating destination rules

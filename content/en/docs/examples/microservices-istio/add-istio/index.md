@@ -1,9 +1,7 @@
 ---
 title: Enable Istio on productpage
 overview: Deploy the Istio control plane and enable Istio on a single microservice.
-
 weight: 60
-
 owner: istio/wg-docs-maintainers
 test: no
 ---
@@ -26,8 +24,8 @@ disrupt your application, it continues to run and serve user requests.
 1.  Redeploy the `productpage` microservice, Istio-enabled:
 
     {{< tip >}}
-    This tutorial step demonstrates manual sidecar injection to enable Istio for instructional purposes,
-    however [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) is more convenient.
+    This tutorial step demonstrates manual sidecar injection to demonstrate enabling Istio service-by-service for instructional purposes.
+    [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) is the recommended method for production use.
     {{< /tip >}}
 
     {{< text bash >}}
