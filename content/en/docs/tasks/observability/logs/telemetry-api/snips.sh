@@ -30,7 +30,7 @@ kubectl apply -f samples/open-telemetry/loki/otel.yaml -n istio-system
 
 snip_get_started_with_telemetry_api_1() {
 cat <<EOF | kubectl apply -n istio-system -f -
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-logging-default
@@ -43,7 +43,7 @@ EOF
 
 snip_get_started_with_telemetry_api_2() {
 cat <<EOF | kubectl apply -n default -f -
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: disable-sleep-logging
@@ -61,7 +61,7 @@ EOF
 
 snip_get_started_with_telemetry_api_3() {
 cat <<EOF | kubectl apply -n default -f -
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: disable-httpbin-logging

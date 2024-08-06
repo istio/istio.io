@@ -59,7 +59,7 @@ ENDSNIP
 
 snip_enable_envoys_access_logging_3() {
 cat <<EOF | kubectl apply -n default -f -
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: sleep-logging

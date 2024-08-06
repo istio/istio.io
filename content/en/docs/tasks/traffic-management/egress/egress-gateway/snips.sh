@@ -47,7 +47,7 @@ ENDSNIP
 
 snip_egress_gateway_for_http_traffic_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: cnn
@@ -83,7 +83,7 @@ ENDSNIP
 
 snip_egress_gateway_for_http_traffic_3() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -98,7 +98,7 @@ spec:
     hosts:
     - edition.cnn.com
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -132,7 +132,7 @@ EOF
 
 snip_egress_gateway_for_http_traffic_5() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-cnn-through-egress-gateway
@@ -267,7 +267,7 @@ kubectl delete httproute forward-cnn-from-egress-gateway
 
 snip_egress_gateway_for_https_traffic_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: cnn
@@ -295,7 +295,7 @@ ENDSNIP
 
 snip_egress_gateway_for_https_traffic_3() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -312,7 +312,7 @@ spec:
     tls:
       mode: PASSTHROUGH
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -321,7 +321,7 @@ spec:
   subsets:
   - name: cnn
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-cnn-through-egress-gateway
@@ -582,7 +582,7 @@ ENDSNIP
 
 snip_apply_kubernetes_network_policies_14() {
 kubectl apply -n test-egress -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn

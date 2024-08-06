@@ -70,7 +70,7 @@ EOF
 
 snip_deploying_multiple_control_planes_3() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "usergroup-1-peerauth"
@@ -83,7 +83,7 @@ EOF
 
 snip_deploying_multiple_control_planes_4() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "usergroup-2-peerauth"

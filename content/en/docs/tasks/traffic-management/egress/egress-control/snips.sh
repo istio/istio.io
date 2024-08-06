@@ -64,7 +64,7 @@ ENDSNIP
 
 snip_access_an_external_http_service_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: httpbin-ext
@@ -106,7 +106,7 @@ ENDSNIP
 
 snip_access_an_external_https_service_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: google
@@ -151,7 +151,7 @@ ENDSNIP
 
 snip_manage_traffic_to_external_services_2() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin-ext

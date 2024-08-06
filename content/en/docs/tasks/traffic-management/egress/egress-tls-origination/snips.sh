@@ -34,7 +34,7 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.n
 
 snip_apply_simple() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: edition-cnn-com
@@ -68,7 +68,7 @@ ENDSNIP
 
 snip_apply_origination() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: edition-cnn-com
@@ -85,7 +85,7 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: edition-cnn-com
@@ -251,7 +251,7 @@ kubectl create rolebinding client-credential-role-binding --role=client-credenti
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: originate-mtls-for-nginx
@@ -268,7 +268,7 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx

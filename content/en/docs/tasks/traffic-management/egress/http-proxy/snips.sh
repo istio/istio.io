@@ -107,8 +107,8 @@ ENDSNIP
 
 snip_configure_traffic_to_external_https_proxy_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
-kind: ServiceEntry
+apiVersion: networking.istio.io/v1
+.   kind: ServiceEntry
 metadata:
   name: proxy
 spec:

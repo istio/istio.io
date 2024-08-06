@@ -47,7 +47,7 @@ ENDSNIP
 
 snip_perform_tls_origination_with_an_egress_gateway_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: cnn
@@ -78,7 +78,7 @@ ENDSNIP
 
 snip_perform_tls_origination_with_an_egress_gateway_3() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -95,7 +95,7 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -138,7 +138,7 @@ spec:
       namespaces:
         from: Same
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -158,7 +158,7 @@ EOF
 
 snip_perform_tls_origination_with_an_egress_gateway_5() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-cnn-through-egress-gateway
@@ -229,7 +229,7 @@ EOF
 
 snip_perform_tls_origination_with_an_egress_gateway_7() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-tls-for-edition-cnn-com
@@ -410,7 +410,7 @@ kubectl create secret -n default generic client-credential --from-file=tls.key=c
 
 snip_configure_mutual_tls_origination_for_egress_traffic_3() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -427,7 +427,7 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-nginx
@@ -496,7 +496,7 @@ subjects:
 - kind: ServiceAccount
   name: nginx-egressgateway-istio
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-nginx
@@ -516,7 +516,7 @@ EOF
 
 snip_configure_mutual_tls_origination_for_egress_traffic_5() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-nginx-through-egress-gateway
@@ -553,7 +553,7 @@ EOF
 
 snip_configure_mutual_tls_origination_for_egress_traffic_6() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-nginx-to-egress-gateway
@@ -605,7 +605,7 @@ EOF
 
 snip_configure_mutual_tls_origination_for_egress_traffic_7() {
 kubectl apply -n istio-system -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx
@@ -628,7 +628,7 @@ EOF
 
 snip_configure_mutual_tls_origination_for_egress_traffic_8() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx

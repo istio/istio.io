@@ -140,7 +140,7 @@ kubectl apply -f ingress.yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_gateway_selectors_1 <<\ENDSNIP
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway

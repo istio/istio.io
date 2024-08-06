@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 ! IFS=$'\n' read -r -d '' snip_using_telemetry_api_1 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default

@@ -83,7 +83,7 @@ ENDSNIP
 
 snip_kubernetes_externalname_service_to_access_an_external_service_4() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: my-httpbin
@@ -170,7 +170,7 @@ ENDSNIP
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_5() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: my-wikipedia

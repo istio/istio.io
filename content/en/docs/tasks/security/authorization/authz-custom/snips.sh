@@ -54,7 +54,7 @@ kubectl logs "$(kubectl get pod -l app=ext-authz -n foo -o jsonpath={.items..met
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_deploy_the_external_authorizer_3 <<\ENDSNIP
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-authz-grpc-local

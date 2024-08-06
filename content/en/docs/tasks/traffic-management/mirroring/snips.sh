@@ -121,7 +121,7 @@ EOF
 
 snip_creating_a_default_routing_policy_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -135,7 +135,7 @@ spec:
         subset: v1
       weight: 100
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: httpbin
@@ -233,7 +233,7 @@ ENDSNIP
 
 snip_mirroring_traffic_to_httpbinv2_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin

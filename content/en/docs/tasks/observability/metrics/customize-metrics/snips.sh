@@ -22,7 +22,7 @@
 
 snip_enable_custom_metrics_1() {
 cat <<EOF > ./custom_metrics.yaml
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: namespace-metrics
