@@ -32,6 +32,12 @@ status: Experimental
     确保启用了 `--feature-gates=ExperimentalCertificateSigningRequestControllers=true` 特性门控。
     {{< /warning >}}
 
+    {{< text bash >}}
+    $ helm repo add jetstack https://charts.jetstack.io
+    $ helm repo update
+    $ helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set featureGates="ExperimentalCertificateSigningRequestControllers=true" --set installCRDs=true
+    {{< /text >}}
+
 1. 为 cert-manager 创建三个自签名的集群签发器：`istio-system`、`foo` 和 `bar`。
    注：也可以使用命名空间签发器和其他类型的签发器。
 
@@ -140,9 +146,9 @@ istio-ca-selfsigned   kubernetes.io/tls   3      3m38s
 ## 导出每个集群签发器的根证书  {#export-root-certificates-for-each-cluster-issuer}
 
 {{< text bash >}}
-$ export istioca=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-$ export fooca=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
-$ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d)
+$ export ISTIOCA=$(kubectl get clusterissuers istio-system -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
+$ export FOOCA=$(kubectl get clusterissuers foo -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
+$ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretName}' | xargs kubectl get secret -n cert-manager -o jsonpath='{.data.ca\.crt}' | base64 -d | sed 's/^/        /')
 {{< /text >}}
 
 ## 使用默认的证书签名者信息部署 Istio  {#deploy-istio-with-default-cert-signer-info}
@@ -165,15 +171,15 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
             ISTIO_META_CERT_SIGNER: istio-system
         caCertificates:
         - pem: |
-          $istioca
+    $ISTIOCA
           certSigners:
           - clusterissuers.cert-manager.io/istio-system
         - pem: |
-          $fooca
+    $FOOCA
           certSigners:
           - clusterissuers.cert-manager.io/foo
         - pem: |
-          $barca
+    $BARCA
           certSigners:
           - clusterissuers.cert-manager.io/bar
       components:
@@ -201,7 +207,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
                       verbs:
                       - approve
     EOF
-    $ istioctl install -f ./istio.yaml
+    $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
 1. 创建 `bar` 和 `foo` 命名空间。
@@ -269,7 +275,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
 1. 检查 `foo` 命名空间中 `sleep` 和 `httpbin` 服务之间的网络连通性。
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.foo:8000/html
+    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
       <head>
@@ -288,7 +294,7 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
 1. 检查 `foo` 命名空间中的 `sleep` 服务与 `bar` 命名空间中的 `httpbin` 服务之间的网络连通性。
 
     {{< text bash >}}
-    $ kubectl exec -it $SLEEP_POD_FOO -n foo -c sleep curl http://httpbin.bar:8000/html
+    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 
@@ -297,9 +303,13 @@ $ export barca=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
 * 移除 `istio-system`、`foo` 和 `bar` 命名空间：
 
     {{< text bash >}}
-    $ kubectl delete ns istio-system
     $ kubectl delete ns foo
     $ kubectl delete ns bar
+    $ istioctl uninstall --purge -y
+    $ helm delete -n cert-manager cert-manager
+    $ kubectl delete ns istio-system cert-manager
+    $ unset ISTIOCA FOOCA BARCA
+    $ rm -rf istio.yaml proxyconfig-foo.yaml proxyconfig-bar.yaml selfsigned-issuer.yaml
     {{< /text >}}
 
 ## 使用此特性的原因  {#reasons-to-use-this-feature}
