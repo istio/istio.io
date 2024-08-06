@@ -38,15 +38,15 @@ _wait_for_deployment istio-system prometheus
 _verify_same snip_collecting_new_telemetry_data_1 "$snip_collecting_new_telemetry_data_1_out"
 
 # Install the MongoDB service
-_verify_same snip_collecting_new_telemetry_data_3 "$snip_collecting_new_telemetry_data_3_out"
+_verify_same snip_collecting_new_telemetry_data_2 "$snip_collecting_new_telemetry_data_2_out"
 
 # Apply the destination rules
-snip_collecting_new_telemetry_data_5
+snip_collecting_new_telemetry_data_3
 _wait_for_istio destinationrule default ratings
 _wait_for_istio destinationrule default reviews
 
 # Create the virtual services
-_verify_same snip_collecting_new_telemetry_data_8 "$snip_collecting_new_telemetry_data_8_out"
+_verify_same snip_collecting_new_telemetry_data_6 "$snip_collecting_new_telemetry_data_6_out"
 _wait_for_istio virtualservice default reviews
 _wait_for_istio virtualservice default ratings
 

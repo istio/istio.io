@@ -92,17 +92,6 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-    {{< warning >}}
-    If you disabled automatic sidecar injection during installation and rely on [manual sidecar injection](/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection),
-    use the [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject) command to modify the `bookinfo.yaml`
-    file before deploying your application.
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
-    {{< /text >}}
-
-    {{< /warning >}}
-
     The command launches all four services shown in the `bookinfo` application architecture diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
 

@@ -30,14 +30,10 @@ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
 }
 
 snip_start_the_application_services_3() {
-kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
-}
-
-snip_start_the_application_services_4() {
 kubectl get services
 }
 
-! IFS=$'\n' read -r -d '' snip_start_the_application_services_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_start_the_application_services_3_out <<\ENDSNIP
 NAME          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
 details       ClusterIP   10.0.0.31    <none>        9080/TCP   6m
 kubernetes    ClusterIP   10.0.0.1     <none>        443/TCP    7d
@@ -46,11 +42,11 @@ ratings       ClusterIP   10.0.0.15    <none>        9080/TCP   6m
 reviews       ClusterIP   10.0.0.170   <none>        9080/TCP   6m
 ENDSNIP
 
-snip_start_the_application_services_5() {
+snip_start_the_application_services_4() {
 kubectl get pods
 }
 
-! IFS=$'\n' read -r -d '' snip_start_the_application_services_5_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_start_the_application_services_4_out <<\ENDSNIP
 NAME                             READY     STATUS    RESTARTS   AGE
 details-v1-1520924117-48z17      2/2       Running   0          6m
 productpage-v1-560495357-jk1lz   2/2       Running   0          6m
@@ -60,11 +56,11 @@ reviews-v2-1343845940-b34q5      2/2       Running   0          6m
 reviews-v3-1813607990-8ch52      2/2       Running   0          6m
 ENDSNIP
 
-snip_start_the_application_services_6() {
+snip_start_the_application_services_5() {
 kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! IFS=$'\n' read -r -d '' snip_start_the_application_services_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_start_the_application_services_5_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP
 
