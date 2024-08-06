@@ -115,8 +115,8 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 ### 使用示例应用程序进行验证 {#verifying-with-the-sample-application}
 
 使用 Helm 安装 Ambient 模式后，
-您可以按照[部署示例应用程序](/zh/docs/ambient/getting-started/#bookinfo)指南部署示例应用程序和入口网关，
-然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ambient/getting-started/#addtoambient)。
+您可以按照[部署示例应用程序](/zh/docs/ambient/getting-started/deploy-sample-app/)指南部署示例应用程序和入口网关，
+然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh)。
 
 ## 卸载 {#uninstall}
 
