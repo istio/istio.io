@@ -18,7 +18,7 @@ Warning [IST0127] (AuthorizationPolicy httpbin-nopods.httpbin) No matching workl
 when your cluster has the following authorization policy:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: httpbin-nopods

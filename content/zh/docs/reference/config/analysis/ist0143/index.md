@@ -53,7 +53,7 @@ spec:
   来自定义 Pod 的入站网络配置。例如，对于上述应用程序：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ratings

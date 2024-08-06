@@ -70,7 +70,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: grafana-gateway
@@ -89,7 +89,7 @@ test: yes
             hosts:
             - "grafana.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: grafana-vs
@@ -106,7 +106,7 @@ test: yes
                 port:
                   number: 3000
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: grafana
@@ -127,7 +127,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: kiali-gateway
@@ -146,7 +146,7 @@ test: yes
             hosts:
             - "kiali.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: kiali-vs
@@ -163,7 +163,7 @@ test: yes
                 port:
                   number: 20001
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: kiali
@@ -184,7 +184,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: prometheus-gateway
@@ -203,7 +203,7 @@ test: yes
             hosts:
             - "prometheus.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: prometheus-vs
@@ -220,7 +220,7 @@ test: yes
                 port:
                   number: 9090
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: prometheus
@@ -241,7 +241,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: tracing-gateway
@@ -260,7 +260,7 @@ test: yes
             hosts:
             - "tracing.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: tracing-vs
@@ -277,7 +277,7 @@ test: yes
                 port:
                   number: 80
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: tracing
@@ -313,7 +313,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: grafana-gateway
@@ -329,7 +329,7 @@ test: yes
             hosts:
             - "grafana.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: grafana-vs
@@ -346,7 +346,7 @@ test: yes
                 port:
                   number: 3000
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: grafana
@@ -367,7 +367,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: kiali-gateway
@@ -383,7 +383,7 @@ test: yes
             hosts:
             - "kiali.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: kiali-vs
@@ -400,7 +400,7 @@ test: yes
                 port:
                   number: 20001
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: kiali
@@ -421,7 +421,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: prometheus-gateway
@@ -437,7 +437,7 @@ test: yes
             hosts:
             - "prometheus.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: prometheus-vs
@@ -454,7 +454,7 @@ test: yes
                 port:
                   number: 9090
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: prometheus
@@ -475,7 +475,7 @@ test: yes
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: tracing-gateway
@@ -491,7 +491,7 @@ test: yes
             hosts:
             - "tracing.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: tracing-vs
@@ -508,7 +508,7 @@ test: yes
                 port:
                   number: 80
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: tracing

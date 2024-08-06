@@ -204,7 +204,7 @@ test: yes
 
 {{< text bash >}}
 $ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: "${VM_APP}"
@@ -229,7 +229,7 @@ EOF
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: "${VM_APP}"
@@ -258,7 +258,7 @@ $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 
 {{< text bash >}}
 $ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: "${VM_APP}"

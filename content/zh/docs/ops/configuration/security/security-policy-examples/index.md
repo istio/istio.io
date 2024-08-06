@@ -26,7 +26,7 @@ JWT 校验通常用于 Ingress Gateway，您可能需要为不同的主机使用
 对其他主机的访问将始终被拒绝。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: jwt-per-host
@@ -59,7 +59,7 @@ spec:
 允许来自相同命名空间的流量。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -68,7 +68,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: foo-isolation
@@ -87,7 +87,7 @@ spec:
 Ingress Gateway 的流量。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -96,7 +96,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ns-isolation-except-ingress
@@ -121,7 +121,7 @@ spec:
 `"*"` 意味着非空匹配，与 `notPrincipals` 一起使用时意味着匹配空主体。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-mtls
@@ -146,7 +146,7 @@ spec:
 `"*"` 意味着非空匹配，与 `notRequestPrincipals` 一起使用时意味着匹配空请求主体。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-jwt
@@ -170,7 +170,7 @@ spec:
 此策略才允许请求。
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ns-isolation-except-ingress

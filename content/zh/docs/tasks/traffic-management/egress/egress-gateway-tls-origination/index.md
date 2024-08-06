@@ -77,7 +77,7 @@ Sidecar 完成。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: cnn
@@ -119,7 +119,7 @@ Sidecar 完成。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -136,7 +136,7 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -183,7 +183,7 @@ spec:
       namespaces:
         from: Same
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -213,7 +213,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-cnn-through-egress-gateway
@@ -294,7 +294,7 @@ EOF
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: originate-tls-for-edition-cnn-com
@@ -580,7 +580,7 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: nginx
@@ -600,7 +600,7 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
         ports:
           https: 443
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: nginx
@@ -672,7 +672,7 @@ $ kubectl create secret -n default generic client-credential --from-file=tls.key
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -689,7 +689,7 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-nginx
@@ -762,7 +762,7 @@ subjects:
 - kind: ServiceAccount
   name: nginx-egressgateway-istio
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-nginx
@@ -792,7 +792,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-nginx-through-egress-gateway
@@ -833,7 +833,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-nginx-to-egress-gateway
@@ -900,7 +900,7 @@ TODO：弄清楚为什么使用 `HTTPRoute` 而不是上面不起作用的 `Virt
 
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx
@@ -927,7 +927,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-mtls-for-nginx

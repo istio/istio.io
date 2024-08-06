@@ -124,7 +124,7 @@ Support for SHA-1 signatures is [disabled by default in Go 1.18](https://github.
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: PeerAuthentication
     metadata:
       name: "default"

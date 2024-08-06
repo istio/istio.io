@@ -62,7 +62,7 @@ Create an [Istio Gateway](/docs/reference/config/networking/gateway/):
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -85,7 +85,7 @@ Configure routes for traffic entering via the `Gateway`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -342,7 +342,7 @@ and `VirtualService` configurations. For example, change your ingress configurat
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -359,7 +359,7 @@ spec:
     hosts:
     - "*"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin

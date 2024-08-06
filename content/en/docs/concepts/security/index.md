@@ -315,7 +315,7 @@ authentication for the workloads with the `app:reviews` label must use mutual
 TLS:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "example-peer-policy"
@@ -409,7 +409,7 @@ The following peer authentication policy requires all workloads in namespace
 `foo` to use mutual TLS:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "example-policy"
@@ -426,7 +426,7 @@ mutual TLS on port `80` for the `app:example-app` workload, and uses the mutual 
 settings of the namespace-wide peer authentication policy for all other ports:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "example-workload-policy"

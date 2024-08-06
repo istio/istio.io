@@ -375,8 +375,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text syntax=bash snip_id=get_external_istiod_gateway_config >}}
     $ cat <<EOF > external-istiod-gw.yaml
-    apiVersion: networking.istio.io/v1beta1
-    kind: Gateway
+    apiVersion: networking.istio.io/v1
+.   kind: Gateway
     metadata:
       name: external-istiod-gw
       namespace: external-istiod
@@ -403,8 +403,8 @@ and installing the sidecar injector webhook configuration on the remote cluster 
           hosts:
           - $EXTERNAL_ISTIOD_ADDR
     ---
-    apiVersion: networking.istio.io/v1beta1
-    kind: VirtualService
+    apiVersion: networking.istio.io/v1
+.   kind: VirtualService
     metadata:
        name: external-istiod-vs
        namespace: external-istiod
@@ -429,7 +429,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               port:
                 number: 443
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: external-istiod-dr

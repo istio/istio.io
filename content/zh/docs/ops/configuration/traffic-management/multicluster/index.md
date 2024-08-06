@@ -71,7 +71,7 @@ serviceSettings:
 `DestinationRule` 的子集选择器中允许按集群创建子集。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: mysvc-per-cluster-dr
@@ -92,7 +92,7 @@ spec:
 这提供了另一种方案来创建集群内部流量规则，具体是在 `VirtualService` 中限制目标集群子集的流量：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: mysvc-cluster-local-vs

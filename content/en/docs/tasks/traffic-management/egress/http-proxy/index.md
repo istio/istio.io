@@ -145,8 +145,8 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1beta1
-    kind: ServiceEntry
+    apiVersion: networking.istio.io/v1
+.   kind: ServiceEntry
     metadata:
       name: proxy
     spec:

@@ -82,7 +82,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: httpbin

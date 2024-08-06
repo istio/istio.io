@@ -97,7 +97,7 @@ This is done based on the server configuration in a [`Gateway` resource](/docs/r
 For example, if an inbound connection is plaintext HTTP, the port protocol is configured as `HTTP`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 ...
   servers:
@@ -119,8 +119,8 @@ For TLS connections, there are a few more options:
     For passthrough traffic, configure the TLS mode field to `PASSTHROUGH`:
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1beta1
-    kind: Gateway
+    apiVersion: networking.istio.io/v1
+.   kind: Gateway
     ...
       servers:
       - port:
@@ -138,8 +138,8 @@ For TLS connections, there are a few more options:
     requested and verified against the configured `caCertificates` or `credentialName`:
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1beta1
-    kind: Gateway
+    apiVersion: networking.istio.io/v1
+.   kind: Gateway
     ...
       servers:
       - port:

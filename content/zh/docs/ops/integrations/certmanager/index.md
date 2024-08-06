@@ -67,7 +67,7 @@ cert-manager 可用于向 Kubernetes 写入 Secret 秘钥，Gateway 可以引用
    配置下的 `cresentialName` 字段中引用它：
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -97,7 +97,7 @@ cert-manager 通过 [在 Ingress 对象上配置注解](https://cert-manager.io/
 `Certificate`，然后在 `Ingress` 对象中引用它：
 
 {{< text yaml >}}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress

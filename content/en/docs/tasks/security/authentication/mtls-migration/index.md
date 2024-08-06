@@ -90,7 +90,7 @@ to only accept mutual TLS traffic.
 
 {{< text bash >}}
 $ kubectl apply -n foo -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -135,7 +135,7 @@ You can lock down workloads in all namespaces to only accept mutual TLS traffic 
 
 {{< text bash >}}
 $ kubectl apply -n istio-system -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default

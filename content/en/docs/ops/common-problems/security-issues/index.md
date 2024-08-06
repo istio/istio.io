@@ -19,7 +19,7 @@ With Istio, you can enable authentication for end users through [request authent
 1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
 
     {{< text yaml >}}
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: "example-3"
@@ -86,7 +86,7 @@ With Istio, you can enable authentication for end users through [request authent
 One common mistake is specifying multiple items unintentionally in the YAML. Take the following policy as an example:
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: example

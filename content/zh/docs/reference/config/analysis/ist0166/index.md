@@ -60,7 +60,7 @@ spec:
 如果您在策略中同时设置了 `targetRef` 和 `selector`，将不会出现此消息。例如：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: telemetry-example
@@ -86,7 +86,7 @@ spec:
 以下是一个例子：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: telemetry-example

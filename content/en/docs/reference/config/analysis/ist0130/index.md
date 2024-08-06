@@ -19,7 +19,7 @@ Warning [IST0130] (VirtualService sample-foo-cluster01.default) VirtualService r
 when your cluster has the following virtual service:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: sample-foo-cluster01

@@ -69,7 +69,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: grafana-gateway
@@ -88,7 +88,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "grafana.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: grafana-vs
@@ -105,7 +105,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 3000
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: grafana
@@ -126,7 +126,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: kiali-gateway
@@ -145,7 +145,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "kiali.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: kiali-vs
@@ -162,7 +162,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 20001
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: kiali
@@ -183,7 +183,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: prometheus-gateway
@@ -202,7 +202,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "prometheus.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: prometheus-vs
@@ -219,7 +219,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 9090
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: prometheus
@@ -240,7 +240,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: tracing-gateway
@@ -259,7 +259,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "tracing.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: tracing-vs
@@ -276,7 +276,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 80
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: tracing
@@ -312,7 +312,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: grafana-gateway
@@ -328,7 +328,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "grafana.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: grafana-vs
@@ -345,7 +345,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 3000
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: grafana
@@ -366,7 +366,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: kiali-gateway
@@ -382,7 +382,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "kiali.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: kiali-vs
@@ -399,7 +399,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 20001
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: kiali
@@ -420,7 +420,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: prometheus-gateway
@@ -436,7 +436,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "prometheus.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: prometheus-vs
@@ -453,7 +453,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 9090
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: prometheus
@@ -474,7 +474,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
 
         {{< text bash >}}
         $ cat <<EOF | kubectl apply -f -
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: Gateway
         metadata:
           name: tracing-gateway
@@ -490,7 +490,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
             hosts:
             - "tracing.${INGRESS_DOMAIN}"
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: VirtualService
         metadata:
           name: tracing-vs
@@ -507,7 +507,7 @@ This example uses self-signed certificates, which may not be appropriate for pro
                 port:
                   number: 80
         ---
-        apiVersion: networking.istio.io/v1alpha3
+        apiVersion: networking.istio.io/v1
         kind: DestinationRule
         metadata:
           name: tracing

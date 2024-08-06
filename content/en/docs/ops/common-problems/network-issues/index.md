@@ -85,7 +85,7 @@ Let's assume you are using an ingress `Gateway` and corresponding `VirtualServic
 For example, your `VirtualService` looks something like this:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -108,7 +108,7 @@ spec:
 You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld
@@ -133,7 +133,7 @@ helloworld `VirtualService` which directs traffic exclusively to subset v1.
 To control the traffic from the gateway, you need to also include the subset rule in the myapp `VirtualService`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -157,7 +157,7 @@ spec:
 Alternatively, you can combine both `VirtualServices` into one unit if possible:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -341,7 +341,7 @@ the Envoy sidecar will attempt to parse the request as HTTP while forwarding the
 which will fail because the HTTP is unexpectedly encrypted.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: httpbin
@@ -382,7 +382,7 @@ There are two common TLS mismatches that can occur when binding a virtual servic
 #### Gateway with TLS termination
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -401,7 +401,7 @@ spec:
       mode: SIMPLE
       credentialName: sds-credential
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -443,7 +443,7 @@ spec:
 #### Gateway with TLS passthrough
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -460,7 +460,7 @@ spec:
     tls:
       mode: PASSTHROUGH
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: virtual-service
@@ -510,7 +510,7 @@ The following `DestinationRule` originates TLS for requests to the `httpbin.org`
 but the corresponding `ServiceEntry` defines the protocol as HTTPS on port 443.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: httpbin
@@ -523,7 +523,7 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-tls
@@ -669,7 +669,7 @@ Currently, Istio does not support configuring fault injections and retry or time
 same `VirtualService`. Consider the following configuration:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld

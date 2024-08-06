@@ -171,7 +171,7 @@ any other unintentional accesses.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: httpbin-ext
@@ -219,7 +219,7 @@ any other unintentional accesses.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: google
@@ -280,7 +280,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin-ext

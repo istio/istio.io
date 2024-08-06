@@ -18,7 +18,7 @@ Warning [IST0134] (ServiceEntry service-entry.default serviceentry.yaml:13) Serv
 当集群的 `ServiceEntry` 未设置 `protocol` 且缺少 `addresses` 时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: service-entry
@@ -38,7 +38,7 @@ spec:
 这种分析器的另一个例子是 `ServiceEntry` 设置了 `protocol: TCP` 但缺少 `addresses` 时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: service-entry

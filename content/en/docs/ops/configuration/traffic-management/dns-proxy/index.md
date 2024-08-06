@@ -61,7 +61,7 @@ To try out the DNS capture, first setup a `ServiceEntry` for some external servi
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-address
@@ -110,7 +110,7 @@ To try this out, configure another `ServiceEntry`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-auto
@@ -183,8 +183,8 @@ A virtual IP address will be assigned to every service entry so that client side
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1beta1
-    kind: ServiceEntry
+    apiVersion: networking.istio.io/v1
+.   kind: ServiceEntry
     metadata:
       name: external-svc-1
     spec:
@@ -196,8 +196,8 @@ A virtual IP address will be assigned to every service entry so that client side
         protocol: TCP
       resolution: DNS
     ---
-    apiVersion: networking.istio.io/v1beta1
-    kind: ServiceEntry
+    apiVersion: networking.istio.io/v1
+.   kind: ServiceEntry
     metadata:
       name: external-svc-2
     spec:

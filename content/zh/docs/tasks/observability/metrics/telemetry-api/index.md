@@ -42,7 +42,7 @@ spec:
 1. 从 `REQUEST_COUNT` 指标中删除 `grpc_response_status` 标签
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-tags
@@ -63,7 +63,7 @@ spec:
 1. 为 `REQUEST_COUNT` 指标添加自定义标签
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: custom-tags
@@ -92,7 +92,7 @@ spec:
 1. 通过以下配置禁用所有指标：
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-all-metrics
@@ -111,7 +111,7 @@ spec:
 1. 通过以下配置禁用 `REQUEST_COUNT` 指标：
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-request-count
@@ -130,7 +130,7 @@ spec:
 1. 通过以下配置禁用客户端的 `REQUEST_COUNT` 指标：
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-client
@@ -149,7 +149,7 @@ spec:
 1. 通过以下配置禁用服务端的 `REQUEST_COUNT` 指标：
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-server

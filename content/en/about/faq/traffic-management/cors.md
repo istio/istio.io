@@ -14,7 +14,7 @@ In order to allow this request, `bank.example.com` must allow `attack.example.co
 This is where CORS comes in. If we were serving `bank.example.com` in an Istio enabled cluster, we could configure a `corsPolicy` to allow this:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bank

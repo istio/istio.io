@@ -47,7 +47,7 @@ $ istioctl install -f ./tracing.yaml --skip-confirmation
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -67,7 +67,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -94,7 +94,7 @@ EOF
 1.  literal 选项可以将一个静态的值添加到每个 span 中。
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: mesh-default
@@ -113,7 +113,7 @@ EOF
 1.  环境变量可以用于从工作负载代理环境中自定义标签。
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: mesh-default
@@ -138,7 +138,7 @@ EOF
 1.  客户端请求头选项可用于从传入的客户端请求头中添加标签。
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: mesh-default

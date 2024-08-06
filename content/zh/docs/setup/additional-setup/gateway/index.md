@@ -237,7 +237,7 @@ $ kubectl apply -f ingress.yaml
 要将 `Gateway` 应用到这些 Deployment，您需要选择相同的标签：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway

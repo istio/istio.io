@@ -131,7 +131,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: cnn
@@ -181,7 +181,7 @@ The `subset` field in the `DestinationRule` should be reused for the additional 
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -196,7 +196,7 @@ spec:
     hosts:
     - edition.cnn.com
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -245,7 +245,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-cnn-through-egress-gateway
@@ -441,7 +441,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: cnn
@@ -480,7 +480,7 @@ The `subset` field in the `DestinationRule` should be reused for the additional 
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -497,7 +497,7 @@ spec:
     tls:
       mode: PASSTHROUGH
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn
@@ -506,7 +506,7 @@ spec:
   subsets:
   - name: cnn
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-cnn-through-egress-gateway
@@ -899,7 +899,7 @@ to direct the `test-egress` namespace traffic through the egress gateway:
 
 {{< text bash >}}
 $ kubectl apply -n test-egress -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-cnn

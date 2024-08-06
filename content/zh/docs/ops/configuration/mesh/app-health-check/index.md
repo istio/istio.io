@@ -121,7 +121,7 @@ $ kubectl create ns istio-io-health
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"

@@ -89,7 +89,7 @@ Enable tracing by applying the following configuration:
 
 {{< text syntax=bash snip_id=enable_telemetry >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: otel-demo

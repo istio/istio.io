@@ -254,7 +254,7 @@ Istio 将这两种认证类型以及凭证中的其他声明（如果适用）�
 必须使用双向 TLS：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "example-peer-policy"
@@ -331,7 +331,7 @@ Istio 可以将所有匹配的请求认证策略组合起来，
 下面的对等认证策略要求命名空间 `foo` 中的所有工作负载都使用双向 TLS：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "example-policy"
@@ -347,7 +347,7 @@ spec:
 并对所有其他端口使用命名空间范围的对等认证策略的双向 TLS 设置：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "example-workload-policy"

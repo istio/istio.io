@@ -73,7 +73,7 @@ Istio 提供了两种机制来表示虚拟机工作负载：
 将虚拟机工作负载添加到网格时，您将需要创建 `WorkloadGroup`，作为每个 `WorkloadEntry` 实例的模板：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: product-vm
@@ -92,7 +92,7 @@ spec:
 相应的 `WorkloadEntry` 将被 Istio 控制面自动创建，例如：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: WorkloadEntry
 metadata:
   annotations:

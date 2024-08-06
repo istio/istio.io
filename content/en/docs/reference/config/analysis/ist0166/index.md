@@ -63,7 +63,7 @@ spec:
 If you have both `targetRef` and `selector` in the policy, this message will not occur. For example:
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: telemetry-example
@@ -88,7 +88,7 @@ Kubernetes Gateway pods. Otherwise, the policy will not be applied.
 Here is an example:
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: telemetry-example

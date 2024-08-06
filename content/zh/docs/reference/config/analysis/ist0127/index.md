@@ -12,7 +12,7 @@ test: no
 当集群包含以下 AuthorizationPolicy 时：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: httpbin-nopods

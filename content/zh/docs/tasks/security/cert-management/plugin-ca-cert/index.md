@@ -121,7 +121,7 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
 
     {{< text bash >}}
     $ kubectl apply -n foo -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: PeerAuthentication
     metadata:
       name: "default"

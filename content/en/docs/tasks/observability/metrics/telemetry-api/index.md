@@ -45,7 +45,7 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 1. Remove `grpc_response_status` tags from `REQUEST_COUNT` metric
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-tags
@@ -66,7 +66,7 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 1. Add custom tags for `REQUEST_COUNT` metric
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: custom-tags
@@ -95,7 +95,7 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 1. Disable all metrics by following configuration:
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-all-metrics
@@ -114,7 +114,7 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 1. Disable `REQUEST_COUNT` metrics by following configuration:
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-request-count
@@ -133,7 +133,7 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 1. Disable `REQUEST_COUNT` metrics for client by following configuration:
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-client
@@ -152,7 +152,7 @@ You can modify the standard metric definitions using `tags_to_remove` or by re-d
 1. Disable `REQUEST_COUNT` metrics for server by following configuration:
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: remove-server

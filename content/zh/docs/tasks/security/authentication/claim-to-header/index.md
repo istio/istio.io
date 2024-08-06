@@ -57,7 +57,7 @@ JWT 声明复制到 HTTP 头。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: "jwt-example"

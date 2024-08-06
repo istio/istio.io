@@ -48,7 +48,7 @@ Enable tracing by applying the following configuration:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -69,7 +69,7 @@ The default rate is 1%.
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -97,7 +97,7 @@ You can customize the tags using any of the three supported options below.
 1.  Literal represents a static value that gets added to each span.
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
     name: mesh-default
@@ -117,7 +117,7 @@ You can customize the tags using any of the three supported options below.
     populated from a workload proxy environment variable.
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: mesh-default
@@ -143,7 +143,7 @@ You can customize the tags using any of the three supported options below.
     incoming client request header.
 
     {{< text yaml >}}
-    apiVersion: telemetry.istio.io/v1alpha1
+    apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
       name: mesh-default

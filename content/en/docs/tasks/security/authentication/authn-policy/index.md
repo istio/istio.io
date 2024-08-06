@@ -119,7 +119,7 @@ The mesh-wide peer authentication policy should not have a `selector` and must b
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"
@@ -172,7 +172,7 @@ To change mutual TLS for all workloads within a particular namespace, use a name
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"
@@ -205,7 +205,7 @@ To set a peer authentication policy for a specific workload, you must configure 
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "httpbin"
@@ -246,7 +246,7 @@ To refine the mutual TLS settings per port, you must configure the `portLevelMtl
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "httpbin"
@@ -288,7 +288,7 @@ Note that you've already created a namespace-wide policy that enables mutual TLS
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "overwrite-example"

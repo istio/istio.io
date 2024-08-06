@@ -27,7 +27,7 @@ Istio 提供了几种启用访问日志的方法，建议使用 Telemetry API。
 Telemetry API 可以开启或关闭访问日志：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default

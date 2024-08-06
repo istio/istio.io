@@ -166,8 +166,8 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1beta1
-    kind: VirtualService
+    apiVersion: networking.istio.io/v1
+.   kind: VirtualService
     metadata:
       name: bookinfo
     spec:
@@ -332,7 +332,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: EnvoyFilter
 metadata:
   name: filter-local-ratelimit-svc

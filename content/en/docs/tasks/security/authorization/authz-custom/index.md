@@ -72,7 +72,7 @@ The following is an example service entry for an external authorizer deployed in
 of the application that needs the external authorization.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-authz-grpc-local

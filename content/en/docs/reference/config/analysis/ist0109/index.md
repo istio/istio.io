@@ -31,7 +31,7 @@ specified.
 * They both define the same host `productpage.default.svc.cluster.local`.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: productpage
@@ -44,7 +44,7 @@ spec:
     - destination:
         host: productpage
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: custom
@@ -63,7 +63,7 @@ You can resolve this issue by setting the `exportTo` field to `.` so
 that each virtual service is scoped only to its own namespace:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: productpage
@@ -78,7 +78,7 @@ spec:
     - destination:
         host: productpage
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: custom

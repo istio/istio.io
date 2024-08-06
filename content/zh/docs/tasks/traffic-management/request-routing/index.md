@@ -238,7 +238,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice reviews -o yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 ...
 spec:

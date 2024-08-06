@@ -28,7 +28,7 @@ Use the following policy if you want to allow access to the given hosts if JWT p
 will always be denied.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: jwt-per-host
@@ -60,7 +60,7 @@ spec:
 The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -69,7 +69,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: foo-isolation
@@ -88,7 +88,7 @@ The following two policies enable strict mTLS on namespace `foo`, and allow traf
 from the ingress gateway.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -97,7 +97,7 @@ spec:
   mtls:
     mode: STRICT
 ---
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ns-isolation-except-ingress
@@ -122,7 +122,7 @@ In other words, the policy allows requests if the principal is non-empty.
 `"*"` means non-empty match and using with `notPrincipals` means matching on empty principal.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-mtls
@@ -147,7 +147,7 @@ In other words, the policy allows requests if the request principal is non-empty
 `"*"` means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: require-jwt
@@ -168,7 +168,7 @@ The policy denies the request if the namespace is not `foo` and the principal is
 In other words, the policy allows the request only if the namespace is `foo` or the principal is `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: ns-isolation-except-ingress

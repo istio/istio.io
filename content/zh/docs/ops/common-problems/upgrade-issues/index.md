@@ -40,7 +40,7 @@ spec:
 以下 `Telemetry` 配置替换上述配置：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: namespace-metrics

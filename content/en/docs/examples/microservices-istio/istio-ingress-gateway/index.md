@@ -32,7 +32,7 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: Gateway
     metadata:
       name: bookinfo-gateway
@@ -47,7 +47,7 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
         hosts:
         - $MY_INGRESS_GATEWAY_HOST
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: bookinfo

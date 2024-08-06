@@ -36,8 +36,7 @@ Istio 提供了一些工具来帮助控制配置范围以满足不同的用例�
 例如：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
-kind: Sidecar
+apiVersion: networking.istio.io/idecar
 metadata:
   name: default
 spec:

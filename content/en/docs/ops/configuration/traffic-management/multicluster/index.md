@@ -69,7 +69,7 @@ One of these built-in labels, `topology.istio.io/cluster`, in the subset selecto
 creating per-cluster subsets.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: mysvc-per-cluster-dr
@@ -90,7 +90,7 @@ or [shifting](/docs/tasks/traffic-management/traffic-shifting/).
 This provides another option to create cluster-local traffic rules by restricting the destination subset in a `VirtualService`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: mysvc-cluster-local-vs

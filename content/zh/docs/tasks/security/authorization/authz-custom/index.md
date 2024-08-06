@@ -70,7 +70,7 @@ test: yes
 以下是将外部授权器部署在需要外部授权的应用程序同一 Pod 内时，您需要配置的示例 ServiceEntry。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-authz-grpc-local

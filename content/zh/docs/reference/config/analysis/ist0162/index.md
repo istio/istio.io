@@ -14,7 +14,7 @@ test: n/a
 {{< text yaml >}}
 # 端口定义错误的 Gateway
 
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-ingressgateway
@@ -71,7 +71,7 @@ spec:
 {{< text yaml >}}
 # 端口定义正确的 Gateway
 
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-ingressgateway

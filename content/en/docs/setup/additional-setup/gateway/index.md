@@ -235,7 +235,7 @@ For example, in the above deployments, the `istio=ingressgateway` label is set o
 To apply a `Gateway` to these deployments, you need to select the same label:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway

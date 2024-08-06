@@ -63,7 +63,7 @@ Next, add a Telemetry resource that tells Istio to send access logs to the OpenT
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n default -f -
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: sleep-logging

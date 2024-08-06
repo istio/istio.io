@@ -56,7 +56,7 @@ spec:
         - value: "CreateReview"
           condition: "request.url_path == '/reviews/' && request.method == 'POST'"
 ---
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: custom-tags
@@ -121,7 +121,7 @@ spec:
            - value: 4xx
              condition: response.code >= 400 && response.code <= 499
 ---
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: custom-tags

@@ -18,7 +18,7 @@ Info [IST0131] (VirtualService tls-routing.default) VirtualService rule #1 match
 when your cluster has the following virtual service:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: tls-routing

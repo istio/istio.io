@@ -437,7 +437,7 @@ SNI 必须在 `DestinationRule` 中设置，以确保主机正确处理请求。
 例如：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: google-tls
@@ -549,7 +549,7 @@ http 1 头部 `Host` 或者 http 2 伪头部 `:authority` 字段遵守 SNI 限�
 SNI TLS 连接来访问管理员`虚拟服务`。而 http 响应码 421 的设计目的便是 `Host` SNI 不匹配并且可以用于以上阻止目的。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: disable-sensitive
