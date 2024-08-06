@@ -32,15 +32,15 @@ snip_start_the_application_services_1
 
 snip_start_the_application_services_2
 
-_verify_like snip_start_the_application_services_4 "$snip_start_the_application_services_4_out"
+_verify_like snip_start_the_application_services_3 "$snip_start_the_application_services_3_out"
 
 for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
     _wait_for_deployment default "$deploy"
 done
 
-_verify_like snip_start_the_application_services_5 "$snip_start_the_application_services_5_out"
+_verify_like snip_start_the_application_services_4 "$snip_start_the_application_services_4_out"
 
-_verify_contains snip_start_the_application_services_6 "$snip_start_the_application_services_6_out"
+_verify_contains snip_start_the_application_services_5 "$snip_start_the_application_services_5_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
     _verify_like snip_determine_the_ingress_ip_and_port_3 "$snip_determine_the_ingress_ip_and_port_3_out"
