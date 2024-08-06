@@ -109,8 +109,8 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
 ### Verify with the sample application
 
-After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ambient/getting-started/#bookinfo) guide to deploy the sample application and ingress gateways, and then you can
-[add your application to the ambient mesh](/docs/ambient/getting-started/#addtoambient).
+After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ambient/getting-started/deploy-sample-app/) guide to deploy the sample application and ingress gateways, and then you can
+[add your application to the ambient mesh](/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
 
 ## Uninstall
 
