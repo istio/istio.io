@@ -86,18 +86,6 @@ Bookinfo 应用中的几个微服务是由不同的编程语言编写的。
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-    {{< warning >}}
-    如果您在安装过程中禁用了 Sidecar
-    自动注入功能而选择[手动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#manual-sidecar-injection)，
-    请在部署应用之前使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)
-    命令修改 `bookinfo.yaml` 文件。
-
-    {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/bookinfo/platform/kube/bookinfo.yaml@)
-    {{< /text >}}
-
-    {{< /warning >}}
-
     上面这条命令会启动 `bookinfo` 应用架构图中显示的全部四个服务。
     也会启动三个版本的 reviews 服务：v1、v2 以及 v3。
 
