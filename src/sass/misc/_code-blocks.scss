@@ -1,6 +1,6 @@
 code {
     color: $textCodeColor;
-    font-size: 80%;
+    font-size: 87.5%;
     font-weight: $textCodeWeight;
     font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     word-break: break-word;
@@ -29,6 +29,11 @@ pre {
         display: block;
         padding: .5em;
         color: $textColor;
+
+        a {
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-weight: $textCodeWeight;
+        }
     }
 
     code.command-output {
