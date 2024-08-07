@@ -11,32 +11,47 @@ status: Experimental
 ---
 
 按照本指南使用 [Helm](https://helm.sh/docs/) 对 Ambient 模式的安装进行升级和配置。
-本指南假设您已经使用之前的 Istio 次要版本或补丁版本执行了
+本指南假设您已经使用之前的 Istio 版本执行了
 [Helm Ambient 模式安装](/zh/docs/ambient/install/helm-installation/)。
 
 {{< warning >}}
-与 Sidecar 模式相比，Ambient 模式支持将应用程序 Pod 移动到已升级的数据平面，
-而无需强制重新启动或重新编排正在运行的应用程序 Pod。
-但是，升级数据平面**将**短暂中断被升级节点上的所有工作负载流量，
-并且 Ambient 模式当前不支持数据平面的金丝雀升级。
+与 Sidecar 模式相比，Ambient 模式支持将应用程序 Pod 移动到升级后的 ztunnel 代理，
+而无需强制重启或重新安排正在运行的应用程序 Pod。但是，升级 ztunnel
+**将**导致升级节点上所有长寿命 TCP 连接重置，并且 Istio 目前不支持 ztunnel 的金丝雀升级。
 
-建议使用节点封锁和蓝/绿节点池来控制生产环境升级期间应用程序 Pod 流量中断的影响范围。
-有关详细信息，请参阅您的 Kubernetes 提供商文档。
+建议使用节点封锁和蓝/绿节点池来限制生产升级期间应用程序流量重置的影响范围。
+有关详细信息，请参阅 Kubernetes 提供商文档。
 {{< /warning >}}
+
+## 了解 Ambient 升级 {#understanding-ambient-upgrades}
+
+所有 Istio 升级都涉及升级控制平面、数据平面和 Istio CRD。
+由于 Ambient 数据平面分为[两个组件](/zh/docs/ambient/architecture/data-plane)，
+即 ztunnel 和 waypoint，因此升级涉及这些组件的单独步骤。
+这里简要介绍了升级控制平面和 CRD，但本质上与[在 Sidecar 模式下升级这些组件的过程](/zh/docs/setup/upgrade/canary/)相同。
+
+与 Sidecar 模式类似，网关可以使用[修订标签](/zh/docs/setup/upgrade/canary/#stable-revision-labels)来对（{{< gloss >}}Gateway{{</ gloss >}}）升级，
+包括 waypoint 进行细粒度控制，并可通过简单的控件随时回滚。
+但是，与 Sidecar 模式不同，ztunnel 作为 DaemonSet（每个节点的代理）运行，
+这意味着 ztunnel 升级至少一次会影响整个节点。虽然这在许多情况下是可以接受的，
+但具有长 TCP 连接的应用程序可能会中断。在这种情况下，
+我们建议在升级给定节点的 ztunnel 之前使用节点封锁和排空。
+为简单起见，本文档将演示 ztunnel 的就地升级，这可能涉及短暂的停机时间。
 
 ## 先决条件 {#prerequisites}
 
-1. 更新 Helm 仓库：
+### 整理你的标签和修订 {#organize-your-tags-and-revisions}
 
-    {{< text syntax=bash snip_id=update_helm >}}
-    $ helm repo update istio
-    {{< /text >}}
+为了安全地在 Ambient 模式下升级网格，您的网关和命名空间应使用 `istio.io/rev` 标签来指定修订标签，
+该标签控制正在运行的代理版本。我们建议将您的生产集群分成多个标签来组织您的升级。
+给定标签的所有成员将同时升级，因此最好从风险最低的应用程序开始升级。
+我们不建议直接通过标签引用修订进行升级，因为此过程很容易导致意外升级大量代理，
+并且难以细分。要查看您在集群中使用的标签和修订，请参阅有关升级标签的部分。
 
-## 就地升级 {#in-place-upgrade}
+### 准备升级 {#prepare-for-the-upgrade}
 
-您可以使用 Helm 升级工作流程在集群中就地升级 Istio。
-
-在升级 Istio 之前，建议先运行 `istioctl x precheck` 命令以确保升级与您的环境兼容。
+在升级 Istio 之前，我们建议下载新版本的 istioctl，
+并运行 `istioctl x precheck` 以确保升级与您的 Ambient 兼容。输出应如下所示：
 
 {{< text syntax=bash snip_id=istioctl_precheck >}}
 $ istioctl x precheck
@@ -44,24 +59,33 @@ $ istioctl x precheck
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 {{< /text >}}
 
-{{< warning >}}
-[Helm 在执行升级时不会升级或删除 CRD](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations)。
-由于此限制，在使用 Helm 升级 Istio 时需要执行额外的步骤。
-{{< /warning >}}
+现在，更新 Helm 仓库：
 
-### 手动升级 CRD 和 Istio Base Chart {#manually-upgrade-the-crds-and-istio-base-chart}
+{{< text syntax=bash snip_id=update_helm >}}
+$ helm repo update istio
+{{< /text >}}
 
-1. 升级 Kubernetes 自定义资源定义 ({{< gloss "crd" >}}CRD{{</ gloss >}})：
+### 选择修订名称 {#choose-a-revision-name}
 
-    {{< text syntax=bash snip_id=manual_crd_upgrade >}}
-    $ kubectl apply -f manifests/charts/base/crds
-    {{< /text >}}
+修订标识了 Istio 控制平面的唯一实例，允许您在单个网格中同时运行控制平面的多个不同版本。
 
-1. 升级 Istio Base Chart：
+建议修订版本保持不变，也就是说，一旦使用特定修订版本名称安装了控制平面，
+就不应修改安装，也不应重用修订版本名称。另一方面，标签是指向修订版本的可变指针。
+这使集群操作员能够进行数据平面升级，而无需调整任何工作负载标签，
+只需将标签从一个修订版本移动到下一个修订版本即可。所有数据平面将仅连接到一个控制平面，
+该控制平面由 `istio.io/rev` 标签（指向修订版本或标签）指定，
+如果不存在 `istio.io/rev` 标签，则由默认修订版本指定。
+升级数据平面只需通过修改标签或编辑标签来更改它指向的控制平面即可。
 
-    {{< text syntax=bash snip_id=upgrade_base >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
-    {{< /text >}}
+由于修订版本是不可变的，我们建议选择与您正在安装的 Istio 版本相对应的修订版本名称，
+例如 `1-22-1`。除了选择新的修订版本名称外，您还应该记下当前的修订版本名称。您可以通过运行以下命令找到它：
+
+{{< text syntax=bash snip_id=list_revisions >}}
+$ kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
+$ # Store your revision and new revision in variables:
+$ export REVISION=istio-1-22-1
+$ export OLD_REVISION=istio-1-21-2
+{{< /text >}}
 
 ### 升级 Istio Discovery 组件 {#upgrade-the-istio-discovery-component}
 
