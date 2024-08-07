@@ -87,25 +87,32 @@ $ export REVISION=istio-1-22-1
 $ export OLD_REVISION=istio-1-21-2
 {{< /text >}}
 
-### 升级 Istio Discovery 组件 {#upgrade-the-istio-discovery-component}
+## 升级 Istio CRD {#upgrade-the-istio-crds}
 
-Istiod 是管理和配置代理以在 Ambient 网格中路由流量的控制平面组件。
+在部署新版本的控制平面之前，必须升级集群范围的 Custom Resource Definitions（CRD）：
 
-{{< text syntax=bash snip_id=upgrade_istiod >}}
-$ helm upgrade istiod istio/istiod -n istio-system
+{{< text bash >}}
+$ kubectl apply -f manifests/charts/base/crds
 {{< /text >}}
 
-### 升级 ztunnel 组件 {#upgrade-the-ztunnel-component}
+## 安装新的控制平面 {#install-the-new-control-plane}
 
-ztunnel DaemonSet 是节点代理组件。
+[Istiod](/zh/docs/ops/deployment/architecture/#istiod) 控制平面管理和配置在网格内路由流量的代理。
+以下命令将在当前实例旁边安装控制平面的新实例，但不会引入任何新代理，也不会接管现有代理的控制权。
 
-{{< warning >}}
-由于 Ambient 模式尚未稳定，以下声明不是兼容性保证，后续可能会变更或移除。
-在达到稳定状态之前，此组件和/或控制平面可能会有破坏性变更，使得次要版本之间互不兼容。
-{{< /warning >}}
+如果您已经定制了 istiod 安装，则可以重用以前升级或安装中的 `values.yaml` 文件，以保持控制平面的一致性。
 
-只要 ztunnel 的版本差距不超过一个次要版本，1.x 版本总体上与 1.x+1 和 1.x 版本的控制平面兼容，
-这意味着必须先升级控制平面，再升级 ztunnel。
+{{< text syntax=bash snip_id=upgrade_istiod >}}
+$ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
+{{< /text >}}
+
+## 升级 ztunnel DaemonSet {#upgrade-the-ztunnel-daemonset}
+
+{{< gloss >}}ztunnel{{< /gloss >}} DaemonSet 是节点代理组件。
+1.x 版本的 ztunnel 与 1.x+1 和 1.x 版本的控制平面兼容。这意味着，
+只要控制平面的版本差异在一个次要版本以内，就必须在升级 ztunnel 之前升级控制平面。
+如果您之前已自定义 ztunnel 安装，则可以重用以前升级或安装中的 `values.yaml` 文件，
+以保持{{< gloss "data plane" >}}数据平面{{< /gloss >}}的一致性。
 
 {{< warning >}}
 就地升级 ztunnel 将短暂中断节点上的所有 Ambient 模式流量。
@@ -114,22 +121,17 @@ ztunnel DaemonSet 是节点代理组件。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_ztunnel >}}
-$ helm upgrade ztunnel istio/ztunnel -n istio-system
+$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
 {{< /text >}}
 
-### 升级 CNI 组件 {#upgrade-the-cni-component}
+## 升级 CNI DaemonSet {#upgrade-the-cni-daemonset}
 
 Istio CNI 代理负责检测添加到 Ambient 网格的 Pod，
 通知 ztunnel 应在添加的 Pod 内建立代理端口，并在 Pod 网络命名空间内配置流量重定向。
 它不是数据平面或控制平面的一部分。
 
-{{< warning >}}
-由于 Ambient 模式尚未稳定，以下声明不具备兼容性保证，可能会变更或移除。
-在达到稳定状态之前，该组件和/或控制平面可能会受到破坏性变更，从而阻碍次要版本之间的兼容性。
-{{< /warning >}}
-
-CNI 1.x 版本通常与 1.x+1 和 1.x 版本的控制平面兼容，
-这意味着控制平面必须在 Istio CNI 之前升级，需要它们之前的版本差异在一个次要版本之内。
+1.x 版本的 CNI 与 1.x+1 和 1.x 版本的控制平面兼容。这意味着，
+只要控制平面和 Istio CNI 的版本差异在一个小版本以内，就必须在升级控制平面之前对其进行升级。
 
 {{< warning >}}
 将 Istio CNI 代理就地升级到兼容版本不会中断已成功添加到一个 Ambient 网格中正在运行 Pod 的网络，
@@ -142,39 +144,48 @@ CNI 1.x 版本通常与 1.x+1 和 1.x 版本的控制平面兼容，
 $ helm upgrade istio-cni istio/cni -n istio-system
 {{< /text >}}
 
-### 升级 Gateway 组件（可选） {#upgrade-the-gateway-component-optional}
+## 通过标签升级 waypoint 和网关 {#upgrade-waypoints-and-gateways-using-tags}
 
-Gateway 组件管理 Ambient 模式边界之间的东西向和南北向数据平面流量，
-以及 L7 数据平面的某些方面。
+如果您遵循了最佳实践，则所有网关、工作负载和命名空间都使用默认修订版本（实际上是名为 `default` 的标签）
+或 `istio.io/rev` 标签，其值设置为标签名称。
+现在，您可以通过移动它们的标签以指向新版本（一次一个）来将它们全部升级到 Istio 数据平面的新版本。
+要列出集群中的所有标签，请运行：
+
+{{< text syntax=bash snip_id=list_tags >}}
+$ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,istio\.io/rev
+{{< /text >}}
+
+对于每个标签，您可以通过运行以下命令来升级标签，
+将 `$MYTAG` 替换为您的标签名称，将 `$REVISION` 替换为您的修订名称：
+
+{{< text syntax=bash snip_id=upgrade_tag >}}
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+这将升级引用该标签的所有对象，
+但使用[手动网关部署模式](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment)的对象除外（下文将处理），
+以及未在 Ambient 模式下使用的 Sidecar。
+
+建议您在升级下一个标签之前密切监控使用升级后的数据平面的应用程序的运行状况。
+如果检测到问题，您可以回滚标签，将其重置为指向旧修订版本的名称：
+
+{{< text syntax=bash snip_id=rollback_tag >}}
+$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
+{{< /text >}}
+
+### 升级手动部署的网关（可选） {#upgrade-manually-deployed-gateways-optional}
+
+必须使用 Helm 单独升级[手动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) 的 `Gateway`：
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 {{< /text >}}
 
-## 配置 {#configuration}
+## 卸载之前的控制平面 {#uninstall-the-previous-control-plane}
 
-要查看已被支持的配置选项和文档，请运行：
+如果您已升级所有数据平面组件以使用新版本的 Istio，
+并且认为不需要回滚，则可以通过运行以下命令删除以前版本的控制平面：
 
-{{< text syntax=bash snip_id=show_istiod_values >}}
-$ helm show values istio/istiod
+{{< text syntax=bash snip_id=none >}}
+$ helm delete istiod-"$REVISION" -n istio-system
 {{< /text >}}
-
-## 验证安装 {#verify-the-installation}
-
-### 验证工作负载状态 {#verify-the-workload-status}
-
-安装所有组件后，您可以使用以下命令检查 Helm 部署状态：
-
-{{< text syntax=bash snip_id=show_components >}}
-$ helm list -n istio-system
-{{< /text >}}
-
-您可以使用以下命令检查已部署的 Istio Pod 的状态：
-
-{{< text syntax=bash snip_id=check_pods >}}
-$ kubectl get pods -n istio-system
-{{< /text >}}
-
-## 卸载 {#uninstall}
-
-请参阅 [Helm 安装指南](/zh/docs/ambient/install/helm-installation/#uninstall)中的卸载部分。
