@@ -160,41 +160,47 @@ $ kubectl -n istio-system patch deployment istiod \
 deployment.extensions "istiod" patched
 {{< /text >}}
 
-### `no such hosts` or `no endpoints available` errors in deployment status
+### Errors in deployment status
 
-Injection is fail-close. If the `istio-sidecar-injector` pod is not ready, pods
-cannot be created. In such cases you’ll see an error about `no endpoints available`.
+When automatic sidecar injection is enabled for a pod, and the injection fails for any reason, the pod creation
+will also fail. In such cases, you can check the deployment status of the pod to identify the error. The errors
+will also appear in the events of the namespace associated with the deployment.
 
-{{< text plain >}}
-Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
-    Post https://istio-sidecar-injector.istio-system.svc:443/admitPilot?timeout=30s: \
-    no endpoints available for service "istio-sidecar-injector"
+For example, if the `istiod` control plane pod was not running when you tried to deploy your pod, the events would show the following error:
+
+{{< text bash >}}
+$ kubectl get events -n sleep
+...
+23m Normal   SuccessfulCreate replicaset/sleep-9454cc476  Created pod: sleep-9454cc476-khp45
+22m Warning  FailedCreate     replicaset/sleep-9454cc476  Error creating: Internal error occurred: failed calling webhook "namespace.sidecar-injector.istio.io": failed to call webhook: Post "https://istiod.istio-system.svc:443/inject?timeout=10s": dial tcp 10.96.44.51:443: connect: connection refused
 {{< /text >}}
 
 {{< text bash >}}
-$  kubectl -n istio-system get pod -listio=sidecar-injector
+$ kubectl -n istio-system get pod -lapp=istiod
 NAME                            READY     STATUS    RESTARTS   AGE
-istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
+istiod-7d46d8d9db-jz2mh         1/1       Running     0         2d
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get endpoints istio-sidecar-injector
-NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:15014,10.48.6.108:443   3d
+$ kubectl -n istio-system get endpoints istiod
+NAME           ENDPOINTS                                                  AGE
+istiod   10.244.2.8:15012,10.244.2.8:15010,10.244.2.8:15017 + 1 more...   3h18m
 {{< /text >}}
 
-If the pods or endpoints aren't ready, check the pod logs and status
+If the istiod pod or endpoints aren't ready, check the pod logs and status
 for any indication about why the webhook pod is failing to start and
 serve traffic.
 
 {{< text bash >}}
-$ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o jsonpath='{.items[*].metadata.name}'); do \
+$ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
     kubectl -n istio-system logs ${pod} \
 done
 
-$ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o name); do \
-    kubectl -n istio-system describe ${pod} \
+
+$ for pod in $(kubectl -n istio-system get pod -l app=istiod -o name); do \
+kubectl -n istio-system describe ${pod}; \
 done
+$
 {{< /text >}}
 
 ## Automatic sidecar injection fails if the Kubernetes API server has proxy settings
