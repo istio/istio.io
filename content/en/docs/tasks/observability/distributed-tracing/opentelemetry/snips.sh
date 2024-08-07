@@ -29,6 +29,7 @@ spec:
       port: 4317
       protocol: TCP
       targetPort: 4317
+      appProtocol: grpc
 ENDSNIP
 
 snip_install_otlp_http() {

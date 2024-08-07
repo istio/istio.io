@@ -55,7 +55,7 @@ EOF
 {{< /text >}}
 
 {{< warning >}}
-To actually receive traces, make sure your OpenTelemetry Collector service's gRPC port starts with the `grpc-` prefix, which is like:
+To actually receive traces, you need to [explicitly set the protocol](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection). Ensure that the gRPC port for your OpenTelemetry Collector service has either the `appProtocol` set to `grpc` or that its name starts with the `grpc-` prefix. The following example demonstrates both configurations:
 
 {{< text syntax=yaml >}}
 spec:
@@ -64,6 +64,7 @@ spec:
       port: 4317
       protocol: TCP
       targetPort: 4317
+      appProtocol: grpc
 {{< /text >}}
 
 Otherwise the traces may not be reported.
