@@ -166,7 +166,7 @@ When automatic sidecar injection is enabled for a pod, and the injection fails f
 will also fail. In such cases, you can check the deployment status of the pod to identify the error. The errors
 will also appear in the events of the namespace associated with the deployment.
 
-For example, if the `istio` control plane pod was not running when you tried to deploy your pod, the events would show the following error.
+For example, if the `istiod` control plane pod was not running when you tried to deploy your pod, the events would show the following error:
 
 {{< text bash >}}
 $ kubectl get events -n sleep
