@@ -79,7 +79,7 @@ trafficPolicy:
 来访问一个内部的服务。举个例子，您的 `VirtualService` 配置可能和如下配置类似：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -102,7 +102,7 @@ spec:
 您还有一个 `VirtualService` 将访问 helloworld 服务的流量路由至该服务的一个特定子集：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld
@@ -128,7 +128,7 @@ helloworld `VirtualService`，其中的规则直接将流量路由至 v1 子集�
 的配置中包含此子集规则：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -152,7 +152,7 @@ spec:
 或者，您可以尽可能地将两个 `VirtualService` 配置合并成一个：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: myapp
@@ -343,7 +343,7 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
 将在转发请求时尝试将请求解析为 HTTP，这会使 HTTP 被意外加密，从而导致失败。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: httpbin
@@ -384,7 +384,7 @@ spec:
 #### 网关终止 TLS {#gateway-with-TLS-termination}
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -403,7 +403,7 @@ spec:
       mode: SIMPLE
       credentialName: sds-credential
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -443,7 +443,7 @@ spec:
 #### 网关启用 TLS 透传 {#gateway-with-TLS-passthrough}
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: gateway
@@ -460,7 +460,7 @@ spec:
     tls:
       mode: PASSTHROUGH
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: virtual-service
@@ -510,7 +510,7 @@ spec:
 `ServiceEntry` 在端口 443 上将协议定义为 HTTPS。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: httpbin
@@ -523,7 +523,7 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: originate-tls
@@ -668,7 +668,7 @@ spec:
 目前，Istio 不支持在同一个 `VirtualService` 上配置故障注入和重试或超时策略。考虑以下配置：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld

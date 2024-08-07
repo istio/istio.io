@@ -26,7 +26,7 @@ Bash text block with redirection
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 {{< /text >}}
 

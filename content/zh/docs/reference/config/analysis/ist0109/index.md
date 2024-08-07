@@ -25,7 +25,7 @@ test: no
 * VirtualService 都定义了相同的主机 `productpage.default.svc.cluster.local`。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: productpage
@@ -38,7 +38,7 @@ spec:
     - destination:
         host: productpage
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: custom
@@ -56,7 +56,7 @@ spec:
 您可以通过设置 `exportTo` 字段为 `.` 来解决此问题，让每个 VirtualService 都只限定在自己的命名空间：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: productpage
@@ -71,7 +71,7 @@ spec:
     - destination:
         host: productpage
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: custom

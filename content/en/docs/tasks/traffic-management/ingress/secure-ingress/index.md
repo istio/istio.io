@@ -120,7 +120,7 @@ secret's name. The TLS mode should have the value of `SIMPLE`.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -145,7 +145,7 @@ virtual service:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -349,7 +349,7 @@ respectively. Set TLS mode to `SIMPLE`.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -382,7 +382,7 @@ Configure the gateway's traffic routes by defining a corresponding virtual servi
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld
@@ -538,7 +538,7 @@ Change the gateway's definition to set the TLS mode to `MUTUAL`.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway

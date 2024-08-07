@@ -113,7 +113,7 @@ Envoy 会在所有的服务实例中使用轮询的负载均衡策略分发请�
 下面的虚拟服务根据请求是否来自特定的用户，把它们路由到服务的不同版本。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews
@@ -225,7 +225,7 @@ destination 片段还指定了 Kubernetes 服务的子集，将符合此规则�
 虚拟服务规则根据请求的 URI 和指向适当服务的请求匹配流量。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bookinfo
@@ -311,7 +311,7 @@ Istio 流量路由功能的关键部分。您可以将虚拟服务视为将流�
 在下面的示例中，目标规则为 `my-svc` 目标服务配置了 3 个具有不同负载均衡策略的子集：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: my-destination-rule
@@ -371,7 +371,7 @@ Istio 提供了一些预先配置好的网关代理部署（`istio-ingressgatewa
 下面的示例展示了一个外部 HTTPS 入口流量的网关配置：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: ext-host-gwy
@@ -395,7 +395,7 @@ spec:
 正如下面的示例所示，使用虚拟服务的 `gateways` 字段进行设置：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: virtual-svc
@@ -428,7 +428,7 @@ spec:
 Istio 的服务注册中心：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: svc-entry
@@ -450,7 +450,7 @@ spec:
 下面的目标规则调整了使用服务入口配置的 `ext-svc.example.com` 外部服务的连接超时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: ext-res-dr
@@ -482,7 +482,7 @@ spec:
 控制平面中的服务（Istio 的 Egress 和遥测功能需要使用）：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: default
@@ -514,7 +514,7 @@ Istio 允许您使用[虚拟服务](#virtual-services)按服务轻松地动态�
 下面的示例是一个虚拟服务，它对 ratings 服务的 v1 子集的调用指定 10 秒超时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings
@@ -542,7 +542,7 @@ spec:
 下面的示例配置了在初始调用失败后最多重试 3 次来连接到服务子集，每个重试都有 2 秒的超时。
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings
@@ -570,7 +570,7 @@ spec:
 让配置应用于服务中的每个主机。下面的示例将 v1 子集的 `reviews` 服务工作负载的并发连接数限制为 100：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews
@@ -612,7 +612,7 @@ spec:
 例如，下面的虚拟服务为千分之一的访问 `ratings` 服务的请求配置了一个 5 秒的延迟：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings

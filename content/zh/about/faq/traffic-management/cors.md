@@ -18,7 +18,7 @@ CORS 是一个经常被误解的 HTTP 概念，在配置时经常会导致混淆
 服务，我们可以通过配置一个 `corsPolicy` 来允许这样做：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bank

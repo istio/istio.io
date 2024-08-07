@@ -69,7 +69,7 @@ spec:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-address
@@ -129,7 +129,7 @@ TCP 携带的信息更少，只能在目标 IP 和端口号上路由。由于后
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-auto
@@ -212,7 +212,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: external-svc-1
@@ -225,7 +225,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
         protocol: TCP
       resolution: DNS
     ---
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: external-svc-2

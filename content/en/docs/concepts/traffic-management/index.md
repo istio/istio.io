@@ -155,7 +155,7 @@ requests to different versions of a service depending on whether the request
 comes from a particular user.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews
@@ -287,7 +287,7 @@ virtual service rules match traffic based on request URIs and direct requests to
 the appropriate service.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bookinfo
@@ -392,7 +392,7 @@ The following example destination rule configures three different subsets for
 the `my-svc` destination service, with different load balancing policies:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: my-destination-rule
@@ -468,7 +468,7 @@ The following example shows a possible gateway configuration for external HTTPS
 ingress traffic:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: ext-host-gwy
@@ -495,7 +495,7 @@ the gateway to a virtual service. You do this using the virtual service’s
 `gateways` field, as shown in the following example:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: virtual-svc
@@ -536,7 +536,7 @@ The following example mesh-external service entry adds the `ext-svc.example.com`
 external dependency to Istio’s service registry:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: svc-entry
@@ -561,7 +561,7 @@ adjusts the TCP connection timeout for requests to the `ext-svc.example.com`
 external service that we configured using the service entry:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: ext-res-dr
@@ -598,7 +598,7 @@ same namespace and the Istio control plane (needed by Istio’s
 egress and telemetry features):
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: default
@@ -639,7 +639,7 @@ service code. Here’s a virtual service that specifies a 10 second timeout for
 calls to the v1 subset of the ratings service:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings
@@ -676,7 +676,7 @@ configures a maximum of 3 retries to connect to this service subset after an
 initial call failure, each with a 2 second timeout.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings
@@ -711,7 +711,7 @@ concurrent connections for the `reviews` service workloads of the v1 subset to
 100:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews
@@ -764,7 +764,7 @@ For example, this virtual service introduces a 5 second delay for 1 out of every
 requests to the `ratings` service.
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings

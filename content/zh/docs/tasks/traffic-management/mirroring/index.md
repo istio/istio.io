@@ -140,7 +140,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: httpbin
@@ -154,7 +154,7 @@ test: yes
             subset: v1
           weight: 100
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: httpbin
@@ -264,7 +264,7 @@ test: yes
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: httpbin

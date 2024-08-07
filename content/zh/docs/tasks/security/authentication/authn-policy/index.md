@@ -120,7 +120,7 @@ $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metad
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"
@@ -178,7 +178,7 @@ $ kubectl delete peerauthentication -n istio-system default
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"
@@ -214,7 +214,7 @@ sleep.legacy to httpbin.legacy: 200
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "httpbin"
@@ -257,7 +257,7 @@ command terminated with exit code 56
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n bar -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "httpbin"
@@ -300,7 +300,7 @@ TLS，发现从 `sleep.legacy` 到 `httpbin.foo` 的请求都会失败（如上�
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "overwrite-example"

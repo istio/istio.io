@@ -232,7 +232,7 @@ ENDSNIP
 
 snip_get_external_istiod_gateway_config() {
 cat <<EOF > external-istiod-gw.yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: external-istiod-gw
@@ -260,7 +260,7 @@ spec:
       hosts:
       - $EXTERNAL_ISTIOD_ADDR
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
    name: external-istiod-vs
@@ -286,7 +286,7 @@ spec:
           port:
             number: 443
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: external-istiod-dr

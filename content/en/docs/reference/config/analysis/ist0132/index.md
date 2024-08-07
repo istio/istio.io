@@ -18,7 +18,7 @@ Warning [IST0132] (VirtualService testing-service.default testing.yaml:8) one or
 when your cluster has the following virtual service:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: testing-service
@@ -40,7 +40,7 @@ spec:
 and the following Gateway:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: testing-gateway

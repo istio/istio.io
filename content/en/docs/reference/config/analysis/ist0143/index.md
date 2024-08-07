@@ -52,7 +52,7 @@ If you do want to expose the application to other pods, there are two options:
   For example, with the above application:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ratings

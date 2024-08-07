@@ -64,7 +64,7 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
 
     {{< text syntax=bash snip_id=apply_simple >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: edition-cnn-com
@@ -119,7 +119,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
     {{< text syntax=bash snip_id=apply_origination >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: edition-cnn-com
@@ -136,7 +136,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
         protocol: HTTPS
       resolution: DNS
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: edition-cnn-com
@@ -414,7 +414,7 @@ to hold the configuration of the NGINX server:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: originate-mtls-for-nginx
@@ -431,7 +431,7 @@ to hold the configuration of the NGINX server:
         protocol: HTTPS
       resolution: DNS
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: originate-mtls-for-nginx

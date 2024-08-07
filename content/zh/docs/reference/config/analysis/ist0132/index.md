@@ -12,7 +12,7 @@ test: no
 当您的集群中包含以下 VirtualService 时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: testing-service
@@ -34,7 +34,7 @@ spec:
 同时还包含如下 Gateway:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: testing-gateway

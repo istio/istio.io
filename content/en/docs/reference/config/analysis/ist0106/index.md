@@ -17,7 +17,7 @@ Error [IST0106] (VirtualService ratings-bogus-weight-default.default) Schema val
 and your Istio configuration contains these values:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings-bogus-weight-default

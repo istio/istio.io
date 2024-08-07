@@ -95,7 +95,7 @@ ENDSNIP
 
 snip_globally_enabling_istio_mutual_tls_in_strict_mode_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"
@@ -130,7 +130,7 @@ kubectl delete peerauthentication -n istio-system default
 
 snip_namespacewide_policy_1() {
 kubectl apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "default"
@@ -160,7 +160,7 @@ ENDSNIP
 
 snip_enable_mutual_tls_per_workload_1() {
 cat <<EOF | kubectl apply -n bar -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "httpbin"
@@ -200,7 +200,7 @@ ENDSNIP
 
 snip_enable_mutual_tls_per_workload_4() {
 cat <<EOF | kubectl apply -n bar -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "httpbin"
@@ -236,7 +236,7 @@ ENDSNIP
 
 snip_policy_precedence_1() {
 cat <<EOF | kubectl apply -n foo -f -
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: "overwrite-example"

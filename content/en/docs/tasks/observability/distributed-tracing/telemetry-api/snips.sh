@@ -41,7 +41,7 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 
 snip_enable_tracing_for_mesh_1() {
 kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -55,7 +55,7 @@ EOF
 
 snip_customizing_trace_sampling_1() {
 kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -69,7 +69,7 @@ EOF
 }
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_1 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
 name: mesh-default
@@ -86,7 +86,7 @@ tracing:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_2 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -104,7 +104,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_3 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default

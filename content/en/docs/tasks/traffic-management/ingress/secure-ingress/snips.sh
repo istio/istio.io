@@ -84,7 +84,7 @@ kubectl create -n istio-system secret tls httpbin-credential \
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_2() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -106,7 +106,7 @@ EOF
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_3() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -268,7 +268,7 @@ kubectl create -n istio-system secret tls helloworld-credential \
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_4() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -299,7 +299,7 @@ EOF
 
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_5() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld
@@ -422,7 +422,7 @@ kubectl create -n istio-system secret generic httpbin-credential \
 
 snip_configure_a_mutual_tls_ingress_gateway_2() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway

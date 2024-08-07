@@ -18,7 +18,7 @@ Warning [IST0134] (ServiceEntry service-entry.default serviceentry.yaml:13) Serv
 When your cluster has the following `ServiceEntry` with unset `protocol` and missing `addresses`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: service-entry
@@ -38,7 +38,7 @@ spec:
 Another example of this analyzer is when you have a `ServiceEntry` with `protocol: TCP` and missing `addresses`:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: service-entry

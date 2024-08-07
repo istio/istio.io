@@ -64,7 +64,7 @@ Then enable the tracing provider via Telemetry API. Note we don't set `randomSam
 
 {{< text syntax=bash snip_id=enable_telemetry_no_sampling >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -131,7 +131,7 @@ Then enable the tracing provider via Telemetry API and set the `randomSamplingPe
 
 {{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
    name: otel-demo

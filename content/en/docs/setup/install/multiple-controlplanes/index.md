@@ -91,7 +91,7 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: PeerAuthentication
     metadata:
       name: "usergroup-1-peerauth"
@@ -106,7 +106,7 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: PeerAuthentication
     metadata:
       name: "usergroup-2-peerauth"

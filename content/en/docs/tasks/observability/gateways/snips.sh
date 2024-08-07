@@ -40,7 +40,7 @@ kubectl create -n istio-system secret tls telemetry-gw-cert --key=${CERT_DIR}/tl
 
 snip_option_1_secure_access_https_2() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: grafana-gateway
@@ -59,7 +59,7 @@ spec:
     hosts:
     - "grafana.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: grafana-vs
@@ -76,7 +76,7 @@ spec:
         port:
           number: 3000
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: grafana
@@ -98,7 +98,7 @@ ENDSNIP
 
 snip_option_1_secure_access_https_3() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: kiali-gateway
@@ -117,7 +117,7 @@ spec:
     hosts:
     - "kiali.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: kiali-vs
@@ -134,7 +134,7 @@ spec:
         port:
           number: 20001
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: kiali
@@ -156,7 +156,7 @@ ENDSNIP
 
 snip_option_1_secure_access_https_4() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: prometheus-gateway
@@ -175,7 +175,7 @@ spec:
     hosts:
     - "prometheus.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: prometheus-vs
@@ -192,7 +192,7 @@ spec:
         port:
           number: 9090
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: prometheus
@@ -214,7 +214,7 @@ ENDSNIP
 
 snip_option_1_secure_access_https_5() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: tracing-gateway
@@ -233,7 +233,7 @@ spec:
     hosts:
     - "tracing.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: tracing-vs
@@ -250,7 +250,7 @@ spec:
         port:
           number: 80
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: tracing
@@ -272,7 +272,7 @@ ENDSNIP
 
 snip_option_2_insecure_access_http_1() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: grafana-gateway
@@ -288,7 +288,7 @@ spec:
     hosts:
     - "grafana.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: grafana-vs
@@ -305,7 +305,7 @@ spec:
         port:
           number: 3000
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: grafana
@@ -327,7 +327,7 @@ ENDSNIP
 
 snip_option_2_insecure_access_http_2() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: kiali-gateway
@@ -343,7 +343,7 @@ spec:
     hosts:
     - "kiali.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: kiali-vs
@@ -360,7 +360,7 @@ spec:
         port:
           number: 20001
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: kiali
@@ -382,7 +382,7 @@ ENDSNIP
 
 snip_option_2_insecure_access_http_3() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: prometheus-gateway
@@ -398,7 +398,7 @@ spec:
     hosts:
     - "prometheus.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: prometheus-vs
@@ -415,7 +415,7 @@ spec:
         port:
           number: 9090
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: prometheus
@@ -437,7 +437,7 @@ ENDSNIP
 
 snip_option_2_insecure_access_http_4() {
 cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: tracing-gateway
@@ -453,7 +453,7 @@ spec:
     hosts:
     - "tracing.${INGRESS_DOMAIN}"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: tracing-vs
@@ -470,7 +470,7 @@ spec:
         port:
           number: 80
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: tracing

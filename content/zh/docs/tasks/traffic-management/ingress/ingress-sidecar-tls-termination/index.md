@@ -38,7 +38,7 @@ test: yes
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -55,7 +55,7 @@ TLS 终止。请注意，这里是 httpbin 服务的 `targetPort`，专门用于
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: disable-peer-auth-for-external-mtls-port
@@ -169,7 +169,7 @@ EOF
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ingress-sidecar

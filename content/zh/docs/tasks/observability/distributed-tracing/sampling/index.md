@@ -64,7 +64,7 @@ EOF
 
 {{< text syntax=bash snip_id=enable_telemetry_no_sampling >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -131,7 +131,7 @@ EOF
 
 {{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
    name: otel-demo

@@ -111,7 +111,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: my-httpbin
@@ -210,7 +210,7 @@ $ kubectl delete service my-httpbin
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: my-wikipedia

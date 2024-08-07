@@ -105,7 +105,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: my-httpbin
@@ -204,7 +204,7 @@ $ kubectl delete service my-httpbin
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: my-wikipedia

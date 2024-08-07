@@ -98,7 +98,7 @@ $ istioctl install --set profile=minimal -y \
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: wikipedia
@@ -141,7 +141,7 @@ $ kubectl delete serviceentry wikipedia
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -158,7 +158,7 @@ spec:
     tls:
       mode: PASSTHROUGH
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-wikipedia
@@ -167,7 +167,7 @@ spec:
   subsets:
     - name: wikipedia
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: direct-wikipedia-through-egress-gateway
@@ -261,7 +261,7 @@ spec:
       name: www.wikipedia.org
       port: 443
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: wikipedia
@@ -283,7 +283,7 @@ EOF
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: www-wikipedia

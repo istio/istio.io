@@ -53,7 +53,7 @@ EOF
 
 snip_configuring_ingress_routing_based_on_jwt_claims_2() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin

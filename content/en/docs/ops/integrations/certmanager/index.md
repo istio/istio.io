@@ -64,7 +64,7 @@ For example, a `Certificate` may look like:
   This can then be referenced in the `tls` config for a Gateway under `credentialName`:
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: Gateway
     metadata:
       name: gateway
@@ -94,7 +94,7 @@ Alternatively, a `Certificate` can be created as described in [Istio Gateway](#i
 then referenced in the `Ingress` object:
 
 {{< text yaml >}}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress

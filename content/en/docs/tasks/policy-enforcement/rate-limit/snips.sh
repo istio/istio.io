@@ -128,7 +128,7 @@ EOF
 
 snip_global_rate_limit_advanced_case_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: bookinfo

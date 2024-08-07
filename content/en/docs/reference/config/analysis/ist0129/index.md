@@ -19,7 +19,7 @@ Error [IST0129] (DestinationRule db-tls.default) DestinationRule default/db-tls 
 when your cluster has the following destination rule:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: db-tls

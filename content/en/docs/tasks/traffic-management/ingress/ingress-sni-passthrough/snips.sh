@@ -151,7 +151,7 @@ ENDSNIP
 
 snip_configure_an_ingress_gateway_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -193,7 +193,7 @@ EOF
 
 snip_configure_an_ingress_gateway_3() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: nginx

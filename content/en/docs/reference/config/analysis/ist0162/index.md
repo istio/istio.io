@@ -13,7 +13,7 @@ For example, your Istio configuration contains these values:
 {{< text yaml >}}
 # Gateway with bogus ports
 
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-ingressgateway
@@ -71,7 +71,7 @@ Here's a corrected example:
 {{< text yaml >}}
 # Gateway with correct ports
 
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: istio-ingressgateway

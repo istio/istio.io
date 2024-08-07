@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_request_timeouts_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews
@@ -59,7 +59,7 @@ EOF
 
 snip_request_timeouts_3() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings
@@ -81,7 +81,7 @@ EOF
 
 snip_request_timeouts_4() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: ratings
@@ -102,7 +102,7 @@ EOF
 
 snip_request_timeouts_5() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews

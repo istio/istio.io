@@ -37,7 +37,7 @@ gateways and sidecars in the inbound and outbound direction, use the following:
 
 {{< text bash >}}
 $ cat <<EOF > ./custom_metrics.yaml
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: namespace-metrics

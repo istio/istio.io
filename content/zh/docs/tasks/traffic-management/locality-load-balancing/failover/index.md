@@ -50,7 +50,7 @@ owner: istio/wg-networking-maintainers
 
 {{< text bash >}}
 $ kubectl --context="${CTX_PRIMARY}" apply -n sample -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: helloworld

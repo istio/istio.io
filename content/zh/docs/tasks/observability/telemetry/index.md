@@ -94,7 +94,7 @@ Telemetry API 资源从网格的根配置命名空间（通常是 `istio-system`
 以下是上一节中使用提供程序配置的示例配置：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -120,7 +120,7 @@ spec:
 例如：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: namespace-override
@@ -152,7 +152,7 @@ spec:
 例如：
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: workload-override

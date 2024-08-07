@@ -37,7 +37,7 @@ Only configurations matching the specified criteria will be seen by sidecars imp
 For example:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: default

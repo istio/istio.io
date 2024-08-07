@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_configuring_the_circuit_breaker_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: httpbin

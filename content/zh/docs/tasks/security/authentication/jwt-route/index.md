@@ -84,7 +84,7 @@ Istio 入口网关支持基于经过身份验证的 JWT 的路由，
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: httpbin

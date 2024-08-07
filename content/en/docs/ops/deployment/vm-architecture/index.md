@@ -68,7 +68,7 @@ Rather, these resources just reference these workloads and inform Istio how to c
 When adding a virtual machine workload to the mesh, you will need to create a `WorkloadGroup` that acts as template for each `WorkloadEntry` instance:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: product-vm
@@ -87,7 +87,7 @@ Once a virtual machine has been [configured and added to the mesh](/docs/setup/i
 For example:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: WorkloadEntry
 metadata:
   annotations:

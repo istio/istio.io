@@ -143,7 +143,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: httpbin
@@ -157,7 +157,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
             subset: v1
           weight: 100
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: httpbin
@@ -266,7 +266,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: httpbin

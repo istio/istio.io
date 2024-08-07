@@ -38,7 +38,7 @@ Apply the following `PeerAuthentication` policy to require mTLS traffic for all 
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -54,7 +54,7 @@ Disable `PeerAuthentication` for the port of the httpbin service which will perf
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: disable-peer-auth-for-external-mtls-port
@@ -167,7 +167,7 @@ The TLS mode can be `SIMPLE` or `MUTUAL`. This example uses `MUTUAL`.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ingress-sidecar

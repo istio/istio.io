@@ -105,7 +105,7 @@ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
 
 snip_create_files_to_transfer_to_the_virtual_machine_1() {
 cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: "${VM_APP}"
@@ -122,7 +122,7 @@ EOF
 
 snip_create_wg() {
 cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: "${VM_APP}"
@@ -143,7 +143,7 @@ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 
 snip_create_files_to_transfer_to_the_virtual_machine_4() {
 cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: WorkloadGroup
 metadata:
   name: "${VM_APP}"

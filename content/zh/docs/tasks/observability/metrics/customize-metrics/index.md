@@ -35,7 +35,7 @@ Istio 可以生成各种仪表盘所使用的遥测数据，帮助您直观地�
 
 {{< text bash >}}
 $ cat <<EOF > ./custom_metrics.yaml
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: namespace-metrics

@@ -40,7 +40,7 @@ In the default profile, the sampling rate is 1%. Increase it to 100% using the [
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default

@@ -12,7 +12,7 @@ test: no
 当您的集群中具有以下 DestinationRule 时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: db-tls

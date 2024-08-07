@@ -88,7 +88,7 @@ mesh-wide behavior, add a new (or edit the existing) `Telemetry` resource in the
 Here is an example configuration that uses the provider configuration from the prior section:
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default
@@ -115,7 +115,7 @@ Any fields specified in the namespace resource will completely override the inhe
 For example:
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: namespace-override
@@ -149,7 +149,7 @@ field configuration from the configuration hierarchy.
 For example:
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: workload-override

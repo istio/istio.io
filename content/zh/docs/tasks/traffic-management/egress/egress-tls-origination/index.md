@@ -64,7 +64,7 @@ test: yes
 
     {{< text syntax=bash snip_id=apply_simple >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: edition-cnn-com
@@ -118,7 +118,7 @@ test: yes
 
     {{< text syntax=bash snip_id=apply_origination >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: edition-cnn-com
@@ -135,7 +135,7 @@ test: yes
         protocol: HTTPS
       resolution: DNS
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: edition-cnn-com
@@ -410,7 +410,7 @@ $ kubectl delete destinationrule edition-cnn-com
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: ServiceEntry
     metadata:
       name: originate-mtls-for-nginx
@@ -427,7 +427,7 @@ $ kubectl delete destinationrule edition-cnn-com
         protocol: HTTPS
       resolution: DNS
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
       name: originate-mtls-for-nginx

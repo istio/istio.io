@@ -18,7 +18,7 @@ Error [IST0101] (VirtualService httpbin.default) Referenced gateway not found: "
 In this example, the `VirtualService` refers to a gateway that does not exist:
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: httpbin-gateway
@@ -33,7 +33,7 @@ spec:
     hosts:
     - "*"
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin

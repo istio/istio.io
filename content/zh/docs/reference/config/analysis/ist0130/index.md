@@ -13,7 +13,7 @@ test: no
 当您的集群中包含下列 Virtual Service 时：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: sample-foo-cluster01

@@ -65,7 +65,7 @@ ENDSNIP
 
 snip_lock_down_to_mutual_tls_by_namespace_1() {
 kubectl apply -n foo -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -100,7 +100,7 @@ ENDSNIP
 
 snip_lock_down_mutual_tls_for_the_entire_mesh_1() {
 kubectl apply -n istio-system -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default

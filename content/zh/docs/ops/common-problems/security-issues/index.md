@@ -25,7 +25,7 @@ test: n/a
    是有效的 url，并且可以在浏览器中打开。
 
     {{< text yaml >}}
-    apiVersion: security.istio.io/v1beta1
+    apiVersion: security.istio.io/v1
     kind: RequestAuthentication
     metadata:
       name: "example-3"
@@ -96,7 +96,7 @@ test: n/a
 一个常见的错误是无意中在 YAML 文件中定义了多个项，例如下面的策略：
 
 {{< text yaml >}}
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: example

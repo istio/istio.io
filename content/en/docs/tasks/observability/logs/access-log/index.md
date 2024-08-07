@@ -28,7 +28,7 @@ Istio offers a few ways to enable access logs. Use of the Telemetry API is recom
 The Telemetry API can be used to enable or disable access logs:
 
 {{< text yaml >}}
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: mesh-default

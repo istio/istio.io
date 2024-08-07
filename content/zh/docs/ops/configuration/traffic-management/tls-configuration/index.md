@@ -95,7 +95,7 @@ Istio 通过名为“自动 mTLS” 的功能使得配置更改容易。自动 m
 例如，如果入站连接是明文的 HTTP，则端口协议配置成 `HTTP`：
 
 {{< text yaml >}}
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 ...
   servers:
@@ -117,7 +117,7 @@ kind: Gateway
     对于直通流量，将 TLS 模式字段配置为 `PASSTHROUGH`：
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: Gateway
     ...
       servers:
@@ -136,7 +136,7 @@ kind: Gateway
     `caCertificates` 或 `credentialName` 请求和验证：
 
     {{< text yaml >}}
-    apiVersion: networking.istio.io/v1beta1
+    apiVersion: networking.istio.io/v1
     kind: Gateway
     ...
       servers:

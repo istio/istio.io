@@ -116,7 +116,7 @@ example.com.key         httpbin.example.com.csr
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -140,7 +140,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: httpbin
@@ -340,7 +340,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway
@@ -373,7 +373,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: helloworld
@@ -532,7 +532,7 @@ EOF
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
   name: mygateway

@@ -37,7 +37,7 @@ EOF
 
 snip_dns_capture_in_action_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-address
@@ -68,7 +68,7 @@ ENDSNIP
 
 snip_address_auto_allocation_1() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-auto
@@ -123,7 +123,7 @@ kubectl -n external-2 apply -f samples/tcp-echo/tcp-echo.yaml
 
 snip_external_tcp_services_without_vips_4() {
 kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-svc-1
@@ -136,7 +136,7 @@ spec:
     protocol: TCP
   resolution: DNS
 ---
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: external-svc-2

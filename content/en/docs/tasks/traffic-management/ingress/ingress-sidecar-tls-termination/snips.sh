@@ -31,7 +31,7 @@ kubectl label namespace test istio-injection=enabled
 
 snip_enable_global_mtls_1() {
 kubectl -n test apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: default
@@ -43,7 +43,7 @@ EOF
 
 snip_disable_peerauthentication_for_the_externally_exposed_httpbin_port_1() {
 kubectl -n test apply -f - <<EOF
-apiVersion: security.istio.io/v1beta1
+apiVersion: security.istio.io/v1
 kind: PeerAuthentication
 metadata:
   name: disable-peer-auth-for-external-mtls-port
@@ -137,7 +137,7 @@ EOF
 
 snip_configure_httpbin_to_enable_external_mtls_1() {
 kubectl -n test apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
   name: ingress-sidecar

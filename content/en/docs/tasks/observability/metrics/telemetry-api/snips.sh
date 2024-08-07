@@ -32,7 +32,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_override_metrics_1 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: remove-tags
@@ -51,7 +51,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_override_metrics_2 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: custom-tags
@@ -76,7 +76,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_disable_metrics_1 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: remove-all-metrics
@@ -93,7 +93,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_disable_metrics_2 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: remove-request-count
@@ -110,7 +110,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_disable_metrics_3 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: remove-client
@@ -127,7 +127,7 @@ spec:
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_disable_metrics_4 <<\ENDSNIP
-apiVersion: telemetry.istio.io/v1alpha1
+apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
   name: remove-server
