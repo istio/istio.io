@@ -149,40 +149,45 @@ $ kubectl -n istio-system patch deployment istio-sidecar-injector \
 deployment.extensions "istio-sidecar-injector" patched
 {{< /text >}}
 
-### Deployment 状态中出现 `no such hosts` 或 `no endpoints available` {#no-such-hosts-or-no-endpoints-available-errors-in-deployment-status}
+### Deployment 状态错误 {#errors-in-deployment-status}
 
-注入是失效关闭的（fail-close）。如果 `istio-sidecar-injector` Pod 尚未准备就绪，
-则无法创建 Pod。在这种情况下，则会出现 `no endpoints available`。
+当为 Pod 启用自动 Sidecar 注入时，如果注入因任何原因失败，
+Pod 创建也会失败。在这种情况下，您可以检查 Pod 的部署状态以识别错误。
+这些错误也会出现在与部署关联的命名空间的事件中。
 
-{{< text plain >}}
-Internal error occurred: failed calling admission webhook "istio-sidecar-injector.istio.io": \
-    Post https://istio-sidecar-injector.istio-system.svc:443/admitPilot?timeout=30s: \
-    no endpoints available for service "istio-sidecar-injector"
+例如，如果在您尝试部署 Pod 时 `istiod` 控制平面 Pod 没有运行，则事件将显示以下错误：
+
+{{< text bash >}}
+$ kubectl get events -n sleep
+...
+23m Normal   SuccessfulCreate replicaset/sleep-9454cc476  Created pod: sleep-9454cc476-khp45
+22m Warning  FailedCreate     replicaset/sleep-9454cc476  Error creating: Internal error occurred: failed calling webhook "namespace.sidecar-injector.istio.io": failed to call webhook: Post "https://istiod.istio-system.svc:443/inject?timeout=10s": dial tcp 10.96.44.51:443: connect: connection refused
 {{< /text >}}
 
 {{< text bash >}}
-$  kubectl -n istio-system get pod -listio=sidecar-injector
+$ kubectl -n istio-system get pod -lapp=istiod
 NAME                            READY     STATUS    RESTARTS   AGE
-istio-sidecar-injector-5dbbbdb746-d676g   1/1       Running   0          2d
+istiod-7d46d8d9db-jz2mh         1/1       Running     0         2d
 {{< /text >}}
 
 {{< text bash >}}
-$ kubectl -n istio-system get endpoints istio-sidecar-injector
-NAME           ENDPOINTS                          AGE
-istio-sidecar-injector   10.48.6.108:15014,10.48.6.108:443   3d
+$ kubectl -n istio-system get endpoints istiod
+NAME           ENDPOINTS                                                  AGE
+istiod   10.244.2.8:15012,10.244.2.8:15010,10.244.2.8:15017 + 1 more...   3h18m
 {{< /text >}}
 
-如果 Pod 或 endpoint 尚未准备就绪，可以通过检查 Pod 日志和状态查找有关
+如果 istiod Pod 或 endpoint 尚未准备就绪，可以通过检查 Pod 日志和状态查找有关
 Webhook Pod 无法启动的原因。
 
 {{< text bash >}}
-$ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o jsonpath='{.items[*].metadata.name}'); do \
+$ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
     kubectl -n istio-system logs ${pod} \
 done
 
-$ for pod in $(kubectl -n istio-system get pod -listio=sidecar-injector -o name); do \
-    kubectl -n istio-system describe ${pod} \
+$ for pod in $(kubectl -n istio-system get pod -l app=istiod -o name); do \
+kubectl -n istio-system describe ${pod}; \
 done
+$
 {{< /text >}}
 
 ## 如果 Kubernetes API server 有代理设置的话，Sidecar 的自动注入功能是不能用的 {#automatic-sidecar-injection-fails-if-the-Kubernetes-API-server-has-proxy-settings}
