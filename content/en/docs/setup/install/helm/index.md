@@ -127,7 +127,7 @@ You can display the default values of configuration parameters using the `helm s
 
     {{< text syntax=bash snip_id=install_ingressgateway >}}
     $ kubectl create namespace istio-ingress
-    $ helm install istio-ingress istio/gateway -n istio-ingress --wait
+    $ helm install istio-ingressgateway istio/gateway -n istio-ingress --wait
     {{< /text >}}
 
     See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
