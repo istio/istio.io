@@ -22,10 +22,10 @@ test: no
 ## 速率限制  {#rate-limits}
 
 Envoy 支持两种速率限制：全局和本地。全局速率使用全局 gRPC 速率限制服务为整个网格提供速率限制。
-本地速率限制用于限制每个服务实例的请求速率。局部速率限制可以与全局速率限制一起使用，
+本地速率限制用于限制每个服务实例的请求速率。本地速率限制可以与全局速率限制一起使用，
 以减少负载全局速率限制服务。
 
-在本任务中，您将配置 Envoy 以对服务的特定路径的流量进行速率限制同时使用全局和本地速率限制。
+在本任务中，您将使用全局速率限制和本地速率限制来配置 Envoy，以对特定路径的服务流量进行速率限制。
 
 ## 全局速率限制  {#global-rate-limit}
 
@@ -330,13 +330,11 @@ EOF
 下面的 `EnvoyFilter` 为 `productpage` 服务的 9080 端口的任何流量启用了本地速率限制。
 与前面的配置不同，`HTTP_FILTER` patch 中不包含 `token_bucket`。`token_bucket`
 被定义在第二个（`HTTP_ROUTE`）patch 中，其中包含 `envoy.filters.http.local_ratelimit`
-的 `typed_per_filter_config`。
-
-本地 Envoy 过滤器，用于路由到虚拟主机 `inbound|http|9080`。
+本地 Envoy 过滤器所用的 `typed_per_filter_config`，用于路由到虚拟主机 `inbound|http|9080`。
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: filter-local-ratelimit-svc
@@ -425,9 +423,8 @@ $ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev
 `$GATEWAY_URL` 是在 [Bookinfo](/zh/docs/examples/bookinfo/) 示例中设置的值。
 {{< /tip >}}
 
-对于 `/productpage` 您将看到第一个请求通过，但随后的每个请求都将在一分钟内将得到
-429 响应。而对于 `/api/v1/products/*` 您需要触发两次 1 到 99
-之间的任意数字，直到在一分钟内收到 429 响应。
+对于 `/productpage`，您将看到第一个请求通过，但随后的每个请求都将在一分钟内得到 429 响应。
+而对于 `/api/v1/products/*`，您需要触发两次 1 到 99 之间的任意数字，直到在一分钟内收到 429 响应。
 
 ### 验证本地速率限制  {#verify-local-rate-limit}
 
