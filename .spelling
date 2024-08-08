@@ -476,8 +476,10 @@ Exfiltrating
 exfiltration
 Expedia
 ext-authz
+extensionProvider
 extensionProviders
 ExternalName
+ext_authz
 Ezequiel
 facto
 failover
@@ -868,6 +870,7 @@ onboarding
 OneCloud
 onsite
 onwards
+opa
 OpenAPI
 OpenCensus
 OpenID
@@ -986,6 +989,8 @@ Redis-based
 referer
 Registrator
 registrator
+Rego
+rego
 reimplement
 reimplemented
 reinject
