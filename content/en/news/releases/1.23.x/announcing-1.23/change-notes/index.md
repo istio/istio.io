@@ -3,7 +3,7 @@ title: Change Notes
 linktitle: x.y.z
 subtitle: Minor Release
 description: Istio x.y.z release notes.
-publishdate: 2020-07-29
+publishdate: 2024-08-13
 release: x.y.z
 weight: 10
 aliases:
