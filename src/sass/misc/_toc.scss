@@ -8,17 +8,18 @@
 
     @supports (position: sticky) {
         position: sticky;
-        top: 11.5rem;
+        top: 4rem;
     }
 
     div {
         @supports (position: sticky) {
-            max-height: calc(100vh - 9rem);
+            max-height: calc(100vh - 6rem);
+            overflow-y: auto;
         }
 
         @media (min-width: $bp-md) {
             @supports (position: sticky) {
-                max-height: calc(100vh - 9rem);
+                max-height: calc(100vh - 6rem);
                 overflow-y: auto;
             }
 
