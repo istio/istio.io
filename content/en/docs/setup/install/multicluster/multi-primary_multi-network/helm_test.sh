@@ -30,7 +30,7 @@ function install_istio_on_cluster1_helm {
     snip_set_the_default_network_for_cluster1_1
 
     snip_configure_cluster1_as_a_primary_3
-    echo y | snip_configure_cluster1_as_a_primary_4
+    snip_configure_cluster1_as_a_primary_4
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster1_2
@@ -48,7 +48,7 @@ function install_istio_on_cluster2_helm {
     snip_set_the_default_network_for_cluster2_1
 
     snip_configure_cluster2_as_a_primary_3
-    echo y | snip_configure_cluster2_as_a_primary_4
+    snip_configure_cluster2_as_a_primary_4
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster2_3

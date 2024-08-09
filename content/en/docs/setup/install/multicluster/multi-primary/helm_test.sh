@@ -35,13 +35,13 @@ function install_istio_helm {
 function install_istio_on_cluster1_helm {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
     snip_configure_cluster1_as_a_primary_3
-    echo y | snip_configure_cluster1_as_a_primary_4
+    snip_configure_cluster1_as_a_primary_4
 }
 
 function install_istio_on_cluster2_helm {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
     snip_configure_cluster2_as_a_primary_3
-    echo y | snip_configure_cluster2_as_a_primary_4
+    snip_configure_cluster2_as_a_primary_4
 }
 
 function enable_endpoint_discovery {
