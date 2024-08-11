@@ -22,6 +22,7 @@ Istio 1.23.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 ###TODO
 
 ## Upgrading to 1.23
+TODO
 
 
 Would you like to contribute directly to Istio? Find and join one of

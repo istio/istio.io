@@ -1,18 +1,14 @@
 ---
-title: Change Notes
-linktitle: x.y.z
-subtitle: Minor Release
-description: Istio x.y.z release notes.
+title: Istio 1.23.0 Change Notes
+linktitle: 1.23.0
+subtitle: Major Release
+description: Istio 1.23.0 release notes.
 publishdate: 2024-08-13
-release: x.y.z
+release: 1.23.0
 weight: 10
 aliases:
-    - /news/announcing-x.y.z
+    - /news/announcing-1.23.0
 ---
-
-{{< warning >}}
-This is an automatically generated rough draft of the release notes and has not yet been reviewed.
-{{< /warning >}}
 
 ## Deprecation Notices
 
@@ -20,14 +16,14 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- **Updated** Change `istio-cni` config map to only expose env vars that are actually user-configurable
+- **Updated** Change `istio-cni` config map to only expose env vars that are user-configurable
 
 - **Added** support for proxying 100 continue headers. This can be disabled by setting ENABLE_100_CONTINUE_HEADERS to false.
 
 - **Added** reading the traffic type for a waypoint from the istio.io/waypoint-for label on the parent gateway class. This value overrides the global default and will be overridden if the label is applied to the waypoint resource.
   ([Issue #50933](https://github.com/istio/istio/issues/50933))
 
-- **Added** Fixes a bug where UDP traffic handled in ISTIO_OUTPUT chain incorrectly exits early.  ([Issue #51377](https://github.com/istio/istio/issues/51377))
+- **Added** Fixes a bug where UDP traffic in ISTIO_OUTPUT chain exits early.  ([Issue #51377](https://github.com/istio/istio/issues/51377))
 
 - **Added** support for matching multiple service VIPs in waypoint.
   ([Issue #51886](https://github.com/istio/istio/issues/51886))
@@ -39,9 +35,9 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 - **Added** support for the new reset-before-request retry policy added in Envoy 1.31
   ([Issue #51704](https://github.com/istio/istio/issues/51704))
 
-- **Fixed** an issue that CORS filter forwarded preflight request if the origin is not allowed.
+- **Fixed** an issue where CORS filter forwarded preflight requests if the origin was not allowed.
 
-- **Fixed** Added retry logic to make getting envoy metrics more safety on EXIT_ON_ZERO_ACTIVE_CONNECTIONS mode.
+- **Fixed** Added retry logic to make getting envoy metrics safer on EXIT_ON_ZERO_ACTIVE_CONNECTIONS mode.
   ([Issue #50596](https://github.com/istio/istio/issues/50596))
 
 - **Fixed** Allow ipv6 config to be propagated to ambient CNI. Note that IPv6 support is still unstable.
@@ -55,7 +51,7 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 - **Fixed** persistent IP autoallocation for service entry to allocate per-host rather than per-servicenEntry
   ([Issue #52319](https://github.com/istio/istio/issues/52319))
 
-- **Fixed** ServiceEntry validation to suppress warning for address required if using auto IP allocation controller
+- **Fixed** ServiceEntry validation to suppress the address warning required if using auto IP allocation controller
   ([Issue #52422](https://github.com/istio/istio/issues/52422))
 
 - **Fixed** an issue where TLS settings in DestinationRule are not respected when connecting from a gateway or sidecar to a backend enrolled using ambient mode.
@@ -72,15 +68,16 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 
 - **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.  ([Issue #51966](https://github.com/istio/istio/issues/51966))
 
-- **Fixed** Removes the currently-document requirement currently in our SPIRE docs to force the SPIRE SDS server use our Istio-default SDS socket name, versus whatever the (user-configurable) SPIRE SDS server socket filename happens to be. This introduces WORKLOAD_IDENTITY_SOCKET_FILE as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hardcoded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket found. Otherwise it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hardcoded path and hardcoded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var USE_EXTERNAL_WORKLOAD_SDS (added in #45941)
+- **Fixed** Removes the currently-document requirement currently in our SPIRE docs to force the SPIRE SDS server to use Istio-default SDS socket name, versus whatever the (user-configurable) SPIRE SDS server socket filename happens to be. This introduces WORKLOAD_IDENTITY_SOCKET_FILE as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hardcoded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hardcoded path and hardcoded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var USE_EXTERNAL_WORKLOAD_SDS (added in #45941)
   ([Issue #48845](https://github.com/istio/istio/issues/48845))
 
 ## Telemetry
 
-- **Added** access log [formatter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter) support for OpenTelemetry, users should add CEL/METADATA/REQ_WITHOUT_QUERY commands after all proxies upgraded to 1.23+.
+- **Added** access log [formatter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter) support for OpenTelemetry, users should add CEL/METADATA/REQ_WITHOUT_QUERY commands after all proxies are upgraded to 1.23+.
 
-- **Fixed** an issue where status code always unset when using OpenTelemetry Tracing.
+- **Fixed** an issue where the status code was unset when using OpenTelemetry Tracing.
   ([Issue #50195](https://github.com/istio/istio/issues/50195))
+
 
 - **Fixed** an issue that span name isn't set when using the OpenTelemetry tracing provider.
 
@@ -107,7 +104,7 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
   ([Issue #51595](https://github.com/istio/istio/issues/51595))
 
 - **Updated** the [`distroless`](/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
-This should have no user facing impact.
+This should have no user-facing impact.
 
 - **Updated** Kiali addon to version v1.87.0.
 
@@ -145,7 +142,7 @@ This should have no user facing impact.
 
 - **Added** a status subcommand that prints out the status of gateway(s) for a given namespace.  ([Issue #51294](https://github.com/istio/istio/issues/51294))
 
-- **Added** Allow users to set the seccompProfile.type (e.g. to RuntimeDefault) for autodeployed waypoints by setting `values.gateways.seccompProfile.type` in the istiod injection config.
+- **Added** Allow users to set the seccompProfile.type (e.g. to RuntimeDefault) for auto deployed waypoints by setting `values.gateways.seccompProfile.type` in the istiod injection config.
 
 - **Added** overwrite flag to istioctl apply command to allow overwriting existing resources in the cluster (initially, just namespace waypoint enrollment).
   ([Issue #51312](https://github.com/istio/istio/issues/51312))
