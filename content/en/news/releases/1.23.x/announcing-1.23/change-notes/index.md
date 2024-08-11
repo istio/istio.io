@@ -16,14 +16,12 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- **Updated** Change `istio-cni` config map to only expose env vars that are user-configurable
+- **Updated** `istio-cni` config map to only expose env vars that are user-configurable
 
 - **Added** support for proxying 100 continue headers. This can be disabled by setting ENABLE_100_CONTINUE_HEADERS to false.
 
 - **Added** reading the traffic type for a waypoint from the istio.io/waypoint-for label on the parent gateway class. This value overrides the global default and will be overridden if the label is applied to the waypoint resource.
   ([Issue #50933](https://github.com/istio/istio/issues/50933))
-
-- **Added** Fixes a bug where UDP traffic in ISTIO_OUTPUT chain exits early.  ([Issue #51377](https://github.com/istio/istio/issues/51377))
 
 - **Added** support for matching multiple service VIPs in waypoint.
   ([Issue #51886](https://github.com/istio/istio/issues/51886))
@@ -35,12 +33,16 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 - **Added** support for the new reset-before-request retry policy added in Envoy 1.31
   ([Issue #51704](https://github.com/istio/istio/issues/51704))
 
+- **Fixed** a bug where UDP traffic in ISTIO_OUTPUT chain exits early.  ([Issue #51377](https://github.com/istio/istio/issues/51377))
+
+- **Fixed** ServiceEntryStatus Addresses field could not easily support assigning IPs to each host which lead to an undesired divergence in behavior between the new and old implementations for automatic allocation of IP addresses for SericeEntry. Added a "Host" field to the Address in order to support mapping allocated IP to a host.
+
 - **Fixed** an issue where CORS filter forwarded preflight requests if the origin was not allowed.
 
-- **Fixed** Added retry logic to make getting envoy metrics safer on EXIT_ON_ZERO_ACTIVE_CONNECTIONS mode.
+- **Fixed** retry logic to make getting envoy metrics safer on EXIT_ON_ZERO_ACTIVE_CONNECTIONS mode.
   ([Issue #50596](https://github.com/istio/istio/issues/50596))
 
-- **Fixed** Allow ipv6 config to be propagated to ambient CNI. Note that IPv6 support is still unstable.
+- **Fixed** ipv6 config to be propagated to ambient CNI. Note that IPv6 support is still unstable.
   ([Issue #50162](https://github.com/istio/istio/issues/50162))
 
 - **Fixed** ZDS should not pass down trust_domain
@@ -68,8 +70,7 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 
 - **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.  ([Issue #51966](https://github.com/istio/istio/issues/51966))
 
-- **Fixed** Removes the currently-document requirement currently in our SPIRE docs to force the SPIRE SDS server to use Istio-default SDS socket name, versus whatever the (user-configurable) SPIRE SDS server socket filename happens to be. This introduces WORKLOAD_IDENTITY_SOCKET_FILE as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hardcoded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hardcoded path and hardcoded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var USE_EXTERNAL_WORKLOAD_SDS (added in #45941)
-  ([Issue #48845](https://github.com/istio/istio/issues/48845))
+- **Fixed** Removes the currently-document requirement currently in our SPIRE docs to force the SPIRE SDS server to use Istio-default SDS socket name, versus whatever the (user-configurable) SPIRE SDS server socket filename happens to be. This introduces WORKLOAD_IDENTITY_SOCKET_FILE as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hardcoded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hardcoded path and hardcoded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var USE_EXTERNAL_WORKLOAD_SDS (added in #45941)([Issue #48845](https://github.com/istio/istio/issues/48845))
 
 ## Telemetry
 
@@ -77,7 +78,6 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 
 - **Fixed** an issue where the status code was unset when using OpenTelemetry Tracing.
   ([Issue #50195](https://github.com/istio/istio/issues/50195))
-
 
 - **Fixed** an issue that span name isn't set when using the OpenTelemetry tracing provider.
 
@@ -96,6 +96,8 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 
 ## Extensibility
 
+- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the upgrade notes. ([Issue #3127](https://github.com/istio/api/issues/3127))
+
 ## Installation
 
 - **Improved** Added `.Values.pilot.trustedZtunnelNamespace` to `istiod` chart. Set this if installing ztunnel to a different namespace from `istiod`. Supercedes `.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS` (which is still respected if set)
@@ -108,21 +110,22 @@ This should have no user-facing impact.
 
 - **Updated** Kiali addon to version v1.87.0.
 
-- **Added** outlier log path configuration in mesh proxy config which allows users to configure the path to the outlier detection log file.  ([Issue #50781](https://github.com/istio/istio/issues/50781))
+- **Added** the `releaseChannel:extended` flag to non-GA features and APIs. ([Issue #173](https://github.com/istio/enhancements/issues/173))
+
+- **Added** outlier log path configuration in mesh proxy config which allows users to configure the path to the outlier detection log file. ([Issue #50781](https://github.com/istio/istio/issues/50781))
 
 - **Added** Add an `ambient` umbrella chart that does nothing but wrap the baseline Istio components required for installing Istio with ambient support
 
-- **Added** Istiod's readiness check is now also available over https for use in clusters utilizing a remote control plane for sidecar injection.  ([Issue #51506](https://github.com/istio/istio/issues/51506))
+- **Added** Istiod's readiness check is now also available over https for use in clusters utilizing a remote control plane for sidecar injection. ([Issue #51506](https://github.com/istio/istio/issues/51506))
 
 - **Fixed** Ensure CNI plugin inherits CNI agent log level, simplify CNI logging config
   ([Issue #50958](https://github.com/istio/istio/issues/50958))
 
-- **Fixed** service account annotation formatting error fixed by removing dashes  ([Issue #51289](https://github.com/istio/istio/issues/51289))
+- **Fixed** service account annotation formatting error fixed by removing dashes ([Issue #51289](https://github.com/istio/istio/issues/51289))
 
 - **Fixed** `istio.io/rev` is not user intent for ztunnel, should be an annotation. Also, consistently propagate custom annotations in the ztunnel chart
 
-- **Fixed** an issue where `sidecar.istio.io/proxyImage` annotation was ignored during the gateway injection.
-  ([Issue #51888](https://github.com/istio/istio/issues/51888))
+- **Fixed** an issue where `sidecar.istio.io/proxyImage` annotation was ignored during the gateway injection ([Issue #51888](https://github.com/istio/istio/issues/51888))
 
 - **Fixed** `values.cni.logLevel` is a no-op, and is now deprecated. Use `values.{cni|global}.logging.level` instead.
 
@@ -150,4 +153,3 @@ This should have no user-facing impact.
 ## Documentation changes
 
 - **Improved** the look and feel of Bookinfo app.
-
