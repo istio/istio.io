@@ -137,7 +137,7 @@ Deploy an app to run curl commands to the Httpbin sample application:
 $ kubectl -n my-app run --image=curlimages/curl curly -- /bin/sleep 100d
 {{< /text >}}
 
-Apply the first rego rule and restart the OPA deployment:
+Apply the first Rego rule and restart the OPA deployment:
 
 {{< text bash >}}
 $ kubectl apply -f opa-example-1-configmap.yaml
