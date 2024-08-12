@@ -183,7 +183,7 @@ myrule["body"] := body
 myrule["http_status"] := status_code
 {{< /text >}}
 
-And those are the values that will be returned to the envoy proxy. The envoy will use those values to modify the request and response.
+And those are the values that will be returned to the Envoy proxy from the OPA Server. Envoy will use those values to modify the request and response.
 
 Notice that `allowed is required when returning a JSON object instead of only true/false. This can be found in the documentation [here](https://www.openpolicyagent.org/docs/latest/envoy-primer/#output-document).
 
