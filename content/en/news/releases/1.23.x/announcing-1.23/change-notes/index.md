@@ -16,49 +16,49 @@ These notices describe functionality that will be removed in a future release ac
 
 ## Traffic Management
 
-- **Updated** `istio-cni` config map to only expose env vars that are user-configurable
+- **Updated** `istio-cni` config map to only expose environment vars that are user-configurable.
 
-- **Added** support for proxying 100 continue headers. This can be disabled by setting ENABLE_100_CONTINUE_HEADERS to false.
+- **Added** support for proxying `100 Continue` headers. This can be disabled by setting `ENABLE_100_CONTINUE_HEADERS` to `false`.
 
-- **Added** reading the traffic type for a waypoint from the istio.io/waypoint-for label on the parent gateway class. This value overrides the global default and will be overridden if the label is applied to the waypoint resource.
+- **Added** a way to read the traffic type for a waypoint from the `istio.io/waypoint-for` label on the parent Gateway class. This value overrides the global default and will be overridden if the label is applied to the waypoint resource.
   ([Issue #50933](https://github.com/istio/istio/issues/50933))
 
-- **Added** support for matching multiple service VIPs in waypoint.
+- **Added** support for matching multiple service VIPs in a waypoint proxy.
   ([Issue #51886](https://github.com/istio/istio/issues/51886))
 
 - **Added** an experimental feature to enable cluster creation on worker threads inline during requests.
-This will save memory and CPU cycles in cases where there are lots of inactive clusters and > 1 worker thread.
-This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in agent Deployment.
-
-- **Added** support for the new reset-before-request retry policy added in Envoy 1.31
+    This will save memory and CPU cycles in cases where there are lots of inactive clusters and > 1 worker thread.
+    This can be disabled by setting `ENABLE_DEFERRED_CLUSTER_CREATION` to `false` in agent Deployment.
+- **Added** support for the new `reset-before-request` retry policy added in Envoy 1.31.
   ([Issue #51704](https://github.com/istio/istio/issues/51704))
 
-- **Fixed** a bug where UDP traffic in ISTIO_OUTPUT chain exits early.  ([Issue #51377](https://github.com/istio/istio/issues/51377))
+- **Fixed** a bug where UDP traffic in the `ISTIO_OUTPUT` iptables chain exits early.
+  ([Issue #51377](https://github.com/istio/istio/issues/51377))
 
-- **Fixed** ServiceEntryStatus Addresses field could not easily support assigning IPs to each host which lead to an undesired divergence in behavior between the new and old implementations for automatic allocation of IP addresses for SericeEntry. Added a "Host" field to the Address in order to support mapping allocated IP to a host.
+- **Fixed** `ServiceEntry` status addresses field not supporting IP address assignments to individual hosts, which led to an undesired divergence in behavior between the new and old implementations for automatic allocations. Added a "Host" field to the Address in order to support mapping allocated IP to a host.
 
 - **Fixed** an issue where CORS filter forwarded preflight requests if the origin was not allowed.
 
-- **Fixed** retry logic to make getting envoy metrics safer on EXIT_ON_ZERO_ACTIVE_CONNECTIONS mode.
+- **Fixed** retry logic to make getting envoy metrics safer on `EXIT_ON_ZERO_ACTIVE_CONNECTIONS` mode.
   ([Issue #50596](https://github.com/istio/istio/issues/50596))
 
-- **Fixed** ipv6 config to be propagated to ambient CNI. Note that IPv6 support is still unstable.
+- **Fixed** propagation of IPv6 config to the `istio-cni`. Note that IPv6 support is still unstable.
   ([Issue #50162](https://github.com/istio/istio/issues/50162))
 
-- **Fixed** ZDS should not pass down trust_domain
+- **Fixed** an issue where ZDS did not pass down `trust_domain`.
   ([Issue #51182](https://github.com/istio/istio/issues/51182))
 
-- **Fixed** Incorrect iptables rules for ambient in IPv6 mode
+- **Fixed** an issue with iptables rules for ambient when dealing with IPv6.
 
-- **Fixed** persistent IP autoallocation for service entry to allocate per-host rather than per-servicenEntry
+- **Fixed** IP auto allocation for `ServiceEntry` to allocate per-host rather than per-`ServiceEntry`.
   ([Issue #52319](https://github.com/istio/istio/issues/52319))
 
-- **Fixed** ServiceEntry validation to suppress the address warning required if using auto IP allocation controller
+- **Fixed** `ServiceEntry` validation to suppress the "address required" warning when using the auto IP allocation controller.
   ([Issue #52422](https://github.com/istio/istio/issues/52422))
 
-- **Fixed** an issue where TLS settings in DestinationRule are not respected when connecting from a gateway or sidecar to a backend enrolled using ambient mode.
+- **Fixed** an issue where TLS settings in `DestinationRule` are not respected when connecting from a gateway or sidecar to a backend enrolled using ambient mode.
 
-- **Fixed** an issue preventing DestinationRule `proxyProtocol` from working when TLS is disabled.
+- **Fixed** an issue preventing `DestinationRule` `proxyProtocol` from working when TLS is disabled.
 
 - **Removed** the `ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH` feature flag.
 
@@ -68,70 +68,79 @@ This can be disabled by setting ENABLE_DEFERRED_CLUSTER_CREATION to false in age
 
 ## Security
 
-- **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.  ([Issue #51966](https://github.com/istio/istio/issues/51966))
+- **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.
+  ([Issue #51966](https://github.com/istio/istio/issues/51966))
 
 - **Fixed** Removes the currently-document requirement currently in our SPIRE docs to force the SPIRE SDS server to use Istio-default SDS socket name, versus whatever the (user-configurable) SPIRE SDS server socket filename happens to be. This introduces WORKLOAD_IDENTITY_SOCKET_FILE as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hardcoded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hardcoded path and hardcoded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var USE_EXTERNAL_WORKLOAD_SDS (added in #45941)([Issue #48845](https://github.com/istio/istio/issues/48845))
 
 ## Telemetry
 
-- **Added** access log [formatter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter) support for OpenTelemetry, users should add CEL/METADATA/REQ_WITHOUT_QUERY commands after all proxies are upgraded to 1.23+.
+- **Added** access log [formatter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter) support for OpenTelemetry, users should add `CEL`/`METADATA`/`REQ_WITHOUT_QUERY` commands after all proxies are upgraded to Istio 1.23+.
 
-- **Fixed** an issue where the status code was unset when using OpenTelemetry Tracing.
+- **Fixed** an issue where the status code was unset when using OpenTelemetry tracing.
   ([Issue #50195](https://github.com/istio/istio/issues/50195))
 
-- **Fixed** an issue that span name isn't set when using the OpenTelemetry tracing provider.
+- **Fixed** an issue where the span name was not set when using the OpenTelemetry tracing provider.
 
-- **Fixed** statsMatcher's regex which didn't match route's stat_prefix
+- **Fixed** `statsMatcher`'s regular expression not matching a route's `stat_prefix`.
 
-- **Fixed** an issue where the `cluster_name` and `http_conn_manager_prefix` label was incorrectly truncated for services without a `.svc.cluster.local` suffix
+- **Fixed** an issue where the `cluster_name` and `http_conn_manager_prefix` labels were incorrectly truncated for services without a `.svc.cluster.local` suffix.
 
 - **Removed** Istio Stackdriver metrics from XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
 - **Removed** Istio Stackdriver logs from XDS.  ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
-- **Removed** OpenCensus tracer from Istio XDS.  ([Issue #50808](https://github.com/istio/istio/issues/50808))
+- **Removed** OpenCensus tracer from Istio XDS.
+  ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
 - **Removed** the feature flag `ENABLE_OTEL_BUILTIN_RESOURCE_LABELS`.
 
 ## Extensibility
 
-- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the upgrade notes. ([Issue #3127](https://github.com/istio/api/issues/3127))
+- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the upgrade notes.
+  ([Issue #3127](https://github.com/istio/api/issues/3127))
 
 ## Installation
 
-- **Improved** Added `.Values.pilot.trustedZtunnelNamespace` to `istiod` chart. Set this if installing ztunnel to a different namespace from `istiod`. Supercedes `.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS` (which is still respected if set)
+- **Added** `.Values.pilot.trustedZtunnelNamespace` to the `istiod` Helm chart. Set this if installing ztunnel to a different namespace from `istiod`. This value supercedes `.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS` (which is still respected if set).
 
-- **Improved** the Helm installation for Istiod multi-cluster for primary-remote. Now, Helm installation only requires setting global.externalIstiod, instead of also requiring pilot.env.EXTERNAL_ISTIOD to be set.
+- **Improved** the Helm installation for Istiod multi-cluster for primary-remote. Now, Helm installations only require setting `global.externalIstiod`, instead of also requiring `pilot.env.EXTERNAL_ISTIOD` to be set.
   ([Issue #51595](https://github.com/istio/istio/issues/51595))
 
 - **Updated** the [`distroless`](/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
-This should have no user-facing impact.
+  This should have no user-facing impact.
 
 - **Updated** Kiali addon to version v1.87.0.
 
 - **Added** the `releaseChannel:extended` flag to non-GA features and APIs. ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
-- **Added** outlier log path configuration in mesh proxy config which allows users to configure the path to the outlier detection log file. ([Issue #50781](https://github.com/istio/istio/issues/50781))
+- **Added** outlier log path configuration to the mesh proxy config which allows users to configure the path to the outlier detection log file.
+  ([Issue #50781](https://github.com/istio/istio/issues/50781))
 
-- **Added** Add an `ambient` umbrella chart that does nothing but wrap the baseline Istio components required for installing Istio with ambient support
+- **Added** an `ambient` umbrella Helm chart that wraps the baseline Istio components required for installing Istio with ambient support.
 
-- **Added** Istiod's readiness check is now also available over https for use in clusters utilizing a remote control plane for sidecar injection. ([Issue #51506](https://github.com/istio/istio/issues/51506))
+- **Added** support for readiness checks over https to istiod for use in clusters utilizing a remote control plane for sidecar injection.
+  ([Issue #51506](https://github.com/istio/istio/issues/51506))
 
-- **Fixed** Ensure CNI plugin inherits CNI agent log level, simplify CNI logging config
+- **Fixed** an issue where the CNI plugin inherits CNI agent log level.
+
+- **Improved** CNI logging config.
   ([Issue #50958](https://github.com/istio/istio/issues/50958))
 
-- **Fixed** service account annotation formatting error fixed by removing dashes ([Issue #51289](https://github.com/istio/istio/issues/51289))
+- **Fixed** an issue with service account annotation formatting by removing dashes.
+  ([Issue #51289](https://github.com/istio/istio/issues/51289))
 
-- **Fixed** `istio.io/rev` is not user intent for ztunnel, should be an annotation. Also, consistently propagate custom annotations in the ztunnel chart
+- **Fixed** an issue where custom annotations were not propagated to the ztunnel chart.
 
-- **Fixed** an issue where `sidecar.istio.io/proxyImage` annotation was ignored during the gateway injection ([Issue #51888](https://github.com/istio/istio/issues/51888))
+- **Fixed** an issue where `sidecar.istio.io/proxyImage` annotation was ignored during the gateway injection.
+  ([Issue #51888](https://github.com/istio/istio/issues/51888))
 
-- **Fixed** `values.cni.logLevel` is a no-op, and is now deprecated. Use `values.{cni|global}.logging.level` instead.
+- **Removed** `values.cni.logLevel` is now deprecated. Use `values.{cni|global}.logging.level` instead.
 
-- **Fixed** netlink error may not be correctly parsed, leading to `istio-cni` not properly ignoring leftover ipset.
+- **Fixed** an issue where netlink errors were not be correctly parsed, leading to `istio-cni` not properly ignoring leftover ipsets.
 
-- **Upgraded** base images to use the latest Ubuntu LTS, `ubuntu:noble`. Previously, `ubuntu:focal` was used.
+- **Upgraded** base debug images to use the latest Ubuntu LTS, `ubuntu:noble`. Previously, `ubuntu:focal` was used.
 
 ## istioctl
 
@@ -145,7 +154,7 @@ This should have no user-facing impact.
 
 - **Added** a status subcommand that prints out the status of gateway(s) for a given namespace.  ([Issue #51294](https://github.com/istio/istio/issues/51294))
 
-- **Added** Allow users to set the seccompProfile.type (e.g. to RuntimeDefault) for auto deployed waypoints by setting `values.gateways.seccompProfile.type` in the istiod injection config.
+- **Added** the ability for users to set the `seccompProfile.type` (e.g. to `RuntimeDefault`) for auto deployed waypoints by setting `values.gateways.seccompProfile.type` in the istiod injection config.
 
 - **Added** an `overwrite` flag to `istioctl apply` command to allow overwriting existing resources in the cluster (initially, just namespace waypoint enrollments).
   ([Issue #51312](https://github.com/istio/istio/issues/51312))
