@@ -165,7 +165,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}
 
 ### Advanced manipulations
 
-Now the more advanced rule. Apply the second rego rule and restart the OPA deployment:
+Now the more advanced rule. Apply the second Rego rule and restart the OPA deployment:
 
 {{< text bash >}}
 $ kubectl apply -f opa-example-2-configmap.yaml
