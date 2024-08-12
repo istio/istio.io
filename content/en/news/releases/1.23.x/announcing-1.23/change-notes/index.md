@@ -10,10 +10,6 @@ aliases:
     - /news/announcing-1.23.0
 ---
 
-## Deprecation Notices
-
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
-
 ## Traffic Management
 
 - **Updated** `istio-cni` config map to only expose environment vars that are user-configurable.
