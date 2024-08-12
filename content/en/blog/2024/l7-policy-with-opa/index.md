@@ -269,7 +269,6 @@ Run the request and check the logs of the application:
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-authorized: true"
-
 $ kubectl logs -n my-app deploy/httpbin -c istio-proxy --tail 1
 {{< /text >}}
 
