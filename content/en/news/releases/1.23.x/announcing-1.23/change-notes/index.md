@@ -89,7 +89,6 @@ These notices describe functionality that will be removed in a future release ac
 - **Removed** Istio Stackdriver metrics from XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
-- **Removed** Istio Stackdriver logs from XDS.  ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
 - **Removed** OpenCensus tracer from Istio XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
