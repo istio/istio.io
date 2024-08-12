@@ -92,7 +92,7 @@ Before, when you installed OPA server, you used the Envoy version of the server.
 [...]
 {{< /text >}}
 
-In the configuration, you have enabled the envoy plugin and the port which will listen:
+In the configuration, you have enabled the Envoy plugin and the port which will listened to:
 
 {{< text yaml >}}
 [...]
