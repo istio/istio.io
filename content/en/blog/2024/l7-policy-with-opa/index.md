@@ -66,7 +66,7 @@ Notice that in this resource we define the OPA `extensionProvider` you configure
 
 ## How it works
 
-When applying the AuthorizationPolicy, the Istio control plane (istiod) sends the required configurations to the istio-proxy (envoy) of the selected services in the policy. The envoy will then send the request to the OPA server to check if the request is allowed or not.
+When applying the `AuthorizationPolicy`, the Istio control plane (istiod) sends the required configurations to the istio-proxy (envoy) of the selected services in the policy. Envoy will then send the request to the OPA server to check if the request is allowed or not.
 
 {{< image width="75%"
     link="./opa1.png"
