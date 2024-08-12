@@ -272,7 +272,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-a
 $ kubectl logs -n my-app deploy/httpbin -c istio-proxy --tail 1
 {{< /text >}}
 
-You will see in the output the new attributes configured by OPA rego rules:
+You will see in the output the new attributes configured by OPA Rego rules:
 
 {{< text plain >}}
 [...]
