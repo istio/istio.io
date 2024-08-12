@@ -169,7 +169,6 @@ Now the more advanced rule. Apply the second Rego rule and restart the OPA deplo
 
 {{< text bash >}}
 $ kubectl apply -f opa-example-2-configmap.yaml
-
 $ kubectl rollout restart deployment -n opa
 {{< /text >}}
 
