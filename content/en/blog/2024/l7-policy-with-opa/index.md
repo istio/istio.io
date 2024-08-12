@@ -31,9 +31,7 @@ $ istioctl install -y -f iop.yaml
 
 Notice that in the configuration, we define an `extensionProviders` section that points to the OPA standalone installation.
 
-Deploy the sample application
-
-Httpbin is a well-known application that can be used to test HTTP requests and helps to show quickly how we can play with the request and response attributes.
+Deploy the sample application. Httpbin is a well-known application that can be used to test HTTP requests and helps to show quickly how we can play with the request and response attributes.
 
 {{< text bash >}}
 $ kubectl create ns my-app
