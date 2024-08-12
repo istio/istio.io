@@ -57,7 +57,7 @@ Deploy the `AuthorizationPolicy` to define which services will be protected by O
 $ kubectl apply -f authorizationPolicy.yaml
 {{< /text >}}
 
-Notice that in this resource we define the opa extensionProvider you configured in the Istio installation:
+Notice that in this resource we define the OPA `extensionProvider` you configured in the Istio installation:
 
 {{< text yaml >}}
 [...]
