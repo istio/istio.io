@@ -147,7 +147,7 @@ $ kubectl rollout restart deployment -n opa
 
 The simple scenario is to allow requests if they contain the header `x-force-authorized` with the value `enabled` or `true`. If the header is not present or has a different value, the request will be denied.
 
-There are multiple ways to create the rego rule. In this case, we created two different rules. Executed in order, the first one which satisfies all the conditions will be the one that will be used.
+There are multiple ways to create the Rego rule. In this case, we created two different rules. Executed in order, the first one which satisfies all the conditions will be the one that will be used.
 
 ### Simple rule
 
