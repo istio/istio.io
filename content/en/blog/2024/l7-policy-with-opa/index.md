@@ -40,7 +40,7 @@ $ kubectl label namespace my-app istio-injection=enabled
 $ kubectl apply -f apps.yaml
 {{< /text >}}
 
-Deploy OPA. It will fail because it expects a configMap containing the default rego rule to use. This configMap will be deployed later in our example.
+Deploy OPA. It will fail because it expects a `configMap` containing the default Rego rule to use. This `configMap` will be deployed later in our example.
 
 {{< text bash >}}
 $ kubectl create ns opa
