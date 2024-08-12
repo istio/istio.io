@@ -212,6 +212,7 @@ callouts
 camelCase
 canaried
 canarying
+CA_TRUSTED
 CAs
 CDNs
 CentOS
@@ -600,6 +601,7 @@ IOPs
 ip
 ipBlocks
 IPs
+ipsets
 iptables
 IPv4
 IPv6
@@ -825,6 +827,7 @@ Nassi
 natively
 Neeraj
 netfilter
+netlink
 netmask
 netns
 network1
@@ -945,6 +948,7 @@ Prometheus
 PromQL
 proto
 protobuf
+protobufs
 protoc
 protos
 proxied
@@ -1223,6 +1227,7 @@ v1.55.1
 v1.7.4
 v1.7.6_coreos.0
 v1.79.0.
+v1.87.0
 v1.9
 v1alpha1
 v1alpha3
@@ -1286,6 +1291,7 @@ wildcard
 wildcarded
 wildcards
 Wireguard
+Wolfi
 workgroup
 workload
 workstream

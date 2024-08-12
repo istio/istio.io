@@ -85,7 +85,6 @@ aliases:
 - **Removed** Istio Stackdriver metrics from XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
-
 - **Removed** OpenCensus tracer from Istio XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
@@ -131,9 +130,9 @@ aliases:
 - **Fixed** an issue where `sidecar.istio.io/proxyImage` annotation was ignored during the gateway injection.
   ([Issue #51888](https://github.com/istio/istio/issues/51888))
 
-- **Removed** `values.cni.logLevel` is now deprecated. Use `values.{cni|global}.logging.level` instead.
-
 - **Fixed** an issue where netlink errors were not be correctly parsed, leading to `istio-cni` not properly ignoring leftover ipsets.
+
+- **Removed** `values.cni.logLevel` is now deprecated. Use `values.{cni|global}.logging.level` instead.
 
 - **Upgraded** base debug images to use the latest Ubuntu LTS, `ubuntu:noble`. Previously, `ubuntu:focal` was used.
 
