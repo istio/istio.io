@@ -1,6 +1,6 @@
 ---
 title: Upgrade Notes
-description: Important changes to consider when upgrading to Istio 1.23.0
+description: Important changes to consider when upgrading to Istio 1.23.0.
 weight: 20
 publishdate: 2024-08-13
 ---
@@ -11,6 +11,7 @@ The notes also mention changes which preserve backwards compatibility while intr
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.22.x.
 
 ## Internal API protobuf changes
+
 If you do not use Istio APIs from Go (via `istio.io/api` or `istio.io/client-go`) or Protobuf (from `istio.io/api`), this change does not impact you.
 
 In prior versions, Istio APIs had identical contents replicated across multiple versions.
