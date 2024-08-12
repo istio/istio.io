@@ -5,7 +5,7 @@ weight: 20
 publishdate: 2024-08-13
 ---
 
-When upgrading from Istio 1.22.x to Istio 1.23.x, please consider these changes
+When upgrading from Istio 1.22.x to Istio 1.23.x, please consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.22.x.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.22.x.
