@@ -2,10 +2,13 @@
 title: "Using eBPF for traffic redirection in Istio ambient mode"
 description: An alternative approach to redirecting application pod traffic to the per-node ztunnel.
 publishdate: 2023-03-29
-
 attribution: "Iris Ding (Intel), Chun Li (Intel)"
 keywords: [istio,ambient,ztunnel,eBPF]
 ---
+
+{{< idea >}}
+Ambient mode now uses [in-Pod redirection](/blog/2024/inpod-traffic-redirection-ambient/) to redirect traffic between workload pods and ztunnel. The method described in this blog is no longer needed, and this post has been left for historical interest.
+{{< /idea >}}
 
 In Istio's new [ambient mode](/blog/2022/introducing-ambient-mesh/), the `istio-cni` component running on each Kubernetes worker node is responsible for redirecting application traffic to the zero-trust tunnel (ztunnel) on that node. By default it relies on iptables and
 [Generic Network Virtualization Encapsulation (Geneve)](https://www.rfc-editor.org/rfc/rfc8926.html) overlay tunnels to achieve this redirection. We have now added support for an eBPF-based method of traffic redirection.
