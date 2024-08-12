@@ -82,7 +82,7 @@ One of those filters is `ext_authz`, which implements `ext_authz` protobuf servi
     alt="Filters"
     >}}
 
-Before, when you installed OPA server, you used the envoy version of the server. This image allows the configuration of the GRPC plugin which implements the ext_authz protobuf service.
+Before, when you installed OPA server, you used the Envoy version of the server. This image allows the configuration of the GRPC plugin which implements the `ext_authz` protobuf service.
 
 {{< text yaml >}}
 [...]
