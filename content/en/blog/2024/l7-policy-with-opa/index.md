@@ -26,7 +26,7 @@ When integrated with Istio, OPA can be used to enforce fine-grained access contr
 Install Istio:
 
 {{< text bash >}}
-$ stioctl install -y -f iop.yaml
+$ istioctl install -y -f iop.yaml
 {{< /text >}}
 
 Notice that in the configuration, we define an `extensionProviders` section that points to the OPA standalone installation.
