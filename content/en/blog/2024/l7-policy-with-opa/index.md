@@ -231,9 +231,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-a
 
 #### Sharing data between filters
 
-Finally, since the envoy works with filters, you can pass data to the following envoy filters. That is done using "dynamic_metadata".
-
-This is useful when you want to pass data to another ext_authz filter in the change or you want to print it in the application logs.
+Finally, you can pass data to the following Envoy filters using `dynamic_metadata`. This is useful when you want to pass data to another `ext_authz` filter in the change or you want to print it in the application logs.
 
 {{< image width="75%"
     link="./opa3.png"
