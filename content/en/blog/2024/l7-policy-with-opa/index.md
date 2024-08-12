@@ -131,7 +131,7 @@ This means that based on the response from the Authz server, Envoy can add or re
 
 Let's test the simple usage (authorization) and then let's create a more advanced rule to show how we can use OPA to modify the request and response.
 
-Deploy an app to run curl commands to the Httpbin sample application:
+Deploy an app to run curl commands to the httpbin sample application:
 
 {{< text bash >}}
 $ kubectl -n my-app run --image=curlimages/curl curly -- /bin/sleep 100d
