@@ -125,7 +125,7 @@ OkHttpResponse
 }
 {{< /text >}}
 
-This means that based on the response from the Authz server, the envoy can add or remove headers, query parameters, and even change the response status. So that OPA can do the same as it is described in the [OPA's documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls).
+This means that based on the response from the Authz server, Envoy can add or remove headers, query parameters, and even change the response status. OPA can do this as well, as documented in the [OPA's documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls).
 
 ## Testing
 
