@@ -147,7 +147,7 @@ This should have no user-facing impact.
 
 - **Added** Allow users to set the seccompProfile.type (e.g. to RuntimeDefault) for auto deployed waypoints by setting `values.gateways.seccompProfile.type` in the istiod injection config.
 
-- **Added** overwrite flag to istioctl apply command to allow overwriting existing resources in the cluster (initially, just namespace waypoint enrollment).
+- **Added** an `overwrite` flag to `istioctl apply` command to allow overwriting existing resources in the cluster (initially, just namespace waypoint enrollments).
   ([Issue #51312](https://github.com/istio/istio/issues/51312))
 
 ## Documentation changes
