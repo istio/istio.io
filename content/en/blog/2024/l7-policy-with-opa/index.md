@@ -73,7 +73,7 @@ When applying the `AuthorizationPolicy`, the Istio control plane (istiod) sends 
     alt="Istio and OPA"
     >}}
 
-Istio-proxy is an Envoy proxy that is deployed as a sidecar container in the same pod as the application container. The envoy proxy works by configuring filters in a chain.
+Istio-proxy is an Envoy proxy that is deployed as a sidecar container in the same pod as the application container. The Envoy proxy works by configuring filters in a chain.
 
 One of those filters is ext_authz, which implements ext_authz protobuf service with a specific message. Any server implementing the protobuf can connect with the envoy proxy and provide the authorization decision. OPA is one of those servers.
 
