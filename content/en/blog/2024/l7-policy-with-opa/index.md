@@ -198,7 +198,7 @@ Let's test the new capabilities:
 $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get
 {{< /text >}}
 
-Now we can change the response body. With "403" the body in the Rego rule is changed to "Unauthorized Request". With the previous command, you should receive:
+Now we can change the response body. With `403` the body in the Rego rule is changed to "Unauthorized Request". With the previous command, you should receive:
 
 {{< text plain >}}
 Unauthorized Request
