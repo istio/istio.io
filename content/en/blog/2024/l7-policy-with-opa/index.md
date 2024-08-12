@@ -255,7 +255,7 @@ You will see this access logs format:
 [...]
 {{< /text >}}
 
-The "DYNAMIC_METADATA" is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name "envoy.filters.http.ext_authz" is created automatically by Istio. You could verify this by dumping the envoy configuration:
+The "DYNAMIC_METADATA" is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name "envoy.filters.http.ext_authz" is created automatically by Istio. You could verify this by dumping the Envoy configuration:
 
 {{< text bash >}}
 $ istioctl pc all deploy/httpbin -n my-app -oyaml | grep envoy.filters.http.ext_authz
