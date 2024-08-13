@@ -7,7 +7,7 @@ keywords: [istio,operator,sail,incluster,deprecation]
 ---
 
 With the recent announcement of the In-Cluster IstioOperator [deprecation](https://github.com/istio/enhancements/issues/166) in Istio 1.23 and its subsequent deletion for Istio 1.24, we want to build awareness of a
-[new operator](https://github.com/istio-ecosystem/sail-operator) that the team at Red Hat have  been developing to manage Istio as part of the [istio-ecosystem](https://github.com/istio-ecosystem) organization.
+[new operator](https://github.com/istio-ecosystem/sail-operator) that the team at Red Hat have been developing to manage Istio as part of the [istio-ecosystem](https://github.com/istio-ecosystem) organization.
 
 The Sail Operator manages the lifecycle of Istio control planes, making it easier and more efficient for cluster administrators to deploy, configure and upgrade Istio in large scale production environments. Instead of
 creating a new configuration schema and reinventing the wheel, the Sail Operator APIs are built around Istio's Helm chart APIs. All installation and configuration options that are exposed by Istio's Helm charts are available
@@ -21,7 +21,7 @@ The Sail Operator has 3 main resource concepts:
 Currently, the main feature of the Sail Operator is the Update Strategy. The operator provides an interface that manages the upgrade of Istio control plane(s).  It currently supports two update strategies:
 * [In Place](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#inplace): with the `InPlace` strategy, the existing Istio control plane is replaced with a new version, and the workload sidecars
   immediately connect to the new control plane. This way, workloads don't need to be moved from one control plane instance to another.
-* [Revision Based](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#revisionbased): with the `RevisionBased` strategy, a new Istio control plane instance is created for every change to the 
+* [Revision Based](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#revisionbased): with the `RevisionBased` strategy, a new Istio control plane instance is created for every change to the
   `Istio.spec.version` field. The old control plane remains in place until all workloads have been moved to the new control plane instance. Optionally, the `updateWorkloads` flag can be set to automatically move
   workloads to the new control plane when it is ready.
 
