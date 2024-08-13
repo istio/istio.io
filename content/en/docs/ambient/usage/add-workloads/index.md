@@ -8,9 +8,9 @@ test: no
 
 In most cases, a cluster administrator will deploy the Istio mesh infrastructure. Once Istio is successfully deployed with support for the ambient {{< gloss >}}data plane{{< /gloss >}} mode, it will be transparently available to applications deployed by all users in namespaces that have been configured to use it.
 
-## Enabling ambient mode for an application in the mesh
+## Enabling ambient mode for applications in the mesh
 
-To add an applications or namespaces to the mesh in ambient mode, add the label `istio.io/dataplane-mode=ambient` to the corresponding resource. You can apply this label to a namespace or to an individual pod.
+To add applications or namespaces to the mesh in ambient mode, add the label `istio.io/dataplane-mode=ambient` to the corresponding resource. You can apply this label to a namespace or to an individual pod.
 
 Ambient mode can be seamlessly enabled (or disabled) completely transparently as far as the application pods are concerned. Unlike the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, there is no need to restart applications to add them to the mesh, and they will not show as having an extra container deployed in their pod.
 
