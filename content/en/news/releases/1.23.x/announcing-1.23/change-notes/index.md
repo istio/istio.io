@@ -12,11 +12,11 @@ aliases:
 
 ## Deprecations
 
- - **Deprecated** the in-cluster Operator.  Please check out our dedicated blog post for more details on the change.
+- **Deprecated** the in-cluster Operator.  Please check out our dedicated blog post for more details on the change.
 
 ## Traffic Management
 
-- **Updated** `istio-cni` config map to only expose environment vars that are user-configurable.
+- **Updated** `istio-cni` config map to only expose environment variables that are user-configurable.
 
 - **Added** support for proxying `100 Continue` headers. This can be disabled by setting `ENABLE_100_CONTINUE_HEADERS` to `false`.
 
@@ -29,6 +29,7 @@ aliases:
 - **Added** an experimental feature to enable cluster creation on worker threads inline during requests.
     This will save memory and CPU cycles in cases where there are lots of inactive clusters and > 1 worker thread.
     This can be disabled by setting `ENABLE_DEFERRED_CLUSTER_CREATION` to `false` in agent Deployment.
+
 - **Added** support for the new `reset-before-request` retry policy added in Envoy 1.31.
   ([Issue #51704](https://github.com/istio/istio/issues/51704))
 
@@ -71,7 +72,7 @@ aliases:
 - **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.
   ([Issue #51966](https://github.com/istio/istio/issues/51966))
 
-- **Improved** the ability to use SPIRE for SDS by allowing a custom server socket filename.  Previosuly, our SPIRE docs forced the SPIRE SDS server be configured to use the Istio-default SDS socket name. This release introduces `WORKLOAD_IDENTITY_SOCKET_FILE` as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hard-coded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hard-coded path and hard-coded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var `USE_EXTERNAL_WORKLOAD_SDS` (added in #45941)([Issue #48845](https://github.com/istio/istio/issues/48845))
+- **Improved** the ability to use SPIRE for SDS by allowing a custom server socket filename. Previously, SPIRE docs forced the SPIRE SDS server be configured to use the Istio-default SDS socket name. This release introduces `WORKLOAD_IDENTITY_SOCKET_FILE` as an agent environment variable. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hard-coded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hard-coded path and hard-coded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent environment variable `USE_EXTERNAL_WORKLOAD_SDS` (added in #45941)([Issue #48845](https://github.com/istio/istio/issues/48845))
 
 ## Telemetry
 

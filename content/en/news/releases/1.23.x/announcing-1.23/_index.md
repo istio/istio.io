@@ -19,7 +19,7 @@ Istio 1.23.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 ### Ambient, ambient, ambient
 
-Hot on the tail of the recent promotion of [ambient mode to Beta in Istio 1.22](/blog/2024/ambient-reaches-beta/), Istio 1.23 comes with a huge set of improvements. Working closely with the many users who have been adopting ambient mode, we have been working diligently to address all the feedback we have received. These improvements include broader platform support, added features, bug fixes, and performance improvements. 
+Hot on the tail of the recent promotion of [ambient mode to Beta in Istio 1.22](/blog/2024/ambient-reaches-beta/), Istio 1.23 comes with a huge set of improvements. Working closely with the many users who have been adopting ambient mode, we have been working diligently to address all the feedback we have received. These improvements include broader platform support, added features, bug fixes, and performance improvements.
 
 A small sample of the highlights:
 
