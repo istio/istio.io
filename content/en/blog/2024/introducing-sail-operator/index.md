@@ -1,6 +1,6 @@
 ---
 title: "Introducing the Sail Operator: a new way to manage Istio"
-description: Intrododucing the Sail Operator to manage Istio, a project part of the istio-ecosystem organization.
+description: Introducing the Sail Operator to manage Istio, a project part of the istio-ecosystem organization.
 publishdate: 2024-08-15
 attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,deprecation]
@@ -16,7 +16,7 @@ The Sail Operator has 3 main resource concepts:
 * [IstioRevision](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md\#istiorevision-resource): represents a revision of that control plane, which is an instance of Istio with a specific version and revision name.  
 * [IstioCNI](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md\#istiocni-resource): the resource and lifecycle of Istio's CNI plugin is managed separately. To install it, you can create an IstioCNI resource.
 
-Currently, the main feature of the Sail Operator is the Update Strategy. The operator offers an interface that will manages the upgrade of Istio control plane(s).  The operator currently supports two updates strategies:
+Currently, the main feature of the Sail Operator is the Update Strategy. The operator provides an interface that manages the upgrade of Istio control plane(s).  It currently supports two update strategies:
 
 * [InPlace](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md\#inplace): With this strategy, the existing Istio control plane is replaced with a new version, and the workload sidecars immediately connect to the new control plane. This way,  workloads don't need to be moved from one control plane instance to another.  
 * [RevisionBased](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md\#revisionbased): With this strategy, a new Istio control plane instance is created for every change to the Istio.spec.version field. The old control plane remains in place until all workloads have been moved to the new control plane instance. Optionally, the updateWorkloads flag can be set to automatically move workloads to the new control plane when it is ready.
