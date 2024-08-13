@@ -96,7 +96,7 @@ aliases:
 
 ## Extensibility
 
-- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the [upgrade notes](../upgrade-notes/).
+- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the upgrade notes.
   ([Issue #3127](https://github.com/istio/api/issues/3127))
 
 ## Installation
