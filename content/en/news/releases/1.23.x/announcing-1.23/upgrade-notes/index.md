@@ -1,5 +1,5 @@
 ---
-title: Upgrade Notes
+title: Istio 1.23 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.23.0.
 weight: 20
 publishdate: 2024-08-13

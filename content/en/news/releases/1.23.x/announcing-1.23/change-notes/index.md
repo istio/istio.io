@@ -10,6 +10,10 @@ aliases:
     - /news/announcing-1.23.0
 ---
 
+## Deprecations
+
+ - **Deprecated** the in-cluster Operator.  Please check out our dedicated blog post for more details on the change.
+
 ## Traffic Management
 
 - **Updated** `istio-cni` config map to only expose environment vars that are user-configurable.
@@ -67,11 +71,11 @@ aliases:
 - **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.
   ([Issue #51966](https://github.com/istio/istio/issues/51966))
 
-- **Fixed** Removes the currently-document requirement currently in our SPIRE docs to force the SPIRE SDS server to use Istio-default SDS socket name, versus whatever the (user-configurable) SPIRE SDS server socket filename happens to be. This introduces WORKLOAD_IDENTITY_SOCKET_FILE as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hardcoded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hardcoded path and hardcoded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var USE_EXTERNAL_WORKLOAD_SDS (added in #45941)([Issue #48845](https://github.com/istio/istio/issues/48845))
+- **Improved** the ability to use SPIRE for SDS by allowing a custom server socket filename.  Previosuly, our SPIRE docs forced the SPIRE SDS server be configured to use the Istio-default SDS socket name. This release introduces `WORKLOAD_IDENTITY_SOCKET_FILE` as an agent env var. If set to a non-default value, the agent will expect to find a non-Istio SDS server socket at the hard-coded path: `WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE` and will throw an error if no healthy socket was found. Otherwise, it will listen to it. If this is unset, the agent will start and Istio default SDS server instance with a hard-coded path and hard-coded socket file of: `WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile` and listen to it. This removes/replaces the agent env var `USE_EXTERNAL_WORKLOAD_SDS` (added in #45941)([Issue #48845](https://github.com/istio/istio/issues/48845))
 
 ## Telemetry
 
-- **Added** access log [formatter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter) support for OpenTelemetry, users should add `CEL`/`METADATA`/`REQ_WITHOUT_QUERY` commands after all proxies are upgraded to Istio 1.23+.
+- **Added** [access log formatter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter) support for OpenTelemetry. Users can add `CEL`/`METADATA`/`REQ_WITHOUT_QUERY` commands after all proxies are upgraded to Istio 1.23+.
 
 - **Fixed** an issue where the status code was unset when using OpenTelemetry tracing.
   ([Issue #50195](https://github.com/istio/istio/issues/50195))
@@ -85,19 +89,19 @@ aliases:
 - **Removed** Istio Stackdriver metrics from XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
-- **Removed** OpenCensus tracer from Istio XDS.
+- **Removed** the OpenCensus tracer from Istio XDS.
   ([Issue #50808](https://github.com/istio/istio/issues/50808))
 
 - **Removed** the feature flag `ENABLE_OTEL_BUILTIN_RESOURCE_LABELS`.
 
 ## Extensibility
 
-- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the upgrade notes.
+- **Removed** internal multi-version protobuf files from the API. This is an internal change for most users. If you directly consume Istio APIs as protobufs, read the [upgrade notes](../upgrade-notes/).
   ([Issue #3127](https://github.com/istio/api/issues/3127))
 
 ## Installation
 
-- **Added** `.Values.pilot.trustedZtunnelNamespace` to the `istiod` Helm chart. Set this if installing ztunnel to a different namespace from `istiod`. This value supercedes `.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS` (which is still respected if set).
+- **Added** `.Values.pilot.trustedZtunnelNamespace` to the `istiod` Helm chart. Set this if installing ztunnel to a different namespace from `istiod`. This value supersedes `.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS` (which is still respected if set).
 
 - **Improved** the Helm installation for Istiod multi-cluster for primary-remote. Now, Helm installations only require setting `global.externalIstiod`, instead of also requiring `pilot.env.EXTERNAL_ISTIOD` to be set.
   ([Issue #51595](https://github.com/istio/istio/issues/51595))
@@ -105,7 +109,7 @@ aliases:
 - **Updated** the [`distroless`](/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
   This should have no user-facing impact.
 
-- **Updated** Kiali addon to version v1.87.0.
+- **Updated** Kiali addon to version 1.87.0.
 
 - **Added** the `releaseChannel:extended` flag to non-GA features and APIs. ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
@@ -117,7 +121,7 @@ aliases:
 - **Added** support for readiness checks over https to istiod for use in clusters utilizing a remote control plane for sidecar injection.
   ([Issue #51506](https://github.com/istio/istio/issues/51506))
 
-- **Fixed** an issue where the CNI plugin inherits CNI agent log level.
+- **Fixed** an issue where the CNI plugin inherited the CNI agent log level.
 
 - **Improved** CNI logging config.
   ([Issue #50958](https://github.com/istio/istio/issues/50958))
@@ -141,10 +145,9 @@ aliases:
 - **Improved** the output for `istioctl version` to be more user-friendly.  ([Issue #51296](https://github.com/istio/istio/issues/51296))
 
 - **Improved** the `istioctl proxy-status` command.
-  * Each status now includes the time since the last change.
-  * If a proxy is not subscribed to a resource, it will now be shown as `IGNORED` instead of `NOT SENT`.
-    `NOT SENT` continues to be used for resources that are requested, but never sent.
-  * Include a new `ERROR` status when configuration is rejected.
+    - Each status now includes the time since the last change.
+    - If a proxy is not subscribed to a resource, it will now be shown as `IGNORED` instead of `NOT SENT`. `NOT SENT` continues to be used for resources that are requested, but never sent.
+    - Include a new `ERROR` status when configuration is rejected.
 
 - **Added** a status subcommand that prints out the status of gateway(s) for a given namespace.  ([Issue #51294](https://github.com/istio/istio/issues/51294))
 
@@ -153,6 +156,6 @@ aliases:
 - **Added** an `overwrite` flag to `istioctl apply` command to allow overwriting existing resources in the cluster (initially, just namespace waypoint enrollments).
   ([Issue #51312](https://github.com/istio/istio/issues/51312))
 
-## Documentation changes
+## Samples
 
-- **Improved** the look and feel of Bookinfo app.
+- **Improved** the look and feel of the Bookinfo app.
