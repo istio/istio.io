@@ -93,7 +93,11 @@ test: no
    并且必须配置 `cni.exclusive = false` 才能正确支持链接。
    有关更多详细信息，请参阅
    [Cilium 文档](https://docs.cilium.io/en/stable/helm-reference/)。
-
+1. Cilium 的 BPF 伪装目前默认处于禁用状态，
+   并且在 Istio 使用本地链接 IP 进行 Kubernetes 健康检查时存在问题。
+   目前不支持通过 `bpf.masquerade=true` 启用 BPF 伪装，
+   这会导致 Istio Ambient 中的 Pod 健康检查无法正常工作。
+   Cilium 的默认 iptables 伪装实现应该可以继续正常运行。
 1. 由于 Cilium 管理节点身份并在内部允许节点级健康探针到 Pod 的白名单，
    在 Cilium CNI 安装下的 Istio Ambient 模式中应用 default-DENY 的 `NetworkPolicy`，
    将会导致被 Cilium 默认免于 `NetworkPolicy` 执行的 `kubelet` 健康探针被阻塞。
