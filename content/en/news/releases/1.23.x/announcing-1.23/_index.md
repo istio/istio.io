@@ -5,6 +5,9 @@ subtitle: Major Release
 description: Istio 1.23 Release Announcement.
 publishdate: 2024-08-14
 release: 1.23.0
+aliases:
+- /news/announcing-1.23
+- /news/announcing-1.23.0
 ---
 
 We are pleased to announce the release of Istio 1.23. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.23.0 release published! We would like to thank the Release Managers for this release, **Sumit Vij** from Credit Karma, **Zhonghu Xu** from Huawei and **Mike Morris** from Microsoft.
