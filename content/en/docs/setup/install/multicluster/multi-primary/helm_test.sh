@@ -23,6 +23,7 @@ set -o pipefail
 
 source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
+setup_helm_repo
 
 function install_istio_helm {
   # Install Istio on the 2 clusters. Executing in

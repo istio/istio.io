@@ -23,6 +23,7 @@ set -o pipefail
 
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
+setup_helm_repo
 
 function install_istio_on_cluster1_helm {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
