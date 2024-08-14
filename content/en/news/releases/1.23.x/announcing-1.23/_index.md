@@ -26,13 +26,13 @@ Hot on the tail of the recent promotion of [ambient mode to Beta in Istio 1.22](
 
 A small sample of the highlights:
 
-* Support for `DestinationRule` in waypoint proxies
-* Support for DNS `ServiceEntries` in waypoints and ztunnel
-* Support for sharing waypoints across namespaces
-* Support for the new `Service` field `trafficDistribution`, allowing keeping traffic in local zones/regions
-* Support for Dual Stack and IPv6 clusters
-* A new Grafana dashboard for ztunnel
-* A single Helm chart for installing all the ambient mode components at once
+* Support for `DestinationRule` in waypoint proxies.
+* Support for DNS `ServiceEntries` in waypoints and ztunnel.
+* Support for sharing waypoints across namespaces.
+* Support for the new `Service` field `trafficDistribution`, allowing keeping traffic in local zones/regions.
+* Support for Dual Stack and IPv6 clusters.
+* A new Grafana dashboard for ztunnel.
+* A single Helm chart for installing all the ambient mode components at once.
 * Performance improvements: our testing shows up to a 50% improvement in throughput compared to Istio 1.22.
 * Tons of bug fixes: improvements to pod startup, support for Services without selectors, improvements to logging, and more!
 
