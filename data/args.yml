@@ -17,12 +17,12 @@ copyright_year: 2024
 # when archive=true, we're building for archive.istio.io
 # when archive_landing=true, we're building the landing page for archive.istio.io
 preliminary: false
-archive: false
+archive: true
 archive_landing: false
 
 # When archive=true above, these values must be filled in
-archive_date: YYYY-MM-DD
-archive_search_refinement: "V1.1"
+archive_date: 2024-08-14
+archive_search_refinement: "V1.22"
 
 # GitHub branch names used when the docs have links to GitHub
 source_branch_name: release-1.22
