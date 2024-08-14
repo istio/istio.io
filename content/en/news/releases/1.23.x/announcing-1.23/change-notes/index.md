@@ -3,7 +3,7 @@ title: Istio 1.23.0 Change Notes
 linktitle: 1.23.0
 subtitle: Major Release
 description: Istio 1.23.0 release notes.
-publishdate: 2024-08-13
+publishdate: 2024-08-15
 release: 1.23.0
 weight: 10
 aliases:
@@ -12,7 +12,7 @@ aliases:
 
 ## Deprecations
 
-- **Deprecated** the in-cluster Operator.  Please check out our dedicated blog post for more details on the change.
+- **Deprecated** the in-cluster Operator.  Please check out [our deprecation announcement blog post](/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
 
 ## Traffic Management
 

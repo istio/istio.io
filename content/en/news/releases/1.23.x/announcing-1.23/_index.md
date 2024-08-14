@@ -3,7 +3,7 @@ title: Announcing Istio 1.23.0
 linktitle: 1.23.0
 subtitle: Major Release
 description: Istio 1.23 Release Announcement.
-publishdate: 2024-08-13
+publishdate: 2024-08-15
 release: 1.23.0
 ---
 
@@ -70,7 +70,7 @@ We recommend users move to Helm and istioctl, which remain supported by the Isti
 
 Users who wish to stick with the operator pattern have two third-party options in the [istio-ecosystem](https://github.com/istio-ecosystem/) org.
 
-Please check out our dedicated blog post for more details on the change.
+Please check out [our deprecation announcement blog post](/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
 
 ## Upgrading to 1.23
 
