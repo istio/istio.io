@@ -87,7 +87,7 @@ Istio’s in-cluster operator handled installation of the service mesh component
 
 The Istio operator is something you have to install into the cluster, which means you already have to manage the installation of something. Using it to upgrade the cluster likewise first required you to download and run a new version of istioctl.
 
-Using an operator means you have created a level of indirection, where you have to have options in your custom resource to configure everything you may wish to change about an installation. Istio worked around this by offering the `IstioOperator` API, which allows configuration of installation options. This resource is used by both the in-cluster operator and istioctl install, so there is a trivial migration path for operator users
+Using an operator means you have created a level of indirection, where you have to have options in your custom resource to configure everything you may wish to change about an installation. Istio worked around this by offering the `IstioOperator` API, which allows configuration of installation options. This resource is used by both the in-cluster operator and istioctl install, so there is a trivial migration path for operator users.
 
 Three years ago — around the time of Istio 1.12 — we updated our documentation to say that use of the operator for new Istio installations is discouraged, and that users should use istioctl or Helm to install Istio.
 
