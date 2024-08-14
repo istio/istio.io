@@ -89,4 +89,4 @@ $ fortio load -uniform -t 60s -qps 8000 -c <num_connections> http://<fortio-svc-
 而另一些用户可能需要 eBPF 的灵活性和性能。
 
 目前，仍有许多工作需要完成，包括与各种 CNI 插件的集成，非常欢迎大家一同贡献以改善其易用性。
-请加入我们在 [Istio Slack](https://slack.istio.io/) 上的 #ambient 频道与我们一起交流。
+请加入我们在 [Istio Slack](https://slack.istio.io/) 中的 #ambient 频道与我们一起交流。
