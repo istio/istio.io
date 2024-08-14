@@ -1,7 +1,7 @@
 ---
 title: "Istio has deprecated its In-Cluster Operator"
 description: What you need to know if you are running the Operator controller in your cluster.
-publishdate: 2024-08-15
+publishdate: 2024-08-14
 attribution: "Mitch Connors (Microsoft), for the Istio Technical Oversight Committee"
 keywords: [operator,deprecation]
 ---
