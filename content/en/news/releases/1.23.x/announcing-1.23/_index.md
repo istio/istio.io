@@ -3,7 +3,7 @@ title: Announcing Istio 1.23.0
 linktitle: 1.23.0
 subtitle: Major Release
 description: Istio 1.23 Release Announcement.
-publishdate: 2024-08-15
+publishdate: 2024-08-14
 release: 1.23.0
 ---
 

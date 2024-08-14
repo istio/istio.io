@@ -3,7 +3,7 @@ title: Istio 1.23.0 Change Notes
 linktitle: 1.23.0
 subtitle: Major Release
 description: Istio 1.23.0 release notes.
-publishdate: 2024-08-15
+publishdate: 2024-08-14
 release: 1.23.0
 weight: 10
 aliases:
@@ -15,8 +15,6 @@ aliases:
 - **Deprecated** the in-cluster Operator.  Please check out [our deprecation announcement blog post](/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
 
 ## Traffic Management
-
-- **Updated** `istio-cni` config map to only expose environment variables that are user-configurable.
 
 - **Added** support for proxying `100 Continue` headers. This can be disabled by setting `ENABLE_100_CONTINUE_HEADERS` to `false`.
 
@@ -67,6 +65,8 @@ aliases:
 
 - **Removed** the experimental `PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING` feature flag and corresponding `istioctl experimental wait` command.
 
+- **Updated** `istio-cni` config map to only expose environment variables that are user-configurable.
+
 ## Security
 
 - **Added** stricter validation of CSRs when Istio is functioning as the RA and is configured with an external CA for workload certificate signing.
@@ -104,14 +104,6 @@ aliases:
 
 - **Added** `.Values.pilot.trustedZtunnelNamespace` to the `istiod` Helm chart. Set this if installing ztunnel to a different namespace from `istiod`. This value supersedes `.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS` (which is still respected if set).
 
-- **Improved** the Helm installation for Istiod multi-cluster for primary-remote. Now, Helm installations only require setting `global.externalIstiod`, instead of also requiring `pilot.env.EXTERNAL_ISTIOD` to be set.
-  ([Issue #51595](https://github.com/istio/istio/issues/51595))
-
-- **Updated** the [`distroless`](/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
-  This should have no user-facing impact.
-
-- **Updated** Kiali addon to version 1.87.0.
-
 - **Added** the `releaseChannel:extended` flag to non-GA features and APIs. ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
 - **Added** outlier log path configuration to the mesh proxy config which allows users to configure the path to the outlier detection log file.
@@ -124,9 +116,6 @@ aliases:
 
 - **Fixed** an issue where the CNI plugin inherited the CNI agent log level.
 
-- **Improved** CNI logging config.
-  ([Issue #50958](https://github.com/istio/istio/issues/50958))
-
 - **Fixed** an issue with service account annotation formatting by removing dashes.
   ([Issue #51289](https://github.com/istio/istio/issues/51289))
 
@@ -137,18 +126,22 @@ aliases:
 
 - **Fixed** an issue where netlink errors were not be correctly parsed, leading to `istio-cni` not properly ignoring leftover ipsets.
 
+- **Improved** CNI logging config.
+  ([Issue #50958](https://github.com/istio/istio/issues/50958))
+
+- **Improved** the Helm installation for Istiod multi-cluster for primary-remote. Now, Helm installations only require setting `global.externalIstiod`, instead of also requiring `pilot.env.EXTERNAL_ISTIOD` to be set.
+  ([Issue #51595](https://github.com/istio/istio/issues/51595))
+
 - **Removed** `values.cni.logLevel` is now deprecated. Use `values.{cni|global}.logging.level` instead.
+
+- **Updated** the [`distroless`](/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
+  This should have no user-facing impact.
+
+- **Updated** Kiali addon to version 1.87.0.
 
 - **Upgraded** base debug images to use the latest Ubuntu LTS, `ubuntu:noble`. Previously, `ubuntu:focal` was used.
 
 ## istioctl
-
-- **Improved** the output for `istioctl version` to be more user-friendly.  ([Issue #51296](https://github.com/istio/istio/issues/51296))
-
-- **Improved** the `istioctl proxy-status` command.
-    - Each status now includes the time since the last change.
-    - If a proxy is not subscribed to a resource, it will now be shown as `IGNORED` instead of `NOT SENT`. `NOT SENT` continues to be used for resources that are requested, but never sent.
-    - Include a new `ERROR` status when configuration is rejected.
 
 - **Added** a status subcommand that prints out the status of gateway(s) for a given namespace.  ([Issue #51294](https://github.com/istio/istio/issues/51294))
 
@@ -156,6 +149,13 @@ aliases:
 
 - **Added** an `overwrite` flag to `istioctl apply` command to allow overwriting existing resources in the cluster (initially, just namespace waypoint enrollments).
   ([Issue #51312](https://github.com/istio/istio/issues/51312))
+
+- **Improved** the output for `istioctl version` to be more user-friendly.  ([Issue #51296](https://github.com/istio/istio/issues/51296))
+
+- **Improved** the `istioctl proxy-status` command.
+    - Each status now includes the time since the last change.
+    - If a proxy is not subscribed to a resource, it will now be shown as `IGNORED` instead of `NOT SENT`. `NOT SENT` continues to be used for resources that are requested, but never sent.
+    - Include a new `ERROR` status when configuration is rejected.
 
 ## Samples
 
