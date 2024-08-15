@@ -124,7 +124,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     {{< /text >}}
 
 1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod with Istio sidecar. Notice the
-    headers added by Istio sidecar, for example `X-Envoy-Decorator-Operation`. Also note that
+    headers added by Istio sidecar, for example `X-Envoy-Peer-Metadata`. Also note that
     the `Host` header equals to your service's hostname.
 
     {{< text bash >}}
@@ -138,7 +138,6 @@ Kubernetes Services for egress traffic work with other protocols as well.
         "X-B3-Sampled": "0",
         "X-B3-Spanid": "5795fab599dca0b8",
         "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
-        "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
         "X-Envoy-Peer-Metadata": "...",
         "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
