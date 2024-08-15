@@ -50,6 +50,21 @@ function install_istio_on_cluster2_helm {
     echo y | snip_configure_cluster2_as_a_remote_4
 }
 
+function cleanup_cluster1_helm {
+  snip_cleanup_3
+  snip_cleanup_4
+}
+
+function cleanup_cluster2_helm {
+  snip_cleanup_5
+  snip_cleanup_6
+}
+
+function cleanup_helm {
+  cleanup_cluster1_helm
+  cleanup_cluster2_helm
+}
+
 time install_istio_on_cluster1_helm
 time install_istio_on_cluster2_helm
 time enable_api_server_access
@@ -58,7 +73,7 @@ time verify_load_balancing
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
-time cleanup
+time cleanup_helm
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.

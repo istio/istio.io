@@ -148,3 +148,22 @@ snip_expose_services_in_cluster1_and_cluster2_1() {
 kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
     samples/multicluster/expose-services.yaml
 }
+
+snip_cleanup_3() {
+helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}
+helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER1}"
+helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
+}
+
+snip_cleanup_4() {
+kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+}
+
+snip_cleanup_5() {
+helm delete istiod-remote -n istio-system --kube-context "${CTX_CLUSTER2}"
+helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER2}"
+}
+
+snip_cleanup_6() {
+kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+}

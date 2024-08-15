@@ -116,3 +116,21 @@ istioctl create-remote-secret \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
 }
+
+snip_cleanup_3() {
+helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
+helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER1}"
+helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
+}
+
+snip_cleanup_4() {
+kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+}
+
+snip_cleanup_5() {
+helm delete istiod-remote -n istio-system --kube-context "${CTX_CLUSTER2}"
+}
+
+snip_cleanup_6() {
+kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+}

@@ -74,6 +74,21 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
+function cleanup_cluster1_helm {
+  snip_cleanup_3
+  snip_cleanup_4
+}
+
+function cleanup_cluster2_helm {
+  snip_cleanup_5
+  snip_cleanup_6
+}
+
+function cleanup_helm {
+  cleanup_cluster1_helm
+  cleanup_cluster2_helm
+}
+
 time configure_trust
 time install_istio_helm
 time enable_endpoint_discovery
@@ -82,7 +97,7 @@ time verify_load_balancing
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
-time cleanup
+time cleanup_helm
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.
