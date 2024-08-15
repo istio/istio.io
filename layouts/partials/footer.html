@@ -30,19 +30,6 @@
             <a class="logo" href="{{ $home.Permalink }}" aria-label="logotype">
                 {{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ .Content | safeHTML }}{{ end }}
             </a>
-
-            <div class="footer-languages">
-                {{ $currentLanguage := $home.Lang }}
-                {{ $supportedLanguages := .Site.Data.args.supported_languages }}
-
-                {{ range $supportedLanguages}}
-                    {{ $active := eq $currentLanguage .code }}
-                    <a tabindex="-1" lang="{{.code}}" id="switch-lang-{{.code}}" class="footer-languages-item {{ if $active }}active{{ end }}">
-                        {{ if $active }}{{ partial "icon.html" "tick" }}{{ end }}
-                        {{ .name }}
-                    </a>
-                {{ end }}
-            </div>
         </div>
 
         <ul class="footer-policies">

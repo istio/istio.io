@@ -1,6 +1,8 @@
 {{ $home := .Site.GetPage "home" }}
 {{ $section := .Section }}
 {{ $current := . }}
+{{ $currentLanguage := .Site.GetPage.Lang }}
+{{ $supportedLanguages := .Site.Data.args.supported_languages }}
 
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
@@ -46,6 +48,26 @@
                         </li>
                     {{ end }}
                 {{ end }}
+                <li class="main-navigation-links-item language-dropdown">
+                    <a class="main-navigation-links-link has-dropdown">
+                        {{ range $supportedLanguages }}
+                            {{ if eq $currentLanguage .code }}
+                                {{ .name }}
+                            {{ end }}
+                        {{ end }}
+                        {{ partial "icon.html" "dropdown-arrow" }}
+                    </a>
+                    <ul class="main-navigation-links-dropdown">
+                        {{ range $supportedLanguages}}
+                            {{ $active := eq $currentLanguage .code }}
+                            <li class="main-navigation-links-dropdown-item">
+                                <a tabindex="-1" lang="{{.code}}" id="switch-lang-{{.code}}" class="main-navigation-links-link ">
+                                    {{ .name }}
+                                </a>
+                            </li>
+                        {{ end }}
+                    </ul>
+                </li>
             </ul>
 
             <div class="main-navigation-footer">

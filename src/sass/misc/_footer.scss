@@ -71,33 +71,6 @@
         }
     }
 
-    .footer-languages {
-        margin-top: 1.7rem;
-        display: flex;
-        align-self: center;
-
-        &-item {
-            display: inline-flex;
-            align-items: center;
-            font-weight: $mediumWeight;
-
-            &:not(:first-child) {
-                margin-left: 1rem;
-            }
-
-            &.active {
-                color: $accentColor;
-            }
-        }
-
-        svg.icon.tick {
-            fill: $accentColor;
-            stroke: $accentColor;
-            stroke-width: 3px;
-            margin-right: .5rem;
-        }
-    }
-
     .footer-policies {
         grid-area: footer-policies;
         list-style-type: none;
