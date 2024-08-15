@@ -59,6 +59,21 @@ function install_istio_on_cluster2_helm {
     _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
 }
 
+function cleanup_cluster1_helm {
+  snip_cleanup_3
+  snip_cleanup_4
+}
+
+function cleanup_cluster2_helm {
+  snip_cleanup_5
+  snip_cleanup_6
+}
+
+function cleanup_helm {
+  cleanup_cluster1_helm
+  cleanup_cluster2_helm
+}
+
 time install_istio_on_cluster1_helm
 time install_istio_on_cluster2_helm
 
@@ -70,7 +85,7 @@ time verify_load_balancing
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
-time cleanup
+time cleanup_helm
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.
