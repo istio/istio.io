@@ -53,11 +53,13 @@ function enable_endpoint_discovery {
 function cleanup_cluster1_helm {
   snip_cleanup_3
   snip_cleanup_4
+  snip_delete_sample_ns_cluster_1
 }
 
 function cleanup_cluster2_helm {
   snip_cleanup_5
   snip_cleanup_6
+  snip_delete_sample_ns_cluster_2
 }
 
 function cleanup_helm {
