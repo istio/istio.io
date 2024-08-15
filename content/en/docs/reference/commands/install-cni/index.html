@@ -28,16 +28,12 @@ remove_toc_prefix: 'install-cni '
 <td>Whether to install CNI plugin as a chained or standalone </td>
 </tr>
 <tr>
+<td><code>--cni-agent-run-dir &lt;string&gt;</code></td>
+<td>Location of the node agent writable path on the node (used for sockets, etc)  (default `/var/run/istio-cni`)</td>
+</tr>
+<tr>
 <td><code>--cni-conf-name &lt;string&gt;</code></td>
 <td>Name of the CNI configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--cni-event-address &lt;string&gt;</code></td>
-<td>The UDS server address which CNI plugin will forward ambient pod creation events to  (default `/var/run/istio-cni/pluginevent.sock`)</td>
-</tr>
-<tr>
-<td><code>--cni-net-dir &lt;string&gt;</code></td>
-<td>Directory on the host where CNI network plugins are installed  (default `/etc/cni/net.d`)</td>
 </tr>
 <tr>
 <td><code>--cni-network-config &lt;string&gt;</code></td>
@@ -60,20 +56,12 @@ remove_toc_prefix: 'install-cni '
 <td>CA file for kubeconfig. Defaults to the same as install-cni pod  (default ``)</td>
 </tr>
 <tr>
-<td><code>--kubecfg-file-name &lt;string&gt;</code></td>
-<td>Name of the kubeconfig file which CNI plugin will use when interacting with API server  (default `ZZZ-istio-cni-kubeconfig`)</td>
-</tr>
-<tr>
 <td><code>--kubeconfig-mode &lt;int&gt;</code></td>
 <td>File mode of the kubeconfig file  (default `384`)</td>
 </tr>
 <tr>
 <td><code>--log-level &lt;string&gt;</code></td>
 <td>Fallback value for log level in CNI config file, if not specified in helm template  (default `warn`)</td>
-</tr>
-<tr>
-<td><code>--log-uds-address &lt;string&gt;</code></td>
-<td>The UDS server address which CNI plugin will copy log output to  (default `/var/run/istio-cni/log.sock`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -86,22 +74,6 @@ remove_toc_prefix: 'install-cni '
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
@@ -210,22 +182,6 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
@@ -240,14 +196,13 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <p>This script depends on the &#39;bash-completion&#39; package.
 If it is not installed already, you can install it via your OS&#39;s package manager.</p>
 <p>To load completions in your current shell session:</p>
-<p>	source &lt;(install-cni completion bash)</p>
+<pre class="language-bash"><code>source &lt;(install-cni completion bash)</code></pre>
 <p>To load completions for every new session, execute once:</p>
-<p>#### Linux:</p>
-<p>	install-cni completion bash &gt; /etc/bash_completion.d/install-cni</p>
-<p>#### macOS:</p>
-<p>	install-cni completion bash &gt; $(brew --prefix)/etc/bash_completion.d/install-cni</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+<h4>Linux:</h4>
+<pre class="language-bash"><code>install-cni completion bash &gt; /etc/bash_completion.d/install-cni</code></pre>
+<h4>macOS:</h4>
+<pre class="language-bash"><code>install-cni completion bash &gt; /usr/local/etc/bash_completion.d/install-cni</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>install-cni completion bash
 </code></pre>
 <table class="command-flags">
@@ -279,22 +234,6 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
@@ -311,11 +250,10 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <h3 id="install-cni-completion-fish">install-cni completion fish</h3>
 <p>Generate the autocompletion script for the fish shell.</p>
 <p>To load completions in your current shell session:</p>
-<p>	install-cni completion fish | source</p>
+<pre class="language-bash"><code>install-cni completion fish | source</code></pre>
 <p>To load completions for every new session, execute once:</p>
-<p>	install-cni completion fish &gt; ~/.config/fish/completions/install-cni.fish</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+<pre class="language-bash"><code>install-cni completion bash &gt; ~/.config/fish/completions/install-cni.fish</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>install-cni completion fish [flags]
 </code></pre>
 <table class="command-flags">
@@ -347,22 +285,6 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
@@ -377,12 +299,10 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tbody>
 </table>
 <h3 id="install-cni-completion-powershell">install-cni completion powershell</h3>
-<p>Generate the autocompletion script for powershell.</p>
+<p>Generate the autocompletion script for PowerShell.</p>
 <p>To load completions in your current shell session:</p>
-<p>	install-cni completion powershell | Out-String | Invoke-Expression</p>
-<p>To load completions for every new session, add the output of the above command
-to your powershell profile.
-</p>
+<pre class="language-bash"><code>install-cni completion powershell | Out-String | Invoke-Expression</code></pre>
+<p>To load completions for every new session, add the output of the above command to your powershell profile.</p>
 <pre class="language-bash"><code>install-cni completion powershell [flags]
 </code></pre>
 <table class="command-flags">
@@ -414,22 +334,6 @@ to your powershell profile.
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
@@ -445,18 +349,16 @@ to your powershell profile.
 </table>
 <h3 id="install-cni-completion-zsh">install-cni completion zsh</h3>
 <p>Generate the autocompletion script for the zsh shell.</p>
-<p>If shell completion is not already enabled in your environment you will need
-to enable it.  You can execute the following once:</p>
-<p>	echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
-<p>To load completions in your current shell session:</p>
-<p>	source &lt;(install-cni completion zsh)</p>
-<p>To load completions for every new session, execute once:</p>
-<p>#### Linux:</p>
-<p>	install-cni completion zsh &gt; &#34;${fpath[1]}/_install-cni&#34;</p>
-<p>#### macOS:</p>
-<p>	install-cni completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_install-cni</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+	<p>If shell completion is not already enabled in your environment you will need to enable it. You can execute the following once:</p>
+	<pre class="language-bash"><code>echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</code></pre>
+	<p>To load completions in your current shell session:</p>
+	<pre class="language-bash"><code>source &lt;(install-cni completion zsh)</code></pre>
+	<p>To load completions for every new session, execute once:</p>
+	<h4>Linux:</h4>
+	<pre class="language-bash"><code>install-cni completion zsh &gt; &#34;${fpath[1]}/_install-cni&#34;</code></pre>
+	<h4>macOS:</h4>
+	<pre class="language-bash"><code>install-cni completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_install-cni</code></pre>
+	<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>install-cni completion zsh [flags]
 </code></pre>
 <table class="command-flags">
@@ -486,22 +388,6 @@ to enable it.  You can execute the following once:</p>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
@@ -556,26 +442,6 @@ to enable it.  You can execute the following once:</p>
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, iptables, klog, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
@@ -598,7 +464,7 @@ to enable it.  You can execute the following once:</p>
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>install-cni</code> command. Please use with caution as these environment variables are experimental and can change anytime.
+These environment variables affect the behavior of the <code>install-cni</code> command. 
 <table class="envvars">
 <thead>
 <tr>
@@ -640,16 +506,16 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
 <tr>
+<td><code>CNI_AGENT_RUN_DIR</code></td>
+<td>String</td>
+<td><code>/var/run/istio-cni</code></td>
+<td>Location of the node agent writable path on the node (used for sockets, etc)</td>
+</tr>
+<tr>
 <td><code>CNI_CONF_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
 <td>Name of the CNI configuration file</td>
-</tr>
-<tr>
-<td><code>CNI_EVENT_ADDRESS</code></td>
-<td>String</td>
-<td><code>/var/run/istio-cni/pluginevent.sock</code></td>
-<td>The UDS server address which CNI plugin will forward ambient pod creation events to</td>
 </tr>
 <tr>
 <td><code>CNI_NETWORK_CONFIG</code></td>
@@ -662,12 +528,6 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code></code></td>
 <td>CNI config template as a file</td>
-</tr>
-<tr>
-<td><code>CNI_NET_DIR</code></td>
-<td>String</td>
-<td><code>/etc/cni/net.d</code></td>
-<td>Directory on the host where CNI network plugins are installed</td>
 </tr>
 <tr>
 <td><code>COMPLIANCE_POLICY</code></td>
@@ -724,6 +584,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
 </tr>
 <tr>
+<td><code>ENABLE_DEFERRED_STATS_CREATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio will lazily initialize a subset of the stats</td>
+</tr>
+<tr>
 <td><code>ENABLE_DELIMITED_STATS_TAG_REGEX</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -736,12 +602,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
-<td><code>ENABLE_EXTERNAL_NAME_ALIAS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, ExternalName Services will be treated as simple aliases: anywhere where we would match the concrete service, we also match the ExternalName. In general, this mirrors Kubernetes behavior more closely. However, it means that policies (routes and DestinationRule) cannot be applied to the ExternalName service. If disabled, ExternalName behaves in fairly unexpected manner. Port matters, while it does not in Kubernetes. If it is a TCP port, all traffic on that port will be matched, which can have disastrous consequences. Additionally, the destination is seen as an opaque destination; even if it is another service in the mesh, policies such as mTLS and load balancing will not be used when connecting to it.</td>
-</tr>
-<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -750,7 +610,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
 </tr>
 <tr>
@@ -824,6 +684,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>String</td>
 <td><code>istio-proxy</code></td>
 <td>Envoy proxy username</td>
+</tr>
+<tr>
+<td><code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, excludes unsafe retry on 503 from default retry policy.</td>
 </tr>
 <tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
@@ -980,12 +846,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
 </tr>
 <tr>
-<td><code>KUBECFG_FILE_NAME</code></td>
-<td>String</td>
-<td><code>ZZZ-istio-cni-kubeconfig</code></td>
-<td>Name of the kubeconfig file which CNI plugin will use when interacting with API server</td>
-</tr>
-<tr>
 <td><code>KUBECONFIG_MODE</code></td>
 <td>Integer</td>
 <td><code>384</code></td>
@@ -1014,12 +874,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>warn</code></td>
 <td>Fallback value for log level in CNI config file, if not specified in helm template</td>
-</tr>
-<tr>
-<td><code>LOG_UDS_ADDRESS</code></td>
-<td>String</td>
-<td><code>/var/run/istio-cni/log.sock</code></td>
-<td>The UDS server address which CNI plugin will copy log output to</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
@@ -1074,12 +928,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td></td>
-</tr>
-<tr>
-<td><code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, istiod will persist the oldest first heuristic for subtly conflicting traffic policy selection(such as with overlapping wildcard hosts)</td>
 </tr>
 <tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
@@ -1298,12 +1146,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, HBONE support can be configured for proxies.</td>
 </tr>
 <tr>
-<td><code>PILOT_ENABLE_STATUS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
-</tr>
-<tr>
 <td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1520,6 +1362,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>pod&#39;s namespace</td>
 </tr>
 <tr>
+<td><code>PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
+</tr>
+<tr>
 <td><code>REPAIR_BROKEN_POD_LABEL_KEY</code></td>
 <td>String</td>
 <td><code>cni.istio.io/uninitialized</code></td>
@@ -1656,12 +1504,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio-istio-system</code></td>
 <td>If not empty, the controller will automatically patch validatingwebhookconfiguration when the CA certificate changes. Only works in kubernetes environment.</td>
-</tr>
-<tr>
-<td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
 </tr>
 <tr>
 <td><code>XDS_AUTH</code></td>

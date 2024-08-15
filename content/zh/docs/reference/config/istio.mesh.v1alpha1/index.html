@@ -231,17 +231,10 @@ No
 <td><code><a href="#MeshConfig-OutboundTrafficPolicy">OutboundTrafficPolicy</a></code></td>
 <td>
 <p>Set the default behavior of the sidecar for handling outbound
-traffic from the application.  If your application uses one or
-more external services that are not known apriori, setting the
-policy to <code>ALLOW_ANY</code> will cause the sidecars to route any unknown
-traffic originating from the application to its requested
-destination. Users are strongly encouraged to use ServiceEntries
-to explicitly declare any external dependencies, instead of using
-<code>ALLOW_ANY</code>, so that traffic to these services can be
-monitored. Can be overridden at a Sidecar level by setting the
-<code>OutboundTrafficPolicy</code> in the <a href="/zh/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar
-API</a>.
-Default mode is <code>ALLOW_ANY</code> which means outbound traffic to unknown destinations will be allowed.</p>
+traffic from the application.</p>
+<p>Can be overridden at a Sidecar level by setting the <code>OutboundTrafficPolicy</code> in the
+<a href="/zh/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar API</a>.</p>
+<p>Default mode is <code>ALLOW_ANY</code>, which means outbound traffic to unknown destinations will be allowed.</p>
 
 </td>
 <td>
@@ -464,7 +457,8 @@ By default, Istio emits statistics with the pattern <code>inbound|&lt;port&gt;|&
 For example <code>inbound|7443|grpc-reviews|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
 <ul>
-<li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
+<li><code>%SERVICE%</code> - Will be substituted with short hostname of the service.</li>
+<li><code>%SERVICE_NAME%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
 <li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
 <li><code>%TARGET_PORT%</code>  - Will be substituted with the target port of the service.</li>
@@ -491,7 +485,8 @@ By default, Istio emits statistics with the pattern <code>outbound|&lt;port&gt;|
 For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This can be used to override that pattern.</p>
 <p>A Pattern can be composed of various pre-defined variables. The following variables are supported.</p>
 <ul>
-<li><code>%SERVICE%</code> - Will be substituted with name of the service.</li>
+<li><code>%SERVICE%</code> - Will be substituted with short hostname of the service.</li>
+<li><code>%SERVICE_NAME%</code> - Will be substituted with name of the service.</li>
 <li><code>%SERVICE_FQDN%</code> - Will be substituted with FQDN of the service.</li>
 <li><code>%SERVICE_PORT%</code> - Will be substituted with port of the service.</li>
 <li><code>%SERVICE_PORT_NAME%</code> - Will be substituted with port name of the service.</li>
@@ -815,6 +810,9 @@ No
 </section>
 <h2 id="MeshConfig-OutboundTrafficPolicy">MeshConfig.OutboundTrafficPolicy</h2>
 <section>
+<p><code>OutboundTrafficPolicy</code> sets the default behavior of the sidecar for
+handling unknown outbound traffic from the application.</p>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -4406,16 +4404,21 @@ No
 <tr id="MeshConfig-OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
 <td><code>REGISTRY_ONLY</code></td>
 <td>
-<p>outbound traffic will be restricted to services defined in the
-service registry as well as those defined through ServiceEntries</p>
+<p>In <code>REGISTRY_ONLY</code> mode, unknown outbound traffic will be dropped.
+Traffic destinations must be explicitly declared into the service registry through <code>ServiceEntry</code> configurations.</p>
+<p>Note: Istio <a href="/latest/docs/ops/best-practices/security/#understand-traffic-capture-limitations">does not offer an outbound traffic security policy</a>.
+This option does not act as one, or as any form of an outbound firewall.
+Instead, this option exists primarily to offer users a way to detect missing <code>ServiceEntry</code> configurations by explicitly failing.</p>
 
 </td>
 </tr>
 <tr id="MeshConfig-OutboundTrafficPolicy-Mode-ALLOW_ANY">
 <td><code>ALLOW_ANY</code></td>
 <td>
-<p>outbound traffic to unknown destinations will be allowed, in case
-there are no services or ServiceEntries for the destination port</p>
+<p>In <code>ALLOW_ANY</code> mode, any traffic to unknown destinations will be allowed.
+Unknown destination traffic will have limited functionality, however, such as reduced observability.
+This mode allows users that do not have all possible egress destinations registered through <code>ServiceEntry</code> configurations to still connect
+to arbitrary destinations.</p>
 
 </td>
 </tr>
