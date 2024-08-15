@@ -89,10 +89,13 @@ Istio 1.24 或更高版本。1.24 的预计发布日期是 2024 年 11 月。
 希望坚持使用 Operator 模式的用户在
 [istio-ecosystem](https://github.com/istio-ecosystem/) 组织中有两个第三方选项。
 
-Please check out [our deprecation announcement blog post](/zh/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
+有关此变更的更多详细信息，
+请查看[我们的弃用公告博客文章](/zh/blog/2024/in-cluster-operator-deprecation-announcement/)。
 
-## Upgrading to 1.23
+## 升级到 1.23 {#upgrading-to-1-23}
 
-We would like to hear from you regarding your experience upgrading to Istio 1.23. You can provide feedback in the `#release-1.23` channel in our [Slack workspace](https://slack.istio.io/).
+我们希望听取您关于升级到 Istio 1.23 的体验。
+您可以在我们的 [Slack 工作区](https://slack.istio.io/)中的 `#release-1.23` 频道中提供反馈。
 
-Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
+您想直接为 Istio 做出贡献吗？
+查找并加入我们的[工作组](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)之一，帮助我们改进。
