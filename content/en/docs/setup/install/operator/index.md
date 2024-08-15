@@ -6,7 +6,7 @@ keywords: [kubernetes, operator]
 aliases:
     - /docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 status: Beta
 ---
 
