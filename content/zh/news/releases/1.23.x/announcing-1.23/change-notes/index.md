@@ -144,7 +144,7 @@ aliases:
 - **修复** 修复了网关注入期间忽略 `sidecar.istio.io/proxyImage` 注解的问题。
   ([Issue #51888](https://github.com/istio/istio/issues/51888))
 
-- **修复** 修复了无法正确解析 netlink 错误的问题，导致 `istio-cni` 无法正确忽略剩余的 ipset。
+- **修复** 修复了无法正确解析 netlink 错误的问题，导致 `istio-cni` 无法正确忽略剩余的 ipsets。
 
 - **改进** 改进了 CNI 日志配置。
   ([Issue #50958](https://github.com/istio/istio/issues/50958))
