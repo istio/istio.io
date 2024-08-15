@@ -150,7 +150,7 @@ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 }
 
 snip_cleanup_3() {
-helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}
+helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
 helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER1}"
 helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
 }
