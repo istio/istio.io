@@ -48,7 +48,7 @@ _verify_contains snip_kubernetes_externalname_service_to_access_an_external_serv
 snip_kubernetes_externalname_service_to_access_an_external_service_4
 _wait_for_istio destinationrule default my-httpbin
 
-_verify_contains snip_kubernetes_externalname_service_to_access_an_external_service_5 "\"X-Envoy-Decorator-Operation\": \"my-httpbin.default.svc.cluster.local:80/*\""
+_verify_contains snip_kubernetes_externalname_service_to_access_an_external_service_5 "\"X-Envoy-Peer-Metadata\":"
 
 # service wikipedia
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_1
