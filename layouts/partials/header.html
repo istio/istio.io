@@ -50,11 +50,7 @@
                 {{ end }}
                 <li class="main-navigation-links-item language-dropdown">
                     <a class="main-navigation-links-link has-dropdown">
-                        {{ range $supportedLanguages }}
-                            {{ if eq $currentLanguage .code }}
-                                {{ .name }}
-                            {{ end }}
-                        {{ end }}
+                        en/关于
                         {{ partial "icon.html" "dropdown-arrow" }}
                     </a>
                     <ul class="main-navigation-links-dropdown">
