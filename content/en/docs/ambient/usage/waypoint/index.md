@@ -52,6 +52,7 @@ default           Active   24h   ambient
 
 {{< text syntax=bash snip_id=gen_waypoint_resource >}}
 $ istioctl waypoint generate --for service -n default
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -79,6 +80,7 @@ Or, you can deploy the generated Gateway resource:
 
 {{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
