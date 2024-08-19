@@ -71,7 +71,7 @@ The optional `--purge` flag will remove all Istio resources, including cluster-s
 
 Alternatively, to remove only a specific Istio control plane, run the following command:
 
-{{< text syntax=bash snip_id=uninstall_specific_control_plane >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl uninstall <your original installation options>
 {{< /text >}}
 
