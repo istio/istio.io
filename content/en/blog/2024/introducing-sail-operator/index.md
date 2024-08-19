@@ -1,7 +1,7 @@
 ---
 title: "Introducing the Sail Operator: a new way to manage Istio"
 description: Introducing the Sail Operator to manage Istio, a project part of the istio-ecosystem organization.
-publishdate: 2024-08-15
+publishdate: 2024-08-19
 attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,deprecation]
 ---
