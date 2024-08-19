@@ -26,7 +26,7 @@ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKIN
 }
 
 snip_uninstall() {
-istioctl uninstall --purge
+istioctl uninstall --purge -y
 }
 
 snip_uninstall_specific_control_plane() {
