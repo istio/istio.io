@@ -4,7 +4,7 @@ description: Install Istio with support for ambient mode using the istioctl comm
 weight: 10
 keywords: [istioctl,ambient]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 {{< tip >}}
@@ -61,8 +61,8 @@ Full details on how to use and customize `istioctl` installations are available 
 
 To completely uninstall Istio from a cluster, run the following command:
 
-{{< text bash >}}
-$ istioctl uninstall --purge
+{{< text syntax=bash snip_id=uninstall >}}
+$ istioctl uninstall --purge -y
 {{< /text >}}
 
 {{< warning >}}
@@ -71,13 +71,13 @@ The optional `--purge` flag will remove all Istio resources, including cluster-s
 
 Alternatively, to remove only a specific Istio control plane, run the following command:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=uninstall_specific_control_plane >}}
 $ istioctl uninstall <your original installation options>
 {{< /text >}}
 
 The control plane namespace (e.g., `istio-system`) is not removed by default.
 If no longer needed, use the following command to remove it:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=remove_namespace >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
