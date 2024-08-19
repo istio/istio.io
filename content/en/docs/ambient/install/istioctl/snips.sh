@@ -29,10 +29,6 @@ snip_uninstall() {
 istioctl uninstall --purge -y
 }
 
-snip_uninstall_specific_control_plane() {
-istioctl uninstall <your original installation options>
-}
-
 snip_remove_namespace() {
 kubectl delete namespace istio-system
 }
