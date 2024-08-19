@@ -33,7 +33,7 @@ snip_install_cni() {
 helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 }
 
-snip_install_discovery() {
+snip_install_istiod() {
 helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 }
 
@@ -97,7 +97,7 @@ snip_delete_ztunnel() {
 helm delete ztunnel -n istio-system
 }
 
-snip_delete_discovery() {
+snip_delete_istiod() {
 helm delete istiod -n istio-system
 }
 
