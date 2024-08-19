@@ -16,7 +16,7 @@ This release note describes what is different between Istio 1.22.3 and 1.22.4.
 - **Fixed** an issue where the `VirtualMachine` `WorkloadEntry` locality label was missing during auto-registration.
   ([Issue #51800](https://github.com/istio/istio/issues/51800))
 
-- **Fixed** matching multiple service VIPs in `ServiceEntry`.
+- **Fixed** an issue where listeners were missing for addresses beyond the first in a `ServiceEntry`.
   ([Issue #51747](https://github.com/istio/istio/issues/51747))
 
 - **Fixed** inconsistent behavior with the `istio_agent_cert_expiry_seconds` metric.
