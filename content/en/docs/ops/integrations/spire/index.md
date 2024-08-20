@@ -56,7 +56,7 @@ This will also install:
 
 ## Register workloads
 
-SPIRE by-design only grants identities to workloads that have been registered with the SPIRE server.
+By design, SPIRE only grants identities to workloads that have been registered with the SPIRE server.
 
 This includes your user workloads, as well as Istio's own workloads - Istio sidecars and gateways, once configured for SPIRE integration, cannot get identities, and therefore cannot reach READY status, unless there is a preexisting, matching SPIRE registration created for them ahead of time.
 
