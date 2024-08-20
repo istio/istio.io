@@ -50,7 +50,7 @@ EOF
 
 This will also install:
 
-- The [SPIFFE CSI driver](https://github.com/spiffe/spiffe-csi) which is used to mount an Envoy-compatible SDS socket into proxies. Using the SPIFFE CSI driver to mount SDS sockets is strongly recommended by both Istio and SPIRE, as `hostMounts` are a larger security risk and introduce operational hurdles.
+- The [SPIFFE CSI driver](https://github.com/spiffe/spiffe-csi), which is used to mount an Envoy-compatible SDS socket into proxies. Using the SPIFFE CSI driver to mount SDS sockets is strongly recommended by both Istio and SPIRE, as `hostMounts` are a larger security risk and introduce operational hurdles.
 
 - The [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager), which eases the creation of SPIFFE registrations for workloads.
 
