@@ -114,7 +114,7 @@ Below are the equivalent manual registrations based off the automatic registrati
 1. Get the `spire-server` pod:
 
     {{< text syntax=bash snip_id=set_spire_server_pod_name_var >}}
-    $ SPIRE_SERVER_POD=$(kubectl get pod -l app=spire-server -n spire -o jsonpath="{.items[0].metadata.name}")
+    $ SPIRE_SERVER_POD=$(kubectl get pod -l statefulset.kubernetes.io/pod-name=spire-server-0 -n spire-server -o jsonpath="{.items[0].metadata.name}")
     {{< /text >}}
 
 1. Register an entry for the Istio Ingress gateway pod:
@@ -316,7 +316,7 @@ to check issued identities.
 Use the following command to confirm that identities were created for the workloads:
 
 {{< text bash >}}
-$ kubectl exec -t "$SPIRE_SERVER_POD" -n spire -c spire-server -- ./bin/spire-server entry show
+$ kubectl exec -t "$SPIRE_SERVER_POD" -n spire-server -c spire-server -- ./bin/spire-server entry show
 Found 2 entries
 Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
 SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
