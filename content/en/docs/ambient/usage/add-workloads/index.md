@@ -54,7 +54,7 @@ spec:
       app.kubernetes.io/name: my-app
 {{< /text >}}
 
-if `my-app` is added to the ambient mesh
+if `my-app` is added to the ambient mesh.
 
 ## Communicating between pods in different data plane modes
 
