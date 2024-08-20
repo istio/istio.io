@@ -51,12 +51,14 @@ kubectl apply -f - <<EOF
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
 metadata:
-  name: istio-ingressgateway-reg
+  name: istio-sidecar-reg
 spec:
   spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  podSelector:
+    matchLabels:
+      spiffe.io/spire-managed-identity: "true"
   workloadSelectorTemplates:
     - "k8s:ns:default"
-    - "k8s:pod-label:spiffe.io/spire-managed-identity:true"
 EOF
 }
 

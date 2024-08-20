@@ -22,12 +22,14 @@ set -o pipefail
 # @setup profile=none
 
 # Install SPIRE configured with k8s Controller Manager
-snip_install_spire_with_controller_manager
+snip_install_spire_crds
+snip_install_spire_istio_overrides
 _wait_for_daemonset spire spire-agent
 _wait_for_deployment spire spire-server
 
 # Create ClusterSPIFFEID
-snip_create_clusterspiffeid
+snip_spire_csid_istio_gateway
+snip_spire_csid_istio_sidecar
 
 # Install Istio
 set +u # Do not exit when value is unset. CHECK_FILE in the IstioOperator might be unset
@@ -56,7 +58,9 @@ snip_get_sleep_svid
 _verify_contains snip_get_svid_subject "O = SPIRE"
 
 # @cleanup
+#
 kubectl delete -f samples/security/spire/sleep-spire.yaml
 istioctl uninstall --purge --skip-confirmation
 kubectl delete ns istio-system
-snip_cleanup_spire_1
+snip_uninstall_spire
+snip_uninstall_spire_crds
