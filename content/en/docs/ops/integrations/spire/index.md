@@ -35,7 +35,7 @@ For this guide, the [SPIRE Helm charts](https://artifacthub.io/packages/helm/spi
 $ helm upgrade --install -n spire-server spire-crds spire-crds --repo https://spiffe.github.io/helm-charts-hardened/ --create-namespace
 {{< /text >}}
 
-{{< text syntax-bash snip_id=install_spire_istio_overrides >}}
+{{< text syntax=bash snip_id=install_spire_istio_overrides >}}
 $ helm upgrade --install -n spire-server spire spire --repo https://spiffe.github.io/helm-charts-hardened/ --wait -f - <<EOF
 global:
   spire:
@@ -79,7 +79,7 @@ Both Istio sidecars and Istio gateways need to be registered with SPIRE, so that
 
 The following will create a ClusterSPIFFEID which will auto-register any Istio Ingress gateway pod with SPIRE if it is scheduled into the `istio-system` namespace, and has a service account named `istio-ingressgateway-service-account`. These selectors are used as a simple example, consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
 
-{{< text syntax-bash snip_id=spire_csid_istio_gateway >}}
+{{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
 kubectl apply -f - <<EOF
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
@@ -97,7 +97,7 @@ EOF
 
 The following will create a ClusterSPIFFEID which will auto-register any pod with the `spiffe.io/spire-managed-identity: true` label that is deployed into the `default` namespace with SPIRE. These selectors are used as a simple example, consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
 
-{{< text syntax-bash snip_id=spire_csid_istio_gateway >}}
+{{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
 kubectl apply -f - <<EOF
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
@@ -410,7 +410,7 @@ This will allow Envoy to get federated bundles directly from SPIRE.
 
 ## Cleanup SPIRE
 
-{{< text syntax-bash snip_id=uninstall_spire >}}
+{{< text syntax=bash snip_id=uninstall_spire >}}
 $ helm delete -n spire-server spire
 {{< /text >}}
 
