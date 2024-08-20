@@ -95,7 +95,7 @@ EOF
 
 #### Istio Sidecar ClusterSPIFFEID
 
-The following will create a ClusterSPIFFEID which will auto-register any pod with the `spiffe.io/spire-managed-identity: true` label that is deployed into the `default` namespace with SPIRE. These selectors are used as a simple example, consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
+The following will create a ClusterSPIFFEID which will auto-register any pod with the `spiffe.io/spire-managed-identity: true` label that is deployed into the `default` namespace with SPIRE. These selectors are used as a simple example; consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
 
 {{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
 $ kubectl apply -f - <<EOF
