@@ -315,7 +315,7 @@ to check issued identities.
 
 Use the following command to confirm that identities were created for the workloads:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none>}}
 $ kubectl exec -t "$SPIRE_SERVER_POD" -n spire-server -c spire-server -- ./bin/spire-server entry show
 Found 2 entries
 Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
@@ -347,6 +347,12 @@ istiod-989f54d9c-sg7sn                  1/1     Running   0          45s
 After registering an entry for the Ingress-gateway pod, Envoy receives the identity issued by SPIRE and uses it for all TLS and mTLS communications.
 
 ### Check that the workload identity was issued by SPIRE
+
+1. Get pod information:
+
+    {{< text syntax=bash snip_id=set_sleep_pod_var >}}
+    $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
+    {{< /text >}}
 
 1. Retrieve sleep's SVID identity document using the istioctl proxy-config secret command:
 

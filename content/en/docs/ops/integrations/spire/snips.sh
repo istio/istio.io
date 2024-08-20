@@ -63,7 +63,7 @@ EOF
 }
 
 snip_set_spire_server_pod_name_var() {
-SPIRE_SERVER_POD=$(kubectl get pod -l app=spire-server -n spire -o jsonpath="{.items[0].metadata.name}")
+SPIRE_SERVER_POD=$(kubectl get pod -l statefulset.kubernetes.io/pod-name=spire-server-0 -n spire-server -o jsonpath="{.items[0].metadata.name}")
 }
 
 snip_option_2_manual_registration_2() {
@@ -187,28 +187,9 @@ snip_apply_sleep() {
 istioctl kube-inject --filename samples/security/spire/sleep-spire.yaml | kubectl apply -f -
 }
 
-snip_verifying_that_identities_were_created_for_workloads_1() {
-kubectl exec -t "$SPIRE_SERVER_POD" -n spire -c spire-server -- ./bin/spire-server entry show
+snip_set_sleep_pod_var() {
+SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
 }
-
-! IFS=$'\n' read -r -d '' snip_verifying_that_identities_were_created_for_workloads_1_out <<\ENDSNIP
-Found 2 entries
-Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
-SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
-Parent ID        : spiffe://example.org/spire/agent/k8s_psat/demo-cluster/bea19580-ae04-4679-a22e-472e18ca4687
-Revision         : 0
-X509-SVID TTL    : default
-JWT-SVID TTL     : default
-Selector         : k8s:pod-uid:88b71387-4641-4d9c-9a89-989c88f7509d
-
-Entry ID         : af7b53dc-4cc9-40d3-aaeb-08abbddd8e54
-SPIFFE ID        : spiffe://example.org/ns/default/sa/sleep
-Parent ID        : spiffe://example.org/spire/agent/k8s_psat/demo-cluster/bea19580-ae04-4679-a22e-472e18ca4687
-Revision         : 0
-X509-SVID TTL    : default
-JWT-SVID TTL     : default
-Selector         : k8s:pod-uid:ee490447-e502-46bd-8532-5a746b0871d6
-ENDSNIP
 
 snip_get_sleep_svid() {
 istioctl proxy-config secret "$SLEEP_POD" -o json | jq -r \

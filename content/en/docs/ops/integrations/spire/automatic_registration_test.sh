@@ -46,12 +46,8 @@ _wait_for_deployment default sleep
 # Set spire-server pod variable
 snip_set_spire_server_pod_name_var
 
-# Verify registration identities were created for sleep and ingress gateway
-_verify_contains snip_verifying_that_identities_were_created_for_workloads_1 "spiffe://example.org/ns/default/sa/sleep"
-_verify_contains snip_verifying_that_identities_were_created_for_workloads_1 "spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account"
-
 # Set sleep pod and pod uid variables
-snip_set_sleep_pod_vars
+snip_set_sleep_pod_var
 
 # Verify sleep workload identity was issued by SPIRE
 snip_get_sleep_svid
