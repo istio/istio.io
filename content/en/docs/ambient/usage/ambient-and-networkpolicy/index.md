@@ -8,17 +8,17 @@ test: no
 
 Kubernetes [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) allows you to control how layer 4 traffic reaches your pods.
 
-NetworkPolicy is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage NetworkPolicy, and in all cases respects it - ambient does not and will never bypass an operator's explicit Kubernetes NetworkPolicies.
+`NetworkPolicy` is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage `NetworkPolicy`, and in all cases respects it - ambient does not and will never bypass an operator's explicit Kubernetes `NetworkPolicies`.
 
-A downside of this approach is that it is perfectly possible to create a Kubernetes NetworkPolicy that will block Istio traffic, or otherwise impede Istio functionality, so when using NetworkPolicy and ambient together, there are some things to keep in mind.
+An implication of this is that it is possible to create a Kubernetes `NetworkPolicy` that will block Istio traffic, or otherwise impede Istio functionality, so when using `NetworkPolicy` and ambient together, there are some things to keep in mind.
 
 ### Ambient traffic overlay and Kubernetes NetworkPolicy
 
 Once you have added applications to the ambient mesh, ambient's secure L4 overlay will tunnel traffic between your pods over port 15008. Once secured traffic enters the target pod with a destination port of 15008, the traffic will be proxied back to the original destination port. 
 
-However, NetworkPolicy is enforced on the host, outside the pod. This means that if you have preexisting NetworkPolicy in place that, for example, will deny list inbound traffic to an ambient pod on every port but 443, you will have to add an exception to that NetworkPolicy for port 15008.
+However, `NetworkPolicy` is enforced on the host, outside the pod. This means that if you have preexisting `NetworkPolicy` in place that, for example, will deny list inbound traffic to an ambient pod on every port but 443, you will have to add an exception to that `NetworkPolicy` for port 15008.
 
-For example, the following NetworkPolicy will block incoming {{< gloss >}}HBONE{{< /gloss >}} traffic to the `my-app` on port 15008:
+For example, the following `NetworkPolicy` will block incoming {{< gloss >}}HBONE{{< /gloss >}} traffic to `my-app` on port 15008:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
@@ -63,9 +63,9 @@ In Istio ambient, this problem is solved by using a combination of iptables rule
 
 This is enabled transparently for you when you add pods to the ambient mesh, and by default ambient uses the link-local address `169.254.7.127` to identify and correctly allowlist kubelet health probe packets.
 
-However if your workload, namespace or cluster has a preexisting ingress or egress NetworkPolicy, depending on the CNI you are using, packets with this link-local address may be blocked by the explicit NetworkPolicy, which will cause your application pod health checks to begin failing when you add your pods to the ambient mesh.
+However if your workload, namespace or cluster has a preexisting ingress or egress `NetworkPolicy`, depending on the CNI you are using, packets with this link-local address may be blocked by the explicit `NetworkPolicy`, which will cause your application pod health checks to begin failing when you add your pods to the ambient mesh.
 
-For instance, applying the following NetworkPolicy in a namespace would block all traffic (Istio or otherwise) to the `my-app` pod, **including** kubelet healthcheck probes. Depending on your CNI, kubelet probes may be ignored by this policy, or blocked by it:
+For instance, applying the following `NetworkPolicy` in a namespace would block all traffic (Istio or otherwise) to the `my-app` pod, **including** kubelet healthcheck probes. Depending on your CNI, kubelet probes may be ignored by this policy, or blocked by it:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
@@ -80,7 +80,7 @@ spec:
   - Ingress
 {{< /text >}}
 
-Once the pod is enrolled in the ambient mesh, the health probe packets will begin to be SNAT-ed to a link local address, which means health probes may begin to be blocked by your CNI's NetworkPolicy implementation. To allow ambient healthchecks to bypass NetworkPolicy, explicitly allow traffic from the host node to your pod by allowlisting the link-local address ambient uses for this traffic:
+Once the pod is enrolled in the ambient mesh, the health probe packets will begin to be SNAT-ed to a link local address, which means health probes may begin to be blocked by your CNI's `NetworkPolicy` implementation. To allow ambient healthchecks to bypass `NetworkPolicy`, explicitly allow traffic from the host node to your pod by allowlisting the link-local address ambient uses for this traffic:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
