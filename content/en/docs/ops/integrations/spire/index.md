@@ -290,7 +290,6 @@ The following steps assume you have [already followed the SPIRE documentation to
           metadata:
             labels:
               app: sleep
-              spiffe.io/spire-managed-identity: "true"
             # Injects custom sidecar template
             annotations:
                 inject.istio.io/templates: "sidecar,spire"
