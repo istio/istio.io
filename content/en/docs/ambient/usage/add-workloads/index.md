@@ -22,7 +22,7 @@ The secure L4 overlay supports authentication and authorization policies. [Learn
 
 Once you have added applications to the ambient mesh, the secure L4 overlay will tunnel traffic between ambient enabled pods over port 15008. Once the traffic enters the pod with a destination port of 15008, the traffic will be proxied to the original destination port. NetworkPolicy is enforced on the host, outside the pod, however. This means that if you have preexisting NetworkPolicy in place that, for example, will deny list inbound traffic to an ambient pod on every port but 443, you will have to add an exception to that NetworkPolicy for port 15008.
 
-For example, the following NetworkPolicy, if it applies to a pod in the ambient mesh, will block incoming {{< gloss >}}HBONE{{< /gloss >}} traffic to that pod on port 15008.
+For example, the following NetworkPolicy will block incoming {{< gloss >}}HBONE{{< /gloss >}} traffic to the `my-app` on port 15008:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
@@ -53,6 +53,8 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
 {{< /text >}}
+
+if `my-app` is added to the ambient mesh
 
 ## Communicating between pods in different data plane modes
 
