@@ -20,7 +20,7 @@ The secure L4 overlay supports authentication and authorization policies. [Learn
 
 ### Ambient and Kubernetes NetworkPolicy
 
-See [ambient and Kubernetes NetworkPolicy](/docs/ambient/usage/ambient-and-network-policy).
+See [ambient and Kubernetes NetworkPolicy](/docs/ambient/usage/ambient-and-network-policy/).
 
 ## Communicating between pods in different data plane modes
 
