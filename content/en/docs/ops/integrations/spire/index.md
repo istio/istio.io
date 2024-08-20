@@ -44,7 +44,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-  See the [SPIRE Helm chart](https://artifacthub.io/packages/helm/spiffe/spire) documentation for other values you can configure for your installation - this doc only mentions the minimal subset required to achieve Istio integration.
+This is the minimal subset of changes required to integrate with Istio.  See the [SPIRE Helm chart](https://artifacthub.io/packages/helm/spiffe/spire) documentation for other values you can configure for your installation.
 {{< /tip >}}
 
 
