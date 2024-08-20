@@ -12,9 +12,10 @@ keywords: [istio,operator,sail,incluster,deprecation]
 组织内的用于管理 Istio 的[新 Operator](https://github.com/istio-ecosystem)。
 
 Sail Operator 管理 Istio 控制平面的生命周期，使集群管理员能够更轻松、
-更高效地在大规模生产环境中部署、配置和升级 Istio。Sail Operator API
-是围绕 Istio 的 Helm Chart API 构建的，无需创建新的配置模式以及重复造轮子。
-Istio 的 Helm Chart 公开的所有安装和配置选项都可通过 Sail Operator CRD 的值字段获得。
+更高效地在大规模生产环境中部署、配置和升级 Istio。
+Sail Operator API 是围绕 Istio 的 Helm Chart API 构建的，
+无需创建新的配置模式以及重复造轮子。Istio 的 Helm Chart
+公开的所有安装和配置选项都可通过 Sail Operator CRD 的值字段获得。
 这意味着您可以使用熟悉的配置轻松管理和自定义 Istio，而无需添加其他需要学习的内容。
 
 Sail Operator 有 3 个主要资源概念：
@@ -23,13 +24,15 @@ Sail Operator 有 3 个主要资源概念：
 * [Istio Revision](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#istiorevision-resource)：
   表示该控制平面的修订，它是具有特定版本和修订名称的 Istio 实例。
 * [Istio CNI](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#istiocni-resource)：
-  用于管理 Istio 的 CNI 插件的资源和生命周期。要安装 Istio CNI 插件，您需要创建一个 `IstioCNI` 资源。
+  用于管理 Istio 的 CNI 插件的资源和生命周期。
+  要安装 Istio CNI 插件，您需要创建一个 `IstioCNI` 资源。
 
 目前，Sail Operator 的主要功能是更新策略。
 该 Operator 提供了一个管理 Istio 控制平面升级的接口。它目前支持两种更新策略：
 * [In Place](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#inplace)：
-  使用 `InPlace` 策略，现有 Istio 控制平面将被新版本替换，工作负载
-  Sidecar 会立即连接到新的控制平面。这样，工作负载无需从一个控制平面实例移动到另一个控制平面实例。
+  使用 `InPlace` 策略，现有 Istio 控制平面将被新版本替换，
+  工作负载 Sidecar 会立即连接到新的控制平面。这样，
+  工作负载无需从一个控制平面实例移动到另一个控制平面实例。
 * [Revision Based](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#revisionbased)：
   使用 `RevisionBased` 策略，每次对 `Istio.spec.version`
   字段进行更改时都会创建一个新的 Istio 控制平面实例。旧控制平面将保留，
