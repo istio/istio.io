@@ -46,7 +46,7 @@ spec:
 EOF
 }
 
-snip_spire_csid_istio_gateway() {
+snip_spire_csid_istio_sidecar() {
 kubectl apply -f - <<EOF
 apiVersion: spire.spiffe.io/v1alpha1
 kind: ClusterSPIFFEID
