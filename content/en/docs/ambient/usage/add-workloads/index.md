@@ -18,6 +18,44 @@ Ambient mode can be seamlessly enabled (or disabled) completely transparently as
 
 The secure L4 overlay supports authentication and authorization policies. [Learn about L4 policy support in ambient mode](/docs/ambient/usage/l4-policy/). To opt-in to use Istio's L7 functionality, such as traffic routing, you will need to [deploy a waypoint proxy and enroll your workloads to use it](/docs/ambient/usage/waypoint/).
 
+### Ambient and Kubernetes NetworkPolicy
+
+Once you have added applications to the ambient mesh, the secure L4 overlay will tunnel traffic between ambient enabled pods over port 15008. Once the traffic enters the pod with a destination port of 15008, the traffic will be proxied to the original destination port. `NetworkPolicy` is enforced on the host, outside the pod, however. This means that if you have preexisting `NetworkPolicy` in place that, for example, will deny list inbound traffic to an ambient pod on every port but 443, you will have to add an exception to that `NetworkPolicy` for port 15008.
+
+For example, the following `NetworkPolicy` will block incoming {{< gloss >}}HBONE{{< /gloss >}} traffic to the `my-app` on port 15008:
+
+{{< text syntax=yaml snip_id=none >}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+spec:
+  ingress:
+  - ports:
+    - port: 9090
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: my-app
+{{< /text >}}
+
+and should be changed to
+
+{{< text syntax=yaml snip_id=none >}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+spec:
+  ingress:
+  - ports:
+    - port: 8080
+      protocol: TCP
+    - port: 15008
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: my-app
+{{< /text >}}
+
+if `my-app` is added to the ambient mesh.
+
 ## Communicating between pods in different data plane modes
 
 There are multiple options for interoperability between application pods using the ambient data plane mode, and non-ambient endpoints (including Kubernetes application pods, Istio gateways or Kubernetes Gateway API instances). This interoperability provides multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of your mesh deployment and operation.
