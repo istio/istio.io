@@ -24,8 +24,8 @@ set -o pipefail
 # Install SPIRE configured with k8s Controller Manager
 snip_install_spire_crds
 snip_install_spire_istio_overrides
-_wait_for_daemonset spire spire-agent
-_wait_for_deployment spire spire-server
+_wait_for_daemonset spire-server spire-agent
+_wait_for_deployment spire-server spire-server
 
 # Create ClusterSPIFFEID
 snip_spire_csid_istio_gateway
