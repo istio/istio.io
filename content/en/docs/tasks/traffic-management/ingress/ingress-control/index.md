@@ -536,8 +536,8 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 Delete the `Gateway` and `HTTPRoute` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
-$ kubectl delete gtw httpbin-gateway
 $ kubectl delete httproute httpbin
+$ kubectl delete gtw httpbin-gateway
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
 
