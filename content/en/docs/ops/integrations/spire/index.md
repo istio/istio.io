@@ -19,17 +19,11 @@ SPIRE's node attestation extends attestation to the physical or virtual hardware
 
 For a quick demo of how this SPIRE integration with Istio works, see [Integrating SPIRE as a CA through Envoy's SDS API]({{< github_tree >}}/samples/security/spire).
 
-{{< warning >}}
-Note that this integration requires version 1.14+ for both `istioctl` and the data plane.
-{{< /warning >}}
-
-The integration is compatible with Istio upgrades.
-
 ## Install SPIRE
 
-Istio recommends you follow SPIRE's installation instructions and general recommendations for installing SPIRE.
+We recommend you follow SPIRE's installation instructions and best practices for installing SPIRE, and for deploying SPIRE in production environments.
 
-For this guide, the [SPIRE Helm charts](https://artifacthub.io/packages/helm/spiffe/spire) will be used as a simple way to install SPIRE dependencies for Istio and illustrate the configuration necessary to integrate SPIRE and Istio.
+For the examples in this guide, the [SPIRE Helm charts](https://artifacthub.io/packages/helm/spiffe/spire) will be used with upstream defaults, to focus on just the configuration necessary to integrate SPIRE and Istio.
 
 {{< text syntax=bash snip_id=install_spire_crds >}}
 $ helm upgrade --install -n spire-server spire-crds spire-crds --repo https://spiffe.github.io/helm-charts-hardened/ --create-namespace
@@ -44,23 +38,22 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-This is the minimal subset of changes required to integrate with Istio.  See the [SPIRE Helm chart](https://artifacthub.io/packages/helm/spiffe/spire) documentation for other values you can configure for your installation.
+See the [SPIRE Helm chart](https://artifacthub.io/packages/helm/spiffe/spire) documentation for other values you can configure for your installation.
 {{< /tip >}}
 
+It is important that SPIRE and Istio are configured with the exact same trust domain, to prevent authentication and authorization errors.
 
-This will also install:
+By default, the above will also install:
 
-- The [SPIFFE CSI driver](https://github.com/spiffe/spiffe-csi), which is used to mount an Envoy-compatible SDS socket into proxies. Using the SPIFFE CSI driver to mount SDS sockets is strongly recommended by both Istio and SPIRE, as `hostMounts` are a larger security risk and introduce operational hurdles.
+- The [SPIFFE CSI driver](https://github.com/spiffe/spiffe-csi), which is used to mount an Envoy-compatible SDS socket into proxies. Using the SPIFFE CSI driver to mount SDS sockets is strongly recommended by both Istio and SPIRE, as `hostMounts` are a larger security risk and introduce operational hurdles. This guide assumes the use of the SPIFFE CSI driver.
 
 - The [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager), which eases the creation of SPIFFE registrations for workloads.
 
 ## Register workloads
 
-By design, SPIRE only grants identities to workloads that have been registered with the SPIRE server.
+By design, SPIRE only grants identities to workloads that have been registered with the SPIRE server; this includes user workloads, as well as Istio components. Istio sidecars and gateways, once configured for SPIRE integration, cannot get identities, and therefore cannot reach READY status, unless there is a preexisting, matching SPIRE registration created for them ahead of time.
 
-This includes your user workloads, as well as Istio's own workloads - Istio sidecars and gateways, once configured for SPIRE integration, cannot get identities, and therefore cannot reach READY status, unless there is a preexisting, matching SPIRE registration created for them ahead of time.
-
-See the [SPIRE help on Registering workloads](https://spiffe.io/docs/latest/deploying/registering/) for more information on using multiple selectors to strengthen attestation criteria, and the selectors available.
+See the [SPIRE docs on registering workloads](https://spiffe.io/docs/latest/deploying/registering/) for more information on using multiple selectors to strengthen attestation criteria, and the selectors available.
 
 This section describes the options available for registering Istio workloads in a SPIRE Server and provides some example workload registrations.
 
@@ -68,16 +61,15 @@ This section describes the options available for registering Istio workloads in 
 Istio currently requires a specific SPIFFE ID format for workloads. All registrations must follow the Istio SPIFFE ID pattern: `spiffe://<trust.domain>/ns/<namespace>/sa/<service-account>`
 {{< /warning >}}
 
-
 ### Option 1: Auto-registration using the SPIRE Controller Manager
 
-New entries will be automatically registered for each new pod that matches the selector defined in a [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) custom resource. 
+New entries will be automatically registered for each new pod that matches the selector defined in a [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) custom resource.
 
 Both Istio sidecars and Istio gateways need to be registered with SPIRE, so that they can request identities.
 
-#### Istio Gateway ClusterSPIFFEID
+#### Istio Gateway `ClusterSPIFFEID`
 
-The following will create a `ClusterSPIFFEID` which will auto-register any Istio Ingress gateway pod with SPIRE if it is scheduled into the `istio-system` namespace, and has a service account named `istio-ingressgateway-service-account`. These selectors are used as a simple example; consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
+The following will create a `ClusterSPIFFEID`, which will auto-register any Istio Ingress gateway pod with SPIRE if it is scheduled into the `istio-system` namespace, and has a service account named `istio-ingressgateway-service-account`. These selectors are used as a simple example; consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
 
 {{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
 $ kubectl apply -f - <<EOF
@@ -93,9 +85,9 @@ spec:
 EOF
 {{< /text >}}
 
-#### Istio Sidecar ClusterSPIFFEID
+#### Istio Sidecar `ClusterSPIFFEID`
 
-The following will create a ClusterSPIFFEID which will auto-register any pod with the `spiffe.io/spire-managed-identity: true` label that is deployed into the `default` namespace with SPIRE. These selectors are used as a simple example; consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
+The following will create a `ClusterSPIFFEID` which will auto-register any pod with the `spiffe.io/spire-managed-identity: true` label that is deployed into the `default` namespace with SPIRE. These selectors are used as a simple example; consult the [SPIRE Controller Manager documentation](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) for more details.
 
 {{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
 $ kubectl apply -f - <<EOF
@@ -113,15 +105,11 @@ EOF
 
 ### Option 2: Manual Registration
 
-Skip these steps if you installed `SPIRE` by following the [quick start](#option-1-quick-start) since it uses automatic registration.
+If you wish to manually create your SPIRE registrations, rather than use the SPIRE Controller Manager mentioned in [the recommended option](#option-1-auto-registration-using-the-spire-controller-manager), refer to the [SPIRE documentation on manual registration](https://spiffe.io/docs/latest/deploying/registering/).
 
-If you wish to manually create your SPIRE registrations, rather than use the SPIRE Controller Manager mentioned in [the recommended Option 1](#option-1-auto-registration-using-the-spire-controller-manager), refer to the [SPIRE documentation on manual registration](https://spiffe.io/docs/latest/deploying/registering/).
+Below are the equivalent manual registrations based off the automatic registrations in [Option 1](#option-1-auto-registration-using-the-spire-controller-manager). The following steps assume you have [already followed the SPIRE documentation to manually register your SPIRE agent and node attestation](https://spiffe.io/docs/latest/deploying/registering/#1-defining-the-spiffe-id-of-the-agent) and that your SPIRE agent was registered with the SPIFFE identity `spiffe://example.org/ns/spire/sa/spire-agent`.
 
-Below are the equivalent manual registrations based off the automatic registrations in [Option 1](#option-1-auto-registration-using-the-spire-controller-manager):
-
-The following steps assume you have [already followed the SPIRE documentation to manually register your SPIRE agent and node attestation](https://spiffe.io/docs/latest/deploying/registering/#1-defining-the-spiffe-id-of-the-agent) and that your SPIRE agent was registered with the SPIFFE identity `spiffe://example.org/ns/spire/sa/spire-agent`.
-
-1. Get the spire-server pod:
+1. Get the `spire-server` pod:
 
     {{< text syntax=bash snip_id=set_spire_server_pod_name_var >}}
     $ SPIRE_SERVER_POD=$(kubectl get pod -l app=spire-server -n spire -o jsonpath="{.items[0].metadata.name}")
@@ -163,7 +151,7 @@ The following steps assume you have [already followed the SPIRE documentation to
 
 1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
 
-1. Create the Istio configuration with custom patches for the Ingress-gateway and istio-proxy. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
+1. Create the Istio configuration with custom patches for the Ingress Gateway and `istio-proxy`. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
 
     {{< text syntax=bash snip_id=define_istio_operator_for_auto_registration >}}
     $ cat <<EOF > ./istio.yaml
@@ -253,7 +241,7 @@ The following steps assume you have [already followed the SPIRE documentation to
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-1. Check Ingress-gateway pod state:
+1. Check Ingress Gateway pod state:
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
@@ -262,9 +250,9 @@ The following steps assume you have [already followed the SPIRE documentation to
     istiod-989f54d9c-sg7sn                  1/1     Running   0          23s
     {{< /text >}}
 
-    The Ingress-gateway pod is `Ready` since the corresponding registration entry is automatically created for it on the SPIRE Server. Envoy is able to fetch cryptographic identities from SPIRE.
+    The Ingress Gateway pod is `Ready` since the corresponding registration entry is automatically created for it on the SPIRE Server. Envoy is able to fetch cryptographic identities from SPIRE.
 
-    This configuration also adds an initContainer to the gateway that will wait for SPIRE to create the UNIX Domain Socket before starting the istio-proxy. If the SPIRE agent is not ready or has not been properly configured with the same socket path, the Ingress Gateway initContainer will wait forever.
+    This configuration also adds an `initContainer` to the gateway that will wait for SPIRE to create the UNIX Domain Socket before starting the `istio-proxy`. If the SPIRE agent is not ready, or has not been properly configured with the same socket path, the Ingress Gateway `initContainer` will wait forever.
 
 1. Deploy an example workload:
 
@@ -391,7 +379,7 @@ This will allow Envoy to get federated bundles directly from SPIRE.
 
 ### Create federated registration entries
 
-* If using the SPIRE Controller Manager, create federated entries for workloads by setting the `federatesWith` field of the [ClusterSPIFFEID CR](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) to the trust domains you want the pod to federate with:
+- If using the SPIRE Controller Manager, create federated entries for workloads by setting the `federatesWith` field of the [ClusterSPIFFEID CR](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md) to the trust domains you want the pod to federate with:
 
     {{< text syntax=yaml snip_id=none >}}
     apiVersion: spire.spiffe.io/v1alpha1
@@ -406,9 +394,11 @@ This will allow Envoy to get federated bundles directly from SPIRE.
       federatesWith: ["example.io", "example.ai"]
     {{< /text >}}
 
-* For manual registration see [Create Registration Entries for Federation](https://spiffe.io/docs/latest/architecture/federation/readme/#create-registration-entries-for-federation).
+- For manual registration see [Create Registration Entries for Federation](https://spiffe.io/docs/latest/architecture/federation/readme/#create-registration-entries-for-federation).
 
 ## Cleanup SPIRE
+
+Remove SPIRE by uninstalling its Helm charts:
 
 {{< text syntax=bash snip_id=uninstall_spire >}}
 $ helm delete -n spire-server spire
