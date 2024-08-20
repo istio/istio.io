@@ -16,12 +16,12 @@ release: 1.22.4
 - **修复** 修复了自动注册期间缺少 `VirtualMachine` `WorkloadEntry` 位置标签的问题。
   ([Issue #51800](https://github.com/istio/istio/issues/51800))
 
--**修复** 修复了 `ServiceEntry` 中第一个地址以外的地址缺少监听器的问题。
+- **修复** 修复了 `ServiceEntry` 中第一个地址以外的地址缺少监听器的问题。
   ([Issue #51747](https://github.com/istio/istio/issues/51747))
 
 - **修复** 修复了与 `istio_agent_cert_expiry_seconds` 指标不一致的行为。
 
--**修复** 通过确保将 `.Values.profile` 设置为字符串，修复了旧版 Helm（`v3.6` 和 `v3.7`）的 istiod Chart 安装问题。
+- **修复** 通过确保将 `.Values.profile` 设置为字符串，修复了旧版 Helm（`v3.6` 和 `v3.7`）的 istiod Chart 安装问题。
   ([Issue #52016](https://github.com/istio/istio/issues/52016))
 
 - **修复** 修复了 ztunnel Helm Chart 中的遗漏，该遗漏会导致创建一些没有标签的 Kubernetes 资源。
