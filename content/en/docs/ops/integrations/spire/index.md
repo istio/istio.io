@@ -315,7 +315,7 @@ to check issued identities.
 
 Use the following command to confirm that identities were created for the workloads:
 
-{{< text syntax=bash snip_id=none>}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl exec -t "$SPIRE_SERVER_POD" -n spire-server -c spire-server -- ./bin/spire-server entry show
 Found 2 entries
 Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
