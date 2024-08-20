@@ -52,17 +52,23 @@ If you are using [k3d](https://k3d.io/) with the default Flannel CNI, you must a
 1.  Set the `cniConfDir` and `cniBinDir` values when installing Istio. For example:
 
     {{< tabset category-name="install-method" >}}
+
     {{< tab name="Helm" category-value="helm" >}}
+
         {{< text syntax=bash >}}
         $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/bin
         {{< /text >}}
+
     {{< /tab >}}
 
     {{< tab name="istioctl" category-value="istioctl" >}}
+
         {{< text syntax=bash >}}
         $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin
         {{< /text >}}
+
     {{< /tab >}}
+
     {{< /tabset >}}
 
 ### K3s
@@ -70,17 +76,23 @@ If you are using [k3d](https://k3d.io/) with the default Flannel CNI, you must a
 When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append some values to your installation command, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overridden as well, [according to K3s documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3s with a custom, non-bundled CNI, you must use the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see the K3s docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni). For example:
 
 {{< tabset category-name="install-method" >}}
+
 {{< tab name="Helm" category-value="helm" >}}
+
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
     {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="istioctl" category-value="istioctl" >}}
+
     {{< text syntax=bash >}}
     $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
     {{< /text >}}
+
 {{< /tab >}}
+
 {{< /tabset >}}
 
 ### MicroK8s
@@ -88,17 +100,24 @@ When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append s
 If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append a value to your installation command, as MicroK8s [uses non-standard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr). For example:
 
 {{< tabset category-name="install-method" >}}
+
 {{< tab name="Helm" category-value="helm" >}}
+
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/snap/microk8s/current/args/cni-network --set cniBinDir=/var/snap/microk8s/current/opt/cni/bin
+
     {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="istioctl" category-value="istioctl" >}}
+
     {{< text syntax=bash >}}
     $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin
     {{< /text >}}
+
 {{< /tab >}}
+
 {{< /tabset >}}
 
 ### minikube
@@ -108,17 +127,23 @@ you must append some values to your installation command so that the Istio CNI n
 and capture pods on the node. For example:
 
 {{< tabset category-name="install-method" >}}
+
 {{< tab name="Helm" category-value="helm" >}}
+
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniNetnsDir="/var/run/docker/netns"
     {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="istioctl" category-value="istioctl" >}}
+
     {{< text syntax=bash >}}
     $ istioctl install --set profile=ambient --set cni.cniNetnsDir="/var/run/docker/netns"
     {{< /text >}}
+
 {{< /tab >}}
+
 {{< /tabset >}}
 
 ### Red Hat OpenShift
@@ -126,17 +151,23 @@ and capture pods on the node. For example:
 OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace.  An `openshift-ambient` installation profile is provided which will make this change for you.  Replace instances of `profile=ambient` with `profile=openshift-ambient` in the installation commands. For example:
 
 {{< tabset category-name="install-method" >}}
+
 {{< tab name="Helm" category-value="helm" >}}
+
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n istio-system --set profile=openshift-ambient --wait
     {{< /text >}}
+
 {{< /tab >}}
 
 {{< tab name="istioctl" category-value="istioctl" >}}
+
     {{< text syntax=bash >}}
     $ istioctl install --set profile=openshift-ambient --skip-confirmation
     {{< /text >}}
+
 {{< /tab >}}
+
 {{< /tabset >}}
 
 ## CNI plugins
