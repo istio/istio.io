@@ -28,7 +28,7 @@ Having HBONE configured on your workload doesn't mean your workload will reject 
 
 ## Validate mTLS from metrics
 
-If you have [installed Prometheus](docs/ops/integrations/prometheus/#installation), you can setup port-forwarding by using the following command:
+If you have [installed Prometheus](docs/ops/integrations/prometheus/#installation), you can setup port-forwarding and open the Prometheus UI by using the following command:
 
 {{< text syntax=bash >}}
 $ istioctl dashboard prometheus
@@ -56,14 +56,14 @@ Validate that the `connection_security_policy` value is set to `mutual_tls` alon
 
 You can also view either the source or destination ztunnel log to confirm mTLS is enabled, along with peer identities. Below is an example of the source ztunnel's log for a request from the `sleep` service to the `details` service:
 
-{{< text syntax=bash >}}
+{{< text syntax=plain >}}
 2024-08-21T15:32:05.754291Z	info	access	connection complete	src.addr=10.42.0.9:33772 src.workload="sleep-7656cf8794-6lsm4" src.namespace="default"
 src.identity="spiffe://cluster.local/ns/default/sa/sleep" dst.addr=10.42.0.5:15008 dst.hbone_addr=10.42.0.5:9080 dst.service="details.default.svc.cluster.local"
 dst.workload="details-v1-857849f66-ft8wx" dst.namespace="default" dst.identity="spiffe://cluster.local/ns/default/sa/bookinfo-details"
 direction="outbound" bytes_sent=84 bytes_recv=358 duration="15ms"
 {{< /text >}}
 
-Refer to the [verifying ztunnel traffic through logs section](docs/ambient/usage/troubleshoot-ztunnel/#verifying-ztunnel-traffic-through-logs) for more details.
+Validate the `src.identity` and `dst.identity` values are correct. They are the identities used for the mTLS communication among the source and destination workloads. Refer to the [verifying ztunnel traffic through logs section](docs/ambient/usage/troubleshoot-ztunnel/#verifying-ztunnel-traffic-through-logs) for more details.
 
 ## Validate with Kiali dashboard
 
