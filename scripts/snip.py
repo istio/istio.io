@@ -107,7 +107,6 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         line = line.replace("istioctl install", "istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true")
         line = line.replace("kubectl delete gtw", "kubectl delete gtw --cascade=foreground")
 
-
         match = sectionhead.match(line)
         if match:
             snipnum = 0
