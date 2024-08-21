@@ -24,7 +24,7 @@ default      reviews-v2-6cf45d556b-4k4md             10.42.0.7  k3d-k3s-default-
 default      reviews-v3-86cb7d97f8-zxzl4             10.42.1.6  k3d-k3s-default-agent-1  None     HBONE
 {{< /text >}}
 
-Having HBONE configured on your workload doesn't mean your workload will accept reject any plaintext traffic. If you want your workload to reject plaintext traffic, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT` for your workload.
+Having HBONE configured on your workload doesn't mean your workload will reject any plaintext traffic. If you want your workload to reject plaintext traffic, create a `PeerAuthentication` policy with mTLS mode set to `STRICT` for your workload.
 
 ## Validate mTLS from metrics
 
