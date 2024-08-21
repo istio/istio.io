@@ -54,7 +54,7 @@ Validate that the `connection_security_policy` value is set to `mutual_tls` alon
 
 ## Validate mTLS from logs
 
-You can view either source or destination's ztunnel log to confirm mTLS is enabled, along with peer identities. Below is an example of the source ztunnel's log for a request from the `sleep` service to the `details` service:
+You can also view either the source or destination ztunnel log to confirm mTLS is enabled, along with peer identities. Below is an example of the source ztunnel's log for a request from the `sleep` service to the `details` service:
 
 {{< text syntax=bash >}}
 2024-08-21T15:32:05.754291Z	info	access	connection complete	src.addr=10.42.0.9:33772 src.workload="sleep-7656cf8794-6lsm4" src.namespace="default"
