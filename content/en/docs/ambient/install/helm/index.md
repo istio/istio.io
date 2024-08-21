@@ -17,7 +17,7 @@ If you are new to Istio, and just want to try it out, follow the
 [quick start instructions](/docs/ambient/getting-started) instead.
 {{< /tip >}}
 
-We encourage the use of Helm to install Istio for use in ambient mode. To allow controlled upgrades, the control plane and data plane components are packaged and installed separately. (Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components.)
+We encourage the use of Helm to install Istio for production use in ambient mode. To allow controlled upgrades, the control plane and data plane components are packaged and installed separately. (Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components.)
 
 ## Prerequisites
 
@@ -32,11 +32,19 @@ We encourage the use of Helm to install Istio for use in ambient mode. To allow 
     $ helm repo update
     {{< /text >}}
 
-*See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation.*
-
 ## Install the control plane
 
-### Istio CRDs
+Default configuration values can be changed using one or more `--set <parameter>=<value>` arguments. Alternatively, you can specify several parameters in a custom values file using the `--values <file>` argument.
+
+{{< tip >}}
+You can display the default values of configuration parameters using the `helm show values <chart>` command or refer to Artifact Hub chart documentation for the [base](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [istiod](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values), [CNI](https://artifacthub.io/packages/helm/istio-official/cni?modal=values), [ztunnel](https://artifacthub.io/packages/helm/istio-official/ztunnel?modal=values) and [Gateway](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values) chart configuration parameters.
+{{< /tip >}}
+
+Full details on how to use and customize Helm installations are available in [the sidecar installation documentation](/docs/setup/install/helm/).
+
+Unlike [istioctl](/docs/ambient/install/istioctl/) profiles, which group together components to be installed or removed, Helm profiles simply set groups of configuration values.
+
+### Base components
 
 The `base` chart contains the basic CRDs and cluster roles required to set up Istio.
 This should be installed prior to any other Istio component.
@@ -56,7 +64,7 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 
 ### CNI node agent
 
-The `cni` chart installs the Istio CNI plugin. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
+The `cni` chart installs the Istio CNI node agent. It is responsible for detecting the pods that belong to the ambient mesh, and configuring the traffic redirection between pods and the ztunnel node proxy (which will be installed later).
 
 {{< text syntax=bash snip_id=install_cni >}}
 $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait

@@ -14,17 +14,17 @@ If you are new to Istio, and just want to try it out, follow the
 {{< /tip >}}
 
 This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command-line
-tool to provide rich customization of Istio installation options. It has user input validation
-to help prevent installation errors and customization options to override any aspect of the
-configuration.
+tool. `istioctl`, like other installation methods, exposes many customization options. Additionally,
+it offers has user input validation to help prevent installation errors, and includes many
+post-installation analysis and configuration tools.
 
 Using these instructions, you can select any one of Istio's built-in
 [configuration profiles](/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
 The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
-via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
-{{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
+via command-line options for individual settings, or passing a YAML file containing an `IstioOperator`
+{{<gloss CRDs>}}custom resource{{</gloss>}}.
 
 ## Prerequisites
 
