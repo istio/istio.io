@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Once you have added applications to an ambient mesh, you can easily validate mTLS is enabled among your workloads in the ambient mesh, using one or more of the methods below:
+Once you have added applications to an ambient mesh, you can easily validate mTLS is enabled among your workloads using one or more of the methods below:
 
 ## Validate mTLS using workload's ztunnel configurations
 
