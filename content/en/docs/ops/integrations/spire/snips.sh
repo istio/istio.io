@@ -25,11 +25,7 @@ helm upgrade --install -n spire-server spire-crds spire-crds --repo https://spif
 }
 
 snip_install_spire_istio_overrides() {
-helm upgrade --install -n spire-server spire spire --repo https://spiffe.github.io/helm-charts-hardened/ --wait -f - <<EOF
-global:
-  spire:
-    trustDomain: example.org
-EOF
+helm upgrade --install -n spire-server spire spire --repo https://spiffe.github.io/helm-charts-hardened/ --wait --set global.spire.trustDomain="example.org"
 }
 
 snip_spire_csid_istio_gateway() {
