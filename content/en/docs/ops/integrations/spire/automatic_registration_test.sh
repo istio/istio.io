@@ -60,3 +60,4 @@ istioctl uninstall --purge --skip-confirmation
 kubectl delete ns istio-system
 snip_uninstall_spire
 snip_uninstall_spire_crds
+kubectl delete ns spire-server

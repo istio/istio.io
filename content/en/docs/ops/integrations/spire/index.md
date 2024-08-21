@@ -30,18 +30,14 @@ $ helm upgrade --install -n spire-server spire-crds spire-crds --repo https://sp
 {{< /text >}}
 
 {{< text syntax=bash snip_id=install_spire_istio_overrides >}}
-$ helm upgrade --install -n spire-server spire spire --repo https://spiffe.github.io/helm-charts-hardened/ --wait -f - <<EOF
-global:
-  spire:
-    trustDomain: example.org
-EOF
+$ helm upgrade --install -n spire-server spire spire --repo https://spiffe.github.io/helm-charts-hardened/ --wait --set global.spire.trustDomain="example.org"
 {{< /text >}}
 
 {{< tip >}}
 See the [SPIRE Helm chart](https://artifacthub.io/packages/helm/spiffe/spire) documentation for other values you can configure for your installation.
-{{< /tip >}}
 
-It is important that SPIRE and Istio are configured with the exact same trust domain, to prevent authentication and authorization errors.
+It is important that SPIRE and Istio are configured with the exact same trust domain, to prevent authentication and authorization errors, and that the [SPIFFE CSI driver](https://github.com/spiffe/spiffe-csi) is enabled and installed.
+{{< /tip >}}
 
 By default, the above will also install:
 
@@ -368,7 +364,7 @@ After registering an entry for the Ingress-gateway pod, Envoy receives the ident
         Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
     {{< /text >}}
 
-## SPIFFE Federation
+## SPIFFE federation
 
 SPIRE Servers are able to authenticate SPIFFE identities originating from different trust domains. This is known as SPIFFE federation.
 
