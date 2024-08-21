@@ -10,7 +10,7 @@ Once you have added applications to an ambient mesh, you can easily validate mTL
 
 ## Validate mTLS using workload's ztunnel configurations
 
-Using the convenient `istioctl ztunnel-config workloads` command, you can view if your workload is configured to send and accept HBONE traffic via the value for the `PROTOCOL` column, for example:
+Using the convenient `istioctl ztunnel-config workloads` command, you can view if your workload is configured to send and accept HBONE traffic via the value for the `PROTOCOL` column. For example:
 
 {{< text syntax=bash >}}
 $ istioctl ztunnel-config workloads
