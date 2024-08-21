@@ -1,6 +1,6 @@
 ---
 title: Ambient and Kubernetes NetworkPolicy
-description: Understanding how CNI-enforced L4 Kubernetes NetworkPolicy interacts with ambient.
+description: Understanding how CNI-enforced L4 Kubernetes NetworkPolicy interacts with Istio's ambient mode.
 weight: 20
 owner: istio/wg-networking-maintainers
 test: no
