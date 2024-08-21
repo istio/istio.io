@@ -28,7 +28,7 @@ Having HBONE configured on your workload doesn't mean your workload will accept 
 
 ### Validate mTLS from metrics
 
-If you have [installed Prometheus](ops/integrations/prometheus/#installation), you can setup port-forwarding for Prometheus by using the following command:
+If you have [installed Prometheus](docs/ops/integrations/prometheus/#installation), you can setup port-forwarding for Prometheus by using the following command:
 
 {{< text syntax=bash >}}
 $ istioctl dashboard prometheus
