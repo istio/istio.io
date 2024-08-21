@@ -28,16 +28,12 @@ remove_toc_prefix: 'install-cni '
 <td>Whether to install CNI plugin as a chained or standalone </td>
 </tr>
 <tr>
+<td><code>--cni-agent-run-dir &lt;string&gt;</code></td>
+<td>Location of the node agent writable path on the node (used for sockets, etc)  (default `/var/run/istio-cni`)</td>
+</tr>
+<tr>
 <td><code>--cni-conf-name &lt;string&gt;</code></td>
 <td>Name of the CNI configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--cni-event-address &lt;string&gt;</code></td>
-<td>The UDS server address which CNI plugin will forward ambient pod creation events to  (default `/var/run/istio-cni/pluginevent.sock`)</td>
-</tr>
-<tr>
-<td><code>--cni-net-dir &lt;string&gt;</code></td>
-<td>Directory on the host where CNI network plugins are installed  (default `/etc/cni/net.d`)</td>
 </tr>
 <tr>
 <td><code>--cni-network-config &lt;string&gt;</code></td>
@@ -60,20 +56,12 @@ remove_toc_prefix: 'install-cni '
 <td>CA file for kubeconfig. Defaults to the same as install-cni pod  (default ``)</td>
 </tr>
 <tr>
-<td><code>--kubecfg-file-name &lt;string&gt;</code></td>
-<td>Name of the kubeconfig file which CNI plugin will use when interacting with API server  (default `ZZZ-istio-cni-kubeconfig`)</td>
-</tr>
-<tr>
 <td><code>--kubeconfig-mode &lt;int&gt;</code></td>
 <td>File mode of the kubeconfig file  (default `384`)</td>
 </tr>
 <tr>
 <td><code>--log-level &lt;string&gt;</code></td>
 <td>Fallback value for log level in CNI config file, if not specified in helm template  (default `warn`)</td>
-</tr>
-<tr>
-<td><code>--log-uds-address &lt;string&gt;</code></td>
-<td>The UDS server address which CNI plugin will copy log output to  (default `/var/run/istio-cni/log.sock`)</td>
 </tr>
 <tr>
 <td><code>--log_as_json</code></td>
@@ -640,16 +628,16 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
 <tr>
+<td><code>CNI_AGENT_RUN_DIR</code></td>
+<td>String</td>
+<td><code>/var/run/istio-cni</code></td>
+<td>Location of the node agent writable path on the node (used for sockets, etc)</td>
+</tr>
+<tr>
 <td><code>CNI_CONF_NAME</code></td>
 <td>String</td>
 <td><code></code></td>
 <td>Name of the CNI configuration file</td>
-</tr>
-<tr>
-<td><code>CNI_EVENT_ADDRESS</code></td>
-<td>String</td>
-<td><code>/var/run/istio-cni/pluginevent.sock</code></td>
-<td>The UDS server address which CNI plugin will forward ambient pod creation events to</td>
 </tr>
 <tr>
 <td><code>CNI_NETWORK_CONFIG</code></td>
@@ -662,12 +650,6 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code></code></td>
 <td>CNI config template as a file</td>
-</tr>
-<tr>
-<td><code>CNI_NET_DIR</code></td>
-<td>String</td>
-<td><code>/etc/cni/net.d</code></td>
-<td>Directory on the host where CNI network plugins are installed</td>
 </tr>
 <tr>
 <td><code>COMPLIANCE_POLICY</code></td>
@@ -980,12 +962,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
 </tr>
 <tr>
-<td><code>KUBECFG_FILE_NAME</code></td>
-<td>String</td>
-<td><code>ZZZ-istio-cni-kubeconfig</code></td>
-<td>Name of the kubeconfig file which CNI plugin will use when interacting with API server</td>
-</tr>
-<tr>
 <td><code>KUBECONFIG_MODE</code></td>
 <td>Integer</td>
 <td><code>384</code></td>
@@ -1014,12 +990,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>warn</code></td>
 <td>Fallback value for log level in CNI config file, if not specified in helm template</td>
-</tr>
-<tr>
-<td><code>LOG_UDS_ADDRESS</code></td>
-<td>String</td>
-<td><code>/var/run/istio-cni/log.sock</code></td>
-<td>The UDS server address which CNI plugin will copy log output to</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
