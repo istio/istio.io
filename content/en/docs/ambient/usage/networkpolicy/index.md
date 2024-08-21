@@ -56,15 +56,15 @@ if `my-app` is added to the ambient mesh.
 
 Kubernetes health check probes present a problem and create a special case for Kubernetes traffic policy in general. They originate from the kubelet running as a process on the node, and not some other pod in the cluster. They are plaintext and unsecured. Neither the kubelet or the Kubernetes node typically have their own cryptographic identity, so access control isn't possible. It's not enough to simply allow all traffic through on the health probe port, as malicious traffic could use that port just as easily as the kubelet could. In addition, many apps use the same port for health probes and legitimate application traffic, so simple port-based allows are unacceptable.
 
-Various CNI implementations solve this in various ways and seek to either work around the problem by excluding kubelet health probes from normal policy enforcement, or configure policy exceptions for them.
+Various CNI implementations solve this in different ways and seek to either work around the problem by silently excluding kubelet health probes from normal policy enforcement, or configuring policy exceptions for them.
 
-In Istio ambient, this problem is solved by using a combination of iptables rules and source network address translation (SNAT) to rewrite only packets that provably originate from the local node with a fixed link-local IP, so that they can be explicitly ignored by Istio policy enforcement as unsecured health probe traffic. A link-local IP was chosen as the default since they typically ignored for ingress-egress controls, and [by IETF standard](https://datatracker.ietf.org/doc/html/rfc3927) are not routable outside of the local subnetwork.
+In Istio ambient, this problem is solved by using a combination of iptables rules and source network address translation (SNAT) to rewrite only packets that provably originate from the local node with a fixed link-local IP, so that they can be explicitly ignored by Istio policy enforcement as unsecured health probe traffic. A link-local IP was chosen as the default since they are typically ignored for ingress-egress controls, and [by IETF standard](https://datatracker.ietf.org/doc/html/rfc3927) are not routable outside of the local subnetwork.
 
-This is enabled transparently for you when you add pods to the ambient mesh, and by default ambient uses the link-local address `169.254.7.127` to identify and correctly allow kubelet health probe packets.
+This behavior is transparently when you add pods to the ambient mesh, and by default ambient uses the link-local address `169.254.7.127` to identify and correctly allow kubelet health probe packets.
 
 However if your workload, namespace or cluster has a preexisting ingress or egress `NetworkPolicy`, depending on the CNI you are using, packets with this link-local address may be blocked by the explicit `NetworkPolicy`, which will cause your application pod health probes to begin failing when you add your pods to the ambient mesh.
 
-For instance, applying the following `NetworkPolicy` in a namespace would block all traffic (Istio or otherwise) to the `my-app` pod, **including** kubelet health probes. Depending on your CNI, kubelet probes may be ignored by this policy, or blocked by it:
+For instance, applying the following `NetworkPolicy` in a namespace would block all traffic (Istio or otherwise) to the `my-app` pod, **including** kubelet health probes. Depending on your CNI, kubelet probes and link-local addresses may be ignored by this policy, or be blocked by it:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
@@ -79,7 +79,7 @@ spec:
   - Ingress
 {{< /text >}}
 
-Once the pod is enrolled in the ambient mesh, the health probe packets will begin to be assigned a link local address via SNAT, which means health probes may begin to be blocked by your CNI's `NetworkPolicy` implementation. To allow ambient health probes to bypass `NetworkPolicy`, explicitly allow traffic from the host node to your pod by allow-listing the link-local address ambient uses for this traffic:
+Once the pod is enrolled in the ambient mesh, health probe packets will begin to be assigned a link local address via SNAT, which means health probes may begin to be blocked by your CNI's `NetworkPolicy` implementation. To allow ambient health probes to bypass `NetworkPolicy`, explicitly allow traffic from the host node to your pod by allow-listing the link-local address ambient uses for this traffic:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
