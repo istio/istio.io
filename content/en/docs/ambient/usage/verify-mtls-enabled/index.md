@@ -83,7 +83,7 @@ $ tcpdump -nAi eth0 port 9080 or port 15008
 
 You should see encrypted traffic from the output of the `tcpdump` command.
 
-If you don't have access to the worker nodes, you may be able to use the [netshoot image](https://hub.docker.com/r/nicolaka/netshoot) to easily run the command:
+If you don't have access to the worker nodes, you may be able to use the [netshoot container image](https://hub.docker.com/r/nicolaka/netshoot) to easily run the command:
 
 {{< text syntax=bash >}}
 $ POD=$(kubectl get pods -l app=details -o jsonpath="{.items[0].metadata.name}")
