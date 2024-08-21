@@ -10,8 +10,7 @@ owner: istio/wg-networking-maintainers
 
 请按照本指南为您的网格配置地域故障转移。
 
-在开始之前，一定要完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)
-这一节包含的步骤。
+在开始之前，一定要完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)这一节包含的步骤。
 
 在此任务中，您将使用 `Sleep` Pod 在 `region1.zone1` 作为请求源发送到 `HelloWorld` 服务。
 然后，您将触发故障，这些故障将按照以下顺序导致不同地域之间的故障转移：
@@ -21,8 +20,8 @@ owner: istio/wg-networking-maintainers
     caption="地域故障转移顺序"
     >}}
 
-在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)
-用于控制故障转移。这些优先级将按照以下方式分配来自 `Sleep` Pod（在 `region1` `zone1`）的流量：
+在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)用于控制故障转移。
+这些优先级将按照以下方式分配来自 `Sleep` Pod（在 `region1` `zone1`）的流量：
 
 优先级 | 地域 | 细节
 -------- | -------- | -------
@@ -41,10 +40,9 @@ owner: istio/wg-networking-maintainers
   特别是，它可以配置 Sidecar 代理以了解服务的 Endpoint 何时会不正常，最终触发故障转移到下一个地域。
 - [故障转移](/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting-Failover)
   地区之间的策略，这确保了超出地区边界的故障转移将具有可预测的行为。
-
-- [连接池](/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-http)
-  强制每个HTTP请求使用一个新连接的策略。该任务利用 Envoy 的
-  [逐出](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining)
+- [连接池](/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-http)强制每个
+  HTTP 请求使用一个新连接的策略。该任务利用 Envoy
+  的[逐出](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining)
   功能强制将故障转移到下一个位置。一旦逐出，Envoy 将拒绝所有新的请求。
   由于每个请求都使用一个新连接，这将导致在耗尽后立即进行故障转移。**此配置仅用于演示目的。**
 
