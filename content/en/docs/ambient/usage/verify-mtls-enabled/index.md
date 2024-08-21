@@ -75,7 +75,7 @@ Refer to the [Visualize the application and metrics](docs/ambient/getting-starte
 
 ## Validate with `tcpdump`
 
-If you have access to your Kubernetes worker nodes, you can run the `tcpdump` command to capture all traffic on the network interface, with optional focusing the application ports and HBONE port, for example, port `9080` is the `details` service port and `15008` is the HBONE port.
+If you have access to your Kubernetes worker nodes, you can run the `tcpdump` command to capture all traffic on the network interface, with optional focusing the application ports and HBONE port. In this example, port `9080` is the `details` service port and `15008` is the HBONE port:
 
 {{< text syntax=bash >}}
 $ tcpdump -nAi eth0 port 9080 or port 15008
