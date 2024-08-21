@@ -20,7 +20,7 @@ In contrast to sidecar mode, ambient mode supports moving application pods to an
 Node cordoning and blue/green node pools are recommended to limit the blast radius of resets on application traffic during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
-## Understanding ambient upgrades
+## Understanding ambient mode upgrades
 
 All Istio upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components. Upgrading the control plane and CRDs is covered here in brief, but is essentially identical to [the process for upgrading these components in sidecar mode](/docs/setup/upgrade/canary/).
 
@@ -65,7 +65,7 @@ $ export OLD_REVISION=istio-1-21-2
 
 ## Upgrade the control plane
 
-### Istio CRDs
+### Base components
 
 The cluster-wide Custom Resource Definitions (CRDs) must be upgraded prior to the deployment of a new version of the control plane:
 
@@ -85,12 +85,12 @@ $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$
 
 ### CNI node agent
 
-The Istio CNI agent is responsible for detecting pods added to the ambient mesh, informing ztunnel that proxy ports should be established within added pods, and configuring traffic redirection within the pod network namespace. It is not part of the data plane or control plane.
+The Istio CNI node agent is responsible for detecting pods added to the ambient mesh, informing ztunnel that proxy ports should be established within added pods, and configuring traffic redirection within the pod network namespace. It is not part of the data plane or control plane.
 
 The CNI at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before Istio CNI, as long as their version difference is within one minor version.
 
 {{< warning >}}
-Upgrading the Istio CNI agent to a compatible version in-place will not disrupt networking for running pods already successfully added to an ambient mesh, but no ambient-captured pods will be successfully scheduled (or rescheduled) on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
+Upgrading the Istio CNI node agent to a compatible version in-place will not disrupt networking for running pods already successfully added to an ambient mesh, but no ambient-captured pods will be successfully scheduled (or rescheduled) on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
@@ -104,7 +104,8 @@ $ helm upgrade istio-cni istio/cni -n istio-system
 The {{< gloss >}}ztunnel{{< /gloss >}} DaemonSet is the node proxy component. The ztunnel at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version. If you have previously customized your ztunnel installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your {{< gloss >}}data plane{{< /gloss >}} consistent.
 
 {{< warning >}}
-Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node.
+Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node, regardless of the use of revisions. In practice the disruption period is a very small window, primarily affecting long-running connections.
+
 Node cordoning and blue/green node pools are recommended to mitigate blast radius risk during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
