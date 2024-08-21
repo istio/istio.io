@@ -40,7 +40,7 @@ export REVISION=istio-1-22-1
 export OLD_REVISION=istio-1-21-2
 }
 
-snip_istio_crds_1() {
+snip_base_components_1() {
 kubectl apply -f manifests/charts/base/crds
 }
 
