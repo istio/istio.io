@@ -25,7 +25,7 @@ set -o pipefail
 snip_configure_helm
 _rewrite_helm_repo snip_install_base
 
-_rewrite_helm_repo snip_install_discovery
+_rewrite_helm_repo snip_install_istiod
 _wait_for_deployment istio-system istiod
 
 _rewrite_helm_repo snip_install_cni
@@ -41,9 +41,9 @@ _verify_like snip_show_components "$snip_show_components_out"
 _verify_like snip_check_pods "$snip_check_pods_out"
 
 # @cleanup
-snip_delete_cni
+snip_delete_ingress
 snip_delete_ztunnel
-snip_delete_discovery
+snip_delete_cni
+snip_delete_istiod
 snip_delete_base
 snip_delete_system_namespace
-snip_delete_ingress

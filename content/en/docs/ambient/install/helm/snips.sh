@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/ambient/install/helm-installation/index.md
+#          docs/ambient/install/helm/index.md
 ####################################################################################################
 
 snip_configure_helm() {
@@ -29,12 +29,12 @@ snip_install_base() {
 helm install istio-base istio/base -n istio-system --create-namespace --wait
 }
 
-snip_install_cni() {
-helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
+snip_install_istiod() {
+helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
 }
 
-snip_install_discovery() {
-helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
+snip_install_cni() {
+helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 }
 
 snip_install_ztunnel() {
@@ -89,15 +89,15 @@ helm delete istio-ingress -n istio-ingress
 kubectl delete namespace istio-ingress
 }
 
-snip_delete_cni() {
-helm delete istio-cni -n istio-system
-}
-
 snip_delete_ztunnel() {
 helm delete ztunnel -n istio-system
 }
 
-snip_delete_discovery() {
+snip_delete_cni() {
+helm delete istio-cni -n istio-system
+}
+
+snip_delete_istiod() {
 helm delete istiod -n istio-system
 }
 

@@ -5,13 +5,14 @@ weight: 5
 aliases:
   - /docs/ops/ambient/upgrade/helm-upgrade
   - /latest/docs/ops/ambient/upgrade/helm-upgrade
+  - /docs/ambient/upgrade/helm
+  - /latest/docs/ambient/upgrade/helm
 owner: istio/wg-environments-maintainers
 test: yes
-status: Experimental
 ---
 
 Follow this guide to upgrade and configure an ambient mode installation using
-[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm-installation/) with a previous version of Istio.
+[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm/) with a previous version of Istio.
 
 {{< warning >}}
 In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded ztunnel proxy without a mandatory restart or reschedule of running application pods. However, upgrading ztunnel **will** cause all long-lived TCP connections on the upgraded node to reset, and Istio does not currently support canary upgrades of ztunnel.
@@ -19,11 +20,11 @@ In contrast to sidecar mode, ambient mode supports moving application pods to an
 Node cordoning and blue/green node pools are recommended to limit the blast radius of resets on application traffic during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
-## Understanding ambient upgrades
+## Understanding ambient mode upgrades
 
-All Istio upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components. Upgrading the control plane and CRDs is covered here in brief, but is essentially identical to [the process for upgrading these components in sidecar mode](docs/setup/upgrade/canary/).
+All Istio upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components. Upgrading the control plane and CRDs is covered here in brief, but is essentially identical to [the process for upgrading these components in sidecar mode](/docs/setup/upgrade/canary/).
 
-Like sidecar mode, gateways can make use of [revision tags](docs/setup/upgrade/canary/#stable-revision-labels) to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including waypoints, with simple controls for rolling back at any point. However, unlike sidecar mode, the ztunnel runs as a DaemonSet — a per-node proxy — meaning that ztunnel upgrades affect, at minimum, an entire node at a time. While this may be acceptable in many cases, applications with long-lived TCP connections may be disrupted.  In such cases, we recommend using node cordoning and draining before upgrading the ztunnel for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which may involve a short downtime.
+Like sidecar mode, gateways can make use of [revision tags](/docs/setup/upgrade/canary/#stable-revision-labels) to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including waypoints, with simple controls for rolling back at any point. However, unlike sidecar mode, the ztunnel runs as a DaemonSet — a per-node proxy — meaning that ztunnel upgrades affect, at minimum, an entire node at a time. While this may be acceptable in many cases, applications with long-lived TCP connections may be disrupted.  In such cases, we recommend using node cordoning and draining before upgrading the ztunnel for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which may involve a short downtime.
 
 ## Prerequisites
 
@@ -62,7 +63,9 @@ $ export REVISION=istio-1-22-1
 $ export OLD_REVISION=istio-1-21-2
 {{< /text >}}
 
-## Upgrade the Istio CRDs
+## Upgrade the control plane
+
+### Base components
 
 The cluster-wide Custom Resource Definitions (CRDs) must be upgraded prior to the deployment of a new version of the control plane:
 
@@ -70,7 +73,7 @@ The cluster-wide Custom Resource Definitions (CRDs) must be upgraded prior to th
 $ kubectl apply -f manifests/charts/base/crds
 {{< /text >}}
 
-## Install the new control plane
+### istiod control plane
 
 The [Istiod](/docs/ops/deployment/architecture/#istiod) control plane manages and configures the proxies that route traffic within the mesh. The following command will install a new instance of the control plane alongside the current, but will not introduce any new proxies, or take over control of existing proxies.
 
@@ -80,12 +83,29 @@ If you have customized your istiod installation, you can reuse the `values.yaml`
 $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
 {{< /text >}}
 
-## Upgrade the ztunnel DaemonSet
+### CNI node agent
+
+The Istio CNI node agent is responsible for detecting pods added to the ambient mesh, informing ztunnel that proxy ports should be established within added pods, and configuring traffic redirection within the pod network namespace. It is not part of the data plane or control plane.
+
+The CNI at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before Istio CNI, as long as their version difference is within one minor version.
+
+{{< warning >}}
+Upgrading the Istio CNI node agent to a compatible version in-place will not disrupt networking for running pods already successfully added to an ambient mesh, but no ambient-captured pods will be successfully scheduled (or rescheduled) on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
+{{< /warning >}}
+
+{{< text syntax=bash snip_id=upgrade_cni >}}
+$ helm upgrade istio-cni istio/cni -n istio-system
+{{< /text >}}
+
+## Upgrade the data plane
+
+### ztunnel DaemonSet
 
 The {{< gloss >}}ztunnel{{< /gloss >}} DaemonSet is the node proxy component. The ztunnel at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before ztunnel, as long as their version difference is within one minor version. If you have previously customized your ztunnel installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your {{< gloss >}}data plane{{< /gloss >}} consistent.
 
 {{< warning >}}
-Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node.
+Upgrading ztunnel in-place will briefly disrupt all ambient mesh traffic on the node, regardless of the use of revisions. In practice the disruption period is a very small window, primarily affecting long-running connections.
+
 Node cordoning and blue/green node pools are recommended to mitigate blast radius risk during production upgrades. See your Kubernetes provider documentation for details.
 {{< /warning >}}
 
@@ -93,21 +113,7 @@ Node cordoning and blue/green node pools are recommended to mitigate blast radiu
 $ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
 {{< /text >}}
 
-## Upgrade the CNI DaemonSet
-
-The Istio CNI agent is responsible for detecting pods added to the ambient mesh, informing ztunnel that proxy ports should be established within added pods, and configuring traffic redirection within the pod network namespace. It is not part of the data plane or control plane.
-
-The CNI at version 1.x is  compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before Istio CNI, as long as their version difference is within one minor version.
-
-{{< warning >}}
-Upgrading the Istio CNI agent to a compatible version in-place will not disrupt networking for running pods already successfully added to an ambient mesh, but no ambient-captured pods will be successfully scheduled (or rescheduled) on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
-{{< /warning >}}
-
-{{< text syntax=bash snip_id=upgrade_cni >}}
-$ helm upgrade istio-cni istio/cni -n istio-system
-{{< /text >}}
-
-## Upgrade waypoints and gateways using tags
+### Upgrade waypoints and gateways using tags
 
 If you have followed best practices, all of your gateways, workloads, and namespaces use either the default revision (effectively, a tag named `default`), or the `istio.io/rev` label with the value set to a tag name. You can now upgrade all of these to the new version of the Istio data plane by moving their tags to point to the new version, one at a time. To list all tags in your cluster, run:
 
