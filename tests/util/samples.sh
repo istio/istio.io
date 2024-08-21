@@ -39,7 +39,7 @@ cleanup_bookinfo_sample() {
 
     if [ "$GATEWAY_API" == "true" ]; then
         kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml || true
-        kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml || true
+        kubectl delete -f --cascade=foreground samples/bookinfo/gateway-api/bookinfo-gateway.yaml || true
     else
         kubectl delete -f samples/bookinfo/networking/destination-rule-all.yaml || true
         kubectl delete -f samples/bookinfo/networking/bookinfo-gateway.yaml || true
