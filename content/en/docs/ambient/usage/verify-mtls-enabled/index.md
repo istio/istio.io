@@ -34,7 +34,7 @@ If you have [installed Prometheus](docs/ops/integrations/prometheus/#installatio
 $ istioctl dashboard prometheus
 {{< /text >}}
 
-View the values for the TCP metrics in the Prometheus browser window. Select Graph. Enter the `istio_tcp_connections_opened_total` metric or `istio_tcp_connections_closed_total` or `istio_tcp_received_bytes_total` or `istio_tcp_sent_bytes_total` and select Execute. The table displayed in the Console tab includes entries similar as below:
+In Prometheus, you can view the values for the TCP metrics. First, select Graph and enter the a metric such as: `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`, `istio_tcp_received_bytes_total`, or `istio_tcp_sent_bytes_total`. Lastly, click Execute. The data will contain entries such as:
 
 {{< text syntax=plain >}}
 istio_tcp_connections_opened_total{
