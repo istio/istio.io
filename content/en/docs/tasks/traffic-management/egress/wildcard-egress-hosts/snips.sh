@@ -257,7 +257,7 @@ kubectl delete destinationrule egressgateway-for-wikipedia
 snip_cleanup_egress_gateway_traffic_to_a_wildcard_host_2() {
 kubectl delete se wikipedia
 kubectl delete se www-wikipedia
-kubectl delete gtw wikipedia-egress-gateway
+kubectl delete gtw --cascade=foreground wikipedia-egress-gateway
 kubectl delete tlsroute direct-wikipedia-to-egress-gateway
 kubectl delete tlsroute forward-wikipedia-from-egress-gateway
 }

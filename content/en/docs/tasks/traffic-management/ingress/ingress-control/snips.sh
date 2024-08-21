@@ -308,6 +308,6 @@ kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
 
 snip_cleanup_2() {
 kubectl delete httproute httpbin
-kubectl delete gtw httpbin-gateway
+kubectl delete gtw --cascade=foreground httpbin-gateway
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
 }
