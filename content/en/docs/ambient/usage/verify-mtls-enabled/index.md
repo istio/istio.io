@@ -71,7 +71,7 @@ If you have Kiali and Prometheus installed, you can visualize your workload comm
 
 {{< image link="./kiali-mtls.png" caption="Kiali dashboard" >}}
 
-Refer to the [Visualize the application and metrics](docs/ambient/getting-started/secure-and-visualize/#visualize-the-application-and-metrics) for more details.
+Refer to the [Visualize the application and metrics](docs/ambient/getting-started/secure-and-visualize/#visualize-the-application-and-metrics) document for more details.
 
 ## Validate with `tcpdump`
 
