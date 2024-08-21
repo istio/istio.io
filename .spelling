@@ -831,6 +831,7 @@ netfilter
 netlink
 netmask
 netns
+netshoot
 network1
 network2
 networking.istio.io
