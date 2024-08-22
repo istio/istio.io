@@ -1,18 +1,25 @@
 ---
 title: 通过 Helm 安装
-description: 使用 Helm 在 Ambient 模式下安装 Istio。
+description: 使用 Helm 安装支持 Ambient 模式的 Istio。
 weight: 4
 owner: istio/wg-environments-maintainers
 aliases:
   - /zh/docs/ops/ambient/install/helm-installation
   - /zh/latest/docs/ops/ambient/install/helm-installation
+  - /zh/docs/ambient/install/helm-installation
+  - /zh/latest/docs/ambient/install/helm-installation
 test: yes
 ---
 
-本指南向您展示如何使用 Helm 在环境模式下安装 Istio。
-除了遵循[Ambient 模式入门](/zh/docs/ambient/getting-started/)中的演示之外，
-我们鼓励使用 Helm 安装 Istio 使其在 Ambient 模式下运行。
-Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版本。
+{{< tip >}}
+按照本指南安装和配置支持 Ambient 模式的 Istio 网格。
+如果您是 Istio 新手，只想尝试一下，请按照[快速入门说明](/zh/docs/ambient/getting-started)进行操作。
+{{< /tip >}}
+
+我们鼓励使用 Helm 在 Ambient 模式下安装 Istio 以供生产使用。
+为了允许受控升级，控制平面和数据平面组件是分开打包和安装的。
+（由于 Ambient 数据平面分为 ztunnel 和 waypoint [两个组件](/zh/docs/ambient/architecture/data-plane)，
+因此升级涉及这些组件的单独步骤。）
 
 ## 前提条件 {#prerequisites}
 
@@ -27,11 +34,27 @@ Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版
     $ helm repo update
     {{< /text >}}
 
-有关 Helm 命令文档，请参阅 [Helm 仓库](https://helm.sh/docs/helm/helm_repo/)。
+## 安装控制平面 {#install-the-control-plane}
 
-## 安装组件 {#installing-the-components}
+可以使用一个或多个 `--set <parameter>=<value>` 参数更改默认配置值。
+或者，您可以使用 `--values <file>` 参数在自定义值文件中指定多个参数。
 
-### 安装 base 组件 {#installing-the-base-component}
+{{< tip >}}
+您可以使用 `helm show values <chart>` 命令显示配置参数的默认值，
+或者参阅 Artifact Hub Chart 文档中的 [base](https://artifacthub.io/packages/helm/istio-official/base?modal=values)、
+[istiod](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values)、
+[CNI](https://artifacthub.io/packages/helm/istio-official/cni?modal=values)、
+[ztunnel](https://artifacthub.io/packages/helm/istio-official/ztunnel?modal=values)
+和 [Gateway](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values) Chart 配置参数。
+{{< /tip >}}
+
+有关如何使用和自定义 Helm 安装的完整详细信息，
+请参阅 [Sidecar 安装文档](/zh/docs/setup/install/helm/)。
+
+与 [istioctl](/zh/docs/ambient/install/istioctl/) 配置文件不同，
+后者将要安装或删除的组件分组在一起，而 Helm 配置文件只是设置了配置值组。
+
+### 基本组件 {#base-components}
 
 `base` Chart 包含设置 Istio 所需的基本 CRD 和集群角色。
 需要先安装此 Chart，才能安装任何其他 Istio 组件。
@@ -40,24 +63,26 @@ Helm 帮助您单独管理组件，您可以轻松地将组件升级到最新版
 $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 {{< /text >}}
 
-### 安装 CNI 组件 {#installing-the-cni-component}
+### istiod 控制平面 {#istiod-control-plane}
 
-`cni` Chart 将安装 Istio CNI 插件。它负责检测属于 Ambient 网格的 Pod，
-并配置 Pod 和 ztunnel 节点代理（稍后将安装）之间的流量重定向。
+`istiod` Chart 安装了 Istiod 的修订版。Istiod 是管理和配置代理以在网格内路由流量的控制平面组件。
+
+{{< text syntax=bash snip_id=install_istiod >}}
+$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
+{{< /text >}}
+
+### CNI 节点代理 {#cni-node-agent}
+
+`cni` Chart 安装 Istio CNI 节点代理。它负责检测属于 Ambient 网格的 Pod，
+并配置 Pod 和 ztunnel 节点代理（稍后安装）之间的流量重定向。
 
 {{< text syntax=bash snip_id=install_cni >}}
 $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
-### 安装 Istiod 组件 {#installing-the-discovery-component}
+## 安装数据平面 {#install-the-data-plane}
 
-`istiod` Chart 会安装 Istiod 的修订版。Istiod 是控制平面组件，用于管理和配置代理，以在网格内进行流量路由。
-
-{{< text syntax=bash snip_id=install_discovery >}}
-$ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
-{{< /text >}}
-
-### 安装 ztunnel 组件 {#installing-the-ztunnel-component}
+### ztunnel DaemonSet {#ztunnel-daemonset}
 
 `ztunnel` Chart 会安装 ztunnel DaemonSet，它是 Istio Ambient 模式的节点代理组件。
 
@@ -65,7 +90,7 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 $ helm install ztunnel istio/ztunnel -n istio-system --wait
 {{< /text >}}
 
-### 安装入口网关（可选） {#install-an-ingress-gateway-optional}
+### 入口网关（可选） {#ingress-gateway-optional}
 
 要安装入口网关，请运行以下命令：
 
@@ -140,21 +165,21 @@ ztunnel-c2z4s                    1/1     Running   0          10m
     $ kubectl delete namespace istio-ingress
     {{< /text >}}
 
+1. 删​​除 ztunnel Chart：
+
+    {{< text syntax=bash snip_id=delete_ztunnel >}}
+    $ helm delete ztunnel -n istio-system
+    {{< /text >}}
+
 1. 删除 Istio CNI Chart：
 
     {{< text syntax=bash snip_id=delete_cni >}}
     $ helm delete istio-cni -n istio-system
     {{< /text >}}
 
-1. 删除 Istio ztunnel Chart：
+1. 删除 istiod 控制平面 Chart：
 
-    {{< text syntax=bash snip_id=delete_ztunnel >}}
-    $ helm delete ztunnel -n istio-system
-    {{< /text >}}
-
-1. 删除 Istio discovery Chart：
-
-    {{< text syntax=bash snip_id=delete_discovery >}}
+    {{< text syntax=bash snip_id=delete_istiod >}}
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
