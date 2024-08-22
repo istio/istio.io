@@ -19,7 +19,7 @@ test: yes
 并包含许多安装后分析和配置工具。
 
 使用这些说明，您可以选择 Istio
-的内置[配置文件](/docs/setup/additional-setup/config-profiles/)中的任意一个，
+的内置[配置文件](/zh/docs/setup/additional-setup/config-profiles/)中的任意一个，
 然后根据您的特定需求进一步自定义配置。
 
 `istioctl` 命令通过命令行选项进行单独设置，

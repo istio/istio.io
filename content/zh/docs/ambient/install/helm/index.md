@@ -13,7 +13,7 @@ test: yes
 
 {{< tip >}}
 按照本指南安装和配置支持 Ambient 模式的 Istio 网格。
-如果您是 Istio 新手，只想尝试一下，请按照[快速入门说明](/docs/ambient/getting-started)进行操作。
+如果您是 Istio 新手，只想尝试一下，请按照[快速入门说明](/zh/docs/ambient/getting-started)进行操作。
 {{< /tip >}}
 
 我们鼓励使用 Helm 在 Ambient 模式下安装 Istio 以供生产使用。
