@@ -11,8 +11,8 @@ list_below: yes
 ---
 
 {{< tip >}}
-Want to quickly try out Istio in ambient mode? [Read our Getting Started guide](/docs/ambient/getting-started/)!
+想要在 Ambient 模式下快速试用 Istio？[阅读我们的入门指南](/zh/docs/ambient/getting-started/)！
 {{< /tip >}}
 
-There are two different options for installing Istio. Which one you should choose will depend on your production requirements, and how you install other software. If you need help choosing, refer to our
-[which Istio installation method should I use?](/about/faq/#install-method-selection) FAQ page.
+安装 Istio 有两种不同的方法。您应该选择哪种方法取决于您的生产要求以及您如何安装其他软件。
+如果您需要帮助选择，请参阅我们的[我应该使用哪种 Istio 安装方法？](/zh/about/faq/#install-method-selection)的常见问题解答页面。
