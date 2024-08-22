@@ -23,7 +23,7 @@ test: yes
 然后根据您的特定需求进一步自定义配置。
 
 `istioctl` 命令通过命令行选项进行单独设置，
-或传递包含 `IstioOperator` {{<gloss CRDs>}}自定义资源{{</gloss>}} 的 YAML 文件，
+或传递包含 `IstioOperator` {{<gloss CRD>}}自定义资源{{</gloss>}} 的 YAML 文件，
 支持完整的 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。
 
 ## 先决条件 {#prerequisites}
