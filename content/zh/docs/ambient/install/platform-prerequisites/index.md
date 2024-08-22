@@ -17,10 +17,13 @@ test: no
 
 ### Google Kubernetes Engine（GKE） {#google-kubernetes-engine-gke}
 
-On GKE, Istio components with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. The Istio CNI node agent and `ztunnel` both require the `node-critical` class, and so in GKE, both components must either:
+在 GKE 上，具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+`priorityClassName` 的 Istio 组件只能安装在定义了 [ResourceQuota](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)
+的命名空间中。默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical` 类定义了 ResourceQuota。
+Istio CNI 节点代理和 `ztunnel` 都需要 `node-critical` 类，因此在 GKE 中，两个组件都必须满足以下任一条件：
 
-- Be installed into `kube-system` (_not_ `istio-system`)
-- Be installed into another namespace (such as `istio-system`) in which a ResourceQuota has been manually created, for example:
+- 安装到 `kube-system`（**不是** `istio-system`）
+- 安装到另一个已手动创建 ResourceQuota 的命名空间（如 `istio-system`），例如：
 
 {{< text syntax=yaml >}}
 apiVersion: v1
@@ -41,15 +44,16 @@ spec:
 
 ### k3d {#k3d}
 
-If you are using [k3d](https://k3d.io/) with the default Flannel CNI, you must append some values to your installation command,  as k3d uses nonstandard locations for CNI configuration and binaries.
+如果您将 [k3d](https://k3d.io/) 与默认 Flannel CNI 结合使用，
+则必须在安装命令中附加一些值，因为 k3d 使用非标准位置来存储 CNI 配置和二进制文件。
 
-1. Create a cluster with Traefik disabled so it doesn't conflict with Istio's ingress gateways:
+1. 创建一个禁用 Traefik 的集群，以免与 Istio 的入口网关冲突：
 
     {{< text bash >}}
     $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-1.  Set the `cniConfDir` and `cniBinDir` values when installing Istio. For example:
+1. 在安装 Istio 时设置 `cniConfDir` 和 `cniBinDir` 值。例如：
 
     {{< tabset category-name="install-method" >}}
 
@@ -71,9 +75,12 @@ If you are using [k3d](https://k3d.io/) with the default Flannel CNI, you must a
 
     {{< /tabset >}}
 
-### K3s
+### K3s {#k3s}
 
-When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append some values to your installation command, as K3S uses nonstandard locations for CNI configuration and binaries. These nonstandard locations may be overridden as well, [according to K3s documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3s with a custom, non-bundled CNI, you must use the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see the K3s docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni). For example:
+当使用 [K3s](https://k3s.io/) 及其捆绑的 CNI 之一时，
+你必须在安装命令中附加一些值，因为 K3S 使用非标准位置来存放 CNI 配置和二进制文件。
+根据 K3s 文档，这些非标准位置也可能会被覆盖。如果你将 K3s 与自定义的非捆绑 CNI 一起使用，
+则必须为这些 CNI 使用正确的路径，例如 `/etc/cni/net.d` - [有关详细信息，请参阅 K3s 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。例如：
 
 {{< tabset category-name="install-method" >}}
 
@@ -95,9 +102,10 @@ When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append s
 
 {{< /tabset >}}
 
-### MicroK8s
+### MicroK8s {#microk8s}
 
-If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append a value to your installation command, as MicroK8s [uses non-standard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr). For example:
+如果你在 [MicroK8s](https://microk8s.io/) 上安装 Istio，
+则必须在安装命令后附加一个值，因为 MicroK8s [使用非标准位置来存储 CNI 配置和二进制文件](https://microk8s.io/docs/change-cidr)。例如：
 
 {{< tabset category-name="install-method" >}}
 
@@ -105,6 +113,8 @@ If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append
 
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/snap/microk8s/current/args/cni-network --set cniBinDir=/var/snap/microk8s/current/opt/cni/bin
+
+    {{< /text >}}
 
 {{< /tab >}}
 
@@ -118,11 +128,11 @@ If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append
 
 {{< /tabset >}}
 
-### minikube
+### minikube {#minikube}
 
-If you are using [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) with the [Docker driver](https://minikube.sigs.k8s.io/docs/drivers/docker/),
-you must append some values to your installation command so that the Istio CNI node agent can correctly manage
-and capture pods on the node. For example:
+如果你正在使用 [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+和 [Docker 驱动程序](https://minikube.sigs.k8s.io/docs/drivers/docker/)，
+则必须在安装命令中附加一些值，以便 Istio CNI 节点代理可以正确管理和捕获节点上的 Pod。例如：
 
 {{< tabset category-name="install-method" >}}
 
@@ -144,9 +154,11 @@ and capture pods on the node. For example:
 
 {{< /tabset >}}
 
-### Red Hat OpenShift
+### Red Hat OpenShift {#red-hat-openshift}
 
-OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace.  An `openshift-ambient` installation profile is provided which will make this change for you.  Replace instances of `profile=ambient` with `profile=openshift-ambient` in the installation commands. For example:
+OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni` 组件。
+提供了 `openshift-ambient` 安装配置文件，它将为您进行此更改。
+在安装命令中将 `profile=ambient` 实例替换为 `profile=openshift-ambient`。例如：
 
 {{< tabset category-name="install-method" >}}
 
@@ -168,9 +180,9 @@ OpenShift requires that `ztunnel` and `istio-cni` components are installed in th
 
 {{< /tabset >}}
 
-## CNI plugins
+## CNI plugins {#cni-plugins}
 
-The following configurations apply to all platforms, when certain {{< gloss "CNI" >}}CNI plugins{{< /gloss >}} are used:
+当使用某些 {{< gloss "CNI" >}}CNI 插件{{< /gloss >}}时，以下配置适用于所有平台：
 
 ### Cilium {#cilium}
 
