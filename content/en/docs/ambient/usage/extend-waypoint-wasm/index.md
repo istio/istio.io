@@ -15,7 +15,7 @@ One of the key advantages of Wasm extensibility is that extensions can be loaded
 
 ## Before you begin
 
-1. Setup Istio by following the instructions in the [ambient mode Getting Started guide](/docs/ambient/getting-started).
+1. Set up Istio by following the instructions in the [ambient mode Getting Started guide](/docs/ambient/getting-started).
 1. Deploy the [Bookinfo sample application](/docs/ambient/getting-started/deploy-sample-app).
 1. [Add the default namespace to the ambient mesh](/docs/ambient/getting-started/secure-and-visualize).
 1. Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
