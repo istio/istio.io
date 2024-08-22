@@ -127,7 +127,7 @@ For each tag, you can upgrade the tag by running the following command, replacin
 $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
-This will upgrade all objects referencing that tag, except for those using [manual gateway deployment mode](docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), which are dealt with below, and sidecars, which are not used in ambient mode.
+This will upgrade all objects referencing that tag, except for those using [manual gateway deployment mode](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), which are dealt with below, and sidecars, which are not used in ambient mode.
 
 It is recommended that you closely monitor the health of applications using the upgraded data plane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
 
@@ -137,7 +137,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 ### Upgrade manually deployed gateways (optional)
 
-`Gateway`s that were [deployed manually](docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
+`Gateway`s that were [deployed manually](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress

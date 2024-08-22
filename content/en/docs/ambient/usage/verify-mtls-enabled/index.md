@@ -28,7 +28,7 @@ Having HBONE configured on your workload doesn't mean your workload will reject 
 
 ## Validate mTLS from metrics
 
-If you have [installed Prometheus](docs/ops/integrations/prometheus/#installation), you can setup port-forwarding and open the Prometheus UI by using the following command:
+If you have [installed Prometheus](/docs/ops/integrations/prometheus/#installation), you can set up port-forwarding and open the Prometheus UI by using the following command:
 
 {{< text syntax=bash >}}
 $ istioctl dashboard prometheus
@@ -63,7 +63,7 @@ dst.workload="details-v1-857849f66-ft8wx" dst.namespace="default" dst.identity="
 direction="outbound" bytes_sent=84 bytes_recv=358 duration="15ms"
 {{< /text >}}
 
-Validate the `src.identity` and `dst.identity` values are correct. They are the identities used for the mTLS communication among the source and destination workloads. Refer to the [verifying ztunnel traffic through logs section](docs/ambient/usage/troubleshoot-ztunnel/#verifying-ztunnel-traffic-through-logs) for more details.
+Validate the `src.identity` and `dst.identity` values are correct. They are the identities used for the mTLS communication among the source and destination workloads. Refer to the [verifying ztunnel traffic through logs section](/docs/ambient/usage/troubleshoot-ztunnel/#verifying-ztunnel-traffic-through-logs) for more details.
 
 ## Validate with Kiali dashboard
 
@@ -71,7 +71,7 @@ If you have Kiali and Prometheus installed, you can visualize your workload comm
 
 {{< image link="./kiali-mtls.png" caption="Kiali dashboard" >}}
 
-Refer to the [Visualize the application and metrics](docs/ambient/getting-started/secure-and-visualize/#visualize-the-application-and-metrics) document for more details.
+Refer to the [Visualize the application and metrics](/docs/ambient/getting-started/secure-and-visualize/#visualize-the-application-and-metrics) document for more details.
 
 ## Validate with `tcpdump`
 
