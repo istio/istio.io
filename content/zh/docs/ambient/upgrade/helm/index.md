@@ -5,6 +5,8 @@ weight: 5
 aliases:
   - /zh/docs/ops/ambient/upgrade/helm-upgrade
   - /zh/latest/docs/ops/ambient/upgrade/helm-upgrade
+  - /zh/docs/ambient/upgrade/helm
+  - /zh/latest/docs/ambient/upgrade/helm
 owner: istio/wg-environments-maintainers
 test: yes
 status: Experimental
@@ -12,7 +14,7 @@ status: Experimental
 
 按照本指南使用 [Helm](https://helm.sh/docs/) 对 Ambient 模式的安装进行升级和配置。
 本指南假设您已经使用之前的 Istio 版本执行了
-[Helm Ambient 模式安装](/zh/docs/ambient/install/helm-installation/)。
+[Helm Ambient 模式安装](/zh/docs/ambient/install/helm/)。
 
 {{< warning >}}
 与 Sidecar 模式相比，Ambient 模式支持将应用程序 Pod 移动到升级后的 ztunnel 代理，
@@ -23,7 +25,7 @@ status: Experimental
 有关详细信息，请参阅 Kubernetes 提供商文档。
 {{< /warning >}}
 
-## 了解 Ambient 升级 {#understanding-ambient-upgrades}
+## 了解 Ambient 模式升级 {#understanding-ambient-mode-upgrades}
 
 所有 Istio 升级都涉及升级控制平面、数据平面和 Istio CRD。
 由于 Ambient 数据平面分为[两个组件](/zh/docs/ambient/architecture/data-plane)，
@@ -87,7 +89,9 @@ $ export REVISION=istio-1-22-1
 $ export OLD_REVISION=istio-1-21-2
 {{< /text >}}
 
-## 升级 Istio CRD {#upgrade-the-istio-crds}
+## 升级控制平面 {#upgrade-the-control-plane}
+
+### 基本组件 {#base-components}
 
 在部署新版本的控制平面之前，必须升级集群范围的 Custom Resource Definitions（CRD）：
 
@@ -95,7 +99,7 @@ $ export OLD_REVISION=istio-1-21-2
 $ kubectl apply -f manifests/charts/base/crds
 {{< /text >}}
 
-## 安装新的控制平面 {#install-the-new-control-plane}
+### istiod 控制平面 {#istiod-control-plane}
 
 [Istiod](/zh/docs/ops/deployment/architecture/#istiod) 控制平面管理和配置在网格内路由流量的代理。
 以下命令将在当前实例旁边安装控制平面的新实例，但不会引入任何新代理，也不会接管现有代理的控制权。
@@ -106,45 +110,49 @@ $ kubectl apply -f manifests/charts/base/crds
 $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
 {{< /text >}}
 
-## 升级 ztunnel DaemonSet {#upgrade-the-ztunnel-daemonset}
+### CNI 节点代理 {#cni-node-agent}
 
-{{< gloss >}}ztunnel{{< /gloss >}} DaemonSet 是节点代理组件。
-1.x 版本的 ztunnel 与 1.x+1 和 1.x 版本的控制平面兼容。这意味着，
-只要控制平面的版本差异在一个次要版本以内，就必须在升级 ztunnel 之前升级控制平面。
-如果您之前已自定义 ztunnel 安装，则可以重用以前升级或安装中的 `values.yaml` 文件，
-以保持{{< gloss "data plane" >}}数据平面{{< /gloss >}}的一致性。
-
-{{< warning >}}
-就地升级 ztunnel 将短暂中断节点上的所有 Ambient 模式流量。
-建议使用节点封锁和蓝/绿节点池来减轻生产环境升级期间的影响范围。
-有关详细信息，请参阅您的 Kubernetes 提供商文档。
-{{< /warning >}}
-
-{{< text syntax=bash snip_id=upgrade_ztunnel >}}
-$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
-{{< /text >}}
-
-## 升级 CNI DaemonSet {#upgrade-the-cni-daemonset}
-
-Istio CNI 代理负责检测添加到 Ambient 网格的 Pod，
+Istio CNI 节点代理负责检测添加到 Ambient 网格的 Pod，
 通知 ztunnel 应在添加的 Pod 内建立代理端口，并在 Pod 网络命名空间内配置流量重定向。
 它不是数据平面或控制平面的一部分。
 
 1.x 版本的 CNI 与 1.x+1 和 1.x 版本的控制平面兼容。这意味着，
-只要控制平面和 Istio CNI 的版本差异在一个小版本以内，就必须在升级控制平面之前对其进行升级。
+只要控制平面和 Istio CNI 的版本差异在一个小版本以内，就必须在升级控制平面之前对其升级。
 
 {{< warning >}}
-将 Istio CNI 代理就地升级到兼容版本不会中断已成功添加到一个 Ambient 网格中正在运行 Pod 的网络，
-但在节点上 Istio CNI 代理成功升级并完成就绪检查之前，
-不会有任何 Ambient 捕获的 Pod 可以在节点上被成功调度（或重新调度）。
-如果这是一个重大的中断问题，或者需要对 CNI 升级进行更严格的影响范围控制，则建议使用节点污染和/或节点警戒线。
+将 Istio CNI 节点代理就地升级到兼容版本不会中断已成功添加到 Ambient 网格的正在运行的 Pod 的网络，
+但在升级完成且节点上升级的 Istio CNI 代理通过就绪性检查之前，
+不会在节点上成功调度（或重新调度）任何环境捕获的 Pod。如果这是一个严重的中断问题，
+或者需要对 CNI 升级进行更严格的影响范围控制，建议使用节点污点和/或节点警戒线。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
 $ helm upgrade istio-cni istio/cni -n istio-system
 {{< /text >}}
 
-## 通过标签升级 waypoint 和网关 {#upgrade-waypoints-and-gateways-using-tags}
+## 升级数据平面 {#upgrade-the-data-plane}
+
+### ztunnel DaemonSet {#ztunnel-daemonset}
+
+{{< gloss >}}ztunnel{{< /gloss >}} DaemonSet 是节点代理组件。
+1.x 版本的 ztunnel 与 1.x+1 和 1.x 版本的控制平面兼容。这意味着，
+只要控制平面的版本差异在一个小版本以内，就必须在升级 ztunnel 之前升级控制平面。
+如果您之前已自定义 ztunnel 安装，则可以重用以前升级或安装中的 `values.yaml` 文件，
+以保持{{< gloss "data plane" >}}数据平面{{< /gloss >}}的一致性。
+
+{{< warning >}}
+无论使用何种修订版本，就地升级 ztunnel 都会短暂中断节点上的所有 Ambient 网格流量。
+实际上，中断时间非常短，主要影响长时间运行的连接。
+
+建议使用节点封锁和蓝/绿节点池来减轻生产升级期间的影响范围风险。
+有关详细信息，请参阅 Kubernetes 提供商文档。
+{{< /warning >}}
+
+{{< text syntax=bash snip_id=upgrade_ztunnel >}}
+$ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
+{{< /text >}}
+
+### 使用标签升级 waypoint 和网关 {#upgrade-waypoints-and-gateways-using-tags}
 
 如果您遵循了最佳实践，则所有网关、工作负载和命名空间都使用默认修订版本（实际上是名为 `default` 的标签）
 或 `istio.io/rev` 标签，其值设置为标签名称。
