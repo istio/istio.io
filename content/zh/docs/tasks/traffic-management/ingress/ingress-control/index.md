@@ -515,8 +515,8 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 删除 `Gateway` 和 `HTTPRoute` 配置，并关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
-$ kubectl delete gtw httpbin-gateway
 $ kubectl delete httproute httpbin
+$ kubectl delete gtw httpbin-gateway
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
 
