@@ -282,10 +282,10 @@ features:
     area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
-    link: "/docs/setup/install/operator/"
+    link: ""
     level:
       checklist: ""
-      maturity: Beta
+      maturity: Deprecated
       nextExpectedPromotion: ""
     area: Core
   - name: "Kubernetes: Envoy Installation and Traffic Interception"
