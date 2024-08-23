@@ -66,7 +66,7 @@ Chart 提供的配置。
 但是该注解已经成为获取指标的标准注解。
 {{< /tip >}}
 
-该选项默开启但是允许在[安装](/zh/docs/setup/install/istioctl/)时通过
+该选项默认开启但是允许在[安装](/zh/docs/setup/install/istioctl/)时通过
 `--set meshConfig.enablePrometheusMerge=false` 关闭。当开启后，
 会将适当的 `prometheus.io` 注解添加到所有的数据平面容器中来设置指标收集。
 如果这些注解已经存在，他们将会被覆盖。使用该选项，Envoy Sidecar 将 Istio
