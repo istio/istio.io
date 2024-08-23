@@ -19,89 +19,161 @@ test: yes
 
 要了解关于如何将 SPIRE 与 Istio 集成的快速演示，请参阅[通过 Envoy 的 SDS API 将 SPIRE 集成为 CA]({{< github_tree >}}/samples/security/spire)。
 
-{{< warning >}}
-请注意，此集成需要 `istioctl` 和数据平面均为 1.14 及更高版本。
-{{< /warning >}}
-
-此集成与 Istio 升级兼容。
-
 ## 安装 SPIRE {#install-spire}
 
-### 选项 1：快速开始 {#option-1-quick-start}
+我们建议您遵循 SPIRE 的安装说明和最佳实践来安装 SPIRE，并在生产环境中部署 SPIRE。
 
-Istio 提供了一个基本的示例安装，可以快速启动 SPIRE：
+对于本指南中的示例，[SPIRE Helm Chart](https://artifacthub.io/packages/helm/spiffe/spire)
+将与上游默认值一起使用，以仅关注集成 SPIRE 和 Istio 所需的配置。
 
-{{< text syntax=bash snip_id=install_spire_with_controller_manager >}}
-$ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
+{{< text syntax=bash snip_id=install_spire_crds >}}
+$ helm upgrade --install -n spire-server spire-crds spire-crds --repo https://spiffe.github.io/helm-charts-hardened/ --create-namespace
 {{< /text >}}
 
-这将在您的集群中部署 SPIRE，以及下述两个附加组件：
-
-- [SPIFFE CSI 驱动](https://github.com/spiffe/spiffe-csi)，用于与节点中的其他 Pod 共享 SPIRE 代理的 UNIX 域套接字。
-- [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager)，它负责注册工作负载并在
-  Kubernetes 中建立联合关系。请参阅[安装 Istio](#install-istio) 以配置 Istio 并集成 SPIFFE CSI 驱动。
-
-### 选项 2：配置自定义 SPIRE 安装 {#option-2-configure-a-custom-spire-installation}
-
-请参阅 [SPIRE 的 Kubernetes 快速入门指南](https://spiffe.io/docs/latest/try/getting-started-k8s/)
-以开始将 SPIRE 部署到您的 Kubernetes 环境中。请参阅 [SPIRE CA 集成先决条件](#spire-ca-integration-prerequisites)
-以获取有关如何配置 SPIRE 以与 Istio 部署集成的更多信息。
-
-#### SPIRE CA 集成先决条件 {#spire-ca-integration-prerequisites}
-
-要将您的 SPIRE 部署与 Istio 集成，需要配置 SPIRE：
-
-1. 访问 [SPIRE 代理参考](https://spiffe.io/docs/latest/deploying/spire_agent/#agent-configuration-file)并将
-   SPIRE 代理套接字路径配置为与 Envoy SDS 定义的套接字路径匹配。
-
-    {{< text plain >}}
-    socket_path = "/run/secrets/workload-spiffe-uds/socket"
-    {{< /text >}}
-
-1. 通过部署 [SPIFFE CSI 驱动](https://github.com/spiffe/spiffe-csi)与节点内的 Pod 共享 SPIRE 代理套接字，
-   通过设置驱动程序的 `-workload-api-socket-dir` 参数来指定套接字目录的挂载位置。
-
-请参阅[安装 Istio](#install-istio) 以配置 Istio 以集成 SPIFFE CSI 驱动。
+{{< text syntax=bash snip_id=install_spire_istio_overrides >}}
+$ helm upgrade --install -n spire-server spire spire --repo https://spiffe.github.io/helm-charts-hardened/ --wait --set global.spire.trustDomain="example.org"
+{{< /text >}}
 
 {{< tip >}}
-如果在 Istio 代理启动之前 SPIRE 尚未创建套接字，则 Istio 将成为 Envoy SDS 监听器。
-此时的时间由自定义 IstioOperator 控制。
+请参阅 [SPIRE Helm Chart](https://artifacthub.io/packages/helm/spiffe/spire) 文档，
+了解您可以为安装配置的其他值。
+
+重要的是，SPIRE 和 Istio 配置了完全相同的信任域，以防止身份验证和授权错误，
+并且启用并安装了 [SPIFFE CSI 驱动程序](https://github.com/spiffe/spiffe-csi)。
 {{< /tip >}}
+
+默认情况下，以上操作还将安装：
+
+- [SPIFFE CSI 驱动程序](https://github.com/spiffe/spiffe-csi)，
+  用于将与 Envoy 兼容的 SDS 套接字挂载到代理中。
+  Istio 和 SPIRE 都强烈建议使用 SPIFFE CSI 驱动程序挂载 SDS 套接字，
+  因为 `hostMounts` 具有更大的安全风险并会带来操作障碍。本指南假设使用 SPIFFE CSI 驱动程序。
+
+- [SPIRE 控制器管理器](https://github.com/spiffe/spire-controller-manager)，
+  它简化了为工作负载创建 SPIFFE 注册的过程。
+
+## 注册工作负载 {#register-workloads}
+
+根据设计，SPIRE 仅向已在 SPIRE 服务器上注册的工作负载授予身份；
+这包括用户工作负载以及 Istio 组件。Istio Sidecar 和 Gateway 一旦配置为 SPIRE 集成，
+就无法获取身份，因此无法达到 READY 状态，除非事先为它们创建了预先存在的匹配 SPIRE 注册。
+
+有关使用多个选择器来加强证明标准以及可用选择器的更多信息，
+请参阅[有关注册工作负载的 SPIRE 文档](https://spiffe.io/docs/latest/deploying/registering/)。
+
+本节介绍在 SPIRE 服务器中注册 Istio 工作负载的可用选项，并提供一些工作负载注册示例。
+
+{{< warning >}}
+Istio 目前要求工作负载采用特定的 SPIFFE ID 格式。
+所有注册都必须遵循 Istio SPIFFE ID 模式：`spiffe://<trust.domain>/ns/<namespace>/sa/<service-account>`
+{{< /warning >}}
+
+### 选项 1：使用 SPIRE 控制器管理器自动注册 {#option-1-auto-registration-using-the-spire-controller-manager}
+
+每个与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)
+自定义资源中定义的选择器匹配的新 Pod 将自动注册新 Entry。
+
+Istio Sidecar 和 Istio Gateway 都需要在 SPIRE 上注册，以便它们可以请求身份。
+
+#### Istio Gateway `ClusterSPIFFEID` {#istio-gateway-clusterspiffeid}
+
+下面将创建一个 `ClusterSPIFFEID`，如果 Istio Ingress Gateway Pod
+被调度到 `istio-system` 命名空间，它将自动向 SPIRE 注册该 Pod，
+并且该 Pod 有一个名为 `istio-ingressgateway-service-account` 的服务帐户。
+这些选择器用作简单示例；有关更多详细信息，
+请参阅 [SPIRE Con​​troller Manager 文档](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)。
+
+{{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
+$ kubectl apply -f - <<EOF
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: istio-ingressgateway-reg
+spec:
+  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  workloadSelectorTemplates:
+    - "k8s:ns:istio-system"
+    - "k8s:sa:istio-ingressgateway-service-account"
+EOF
+{{< /text >}}
+
+#### Istio Sidecar `ClusterSPIFFEID` {#istio-sidecar-clusterspiffeid}
+
+下面将创建一个 `ClusterSPIFFEID`，
+它将自动注册任何带有 `spiffe.io/spire-managed-identity: true` 标签的 Pod，
+这些 Pod 会使用 SPIRE 部署到 `default` 命名空间中。这些选择器用作简单示例；
+有关更多详细信息，请参阅 [SPIRE 控制器管理器文档](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)。
+
+{{< text syntax=bash snip_id=spire_csid_istio_sidecar >}}
+$ kubectl apply -f - <<EOF
+apiVersion: spire.spiffe.io/v1alpha1
+kind: ClusterSPIFFEID
+metadata:
+  name: istio-sidecar-reg
+spec:
+  spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
+  podSelector:
+    matchLabels:
+      spiffe.io/spire-managed-identity: "true"
+  workloadSelectorTemplates:
+    - "k8s:ns:default"
+EOF
+{{< /text >}}
+
+### 选项 2：手动注册 {#option-2-manual-registration}
+
+如果您希望手动创建 SPIRE 注册，
+而不是使用[推荐选项](#option-1-auto-registration-using-the-spire-controller-manager)中提到的 SPIRE 控制器管理器，
+请参阅[有关手动注册的 SPIRE 文档](https://spiffe.io/docs/latest/deploying/registering/)。
+
+以下是基于[选项 1](#option-1-auto-registration-using-the-spire-controller-manager) 中的自动注册的等效手动注册。
+以下步骤假设您[已经按照 SPIRE 文档手动注册了您的 SPIRE 代理和节点证明](https://spiffe.io/docs/latest/deploying/registering/#1-defining-the-spiffe-id-of-the-agent)，
+并且您的 SPIRE 代理已使用 SPIFFE 身份 `spiffe://example.org/ns/spire/sa/spire-agent` 注册。
+
+1. 获取 `spire-server` Pod：
+
+    {{< text syntax=bash snip_id=set_spire_server_pod_name_var >}}
+    $ SPIRE_SERVER_POD=$(kubectl get pod -l statefulset.kubernetes.io/pod-name=spire-server-0 -n spire-server -o jsonpath="{.items[0].metadata.name}")
+    {{< /text >}}
+
+1. 为 Istio Ingress Gateway Pod 注册一个 Entry：
+
+    {{< text bash >}}
+    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
+    /opt/spire/bin/spire-server entry create \
+        -spiffeID spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account \
+        -parentID spiffe://example.org/ns/spire/sa/spire-agent \
+        -selector k8s:sa:istio-ingressgateway-service-account \
+        -selector k8s:ns:istio-system \
+        -socketPath /run/spire/sockets/server.sock
+
+    Entry ID         : 6f2fe370-5261-4361-ac36-10aae8d91ff7
+    SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
+    Parent ID        : spiffe://example.org/ns/spire/sa/spire-agent
+    Revision         : 0
+    TTL              : default
+    Selector         : k8s:ns:istio-system
+    Selector         : k8s:sa:istio-ingressgateway-service-account
+    {{< /text >}}
+
+1. 注册一个通过 Istio Sidecar 注入工作负载的 Entry：
+
+    {{< text bash >}}
+    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
+    /opt/spire/bin/spire-server entry create \
+        -spiffeID spiffe://example.org/ns/default/sa/sleep \
+        -parentID spiffe://example.org/ns/spire/sa/spire-agent \
+        -selector k8s:ns:default \
+        -selector k8s:pod-label:spiffe.io/spire-managed-identity:true \
+        -socketPath /run/spire/sockets/server.sock
+    {{< /text >}}
 
 ## 安装 Istio {#install-istio}
 
-### 选项 1：使用 SPIRE Controller Manager 配置工作负载注册 {#option-1-configuration-for-workload-registration-with-the-spire-controller-manager}
-
-通过部署 [SPIRE Controller Manager](https://github.com/spiffe/spire-controller-manager)
-和 SPIRE 服务器，可以自动为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)
-自定义资源中定义的选择器匹配的每个新 Pod 进行注册。
-
-必须在安装 Istio 之前应用 ClusterSPIFFEID。此外，必须配置 Ingress-gateway Pod 以匹配 ClusterSPIFFEID
-中定义的选择器。如果在安装期间未自动创建 Ingress Gateway 工作负载的注册条目，则工作负载将无法达到 `Ready` 状态。
-
-1. 创建 ClusterSPIFFEID 示例：
-
-    {{< text syntax=bash snip_id=create_clusterspiffeid >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: spire.spiffe.io/v1alpha1
-    kind: ClusterSPIFFEID
-    metadata:
-      name: example
-    spec:
-      spiffeIDTemplate: "spiffe://{{ .TrustDomain }}/ns/{{ .PodMeta.Namespace }}/sa/{{ .PodSpec.ServiceAccountName }}"
-      podSelector:
-        matchLabels:
-          spiffe.io/spire-managed-identity: "true"
-    EOF
-    {{< /text >}}
-
-    示例 ClusterSPIFFEID 允许自动注册所有具有 `spiffe.io/spire-managed-identity: "true"` 标签的工作负载。
-    对于具有此标签的 Pod，将提取 `spiffeIDTemplate` 中指定的值以形成 SPIFFE ID。
-
 1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
 
-1. 创建具有自定义补丁的 Ingress Gateway 和 istio-proxy 的 Istio 配置。Ingress Gateway 组件包括
-   `spiffe.io/spire-managed-identity: "true"` 标签。
+1. 使用自定义补丁为 Ingress Gateway 和 `istio-proxy` 创建 Istio 配置。
+   Ingress Gateway 组件包含 `spiffe.io/spire-managed-identity: "true"` 标签。
 
     {{< text syntax=bash snip_id=define_istio_operator_for_auto_registration >}}
     $ cat <<EOF > ./istio.yaml
@@ -115,10 +187,14 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
         trustDomain: example.org
       values:
         global:
-        # 这是用于自定义 Sidecar 的模板
+        # 这用于自定义 Sidecar 模板。
+        # 它添加了标签以指示 SPIRE 应该管理此 Pod 的身份，
+        # 以及 CSI 驱动程序挂载。
         sidecarInjectorWebhook:
           templates:
             spire: |
+              labels:
+                spiffe.io/spire-managed-identity: "true"
               spec:
                 containers:
                 - name: istio-proxy
@@ -137,9 +213,11 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
             enabled: true
             label:
               istio: ingressgateway
-              spiffe.io/spire-managed-identity: "true"
             k8s:
               overlays:
+                # 这用于定制 Ingress Gateway 模板。
+                # 它添加了 CSI 驱动程序挂载，以及一个 init 容器来停止网关启动，
+                # 直到 CSI 驱动程序挂载套接字。
                 - apiVersion: apps/v1
                   kind: Deployment
                   name: istio-ingressgateway
@@ -158,7 +236,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
                     - path: spec.template.spec.initContainers
                       value:
                         - name: wait-for-spire-socket
-                          image: busybox:1.28
+                          image: busybox:1.36
                           volumeMounts:
                             - name: workload-socket
                               mountPath: /run/secrets/workload-spiffe-uds
@@ -185,7 +263,7 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     $ istioctl install --skip-confirmation -f ./istio.yaml
     {{< /text >}}
 
-1. 检查 Ingress-gateway Pod 状态：
+1. 检查 Ingress Gateway Pod 状态：
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl get pods -n istio-system
@@ -194,129 +272,12 @@ $ kubectl apply -f @samples/security/spire/spire-quickstart.yaml@
     istiod-989f54d9c-sg7sn                  1/1     Running   0          23s
     {{< /text >}}
 
-    由于与之对应的注册条目已在 SPIRE 服务器上自动创建，Ingress-gateway Pod 状态为 `Ready`。Envoy 能够从 SPIRE 获取加密身份。
+    Ingress Gateway Pod 已 `Ready`，因为 SPIRE 服务器上会自动为其创建相应的注册条目。
+    Envoy 能够从 SPIRE 获取加密身份。
 
-请注意，在[快速入门](#option-1-quick-start)部分中使用了 `SPIRE Controller Manager`。
-
-### 选项 2：手动工作负载注册 {#option-2-configuration-for-manual-workload-registration-with-spire}
-
-1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
-
-1. 在[部署 SPIRE](#install-spire) 到您的环境并确保所有 Deployment 都处于 `Ready` 状态后，
-   使用 Ingress-gateway 和 istio-proxy 的自定义补丁来配置 Istio。
-
-    创建 Istio 配置：
-
-    {{< text syntax=bash snip_id=define_istio_operator_for_manual_registration >}}
-    $ cat <<EOF > ./istio.yaml
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    metadata:
-      namespace: istio-system
-    spec:
-      profile: default
-      meshConfig:
-        trustDomain: example.org
-      values:
-        global:
-        # 这是用于自定义 Sidecar 的模板
-        sidecarInjectorWebhook:
-          templates:
-            spire: |
-              spec:
-                containers:
-                - name: istio-proxy
-                  volumeMounts:
-                  - name: workload-socket
-                    mountPath: /run/secrets/workload-spiffe-uds
-                    readOnly: true
-                volumes:
-                  - name: workload-socket
-                    csi:
-                      driver: "csi.spiffe.io"
-                      readOnly: true
-      components:
-        ingressGateways:
-          - name: istio-ingressgateway
-            enabled: true
-            label:
-              istio: ingressgateway
-            k8s:
-              overlays:
-                - apiVersion: apps/v1
-                  kind: Deployment
-                  name: istio-ingressgateway
-                  patches:
-                    - path: spec.template.spec.volumes.[name:workload-socket]
-                      value:
-                        name: workload-socket
-                        csi:
-                          driver: "csi.spiffe.io"
-                          readOnly: true
-                    - path: spec.template.spec.containers.[name:istio-proxy].volumeMounts.[name:workload-socket]
-                      value:
-                        name: workload-socket
-                        mountPath: "/run/secrets/workload-spiffe-uds"
-                        readOnly: true
-                    - path: spec.template.spec.initContainers
-                      value:
-                        - name: wait-for-spire-socket
-                          image: busybox:1.28
-                          volumeMounts:
-                            - name: workload-socket
-                              mountPath: /run/secrets/workload-spiffe-uds
-                              readOnly: true
-                          env:
-                            - name: CHECK_FILE
-                              value: /run/secrets/workload-spiffe-uds/socket
-                          command:
-                            - sh
-                            - "-c"
-                            - |-
-                              echo "$(date -Iseconds)" Waiting for: ${CHECK_FILE}
-                              while [[ ! -e ${CHECK_FILE} ]] ; do
-                                echo "$(date -Iseconds)" File does not exist: ${CHECK_FILE}
-                                sleep 15
-                              done
-                              ls -l ${CHECK_FILE}
-    EOF
-    {{< /text >}}
-
-1. 应用配置：
-
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl install --skip-confirmation -f ./istio.yaml
-    {{< /text >}}
-
-1. 检查 Ingress-gateway Pod 状态：
-
-    {{< text syntax=bash snip_id=none >}}
-    $ kubectl get pods -n istio-system
-    NAME                                    READY   STATUS    RESTARTS   AGE
-    istio-ingressgateway-5b45864fd4-lgrxs   0/1     Running   0          20s
-    istiod-989f54d9c-sg7sn                  1/1     Running   0          25s
-    {{< /text >}}
-
-    只有在 SPIRE 服务器上为 Ingress-gateway Pod 和数据平面容器创建了相应的注册条目后，它们才会达到 `Ready` 状态。
-    接着，Envoy 将能够从 SPIRE 中获取加密身份信息。
-    请参阅[注册工作负载](#register-workloads)以为您的网格中的服务注册条目。
-
-Istio 配置与入口网关以及将要注入到工作负载 Pod 上的 Sidecar 共享 `spiffe-csi-driver`，
-从而使它们能够访问 SPIRE 代理的 UNIX 域套接字。
-
-此配置还向网关添加了一个 initContainer，它将等待 SPIRE 创建 UNIX 域套接字，然后再启动 istio-proxy。
-如果 SPIRE 代理尚未准备好，或者尚未使用相同的套接字路径正确配置，Ingress 网关的 initContainer 将永远处于等待状态。
-
-## 注册工作负载 {#register-workloads}
-
-本节描述了在SPIRE服务器中注册工作负载的可用选项。
-
-### 选项 1：使用 SPIRE 控制器管理器进行注册 {#option-1-registration-using-the-spire-controller-manager}
-
-将为与 [ClusterSPIFFEID](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)
-自定义资源中定义的选择器匹配的每个新 Pod 自动注册新条目。
-请参阅[使用 SPIRE 控制器管理器进行工作负载注册的配置](#option-1-configuration-for-workload-registration-with-the-spire-controller-manager)以获取
-ClusterSPIFFEID 示例配置。
+    此配置还向网关添加了一个 `initContainer`，它将等待 SPIRE 创建 UNIX 域套接字，
+    然后再启动 `istio-proxy`。如果 SPIRE 代理尚未准备就绪，或者未正确配置相同的套接字路径，
+    则 Ingress Gateway `initContainer` 将永远等待。
 
 1. 部署示例工作负载：
 
@@ -342,7 +303,6 @@ ClusterSPIFFEID 示例配置。
           metadata:
             labels:
               app: sleep
-              spiffe.io/spire-managed-identity: "true"
             # 注入自定义 Sidecar 模板
             annotations:
                 inject.istio.io/templates: "sidecar,spire"
@@ -362,167 +322,25 @@ ClusterSPIFFEID 示例配置。
             volumes:
               - name: tmp
                 emptyDir: {}
-              # CSI volume
+              # CSI 卷
               - name: workload-socket
                 csi:
                   driver: "csi.spiffe.io"
                   readOnly: true
     {{< /text >}}
+
+Istio 配置与 Ingress Gateway 和将要注入工作负载容器的 Sidecar 共享 `spiffe-csi-driver`，
+从而授予它们访问 SPIRE 代理的 UNIX 域套接字的权限。
 
 请参阅[验证为工作负载创建的身份](#verifying-that-identities-were-created-for-workloads)
 以检查已颁发的身份。
-
-请注意，在[快速入门](#option-1-quick-start)部分中使用了 `SPIRE控制器管理器`。
-
-### 选项 2：手动注册 {#option-2-manual-registration}
-
-为提高工作负载的认证安全性和稳健性，SPIRE 能够根据不同参数的一组选择器值来进行验证。
-如果您是参照[快速入门](#option-1-quick-start)中的步骤来安装 `SPIRE`，则可以跳过这些步骤，
-因为 SPIRE 使用自动注册的机制。
-
-1. 使用一组选择器为 Ingress Gateway 生成条目，例如 Pod 名称和 Pod UID：
-
-    {{< text bash >}}
-    $ INGRESS_POD=$(kubectl get pod -l istio=ingressgateway -n istio-system -o jsonpath="{.items[0].metadata.name}")
-    $ INGRESS_POD_UID=$(kubectl get pods -n istio-system "$INGRESS_POD" -o jsonpath='{.metadata.uid}')
-    {{< /text >}}
-
-1. 获取 spire-server Pod：
-
-    {{< text syntax=bash snip_id=set_spire_server_pod_name_var >}}
-    $ SPIRE_SERVER_POD=$(kubectl get pod -l app=spire-server -n spire -o jsonpath="{.items[0].metadata.name}")
-    {{< /text >}}
-
-1. 为节点上运行的 SPIRE 代理注册一个条目：
-
-    {{< text bash >}}
-    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
-    /opt/spire/bin/spire-server entry create \
-        -spiffeID spiffe://example.org/ns/spire/sa/spire-agent \
-        -selector k8s_psat:cluster:demo-cluster \
-        -selector k8s_psat:agent_ns:spire \
-        -selector k8s_psat:agent_sa:spire-agent \
-        -node -socketPath /run/spire/sockets/server.sock
-
-    Entry ID         : d38c88d0-7d7a-4957-933c-361a0a3b039c
-    SPIFFE ID        : spiffe://example.org/ns/spire/sa/spire-agent
-    Parent ID        : spiffe://example.org/spire/server
-    Revision         : 0
-    TTL              : default
-    Selector         : k8s_psat:agent_ns:spire
-    Selector         : k8s_psat:agent_sa:spire-agent
-    Selector         : k8s_psat:cluster:demo-cluster
-    {{< /text >}}
-
-1. 为 Ingress-gateway Pod 注册一个条目：
-
-    {{< text bash >}}
-    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
-    /opt/spire/bin/spire-server entry create \
-        -spiffeID spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account \
-        -parentID spiffe://example.org/ns/spire/sa/spire-agent \
-        -selector k8s:sa:istio-ingressgateway-service-account \
-        -selector k8s:ns:istio-system \
-        -selector k8s:pod-uid:"$INGRESS_POD_UID" \
-        -dns "$INGRESS_POD" \
-        -dns istio-ingressgateway.istio-system.svc \
-        -socketPath /run/spire/sockets/server.sock
-
-    Entry ID         : 6f2fe370-5261-4361-ac36-10aae8d91ff7
-    SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
-    Parent ID        : spiffe://example.org/ns/spire/sa/spire-agent
-    Revision         : 0
-    TTL              : default
-    Selector         : k8s:ns:istio-system
-    Selector         : k8s:pod-uid:63c2bbf5-a8b1-4b1f-ad64-f62ad2a69807
-    Selector         : k8s:sa:istio-ingressgateway-service-account
-    DNS name         : istio-ingressgateway.istio-system.svc
-    DNS name         : istio-ingressgateway-5b45864fd4-lgrxs
-    {{< /text >}}
-
-1. 部署示例工作负载：
-
-    {{< text bash >}}
-    $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml@ | kubectl apply -f -
-    {{< /text >}}
-
-    请注意，工作负载需要使用 SPIFFE CSI 驱动器卷来访问 SPIRE 代理套接字。为了实现这一点，
-    您可以使用[安装 Istio](#install-istio) 部分中的 `spire` Pod 注解模板，或者将 CSI
-    卷添加到您的工作负载的部署规范中。这两种方法都在下面的示例片段中进行了突出显示：
-
-    {{< text syntax=yaml snip_id=none >}}
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: sleep
-    spec:
-      replicas: 1
-      selector:
-          matchLabels:
-            app: sleep
-      template:
-          metadata:
-            labels:
-              app: sleep
-            # 注入自定义 Sidecar 模板
-            annotations:
-                inject.istio.io/templates: "sidecar,spire"
-          spec:
-            terminationGracePeriodSeconds: 0
-            serviceAccountName: sleep
-            containers:
-            - name: sleep
-              image: curlimages/curl
-              command: ["/bin/sleep", "3650d"]
-              imagePullPolicy: IfNotPresent
-              volumeMounts:
-                - name: tmp
-                  mountPath: /tmp
-              securityContext:
-                runAsUser: 1000
-            volumes:
-              - name: tmp
-                emptyDir: {}
-              # CSI volume
-              - name: workload-socket
-                csi:
-                  driver: "csi.spiffe.io"
-                  readOnly: true
-    {{< /text >}}
-
-1. 获取 Pod 信息：
-
-    {{< text syntax=bash snip_id=set_sleep_pod_vars >}}
-    $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
-    $ SLEEP_POD_UID=$(kubectl get pods "$SLEEP_POD" -o jsonpath='{.metadata.uid}')
-    {{< /text >}}
-
-1. 注册工作负载：
-
-    {{< text bash >}}
-    $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
-    /opt/spire/bin/spire-server entry create \
-        -spiffeID spiffe://example.org/ns/default/sa/sleep \
-        -parentID spiffe://example.org/ns/spire/sa/spire-agent \
-        -selector k8s:ns:default \
-        -selector k8s:pod-uid:"$SLEEP_POD_UID" \
-        -dns "$SLEEP_POD" \
-        -socketPath /run/spire/sockets/server.sock
-    {{< /text >}}
-
-{{< warning >}}
-工作负载的 SPIFFE ID 必须遵循 Istio SPIFFE ID 规范：`spiffe://<trust.domain>/ns/<namespace>/sa/<service-account>`
-{{< /warning >}}
-
-请参阅 [SPIRE 注册工作负载的帮助文档](https://spiffe.io/docs/latest/deploying/registering/)，了解如何为工作负载创建新条目，
-并使用多个选择器进行认证以加强认证标准。
 
 ## 验证工作负载的身份是否已创建  {#verifying-that-identities-were-created-for-workloads}
 
 请使用以下命令确认是否已为工作负载创建了身份：
 
-{{< text bash >}}
-$ kubectl exec -t "$SPIRE_SERVER_POD" -n spire -c spire-server -- ./bin/spire-server entry show
+{{< text syntax=bash snip_id=none >}}
+$ kubectl exec -t "$SPIRE_SERVER_POD" -n spire-server -c spire-server -- ./bin/spire-server entry show
 Found 2 entries
 Entry ID         : c8dfccdc-9762-4762-80d3-5434e5388ae7
 SPIFFE ID        : spiffe://example.org/ns/istio-system/sa/istio-ingressgateway-service-account
@@ -553,6 +371,12 @@ istiod-989f54d9c-sg7sn                  1/1     Running   0          45s
 在为入口网关 Pod 注册条目后，Envoy 将收到 SPIRE 颁发的身份并将其用于所有 TLS 和 mTLS 通信。
 
 ### 检查工作负载身份是否由 SPIRE 颁发 {#check-that-the-workload-identity-was-issued-by-spire}
+
+1. 获取 Pod 信息：
+
+    {{< text syntax=bash snip_id=set_sleep_pod_var >}}
+    $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
+    {{< /text >}}
 
 1. 使用 `istioctl proxy-config secret` 命令检索 sleep 的 SVID 身份文档：
 
@@ -608,28 +432,12 @@ SPIRE 服务器能够对来自不同信任域的 SPIFFE 身份进行认证，这
 
 ## 清理 SPIRE {#cleanup-spire}
 
-如果您是通过 Istio 提供的快速入门 SPIRE 部署安装的 SPIRE，请使用以下命令来删除这些 Kubernetes 资源：
+通过卸载 Helm Chart 来删除 SPIRE：
 
-{{< text bash >}}
-$ kubectl delete CustomResourceDefinition clusterspiffeids.spire.spiffe.io
-$ kubectl delete CustomResourceDefinition clusterfederatedtrustdomains.spire.spiffe.io
-$ kubectl delete -n spire configmap spire-bundle
-$ kubectl delete -n spire serviceaccount spire-agent
-$ kubectl delete -n spire configmap spire-agent
-$ kubectl delete -n spire daemonset spire-agent
-$ kubectl delete csidriver csi.spiffe.io
-$ kubectl delete ValidatingWebhookConfiguration spire-controller-manager-webhook
-$ kubectl delete -n spire configmap spire-controller-manager-config
-$ kubectl delete -n spire configmap spire-server
-$ kubectl delete -n spire service spire-controller-manager-webhook-service
-$ kubectl delete -n spire service spire-server-bundle-endpoint
-$ kubectl delete -n spire service spire-server
-$ kubectl delete -n spire serviceaccount spire-server
-$ kubectl delete -n spire deployment spire-server
-$ kubectl delete clusterrole spire-server-cluster-role spire-agent-cluster-role manager-role
-$ kubectl delete clusterrolebinding spire-server-cluster-role-binding spire-agent-cluster-role-binding manager-role-binding
-$ kubectl delete -n spire role spire-server-role leader-election-role
-$ kubectl delete -n spire rolebinding spire-server-role-binding leader-election-role-binding
-$ kubectl delete namespace spire
-$ rm istio.yaml chain.pem
+{{< text syntax=bash snip_id=uninstall_spire >}}
+$ helm delete -n spire-server spire
+{{< /text >}}
+
+{{< text syntax=bash snip_id=uninstall_spire_crds >}}
+$ helm delete -n spire-server spire-crds
 {{< /text >}}
