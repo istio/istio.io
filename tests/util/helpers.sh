@@ -93,6 +93,18 @@ _wait_for_daemonset() {
     fi
 }
 
+# Wait for rollout of named statefulset
+# usage: _wait_for_statefulset <namespace> <statefulset name> <optional: context>
+_wait_for_statefulset() {
+    local namespace="$1"
+    local name="$2"
+    local context="${3:-}"
+    if ! kubectl --context="$context" -n "$namespace" rollout status statefulset "$name" --timeout 5m; then
+        echo "Failed rollout of statefulset $name in namespace $namespace"
+        exit 1
+    fi
+}
+
 # Wait for Istio config to propagate
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
