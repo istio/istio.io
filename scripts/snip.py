@@ -105,6 +105,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         github_url = "https://raw.githubusercontent.com/istio/istio/" + source_branch_name
         line = line.replace("{{< github_file >}}", github_url)
         line = line.replace("istioctl install", "istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true")
+        line = line.replace("kubectl delete gtw", "kubectl delete gtw --cascade=foreground")
 
         match = sectionhead.match(line)
         if match:

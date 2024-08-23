@@ -265,7 +265,7 @@ kubectl delete virtualservice nginx
 }
 
 snip_cleanup_2() {
-kubectl delete gtw mygateway
+kubectl delete gtw --cascade=foreground mygateway
 kubectl delete tlsroute nginx
 }
 

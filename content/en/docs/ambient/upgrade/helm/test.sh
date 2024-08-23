@@ -18,7 +18,7 @@ set -u
 
 set -o pipefail
 
-source "content/en/docs/ambient/upgrade/helm-upgrade/common.sh"
+source "content/en/docs/ambient/upgrade/helm/common.sh"
 
 # @setup profile=none
 _install_istio_ambient_helm
@@ -28,7 +28,7 @@ export MYTAG=tagname
 snip_list_revisions
 snip_update_helm
 snip_istioctl_precheck
-snip_upgrade_the_istio_crds_1
+snip_base_components_1
 
 
 _rewrite_helm_repo snip_upgrade_istiod

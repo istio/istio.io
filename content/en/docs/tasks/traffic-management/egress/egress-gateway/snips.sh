@@ -260,7 +260,7 @@ kubectl delete destinationrule egressgateway-for-cnn
 
 snip_cleanup_http_gateway_2() {
 kubectl delete serviceentry cnn
-kubectl delete gtw cnn-egress-gateway
+kubectl delete gtw --cascade=foreground cnn-egress-gateway
 kubectl delete httproute direct-cnn-to-egress-gateway
 kubectl delete httproute forward-cnn-from-egress-gateway
 }
@@ -448,7 +448,7 @@ kubectl delete destinationrule egressgateway-for-cnn
 
 snip_cleanup_https_gateway_2() {
 kubectl delete serviceentry cnn
-kubectl delete gtw cnn-egress-gateway
+kubectl delete gtw --cascade=foreground cnn-egress-gateway
 kubectl delete tlsroute direct-cnn-to-egress-gateway
 kubectl delete tlsroute forward-cnn-from-egress-gateway
 }

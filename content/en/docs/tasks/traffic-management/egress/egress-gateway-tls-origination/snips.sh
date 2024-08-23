@@ -277,7 +277,7 @@ kubectl delete destinationrule egressgateway-for-cnn
 
 snip_cleanup_the_tls_origination_example_2() {
 kubectl delete serviceentry cnn
-kubectl delete gtw cnn-egress-gateway
+kubectl delete gtw --cascade=foreground cnn-egress-gateway
 kubectl delete httproute direct-cnn-to-egress-gateway
 kubectl delete httproute forward-cnn-from-egress-gateway
 kubectl delete destinationrule egressgateway-for-cnn
@@ -709,7 +709,7 @@ kubectl delete destinationrule egressgateway-for-nginx
 
 snip_cleanup_the_mutual_tls_origination_example_3() {
 kubectl delete secret client-credential
-kubectl delete gtw nginx-egressgateway
+kubectl delete gtw --cascade=foreground nginx-egressgateway
 kubectl delete role nginx-egressgateway-istio-sds
 kubectl delete rolebinding nginx-egressgateway-istio-sds
 kubectl delete virtualservice direct-nginx-to-egress-gateway
