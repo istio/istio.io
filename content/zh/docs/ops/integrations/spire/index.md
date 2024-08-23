@@ -83,7 +83,6 @@ Istio Sidecar 和 Istio Gateway 都需要在 SPIRE 上注册，以便它们可�
 这些选择器用作简单示例；有关更多详细信息，
 请参阅 [SPIRE Con​​troller Manager 文档](https://github.com/spiffe/spire-controller-manager/blob/main/docs/clusterspiffeid-crd.md)。
 
-
 {{< text syntax=bash snip_id=spire_csid_istio_gateway >}}
 $ kubectl apply -f - <<EOF
 apiVersion: spire.spiffe.io/v1alpha1
