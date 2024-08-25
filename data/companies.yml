@@ -602,6 +602,11 @@ users:
   - name: "GoTo Financial"
     logo: "/logos/gotofinancial.svg"
     url: "https://gotofinancial.com/"
+  - name: "Crystal Business Funding"
+    logo: "/logos/Crystal Business Funding.svg"
+    url: "https://crystalbusinessFunding.com/"
+    
+    
 
 training:
   - name: "Introduction to Istio"
