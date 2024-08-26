@@ -107,9 +107,13 @@ The `--for` parameter to `istioctl waypoint apply` can be used to change the [tr
 | `waypoint-for` value | Traffic type |
 | -------------------- | ------------ |
 | `service`            | Kubernetes services |
-| `workload`           | Pod or VM IPs |
+| `workload`           | Pod IPs or VM IPs |
 | `all`                | Both service and workload traffic |
 | `none`               | No traffic (useful for testing) |
+
+{{< tip >}}
+Traffic type concerns the original addressing. To-service traffic does not become to-workload once the service is resolved to a pod by the service mesh.
+{{< /tip >}}
 
 ## Use a waypoint proxy {#useawaypoint}
 
@@ -184,6 +188,10 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
 Any requests from pods in the ambient mesh to the `reviews-v2` pod IP will now be routed through the `reviews-v2-pod-waypoint` waypoint for L7 processing and policy enforcement.
+
+{{< tip >}}
+The original addressing of the traffic is used to determine if a service or workload waypoint should be used. Traffic which is addressed to a service, even though ultimately this would be resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint. Workload-attached waypoints are only used when the client addresses traffic to the pod itself.
+{{< /tip >}}
 
 ### Cleaning up
 
