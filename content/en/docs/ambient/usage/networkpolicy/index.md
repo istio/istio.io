@@ -8,7 +8,7 @@ test: no
 
 Kubernetes [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) allows you to control how layer 4 traffic reaches your pods.
 
-`NetworkPolicy` is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage `NetworkPolicy`, and in all cases respects it - ambient does not and will never bypass an operator's explicit Kubernetes `NetworkPolicy`.
+`NetworkPolicy` is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage `NetworkPolicy`, and in all cases respects it - ambient does not and will never bypass Kubernetes `NetworkPolicy` enforcement.
 
 An implication of this is that it is possible to create a Kubernetes `NetworkPolicy` that will block Istio traffic, or otherwise impede Istio functionality, so when using `NetworkPolicy` and ambient together, there are some things to keep in mind.
 
