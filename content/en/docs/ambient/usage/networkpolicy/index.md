@@ -8,7 +8,7 @@ test: no
 
 Kubernetes [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) allows you to control how layer 4 traffic reaches your pods.
 
-`NetworkPolicy` is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage `NetworkPolicy`, and in all cases respects it - ambient does not and will never bypass an operator's explicit Kubernetes `NetworkPolicies`.
+`NetworkPolicy` is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage `NetworkPolicy`, and in all cases respects it - ambient does not and will never bypass Kubernetes `NetworkPolicy` enforcement.
 
 An implication of this is that it is possible to create a Kubernetes `NetworkPolicy` that will block Istio traffic, or otherwise impede Istio functionality, so when using `NetworkPolicy` and ambient together, there are some things to keep in mind.
 
@@ -60,7 +60,7 @@ Various CNI implementations solve this in different ways and seek to either work
 
 In Istio ambient, this problem is solved by using a combination of iptables rules and source network address translation (SNAT) to rewrite only packets that provably originate from the local node with a fixed link-local IP, so that they can be explicitly ignored by Istio policy enforcement as unsecured health probe traffic. A link-local IP was chosen as the default since they are typically ignored for ingress-egress controls, and [by IETF standard](https://datatracker.ietf.org/doc/html/rfc3927) are not routable outside of the local subnetwork.
 
-This behavior is transparently when you add pods to the ambient mesh, and by default ambient uses the link-local address `169.254.7.127` to identify and correctly allow kubelet health probe packets.
+This behavior is transparently enabled when you add pods to the ambient mesh, and by default ambient uses the link-local address `169.254.7.127` to identify and correctly allow kubelet health probe packets.
 
 However if your workload, namespace or cluster has a preexisting ingress or egress `NetworkPolicy`, depending on the CNI you are using, packets with this link-local address may be blocked by the explicit `NetworkPolicy`, which will cause your application pod health probes to begin failing when you add your pods to the ambient mesh.
 
