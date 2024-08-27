@@ -29,46 +29,7 @@ test: no
 
 ### Ambient 和 Kubernetes NetworkPolicy {#ambient-and-kubernetes-networkpolicy}
 
-一旦您将应用程序添加到 Ambient 网格，安全的 L4 覆盖将通过端口
-15008 在启用 Ambient 的 Pod 之间建立隧道流量。一旦流量进入目标端口为 15008 的 Pod，
-流量将被代理到原始目标端口。但是，`NetworkPolicy` 是在主机上强制执行的，
-而不是在 Pod 之外。这意味着，如果您已经存在 `NetworkPolicy`，
-例如，它将拒绝除 443 之外每个端口上的 Ambient Pod 入站流量，
-则您必须为端口 15008 向该 `NetworkPolicy` 添加例外。
-
-例如，以下 `NetworkPolicy` 将阻止传入 {{< gloss >}}HBONE{{< /gloss >}} 流量到端口 15008 上的 `my-app`：
-
-{{< text syntax=yaml snip_id=none >}}
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-spec:
-  ingress:
-  - ports:
-    - port: 9090
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: my-app
-{{< /text >}}
-
-应改为：
-
-{{< text syntax=yaml snip_id=none >}}
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-spec:
-  ingress:
-  - ports:
-    - port: 8080
-      protocol: TCP
-    - port: 15008
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: my-app
-{{< /text >}}
-
-如果已将 `my-app` 添加到 Ambient 网格中。
+请参阅 [Ambient 和 Kubernetes NetworkPolicy](/zh/docs/ambient/usage/networkpolicy/)。
 
 ## 不同数据平面模式下的 Pod 间通信 {#communicating-between-pods-in-different-data-plane-modes}
 
