@@ -1081,6 +1081,7 @@ sinkInfo
 SkyWalking
 SLOs
 SMEs
+SNAT
 Snell-Feikema
 SNI
 SoC2
@@ -1116,6 +1117,7 @@ subdomain
 subdomains
 subnet
 subnets
+subnetwork
 subnetworks
 subresource
 subresources
