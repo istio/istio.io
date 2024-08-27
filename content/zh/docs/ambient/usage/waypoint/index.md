@@ -123,12 +123,16 @@ waypoint 也可以处理所有流量，仅处理直接发送到集群中**工作
 `istioctl waypoint apply` 的 `--for` 参数可用于更改重定向到 waypoint
 的[流量类型](#waypoint-traffic-types)：
 
-| `waypoint-for` 值 | 流量类型             |
+| `waypoint-for` 值 | 目标类型             |
 |------------------|----------------------|
 | `service`        | Kubernetes 服务      |
-| `workload`       | Pod 或 VM IP         |
+| `workload`       | Pod IP 或 VM IP      |
 | `all`            | 服务和工作负载流量     |
 | `none`           | 无流量（用于测试）     |
+
+{{< tip >}}
+流量类型与原始寻址有关。一旦服务被服务网格解析为 Pod，到服务的流量就不会变成到工作负载的流量。
+{{< /tip >}}
 
 ## 使用 waypoint 代理 {#useawaypoint}
 
@@ -217,6 +221,12 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 
 从 Ambient 网格中的 Pod 到 `reviews-v2` Pod IP 的所有请求现在都将通过
 `reviews-v2-pod-waypoint` waypoint 进行路由，以进行 L7 处理和策略执行。
+
+{{< tip >}}
+流量的原始寻址用于确定是否应使用服务或工作负载 waypoint。
+寻址到服务的流量（即使最终会解析为 Pod IP）始终被 Ambient 网格视为服务，
+并使用服务附加 waypoint。仅当客户端将流量寻址到 Pod 本身时，才会使用工作负载附加 waypoint。
+{{< /tip >}}
 
 ### 清理 {#cleaning-up}
 
