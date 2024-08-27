@@ -111,7 +111,7 @@ Use the `--for` argument to `istioctl waypoint apply` to change the types of tra
 | `all`                | Both service and workload traffic |
 | `none`               | No traffic (useful for testing) |
 
-Waypoint selection occurs based on the type of destination, `service` or `workload`, which traffic was _originally addressed to_. If traffic is addressed to a service which does not have a waypoint, a waypoint will not be transited: even if the eventual workload it reaches _does_ have an attached waypoint.
+Waypoint selection occurs based on the destination type, `service` or `workload`, to which traffic was _originally addressed_. If traffic is addressed to a service which does not have a waypoint, a waypoint will not be transited: even if the eventual workload it reaches _does_ have an attached waypoint.
 
 ## Use a waypoint proxy {#useawaypoint}
 
