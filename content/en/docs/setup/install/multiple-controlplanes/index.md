@@ -31,9 +31,6 @@ This cluster will host two control planes installed in two different system name
 
 Deploying multiple Istio control planes on a single cluster can be achieved by using different system namespaces for each control plane.
 Istio revisions and `discoverySelectors` are then used to scope the resources and workloads that are managed by each control plane.
-{{< warning >}}
-By default, Istio only uses `discoverySelectors` to scope workload endpoints. To enable full resource scoping, including configuration resources, the feature flag `ENABLE_ENHANCED_RESOURCE_SCOPING` must be set to true.
-{{< /warning >}}
 
 1. Create the first system namespace, `usergroup-1`, and deploy istiod in it:
 
@@ -55,9 +52,6 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
       values:
         global:
           istioNamespace: usergroup-1
-        pilot:
-          env:
-            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
@@ -81,9 +75,6 @@ By default, Istio only uses `discoverySelectors` to scope workload endpoints. To
       values:
         global:
           istioNamespace: usergroup-2
-        pilot:
-          env:
-            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
