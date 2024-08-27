@@ -102,7 +102,7 @@ By default, a waypoint will only handle traffic destined for **services** in its
 
 It is also possible for the waypoint to handle all traffic, only handle traffic sent directly to **workloads** (pods or VMs) in the cluster, or no traffic at all. The types of traffic that will be redirected to the waypoint are determined by the `istio.io/waypoint-for` label on the `Gateway` object.
 
-Use the `--for` flag on `istioctl waypoint apply` to change the types of traffic that can be redirected to the waypoint:
+Use the `--for` argument to `istioctl waypoint apply` to change the types of traffic that can be redirected to the waypoint:
 
 | `waypoint-for` value | Original Destination Type |
 | -------------------- | ------------ |
