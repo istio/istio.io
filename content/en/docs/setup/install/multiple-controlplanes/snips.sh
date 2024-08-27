@@ -38,9 +38,6 @@ spec:
   values:
     global:
       istioNamespace: usergroup-1
-    pilot:
-      env:
-        ENABLE_ENHANCED_RESOURCE_SCOPING: true
 EOF
 }
 
@@ -62,9 +59,6 @@ spec:
   values:
     global:
       istioNamespace: usergroup-2
-    pilot:
-      env:
-        ENABLE_ENHANCED_RESOURCE_SCOPING: true
 EOF
 }
 
