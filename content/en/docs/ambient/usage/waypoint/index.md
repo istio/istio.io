@@ -104,7 +104,7 @@ It is also possible for the waypoint to handle all traffic, only handle traffic 
 
 Use the `--for` argument to `istioctl waypoint apply` to change the types of traffic that can be redirected to the waypoint:
 
-| `waypoint-for` value | Original Destination Type |
+| `waypoint-for` value | Original destination type |
 | -------------------- | ------------ |
 | `service`            | Kubernetes services |
 | `workload`           | Pod IPs or VM IPs |
