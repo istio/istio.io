@@ -11,7 +11,7 @@ Kubernetes [NetworkPolicy](https://kubernetes.io/zh-cn/docs/concepts/services-ne
 
 `NetworkPolicy` 通常由安装在集群中的 {{< gloss >}}CNI{{< /gloss >}} 强制执行。
 Istio 不是 CNI，不强制执行或管理 `NetworkPolicy`，
-并且在所有情况下都遵循它 - Ambient 不会也永远不会绕过 Operator 的显式 Kubernetes `NetworkPolicies`。
+并且在所有情况下都遵循它 - Ambient 不会且永远不会绕过 Kubernetes `NetworkPolicy` 的执行。
 
 这意味着可以创建一个 Kubernetes `NetworkPolicy` 来阻止 Istio 流量，
 或者以其他方式阻碍 Istio 功能，因此当一起使用 `NetworkPolicy` 和 Ambient 时，需要注意一些事项。
@@ -74,7 +74,7 @@ Kubernetes 健康检查探测存在问题，并为 Kubernetes 流量策略创建
 链路本地 IP 被选为默认 IP，因为它们通常会被忽略以进行入口-出口控制，
 并且[根据 IETF 标准](https://datatracker.ietf.org/doc/html/rfc3927)无法在本地子网之外路由。
 
-当您将 Pod 添加到 Ambient 网格时，此行为是透明的，默认情况下，
+当您将 Pod 添加到 Ambient 网格时，此行为是透明启用的，默认情况下，
 Ambient 使用链接本地地址 `169.254.7.127` 来识别并正确允许 kubelet 健康探测数据包。
 
 但是，如果您的工作负载、命名空间或集群具有预先存在的入口或出口 `NetworkPolicy`，
