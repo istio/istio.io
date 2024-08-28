@@ -87,6 +87,7 @@ time verify_load_balancing
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
+
 time cleanup_helm
 
 # Everything should be removed once cleanup completes. Use a small
