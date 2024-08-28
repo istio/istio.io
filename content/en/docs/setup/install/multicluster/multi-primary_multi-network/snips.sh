@@ -81,7 +81,7 @@ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
 }
 
 snip_configure_cluster2_as_a_primary_1() {
-cat <<EOF > cluster1.yaml
+cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

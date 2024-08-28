@@ -154,7 +154,7 @@ function verify_load_balancing
 function create_istio_system_ns
 {
   snip_create_istio_system_namespace_cluster_1
-  snip_create_istio_system_namespace_cluster_1
+  snip_create_istio_system_namespace_cluster_2
 }
 
 function setup_helm_repo

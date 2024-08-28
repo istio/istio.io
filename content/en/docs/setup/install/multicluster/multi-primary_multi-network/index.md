@@ -170,7 +170,7 @@ Create the Istio configuration for `cluster2`:
 Install Istio as primary in `cluster2` using `istioctl` and the `IstioOperator` API.
 
 {{< text bash >}}
-$ cat <<EOF > cluster1.yaml
+$ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
