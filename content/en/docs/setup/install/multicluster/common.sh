@@ -182,9 +182,9 @@ helm repo update --kube-context "${CTX_CLUSTER2}"
 }
 
 snip_delete_sample_ns_cluster_1() {
-kubectl delete namespace sample --kube-context "${CTX_CLUSTER1}"
+kubectl delete namespace sample --context "${CTX_CLUSTER1}"
 }
 
 snip_delete_sample_ns_cluster_2() {
-kubectl delete namespace sample --kube-context "${CTX_CLUSTER2}"
+kubectl delete namespace sample --context "${CTX_CLUSTER2}"
 }
