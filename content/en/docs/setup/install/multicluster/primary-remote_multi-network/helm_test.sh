@@ -59,6 +59,18 @@ function install_istio_on_cluster2_helm {
     _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
 }
 
+time install_istio_on_cluster1_helm
+time install_istio_on_cluster2_helm
+
+echo "Exposing services via the east-west gateway for both clusters"
+snip_expose_services_in_cluster1_and_cluster2_1
+
+time verify_load_balancing
+
+# @cleanup
+source content/en/docs/setup/install/multicluster/common.sh
+set_multi_network_vars
+
 function cleanup_cluster1_helm {
   snip_cleanup_3
   snip_cleanup_4
@@ -75,18 +87,6 @@ function cleanup_helm {
   cleanup_cluster1_helm
   cleanup_cluster2_helm
 }
-
-time install_istio_on_cluster1_helm
-time install_istio_on_cluster2_helm
-
-echo "Exposing services via the east-west gateway for both clusters"
-snip_expose_services_in_cluster1_and_cluster2_1
-
-time verify_load_balancing
-
-# @cleanup
-source content/en/docs/setup/install/multicluster/common.sh
-set_multi_network_vars
 
 time cleanup_helm
 
