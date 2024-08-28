@@ -52,7 +52,7 @@ function install_istio_on_cluster2_helm {
     snip_configure_cluster2_as_a_primary_4
 
     echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_in_cluster2_3
+    snip_install_the_eastwest_gateway_in_cluster2_2
 
     echo "Waiting for the east-west gateway to have an external IP"
     _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"

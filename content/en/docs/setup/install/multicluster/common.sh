@@ -164,11 +164,11 @@ function setup_helm_repo
 }
 
 snip_create_istio_system_namespace_cluster_1() {
-kubectl create namespace istio-system --kube-context "${CTX_CLUSTER1}"
+kubectl create namespace istio-system --context "${CTX_CLUSTER1}"
 }
 
 snip_create_istio_system_namespace_cluster_2() {
-kubectl create namespace istio-system --kube-context "${CTX_CLUSTER2}"
+kubectl create namespace istio-system --context "${CTX_CLUSTER2}"
 }
 
 snip_setup_helm_repo_cluster_1() {
