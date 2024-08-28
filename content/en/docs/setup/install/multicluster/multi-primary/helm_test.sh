@@ -50,6 +50,15 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
+time configure_trust
+time install_istio_helm
+time enable_endpoint_discovery
+time verify_load_balancing
+
+# @cleanup
+source content/en/docs/setup/install/multicluster/common.sh
+set_single_network_vars
+
 function cleanup_cluster1_helm {
   snip_cleanup_3
   snip_cleanup_4
@@ -66,15 +75,6 @@ function cleanup_helm {
   cleanup_cluster1_helm
   cleanup_cluster2_helm
 }
-
-time configure_trust
-time install_istio_helm
-time enable_endpoint_discovery
-time verify_load_balancing
-
-# @cleanup
-source content/en/docs/setup/install/multicluster/common.sh
-set_single_network_vars
 
 time cleanup_helm
 
