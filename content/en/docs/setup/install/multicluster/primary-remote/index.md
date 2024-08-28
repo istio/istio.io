@@ -85,7 +85,6 @@ Install Istio as primary in `cluster1` using standard `helm` commands.
 First, install the `base` chart in `cluster1`:
 
 {{< text bash >}}
-$ kubectl create namespace istio-system --context "${CTX_CLUSTER1}"
 $ helm install istio-base istio/base -n istio-system --set global.externalIstiod=true --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 

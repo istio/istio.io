@@ -24,7 +24,7 @@ set -o pipefail
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
 setup_helm_repo
-create_istio_system_ns
+snip_create_istio_system_namespace_cluster_1
 
 function install_istio_on_cluster1_helm {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
@@ -46,8 +46,7 @@ function install_istio_on_cluster2_helm {
     snip_set_the_control_plane_cluster_for_cluster2_1
     snip_set_the_default_network_for_cluster2_1
     snip_configure_cluster2_as_a_remote_1
-    snip_configure_cluster2_as_a_remote_2
-    echo y | snip_configure_cluster2_as_a_remote_4
+    snip_configure_cluster2_as_a_remote_4
 
     echo "Enabling API server access to remote cluster"
     snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
