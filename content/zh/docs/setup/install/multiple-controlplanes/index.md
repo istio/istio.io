@@ -38,11 +38,6 @@ test: yes
 在单集群上部署多个 Istio 控制面可通过为每个控制面使用不同的系统命名空间来达成。
 Istio 修订和 `discoverySelectors` 然后用于确定每个控制面托管的资源和工作负载的作用域。
 
-{{< warning >}}
-Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域。
-若要启用包括配置资源在内的完整资源作用域，`ENABLE_ENHANCED_RESOURCE_SCOPING` 特性标记必须被设置为 true。
-{{< /warning >}}
-
 1. 创建第一个系统命名空间 `usergroup-1` 并在其中部署 istiod：
 
     {{< text bash >}}
@@ -63,9 +58,6 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
       values:
         global:
           istioNamespace: usergroup-1
-        pilot:
-          env:
-            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
@@ -89,9 +81,6 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
       values:
         global:
           istioNamespace: usergroup-2
-        pilot:
-          env:
-            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
