@@ -37,7 +37,7 @@ Istio 可以被配置为通过 gRPC 或 HTTP 导出
 
 ### 通过 gRPC 导出 {#exporting-via-grpc}
 
-在此示例中，链路将通过 OTLP/gRPC 导出到 OpenTelemetry Collector。
+在此示例中，链路将通过 OTLP/gRPC 导出到 OpenTelemetry Collector，您可以通过编辑 `grpc` 字段中的配置信息来配置 gRPC 请求携带的请求头以及超时时间，如果该字段未进行配置，则链路将使用默认的 OTLP/gRPC 配置导出到 OpenTelemetry Collector。
 该示例还启用了[环境资源检测器](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables)。
 环境检测器将环境变量 `OTEL_RESOURCE_ATTRIBUTES`
 中的属性添加到导出的 OpenTelemetry 资源中。
@@ -54,6 +54,11 @@ spec:
       opentelemetry:
         port: 4317
         service: opentelemetry-collector.observability.svc.cluster.local
+        grpc:
+          timeout: 3s
+          initialMetadata:
+            - name: "Authentication"
+              value: "token-xxxxx"  
         resource_detectors:
           environment: {}
 EOF
