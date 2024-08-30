@@ -87,5 +87,5 @@ If you don't have access to the worker nodes, you may be able to use the [netsho
 
 {{< text syntax=bash >}}
 $ POD=$(kubectl get pods -l app=details -o jsonpath="{.items[0].metadata.name}")
-$ kubectl debug $POD -i --image=nicolaka/netshoot -- tcpdump -nAi eth0 port 15008 or port 15008
+$ kubectl debug $POD -i --image=nicolaka/netshoot -- tcpdump -nAi eth0 port 9080 or port 15008
 {{< /text >}}
