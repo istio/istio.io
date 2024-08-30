@@ -58,7 +58,7 @@ spec:
           timeout: 3s
           initialMetadata:
             - name: "Authentication"
-              value: "token-xxxxx"  
+              value: "token-xxxxx"
         resource_detectors:
           environment: {}
 EOF
