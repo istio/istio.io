@@ -26,7 +26,7 @@ test: yes
 
 1. 检查[平台特定的前提条件](/zh/docs/ambient/install/platform-preventions)。
 
-1. [安装 Helm 客户端](https://helm.sh/docs/intro/install/) v3.6 或更高版本。
+1. [安装 Helm 客户端](https://helm.sh/docs/intro/install/)，版本要求 3.6 或更高。
 
 1. 配置 Helm 仓库：
 
