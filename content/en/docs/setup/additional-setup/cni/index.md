@@ -20,7 +20,7 @@ This guide is focused on using the Istio CNI node agent as an optional part of t
 
 {{< tip >}}
 Note: The Istio CNI node agent _does not_ replace your cluster's existing {{< gloss="cni" >}}CNI{{< /gloss >}}. Among other things, it installs a _chained_ CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
-See [compatibility with CNIs](#compatibility-with-other-cnis) for details.
+See [compatibility with CNIs](/docs/setup/additional-setup/cni/#compatibility-with-other-cnis) for details.
 {{< /tip >}}
 
 Follow this guide to install, configure, and use the Istio CNI node agent with the sidecar data plane mode.
