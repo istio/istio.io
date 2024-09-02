@@ -32,7 +32,8 @@ status: Experimental
 即 ztunnel 和 waypoint，因此升级涉及这些组件的单独步骤。
 这里简要介绍了升级控制平面和 CRD，但本质上与[在 Sidecar 模式下升级这些组件的过程](/zh/docs/setup/upgrade/canary/)相同。
 
-与 Sidecar 模式类似，网关可以使用[修订标签](/zh/docs/setup/upgrade/canary/#stable-revision-labels)来对（{{< gloss >}}Gateway{{</ gloss >}}）升级，
+与 Sidecar 模式类似，网关可以使用[修订标签](/zh/docs/setup/upgrade/canary/#stable-revision-labels)来对
+{{< gloss >}}Gateway{{</ gloss >}}）升级，
 包括 waypoint 进行细粒度控制，并可通过简单的控件随时回滚。
 但是，与 Sidecar 模式不同，ztunnel 作为 DaemonSet（每个节点的代理）运行，
 这意味着 ztunnel 升级至少一次会影响整个节点。虽然这在许多情况下是可以接受的，
@@ -40,9 +41,9 @@ status: Experimental
 我们建议在升级给定节点的 ztunnel 之前使用节点封锁和排空。
 为简单起见，本文档将演示 ztunnel 的就地升级，这可能涉及短暂的停机时间。
 
-## 先决条件 {#prerequisites}
+## 前提条件 {#prerequisites}
 
-### 整理你的标签和修订 {#organize-your-tags-and-revisions}
+### 整理您的标签和修订 {#organize-your-tags-and-revisions}
 
 为了安全地在 Ambient 模式下升级网格，您的网关和命名空间应使用 `istio.io/rev` 标签来指定修订标签，
 该标签控制正在运行的代理版本。我们建议将您的生产集群分成多个标签来组织您的升级。
@@ -80,11 +81,12 @@ $ helm repo update istio
 升级数据平面只需通过修改标签或编辑标签来更改它指向的控制平面即可。
 
 由于修订版本是不可变的，我们建议选择与您正在安装的 Istio 版本相对应的修订版本名称，
-例如 `1-22-1`。除了选择新的修订版本名称外，您还应该记下当前的修订版本名称。您可以通过运行以下命令找到它：
+例如 `1-22-1`。除了选择新的修订版本名称外，您还应该记下当前的修订版本名称。
+您可以通过运行以下命令找到它：
 
 {{< text syntax=bash snip_id=list_revisions >}}
 $ kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
-$ # Store your revision and new revision in variables:
+$ # 将您的修订版本和新的修订版本存到变量中：
 $ export REVISION=istio-1-22-1
 $ export OLD_REVISION=istio-1-21-2
 {{< /text >}}
@@ -156,7 +158,7 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" 
 
 如果您遵循了最佳实践，则所有网关、工作负载和命名空间都使用默认修订版本（实际上是名为 `default` 的标签）
 或 `istio.io/rev` 标签，其值设置为标签名称。
-现在，您可以通过移动它们的标签以指向新版本（一次一个）来将它们全部升级到 Istio 数据平面的新版本。
+现在，您可以通过移动它们的标签以指向新版本（一次一个）来将它们全部升级到新版本的 Istio 数据平面。
 要列出集群中的所有标签，请运行：
 
 {{< text syntax=bash snip_id=list_tags >}}
@@ -171,8 +173,8 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< /text >}}
 
 这将升级引用该标签的所有对象，
-但使用[手动网关部署模式](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment)的对象除外（下文将处理），
-以及未在 Ambient 模式下使用的 Sidecar。
+但使用[手动网关部署模式](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment)的对象除外
+（下文将处理），以及未在 Ambient 模式下使用的 Sidecar。
 
 建议您在升级下一个标签之前密切监控使用升级后的数据平面的应用程序的运行状况。
 如果检测到问题，您可以回滚标签，将其重置为指向旧修订版本的名称：
@@ -183,7 +185,9 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 ### 升级手动部署的网关（可选） {#upgrade-manually-deployed-gateways-optional}
 
-必须使用 Helm 单独升级[手动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) 的 `Gateway`：
+必须使用 Helm
+单独升级[手动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment)
+的 `Gateway`：
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
