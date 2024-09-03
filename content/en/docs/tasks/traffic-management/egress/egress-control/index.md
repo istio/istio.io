@@ -379,7 +379,7 @@ After updating the `istio-sidecar-injector` configuration, it affects all
 future application pod deployments.
 
 {{< warning >}}
-Unlike [Envoy passthrough to external services](#envoy-passthrough-to-external-services),
+Unlike [Envoy passthrough to external services](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services),
 which uses the `ALLOW_ANY` traffic policy to instruct the Istio sidecar proxy to
 passthrough calls to unknown services,
 this approach completely bypasses the sidecar, essentially disabling all of Istio's features
