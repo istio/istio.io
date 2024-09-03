@@ -28,7 +28,7 @@ Istio CNI 节点代理在 {{< gloss "sidecar" >}}Ambient{{< /gloss >}} 数据平
 除此之外，它还会安装一个**链式** CNI 插件或云提供商使用的集群 CNI，
 其中这种链式 CNI 插件设计为分层堆叠在另一个先前安装的主接口
 CNI（例如 [Calico](https://docs.projectcalico.org)）之上。
-有关详细信息，请参阅[与 CNI 的兼容性](#compatibility-with-other-cnis)。
+有关详细信息，请参阅[与 CNI 的兼容性](/zh/docs/setup/additional-setup/cni/#compatibility-with-other-cnis)。
 {{< /tip >}}
 
 按照本指南安装、配置和使用具有 Sidecar 数据平面模式的 Istio CNI 节点代理。
