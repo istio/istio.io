@@ -159,7 +159,7 @@ will help with controlling metrics cardinality via federation, you may want to f
 to match your existing dashboards, alerts, and ad-hoc queries.
 
 For more information on tailoring your recording rules, see the section on
-[Optimizing metrics collection with recording rules](#optimizing-metrics-collection-with-recording-rules).
+[Optimizing metrics collection with recording rules](/docs/ops/best-practices/observability/#optimizing-metrics-collection-with-recording-rules).
 {{< /tip >}}
 
 ### Federation using workload-level aggregated metrics
