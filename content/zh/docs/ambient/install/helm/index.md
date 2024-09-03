@@ -17,13 +17,14 @@ test: yes
 {{< /tip >}}
 
 我们鼓励使用 Helm 在 Ambient 模式下安装 Istio 以供生产使用。
-为了允许受控升级，控制平面和数据平面组件是分开打包和安装的。
-（由于 Ambient 数据平面分为 ztunnel 和 waypoint [两个组件](/zh/docs/ambient/architecture/data-plane)，
-因此升级涉及这些组件的单独步骤。）
+为了允许受控的升级，控制平面和数据平面组件是分开打包和安装的。
+（由于 Ambient 数据平面分为 ztunnel 和 waypoint
+[两个组件](/zh/docs/ambient/architecture/data-plane)，
+所以需要单独升级这些组件。）
 
 ## 前提条件 {#prerequisites}
 
-1. 检查[平台特定先决条件](/zh/docs/ambient/install/platform-preventions)。
+1. 检查[平台特定的前提条件](/zh/docs/ambient/install/platform-preventions)。
 
 1. [安装 Helm 客户端](https://helm.sh/docs/intro/install/)，版本要求 3.6 或更高。
 
@@ -45,14 +46,16 @@ test: yes
 [istiod](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values)、
 [CNI](https://artifacthub.io/packages/helm/istio-official/cni?modal=values)、
 [ztunnel](https://artifacthub.io/packages/helm/istio-official/ztunnel?modal=values)
-和 [Gateway](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values) Chart 配置参数。
+和 [Gateway](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values)
+Chart 配置参数。
 {{< /tip >}}
 
 有关如何使用和自定义 Helm 安装的完整详细信息，
 请参阅 [Sidecar 安装文档](/zh/docs/setup/install/helm/)。
 
-与 [istioctl](/zh/docs/ambient/install/istioctl/) 配置文件不同，
-后者将要安装或删除的组件分组在一起，而 Helm 配置文件只是设置了配置值组。
+与 [istioctl](/zh/docs/ambient/install/istioctl/)
+配置文件（它会将要安装或移除的组件放在一组）不同，
+而 Helm 配置文件只是对配置值做了分组。
 
 ### 基本组件 {#base-components}
 
@@ -65,7 +68,7 @@ $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 
 ### istiod 控制平面 {#istiod-control-plane}
 
-`istiod` Chart 安装了 Istiod 的修订版。Istiod 是管理和配置代理以在网格内路由流量的控制平面组件。
+`istiod` Chart 安装了修订版的 Istiod。Istiod 是管理和配置代理以在网格内路由流量的控制平面组件。
 
 {{< text syntax=bash snip_id=install_istiod >}}
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
@@ -73,7 +76,7 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 
 ### CNI 节点代理 {#cni-node-agent}
 
-`cni` Chart 安装 Istio CNI 节点代理。它负责检测属于 Ambient 网格的 Pod，
+`cni` Chart 安装 Istio CNI 节点代理。此代理负责检测属于 Ambient 网格的 Pod，
 并配置 Pod 和 ztunnel 节点代理（稍后安装）之间的流量重定向。
 
 {{< text syntax=bash snip_id=install_cni >}}
@@ -106,7 +109,7 @@ $ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace -
 
 ## 配置 {#configuration}
 
-要查看已被支持的配置选项和文档，请运行：
+要查看受支持的配置选项和文档，请运行：
 
 {{< text syntax=bash >}}
 $ helm show values istio/istiod
@@ -137,11 +140,11 @@ istiod-5f4c75464f-gskxf          1/1     Running   0          10m
 ztunnel-c2z4s                    1/1     Running   0          10m
 {{< /text >}}
 
-### 使用示例应用程序进行验证 {#verifying-with-the-sample-application}
+### 使用示例应用进行验证 {#verifying-with-the-sample-application}
 
 使用 Helm 安装 Ambient 模式后，
-您可以按照[部署示例应用程序](/zh/docs/ambient/getting-started/deploy-sample-app/)指南部署示例应用程序和入口网关，
-然后您可以[添加您的应用程序到 Ambient 网格中](/zh/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh)。
+您可以按照[部署示例应用](/zh/docs/ambient/getting-started/deploy-sample-app/)指南部署示例应用和入口网关，
+然后您可以[添加您的应用到 Ambient 网格中](/zh/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh)。
 
 ## 卸载 {#uninstall}
 
@@ -193,7 +196,7 @@ ztunnel-c2z4s                    1/1     Running   0          10m
     $ helm delete istio-base -n istio-system
     {{< /text >}}
 
-1. 删除 Istio 安装的 CRD（可选）
+1. 删除通过 Istio 安装的 CRD（可选）
 
     {{< warning >}}
     这将删除所有已创建的 Istio 资源。
