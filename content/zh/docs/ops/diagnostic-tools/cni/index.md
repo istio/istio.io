@@ -22,7 +22,7 @@ CNI 插件的默认日志级别是 `info`。要获得更详细的日志输出，
 `values.cni.logLevel` 安装选项并重新启动 CNI DaemonSet Pod 来更改级别。
 
 Istio CNI DaemonSet Pod 日志还提供了有关 CNI
-插件安装的信息以及[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)。
+插件安装的信息以及[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition--mitigation)。
 
 ## 监控 {#monitoring}
 
@@ -40,7 +40,7 @@ CNI DaemonSet 的就绪表明 Istio CNI 插件已被正确安装和配置。
 
 ## 竞争条件和缓解措施 {#race-condition-repair}
 
-Istio CNI DaemonSet 默认启用[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)，
+Istio CNI DaemonSet 默认启用[竞争条件和缓解措施](/zh/docs/setup/additional-setup/cni/#race-condition--mitigation)，
 这将驱逐在 CNI 插件准备就绪之前启动的 Pod。要了解哪些 Pod 被驱逐，请查找如下所示的日志行：
 
 {{< text plain >}}
@@ -77,6 +77,6 @@ $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 
 CNI 插件出现故障的另一个症状是，应用程序 Pod 在启动时不断被逐出。
 这通常是因为插件没有被正确安装，因此无法设置 Pod 流量重定向。
-CNI 的[竞争条件和缓解措施逻辑](/zh/docs/setup/additional-setup/cni/#race-condition-mitigation)
+CNI 的[竞争条件和缓解措施逻辑](/zh/docs/setup/additional-setup/cni/#race-condition--mitigation)
 认为由于竞争条件引起的问题导致 Pod 损坏，并连续逐出 Pod。遇到此问题时，请检查 CNI DaemonSet 日志，
 以获取为什么插件未被正确安装的信息。
