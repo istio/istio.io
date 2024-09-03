@@ -102,18 +102,16 @@ By default, a waypoint will only handle traffic destined for **services** in its
 
 It is also possible for the waypoint to handle all traffic, only handle traffic sent directly to **workloads** (pods or VMs) in the cluster, or no traffic at all. The types of traffic that will be redirected to the waypoint are determined by the `istio.io/waypoint-for` label on the `Gateway` object.
 
-The `--for` parameter to `istioctl waypoint apply` can be used to change the [traffic type](#waypoint-traffic-types) redirected to the waypoint:
+Use the `--for` argument to `istioctl waypoint apply` to change the types of traffic that can be redirected to the waypoint:
 
-| `waypoint-for` value | Traffic type |
+| `waypoint-for` value | Original destination type |
 | -------------------- | ------------ |
 | `service`            | Kubernetes services |
 | `workload`           | Pod IPs or VM IPs |
 | `all`                | Both service and workload traffic |
 | `none`               | No traffic (useful for testing) |
 
-{{< tip >}}
-Traffic type concerns the original addressing. To-service traffic does not become to-workload once the service is resolved to a pod by the service mesh.
-{{< /tip >}}
+Waypoint selection occurs based on the destination type, `service` or `workload`, to which traffic was _originally addressed_. If traffic is addressed to a service which does not have a waypoint, a waypoint will not be transited: even if the eventual workload it reaches _does_ have an attached waypoint.
 
 ## Use a waypoint proxy {#useawaypoint}
 
@@ -190,7 +188,8 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 Any requests from pods in the ambient mesh to the `reviews-v2` pod IP will now be routed through the `reviews-v2-pod-waypoint` waypoint for L7 processing and policy enforcement.
 
 {{< tip >}}
-The original addressing of the traffic is used to determine if a service or workload waypoint should be used. Traffic which is addressed to a service, even though ultimately this would be resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint. Workload-attached waypoints are only used when the client addresses traffic to the pod itself.
+The original destination type of the traffic is used to determine if a service or workload waypoint will be used. By using the original destination type the ambient mesh avoids having traffic transit waypoint twice, even if both service and workload have attached waypoints.
+For instance, traffic which is addressed to a service, even though ultimately resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint.
 {{< /tip >}}
 
 ### Cleaning up
