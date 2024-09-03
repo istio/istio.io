@@ -129,7 +129,7 @@ Istio 支持这些服务类型，并且与标准的 `ClusterIP` 服务具有完�
 {{< warning >}}
 在没有 Istio 的情况下，无头服务的 `ports` 字段不是严格必需的，
 因为请求直接发送到 Pod IP，该 IP 可以在所有端口上接受流量。
-但是，在使用 Istio 时，必须在服务中声明端口，否则将[不会被匹配](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic)。
+但是，在使用 Istio 时，必须在服务中声明端口，否则将[不会被匹配](/zh/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic)。
 {{< /warning >}}
 
 ### ExternalName 服务 {#externalname-services}
