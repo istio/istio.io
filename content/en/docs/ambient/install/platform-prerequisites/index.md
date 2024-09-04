@@ -4,7 +4,7 @@ description: Platform-specific prerequisites for installing Istio in ambient mod
 weight: 2
 aliases:
   - /docs/ops/ambient/install/platform-prerequisites
-  - /latest/docs/ops/ambient/install/platform-prerequisites  
+  - /latest/docs/ops/ambient/install/platform-prerequisites
 owner: istio/wg-environments-maintainers
 test: no
 ---
@@ -56,7 +56,7 @@ When using [k3d](https://k3d.io/) with the default Flannel CNI, you must append 
     {{< tab name="Helm" category-value="helm" >}}
 
         {{< text syntax=bash >}}
-        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3d --wait 
+        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3d --wait
         {{< /text >}}
 
     {{< /tab >}}
@@ -88,7 +88,7 @@ When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append t
 {{< tab name="istioctl" category-value="istioctl" >}}
 
     {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=k3s 
+    $ istioctl install --set profile=ambient --set values.global.platform=k3s
     {{< /text >}}
 
 {{< /tab >}}
@@ -146,7 +146,7 @@ If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append
 
 If you are using [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) with the [Docker driver](https://minikube.sigs.k8s.io/docs/drivers/docker/),
 you must append the correct `platform` value to your installation commands, as minikube with Docker uses a nonstandard bind mount path for containers.
-For example: 
+For example:
 
 {{< tabset category-name="install-method" >}}
 
@@ -170,7 +170,7 @@ For example:
 
 ### Red Hat OpenShift
 
-OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts. 
+OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts.
 
 If you use `helm`, you can set the target namespace and `global.platform` values directly.
 
@@ -185,7 +185,6 @@ If you use `istioctl`, you must use a special profile named `openshift-ambient` 
     {{< /text >}}
 
 {{< /tab >}}
-
 
 {{< tab name="istioctl" category-value="istioctl" >}}
 
