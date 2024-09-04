@@ -49,6 +49,10 @@ function install_istio_on_cluster2_helm {
     snip_configure_cluster2_as_a_remote_4
 }
 
+function enable_api_server_access {
+    snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
+}
+
 time install_istio_on_cluster1_helm
 time install_istio_on_cluster2_helm
 time enable_api_server_access
@@ -73,6 +77,7 @@ function cleanup_cluster2_helm {
 function cleanup_helm {
   cleanup_cluster1_helm
   cleanup_cluster2_helm
+  snip_delete_crds
 }
 
 time cleanup_helm

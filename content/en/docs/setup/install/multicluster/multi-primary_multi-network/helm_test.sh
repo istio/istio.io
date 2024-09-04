@@ -98,6 +98,7 @@ function cleanup_cluster2_helm {
 function cleanup_helm {
   cleanup_cluster1_helm
   cleanup_cluster2_helm
+  snip_delete_crds
 }
 
 time cleanup_helm
