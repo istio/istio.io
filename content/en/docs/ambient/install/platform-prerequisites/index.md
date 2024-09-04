@@ -148,17 +148,22 @@ and capture pods on the node. For example:
 
 ### Red Hat OpenShift
 
-OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace.  An `openshift-ambient` installation profile is provided which will make this change for you.  Replace instances of `profile=ambient` with `profile=openshift-ambient` in the installation commands. For example:
+OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts. 
+
+If you use `helm`, you can set the target namespace and `global.platform` values directly.
+
+If you use `istioctl`, you must use a special profile named `openshift-ambient` to accomplish the same thing.
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=openshift-ambient --wait
+    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
 {{< /tab >}}
+
 
 {{< tab name="istioctl" category-value="istioctl" >}}
 
