@@ -336,6 +336,16 @@ $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
+1. (Optional) Deleting CRDs installed by Istio
+
+Deleting CRDs permanently removes any Istio resources you have created in your clusters.
+To delete Istio CRDs installed in your clusters:
+
+{{< text syntax=bash snip_id=delete_crds >}}
+$ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+$ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+{{< /text >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}
