@@ -53,6 +53,7 @@ function enable_api_server_access {
     snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1
 }
 
+snip_delete_crds
 time install_istio_on_cluster1_helm
 time install_istio_on_cluster2_helm
 time enable_api_server_access
