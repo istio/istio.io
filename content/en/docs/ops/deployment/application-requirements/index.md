@@ -92,8 +92,7 @@ To avoid port conflicts with sidecars, applications should not use any of the po
 | 15001 | TCP | Envoy outbound | No |
 | 15004 | HTTP | Debug port | Yes |
 | 15006 | TCP | Envoy inbound | No |
-| 15008 | H2 | HBONE mTLS tunnel port | No |
-| 15009 | H2C | HBONE port for secure networks | No |
+| 15008 | HTTP2 | {{< gloss >}}HBONE{{</ gloss >}} mTLS tunnel port | No |
 | 15020 | HTTP | Merged Prometheus telemetry from Istio agent, Envoy, and application | No |
 | 15021 | HTTP | Health checks | No |
 | 15053 | DNS  | DNS port, if capture is enabled | Yes |
