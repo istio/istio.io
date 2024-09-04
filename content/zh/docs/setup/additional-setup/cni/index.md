@@ -151,7 +151,7 @@ $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true 
 则可能未正确设置流量重定向，流量将能够绕过 Istio Sidecar。
 
 对于 Sidecar 数据平面模式，此竞争条件可通过“检测和修复”方法缓解。
-请参阅[竞争条件和缓解](#race-condition-mitigation)部分以了解此缓解措施的含义以及配置说明。
+请参阅[竞争条件和缓解](/zh/docs/setup/additional-setup/cni/#race-condition--mitigation)部分以了解此缓解措施的含义以及配置说明。
 {{< /tip >}}
 
 ### 处理修订的 Init 容器注入 {#handling-init-container-injection-for-revisions}
