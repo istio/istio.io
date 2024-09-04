@@ -192,6 +192,52 @@ The original destination type of the traffic is used to determine if a service o
 For instance, traffic which is addressed to a service, even though ultimately resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint.
 {{< /tip >}}
 
+## Cross-namespace waypoint use {#usewaypointnamespace}
+
+Straight our of the box a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23 it is possible to use waypoints in different namespaces. In this section we will examine the gateway configuration required to enable cross-namespace use as well as how to configure your resources to use a waypoint from a different namespace.
+
+### Configure a waypoint for cross-namespace use
+
+In order to enable cross-namespace use of a waypoint the Gateway.gateway.networking.k8s.io should be configured to [allow routes](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes) from other namespaces. 
+
+{{< tip >}}
+The keyword, `All`, may be specified as the value for `allowedRoutes.namespaces.from` in order to allow routes from any namespace.
+{{< /tip >}}
+
+The following Gateway would allow resources in a namespace called "cross-namespace-waypoint-consumer" to use this egress-gateway:
+
+{{< text syntax=yaml >}}
+kind: Gateway
+metadata:
+  name: egress-gateway
+  namespace: common-infrastructure
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: cross-namespace-waypoint-consumer
+{{< /text >}}
+
+
+### Configure resources to use a cross-namespace waypoint proxy
+
+By default the Istio control plane will look for a waypoint specified using the `istio.io/use-waypoint` label in the same namespace as the resource which the label is applied to. It is possible to use a waypoint in another namespace by adding a new label, `istio.io/use-waypoint-namespace`. These two labels are used together to specify the name and namespace of your waypoint respectively. For example, to configure a ServiceEntry called "istio-io" to use a waypoint called "egress-gateway" in the namespace called "common-infrastructure" you could use the following commands:
+
+{{< text syntax=bash >}}
+$ kubectl label serviceentries.networking.istio.io istio-io istio.io/use-waypoint=egress-gateway
+serviceentries.networking.istio.io/istio-io labeled
+$ kubectl label serviceentries.networking.istio.io istio-io istio.io/use-waypoint-namespace=common-infrastructure
+serviceentries.networking.istio.io/istio-io labeled
+{{< /text >}}
+
+
 ### Cleaning up
 
 You can remove all waypoints from a namespace by doing the following:
