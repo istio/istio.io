@@ -16,7 +16,7 @@ Follow these instructions to prepare an OpenShift cluster for Istio.
 Install Istio using the OpenShift profile:
 
 {{< text bash >}}
-$ istioctl install --set profile=openshift
+$ istioctl install --set global.platform=openshift
 {{< /text >}}
 
 After installation is complete, expose an OpenShift route for the ingress gateway.
