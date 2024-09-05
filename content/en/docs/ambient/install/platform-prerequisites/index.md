@@ -73,7 +73,7 @@ When using [k3d](https://k3d.io/) with the default Flannel CNI, you must append 
 
 ### K3s
 
-When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append the correct `platform` value to your installation commands, as K3S uses nonstandard locations for CNI configuration and binaries which requires some Helm overrides. For the default k3s paths, Istio provides built-in overrides based on the `global.platform` value.
+When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append the correct `platform` value to your installation commands, as K3s uses nonstandard locations for CNI configuration and binaries which requires some Helm overrides. For the default K3s paths, Istio provides built-in overrides based on the `global.platform` value.
 
 {{< tabset category-name="install-method" >}}
 
