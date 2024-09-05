@@ -198,7 +198,7 @@ Straight our of the box a waypoint proxy is usable by resources within the same 
 
 ### Configure a waypoint for cross-namespace use
 
-In order to enable cross-namespace use of a waypoint the `Gateway` should be configured to [allow routes](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes) from other namespaces.
+In order to enable cross-namespace use of a waypoint, the `Gateway` should be configured to [allow routes](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes) from other namespaces.
 
 {{< tip >}}
 The keyword, `All`, may be specified as the value for `allowedRoutes.namespaces.from` in order to allow routes from any namespace.
@@ -227,7 +227,10 @@ spec:
 
 ### Configure resources to use a cross-namespace waypoint proxy
 
-By default the Istio control plane will look for a waypoint specified using the `istio.io/use-waypoint` label in the same namespace as the resource which the label is applied to. It is possible to use a waypoint in another namespace by adding a new label, `istio.io/use-waypoint-namespace`. These two labels are used together to specify the name and namespace of your waypoint respectively. For example, to configure a ServiceEntry called "istio-site" to use a waypoint called "egress-gateway" in the namespace called "common-infrastructure" you could use the following commands:
+By default, the Istio control plane will look for a waypoint specified using the `istio.io/use-waypoint` label in the same namespace as the resource which the label is applied to. It is possible to use
+a waypoint in another namespace by adding a new label, `istio.io/use-waypoint-namespace`. `istio.io/use-waypoint-namespace` works for all resources which support the `istio.io/use-waypoint` label.
+Together, the two labels specify the name and namespace of your waypoint respectively. For example, to configure a ServiceEntry called "istio-site" to use a waypoint called "egress-gateway" in the namespace
+called "common-infrastructure" you could use the following commands:
 
 {{< text syntax=bash >}}
 $ kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint=egress-gateway
