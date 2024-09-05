@@ -18,6 +18,7 @@ aliases:
   - /zh/docs/ops/setup/required-pod-capabilities
   - /zh/help/ops/setup/required-pod-capabilities
   - /zh/docs/ops/prep/requirements
+  - /zh/docs/ops/deployment/requirements
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
@@ -38,13 +39,13 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
   必须给 Pod 配置 `NET_ADMIN` 和 `NET_RAW` 权限。如果您使用
   [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)，可以不配置。
 
-  要检查您的 Pod 是否有 `NET_ADMIN` 和 `NET_RAW` 权限，您需要检查这些 Pod
-  的[服务账户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/)是否有
-  `NET_ADMIN` 和 `NET_RAW` 权限的 Pod 安全策略。如果您没有在 Pod 部署中指定服务账户，
-  Pod 会使用其命名空间中的默认服务账户运行。
+    要检查您的 Pod 是否有 `NET_ADMIN` 和 `NET_RAW` 权限，您需要检查这些 Pod
+    的[服务账户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/)是否有
+    `NET_ADMIN` 和 `NET_RAW` 权限的 Pod 安全策略。如果您没有在 Pod 部署中指定服务账户，
+    Pod 会使用其命名空间中的默认服务账户运行。
 
-  要列出服务账户的权限，请在下面的命令中用您的值替换 `<your namespace>` 和
-  `<your service account>`。
+    要列出服务账户的权限，请在下面的命令中用您的值替换 `<your namespace>` 和
+    `<your service account>`。
 
     {{< text bash >}}
     $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
@@ -56,8 +57,9 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
     $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
     {{< /text >}}
 
-  如果您在服务账户的允许策略的功能列表中看到 `NET_ADMIN`、`NET_RAW` 或 `*`，
-  则您的 Pod 有权限运行 Istio init 容器。否则，您将需要[提供权限](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-policy)。
+    如果您在服务账户的允许策略的功能列表中看到 `NET_ADMIN`、`NET_RAW` 或 `*`，
+    则您的 Pod 有权限运行 Istio Init 容器。否则，
+    您将需要[提供权限](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-policy)。
 
 - **Pod 标签（label）**：我们建议使用 Pod 标签显式声明带有应用程序标识符和版本的 Pod。
   这些标签将上下文信息添加到 Istio 收集的指标和遥测数据中。
@@ -73,10 +75,10 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
 
 ## Istio 使用的端口 {#ports-used-by-Istio}
 
-Istio sidecar 代理（Envoy）使用以下端口和协议。
+Istio Sidecar 代理（Envoy）使用以下端口和协议。
 
 {{< warning >}}
-为避免与 Sidecar 发生端口冲突，应用程序不应使用 Envoy 使用的任何端口。
+为避免与 Sidecar 发生端口冲突，应用程序不应使用 Envoy 所使用的任何端口。
 {{< /warning >}}
 
 | 端口 | 协议 | 描述 | 仅限 Pod 内部 |
@@ -86,7 +88,6 @@ Istio sidecar 代理（Envoy）使用以下端口和协议。
 | 15004 | HTTP | 调试端口 | 是 |
 | 15006 | TCP  | Envoy 入站 | 否 |
 | 15008 | H2   | HBONE mTLS 隧道端口 | 否 |
-| 15009 | H2C  | 用于安全网络的 HBONE 端口 | 否 |
 | 15020 | HTTP | 从 Istio 代理、Envoy 和应用程序合并的 Prometheus 遥测 | 否 |
 | 15021 | HTTP | 健康检查 | 否 |
 | 15053 | DNS  | DNS 端口，如果启用了捕获 | 是 |
@@ -111,7 +112,8 @@ mTLS 和[自动协议选择](/zh/docs/ops/configuration/traffic-management/proto
 
 这两个功能都通过检查连接的初始字节来确定协议，这与服务器优先协议不兼容。
 
-为了支持这些情况，请按照[显式协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection)步骤将应用程序的协议声明为 `TCP`。
+为了支持这些情况，
+请按照[显式协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection)步骤将应用程序的协议声明为 `TCP`。
 
 已知以下端口通常承载服务器优先协议，并自动假定为 `TCP`：
 
@@ -126,7 +128,9 @@ mTLS 和[自动协议选择](/zh/docs/ops/configuration/traffic-management/proto
 
 1. 将服务器的 `mTLS` 模式设置为 `STRICT`。这将对所有请求强制执行 TLS 加密。
 1. 将服务器的 `mTLS` 模式设置为 `DISABLE`。这将禁用 TLS 嗅探，允许使用服务器优先协议。
-1. 配置所有客户端发送 `TLS` 流量，通常通过 [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings) 或依赖自动 mTLS。
+1. 配置所有客户端发送 `TLS` 流量，通常通过
+   [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings)
+   或依赖自动 mTLS。
 1. 将您的应用程序配置为直接发送 TLS 流量。
 
 ## 出站流量 {#outbound-traffic}
@@ -142,6 +146,6 @@ mTLS 和[自动协议选择](/zh/docs/ops/configuration/traffic-management/proto
 
 这意味着直接调用 Pod（例如，`curl <POD_IP>`），而不匹配 Service。
 虽然流量可以[通过](/zh/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services)，
-但它不会获得完整的 Istio 功能，包括 mTLS 加密、流量路由和遥测。
+但它不会获得 mTLS 加密、流量路由和遥测等完整的 Istio 功能。
 
 相关的更多信息，请参阅[流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing)页面。
