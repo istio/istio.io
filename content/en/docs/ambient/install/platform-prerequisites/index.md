@@ -95,7 +95,7 @@ When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append t
 
 {{< /tabset >}}
 
-However, these locations may be overridden in K3S, [according to K3s documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3s with a custom, non-bundled CNI, you must manually specify the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see the K3s docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni). For example:
+However, these locations may be overridden in K3s, [according to K3s documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3s with a custom, non-bundled CNI, you must manually specify the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see the K3s docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni). For example:
 
 {{< tabset category-name="install-method" >}}
 
