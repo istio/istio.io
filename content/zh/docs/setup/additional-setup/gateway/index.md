@@ -40,7 +40,8 @@ Istio 内置的一些[配置文件](/zh/docs/setup/additional-setup/config-profi
 使用与 [Istio Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)相同的机制，
 可以用类似的方式自动注入网关所用的 Envoy 代理配置。
 
-对于网关 Deployment 推荐使用自动注入，因为这样可以让开发者完全控制网关 Deployment，简化了操作。
+对于网关 Deployment 推荐使用自动注入，
+因为这样可以让开发者完全控制网关 Deployment，简化了操作。
 当新的升级可用时或配置发生变化时，只需重启就能更新网关 Pod。
 这使得操作网关 Deployment 的体验与操作 Sidecar 的体验相同。
 
@@ -52,8 +53,8 @@ Istio 内置的一些[配置文件](/zh/docs/setup/additional-setup/config-profi
 {{< /tip >}}
 
 以下列出的所有方法均依赖于[注入](/zh/docs/setup/additional-setup/sidecar-injection/)，
-在运行时填充附加的 Pod 设置。
-为此，部署网关所在的命名空间不得带有 `istio-injection=disabled` 标签。
+在运行时填充附加的 Pod 设置。为此，
+部署网关所在的命名空间不得带有 `istio-injection=disabled` 标签。
 如果带有此标签，您会看到 Pod 在尝试拉取 `auto` 镜像时失败，
 此镜像是创建 Pod 时将要替换的占位符。
 
@@ -109,7 +110,8 @@ Helm 代码仓库中的 [README](https://artifacthub.io/packages/helm/istio-offi
 
 {{< tip >}}
 
-在一个 OpenShift 集群中部署网关时，请使用 `openshift` 配置文件覆盖默认值，例如：
+在一个 OpenShift 集群中部署网关时，
+请使用 `openshift` 配置文件覆盖默认值，例如：
 
 {{< text bash >}}
 $ helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.platform=openshift
@@ -333,8 +335,8 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 
 与网格内部署的应用程序服务不同，您不能使用
 [Istio 流量转移](/zh/docs/tasks/traffic-management/traffic-shifting/)在网格版本之间分发流量，
-因为流量直接来自 Istio 控制之外的外部客户端。
-作为替代方案，您可以通过每个 Deployment 的副本数来控制流量的分发。
+因为流量直接来自 Istio 控制之外的外部客户端。作为替代方案，
+您可以通过每个 Deployment 的副本数来控制流量的分发。
 如果您在 Istio 之前使用另一个负载均衡器，您还可以使用此负载均衡器来控制流量分发。
 
 {{< warning >}}
