@@ -53,6 +53,10 @@ This should be installed prior to any other Istio component.
 $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 {{< /text >}}
 
+### Install or upgrade the Kubernetes Gateway API CRDs
+
+{{< boilerplate gateway-api-install-crds >}}
+
 ### istiod control plane
 
 The `istiod` chart installs a revision of Istiod. Istiod is the control plane component that manages and
