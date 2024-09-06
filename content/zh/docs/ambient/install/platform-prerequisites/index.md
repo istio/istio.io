@@ -45,8 +45,9 @@ spec:
 
 ### k3d
 
-如果您使用 [k3d](https://k3d.io/) 时采用默认的 Flannel CNI，
-则必须在安装命令中追加一些值，因为 k3d 使用非标准位置来存放 CNI 配置和二进制文件。
+当使用 [k3d](https://k3d.io/) 与默认的 Flannel CNI 时，
+您必须将正确的 `platform` 值附加到安装命令中，
+因为 k3d 使用非标准位置进行 CNI 配置和二进制文件，这需要一些 Helm 覆盖。
 
 1. 创建一个禁用 Traefik 的集群，以免与 Istio 的入口网关冲突：
 
@@ -54,14 +55,14 @@ spec:
     $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-1. 在安装 Istio 时设置 `cniConfDir` 和 `cniBinDir` 值。例如：
+1. 安装 Istio Chart 时设置 `global.platform=k3d`。例如：
 
     {{< tabset category-name="install-method" >}}
 
     {{< tab name="Helm" category-value="helm" >}}
 
         {{< text syntax=bash >}}
-        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/bin
+        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3d --wait
         {{< /text >}}
 
     {{< /tab >}}
@@ -69,7 +70,7 @@ spec:
     {{< tab name="istioctl" category-value="istioctl" >}}
 
         {{< text syntax=bash >}}
-        $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/bin
+        $ istioctl install --set profile=ambient --set values.global.platform=k3d
         {{< /text >}}
 
     {{< /tab >}}
@@ -78,11 +79,34 @@ spec:
 
 ### K3s
 
-当使用 [K3s](https://k3s.io/) 及其捆绑的 CNI 之一时，
-您必须在安装命令中追加一些值，这是因为 K3s 使用非标准位置来存放 CNI 配置和二进制文件。
-根据 K3s 文档，这些非标准位置也可能会被覆盖。如果您将 K3s 与自定义的非捆绑 CNI 一起使用，
-则必须为这些 CNI 使用正确的路径，例如 `/etc/cni/net.d` -
-[有关细节请参阅 K3s 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。例如：
+使用 [K3s](https://k3s.io/) 及其绑定的 CNI 之一时，
+您必须将正确的 `platform` 值附加到安装命令中，
+因为 K3s 对 CNI 配置和二进制文件使用非标准位置，这需要一些 Helm 覆盖。
+对于默认的 K3s 路径，Istio 根据 `global.platform` 值提供内置覆盖。
+
+{{< tabset category-name="install-method" >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3s --wait
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.platform=k3s
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+但是，根据 K3s 文档，这些位置可能会在 K3s 中被覆盖。
+如果您将 K3s 与自定义、非捆绑的 CNI 一起使用，则必须手动为这些 CNI 指定正确的路径，
+比如 `/etc/cni/net.d` - [有关详细信息，请参阅 K3s 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。例如：
 
 {{< tabset category-name="install-method" >}}
 
@@ -106,16 +130,16 @@ spec:
 
 ### MicroK8s
 
-如果您在 [MicroK8s](https://microk8s.io/) 上安装 Istio，
-则必须在安装命令后附加一个值，因为 MicroK8s
-[使用非标准位置来存放 CNI 配置和二进制文件](https://microk8s.io/docs/change-cidr)。例如：
+如果您要在 [MicroK8s](https://microk8s.io/) 上安装 Istio，
+则必须在安装命令中附加正确的 `platform` 值，
+因为 MicroK8s [使用非标准位置来存放 CNI 配置和二进制文件](https://microk8s.io/docs/change-cidr)。例如：
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/snap/microk8s/current/args/cni-network --set cniBinDir=/var/snap/microk8s/current/opt/cni/bin
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=microk8s --wait
 
     {{< /text >}}
 
@@ -124,7 +148,7 @@ spec:
 {{< tab name="istioctl" category-value="istioctl" >}}
 
     {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set values.cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin
+    $ istioctl install --set profile=ambient --set values.global.platform=microk8s
     {{< /text >}}
 
 {{< /tab >}}
@@ -135,14 +159,15 @@ spec:
 
 如果您正在使用 [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 和 [Docker 驱动程序](https://minikube.sigs.k8s.io/docs/drivers/docker/)，
-则必须在安装命令中追加一些值，以便 Istio CNI 节点代理可以正确管理和捕获节点上的 Pod。例如：
+您必须将正确的 `platform` 值附加到安装命令中，
+因为带有 Docker 的 minikube 使用非标准的容器绑定挂载路径。例如：
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniNetnsDir="/var/run/docker/netns"
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=minikube --wait"
     {{< /text >}}
 
 {{< /tab >}}
@@ -150,25 +175,28 @@ spec:
 {{< tab name="istioctl" category-value="istioctl" >}}
 
     {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set cni.cniNetnsDir="/var/run/docker/netns"
+    $ istioctl install --set profile=ambient --set values.global.platform=minikube"
     {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
 
-### Red Hat OpenShift
+### Red Hat OpenShift {#red-hat-openshift}
 
-OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni` 组件。
-如果提供了 `openshift-ambient` 安装配置文件，它将为您进行此更改。
-在安装命令中将 `profile=ambient` 实例替换为 `profile=openshift-ambient`。例如：
+OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni` 组件，
+并且要求为所有 Chart 设置 `global.platform=openshift`。
+
+如果您使用 `helm`，您可以直接设置目标命名空间和 `global.platform` 值。
+
+如果您使用 `istioctl`，则必须使用名为 `openshift-ambient` 的特殊配置文件来完成相同的操作。
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=openshift-ambient --wait
+    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
 {{< /tab >}}

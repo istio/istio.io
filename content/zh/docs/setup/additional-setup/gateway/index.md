@@ -20,8 +20,9 @@ test: yes
 Istio 内置的一些[配置文件](/zh/docs/setup/additional-setup/config-profiles/)在安装期间部署网关。
 例如通过[默认设置](/zh/docs/setup/install/istioctl/#install-istio-using-the-default-profile)对
 `istioctl install` 的调用将部署 Ingress 网关和控制面。
-尽管在评估和简单使用场景中这个够用了，但耦合到控制面的网关后，会让管理和升级变得复杂。
-对于生产环境中的 Istio 部署，强烈推荐将这些解耦，以便进行独立的操作。
+尽管在评估和简单使用场景中这个够用了，但耦合到控制面的网关后，
+会让管理和升级变得复杂。对于生产环境中的 Istio 部署，
+强烈推荐将这些解耦，以便进行独立的操作。
 
 遵循本指南在 Istio 的生产安装环境中分别部署和管理一个或多个网关。
 
@@ -111,7 +112,7 @@ Helm 代码仓库中的 [README](https://artifacthub.io/packages/helm/istio-offi
 在一个 OpenShift 集群中部署网关时，请使用 `openshift` 配置文件覆盖默认值，例如：
 
 {{< text bash >}}
-$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.platform=openshift
 {{< /text >}}
 
 {{< /tip >}}
@@ -201,8 +202,8 @@ subjects:
 
 {{< warning >}}
 本例显示了让网关运行所需的最小资源。对于生产环境，
-推荐进行 `HorizontalPodAutoscaler`、`PodDisruptionBudget` 和资源请求/限制等更多配置。
-这些会在使用其他网关安装方法时自动完成配置。
+推荐进行 `HorizontalPodAutoscaler`、`PodDisruptionBudget`
+和资源请求/限制等更多配置。这些会在使用其他网关安装方法时自动完成配置。
 {{< /warning >}}
 
 {{< tip >}}
@@ -225,8 +226,8 @@ $ kubectl apply -f ingress.yaml
 ## 管理网关  {#manage-gateway}
 
 本节说明了如何在安装之后管理网关。有关具体用法的更多信息，请参阅
-[Ingress](/zh/docs/tasks/traffic-management/ingress/) 和
-[Egress](/zh/docs/tasks/traffic-management/egress/) 任务。
+[Ingress](/zh/docs/tasks/traffic-management/ingress/)
+和 [Egress](/zh/docs/tasks/traffic-management/egress/) 任务。
 
 ### Gateway 选择算符  {#gateway-selectors}
 
@@ -293,8 +294,8 @@ IP 地址，这可能会让 DNS 配置变得复杂。
 {{< /warning >}}
 
 如果想要延后新控制面修订版的发版时间，您可以运行多个版本的网关 Deployment。
-例如如果您想要推出一个新修订版 `canary`，可以设置 `istio.io/rev=canary`
-标签后创建网关 Deployment 的副本。
+例如如果您想要推出一个新修订版 `canary`，
+可以设置 `istio.io/rev=canary` 标签后创建网关 Deployment 的副本。
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -342,7 +343,8 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 
 ### 通过外部流量转移进行金丝雀升级（高级）{#canary-upgrade-with-external-traffic-shifting}
 
-[金丝雀升级](#canary-upgrade)的各种方法在 Istio 外使用高级组件（例如外部负载均衡器或 DNS）在各版本之间转移流量。
+[金丝雀升级](#canary-upgrade-advanced)的各种方法在 Istio
+外使用高级组件（例如外部负载均衡器或 DNS）在各版本之间转移流量。
 
 {{< image width="50%" link="high-level-canary.svg" caption="正在用外部流量转移进行金丝雀升级" >}}
 
