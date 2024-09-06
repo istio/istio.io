@@ -290,11 +290,12 @@ IP 地址，这可能会让 DNS 配置变得复杂。
 ### 金丝雀升级  {#canary-upgrade-advanced}
 
 {{< warning >}}
-此升级方法取决于控制面修订版，且因此只能结合[控制面金丝雀升级](/zh/docs/setup/upgrade/canary/)一起使用。
+此升级方法取决于控制面修订版，
+且因此只能结合[控制面金丝雀升级](/zh/docs/setup/upgrade/canary/)一起使用。
 {{< /warning >}}
 
-如果想要延后新控制面修订版的发版时间，您可以运行多个版本的网关 Deployment。
-例如如果您想要推出一个新修订版 `canary`，
+如果想要延后新控制面修订版的发版时间，
+您可以运行多个版本的网关 Deployment。例如如果您想要推出一个新修订版 `canary`，
 可以设置 `istio.io/rev=canary` 标签后创建网关 Deployment 的副本。
 
 {{< text yaml >}}
@@ -341,7 +342,7 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 [Kubernetes YAML](/zh/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) 方法。
 {{< /warning >}}
 
-### 通过外部流量转移进行金丝雀升级（高级）{#canary-upgrade-with-external-traffic-shifting}
+### 通过外部流量转移进行金丝雀升级（高级） {#canary-upgrade-with-external-traffic-shifting}
 
 [金丝雀升级](#canary-upgrade-advanced)的各种方法在 Istio
 外使用高级组件（例如外部负载均衡器或 DNS）在各版本之间转移流量。
