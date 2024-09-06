@@ -16,7 +16,7 @@ test: no
 使用 OpenShift 配置文件进行安装 Istio：
 
 {{< text bash >}}
-$ istioctl install --set profile=openshift
+$ istioctl install --set global.platform=openshift
 {{< /text >}}
 
 安装 Istio 完成后，通过以下命令为 Ingress Gateway 暴露 OpenShift 路由：
