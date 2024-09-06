@@ -94,15 +94,18 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
-# Install ingress with istioctl
-echo y | snip_enable_gateways_1
+if [ "$GATEWAY_API" != "true" ]; then
+  # Install ingress with istioctl
+  echo y | snip_enable_gateways_1
 
-# And egress with helm
-_rewrite_helm_repo snip_enable_gateways_4
+  # And egress with helm
+  _rewrite_helm_repo snip_enable_gateways_4
 
-_verify_same kubectl_get_egress_gateway_for_remote_cluster "Running"
+  _verify_same kubectl_get_egress_gateway_for_remote_cluster "Running"
+fi
 
 if [ "$GATEWAY_API" == "true" ]; then
+  snip_install_crds
   snip_configure_and_test_an_ingress_gateway_4
   snip_configure_and_test_an_ingress_gateway_6
 else
