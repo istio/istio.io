@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ambient/install/helm/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_configure_helm() {
 helm repo add istio https://istio-release.storage.googleapis.com/charts
