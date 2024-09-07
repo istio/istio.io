@@ -35,6 +35,10 @@ test: yes
     $ helm repo update
     {{< /text >}}
 
+### 安装或升级 Kubernetes Gateway API CRD {#install-or-upgrade-the-kubernetes-gateway-api-crds}
+
+{{< boilerplate gateway-api-install-crds >}}
+
 ## 安装控制平面 {#install-the-control-plane}
 
 可以使用一个或多个 `--set <parameter>=<value>` 参数更改默认配置值。
