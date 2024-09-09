@@ -194,14 +194,15 @@ For instance, traffic which is addressed to a service, even though ultimately re
 
 ## Cross-namespace waypoint use {#usewaypointnamespace}
 
-Straight out of the box a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23 it is possible to use waypoints in different namespaces. In this section we will examine the gateway configuration required to enable cross-namespace use as well as how to configure your resources to use a waypoint from a different namespace.
+Straight out of the box, a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23, it is possible to use waypoints in different namespaces. In this section, we will examine
+the gateway configuration required to enable cross-namespace use and how to configure your resources to use a waypoint from a different namespace.
 
 ### Configure a waypoint for cross-namespace use
 
 In order to enable cross-namespace use of a waypoint, the `Gateway` should be configured to [allow routes](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes) from other namespaces.
 
 {{< tip >}}
-The keyword, `All`, may be specified as the value for `allowedRoutes.namespaces.from` in order to allow routes from any namespace.
+The keyword `All` may be specified as the value for `allowedRoutes.namespaces.from` in order to allow routes from any namespace.
 {{< /tip >}}
 
 The following Gateway would allow resources in a namespace called "cross-namespace-waypoint-consumer" to use this egress-gateway:
