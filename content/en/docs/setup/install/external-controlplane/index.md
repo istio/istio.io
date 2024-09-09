@@ -540,6 +540,8 @@ Enable an ingress gateway on the remote cluster:
 $ cat <<EOF > istio-ingressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: ingress-install
 spec:
   profile: empty
   components:
@@ -565,8 +567,8 @@ $ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-cont
 
 See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-    {{< /tab >}}
-    {{< /tabset >}}
+{{< /tab >}}
+{{< /tabset >}}
 
 You can optionally enable other gateways as well. For example, an egress gateway:
 
@@ -578,6 +580,8 @@ You can optionally enable other gateways as well. For example, an egress gateway
 $ cat <<EOF > istio-egressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: egress-install
 spec:
   profile: empty
   components:
