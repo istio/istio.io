@@ -194,7 +194,7 @@ For instance, traffic which is addressed to a service, even though ultimately re
 
 ## Cross-namespace waypoint use {#usewaypointnamespace}
 
-Straight our of the box a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23 it is possible to use waypoints in different namespaces. In this section we will examine the gateway configuration required to enable cross-namespace use as well as how to configure your resources to use a waypoint from a different namespace.
+Straight out of the box a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23 it is possible to use waypoints in different namespaces. In this section we will examine the gateway configuration required to enable cross-namespace use as well as how to configure your resources to use a waypoint from a different namespace.
 
 ### Configure a waypoint for cross-namespace use
 
