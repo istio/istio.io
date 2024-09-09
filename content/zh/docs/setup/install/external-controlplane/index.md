@@ -525,6 +525,8 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
 $ cat <<EOF > istio-ingressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: ingress-install
 spec:
   profile: empty
   components:
@@ -563,6 +565,8 @@ $ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-cont
 $ cat <<EOF > istio-egressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: egress-install
 spec:
   profile: empty
   components:
