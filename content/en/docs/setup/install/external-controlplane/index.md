@@ -554,7 +554,7 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-$ istioctl manifest generate -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+$ istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -594,7 +594,7 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-$ istioctl manifest generate -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+$ istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
 {{< /tab >}}

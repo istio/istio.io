@@ -372,7 +372,7 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-istioctl manifest generate -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_2() {
@@ -397,7 +397,7 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-istioctl manifest generate -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_4() {
