@@ -92,10 +92,10 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
 if [ "$GATEWAY_API" != "true" ]; then
-  # Install ingress with istioctl
+  # Install ingress gateway
   echo y | snip_enable_gateways_1
 
-  # Install egress with istioctl
+  # Install egress gateway
   echo y | snip_enable_gateways_3
 
   _verify_same kubectl_get_egress_gateway_for_remote_cluster "Running"
