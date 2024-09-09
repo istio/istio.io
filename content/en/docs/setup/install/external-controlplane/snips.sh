@@ -358,6 +358,8 @@ snip_enable_gateways_1() {
 cat <<EOF > istio-ingressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: ingress-install
 spec:
   profile: empty
   components:
@@ -381,6 +383,8 @@ snip_enable_gateways_3() {
 cat <<EOF > istio-egressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: egress-install
 spec:
   profile: empty
   components:
