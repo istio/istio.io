@@ -139,7 +139,7 @@ values:
 1. Verify the envoy listeners:
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000 -ojson | jq '.[] | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
     {{< /text >}}
 
     You will see listeners are now bound to multiple addresses, but only for dual stack services. Other services will only be listening on a single IP address.
@@ -165,6 +165,10 @@ values:
     {{< /text >}}
 
 1. Verify virtual inbound addresses are configured to listen on both `0.0.0.0` and `[::]`.
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack -o json | jq '.[] | select(.name=="virtualInbound") | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
+    {{< /text >}}
 
     {{< text syntax=json snip_id=none >}}
     "name": "virtualInbound",
