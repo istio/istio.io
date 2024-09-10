@@ -61,7 +61,7 @@ EOF
 }
 
 snip_configure_cluster2_as_a_primary_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --context="${CTX_CLUSTER2}" -f cluster2.yaml
+istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_configure_cluster2_as_a_primary_3() {
