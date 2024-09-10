@@ -23,7 +23,7 @@
 snip_deploying_multiple_control_planes_1() {
 kubectl create ns usergroup-1
 kubectl label ns usergroup-1 usergroup=usergroup-1
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f - <<EOF
+istioctl install -y -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -44,7 +44,7 @@ EOF
 snip_deploying_multiple_control_planes_2() {
 kubectl create ns usergroup-2
 kubectl label ns usergroup-2 usergroup=usergroup-2
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f - <<EOF
+istioctl install -y -f - <<EOF
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:

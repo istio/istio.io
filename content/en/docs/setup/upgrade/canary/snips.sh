@@ -32,7 +32,7 @@ istioctl x precheck
 ENDSNIP
 
 snip_control_plane_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set revision=canary
+istioctl install --set revision=canary
 }
 
 snip_control_plane_2() {
@@ -98,8 +98,8 @@ istioctl proxy-status | grep "\.test-ns "
 }
 
 snip_usage_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --revision=1-22-1 --set profile=minimal --skip-confirmation
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --revision=1-23-0 --set profile=minimal --skip-confirmation
+istioctl install --revision=1-22-1 --set profile=minimal --skip-confirmation
+istioctl install --revision=1-23-0 --set profile=minimal --skip-confirmation
 }
 
 snip_usage_2() {

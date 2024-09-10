@@ -25,5 +25,5 @@ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimenta
 }
 
 bpsnip_gateway_api_gamma_experimental_enable_alpha_crds() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
+istioctl install --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
 }

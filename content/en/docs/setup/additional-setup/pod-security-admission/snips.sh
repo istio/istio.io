@@ -32,7 +32,7 @@ namespace/istio-system labeled
 ENDSNIP
 
 snip_install_istio_with_psa_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set components.cni.enabled=true -y
+istioctl install --set components.cni.enabled=true -y
 }
 
 ! IFS=$'\n' read -r -d '' snip_install_istio_with_psa_2_out <<\ENDSNIP

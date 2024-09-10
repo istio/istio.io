@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_install_loki() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f samples/open-telemetry/loki/iop.yaml --skip-confirmation
+istioctl install -f samples/open-telemetry/loki/iop.yaml --skip-confirmation
 kubectl apply -f samples/addons/loki.yaml -n istio-system
 kubectl apply -f samples/open-telemetry/loki/otel.yaml -n istio-system
 }

@@ -88,7 +88,7 @@ kubectl delete -f samples/httpbin/httpbin.yaml
 }
 
 snip_disable_envoys_access_logging_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=default
+istioctl install --set profile=default
 }
 
 ! IFS=$'\n' read -r -d '' snip_disable_envoys_access_logging_1_out <<\ENDSNIP

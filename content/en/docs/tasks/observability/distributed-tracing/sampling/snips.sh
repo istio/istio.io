@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 source "content/en/boilerplates/snips/trace-generation.sh"
 
 snip_install_default_sampling() {
-cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -57,7 +57,7 @@ EOF
 }
 
 snip_install_without_sampling() {
-cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:

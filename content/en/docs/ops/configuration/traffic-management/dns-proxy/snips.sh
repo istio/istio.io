@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_getting_started_1() {
-cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -92,7 +92,7 @@ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 ENDSNIP
 
 snip_external_tcp_services_without_vips_1() {
-cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
