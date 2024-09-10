@@ -16,7 +16,7 @@ Note that Istio deployments are highly flexible; below, we will primarily assume
 
 ### Istiod
 
-Istiod serves as the core control plane component of Istio, often serving the role of the [XDS serving component](/docs/concepts/traffic-management/) as well 
+Istiod serves as the core control plane component of Istio, often serving the role of the [XDS serving component](/docs/concepts/traffic-management/) as well
 as the mesh [mTLS Certificate Authority](/docs/concepts/security/).
 
 Istiod is considered a highly privileged component, similar to that of the Kubernetes API server itself.
@@ -24,7 +24,7 @@ Istiod is considered a highly privileged component, similar to that of the Kuber
 * When acting as the CA, it can provision arbitrary certificates.
 * When acting as the XDS control plane, it can program proxies to perform arbitrary behavior.
 
-As such, the security of the cluster is tightly coupled to the security Istiod.
+As such, the security of the cluster is tightly coupled to the security of Istiod.
 Following [Kubernetes security best practices](https://kubernetes.io/docs/concepts/security/) around Istiod access is paramount.
 
 ### Istio CNI plugin
@@ -37,6 +37,9 @@ Because the CNI DaemonSet modifies networking rules on the node, it requires an 
 However, unlike [Istiod](#istiod), this is a **node-local** privilege.
 The implications of this are discussed [below](#node-compromise).
 
+Because this consolidates the elevated privileges required to setup networking into a single Pod, rather than *every* Pod,
+this option is generally recommended.
+
 ### Sidecar Proxies
 
 Istio may [optionally](docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
@@ -48,12 +51,14 @@ However, these capabilities are only present during the initialization - the pri
 
 Additionally, the sidecar proxy does not have any associated Kubernetes RBAC privileges at all.
 
-Each sidecar proxy is authorized to request a certificate for the associated Pod Service Account. 
+Each sidecar proxy is authorized to request a certificate for the associated Pod Service Account.
 
 ### Gateways and Waypoints
 
 {{< gloss "gateway" >}}Gateways{{< /gloss >}} and {{< gloss "waypoint">}}Waypoints{{< /gloss >}} act as standalone proxy deployments.
 Unlike [sidecars](#sidecar-proxies), they do not require any networking modifications, and thus don't require any privilege.
+
+These components run with their own service accounts, distinct from application identities.
 
 ### Ztunnel
 
@@ -99,7 +104,7 @@ Istio can also integrate with a variety of third party CAs; please refer to any 
 
 {{< tabset category-name="dataplane" >}}
 {{< tab name="Sidecar mode" category-value="sidecar" >}}
-In sidecar mode, Istio client's will [automatically use TLS](/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) when connecting to a service
+In sidecar mode, the client sidecar will [automatically use TLS](/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) when connecting to a service
 that is detected to support mTLS. This can also be [explicitly configured](/docs/ops/configuration/traffic-management/tls-configuration/#sidecars).
 Note that this automatic detection relies on Istio associating the traffic to a Service.
 [Unsupported traffic types](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic) or [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping/) can prevent this.
@@ -108,9 +113,7 @@ When [connecting to a backend](/docs/concepts/security/#secure-naming), the set 
 {{< /tab >}}
 
 {{< tab name="Ambient mode" category-value="ambient" >}}
-In ambient mode, Istio will automatically use mTLS when connecting to any backend that supports mTLS.
-
-When [connecting to a backend](/docs/concepts/security/#secure-naming), the expected identity of the specific workload is verified to match.
+In ambient mode, Istio will automatically use mTLS when connecting to any backend that supports mTLS, and verify the identity of the destination matches the identity the workload is expected to be running as.
 
 These properties differ from sidecar mode in that they are properties of individual workloads, rather than of the service.
 This enables more fine-grained authentication checks, as well as supporting a wider variety of workloads.
@@ -148,13 +151,13 @@ If so, a workload compromise can move laterally from a single Pod to compromisin
 {{< tabset category-name="dataplane" >}}
 {{< tab name="Sidecar mode" category-value="sidecar" >}}
 In the sidecar model, the proxy is co-located with the pod, and runs within the same trust boundary.
-A compromised application can tamper with the proxy through the admin API or other surfaces.
+A compromised application can tamper with the proxy through the admin API or other surfaces, including exfiltration of private key material, allowing another agent to impersonate the workload.
 It should be assumed that a compromised workload also includes a compromise of the sidecar proxy.
 
 Given this, a compromised workload may:
 * Send arbitrary traffic, with or without mutual TLS.
   These may bypass any proxy configuration, or even the proxy entirely.
-  Note that Istio does not offer Egress-based authorization policies, so there is no authorization policy bypass occurring.
+  Note that Istio does not offer egress-based authorization policies, so there is no egress authorization policy bypass occurring.
 * Accept traffic that was already destined to the application. It may bypass policies that were configured in the sidecar proxy.
 
 The key takeaway here is that while the compromised workload may behave maliciously, this does not give them the ability to bypass policies in _other_ workloads.
@@ -177,7 +180,7 @@ Istio offers a variety of features that can limit the impact of such a compromis
 ### Proxy compromise - Sidecars
 
 In this scenario, a sidecar proxy is compromised.
-Because the sidecar and application reside in the same trust domain, this is functionally equivilent to the [Workload compromise](#workload-compromise).
+Because the sidecar and application reside in the same trust domain, this is functionally equivalent to the [Workload compromise](#workload-compromise).
 
 ### Proxy compromise - Waypoint
 
@@ -188,11 +191,17 @@ A compromised waypoint will receive all traffic for these, which it can view, mo
 Istio offers the flexibility of [configuring the granularity of a waypoint deployment](/docs/ambient/usage/waypoint/#useawaypoint).
 Users may consider deploying more isolated waypoints if they require stronger isolation.
 
+Because waypoints run with a distinct identity from the applications they serve, a compromised waypoint does not imply the user's applications can be impersonated.
+
 ### Proxy compromise - Ztunnel
 
 In this scenario, a [ztunnel](#ztunnel) proxy is compromised.
+
 A compromised ztunnel gives the attacker control of the networking of the node.
-However, lateral movement beyond the node is not possible; each Ztunnel is only authorized to access certificates for workloads running on its node, scoping the blast radius of a compromised Ztunnel.
+
+Ztunnel has access to private key material for each application running on it's node.
+A compromised Ztunnel could have these exfiltrated and used elsewhere.
+However, lateral movement to identities beyond co-located workloads is not possible; each Ztunnel is only authorized to access certificates for workloads running on its node, scoping the blast radius of a compromised Ztunnel.
 
 ### Node compromise
 
@@ -201,14 +210,14 @@ Both [Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/node/)
 the compromise of a single node does not lead to a [cluster-wide compromise](#cluster-api-server-compromise).
 
 However, the attack does have complete control over any workloads running on that node.
-For instance, it can compromise any co-located [waypoints](#proxy-compromise---waypoint), the local [ztunnel](#proxy-compromise---ztunnel), any co-located [Istiod instances](#istiod-compromise), etc.  
+For instance, it can compromise any co-located [waypoints](#proxy-compromise---waypoint), the local [ztunnel](#proxy-compromise---ztunnel), any [sidecars](#proxy-compromise---sidecars), any co-located [Istiod instances](#istiod-compromise), etc.
 
 ### Cluster (API Server) compromise
 
 A compromise of the Kubernetes API Server effectively means the entire cluster and mesh are compromised.
 Unlike most other attack vectors, there isn't much Istio can do to control the blast radius of such an attack.
 A compromised API Server gives a hacker complete control over the cluster, including actions such as running `kubectl exec` on arbitrary pods,
-removing any Istio AuthorizationPolicies, or even uninstalling Istio entirely.
+removing any Istio `AuthorizationPolicies`, or even uninstalling Istio entirely.
 
 ### Istiod compromise
 
