@@ -228,6 +228,60 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 发往服务的流量也始终被 Ambient 网格视为到服务，并使用服务附加的 waypoint。
 {{< /tip >}}
 
+## 跨命名空间使用 waypoint {#usewaypointnamespace}
+
+开箱即用，waypoint 代理可供同一命名空间内的资源使用。
+从 Istio 1.23 开始，可以在不同的命名空间中使用 waypoint。
+在本节中，我们将研究启用跨命名空间使用所需的网关配置，以及如何配置资源以使用来自不同命名空间的 waypoint。
+
+### 配置一个用于跨命名空间使用的 waypoint {#configure-a-waypoint-for-cross-namespace-use}
+
+为了能够跨命名空间使用 waypoint，
+应将 `Gateway` 配置为[允许来自其他命名空间的路由](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes)。
+
+{{< tip >}}
+可以将关键字 `All` 指定为 `allowedRoutes.namespaces.from` 的值，以允许来自任何命名空间的路由。
+{{< /tip >}}
+
+以下 `Gateway` 将允许名为 `cross-namespace-waypoint-consumer`
+的命名空间中的资源使用此 `egress-gateway`：
+
+{{< text syntax=yaml >}}
+kind: Gateway
+metadata:
+  name: egress-gateway
+  namespace: common-infrastructure
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: cross-namespace-waypoint-consumer
+{{< /text >}}
+
+### 配置资源以使用跨命名空间 waypoint 代理 {#configure-resources-to-use-a-cross-namespace-waypoint-proxy}
+
+默认情况下，Istio 控制平面将在与应用标签的资源相同的命名空间中查找使用
+`istio.io/use-waypoint` 标签指定的 waypoint。可以通过添加新标签
+`istio.io/use-waypoint-namespace` 来使用另一个命名空间中的 waypoint。
+`istio.io/use-waypoint-namespace` 适用于所有支持 `istio.io/use-waypoint` 标签的资源。
+这两个标签一起分别指定 waypoint 的名称和命名空间。例如，要配置名为
+`istio-site` 的 `ServiceEntry` 以使用名为 `common-infrastructure`
+的命名空间中名为 `egress-gateway` 的 waypoint，可以使用以下命令：
+
+{{< text syntax=bash >}}
+$ kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint=egress-gateway
+serviceentries.networking.istio.io/istio-site labeled
+$ kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint-namespace=common-infrastructure
+serviceentries.networking.istio.io/istio-site labeled
+{{< /text >}}
+
 ### 清理 {#cleaning-up}
 
 您可以通过执行以下操作从命名空间中删除所有 waypoint：
