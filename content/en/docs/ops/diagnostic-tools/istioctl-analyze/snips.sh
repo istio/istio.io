@@ -83,7 +83,7 @@ status:
 ENDSNIP
 
 snip_install_with_custom_config_analysis() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set values.global.istiod.enableAnalysis=true
+istioctl install --set values.global.istiod.enableAnalysis=true
 }
 
 snip_analyze_k_frod() {

@@ -36,7 +36,7 @@ spec:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./tracing.yaml --skip-confirmation
+istioctl install -f ./tracing.yaml --skip-confirmation
 }
 
 snip_enable_tracing_for_mesh_1() {

@@ -29,7 +29,7 @@ spec:
     meshMTLS:
       minProtocolVersion: TLSV1_3
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ./istio.yaml
+istioctl install -f ./istio.yaml
 }
 
 snip_check_the_tls_configuration_of_istio_workloads_1() {

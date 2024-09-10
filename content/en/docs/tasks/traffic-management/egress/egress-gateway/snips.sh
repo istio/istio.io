@@ -30,7 +30,7 @@ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.n
 }
 
 ! IFS=$'\n' read -r -d '' snip_before_you_begin_3 <<\ENDSNIP
-$ istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
+$ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
 ENDSNIP
 
 snip_deploy_istio_egress_gateway_1() {

@@ -186,7 +186,7 @@ $BARCA
                   verbs:
                   - approve
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --skip-confirmation -f ./istio.yaml
+istioctl install --skip-confirmation -f ./istio.yaml
 }
 
 snip_deploy_istio_with_default_certsigner_info_2() {

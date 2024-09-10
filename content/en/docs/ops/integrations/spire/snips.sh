@@ -176,7 +176,7 @@ EOF
 }
 
 snip_apply_istio_operator_configuration() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --skip-confirmation -f ./istio.yaml
+istioctl install --skip-confirmation -f ./istio.yaml
 }
 
 snip_apply_sleep() {

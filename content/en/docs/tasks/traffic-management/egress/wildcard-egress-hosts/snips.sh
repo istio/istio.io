@@ -22,11 +22,11 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 }
 
 snip_before_you_begin_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=minimal -y \
+istioctl install --set profile=minimal -y \
     --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true \
     --set meshConfig.accessLogFile=/dev/stdout \
     --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
