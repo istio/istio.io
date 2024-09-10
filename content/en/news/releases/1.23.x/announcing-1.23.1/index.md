@@ -3,7 +3,7 @@ title: Announcing Istio 1.23.1
 linktitle: 1.23.1
 subtitle: Patch Release
 description: Istio 1.23.1 patch release.
-publishdate: 2024-09-09
+publishdate: 2024-09-10
 release: 1.23.1
 ---
 
