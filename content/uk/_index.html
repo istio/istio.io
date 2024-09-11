@@ -1,0 +1,114 @@
+---
+title: Istio
+description: Сервісна мережа для спостережуваності, поглибленої безпеки та управління, що прискорює процеси розгортання.
+---
+<!-- these script blocks are only for the primary English home page -->
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh",
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+
+<main class="landing">
+    <section id="hero">
+        <h1 id="title">
+            Сервісна мережа. Це просто.
+        </h1>
+        <p class="subtitle">Легко створюйте хмарні робочі навантаження безпечно та надійно за допомогою Istio, з sidecar контейнерами чи без.</p>
+    </section>
+
+    <section id="landing-panels" class="container">
+        <div class="panels">
+            {{< content_panel type="dark" title="latest_news" text="Istio оголошує про бета-реліз режиму оточення (ambient mode) у версії 1.22." button="read_more" url="/uk/blog/2024/ambient-reaches-beta/" >}}
+            {{< content_panel type="dark" title="join_the_community" text="Приєднуйтесь до більш ніж 10 000+ ваших колег, які використовують, тестують та впроваджують інновації за допомогою Istio." button="connect_with_us" url="/uk/get-involved" >}}
+            {{< content_panel type="dark" title="get_started" text="Спробуйте Istio вже сьогодні. Швидко оцініть проєкт у чотири кроки." button="learn_more" url="/uk/docs/setup/getting-started" >}}
+        </div>
+    </section>
+
+    <section id="service-mesh" class="container">
+        <h1>Що таке Istio?</h1>
+
+        <p>
+            Istio розширює Kubernetes для створення програмованої мережі, що адаптується до конкретних потреб. Працюючи як з Kubernetes, так і з традиційними робочими навантаженнями, Istio забезпечує стандартне, універсальне управління трафіком, телеметрію та безпеку для складних розгортань.
+            <br/><br/>
+            Виберіть потрібні вам функції, і Istio розгорне проксі-інфраструктуру відповідно до ваших потреб.  Використовуйте тунель zero-trust для покращення продуктивності 4-го рівня та безпеки, або додайте потужний проксі-сервер служби Envoy для функцій рівня 7.
+        </p>
+
+        <div class="cta-container">
+            <a class="btn" href="/uk/about/service-mesh">Дізнайтесь більше</a>
+        </div>
+    </section>
+
+    <section id="case-studies" class="container">
+        <h1>Нам довіряють</h1>
+
+        {{< logo_carousel >}}
+
+        <div class="cta-container">
+            <a class="btn" href="/uk/about/case-studies">Дізнайтесь про приклади використання</a>
+        </div>
+    </section>
+    
+    <section id="features" class="container">
+        <h1>Можливості</h1>
+
+        <div class="panels">
+            {{< content_panel type="transparent" title="security" text="Проста реалізація безпеки між сервісами, включаючи автентифікацію, авторизацію та шифрування за допомогою mTLS." button="learn_more" image="security.svg" url="/uk/docs/concepts/security/" >}}
+            {{< content_panel type="transparent" title="observability" text="Оптимізація найкращих практик за допомогою повної видимості застосунків і визначення того, на чому слід зосередитися для підвищення продуктивності." button="learn_more" image="observability.svg" url="/uk/docs/concepts/observability/" >}}
+            {{< content_panel type="transparent" title="traffic_management" text="Керуйте мережею для сервісів послідовно, без додаткових складнощів для розробників." button="learn_more" image="management.svg" url="/uk/docs/concepts/traffic-management/" >}}
+        </div>
+
+    </section>
+
+    <section id="providers" class="container">
+        <h1>Провайдери Istio</h1>
+
+        <p>
+            Istio підтримується та впроваджується екосистемою провідних провайдерів та консультантів. Ви можете встановити та керувати Istio самостійно або скористатися функцією встановлення в один дотик від вашого провайдера Kubernetes чи хмарного сервісу. Інший варіант — звернутися до провайдера за повністю автоматизованою системою обслуговування на базі Istio. Виберіть спосіб, який підходить саме вам.
+        </p>
+
+        <div class="companies-grid">
+            {{< company_logo link="https://cloud.google.com/service-mesh" logo="/logos/google-cloud.png" alt="Google Cloud" >}}
+            {{< company_logo link="https://www.ibm.com/products/istio" logo="/logos/ibm-cloud.svg" alt="IBM Cloud" >}}
+            {{< company_logo link="https://www.redhat.com/en/technologies/cloud-computing/openshift/what-is-openshift-service-mesh" logo="/logos/redhat.svg" alt="Red Hat" >}}
+            {{< company_logo link="https://learn.microsoft.com/en-us/azure/aks/istio-about" logo="/logos/microsoft-azure.svg" alt="Microsoft Azure" >}}        
+            {{< company_logo link="https://www.solo.io/products/gloo-mesh/" logo="/logos/solo.png" alt="Solo.io" >}}
+            {{< company_logo link="https://support.huaweicloud.com/asm/index.html/" logo="/logos/huawei.png" alt="Huawei" >}}
+            {{< company_logo link="https://tetrate.io/tetrate-service-bridge/" logo="/logos/tetrate.svg" alt="Tetrate" >}}
+            {{< company_logo link="https://tanzu.vmware.com/service-mesh" logo="/logos/vmware.svg" alt="VMware" >}}
+        </div>
+
+        <div class="cta-container">
+            <a class="btn" href="/uk/about/ecosystem#providers">Переглянути всіх провайдерів</a>
+        </div>
+    </section>
+
+    <section id="cncf" class="container">
+        <div class="cncf-logo">
+            <figure>
+                <img src="/img/cncf-color.svg" alt="Cloud Native Computing Foundation logo"/>
+                <figcaption>
+                    <p>Ми є дипломованим проєктом Cloud Native Computing Foundation.</p>
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+</main>
