@@ -582,14 +582,14 @@ ENDSNIP
 
 snip_cleanup_1() {
 kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-istioctl uninstall -y --purge --set values.global.istioNamespace=external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl uninstall -y --purge -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 }
 
 snip_cleanup_2() {
 kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-istioctl uninstall -y --purge --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl uninstall -y --purge -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 rm remote-config-cluster.yaml istio-ingressgateway.yaml
 rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
@@ -597,7 +597,7 @@ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
 
 snip_cleanup_3() {
 kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-istioctl uninstall -y --purge --set values.global.istioNamespace=external-istiod --context="${CTX_SECOND_CLUSTER}"
+istioctl uninstall -y --purge -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 rm second-remote-cluster.yaml eastwest-gateway-2.yaml
 }
