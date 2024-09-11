@@ -164,7 +164,5 @@ if [ "$GATEWAY_API" != "true" ]; then
 
   snip_cleanup_1
   snip_cleanup_2
-  #FIXME uninstall does not cleanup validatingwebhookconfiguration on remote cluster
-  kubectl delete validatingwebhookconfiguration istio-validator-external-istiod istiod-default-validator --context="${CTX_REMOTE_CLUSTER}"
   snip_cleanup_3
 fi

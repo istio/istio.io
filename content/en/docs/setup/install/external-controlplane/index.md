@@ -225,15 +225,16 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    $ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    $ istioctl install -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. Confirm that the remote cluster's injection webhook configuration has been installed:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   4          6m24s
+    NAME                                         WEBHOOKS   AGE
+    istio-revision-tag-default-external-istiod   4          2m2s
+    istio-sidecar-injector-external-istiod       4          2m5s
     {{< /text >}}
 
 1. Confirm that the remote cluster's validation webhook configurations have been installed:
@@ -774,7 +775,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Install the configuration on the remote cluster:
 
     {{< text bash >}}
-    $ istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    $ istioctl install -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
 1. Confirm that the remote cluster's injection webhook configuration has been installed:

@@ -105,7 +105,7 @@ sed  -i'.bk' \
 
 snip_set_up_the_remote_config_cluster_3() {
 kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl install -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_set_up_the_remote_config_cluster_4() {
@@ -113,8 +113,9 @@ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
 ! IFS=$'\n' read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
-NAME                                     WEBHOOKS   AGE
-istio-sidecar-injector-external-istiod   4          6m24s
+NAME                                         WEBHOOKS   AGE
+istio-revision-tag-default-external-istiod   4          2m2s
+istio-sidecar-injector-external-istiod       4          2m5s
 ENDSNIP
 
 snip_set_up_the_remote_config_cluster_5() {
@@ -476,7 +477,7 @@ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneCluste
 }
 
 snip_register_the_new_cluster_4() {
-istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+istioctl install -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_register_the_new_cluster_5() {
