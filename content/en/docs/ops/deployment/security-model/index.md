@@ -91,7 +91,7 @@ Below explains various properties mutual TLS provides for the security posture o
 
 Istio comes out of the box with its own Certificate Authority.
 
-By default, the CA allows authenticating clients based on:
+By default, the CA allows authenticating clients based on either of the options below:
 * A Kubernetes JWT token, with an audience of `istio-ca`, verified with a Kubernetes `TokenReview`. This is the default method in Kubernetes Pods.
 * An existing mutual TLS certificate.
 * Custom JWT tokens, verified using OIDC (requires configuration).
