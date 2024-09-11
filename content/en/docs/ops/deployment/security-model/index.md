@@ -49,7 +49,7 @@ This can be done with the [Istio CNI plugin](#istio-cni-plugin) or by deploying 
 The `istio-init` container requires `NET_ADMIN` and `NET_RAW` capabilities.
 However, these capabilities are only present during the initialization - the primary sidecar container is completely unprivileged.
 
-Additionally, the sidecar proxy does not have any associated Kubernetes RBAC privileges at all.
+Additionally, the sidecar proxy does not require any associated Kubernetes RBAC privileges at all.
 
 Each sidecar proxy is authorized to request a certificate for the associated Pod Service Account.
 
