@@ -67,12 +67,8 @@ while (( "$#" )); do
       esac
       shift 2
       ;;
-    --skip-setup)
-      SKIP_SETUP=true
-      shift
-    ;;
     --skip-cleanup)
-      SKIP_CLEANUP=true
+      export SKIP_CLEANUP=true
       shift
     ;;
     --topology-config)
