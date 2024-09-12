@@ -239,11 +239,11 @@ x-envoy-upstream-service-time: 3
 ENDSNIP
 
 snip_cleanup_1() {
-istioctl uninstall --revision usergroup-1
+istioctl uninstall --revision usergroup-1 --set values.global.istioNamespace=usergroup-1
 kubectl delete ns app-ns-1 usergroup-1
 }
 
 snip_cleanup_2() {
-istioctl uninstall --revision usergroup-2
+istioctl uninstall --revision usergroup-2 --set values.global.istioNamespace=usergroup-2
 kubectl delete ns app-ns-2 app-ns-3 usergroup-2
 }

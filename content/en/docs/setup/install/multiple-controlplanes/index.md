@@ -259,14 +259,14 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
 1.  Clean up the first usergroup:
 
     {{< text bash >}}
-    $ istioctl uninstall --revision usergroup-1
+    $ istioctl uninstall --revision usergroup-1 --set values.global.istioNamespace=usergroup-1
     $ kubectl delete ns app-ns-1 usergroup-1
     {{< /text >}}
 
 1.  Clean up the second usergroup:
 
     {{< text bash >}}
-    $ istioctl uninstall --revision usergroup-2
+    $ istioctl uninstall --revision usergroup-2 --set values.global.istioNamespace=usergroup-2
     $ kubectl delete ns app-ns-2 app-ns-3 usergroup-2
     {{< /text >}}
 
