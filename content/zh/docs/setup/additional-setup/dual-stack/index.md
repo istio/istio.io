@@ -139,7 +139,7 @@ values:
 1. 验证 Envoy 侦听器：
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000 -ojson | jq '.[] | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
     {{< /text >}}
 
     您将看到侦听器现在绑定到多个地址，但仅限于双堆栈服务。其他服务将仅侦听单个 IP 地址。
@@ -165,6 +165,10 @@ values:
     {{< /text >}}
 
 1. 验证虚拟入站地址是否配置为同时侦听 `0.0.0.0` 和 `[::]`。
+
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack -o json | jq '.[] | select(.name=="virtualInbound") | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
+    {{< /text >}}
 
     {{< text syntax=json snip_id=none >}}
     "name": "virtualInbound",
