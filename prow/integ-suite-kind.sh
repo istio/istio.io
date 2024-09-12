@@ -67,7 +67,14 @@ while (( "$#" )); do
       esac
       shift 2
       ;;
-
+    --skip-setup)
+      SKIP_SETUP=true
+      shift
+    ;;
+    --skip-cleanup)
+      SKIP_CLEANUP=true
+      shift
+    ;;
     --topology-config)
       CLUSTER_TOPOLOGY_CONFIG_FILE=$2
       shift 2
