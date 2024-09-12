@@ -22,7 +22,7 @@ Before you begin this task, do the following:
 
 * Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
+* Follow the [Istio installation guide](/docs/setup/install) to install Istio.
 
 * Deploy Zipkin for checking dry-run tracing results. Follow the [Zipkin task](/docs/tasks/observability/distributed-tracing/zipkin/)
   to install Zipkin in the cluster.
