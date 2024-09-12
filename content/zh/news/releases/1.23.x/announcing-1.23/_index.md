@@ -78,7 +78,7 @@ Istio 1.23 进行了一系列重大改进。我们与众多采用 Ambient 模式
 
 ## 弃用集群内 Operator {#deprecating-the-in-cluster-operator}
 
-三年前，我们[更新了我们的文档](/zh/docs/setup/install/operator/)，
+三年前，我们[更新了我们的文档](https://archive.istio.io/v1.23/zh/docs/setup/install/operator/)，
 以阻止在新的 Istio 安装中使用集群内运算符。现在，我们准备在 Istio 1.23 中正式将其标记为弃用。
 利用该运算符的用户（我们估计不到我们用户群的 10%）将需要迁移到其他安装和升级机制才能升级到
 Istio 1.24 或更高版本。1.24 的预计发布日期是 2024 年 11 月。

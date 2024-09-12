@@ -186,7 +186,6 @@ EOF
       meshConfig:
         trustDomain: example.org
       values:
-        global:
         # 这用于自定义 Sidecar 模板。
         # 它添加了标签以指示 SPIRE 应该管理此 Pod 的身份，
         # 以及 CSI 驱动程序挂载。

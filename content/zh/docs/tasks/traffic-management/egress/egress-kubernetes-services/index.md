@@ -118,7 +118,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
     {{< /text >}}
 
 1. 通过带有 Istio Sidecar 的源 Pod 通过 Kubernetes 服务的主机名访问 `httpbin.org`。
-   注意 Istio Sidecar 添加的 header，例如，`X-Istio-Attributes` 和 `X-Envoy-Decorator-Operation`。
+   注意 Istio Sidecar 添加的 header，例如，`X-Istio-Attributes` 和 `X-Envoy-Peer-Metadata`。
    另请注意 `Host` header 等于您的服务的主机名。
 
     {{< text bash >}}
@@ -132,7 +132,6 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
         "X-B3-Sampled": "0",
         "X-B3-Spanid": "5795fab599dca0b8",
         "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
-        "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
         "X-Envoy-Peer-Metadata": "...",
         "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
