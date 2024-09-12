@@ -1,5 +1,4 @@
 ---
-WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
 source_repo: https://github.com/istio/api
 title: IstioOperator Options
 description: Configuration affecting Istio control plane installation version and shape.
@@ -9,11 +8,9 @@ generator: protoc-gen-docs
 weight: 20
 number_of_entries: 74
 ---
-<p>Configuration affecting Istio control plane installation version and shape.
-Note: unlike other Istio protos, field names must use camelCase. This is asserted in tests.
-Without camelCase, the <code>json</code> tag on the Go struct will not match the user&rsquo;s JSON representation.
-This leads to Kubernetes merge libraries, which rely on this tag, to fail.
-All other usages use jsonpb which does not use the <code>json</code> tag.</p>
+<p>Configuration affecting Istio control plane installation version and shape. This resource is passed as a file input
+to <code>istioctl install</code> and <code>istioctl manifest generate</code>; while it has a similar format as Kubernetes objects, it is not applied to the cluster.
+</p>
 
 <h2 id="IstioOperatorSpec">IstioOperatorSpec</h2>
 <section>
@@ -186,81 +183,10 @@ No
 No
 </td>
 </tr>
-<tr id="IstioOperatorSpec-addonComponents" class="deprecated ">
-<td><code>addonComponents</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#ExternalComponentSpec">ExternalComponentSpec</a>&gt;</code></td>
-<td>
-<p>Deprecated.
-Users should manage the installation of addon components on their own.
-Refer to samples/addons for demo installation of addon components.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 </tbody>
 </table>
 </section>
-<h2 id="InstallStatus">InstallStatus</h2>
-<section>
-<p>Observed state of IstioOperator</p>
 
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-status">
-<td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">Status</a></code></td>
-<td>
-<p>Overall status of all components controlled by the operator.</p>
-<ul>
-<li>If all components have status <code>NONE</code>, overall status is <code>NONE</code>.</li>
-<li>If all components are <code>HEALTHY</code>, overall status is <code>HEALTHY</code>.</li>
-<li>If one or more components are <code>RECONCILING</code> and others are <code>HEALTHY</code>, overall status is <code>RECONCILING</code>.</li>
-<li>If one or more components are <code>UPDATING</code> and others are <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
-<li>If components are a mix of <code>RECONCILING</code>, <code>UPDATING</code> and <code>HEALTHY</code>, overall status is <code>UPDATING</code>.</li>
-<li>If any component is in <code>ERROR</code> state, overall status is <code>ERROR</code>.</li>
-<li>If further action is needed for reconciliation to proceed, overall status is <code>ACTION_REQUIRED</code>.</li>
-</ul>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-message">
-<td><code>message</code></td>
-<td><code>string</code></td>
-<td>
-<p>Optional message providing additional information about the existing overall status.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-componentStatus">
-<td><code>componentStatus</code></td>
-<td><code>map&lt;string,&nbsp;<a href="#InstallStatus-VersionStatus">VersionStatus</a>&gt;</code></td>
-<td>
-<p>Individual status of each component controlled by the operator. The map key is the name of the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="IstioComponentSetSpec">IstioComponentSetSpec</h2>
 <section>
 <p>IstioComponentSpec defines the desired installed state of Istio components.</p>
@@ -465,89 +391,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="ExternalComponentSpec">ExternalComponentSpec</h2>
-<section>
-<p>Configuration for external components.</p>
 
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ExternalComponentSpec-enabled">
-<td><code>enabled</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
-<td>
-<p>Selects whether this component is installed.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-namespace">
-<td><code>namespace</code></td>
-<td><code>string</code></td>
-<td>
-<p>Namespace for the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-spec">
-<td><code>spec</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
-<td>
-<p>Arbitrary install time configuration for the component.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-chartPath">
-<td><code>chartPath</code></td>
-<td><code>string</code></td>
-<td>
-<p>Chart path for addon components.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-schema">
-<td><code>schema</code></td>
-<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#any">Any</a></code></td>
-<td>
-<p>Optional schema to validate spec against.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="ExternalComponentSpec-k8s">
-<td><code>k8s</code></td>
-<td><code><a href="#KubernetesResourcesSpec">KubernetesResourcesSpec</a></code></td>
-<td>
-<p>Kubernetes resource spec.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="GatewaySpec">GatewaySpec</h2>
 <section>
 <p>Configuration for gateways.</p>
@@ -3699,50 +3543,7 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="InstallStatus-VersionStatus">InstallStatus.VersionStatus</h2>
-<section>
-<p>VersionStatus is the status and version of a component.</p>
 
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-VersionStatus-version">
-<td><code>version</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-VersionStatus-status">
-<td><code>status</code></td>
-<td><code><a href="#InstallStatus-Status">Status</a></code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="InstallStatus-VersionStatus-error">
-<td><code>error</code></td>
-<td><code>string</code></td>
-<td>
-</td>
-<td>
-No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
 <h2 id="K8sObjectOverlay-PathValue">K8sObjectOverlay.PathValue</h2>
 <section>
 <table class="message-fields">
@@ -4047,65 +3848,6 @@ No
 </td>
 <td>
 No
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="InstallStatus-Status">InstallStatus.Status</h2>
-<section>
-<p>Status describes the current state of a component.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="InstallStatus-Status-NONE">
-<td><code>NONE</code></td>
-<td>
-<p>Component is not present.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-UPDATING">
-<td><code>UPDATING</code></td>
-<td>
-<p>Component is being updated to a different version.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-RECONCILING">
-<td><code>RECONCILING</code></td>
-<td>
-<p>Controller has started but not yet completed reconciliation loop for the component.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-HEALTHY">
-<td><code>HEALTHY</code></td>
-<td>
-<p>Component is healthy.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-ERROR">
-<td><code>ERROR</code></td>
-<td>
-<p>Component is in an error state.</p>
-
-</td>
-</tr>
-<tr id="InstallStatus-Status-ACTION_REQUIRED">
-<td><code>ACTION_REQUIRED</code></td>
-<td>
-<p>Overall status only and would not be set as a component status.
-Action is needed from the user for reconciliation to proceed
-e.g. There are proxies still pointing to the control plane revision when try to remove an <code>IstioOperator</code> CR.</p>
-
 </td>
 </tr>
 </tbody>

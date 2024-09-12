@@ -67,7 +67,7 @@ The new application features a more modern design, and performance improvements 
 
 ## Deprecating the in-cluster Operator
 
-Three years ago, we [updated our documentation](/docs/setup/install/operator/) to discourage the use of the in-cluster operator for new Istio installations. We are now ready to formally mark it as deprecated in Istio 1.23. People leveraging the operator — which we estimate to be fewer than 10% of our user base — will need to migrate to other install and upgrade mechanisms in order to upgrade to Istio 1.24 or above. The expected release date for 1.24 is November 2024.
+Three years ago, we [updated our documentation](https://archive.istio.io/v1.23/docs/setup/install/operator/) to discourage the use of the in-cluster operator for new Istio installations. We are now ready to formally mark it as deprecated in Istio 1.23. People leveraging the operator — which we estimate to be fewer than 10% of our user base — will need to migrate to other install and upgrade mechanisms in order to upgrade to Istio 1.24 or above. The expected release date for 1.24 is November 2024.
 
 We recommend users move to Helm and istioctl, which remain supported by the Istio project.  Migrating to istioctl is trivial; migrating to Helm will require tooling which we will publish along with the 1.24 release.
 

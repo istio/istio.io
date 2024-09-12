@@ -46,14 +46,13 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <p>This script depends on the &#39;bash-completion&#39; package.
 If it is not installed already, you can install it via your OS&#39;s package manager.</p>
 <p>To load completions in your current shell session:</p>
-<p>	source &lt;(pilot-discovery completion bash)</p>
+<pre class="language-bash"><code>source &lt;(pilot-discovery completion bash)</code></pre>
 <p>To load completions for every new session, execute once:</p>
-<p>#### Linux:</p>
-<p>	pilot-discovery completion bash &gt; /etc/bash_completion.d/pilot-discovery</p>
-<p>#### macOS:</p>
-<p>	pilot-discovery completion bash &gt; $(brew --prefix)/etc/bash_completion.d/pilot-discovery</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+<h4>Linux:</h4>
+<pre class="language-bash"><code>pilot-discovery completion bash &gt; /etc/bash_completion.d/pilot-discovery</code></pre>
+<h4>macOS:</h4>
+<pre class="language-bash"><code>pilot-discovery completion bash &gt; /usr/local/etc/bash_completion.d/pilot-discovery</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>pilot-discovery completion bash
 </code></pre>
 <table class="command-flags">
@@ -77,11 +76,10 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <h3 id="pilot-discovery-completion-fish">pilot-discovery completion fish</h3>
 <p>Generate the autocompletion script for the fish shell.</p>
 <p>To load completions in your current shell session:</p>
-<p>	pilot-discovery completion fish | source</p>
+<pre class="language-bash"><code>pilot-discovery completion fish | source</code></pre>
 <p>To load completions for every new session, execute once:</p>
-<p>	pilot-discovery completion fish &gt; ~/.config/fish/completions/pilot-discovery.fish</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+<pre class="language-bash"><code>pilot-discovery completion bash &gt; ~/.config/fish/completions/pilot-discovery.fish</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>pilot-discovery completion fish [flags]
 </code></pre>
 <table class="command-flags">
@@ -103,12 +101,10 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tbody>
 </table>
 <h3 id="pilot-discovery-completion-powershell">pilot-discovery completion powershell</h3>
-<p>Generate the autocompletion script for powershell.</p>
+<p>Generate the autocompletion script for PowerShell.</p>
 <p>To load completions in your current shell session:</p>
-<p>	pilot-discovery completion powershell | Out-String | Invoke-Expression</p>
-<p>To load completions for every new session, add the output of the above command
-to your powershell profile.
-</p>
+<pre class="language-bash"><code>pilot-discovery completion powershell | Out-String | Invoke-Expression</code></pre>
+<p>To load completions for every new session, add the output of the above command to your powershell profile.</p>
 <pre class="language-bash"><code>pilot-discovery completion powershell [flags]
 </code></pre>
 <table class="command-flags">
@@ -131,18 +127,16 @@ to your powershell profile.
 </table>
 <h3 id="pilot-discovery-completion-zsh">pilot-discovery completion zsh</h3>
 <p>Generate the autocompletion script for the zsh shell.</p>
-<p>If shell completion is not already enabled in your environment you will need
-to enable it.  You can execute the following once:</p>
-<p>	echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
-<p>To load completions in your current shell session:</p>
-<p>	source &lt;(pilot-discovery completion zsh)</p>
-<p>To load completions for every new session, execute once:</p>
-<p>#### Linux:</p>
-<p>	pilot-discovery completion zsh &gt; &#34;${fpath[1]}/_pilot-discovery&#34;</p>
-<p>#### macOS:</p>
-<p>	pilot-discovery completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_pilot-discovery</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+	<p>If shell completion is not already enabled in your environment you will need to enable it. You can execute the following once:</p>
+	<pre class="language-bash"><code>echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</code></pre>
+	<p>To load completions in your current shell session:</p>
+	<pre class="language-bash"><code>source &lt;(pilot-discovery completion zsh)</code></pre>
+	<p>To load completions for every new session, execute once:</p>
+	<h4>Linux:</h4>
+	<pre class="language-bash"><code>pilot-discovery completion zsh &gt; &#34;${fpath[1]}/_pilot-discovery&#34;</code></pre>
+	<h4>macOS:</h4>
+	<pre class="language-bash"><code>pilot-discovery completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_pilot-discovery</code></pre>
+	<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>pilot-discovery completion zsh [flags]
 </code></pre>
 <table class="command-flags">
@@ -282,26 +276,6 @@ to enable it.  You can execute the following once:</p>
 <td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, ip-autoallocate, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log_rotate &lt;string&gt;</code></td>
-<td></td>
-<td>The path for the optional rotating log file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_age &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum age in days of log file backups to keep before older files are deleted (0 indicates no limit)  (default `30`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_backups &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum number of log file backups to keep before older files are deleted (0 indicates no limit)  (default `1000`)</td>
-</tr>
-<tr>
-<td><code>--log_rotate_max_size &lt;int&gt;</code></td>
-<td></td>
-<td>The maximum size in megabytes of a log file beyond which the file is rotated  (default `104857600`)</td>
-</tr>
-<tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, gateway, grpc, grpcgen, ingress status, ip-autoallocate, klog, krt, kube, model, monitor, monitoring, pkica, pkira, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
@@ -424,7 +398,7 @@ Insecure values: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_R
 </tbody>
 </table>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>pilot-discovery</code> command. Please use with caution as these environment variables are experimental and can change anytime.
+These environment variables affect the behavior of the <code>pilot-discovery</code> command. 
 <table class="envvars">
 <thead>
 <tr>
@@ -550,6 +524,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
 </tr>
 <tr>
+<td><code>ENABLE_DEFERRED_STATS_CREATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio will lazily initialize a subset of the stats</td>
+</tr>
+<tr>
 <td><code>ENABLE_DELIMITED_STATS_TAG_REGEX</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -562,12 +542,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
 </tr>
 <tr>
-<td><code>ENABLE_EXTERNAL_NAME_ALIAS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, ExternalName Services will be treated as simple aliases: anywhere where we would match the concrete service, we also match the ExternalName. In general, this mirrors Kubernetes behavior more closely. However, it means that policies (routes and DestinationRule) cannot be applied to the ExternalName service. If disabled, ExternalName behaves in fairly unexpected manner. Port matters, while it does not in Kubernetes. If it is a TCP port, all traffic on that port will be matched, which can have disastrous consequences. Additionally, the destination is seen as an opaque destination; even if it is another service in the mesh, policies such as mTLS and load balancing will not be used when connecting to it.</td>
-</tr>
-<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -576,7 +550,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
 </tr>
 <tr>
@@ -650,6 +624,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr>
+<td><code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, excludes unsafe retry on 503 from default retry policy.</td>
 </tr>
 <tr>
 <td><code>EXTERNAL_CA</code></td>
@@ -920,12 +900,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
 <tr>
-<td><code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, istiod will persist the oldest first heuristic for subtly conflicting traffic policy selection(such as with overlapping wildcard hosts)</td>
-</tr>
-<tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1140,12 +1114,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, HBONE support can be configured for proxies.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_STATUS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
@@ -1370,6 +1338,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td></td>
 </tr>
 <tr>
+<td><code>PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
+</tr>
+<tr>
 <td><code>REQUIRE_3P_TOKEN</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1460,12 +1434,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If not empty, the controller will automatically patch validatingwebhookconfiguration when the CA certificate changes. Only works in kubernetes environment.</td>
 </tr>
 <tr>
-<td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
-</tr>
-<tr>
 <td><code>XDS_AUTH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -1491,14 +1459,14 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
 <tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
 <tr><td><code>citadel_server_authentication_failure_count</code></td><td><code>Sum</code></td><td>The number of authentication failures.</td></tr>
-<tr><td><code>citadel_server_cert_chain_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the certificate chain will expire. A negative value indicates the cert is expired.</td></tr>
-<tr><td><code>citadel_server_cert_chain_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel cert chain will expire. A negative time indicates the cert is expired.</td></tr>
+<tr><td><code>citadel_server_cert_chain_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the Istio Generated cert chain will expire. A negative value indicates the cert is expired.</td></tr>
+<tr><td><code>citadel_server_cert_chain_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Istio generated cert chain will expire.</td></tr>
 <tr><td><code>citadel_server_csr_count</code></td><td><code>Sum</code></td><td>The number of CSRs received by Citadel server.</td></tr>
 <tr><td><code>citadel_server_csr_parsing_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when parsing the CSR.</td></tr>
 <tr><td><code>citadel_server_csr_sign_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when signing the CSR.</td></tr>
 <tr><td><code>citadel_server_id_extraction_err_count</code></td><td><code>Sum</code></td><td>The number of errors occurred when extracting the ID from CSR.</td></tr>
-<tr><td><code>citadel_server_root_cert_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the root certificate will expire. A negative value indicates the cert is expired.</td></tr>
-<tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when Citadel root cert will expire. A negative time indicates the cert is expired.</td></tr>
+<tr><td><code>citadel_server_root_cert_expiry_seconds</code></td><td><code>LastValue</code></td><td>The time remaining, in seconds, before the root cert will expire. A negative value indicates the cert is expired.</td></tr>
+<tr><td><code>citadel_server_root_cert_expiry_timestamp</code></td><td><code>LastValue</code></td><td>The unix timestamp, in seconds, when the root cert will expire.</td></tr>
 <tr><td><code>citadel_server_success_cert_issuance_count</code></td><td><code>Sum</code></td><td>The number of certificates issuances that have succeeded.</td></tr>
 <tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>

@@ -16,12 +16,11 @@ The following lists some of the pros and cons of each of the available methods:
 
     - Thorough configuration validation and health verification.
     - Uses the `IstioOperator` API which provides extensive configuration/customization options.
-    - No in-cluster privileged pods needed. Changes are actuated by running the `istioctl` command.
 
     Cons:
 
     - Multiple binaries must be managed, one per Istio minor version.
-    - The `istioctl` command can set values like `JWT_POLICY` based on your running environment,
+    - The `istioctl` command can set values automatically based on your running environment,
       thereby producing varying installations in different Kubernetes environments.
 
 1. [istioctl manifest generate](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
@@ -31,12 +30,12 @@ The following lists some of the pros and cons of each of the available methods:
 
     Pros:
 
-    - Resources are generated from the same `IstioOperator` API as used in `istioctl install` and Operator.
+    - Resources are generated from the same `IstioOperator` API as used in `istioctl install`.
     - Uses the `IstioOperator` API which provides extensive configuration/customization options.
 
     Cons:
 
-    - Some checks performed in `istioctl install` and Operator are not done.
+    - Some checks performed in `istioctl install` are not done.
     - UX is less streamlined compared to `istioctl install`.
     - Error reporting is not as robust as `istioctl install` for the apply step.
 
@@ -51,28 +50,7 @@ The following lists some of the pros and cons of each of the available methods:
 
     Cons:
 
-    - Fewer checks and validations compared to `istioctl install` and Operator.
+    - Fewer checks and validations compared to `istioctl install`.
     - Some administrative tasks require more steps and have higher complexity.
-
-1. [Istio Operator](/docs/setup/install/operator/)
-
-    {{< warning >}}
-    Using the operator is not recommended for new installations. While the operator will continue to be supported,
-    new feature requests will not be prioritized.
-    {{< /warning >}}
-
-    The Istio operator provides an installation path without needing the `istioctl` binary.
-    This can be used for simplified upgrade workflows where running an in-cluster privileged controller is not a concern.
-    This method is suitable where strict auditing or augmentation of output manifests is not needed.
-
-    Pros:
-
-    - Same API as `istioctl install` but actuation is through a controller pod in the cluster with a fully declarative operation.
-    - Uses the `IstioOperator` API which provides extensive configuration/customization options.
-    - No need to manage multiple `istioctl` binaries.
-
-    Cons:
-
-    - High privilege controller running in the cluster poses security risks.
 
 Installation instructions for all of these methods are available on the [Istio install page](/docs/setup/install).

@@ -37,6 +37,7 @@ istioctl waypoint generate --for service -n default
 }
 
 ! IFS=$'\n' read -r -d '' snip_gen_waypoint_resource_out <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -61,6 +62,7 @@ ENDSNIP
 
 snip_deploy_a_waypoint_proxy_4() {
 kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:

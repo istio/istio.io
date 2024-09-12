@@ -109,7 +109,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.l
     "X-B3-Sampled": "0",
     "X-B3-Spanid": "5795fab599dca0b8",
     "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
-    "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
     "X-Envoy-Peer-Metadata": "...",
     "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
   }

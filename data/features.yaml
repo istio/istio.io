@@ -1,5 +1,7 @@
+# yaml-language-server: $schema=features_schema.json
+
 features:
-  - name: "Protocols:HTTP1.1/HTTP2/gRPC/TCP"
+  - name: "Protocols: HTTP1.1/HTTP2/gRPC/TCP"
     id: "traffic.http_protocols"
     link: "/docs/ops/configuration/traffic-management/protocol-selection/"
     level:
@@ -7,7 +9,7 @@ features:
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
-  - name: "Protocols:Websockets/MongoDB"
+  - name: "Protocols: Websockets/MongoDB"
     id: "traffic.websocket_protocols"
     level:
       checklist: ""
@@ -36,7 +38,7 @@ features:
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Gateway Injection"
-    id: :"traffic.gateway_injection"
+    id: "traffic.gateway_injection"
     level:
       checklist: features/gateway_injection.md
       maturity: Beta
@@ -76,7 +78,7 @@ features:
     link: "/docs/reference/config/networking/sidecar/"
     level:
       checklist: ""
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "DNS Proxying"
@@ -96,23 +98,23 @@ features:
     area: Traffic Management
     id: "traffic.k8s_gateway_apis"
   - name: "Kubernetes Gateway APIs for mesh (`Service` `parentRef`) "
+    id: "traffic.k8s_gateway_apis_+mesh"
     link: "/docs/tasks/traffic-management/"
     level:
       checklist: features/k8s-gateway-apis.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
-    id: "traffic.k8s_gateway_apis_+mesh"
-  - name: "Gateway Network Topology Configuration"
-    link: "/docs/ops/configuration/traffic-management/network-topologies/"
+  - name: "Gateway Network Topology configuration"
     id: "traffic.gateway_topology"
+    link: "/docs/ops/configuration/traffic-management/network-topologies/"
     level:
        checklist: features/configuring_gateway_network_topology.md
        maturity: Alpha
        nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Kubernetes Multi-Cluster Service (MCS) Discovery"
-    id: :"traffic.kubernetes_mcs"
+    id: "traffic.kubernetes_mcs"
     level:
       checklist: features/kubernetes_mcs.md
       maturity: Experimental
@@ -235,7 +237,7 @@ features:
     link: "/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls"
     level:
       checklist: features/auto_mtls.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "VM: Service Credential Distribution"
@@ -280,10 +282,10 @@ features:
     area: Security and policy enforcement
   - name: "In-Cluster Operator"
     id: "core.in_cluster_operator"
-    link: "/docs/setup/install/operator/"
+    link: ""
     level:
       checklist: ""
-      maturity: Beta
+      maturity: Deprecated
       nextExpectedPromotion: ""
     area: Core
   - name: "Kubernetes: Envoy Installation and Traffic Interception"
@@ -346,10 +348,17 @@ features:
     level:
       checklist: features/ipv6-support.md
       maturity: Alpha
-      maturityNotes: Dual stack is experimental still.
       nextExpectedPromotion: ""
     area: Core
-  - name: "Distroless Base Images for Istio"
+  - name: "Dual Stack IPv4/IPv6"
+    id: "core.dual_stack"
+    level:
+      checklist: features/dual-stack-support.md
+      maturity: Alpha 
+      link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
+      nextExpectedPromotion: ""
+    area: Core
+  - name: "Distroless base images"
     id: "core.distroless"
     link: "/docs/ops/configuration/security/harden-docker-images/"
     level:
@@ -365,7 +374,7 @@ features:
       maturity: Beta
       nextExpectedPromotion: ""
     area: Core
-  - name: "Helm Based Installation"
+  - name: "Helm Installation"
     id: "core.helm_installation"
     link: "/docs/setup/install/helm/"
     level:
@@ -397,57 +406,58 @@ features:
       checklist: features/telemetry_api.md
       maturity: Stable
       nextExpectedPromotion: ""
-  - name: "Dual Stack Support in Istio"
-    id: "core.dual_stack"
-    level:
-      checklist: features/dual-stack-support.md
-      maturity: Experimental 
-      maturityNotes: Dual Stack IPv4 and IPv6 is supported.
-      link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
-      nextExpectedPromotion: ""
-    area: Core
+
   # Ambient
   - name: "Ztunnel Core"
+    id: "ambient.ztunnel"
     level:
       checklist: features/ambient.md
       maturity: Beta
     area: Ambient
   - name: "Waypoints Core"
+    id: "ambient.waypoints"
     level:
       checklist: features/ambient.md
       maturity: Beta
     area: Ambient
   - name: "Authorization Policies"
+    id: "ambient.authz"
     level:
       checklist: features/ambient.md
       maturity: Beta
     area: Ambient
   - name: "Gateway API (HTTPRoute)"
+    id: "ambient.httproute"
     level:
       checklist: features/ambient.md
       maturity: Beta
     area: Ambient
   - name: "Sidecar Interop"
+    id: "ambient.sidecar_interoperability"
     level:
       checklist: features/ambient.md
       maturity: Alpha
     area: Ambient
   - name: "DNS Proxying"
+    id: "ambient.dns_proxying"
     level:
       checklist: features/ambient.md
       maturity: Alpha
     area: Ambient
   - name: "Multi-cluster"
+    id: "ambient.multi_cluster"  
     level:
       checklist: features/ambient.md
       maturity: Alpha
     area: Ambient
   - name: "Multi-network"
+    id: "ambient.multi_network"
     level:
       checklist: features/ambient.md
       maturity: Experimental
     area: Ambient
   - name: "Dual Stack, IPv6"
+    id: "ambient.dual_stack"
     level:
       checklist: features/ambient.md
       maturity: Experimental

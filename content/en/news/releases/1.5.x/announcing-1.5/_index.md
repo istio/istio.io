@@ -64,7 +64,7 @@ particular has some cool enhancements. Command line installation of Istio using
 [`istioctl`](/docs/reference/commands/istioctl) is now beta for installation and
 will work for most customers in most use cases. Managing your installation via
 an Operator is still alpha, but we continue to improve it with a new
-[`IstioOperator API`](/docs/reference/config/istio.operator.v1alpha1/).
+`IstioOperator` API.
 
 Speaking of `istioctl`, it has over a dozen improvements -- new items it can
 analyze, better validation rules, and better ability to integrate with CI

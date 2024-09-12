@@ -45,7 +45,6 @@ COMPONENTS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@istioctl/cmd/istioctl@istioctl
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-agent@pilot-agent
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@pilot/cmd/pilot-discovery@pilot-discovery
-    https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@operator/cmd/operator@operator
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"@cni/cmd/install-cni@install-cni
 )
 
@@ -191,7 +190,7 @@ handle_config_analysis_messages() {
 }
 
 # delete all the existing generated files so that any stale files are removed
-find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | xargs -0 rm 2>/dev/null
+find "${ROOTDIR}/content/en/docs/reference" -name '*.html' -type f -print0 | grep -v istio.operator.v1alpha1 | xargs -0 rm 2>/dev/null
 find "${ROOTDIR}/content/zh/docs/reference" -name '*.html' -type f -print0 | xargs -0 rm 2>/dev/null
 
 # Prepare the work directory

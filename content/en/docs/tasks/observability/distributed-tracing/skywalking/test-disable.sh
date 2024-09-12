@@ -22,6 +22,9 @@ set -o pipefail
 source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
+# FIXME To re-enable this test, rename this file to test.sh once
+# https://github.com/istio/istio.io/issues/15680 is fixed 
+
 # @setup profile=none
 echo "$snip_configure_tracing_1" | istioctl install -y -r skywalkingagent -f -
 snip_configure_tracing_2
