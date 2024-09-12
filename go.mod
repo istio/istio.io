@@ -6,7 +6,6 @@ go 1.22.0
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
-	github.com/envoyproxy/go-control-plane v0.12.1-0.20240719165848-f888b4f71207
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.8.0
 	istio.io/istio v0.0.0-20240910151233-1d28c23a2a5c
@@ -49,7 +48,10 @@ require (
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
 	github.com/fatih/camelcase v1.0.0 // indirect
 	github.com/fatih/color v1.17.0 // indirect
+	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
+	github.com/go-errors/errors v1.5.1 // indirect
+	github.com/go-jose/go-jose/v3 v3.0.3 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
