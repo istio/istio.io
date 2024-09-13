@@ -217,15 +217,16 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    $ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    $ istioctl install -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. 确认从集群的注入 Webhook 配置已经安装：
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   4          6m24s
+    NAME                                         WEBHOOKS   AGE
+    istio-revision-tag-default-external-istiod   4          2m2s
+    istio-sidecar-injector-external-istiod       4          2m5s
     {{< /text >}}
 
 1. 确认已安装从集群的验证 Webhook 配置：
@@ -754,7 +755,7 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 1. 在从集群上安装配置：
 
     {{< text bash >}}
-    $ istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    $ istioctl install -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
 1. 确认从集群的注入 Webhook 配置已经安装：
@@ -872,7 +873,7 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 
 {{< text bash >}}
 $ kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-$ istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl uninstall -y --purge -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 $ kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 $ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 {{< /text >}}
@@ -881,7 +882,7 @@ $ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-$ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+$ istioctl uninstall -y --purge -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 $ kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 $ rm remote-config-cluster.yaml istio-ingressgateway.yaml
 $ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
@@ -891,7 +892,7 @@ $ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-$ istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+$ istioctl uninstall -y --purge -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 $ kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 $ rm second-remote-cluster.yaml eastwest-gateway-2.yaml
 {{< /text >}}

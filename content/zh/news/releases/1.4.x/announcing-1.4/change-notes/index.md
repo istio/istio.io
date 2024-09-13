@@ -44,7 +44,7 @@ publishdate: 2019-11-14
 
 ## 安装{#installation}
 
-- **新增了** 对 `Istio` 动态安装更新的实验性 [operator controller](/zh/docs/setup/install/operator/)。
+- **新增了** 对 `Istio` 动态安装更新的实验性 [operator controller](https://archive.istio.io/v1.23/zh/docs/setup/install/operator/)。
 - **移除了** `proxy_init` 镜像，`istio-init` 容器重新使用 `proxyv2` 镜像。
 - **更新了** 基础镜像为 `ubuntu:bionic`。
 

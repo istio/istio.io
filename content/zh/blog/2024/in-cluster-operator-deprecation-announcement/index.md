@@ -12,7 +12,7 @@ Istio 1.24 或更高版本。请继续阅读以了解我们进行此更改的原
 
 ## 这对您有影响吗？ {#does-this-affect-you}
 
-此弃用仅影响 [In-Cluster Operator](/zh/docs/setup/install/operator/) 的用户。
+此弃用仅影响 [In-Cluster Operator](https://archive.istio.io/v1.23/zh/docs/setup/install/operator/) 的用户。
 **使用 <code>istioctl install</code> 命令和 `IstioOperator` YAML 文件安装 Istio 的用户不受影响**。
 
 要确定您是否受到影响，请运行 `kubectl get deployment -n istio-system istio-operator`
