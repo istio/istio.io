@@ -22,7 +22,7 @@ status: Alpha
 
 * 阅读 [Istio 授权概念](/zh/docs/concepts/security/#authorization)。
 
-* 按照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)来安装 Istio。
+* 按照 [Istio 安装指南](/zh/docs/setup/install)来安装 Istio。
 
 * 部署 Zipkin 以检查模拟运行追踪结果。按照
   [Zipkin 任务](/zh/docs/tasks/observability/distributed-tracing/zipkin/)
