@@ -410,10 +410,22 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </thead>
 <tbody>
 <tr>
+<td><code>AMBIENT_ENABLE_STATUS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
+</tr>
+<tr>
 <td><code>AUDIENCE</code></td>
 <td>String</td>
 <td><code></code></td>
 <td>Expected audience in the tokens. </td>
+</tr>
+<tr>
+<td><code>BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, overload manager will not be applied to static listeners</td>
 </tr>
 <tr>
 <td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
@@ -536,6 +548,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If true, pilot will use the new delimited stat tag regex to generate Envoy stats tags.</td>
 </tr>
 <tr>
+<td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
+</tr>
+<tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -558,6 +576,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LOCALITY_WEIGHTED_LB_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, always set LocalityWeightedLbConfig for a cluster,  otherwise only apply it when locality lb is specified by DestinationRule for a service</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
@@ -1342,12 +1366,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
-</tr>
-<tr>
-<td><code>REQUIRE_3P_TOKEN</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
 </tr>
 <tr>
 <td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
