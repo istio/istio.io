@@ -376,6 +376,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Instead of only capturing DNS traffic to DNS server IP, capture all DNS traffic at port 53. This setting is only effective when redirect dns is enabled. </td>
 </tr>
 <tr>
+<td><code>--cleanup-only</code></td>
+<td></td>
+<td>Perform a forced cleanup without creating new iptables chains or rules. </td>
+</tr>
+<tr>
 <td><code>--cni-mode</code></td>
 <td></td>
 <td>Whether to run as CNI plugin. </td>
@@ -399,6 +404,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td><code>--envoy-port &lt;string&gt;</code></td>
 <td><code>-p</code></td>
 <td>Specify the envoy port to which redirect all TCP traffic.  (default `15001`)</td>
+</tr>
+<tr>
+<td><code>--force-apply</code></td>
+<td></td>
+<td>Apply iptables changes even if they appear to already be in place. </td>
 </tr>
 <tr>
 <td><code>--inbound-capture-port &lt;string&gt;</code></td>
@@ -519,6 +529,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td><code>--proxy-uid &lt;string&gt;</code></td>
 <td><code>-u</code></td>
 <td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--reconcile</code></td>
+<td></td>
+<td>Reconcile pre-existing and incompatible iptables rules instead of failing if drift is detected. </td>
 </tr>
 <tr>
 <td><code>--redirect-dns</code></td>
@@ -793,6 +808,18 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </thead>
 <tbody>
 <tr>
+<td><code>AMBIENT_ENABLE_STATUS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
+</tr>
+<tr>
+<td><code>BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, overload manager will not be applied to static listeners</td>
+</tr>
+<tr>
 <td><code>CA_ADDR</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -943,6 +970,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If true, pilot will use the new delimited stat tag regex to generate Envoy stats tags.</td>
 </tr>
 <tr>
+<td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
+</tr>
+<tr>
 <td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -965,6 +998,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LOCALITY_WEIGHTED_LB_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, always set LocalityWeightedLbConfig for a cluster,  otherwise only apply it when locality lb is specified by DestinationRule for a service</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
@@ -1863,12 +1902,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Integer</td>
 <td><code>15004</code></td>
 <td>Agent debugging port.</td>
-</tr>
-<tr>
-<td><code>REQUIRE_3P_TOKEN</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
 </tr>
 <tr>
 <td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
