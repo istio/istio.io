@@ -44,7 +44,7 @@ function access_skywalking_with_portforward() {
   local skywalking_url='http://localhost:8080/graphql'
   local product_svc_id="cHJvZHVjdHBhZ2UuZGVmYXVsdA==.1"
   local now=$(date +%s)
-  local _15min_ago=$((now - 60 * 60))
+  local _15min_ago=$((now - 15 * 60))
   local now=$(date +'%Y-%m-%d %H%M' -d @"$now")
   local _15min_ago=$(date +'%Y-%m-%d %H%M' -d @"$_15min_ago")
 
