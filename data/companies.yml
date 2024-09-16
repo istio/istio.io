@@ -330,6 +330,13 @@ pro_services:
     details:
       - "inovex is an IT project center driven by innovation and quality, focusing its services on ‘Digital Transformation’. Building production-ready cloud infrastructure since 2010 have been employing Kubernetes since its inception."
       - "We rely on Istio to heighten the security and resilience in the applications we build for our clients, meeting their needs even in multicluster setups."
+  - name: "KUBEFLEX"
+    logo: "/logos/kubeflex.png"
+    url: "https://kubeflex.io/"
+    description: "KubeFlex helps startups adopt cloud-native technologies, including Istio service mesh, at no cost."
+    details:
+      - "KubeFlex assists startups by building cloud-agnostic, cloud-native technology platforms at no cost."
+      - "Our aim is to spread awareness and accelerate cloud-native adoption."
   - name: "Palark"
     logo: "/logos/palark.svg"
     url: "https://palark.com/"
