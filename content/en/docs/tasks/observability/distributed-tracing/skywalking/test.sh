@@ -85,6 +85,6 @@ pgrep istioctl | xargs kill
 _undeploy_addons skywalking
 
 kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
-istioctl uninstall --skip-confirmation
+istioctl uninstall --purge --skip-confirmation
 kubectl label namespace default istio-injection-
 kubectl delete ns istio-system
