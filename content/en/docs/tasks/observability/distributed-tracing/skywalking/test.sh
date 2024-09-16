@@ -26,7 +26,7 @@ source "tests/util/addons.sh"
 # https://github.com/istio/istio.io/issues/15680 is fixed 
 
 # @setup profile=none
-echo "$snip_configure_tracing_1" | istioctl install -y -r skywalkingagent -f -
+echo "$snip_configure_tracing_1" | istioctl install -y -f -
 snip_configure_tracing_2
 
 _deploy_and_wait_for_addons skywalking
@@ -77,9 +77,7 @@ function access_skywalking_with_portforward() {
     }' | jq '.data.result.traces | length'
 }
 
-VERIFY_TIMEOUT=300
 _verify_same access_skywalking_with_portforward 20
-unset VERIFY_TIMEOUT
 pgrep istioctl | xargs kill
 
 # @cleanup
@@ -90,6 +88,6 @@ pgrep istioctl | xargs kill
 _undeploy_addons skywalking
 
 kubectl delete telemetries.telemetry.istio.io -n istio-system mesh-default
-istioctl uninstall -r skywalkingagent --skip-confirmation
+istioctl uninstall --skip-confirmation
 kubectl label namespace default istio-injection-
 kubectl delete ns istio-system
