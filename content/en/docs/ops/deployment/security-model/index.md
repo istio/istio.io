@@ -29,15 +29,15 @@ Following [Kubernetes security best practices](https://kubernetes.io/docs/concep
 
 ### Istio CNI plugin
 
-Istio can optionally be deployed with the [Istio CNI Plugin DaemonSet](docs/setup/additional-setup/cni/).
-This DaemonSet is responsible for setting up networking rules in Istio to ensure traffic is transparently redirected as needed.
+Istio can optionally be deployed with the [Istio CNI Plugin `DaemonSet`](docs/setup/additional-setup/cni/).
+This `DaemonSet` is responsible for setting up networking rules in Istio to ensure traffic is transparently redirected as needed.
 This is an alternative to the `istio-init` container discussed [below](#sidecar-proxies).
 
-Because the CNI DaemonSet modifies networking rules on the node, it requires an elevated `securityContext`.
+Because the CNI `DaemonSet` modifies networking rules on the node, it requires an elevated `securityContext`.
 However, unlike [Istiod](#istiod), this is a **node-local** privilege.
 The implications of this are discussed [below](#node-compromise).
 
-Because this consolidates the elevated privileges required to setup networking into a single Pod, rather than *every* Pod,
+Because this consolidates the elevated privileges required to setup networking into a single pod, rather than *every* pod,
 this option is generally recommended.
 
 ### Sidecar Proxies
@@ -143,10 +143,10 @@ In this document, we will primarily consider the worst case scenario: a compromi
 
 ### Workload compromise
 
-In this scenario, an application workload (Pod) is compromised.
+In this scenario, an application workload (pod) is compromised.
 
 A pod [*may* have access](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#opt-out-of-api-credential-automounting) to its service account token.
-If so, a workload compromise can move laterally from a single Pod to compromising the entire service account.
+If so, a workload compromise can move laterally from a single pod to compromising the entire service account.
 
 {{< tabset category-name="dataplane" >}}
 {{< tab name="Sidecar mode" category-value="sidecar" >}}
@@ -200,8 +200,8 @@ In this scenario, a [ztunnel](#ztunnel) proxy is compromised.
 A compromised ztunnel gives the attacker control of the networking of the node.
 
 Ztunnel has access to private key material for each application running on it's node.
-A compromised Ztunnel could have these exfiltrated and used elsewhere.
-However, lateral movement to identities beyond co-located workloads is not possible; each Ztunnel is only authorized to access certificates for workloads running on its node, scoping the blast radius of a compromised Ztunnel.
+A compromised ztunnel could have these exfiltrated and used elsewhere.
+However, lateral movement to identities beyond co-located workloads is not possible; each ztunnel is only authorized to access certificates for workloads running on its node, scoping the blast radius of a compromised ztunnel.
 
 ### Node compromise
 
@@ -224,4 +224,3 @@ removing any Istio `AuthorizationPolicies`, or even uninstalling Istio entirely.
 A compromise of Istiod generally leads to the same result as an [API Server compromise](#cluster-api-server-compromise).
 Istiod is a highly privileged component that should be strongly protected.
 Following the [security best practices](/docs/ops/best-practices/security) is crucial to maintaining a secure cluster.
-
