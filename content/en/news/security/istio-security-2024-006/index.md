@@ -17,15 +17,15 @@ skip_seealso: true
 
 ### Envoy CVEs
 
-- __[CVE-2024-XXXXX]()__: (CVSS Score 7.5, High): oghttp2 may crash on ObBeginHeadersForStream.
+- __[CVE-2024-XXXXX]()__: (CVSS Score 7.5, High): oghttp2 may crash on `OnBeginHeadersForStream`.
 
-- __[CVE-2024-XXXXX]()__: (CVSS Score 6.5, Moderate): Lack of validation for REQUESTED_SERVER_NAME field for access loggers enables injection of unexpected content into access logs.
+- __[CVE-2024-XXXXX]()__: (CVSS Score 6.5, Moderate): Lack of validation for `REQUESTED_SERVER_NAME` field for access loggers enables injection of unexpected content into access logs.
 
 - __[CVE-2024-XXXXX]()__: (CVSS Score 6.5, Moderate): Potential for `x-envoy` headers to be manipulated by external sources.
 
 - __[CVE-2024-XXXXX]()__: (CVSS Score 5.3, Moderate): JWT filter crash in the clear route cache with remote JWKs.
 
-- __[CVE-2024-XXXXX]()__: (CVSS Score 6.5, Moderate): Envoy crashes for LocalReply in http async client.
+- __[CVE-2024-XXXXX]()__: (CVSS Score 6.5, Moderate): Envoy crashes for `LocalReply` in HTTP async client.
 
 ## Am I Impacted?
 
