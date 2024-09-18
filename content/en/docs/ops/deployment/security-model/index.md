@@ -29,7 +29,7 @@ Following [Kubernetes security best practices](https://kubernetes.io/docs/concep
 
 ### Istio CNI plugin
 
-Istio can optionally be deployed with the [Istio CNI Plugin `DaemonSet`](docs/setup/additional-setup/cni/).
+Istio can optionally be deployed with the [Istio CNI Plugin `DaemonSet`](/docs/setup/additional-setup/cni/).
 This `DaemonSet` is responsible for setting up networking rules in Istio to ensure traffic is transparently redirected as needed.
 This is an alternative to the `istio-init` container discussed [below](#sidecar-proxies).
 
@@ -42,7 +42,7 @@ this option is generally recommended.
 
 ### Sidecar Proxies
 
-Istio may [optionally](docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
+Istio may [optionally](/docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
 
 The sidecar proxy needs the network to be programmed to direct all traffic through the proxy.
 This can be done with the [Istio CNI plugin](#istio-cni-plugin) or by deploying an `initContainer` (`istio-init`) on the pod (this is done automatically if the CNI plugin is not deployed).
