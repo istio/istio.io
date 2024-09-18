@@ -1,226 +1,235 @@
 ---
-title: Security Model
-description: Describes Istio's security model.
+title: 安全模型
+description: 描述 Istio 的安全模型。
 weight: 10
 owner: istio/wg-security-maintainers
 test: n/a
 ---
 
-This document aims to describe the security posture of Istio's various components, and how possible attacks can impact the system.
+本文档旨在描述 Istio 各个组件的安全态势，以及可能的攻击如何影响系统。
 
-## Components
+## 组件 {#components}
 
-Istio comes with a variety of optional components that will be covered here.
-For a high level overview, see [Istio Architecture](/docs/ops/deployment/architecture/).
-Note that Istio deployments are highly flexible; below, we will primarily assume the worst case scenarios.
+Istio 附带各种可选组件，本文将介绍这些组件。有关高级概述，
+请参阅 [Istio 架构](/zh/docs/ops/deployment/architecture/)。
+请注意，Istio 部署非常灵活；下面，我们将主要假设最坏的情况。
 
-### Istiod
+### Istiod {#istiod}
 
-Istiod serves as the core control plane component of Istio, often serving the role of the [XDS serving component](/docs/concepts/traffic-management/) as well
-as the mesh [mTLS Certificate Authority](/docs/concepts/security/).
+Istiod 是 Istio 的核心控制平面组件，
+通常充当 [XDS 服务组件](/zh/docs/concepts/traffic-management/)以及网格
+[mTLS 证书颁发机构](/zh/docs/concepts/security/)的角色。
 
-Istiod is considered a highly privileged component, similar to that of the Kubernetes API server itself.
-* It has high Kubernetes RBAC privileges, typically including `Secret` read access and webhook write access.
-* When acting as the CA, it can provision arbitrary certificates.
-* When acting as the XDS control plane, it can program proxies to perform arbitrary behavior.
+Istiod 被视为高权限组件，类似于 Kubernetes API 服务器本身。
 
-As such, the security of the cluster is tightly coupled to the security of Istiod.
-Following [Kubernetes security best practices](https://kubernetes.io/docs/concepts/security/) around Istiod access is paramount.
+* 它具有较高的 Kubernetes RBAC 权限，通常包括 `Secret` 读取权限和 Webhook 写入权限。
+* 当充当 CA 时，它可以提供任意证书。
+* 当充当 XDS 控制平面时，它可以对代理进行编程以执行任意行为。
 
-### Istio CNI plugin
+因此，集群的安全性与 Istiod 的安全性紧密相关。遵循有关 Istiod 访问的
+[Kubernetes 安全最佳实践](https://kubernetes.io/zh-cn/docs/concepts/security/)至关重要。
 
-Istio can optionally be deployed with the [Istio CNI Plugin `DaemonSet`](docs/setup/additional-setup/cni/).
-This `DaemonSet` is responsible for setting up networking rules in Istio to ensure traffic is transparently redirected as needed.
-This is an alternative to the `istio-init` container discussed [below](#sidecar-proxies).
+### Istio CNI 插件 {#istio-cni-plugin}
 
-Because the CNI `DaemonSet` modifies networking rules on the node, it requires an elevated `securityContext`.
-However, unlike [Istiod](#istiod), this is a **node-local** privilege.
-The implications of this are discussed [below](#node-compromise).
+Istio 可以选择性地与 [Istio CNI 插件 `DaemonSet`](/zh/docs/setup/additional-setup/cni/) 一起部署。
+此 `DaemonSet` 负责在 Istio 中设置网络规则，以确保根据需要透明地重定向流量。
+这是[下文](#sidecar-proxies)讨论的 `istio-init` 容器的替代方案。
 
-Because this consolidates the elevated privileges required to setup networking into a single pod, rather than *every* pod,
-this option is generally recommended.
+由于 CNI `DaemonSet` 会修改节点上的网络规则，因此它需要提升的 `securityContext`。
+但是，与 [Istiod](#istiod) 不同，这是一种 **node-local** 权限。
+此权限的含义将在[下文](#node-compromise)中讨论。
 
-### Sidecar Proxies
+因为这将设置网络所需的提升权限整合到单个 Pod 中，而不是**每个** Pod，所以通常建议使用此选项。
 
-Istio may [optionally](docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
+### Sidecar 代理 {#sidecar-proxies}
 
-The sidecar proxy needs the network to be programmed to direct all traffic through the proxy.
-This can be done with the [Istio CNI plugin](#istio-cni-plugin) or by deploying an `initContainer` (`istio-init`) on the pod (this is done automatically if the CNI plugin is not deployed).
-The `istio-init` container requires `NET_ADMIN` and `NET_RAW` capabilities.
-However, these capabilities are only present during the initialization - the primary sidecar container is completely unprivileged.
+Istio 可以[可选的](/zh/docs/overview/dataplane-modes/)在应用程序旁边部署一个 Sidecar 代理。
 
-Additionally, the sidecar proxy does not require any associated Kubernetes RBAC privileges at all.
+Sidecar 代理需要对网络进行编程，以引导所有流量通过代理。
+这可以通过 [Istio CNI 插件](#istio-cni-plugin)或在 Pod 上部署 `initContainer`（`istio-init`）来实现（如果未部署 CNI 插件，则会自动完成）。
+`istio-init` 容器需要 `NET_ADMIN` 和 `NET_RAW` 功能。
+但是，这些功能仅在初始化期间存在 - 主 Sidecar 容器完全没有特权。
 
-Each sidecar proxy is authorized to request a certificate for the associated Pod Service Account.
+此外，Sidecar 代理根本不需要任何相关的 Kubernetes RBAC 权限。
 
-### Gateways and Waypoints
+每个 Sidecar 代理都被授权为相关的 Pod 服务账户请求证书。
 
-{{< gloss "gateway" >}}Gateways{{< /gloss >}} and {{< gloss "waypoint">}}Waypoints{{< /gloss >}} act as standalone proxy deployments.
-Unlike [sidecars](#sidecar-proxies), they do not require any networking modifications, and thus don't require any privilege.
+### Gateway 和 waypoint {#gateways-and-waypoints}
 
-These components run with their own service accounts, distinct from application identities.
+{{< gloss "gateway" >}}Gateway{{< /gloss >}} 和
+{{< gloss "waypoint">}}waypoint{{< /gloss >}}
+充当独立代理部署。与 [Sidecar](#sidecar-proxies) 不同，它们不需要任何网络修改，因此不需要任何权限。
 
-### Ztunnel
+这些组件使用自己的服务账户运行，与应用程序身份不同。
 
-{{< gloss "ztunnel" >}}Ztunnel{{< /gloss >}} acts as a node-level proxy.
-This task requires the `NET_ADMIN`, `SYS_ADMIN`, and `NET_RAW` capabilities.
-Like the [Istio CNI Plugin](#istio-cni-plugin), these are **node-local** privileges only.
-The Ztunnel does not have any associated Kubernetes RBAC privileges.
+### ztunnel {#ztunnel}
 
-Ztunnel is authorized to request certificates for any Service Accounts of pods running on the same node.
-Similar to [kubelet](https://kubernetes.io/docs/reference/access-authn-authz/node/), this explicitly does not allow requesting arbitrary
-certificates.
-This, again, ensures these privileges are **node-local** only.
+{{< gloss "ztunnel" >}}ztunnel{{< /gloss >}} 充当节点级代理。
+此任务需要 `NET_ADMIN`、`SYS_ADMIN` 和 `NET_RAW` 功能。
+与 [Istio CNI 插件](#istio-cni-plugin) 一样，这些只是**节点本地**权限。
+ztunnel 没有任何关联的 Kubernetes RBAC 权限。
 
-## Traffic Capture Properties
+ztunnel 有权为在同一节点上运行的 Pod 的任何服务帐户请求证书。
+与 [kubelet](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/node/) 类似，
+这明确不允许请求任意证书。这再次确保这些权限仅限于**节点本地**。
 
-When a pod is enrolled in the mesh, all incoming TCP traffic will be redirected to the proxy.
-This includes both mTLS/{{< gloss >}}HBONE{{< /gloss >}} traffic and plaintext traffic.
-Any applicable [policies](/docs/tasks/security/authorization/) for the workload will be enforced before forwarding the traffic to the workload.
+## 流量捕获属性 {#traffic-capture-properties}
 
-However, Istio does not currently guarantee that _outgoing_ traffic is redirect to the proxy.
-See [traffic capture limitations](/docs/ops/best-practices/security/#understand-traffic-capture-limitations).
-As such, care must be taken to follow the [securing egress traffic](/docs/ops/best-practices/security/#securing-egress-traffic) steps if outbound policies are required.
+当 Pod 注册到网格中时，所有传入的 TCP 流量都将重定向到代理。
+这包括 mTLS/{{< gloss >}}HBONE{{< /gloss >}} 流量和明文流量。
+在将流量转发到工作负载之前，将强制执行适用于工作负载的任何[策略](/zh/docs/tasks/security/authorization/)。
 
-## Mutual TLS Properties
+但是，Istio 目前无法保证将**传出**流量重定向到代理。
+请参阅[流量捕获限制](/zh/docs/ops/best-practices/security/#understand-traffic-capture-limitations)。
+因此，如果需要出站策略，则必须小心遵循[保护出口流量](/zh/docs/ops/best-practices/security/#securing-egress-traffic)步骤。
 
-[Mutual TLS](/docs/concepts/security/#mutual-tls-authentication) provides the basis for much of Istio's security posture.
-Below explains various properties mutual TLS provides for the security posture of Istio.
+## 双向 TLS 属性 {#mutual-tls-properties}
 
-### Certificate Authority
+[双向 TLS](/zh/docs/concepts/security/#mutual-tls-authentication)
+为 Istio 的大部分安全态势提供了基础。下面介绍了双向 TLS 为 Istio 的安全态势提供的各种属性。
 
-Istio comes out of the box with its own Certificate Authority.
+### 证书颁发机构 {#certificate-authority}
 
-By default, the CA allows authenticating clients based on either of the options below:
-* A Kubernetes JWT token, with an audience of `istio-ca`, verified with a Kubernetes `TokenReview`. This is the default method in Kubernetes Pods.
-* An existing mutual TLS certificate.
-* Custom JWT tokens, verified using OIDC (requires configuration).
+Istio 有自己的证书颁发机构（CA）。
 
-The CA will only issue certificates that are requested for identities that a client is authenticated for.
+默认情况下，CA 允许根据以下任一选项对客户端进行身份验证：
 
-Istio can also integrate with a variety of third party CAs; please refer to any of their security documentation for more information on how they behave.
+* Kubernetes JWT 令牌，受众为 `istio-ca`，使用 Kubernetes `TokenReview` 进行验证。
+  这是 Kubernetes Pod 中的默认方法。
+* 现有的双向 TLS 证书。
+* 自定义 JWT 令牌，使用 OIDC 进行验证（需要配置）。
 
-### Client mTLS
+CA 只会颁发针对客户端已验证身份而请求的证书。
+
+Istio 还可以与各种第三方 CA 集成；有关其行为方式的更多信息，请参阅其安全文档。
+
+### 客户端 mTLS {#client-mtls}
 
 {{< tabset category-name="dataplane" >}}
-{{< tab name="Sidecar mode" category-value="sidecar" >}}
-In sidecar mode, the client sidecar will [automatically use TLS](/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) when connecting to a service
-that is detected to support mTLS. This can also be [explicitly configured](/docs/ops/configuration/traffic-management/tls-configuration/#sidecars).
-Note that this automatic detection relies on Istio associating the traffic to a Service.
-[Unsupported traffic types](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic) or [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping/) can prevent this.
+{{< tab name="Sidecar 模式" category-value="sidecar" >}}
+在 Sidecar 模式下，客户端 Sidecar 在连接到检测到支持
+mTLS 的服务时将[自动使用 TLS](/zh/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls)。
+这也可以[显式配置](/zh/docs/ops/configuration/traffic-management/tls-configuration/#sidecars)。
+请注意，此自动检测依赖于 Istio 将流量与服务关联。
+[不支持的流量类型](/zh/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic)或[配置范围](/zh/docs/ops/configuration/mesh/configuration-scoping/)可能会阻止这种情况。
 
-When [connecting to a backend](/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the Service level, based on the union of all backend's identities.
+当[连接到后端](/zh/docs/concepts/security/#secure-naming)时，
+允许的身份集是在服务级别基于所有后端身份的联合来计算的。
 {{< /tab >}}
 
-{{< tab name="Ambient mode" category-value="ambient" >}}
-In ambient mode, Istio will automatically use mTLS when connecting to any backend that supports mTLS, and verify the identity of the destination matches the identity the workload is expected to be running as.
+{{< tab name="Ambient 模式" category-value="ambient" >}}
+在 Ambient 模式下，Istio 将在连接到任何支持 mTLS 的后端时自动使用 mTLS，
+并验证目标的身份是否与预期运行工作负载的身份相匹配。
 
-These properties differ from sidecar mode in that they are properties of individual workloads, rather than of the service.
-This enables more fine-grained authentication checks, as well as supporting a wider variety of workloads.
+这些属性与 Sidecar 模式的不同之处在于，它们是单个工作负载的属性，而不是服务的属性。
+这样可以实现更细粒度的身份验证检查，并支持更多种类的工作负载。
 {{< /tab >}}
 {{< /tabset >}}
 
-### Server mTLS
+### 服务器 mTLS {#server-mtls}
 
-By default, Istio will accept mTLS and non-mTLS traffic (often called "permissive mode").
-Users can opt-in to strict enforcement by writing `PeerAuthentication` or `AuthorizationPolicy` rules requiring mTLS.
+默认情况下，Istio 将接受 mTLS 和非 mTLS 流量（通常称为“宽容模式”）。
+用户可以通过编写需要 mTLS 的 `PeerAuthentication` 或 `AuthorizationPolicy` 规则来选择严格执行。
 
-When mTLS connections are established, the peer certificate is verified.
-Additionally, the peer identity is verified to be within the same trust domain.
-To verify only specific identities are allowed, an `AuthorizationPolicy` can be used.
+建立 mTLS 连接后，将验证对等证书。此外，还将验证对等身份是否在同一信任域内。
+要验证仅允许特定身份，可以使用 `AuthorizationPolicy`。
 
-## Compromise types explored
+## 探索妥协类型 {#compromise-types-explored}
 
-Based on the above overview, we will consider the impact on the cluster if various parts of the system are compromised.
-In the real world, there are a variety of different variables around any security attack:
+基于以上概述，我们将考虑系统各个部分受到攻击时对集群的影响。
+在现实世界中，任何安全攻击都存在各种不同的变量：
 
-* How easy it is to execute
-* What prior privileges are required
-* How often it can exploited
-* What the impact is (total remote execution, denial of service, etc).
+* 执行起来有多容易
+* 需要哪些先前权限
+* 被利用的频率
+* 影响是什么（完全远程执行、拒绝服务等）。
 
-In this document, we will primarily consider the worst case scenario: a compromised component means an attacker has complete remote code execution capabilities.
+在本文中，我们将主要考虑最坏的情况：组件被破坏意味着攻击者拥有完整的远程代码执行能力。
 
-### Workload compromise
+### 工作负载妥协 {#workload-compromise}
 
-In this scenario, an application workload (pod) is compromised.
+在这种情况下，应用程序工作负载（Pod）受到影响。
 
-A pod [*may* have access](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#opt-out-of-api-credential-automounting) to its service account token.
-If so, a workload compromise can move laterally from a single pod to compromising the entire service account.
+Pod [**可能**有权访问其服务帐户令牌](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/#opt-out-of-api-credential-automounting)。
+如果是这样，工作负载入侵可能会从单个 Pod 横向扩展到入侵整个服务帐户。
 
 {{< tabset category-name="dataplane" >}}
-{{< tab name="Sidecar mode" category-value="sidecar" >}}
-In the sidecar model, the proxy is co-located with the pod, and runs within the same trust boundary.
-A compromised application can tamper with the proxy through the admin API or other surfaces, including exfiltration of private key material, allowing another agent to impersonate the workload.
-It should be assumed that a compromised workload also includes a compromise of the sidecar proxy.
+{{< tab name="Sidecar 模式" category-value="sidecar" >}}
+在 Sidecar 模型中，代理与 Pod 位于同一位置，并在同一信任边界内运行。
+被入侵的应用程序可以通过管理 API 或其他界面篡改代理，包括泄露私钥材料，
+从而允许另一个代理冒充工作负载。应该假设被入侵的工作负载还包括对 Sidecar 代理的入侵。
 
-Given this, a compromised workload may:
-* Send arbitrary traffic, with or without mutual TLS.
-  These may bypass any proxy configuration, or even the proxy entirely.
-  Note that Istio does not offer egress-based authorization policies, so there is no egress authorization policy bypass occurring.
-* Accept traffic that was already destined to the application. It may bypass policies that were configured in the sidecar proxy.
+鉴于此，受损的工作负载可能会：
 
-The key takeaway here is that while the compromised workload may behave maliciously, this does not give them the ability to bypass policies in _other_ workloads.
+* 发送任意流量，无论是否使用双向 TLS。这些流量可能会绕过任何代理配置，
+  甚至完全绕过代理。请注意，Istio 不提供基于出口的授权策略，因此不会发生出口授权策略绕过。
+* 接受已经发往应用程序的流量。它可能会绕过在 Sidecar 代理中配置的策略。
+
+这里的关键点是，虽然受损的工作负载可能表现恶意，但这并不意味着它们能够绕过其他工作负载中的策略。
 {{< /tab >}}
 
-{{< tab name="Ambient mode" category-value="ambient" >}}
-In ambient mode, the node proxy is not co-located within the pod, and runs in another trust boundary as part of an independent pod.
+{{< tab name="Ambient 模式" category-value="ambient" >}}
+在 Ambient 模式下，节点代理不与 Pod 位于同一位置，而是作为独立 Pod 的一部分在另一个信任边界中运行。
 
-A compromised application may send arbitrary traffic.
-However, they do not have control over the node proxy, which will chose how to handle incoming and outbound traffic.
+受感染的应用程序可能会发送任意流量。但是，它们无法控制节点代理，而节点代理将选择如何处理传入和传出流量。
 
-Additionally, as the pod itself doesn't have access to a service account token to request a mutual TLS certificate, lateral movement possibilities are reduced.
+此外，由于 Pod 本身无法访问服务帐户令牌来请求相互 TLS 证书，因此横向移动的可能性降低了。
 {{< /tab >}}
 {{< /tabset >}}
 
-Istio offers a variety of features that can limit the impact of such a compromise:
-* [Observability](/docs/tasks/observability/) features can be used to identify the attack.
-* [Policies](/docs/tasks/security/authorization/) can be used to restrict what type of traffic a workload can send or receive.
+Istio 提供了多种功能来限制此类攻击的影响：
 
-### Proxy compromise - Sidecars
+* [可观察性](/zh/docs/tasks/observability/)功能可用于识别攻击。
+* [策略](/zh/docs/tasks/security/authorization/)可用于限制工作负载可以发送或接收的流量类型。
 
-In this scenario, a sidecar proxy is compromised.
-Because the sidecar and application reside in the same trust domain, this is functionally equivalent to the [Workload compromise](#workload-compromise).
+### 代理妥协 - Sidecars {#proxy-compromise---sidecars}
 
-### Proxy compromise - Waypoint
+在此场景中，Sidecar 代理被攻陷。由于 Sidecar 和应用程序位于同一信任域中，
+因此这在功能上等同于[工作负载攻陷](#workload-compromise)。
 
-In this scenario, a [waypoint proxy](#gateways-and-waypoints) is compromised.
-While waypoints do not have any privileges for a hacker to exploit, they do serve (potentially) many different services and workloads.
-A compromised waypoint will receive all traffic for these, which it can view, modify, or drop.
+### 代理妥协 - Waypoint {#proxy-compromise---waypoint}
 
-Istio offers the flexibility of [configuring the granularity of a waypoint deployment](/docs/ambient/usage/waypoint/#useawaypoint).
-Users may consider deploying more isolated waypoints if they require stronger isolation.
+在这种情况下，[waypoint 代理](#gateways-and-waypoints)受到攻击。
+虽然 waypoint 没有任何可供黑客利用的权限，但它们确实（可能）提供许多不同的服务和工作负载。
+受到攻击的 waypoint 将接收这些服务和工作负载的所有流量，并可以查看、修改或丢弃这些流量。
 
-Because waypoints run with a distinct identity from the applications they serve, a compromised waypoint does not imply the user's applications can be impersonated.
+Istio 提供了[配置 waypoint 部署粒度](/zh/docs/ambient/usage/waypoint/#useawaypoint)的灵活性。
+如果用户需要更强的隔离性，可以考虑部署更多隔离 waypoint。
 
-### Proxy compromise - Ztunnel
+由于 waypoint 运行时具有与其所服务的应用程序不同的身份，因此受损的 waypoint 并不意味着可以模仿用户的应用程序。
 
-In this scenario, a [ztunnel](#ztunnel) proxy is compromised.
+### 代理妥协 - ztunnel {#proxy-compromise---ztunnel}
 
-A compromised ztunnel gives the attacker control of the networking of the node.
+在这种情况下，[ztunnel](#ztunnel) 代理受到了损害。
 
-Ztunnel has access to private key material for each application running on it's node.
-A compromised ztunnel could have these exfiltrated and used elsewhere.
-However, lateral movement to identities beyond co-located workloads is not possible; each ztunnel is only authorized to access certificates for workloads running on its node, scoping the blast radius of a compromised ztunnel.
+受损的 ztunnel 会让攻击者控制节点的网络。
 
-### Node compromise
+ztunnel 可以访问在其节点上运行的每个应用程序的私钥材料。
+被入侵的 ztunnel 可能会泄露这些材料并在其他地方使用。但是，无法横向移动到共置工作负载之外的身份；
+每个 ztunnel 仅被授权访问在其节点上运行的工作负载的证书，从而确定被入侵的 ztunnel 的受影响范围。
 
-In this scenario, the Kubernetes Node is compromised.
-Both [Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/node/) and Istio are designed to limit the blast radius of a single node compromise, such that
-the compromise of a single node does not lead to a [cluster-wide compromise](#cluster-api-server-compromise).
+### 节点妥协 {#node-compromise}
 
-However, the attack does have complete control over any workloads running on that node.
-For instance, it can compromise any co-located [waypoints](#proxy-compromise---waypoint), the local [ztunnel](#proxy-compromise---ztunnel), any [sidecars](#proxy-compromise---sidecars), any co-located [Istiod instances](#istiod-compromise), etc.
+在此场景中，Kubernetes 节点受到攻击。
+[Kubernetes](https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/node/)
+和 Istio 都旨在限制单个节点攻击的影响半径，
+这样单个节点的攻击不会导致[集群范围的攻击](#cluster-api-server-compromise)。
 
-### Cluster (API Server) compromise
+但是，该攻击确实可以完全控制该节点上运行的所有工作负载。
+例如，它可以破坏任何同地 [waypoint](#proxy-compromise---waypoint)、
+本地 [ztunnel](#proxy-compromise---ztunnel)、
+任何 [Sidecar](#proxy-compromise---sidecars)、
+任何同地 [Istiod 实例](#istiod-compromise)等。
 
-A compromise of the Kubernetes API Server effectively means the entire cluster and mesh are compromised.
-Unlike most other attack vectors, there isn't much Istio can do to control the blast radius of such an attack.
-A compromised API Server gives a hacker complete control over the cluster, including actions such as running `kubectl exec` on arbitrary pods,
-removing any Istio `AuthorizationPolicies`, or even uninstalling Istio entirely.
+### 集群（API 服务器）受损 {#cluster-api-server-compromise}
 
-### Istiod compromise
+Kubernetes API 服务器被攻陷实际上意味着整个集群和网格都被攻陷。
+与大多数其他攻击媒介不同，Istio 无法控制此类攻击的受影响范围。
+被攻陷的 API 服务器让黑客可以完全控制集群，包括在任意 Pod 中运行 `kubectl exec`、
+删除任何 Istio `AuthorizationPolicies` 甚至完全卸载 Istio 等操作。
 
-A compromise of Istiod generally leads to the same result as an [API Server compromise](#cluster-api-server-compromise).
-Istiod is a highly privileged component that should be strongly protected.
-Following the [security best practices](/docs/ops/best-practices/security) is crucial to maintaining a secure cluster.
+### Istiod 妥协 {#istiod-compromise}
+
+Istiod 被攻陷通常会导致与 [API 服务器被攻陷](#cluster-api-server-compromise)相同的结果。
+Istiod 是一个高权限组件，应受到强力保护。
+遵循[安全最佳实践](/zh/docs/ops/best-practices/security)对于维护安全集群至关重要。
