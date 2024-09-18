@@ -38,17 +38,21 @@ to explicitly un-trust all IPs. Envoy and Istio currently disable the flag by de
 in `runtimeValues`.
 
 Mesh-wide example configuration:
+
 ```yaml
 meshConfig:
   defaultConfig:
-    runtimeValues: XXXX
+    runtimeValues:
+      "envoy.reloadable_features.explicit_internal_address_config": "true"
 ```
 
 Per-proxy example configuration:
+
 ```yaml
 annotations:
   proxy.istio.io/config: |
-    runtimeValues: XXXXX
+    runtimeValues:
+      "envoy.reloadable_features.explicit_internal_address_config": "true"
 ```
 
 Note fields in ProxyConfig are not dynamically configured; changes will require restart of workloads to take effect.

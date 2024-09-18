@@ -12,25 +12,6 @@ This release note describes what’s different between Istio 1.22.4 and 1.22.5.
 
 {{< relnote >}}
 
-## Security update
-
-- __CVE-2024-XXXXX__:
-  (CVSS Score 7.5, High): oghttp2 may crash on ObBeginHeadersForStream.
-
-- __CVE-2024-XXXXX__:
-  (CVSS Score 6.5, Moderate): Lack of validation for REQUESTED_SERVER_NAME field for access loggers enables injection of unexpected content into access logs.
-
-- __CVE-2024-XXXXX__:
-  (CVSS Score 6.5, Moderate): Potential for `x-envoy` headers to be manipulated by external sources.
-
-- __CVE-2024-XXXXX__:
-  (CVSS Score 5.3, Moderate): JWT filter crash in the clear route cache with remote JWKs.
-
-- __CVE-2024-XXXXX__:
-  (CVSS Score 6.5, Moderate): Envoy crashes for LocalReply in http async client.
-
 # Changes
 
-- **Fixed** `PILOT_SIDECAR_USE_REMOTE_ADDRESS` functionality on sidecars to support setting internal addresses to mesh network rather than localhost
-to prevent header sanitzation.
-  ([Issue #XXXXX](https://github.com/istio/istio/issues/XXXXX))
+- **Fixed** `PILOT_SIDECAR_USE_REMOTE_ADDRESS` functionality on sidecars to support setting internal addresses to mesh network rather than localhost to prevent header sanitzation if `envoy.reloadable_features.explicit_internal_address_config` is enabled.
