@@ -108,7 +108,7 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
    `requestPrincipal` 属性值为 `testing@secure.istio.io/testing@secure.istio.io`：
 
     {{< text syntax="bash" expandlinks="false" >}}
-    $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode -
+    $ TOKEN=$(curl {{< github_file >}}/security/tools/jwt/samples/demo.jwt -s) && echo "$TOKEN" | cut -d '.' -f2 - | base64 --decode
     {"exp":4685989700,"foo":"bar","iat":1532389700,"iss":"testing@secure.istio.io","sub":"testing@secure.istio.io"}
     {{< /text >}}
 
