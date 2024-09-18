@@ -80,7 +80,7 @@ When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append s
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
     {{< /text >}}
 
 {{< /tab >}}
