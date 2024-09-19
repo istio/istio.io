@@ -56,7 +56,7 @@ If you are using [k3d](https://k3d.io/) with the default Flannel CNI, you must a
     {{< tab name="Helm" category-value="helm" >}}
 
         {{< text syntax=bash >}}
-        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/bin
+        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cni.cniBinDir=/bin
         {{< /text >}}
 
     {{< /tab >}}
@@ -80,7 +80,7 @@ When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append s
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
     {{< /text >}}
 
 {{< /tab >}}
@@ -104,7 +104,7 @@ If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/snap/microk8s/current/args/cni-network --set cniBinDir=/var/snap/microk8s/current/opt/cni/bin
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cni.cniConfDir=/var/snap/microk8s/current/args/cni-network --set cni.cniBinDir=/var/snap/microk8s/current/opt/cni/bin
 
     {{< /text >}}
 
@@ -131,7 +131,7 @@ and capture pods on the node. For example:
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniNetnsDir="/var/run/docker/netns"
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cni.cniNetnsDir="/var/run/docker/netns"
     {{< /text >}}
 
 {{< /tab >}}
