@@ -153,11 +153,11 @@ istio-system   example-istiocontrolplane1-22-0              HEALTHY   11m
 ENDSNIP
 
 snip_canary_upgrade_init() {
-istio-1.23.1/bin/istioctl operator init --revision 1-23-1
+istio-1.23.2/bin/istioctl operator init --revision 1-23-2
 }
 
 snip_cat_operator_yaml() {
-cat example-istiocontrolplane-1-23-1.yaml
+cat example-istiocontrolplane-1-23-2.yaml
 }
 
 ! IFS=$'\n' read -r -d '' snip_cat_operator_yaml_out <<\ENDSNIP
@@ -165,9 +165,9 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
   namespace: istio-system
-  name: example-istiocontrolplane-1-23-1
+  name: example-istiocontrolplane-1-23-2
 spec:
-  revision: 1-23-1
+  revision: 1-23-2
   profile: default
 ENDSNIP
 
@@ -177,7 +177,7 @@ kubectl get pod -n istio-system -l app=istiod
 
 ! IFS=$'\n' read -r -d '' snip_get_pods_istio_system_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-istiod-1-23-1-597475f4f6-bgtcz   1/1     Running   0          64s
+istiod-1-23-2-597475f4f6-bgtcz   1/1     Running   0          64s
 istiod-6ffcc65b96-bxzv5          1/1     Running   0          2m11s
 ENDSNIP
 
@@ -188,7 +188,7 @@ kubectl get services -n istio-system -l app=istiod
 ! IFS=$'\n' read -r -d '' snip_get_svc_istio_system_out <<\ENDSNIP
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
 istiod          ClusterIP   10.104.129.150   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP,853/TCP   2m35s
-istiod-1-23-1   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
+istiod-1-23-2   ClusterIP   10.111.17.49     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP           88s
 ENDSNIP
 
 snip_delete_example_istiocontrolplane() {
