@@ -12,7 +12,7 @@ This release note describes what’s different between Istio 1.22.4 and 1.22.5.
 
 {{< relnote >}}
 
-# Changes
+## Changes
 
 - **Fixed** `PILOT_SIDECAR_USE_REMOTE_ADDRESS` functionality on sidecars to support setting internal addresses to mesh network rather than localhost to prevent header sanitzation if `envoy.reloadable_features.explicit_internal_address_config` is enabled.
 
