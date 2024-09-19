@@ -14,7 +14,7 @@ This release note describes what’s different between Istio 1.22.4 and 1.22.5.
 
 ## Changes
 
-- **Fixed** `PILOT_SIDECAR_USE_REMOTE_ADDRESS` functionality on sidecars to support setting internal addresses to mesh network rather than localhost to prevent header sanitzation if `envoy.reloadable_features.explicit_internal_address_config` is enabled.
+- **Fixed** `PILOT_SIDECAR_USE_REMOTE_ADDRESS` functionality on sidecars to support setting internal addresses to mesh network rather than localhost to prevent header sanitization if `envoy.reloadable_features.explicit_internal_address_config` is enabled.
 
 - **Removed** a change in 1.22.4 to the handling of multiple service VIPs in ServiceEntry.
   ([Issue #52944](https://github.com/istio/istio/issues/52944)),([Issue #52847](https://github.com/istio/istio/issues/52847))

@@ -147,6 +147,7 @@ Arielli
 arm64
 ArtifactHub
 AssemblyScript
+async
 Atlassian
 attestor
 attestors
@@ -648,6 +649,7 @@ ISTIO-SECURITY-2023-001
 ISTIO-SECURITY-2023-002
 ISTIO-SECURITY-2023-003
 ISTIO-SECURITY-2023-004
+ISTIO-SECURITY-2024-006
 istio-system
 istio.io
 istio.io.
@@ -679,6 +681,7 @@ json
 JSON-formatted
 json-transcoder
 jwcrypto
+JWKs
 JWKS-URI
 JWT
 jwt.io
@@ -870,6 +873,7 @@ OAuth
 OAuth2
 oc
 OCI-compliant
+oghttp2
 ok
 Okta
 Onboard
@@ -962,6 +966,7 @@ protos
 proxied
 proxy-config
 Proxy-wasm
+ProxyConfig
 proxying
 Proxyless
 proxyless
@@ -1185,6 +1190,7 @@ UIDs
 uint32
 ulimit
 un-injecting
+un-trust
 uncaptured
 uncomment
 uncommented
