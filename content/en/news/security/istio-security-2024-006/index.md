@@ -1,5 +1,5 @@
 ---
-title: ISTIO-SECURITY-2024-005
+title: ISTIO-SECURITY-2024-006
 subtitle: Security Bulletin
 description: CVEs reported by Envoy.
 cves: [CVE-2024-45807, CVE-2024-45808, CVE-2024-45806, CVE-2024-45809, CVE-2024-45810]
