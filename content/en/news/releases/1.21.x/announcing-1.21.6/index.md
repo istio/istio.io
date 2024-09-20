@@ -16,5 +16,5 @@ This release note describes what’s different between Istio 1.21.5 and 1.21.6.
 
 - **Fixed** `PILOT_SIDECAR_USE_REMOTE_ADDRESS` functionality on sidecars to support setting internal addresses to mesh network rather than localhost to prevent header sanitization if `envoy.reloadable_features.explicit_internal_address_config` is enabled.
 
-- **Fixed** VirtualMachine WorkloadEntry locality label missing during auto registration.
+- **Fixed** `VirtualMachine` `WorkloadEntry` locality label missing during auto registration.
   ([Issue #51800](https://github.com/istio/istio/issues/51800))
