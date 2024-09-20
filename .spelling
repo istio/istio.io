@@ -147,6 +147,7 @@ Arielli
 arm64
 ArtifactHub
 AssemblyScript
+async
 Atlassian
 attestor
 attestors
@@ -384,6 +385,11 @@ CVE-2024-32976
 CVE-2024-34362
 CVE-2024-34363
 CVE-2024-34364
+CVE-2024-45806
+CVE-2024-45807
+CVE-2024-45808
+CVE-2024-45809
+CVE-2024-45810
 CVEs
 cves
 cvss
@@ -643,6 +649,7 @@ ISTIO-SECURITY-2023-001
 ISTIO-SECURITY-2023-002
 ISTIO-SECURITY-2023-003
 ISTIO-SECURITY-2023-004
+ISTIO-SECURITY-2024-006
 istio-system
 istio.io
 istio.io.
@@ -674,6 +681,7 @@ json
 JSON-formatted
 json-transcoder
 jwcrypto
+JWKs
 JWKS-URI
 JWT
 jwt.io
@@ -865,6 +873,7 @@ OAuth
 OAuth2
 oc
 OCI-compliant
+oghttp2
 ok
 Okta
 Onboard
@@ -957,6 +966,7 @@ protos
 proxied
 proxy-config
 Proxy-wasm
+ProxyConfig
 proxying
 Proxyless
 proxyless
@@ -997,6 +1007,7 @@ reimplement
 reimplemented
 reinject
 relabeling
+reloadable
 remediate
 remoteIpBlocks
 repo
@@ -1031,6 +1042,7 @@ Salesforce
 Salmond
 sandboxed
 sandboxing
+sanitization
 Sathish
 Savcı   
 sayin
@@ -1180,6 +1192,7 @@ UIDs
 uint32
 ulimit
 un-injecting
+un-trust
 uncaptured
 uncomment
 uncommented
