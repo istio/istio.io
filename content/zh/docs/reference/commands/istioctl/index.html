@@ -4688,6 +4688,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <pre class="language-bash"><code>  # Retrieve summary about all configuration for a given pod from Envoy.
   istioctl proxy-config all &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about all configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config all deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve full cluster dump as JSON
   istioctl proxy-config all &lt;pod-name[.namespace]&gt; -o json
 
@@ -4775,6 +4778,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <h4 id="istioctl-proxy-config-bootstrap Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full bootstrap configuration for a given pod from Envoy.
   istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt;
+
+  # Retrieve full bootstrap configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config bootstrap deployment/&lt;deployment-name[.namespace]&gt;
 
   # Retrieve full bootstrap without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
@@ -4882,6 +4888,9 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve summary about cluster configuration for a given pod from Envoy.
   istioctl proxy-config clusters &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about cluster configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config clusters deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve cluster summary for clusters with port 9080.
   istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; --port 9080
 
@@ -4969,6 +4978,9 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <h4 id="istioctl-proxy-config-ecds Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full typed extension configuration for a given pod from Envoy.
   istioctl proxy-config ecds &lt;pod-name[.namespace]&gt;
+
+  # Retrieve full typed extension configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config ecds deployment/&lt;deployment-name[.namespace]&gt;
 
   # Retrieve endpoint summary without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
@@ -5072,6 +5084,9 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <h4 id="istioctl-proxy-config-endpoint Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full endpoint configuration for a given pod from Envoy.
   istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt;
+
+  # Retrieve full endpoint configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config endpoint deployment/&lt;deployment-name[.namespace]&gt;
 
   # Retrieve endpoint summary for endpoint with port 9080.
   istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --port 9080
@@ -5186,6 +5201,9 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <h4 id="istioctl-proxy-config-listener Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve summary about listener configuration for a given pod from Envoy.
   istioctl proxy-config listeners &lt;pod-name[.namespace]&gt;
+
+  # Retrieve summary about listener configuration a pod under a deployment from Envoy.
+  istioctl proxy-config deployment/&lt;deployment-name[.namespace]&gt;
 
   # Retrieve listener summary for listeners with port 9080.
   istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; --port 9080
@@ -5456,6 +5474,9 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve summary about route configuration for a given pod from Envoy.
   istioctl proxy-config routes &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about route configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config routes deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve route summary for route 9080.
   istioctl proxy-config route &lt;pod-name[.namespace]&gt; --name 9080
 
@@ -5544,6 +5565,9 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <h4 id="istioctl-proxy-config-secret Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve full secret configuration for a given pod from Envoy.
   istioctl proxy-config secret &lt;pod-name[.namespace]&gt;
+
+  # Retrieve full secret configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config secret deployment/&lt;deployment-name[.namespace]&gt;
 
   # Retrieve full bootstrap without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
