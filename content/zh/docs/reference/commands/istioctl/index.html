@@ -7161,7 +7161,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl ztunnel-config all
 
   # Retrieve full configuration dump of workloads for a given Ztunnel instance.
-  istioctl ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
+  istioctl ztunnel-config all &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
 <h3 id="istioctl-ztunnel-config-certificate">istioctl ztunnel-config certificate</h3>
@@ -7536,7 +7536,7 @@ istioctl ztunnel-config svc [flags]
 <pre class="language-bash"><code>  # Retrieve summary about services configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config services
 
-  # Retrieve full certificate dump of workloads for a given Ztunnel instance.
+  # Retrieve full services dump of workloads for a given Ztunnel instance.
   istioctl ztunnel-config services &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
