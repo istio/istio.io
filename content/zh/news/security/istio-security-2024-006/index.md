@@ -36,7 +36,6 @@ skip_seealso: true
 
 如果您使用 Istio 1.22.0 到 1.22.4 或 1.23.0 到 1.23.1，则会受到影响。
 
-If you deploy an Istio Ingress Gateway, you are potentially vulnerable to `x-envoy` header manipulation by external sources. Envoy previously considered all private IP to be internal by default and as a result, did not sanitize headers from external sources with private IPs. Envoy added support for the flag `envoy.reloadable_features.explicit_internal_address_config` to explicitly un-trust all IPs. Envoy and Istio currently disable the flag by default for backwards compatibility. In future Envoy and Istio release the flag `envoy.reloadable_features.explicit_internal_address_config` will be enabled by default. The Envoy flag can be set mesh-wide or per-proxy via the [ProxyConfig](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) in `runtimeValues`.
 如果您部署了 Istio Ingress Gateway，则可能会受到外部来源的 `x-envoy` 标头操纵。
 Envoy 以前默认将所有私有 IP 视为内部 IP，因此不会清理来自具有私有 IP 的外部来源的标头。
 Envoy 增加了对标志 `envoy.reloadable_features.explicit_internal_address_config` 的支持，
