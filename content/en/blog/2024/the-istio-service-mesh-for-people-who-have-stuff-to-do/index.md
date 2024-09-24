@@ -4,10 +4,10 @@ description: I recently made a contribution to Istio, an open-source service mes
 publishdate: 2024-09-25
 attribution: Luca Cavallin - GitHub
 keywords: [istio]
-target_release: 1.22
+target_release: 1.23
 ---
 
-> Originally published at https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do
+_Originally published at https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do_
 
 I recently made a small contribution to **Istio**, an open-source service mesh
 project. My contribution involved adding a few tests for one of the Istio CLI
@@ -44,7 +44,7 @@ this in three key areas:
    giving you real-time visibility into your services. This helps with
    monitoring, troubleshooting, and performance tuning.
 
-These three areas—traffic management, security, and observability—are key to
+These three areas - traffic management, security, and observability - are key to
 running a healthy microservices architecture, and Istio handles them with ease.
 
 ## Managing Traffic with Istio
@@ -58,7 +58,7 @@ traffic to version 2.
 Here's an example of how you can use Istio to split traffic between two versions
 of a service:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -76,13 +76,13 @@ spec:
         host: payments
         subset: v2
       weight: 10
-```
+{{< /text >}}
 
 In this example:
 - **90% of traffic** is sent to version 1 of the `payments` service, and **10%**
   is sent to version 2.
 - The `hosts` field specifies the domain for which the virtual service is
-  applicable—in this case, `payments.myapp.com`.
+  applicable - in this case, `payments.myapp.com`.
 - The `route` block defines how traffic is split between two subsets of the
   service: `v1` (for version 1) and `v2` (for version 2). The `weight` field
   controls the traffic distribution.
@@ -129,7 +129,7 @@ reducing your system's attack surface.
 Here's an example of an Istio policy that allows only the `billing` service to
 communicate with the `payments` service:
 
-```yaml
+{{< text yaml >}}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -142,7 +142,7 @@ spec:
   - from:
     - source:
         principals: ["billing.myapp.com"]
-```
+{{< /text >}}
 
 In this policy:
 
@@ -185,7 +185,7 @@ traffic.
 
 #### Gateway Configuration
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -200,7 +200,7 @@ spec:
       protocol: HTTP
     hosts:
     - "api.myapp.com"
-```
+{{< /text >}}
 
 What is happening here? The **Gateway** listens on **port 80** for HTTP traffic
 coming to the domain `api.myapp.com`. The `selector` field connects this Gateway
@@ -211,7 +211,7 @@ to the **Istio ingress gateway**, which handles inbound traffic to the mesh.
 Let's say your API server needs to call an external authentication service.
 Here's how you would configure a **Service Entry**:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
@@ -227,7 +227,7 @@ spec:
   resolution: DNS
   endpoints:
   - address: 203.0.113.1
-```
+{{< /text >}}
 
 What is happening here? The **Service Entry** tells Istio how to route traffic
 to an external service (`auth.external-service.com`), which runs on **port 443**
@@ -239,7 +239,7 @@ service's IP address, allowing the API server inside the mesh to send requests.
 
 Here's how you can route traffic within the mesh:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -257,7 +257,7 @@ spec:
     - destination:
         host: api-service
         subset: stable
-```
+{{< /text >}}
 
 What is happening here? The **Virtual Service** defines the traffic routing
 rules. In this case, traffic arriving at `api.myapp.com/v1` through the
@@ -269,7 +269,7 @@ versions of the same service).
 
 Lastly, here's a **Destination Rule** to apply load balancing and mTLS:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -281,7 +281,7 @@ spec:
       simple: ROUND_ROBIN
     tls:
       mode: ISTIO_MUTUAL
-```
+{{< /text >}}
 
 What is happening here? The **Destination Rule** applies policies to the traffic
 routed to the `api-service`. It uses **round-robin** load balancing to
@@ -304,7 +304,7 @@ problems with **retries**, **timeouts**, and **circuit breakers**.
 
 Here's an example of how to configure retries and timeouts in Istio:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
@@ -320,7 +320,7 @@ spec:
       attempts: 3
       perTryTimeout: 2s
     timeout: 5s
-```
+{{< /text >}}
 
 What is happening here? If a request to `my-service` fails, Istio will retry the
 request up to **3 times**. Each retry attempt has a **2-second limit**. The
@@ -329,7 +329,7 @@ waiting for a response.
 
 For circuit breaking, you can use a **Destination Rule** like this:
 
-```yaml
+{{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -347,7 +347,7 @@ spec:
       interval: 10s
       baseEjectionTime: 30s
       maxEjectionPercent: 50
-```
+{{< /text >}}
 
 What is happening here? If `my-service` returns **two consecutive 5xx errors**
 within **10 seconds**, Istio will stop sending traffic to it. The service will
@@ -363,5 +363,5 @@ systems.
 
 If you're running a microservices architecture or planning to scale, Istio can
 help you make your system more resilient and easier to manage. If you have any
-questions or want to learn more about Istio, feel free to reach out—I'd be happy
+questions or want to learn more about Istio, feel free to reach out - I'd be happy
 to share what I've learned.
