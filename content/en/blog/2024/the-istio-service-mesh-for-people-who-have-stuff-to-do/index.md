@@ -7,7 +7,7 @@ keywords: [istio]
 target_release: 1.23
 ---
 
-_Originally published at https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do_
+*Originally published at [lucavall.in](https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do)*
 
 I recently made a small contribution to **Istio**, an open-source service mesh
 project. My contribution involved adding a few tests for one of the Istio CLI
@@ -36,11 +36,11 @@ this in three key areas:
    services. You can split traffic between different versions of a service,
    reroute requests during deployments, or set up retry and timeout policies.
 
-2. **Securing Communication**: Istio makes it easy to enable **mutual TLS
+1. **Securing Communication**: Istio makes it easy to enable **mutual TLS
    (mTLS)**. This ensures that all communication between services is encrypted
    and authenticated, keeping unauthorized services out.
 
-3. **Observability**: Istio automatically collects metrics, logs, and traces,
+1. **Observability**: Istio automatically collects metrics, logs, and traces,
    giving you real-time visibility into your services. This helps with
    monitoring, troubleshooting, and performance tuning.
 
@@ -171,10 +171,10 @@ for managing network traffic:
 
 1. **Service Entry**: Allows external services to communicate with services
    inside the mesh and the other way around.
-2. **Virtual Service**: Defines how traffic is routed inside the mesh.
-3. **Destination Rule**: Applies traffic policies, such as load balancing or
+1. **Virtual Service**: Defines how traffic is routed inside the mesh.
+1. **Destination Rule**: Applies traffic policies, such as load balancing or
    mTLS, to the services.
-4. **Gateways**: Manages traffic coming into and going out of the mesh.
+1. **Gateways**: Manages traffic coming into and going out of the mesh.
 
 ### Example Configuration: Gateway, Service Entry, Virtual Service, and Destination Rule
 
