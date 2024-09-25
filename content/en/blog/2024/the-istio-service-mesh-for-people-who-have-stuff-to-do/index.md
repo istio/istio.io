@@ -7,7 +7,7 @@ keywords: [istio]
 target_release: 1.23
 ---
 
-*Originally published on* [Luca's blog](https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do).
+_Originally published at_ [lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do](https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do).
 
 I recently made a small contribution to **Istio**, an open-source service mesh
 project. My contribution involved adding a few tests for one of the Istio CLI
