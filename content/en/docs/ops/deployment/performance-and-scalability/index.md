@@ -92,7 +92,7 @@ request rate doesn't affect the memory consumption.
 
 ### Latency
 
-Since Istio injects a sidecar proxy or ztunnel proxy on the data path, latency is an important
+Since Istio adds a sidecar proxy or ztunnel proxy on the data path, latency is an important
 consideration.
 Every feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
 
