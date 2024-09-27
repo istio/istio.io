@@ -41,10 +41,11 @@ primary and canary installations.
 {{< boilerplate crd-upgrade-123 >}}
 
 1. Upgrade the Istio base chart to ensure all cluster-wide resources are up-to-date
+
     {{< text bash >}}
     $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
-     
+
 1. Install a canary version of the Istio discovery chart by setting the revision
    value:
 
@@ -92,7 +93,7 @@ primary and canary installations.
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. Upgrade the Istio base chart again, this time making the new `canary` revision the clusterwide default.
+1. Upgrade the Istio base chart again, this time making the new `canary` revision the cluster-wide default.
 
     {{< text bash >}}
     $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system

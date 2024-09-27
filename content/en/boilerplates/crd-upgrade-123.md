@@ -12,4 +12,5 @@ You can resolve this with a one-time migration using the following `kubectl` com
     $ kubectl annotate crds -l chart=istio "meta.helm.sh/release-name=istio-base"
     $ kubectl annotate crds -l chart=istio "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
     {{< /text >}}
+
 {{< /warning >}}
