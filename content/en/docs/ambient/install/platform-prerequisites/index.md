@@ -221,6 +221,9 @@ applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio i
       ingress:
       - fromCIDR:
         - "169.254.7.127/32"
+      # Ensure we do not trigger the default deny-all
+      enableDefaultDeny:
+        ingress: false
     {{< /text >}}
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
