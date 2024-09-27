@@ -4,7 +4,7 @@ description: Platform-specific prerequisites for installing Istio in ambient mod
 weight: 2
 aliases:
   - /docs/ops/ambient/install/platform-prerequisites
-  - /latest/docs/ops/ambient/install/platform-prerequisites  
+  - /latest/docs/ops/ambient/install/platform-prerequisites
 owner: istio/wg-environments-maintainers
 test: no
 ---
@@ -200,6 +200,6 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
         - "169.254.7.127/32"
     {{< /text >}}
 
-    This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster. 
+    This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
