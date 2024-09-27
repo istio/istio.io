@@ -1,6 +1,6 @@
 ---
 title: Ambient APIs
-description: Understanding ambient APIs and its status
+description: Understanding ambient APIs and its status.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
@@ -12,10 +12,10 @@ This page lists all the user facing APIs relevant to the ambient mode and its fe
 
 | Name | Status |
 | ------------------------------- | -------------------------- |
-| istio.io/dataplane-mode | Beta |
-| istio.io/use-waypoint | Beta |
-| istio.io/use-waypoint-namespace | Beta |
-| istio.io/waypoint-for | Beta |
+| `istio.io/dataplane-mode` | Beta |
+| `istio.io/use-waypoint` | Beta |
+| `istio.io/use-waypoint-namespace` | Beta |
+| `istio.io/waypoint-for` | Beta |
 
 TODO: add link to labels page for each when 3307 is merged.
 
@@ -25,9 +25,9 @@ Below are annotations that can be used to customize your waypoint proxies:
 
 | Name | Status |
 | ------------------------------- | -------------------------- |
-| gateway.istio.io/service-account | Alpha |
-| ambient.istio.io/waypoint-inbound-binding | Alpha |
-| gateway.istio.io/name-override | Alpha |
+| `gateway.istio.io/service-account` | Alpha |
+| `ambient.istio.io/waypoint-inbound-binding` | Alpha |
+| `gateway.istio.io/name-override` | Alpha |
 
 TODO: add link to annotations page for each when 3307 is merged.
 
