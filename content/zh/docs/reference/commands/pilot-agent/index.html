@@ -1295,6 +1295,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
 </tr>
 <tr>
+<td><code>ISTIO_META_ENABLE_DNS_SERVER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set to true, starts the DNS server on :15053. This won&#39;t automatically capture the DNS traffic and can be used when we want Gateways to resolve DNS using this as Resolver for use cases like Dynamic Forward Proxy</td>
+</tr>
+<tr>
 <td><code>ISTIO_MULTIROOT_MESH</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
