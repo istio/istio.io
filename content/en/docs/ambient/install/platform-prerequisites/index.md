@@ -206,7 +206,7 @@ The following configurations apply to all platforms, when certain {{< gloss "CNI
 `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
 1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
 1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
-applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode, will cause `kubelet` health probes (which are by-default exempted from NetworkPolicy enforcement by Cilium) to be blocked.
+applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
     This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
 
@@ -217,10 +217,15 @@ applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio i
       name: "allow-ambient-hostprobes"
     spec:
       description: "Allows SNAT-ed kubelet health check probes into ambient pods"
+      enableDefaultDeny:
+        egress: false
+        ingress: false
       endpointSelector: {}
       ingress:
       - fromCIDR:
         - "169.254.7.127/32"
     {{< /text >}}
+
+    This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
