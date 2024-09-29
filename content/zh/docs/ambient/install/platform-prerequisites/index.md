@@ -225,9 +225,11 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
    目前不支持通过 `bpf.masquerade=true` 启用 BPF 伪装，
    这会导致 Istio Ambient 中的 Pod 健康检查无法正常工作。
    Cilium 的默认 iptables 伪装实现应该可以继续正常运行。
-1. 由于 Cilium 管理节点身份并在内部允许节点级健康探针到 Pod 的白名单，
-   所以在 Cilium CNI 安装下的 Istio Ambient 模式中应用 default-DENY 的 `NetworkPolicy`
-   将会导致（Cilium 默认免于执行 `NetworkPolicy`的）`kubelet` 健康探针被阻塞。
+1. 由于 Cilium 管理节点身份的方式以及在内部将节点级健康探针列入 Pod
+   的白名单的方式，在 Ambient 模式下在 Istio 底层的 Cilium CNI
+   安装中应用任何默认 DENY `NetworkPolicy` 都将导致 `kubelet`
+   健康探测（默认情况下 Cilium 会默默地免除所有策略实施）被阻止。
+   这是因为 Istio 使用 Cilium 无法识别的链路本地 SNAT 地址，并且 Cilium 没有免除链路本地地址执行策略的选项。
 
     这可以通过应用以下 `CiliumClusterWideNetworkPolicy` 来解决：
 
@@ -238,11 +240,16 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
       name: "allow-ambient-hostprobes"
     spec:
       description: "Allows SNAT-ed kubelet health check probes into ambient pods"
+      enableDefaultDeny:
+        egress: false
+        ingress: false
       endpointSelector: {}
       ingress:
       - fromCIDR:
         - "169.254.7.127/32"
     {{< /text >}}
+
+    除非您的集群中已经应用了其他默认拒绝的 `NetworkPolicies` 或 `CiliumNetworkPolicies`，否则不需要覆盖此策略。
 
     更多细节请参阅 [Issue #49277](https://github.com/istio/istio/issues/49277)
     和 [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy)。
