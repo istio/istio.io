@@ -71,7 +71,7 @@ $ export OLD_REVISION=istio-1-21-2
 
 The cluster-wide Custom Resource Definitions (CRDs) must be upgraded prior to the deployment of a new version of the control plane:
 
-{{< text syntax=bash snip_id=upgrade-crds >}}
+{{< text syntax=bash snip_id=upgrade_crds >}}
 $ helm upgrade istio-base istio/base -n istio-system
 {{< /text >}}
 

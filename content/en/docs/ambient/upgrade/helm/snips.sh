@@ -41,7 +41,7 @@ export REVISION=istio-1-22-1
 export OLD_REVISION=istio-1-21-2
 }
 
-snip_upgrade() {
+snip_upgrade_crds() {
 helm upgrade istio-base istio/base -n istio-system
 }
 
