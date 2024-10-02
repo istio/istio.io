@@ -74,12 +74,6 @@ Bookinfo 应用中的几个微服务是由不同的编程语言编写的。
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
-    {{< warning >}}
-    如果您使用 OpenShift，请确保按照
-    [OpenShift 设置页面](/zh/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars)中所述，
-    为命名空间上的服务账户授予适当的权限。
-    {{< /warning >}}
-
 1. 使用 `kubectl` 命令来部署应用：
 
     {{< text bash >}}
