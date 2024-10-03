@@ -140,21 +140,11 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 }
 
 ! IFS=$'\n' read -r -d '' snip_enable_with_external_authorization_3_out <<\ENDSNIP
-{
-  "headers": {
-    "Accept": "*/*",
-    "Host": "httpbin:8000",
-    "User-Agent": "curl/7.76.0-DEV",
-    "X-B3-Parentspanid": "430f770aeb7ef215",
-    "X-B3-Sampled": "0",
-    "X-B3-Spanid": "60ff95c5acdf5288",
-    "X-B3-Traceid": "fba72bb5765daf5a430f770aeb7ef215",
-    "X-Envoy-Attempt-Count": "1",
-    "X-Ext-Authz": "allow",
-    "X-Ext-Authz-Check-Result": "allowed",
-    "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=e5178ee79066bfbafb1d98044fcd0cf80db76be8714c7a4b630c7922df520bf2;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
-  }
-}
+...
+"X-Ext-Authz-Check-Result": [
+  "allowed"
+],
+...
 ENDSNIP
 
 snip_enable_with_external_authorization_4() {

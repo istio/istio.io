@@ -80,11 +80,11 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_5() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | grep "X-Jwt-Claim-Foo" | sed -e 's/^[ \t]*//'
+kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | jq '.headers["X-Jwt-Claim-Foo"][0]'
 }
 
 ! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out <<\ENDSNIP
-"X-Jwt-Claim-Foo": "bar"
+"bar"
 ENDSNIP
 
 snip_clean_up_1() {
