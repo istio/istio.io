@@ -103,15 +103,6 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 < HTTP/1.1 418 Unknown
 < server: envoy
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
 ENDSNIP
 
 snip_test_the_access_log_2() {
