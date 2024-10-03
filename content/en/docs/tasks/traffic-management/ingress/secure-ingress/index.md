@@ -251,15 +251,6 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
     {{< /text >}}
 
     The `httpbin` service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
@@ -282,15 +273,6 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
     {{< /text >}}
 
 1) If you try to access `httpbin` using the previous certificate chain, the attempt now fails:
@@ -490,21 +472,14 @@ EOF
     ...
     {{< /text >}}
 
-1) Send an HTTPS request to `httpbin.example.com` and still get a teapot in return:
+1) Send an HTTPS request to `httpbin.example.com` and still get [HTTP 418](https://datatracker.ietf.org/doc/html/rfc2324) in return:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    server: envoy
     {{< /text >}}
 
 ### Configure a mutual TLS ingress gateway
@@ -628,15 +603,9 @@ EOF
       --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
       "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/1.1 418 Unknown
+    server: envoy
+    ...
     {{< /text >}}
 
 ## More info

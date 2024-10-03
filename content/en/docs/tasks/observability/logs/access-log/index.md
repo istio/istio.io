@@ -120,15 +120,6 @@ The following table shows an example using the default access log format for a r
     < HTTP/1.1 418 Unknown
     < server: envoy
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
     {{< /text >}}
 
 1.  Check `sleep`'s log:
