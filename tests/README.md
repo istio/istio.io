@@ -274,12 +274,12 @@ expected output. The framework includes the following built-in verify functions:
    Runs `func` and confirms that it fails (i.e., non-zero return code). This function is useful
    for testing commands that demonstrate configurations that are expected to fail.
 
-## Running the Tests
+## Running the Tests Locally
 
-The following command will run all the doc tests within a `kube` environment:
+`make doc.test` will stand up a `kube` cluster named `istio-testing` with `KinD`, and run the tests in it:
 
 ```bash
-make doc.test
+TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
 ```
 
 The `make doc.test` target can be passed two optional environment variables: `TEST` and `TIMEOUT`.
@@ -288,18 +288,24 @@ The `make doc.test` target can be passed two optional environment variables: `TE
 For example, the following command will only run the tests under `content/en/docs/tasks/traffic-management`:
 
 ```bash
-make doc.test TEST=tasks/traffic-management
+TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test TEST=tasks/traffic-management
 ```
 
 You can also run one or more individual test by listing the full test names separated by commas. For example:
 
 ```bash
-make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
+TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test TEST=tasks/traffic-management/request-routing,tasks/traffic-management/fault-injection
 ```
 
 `TIMEOUT` specifies a time limit exceeding which all tests will halt, and the default value is 30 minutes (`30m`).
 
 You can also find this information by running `make doc.test.help`.
+
+### Relation to `istio/istio` repository
+
+When running the tests locally, the version of istio used is inferred from the `go.mod` `istio.io/istio vx.x.x` reference - in other words, if that reference is `istio.io/istio v0.0.0-20241002191830-e579679ea0ea`, the test scripts will clone and use `istio/istio` branch `master@e579679ea0ea` for all the doc tests.
+
+Note that you may also set the HUB and TAG environment variables to use a particular Istio build when running tests. If unset, their default values will be inferred from the `go.mod` reference.
 
 ### Notes
 
@@ -312,18 +318,6 @@ error as the Istio control plane is being started. Adding a config when creating
    ```sh
    kind create cluster --name istio-test --config prow/config/default.yaml
    ```
-
-1. When using `kind` clusters on a Mac, an extra env var is needed (ADDITIONAL_CONTAINER_OPTIONS="--network host").
-   Use the following command:
-
-   ```sh
-   TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test
-   ```
-
-   If you encounter `couldn't get current server API group list: Get "...": dial tcp ... connect: connection refused`, the option above also works.
-
-1. Set the HUB and TAG environment variables to use a particular Istio build when running tests.
-   If unset, their default values will match those used by the prow tests.
 
 1. For help debugging, you can enable script output to the `stdout` with the command-line flag
    `--log_output_level=script:debug`. This is useful when you're running in an IDE and don't
