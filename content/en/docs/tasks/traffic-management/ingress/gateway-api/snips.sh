@@ -83,7 +83,9 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
+...
 HTTP/1.1 200 OK
+...
 server: istio-envoy
 ...
 ENDSNIP

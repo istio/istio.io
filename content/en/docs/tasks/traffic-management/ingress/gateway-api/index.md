@@ -121,7 +121,9 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
