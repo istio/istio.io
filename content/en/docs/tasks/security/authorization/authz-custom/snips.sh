@@ -140,15 +140,13 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 }
 
 ! IFS=$'\n' read -r -d '' snip_enable_with_external_authorization_3_out <<\ENDSNIP
-"{
-   "headers": {
-    ...
-     "X-Ext-Authz-Check-Result": [
-       "allowed"
-     ],
-    ...
-   }
-}"
+{
+ "headers": {
+...
+   "X-Ext-Authz-Check-Result": [
+     "allowed"
+   ],
+...
 ENDSNIP
 
 snip_enable_with_external_authorization_4() {
