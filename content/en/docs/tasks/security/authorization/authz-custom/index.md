@@ -192,16 +192,14 @@ The external authorizer is now ready to be used by the authorization policy.
 1. Verify a request to path `/headers` with header `x-ext-authz: allow` is allowed by the sample `ext_authz` server:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s
-    {
-     "headers": {
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s | jq '.headers'
     ...
-       "X-Ext-Authz-Check-Result": [
-         "allowed"
-       ],
+      "X-Ext-Authz-Check-Result": [
+        "allowed"
+      ],
     ...
     {{< /text >}}
-    
+
 1. Verify a request to path `/ip` is allowed and does not trigger the external authorization:
 
     {{< text bash >}}

@@ -136,16 +136,14 @@ denied by ext_authz for not found header `x-ext-authz: allow` in the request
 ENDSNIP
 
 snip_enable_with_external_authorization_3() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s
+kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s | jq '.headers'
 }
 
 ! IFS=$'\n' read -r -d '' snip_enable_with_external_authorization_3_out <<\ENDSNIP
-{
- "headers": {
 ...
-   "X-Ext-Authz-Check-Result": [
-     "allowed"
-   ],
+  "X-Ext-Authz-Check-Result": [
+    "allowed"
+  ],
 ...
 ENDSNIP
 
