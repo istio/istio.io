@@ -1,32 +1,45 @@
 ---
-title: "Can Your Platform Do Policy? Accelerate Teams With Platform L7 Policy Functionality"
-description: Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA and get back team focus on what matters most.
+title: "Can Your Platform Do Policy?"
+description: Dive into how Istio and Open Policy Agent (OPA) can be used to enforce layer 7 policies in your platform.
 publishdate: 2024-08-01
 attribution: "Antonio Berben (Solo.io), Charlie Egan (Styra)"
 keywords: [istio,opa,policy,platform,authorization]
 ---
 
-The era of the platform is here. Behind every great application team, is a great platform, and a great platform _team_. Platforms offer resources and shared functionality to teams so they don't need to build everything from scratch. Platform teams aren’t short of work either, but now is a great time to ask the question: what’s the highest value platform feature you can offer the tenants of your platform?
+Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA, and get back team focus on what matters most.
 
-Often work is given directly to application teams to implement, but there are some features that are best implemented once, and offered as a service to all teams. One feature within the reach of most platform teams is offering a standard, responsive system for Layer 7 application authorization policy. Policy as code enables teams to lift authorization decisions out of the application layer into a lightweight and performant decoupled system. It might sound like a challenge but it doesn't have to be with the right tools for the job.
+Shared computing platforms offer resources and shared functionality to tenant teams so that they don’t need to build everything from scratch themselves. While it can sometimes be hard to balance all the requests from tenants, it’s important that platform teams ask the question: what’s the highest value feature we can offer our tenants?
 
-We're going to dive into how Istio and Open Policy Agent (OPA) can be used to enforce layer 7 policies in your platform. We'll show you how to get started with a simple example.
+Often work is given directly to application teams to implement, but there are some features that are best implemented once, and offered as a service to all teams. One feature within the reach of most platform teams is offering a standard, responsive system for Layer 7 application authorization policy. Policy as code enables teams to lift authorization decisions out of the application layer into a lightweight and performant decoupled system. It might sound like a challenge, but it doesn't have to be, with the right tools for the job.
 
-Hopefully you will come to see how Istio and Open Policy Agent (OPA) are solid option to deliver this valuable feature, quickly and transparently to application team everywhere in the business - while also providing the data the security teams need for audit and compliance.
+We're going to dive into how Istio and Open Policy Agent (OPA) can be used to enforce Layer 7 policies in your platform. We'll show you how to get started with a simple example. You will come to see how this combination is a solid option to deliver policy quickly and transparently to application team everywhere in the business, while also providing the data the security teams need for audit and compliance.
 
 ## Try it out
 
-When integrated with Istio, OPA can be used to enforce fine-grained access control policies for microservices. This guide shows how to integrate Istio with OPA to enforce access control policies for a simple microservices application.
+When integrated with Istio, OPA can be used to enforce fine-grained access control policies for microservices. This guide shows how to enforce access control policies for a simple microservices application.
 
 ### Prerequisites
 
 - A Kubernetes cluster with Istio installed.
 - The `istioctl` command-line tool installed.
 
-Install Istio:
+Configure your [mesh options](/docs/reference/config/istio.mesh.v1alpha1/) to enable OPA:
 
 {{< text bash >}}
-$ istioctl install -y -f iop.yaml
+$ kubectl create -f - <<EOF
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+    accessLogFormat: |
+      [%START_TIME%] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%" "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS% "%UPSTREAM_TRANSPORT_FAILURE_REASON%" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME% traceID=%REQ(x-b3-traceid)%
+    extensionProviders:
+    - name: "opa.local"
+      envoyExtAuthzGrpc:
+        service: "opa.opa.svc.cluster.local"
+        port: "9191"
+EOF
 {{< /text >}}
 
 Notice that in the configuration, we define an `extensionProviders` section that points to the OPA standalone installation.
@@ -37,7 +50,7 @@ Deploy the sample application. Httpbin is a well-known application that can be u
 $ kubectl create ns my-app
 $ kubectl label namespace my-app istio-injection=enabled
 
-$ kubectl apply -f apps.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/httpbin/httpbin.yaml -n my-app
 {{< /text >}}
 
 Deploy OPA. It will fail because it expects a `configMap` containing the default Rego rule to use. This `configMap` will be deployed later in our example.
@@ -46,16 +59,102 @@ Deploy OPA. It will fail because it expects a `configMap` containing the default
 $ kubectl create ns opa
 $ kubectl label namespace opa istio-injection=enabled
 
-$ kubectl apply -f opa.yaml
+$ kubectl create -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: opa
+  name: opa
+  namespace: opa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opa
+  template:
+    metadata:
+      labels:
+        app: opa
+    spec:
+      containers:
+      - image: openpolicyagent/opa:0.61.0-envoy
+        name: opa
+        args:
+          - "run"
+          - "--server"
+          - "--config-file=/config/config.yaml"
+          - "--log-level=debug" # Uncomment this line to enable debug logs
+          - "--diagnostic-addr=0.0.0.0:8282"
+          - "/policy/policy.rego" # Default policy
+        volumeMounts:
+          - mountPath: "/config"
+            name: opa-config
+          - mountPath: "/policy"
+            name: opa-policy
+      volumes:
+        - name: opa-config
+          configMap:
+            name: opa-config
+        - name: opa-policy
+          configMap:
+            name: opa-policy
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-config
+  namespace: opa
+data:
+  config.yaml: |
+    # Here the OPA configuration you can find in the offcial documention
+    decision_logs:
+      console: true
+    plugins:
+      envoy_ext_authz_grpc:
+        addr: ":9191"
+        path: mypackage/mysubpackage/myrule # Default path for grpc plugin
+    # Here you can add your own configuration with services and bundles
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opa
+  namespace: opa
+  labels:
+    app: opa
+spec:
+  ports:
+    - port: 9191
+      protocol: TCP
+      name: grpc
+  selector:
+    app: opa
+---
+EOF
 {{< /text >}}
 
 Deploy the `AuthorizationPolicy` to define which services will be protected by OPA.
 
 {{< text bash >}}
-$ kubectl apply -f authorizationPolicy.yaml
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: my-opa-authz
+  namespace: istio-system # This enforce the policy on all the mesh being istio-system the mesh config namespace
+spec:
+  selector:
+    matchLabels:
+      ext-authz: enabled
+  action: CUSTOM
+  provider:
+    name: "opa.local"
+  rules: [{}] # Empty rules, it will apply to selectors with ext-authz: enabled label
+EOF
 {{< /text >}}
 
-Notice that in this resource we define the OPA `extensionProvider` you configured in the Istio installation:
+Notice that in this resource, we define the OPA `extensionProvider` you set in the Istio configuration:
 
 {{< text yaml >}}
 [...]
@@ -66,16 +165,14 @@ Notice that in this resource we define the OPA `extensionProvider` you configure
 
 ## How it works
 
-When applying the `AuthorizationPolicy`, the Istio control plane (istiod) sends the required configurations to the istio-proxy (envoy) of the selected services in the policy. Envoy will then send the request to the OPA server to check if the request is allowed or not.
+When applying the `AuthorizationPolicy`, the Istio control plane (istiod) sends the required configurations to the sidecar proxy (Envoy) of the selected services in the policy. Envoy will then send the request to the OPA server to check if the request is allowed or not.
 
 {{< image width="75%"
     link="./opa1.png"
     alt="Istio and OPA"
     >}}
 
-Istio-proxy is an Envoy proxy that is deployed as a sidecar container in the same pod as the application container. The Envoy proxy works by configuring filters in a chain.
-
-One of those filters is `ext_authz`, which implements `ext_authz` protobuf service with a specific message. Any server implementing the protobuf can connect to the Envoy proxy and provide the authorization decision. OPA is one of those servers.
+The Envoy proxy works by configuring filters in a chain. One of those filters is `ext_authz`, which implements `ext_authz` protobuf service with a specific message. Any server implementing the protobuf can connect to the Envoy proxy and provide the authorization decision. OPA is one of those servers.
 
 {{< image width="75%"
     link="./opa2.png"
@@ -106,7 +203,7 @@ In the configuration, you have enabled the Envoy plugin and the port which will 
 [...]
 {{< /text >}}
 
-Reviewing the [Envoy's Authorization service documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto), you can see that the message has these attributes:
+Reviewing [Envoy's Authorization service documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto), you can see that the message has these attributes:
 
 {{< text json >}}
 OkHttpResponse
@@ -125,7 +222,7 @@ OkHttpResponse
 }
 {{< /text >}}
 
-This means that based on the response from the Authz server, Envoy can add or remove headers, query parameters, and even change the response status. OPA can do this as well, as documented in the [OPA's documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls).
+This means that based on the response from the Authz server, Envoy can add or remove headers, query parameters, and even change the response status. OPA can do this as well, as documented in the [OPA documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls).
 
 ## Testing
 
@@ -140,8 +237,31 @@ $ kubectl -n my-app run --image=curlimages/curl curly -- /bin/sleep 100d
 Apply the first Rego rule and restart the OPA deployment:
 
 {{< text bash >}}
-$ kubectl apply -f opa-example-1-configmap.yaml
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: opa
+data:
+  policy.rego: |
+    package mypackage.mysubpackage
 
+    import rego.v1
+
+    default myrule := false
+
+    myrule if {
+      input.attributes.request.http.headers["x-force-authorized"] == "enabled"
+    }
+
+    myrule if {
+      input.attributes.request.http.headers["x-force-authorized"] == "true"
+    }
+EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl rollout restart deployment -n opa
 {{< /text >}}
 
@@ -168,7 +288,52 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}
 Now the more advanced rule. Apply the second Rego rule and restart the OPA deployment:
 
 {{< text bash >}}
-$ kubectl apply -f opa-example-2-configmap.yaml
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: opa
+data:
+  policy.rego: |
+    package mypackage.mysubpackage
+
+    import rego.v1
+
+    request_headers := input.attributes.request.http.headers
+
+    force_unauthenticated if request_headers["x-force-unauthenticated"] == "enabled"
+
+    default allow := false
+
+    allow if {
+      not force_unauthenticated
+      request_headers["x-force-authorized"] == "true"
+    }
+
+    default status_code := 403
+
+    status_code := 200 if allow
+
+    status_code := 401 if force_unauthenticated
+
+    default body := "Unauthorized Request"
+
+    body := "Authentication Failed" if force_unauthenticated
+
+    myrule := {
+      "body": body,
+      "http_status": status_code,
+      "allowed": allow,
+      "headers": {"x-validated-by": "my-security-checkpoint"},
+      "response_headers_to_add": {"x-add-custom-response-header": "added"},
+      "request_headers_to_remove": ["x-force-authorized"],
+      "dynamic_metadata": {"my-new-metadata": "my-new-value"},
+    }
+EOF
+{{< /text >}}
+
+{{< text bash >}}
 $ kubectl rollout restart deployment -n opa
 {{< /text >}}
 
@@ -183,9 +348,9 @@ myrule["body"] := body
 myrule["http_status"] := status_code
 {{< /text >}}
 
-And those are the values that will be returned to the Envoy proxy from the OPA Server. Envoy will use those values to modify the request and response.
+Those are the values that will be returned to the Envoy proxy from the OPA server. Envoy will use those values to modify the request and response.
 
-Notice that `allowed` is required when returning a JSON object instead of only true/false. This can be found in the OPA documentation [here](https://www.openpolicyagent.org/docs/latest/envoy-primer/#output-document).
+Notice that `allowed` is required when returning a JSON object instead of only true/false. This can be found [in the OPA documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#output-document).
 
 #### Change returned body
 
@@ -235,13 +400,7 @@ Finally, you can pass data to the following Envoy filters using `dynamic_metadat
     alt="Metadata"
     >}}
 
-To do so, review the access log format defined in IstioOperator:
-
-{{< text bash >}}
-$ cat iop.yaml
-{{< /text >}}
-
-You will see this access logs format:
+To do so, review the access log format you set earlier:
 
 {{< text plain >}}
 [...]
@@ -250,13 +409,13 @@ You will see this access logs format:
 [...]
 {{< /text >}}
 
-The "DYNAMIC_METADATA" is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name "envoy.filters.http.ext_authz" is created automatically by Istio. You could verify this by dumping the Envoy configuration:
+The "DYNAMIC_METADATA" is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name "envoy.filters.http.ext_authz" is created automatically by Istio. You can verify this by dumping the Envoy configuration:
 
 {{< text bash >}}
 $ istioctl pc all deploy/httpbin -n my-app -oyaml | grep envoy.filters.http.ext_authz
 {{< /text >}}
 
-And you will see the configurations for the filter.
+You will see the configurations for the filter.
 
 Let's test the dynamic metadata. In the advance rule, you are creating a new metadata entry: `{"my-new-metadata": "my-new-value"}`.
 
@@ -278,10 +437,3 @@ You will see in the output the new attributes configured by OPA Rego rules:
 ## Conclusion
 
 In this guide, we have shown how to integrate Istio and OPA to enforce policies for a simple microservices application. We also showed how to use Rego to modify the request and response attributes. This is the foundational example for building a platform-wide policy system that can be used by all application teams.
-
-Some links:
-
-<https://www.openpolicyagent.org/docs/latest/management-decision-logs/>
-<https://www.openpolicyagent.org/docs/latest/envoy-tutorial-istio/>
-<https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ext_authz_filter.html>
-Envoy examples at <https://play.openpolicyagent.org>
