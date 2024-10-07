@@ -178,17 +178,12 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    "{
-      "headers": {
-        "Accept": [
-          "*/*"
-        ],
-        "Host": [
-          "httpbin.example.com"
-        ],
-        "My-Added-Header": [
-          "added-value"
-        ],
+    {
+     "headers": {
+    ...
+       "My-Added-Header": [
+         "added-value"
+       ],
     ...
     {{< /text >}}
 
