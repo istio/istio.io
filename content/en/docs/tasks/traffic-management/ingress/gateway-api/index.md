@@ -177,13 +177,9 @@ In this example, we will deploy a simple application and expose it externally us
 1.  Access `/headers` again and notice header `My-Added-Header` has been added to the request:
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    {
-     "headers": {
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
     ...
-       "My-Added-Header": [
-         "added-value"
-       ],
+    "added-value"
     ...
     {{< /text >}}
 

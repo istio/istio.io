@@ -132,16 +132,12 @@ EOF
 }
 
 snip_configuring_a_gateway_7() {
-curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
-{
- "headers": {
 ...
-   "My-Added-Header": [
-     "added-value"
-   ],
+"added-value"
 ...
 ENDSNIP
 
