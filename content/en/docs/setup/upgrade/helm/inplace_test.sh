@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 source "content/en/docs/setup/upgrade/helm/common.sh"
+source "content/en/boilerplates/snips/crd-upgrade-123.sh"
 
 set -e
 set -u
@@ -21,6 +22,9 @@ set -o pipefail
 
 # @setup profile=none
 _install_istio_helm
+
+# This can be dropped once tests start pulling 1.24 charts
+bpsnip_crd_upgrade_123_adopt_legacy_crds
 
 _rewrite_helm_repo snip_in_place_upgrade_1
 _rewrite_helm_repo snip_in_place_upgrade_2

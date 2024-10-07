@@ -20,7 +20,7 @@
 #          boilerplates/crd-upgrade-123.md
 ####################################################################################################
 
-bpsnip_crd_upgrade_123_install_experimental_crds() {
+bpsnip_crd_upgrade_123_adopt_legacy_crds() {
 kubectl label crds -l chart=istio -l app.kubernetes.io/part-of=istio "app.kubernetes.io/managed-by=Helm"
 kubectl annotate crds -l chart=istio -l app.kubernetes.io/part-of=istio "meta.helm.sh/release-name=istio-base" # replace with actual Helm release name, if different from the documentation default
 kubectl annotate crds -l chart=istio -l app.kubernetes.io/part-of=istio "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
