@@ -136,17 +136,12 @@ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
-"{
-  "headers": {
-    "Accept": [
-      "*/*"
-    ],
-    "Host": [
-      "httpbin.example.com"
-    ],
-    "My-Added-Header": [
-      "added-value"
-    ],
+{
+ "headers": {
+...
+   "My-Added-Header": [
+     "added-value"
+   ],
 ...
 ENDSNIP
 
