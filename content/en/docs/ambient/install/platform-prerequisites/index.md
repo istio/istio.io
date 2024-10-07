@@ -39,6 +39,10 @@ spec:
       - system-node-critical
 {{< /text >}}
 
+### Amazon Elastic Kubernetes Service (EKS)
+
+If you are using EKS with Amazon's VPC CNI **enabled**, [`POD_SECURITY_GROUP_ENFORCING_MODE` must be explicitly set to `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), or pod health probes (which are by-default silently exempted from all policy enforcement by AWS VPC CNI) will fail. This is because Istio uses a link-local SNAT address for kubelet health probes, which AWS VPC CNI is not aware of, and AWS VPC CNI does not have an option to exempt link-local addresses from policy enforcement.
+
 ### k3d
 
 When using [k3d](https://k3d.io/) with the default Flannel CNI, you must append the correct `platform` value to your installation commands, as k3d uses nonstandard locations for CNI configuration and binaries which requires some Helm overrides.
@@ -206,7 +210,7 @@ The following configurations apply to all platforms, when certain {{< gloss "CNI
 `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
 1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
 1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
-applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
+applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
     This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
 
