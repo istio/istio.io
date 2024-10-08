@@ -43,6 +43,14 @@ spec:
       - system-node-critical
 {{< /text >}}
 
+### Amazon Elastic Kubernetes Service（EKS） {#amazon-elastic-kubernetes-service-EKS}
+
+如果您使用已启用 Amazon VPC CNI 的 EKS，
+[则必须将 `POD_SECURITY_GROUP_ENFORCING_MODE` 明确设置为 `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110)，
+否则 Pod 运行状况探测（默认情况下，AWS VPC CNI 会默默地免除所有策略实施）将失败。
+这是因为 Istio 对 kubelet 运行状况探测使用链路本地 SNAT 地址，
+而 AWS VPC CNI 对此并不了解，并且 AWS VPC CNI 没有免除链路本地地址策略实施的选项。
+
 ### k3d
 
 当使用 [k3d](https://k3d.io/) 与默认的 Flannel CNI 时，
@@ -229,7 +237,8 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
    的白名单的方式，在 Ambient 模式下在 Istio 底层的 Cilium CNI
    安装中应用任何默认 DENY `NetworkPolicy` 都将导致 `kubelet`
    健康探测（默认情况下 Cilium 会默默地免除所有策略实施）被阻止。
-   这是因为 Istio 使用 Cilium 无法识别的链路本地 SNAT 地址，并且 Cilium 没有免除链路本地地址执行策略的选项。
+   这是因为 Istio 对于 kubelet 健康探测使用 Cilium 无法识别的链路本地 SNAT 地址，
+   并且 Cilium 没有免除链路本地地址执行策略的选项。
 
     这可以通过应用以下 `CiliumClusterWideNetworkPolicy` 来解决：
 
