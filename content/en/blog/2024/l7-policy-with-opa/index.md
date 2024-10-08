@@ -50,7 +50,7 @@ Deploy the sample application. Httpbin is a well-known application that can be u
 $ kubectl create ns my-app
 $ kubectl label namespace my-app istio-injection=enabled
 
-$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/httpbin/httpbin.yaml -n my-app
+$ kubectl apply -f {{< github_file >}}/samples/httpbin/httpbin.yaml -n my-app
 {{< /text >}}
 
 Deploy OPA. It will fail because it expects a `configMap` containing the default Rego rule to use. This `configMap` will be deployed later in our example.
@@ -172,19 +172,19 @@ When applying the `AuthorizationPolicy`, the Istio control plane (istiod) sends 
     alt="Istio and OPA"
     >}}
 
-The Envoy proxy works by configuring filters in a chain. One of those filters is `ext_authz`, which implements `ext_authz` protobuf service with a specific message. Any server implementing the protobuf can connect to the Envoy proxy and provide the authorization decision. OPA is one of those servers.
+The Envoy proxy works by configuring filters in a chain. One of those filters is `ext_authz`, which implements an external authorization service with a specific message. Any server implementing the correct protobuf can connect to the Envoy proxy and provide the authorization decision; OPA is one of those servers.
 
 {{< image width="75%"
     link="./opa2.png"
     alt="Filters"
     >}}
 
-Before, when you installed OPA server, you used the Envoy version of the server. This image allows the configuration of the GRPC plugin which implements the `ext_authz` protobuf service.
+Before, when you installed OPA server, you used the Envoy version of the server. This image allows the configuration of the gRPC plugin which implements the `ext_authz` protobuf service.
 
 {{< text yaml >}}
 [...]
       containers:
-      - image: openpolicyagent/opa:0.61.0-envoy # This is the OPA image version which brings the envoy plugin
+      - image: openpolicyagent/opa:0.61.0-envoy # This is the OPA image version which brings the Envoy plugin
         name: opa
 [...]
 {{< /text >}}
@@ -222,7 +222,7 @@ OkHttpResponse
 }
 {{< /text >}}
 
-This means that based on the response from the Authz server, Envoy can add or remove headers, query parameters, and even change the response status. OPA can do this as well, as documented in the [OPA documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls).
+This means that based on the response from the authz server, Envoy can add or remove headers, query parameters, and even change the response status. OPA can do this as well, as documented in the [OPA documentation](https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls).
 
 ## Testing
 
@@ -409,7 +409,7 @@ To do so, review the access log format you set earlier:
 [...]
 {{< /text >}}
 
-The "DYNAMIC_METADATA" is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name "envoy.filters.http.ext_authz" is created automatically by Istio. You can verify this by dumping the Envoy configuration:
+`DYNAMIC_METADATA` is a reserved keyword to access the metadata object. The rest is the name of the filter that you want to access. In your case, the name `envoy.filters.http.ext_authz` is created automatically by Istio. You can verify this by dumping the Envoy configuration:
 
 {{< text bash >}}
 $ istioctl pc all deploy/httpbin -n my-app -oyaml | grep envoy.filters.http.ext_authz
