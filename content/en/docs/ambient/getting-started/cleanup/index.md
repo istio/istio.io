@@ -37,7 +37,6 @@ $ kubectl delete namespace istio-system
 ## Remove the sample application
 
 To delete the Bookinfo sample application and the `curl` deployment, run the following:
-To delete the Bookinfo sample application and the `curl` deployment, run the following:
 
 {{< text bash >}}
 $ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml

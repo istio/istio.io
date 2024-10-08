@@ -38,7 +38,6 @@ EOF
 If you open the Bookinfo application in your browser (`http://localhost:8080/productpage`), you will see the product page, just as before. However, if you try to access the `productpage` service from a different service account, you should see an error.
 
 Let's try accessing Bookinfo application from a `curl` pod:
-Let's try accessing Bookinfo application from a `curl` pod:
 
 {{< text syntax=bash snip_id=deploy_curl >}}
 $ kubectl apply -f samples/curl/curl.yaml
