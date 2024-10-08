@@ -17,13 +17,14 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          boilerplates/gateway-api-gamma-experimental.md
+#          boilerplates/crd-upgrade-123.md
 ####################################################################################################
 
-bpsnip_gateway_api_gamma_experimental_install_experimental_crds() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.2.0-rc1" | kubectl apply -f -
-}
-
-bpsnip_gateway_api_gamma_experimental_enable_alpha_crds() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set profile=minimal -y
+bpsnip_crd_upgrade_123_adopt_legacy_crds() {
+for crd in $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name)
+do
+   kubectl label "$crd" "app.kubernetes.io/managed-by=Helm"
+   kubectl annotate "$crd" "meta.helm.sh/release-name=istio-base" # replace with actual Helm release name, if different from the documentation default
+   kubectl annotate "$crd" "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
+done
 }
