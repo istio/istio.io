@@ -24,7 +24,7 @@ providers:
     url: "https://www.solo.io/products/gloo-mesh/"
   - name: "Istio Addon for Azure Kubernetes Service"
     logo: "/logos/microsoft-azure.svg"
-    url: "https://learn.microsoft.com/en-us/azure/aks/istio-about"  
+    url: "https://learn.microsoft.com/en-us/azure/aks/istio-about"
   - name: "Aspen Service Mesh by F5"
     logo: "/logos/f5.svg"
     url: "https://www.f5.com/products/aspen-mesh"
@@ -192,7 +192,7 @@ integrations:
     url: "https://fission.io/docs/usage/ingress/ingress-istio/"
     description: "Fission is a framework for serverless functions on Kubernetes. "
     details:
-      - "Fission allows users to deploy an Istio Gateway to route traffic to Fission functions. Users can also authenticate requests to Fission functions using Istio's authentication capabilities."    
+      - "Fission allows users to deploy an Istio Gateway to route traffic to Fission functions. Users can also authenticate requests to Fission functions using Istio's authentication capabilities."
   - name: "Gloo Edge"
     logo: "/logos/gloo.png"
     url: "https://www.solo.io/products/gloo-edge/"
@@ -322,7 +322,7 @@ pro_services:
     description: "Cloud Scale® Inc experts assess your current applications, runtime deployments, service maps and use-cases, find the right mix of cloud platforms for your workloads, identify gaps in technology & skills, and prepare a success plan."
     details:
       - "Cloud Scale platform and service mesh experts puts distribution & management in the palm of your hand. From productivity to continuity, from security to remote monitoring & management – our growing portfolio of services has got you covered. "
-      - "Cloud consulting and Istio service mesh experts by Cloud Scale helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technologies and deliver optimal return on technology investments."      
+      - "Cloud consulting and Istio service mesh experts by Cloud Scale helps in solving all of the needs by selecting the right platforms, cloud solutions and platform needs that integrate smoothly with legacy & next-generation technologies and deliver optimal return on technology investments."
   - name: "inovex"
     logo: "/logos/inovex.svg"
     url: "https://www.inovex.de/"
@@ -349,7 +349,7 @@ pro_services:
     logo: "/logos/stackgenie.svg"
     url: "https://stackgenie.io"
     description: "Stackgenie specialises in assisting companies with Istio adoption."
-    details: 
+    details:
       - "Istio consulting and advising, Istio production installation, configuration and integration with observability tools, security measures, and enterprise Istio support and training are all part of our entire professional services offering."
       - "Leveraging our extensive expertise in cloud Native and Kubernetes projects, we provide end-to-end services to our clients."
   - name: "CloudRaft"
@@ -462,6 +462,9 @@ users:
   - name: "HSBC"
     logo: "/logos/hsbc.svg"
     url: "https://www.hsbc.com/"
+  - name: "iFood"
+    logo: "/logos/ifood.svg"
+    url: "https://www.ifood.com.br"
   - name: "iHerb"
     logo: "/logos/iherb.svg"
     url: "https://www.iherb.com/"

@@ -23,10 +23,6 @@ These notices describe functionality that will be removed in a future release ac
   This is particularly useful when doing TLS origination, allowing to set `port:80, targetPort: 443`.
   If undesired, set `--compatibilityVersion=1.21` to revert to the old behavior or remove the `targetPort` specification.
 
-- **Improved** XDS generation to do utilize fewer resources when possible, sometimes omitting a response entirely.
-  This can be disabled by the `PILOT_PARTIAL_FULL_PUSHES=false` environment variable, if necessary.
-  ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
-
 - **Added** support for skipping the initial installation of the CNI entirely.
 
 - **Added** a node taint controller to istiod which removes the `cni.istio.io/not-ready` taint from a node once the Istio CNI pod is ready on that node.
