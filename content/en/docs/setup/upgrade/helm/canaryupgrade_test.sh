@@ -29,9 +29,6 @@ previousVersionRevision1="${bpsnip_args_istio_previous_version//./-}-1"
 
 _install_istio_helm
 
-# This can be dropped once tests start pulling 1.24 charts
-bpsnip_crd_upgrade_123_adopt_legacy_crds
-
 snip_canary_upgrade_recommended_1
 _rewrite_helm_repo snip_canary_upgrade_recommended_2
 _wait_for_deployment istio-system istiod-canary

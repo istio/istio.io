@@ -23,9 +23,6 @@ set -o pipefail
 # @setup profile=none
 _install_istio_helm
 
-# This can be dropped once tests start pulling 1.24 charts
-bpsnip_crd_upgrade_123_adopt_legacy_crds
-
 _rewrite_helm_repo snip_usage_1
 
 _rewrite_helm_repo snip_usage_2
