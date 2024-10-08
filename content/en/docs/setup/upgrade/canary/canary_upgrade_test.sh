@@ -32,7 +32,7 @@ istioctl install --set profile=default --revision="$previousVersionRevision1" -y
 snip_data_plane_2
 snip_data_plane_3
 snip_data_plane_4
-_wait_for_deployment test-ns sleep
+_wait_for_deployment test-ns curl
 
 # precheck before upgrade
 _verify_lines snip_before_you_upgrade_1 "$snip_before_you_upgrade_1_out"

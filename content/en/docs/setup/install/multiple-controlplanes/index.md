@@ -173,38 +173,38 @@ Istio revisions and `discoverySelectors` are then used to scope the resources an
     $ kubectl label ns app-ns-3 usergroup=usergroup-2 istio.io/rev=usergroup-2
     {{< /text >}}
 
-1.  Deploy one `sleep` and `httpbin` application per namespace:
+1.  Deploy one `curl` and `httpbin` application per namespace:
 
     {{< text bash >}}
-    $ kubectl -n app-ns-1 apply -f samples/sleep/sleep.yaml
+    $ kubectl -n app-ns-1 apply -f samples/curl/curl.yaml
     $ kubectl -n app-ns-1 apply -f samples/httpbin/httpbin.yaml
-    $ kubectl -n app-ns-2 apply -f samples/sleep/sleep.yaml
+    $ kubectl -n app-ns-2 apply -f samples/curl/curl.yaml
     $ kubectl -n app-ns-2 apply -f samples/httpbin/httpbin.yaml
-    $ kubectl -n app-ns-3 apply -f samples/sleep/sleep.yaml
+    $ kubectl -n app-ns-3 apply -f samples/curl/curl.yaml
     $ kubectl -n app-ns-3 apply -f samples/httpbin/httpbin.yaml
     {{< /text >}}
 
-1.  Wait a few seconds for the `httpbin` and `sleep` pods to be running with sidecars injected:
+1.  Wait a few seconds for the `httpbin` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pods -n app-ns-1
     NAME                      READY   STATUS    RESTARTS   AGE
     httpbin-9dbd644c7-zc2v4   2/2     Running   0          115m
-    sleep-78ff5975c6-fml7c    2/2     Running   0          115m
+    curl-78ff5975c6-fml7c     2/2     Running   0          115m
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get pods -n app-ns-2
     NAME                      READY   STATUS    RESTARTS   AGE
     httpbin-9dbd644c7-sd9ln   2/2     Running   0          115m
-    sleep-78ff5975c6-sz728    2/2     Running   0          115m
+    curl-78ff5975c6-sz728     2/2     Running   0          115m
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get pods -n app-ns-3
     NAME                      READY   STATUS    RESTARTS   AGE
     httpbin-9dbd644c7-8ll27   2/2     Running   0          115m
-    sleep-78ff5975c6-sg4tq    2/2     Running   0          115m
+    curl-78ff5975c6-sg4tq     2/2     Running   0          115m
     {{< /text >}}
 
 ### Verify the application to control plane mapping
@@ -215,7 +215,7 @@ Now that the applications are deployed, you can use the `istioctl ps` command to
 $ istioctl ps -i usergroup-1
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-hccpf.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-9zb77.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-9zb77.app-ns-1       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 {{< /text >}}
 
 {{< text bash >}}
@@ -223,16 +223,16 @@ $ istioctl ps -i usergroup-2
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-vvcqj.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 httpbin-9dbd644c7-xzgfm.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-fthmt.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-fthmt.app-ns-2       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-nxtth.app-ns-3       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 {{< /text >}}
 
 ### Verify the application connectivity is ONLY within the respective usergroup
 
-1.  Send a request from the `sleep` pod in `app-ns-1` in `usergroup-1` to the `httpbin` service in `app-ns-2` in `usergroup-2`. The communication should fail:
+1.  Send a request from the `curl` pod in `app-ns-1` in `usergroup-1` to the `httpbin` service in `app-ns-2` in `usergroup-2`. The communication should fail:
 
     {{< text bash >}}
-    $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
+    $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
     HTTP/1.1 503 Service Unavailable
     content-length: 95
     content-type: text/plain
@@ -240,10 +240,10 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
     server: envoy
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in `app-ns-2` in `usergroup-2` to the `httpbin` service in `app-ns-3` in `usergroup-2`. The communication should work:
+1.  Send a request from the `curl` pod in `app-ns-2` in `usergroup-2` to the `httpbin` service in `app-ns-3` in `usergroup-2`. The communication should work:
 
     {{< text bash >}}
-    $ kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
+    $ kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
     HTTP/1.1 200 OK
     server: envoy
     date: Thu, 22 Dec 2022 15:01:36 GMT

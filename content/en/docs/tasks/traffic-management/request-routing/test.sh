@@ -34,7 +34,7 @@ get_bookinfo_productpage_jason() {
 }
 
 kubectl label namespace default istio-injection=enabled --overwrite
-startup_sleep_sample # needed for sending test requests with curl
+startup_curl_sample # needed for sending test requests with curl
 
 # launch the bookinfo app
 startup_bookinfo_sample
@@ -91,6 +91,6 @@ _verify_not_contains get_bookinfo_productpage "glyphicon glyphicon-star"
 if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup_1
     cleanup_bookinfo_sample
-    cleanup_sleep_sample
+    cleanup_curl_sample
     kubectl label namespace default istio-injection-
 fi

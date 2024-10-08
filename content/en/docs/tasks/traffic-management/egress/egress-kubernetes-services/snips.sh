@@ -26,11 +26,11 @@ kubectl create namespace without-istio
 }
 
 snip__2() {
-kubectl apply -f samples/sleep/sleep.yaml -n without-istio
+kubectl apply -f samples/curl/curl.yaml -n without-istio
 }
 
 snip__3() {
-export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})"
+export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=curl -o jsonpath={.items..metadata.name})"
 }
 
 snip__4() {
@@ -39,7 +39,7 @@ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
 
 ! IFS=$'\n' read -r -d '' snip__4_out <<\ENDSNIP
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
+curl-66c8d79ff5-8tqrl    1/1     Running   0          32s
 ENDSNIP
 
 snip_kubernetes_externalname_service_to_access_an_external_service_1() {
@@ -68,7 +68,7 @@ my-httpbin   ExternalName   <none>       httpbin.org   80/TCP    4s
 ENDSNIP
 
 snip_kubernetes_externalname_service_to_access_an_external_service_3() {
-kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
 }
 
 ! IFS=$'\n' read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_3_out <<\ENDSNIP
@@ -96,7 +96,7 @@ EOF
 }
 
 snip_kubernetes_externalname_service_to_access_an_external_service_5() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
 }
 
 ! IFS=$'\n' read -r -d '' snip_kubernetes_externalname_service_to_access_an_external_service_5_out <<\ENDSNIP
@@ -110,7 +110,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.l
     "X-B3-Spanid": "5795fab599dca0b8",
     "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
     "X-Envoy-Peer-Metadata": "...",
-    "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
+    "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~curl-6bdb595bcb-drr45.default~default.svc.cluster.local"
   }
 }
 ENDSNIP
@@ -160,7 +160,7 @@ my-wikipedia   ClusterIP   172.21.156.230   <none>        443/TCP   21h
 ENDSNIP
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4() {
-kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
 }
 
 ! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_4_out <<\ENDSNIP
@@ -182,7 +182,7 @@ EOF
 }
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
 }
 
 ! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6_out <<\ENDSNIP
@@ -190,7 +190,7 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS --resolve en.wikipedia.org:443:"
 ENDSNIP
 
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
 }
 
 ! IFS=$'\n' read -r -d '' snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7_out <<\ENDSNIP
@@ -209,11 +209,11 @@ kubectl delete service my-wikipedia
 }
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }
 
 snip_cleanup_2() {
-kubectl delete -f samples/sleep/sleep.yaml -n without-istio
+kubectl delete -f samples/curl/curl.yaml -n without-istio
 }
 
 snip_cleanup_3() {

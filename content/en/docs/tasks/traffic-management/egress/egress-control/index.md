@@ -28,19 +28,19 @@ This task shows you how to access external services in three different ways:
     Use the `demo` [configuration profile](/docs/setup/additional-setup/config-profiles/) or otherwise
     [enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
-*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+*   Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
     If you have
     [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
     enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
+    Otherwise, manually inject the sidecar before deploying the `curl` application with the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -50,7 +50,7 @@ This task shows you how to access external services in three different ways:
 *   Set the `SOURCE_POD` environment variable to the name of your source pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
     {{< /text >}}
 
 ## Envoy passthrough to external services
@@ -92,7 +92,7 @@ You can then decide to [configure access to external services](#controlled-acces
     successful `200` responses:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
     HTTP/2 200
     HTTP/2 200
     {{< /text >}}
@@ -143,7 +143,7 @@ any other unintentional accesses.
 1.  Make a couple of requests to external HTTPS services from `SOURCE_POD` to verify that they are now blocked:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
     command terminated with exit code 35
     command terminated with exit code 35
     {{< /text >}}
@@ -190,7 +190,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTP service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -238,7 +238,7 @@ any other unintentional accesses.
 1.  Make a request to the external HTTPS service from `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
@@ -263,7 +263,7 @@ In this example, you set a timeout rule on calls to the `httpbin.org` service.
     httpbin.org external service:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     200
     real    0m5.024s
     user    0m0.003s
@@ -331,7 +331,7 @@ EOF
 3)  Wait a few seconds, then make the _curl_ request again:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     504
     real    0m3.149s
     user    0m0.004s
@@ -515,16 +515,16 @@ add `--set values.global.proxy.includeIPRanges="10.0.0.1/24"`.
 
 ### Access the external services
 
-Because the bypass configuration only affects new deployments, you need to terminate and then redeploy the `sleep`
+Because the bypass configuration only affects new deployments, you need to terminate and then redeploy the `curl`
 application as described in the [Before you begin](#before-you-begin) section.
 
-After updating the `istio-sidecar-injector` configmap and redeploying the `sleep` application,
+After updating the `istio-sidecar-injector` configmap and redeploying the `curl` application,
 the Istio sidecar will only intercept and manage internal requests
 within the cluster. Any external request bypasses the sidecar and goes straight to its intended destination.
 For example:
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
@@ -588,8 +588,8 @@ section.
 
 ## Cleanup
 
-Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+Shutdown the [curl]({{< github_tree >}}/samples/curl) service:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

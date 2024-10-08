@@ -30,12 +30,12 @@ snip_plug_in_certificates_and_key_into_the_cluster_5
 echo y | snip_deploy_istio_1
 _wait_for_deployment istio-system istiod
 
-# create_ns_foo_with_httpbin_sleep
+# create_ns_foo_with_httpbin_curl
 snip_deploying_example_services_1
 snip_deploying_example_services_2
 
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
 
 # Disable errors, since the next command is expected to return an error.
 set +e

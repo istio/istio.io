@@ -44,11 +44,11 @@ function verify {
   goodResponse=0
 
   ingress_url="http://istio-ingressgateway.istio-system/productpage"
-  sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
+  curl_pod=$(kubectl get pod -l app=curl -n default -o 'jsonpath={.items..metadata.name}')
 
   for ((i=1; i<="$REPEAT"; i++)); do
     set +e
-    response=$(kubectl exec "${sleep_pod}" -c sleep -n "default" -- curl "${ingress_url}" -sS -w "\n%{http_code}\n")
+    response=$(kubectl exec "${curl_pod}" -c curl -n "default" -- curl "${ingress_url}" -sS -w "\n%{http_code}\n")
     set -e
     mapfile -t respArray <<< "$response"
     code=${respArray[-1]}
@@ -83,7 +83,7 @@ function verify {
 }
 
 kubectl label namespace default istio-injection=enabled --overwrite
-startup_sleep_sample # needed for sending test requests with curl
+startup_curl_sample # needed for sending test requests with curl
 
 # launch the bookinfo app
 startup_bookinfo_sample
@@ -123,6 +123,6 @@ verify 200 "William Shakespeare" "Book Details" "Book Reviews"
 snip_clean_up_1
 # remaining cleanup (undocumented).
 cleanup_bookinfo_sample
-cleanup_sleep_sample
+cleanup_curl_sample
 kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 kubectl label namespace default istio-injection-

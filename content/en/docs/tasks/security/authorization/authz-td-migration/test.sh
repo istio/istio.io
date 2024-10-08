@@ -33,9 +33,9 @@ _wait_for_deployment istio-system istiod
 
 snip_before_you_begin_2
 
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 _wait_for_deployment default httpbin
-_wait_for_deployment sleep-allow sleep
+_wait_for_deployment curl-allow curl
 
 snip_before_you_begin_3
 

@@ -272,12 +272,12 @@ spec:
 
 The port name `http-web` in the Service definition explicitly specifies the http protocol for that port.
 
-Let us assume we have a [sleep]({{< github_tree >}}/samples/sleep) pod `Deployment` as well in the default namespace.
-When `nginx` is accessed from this `sleep` pod using its Pod IP (this is one of the common ways to access a headless service), the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
+Let us assume we have a [curl]({{< github_tree >}}/samples/curl) pod `Deployment` as well in the default namespace.
+When `nginx` is accessed from this `curl` pod using its Pod IP (this is one of the common ways to access a headless service), the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
 
 {{< text bash >}}
-$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+$ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
   503
 {{< /text >}}
 
@@ -290,8 +290,8 @@ Here are some of the ways to avoid this 503 error:
     The Host header in the curl request above will be the Pod IP by default. Specifying the Host header as `nginx.default` in our request to `nginx` successfully returns `HTTP 200 OK`.
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
@@ -304,13 +304,13 @@ Here are some of the ways to avoid this 503 error:
     This is useful in certain scenarios where a client may not be able to include header information in the request.
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
@@ -319,8 +319,8 @@ Here are some of the ways to avoid this 503 error:
     A specific instance of a headless service can also be accessed using just the domain name.
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 

@@ -25,28 +25,28 @@ traffic to external services.
 
 *   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample
+*   Start the [curl]({{< github_tree >}}/samples/curl) sample
     which will be used as a test source for external calls.
 
     If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+    otherwise, you have to manually inject the sidecar before deploying the `curl` application:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     Note that any pod that you can `exec` and `curl` from would do.
 
 *   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
+    If you used the [curl]({{< github_tree >}}/samples/curl) sample, run:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 *   For macOS users, verify that you are using `openssl` version 1.1 or later:
@@ -102,7 +102,7 @@ be done by the egress gateway, as opposed to by the sidecar in the previous exam
 1.  Verify that your `ServiceEntry` was applied correctly by sending a request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -315,7 +315,7 @@ EOF
 6)  Send an HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -933,7 +933,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
 6)  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -1039,8 +1039,8 @@ $ kubectl delete referencegrant my-nginx-reference-grant -n mesh-external
 
 ## Cleanup
 
-Delete the `sleep` service and deployment:
+Delete the `curl` service and deployment:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

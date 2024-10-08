@@ -44,8 +44,8 @@ _wait_for_deployment test httpbin
 
 # deploy test applications
 snip_verification_1
-_wait_for_deployment test sleep
-_wait_for_deployment default sleep
+_wait_for_deployment test curl
+_wait_for_deployment default curl
 
 # verification
 _verify_first_line snip_verify_internal_mesh_connectivity_on_port_8080_1 "HTTP/1.1 200 OK"

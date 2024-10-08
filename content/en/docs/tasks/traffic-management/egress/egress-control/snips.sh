@@ -22,15 +22,15 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_before_you_begin_2() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml)
 }
 
 snip_before_you_begin_3() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
 }
 
 snip_envoy_passthrough_to_external_services_1() {
@@ -38,7 +38,7 @@ kubectl get configmap istio -n istio-system -o yaml
 }
 
 snip_envoy_passthrough_to_external_services_3() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
 }
 
 ! IFS=$'\n' read -r -d '' snip_envoy_passthrough_to_external_services_3_out <<\ENDSNIP
@@ -54,7 +54,7 @@ spec:
 ENDSNIP
 
 snip_change_to_the_blockingbydefault_policy_3() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
 }
 
 ! IFS=$'\n' read -r -d '' snip_change_to_the_blockingbydefault_policy_3_out <<\ENDSNIP
@@ -81,7 +81,7 @@ EOF
 }
 
 snip_access_an_external_http_service_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
 }
 
 ! IFS=$'\n' read -r -d '' snip_access_an_external_http_service_2_out <<\ENDSNIP
@@ -123,7 +123,7 @@ EOF
 }
 
 snip_access_an_external_https_service_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
+kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"
 }
 
 ! IFS=$'\n' read -r -d '' snip_access_an_external_https_service_2_out <<\ENDSNIP
@@ -139,7 +139,7 @@ kubectl logs "$SOURCE_POD" -c istio-proxy | tail
 ENDSNIP
 
 snip_manage_traffic_to_external_services_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
 }
 
 ! IFS=$'\n' read -r -d '' snip_manage_traffic_to_external_services_1_out <<\ENDSNIP
@@ -192,7 +192,7 @@ EOF
 }
 
 snip_manage_traffic_to_external_services_4() {
-kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
 }
 
 ! IFS=$'\n' read -r -d '' snip_manage_traffic_to_external_services_4_out <<\ENDSNIP
@@ -281,7 +281,7 @@ kubectl describe pod kube-apiserver -n kube-system | grep 'service-cluster-ip-ra
 ENDSNIP
 
 snip_access_the_external_services_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
 }
 
 ! IFS=$'\n' read -r -d '' snip_access_the_external_services_1_out <<\ENDSNIP
@@ -295,5 +295,5 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }

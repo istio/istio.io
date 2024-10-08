@@ -104,26 +104,26 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         EOF
         {{< /text >}}
 
-1. Deploy the `sleep` workload you'll use to send requests to the `httpbin` service:
+1. Deploy the `curl` workload you'll use to send requests to the `httpbin` service:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       template:
         metadata:
           labels:
-            app: sleep
+            app: curl
         spec:
           containers:
-          - name: sleep
+          - name: curl
             image: curlimages/curl
             command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
@@ -227,7 +227,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
 
     {{< text bash json >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -344,7 +344,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1. Send the traffic:
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs
@@ -387,9 +387,9 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< /tabset >}}
 
-1. Delete `httpbin` and `sleep` deployments and `httpbin` service:
+1. Delete `httpbin` and `curl` deployments and `httpbin` service:
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+    $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
     $ kubectl delete svc httpbin
     {{< /text >}}
