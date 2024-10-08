@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_get_gateway() {
@@ -59,7 +59,7 @@ EOF
 }
 
 snip_test_gateway_productpage_without_credentials() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_gateway_productpage_without_credentials_out <<\ENDSNIP
@@ -67,7 +67,7 @@ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://book
 ENDSNIP
 
 snip_test_gateway_productpage_with_credentials() {
-kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+kubectl exec deploy/curl -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_gateway_productpage_with_credentials_out <<\ENDSNIP
@@ -79,7 +79,7 @@ istioctl waypoint apply --enroll-namespace --wait
 }
 
 snip_verify_traffic() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_traffic_out <<\ENDSNIP
@@ -132,7 +132,7 @@ basic-auth-at-waypoint   14m
 ENDSNIP
 
 snip_test_waypoint_productpage_without_credentials() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_waypoint_productpage_without_credentials_out <<\ENDSNIP
@@ -140,7 +140,7 @@ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://produ
 ENDSNIP
 
 snip_test_waypoint_productpage_with_credentials() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_waypoint_productpage_with_credentials_out <<\ENDSNIP
@@ -173,7 +173,7 @@ EOF
 }
 
 snip_test_waypoint_service_productpage_with_credentials() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_waypoint_service_productpage_with_credentials_out <<\ENDSNIP
@@ -181,7 +181,7 @@ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authoriz
 ENDSNIP
 
 snip_test_waypoint_service_reviews_with_credentials() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_waypoint_service_reviews_with_credentials_out <<\ENDSNIP
@@ -189,7 +189,7 @@ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authoriz
 ENDSNIP
 
 snip_test_waypoint_service_reviews_without_credentials() {
-kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
+kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_waypoint_service_reviews_without_credentials_out <<\ENDSNIP

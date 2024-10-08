@@ -100,19 +100,19 @@ cat <<EOF | kubectl create -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   template:
     metadata:
       labels:
-        app: sleep
+        app: curl
     spec:
       containers:
-      - name: sleep
+      - name: curl
         image: curlimages/curl
         command: ["/bin/sleep","3650d"]
         imagePullPolicy: IfNotPresent
@@ -195,7 +195,7 @@ EOF
 }
 
 snip_creating_a_default_routing_policy_3() {
-kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
 }
 
 ! IFS=$'\n' read -r -d '' snip_creating_a_default_routing_policy_3_out <<\ENDSNIP
@@ -280,7 +280,7 @@ EOF
 }
 
 snip_mirroring_traffic_to_httpbinv2_3() {
-kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
 }
 
 snip_mirroring_traffic_to_httpbinv2_4() {
@@ -311,6 +311,6 @@ kubectl delete svc httpbin-v1 httpbin-v2
 }
 
 snip_cleaning_up_3() {
-kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+kubectl delete deploy httpbin-v1 httpbin-v2 curl
 kubectl delete svc httpbin
 }

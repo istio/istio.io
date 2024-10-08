@@ -26,10 +26,10 @@ snip_set_up_the_cluster_1
 snip_set_up_the_cluster_2
 
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
 _wait_for_deployment bar httpbin
-_wait_for_deployment bar sleep
-_wait_for_deployment legacy sleep
+_wait_for_deployment bar curl
+_wait_for_deployment legacy curl
 
 # curl_foo_bar_legacy
 _verify_same snip_set_up_the_cluster_3 "$snip_set_up_the_cluster_3_out"
@@ -66,13 +66,13 @@ set +e
 set +o pipefail
 
 # curl_foo_bar_legacy_httpbin_foo_mtls
-expected="sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 000
+expected="curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56"
 _verify_same snip_lock_down_mutual_tls_for_the_entire_mesh_2 "$expected"
 

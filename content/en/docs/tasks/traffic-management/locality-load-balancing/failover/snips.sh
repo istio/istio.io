@@ -47,9 +47,9 @@ EOF
 }
 
 snip_verify_traffic_stays_in_region1zone1_1() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
@@ -65,9 +65,9 @@ kubectl --context="${CTX_R1_Z1}" exec \
 }
 
 snip_failover_to_region1zone2_2() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
@@ -83,9 +83,9 @@ kubectl --context="${CTX_R1_Z2}" exec \
 }
 
 snip_failover_to_region2zone3_2() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
@@ -101,9 +101,9 @@ kubectl --context="${CTX_R2_Z3}" exec \
 }
 
 snip_failover_to_region3zone4_2() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 

@@ -82,7 +82,7 @@ kubectl label namespace test-ns istio-injection=enabled
 }
 
 snip_data_plane_4() {
-kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+kubectl apply -n test-ns -f samples/curl/curl.yaml
 }
 
 snip_data_plane_5() {
@@ -117,9 +117,9 @@ kubectl label ns app-ns-3 istio.io/rev=prod-canary
 }
 
 snip_usage_4() {
-kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
-kubectl apply -n app-ns-2 -f samples/sleep/sleep.yaml
-kubectl apply -n app-ns-3 -f samples/sleep/sleep.yaml
+kubectl apply -n app-ns-1 -f samples/curl/curl.yaml
+kubectl apply -n app-ns-2 -f samples/curl/curl.yaml
+kubectl apply -n app-ns-3 -f samples/curl/curl.yaml
 }
 
 snip_usage_5() {
@@ -128,9 +128,9 @@ istioctl ps
 
 ! IFS=$'\n' read -r -d '' snip_usage_5_out <<\ENDSNIP
 NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-24-0-7f6fc6cfd6-s8zfg     1.24.0
-sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-23-1-bdf5948d5-n72r2      1.23.1
-sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-23-1-bdf5948d5-n72r2      1-23.1
+curl-78ff5975c6-62pzf.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-24-0-7f6fc6cfd6-s8zfg     1.24.0
+curl-78ff5975c6-8kxpl.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-23-1-bdf5948d5-n72r2      1.23.1
+curl-78ff5975c6-8q7m6.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-23-1-bdf5948d5-n72r2      1-23.1
 ENDSNIP
 
 snip_usage_6() {
@@ -148,9 +148,9 @@ istioctl ps
 
 ! IFS=$'\n' read -r -d '' snip_usage_8_out <<\ENDSNIP
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-24-0-7f6fc6cfd6-jsktb     1.24.0
-sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-24-0-7f6fc6cfd6-jsktb     1.24.0
-sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-24-0-7f6fc6cfd6-jsktb     1.24.0
+curl-5984f48bc7-kmj6x.app-ns-1                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-24-0-7f6fc6cfd6-jsktb     1.24.0
+curl-78ff5975c6-jldk4.app-ns-3                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-24-0-7f6fc6cfd6-jsktb     1.24.0
+curl-7cdd8dccb9-5bq5n.app-ns-2                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-24-0-7f6fc6cfd6-jsktb     1.24.0
 ENDSNIP
 
 snip_default_tag_1() {
