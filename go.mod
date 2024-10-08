@@ -6,9 +6,12 @@ go 1.22.0
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
+	github.com/envoyproxy/go-control-plane v0.13.1-0.20240823165802-4363a624d376
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.8.0
-	istio.io/istio v0.0.0-20241006000322-bb6338c1b0b1
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240930140551-af27646dc61f
+	google.golang.org/grpc v1.67.1
+	istio.io/istio v0.0.0-20241008163444-1c546ae8a14a
 	k8s.io/apimachinery v0.31.1
 	k8s.io/client-go v0.31.1
 )
@@ -42,7 +45,6 @@ require (
 	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.2 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.0 // indirect
-	github.com/envoyproxy/go-control-plane v0.13.1-0.20240823165802-4363a624d376 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.1.0 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
@@ -178,8 +180,6 @@ require (
 	golang.org/x/tools v0.24.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240930140551-af27646dc61f // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240930140551-af27646dc61f // indirect
-	google.golang.org/grpc v1.67.1 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
@@ -187,8 +187,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.16.1 // indirect
-	istio.io/api v1.23.0-alpha.0.0.20241005033901-9723aca52e22 // indirect
-	istio.io/client-go v1.23.0-alpha.0.0.20241005034300-2c4a3cee6f7d // indirect
+	istio.io/api v1.23.0-alpha.0.0.20241007133624-bfb6855a7760 // indirect
+	istio.io/client-go v1.23.0-alpha.0.0.20241007133923-6216dcee5376 // indirect
 	k8s.io/api v0.31.1 // indirect
 	k8s.io/apiextensions-apiserver v0.31.1 // indirect
 	k8s.io/apiserver v0.31.1 // indirect
