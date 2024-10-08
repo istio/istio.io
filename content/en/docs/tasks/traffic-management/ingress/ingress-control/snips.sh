@@ -171,7 +171,9 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status
 }
 
 ! IFS=$'\n' read -r -d '' snip_accessing_ingress_services_1_out <<\ENDSNIP
+...
 HTTP/1.1 200 OK
+...
 server: istio-envoy
 ...
 ENDSNIP

@@ -83,7 +83,9 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_4_out <<\ENDSNIP
+...
 HTTP/1.1 200 OK
+...
 server: istio-envoy
 ...
 ENDSNIP
@@ -130,15 +132,12 @@ EOF
 }
 
 snip_configuring_a_gateway_7() {
-curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
+curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_a_gateway_7_out <<\ENDSNIP
-{
-  "headers": {
-    "Accept": "*/*",
-    "Host": "httpbin.example.com",
-    "My-Added-Header": "added-value",
+...
+"added-value"
 ...
 ENDSNIP
 

@@ -53,17 +53,11 @@ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
 ...
 < HTTP/1.1 418 Unknown
+...
 < server: envoy
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+I'm a teapot!
+...
 ENDSNIP
 
 snip_test_the_access_log_2() {

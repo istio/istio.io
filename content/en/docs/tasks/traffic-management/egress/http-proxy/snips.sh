@@ -121,6 +121,7 @@ spec:
     name: tcp
     protocol: TCP
   location: MESH_EXTERNAL
+  resolution: NONE
 EOF
 }
 

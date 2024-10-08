@@ -54,9 +54,8 @@ _wait_for_deployment istio-system istiod
 snip_enable_with_external_authorization_1
 
 _verify_same snip_enable_with_external_authorization_2 "$snip_enable_with_external_authorization_2_out"
-_verify_lines snip_enable_with_external_authorization_3 "
-+ \"X-Ext-Authz-Check-Result\": \"allowed\",
-"
+_verify_elided snip_enable_with_external_authorization_3 "$snip_enable_with_external_authorization_3_out"
+
 _verify_same snip_enable_with_external_authorization_4 "$snip_enable_with_external_authorization_4_out"
 _verify_lines snip_enable_with_external_authorization_5 "
 + [gRPCv3][allowed]
