@@ -8,9 +8,9 @@ If upgrading CRDs via Helm from an Istio release 1.23 or older, you may encounte
 You can resolve this with a one-time migration using the following `kubectl` commands:
 
     {{< text syntax=bash snip_id=adopt_legacy_crds >}}
-    $ kubectl label $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name) "app.kubernetes.io/managed-by=Helm"
-    $ kubectl annotate $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name) "meta.helm.sh/release-name=istio-base" # replace with actual Helm release name, if different from the documentation default
-    $ kubectl annotate $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name) "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
+    $ kubectl label "$(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name)" "app.kubernetes.io/managed-by=Helm"
+    $ kubectl annotate "$(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name)" "meta.helm.sh/release-name=istio-base" # replace with actual Helm release name, if different from the documentation default
+    $ kubectl annotate "$(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name)" "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
     {{< /text >}}
 
 {{< /warning >}}
