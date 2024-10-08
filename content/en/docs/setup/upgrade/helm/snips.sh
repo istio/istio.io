@@ -91,7 +91,7 @@ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revision
 }
 
 snip_in_place_upgrade_1() {
-helm upgrade istio-base istio-base istio/base -n istio-system
+helm upgrade istio-base istio/base -n istio-system
 }
 
 snip_in_place_upgrade_2() {

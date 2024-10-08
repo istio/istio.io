@@ -150,7 +150,7 @@ preserve your custom configuration during Helm upgrades.
 1. Upgrade the Istio base chart:
 
     {{< text bash >}}
-    $ helm upgrade istio-base istio-base istio/base -n istio-system
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:
