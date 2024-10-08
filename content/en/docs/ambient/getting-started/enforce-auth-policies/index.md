@@ -40,7 +40,7 @@ If you open the Bookinfo application in your browser (`http://localhost:8080/pro
 Let's try accessing Bookinfo application from a `curl` pod:
 
 {{< text syntax=bash snip_id=deploy_curl >}}
-$ kubectl apply -f {{< github_file >}}/samples/curl/curl.yaml
+$ kubectl apply -f samples/curl/curl.yaml
 {{< /text >}}
 
 Since the `curl` pod is using a different service account, it will not have access the `productpage` service:

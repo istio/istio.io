@@ -197,7 +197,7 @@ kubectl get svc -n test
 ! IFS=$'\n' read -r -d '' snip_verification_4_out <<\ENDSNIP
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
-curl      ClusterIP    10.110.35.153   <none>        80/TCP              8m49s
+curl      ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 ENDSNIP
 
 snip_verification_5() {
