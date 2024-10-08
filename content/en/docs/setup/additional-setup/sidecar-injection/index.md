@@ -40,19 +40,19 @@ Note that unlike manual injection, automatic injection occurs at the pod-level. 
 
 #### Deploying an app
 
-Deploy sleep app. Verify both deployment and pod have a single container.
+Deploy curl app. Verify both deployment and pod have a single container.
 
 {{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
+$ kubectl apply -f @samples/curl/curl.yaml@
 $ kubectl get deployment -o wide
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
-sleep   1/1     1            1           12s   sleep        curlimages/curl           app=sleep
+curl    1/1     1            1           12s   curl         curlimages/curl           app=curl
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
 NAME                    READY   STATUS    RESTARTS   AGE
-sleep-8f795f47d-hdcgs   1/1     Running   0          42s
+curl-8f795f47d-hdcgs    1/1     Running   0          42s
 {{< /text >}}
 
 Label the `default` namespace with `istio-injection=enabled`
@@ -68,18 +68,18 @@ default              Active   5m9s    enabled
 Injection occurs at pod creation time. Kill the running pod and verify a new pod is created with the injected sidecar. The original pod has `1/1 READY` containers, and the pod with injected sidecar has `2/2 READY` containers.
 
 {{< text bash >}}
-$ kubectl delete pod -l app=sleep
-$ kubectl get pod -l app=sleep
-pod "sleep-776b7bcdcd-7hpnk" deleted
+$ kubectl delete pod -l app=curl
+$ kubectl get pod -l app=curl
+pod "curl-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
-sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
+curl-776b7bcdcd-7hpnk    1/1       Terminating   0          1m
+curl-776b7bcdcd-bhn9m    2/2       Running       0          7s
 {{< /text >}}
 
 View detailed state of the injected pod. You should see the injected `istio-proxy` container and corresponding volumes.
 
 {{< text bash >}}
-$ kubectl describe pod -l app=sleep
+$ kubectl describe pod -l app=curl
 ...
 Events:
   Type    Reason     Age   From               Message
@@ -88,8 +88,8 @@ Events:
   Normal  Created    11s   kubelet            Created container istio-init
   Normal  Started    11s   kubelet            Started container istio-init
   ...
-  Normal  Created    10s   kubelet            Created container sleep
-  Normal  Started    10s   kubelet            Started container sleep
+  Normal  Created    10s   kubelet            Created container curl
+  Normal  Started    10s   kubelet            Started container curl
   ...
   Normal  Created    9s    kubelet            Created container istio-proxy
   Normal  Started    8s    kubelet            Started container istio-proxy
@@ -99,13 +99,13 @@ Disable injection for the `default` namespace and verify new pods are created wi
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
-$ kubectl delete pod -l app=sleep
+$ kubectl delete pod -l app=curl
 $ kubectl get pod
 namespace/default labeled
-pod "sleep-776b7bcdcd-bhn9m" deleted
+pod "curl-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
-sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
+curl-776b7bcdcd-bhn9m    2/2       Terminating   0          2m
+curl-776b7bcdcd-gmvnr    1/1       Running       0          2s
 {{< /text >}}
 
 #### Controlling the injection policy
@@ -140,10 +140,10 @@ The injector is configured with the following logic:
 To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
-$ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
+$ istioctl kube-inject -f @samples/curl/curl.yaml@ | kubectl apply -f -
+serviceaccount/curl created
+service/curl created
+deployment.apps/curl created
 {{< /text >}}
 
 By default, this will use the in-cluster configuration. Alternatively, injection can be done using local copies of the configuration.
@@ -161,19 +161,19 @@ $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
     --valuesFile inject-values.yaml \
-    --filename @samples/sleep/sleep.yaml@ \
+    --filename @samples/curl/curl.yaml@ \
     | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
+serviceaccount/curl created
+service/curl created
+deployment.apps/curl created
 {{< /text >}}
 
-Verify that the sidecar has been injected into the sleep pod with `2/2` under the READY column.
+Verify that the sidecar has been injected into the curl pod with `2/2` under the READY column.
 
 {{< text bash >}}
-$ kubectl get pod  -l app=sleep
+$ kubectl get pod  -l app=curl
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
+curl-64c6f57bc8-f5n4x    2/2     Running   0          24s
 {{< /text >}}
 
 ## Customizing injection
@@ -206,7 +206,7 @@ spec:
     lifecycle:
       preStop:
         exec:
-          command: ["sleep", "10"]
+          command: ["curl", "10"]
   volumes:
   - name: certs
     secret:

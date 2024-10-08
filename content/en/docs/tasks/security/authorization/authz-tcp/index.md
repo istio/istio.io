@@ -19,7 +19,7 @@ Before you begin this task, do the following:
 
 * Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
 
-* Deploy two workloads named `sleep` and `tcp-echo` together in a namespace, for example `foo`.
+* Deploy two workloads named `curl` and `tcp-echo` together in a namespace, for example `foo`.
   Both workloads run with an Envoy proxy in front of each. The `tcp-echo` workload listens on port
   9000, 9001 and 9002 and echoes back any traffic it received with a prefix `hello`.
   For example, if you send "world" to `tcp-echo`, it will reply with `hello world`.
@@ -30,37 +30,37 @@ Before you begin this task, do the following:
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     {{< /text >}}
 
-* Verify that `sleep` successfully communicates with `tcp-echo` on ports 9000 and 9001
+* Verify that `curl` successfully communicates with `tcp-echo` on ports 9000 and 9001
   using the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9000
     connection succeeded
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
     {{< /text >}}
 
-* Verify that `sleep` successfully communicates with `tcp-echo` on port 9002.
+* Verify that `curl` successfully communicates with `tcp-echo` on port 9002.
    You need to send the traffic directly to the pod IP of `tcp-echo` because the port 9002 is not
    defined in the Kubernetes service object of `tcp-echo`.
    Get the pod IP address and send the request with the following command:
 
     {{< text bash >}}
     $ TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o jsonpath="{.status.podIP}")
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9002
     connection succeeded
@@ -97,8 +97,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
 1. Verify that requests to port 9000 are allowed using the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9000
     connection succeeded
@@ -107,8 +107,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
 1. Verify that requests to port 9001 are allowed using the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
@@ -119,8 +119,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
    explicitly in the `tcp-echo` Kubernetes service object. Run the following command and verify the output:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -153,8 +153,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
    Run the following command and verify the output:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -163,8 +163,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
    ALLOW rules. Run the following command and verify the output:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -196,8 +196,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
    HTTP-only fields while creating a DENY rule for tcp port and due to it's restrictive nature it denies all the traffic to the tcp ports:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -205,8 +205,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
 1. Verify that the requests to port 9001 are denied. Same reason as above.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -236,8 +236,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
 1. Verify that requests to port 9000 is denied. This occurs because the request matches the `ports` in the above-mentioned deny policy.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -246,8 +246,8 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
    the `ports` in the DENY policy:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded

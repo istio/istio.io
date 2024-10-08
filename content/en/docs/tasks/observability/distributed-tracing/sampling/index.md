@@ -87,7 +87,7 @@ For instance, to override the mesh-wide sampling above, you would add the follow
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
   ...
   template:

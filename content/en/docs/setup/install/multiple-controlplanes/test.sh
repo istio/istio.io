@@ -41,11 +41,11 @@ snip_deploy_application_workloads_per_usergroup_2
 snip_deploy_application_workloads_per_usergroup_3
 
 _wait_for_deployment app-ns-1 httpbin
-_wait_for_deployment app-ns-1 sleep
+_wait_for_deployment app-ns-1 curl
 _wait_for_deployment app-ns-2 httpbin
-_wait_for_deployment app-ns-2 sleep
+_wait_for_deployment app-ns-2 curl
 _wait_for_deployment app-ns-3 httpbin
-_wait_for_deployment app-ns-3 sleep
+_wait_for_deployment app-ns-3 curl
 
 # verification of connectivity
 _verify_first_line snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1 "HTTP/1.1 503 Service Unavailable"

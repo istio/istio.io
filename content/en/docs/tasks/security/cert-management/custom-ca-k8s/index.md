@@ -246,30 +246,30 @@ $ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
     $ kubectl apply  -f ./proxyconfig-foo.yaml
     {{< /text >}}
 
-1. Deploy the `httpbin` and `sleep` sample applications in the `foo` and `bar` namespaces.
+1. Deploy the `httpbin` and `curl` sample applications in the `foo` and `bar` namespaces.
 
     {{< text bash >}}
     $ kubectl label ns foo istio-injection=enabled
     $ kubectl label ns bar istio-injection=enabled
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-    $ kubectl apply -f samples/sleep/sleep.yaml -n foo
+    $ kubectl apply -f samples/curl/curl.yaml -n foo
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n bar
     {{< /text >}}
 
-## Verify the network connectivity between `httpbin` and `sleep` within the same namespace
+## Verify the network connectivity between `httpbin` and `curl` within the same namespace
 
 When the workloads are deployed, they send CSR requests with related signer info. Istiod forwards the CSR request to the custom CA for signing. The custom CA will use the correct cluster issuer to sign the cert back. Workloads under `foo` namespace will use `foo` cluster issuers while workloads under `bar` namespace will use the `bar` cluster issuers. To verify that they have indeed been signed by correct cluster issuers, we can verify workloads under the same namespace can communicate while workloads under the different namespace cannot communicate.
 
-1. Set the `SLEEP_POD_FOO` environment variable to the name of `sleep` pod.
+1. Set the `CURL_POD_FOO` environment variable to the name of `curl` pod.
 
     {{< text bash >}}
-    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export CURL_POD_FOO=$(kubectl get pod -n foo -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1. Check network connectivity between service `sleep` and `httpbin` in the `foo` namespace.
+1. Check network connectivity between service `curl` and `httpbin` in the `foo` namespace.
 
     {{< text bash >}}
-    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
+    $ kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
       <head>
@@ -285,10 +285,10 @@ When the workloads are deployed, they send CSR requests with related signer info
       </body>
      {{< /text >}}
 
-1. Check network connectivity between service `sleep` in the `foo` namespace and `httpbin` in the `bar` namespace.
+1. Check network connectivity between service `curl` in the `foo` namespace and `httpbin` in the `bar` namespace.
 
     {{< text bash >}}
-    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
+    $ kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 

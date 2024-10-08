@@ -26,17 +26,17 @@ source "tests/util/samples.sh"
 # Make sure default namespace is injected
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample and set up variable pointing to it
-# Start the sleep sample
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+# Deploy curl sample and set up variable pointing to it
+# Start the curl sample
+startup_curl_sample
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')
 
 # create namespace without istio
 snip__1
 
-# deploy sleep in without-istio namespace
+# deploy curl in without-istio namespace
 snip__2
-_wait_for_deployment without-istio sleep
+_wait_for_deployment without-istio curl
 snip__3
 
 # Create secret

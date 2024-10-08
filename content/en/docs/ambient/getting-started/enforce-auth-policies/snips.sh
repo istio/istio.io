@@ -40,12 +40,12 @@ spec:
 EOF
 }
 
-snip_deploy_sleep() {
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/master/samples/sleep/sleep.yaml
+snip_deploy_curl() {
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_enforce_layer_4_authorization_policy_3() {
-kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage"
+kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage"
 }
 
 ! IFS=$'\n' read -r -d '' snip_enforce_layer_4_authorization_policy_3_out <<\ENDSNIP
@@ -87,7 +87,7 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/default/sa/sleep
+        - cluster.local/ns/default/sa/curl
     to:
     - operation:
         methods: ["GET"]
@@ -96,7 +96,7 @@ EOF
 
 snip_enforce_layer_7_authorization_policy_4() {
 # This fails with an RBAC error because we're not using a GET operation
-kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
+kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 }
 
 ! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_4_out <<\ENDSNIP
@@ -113,8 +113,8 @@ RBAC: access denied
 ENDSNIP
 
 snip_enforce_layer_7_authorization_policy_6() {
-# This works as we're explicitly allowing GET requests from the sleep pod
-kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
+# This works as we're explicitly allowing GET requests from the curl pod
+kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
 ! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_6_out <<\ENDSNIP

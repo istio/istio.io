@@ -27,45 +27,45 @@ $ istioctl install --set profile=default
 
 ### Setup
 
-Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `sleep`, both running with an Envoy proxy. We also use second
-instances of `httpbin` and `sleep` running without the sidecar in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
+Our examples use two namespaces `foo` and `bar`, with two services, `httpbin` and `curl`, both running with an Envoy proxy. We also use second
+instances of `httpbin` and `curl` running without the sidecar in the `legacy` namespace. If you’d like to use the same examples when trying the tasks,
 run the following:
 
 {{< text bash >}}
 $ kubectl create ns foo
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+$ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
 $ kubectl create ns bar
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
+$ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n bar
 $ kubectl create ns legacy
 $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
-$ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
+$ kubectl apply -f @samples/curl/curl.yaml@ -n legacy
 {{< /text >}}
 
-You can verify setup by sending an HTTP request with `curl` from any `sleep` pod in the namespace `foo`, `bar` or `legacy` to either `httpbin.foo`,
+You can verify setup by sending an HTTP request with `curl` from any `curl` pod in the namespace `foo`, `bar` or `legacy` to either `httpbin.foo`,
 `httpbin.bar` or `httpbin.legacy`. All requests should succeed with HTTP code 200.
 
-For example, here is a command to check `sleep.bar` to `httpbin.foo` reachability:
+For example, here is a command to check `curl.bar` to `httpbin.foo` reachability:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name})" -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=curl -n bar -o jsonpath={.items..metadata.name})" -c curl -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
 This one-liner command conveniently iterates through all reachability combinations:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 200
-sleep.legacy to httpbin.bar: 200
-sleep.legacy to httpbin.legacy: 200
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 200
+curl.legacy to httpbin.bar: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 Verify there is no peer authentication policy in the system with the following command:
@@ -99,14 +99,14 @@ upstream request to the backend. That header's presence is evidence that mutual 
 used. For example:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | jq '.headers["X-Forwarded-Client-Cert"][0]' | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
-  "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl -s http://httpbin.foo:8000/headers -s | jq '.headers["X-Forwarded-Client-Cert"][0]' | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+  "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/curl"
 {{< /text >}}
 
 When the server doesn't have sidecar, the `X-Forwarded-Client-Cert` header is not there, which implies requests are in plain text.
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 
 {{< /text >}}
 
@@ -140,21 +140,21 @@ Since it doesn't specify a value for the `selector` field, the policy applies to
 Run the test command again:
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-You see requests still succeed, except for those from the client that doesn't have proxy, `sleep.legacy`, to the server with a proxy, `httpbin.foo` or `httpbin.bar`. This is expected because mutual TLS is now strictly required, but the workload without sidecar cannot comply.
+You see requests still succeed, except for those from the client that doesn't have proxy, `curl.legacy`, to the server with a proxy, `httpbin.foo` or `httpbin.bar`. This is expected because mutual TLS is now strictly required, but the workload without sidecar cannot comply.
 
 ### Cleanup part 1
 
@@ -183,20 +183,20 @@ spec:
 EOF
 {{< /text >}}
 
-As this policy is applied on workloads in namespace `foo` only, you should see only request from client-without-sidecar (`sleep.legacy`) to `httpbin.foo` start to fail.
+As this policy is applied on workloads in namespace `foo` only, you should see only request from client-without-sidecar (`curl.legacy`) to `httpbin.foo` start to fail.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.bar: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 ### Enable mutual TLS per workload
@@ -219,26 +219,26 @@ spec:
 EOF
 {{< /text >}}
 
-Again, run the probing command. As expected, request from `sleep.legacy` to `httpbin.bar` starts failing with the same reasons.
+Again, run the probing command. As expected, request from `curl.legacy` to `httpbin.bar` starts failing with the same reasons.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 {{< text plain >}}
 ...
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
@@ -267,24 +267,24 @@ EOF
 1. You can only use `portLevelMtls` if the port is bound to a service. Istio ignores it otherwise.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.bar: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 ### Policy precedence
 
 A workload-specific peer authentication policy takes precedence over a namespace-wide policy. You can test this behavior if you add a policy to disable mutual TLS for the `httpbin.foo` workload, for example.
 Note that you've already created a namespace-wide policy that enables mutual TLS for all services in namespace `foo` and observe that requests from
-`sleep.legacy` to `httpbin.foo` are failing (see above).
+`curl.legacy` to `httpbin.foo` are failing (see above).
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -302,10 +302,10 @@ spec:
 EOF
 {{< /text >}}
 
-Re-running the request from `sleep.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
+Re-running the request from `curl.legacy`, you should see a success return code again (200), confirming service-specific policy overrides the namespace-wide policy.
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=curl -n legacy -o jsonpath={.items..metadata.name})" -c curl -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 

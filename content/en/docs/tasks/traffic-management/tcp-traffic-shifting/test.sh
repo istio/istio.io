@@ -26,7 +26,7 @@ GATEWAY_API="${GATEWAY_API:-false}"
 # create a new namespace for testing purposes
 snip_set_up_the_test_environment_1
 
-# start the sleep sample
+# start the curl sample
 snip_set_up_the_test_environment_2
 
 # start the v1 and v2 versions of the echo service
@@ -35,7 +35,7 @@ snip_set_up_the_test_environment_3
 # wait for deployments to start
 _wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v1
 _wait_for_deployment istio-io-tcp-traffic-shifting tcp-echo-v2
-_wait_for_deployment istio-io-tcp-traffic-shifting sleep
+_wait_for_deployment istio-io-tcp-traffic-shifting curl
 
 # Route all traffic to echo v1
 if [ "$GATEWAY_API" == "true" ]; then

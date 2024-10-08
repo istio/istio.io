@@ -78,7 +78,7 @@ EOF
 }
 
 snip_deploy_an_https_proxy_5() {
-kubectl apply -n external -f samples/sleep/sleep.yaml
+kubectl apply -n external -f samples/curl/curl.yaml
 }
 
 snip_deploy_an_https_proxy_6() {
@@ -90,7 +90,7 @@ export PROXY_PORT=3128
 }
 
 snip_deploy_an_https_proxy_8() {
-kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+kubectl exec "$(kubectl get pod -n external -l app=curl -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
 }
 
 ! IFS=$'\n' read -r -d '' snip_deploy_an_https_proxy_8_out <<\ENDSNIP
@@ -126,7 +126,7 @@ EOF
 }
 
 snip_configure_traffic_to_external_https_proxy_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+kubectl exec "$SOURCE_POD" -c curl -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_traffic_to_external_https_proxy_2_out <<\ENDSNIP
@@ -150,11 +150,11 @@ kubectl exec "$(kubectl get pod -n external -l app=squid -o jsonpath={.items..me
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }
 
 snip_cleanup_2() {
-kubectl delete -f samples/sleep/sleep.yaml -n external
+kubectl delete -f samples/curl/curl.yaml -n external
 }
 
 snip_cleanup_3() {
