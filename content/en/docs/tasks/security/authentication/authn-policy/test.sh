@@ -27,11 +27,11 @@ _wait_for_deployment istio-system istiod
 snip_setup_1
 
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
 _wait_for_deployment bar httpbin
-_wait_for_deployment bar sleep
+_wait_for_deployment bar curl
 _wait_for_deployment legacy httpbin
-_wait_for_deployment legacy sleep
+_wait_for_deployment legacy curl
 
 _verify_same  snip_setup_2 "$snip_setup_2_out"
 _verify_same  snip_setup_3 "$snip_setup_3_out"

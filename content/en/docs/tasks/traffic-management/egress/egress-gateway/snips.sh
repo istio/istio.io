@@ -22,11 +22,11 @@
 source "content/en/boilerplates/snips/gateway-api-gamma-experimental.sh"
 
 snip_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_before_you_begin_2() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }
 
 ! IFS=$'\n' read -r -d '' snip_before_you_begin_3 <<\ENDSNIP
@@ -66,7 +66,7 @@ EOF
 }
 
 snip_egress_gateway_for_http_traffic_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_egress_gateway_for_http_traffic_2_out <<\ENDSNIP
@@ -202,7 +202,7 @@ EOF
 }
 
 snip_egress_gateway_for_http_traffic_7() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_egress_gateway_for_http_traffic_7_out <<\ENDSNIP
@@ -283,7 +283,7 @@ EOF
 }
 
 snip_egress_gateway_for_https_traffic_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_egress_gateway_for_https_traffic_2_out <<\ENDSNIP
@@ -413,7 +413,7 @@ EOF
 }
 
 snip_egress_gateway_for_https_traffic_5() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_egress_gateway_for_https_traffic_5_out <<\ENDSNIP
@@ -458,20 +458,20 @@ kubectl create namespace test-egress
 }
 
 snip_apply_kubernetes_network_policies_2() {
-kubectl apply -n test-egress -f samples/sleep/sleep.yaml
+kubectl apply -n test-egress -f samples/curl/curl.yaml
 }
 
 snip_apply_kubernetes_network_policies_3() {
-kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
+kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_3_out <<\ENDSNIP
 NAME                     READY     STATUS    RESTARTS   AGE
-sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
+curl-776b7bcdcd-z7mc4    1/1       Running   0          18m
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_4() {
-kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_4_out <<\ENDSNIP
@@ -546,7 +546,7 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_10() {
-kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -v -sS https://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_10_out <<\ENDSNIP
@@ -568,16 +568,16 @@ kubectl label namespace test-egress istio-injection=enabled
 }
 
 snip_apply_kubernetes_network_policies_12() {
-kubectl delete deployment sleep -n test-egress
-kubectl apply -f samples/sleep/sleep.yaml -n test-egress
+kubectl delete deployment curl -n test-egress
+kubectl apply -f samples/curl/curl.yaml -n test-egress
 }
 
 snip_apply_kubernetes_network_policies_13() {
-kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_13_out <<\ENDSNIP
-sleep istio-proxy
+curl istio-proxy
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_14() {
@@ -594,15 +594,15 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_15() {
-kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_15_out <<\ENDSNIP
-sleep istio-proxy
+curl istio-proxy
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_16() {
-kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_16_out <<\ENDSNIP
@@ -626,7 +626,7 @@ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c ist
 ENDSNIP
 
 snip_cleanup_network_policies_1() {
-kubectl delete -f samples/sleep/sleep.yaml -n test-egress
+kubectl delete -f samples/curl/curl.yaml -n test-egress
 kubectl delete destinationrule egressgateway-for-cnn -n test-egress
 kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 kubectl label namespace kube-system kube-system-
@@ -635,7 +635,7 @@ kubectl delete namespace test-egress
 }
 
 snip_cleanup_network_policies_2() {
-kubectl delete -f samples/sleep/sleep.yaml -n test-egress
+kubectl delete -f samples/curl/curl.yaml -n test-egress
 kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 kubectl label namespace kube-system kube-system-
 kubectl label namespace istio-system istio-
@@ -644,5 +644,5 @@ kubectl delete namespace test-egress
 }
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }

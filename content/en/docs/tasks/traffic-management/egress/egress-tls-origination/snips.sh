@@ -21,15 +21,15 @@
 ####################################################################################################
 
 snip_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_before_you_begin_2() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml)
 }
 
 snip_before_you_begin_3() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }
 
 snip_apply_simple() {
@@ -53,7 +53,7 @@ EOF
 }
 
 snip_curl_simple() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_curl_simple_out <<\ENDSNIP
@@ -101,7 +101,7 @@ EOF
 }
 
 snip_curl_origination_http() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_curl_origination_http_out <<\ENDSNIP
@@ -110,7 +110,7 @@ HTTP/1.1 200 OK
 ENDSNIP
 
 snip_curl_origination_https() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_curl_origination_https_out <<\ENDSNIP
@@ -239,14 +239,14 @@ spec:
 EOF
 }
 
-snip_configure_the_client_sleep_pod_1() {
+snip_configure_the_client_curl_pod_1() {
 kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
   --from-file=tls.crt=client.example.com.crt --from-file=ca.crt=example.com.crt
 }
 
-snip_configure_the_client_sleep_pod_2() {
+snip_configure_the_client_curl_pod_2() {
 kubectl create role client-credential-role --resource=secret --verb=list
-kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:curl
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1() {
@@ -275,7 +275,7 @@ metadata:
 spec:
   workloadSelector:
     matchLabels:
-      app: sleep
+      app: curl
   host: my-nginx.mesh-external.svc.cluster.local
   trafficPolicy:
     loadBalancer:
@@ -291,7 +291,7 @@ EOF
 }
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2() {
-istioctl proxy-config secret deploy/sleep | grep client-credential
+istioctl proxy-config secret deploy/curl | grep client-credential
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2_out <<\ENDSNIP
@@ -300,7 +300,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
 ENDSNIP
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_3_out <<\ENDSNIP
@@ -312,7 +312,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name}
 ENDSNIP
 
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_4() {
-kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+kubectl logs -l app=curl -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
 }
 
 snip_cleanup_the_mutual_tls_origination_configuration_1() {
@@ -337,6 +337,6 @@ rm ./nginx.conf
 }
 
 snip_cleanup_common_configuration_1() {
-kubectl delete service sleep
-kubectl delete deployment sleep
+kubectl delete service curl
+kubectl delete deployment curl
 }

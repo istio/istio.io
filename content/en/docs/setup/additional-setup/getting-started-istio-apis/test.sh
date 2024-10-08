@@ -35,8 +35,8 @@ kubectl label namespace default istio-injection-
 snip_install_istio_2
 
 # TODO: how to make sure previous tests cleaned up everything?
-# Cleanup sleep
-cleanup_sleep_sample
+# Cleanup curl
+cleanup_curl_sample
 
 # Deploy the sample Application
 snip_deploy_the_sample_application_1

@@ -23,7 +23,7 @@ install_gateway_api_crds
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_1
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 snip_before_you_begin_3
 
 snip_access_an_external_http_service_1

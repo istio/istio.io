@@ -58,15 +58,15 @@ function deploy_services
   snip_deploy_helloworld_4
   snip_deploy_helloworld_5
 
-  echo "Deploying Sleep"
-  # Make a copy of sleep.yaml.
-  cp "samples/sleep/sleep.yaml" "samples/sleep/sleep.yaml.original"
-  # Add the locality label to sleep.yaml
-  add_locality_label "samples/sleep/sleep.yaml" "region1.zone1"
-  # Deploy sleep
-  snip_deploy_sleep_1
+  echo "Deploying curl"
+  # Make a copy of curl.yaml.
+  cp "samples/curl/curl.yaml" "samples/curl/curl.yaml.original"
+  # Add the locality label to curl.yaml
+  add_locality_label "samples/curl/curl.yaml" "region1.zone1"
+  # Deploy curl
+  snip_deploy_curl_1
   # Restore the original file.
-  mv -f "samples/sleep/sleep.yaml.original" "samples/sleep/sleep.yaml"
+  mv -f "samples/curl/curl.yaml.original" "samples/curl/curl.yaml"
 
   echo "Waiting for HelloWorld pods"
   _verify_like snip_wait_for_helloworld_pods_1 "$snip_wait_for_helloworld_pods_1_out"

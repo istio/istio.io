@@ -28,18 +28,18 @@ Before you begin this task, do the following:
     {{< /text >}}
 
 1. Deploy the [httpbin]({{< github_tree >}}/samples/httpbin) sample in the `default` namespace
- and the [sleep]({{< github_tree >}}/samples/sleep) sample in the `default` and `sleep-allow` namespaces:
+ and the [curl]({{< github_tree >}}/samples/curl) sample in the `default` and `curl-allow` namespaces:
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
-    $ kubectl create namespace sleep-allow
-    $ kubectl label namespace sleep-allow istio-injection=enabled
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sleep-allow
+    $ kubectl apply -f @samples/curl/curl.yaml@
+    $ kubectl create namespace curl-allow
+    $ kubectl label namespace curl-allow istio-injection=enabled
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n curl-allow
     {{< /text >}}
 
-1. Apply the authorization policy below to deny all requests to `httpbin` except from `sleep` in the `sleep-allow` namespace.
+1. Apply the authorization policy below to deny all requests to `httpbin` except from `curl` in the `curl-allow` namespace.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -53,7 +53,7 @@ Before you begin this task, do the following:
       - from:
         - source:
             principals:
-            - old-td/ns/sleep-allow/sa/sleep
+            - old-td/ns/curl-allow/sa/curl
         to:
         - operation:
             methods:
@@ -69,17 +69,17 @@ Before you begin this task, do the following:
 
 1. Verify that requests to `httpbin` from:
 
-    * `sleep` in the `default` namespace are denied.
+    * `curl` in the `default` namespace are denied.
 
         {{< text bash >}}
-        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
         403
         {{< /text >}}
 
-    * `sleep` in the `sleep-allow` namespace are allowed.
+    * `curl` in the `curl-allow` namespace are allowed.
 
         {{< text bash >}}
-        $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        $ kubectl exec "$(kubectl -n curl-allow get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -n curl-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
         200
         {{< /text >}}
 
@@ -99,32 +99,32 @@ Before you begin this task, do the following:
 
     Istio mesh is now running with a new trust domain, `new-td`.
 
-1. Redeploy the `httpbin` and `sleep` applications to pick up changes from the new Istio control plane.
+1. Redeploy the `httpbin` and `curl` applications to pick up changes from the new Istio control plane.
 
     {{< text bash >}}
     $ kubectl delete pod --all
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl delete pod --all -n sleep-allow
+    $ kubectl delete pod --all -n curl-allow
     {{< /text >}}
 
-1. Verify that requests to `httpbin` from both `sleep` in `default` namespace and `sleep-allow` namespace are denied.
+1. Verify that requests to `httpbin` from both `curl` in `default` namespace and `curl-allow` namespace are denied.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl -n curl-allow get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -n curl-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
     This is because we specified an authorization policy that deny all requests to `httpbin`, except the ones
-    the `old-td/ns/sleep-allow/sa/sleep` identity, which is the old identity of the `sleep` application in `sleep-allow` namespace.
-    When we migrated to a new trust domain above, i.e. `new-td`, the identity of this `sleep` application is now `new-td/ns/sleep-allow/sa/sleep`,
-    which is not the same as `old-td/ns/sleep-allow/sa/sleep`. Therefore, requests from the `sleep` application in `sleep-allow` namespace
+    the `old-td/ns/curl-allow/sa/curl` identity, which is the old identity of the `curl` application in `curl-allow` namespace.
+    When we migrated to a new trust domain above, i.e. `new-td`, the identity of this `curl` application is now `new-td/ns/curl-allow/sa/curl`,
+    which is not the same as `old-td/ns/curl-allow/sa/curl`. Therefore, requests from the `curl` application in `curl-allow` namespace
     to `httpbin` were allowed before are now being denied. Prior to Istio 1.4, the only way to make this work is to change the authorization
     policy manually. In Istio 1.4, we introduce an easy way, as shown below.
 
@@ -147,24 +147,24 @@ Before you begin this task, do the following:
 
 1. Without changing the authorization policy, verify that requests to `httpbin` from:
 
-    * `sleep` in the `default` namespace are denied.
+    * `curl` in the `default` namespace are denied.
 
         {{< text bash >}}
-        $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
         403
         {{< /text >}}
 
-    * `sleep` in the `sleep-allow` namespace are allowed.
+    * `curl` in the `curl-allow` namespace are allowed.
 
         {{< text bash >}}
-        $ kubectl exec "$(kubectl -n sleep-allow get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -n sleep-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+        $ kubectl exec "$(kubectl -n curl-allow get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -n curl-allow -- curl http://httpbin.default:8000/ip -sS -o /dev/null -w "%{http_code}\n"
         200
         {{< /text >}}
 
 ## Best practices
 
 Starting from Istio 1.4, when writing authorization policy, you should consider using the value `cluster.local` as the
-trust domain part in the policy. For example, instead of `old-td/ns/sleep-allow/sa/sleep`, it should be `cluster.local/ns/sleep-allow/sa/sleep`.
+trust domain part in the policy. For example, instead of `old-td/ns/curl-allow/sa/curl`, it should be `cluster.local/ns/curl-allow/sa/curl`.
 Notice that in this case, `cluster.local` is not the Istio mesh trust domain (the trust domain is still `old-td`). However,
 in authorization policy, `cluster.local` is a pointer that points to the current trust domain, i.e. `old-td` (and later `new-td`), as well as its aliases.
 By using `cluster.local` in the authorization policy, when you migrate to a new trust domain, Istio will detect this and treat the new trust domain
@@ -175,8 +175,8 @@ as the old trust domain without you having to include the aliases.
 {{< text bash >}}
 $ kubectl delete authorizationpolicy service-httpbin.default.svc.cluster.local
 $ kubectl delete deploy httpbin; kubectl delete service httpbin; kubectl delete serviceaccount httpbin
-$ kubectl delete deploy sleep; kubectl delete service sleep; kubectl delete serviceaccount sleep
+$ kubectl delete deploy curl; kubectl delete service curl; kubectl delete serviceaccount curl
 $ istioctl uninstall --purge -y
-$ kubectl delete namespace sleep-allow istio-system
+$ kubectl delete namespace curl-allow istio-system
 $ rm ./td-installation.yaml
 {{< /text >}}

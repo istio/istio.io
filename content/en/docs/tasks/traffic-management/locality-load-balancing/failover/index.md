@@ -11,7 +11,7 @@ Follow this guide to configure your mesh for locality failover.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
-In this task, you will use the `Sleep` pod in `region1.zone1` as the source of
+In this task, you will use the `curl` pod in `region1.zone1` as the source of
 requests to the `HelloWorld` service. You will then trigger failures that will
 cause failover between localities in the following sequence:
 
@@ -22,7 +22,7 @@ cause failover between localities in the following sequence:
 
 Internally, [Envoy priorities](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)
 are used to control failover. These priorities will be assigned as follows for
-traffic originating from the `Sleep` pod (in `region1` `zone1`):
+traffic originating from the `curl` pod (in `region1` `zone1`):
 
 Priority | Locality | Details
 -------- | -------- | -------
@@ -81,12 +81,12 @@ EOF
 
 ## Verify traffic stays in `region1.zone1`
 
-Call the `HelloWorld` service from the `Sleep` pod:
+Call the `HelloWorld` service from the `curl` pod:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 {{< /text >}}
@@ -108,12 +108,12 @@ $ kubectl --context="${CTX_R1_Z1}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-Call the `HelloWorld` service from the `Sleep` pod:
+Call the `HelloWorld` service from the `curl` pod:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 {{< /text >}}
@@ -134,12 +134,12 @@ $ kubectl --context="${CTX_R1_Z2}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-Call the `HelloWorld` service from the `Sleep` pod:
+Call the `HelloWorld` service from the `curl` pod:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 {{< /text >}}
@@ -160,12 +160,12 @@ $ kubectl --context="${CTX_R2_Z3}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-Call the `HelloWorld` service from the `Sleep` pod:
+Call the `HelloWorld` service from the `curl` pod:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 {{< /text >}}

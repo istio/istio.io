@@ -20,7 +20,7 @@ A basic L4 authorization policy looks like this:
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
- name: allow-sleep-to-httpbin
+ name: allow-curl-to-httpbin
 spec:
  selector:
    matchLabels:
@@ -30,12 +30,12 @@ spec:
  - from:
    - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/sleep
+       - cluster.local/ns/ambient-demo/sa/curl
 {{< /text >}}
 
 This policy can be used in both {{< gloss "sidecar" >}}sidecar mode{{< /gloss >}} and ambient mode.
 
-The L4 (TCP) features of the Istio `AuthorizationPolicy` API have the same functional behavior in ambient mode as in sidecar mode. When there is no authorization policy provisioned,  the default action is `ALLOW`. Once a policy is provisioned, pods targeted by the policy only permit traffic which is explicitly allowed. In the above example, pods with the label `app: httpbin` only permit traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/sleep`. Traffic from all other sources will be denied.
+The L4 (TCP) features of the Istio `AuthorizationPolicy` API have the same functional behavior in ambient mode as in sidecar mode. When there is no authorization policy provisioned,  the default action is `ALLOW`. Once a policy is provisioned, pods targeted by the policy only permit traffic which is explicitly allowed. In the above example, pods with the label `app: httpbin` only permit traffic from sources with an identity principal of `cluster.local/ns/ambient-demo/sa/curl`. Traffic from all other sources will be denied.
 
 ## Targeting policies
 
@@ -71,7 +71,7 @@ This example adds a check for the HTTP GET method:
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
- name: allow-sleep-to-httpbin
+ name: allow-curl-to-httpbin
 spec:
  selector:
    matchLabels:
@@ -81,7 +81,7 @@ spec:
  - from:
    - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/sleep
+       - cluster.local/ns/ambient-demo/sa/curl
    to:
    - operation:
        methods: ["GET"]

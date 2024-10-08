@@ -22,15 +22,15 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_before_you_begin_2() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml)
 }
 
 snip_before_you_begin_3() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }
 
 snip_before_you_begin_4() {
@@ -66,7 +66,7 @@ EOF
 }
 
 snip_perform_tls_origination_with_an_egress_gateway_2() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_2_out <<\ENDSNIP
@@ -247,7 +247,7 @@ EOF
 }
 
 snip_perform_tls_origination_with_an_egress_gateway_8() {
-kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
 }
 
 ! IFS=$'\n' read -r -d '' snip_perform_tls_origination_with_an_egress_gateway_8_out <<\ENDSNIP
@@ -668,7 +668,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
 ENDSNIP
 
 snip_configure_mutual_tls_origination_for_egress_traffic_11() {
-kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_mutual_tls_origination_for_egress_traffic_11_out <<\ENDSNIP
@@ -728,5 +728,5 @@ rm ./nginx.conf
 }
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }

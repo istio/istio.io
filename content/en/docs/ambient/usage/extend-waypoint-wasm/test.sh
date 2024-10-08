@@ -25,7 +25,7 @@ install_gateway_api_crds
 # deploy test application
 source "tests/util/samples.sh"
 startup_bookinfo_sample
-startup_sleep_sample
+startup_curl_sample
 
 # snip_annotate_bookinfo_gateway
 kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
@@ -78,6 +78,6 @@ kubectl label namespace default istio.io/use-waypoint-
 
 istioctl x waypoint delete --all
 
-cleanup_sleep_sample
+cleanup_curl_sample
 cleanup_bookinfo_sample
 remove_gateway_api_crds

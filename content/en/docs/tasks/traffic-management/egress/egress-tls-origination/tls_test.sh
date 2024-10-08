@@ -27,7 +27,7 @@ source "tests/util/samples.sh"
 kubectl label namespace default istio-injection=enabled || true
 
 # Deploy sample and set up variable pointing to it
-startup_sleep_sample
+startup_curl_sample
 snip_before_you_begin_3
 
 # Confirm we can access plain HTTP
@@ -48,5 +48,5 @@ _verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"
 
 # @cleanup
 snip_cleanup_the_tls_origination_configuration_1
-cleanup_sleep_sample
+cleanup_curl_sample
 kubectl label namespace default istio-injection-

@@ -24,7 +24,7 @@ source "tests/util/samples.sh"
 # @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
-startup_sleep_sample # needed for sending test requests with curl
+startup_curl_sample # needed for sending test requests with curl
 
 # launch the bookinfo app
 startup_bookinfo_sample
@@ -74,6 +74,6 @@ _verify_contains get_productpage "Sorry, product reviews are currently unavailab
 if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup_1
     cleanup_bookinfo_sample
-    cleanup_sleep_sample
+    cleanup_curl_sample
     kubectl label namespace default istio-injection-
 fi

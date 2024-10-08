@@ -396,17 +396,17 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 Verifying connectivity to Istiod is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Istiod. This can be accomplished in a few simple steps:
 
-1.  Create a `sleep` pod:
+1.  Create a `curl` pod:
 
     {{< text bash >}}
     $ kubectl create namespace foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
 1.  Test connectivity to Istiod using `curl`. The following example invokes the v1 registration API using default Istiod configuration parameters and mutual TLS enabled:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/version
+    $ kubectl exec $(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name}) -c curl -n foo -- curl -sS istiod.istio-system:15014/version
     {{< /text >}}
 
 You should receive a response listing the version of Istiod.

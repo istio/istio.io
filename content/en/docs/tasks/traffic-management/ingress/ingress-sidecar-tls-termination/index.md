@@ -199,12 +199,12 @@ EOF
 ## Verification
 
 Now that the httpbin server is deployed and configured, bring up two clients to  test the end to end connectivity from both inside and outside of the mesh:
-1. An internal client (sleep) in the same namespace (test) as the httpbin service, with sidecar injected.
-1. An external client (sleep) in the default namespace (i.e., outside of the service mesh).
+1. An internal client (curl) in the same namespace (test) as the httpbin service, with sidecar injected.
+1. An external client (curl) in the default namespace (i.e., outside of the service mesh).
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml
-$ kubectl -n test apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f samples/curl/curl.yaml
+$ kubectl -n test apply -f samples/curl/curl.yaml
 {{< /text >}}
 
 Run the following commands to verify that everything is up and running, and configured correctly.
@@ -212,21 +212,21 @@ Run the following commands to verify that everything is up and running, and conf
 {{< text bash >}}
 $ kubectl get pods
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-557747455f-xx88g   1/1     Running   0          4m14s
+curl-557747455f-xx88g    1/1     Running   0          4m14s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n test
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
-sleep-557747455f-brzf6     2/2     Running   0          6m57s
+curl-557747455f-brzf6      2/2     Running   0          6m57s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n test
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
-sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
+curl      ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 {{< /text >}}
 
 In the following command, replace `httpbin-5bbdbd6588-z9vbs` with the name of your httpbin pod.
@@ -243,8 +243,8 @@ file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Cha
 ### Verify internal mesh connectivity on port 8080
 
 {{< text bash >}}
-$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -IsS "http://httpbin:8080/status/200"
+$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=curl -o jsonpath={.items..metadata.name})
+$ kubectl -n test exec "${INTERNAL_CLIENT}" -c curl -- curl -IsS "http://httpbin:8080/status/200"
 HTTP/1.1 200 OK
 server: envoy
 date: Mon, 24 Oct 2022 09:04:52 GMT
@@ -257,19 +257,19 @@ x-envoy-upstream-service-time: 5
 
 ### Verify external to internal mesh connectivity on port 8443
 
-To verify mTLS traffic from an external client, first copy the CA certificate and client certificate/key to the sleep client running in the default namespace.
+To verify mTLS traffic from an external client, first copy the CA certificate and client certificate/key to the curl client running in the default namespace.
 
 {{< text bash >}}
-$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 $ kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
-Now that the certificates are available for the external sleep client, you can verify connectivity from it to the internal httpbin service using the following command.
+Now that the certificates are available for the external curl client, you can verify connectivity from it to the internal httpbin service using the following command.
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 server: istio-envoy
 date: Mon, 24 Oct 2022 09:05:31 GMT
 content-type: text/html; charset=utf-8
@@ -283,7 +283,7 @@ x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 In addition to verifying external mTLS connectivity via the ingress port 8443, it is also important to verify that port 8080 does not accept any external mTLS traffic.
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 {{< /text >}}
@@ -294,11 +294,11 @@ command terminated with exit code 56
 
     {{< text bash >}}
     $ kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
-    $ kubectl delete service httpbin sleep -n test
-    $ kubectl delete deployment httpbin sleep -n test
+    $ kubectl delete service httpbin curl -n test
+    $ kubectl delete deployment httpbin curl -n test
     $ kubectl delete namespace test
-    $ kubectl delete service sleep
-    $ kubectl delete deployment sleep
+    $ kubectl delete service curl
+    $ kubectl delete deployment curl
     {{< /text >}}
 
 1.  Delete the certificates and private keys:
