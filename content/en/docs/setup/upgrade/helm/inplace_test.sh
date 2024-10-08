@@ -26,7 +26,6 @@ _install_istio_helm
 _rewrite_helm_repo snip_in_place_upgrade_1
 _rewrite_helm_repo snip_in_place_upgrade_2
 _rewrite_helm_repo snip_in_place_upgrade_3
-_rewrite_helm_repo snip_in_place_upgrade_4
 
 _remove_istio_helm
 # @cleanup
