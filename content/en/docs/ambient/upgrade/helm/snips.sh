@@ -45,7 +45,11 @@ snip_upgrade_crds() {
 helm upgrade istio-base istio/base -n istio-system
 }
 
-snip_upgrade_istiod() {
+snip_upgrade_istiod_inplace() {
+helm upgrade istiod istio/istiod -n istio-system --wait
+}
+
+snip_upgrade_istiod_revisioned() {
 helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
 }
 
@@ -53,7 +57,11 @@ snip_upgrade_cni() {
 helm upgrade istio-cni istio/cni -n istio-system
 }
 
-snip_upgrade_ztunnel() {
+snip_upgrade_ztunnel_inplace() {
+helm upgrade ztunnel istio/ztunnel -n istio-system --wait
+}
+
+snip_upgrade_ztunnel_revisioned() {
 helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
 }
 
