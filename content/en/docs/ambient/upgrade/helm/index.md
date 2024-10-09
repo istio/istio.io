@@ -167,7 +167,7 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" 
 
 {{< tab name="In-place upgrade" category-value="in-place" >}}
 
-### Upgrade manually deployed gateways (optional)
+### Upgrade manually deployed gateway chart (optional)
 
 `Gateway`s that were [deployed manually](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
 

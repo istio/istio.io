@@ -30,7 +30,7 @@ snip_istioctl_precheck
 _rewrite_helm_repo snip_upgrade_crds
 _rewrite_helm_repo snip_upgrade_istiod_inplace
 _wait_for_deployment istio-system istiod
-_rewrite_helm_repo snip_upgrade_ztunnel
+_rewrite_helm_repo snip_upgrade_ztunnel_inplace
 _wait_for_daemonset istio-system ztunnel
 _rewrite_helm_repo snip_upgrade_cni
 _wait_for_daemonset istio-system istio-cni-node
