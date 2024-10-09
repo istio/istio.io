@@ -56,7 +56,7 @@ No additional preparations for in-place upgrades, proceed to the next step.
 
 ### Organize your tags and revisions
 
-In order to upgrade a mesh in ambient mode in a controlled manner, we recommend that your gateways and namespaces should be using the `istio.io/rev` label to specify a revision tag to manage which gateway and control plane versions will be used for your workloads. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
+In order to upgrade a mesh in ambient mode in a controlled manner, we recommend that your gateways and namespaces use the `istio.io/rev` label to specify a revision tag to control which gateway and control plane versions will be used to manage traffic for your workloads. We recommend dividing your production cluster into multiple tags to organize your upgrade. All members of a given tag will be upgraded simultaneously, so it is wise to begin your upgrade with your lowest risk applications. We do not recommend referencing revisions directly via labels for upgrades, as this process can easily result in the accidental upgrade of a large number of proxies, and is difficult to segment. To see what tags and revisions you are using in your cluster, see the section on upgrading tags.
 
 ### Choose a revision name
 
@@ -91,7 +91,7 @@ $ helm upgrade istio-base istio/base -n istio-system
 
 ### istiod control plane
 
-The [Istiod](/docs/ops/deployment/architecture/#istiod) control plane manages and configures the proxies that route traffic within the mesh. The following command will install a new instance of the control plane alongside the current one, but will not introduce any new gateway proxies, or take over control of existing gateway proxies.
+The [Istiod](/docs/ops/deployment/architecture/#istiod) control plane manages and configures the proxies that route traffic within the mesh. The following command will install a new instance of the control plane alongside the current one, but will not introduce any new gateway proxies or waypoints, or take over control of existing ones.
 
 If you have customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
 
