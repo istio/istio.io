@@ -293,7 +293,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}

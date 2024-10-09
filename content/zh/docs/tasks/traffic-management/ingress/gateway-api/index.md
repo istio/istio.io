@@ -122,7 +122,9 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -176,12 +178,9 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 1.  再次访问 `/headers`，注意到 `My-Added-Header` 标头已被添加到请求：
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    {
-      "headers": {
-        "Accept": "*/*",
-        "Host": "httpbin.example.com",
-        "My-Added-Header": "added-value",
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
+    ...
+    "added-value"
     ...
     {{< /text >}}
 
