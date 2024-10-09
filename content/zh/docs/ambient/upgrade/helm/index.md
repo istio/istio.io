@@ -95,10 +95,12 @@ $ export OLD_REVISION=istio-1-21-2
 
 ### 基本组件 {#base-components}
 
+{{< boilerplate crd-upgrade-123 >}}
+
 在部署新版本的控制平面之前，必须升级集群范围的 Custom Resource Definitions（CRD）：
 
-{{< text bash >}}
-$ kubectl apply -f manifests/charts/base/crds
+{{< text syntax=bash snip_id=upgrade_crds >}}
+$ helm upgrade istio-base istio/base -n istio-system
 {{< /text >}}
 
 ### istiod 控制平面 {#istiod-control-plane}

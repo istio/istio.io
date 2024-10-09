@@ -246,15 +246,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
     `httpbin` 服务将返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) 代码。
@@ -276,15 +269,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 1) 如果您使用之前的证书链来访问 `httpbin`，则会失败：
@@ -480,21 +466,16 @@ EOF
     ...
     {{< /text >}}
 
-1) 向 `httpbin.example.com` 发送一个 HTTPS 请求，仍然返回一个茶壶：
+1) 向 `httpbin.example.com` 发送一个 HTTPS 请求，仍然返回一个 [HTTP 418](https://datatracker.ietf.org/doc/html/rfc2324)：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
     {{< /text >}}
 
 ### 配置双向 TLS 入口网关 {#configure-a-mutual-tls-ingress-gateway}
@@ -618,15 +599,12 @@ EOF
       --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
       "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 ## 更多信息 {#more-info}

@@ -99,8 +99,8 @@ JWT 声明复制到 HTTP 头。
 1. 确认请求包含有效的 HTTP 头且这个头具有 JWT 声明值：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | grep "X-Jwt-Claim-Foo" | sed -e 's/^[ \t]*//'
-    "X-Jwt-Claim-Foo": "bar"
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | jq '.headers["X-Jwt-Claim-Foo"][0]'
+    "bar"
     {{< /text >}}
 
 ## 清理 {#clean-up}

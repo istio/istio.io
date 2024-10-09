@@ -157,17 +157,11 @@ $ istioctl install -f <your-istio-operator-config-file>
     $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
+    ...
     < server: envoy
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 1.  检查 `otel-collector` 的日志：
