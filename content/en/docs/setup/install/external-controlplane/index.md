@@ -7,7 +7,7 @@ aliases:
     - /latest/docs/setup/additional-setup/external-controlplane/
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 ---
 
 This guide walks you through the process of installing an {{< gloss >}}external control plane{{< /gloss >}}

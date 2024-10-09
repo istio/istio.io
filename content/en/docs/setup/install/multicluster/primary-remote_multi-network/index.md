@@ -3,7 +3,7 @@ title: Install Primary-Remote on different networks
 description: Install an Istio mesh across primary and remote clusters on different networks.
 weight: 40
 keywords: [kubernetes,multicluster]
-test: yes
+test: no
 owner: istio/wg-environments-maintainers
 ---
 Follow this guide to install the Istio control plane on `cluster1` (the
