@@ -12,24 +12,12 @@ This page lists all the user facing APIs relevant to the ambient mode and its fe
 
 | Name | Status |
 | ------------------------------- | -------------------------- |
-| `istio.io/dataplane-mode` | Beta |
-| `istio.io/use-waypoint` | Beta |
-| `istio.io/use-waypoint-namespace` | Beta |
-| `istio.io/waypoint-for` | Beta |
+| [`istio.io/dataplane-mode`](/docs/reference/config/labels/) | GA |
+| [`istio.io/use-waypoint`](/docs/reference/config/labels/) | GA |
+| [`istio.io/waypoint-for`](/docs/reference/config/labels/) | GA |
+| [`istio.io/use-waypoint-namespace`](/docs/reference/config/labels/) | Beta |
 
-TODO: add link to labels page for each when 3307 is merged.
-
-## Annotations
-
-Below are annotations that can be used to customize your waypoint proxies:
-
-| Name | Status |
-| ------------------------------- | -------------------------- |
-| `gateway.istio.io/service-account` | Alpha |
-| `ambient.istio.io/waypoint-inbound-binding` | Alpha |
-| `gateway.istio.io/name-override` | Alpha |
-
-TODO: add link to annotations page for each when 3307 is merged.
+TODO: add exact links to labels page for each when 3307 is merged.
 
 ## Kubernetes Gateway API resources
 
@@ -37,20 +25,21 @@ Below are the resources you can use to configure your Ingress gateway or waypoin
 
 |  Name  | Status |
 | --- | --- |
-| [`HTTPRoute`](https://gateway-api.sigs.k8s.io/guides/http-routing/) | Beta |
+| [`HTTPRoute`](https://gateway-api.sigs.k8s.io/guides/http-routing/) | GA |
 | [`TLSRoute`](https://gateway-api.sigs.k8s.io/guides/tls) | Alpha |
 | [`TCPRoute`](https://gateway-api.sigs.k8s.io/guides/tcp/) | Alpha |
 
-## Istio resources
+## Istio API resources
 
-Below are the Istio resources you can use to build networking or security or other policies for your services in the ambient mode:
+Below are the Istio resources you can use to build security or networking or other policies for your services in the ambient mode.
+While Istio supports its classic networking APIs, we recommend you to use Kubernetes Gateway API for traffic management first, and only use Istio's classic networking API if necessary.
 
 |  Name  | Status |
 | --- | --- |
-| [`VirtualService`](https://gateway-api.sigs.k8s.io/guides/http-routing/) | Alpha |
-| [`DestinationRule`](https://gateway-api.sigs.k8s.io/guides/tls) | Beta |
-| [`ServiceEntry`](https://gateway-api.sigs.k8s.io/guides/tcp/) | Beta |
-| [`AuthorizationPolicy`](/docs/reference/config/security/authorization-policy/) (including L7 features) | Beta |
+| [`DestinationRule`](/docs/reference/config/networking/destination-rule/) | GA |
+| [`ServiceEntry`](/docs/reference/config/networking/service-entry/) | GA |
+| [`AuthorizationPolicy`](/docs/reference/config/security/authorization-policy/) (including L7 features) | GA |
 | [`RequestAuthentication`](/docs/reference/config/security/request_authentication/) | Beta |
+| [`VirtualService`](/docs/reference/config/networking/virtual-service/) | Alpha |
 | [`WasmPlugin`](/docs/reference/config/proxy_extensions/wasm-plugin/) | Alpha |
 | [`EnvoyFilter`](/docs/reference/config/networking/envoy-filter/) | Alpha |
