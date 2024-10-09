@@ -13,6 +13,8 @@ and outlier detection.
 Circuit breaking is an important pattern for creating resilient microservice
 applications. Circuit breaking allows you to write applications that limit the impact of failures, latency spikes, and other undesirable effects of network peculiarities.
 
+Note that circuit breaker can misinterpret a partial failure as total system failure and inadvertently bring down the entire system. In particular, sharded systems and cell-based architectures are vulnerable to this issue. A workaround is that the server indicates to the client which specific part is overloaded and the client uses a corresponding mini circuit breaker. However, this workaround can be complex and expensive.
+
 In this task, you will configure circuit breaking rules and then test the
 configuration by intentionally "tripping" the circuit breaker.
 
