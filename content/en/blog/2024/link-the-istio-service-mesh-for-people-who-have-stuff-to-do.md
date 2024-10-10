@@ -1,5 +1,5 @@
 ---
-title: "Featured post: The Istio Service Mesh for People Who Have Stuff to Do"
+title: "External post: The Istio Service Mesh for People Who Have Stuff to Do"
 description: Read about Luca Cavallin's experience getting started with Istio.
 publishdate: 2024-10-10
 attribution: Luca Cavallin - GitHub
