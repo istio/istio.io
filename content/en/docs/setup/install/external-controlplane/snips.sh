@@ -85,7 +85,7 @@ spec:
     global:
       istioNamespace: external-istiod
       configCluster: true
-      externalIstiod: true # TODO AS PER DOCUMENTED PURPOSE this should be false, but these tests require it to be true?
+      externalIstiod: true
     pilot:
       configMap: true
     istiodRemote:
@@ -460,7 +460,7 @@ spec:
   values:
     global:
       istioNamespace: external-istiod
-      externalIstiod: true # TODO AS PER DOCUMENTED PURPOSE this should be false, but these tests require it to be true?
+      externalIstiod: true
     istiodRemote:
       injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/cluster/${SECOND_CLUSTER_NAME}/net/network2
 EOF
