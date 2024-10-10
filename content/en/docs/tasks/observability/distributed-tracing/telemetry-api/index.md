@@ -106,11 +106,11 @@ You can customize the tags using any of the three supported options below.
     tracing:
         - providers:
             - name: "zipkin"
-        randomSamplingPercentage: 100.00
-        customTags:
-          "provider":
-            literal:
-              value: "zipkin"
+          randomSamplingPercentage: 100.00
+          customTags:
+            "provider":
+              literal:
+                value: "zipkin"
     {{< /text >}}
 
 1.  Environmental variables can be used where the value of the custom tag is
