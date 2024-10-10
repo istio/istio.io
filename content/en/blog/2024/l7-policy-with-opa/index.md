@@ -1,12 +1,10 @@
 ---
-title: "Can Your Platform Do Policy?"
-description: Dive into how Istio and Open Policy Agent (OPA) can be used to enforce layer 7 policies in your platform.
-publishdate: 2024-08-01
+title: "Can Your Platform Do Policy? Accelerate Teams With Platform L7 Policy Functionality"
+description: Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA and get back team focus on what matters most.
+publishdate: 2024-10-14
 attribution: "Antonio Berben (Solo.io), Charlie Egan (Styra)"
 keywords: [istio,opa,policy,platform,authorization]
 ---
-
-Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and OPA, and get back team focus on what matters most.
 
 Shared computing platforms offer resources and shared functionality to tenant teams so that they don’t need to build everything from scratch themselves. While it can sometimes be hard to balance all the requests from tenants, it’s important that platform teams ask the question: what’s the highest value feature we can offer our tenants?
 
