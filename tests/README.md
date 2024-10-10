@@ -303,22 +303,22 @@ You can also find this information by running `make doc.test.help`.
 
 ## Running multicluster Tests
 
-We can leverage KinD to verify multicluster tests locally, using the same script as CI to start our clusters and/or tests: prow/integ-suite-kind.sh can spin up KinD cluster(s) on your local machine as well as trigger tests.
+We can leverage KinD to verify multicluster tests locally, using [the same script as CI](/prow/integ-suite-kind.sh) to start our clusters and/or tests: integ-suite-kind.sh can spin up KinD cluster(s) on your local machine as well as trigger tests.
 
-You can run the setup script `make shell` to ensure you have all the required tools/packages versions as in CI:
+You can run the setup script in `make shell` to ensure you have all the required tools/packages versions as in CI:
 
 ```bash
 ADDITIONAL_CONTAINER_OPTIONS="--network host" ADDITIONAL_CONDITIONAL_HOST_MOUNTS="--mount type=bind,source=${HOME}/.ssh,destination=/home/user/.ssh,readonly " make shell
 ```
 
-To spin up multiple clusters (using the default topology):
+To spin up multiple clusters (using the [default topology](/prow/config/topology/multi-cluster.json)):
 
 ```bash
 mkdir artifacts # create a directory for kubeconfigs and logs
 ARTIFACTS=$PWD/artifacts ./prow/integ-suite-kind.sh --topology MULTICLUSTER --skip-cleanup
 ```
 
-The topology file is a copy of the [multicluster.json](prow/config/topology/multi-cluster.json) updated with pointer to the kubeconfig metadata. For example this is added for the primary and similarly for the others:
+The topology file is a copy of the [multicluster.json](/prow/config/topology/multi-cluster.json) updated with pointer to the kubeconfig metadata. For example this is added for the primary and similarly for the others:
 
 ```yaml
     "network": "network-1",
