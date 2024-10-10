@@ -3,7 +3,7 @@ title: Verify the installation
 description: Verify that Istio has been installed properly on multiple clusters.
 weight: 50
 keywords: [kubernetes,multicluster]
-test: no
+test: yes
 owner: istio/wg-environments-maintainers
 ---
 Follow this guide to verify that your multicluster Istio installation is working

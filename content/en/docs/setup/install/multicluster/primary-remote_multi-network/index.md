@@ -3,7 +3,7 @@ title: Install Primary-Remote on different networks
 description: Install an Istio mesh across primary and remote clusters on different networks.
 weight: 40
 keywords: [kubernetes,multicluster]
-test: no
+test: yes
 owner: istio/wg-environments-maintainers
 ---
 Follow this guide to install the Istio control plane on `cluster1` (the
@@ -164,6 +164,7 @@ spec:
       injectionPath: /inject/cluster/cluster2/net/network2
     global:
       remotePilotAddress: ${DISCOVERY_ADDRESS}
+      externalIstiod: true
 EOF
 {{< /text >}}
 

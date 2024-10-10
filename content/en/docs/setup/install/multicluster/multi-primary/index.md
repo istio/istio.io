@@ -3,7 +3,7 @@ title: Install Multi-Primary
 description: Install an Istio mesh across multiple primary clusters.
 weight: 10
 keywords: [kubernetes,multicluster]
-test: no
+test: yes
 owner: istio/wg-environments-maintainers
 ---
 Follow this guide to install the Istio control plane on both `cluster1` and
