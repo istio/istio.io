@@ -369,7 +369,7 @@ http_code=403
 
 #### Change returned body and status code
 
-Running the request with the header "x-force-authorized: enabled" you should receive the body "Authentication Failed" and error "401":
+Running the request with the header `x-force-authorized: enabled` you should receive the body "Authentication Failed" and error "401":
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get -H "x-force-unauthenticated: enabled"
