@@ -377,7 +377,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}
 
 #### Adding headers to request
 
-Running a valid request, you should receive the echo body with the new header "x-validated-by: my-security-checkpoint" and the header "x-force-authorized" removed:
+Running a valid request, you should receive the echo body with the new header `x-validated-by: my-security-checkpoint` and the header `x-force-authorized` removed:
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-authorized: true"
