@@ -112,12 +112,12 @@ Support for SHA-1 signatures is [disabled by default in Go 1.18](https://github.
 
 ## Deploying example services
 
-1. Deploy the `httpbin` and `sleep` sample services.
+1. Deploy the `httpbin` and `curl` sample services.
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
 1. Deploy a policy for workloads in the `foo` namespace to only accept mutual TLS traffic.
@@ -145,7 +145,7 @@ the `verify error:num=19:self signed certificate in certificate chain` error ret
 openssl command is expected.
 
     {{< text bash >}}
-    $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+    $ sleep 20; kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
 1.  Parse the certificates on the certificate chain.
@@ -200,10 +200,10 @@ openssl command is expected.
     $ kubectl delete peerauthentication -n foo default
     {{< /text >}}
 
-*   Remove the sample applications `sleep` and `httpbin`:
+*   Remove the sample applications `curl` and `httpbin`:
 
     {{< text bash >}}
-    $ kubectl delete -f samples/sleep/sleep.yaml -n foo
+    $ kubectl delete -f samples/curl/curl.yaml -n foo
     $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
     {{< /text >}}
 

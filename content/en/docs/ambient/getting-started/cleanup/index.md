@@ -36,12 +36,12 @@ $ kubectl delete namespace istio-system
 
 ## Remove the sample application
 
-To delete the Bookinfo sample application and the `sleep` deployment, run the following:
+To delete the Bookinfo sample application and the `curl` deployment, run the following:
 
 {{< text bash >}}
-$ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
-$ kubectl delete -f {{< github_file >}}/samples/sleep/sleep.yaml
+$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl delete -f samples/curl/curl.yaml
 {{< /text >}}
 
 ## Remove the Kubernetes Gateway API CRDs

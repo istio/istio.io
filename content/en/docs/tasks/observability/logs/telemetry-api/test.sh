@@ -61,13 +61,13 @@ kubectl wait pods -n istio-system -l app.kubernetes.io/name=loki --for condition
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
-startup_sleep_sample
+startup_curl_sample
 startup_httpbin_sample
 
 function send_httpbin_requests() {
   local request_path="$1"
   for _ in {1..10}; do
-    kubectl exec deploy/sleep -- curl -sS "http://httpbin:8000/$request_path" > /dev/null
+    kubectl exec deploy/curl -- curl -sS "http://httpbin:8000/$request_path" > /dev/null
   done
 }
 
@@ -78,8 +78,8 @@ function count_by_pod() {
   curl -G -s "http://$loki_address:3100/loki/api/v1/query_range" --data-urlencode "query={namespace=\"$namespace\", pod=\"$name\"}" | jq '.data.result[0].values | length'
 }
 
-count_sleep_pod() {
-  local pod=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+count_curl_pod() {
+  local pod=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
   count_by_pod default $pod
 }
 
@@ -89,16 +89,16 @@ count_httpbin_pod() {
 }
 
 rollout_restart_pods() {
-  kubectl rollout restart deploy/sleep
+  kubectl rollout restart deploy/curl
   kubectl rollout restart deploy/httpbin
-  _wait_for_deployment default sleep
+  _wait_for_deployment default curl
   _wait_for_deployment default httpbin
 }
 
 send_httpbin_requests "status/200"
 
 # no logs are sent to loki
-_verify_same count_sleep_pod "0"
+_verify_same count_curl_pod "0"
 _verify_same count_httpbin_pod "0"
 
 # enable access log via Telemetry API
@@ -107,17 +107,17 @@ rollout_restart_pods
 
 send_httpbin_requests "status/200"
 
-_verify_same count_sleep_pod "10"
+_verify_same count_curl_pod "10"
 _verify_same count_httpbin_pod "10"
 
-# disable access log for sleep pod
+# disable access log for curl pod
 snip_get_started_with_telemetry_api_2
 rollout_restart_pods
 
 send_httpbin_requests "status/200"
 
-# sleep pod logs are not sent to loki
-_verify_same count_sleep_pod "0"
+# curl pod logs are not sent to loki
+_verify_same count_curl_pod "0"
 _verify_same count_httpbin_pod "10"
 
 # disable httpbin
@@ -126,24 +126,24 @@ rollout_restart_pods
 
 send_httpbin_requests "status/200"
 
-_verify_same count_sleep_pod "0"
+_verify_same count_curl_pod "0"
 # httpbin pod logs are not sent to loki
 _verify_same count_httpbin_pod "0"
 
-# filter sleep logs
+# filter curl logs
 kubectl delete telemetry --all -n default
 snip_get_started_with_telemetry_api_4
 rollout_restart_pods
 
 # only 5xx logs are sent to loki
 send_httpbin_requests "status/200"
-_verify_same count_sleep_pod "0"
+_verify_same count_curl_pod "0"
 
 send_httpbin_requests "status/500"
-_verify_same count_sleep_pod "10"
+_verify_same count_curl_pod "10"
 
 # @cleanup
-cleanup_sleep_sample
+cleanup_curl_sample
 cleanup_httpbin_sample
 
 snip_cleanup_1

@@ -34,9 +34,9 @@ source "tests/util/samples.sh"
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
-# Start the sleep sample
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+# Start the curl sample
+startup_curl_sample
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')
 
 # Start the httpbin sample
 startup_httpbin_sample

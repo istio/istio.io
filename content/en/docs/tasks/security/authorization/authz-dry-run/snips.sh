@@ -24,7 +24,7 @@ snip_before_you_begin_1() {
 kubectl create ns foo
 kubectl label ns foo istio-injection=enabled
 kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-kubectl apply -f samples/sleep/sleep.yaml -n foo
+kubectl apply -f samples/curl/curl.yaml -n foo
 }
 
 snip_before_you_begin_2() {
@@ -36,7 +36,7 @@ rbac: debug
 ENDSNIP
 
 snip_before_you_begin_3() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 }
 
 ! IFS=$'\n' read -r -d '' snip_before_you_begin_3_out <<\ENDSNIP
@@ -68,7 +68,7 @@ kubectl annotate --overwrite authorizationpolicies deny-path-headers -n foo isti
 }
 
 snip_create_dryrun_policy_3() {
-for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
+for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
 }
 
 ! IFS=$'\n' read -r -d '' snip_create_dryrun_policy_3_out <<\ENDSNIP

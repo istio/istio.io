@@ -88,7 +88,7 @@ However, simply installing the new revision has no impact on the existing sideca
 you must configure them to point to the new `istiod-canary` control plane. This is controlled during sidecar injection
 based on the namespace label `istio.io/rev`.
 
-Create a namespace `test-ns` with `istio-injection` enabled. In the `test-ns` namespace, deploy a sample sleep pod:
+Create a namespace `test-ns` with `istio-injection` enabled. In the `test-ns` namespace, deploy a sample curl pod:
 
 1. Create a namespace `test-ns`.
 
@@ -102,10 +102,10 @@ Create a namespace `test-ns` with `istio-injection` enabled. In the `test-ns` na
     $ kubectl label namespace test-ns istio-injection=enabled
     {{< /text >}}
 
-1. Bring up a sample sleep pod in `test-ns` namespace.
+1. Bring up a sample curl pod in `test-ns` namespace.
 
     {{< text bash >}}
-    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    $ kubectl apply -n test-ns -f samples/curl/curl.yaml
     {{< /text >}}
 
 To upgrade the namespace `test-ns`, remove the `istio-injection` label, and add the `istio.io/rev` label to point to the `canary` revision. The `istio-injection` label must be removed because it takes precedence over the `istio.io/rev` label for backward compatibility.
@@ -166,12 +166,12 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
     $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
     {{< /text >}}
 
-1. Bring up a sample sleep pod in each namespace:
+1. Bring up a sample curl pod in each namespace:
 
     {{< text bash >}}
-    $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
-    $ kubectl apply -n app-ns-2 -f samples/sleep/sleep.yaml
-    $ kubectl apply -n app-ns-3 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-1 -f samples/curl/curl.yaml
+    $ kubectl apply -n app-ns-2 -f samples/curl/curl.yaml
+    $ kubectl apply -n app-ns-3 -f samples/curl/curl.yaml
     {{< /text >}}
 
 1. Verify application to control plane mapping using `istioctl proxy-status` command:
@@ -179,9 +179,9 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
     {{< text bash >}}
     $ istioctl ps
     NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
-    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
-    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
+    curl-78ff5975c6-62pzf.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
+    curl-78ff5975c6-8kxpl.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
+    curl-78ff5975c6-8q7m6.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
     {{< /text >}}
 
 {{< boilerplate revision-tags-middle >}}
@@ -202,9 +202,9 @@ Verify the application to control plane mapping using `istioctl proxy-status` co
 {{< text bash >}}
 $ istioctl ps
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
-sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
-sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-5984f48bc7-kmj6x.app-ns-1                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-78ff5975c6-jldk4.app-ns-3                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-7cdd8dccb9-5bq5n.app-ns-2                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
 {{< /text >}}
 
 ### Default tag

@@ -167,8 +167,8 @@ EOF
 }
 
 snip_verification_1() {
-kubectl apply -f samples/sleep/sleep.yaml
-kubectl -n test apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
+kubectl -n test apply -f samples/curl/curl.yaml
 }
 
 snip_verification_2() {
@@ -177,7 +177,7 @@ kubectl get pods
 
 ! IFS=$'\n' read -r -d '' snip_verification_2_out <<\ENDSNIP
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-557747455f-xx88g   1/1     Running   0          4m14s
+curl-557747455f-xx88g    1/1     Running   0          4m14s
 ENDSNIP
 
 snip_verification_3() {
@@ -187,7 +187,7 @@ kubectl get pods -n test
 ! IFS=$'\n' read -r -d '' snip_verification_3_out <<\ENDSNIP
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
-sleep-557747455f-brzf6     2/2     Running   0          6m57s
+curl-557747455f-brzf6      2/2     Running   0          6m57s
 ENDSNIP
 
 snip_verification_4() {
@@ -197,7 +197,7 @@ kubectl get svc -n test
 ! IFS=$'\n' read -r -d '' snip_verification_4_out <<\ENDSNIP
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
-sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
+curl      ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 ENDSNIP
 
 snip_verification_5() {
@@ -213,8 +213,8 @@ file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Cha
 ENDSNIP
 
 snip_verify_internal_mesh_connectivity_on_port_8080_1() {
-export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
-kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -IsS "http://httpbin:8080/status/200"
+export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=curl -o jsonpath={.items..metadata.name})
+kubectl -n test exec "${INTERNAL_CLIENT}" -c curl -- curl -IsS "http://httpbin:8080/status/200"
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_internal_mesh_connectivity_on_port_8080_1_out <<\ENDSNIP
@@ -229,14 +229,14 @@ x-envoy-upstream-service-time: 5
 ENDSNIP
 
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_1() {
-export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export EXTERNAL_CLIENT=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
 kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 }
 
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2() {
-kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_2_out <<\ENDSNIP
@@ -251,7 +251,7 @@ x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 ENDSNIP
 
 snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3() {
-kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
+kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_external_to_internal_mesh_connectivity_on_port_8443_3_out <<\ENDSNIP
@@ -261,11 +261,11 @@ ENDSNIP
 
 snip_cleanup_the_mutual_tls_termination_example_1() {
 kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
-kubectl delete service httpbin sleep -n test
-kubectl delete deployment httpbin sleep -n test
+kubectl delete service httpbin curl -n test
+kubectl delete deployment httpbin curl -n test
 kubectl delete namespace test
-kubectl delete service sleep
-kubectl delete deployment sleep
+kubectl delete service curl
+kubectl delete deployment curl
 }
 
 snip_cleanup_the_mutual_tls_termination_example_2() {

@@ -30,9 +30,9 @@ _wait_for_deployment istio-system istiod
 
 snip_check_the_tls_configuration_of_istio_workloads_1
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
 
-# Send request from sleep to httpbin
+# Send request from curl to httpbin
 _verify_contains snip_check_the_tls_configuration_of_istio_workloads_2 "$snip_check_the_tls_configuration_of_istio_workloads_2_out"
 
 _verify_contains snip_check_the_tls_configuration_of_istio_workloads_3 "$snip_check_the_tls_configuration_of_istio_workloads_4"
