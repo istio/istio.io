@@ -21,22 +21,25 @@ When integrated with Istio, OPA can be used to enforce fine-grained access contr
 - A Kubernetes cluster with Istio installed.
 - The `istioctl` command-line tool installed.
 
+Install Istio with the following command:
+
+{{< text bash >}}
 Configure your [mesh options](/docs/reference/config/istio.mesh.v1alpha1/) to enable OPA:
 
 {{< text bash >}}
-$ kubectl create -f - <<EOF
+$ istioctl install -y -f - <<'EOF'
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  meshConfig:
-    accessLogFile: /dev/stdout
-    accessLogFormat: |
-      [%START_TIME%] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%" "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS% "%UPSTREAM_TRANSPORT_FAILURE_REASON%" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME% traceID=%REQ(x-b3-traceid)%
-    extensionProviders:
-    - name: "opa.local"
-      envoyExtAuthzGrpc:
-        service: "opa.opa.svc.cluster.local"
-        port: "9191"
+  meshConfig:
+    accessLogFile: /dev/stdout
+    accessLogFormat: |
+      [OPA DEMO] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%"
+    extensionProviders:
+    - name: "opa.local"
+      envoyExtAuthzGrpc:
+        service: "opa.opa.svc.cluster.local"
+        port: "9191"
 EOF
 {{< /text >}}
 
@@ -57,7 +60,7 @@ Deploy OPA. It will fail because it expects a `configMap` containing the default
 $ kubectl create ns opa
 $ kubectl label namespace opa istio-injection=enabled
 
-$ kubectl create -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -81,6 +84,7 @@ spec:
         args:
           - "run"
           - "--server"
+          - "--disable-telemetry"
           - "--config-file=/config/config.yaml"
           - "--log-level=debug" # Uncomment this line to enable debug logs
           - "--diagnostic-addr=0.0.0.0:8282"
@@ -150,6 +154,22 @@ spec:
     name: "opa.local"
   rules: [{}] # Empty rules, it will apply to selectors with ext-authz: enabled label
 EOF
+{{< /text >}}
+
+Let's label the app to enforce the policy:
+
+{{< text bash >}}
+$ kubectl patch deploy httpbin -n my-app --type=merge -p='{
+  "spec": {
+    "template": {
+      "metadata": {
+        "labels": {
+          "ext-authz": "enabled"
+        }
+      }
+    }
+  }
+}'
 {{< /text >}}
 
 Notice that in this resource, we define the OPA `extensionProvider` you set in the Istio configuration:
@@ -229,7 +249,7 @@ Let's test the simple usage (authorization) and then let's create a more advance
 Deploy an app to run curl commands to the httpbin sample application:
 
 {{< text bash >}}
-$ kubectl -n my-app run --image=curlimages/curl curly -- /bin/sleep 100d
+$ kubectl -n my-app run --image=curlimages/curl curl -- /bin/sleep 100d
 {{< /text >}}
 
 Apply the first Rego rule and restart the OPA deployment:
@@ -272,13 +292,13 @@ There are multiple ways to create the Rego rule. In this case, we created two di
 The following request will return `403`:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get
+$ kubectl exec -n my-app curl -c curl  -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get
 {{< /text >}}
 
 The following request will return `200` and the body:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get -H "x-force-authorized: enabled"
+$ kubectl exec -n my-app curl -c curl  -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: enabled"
 {{< /text >}}
 
 ### Advanced manipulations
@@ -355,7 +375,7 @@ Notice that `allowed` is required when returning a JSON object instead of only t
 Let's test the new capabilities:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get
+$ kubectl exec -n my-app curl -c curl  -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get
 {{< /text >}}
 
 Now we can change the response body. With `403` the body in the Rego rule is changed to "Unauthorized Request". With the previous command, you should receive:
@@ -370,7 +390,7 @@ http_code=403
 Running the request with the header `x-force-authorized: enabled` you should receive the body "Authentication Failed" and error "401":
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}" httpbin/get -H "x-force-unauthenticated: enabled"
+$ kubectl exec -n my-app curl -c curl  -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-unauthenticated: enabled"
 {{< /text >}}
 
 #### Adding headers to request
@@ -378,7 +398,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s -w "\nhttp_code=%{http_code}
 Running a valid request, you should receive the echo body with the new header `x-validated-by: my-security-checkpoint` and the header `x-force-authorized` removed:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app curl -c curl  -- curl -s httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
 
 #### Adding headers to response
@@ -386,12 +406,12 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-auth
 Running the same request but showing only the header, you will find the response header added during the Authz check `x-add-custom-response-header: added`:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app curl -c curl  -- curl -s -I httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
 
 #### Sharing data between filters
 
-Finally, you can pass data to the following Envoy filters using `dynamic_metadata`. This is useful when you want to pass data to another `ext_authz` filter in the change or you want to print it in the application logs.
+Finally, you can pass data to the following Envoy filters using `dynamic_metadata`. This is useful when you want to pass data to another `ext_authz` filter in the chain or you want to print it in the application logs.
 
 {{< image width="75%"
     link="./opa3.png"
@@ -403,7 +423,7 @@ To do so, review the access log format you set earlier:
 {{< text plain >}}
 [...]
     accessLogFormat: |
-      [%START_TIME%] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%"
+      [OPA DEMO] my-new-dynamic-metadata: "%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%"
 [...]
 {{< /text >}}
 
@@ -420,7 +440,7 @@ Let's test the dynamic metadata. In the advance rule, you are creating a new met
 Run the request and check the logs of the application:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app curl -c curl  -- curl -s -I httpbin:8000/get -H "x-force-authorized: true"
 $ kubectl logs -n my-app deploy/httpbin -c istio-proxy --tail 1
 {{< /text >}}
 
