@@ -7,7 +7,7 @@ aliases:
     - /latest/zh/docs/setup/additional-setup/external-controlplane/
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 ---
 
 本指南将引导您完成安装{{< gloss "external control plane">}}外部控制平面{{< /gloss >}}，

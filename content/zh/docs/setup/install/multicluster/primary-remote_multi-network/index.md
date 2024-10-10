@@ -3,7 +3,7 @@ title: 跨网络安装主从集群
 description: 跨网络、跨主从集群安装 Istio 网格。
 weight: 40
 keywords: [kubernetes,multicluster]
-test: yes
+test: no
 owner: istio/wg-environments-maintainers
 ---
 

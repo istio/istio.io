@@ -4,7 +4,7 @@ description: 跨网络、多主架构的 Istio 网格安装。
 weight: 30
 icon: setup
 keywords: [kubernetes,multicluster]
-test: yes
+test: no
 owner: istio/wg-environments-maintainers
 ---
 
