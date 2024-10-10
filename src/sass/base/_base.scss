@@ -554,3 +554,9 @@ sup {
 iframe {
     max-width: 100%;
 }
+
+.article-container {
+    h2 {
+        word-wrap: break-word;
+    }
+}
