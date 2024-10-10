@@ -385,7 +385,7 @@ $ kubectl exec -n my-app curly -c curly  -- curl -s httpbin/get -H "x-force-auth
 
 #### Adding headers to response
 
-Running the same request but showing only the header, you will find the response header added during the Authz check "x-add-custom-response-header: added":
+Running the same request but showing only the header, you will find the response header added during the Authz check `x-add-custom-response-header: added`:
 
 {{< text bash >}}
 $ kubectl exec -n my-app curly -c curly  -- curl -s -I httpbin/get -H "x-force-authorized: true"
