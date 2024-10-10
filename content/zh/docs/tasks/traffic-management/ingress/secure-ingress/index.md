@@ -15,7 +15,7 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
 
 {{< boilerplate gateway-api-support >}}
 
-## 准备工作{#before-you-begin}
+## 准备工作  {#before-you-begin}
 
 * 参考[安装指南](/zh/docs/setup/)部署 Istio。
 
@@ -35,7 +35,7 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
     如果上述命令输出的是如图所示的 LibreSSL 版本，则 `curl` 命令应按照此任务中的说明正确运行。
     否则，请尝试使用 `curl` 的其他实现，例如在 Linux 机器上。
 
-## 生成客户端和服务器证书和密钥{#generate-client-and-server-certificates-and-keys}
+## 生成客户端和服务器证书和密钥  {#generate-client-and-server-certificates-and-keys}
 
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。
 下面的命令使用 [openssl](https://man.openbsd.org/openssl.1)。
@@ -97,7 +97,7 @@ example.com.key         httpbin.example.com.csr
 
 ### 配置单机 TLS 入口网关 {#configure-a-tls-ingress-gateway-for-a-single-host}
 
-1.  为入口网关创建 Secret:
+1.  为入口网关创建 Secret：
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls httpbin-credential \
@@ -122,7 +122,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 istio 默认入口网关
   servers:
   - port:
       number: 443
@@ -130,7 +130,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: httpbin-credential # must be the same as secret
+      credentialName: httpbin-credential # 必须与 Secret 相同
     hosts:
     - httpbin.example.com
 EOF
@@ -170,7 +170,8 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-首先，创建一个 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)：
+首先，创建一个
+[Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -286,7 +287,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     * curl: (35) error:04FFF06A:rsa routines:CRYPTO_internal:block type is not 01
     {{< /text >}}
 
-### 为多个主机配置 TLS 入口网关 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
+### 为多个主机配置 TLS 入口网关  {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
 您可以为多个主机（例如 `httpbin.example.com` 和 `helloworld.example.com`）配置入口网关。
 入口网关配置有与每个主机相对应的唯一凭据。
@@ -332,7 +333,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 istio 默认入口网关
   servers:
   - port:
       number: 443
@@ -519,7 +520,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 istio 默认入口网关
   servers:
   - port:
       number: 443
@@ -527,7 +528,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: MUTUAL
-      credentialName: httpbin-credential # must be the same as secret
+      credentialName: httpbin-credential # 必须与 Secret 相同
     hosts:
     - httpbin.example.com
 EOF
@@ -537,7 +538,8 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-因为 Kubernetes Gateway API 目前不支持 [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
+因为 Kubernetes Gateway API 目前不支持
+[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
 中的双向 TLS 终止，所以我们使用 Istio 特定的选项 `gateway.istio.io/tls-terminate-mode: MUTUAL` 来配置它：
 
 {{< text bash >}}
