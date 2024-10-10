@@ -4,7 +4,7 @@ description: 验证 Istio 已成功安装到多集群环境中。
 weight: 50
 icon: setup
 keywords: [kubernetes,multicluster]
-test: yes
+test: no
 owner: istio/wg-environments-maintainers
 ---
 按照本指南，验证在多集群环境中安装的 Istio 可以正常工作。
