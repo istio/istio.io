@@ -191,6 +191,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
         global:
           istioNamespace: external-istiod
           configCluster: true
+          externalIstiod: false # TODO MAYBE
         pilot:
           configMap: true
         istiodRemote:
@@ -331,6 +332,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: istio
       values:
         global:
+          externalIstiod: true
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
