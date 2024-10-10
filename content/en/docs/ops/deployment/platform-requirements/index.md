@@ -31,6 +31,7 @@ For reference, the following lists all the `iptables`-related kernel modules req
 | `xt_owner` |  |
 | `xt_tcpudp` |  |
 | `xt_multiport`|  |
+| `ip_set`| Needed for ambient dataplane mode |
 
 The following additional modules are used by the above listed modules and should be also loaded on the cluster node:
 
@@ -47,6 +48,7 @@ The following additional modules are used by the above listed modules and should
 | `nf_nat_ipv6` | Only needed for IPv6/dual-stack clusters |
 | `nf_nat_redirect` |  |
 | `x_tables` |  |
+| `ip_set_hash_ip`| Needed for ambient dataplane mode |
 
 While uncommon, the use of custom or nonstandard Linux kernels or Linux distributions may result in scenarios where the specific modules listed above are not available on the host, or could not be automatically loaded by `iptables`. For example, this [`selinux issue`](https://www.suse.com/support/kb/doc/?id=000020241) describes a scenario in some RHEL releases where `selinux` configuration may prevent the automatic loading of some of the above mentioned kernel modules.
 
