@@ -57,8 +57,7 @@ The following lists some of the pros and cons of each of the available methods:
 1. [Istio Operator](/docs/setup/install/operator/)
 
     {{< warning >}}
-    Using the operator is not recommended for new installations. While the operator will continue to be supported,
-    new feature requests will not be prioritized.
+    [The Istio operator is deprecated](/blog/2024/in-cluster-operator-deprecation-announcement/). Operator-based Installations of Istio will continue to run indefinitely, but cannot be upgraded past 1.23.x. Please see the [announcement](/blog/2024/in-cluster-operator-deprecation-announcement/) to learn how to upgrade to a supported installation method.
     {{< /warning >}}
 
     The Istio operator provides an installation path without needing the `istioctl` binary.

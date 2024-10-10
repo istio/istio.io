@@ -7,13 +7,11 @@ aliases:
     - /docs/setup/install/standalone-operator
 owner: istio/wg-environments-maintainers
 test: yes
-status: Beta
+status: Deprecated
 ---
 
 {{< warning >}}
-Use of the operator for new Istio installations is discouraged in favor of the [Istioctl](/docs/setup/install/istioctl)
-and [Helm](/docs/setup/install/helm) installation methods. While the operator will continue to be supported,
-new feature requests will not be prioritized.
+[The Istio operator is deprecated](/blog/2024/in-cluster-operator-deprecation-announcement/). Operator-based Installations of Istio will continue to run indefinitely, but cannot be upgraded past 1.23.x. Please see the [announcement](/blog/2024/in-cluster-operator-deprecation-announcement/) to learn how to upgrade to a supported installation method.
 {{< /warning >}}
 
 Instead of manually installing, upgrading, and uninstalling Istio,
