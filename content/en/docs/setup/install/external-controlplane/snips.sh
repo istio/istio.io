@@ -85,7 +85,7 @@ spec:
     global:
       istioNamespace: external-istiod
       configCluster: true
-      externalIstiod: false # TODO MAYBE
+      externalIstiod: true # TODO AS PER DOCUMENTED PURPOSE this should be false, but these tests require it to be true?
     pilot:
       configMap: true
     istiodRemote:
