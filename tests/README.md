@@ -301,6 +301,38 @@ TEST_ENV=kind ADDITIONAL_CONTAINER_OPTIONS="--network host" make doc.test TEST=t
 
 You can also find this information by running `make doc.test.help`.
 
+## Running multicluster Tests
+
+We can leverage KinD to verify multicluster tests locally, using [the same script as CI](/prow/integ-suite-kind.sh) to start our clusters and/or tests: integ-suite-kind.sh can spin up KinD cluster(s) on your local machine as well as trigger tests.
+
+You can run the setup script in `make shell` to ensure you have all the required tools/packages versions as in CI:
+
+```bash
+ADDITIONAL_CONTAINER_OPTIONS="--network host" ADDITIONAL_CONDITIONAL_HOST_MOUNTS="--mount type=bind,source=${HOME}/.ssh,destination=/home/user/.ssh,readonly " make shell
+```
+
+To spin up multiple clusters (using the [default topology](/prow/config/topology/multi-cluster.json)):
+
+```bash
+mkdir artifacts # create a directory for kubeconfigs and logs
+ARTIFACTS=$PWD/artifacts ./prow/integ-suite-kind.sh --topology MULTICLUSTER --skip-cleanup
+```
+
+The topology file is a copy of the [multicluster.json](/prow/config/topology/multi-cluster.json) updated with pointer to the kubeconfig metadata. For example this is added for the primary and similarly for the others:
+
+```yaml
+    "network": "network-1",
+    "meta": {
+      "kubeconfig": "/work/artifacts/kubeconfig/primary"
+    }
+```
+
+Then to run tests, trigger the desired suite(s) via the command-line or your IDE:
+
+```bash
+HUB=gcr.io/istio-testing TAG=latest DOCTEST_KUBECONFIG='/work/artifacts/kubeconfig/primary,/work/artifacts/kubeconfig/remote,/work/artifacts/kubeconfig/cross-network-primary' make doc.test.multicluster TEST=./setup/install/external-controlplane/gtwapi_test.sh
+```
+
 ### Relation to `istio/istio` repository
 
 When running the tests locally, the version of istio used is inferred from the `go.mod` `istio.io/istio vx.x.x` reference - in other words, if that reference is `istio.io/istio v0.0.0-20241002191830-e579679ea0ea`, the test scripts will clone and use `istio/istio` branch `master@e579679ea0ea` for all the doc tests.
