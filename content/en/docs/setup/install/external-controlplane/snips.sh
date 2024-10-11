@@ -343,8 +343,8 @@ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
 
 ! IFS=$'\n' read -r -d '' snip_deploy_a_sample_application_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
 curl-64d7d56698-wqjnm            2/2     Running   0          9s
+helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
 ENDSNIP
 
 snip_deploy_a_sample_application_4() {
@@ -558,8 +558,8 @@ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
 
 ! IFS=$'\n' read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
 NAME                            READY   STATUS    RESTARTS   AGE
-helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
 curl-557747455f-wtdbr           2/2     Running   0          9s
+helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
 ENDSNIP
 
 snip_validate_the_installation_4() {

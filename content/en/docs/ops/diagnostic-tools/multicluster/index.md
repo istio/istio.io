@@ -75,8 +75,8 @@ Verify that there is a helloworld pod running in `cluster2`, using the `-o wide`
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
 NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
-helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
 curl-557747455f-jdsd8            1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
+helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
 {{< /text >}}
 
 Take note of the `IP` column for `helloworld`. In this case, it is `10.100.0.1`:

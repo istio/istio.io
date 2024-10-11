@@ -868,8 +868,8 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
     NAME                            READY   STATUS    RESTARTS   AGE
-    helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
     curl-557747455f-wtdbr           2/2     Running   0          9s
+    helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
     {{< /text >}}
 
 1. Send a request from the `curl` pod to the `helloworld` service:
