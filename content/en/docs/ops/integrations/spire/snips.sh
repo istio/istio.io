@@ -86,7 +86,7 @@ ENDSNIP
 snip_option_2_manual_registration_3() {
 kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
 /opt/spire/bin/spire-server entry create \
-    -spiffeID spiffe://example.org/ns/default/sa/sleep \
+    -spiffeID spiffe://example.org/ns/default/sa/curl \
     -parentID spiffe://example.org/ns/spire/sa/spire-agent \
     -selector k8s:ns:default \
     -selector k8s:pod-label:spiffe.io/spire-managed-identity:true \
@@ -178,16 +178,16 @@ snip_apply_istio_operator_configuration() {
 istioctl install --skip-confirmation -f ./istio.yaml
 }
 
-snip_apply_sleep() {
-istioctl kube-inject --filename samples/security/spire/sleep-spire.yaml | kubectl apply -f -
+snip_apply_curl() {
+istioctl kube-inject --filename samples/security/spire/curl-spire.yaml | kubectl apply -f -
 }
 
-snip_set_sleep_pod_var() {
-SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
+snip_set_curl_pod_var() {
+CURL_POD=$(kubectl get pod -l app=curl -o jsonpath="{.items[0].metadata.name}")
 }
 
-snip_get_sleep_svid() {
-istioctl proxy-config secret "$SLEEP_POD" -o json | jq -r \
+snip_get_curl_svid() {
+istioctl proxy-config secret "$CURL_POD" -o json | jq -r \
 '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | base64 --decode > chain.pem
 }
 
@@ -196,7 +196,7 @@ openssl x509 -in chain.pem -text | grep SPIRE
 }
 
 ! IFS=$'\n' read -r -d '' snip_get_svid_subject_out <<\ENDSNIP
-    Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
+    Subject: C = US, O = SPIRE, CN = curl-5f4d47c948-njvpk
 ENDSNIP
 
 snip_uninstall_spire() {

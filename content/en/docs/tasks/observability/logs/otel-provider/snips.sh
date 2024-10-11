@@ -62,11 +62,11 @@ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
-  name: sleep-logging
+  name: curl-logging
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
     - providers:
       - name: otel
@@ -95,7 +95,7 @@ ENDSNIP
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
@@ -117,8 +117,8 @@ kubectl logs -l app=opentelemetry-collector -n observability
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete telemetry sleep-logging
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete telemetry curl-logging
+kubectl delete -f samples/curl/curl.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
 kubectl delete -f samples/open-telemetry/otel.yaml -n istio-system
 kubectl delete namespace observability

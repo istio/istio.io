@@ -33,9 +33,9 @@ snip_enable_envoys_access_logging_3
 
 kubectl label namespace default istio-injection=enabled --overwrite
 
-# Start the sleep sample
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+# Start the curl sample
+startup_curl_sample
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')
 
 # Start the httpbin sample
 startup_httpbin_sample

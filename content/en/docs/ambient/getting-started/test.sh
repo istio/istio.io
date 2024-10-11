@@ -39,8 +39,8 @@ _verify_like snip_deploy_and_configure_the_ingress_gateway_3 "$snip_deploy_and_c
 _verify_contains snip_add_bookinfo_to_the_mesh_1 "$snip_add_bookinfo_to_the_mesh_1_out"
 
 snip_deploy_l4_policy
-snip_deploy_sleep
-_wait_for_deployment default sleep
+snip_deploy_curl
+_wait_for_deployment default curl
 _verify_contains snip_enforce_layer_4_authorization_policy_3 "$snip_enforce_layer_4_authorization_policy_3_out"
 
 _verify_contains snip_deploy_waypoint "$snip_deploy_waypoint_out"

@@ -31,27 +31,27 @@ is that Istio can produce better telemetry and provide more routing control for 
 
 * Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
 
-*   Start the [sleep]({{< github_tree >}}/samples/sleep) sample which will be used as a test source for external calls.
+*   Start the [curl]({{< github_tree >}}/samples/curl) sample which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `sleep` application:
+    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `curl` application:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    Otherwise, you have to manually inject the sidecar before deploying the `sleep` application:
+    Otherwise, you have to manually inject the sidecar before deploying the `curl` application:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     Note that any pod that you can `exec` and `curl` from will do for the procedures below.
 
 *   Create a shell variable to hold the name of the source pod for sending requests to external services.
-    If you used the [sleep]({{< github_tree >}}/samples/sleep) sample, run:
+    If you used the [curl]({{< github_tree >}}/samples/curl) sample, run:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 ## Configuring access to an external service
@@ -85,7 +85,7 @@ This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS ac
 1.  Make a request to the external HTTP service:
 
     {{< text syntax=bash snip_id=curl_simple >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -157,7 +157,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
     {{< text syntax=bash snip_id=curl_origination_http >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -175,7 +175,7 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 1.  Note that the applications that used HTTPS to access the external service continue to work as before:
 
     {{< text syntax=bash snip_id=curl_origination_https >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/2 200
     ...
     {{< /text >}}
@@ -210,7 +210,7 @@ service that requires mutual TLS. This example is considerably more involved bec
 
 1. Generate client and server certificates
 1. Deploy an external service that supports the mutual TLS protocol
-1. Configure the client (sleep pod) to use the credentials created in Step 1
+1. Configure the client (curl pod) to use the credentials created in Step 1
 
 Once this setup is complete, you can then configure the external traffic to go through the sidecar which will perform
 TLS origination.
@@ -386,7 +386,7 @@ to hold the configuration of the NGINX server:
     EOF
     {{< /text >}}
 
-### Configure the client (sleep pod)
+### Configure the client (curl pod)
 
 1.  Create Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) to hold the client's certificates:
 
@@ -401,11 +401,11 @@ to hold the configuration of the NGINX server:
     {{< boilerplate crl-tip >}}
     {{< /tip >}}
 
-1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `sleep` in this case.
+1. Create required `RBAC` to make sure the secret created in the above step is accessible to the client pod, which is `curl` in this case.
 
     {{< text bash >}}
     $ kubectl create role client-credential-role --resource=secret --verb=list
-    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:curl
     {{< /text >}}
 
 ### Configure mutual TLS origination for egress traffic at sidecar
@@ -438,7 +438,7 @@ to hold the configuration of the NGINX server:
     spec:
       workloadSelector:
         matchLabels:
-          app: sleep
+          app: curl
       host: my-nginx.mesh-external.svc.cluster.local
       trafficPolicy:
         loadBalancer:
@@ -459,7 +459,7 @@ to hold the configuration of the NGINX server:
 1.  Verify that the credential is supplied to the sidecar and active.
 
     {{< text bash >}}
-    $ istioctl proxy-config secret deploy/sleep | grep client-credential
+    $ istioctl proxy-config secret deploy/curl | grep client-credential
     kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
     kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
     {{< /text >}}
@@ -467,7 +467,7 @@ to hold the configuration of the NGINX server:
 1.  Send an HTTP request to `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -475,10 +475,10 @@ to hold the configuration of the NGINX server:
     ...
     {{< /text >}}
 
-1.  Check the log of the `sleep` pod for a line corresponding to our request.
+1.  Check the log of the `curl` pod for a line corresponding to our request.
 
     {{< text bash >}}
-    $ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+    $ kubectl logs -l app=curl -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
     {{< /text >}}
 
     You should see a line similar to the following:
@@ -518,9 +518,9 @@ to hold the configuration of the NGINX server:
 
 ## Cleanup common configuration
 
-Delete the `sleep` service and deployment:
+Delete the `curl` service and deployment:
 
 {{< text bash >}}
-$ kubectl delete service sleep
-$ kubectl delete deployment sleep
+$ kubectl delete service curl
+$ kubectl delete deployment curl
 {{< /text >}}

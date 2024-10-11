@@ -33,11 +33,11 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_3
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 snip_before_you_begin_5
 
 confirm_blocking() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
 }
 _verify_contains confirm_blocking "command terminated with exit code 35"
 

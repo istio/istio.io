@@ -96,11 +96,11 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
     EOF
     {{< /text >}}
 
-1.  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample in the `external` namespace to test traffic to the
+1.  Deploy the [curl]({{< github_tree >}}/samples/curl) sample in the `external` namespace to test traffic to the
     proxy without Istio traffic control.
 
     {{< text bash >}}
-    $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -n external -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1.  Obtain the IP address of the proxy pod and define the `PROXY_IP` environment variable to store it:
@@ -116,10 +116,10 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in the `external` namespace to an external service via the proxy:
+1.  Send a request from the `curl` pod in the `external` namespace to an external service via the proxy:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -n external -l app=curl -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -163,11 +163,11 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
     EOF
     {{< /text >}}
 
-1.  Send a request from the `sleep` pod in the `default` namespace. Because the `sleep` pod has a sidecar,
+1.  Send a request from the `curl` pod in the `default` namespace. Because the `curl` pod has a sidecar,
     Istio controls its traffic.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -198,16 +198,16 @@ not aware of the fact that the external proxy forwards the requests further.
 
 ## Cleanup
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+1.  Shutdown the [curl]({{< github_tree >}}/samples/curl) service:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service in the `external` namespace:
+1.  Shutdown the [curl]({{< github_tree >}}/samples/curl) service in the `external` namespace:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n external
     {{< /text >}}
 
 1.  Shutdown the Squid proxy, remove the `ConfigMap` and the configuration file:

@@ -60,19 +60,19 @@ $ istioctl install --set profile=minimal -y \
 
 {{< /tabset >}}
 
-*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+*   Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
     If you have
     [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
     enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    Otherwise, manually inject the sidecar before deploying the `sleep` application with the following command:
+    Otherwise, manually inject the sidecar before deploying the `curl` application with the following command:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -82,7 +82,7 @@ $ istioctl install --set profile=minimal -y \
 *   Set the `SOURCE_POD` environment variable to the name of your source pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 ## Configure direct traffic to a wildcard host
@@ -125,7 +125,7 @@ the default) is used in the service entry below.
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
@@ -314,7 +314,7 @@ EOF
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
@@ -395,10 +395,10 @@ found in [routing egress traffic to wildcard destinations](/blog/2023/egress-sni
 
 ## Cleanup
 
-* Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+* Shutdown the [curl]({{< github_tree >}}/samples/curl) service:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 * Uninstall Istio from your cluster:

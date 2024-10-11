@@ -499,28 +499,28 @@ See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/is
     $ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `helloworld` (`v1`) and `sleep` samples:
+1. Deploy the `helloworld` (`v1`) and `curl` samples:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+1. Wait a few seconds for the `helloworld` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
+    curl-64d7d56698-wqjnm            2/2     Running   0          9s
     helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
-    sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
-1. Send a request from the `sleep` pod to the `helloworld` service:
+1. Send a request from the `curl` pod to the `helloworld` service:
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
@@ -855,28 +855,28 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `helloworld` (`v2`) and `sleep` samples:
+1. Deploy the `helloworld` (`v2`) and `curl` samples:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
-1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+1. Wait a few seconds for the `helloworld` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
     NAME                            READY   STATUS    RESTARTS   AGE
+    curl-557747455f-wtdbr           2/2     Running   0          9s
     helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-    sleep-557747455f-wtdbr          2/2     Running   0          9s
     {{< /text >}}
 
-1. Send a request from the `sleep` pod to the `helloworld` service:
+1. Send a request from the `curl` pod to the `helloworld` service:
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     {{< /text >}}

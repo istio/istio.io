@@ -32,14 +32,14 @@ Before you begin this task, do the following:
 
 * Deploy test workloads:
 
-    This task uses two workloads, `httpbin` and `sleep`, both deployed in namespace `foo`.
+    This task uses two workloads, `httpbin` and `curl`, both deployed in namespace `foo`.
     Both workloads run with an Envoy proxy sidecar. Create the `foo` namespace and deploy the workloads with the following command:
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl label ns foo istio-injection=enabled
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n foo
     {{< /text >}}
 
 * Enable proxy debug level log for checking dry-run logging results:
@@ -49,10 +49,10 @@ Before you begin this task, do the following:
     rbac: debug
     {{< /text >}}
 
-* Verify that `sleep` can access `httpbin` with the following command:
+* Verify that `curl` can access `httpbin` with the following command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -92,10 +92,10 @@ Caching and propagation overhead can cause some delay.
     {{< /text >}}
 
 1. Verify a request to path `/headers` is allowed because the policy is created in dry-run mode, run the following command
-   to send 20 requests from `sleep` to `httpbin`, the request includes the header `X-B3-Sampled: 1` to always trigger the Zipkin tracing:
+   to send 20 requests from `curl` to `httpbin`, the request includes the header `X-B3-Sampled: 1` to always trigger the Zipkin tracing:
 
     {{< text bash >}}
-    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
+    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
     200
     200
     200
@@ -154,7 +154,7 @@ Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#
     $ istioctl dashboard zipkin
     {{< /text >}}
 
-1. Find the trace result for the request from `sleep` to `httpbin`. Try to send some more requests if you do see the trace
+1. Find the trace result for the request from `curl` to `httpbin`. Try to send some more requests if you do see the trace
    result due to the delay in the Zipkin.
 
 1. In the trace result, you should find the following custom tags indicating the request is rejected by the dry-run policy

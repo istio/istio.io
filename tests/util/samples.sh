@@ -46,13 +46,13 @@ cleanup_bookinfo_sample() {
     fi
 }
 
-startup_sleep_sample() {
-    kubectl apply -f samples/sleep/sleep.yaml -n default
-    _wait_for_deployment default sleep
+startup_curl_sample() {
+    kubectl apply -f samples/curl/curl.yaml -n default
+    _wait_for_deployment default curl
 }
 
-cleanup_sleep_sample() {
-    kubectl delete -f samples/sleep/sleep.yaml -n default || true
+cleanup_curl_sample() {
+    kubectl delete -f samples/curl/curl.yaml -n default || true
 }
 
 startup_httpbin_sample() {
@@ -78,7 +78,7 @@ sample_http_request() {
     fi
 
     local ingress_url
-    local sleep_pod
+    local curl_pod
     local response
 
     if [ "$GATEWAY_API" == "true" ]; then
@@ -87,21 +87,21 @@ sample_http_request() {
         ingress_url="http://istio-ingressgateway.istio-system"
     fi
 
-    sleep_pod=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
+    curl_pod=$(kubectl get pod -l app=curl -n default -o 'jsonpath={.items..metadata.name}')
 
     local args=""
     if [[ -n "$user" ]]; then
         # make request as logged in user
-        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl -c /tmp/sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
+        kubectl exec "$curl_pod" -c curl -n "default" -- curl -c /tmp/sample.cookies "$ingress_url/login" --data "username=$user&passwd=password"
         args="-b /tmp/sample.cookies"
     fi
     # shellcheck disable=SC2086
-    response=$(kubectl exec "$sleep_pod" -c sleep -n "default" -- \
+    response=$(kubectl exec "$curl_pod" -c curl -n "default" -- \
         curl "$ingress_url$path" $args -s --retry 3 --retry-connrefused --retry-delay 5)
 
     if [[ -n "$user" ]]; then
         # shellcheck disable=SC2086
-        kubectl exec "$sleep_pod" -c sleep -n "default" -- curl $args "$ingress_url/logout"
+        kubectl exec "$curl_pod" -c curl -n "default" -- curl $args "$ingress_url/logout"
     fi
 
     echo "$response"

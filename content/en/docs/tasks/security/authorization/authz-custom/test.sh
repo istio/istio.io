@@ -28,7 +28,7 @@ export VERIFY_TIMEOUT=300
 snip_before_you_begin_1
 
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
 
 _verify_same snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 

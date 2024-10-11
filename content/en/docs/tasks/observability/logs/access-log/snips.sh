@@ -47,7 +47,7 @@ ENDSNIP
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
@@ -61,7 +61,7 @@ I'm a teapot!
 ENDSNIP
 
 snip_test_the_access_log_2() {
-kubectl logs -l app=sleep -c istio-proxy
+kubectl logs -l app=curl -c istio-proxy
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
@@ -77,7 +77,7 @@ kubectl logs -l app=httpbin -c istio-proxy
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
 }
 

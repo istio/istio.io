@@ -52,9 +52,9 @@ snip_before_you_begin_2
 _wait_for_deployment default httpbin-v2
 
 snip_before_you_begin_4
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 
-# wait some more for the route config to be applied to the sleep pod
+# wait some more for the route config to be applied to the curl pod
 sleep 30s # TODO proper wait for config update
 
 send_request_and_get_v1_log() {
@@ -76,7 +76,7 @@ else
 fi
 
 # Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_3/4/5 take?
-export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export CURL_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 export V1_POD=$(kubectl get pod -l app=httpbin,version=v1 -o jsonpath={.items..metadata.name})
 export V2_POD=$(kubectl get pod -l app=httpbin,version=v2 -o jsonpath={.items..metadata.name})
 

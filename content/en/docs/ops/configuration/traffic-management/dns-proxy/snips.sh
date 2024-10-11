@@ -55,11 +55,11 @@ EOF
 
 snip_dns_capture_in_action_2() {
 kubectl label namespace default istio-injection=enabled --overwrite
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_dns_capture_in_action_3() {
-kubectl exec deploy/sleep -- curl -sS -v address.internal
+kubectl exec deploy/curl -- curl -sS -v address.internal
 }
 
 ! IFS=$'\n' read -r -d '' snip_dns_capture_in_action_3_out <<\ENDSNIP
@@ -84,7 +84,7 @@ EOF
 }
 
 snip_address_auto_allocation_2() {
-kubectl exec deploy/sleep -- curl -sS -v auto.internal
+kubectl exec deploy/curl -- curl -sS -v auto.internal
 }
 
 ! IFS=$'\n' read -r -d '' snip_address_auto_allocation_2_out <<\ENDSNIP
@@ -152,7 +152,7 @@ EOF
 }
 
 snip_external_tcp_services_without_vips_5() {
-istioctl pc listener deploy/sleep | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
+istioctl pc listener deploy/curl | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_external_tcp_services_without_vips_5_out <<\ENDSNIP
@@ -163,7 +163,7 @@ ENDSNIP
 snip_cleanup_1() {
 kubectl -n external-1 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl -n external-2 delete -f samples/tcp-echo/tcp-echo.yaml
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 istioctl uninstall --purge -y
 kubectl delete ns istio-system external-1 external-2
 kubectl label namespace default istio-injection-

@@ -35,11 +35,11 @@ istioctl install -f ./istio.yaml
 snip_check_the_tls_configuration_of_istio_workloads_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
 }
 
 snip_check_the_tls_configuration_of_istio_workloads_2() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
 }
 
 ! IFS=$'\n' read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_2_out <<\ENDSNIP
@@ -47,7 +47,7 @@ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadat
 ENDSNIP
 
 snip_check_the_tls_configuration_of_istio_workloads_3() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
+kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
 }
 
 ! IFS=$'\n' read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_4 <<\ENDSNIP
@@ -55,7 +55,7 @@ TLSv1.3
 ENDSNIP
 
 snip_check_the_tls_configuration_of_istio_workloads_5() {
-kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
+kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
 }
 
 ! IFS=$'\n' read -r -d '' snip_check_the_tls_configuration_of_istio_workloads_6 <<\ENDSNIP
@@ -64,7 +64,7 @@ ENDSNIP
 
 snip_cleanup_1() {
 kubectl delete -f samples/httpbin/httpbin.yaml -n foo
-kubectl delete -f samples/sleep/sleep.yaml -n foo
+kubectl delete -f samples/curl/curl.yaml -n foo
 }
 
 snip_cleanup_2() {
