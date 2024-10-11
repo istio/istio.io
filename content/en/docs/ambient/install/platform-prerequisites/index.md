@@ -47,7 +47,7 @@ If you are using EKS
 - with Pod ENI trunking enabled
 - **and** you are using EKS pod-attached SecurityGroups via [SecurityGroupPolicy](https://aws.github.io/aws-eks-best-practices/networking/sgpp/#enforcing-mode-use-strict-mode-for-isolating-pod-and-node-traffic)
 
-[`POD_SECURITY_GROUP_ENFORCING_MODE` must be explicitly set to `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), or pod health probes (which are by-default silently exempted from all policy enforcement by AWS VPC CNI) will fail. This is because Istio uses a link-local SNAT address for kubelet health probes, which AWS VPC CNI is not aware of, and AWS VPC CNI does not have an option to exempt link-local addresses from policy enforcement.
+[`POD_SECURITY_GROUP_ENFORCING_MODE` must be explicitly set to `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), or pod health probes (which are by-default silently exempted from all policy enforcement by the VPC CNI) will fail. This is because Istio uses a link-local SNAT address for kubelet health probes, which Amazon's VPC CNI is not aware of, and the VPC CNI does not have an option to exempt link-local addresses from policy enforcement.
 
 You can check if you have pod ENI trunking enabled by running the following command:
 
