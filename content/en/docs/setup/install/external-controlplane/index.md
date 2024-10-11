@@ -512,8 +512,8 @@ See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/is
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
-    helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
     curl-64d7d56698-wqjnm            2/2     Running   0          9s
+    helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
     {{< /text >}}
 
 1. Send a request from the `curl` pod to the `helloworld` service:
