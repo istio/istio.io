@@ -41,7 +41,7 @@ spec:
 
 ### Amazon Elastic Kubernetes Service (EKS)
 
-If you are using EKS
+If you are using EKS:
 
 - with Amazon's VPC CNI
 - with Pod ENI trunking enabled
