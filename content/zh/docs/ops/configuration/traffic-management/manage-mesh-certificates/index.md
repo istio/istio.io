@@ -102,7 +102,7 @@ meshConfig:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
   ...
   template:

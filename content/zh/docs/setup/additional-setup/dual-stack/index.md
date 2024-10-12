@@ -109,30 +109,30 @@ values:
     $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml@
     {{< /text >}}
 
-1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序以用作发送请求的测试源。
+1. 部署 [curl]({{< github_tree >}}/samples/curl) 示例应用程序以用作发送请求的测试源。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1. 验证到达双栈 Pod 的流量：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     {{< /text >}}
 
 1. 验证到达 IPv4 Pod 的流量：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
     {{< /text >}}
 
 1. 验证到达 IPv6 Pod 的流量：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
     hello ipv6
     {{< /text >}}
 
@@ -193,7 +193,7 @@ values:
 1. 验证 Envoy 端点是否被配置为同时路由到 IPv4 和 IPv6：
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
+    $ istioctl proxy-config endpoints "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" --port 9000
     ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
     10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
     10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local
@@ -208,6 +208,6 @@ values:
 1. 清理应用程序命名空间和部署
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     $ kubectl delete ns dual-stack ipv4 ipv6
     {{< /text >}}

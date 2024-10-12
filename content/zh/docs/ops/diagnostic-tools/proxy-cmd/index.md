@@ -402,18 +402,18 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 服务网格内的每个代理容器都应该能和 Istiod 通信。
 这可以通过几个简单的步骤来检测：
 
-1. 创建一个 `sleep` Pod：
+1. 创建一个 `curl` Pod：
 
     {{< text bash >}}
     $ kubectl create namespace foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
 1. 使用 `curl` 测试 Istiod 的连接。下面的示例使用默认 Istiod 配置参数和启用双向 TLS
    调用 v1 注册 API：
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/version
+    $ kubectl exec $(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name}) -c curl -n foo -- curl -sS istiod.istio-system:15014/version
     {{< /text >}}
 
 您应该收到一个响应，其中列出了 Istiod 的版本。

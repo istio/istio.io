@@ -15,7 +15,7 @@ owner: istio/wg-environments-maintainers
 在 `cluster2` 安装 `V2` 版的 `HelloWorld` 应用程序。
 当处理一个请求时，`HelloWorld` 会在响应消息中包含它自身的版本号。
 
-我们也会在两个集群中均部署 `Sleep` 容器。
+我们也会在两个集群中均部署 `curl` 容器。
 这些 Pod 将被用作客户端（source），发送请求给 `HelloWorld`。
 最后，通过收集这些流量数据，我们将能观测并识别出是那个集群处理了请求。
 
@@ -92,48 +92,48 @@ helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 
 等待 `helloworld-v2` 的状态最终变为 `Running` 状态：
 
-## 部署 `Sleep` {#deploy-sleep}
+## 部署 `curl` {#deploy-curl}
 
-把应用 `Sleep` 部署到每个集群：
+把应用 `curl` 部署到每个集群：
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
-    -f @samples/sleep/sleep.yaml@ -n sample
+    -f @samples/curl/curl.yaml@ -n sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
-    -f @samples/sleep/sleep.yaml@ -n sample
+    -f @samples/curl/curl.yaml@ -n sample
 {{< /text >}}
 
-确认 `cluster1` 上 `Sleep` 的状态：
+确认 `cluster1` 上 `curl` 的状态：
 
 {{< text bash >}}
-$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-n6bzf           2/2     Running   0          5s
+curl-754684654f-n6bzf            2/2     Running   0          5s
 {{< /text >}}
 
-等待 `Sleep` 的状态最终变为 `Running` 状态：
+等待 `curl` 的状态最终变为 `Running` 状态：
 
-确认 `cluster2` 上 `Sleep` 的状态：
+确认 `cluster2` 上 `curl` 的状态：
 
 {{< text bash >}}
-$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-dzl9j           2/2     Running   0          5s
+curl-754684654f-dzl9j            2/2     Running   0          5s
 {{< /text >}}
 
-等待 `Sleep` 的状态最终变为 `Running` 状态：
+等待 `curl` 的状态最终变为 `Running` 状态：
 
 ## 验证跨集群流量 {#verifying-cross-cluster-traffic}
 
-要验证跨集群负载均衡是否按预期工作，需要用 `Sleep` pod 重复调用服务 `HelloWorld`。
+要验证跨集群负载均衡是否按预期工作，需要用 `curl` pod 重复调用服务 `HelloWorld`。
 为了确认负载均衡按预期工作，需要从所有集群调用服务 `HelloWorld`。
 
-从 `cluster1` 中的 `Sleep` pod 发送请求给服务 `HelloWorld`：
+从 `cluster1` 中的 `curl` pod 发送请求给服务 `HelloWorld`：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl helloworld.sample:5000/hello
 {{< /text >}}
 
@@ -145,12 +145,12 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
 {{< /text >}}
 
-现在，用 `cluster2` 中的 `Sleep` pod 重复此过程：
+现在，用 `cluster2` 中的 `curl` pod 重复此过程：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl helloworld.sample:5000/hello
 {{< /text >}}
 
