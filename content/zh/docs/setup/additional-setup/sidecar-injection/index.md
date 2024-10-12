@@ -43,19 +43,19 @@ Pod 所属命名空间的 Istio Sidecar 注入器自动注入。
 
 #### 部署应用  {#deploying-an-app}
 
-部署 sleep 应用，验证 Deployment 和 Pod 只有一个容器。
+部署 curl 应用，验证 Deployment 和 Pod 只有一个容器。
 
 {{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
+$ kubectl apply -f @samples/curl/curl.yaml@
 $ kubectl get deployment -o wide
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
-sleep   1/1     1            1           12s   sleep        curlimages/curl           app=sleep
+curl    1/1     1            1           12s   curl        curlimages/curl           app=curl
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
 NAME                    READY   STATUS    RESTARTS   AGE
-sleep-8f795f47d-hdcgs   1/1     Running   0          42s
+curl-8f795f47d-hdcgs    1/1     Running   0          42s
 {{< /text >}}
 
 将 `default` 命名空间标记为 `istio-injection=enabled`。
@@ -72,18 +72,18 @@ default              Active   5m9s    enabled
 原来的 Pod 具有 `1/1 READY` 个容器，注入 Sidecar 后的 Pod 则具有 READY 为 `2/2 READY` 个容器。
 
 {{< text bash >}}
-$ kubectl delete pod -l app=sleep
-$ kubectl get pod -l app=sleep
-pod "sleep-776b7bcdcd-7hpnk" deleted
+$ kubectl delete pod -l app=curl
+$ kubectl get pod -l app=curl
+pod "curl-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
-sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
+curl-776b7bcdcd-7hpnk    1/1       Terminating   0          1m
+curl-776b7bcdcd-bhn9m    2/2       Running       0          7s
 {{< /text >}}
 
 查看已注入 Pod 的详细状态。您应该看到被注入的 `istio-proxy` 容器和对应的卷。
 
 {{< text bash >}}
-$ kubectl describe pod -l app=sleep
+$ kubectl describe pod -l app=curl
 ...
 Events:
   Type    Reason     Age   From               Message
@@ -92,8 +92,8 @@ Events:
   Normal  Created    11s   kubelet            Created container istio-init
   Normal  Started    11s   kubelet            Started container istio-init
   ...
-  Normal  Created    10s   kubelet            Created container sleep
-  Normal  Started    10s   kubelet            Started container sleep
+  Normal  Created    10s   kubelet            Created container curl
+  Normal  Started    10s   kubelet            Started container curl
   ...
   Normal  Created    9s    kubelet            Created container istio-proxy
   Normal  Started    8s    kubelet            Started container istio-proxy
@@ -103,13 +103,13 @@ Events:
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
-$ kubectl delete pod -l app=sleep
+$ kubectl delete pod -l app=curl
 $ kubectl get pod
 namespace/default labeled
-pod "sleep-776b7bcdcd-bhn9m" deleted
+pod "curl-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
-sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
+curl-776b7bcdcd-bhn9m    2/2       Terminating   0          2m
+curl-776b7bcdcd-gmvnr    1/1       Running       0          2s
 {{< /text >}}
 
 #### 控制注入策略  {#controlling-the-injection-policy}
@@ -146,10 +146,10 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 要手动注入 Deployment，请使用 [`istioctl kube-inject`](/zh/docs/reference/commands/istioctl/#istioctl-kube-inject)：
 
 {{< text bash >}}
-$ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
+$ istioctl kube-inject -f @samples/curl/curl.yaml@ | kubectl apply -f -
+serviceaccount/curl created
+service/curl created
+deployment.apps/curl created
 {{< /text >}}
 
 默认情况下将使用集群内的配置，或者使用该配置的本地副本来完成注入。
@@ -167,19 +167,19 @@ $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
     --valuesFile inject-values.yaml \
-    --filename @samples/sleep/sleep.yaml@ \
+    --filename @samples/curl/curl.yaml@ \
     | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
+serviceaccount/curl created
+service/curl created
+deployment.apps/curl created
 {{< /text >}}
 
-验证 Sidecar 是否已经被注入到 READY 列下 `2/2` 的 Sleep Pod 中。
+验证 Sidecar 是否已经被注入到 READY 列下 `2/2` 的 curl Pod 中。
 
 {{< text bash >}}
-$ kubectl get pod  -l app=sleep
+$ kubectl get pod  -l app=curl
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
+curl-64c6f57bc8-f5n4x    2/2     Running   0          24s
 {{< /text >}}
 
 ## 自定义注入  {#customizing-injection}
@@ -212,7 +212,7 @@ spec:
     lifecycle:
       preStop:
         exec:
-          command: ["sleep", "10"]
+          command: ["curl", "10"]
   volumes:
   - name: certs
     secret:

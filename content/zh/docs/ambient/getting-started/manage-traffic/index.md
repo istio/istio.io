@@ -41,7 +41,7 @@ EOF
 为了确认 100 个请求的流量中大约 10% 流向 `reviews-v2`，您可以运行以下命令：
 
 {{< text syntax=bash snip_id=test_traffic_split >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/curl -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 您会注意到大多数请求都发往 `reviews-v1`。如果您在浏览器中打开 Bookinfo 应用程序并多次刷新页面，
