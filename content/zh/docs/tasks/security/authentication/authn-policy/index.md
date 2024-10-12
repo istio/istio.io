@@ -26,46 +26,46 @@ $ istioctl install --set profile=default
 ### 设置 {#setup}
 
 本例中我们将在 `foo` 和 `bar` 命名空间下各自创建带有 Envoy 代理（Sidecar）的
-`httpbin` 和 `sleep` 服务。我还将在 `legacy` 命名空间下创建不带
-Envoy 代理（Sidecar）的 `httpbin` 和 `sleep` 服务。如果您希望使用相同的示例来完成这些任务，
+`httpbin` 和 `curl` 服务。我还将在 `legacy` 命名空间下创建不带
+Envoy 代理（Sidecar）的 `httpbin` 和 `curl` 服务。如果您希望使用相同的示例来完成这些任务，
 请执行如下命令：
 
 {{< text bash >}}
 $ kubectl create ns foo
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+$ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
 $ kubectl create ns bar
 $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
-$ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
+$ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n bar
 $ kubectl create ns legacy
 $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n legacy
-$ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
+$ kubectl apply -f @samples/curl/curl.yaml@ -n legacy
 {{< /text >}}
 
-现在您可以在 `foo`、`bar` 或 `legacy` 三个命名空间下的任意 `sleep` Pod
+现在您可以在 `foo`、`bar` 或 `legacy` 三个命名空间下的任意 `curl` Pod
 中使用 `curl` 向 `httpbin.foo`、`httpbin.bar` 或 `httpbin.legacy`
 发送 HTTP 请求来验证部署结果。所有请求都应该成功并返回 HTTP 200。
 
-例如，检查 `sleep.bar` 到 `httpbin.foo` 可达性的指令如下：
+例如，检查 `curl.bar` 到 `httpbin.foo` 可达性的指令如下：
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n bar -o jsonpath={.items..metadata.name})" -c sleep -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=curl -n bar -o jsonpath={.items..metadata.name})" -c curl -n bar -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
 您也可以使用一行指令检查所有可能的组合：
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 200
-sleep.legacy to httpbin.bar: 200
-sleep.legacy to httpbin.legacy: 200
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl -s "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 200
+curl.legacy to httpbin.bar: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 使用以下指令确认系统中没有对等认证策略：
@@ -99,15 +99,15 @@ TLS 流量自动发送到这些工作负载，并将明文流量发送到没有 
 这个标头的存在就是启用双向 TLS 的证据。例如：
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl -s http://httpbin.foo:8000/headers -s | jq '.headers["X-Forwarded-Client-Cert"][0]' | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
-  "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl -s http://httpbin.foo:8000/headers -s | jq '.headers["X-Forwarded-Client-Cert"][0]' | sed 's/Hash=[a-z0-9]*;/Hash=<redacted>;/'
+  "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=<redacted>;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/curl"
 {{< /text >}}
 
 当服务器没有 Sidecar 时，`X-Forwarded-Client-Cert` 标头将不会存在，
 这意味着请求是明文的。
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.legacy:8000/headers -s | grep X-Forwarded-Client-Cert
 {{< /text >}}
 
 ## 全局以 STRICT 模式启用 Istio 双向 TLS {#globally-enabling-Istio-mutual-TLS-in-STRICT-mode}
@@ -142,21 +142,21 @@ EOF
 再次运行测试指令：
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
-您会发现除了从没有 Sidecar 的服务（`sleep.legacy`）到有 Sidecar
+您会发现除了从没有 Sidecar 的服务（`curl.legacy`）到有 Sidecar
 的服务（`httpbin.foo` 或 `httpbin.bar`）的请求外，其他请求依然是成功的。
 这是符合预期的结果，因为现在严格要求使用双向 TLS，但没有 Sidecar 的工作负载无法满足这一要求。
 
@@ -190,20 +190,20 @@ EOF
 {{< /text >}}
 
 由于这些策略只应用于命名空间 `foo` 中的服务，您会看到只有从没有 Sidecar
-的客户端（`sleep.legacy`）到有 Sidecar 的客户端（`httpbin.foo`）的请求会失败。
+的客户端（`curl.legacy`）到有 Sidecar 的客户端（`httpbin.foo`）的请求会失败。
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.bar: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 ### 为每个工作负载启用双向 TLS {#enable-mutual-TLS-per-workload}
@@ -228,27 +228,27 @@ spec:
 EOF
 {{< /text >}}
 
-再次执行测试命令。跟预期一样，从 `sleep.legacy` 到 `httpbin.bar`
+再次执行测试命令。跟预期一样，从 `curl.legacy` 到 `httpbin.bar`
 的请求因为同样的原因失败。
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 {{< text plain >}}
 ...
-sleep.legacy to httpbin.bar: 000
+curl.legacy to httpbin.bar: 000
 command terminated with exit code 56
 {{< /text >}}
 
@@ -278,17 +278,17 @@ EOF
 1. 如果端口绑定到服务则只能使用 `portLevelMtls` 配置，其他配置将被 Istio 忽略。
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.foo to httpbin.legacy: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.bar to httpbin.legacy: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar" "legacy"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl "http://httpbin.${to}:8000/ip" -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.foo to httpbin.legacy: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.bar to httpbin.legacy: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
-sleep.legacy to httpbin.legacy: 200
+curl.legacy to httpbin.bar: 200
+curl.legacy to httpbin.legacy: 200
 {{< /text >}}
 
 ### 策略优先级 {#policy-precedence}
@@ -296,7 +296,7 @@ sleep.legacy to httpbin.legacy: 200
 为了演示特定服务策略比命名空间范围的策略优先级高，您可以像下面一样为
 `httpbin.foo` 添加一个禁用双向 TLS 的策略。
 注意您已经为所有在命名空间 `foo` 中的服务创建了命名空间范围的策略来启用双向
-TLS，发现从 `sleep.legacy` 到 `httpbin.foo` 的请求都会失败（如上所示）。
+TLS，发现从 `curl.legacy` 到 `httpbin.foo` 的请求都会失败（如上所示）。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n foo -f -
@@ -314,11 +314,11 @@ spec:
 EOF
 {{< /text >}}
 
-重新执行来自 `sleep.legacy` 的请求，您应该又会看到请求成功并返回 200 代码，
+重新执行来自 `curl.legacy` 的请求，您应该又会看到请求成功并返回 200 代码，
 证明了特定服务策略覆盖了命名空间范围的策略。
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n legacy -o jsonpath={.items..metadata.name})" -c sleep -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+$ kubectl exec "$(kubectl get pod -l app=curl -n legacy -o jsonpath={.items..metadata.name})" -c curl -n legacy -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
 200
 {{< /text >}}
 
@@ -484,7 +484,7 @@ Istio 会一直通过认证直到 65 秒后才拒绝这些令牌：
 
 {{< text bash >}}
 $ TOKEN=$(python3 ./gen-jwt.py ./key.pem --expire 5)
-$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; sleep 10; done
+$ for i in $(seq 1 10); do curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"; curl 10; done
 200
 200
 200
