@@ -47,9 +47,9 @@ spec:
 
 如果您使用已启用 Amazon VPC CNI 的 EKS，
 [则必须将 `POD_SECURITY_GROUP_ENFORCING_MODE` 明确设置为 `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110)，
-否则 Pod 运行状况探测（默认情况下，AWS VPC CNI 会默默地免除所有策略实施）将失败。
+否则 Pod 运行状况探测（默认情况下，该 VPC CNI 会默默地免除所有策略实施）将失败。
 这是因为 Istio 对 kubelet 运行状况探测使用链路本地 SNAT 地址，
-而 AWS VPC CNI 对此并不了解，并且 AWS VPC CNI 没有免除链路本地地址策略实施的选项。
+而 Amazon VPC CNI 对此并不了解，并且该 VPC CNI 没有免除链路本地地址策略实施的选项。
 
 ### k3d
 
