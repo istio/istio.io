@@ -70,11 +70,11 @@ $ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
-  name: sleep-logging
+  name: curl-logging
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
     - providers:
       - name: otel
@@ -122,10 +122,10 @@ $ istioctl install -f <your-istio-operator-config-file>
 \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 {{< /text >}}
 
-下表显示的示例针对从 `sleep` 发送到 `httpbin` 的请求使用默认的访问日志格式：
+下表显示的示例针对从 `curl` 发送到 `httpbin` 的请求使用默认的访问日志格式：
 
-| 日志运算符 | sleep 中的访问日志 | httpbin 中的访问日志 |
-|--------------|---------------------|-----------------------|
+| 日志运算符 | curl 中的访问日志 | httpbin 中的访问日志 |
+|--------------|--------------------|-----------------------|
 | `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
 | `\"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\"` | `"GET /status/418 HTTP/1.1"` | `"GET /status/418 HTTP/1.1"`
 | `%RESPONSE_CODE%` | `418` | `418`
@@ -151,10 +151,10 @@ $ istioctl install -f <your-istio-operator-config-file>
 
 ## 测试访问日志  {#test-access-log}
 
-1.  将请求从 `sleep` 发送到 `httpbin`：
+1.  将请求从 `curl` 发送到 `httpbin`：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
     ...
@@ -171,17 +171,17 @@ $ istioctl install -f <your-istio-operator-config-file>
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
     {{< /text >}}
 
-请注意，与请求对应的消息分别出现在来源和目的地（即 `sleep` 和 `httpbin`）的 Istio 代理日志中。
+请注意，与请求对应的消息分别出现在来源和目的地（即 `curl` 和 `httpbin`）的 Istio 代理日志中。
 您可以在此日志中看到 HTTP 动作（`GET`）、HTTP 路径（`/status/418`）、响应码（`418`）
 和其他[请求相关的信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules)。
 
 ## 清理  {#cleanup}
 
-关闭 [sleep]({{< github_tree >}}/samples/sleep) 和 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
+关闭 [curl]({{< github_tree >}}/samples/curl) 和 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
-$ kubectl delete telemetry sleep-logging
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete telemetry curl-logging
+$ kubectl delete -f @samples/curl/curl.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n istio-system
 {{< /text >}}

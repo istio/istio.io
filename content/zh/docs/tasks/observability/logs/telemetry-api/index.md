@@ -45,19 +45,19 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
 
 1. 禁用特定工作负载的访问日志
 
-    您可以使用以下配置禁用 `sleep` 服务的访问日志：
+    您可以使用以下配置禁用 `curl` 服务的访问日志：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n default -f -
     apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
-      name: disable-sleep-logging
+      name: disable-curl-logging
       namespace: default
     spec:
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       accessLogging:
       - providers:
         - name: otel
@@ -97,11 +97,11 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-      name: filter-sleep-logging
+      name: filter-curl-logging
     spec:
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       accessLogging:
       - providers:
         - name: otel

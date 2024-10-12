@@ -82,9 +82,9 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
 \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 {{< /text >}}
 
-下表显示了一个使用默认的访问日志格式的示例，请求从 `sleep` 发送到 `httpbin`：
+下表显示了一个使用默认的访问日志格式的示例，请求从 `curl` 发送到 `httpbin`：
 
-| 日志运算符 | sleep 中的访问日志 | httpbin 中的访问日志  |
+| 日志运算符 | curl 中的访问日志 | httpbin 中的访问日志  |
 |--------------|---------------------|-----------------------|
 | `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
 | `\"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\"` | `"GET /status/418 HTTP/1.1"` | `"GET /status/418 HTTP/1.1"`
@@ -111,10 +111,10 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
 
 ## 测试访问日志  {#test-the-access-log}
 
-1. 从 `sleep` 向 `httpbin` 发送一个请求：
+1. 从 `curl` 向 `httpbin` 发送一个请求：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
     ...
@@ -125,10 +125,10 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
     ...
     {{< /text >}}
 
-1. 检查 `sleep` 的日志：
+1. 检查 `curl` 的日志：
 
     {{< text bash >}}
-    $ kubectl logs -l app=sleep -c istio-proxy
+    $ kubectl logs -l app=curl -c istio-proxy
     [2019-03-06T09:31:27.354Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 11 10 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "172.30.146.73:80" outbound|8000||httpbin.default.svc.cluster.local - 172.21.13.94:8000 172.30.146.82:60290 -
     {{< /text >}}
 
@@ -139,17 +139,17 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
     [2019-03-06T09:31:27.360Z] "GET /status/418 HTTP/1.1" 418 - "-" 0 135 5 2 "-" "curl/7.60.0" "d209e46f-9ed5-9b61-bbdd-43e22662702a" "httpbin:8000" "127.0.0.1:80" inbound|8000|http|httpbin.default.svc.cluster.local - 172.30.146.73:80 172.30.146.82:38618 outbound_.8000_._.httpbin.default.svc.cluster.local
     {{< /text >}}
 
-请注意，与请求相对应的信息分别出现在源（`sleep`）和目标（`httpbin`）的 Istio
+请注意，与请求相对应的信息分别出现在源（`curl`）和目标（`httpbin`）的 Istio
 代理日志中。您可以在日志中看到 HTTP 动词（`GET`）、HTTP 路径（`/status/418`）、
 响应码（`418`）和其他[请求相关信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules)。
 
 ## 清理 {#cleanup}
 
-关闭 [sleep]({{<github_tree>}}/samples/sleep) 和
+关闭 [curl]({{<github_tree>}}/samples/curl) 和
 [httpbin]({{<github_tree>}}/samples/httpbin) 服务：
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
 
