@@ -34,14 +34,14 @@ status: Alpha
 
 * 部署测试工作负载：
 
-    本任务使用 `httpbin` 和 `sleep` 两个工作负载，均部署在命名空间 `foo` 中。
+    本任务使用 `httpbin` 和 `curl` 两个工作负载，均部署在命名空间 `foo` 中。
     两个工作负载都带有 Envoy 代理 Sidecar。请使用以下命令创建 `foo` 命名空间并部署工作负载：
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl label ns foo istio-injection=enabled
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n foo
     {{< /text >}}
 
 * 启用代理调试级别日志以检查模拟运行日志结果：
@@ -51,10 +51,10 @@ status: Alpha
     rbac: debug
     {{< /text >}}
 
-* 使用以下命令验证 `sleep` 是否可以访问 `httpbin`：
+* 使用以下命令验证 `curl` 是否可以访问 `httpbin`：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -94,11 +94,11 @@ status: Alpha
     {{< /text >}}
 
 1. 验证请求路径 `/headers` 是否允许，因为策略是在模拟运行模式下创建的，
-   所以请运行以下命令将 20 个请求从 `sleep` 发送到 `httpbin`，
+   所以请运行以下命令将 20 个请求从 `curl` 发送到 `httpbin`，
    此请求包含头部 `X-B3-Sampled: 1` 以始终触发 Zipkin 追踪：
 
     {{< text bash >}}
-    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
+    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
     200
     200
     200
@@ -157,7 +157,7 @@ $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..me
     $ istioctl dashboard zipkin
     {{< /text >}}
 
-1. 查找从 `sleep` 到 `httpbin` 的请求的追踪结果。
+1. 查找从 `curl` 到 `httpbin` 的请求的追踪结果。
    如果您由于 Zipkin 中的延迟看到追踪结果，请尝试发送更多请求。
 
 1. 在追踪结果中，您应看到以下自定义标记，表明此请求被命名空间 `foo` 中的模拟运行策略 `deny-path-headers` 拒绝：
