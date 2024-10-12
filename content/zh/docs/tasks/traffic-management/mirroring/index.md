@@ -101,28 +101,28 @@ test: yes
         EOF
         {{< /text >}}
 
-1. 部署用于向 `httpbin` 服务发送请求的 `sleep` 工作负载：
+1. 部署用于向 `httpbin` 服务发送请求的 `curl` 工作负载：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       template:
         metadata:
           labels:
-            app: sleep
+            app: curl
         spec:
           containers:
-          - name: sleep
+          - name: curl
             image: curlimages/curl
-            command: ["/bin/sleep","3650d"]
+            command: ["/bin/curl","3650d"]
             imagePullPolicy: IfNotPresent
     EOF
     {{< /text >}}
@@ -224,7 +224,7 @@ test: yes
 1. 现在所有流量都指向 `httpbin:v1` 服务，并向此服务发送请求：
 
     {{< text bash json >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -338,7 +338,7 @@ test: yes
 1. 发送流量：
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
     现在您应看到 `v1` 和 `v2` 版本中都有了访问日志。
@@ -381,9 +381,9 @@ test: yes
 
     {{< /tabset >}}
 
-1. 删除 `httpbin` 和 `sleep` Deployment 以及 `httpbin` 服务：
+1. 删除 `httpbin` 和 `curl` Deployment 以及 `httpbin` 服务：
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+    $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
     $ kubectl delete svc httpbin
     {{< /text >}}

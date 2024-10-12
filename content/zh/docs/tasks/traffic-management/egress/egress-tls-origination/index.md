@@ -30,28 +30,28 @@ test: yes
 
 * 根据[安装指南](/zh/docs/setup/)中的说明部署 Istio。
 
-* 启动 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，该应用将用作外部调用的测试源。
+* 启动 [curl]({{< github_tree >}}/samples/curl) 示例应用，该应用将用作外部调用的测试源。
 
     如果启用了 [Sidecar 的自动注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
-    运行以下命令部署 `sleep` 应用：
+    运行以下命令部署 `curl` 应用：
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    否则在部署 `sleep` 应用之前，您必须手动注入 Sidecar。
+    否则在部署 `curl` 应用之前，您必须手动注入 Sidecar。
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     请注意，实际上任何可以执行 `exec` 和 `curl` 的 Pod 都可以用来完成这一任务。
 
 * 创建一个环境变量来保存用于将请求发送到外部服务 Pod 的名称。
-    如果您使用的是 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，请运行：
+    如果您使用的是 [curl]({{< github_tree >}}/samples/curl) 示例应用，请运行：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 ## 配置对外部服务的访问   {#configuring-access-to-an-external-service}
@@ -85,7 +85,7 @@ test: yes
 1. 向外部的 HTTP 服务发送请求：
 
     {{< text syntax=bash snip_id=curl_simple >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -156,7 +156,7 @@ test: yes
 1. 如上一节一样，向 `http://edition.cnn.com/politics` 发送 HTTP 请求：
 
     {{< text syntax=bash snip_id=curl_origination_http >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -173,7 +173,7 @@ test: yes
 1. 请注意，使用 HTTPS 访问外部服务的应用程序将继续像以前一样工作：
 
     {{< text syntax=bash snip_id=curl_origination_https >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/2 200
     ...
     {{< /text >}}
@@ -206,7 +206,7 @@ $ kubectl delete destinationrule edition-cnn-com
 
 1. 生成客户端和服务器证书
 1. 部署支持双向 TLS 协议的外部服务
-1. 将客户端（sleep Pod）配置为使用在步骤 1 中创建的凭据
+1. 将客户端（curl Pod）配置为使用在步骤 1 中创建的凭据
 
 完成上述前置操作后，您可以将外部流量配置为经由该 Sidecar，执行 TLS 发起。
 
@@ -382,7 +382,7 @@ $ kubectl delete destinationrule edition-cnn-com
     EOF
     {{< /text >}}
 
-### 配置客户端 —— sleep Pod   {#configure-the-client-sleep-pod}
+### 配置客户端 —— curl Pod   {#configure-the-client-curl-pod}
 
 1.  创建 Kubernetes [Secret](https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/)
     来保存客户端的证书：
@@ -396,11 +396,11 @@ $ kubectl delete destinationrule edition-cnn-com
 
     {{< boilerplate crl-tip >}}
 
-1. 创建必需的 `RBAC` 以确保在上述步骤中创建的密钥对客户端 Pod 是可访问的，在本例中是 `sleep`。
+1. 创建必需的 `RBAC` 以确保在上述步骤中创建的密钥对客户端 Pod 是可访问的，在本例中是 `curl`。
 
     {{< text bash >}}
     $ kubectl create role client-credential-role --resource=secret --verb=list
-    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:curl
     {{< /text >}}
 
 ### 为 Sidecar 上的出口流量配置双向 TLS 源   {#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
@@ -434,7 +434,7 @@ $ kubectl delete destinationrule edition-cnn-com
     spec:
       workloadSelector:
         matchLabels:
-          app: sleep
+          app: curl
       host: my-nginx.mesh-external.svc.cluster.local
       trafficPolicy:
         loadBalancer:
@@ -455,7 +455,7 @@ $ kubectl delete destinationrule edition-cnn-com
 1.  验证凭据是否已提供给 Sidecar 并且处于活跃状态：
 
     {{< text bash >}}
-    $ istioctl proxy-config secret deploy/sleep | grep client-credential
+    $ istioctl proxy-config secret deploy/curl | grep client-credential
     kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
     kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
     {{< /text >}}
@@ -463,7 +463,7 @@ $ kubectl delete destinationrule edition-cnn-com
 1.  发送一个 HTTP 请求到 `http://my-nginx.mesh-external.svc.cluster.local`：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -471,10 +471,10 @@ $ kubectl delete destinationrule edition-cnn-com
     ...
     {{< /text >}}
 
-1.  检查 `sleep` Pod 的日志中是否有与我们的请求相对应的行：
+1.  检查 `curl` Pod 的日志中是否有与我们的请求相对应的行：
 
     {{< text bash >}}
-    $ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+    $ kubectl logs -l app=curl -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
     {{< /text >}}
 
     您应看到一行类似以下的输出：
@@ -514,9 +514,9 @@ $ kubectl delete destinationrule edition-cnn-com
 
 ## 清理常用配置    {#cleanup-common-configuration}
 
-删除 `sleep` Service 和 Deployment：
+删除 `curl` Service 和 Deployment：
 
 {{< text bash >}}
-$ kubectl delete service sleep
-$ kubectl delete deployment sleep
+$ kubectl delete service curl
+$ kubectl delete deployment curl
 {{< /text >}}
