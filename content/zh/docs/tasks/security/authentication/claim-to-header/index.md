@@ -28,20 +28,20 @@ JWT 声明复制到 HTTP 头。
 
 * 使用 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 在已启用 Sidecar 注入的命名空间 `foo` 中部署 `httpbin` 和 `sleep`
+* 在已启用 Sidecar 注入的命名空间 `foo` 中部署 `httpbin` 和 `curl`
   工作负载。使用以下命令部署命名空间和工作负载示例：
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl label namespace foo istio-injection=enabled
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n foo
     {{< /text >}}
 
-* 使用以下命令验证 `sleep` 是否成功与 `httpbin` 通信：
+* 使用以下命令验证 `curl` 是否成功与 `httpbin` 通信：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -78,7 +78,7 @@ JWT 声明复制到 HTTP 头。
 1. 确认带有无效 JWT 的请求被拒绝：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
     401
     {{< /text >}}
 
@@ -92,14 +92,14 @@ JWT 声明复制到 HTTP 头。
 1. 确认允许带有有效 JWT 的请求：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. 确认请求包含有效的 HTTP 头且这个头具有 JWT 声明值：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | jq '.headers["X-Jwt-Claim-Foo"][0]'
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | jq '.headers["X-Jwt-Claim-Foo"][0]'
     "bar"
     {{< /text >}}
 

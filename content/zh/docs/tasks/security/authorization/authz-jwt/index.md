@@ -23,19 +23,19 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
 * 参照 [Istio 安装指南](/zh/docs/setup/install/istioctl/)安装 Istio。
 
-* 部署两个工作负载（workload）：`httpbin` 和 `sleep`。将它们部署在同一个命名空间中，
+* 部署两个工作负载（workload）：`httpbin` 和 `curl`。将它们部署在同一个命名空间中，
 * 例如 `foo`。每个工作负载都在前面运行一个 Envoy 代理。您可以使用以下命令来部署它们：
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     {{< /text >}}
 
-* 使用下面的命令验证 `sleep` 能够正常访问 `httpbin` 服务：
+* 使用下面的命令验证 `curl` 能够正常访问 `httpbin` 服务：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -69,14 +69,14 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 1. 验证使用无效 JWT 的请求被拒绝：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
     401
     {{< /text >}}
 
 1. 验证没有 JWT 令牌的请求被允许，因为以上策略不包含授权策略：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -115,14 +115,14 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 1. 验证使用有效 JWT 的请求被允许：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. 验证没有 JWT 的请求被拒绝：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -w "%{http_code}\n"
     403
     {{< /text >}}
 
@@ -164,14 +164,14 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 1. 验证包含 JWT 且 JWT 中包含名为 `groups` 值为 `group1` 声明的请求被允许：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_GROUP" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_GROUP" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. 验证包含 JWT，但 JWT 不包含 `groups` 声明的请求被拒绝：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     403
     {{< /text >}}
 
