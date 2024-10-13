@@ -720,7 +720,7 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
     {{< text bash >}}
     $ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress
     NAME                     READY     STATUS    RESTARTS   AGE
-    curl-776b7bcdcd-z7mc4   1/1       Running   0          18m
+    curl-776b7bcdcd-z7mc4    1/1       Running   0          18m
     {{< /text >}}
 
 1. 从 `test-egress` 命名空间的 `curl` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)

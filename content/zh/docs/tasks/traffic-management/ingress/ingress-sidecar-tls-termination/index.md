@@ -215,21 +215,21 @@ $ kubectl -n test apply -f samples/curl/curl.yaml
 {{< text bash >}}
 $ kubectl get pods
 NAME                     READY   STATUS    RESTARTS   AGE
-curl-557747455f-xx88g   1/1     Running   0          4m14s
+curl-557747455f-xx88g    1/1     Running   0          4m14s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n test
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
-curl-557747455f-brzf6     2/2     Running   0          6m57s
+curl-557747455f-brzf6      2/2     Running   0          6m57s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n test
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
-curl     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
+curl      ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 {{< /text >}}
 
 在以下命令中，将 `httpbin-5bbdbd6588-z9vbs` 替换为 httpbin Pod 的名称。

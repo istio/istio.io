@@ -53,7 +53,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
     {{< text bash >}}
     $ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
     NAME                     READY   STATUS    RESTARTS   AGE
-    curl-66c8d79ff5-8tqrl   1/1     Running   0          32s
+    curl-66c8d79ff5-8tqrl    1/1     Running   0          32s
     {{< /text >}}
 
 ## Kubernetes ExternalName 服务访问外部服务{#ks-external-name-service-to-access-an-external-service}
