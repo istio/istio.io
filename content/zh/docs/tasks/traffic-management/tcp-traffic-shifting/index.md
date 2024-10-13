@@ -34,10 +34,10 @@ test: yes
     $ kubectl create namespace istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序，作为发送请求的测试源。
+1. 部署 [curl]({{< github_tree >}}/samples/curl) 示例应用程序，作为发送请求的测试源。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
 1. 部署 `tcp-echo` 微服务的 `v1` 和 `v2` 版本。
@@ -98,9 +98,9 @@ $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-tra
 3)  通过发送一些 TCP 流量来确认 `tcp-echo` 服务已启动且正在运行。
 
     {{< text bash >}}
-    $ export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+    $ export curl=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
     $ for i in {1..20}; do \
-    kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$curl" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2022
     one Mon Nov 12 23:25:00 UTC 2022
@@ -208,9 +208,9 @@ spec:
 6)  发送更多 TCP 流量到 `tcp-echo` 微服务。
 
     {{< text bash >}}
-    $ export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+    $ export curl=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
     $ for i in {1..20}; do \
-    kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$curl" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2022
     two Mon Nov 12 23:38:47 UTC 2022
@@ -263,10 +263,10 @@ $ kubectl delete -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio
 
 {{< /tabset >}}
 
-2) 移除 `sleep` 样例、`tcp-echo` 应用和测试命名空间：
+2) 移除 `curl` 样例、`tcp-echo` 应用和测试命名空间：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete namespace istio-io-tcp-traffic-shifting
     {{< /text >}}

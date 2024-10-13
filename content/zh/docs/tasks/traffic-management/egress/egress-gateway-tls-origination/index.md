@@ -23,27 +23,27 @@ Istio 来通过专门的 Egress 网关服务引导出口流量。
 
 * 遵照[安装指南](/zh/docs/setup/)中的指令，安装 Istio。
 
-* 启动 [sleep]({{< github_tree >}}/samples/sleep) 样本应用，作为外部请求的测试源。
+* 启动 [curl]({{< github_tree >}}/samples/curl) 样本应用，作为外部请求的测试源。
 
     若已开启[自动 Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，执行
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    否则，必须在部署 `sleep` 应用之前手动注入 Sidecar：
+    否则，必须在部署 `curl` 应用之前手动注入 Sidecar：
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     注意每一个可以执行 `exec` 和 `curl` 操作的 Pod，都需要注入。
 
 * 创建一个 shell 变量，来保存向外部服务发送请求的源 Pod 的名称。
-    若使用 [sleep]({{< github_tree >}}/samples/sleep) 样例，运行：
+    若使用 [curl]({{< github_tree >}}/samples/curl) 样例，运行：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 * 对于 macOS 用户，确认您使用的是 `openssl` 版本 1.1 或更高版本：
@@ -99,7 +99,7 @@ Sidecar 完成。
    验证 `ServiceEntry` 已被正确应用。
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -314,7 +314,7 @@ EOF
 6)  发送一个 HTTP 请求至 [http://edition.cnn.com/politics](https://edition.cnn.com/politics)。
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -sL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -981,7 +981,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
 6)  发送一个 HTTP 请求到 `http://my-nginx.mesh-external.svc.cluster.local`：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -1088,8 +1088,8 @@ $ kubectl delete referencegrant my-nginx-reference-grant -n mesh-external
 
 ## 清除 {#cleanup}
 
-删除 `sleep` 的 Service 和 Deployment：
+删除 `curl` 的 Service 和 Deployment：
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

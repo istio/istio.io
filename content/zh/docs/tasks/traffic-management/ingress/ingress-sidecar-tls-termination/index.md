@@ -202,12 +202,12 @@ EOF
 
 现在已经部署和配置了 httpbin 服务器，启动两个客户端来测试网格内部和外部的端到端连接：
 
-1. 在与 httpbin 服务相同的命名空间（test）中的内部客户端（sleep），已注入 Sidecar。
-1. 在 default 命名空间（即服务网格外部）中的外部客户端（sleep）。
+1. 在与 httpbin 服务相同的命名空间（test）中的内部客户端（curl），已注入 Sidecar。
+1. 在 default 命名空间（即服务网格外部）中的外部客户端（curl）。
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml
-$ kubectl -n test apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f samples/curl/curl.yaml
+$ kubectl -n test apply -f samples/curl/curl.yaml
 {{< /text >}}
 
 运行以下命令以验证一切都已启动并正在运行，并且配置正确。
@@ -215,21 +215,21 @@ $ kubectl -n test apply -f samples/sleep/sleep.yaml
 {{< text bash >}}
 $ kubectl get pods
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-557747455f-xx88g   1/1     Running   0          4m14s
+curl-557747455f-xx88g    1/1     Running   0          4m14s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n test
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
-sleep-557747455f-brzf6     2/2     Running   0          6m57s
+curl-557747455f-brzf6      2/2     Running   0          6m57s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n test
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
-sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
+curl      ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 {{< /text >}}
 
 在以下命令中，将 `httpbin-5bbdbd6588-z9vbs` 替换为 httpbin Pod 的名称。
@@ -246,8 +246,8 @@ file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Cha
 ### 在 8080 端口上验证内部网格连通性 {#verify-internal-mesh-connectivity-on-port-8080}
 
 {{< text bash >}}
-$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -IsS "http://httpbin:8080/status/200"
+$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=curl -o jsonpath={.items..metadata.name})
+$ kubectl -n test exec "${INTERNAL_CLIENT}" -c curl -- curl -IsS "http://httpbin:8080/status/200"
 HTTP/1.1 200 OK
 server: envoy
 date: Mon, 24 Oct 2022 09:04:52 GMT
@@ -261,19 +261,19 @@ x-envoy-upstream-service-time: 5
 ### 在 8443 端口上验证外部到内部网格的连通性 {#verify-external-to-internal-mesh-connectivity-on-port-8443}
 
 要验证来自外部客户端的 mTLS 流量，首先将 CA 证书和客户端证书/密钥复制到在 default
-命名空间中运行的 sleep 客户端。
+命名空间中运行的 curl 客户端。
 
 {{< text bash >}}
-$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 $ kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
-现在证书可用于外部 sleep 客户端，您可以使用以下命令验证该客户端到内部 httpbin 服务的连通性。
+现在证书可用于外部 curl 客户端，您可以使用以下命令验证该客户端到内部 httpbin 服务的连通性。
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 server: istio-envoy
 date: Mon, 24 Oct 2022 09:05:31 GMT
 content-type: text/html; charset=utf-8
@@ -287,7 +287,7 @@ x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 除了通过入口端口 8443 验证外部 mTLS 连通性之外，验证端口 8080 不接受任何外部 mTLS 流量也很重要。
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 {{< /text >}}
@@ -298,11 +298,11 @@ command terminated with exit code 56
 
     {{< text bash >}}
     $ kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
-    $ kubectl delete service httpbin sleep -n test
-    $ kubectl delete deployment httpbin sleep -n test
+    $ kubectl delete service httpbin curl -n test
+    $ kubectl delete deployment httpbin curl -n test
     $ kubectl delete namespace test
-    $ kubectl delete service sleep
-    $ kubectl delete deployment sleep
+    $ kubectl delete service curl
+    $ kubectl delete deployment curl
     {{< /text >}}
 
 1.  删除证书和私钥：

@@ -43,10 +43,10 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
     则会启用 Egress 网关和访问日志。
     {{< /tip >}}
 
-*   部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，用作发送请求的测试源。
+*   部署 [curl]({{< github_tree >}}/samples/curl) 示例应用，用作发送请求的测试源。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
     {{< tip >}}
@@ -56,7 +56,7 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
 *   将 `SOURCE_POD` 环境变量设置为源 Pod 的名称：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
     {{< warning >}}
@@ -145,7 +145,7 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
    验证 `ServiceEntry` 是否已正确应用。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -316,7 +316,7 @@ EOF
 5)  重新发送 HTTP 请求到 [http://edition.cnn.com/politics](https://edition.cnn.com/politics)。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -453,7 +453,7 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
    验证您的 `ServiceEntry` 是否已正确生效。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -603,7 +603,7 @@ EOF
     输出结果应该和之前一样。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -698,7 +698,7 @@ Egress 网关发起的出站流量（[下一节](#apply-Kubernetes-network-polic
 
 本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)来阻止绕过
 Egress 网关的出站流量。为了测试网络策略，首先创建一个 `test-egress` 命名空间，
-并在其中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用，
+并在其中部署 [curl]({{< github_tree >}}/samples/curl) 示例应用，
 然后尝试发送一个会通过安全网关的外部服务请求。
 
 1. 参考[用 Egress Gateway 发起 HTTPS 请求](#egress-gateway-for-http-traffic)一节中的步骤。
@@ -709,25 +709,25 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
     $ kubectl create namespace test-egress
     {{< /text >}}
 
-1. 将 [sleep]({{< github_tree >}}/samples/sleep) 样例部署到 `test-egress` 命名空间。
+1. 将 [curl]({{< github_tree >}}/samples/curl) 样例部署到 `test-egress` 命名空间。
 
     {{< text bash >}}
-    $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -n test-egress -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1. 检查生成的 Pod，其中应该只有一个容器，也就是说没有注入 Istio Sidecar：
 
     {{< text bash >}}
-    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
+    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress
     NAME                     READY     STATUS    RESTARTS   AGE
-    sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
+    curl-776b7bcdcd-z7mc4    1/1       Running   0          18m
     {{< /text >}}
 
-1. 从 `test-egress` 命名空间的 `sleep` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)
+1. 从 `test-egress` 命名空间的 `curl` Pod 中向 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)
    发送 HTTPS 请求。因为没有任何限制，所以这一请求应该会成功：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -836,12 +836,12 @@ EOF
 {{< /tabset >}}
 
 9) 重新发送前面的 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)。
-   这次请求就不会成功了，这是因为流量被网络策略拦截了。`sleep` Pod 无法绕过 `istio-egressgateway`。
+   这次请求就不会成功了，这是因为流量被网络策略拦截了。`curl` Pod 无法绕过 `istio-egressgateway`。
    要访问 `edition.cnn.com`，只能通过 Istio Sidecar 代理，让流量经过 `istio-egressgateway`
    才能完成。这种配置表明，即使一些恶意的 Pod 绕过了 Sidecar，也会被网络策略拦截，而无法访问到外部站点。
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -v -sS https://edition.cnn.com/politics
     Hostname was NOT found in DNS cache
       Trying 151.101.65.67...
       Trying 2a04:4e42:200::323...
@@ -855,18 +855,18 @@ EOF
     connect to 151.101.65.67 port 443 failed: Connection timed out
     {{< /text >}}
 
-10) 接下来在 `test-egress` 命名空间的 `sleep` Pod 上注入 Sidecar，启用
+10) 接下来在 `test-egress` 命名空间的 `curl` Pod 上注入 Sidecar，启用
    `test-egress` 命名空间的自动注入：
 
     {{< text bash >}}
     $ kubectl label namespace test-egress istio-injection=enabled
     {{< /text >}}
 
-11) 重新部署 `sleep`：
+11) 重新部署 `curl`：
 
     {{< text bash >}}
-    $ kubectl delete deployment sleep -n test-egress
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n test-egress
+    $ kubectl delete deployment curl -n test-egress
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n test-egress
     {{< /text >}}
 
 12) 检查生成的 Pod，其中应该有了两个容器，其中包含了注入的 sidecar（`istio-proxy`）：
@@ -876,11 +876,11 @@ EOF
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-sleep istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+curl istio-proxy
 {{< /text >}}
 
-在 `default` 命名空间中创建一个与 `sleep` Pod 类似的目标规则，用来引导
+在 `default` 命名空间中创建一个与 `curl` Pod 类似的目标规则，用来引导
 `test-egress` 命名空间内的流量经过 Egress 网关：
 
 {{< text bash >}}
@@ -901,8 +901,8 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-sleep istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+curl istio-proxy
 {{< /text >}}
 
 {{< /tab >}}
@@ -914,7 +914,7 @@ sleep istio-proxy
     Gateway 最终把流量转发到 `edition.cnn.com`。
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -965,7 +965,7 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c i
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+$ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
 $ kubectl delete destinationrule egressgateway-for-cnn -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 $ kubectl label namespace kube-system kube-system-
@@ -978,7 +978,7 @@ $ kubectl delete namespace test-egress
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+$ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 $ kubectl label namespace kube-system kube-system-
 $ kubectl label namespace istio-system istio-
@@ -994,8 +994,8 @@ $ kubectl delete namespace test-egress
 
 ## 清理 {#cleanup}
 
-关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+关闭 [curl]({{< github_tree >}}/samples/curl) 服务：
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

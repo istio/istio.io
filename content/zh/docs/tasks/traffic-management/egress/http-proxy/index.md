@@ -93,11 +93,11 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 在 `external` 命名空间中部署 [sleep]({{< github_tree >}}/samples/sleep) 示例，以测试到代理的通信量，
+1. 在 `external` 命名空间中部署 [curl]({{< github_tree >}}/samples/curl) 示例，以测试到代理的通信量，
    而不进行 Istio 流量控制。
 
     {{< text bash >}}
-    $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -n external -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1. 获取代理 Pod 的 IP 地址并定义 `PROXY_IP` 环境变量来存储它：
@@ -112,10 +112,10 @@ test: yes
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1. 从 `external` 命名空间中的 sleep Pod 通过代理向外部服务发送请求：
+1. 从 `external` 命名空间中的 curl Pod 通过代理向外部服务发送请求：
 
     {{< text bash >}}
-    $ kubectl exec -it $(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec -it $(kubectl get pod -n external -l app=curl -o jsonpath={.items..metadata.name}) -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -158,10 +158,10 @@ test: yes
     EOF
     {{< /text >}}
 
-1. 从 `external` 命名空间中的 sleep Pod 发送请求。因为 sleep Pod 有 Sidecar，可以让 Istio 控制其流量。
+1. 从 `external` 命名空间中的 curl Pod 发送请求。因为 curl Pod 有 Sidecar，可以让 Istio 控制其流量。
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec -it $SOURCE_POD -c curl -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -191,16 +191,16 @@ test: yes
 
 ## 清理  {#cleanup}
 
-1. 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1. 关闭 [curl]({{< github_tree >}}/samples/curl) 服务：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-1. 关闭 `external` 命名空间中的 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+1. 关闭 `external` 命名空间中的 [curl]({{< github_tree >}}/samples/curl) 服务：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n external
     {{< /text >}}
 
 1. 关闭 Squid 代理，删除 ConfigMap 和配置文件：
