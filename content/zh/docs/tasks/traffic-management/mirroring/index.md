@@ -122,7 +122,7 @@ test: yes
           containers:
           - name: curl
             image: curlimages/curl
-            command: ["/bin/curl","3650d"]
+            command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
     EOF
     {{< /text >}}

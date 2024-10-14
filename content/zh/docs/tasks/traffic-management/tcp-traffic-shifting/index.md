@@ -98,9 +98,9 @@ $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-tra
 3)  通过发送一些 TCP 流量来确认 `tcp-echo` 服务已启动且正在运行。
 
     {{< text bash >}}
-    $ export curl=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+    $ export CURL=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
     $ for i in {1..20}; do \
-    kubectl exec "$curl" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$CURL" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2022
     one Mon Nov 12 23:25:00 UTC 2022
@@ -208,9 +208,9 @@ spec:
 6)  发送更多 TCP 流量到 `tcp-echo` 微服务。
 
     {{< text bash >}}
-    $ export curl=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+    $ export CURL=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
     $ for i in {1..20}; do \
-    kubectl exec "$curl" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$CURL" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2022
     two Mon Nov 12 23:38:47 UTC 2022
