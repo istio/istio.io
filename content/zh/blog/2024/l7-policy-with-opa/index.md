@@ -410,7 +410,6 @@ http_code=403
 $ kubectl exec -n my-app curl -c curl  -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-unauthenticated: enabled"
 {{< /text >}}
 
-#### Adding headers to request
 #### 向请求添加标头 {#adding-headers-to-request}
 
 运行有效请求，您应该收到带有新标头 `x-validated-by: my-security-checkpoint` 和已删除标头 `x-force-authorized` 的回显主体：
