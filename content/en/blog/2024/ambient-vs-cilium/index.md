@@ -6,11 +6,11 @@ attribution: "Mitch Connors (Microsoft)"
 keywords: [istio,cilium,analysis]
 ---
 
-A common question from prospective Istio users is "how does Istio compare to Cilium?"  While Cilium originally only provided L3/L4 Network Policy, recent releases have added L7 functionality with Envoy, as well as Wireguard Encryption. Like Istio, Cilium is a CNCF Graduated project, and has been around in the community for many years.
+A common question from prospective Istio users is "how does Istio compare to Cilium?"  While Cilium originally only provided L3/L4 Network Policy, recent releases have added service mesh functionality with Envoy, as well as Wireguard Encryption. Like Istio, Cilium is a CNCF Graduated project, and has been around in the community for many years.
 
-Despite these similarities, the two projects have substantially different architectures, most notably cilium’s eBPF program for processing L4 in the kernel, contrasted with Istio’s ztunnel component for L4 in user space. These differences have resulted in substantial speculation about how Istio will perform at scale compared to Cilium.
+Despite offering a similar feature set on the surface, the two projects have substantially different architectures, most notably cilium’s eBPF program for processing L4 in the kernel, contrasted with Istio’s ztunnel component for L4 in user space. These differences have resulted in substantial speculation about how Istio will perform at scale compared to Cilium.
 
-Rather than emphasizing theoretical performance, we put Istio Ambient and Cilium through their paces, focusing on key metrics like latency, throughput, and resource consumption. We also cranked up the pressure with realistic load scenarios, simulating a bustling Kubernetes environment. Finally, we pushed the size of our AKS cluster up to 1000 nodes on 11,000 cores, to understand how these products perform at scale. Our results show areas where each project can improve, but also indicate a clear winner at scale.
+Rather than emphasizing theoretical performance, we put Istio Ambient and Cilium through their paces, focusing on key metrics like latency, throughput, and resource consumption. We also cranked up the pressure with realistic load scenarios, simulating a bustling Kubernetes environment. Finally, we pushed the size of our AKS cluster up to 1000 nodes on 11,000 cores, to understand how these projects perform at scale. Our results show areas where each can improve, but also indicate that Istio is the clear winner at scale.
 
 ## Test Scenario
 
@@ -31,14 +31,14 @@ For the Istio test, we used Istio’s Ambient Mode, with a Waypoint in every ser
     >}}
 
 * **The Cilium Slowdown** Cilium, while boasting impressive low latency with default install parameters, slows down substantially when Istio’s baseline features such as L7 policy and encryption are turned on. Additionally, cilium’s memory and CPU utilization remained high even when no traffic was flowing in the mesh. This can impact the overall stability and reliability of your cluster, especially as it grows.
-* **Istio Ambient: The Steady Performer** Istio Ambient, on the other hand, showed its strength in stability and maintaining decent throughput, even with the added overhead of encryption. While Ambient did consume more memory and CPU than cilium under test, its CPU utilization settled to a fraction of cilium’s when not under load.
+* **Istio Ambient Mode: The Steady Performer** Istio Ambient Mode, on the other hand, showed its strength in stability and maintaining decent throughput, even with the added overhead of encryption. While Istio did consume more memory and CPU than cilium under test, its CPU utilization settled to a fraction of cilium’s when not under load.
 
 ## Behind the Scenes: Why the Difference?
 
 The key to understanding these performance differences lies in the architecture and design of each tool.
 
 * **Cilium's Control Plane Conundrum:** Cilium runs a control plane instance on each node, leading to potential API server strain and configuration overhead as your cluster expands. This frequently caused our API Server to crash, followed by cilium becoming unready, and the entire cluster becoming unresponsive.
-* **Istio's Efficiency Edge:** Istio, with its centralized control plane and identity-based approach, streamlines configuration and reduces the burden on your API server, directing critical resources to processing and securing your traffic, rather than processing configuration.
+* **Istio's Efficiency Edge:** Istio, with its centralized control plane and identity-based approach, streamlines configuration and reduces the burden on your API server, directing critical resources to processing and securing your traffic, rather than processing configuration. Istio takes further advantage of the resources not used in the control plane by running as many Envoy instances as a workload needs, while Cilium is limited to one shared Envoy instance per node.
 
 ## Digging Deeper
 
@@ -58,10 +58,10 @@ While Istio operates entirely in user space, Cilium’s L4 dataplane runs in the
 
 ## Recommendations: Choosing the Right Tool for the Job
 
-So, what's the verdict? Well, it depends on your specific needs and priorities. If low latency is your absolute top priority and you have a smaller cluster, Cilium might still be a viable option. However, for larger clusters and a focus on stability, scalability, and advanced features, Istio Ambient, along with an alternate NetworkPolicy implementation is the way to go.
+So, what's the verdict? Well, it depends on your specific needs and priorities. If low latency is your absolute top priority and you have a smaller cluster, Cilium might still be a viable option. However, for larger clusters and a focus on stability, scalability, and advanced features, Istio Ambient Mode, along with an alternate NetworkPolicy implementation is the way to go.
 
 Remember, the world of cloud-native networking is constantly evolving. Keep an eye on developments in both Istio and Cilium, as they continue to improve and address these challenges.
 
 ## Let's Keep the Conversation Going
 
-Have you worked with Istio Ambient or Cilium? What are your experiences and insights? Share your thoughts in the comments below. Let's learn from each other and navigate the exciting world of Kubernetes together\!
+Have you worked with Istio Ambient Mode or Cilium? What are your experiences and insights? Share your thoughts in the comments below. Let's learn from each other and navigate the exciting world of Kubernetes together\!
