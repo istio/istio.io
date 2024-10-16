@@ -37,7 +37,7 @@
                             <p class="post-summary">
                                 {{ .Params.description }}    
                             </p>
-                            <p class="post-author">By {{ replace (replace .Params.attribution "(" "- ") ")" "" }}</p>
+                            <p class="post-author">{{ i18n "page_attribution" }}{{ replace (replace .Params.attribution "(" "- ") ")" "" }}</p>
                         </div>    
                     </a>
                 {{ end }}
