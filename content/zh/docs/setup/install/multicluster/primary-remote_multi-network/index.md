@@ -54,16 +54,17 @@ spec:
       multiCluster:
         clusterName: cluster1
       network: network1
+      externalIstiod: true
 EOF
 {{< /text >}}
 
 将配置应用到 `cluster1`：
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-请注意，`values.pilot.env.EXTERNAL_ISTIOD` 设置为 `true`。
+请注意，`values.global.externalIstiod` 设置为 `true`。
 这将启用安装在 `cluster1` 上的控制平面，使其也用作其他从集群的外部控制平面。
 启用此特性后，`istiod` 将尝试获取领导选举锁，
 并因此管理将附加到它的并且带有[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
