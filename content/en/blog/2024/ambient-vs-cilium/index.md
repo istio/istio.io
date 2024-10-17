@@ -50,11 +50,11 @@ While Istio and Cilium both offer L4 policy enforcement, their APIs and implemen
 
 ### Not all Encryption is Created Equal
 
-While Cilium offers IPsec for FIPS-compatible encryption, most other Cilium features such as L7 Policy and Load Balancing are incompatible with IPsec. Cilium has much better feature compatibility when using WireGuard encryption, but WireGuard cannot be used in FIPS-compliant environments. Istio, on the other-hand, uses FIPS-compliant mTLS by default, which has the added benefit of complying with Zero-Trust principles.
+While Cilium offers IPsec for FIPS-compatible encryption, most other Cilium features such as L7 Policy and Load Balancing are incompatible with IPsec. Cilium has much better feature compatibility when using WireGuard encryption, but WireGuard cannot be used in FIPS-compliant environments. Istio, on the other-hand, because it strictly complies with TLS protocol standards, always uses FIPS-compliant mTLS by default.
 
 ### Hidden Costs
 
-While Istio operates entirely in user space, Cilium’s L4 dataplane runs in the Linux Kernel using eBPF. Prometheus metrics for resource consumption only measure user space resources, meaning that all Kernel resources used by Cilium are not accounted for in this test.
+While Istio operates entirely in user space, Cilium’s L4 dataplane runs in the Linux kernel using eBPF. Prometheus metrics for resource consumption only measure user space resources, meaning that all kernel resources used by Cilium are not accounted for in this test.
 
 ## Recommendations: Choosing the Right Tool for the Job
 
