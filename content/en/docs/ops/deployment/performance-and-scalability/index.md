@@ -78,14 +78,13 @@ The latency, throughput, and the proxies' CPU and memory consumption are measure
 ### Sidecar CPU and memory usage
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each,
-* a sidecar proxy consumes about 30% CPU and 70 MB of memory.
-* a waypoint proxy consumes about 30% CPU and 55 MB of memory
-* a ztunnel proxy consumes about 7% CPU and 11 MB of memory.
+and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each,j
+- a sidecar proxy with 4 worker threads consumes about 27% CPU and 61 MB of memory.
+- a waypoint proxy with 2 worker threads consumes about 41% CPU and 57 MB of memory
+- a ztunnel proxy consumes about 7% CPU and 12 MB of memory.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
 A large number of listeners, clusters, and routes can increase memory usage.
-In a large namespace with [namespace isolation](/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
 
 Since the proxy normally doesn't buffer the data passing through,
 request rate doesn't affect the memory consumption.
@@ -130,7 +129,7 @@ Different hardware will give different values.
 
 - `no mesh`: Client pod directly calls the server pod, no pods in Istio service mesh.
 - `ambient: L4`: Default ambient mode with the {{< gloss >}}secure L4 overlay{{< /gloss >}}
-- `ambient: L4 + L7` Default ambient mode with the secure L4 overlay and waypoints enabled for the namespace.
+- `ambient: L4+L7` Default ambient mode with the secure L4 overlay and waypoints enabled for the namespace.
 - `sidecar` Client and server sidecars.
 
 ### Benchmarking tools
