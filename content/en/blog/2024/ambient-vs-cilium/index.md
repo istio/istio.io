@@ -6,22 +6,22 @@ attribution: "Mitch Connors (Microsoft)"
 keywords: [istio,cilium,analysis]
 ---
 
-A common question from prospective Istio users is "how does Istio compare to Cilium?"  While Cilium originally only provided L3/L4 functionality, including Network Policy, recent releases have added service mesh functionality using Envoy, as well as Wireguard Encryption. Like Istio, Cilium is a CNCF Graduated project, and has been around in the community for many years.
+A common question from prospective Istio users is "how does Istio compare to Cilium?"  While Cilium originally only provided L3/L4 functionality, including network policy, recent releases have added service mesh functionality using Envoy, as well as WireGuard encryption. Like Istio, Cilium is a CNCF Graduated project, and has been around in the community for many years.
 
-Despite offering a similar feature set on the surface, the two projects have substantially different architectures, most notably cilium’s use of eBPF and WireGuard for processing and encrypting L4 traffic in the kernel, contrasted with Istio’s ztunnel component for L4 in user space. These differences have resulted in substantial speculation about how Istio will perform at scale compared to Cilium.
+Despite offering a similar feature set on the surface, the two projects have substantially different architectures, most notably Cilium’s use of eBPF and WireGuard for processing and encrypting L4 traffic in the kernel, contrasted with Istio’s ztunnel component for L4 in user space. These differences have resulted in substantial speculation about how Istio will perform at scale compared to Cilium.
 
-While many comparisons have been made about tenancy models, security protocols and basic performance of the two projects, there has not yet been a full evaluation published at enterprise scale. Rather than emphasizing theoretical performance, we put Istio Ambient and Cilium through their paces, focusing on key metrics like latency, throughput, and resource consumption. We cranked up the pressure with realistic load scenarios, simulating a bustling Kubernetes environment. Finally, we pushed the size of our AKS cluster up to 1000 nodes on 11,000 cores, to understand how these projects perform at scale. Our results show areas where each can improve, but also indicate that Istio is the clear winner at scale.
+While many comparisons have been made about tenancy models, security protocols and basic performance of the two projects, there has not yet been a full evaluation published at enterprise scale. Rather than emphasizing theoretical performance, we put Istio's ambient mode and Cilium through their paces, focusing on key metrics like latency, throughput, and resource consumption. We cranked up the pressure with realistic load scenarios, simulating a bustling Kubernetes environment. Finally, we pushed the size of our AKS cluster up to 1,000 nodes on 11,000 cores, to understand how these projects perform at scale. Our results show areas where each can improve, but also indicate that Istio is the clear winner.
 
 ## Test Scenario
 
-In order to push Istio and Cilium to their limits, we created 500 different services, each backed by 100 pods. Each service is in a separate namespace, which also contains one Fortio load generator client. We restricted the clients to a node pool of 100 32 core machines, to eliminate noise from collocated clients, and allocated the remaining 900 8 core instances to our services.
+In order to push Istio and Cilium to their limits, we created 500 different services, each backed by 100 pods. Each service is in a separate namespace, which also contains one [Fortio](https://fortio.org/) load generator client. We restricted the clients to a node pool of 100 32-core machines, to eliminate noise from collocated clients, and allocated the remaining 900 8-core instances to our services.
 
 {{< image width="60%"
     link="./scale-scenario.png"
     alt="Scaling to 500 services with 50,000 pods."
     >}}
 
-For the Istio test, we used Istio’s Ambient Mode, with a waypoint proxy in every service namespace, and default install parameters. In order to make our test scenarios similar, we had to turn on a few non-default features in Cilium, including WireGuard encryption, L7 Proxies, and Node Init. We also created a Cilium Network Policy in each namespace, with HTTP path-based rules. In both scenarios, we generated churn by scaling one service to between 85 and 115 instances at random every second, and relabeling one namespace every minute. To see the precise settings we used, and to reproduce our results, see [my notes](https://github.com/therealmitchconnors/tools/blob/2384dc26f114300687b21f921581a158f27dc9e1/perf/load/many-svc-scenario/README.md).
+For the Istio test, we used Istio’s ambient mode, with a [waypoint proxy](/docs/ambient/usage/waypoint/) in every service namespace, and default install parameters. In order to make our test scenarios similar, we had to turn on a few non-default features in Cilium, including WireGuard encryption, L7 Proxies, and Node Init. We also created a Cilium Network Policy in each namespace, with HTTP path-based rules. In both scenarios, we generated churn by scaling one service to between 85 and 115 instances at random every second, and relabeling one namespace every minute. To see the precise settings we used, and to reproduce our results, see [my notes](https://github.com/therealmitchconnors/tools/blob/2384dc26f114300687b21f921581a158f27dc9e1/perf/load/many-svc-scenario/README.md).
 
 ## Scalability Scorecard
 
@@ -30,8 +30,8 @@ For the Istio test, we used Istio’s Ambient Mode, with a waypoint proxy in eve
     alt="Scalability Scorecard: Istio vs. Cilium!"
     >}}
 
-* **The Cilium Slowdown:** Cilium, while boasting impressive low latency with default install parameters, slows down substantially when Istio’s baseline features such as L7 policy and encryption are turned on. Additionally, cilium’s memory and CPU utilization remained high even when no traffic was flowing in the mesh. This can impact the overall stability and reliability of your cluster, especially as it grows.
-* **Istio Ambient Mode: The Steady Performer:** Istio's Ambient mode, on the other hand, showed its strength in stability and maintaining decent throughput, even with the added overhead of encryption. While Istio did consume more memory and CPU than Cilium under test, its CPU utilization settled to a fraction of Cilium’s when not under load.
+* **The Cilium Slowdown:** Cilium, while boasting impressive low latency with default install parameters, slows down substantially when Istio’s baseline features such as L7 policy and encryption are turned on. Additionally, Cilium’s memory and CPU utilization remained high even when no traffic was flowing in the mesh. This can impact the overall stability and reliability of your cluster, especially as it grows.
+* **Istio, The Steady Performer:** Istio's ambient mode, on the other hand, showed its strength in stability and maintaining decent throughput, even with the added overhead of encryption. While Istio did consume more memory and CPU than Cilium under test, its CPU utilization settled to a fraction of Cilium’s when not under load.
 
 ## Behind the Scenes: Why the Difference?
 
@@ -50,7 +50,7 @@ While Istio and Cilium both offer L4 policy enforcement, their APIs and implemen
 
 ### Not all Encryption is Created Equal
 
-While Cilium offers IPsec for FIPS-compatible encryption, most other Cilium features such as L7 Policy and Load Balancing are incompatible with IPsec. Cilium has much better feature compatibility when using WireGuard encryption, but WireGuard cannot be used in FIPS-compliant environments. Istio, on the other-hand, because it strictly complies with TLS protocol standards, always uses FIPS-compliant mTLS by default.
+While Cilium offers IPsec for FIPS-compatible encryption, most other Cilium features such as L7 policy and load balancing are incompatible with IPsec. Cilium has much better feature compatibility when using WireGuard encryption, but WireGuard cannot be used in FIPS-compliant environments. Istio, on the other-hand, because it strictly complies with TLS protocol standards, always uses FIPS-compliant mTLS by default.
 
 ### Hidden Costs
 
@@ -58,10 +58,10 @@ While Istio operates entirely in user space, Cilium’s L4 dataplane runs in the
 
 ## Recommendations: Choosing the Right Tool for the Job
 
-So, what's the verdict? Well, it depends on your specific needs and priorities. For small clusters with pure L3/L4 use cases and no requirement for encryption, Cilium offers a cost-effective and performant solution. However, for larger clusters and a focus on stability, scalability, and advanced features, Istio's Ambient mode, along with an alternate NetworkPolicy implementation is the way to go. Many customers choose to combine the L3/L4 features of Cilium with the L4/L7 and encryption features of Istio for a defense-in-depth strategy.
+So, what's the verdict? Well, it depends on your specific needs and priorities. For small clusters with pure L3/L4 use cases and no requirement for encryption, Cilium offers a cost-effective and performant solution. However, for larger clusters and a focus on stability, scalability, and advanced features, Istio's ambient mode, along with an alternate NetworkPolicy implementation, is the way to go. Many customers choose to combine the L3/L4 features of Cilium with the L4/L7 and encryption features of Istio for a defense-in-depth strategy.
 
 Remember, the world of cloud-native networking is constantly evolving. Keep an eye on developments in both Istio and Cilium, as they continue to improve and address these challenges.
 
 ## Let's Keep the Conversation Going
 
-Have you worked with Istio Ambient Mode or Cilium? What are your experiences and insights? Share your thoughts in the comments below. Let's learn from each other and navigate the exciting world of Kubernetes together\!
+Have you worked with Istio's ambient mode or Cilium? What are your experiences and insights? Share your thoughts in the comments below. Let's learn from each other and navigate the exciting world of Kubernetes together!
