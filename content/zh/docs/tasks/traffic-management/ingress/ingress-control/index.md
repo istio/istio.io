@@ -17,7 +17,7 @@ Istio还提供了另一种配置模式，[Istio Gateway](/zh/docs/reference/conf
 
 本任务描述了如何配置 Istio，以使用 Istio `Gateway` 来将服务暴露至服务网格之外。
 
-## 开始之前{#before-you-begin}
+## 开始之前  {#before-you-begin}
 
 *   遵照[安装指南](/zh/docs/setup/)中的文档说明，安装 Istio。
 
@@ -31,21 +31,23 @@ Istio还提供了另一种配置模式，[Istio Gateway](/zh/docs/reference/conf
 
     {{< /tip >}}
 
-*   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 样例，用作入口流量的目标服务：
+*   启动 [httpbin]({{< github_tree >}}/samples/httpbin) 示例，用作入口流量的目标服务：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-    请注意本文旨在展示如何使用网关控制到“Kubernetes 集群”中的入口流量，
+    请注意本文旨在展示如何使用网关控制到 "Kubernetes 集群"中的入口流量，
     无论是否启用 Sidecar 注入都可以启动 `httpbin` 服务（即目标服务可以在
     Istio 网格内，也可以在 Istio 网格外）。
 
-## 使用网关配置 Ingress {#configuring-ingress-using-a-gateway}
+## 使用网关配置 Ingress  {#configuring-ingress-using-a-gateway}
 
 Ingress `Gateway` 描述在网格边界运作的负载均衡器，用于接收传入的 HTTP/TCP 连接。
-它会配置暴露的端口、协议等，但与 [Kubernetes Ingress 资源](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/)不同，不会包括任何流量路由配置。
-转而使用路由规则来配置入口流量的流量路由，这与内部服务请求所用的方式相同。
+它会配置暴露的端口、协议等，但与
+[Kubernetes Ingress 资源](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/)不同，
+不会包括任何流量路由配置。转而使用路由规则来配置入口流量的流量路由，
+这与内部服务请求所用的方式相同。
 
 现在看看如何为 HTTP 流量在 80 端口上配置 `Gateway`。
 
@@ -101,10 +103,11 @@ spec:
 EOF
 {{< /text >}}
 
-已为 `httpbin` 服务创建了[虚拟服务](/zh/docs/reference/config/networking/virtual-service/)配置，包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
+已为 `httpbin` 服务创建了[虚拟服务](/zh/docs/reference/config/networking/virtual-service/)配置，
+包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
 
-[Gateways](/zh/docs/reference/config/networking/virtual-service/#VirtualService-gateways) 列表指定了哪些请求允许通 `httpbin-gateway` 网关。
-所有其他外部请求均被拒绝并返回 404 响应。
+[Gateway](/zh/docs/reference/config/networking/virtual-service/#VirtualService-gateways)
+列表指定了哪些请求允许通 `httpbin-gateway` 网关，所有其他外部请求均被拒绝并返回 404 响应。
 
 {{< warning >}}
 来自网格内部其他服务的内部请求无需遵循这些规则，而是默认遵守轮询调度路由规则。
@@ -145,7 +148,8 @@ EOF
 在此例中，预期这些路由应处于与 `Gateway` 相同的命名空间中。
 {{< /tip >}}
 
-因为创建 Kubernetes `Gateway` 资源也将[部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，
+因为创建 Kubernetes `Gateway` 资源也将
+[部署关联的代理服务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)，
 运行以下命令等待 Gateway 就绪：
 
 {{< text bash >}}
@@ -178,7 +182,8 @@ spec:
 EOF
 {{< /text >}}
 
-您现在已为 `httpbin` 服务创建了 [HTTP 路由](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)配置，
+您现在已为 `httpbin` 服务创建了
+[HTTP 路由](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute)配置，
 包含两个路由规则，允许流量流向路径 `/status` 和 `/delay`。
 
 {{< /tab >}}
@@ -187,8 +192,8 @@ EOF
 
 ### 确定 Ingress IP 和端口  {#determining-the-ingress-ip-and-ports}
 
-每个 `Gateway` 由[类型为 LoadBalancer 的 Service](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)支撑。
-该 Service 的外部负载均衡器 IP 和端口用于访问 Gateway。
+每个 `Gateway` 由[类型为 LoadBalancer 的 Service](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)
+支撑，该 Service 的外部负载均衡器 IP 和端口用于访问 Gateway。
 大多数云平台上运行的集群默认支持类型为 `LoadBalancer` 的 Kubernetes Service，
 但在某些环境（例如测试环境）中，您可能需要执行如下操作：
 
@@ -198,11 +203,11 @@ EOF
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` - 遵循 [MetalLB 设置指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)使得类型为
-   `LoadBalancer` 的服务能够工作。
+* `kind` - 遵循 [MetalLB 配置指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)使得类型为
+   `LoadBalancer` 的 Service 能够工作。
 
 * 其他平台 - 您可以使用 [MetalLB](https://metallb.universe.tf/installation/) 获取
-  `EXTERNAL-IP` 用于 `LoadBalancer` 服务。
+  `EXTERNAL-IP` 用于 `LoadBalancer` Service。
 
 为了方便演示，我们将 Ingress IP 和端口存储到环境变量中，在后续的教程中使用。
 根据以下指示设置 `INGRESS_HOST` 和 `INGRESS_PORT` 环境变量：
@@ -237,7 +242,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...     
 {{< /text >}}
 
 如果 `EXTERNAL-IP` 值已设置，说明环境正在使用外部负载均衡器，可以用其为 Ingress Gateway 提供服务。
-如果 `EXTERNAL-IP` 值为 `<none>` （或持续显示 `<pending>`），说明环境没有为 Ingress Gateway
+如果 `EXTERNAL-IP` 值为 `<none>`（或持续显示 `<pending>`），说明环境没有为 Ingress Gateway
 提供外部负载均衡器，无法使用 Ingress Gateway。
 
 如果您的环境不支持外部负载均衡器，您可以尝试[使用 Node Port 访问 Ingress Gateway](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)。
@@ -419,15 +424,16 @@ EOF
 
 在前面的步骤中，在服务网格中创建一个服务并向外部流量暴露该服务的 HTTP 端点。
 
-## 使用 Ingress Gateway 服务的 Node Port {#using-node-ports-of-the-ingress-gateway-service}
+## 使用 Ingress Gateway 服务的 Node Port  {#using-node-ports-of-the-ingress-gateway-service}
 
 {{< warning >}}
-如果您的 Kubernetes 环境有支持[类型为 LoadBalancer 的 Service](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)的外部负载均衡器，
-您无需使用这些指示步骤。
+如果您的 Kubernetes 环境有支持[类型为 LoadBalancer 的 Service](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/create-external-load-balancer/)
+的外部负载均衡器，您无需使用这些指示步骤。
 {{< /warning >}}
 
 如果您的环境不支持外部负载均衡器，则您仍然可以使用 `istio-ingressgateway`
-Service 的 [Node Port](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)来实验某些 Istio 特性。
+Service 的 [Node Port](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)
+来实验某些 Istio 特性。
 
 设置 Ingress 端口：
 
@@ -514,7 +520,8 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-删除 `Gateway` 和 `HTTPRoute` 配置，并关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
+删除 `Gateway` 和 `HTTPRoute` 配置，并关闭
+[httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
 $ kubectl delete httproute httpbin
