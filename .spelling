@@ -71,6 +71,7 @@
 2s
 2x
 3.99ms
+32-core
 3ms
 3s
 404s
@@ -609,6 +610,7 @@ IOPs
 ip
 ipBlocks
 IPs
+IPsec
 ipsets
 iptables
 IPv4
@@ -1315,6 +1317,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+WireGuard
 Wireguard
 Wolfi
 workgroup
