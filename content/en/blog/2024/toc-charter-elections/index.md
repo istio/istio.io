@@ -47,7 +47,7 @@ We recently announced [the retirement of long-time contributor Eric Van Norman](
 
 We have set our annual TOC elections to occur after the seating of the Steering Committee each year, which will put the first instance around March 2025.
 
-However, as we currently have two vacancies, we are announcing our first election will be a by-election to fill these two seats.
+However, as we currently have two vacancies, we are announcing our first election will be a by-election to fill these two seats for the remainder of their terms.
 
 The bar for joining the TOC is deliberately set high. Candidates must be tenured maintainers, recognized within the Istio community as collaborative technical leaders, and meet [qualification criteria](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#qualification-and-eligibility) which demonstrate their suitability for the position.
 
