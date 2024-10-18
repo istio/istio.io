@@ -29,6 +29,9 @@ For the Istio test, we used Istio’s ambient mode, with a [waypoint proxy](/doc
     link="./scale-scorecard.png"
     alt="Scalability Scorecard: Istio vs. Cilium!"
     >}}
+Istio was able to deliver 56% more queries at 20% lower tail latency.  The CPU usage was 30% less for Cilium, though our measurement does not include the cores Cilium used to process encryption, which is done in the kernel.
+
+Taking into account the resource used, Istio processed 2178 Queries Per Core, vs Cilium's 1815, a 20% improvement.
 
 * **The Cilium Slowdown:** Cilium, while boasting impressive low latency with default install parameters, slows down substantially when Istio’s baseline features such as L7 policy and encryption are turned on. Additionally, Cilium’s memory and CPU utilization remained high even when no traffic was flowing in the mesh. This can impact the overall stability and reliability of your cluster, especially as it grows.
 * **Istio, The Steady Performer:** Istio's ambient mode, on the other hand, showed its strength in stability and maintaining decent throughput, even with the added overhead of encryption. While Istio did consume more memory and CPU than Cilium under test, its CPU utilization settled to a fraction of Cilium’s when not under load.
