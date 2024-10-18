@@ -47,6 +47,8 @@ supported_languages:
     code: "en"
   - name: "中文"
     code: "zh"
+  - name: "Українська"
+    code: "uk"
 
 # Kubernetes Gateway API
 k8s_gateway_api_version: "v1.2.0"
