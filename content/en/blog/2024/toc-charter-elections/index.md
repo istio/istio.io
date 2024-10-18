@@ -41,7 +41,7 @@ The key changes in the new charter, recently ratified by the Steering Committee,
 
 ## TOC member farewells
 
-We recently announced [the retirement of long-time contributor Eric Van Norman](/news/releases/1.22.x/announcing-1.22/#a-thank-you). We also now bid farewell to Neeraj Poddar from the Istio TOC. Neeraj has been involved with the project since 2017, co-founding Aspen Mesh within F5, and later leading Gloo Mesh as VP of Engineering at Solo.io. He was first elected to the TOC in 2020. Neeraj has [taken a role as VP of Engineering at NimbleEdge](https://www.linkedin.com/feed/update/urn:li:activity:7251958639400206336/), and we congratulate him and wish him well for the future.
+We recently announced [the retirement of long-time contributor Eric Van Norman](/news/releases/1.22.x/announcing-1.22/#a-thank-you). We also now bid farewell to Neeraj Poddar from the Istio TOC. Neeraj has been involved with the project since 2017, co-founding Aspen Mesh within F5, and later leading Gloo Mesh as VP of Engineering at Solo.io. He was first elected to the TOC in 2020. [Neeraj has taken a role as VP of Engineering at NimbleEdge](https://www.linkedin.com/feed/update/urn:li:activity:7251958639400206336/), and we congratulate him and wish him well for the future.
 
 ## Maintainers: stand in our first election
 
