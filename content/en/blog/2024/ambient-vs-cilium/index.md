@@ -10,7 +10,7 @@ A common question from prospective Istio users is "how does Istio compare to Cil
 
 Despite offering a similar feature set on the surface, the two projects have substantially different architectures, most notably cilium’s use of eBPF and WireGuard for processing and encrypting L4 traffic in the kernel, contrasted with Istio’s ztunnel component for L4 in user space. These differences have resulted in substantial speculation about how Istio will perform at scale compared to Cilium.
 
-Rather than emphasizing theoretical performance, we put Istio Ambient and Cilium through their paces, focusing on key metrics like latency, throughput, and resource consumption. We cranked up the pressure with realistic load scenarios, simulating a bustling Kubernetes environment. Finally, we pushed the size of our AKS cluster up to 1000 nodes on 11,000 cores, to understand how these projects perform at scale. Our results show areas where each can improve, but also indicate that Istio is the clear winner at scale.
+While many comparisons have been made about tenancy models, security protocols and basic performance of the two projects, there has not yet been a full evaluation published at enterprise scale. Rather than emphasizing theoretical performance, we put Istio Ambient and Cilium through their paces, focusing on key metrics like latency, throughput, and resource consumption. We cranked up the pressure with realistic load scenarios, simulating a bustling Kubernetes environment. Finally, we pushed the size of our AKS cluster up to 1000 nodes on 11,000 cores, to understand how these projects perform at scale. Our results show areas where each can improve, but also indicate that Istio is the clear winner at scale.
 
 ## Test Scenario
 
