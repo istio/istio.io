@@ -124,6 +124,13 @@
 
         <!-- set the color theme -->
         <script src="/js/themes_init.min.js"></script>
+
+        <!-- noindex meta tag -->
+        {{ if .Site.Data.args.preliminary }}
+        <meta name="robots" content="noindex">
+        {{ else if .Site.Data.args.archive }}
+        <meta name="robots" content="noindex">
+        {{ end }}
     </head>
 
     {{ $site_mode := ""}}
