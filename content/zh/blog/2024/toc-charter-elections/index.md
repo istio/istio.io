@@ -41,7 +41,6 @@ TOC 章程明确了其成员的职责，包括：
 
 ## 新章程有哪些变化？ {#what-changes-with-the-new-charter}
 
-The key changes in the [new charter](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#charter), recently ratified by the Steering Committee, are:
 指导委员会最近批准的[新章程](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#charter)中的关键变化如下：
 
 * 成员任期现在为 2 年。
