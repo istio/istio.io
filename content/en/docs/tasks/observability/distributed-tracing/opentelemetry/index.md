@@ -33,8 +33,7 @@ traces via gRPC or HTTP. Only one exporter can be configured at a time (either g
 
 ### Exporting via gRPC
 
-In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Collector.
-The example also enables the [environment resource detector](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables). The environment detector adds attributes from the environment variable
+In this example, traces will be exported via OTLP/gRPC to the OpenTelemetry Collector, you can add headers or adjust the timeout settings of gRPC requests by modifying the `grpc` field. If this field is not configured, traces will be exported to the OpenTelemetry Collector using the default options via OTLP/gRPC. The example also enables the [environment resource detector](https://opentelemetry.io/docs/languages/js/resources/#adding-resources-with-environment-variables). The environment detector adds attributes from the environment variable
 `OTEL_RESOURCE_ATTRIBUTES` to the exported OpenTelemetry resource.
 
 {{< text syntax=bash snip_id=none >}}
@@ -49,6 +48,11 @@ spec:
       opentelemetry:
         port: 4317
         service: opentelemetry-collector.observability.svc.cluster.local
+        grpc:
+          timeout: 3s
+          initialMetadata:
+            - name: "Authentication"
+              value: "token-xxxxx"
         resource_detectors:
           environment: {}
 EOF
