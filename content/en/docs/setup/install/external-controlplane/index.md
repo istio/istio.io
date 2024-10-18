@@ -191,7 +191,6 @@ and installing the sidecar injector webhook configuration on the remote cluster 
         global:
           istioNamespace: external-istiod
           configCluster: true
-          externalIstiod: true
         pilot:
           configMap: true
         istiodRemote:
@@ -743,7 +742,6 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
       values:
         global:
           istioNamespace: external-istiod
-          externalIstiod: true
         istiodRemote:
           injectionURL: https://${EXTERNAL_ISTIOD_ADDR}:15017/inject/cluster/${SECOND_CLUSTER_NAME}/net/network2
     EOF
