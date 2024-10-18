@@ -340,7 +340,7 @@ features:
     link: "/docs/setup/additional-setup/cni/"
     level:
       checklist: "features/cni.md"
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Core
   - name: "IPv6 Support for Kubernetes"
