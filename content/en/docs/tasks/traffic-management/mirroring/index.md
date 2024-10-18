@@ -264,8 +264,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
+    {{< text yaml >}}
     apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
@@ -284,7 +283,6 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
           subset: v2
         mirrorPercentage:
           value: 100.0
-    EOF
     {{< /text >}}
 
     This route rule sends 100% of the traffic to `v1`. The last stanza specifies
@@ -303,8 +301,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
+    {{< text yaml >}}
     apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
@@ -325,7 +322,6 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
         backendRefs:
         - name: httpbin-v1
           port: 80
-    EOF
     {{< /text >}}
 
     This route rule sends 100% of the traffic to `v1`. The `RequestMirror` filter
