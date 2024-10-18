@@ -29,7 +29,7 @@ While the interest of our vendors is represented by our Steering Committee, TOC 
 
 ## What changes with the new charter?
 
-The key changes in the new charter, recently ratified by the Steering Committee, are:
+The key changes in the [new charter](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#charter), recently ratified by the Steering Committee, are:
 
 * Members will now serve 2 year terms.
 * The Steering Committee will vote every year to (re-<sup>†</sup>) seat 3 of the 6 members on the TOC.
@@ -47,7 +47,7 @@ We recently announced [the retirement of long-time contributor Eric Van Norman](
 
 We have set our annual TOC elections to occur after the seating of the Steering Committee each year, which will put the first instance around March 2025.
 
-However, as we currently have two vacancies, we are announcing our first election will be a by-election to fill these two seats for the remainder of their terms.
+However, as we currently have two vacancies, we are announcing our first election will be a by-election to fill these two seats for the [remainder of their terms](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#members).
 
 The bar for joining the TOC is deliberately set high. Candidates must be tenured maintainers, recognized within the Istio community as collaborative technical leaders, and meet [qualification criteria](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#qualification-and-eligibility) which demonstrate their suitability for the position.
 
