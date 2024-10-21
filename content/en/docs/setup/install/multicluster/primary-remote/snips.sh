@@ -85,7 +85,6 @@ spec:
       injectionPath: /inject/cluster/cluster2/net/network1
     global:
       remotePilotAddress: ${DISCOVERY_ADDRESS}
-      externalIstiod: true
 EOF
 }
 
