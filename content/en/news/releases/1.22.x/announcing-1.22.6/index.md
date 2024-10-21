@@ -13,7 +13,7 @@ This release note describes what’s different between Istio 1.22.5 and 1.22.6.
 
 ## Changes
 
-- **Fixed** Support `clusterLocal` host exclusions for multi-cluster.
+- **Fixed** support for `clusterLocal` host exclusions for multi-cluster.
 
 - **Fixed** `kube-virt-related` rules not being removed by istio-clean-iptables tool.
   ([Issue #48368](https://github.com/istio/istio/issues/48368))
