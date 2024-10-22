@@ -50,8 +50,8 @@ EOF
 
 ## 为外部暴露的 httpbin 端口禁用 PeerAuthentication {#disable-peerauthentication-for-the-externally-exposed-httpbin-port}
 
-在 httpbin 服务的端口处禁用 `PeerAuthentication`，在 sidecar 处执行入口
-TLS 终止。请注意，这里是 httpbin 服务的 `targetPort`，专门用于与外部通信。
+在 httpbin Service 的端口处禁用 `PeerAuthentication`，在 Sidecar 处执行入口
+TLS 终止。请注意，这里是 httpbin Service 的 `targetPort`，专门用于与外部通信。
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -88,7 +88,7 @@ $ openssl req -out client.test.svc.cluster.local.csr -newkey rsa:2048 -nodes -ke
 $ openssl x509 -req -days 365 -CA example.com.crt -CAkey example.com.key -set_serial 1 -in client.test.svc.cluster.local.csr -out client.test.svc.cluster.local.crt
 {{< /text >}}
 
-## 为证书和密钥创建 Kubernetes secret {#create-k8s-secrets-for-the-certificates-and-keys}
+## 为证书和密钥创建 Kubernetes Secret {#create-k8s-secrets-for-the-certificates-and-keys}
 
 {{< text bash >}}
 $ kubectl -n test create secret generic httpbin-mtls-termination-cacert --from-file=ca.crt=./example.com.crt
