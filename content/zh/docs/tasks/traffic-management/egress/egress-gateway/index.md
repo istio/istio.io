@@ -13,24 +13,25 @@ test: yes
 此例子对 Minikube 无效。
 {{</warning>}}
 
-[控制出口流量](/zh/docs/tasks/traffic-management/egress/egress-control)任务展示了如何配置
-Istio 以允许网格内部的应用程序访问外部 HTTP 和 HTTPS 服务，但那个任务实际上是通过
-Sidecar 直接调用的外部服务。而这个示例会展示如何配置 Istio 以通过专用的 **Egress 网关**服务间接调用外部服务。
+[访问外部服务](/zh/docs/tasks/traffic-management/egress/egress-control)任务展示了如何配置
+Istio 以允许从网格内部的应用访问外部 HTTP 和 HTTPS 服务，但那个任务实际上是通过客户端
+Sidecar 直接调用的外部服务。而本文的示例将展示如何配置 Istio 以通过专用的 **Egress 网关**服务来间接调用外部服务。
 
-Istio 使用 [Ingress 和 Egress 网关](/zh/docs/reference/config/networking/gateway/)
-配置运行在服务网格边缘的负载均衡。Ingress 网关允许您定义网格所有入站流量的入口。
+Istio 使用
+[Ingress 网关和 Egress 网关](/zh/docs/reference/config/networking/gateway/)来配置运行在服务网格边缘处的负载均衡。
+Ingress 网关允许您定义网格所有入站流量的入口。
 Egress 网关是一个与 Ingress 网关对称的概念，它定义了网格的出口。
-Egress 网关允许您将 Istio 的功能（例如，监视和路由规则）应用于网格的出站流量。
+Egress 网关允许您将 Istio 的功能（例如监控和路由规则）应用于网格的出站流量。
 
 ## 使用场景 {#use-case}
 
 设想一个对安全有严格要求的组织，要求服务网格所有的出站流量必须经过一组专用节点。
-专用节点运行在专门的机器上，与集群中运行应用程序的其他节点隔离。
+这些专用节点运行在专门的机器上，与集群中运行应用的其他节点隔离开来。
 这些专用节点用于实施出口流量的策略，并且受到比其余节点更严密地监控。
 
-另一个使用场景是集群中的应用节点没有公有 IP，所以在该节点上运行的网格
-Service 无法访问互联网。通过定义 Egress 网关，将公有 IP 分配给
-Egress 网关节点，用它引导所有的出站流量，可以使应用节点以受控的方式访问外部服务。
+另一个使用场景是集群中的应用节点没有公共的 IP，所以在这些节点上运行的网格内服务无法访问互联网。
+通过定义 Egress 网关，将公共 IP 分配给 Egress 网关节点，
+用它引导所有的出站流量，可以使应用节点以受控的方式访问外部服务。
 
 {{< boilerplate gateway-api-gamma-experimental >}}
 
@@ -40,7 +41,7 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
 
     {{< tip >}}
     如果您安装 `demo` [配置文件](/zh/docs/setup/additional-setup/config-profiles/)，
-    则会启用 Egress 网关和访问日志。
+    则 Egress 网关和访问日志将被启用。
     {{< /tip >}}
 
 *   部署 [curl]({{< github_tree >}}/samples/curl) 示例应用，用作发送请求的测试源。
@@ -60,17 +61,17 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
     {{< /text >}}
 
     {{< warning >}}
-    此任务中的指令在 `default` 命名空间中为 Egress 网关创建目标规则。
+    本任务中的这条指令在 `default` 命名空间中为 Egress 网关创建目标规则。
     并假设客户端 `SOURCE_POD` 也在 `default` 命名空间中运行。如果没有，
-    目标规则将不会在[目标规则查找路径](/zh/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)上找到，
+    将不会在[目标规则查找路径](/zh/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)上找到目标规则，
     并且客户端请求将失败。
     {{< /warning >}}
 
-*   如果尚未启用，则[启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
-    例如，使用 `istioctl`：
+*   如果访问日志尚未启用，则[启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
+    例如，使用 `istioctl` 命令：
 
     {{< text bask >}}
-    $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
+    $ istioctl install <安装 Istio 所用的参数> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 
 ## 部署 Istio Egress 网关 {#deploy-Istio-egress-gateway}
@@ -78,7 +79,7 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
 {{< tip >}}
 当使用 Gateway API 配置 Egress 网关时，
 这些 Egress 网关会被[自动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#deployment-methods)。
-如果您在下文中使用 `Gateway API` 指令，则可以跳过这部分。
+如果您接下来使用 `Gateway API` 指令，则可以跳过这一节。
 {{< /tip >}}
 
 1. 检查 Istio Egress 网关是否已部署：
@@ -87,7 +88,7 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
     $ kubectl get pod -l istio=egressgateway -n istio-system
     {{< /text >}}
 
-    如果没有 Pod 返回，通过接下来的步骤来部署 Istio Egress 网关。
+    如果没有 Pod 被返回，通过接下来的步骤来部署 Istio Egress 网关。
 
 1. 如果您使用 `IstioOperator` CR 安装 Istio，请在配置中添加以下字段：
 
@@ -114,11 +115,11 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
 1. 为 `edition.cnn.com` 定义一个 `ServiceEntry`：
 
     {{< warning >}}
-    必须在下面的服务条目中使用 `DNS` 解析。如果分辨率为 `NONE`，
-    则网关将将流量引导到一个无限循环中。这是因为网关收到原始请求目标
-    IP 地址，该地址等于网关的服务IP（因为请求是由 Sidecar 定向的网关的代理）。
+    必须在下面的服务条目中使用 `DNS` 解析。如果解析设为 `NONE`，
+    则网关会将流量本身引导到一个无限循环中。这是因为网关收到的请求中所包含的原始目标
+    IP 地址等于网关的服务 IP（此请求由 Sidecar 代理引导到网关）。
 
-    借助 `DNS` 解析，网关执行 DNS 查询以获取外部服务的 IP 地址并进行定向该 IP 地址的流量。
+    借助 `DNS` 解析，网关执行 DNS 查询以获取外部服务的 IP 地址并将流量定向到该 IP 地址。
     {{< /warning >}}
 
     {{< text bash >}}
@@ -141,8 +142,8 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
     EOF
     {{< /text >}}
 
-1. 发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，
-   验证 `ServiceEntry` 是否已正确应用。
+1. 通过发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，
+   验证 `ServiceEntry` 是否已正确生效。
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
@@ -164,11 +165,11 @@ Egress 网关节点，用它引导所有的出站流量，可以使应用节点�
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< tip >}}
 要通过 Egress 网关引导多个主机，您可以在 `Gateway` 中包含主机列表，
-或使用 `*` 匹配所有主机。应该将 `DestinationRule` 中的 `subset` 字段重用于其他主机。
+或使用 `*` 匹配所有主机。`DestinationRule` 中的 `subset` 字段应重用于其他主机。
 {{< /tip >}}
 
 {{< text bash >}}
@@ -228,11 +229,11 @@ EOF
 
 {{< /tabset >}}
 
-4)  配置路由规则，将流量从边车导向到 Egress 网关，再从 Egress 网关导向到外部服务：
+4)  配置路由规则，将流量从 Sidecar 定向到 Egress 网关，再从 Egress 网关定向到外部服务：
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -334,9 +335,9 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
-如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+如果 Istio 被部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
 {{< text bash >}}
 $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
@@ -349,8 +350,8 @@ $ kubectl logs -l istio=egressgateway -c istio-proxy -n istio-system | tail
 {{< /text >}}
 
 {{< tip >}}
-如果启用了[双向 TLS 身份验证](/zh/docs/tasks/security/authentication/authn-policy/)，
-并且当您在连接到 Egress 网关时遇到问题，请运行以下命令来验证证书是否正确：
+如果[双向 TLS 身份验证](/zh/docs/tasks/security/authentication/authn-policy/)已被启用，
+并且在连接到 Egress 网关时遇到问题，请运行以下命令来验证证书是否正确：
 
 {{< text bash >}}
 $ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
@@ -364,7 +365,7 @@ $ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-使用 Istio 生成的 Pod 标签访问与 Egress 网关对应的日志：
+使用 Istio 生成的 Pod 标签来访问与 Egress 网关对应的日志：
 
 {{< text bash >}}
 $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
@@ -377,8 +378,8 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c i
 {{< /text >}}
 
 {{< tip >}}
-如果启用了[双向 TLS 身份验证](/zh/docs/tasks/security/authentication/authn-policy/)，
-并且当您在连接到 Egress 网关时遇到问题，请运行以下命令来验证证书是否正确：
+如果[双向 TLS 身份验证](/zh/docs/tasks/security/authentication/authn-policy/)已被启用，
+并且在连接到 Egress 网关时遇到问题，请运行以下命令来验证证书是否正确：
 
 {{< text bash >}}
 $ istioctl pc secret "$(kubectl get pod -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
@@ -392,16 +393,16 @@ $ istioctl pc secret "$(kubectl get pod -l gateway.networking.k8s.io/gateway-nam
 
 {{< /tabset >}}
 
-请注意，您只是将流量从 80 端口重定向到 Egress 网关。到端口 443 的 HTTPS
-流量直接进入 **edition.cnn.com**。
+请注意，您只是将流量从 80 端口重定向到了 Egress 网关。到端口 443 的 HTTPS
+流量直接进入了 **edition.cnn.com**。
 
 ### 清理 HTTP 网关 {#cleanup-http-gateway}
 
-在继续下一步之前删除先前的定义：
+在继续下一步之前删除先前定义的对象：
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -427,8 +428,8 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
 
 ## 用 Egress 网关发起 HTTPS 请求 {#egress-gateway-for-https-traffic}
 
-接下来尝试使用 Egress 网关发起 HTTPS 请求（TLS 由应用程序发起）。
-您需要在相应的 `ServiceEntry` 和 Egress `Gateway` 中指定 `TLS` 协议的端口 443。
+在本节，您将使用 Egress 网关发起 HTTPS 请求（TLS 由应用发起）。
+您需要在相应的 `ServiceEntry` 和 Egress `Gateway` 中使用 `TLS` 协议指定端口 443。
 
 1. 为 `edition.cnn.com` 定义 `ServiceEntry`：
 
@@ -449,7 +450,7 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
     EOF
     {{< /text >}}
 
-1. 发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，
+1. 通过发送 HTTPS 请求到 [https://edition.cnn.com/politics](https://edition.cnn.com/politics)，
    验证您的 `ServiceEntry` 是否已正确生效。
 
     {{< text bash >}}
@@ -465,11 +466,11 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< tip >}}
 要通过 Egress 网关引导多个主机，您可以在 `Gateway` 中包含主机列表，
-或使用 `*` 匹配所有主机。应该将 `DestinationRule` 中的 `subset` 字段用于其他主机。
+或使用 `*` 匹配所有主机。`DestinationRule` 中的 `subset` 字段应被重用于其他主机。
 {{< /tip >}}
 
 {{< text bash >}}
@@ -614,9 +615,9 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
-如果 Istio 部署在 `istio-system` 命名空间中，则打印日志的命令是：
+如果 Istio 被部署在 `istio-system` 命名空间中，则打印日志的命令是：
 
 {{< text bash >}}
 $ kubectl logs -l istio=egressgateway -n istio-system
@@ -632,7 +633,7 @@ $ kubectl logs -l istio=egressgateway -n istio-system
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-使用 Istio 生成的 Pod 标签访问与 Egress 网关对应的日志：
+使用 Istio 生成的 Pod 标签来访问与 Egress 网关对应的日志：
 
 {{< text bash >}}
 $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
@@ -652,7 +653,7 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c i
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete serviceentry cnn
@@ -689,12 +690,12 @@ Istio 只是通过 Sidecar 代理实现了这种流向。攻击者只要绕过 S
 这需要通过 Istio 之外的机制来满足这一要求。例如，集群管理员可以配置防火墙，
 拒绝 Egress 网关以外的所有流量。
 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)也能禁止所有不是从
-Egress 网关发起的出站流量（[下一节](#apply-Kubernetes-network-policies)有一个这样的例子）。
+Egress 网关发起的出站流量（[下一节](#apply-kubernetes-network-policies)有一个这样的例子）。
 此外，集群管理员和云供应商还可以对网络进行限制，让运行应用的节点只能通过 gateway 来访问外部网络。
 要实现这一限制，可以只给网关 Pod 分配公网 IP，并且可以配置 NAT 设备，
 丢弃来自 Egress 网关 Pod 之外的所有流量。
 
-## 应用 Kubernetes 网络策略 {#apply-Kubernetes-network-policies}
+## 应用 Kubernetes 网络策略 {#apply-kubernetes-network-policies}
 
 本节中展示了如何创建 [Kubernetes 网络策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)来阻止绕过
 Egress 网关的出站流量。为了测试网络策略，首先创建一个 `test-egress` 命名空间，
@@ -736,7 +737,7 @@ Egress 网关的出站流量。为了测试网络策略，首先创建一个 `te
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl label namespace istio-system istio=system
@@ -771,7 +772,7 @@ $ kubectl label namespace default gateway=true
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -n test-egress -f -
@@ -869,11 +870,11 @@ EOF
     $ kubectl apply -f @samples/curl/curl.yaml@ -n test-egress
     {{< /text >}}
 
-12) 检查生成的 Pod，其中应该有了两个容器，其中包含了注入的 sidecar（`istio-proxy`）：
+12) 检查生成的 Pod，其中应该有了两个容器，其中包含了注入的 Sidecar（`istio-proxy`）：
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
@@ -922,7 +923,7 @@ curl istio-proxy
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 如果 Istio 部署在 `istio-system` 命名空间，那么打印日志的命令就是：
 
@@ -962,7 +963,7 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c i
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
@@ -990,7 +991,7 @@ $ kubectl delete namespace test-egress
 
 {{< /tabset >}}
 
-2) 请参考[清理 HTTPS 网关](#cleanup-https-gateway) 一节的内容。
+2) 请参考[清理 HTTPS 网关](#cleanup-https-gateway)一节的内容。
 
 ## 清理 {#cleanup}
 
