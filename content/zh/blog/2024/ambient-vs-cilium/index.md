@@ -6,7 +6,7 @@ attribution: "Mitch Connors (Microsoft); Translated by Wilson Wu (DaoCloud)"
 keywords: [istio,cilium,analysis]
 ---
 
-潜在的 Istio 用户经常会问“Istio 与 Cilium 相比如何？”
+潜在的 Istio 用户经常会问 “Istio 与 Cilium 相比如何？”
 虽然 Cilium 最初仅提供 L3/L4 功能（包括网络策略），
 但最近的版本已使用 Envoy 以及 WireGuard 加密添加了服务网格功能。
 与 Istio 相同，Cilium 也是 CNCF 的毕业项目，并且已在社区中存在多年。
