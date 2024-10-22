@@ -333,6 +333,11 @@ debug and diagnose their Istio mesh.
 <td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
 </tr>
 <tr>
+<td><code>--remote-cluster-context &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
+</tr>
+<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td></td>
 <td>analyze a specific revision deployed.  (default `default`)</td>
