@@ -119,7 +119,7 @@ helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --se
 }
 
 snip_configure_cluster2_as_a_remote_5() {
-helm install istiod istio/istiod --version 1.24.0-alpha.0 -n istio-system --set profile=remote --set pilot.env.EXTERNAL_ISTIOD=true --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network2  --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --set pilot.enabled=false --kube-context "${CTX_CLUSTER2}"
+helm install istiod istio/istiod --version 1.24.0-alpha.0 -n istio-system --set profile=remote --set global.externalIstiod=true --set pilot.env.EXTERNAL_ISTIOD=true --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network2  --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --kube-context "${CTX_CLUSTER2}"
 }
 
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {

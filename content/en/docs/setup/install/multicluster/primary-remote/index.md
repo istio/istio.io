@@ -236,7 +236,7 @@ $ helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod --version 1.24.0-alpha.0 -n istio-system --set profile=remote --set pilot.env.EXTERNAL_ISTIOD=true --set global.multiCluster.clusterName=cluster2 --set global.network=network1 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --set pilot.enabled=false --kube-context "${CTX_CLUSTER2}"
+$ helm install istiod istio/istiod --version 1.24.0-alpha.0 -n istio-system --set profile=remote --set global.externalIstiod=true --set pilot.env.EXTERNAL_ISTIOD=true --set global.multiCluster.clusterName=cluster2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
 {{< warning >}}
