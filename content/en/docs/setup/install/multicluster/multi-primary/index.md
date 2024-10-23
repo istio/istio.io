@@ -161,14 +161,14 @@ Uninstall Istio from both `cluster1` and `cluster2` using istioctl or Helm.
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-1. Uninstall Istio in `cluster1`:
+    1. Uninstall Istio in `cluster1`:
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
     {{< /text >}}
 
-1. Uninstall Istio in `cluster2`:
+    1. Uninstall Istio in `cluster2`:
 
     {{< text syntax=bash snip_id=none >}}
     $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
@@ -179,33 +179,33 @@ Uninstall Istio from both `cluster1` and `cluster2` using istioctl or Helm.
 
 {{< tab name="Helm" category-value="helm" >}}
 
-1. Delete Istio Helm installation from `cluster1`:
+    1. Delete Istio Helm installation from `cluster1`:
 
     {{< text syntax=bash >}}
     $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
     $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
     {{< /text >}}
 
-1. Delete the `istio-system` namespace from `cluster1`:
+    1. Delete the `istio-system` namespace from `cluster1`:
 
     {{< text syntax=bash >}}
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
     {{< /text >}}
 
-1. Delete Istio Helm installation from `cluster2`:
+    1. Delete Istio Helm installation from `cluster2`:
 
     {{< text syntax=bash >}}
     $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
     $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
     {{< /text >}}
 
-1. Delete the `istio-system` namespace from `cluster2`:
+    1. Delete the `istio-system` namespace from `cluster2`:
 
     {{< text syntax=bash >}}
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
     {{< /text >}}
 
-1. (Optional) Deleting CRDs installed by Istio
+    1. (Optional) Deleting CRDs installed by Istio
 
     Deleting CRDs permanently removes any Istio resources you have created in your clusters.
     Delete Istio CRDs installed in your clusters by running:
