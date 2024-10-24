@@ -99,12 +99,12 @@ istioctl proxy-status | grep "\.test-ns "
 
 snip_usage_1() {
 istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --revision=1-22-1 --set profile=minimal --skip-confirmation
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --revision=1-23-2 --set profile=minimal --skip-confirmation
+istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --revision=1-23-3 --set profile=minimal --skip-confirmation
 }
 
 snip_usage_2() {
 istioctl tag set prod-stable --revision 1-22-1
-istioctl tag set prod-canary --revision 1-23-2
+istioctl tag set prod-canary --revision 1-23-3
 }
 
 snip_usage_3() {
@@ -128,13 +128,13 @@ istioctl ps
 
 ! IFS=$'\n' read -r -d '' snip_usage_5_out <<\ENDSNIP
 NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-23-2-7f6fc6cfd6-s8zfg     1.23.2
+sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-23-3-7f6fc6cfd6-s8zfg     1.23.3
 sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-22-1-bdf5948d5-n72r2      1.22.1
 sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-22-1-bdf5948d5-n72r2      1-22.1
 ENDSNIP
 
 snip_usage_6() {
-istioctl tag set prod-stable --revision 1-23-2 --overwrite
+istioctl tag set prod-stable --revision 1-23-3 --overwrite
 }
 
 snip_usage_7() {
@@ -148,13 +148,13 @@ istioctl ps
 
 ! IFS=$'\n' read -r -d '' snip_usage_8_out <<\ENDSNIP
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-23-2-7f6fc6cfd6-jsktb     1.23.2
-sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-23-2-7f6fc6cfd6-jsktb     1.23.2
-sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-23-2-7f6fc6cfd6-jsktb     1.23.2
+sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-23-3-7f6fc6cfd6-jsktb     1.23.3
+sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-23-3-7f6fc6cfd6-jsktb     1.23.3
+sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-23-3-7f6fc6cfd6-jsktb     1.23.3
 ENDSNIP
 
 snip_default_tag_1() {
-istioctl tag set default --revision 1-23-2
+istioctl tag set default --revision 1-23-3
 }
 
 snip_uninstall_old_control_plane_1() {
