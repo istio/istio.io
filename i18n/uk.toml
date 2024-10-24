@@ -1,0 +1,379 @@
+
+[download_desc]
+other = "Завантажте Istio %s зараз"
+
+[discuss_istio_io_desc]
+other = "Приєднуйтесь до форуму Istio, щоб брати участь в обговореннях і отримувати допомогу в усуненні проблем"
+
+[twitter_desc]
+other = "Стежте за нами у Твіттері, щоб бути в курсі останніх новин"
+
+[stackoverflow_desc]
+other = "Stack Overflow — це місце, де ви можете поставити питання та знайти відповіді на них щодо розгортання, налаштування та використання Istio"
+
+[for_everyone]
+other = "для всіх"
+
+[for_developers]
+other = "для розробників"
+
+[github_desc]
+other = "GitHub - це місце, де відбувається розробка коду Istio"
+
+[team_drive_desc]
+other = "Якщо ви хочете ознайомитися з технічною проєктною документацією Istio, перейдіть до диска нашої команди"
+
+[working_group_desc]
+other = "Якщо ви хочете зробити свій внесок у проєкт Istio, розгляньте можливість участі в наших робочих групах"
+
+[slack_desc]
+other = "Обговорюйте проблеми в інтерактивному режимі зі спільнотою Istio у Slack"
+
+[report_site_bugs]
+other = "Повідомити про помилки на сайті"
+
+[edit_on_github]
+other = "Змінити цю сторінку на GitHub"
+
+[light_theme]
+other = "Світла тема"
+
+[dark_theme]
+other = "Темна тема"
+
+[other_versions_of_site]
+other = "Інші версії цього сайту"
+
+[current_release]
+other = "поточний випуск"
+
+[next_release]
+other = "наступний випуск"
+
+[archived_releases]
+other = "старі випуски"
+
+[options_menu]
+other = "Параметри та налаштування"
+
+[search]
+other = "Пошук на сайті"
+
+[search_label]
+other = "Пошук"
+
+[search_cancel]
+other = "Скасувати пошук"
+
+[footer_istio]
+other = "Istio"
+
+[footer_version]
+other = "Версія"
+
+[footer_istio_preliminary]
+other = "Preliminary"
+
+[footer_istio_archive]
+other = "Архів"
+
+[footer_archived_on]
+other = "Заархівовано %s"
+
+[footer_last_modified]
+other = "Сторінка востаннє змінена: %s"
+
+[footer_date_format]
+other = "2 January 2006"
+
+[footer_privacy_policy]
+other = "Про конфіденційність"
+
+[footer_terms_and_conditions]
+other = "Умови та положення"
+
+[footer_trademarks]
+other = "Торгові марки"
+
+[page_publish_date_format]
+other = "2 January 2006"
+
+[page_last_update_format]
+other = "(оновлено %s)"
+
+[page_word_count]
+other = "%d слово(ів)"
+
+[page_reading_time]
+other = "%v хвилин(и)"
+
+[relnote_update_advice]
+other = "Перш ніж завантажити %s, вам слід знати, що вийшов новий патч з останніми виправленнями помилок та покращеннями."
+
+[relnote_update_button]
+other = "LEARN ABOUT ISTIO %s"
+
+[relnote_update_notice]
+other = "Update Notice"
+
+[relnote_change_notes_title]
+other = "ЗМІНИ"
+
+[relnote_change_notes_detail]
+other = "Отримайте детальний список змін."
+
+[relnote_before_you_upgrade_title]
+other = "ПЕРШ НІЖ ОНОВИТИСЬ"
+
+[relnote_before_you_upgrade_detail]
+other = "Що потрібно знати та підготувати перед оновленням."
+
+[relnote_download_title]
+other = "ЗАВАНТАЖИТИ"
+
+[relnote_download_detail]
+other = "Завантажити та встановити цей випуск."
+
+[relnote_docs_title]
+other = "ДОКУМЕНТАЦІЯ"
+
+[relnote_docs_detail]
+other = "Відвідайте документацію до цього випуску."
+
+[relnote_helm_changes_title]
+other = "ЗМІНИ HELM"
+
+[relnote_helm_changes_detail]
+other = "Дізнайтеся про зміни в наших варіантах встановлення Helm."
+
+[relnote_source_changes_title]
+other = "ЗМІНИ СИРЦІВ"
+
+[relnote_source_changes_detail]
+other = "Ознайомтеся з повним набором змін у вихідному коді."
+
+[page_attribution]
+other = "Від "
+
+[button_copy]
+other = "Копіювати в буфер обміну"
+
+[button_print]
+other = "Друкувати"
+
+[button_download]
+other = "Завантажити"
+
+[button_top]
+other = "Нагору"
+
+[button_sidenav]
+other = "Перемикання панелі навігації"
+
+[partner_component_notice]
+other = "Цей компонент був створений і підтримується партнером Istio. Будь ласка, звертайтеся з питаннями підтримки безпосередньо до партнера."
+
+[partner_component_partner]
+other = "Партнер"
+
+[partner_component_contact]
+other = "Контакти"
+
+[partner_component_support_site]
+other = "Сайт підтримки"
+
+[partner_component_source_code]
+other = "Сирці"
+
+[partner_component_latest_release]
+other = "Останній випуск"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Протестовано %s з цими версіями Istio"
+
+[partner_component_supported_templates]
+other = "Підтримувані шаблони"
+
+[adapter]
+other = "Адаптер"
+
+[supported_templates]
+other = "Підтримувані шаблони"
+
+[adapters]
+other = "Адаптери"
+
+[template]
+other = "Шаблон"
+
+[subscribe]
+other = "Підписатись"
+
+[see_also]
+other = "Дивіться також"
+
+[links]
+other = "Посилання"
+
+[generated_file]
+other = "Це автоматично згенерований файл, будь ласка, відредагуйте джерело в репозиторії %s."
+
+[switch_lang]
+other = "Змінити мову"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "Приклади кольорів"
+
+[analysis_name]
+other = "Назва повідомлення"
+
+[analysis_code]
+other = "Код повідомлення"
+
+[analysis_description]
+other = "Опис"
+
+[analysis_level]
+other = "Рівень"
+
+[target_release]
+other = "Ця публікація в блозі була написана з припущенням, що Istio %v, тому частина цього контенту може бути застарілою."
+
+[security_disclosure]
+other = "Оприлюднення"
+
+[security_related]
+other = "Повʼязано"
+
+[security_date]
+other = "Дата"
+
+[security_affected_releases]
+other = "Affected Releases"
+
+[security_impact_score]
+other = "Impact Score"
+
+[mark_all_as_read]
+other = "Позначити все як прочитане"
+
+[security_bulletin_title]
+other = "Подробиці розкриття інформації"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "Індекс впливу CVSS"
+
+[security_bulletin_affected_releases]
+other = "Постраждалі випуски"
+
+[feedback_title]
+other = "Чи була ця інформація корисною?"
+
+[feedback_yes]
+other = "Так"
+
+[feedback_no]
+other = "Ні"
+
+[feedback_ask_for_comment]
+other = "Чи є у вас пропозиції щодо покращення?"
+
+[feedback_thankyou]
+other = "Дякуємо за ваш відгук!"
+
+[feedback_comment_placeholder]
+other = "Допоможіть нам покращити..."
+
+[log_month_format]
+other = "January 2006"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "Коли"
+
+[log_doc]
+other = "Документ"
+
+[log_change]
+other = "Зміни"
+
+[tested]
+other = "перевірка сторінки"
+
+[has_test]
+other = "Для цієї сторінки доступний автоматизований тест. Натисніть, щоб дізнатися більше."
+
+[needs_test]
+other = "Для цієї сторінки немає автоматизованого тесту. Натисніть, щоб дізнатися подробиці або допомогти створити його."
+
+[try_istio]
+other = "Спробувати Istio"
+
+[service_mesh]
+other = "Сервісна мережа"
+
+[what_is_istio]
+other = "Що таке Istio?"
+
+[join_the_community]
+other = "Спільнота"
+
+[get_started]
+other = "Починаймо"
+
+[latest_news]
+other = "Останні новини"
+
+[solutions]
+other = "Рішення"
+
+[deployment]
+other = "Розгортання"
+
+[learn_more]
+other = "Дізнайтесь більше"
+
+[read_more]
+other = "Читати далі"
+
+[connect_with_us]
+other = "Зверніться до нас"
+
+
+[traffic_management]
+other = "Надійність"
+
+[observability]
+other = "Спостережуваність"
+
+[security]
+other = "Безпека"
+
+[sidebar-toggle]
+other = "Вміст"
+
+[add_your_logo]
+other = "Додайте свій логотип"
+
+[share_your_story]
+other = "Поділіться своєю історією"
+
+[more_case_studies]
+other = "Використовується також в"
+
+[go_to_solutions]
+other = "Перейти до рішень"
+
+[case_study_slogan]
+other = "Читайте приклади успішних прикладів використання Istio компаніями, які отримали вигоду від його впровадження"
