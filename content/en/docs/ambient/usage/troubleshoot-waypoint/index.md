@@ -38,7 +38,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     If your source calls the destination using the service's hostname or IP, use the `istioctl experimental ztunnel-config service` command to confirm your waypoint is used by the destination service. Following the example earlier, the `reviews` service should use the `reviews-svc-waypoint` while all other services in the `default` namespace should use the namespace `waypoint`.
 
     {{< text bash >}}
-    $ istioctl experimental ztunnel-config service
+    $ istioctl ztunnel-config service
     NAMESPACE    SERVICE NAME            SERVICE VIP   WAYPOINT
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
@@ -52,10 +52,10 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     ...
     {{< /text >}}
 
-    If your source calls the destination using a pod IP, use the `istioctl experimental ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints, because by default [a waypoint only handles traffic addressed to services](/docs/ambient/usage/waypoint/#waypoint-traffic-types).
+    If your source calls the destination using a pod IP, use the `istioctl ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints, because by default [a waypoint only handles traffic addressed to services](/docs/ambient/usage/waypoint/#waypoint-traffic-types).
 
     {{< text bash >}}
-    $ istioctl experimental ztunnel-config workload
+    $ istioctl ztunnel-config workload
     NAMESPACE    POD NAME                                    IP         NODE                     WAYPOINT                PROTOCOL
     default      bookinfo-gateway-istio-7c57fc4647-wjqvm     10.42.2.8  k3d-k3s-default-server-0 None                    TCP
     default      details-v1-698d88b-wwsnv                    10.42.2.4  k3d-k3s-default-server-0 None                    HBONE
