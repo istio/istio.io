@@ -333,7 +333,7 @@ debug and diagnose their Istio mesh.
 <td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
 </tr>
 <tr>
-<td><code>--remote-cluster-context &lt;stringArray&gt;</code></td>
+<td><code>--remote-contexts &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
 </tr>
@@ -7979,6 +7979,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr>
+<td><code>ENVOY_DNS_JITTER_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>Jitter added to periodic DNS resolution</td>
 </tr>
 <tr>
 <td><code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY</code></td>
