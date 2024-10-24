@@ -78,7 +78,7 @@ The latency, throughput, and the proxies' CPU and memory consumption are measure
 ### Sidecar CPU and memory usage
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each,j
+and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each
 - a sidecar proxy with 4 worker threads consumes about 27% CPU and 61 MB of memory.
 - a waypoint proxy with 2 worker threads consumes about 41% CPU and 57 MB of memory
 - a ztunnel proxy consumes about 7% CPU and 12 MB of memory.
