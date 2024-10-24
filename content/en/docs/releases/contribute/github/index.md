@@ -44,7 +44,7 @@ To contribute to the Istio documentation, you need to:
    to preview and test your changes.
 
 The Istio documentation is published under the
-[Apache 2.0](https://github.com/istio/community/blob/master/LICENSE) license.
+[Creative Commons Attribution 4.0 International](https://github.com/istio/community/blob/master/LICENSE) license.
 
 ## Perform quick edits {#quick-edit}
 
