@@ -137,9 +137,6 @@ Istio 本质上是多集群感知的，但 Kubernetes 不是（至少现在不�
 {{< tip >}}
 正在进行的一些工作将有助于简化 DNS 故事：
 
-- [DNS 边车代理](/zh/blog/2020/dns-proxy/)在 Istio 1.8 中支持预览。这为带有 Sidecar
-  的所有工作负载提供 DNS 拦截，允许 Istio 代表应用程序执行 DNS 查找。
-
 - [Admiral](https://github.com/istio-ecosystem/admiral)
   是一个 Istio 社区项目，提供了许多多集群功能。
   如果您需要支持多网络拓扑，那么大规模跨多个集群管理此配置是一项挑战。
