@@ -15,9 +15,9 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Added** `clusterLocal` host exclusions for multi-cluster.
 
-- **Added** the metrics port in the daemonset containers spec of the istio-cni chart.
+- **Added** the metrics port in the `DaemonSet` containers spec of the `istio-cni` chart.
 
-- **Added** the metrics port in the kube-gateway containers spec of the istio-discovery chart.
+- **Added** the metrics port in the `kube-gateway` container spec of the `istio-discovery` chart.
 
-- **Fixed** kube-virt-interfaces rules not being removed by istio-clean-iptables tool.
+- **Fixed** `kube-virt-interfaces` rules not being removed by `istio-clean-iptables` tool.
   ([Issue #48368](https://github.com/istio/istio/issues/48368))
