@@ -36,11 +36,12 @@ spec:
       multiCluster:
         clusterName: cluster1
       network: network1
+      externalIstiod: true
 EOF
 }
 
 snip_configure_cluster1_as_a_primary_2() {
-istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
+istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_1() {
