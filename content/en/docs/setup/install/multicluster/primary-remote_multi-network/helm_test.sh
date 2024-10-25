@@ -47,6 +47,7 @@ function install_istio_on_cluster2_helm {
     snip_set_the_default_network_for_cluster2_1
     snip_configure_cluster2_as_a_remote_1
     snip_configure_cluster2_as_a_remote_4
+    snip_configure_cluster2_as_a_remote_5
 
     echo "Enabling API server access to remote cluster"
     snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1

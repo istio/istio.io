@@ -47,6 +47,7 @@ function install_istio_on_cluster2_helm {
     snip_set_the_control_plane_cluster_for_cluster2_1
     snip_configure_cluster2_as_a_remote_1
     snip_configure_cluster2_as_a_remote_4
+    snip_configure_cluster2_as_a_remote_5
 }
 
 function enable_api_server_access {
