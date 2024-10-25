@@ -379,7 +379,7 @@ Uninstall Istio from both `cluster1` and `cluster2` using istioctl or Helm.
     $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
     {{< /text >}}
 
-  {{< /tab >}}
+{{< /tab >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 

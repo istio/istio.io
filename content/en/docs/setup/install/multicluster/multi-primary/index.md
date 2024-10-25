@@ -215,6 +215,6 @@ Uninstall Istio from both `cluster1` and `cluster2` using istioctl or Helm.
     $ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
     {{< /text >}}
 
-  {{< /tab >}}
+{{< /tab >}}
 
 {{< /tabset >}}
