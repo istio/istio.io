@@ -336,7 +336,8 @@ Uninstall Istio from both `cluster1` and `cluster2` using istioctl or Helm.
     1. Delete Istio Helm installation from `cluster2`:
 
     {{< text syntax=bash >}}
-    $ helm delete istiod-remote -n istio-system --kube-context "${CTX_CLUSTER2}"
+    $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+    $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
     {{< /text >}}
 
     1. Delete the `istio-system` namespace from `cluster2`:

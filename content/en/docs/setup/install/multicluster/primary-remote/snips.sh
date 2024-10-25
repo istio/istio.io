@@ -131,7 +131,8 @@ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 }
 
 snip_cleanup_5() {
-helm delete istiod-remote -n istio-system --kube-context "${CTX_CLUSTER2}"
+helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 }
 
 snip_cleanup_6() {
