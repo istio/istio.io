@@ -328,11 +328,6 @@ debug and diagnose their Istio mesh.
 <td>The severity level of analysis at which to display messages. Valid values: [Info Warning Error]  (default `Info`)</td>
 </tr>
 <tr>
-<td><code>--recursive</code></td>
-<td><code>-R</code></td>
-<td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
-</tr>
-<tr>
 <td><code>--remote-contexts &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
@@ -378,9 +373,6 @@ debug and diagnose their Istio mesh.
 
   # Analyze the current live cluster, simulating the effect of applying additional yaml files
   istioctl analyze a.yaml b.yaml my-app-config/
-
-  # Analyze the current live cluster, simulating the effect of applying a directory of config recursively
-  istioctl analyze --recursive my-istio-config/
 
   # Analyze yaml files without connecting to a live cluster
   istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
