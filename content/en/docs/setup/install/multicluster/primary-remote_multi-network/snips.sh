@@ -45,7 +45,7 @@ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
 snip_configure_cluster1_as_a_primary_3() {
-helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --set global.externalIstiod=true --kube-context "${CTX_CLUSTER1}"
+helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --kube-context "${CTX_CLUSTER1}"
 }
 
 snip_configure_cluster1_as_a_primary_4() {
@@ -115,7 +115,7 @@ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
 snip_configure_cluster2_as_a_remote_4() {
-helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --set profile=remote --set global.externalIstiod=true --kube-context "${CTX_CLUSTER2}"
+helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --set profile=remote --kube-context "${CTX_CLUSTER2}"
 }
 
 snip_configure_cluster2_as_a_remote_5() {
