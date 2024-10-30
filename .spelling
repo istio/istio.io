@@ -583,6 +583,7 @@ hyperkube
 hypervisor
 Hystrix
 i.e.
+idempotency
 Idit
 iFood
 ILBs
@@ -1021,6 +1022,7 @@ Requena
 requires_any
 Reskill
 ResourceQuota
+resized
 resources.limits.cpu
 resources.limits.memory
 resources.request.cpu
@@ -1264,6 +1266,7 @@ v1beta1#MutatingWebhookConfiguration
 v1dev1
 V2
 v2
+v2.0
 v2-mysql
 v3
 validatable
