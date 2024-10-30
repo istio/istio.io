@@ -2,7 +2,7 @@
 title: "Scaling in the Clouds: Istio Ambient vs. Cilium"
 description: A Deep Dive into Performance at Scale.
 publishdate: 2024-10-21
-attribution: "Mitch Connors (Microsoft)"
+attribution: "Mitch Connors"
 keywords: [istio,cilium,analysis]
 ---
 
