@@ -39,23 +39,23 @@ set -u # Exit on unset value
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 
-# Deploy sleep application with registration label
-snip_apply_sleep
-_wait_for_deployment default sleep
+# Deploy curl application with registration label
+snip_apply_curl
+_wait_for_deployment default curl
 
 # Set spire-server pod variable
 snip_set_spire_server_pod_name_var
 
-# Set sleep pod and pod uid variables
-snip_set_sleep_pod_var
+# Set curl pod and pod uid variables
+snip_set_curl_pod_var
 
-# Verify sleep workload identity was issued by SPIRE
-snip_get_sleep_svid
+# Verify curl workload identity was issued by SPIRE
+snip_get_curl_svid
 _verify_contains snip_get_svid_subject "O = SPIRE"
 
 # @cleanup
 #
-kubectl delete -f samples/security/spire/sleep-spire.yaml
+kubectl delete -f samples/security/spire/curl-spire.yaml
 istioctl uninstall --purge --skip-confirmation
 kubectl delete ns istio-system
 snip_uninstall_spire

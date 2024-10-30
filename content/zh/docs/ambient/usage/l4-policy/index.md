@@ -27,7 +27,7 @@ ztunnel 代理可以强制执行鉴权策略。强制执行点是在连接路径
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
- name: allow-sleep-to-httpbin
+ name: allow-curl-to-httpbin
 spec:
  selector:
    matchLabels:
@@ -37,7 +37,7 @@ spec:
  - from:
    - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/sleep
+       - cluster.local/ns/ambient-demo/sa/curl
 {{< /text >}}
 
 此策略既可用于 {{< gloss "sidecar" >}}Sidecar 模式{{< /gloss >}}，也能用于 Ambient 模式。
@@ -45,7 +45,7 @@ spec:
 Istio `AuthorizationPolicy` API 的四层（TCP）特性在 Ambient 模式中的行为与在 Sidecar 模式中的行为相同。
 当没有配置鉴权策略时，默认的操作是 `ALLOW`。一旦配置了某个策略，此策略指向的目标 Pod 只允许显式允许的流量。
 在上述示例中，带有 `app: httpbin` 标签的 Pod 只允许源自身份主体为
-`cluster.local/ns/ambient-demo/sa/sleep` 的流量。来自所有其他源的流量都将被拒绝。
+`cluster.local/ns/ambient-demo/sa/curl` 的流量。来自所有其他源的流量都将被拒绝。
 
 ## 目标指向策略 {#targeting-policies}
 
@@ -88,7 +88,7 @@ ztunnel 无法强制执行 L7 策略。如果一个策略中的规则与 L7 属�
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
- name: allow-sleep-to-httpbin
+ name: allow-curl-to-httpbin
 spec:
  selector:
    matchLabels:
@@ -98,7 +98,7 @@ spec:
  - from:
    - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/sleep
+       - cluster.local/ns/ambient-demo/sa/curl
    to:
    - operation:
        methods: ["GET"]

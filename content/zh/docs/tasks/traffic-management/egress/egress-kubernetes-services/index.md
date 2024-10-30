@@ -36,16 +36,16 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
     $ kubectl create namespace without-istio
     {{< /text >}}
 
-*  在命名空间 `without-istio` 中启动 [sleep]({{< github_tree >}}/samples/sleep) 示例。
+*  在命名空间 `without-istio` 中启动 [curl]({{< github_tree >}}/samples/curl) 示例。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n without-istio
     {{< /text >}}
 
 *  要发送请求，可以创建环境变量 `SOURCE_POD_WITHOUT_ISTIO` 来保存源 Pod 的名称：
 
     {{< text bash >}}
-    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})"
+    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=curl -o jsonpath={.items..metadata.name})"
     {{< /text >}}
 
 *   验证是否未注入 Istio Sidecar，即 Pod 中有一个容器：
@@ -53,7 +53,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
     {{< text bash >}}
     $ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
     NAME                     READY   STATUS    RESTARTS   AGE
-    sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
+    curl-66c8d79ff5-8tqrl    1/1     Running   0          32s
     {{< /text >}}
 
 ## Kubernetes ExternalName 服务访问外部服务{#ks-external-name-service-to-access-an-external-service}
@@ -89,7 +89,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
    [Kubernetes DNS 格式用于服务](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records)：`<service name>.<namespace>.svc.cluster.local`。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -122,7 +122,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
    另请注意 `Host` header 等于您的服务的主机名。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -133,7 +133,7 @@ Kubernetes [ExternalName](https://kubernetes.io/zh-cn/docs/concepts/services-net
         "X-B3-Spanid": "5795fab599dca0b8",
         "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
         "X-Envoy-Peer-Metadata": "...",
-        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
+        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~curl-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
     }
     {{< /text >}}
@@ -194,7 +194,7 @@ $ kubectl delete service my-httpbin
    使用 `curl` 的 `--resolve` 选项通过集群 IP 访问 `wikipedia.org`：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -218,7 +218,7 @@ $ kubectl delete service my-httpbin
 1. 使用 Istio Sidecar 从源 Pod 中通过 Kubernetes 服务的集群 IP 访问 `wikipedia.org`：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -226,7 +226,7 @@ $ kubectl delete service my-httpbin
    `Connected to en.wikipedia.org (172.21.156.230)`，其中提到了在您的服务输出中作为集群 IP 打印的 IP。
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
     * Added en.wikipedia.org:443:172.21.156.230 to DNS cache
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...
@@ -245,16 +245,16 @@ $ kubectl delete service my-wikipedia
 
 ## 清理{#cleanup}
 
-1. 停止服务 [sleep]({{< github_tree >}}/samples/sleep)：
+1. 停止服务 [curl]({{< github_tree >}}/samples/curl)：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-1. 停止命名空间 `without-istio` 中的服务 [sleep]({{< github_tree >}}/samples/sleep)：
+1. 停止命名空间 `without-istio` 中的服务 [curl]({{< github_tree >}}/samples/curl)：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n without-istio
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n without-istio
     {{< /text >}}
 
 1. 删除命名空间 `without-istio`：

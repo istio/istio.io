@@ -151,11 +151,11 @@ kubectl label ns app-ns-3 usergroup=usergroup-2 istio.io/rev=usergroup-2
 }
 
 snip_deploy_application_workloads_per_usergroup_3() {
-kubectl -n app-ns-1 apply -f samples/sleep/sleep.yaml
+kubectl -n app-ns-1 apply -f samples/curl/curl.yaml
 kubectl -n app-ns-1 apply -f samples/httpbin/httpbin.yaml
-kubectl -n app-ns-2 apply -f samples/sleep/sleep.yaml
+kubectl -n app-ns-2 apply -f samples/curl/curl.yaml
 kubectl -n app-ns-2 apply -f samples/httpbin/httpbin.yaml
-kubectl -n app-ns-3 apply -f samples/sleep/sleep.yaml
+kubectl -n app-ns-3 apply -f samples/curl/curl.yaml
 kubectl -n app-ns-3 apply -f samples/httpbin/httpbin.yaml
 }
 
@@ -166,7 +166,7 @@ kubectl get pods -n app-ns-1
 ! IFS=$'\n' read -r -d '' snip_deploy_application_workloads_per_usergroup_4_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-9dbd644c7-zc2v4   2/2     Running   0          115m
-sleep-78ff5975c6-fml7c    2/2     Running   0          115m
+curl-78ff5975c6-fml7c     2/2     Running   0          115m
 ENDSNIP
 
 snip_deploy_application_workloads_per_usergroup_5() {
@@ -176,7 +176,7 @@ kubectl get pods -n app-ns-2
 ! IFS=$'\n' read -r -d '' snip_deploy_application_workloads_per_usergroup_5_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-9dbd644c7-sd9ln   2/2     Running   0          115m
-sleep-78ff5975c6-sz728    2/2     Running   0          115m
+curl-78ff5975c6-sz728     2/2     Running   0          115m
 ENDSNIP
 
 snip_deploy_application_workloads_per_usergroup_6() {
@@ -186,7 +186,7 @@ kubectl get pods -n app-ns-3
 ! IFS=$'\n' read -r -d '' snip_deploy_application_workloads_per_usergroup_6_out <<\ENDSNIP
 NAME                      READY   STATUS    RESTARTS   AGE
 httpbin-9dbd644c7-8ll27   2/2     Running   0          115m
-sleep-78ff5975c6-sg4tq    2/2     Running   0          115m
+curl-78ff5975c6-sg4tq     2/2     Running   0          115m
 ENDSNIP
 
 snip_verify_the_application_to_control_plane_mapping_1() {
@@ -196,7 +196,7 @@ istioctl ps -i usergroup-1
 ! IFS=$'\n' read -r -d '' snip_verify_the_application_to_control_plane_mapping_1_out <<\ENDSNIP
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-hccpf.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-9zb77.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-9zb77.app-ns-1       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 ENDSNIP
 
 snip_verify_the_application_to_control_plane_mapping_2() {
@@ -207,12 +207,12 @@ istioctl ps -i usergroup-2
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-vvcqj.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 httpbin-9dbd644c7-xzgfm.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-fthmt.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-fthmt.app-ns-2       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-nxtth.app-ns-3       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 ENDSNIP
 
 snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1() {
-kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
+kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_1_out <<\ENDSNIP
@@ -224,7 +224,7 @@ server: envoy
 ENDSNIP
 
 snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2() {
-kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
+kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_the_application_connectivity_is_only_within_the_respective_usergroup_2_out <<\ENDSNIP

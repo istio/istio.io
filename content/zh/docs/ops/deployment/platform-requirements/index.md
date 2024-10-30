@@ -34,6 +34,7 @@ aliases: /zh/docs/setup/platform-setup/prerequisites
 | `xt_owner`            |                          |
 | `xt_tcpudp`           |                          |
 | `xt_multiport`        |                          |
+| `ip_set`              | Ambient 数据平面模式所需   |
 
 以下更多模块由上述列出的模块使用，也应该加载到集群节点上：
 
@@ -50,6 +51,7 @@ aliases: /zh/docs/setup/platform-setup/prerequisites
 | `nf_nat_ipv6`        | 仅适用于 IPv6/双栈集群  |
 | `nf_nat_redirect`    |                       |
 | `x_tables`           |                       |
+| `ip_set_hash_ip`     | Ambient 数据平面模式所需 |
 
 虽然不常见，但使用自定义或非标准 Linux 内核或 Linux 发行版可能会导致上面列出的特定模块在主机上不可用，
 或者无法由 `iptables` 自动加载的情况。例如，此 [`selinux issues`](https://www.suse.com/support/kb/doc/?id=000020241)

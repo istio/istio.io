@@ -71,6 +71,7 @@
 2s
 2x
 3.99ms
+32-core
 3ms
 3s
 404s
@@ -609,6 +610,7 @@ IOPs
 ip
 ipBlocks
 IPs
+IPsec
 ipsets
 iptables
 IPv4
@@ -765,6 +767,7 @@ Longmuir
 lookups
 loopback
 Lua
+lucavall.in
 Lukonde
 Luyao
 Lyft
@@ -849,6 +852,7 @@ nginx
 NICs
 NiFi
 Nikhita
+NimbleEdge
 Ning
 Nirupama
 NLBs
@@ -1003,6 +1007,7 @@ Redis-based
 referer
 Registrator
 registrator
+Rego
 reimplement
 reimplemented
 reinject
@@ -1054,6 +1059,8 @@ sds
 Searcy
 Secura
 SecurityCon
+SecurityGroupPolicy
+SecurityGroups
 security_bulletin
 selinux
 serverless
@@ -1310,6 +1317,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+WireGuard
 Wireguard
 Wolfi
 workgroup

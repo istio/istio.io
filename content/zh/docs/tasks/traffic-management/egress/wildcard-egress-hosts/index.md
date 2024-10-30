@@ -56,18 +56,18 @@ $ istioctl install --set profile=minimal -y \
 
 {{< /tabset >}}
 
-*   部署 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序，以用作发送请求的测试源。
+*   部署 [curl]({{< github_tree >}}/samples/curl) 示例应用程序，以用作发送请求的测试源。
     如果您开启了 [Sidecar 自动注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
     运行以下命令以部署示例应用程序：
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    否则，在使用以下命令部署 `sleep` 应用程序之前，手动注入 Sidecar：
+    否则，在使用以下命令部署 `curl` 应用程序之前，手动注入 Sidecar：
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -77,7 +77,7 @@ $ istioctl install --set profile=minimal -y \
 *   将 `SOURCE_POD` 环境变量设置为您的源 Pod 的名称：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 ## 引导流量流向 Wildcard 主机  {#configure-direct-traffic-to-a-wildcard-host}
@@ -116,7 +116,7 @@ $ istioctl install --set profile=minimal -y \
     [https://en.wikipedia.org](https://en.wikipedia.org) and [https://de.wikipedia.org](https://de.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec -it $SOURCE_POD -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
@@ -302,7 +302,7 @@ EOF
     [https://en.wikipedia.org](https://en.wikipedia.org) 和 [https://de.wikipedia.org](https://de.wikipedia.org)：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Wikipedia – Die freie Enzyklopädie</title>
     {{< /text >}}
@@ -380,10 +380,10 @@ Istio 网关只能将流量路由配置到预定义的主机、预定义的 IP �
 
 ## 清理  {#cleanup}
 
-* 关闭 [sleep]({{< github_tree >}}/samples/sleep) 服务：
+* 关闭 [curl]({{< github_tree >}}/samples/curl) 服务：
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 * 从您的集群中卸载 Istio：

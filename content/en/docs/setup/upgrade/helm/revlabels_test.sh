@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 source "content/en/docs/setup/upgrade/helm/common.sh"
+source "content/en/boilerplates/snips/crd-upgrade-123.sh"
 
 set -e
 set -u

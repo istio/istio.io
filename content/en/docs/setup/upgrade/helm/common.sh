@@ -15,6 +15,11 @@
 source "content/en/docs/setup/install/helm/snips.sh"
 
 _install_istio_helm() {
+    # TODO we don't properly cleanup CRDs in all cases, so we can have strays
+    # left at this point.
+    # This can be dropped once tests start pulling 1.24 charts
+    bpsnip_crd_upgrade_123_adopt_legacy_crds
+
     _rewrite_helm_repo snip_create_istio_system_namespace
     _rewrite_helm_repo snip_install_base
     _rewrite_helm_repo snip_install_discovery

@@ -64,23 +64,23 @@ kubectl label namespace default istio-injection=enabled --overwrite
 export IFS=
 echo "${snip_proxyIstioConfig}" > proxyConfig.yaml
 unset IFS
-# yq m -d2 samples/sleep/sleep.yaml proxyConfig.yaml > sleep_istioconfig.yaml
-yq 'select(document_index != 2)' samples/sleep/sleep.yaml > tmp1.yaml
-yq 'select(document_index == 2)' samples/sleep/sleep.yaml > tmp2.yaml
+# yq m -d2 samples/curl/curl.yaml proxyConfig.yaml > curl_istioconfig.yaml
+yq 'select(document_index != 2)' samples/curl/curl.yaml > tmp1.yaml
+yq 'select(document_index == 2)' samples/curl/curl.yaml > tmp2.yaml
 # shellcheck disable=SC2016
 yq eval-all '. as $item ireduce ({}; . *+ $item)' tmp2.yaml proxyConfig.yaml > new2.yaml
-yq . tmp1.yaml new2.yaml  > sleep_istioconfig.yaml
+yq . tmp1.yaml new2.yaml  > curl_istioconfig.yaml
 
-kubectl apply -f sleep_istioconfig.yaml
-_wait_for_deployment default sleep
-POD="$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')"
+kubectl apply -f curl_istioconfig.yaml
+_wait_for_deployment default curl
+POD="$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')"
 export POD
 _verify_contains snip_get_stats "circuit_breakers"
 
 # @cleanup
 set +e
 cleanup_httpbin_sample
-cleanup_sleep_sample
+cleanup_curl_sample
 echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system
 kubectl label namespace default istio-injection-

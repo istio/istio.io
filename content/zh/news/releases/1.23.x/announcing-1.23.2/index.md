@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.23.2
+title: 发布 Istio 1.23.2
 linktitle: 1.23.2
-subtitle: Patch Release
-description: Istio 1.23.2 patch release.
+subtitle: 补丁发布
+description: Istio 1.23.2 补丁发布。
 publishdate: 2024-09-19
 release: 1.23.2
 ---

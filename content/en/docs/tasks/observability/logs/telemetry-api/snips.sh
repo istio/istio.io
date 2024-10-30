@@ -46,12 +46,12 @@ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
-  name: disable-sleep-logging
+  name: disable-curl-logging
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
   - providers:
     - name: otel
@@ -83,11 +83,11 @@ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: filter-sleep-logging
+  name: filter-curl-logging
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
   - providers:
     - name: otel

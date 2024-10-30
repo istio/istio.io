@@ -199,6 +199,7 @@ spec:
           value: istio
   values:
     global:
+      externalIstiod: true
       caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       operatorManageWebhooks: true
@@ -332,7 +333,7 @@ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection
 snip_deploy_a_sample_application_2() {
 kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
 kubectl apply -f samples/helloworld/helloworld.yaml -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+kubectl apply -f samples/curl/curl.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_deploy_a_sample_application_3() {
@@ -341,13 +342,13 @@ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
 
 ! IFS=$'\n' read -r -d '' snip_deploy_a_sample_application_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
+curl-64d7d56698-wqjnm            2/2     Running   0          9s
 helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
-sleep-64d7d56698-wqjnm           2/2     Running   0          9s
 ENDSNIP
 
 snip_deploy_a_sample_application_4() {
-kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-    "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+    "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
 
@@ -416,7 +417,7 @@ ENDSNIP
 
 snip_install_crds() {
 kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
 }
 
 snip_configure_and_test_an_ingress_gateway_3() {
@@ -546,7 +547,7 @@ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection
 snip_validate_the_installation_2() {
 kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
 kubectl apply -f samples/helloworld/helloworld.yaml -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
+kubectl apply -f samples/curl/curl.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_validate_the_installation_3() {
@@ -555,13 +556,13 @@ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
 
 ! IFS=$'\n' read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
 NAME                            READY   STATUS    RESTARTS   AGE
+curl-557747455f-wtdbr           2/2     Running   0          9s
 helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-sleep-557747455f-wtdbr          2/2     Running   0          9s
 ENDSNIP
 
 snip_validate_the_installation_4() {
-kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-    "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+    "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
 

@@ -249,33 +249,33 @@ $ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
     $ kubectl apply  -f ./proxyconfig-foo.yaml
     {{< /text >}}
 
-1. 在 `foo` 和 `bar` 命名空间中部署 `httpbin` 和 `sleep` 样例应用程序。
+1. 在 `foo` 和 `bar` 命名空间中部署 `httpbin` 和 `curl` 样例应用程序。
 
     {{< text bash >}}
     $ kubectl label ns foo istio-injection=enabled
     $ kubectl label ns bar istio-injection=enabled
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-    $ kubectl apply -f samples/sleep/sleep.yaml -n foo
+    $ kubectl apply -f samples/curl/curl.yaml -n foo
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n bar
     {{< /text >}}
 
-## 验证相同命名空间内 `httpbin` 和 `sleep` 之间的网络连通性  {#verify-network-connectivity-between-httpbin-and-sleep-within-a-namespace}
+## 验证相同命名空间内 `httpbin` 和 `curl` 之间的网络连通性  {#verify-network-connectivity-between-httpbin-and-curl-within-a-namespace}
 
 在部署工作负载时，它们会发送具有相关签名者信息的 CSR 请求。Istiod 将这些 CSR 请求转发到自定义 CA 进行签名。
 自定义 CA 将使用正确的集群签发器在证书上签名。`foo` 命名空间下的工作负载将使用 `foo` 集群签发器，
 而 `bar` 命名空间下的工作负载将使用 `bar` 集群签发器。要验证它们已经被正确的集群签发器进行了真正的签名，
 我们可以验证相同命名空间下的工作负载可以通信，而不同命名空间下的工作负载不能通信。
 
-1. 将 `SLEEP_POD_FOO` 环境变量设置为 `sleep` Pod 的名称。
+1. 将 `CURL_POD_FOO` 环境变量设置为 `curl` Pod 的名称。
 
     {{< text bash >}}
-    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export CURL_POD_FOO=$(kubectl get pod -n foo -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1. 检查 `foo` 命名空间中 `sleep` 和 `httpbin` 服务之间的网络连通性。
+1. 检查 `foo` 命名空间中 `curl` 和 `httpbin` 服务之间的网络连通性。
 
     {{< text bash >}}
-    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
+    $ kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
       <head>
@@ -291,10 +291,10 @@ $ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
       </body>
      {{< /text >}}
 
-1. 检查 `foo` 命名空间中的 `sleep` 服务与 `bar` 命名空间中的 `httpbin` 服务之间的网络连通性。
+1. 检查 `foo` 命名空间中的 `curl` 服务与 `bar` 命名空间中的 `httpbin` 服务之间的网络连通性。
 
     {{< text bash >}}
-    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
+    $ kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 

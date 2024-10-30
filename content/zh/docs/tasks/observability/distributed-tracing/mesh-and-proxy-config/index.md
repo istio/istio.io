@@ -105,13 +105,13 @@ EOF
 ### 使用 `proxy.istio.io/config` 注解配置链路追踪  {#using-proxy-istio-io-config-annotation-for-trace-settings}
 
 您可以添加 `proxy.istio.io/config` 注解到 Pod 元数据规约中，以覆盖任何网格范围的链路追踪配置。
-例如，要修改 Istio 附带的 `sleep` Deployment，您需要在 `samples/sleep/sleep.yaml` 中添加以下内容：
+例如，要修改 Istio 附带的 `curl` Deployment，您需要在 `samples/curl/curl.yaml` 中添加以下内容：
 
 {{< text yaml >}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
   ...
   template:

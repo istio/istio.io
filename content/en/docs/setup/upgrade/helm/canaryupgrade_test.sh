@@ -15,6 +15,7 @@
 # limitations under the License.
 source "content/en/docs/setup/upgrade/helm/common.sh"
 source "content/en/boilerplates/snips/args.sh"
+source "content/en/boilerplates/snips/crd-upgrade-123.sh"
 
 set -e
 set -u

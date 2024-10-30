@@ -115,14 +115,14 @@ EOF
 
 You can add the `proxy.istio.io/config` annotation to your Pod metadata
 specification to override any mesh-wide tracing settings.
-For instance, to modify the `sleep` deployment shipped with Istio you would add
-the following to `samples/sleep/sleep.yaml`:
+For instance, to modify the `curl` deployment shipped with Istio you would add
+the following to `samples/curl/curl.yaml`:
 
 {{< text yaml >}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
   ...
   template:

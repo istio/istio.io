@@ -23,28 +23,28 @@
 snip_set_up_the_cluster_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
 kubectl create ns bar
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n bar
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n bar
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n bar
 }
 
 snip_set_up_the_cluster_2() {
 kubectl create ns legacy
-kubectl apply -f samples/sleep/sleep.yaml -n legacy
+kubectl apply -f samples/curl/curl.yaml -n legacy
 }
 
 snip_set_up_the_cluster_3() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! IFS=$'\n' read -r -d '' snip_set_up_the_cluster_3_out <<\ENDSNIP
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 200
-sleep.legacy to httpbin.bar: 200
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.legacy to httpbin.foo: 200
+curl.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_set_up_the_cluster_4() {
@@ -76,17 +76,17 @@ EOF
 }
 
 snip_lock_down_to_mutual_tls_by_namespace_2() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 ! IFS=$'\n' read -r -d '' snip_lock_down_to_mutual_tls_by_namespace_2_out <<\ENDSNIP
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 000
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
+curl.legacy to httpbin.bar: 200
 ENDSNIP
 
 snip_lock_down_to_mutual_tls_by_namespace_3() {
@@ -111,7 +111,7 @@ EOF
 }
 
 snip_lock_down_mutual_tls_for_the_entire_mesh_2() {
-for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
 }
 
 snip_clean_up_the_example_1() {
