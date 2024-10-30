@@ -53,7 +53,7 @@ istioctl install --set profile=demo
 snip_deploying_example_services_1() {
 kubectl create ns foo
 kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
 }
 
 snip_deploying_example_services_2() {
@@ -69,7 +69,7 @@ EOF
 }
 
 snip_verifying_the_certificates_1() {
-sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+sleep 20; kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
 }
 
 snip_verifying_the_certificates_2() {
@@ -118,7 +118,7 @@ kubectl delete peerauthentication -n foo default
 }
 
 snip_cleanup_4() {
-kubectl delete -f samples/sleep/sleep.yaml -n foo
+kubectl delete -f samples/curl/curl.yaml -n foo
 kubectl delete -f samples/httpbin/httpbin.yaml -n foo
 }
 

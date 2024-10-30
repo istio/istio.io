@@ -26,10 +26,6 @@ $ istioctl x precheck
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 {{< /text >}}
 
-{{< warning >}}
-[Helm does not upgrade or delete CRDs](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) when performing an upgrade. Because of this restriction, an additional step is required when upgrading Istio with Helm.
-{{< /warning >}}
-
 ### Canary upgrade (recommended)
 
 You can install a canary version of Istio control plane to validate that the new
@@ -42,10 +38,12 @@ cluster-wide resources from the base chart are shared across your
 primary and canary installations.
 {{< /warning >}}
 
-1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
+{{< boilerplate crd-upgrade-123 >}}
+
+1. Upgrade the Istio base chart to ensure all cluster-wide resources are up-to-date
 
     {{< text bash >}}
-    $ kubectl apply -f manifests/charts/base/crds
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
 1. Install a canary version of the Istio discovery chart by setting the revision
@@ -95,10 +93,10 @@ primary and canary installations.
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. Upgrade the Istio base chart, making the new revision the default.
+1. Upgrade the Istio base chart again, this time making the new `canary` revision the cluster-wide default.
 
     {{< text bash >}}
-    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system
     {{< /text >}}
 
 ### Stable revision labels
@@ -147,16 +145,12 @@ Add your override values file or custom options to the commands below to
 preserve your custom configuration during Helm upgrades.
 {{< /warning >}}
 
-1. Upgrade the Kubernetes custom resource definitions ({{< gloss >}}CRDs{{</ gloss >}}):
-
-    {{< text bash >}}
-    $ kubectl apply -f manifests/charts/base/crds
-    {{< /text >}}
+{{< boilerplate crd-upgrade-123 >}}
 
 1. Upgrade the Istio base chart:
 
     {{< text bash >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
 1. Upgrade the Istio discovery chart:

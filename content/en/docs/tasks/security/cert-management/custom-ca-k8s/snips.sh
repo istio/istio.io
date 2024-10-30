@@ -226,19 +226,19 @@ snip_deploy_istio_with_default_certsigner_info_5() {
 kubectl label ns foo istio-injection=enabled
 kubectl label ns bar istio-injection=enabled
 kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-kubectl apply -f samples/sleep/sleep.yaml -n foo
+kubectl apply -f samples/curl/curl.yaml -n foo
 kubectl apply -f samples/httpbin/httpbin.yaml -n bar
 }
 
-snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_1() {
-export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
+snip_verify_the_network_connectivity_between_httpbin_and_curl_within_the_same_namespace_1() {
+export CURL_POD_FOO=$(kubectl get pod -n foo -l app=curl -o jsonpath={.items..metadata.name})
 }
 
-snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_2() {
-kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
+snip_verify_the_network_connectivity_between_httpbin_and_curl_within_the_same_namespace_2() {
+kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.foo:8000/html
 }
 
-! IFS=$'\n' read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_curl_within_the_same_namespace_2_out <<\ENDSNIP
 <!DOCTYPE html>
 <html>
   <head>
@@ -254,11 +254,11 @@ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/ht
   </body>
 ENDSNIP
 
-snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_3() {
-kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
+snip_verify_the_network_connectivity_between_httpbin_and_curl_within_the_same_namespace_3() {
+kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.bar:8000/html
 }
 
-! IFS=$'\n' read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_sleep_within_the_same_namespace_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_network_connectivity_between_httpbin_and_curl_within_the_same_namespace_3_out <<\ENDSNIP
 upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
 ENDSNIP
 

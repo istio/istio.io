@@ -26,9 +26,9 @@ GATEWAY_API="${GATEWAY_API:-false}"
 # Make sure automatic sidecar injection is enabled
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample
+# Deploy curl sample
 snip_before_you_begin_1
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 
 # Generate Certificates for service outside the mesh to use for mTLS
 set +e # suppress harmless "No such file or directory:../crypto/bio/bss_file.c:72:fopen('1_root/index.txt.attr','r')" error
@@ -60,7 +60,7 @@ else
     _wait_for_istio destinationrule default egressgateway-for-nginx
 fi
 
-# Configure routing from sleep to egress gateway to nginx
+# Configure routing from curl to egress gateway to nginx
 if [ "$GATEWAY_API" == "true" ]; then
     snip_configure_mutual_tls_origination_for_egress_traffic_6
 else

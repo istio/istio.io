@@ -28,10 +28,10 @@ source "tests/util/samples.sh"
 # Make sure default namespace is injected
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample and set up variable pointing to it
-# Start the sleep sample
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+# Deploy curl sample and set up variable pointing to it
+# Start the curl sample
+startup_curl_sample
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')
 
 # Create ServiceEntry
 snip_egress_gateway_for_http_traffic_1
@@ -112,7 +112,7 @@ fi
 # Create namespace
 snip_apply_kubernetes_network_policies_1
 
-# Deploy sleep
+# Deploy curl
 snip_apply_kubernetes_network_policies_2
 
 # Verify 200 response
@@ -141,16 +141,16 @@ fi
 # Enable sidecar injection
 snip_apply_kubernetes_network_policies_11
 
-# Delete older sleep and reapply
+# Delete older curl and reapply
 snip_apply_kubernetes_network_policies_12
-_wait_for_deployment test-egress sleep
+_wait_for_deployment test-egress curl
 
 if [ "$GATEWAY_API" == "true" ]; then
     # verify containers
-    _verify_contains snip_apply_kubernetes_network_policies_15 "sleep istio-proxy"
+    _verify_contains snip_apply_kubernetes_network_policies_15 "curl istio-proxy"
 else
     # verify containers
-    _verify_contains snip_apply_kubernetes_network_policies_13 "sleep istio-proxy"
+    _verify_contains snip_apply_kubernetes_network_policies_13 "curl istio-proxy"
 
     # configure DR
     snip_apply_kubernetes_network_policies_14

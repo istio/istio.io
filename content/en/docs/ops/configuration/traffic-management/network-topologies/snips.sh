@@ -72,28 +72,11 @@ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-gate
 }
 
 snip_curl_xff_headers() {
-curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true"
+curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true" | jq '.headers["X-Forwarded-For"][0]'
 }
 
 ! IFS=$'\n' read -r -d '' snip_curl_xff_headers_out <<\ENDSNIP
-{
-"args": {
-  "show_env": "true"
-},
-  "headers": {
-  "Accept": ...
-  "Host": ...
-  "User-Agent": ...
-  "X-Envoy-Attempt-Count": ...
-  "X-Envoy-External-Address": "72.9.5.6",
-  "X-Forwarded-Client-Cert": ...
-  "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
-  "X-Forwarded-Proto": ...
-  "X-Request-Id": ...
-},
-  "origin": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
-  "url": ...
-}
+  "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1"
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_proxy_protocol_2 <<\ENDSNIP

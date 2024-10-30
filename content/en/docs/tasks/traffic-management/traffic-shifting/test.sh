@@ -26,8 +26,8 @@ source "tests/util/samples.sh"
 # @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
-startup_sleep_sample # needed for sending test requests with curl
-SLEEP_POD=$(kubectl get pod -l app=sleep -n default -o 'jsonpath={.items..metadata.name}')
+startup_curl_sample # needed for sending test requests with curl
+CURL_POD=$(kubectl get pod -l app=curl -n default -o 'jsonpath={.items..metadata.name}')
 
 # launch the bookinfo app
 startup_bookinfo_sample
@@ -43,7 +43,7 @@ function reviews_v3_traffic_percentage() {
   local v3_count=0
   local v3_search_string="glyphicon glyphicon-star" # search string present in reviews_v3 response html
   for ((i = 1; i <= total_request_count; i++)); do
-    if (kubectl exec "${SLEEP_POD}" -c sleep -n "default" -- curl -sS http://productpage:9080/productpage | grep -q "$v3_search_string"); then
+    if (kubectl exec "${CURL_POD}" -c curl -n "default" -- curl -sS http://productpage:9080/productpage | grep -q "$v3_search_string"); then
       v3_count=$((v3_count + 1))
     fi
   done
@@ -127,6 +127,6 @@ _verify_same reviews_v3_traffic_percentage 100
 if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup
     cleanup_bookinfo_sample
-    cleanup_sleep_sample
+    cleanup_curl_sample
     kubectl label namespace default istio-injection-
 fi

@@ -477,7 +477,7 @@ Istio 按以下顺序检查层中的匹配策略：`CUSTOM`、`DENY`，
     - `rules` 下的 `to` 字段指定请求的操作
     - `rules` 下的 `when` 字段指定应用规则所需的条件
 
-以下示例显示了一个授权策略，该策略允许两个源（服务帐户 `cluster.local/ns/default/sa/sleep`
+以下示例显示了一个授权策略，该策略允许两个源（服务帐户 `cluster.local/ns/default/sa/curl`
 和命名空间 `dev`），在使用有效的 JWT 令牌发送请求时，可以访问命名空间 `foo`
 中带有标签 `app: httpbin` 和 `version: v1` 的工作负载。
 
@@ -496,7 +496,7 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep"]
+       principals: ["cluster.local/ns/default/sa/curl"]
    - source:
        namespaces: ["dev"]
    to:
@@ -729,7 +729,7 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep"]
+       principals: ["cluster.local/ns/default/sa/curl"]
    to:
    - operation:
        methods: ["GET"]

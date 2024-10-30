@@ -14,7 +14,7 @@ test: yes
 
 {{< boilerplate helm-prereqs >}}
 
-## 升级步骤{#upgrade-steps}
+## 升级步骤 {#upgrade-steps}
 
 升级 Istio 之前，推荐运行 `istioctl x precheck` 命令以确保升级能与您的环境兼容。
 
@@ -24,22 +24,20 @@ $ istioctl x precheck
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 {{< /text >}}
 
-{{< warning >}}
-执行升级时 [Helm 不支持升级或删除 CRD](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations)。因为有这个限制，所以在用 Helm 升级 Istio 时需要一个额外的步骤。
-{{< /warning >}}
-
-### 金丝雀升级（推荐）{#canary-upgrade}
+### 金丝雀升级（推荐） {#canary-upgrade}
 
 您可以使用以下步骤，安装金丝雀版本的 Istio 控制平面来校验新版本是否与您现有的配置和数据平面兼容：
 
 {{< warning >}}
-请注意，当您安装一个金丝雀版本的 `istiod` 服务时，可以在主要安装和金丝雀安装之间共享来自基础 Chart 的底层集群范围资源。
+请注意，当您安装一个金丝雀版本的 `istiod` 服务时，可以在主要安装和金丝雀安装之间共享来自 Base Chart 的底层集群范围资源。
 {{< /warning >}}
 
-1. 升级 Kubernetes {{< gloss >}}CRD{{</ gloss >}}：
+{{< boilerplate crd-upgrade-123 >}}
+
+1. 升级 Istio Base Chart，以确保所有集群范围的资源都是最新的：
 
     {{< text bash >}}
-    $ kubectl apply -f manifests/charts/base/crds
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
 1. 通过设置修订版的值来安装金丝雀版本的 Istio 发现 Chart：
@@ -87,17 +85,17 @@ $ istioctl x precheck
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-1. 升级 Istio base chart，将新的修订版作为默认值。
+1. 再次升级 Istio Base Chart，这次将新的 `canary` 修订版本设为集群范围的默认版本。
 
     {{< text bash >}}
-    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system
     {{< /text >}}
 
-### 稳定修订标签（实验特性）{#stable-revision-labels}
+### 稳定修订标签（实验特性） {#stable-revision-labels}
 
 {{< boilerplate revision-tags-preamble >}}
 
-#### 用法{#usage}
+#### 用法 {#usage}
 
 {{< boilerplate revision-tags-usage >}}
 
@@ -119,7 +117,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 {{< boilerplate revision-tags-prologue >}}
 
-#### 默认标记{#default-tag}
+#### 默认标记 {#default-tag}
 
 {{< boilerplate revision-tags-default-intro >}}
 
@@ -129,7 +127,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 {{< boilerplate revision-tags-default-outro >}}
 
-### 原地升级{#in-place-upgrade}
+### 原地升级 {#in-place-upgrade}
 
 您可以使用 Helm 升级工作流在您的集群中对 Istio 执行原地升级。
 
@@ -137,16 +135,12 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 将您的重载值文件或自定义选项添加到以下命令，以在 Helm 升级期间保留您的自定义配置。
 {{< /warning >}}
 
-1. 升级 Kubernetes {{< gloss >}}CRD{{</ gloss >}}：
+{{< boilerplate crd-upgrade-123 >}}
+
+1. 升级 Istio Base Chart：
 
     {{< text bash >}}
-    $ kubectl apply -f manifests/charts/base/crds
-    {{< /text >}}
-
-1. 升级 Istio base chart：
-
-    {{< text bash >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
 1. 升级 Istio discovery chart：
@@ -161,6 +155,6 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
     $ helm upgrade istio-ingress istio/gateway -n istio-ingress
     {{< /text >}}
 
-## 卸载{#uninstall}
+## 卸载 {#uninstall}
 
 请参阅 [Helm 安装指南](/zh/docs/setup/install/helm/#uninstall)中的卸载章节。

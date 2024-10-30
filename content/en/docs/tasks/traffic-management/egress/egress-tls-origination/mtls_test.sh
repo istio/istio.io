@@ -26,9 +26,9 @@ source "tests/util/samples.sh"
 # Make sure automatic sidecar injection is enabled
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample
+# Deploy curl sample
 # Deploy sample and set up variable pointing to it
-startup_sleep_sample
+startup_curl_sample
 snip_before_you_begin_3
 
 # Generate Certificates for service outside the mesh to use for mTLS
@@ -50,9 +50,9 @@ snip_deploy_a_mutual_tls_server_5
 # Wait for nginx
 _wait_for_deployment mesh-external my-nginx
 
-# Configure sleep pod
-snip_configure_the_client_sleep_pod_1
-snip_configure_the_client_sleep_pod_2
+# Configure curl pod
+snip_configure_the_client_curl_pod_1
+snip_configure_the_client_curl_pod_2
 
 # Configure mTLS for egress traffic from sidecar to external service
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1
@@ -72,5 +72,5 @@ kubectl label namespace default istio-injection-
 snip_cleanup_the_mutual_tls_origination_configuration_1
 snip_cleanup_the_mutual_tls_origination_configuration_2
 snip_cleanup_the_mutual_tls_origination_configuration_3
-cleanup_sleep_sample
+cleanup_curl_sample
 kubectl label namespace default istio-injection-

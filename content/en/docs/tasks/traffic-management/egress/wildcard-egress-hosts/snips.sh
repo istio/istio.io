@@ -33,15 +33,15 @@ istioctl install --set profile=minimal -y \
 }
 
 snip_before_you_begin_3() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_before_you_begin_4() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml)
 }
 
 snip_before_you_begin_5() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }
 
 snip_configure_direct_traffic_to_a_wildcard_host_1() {
@@ -61,7 +61,7 @@ EOF
 }
 
 snip_configure_direct_traffic_to_a_wildcard_host_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_direct_traffic_to_a_wildcard_host_2_out <<\ENDSNIP
@@ -223,7 +223,7 @@ EOF
 }
 
 snip_configure_egress_gateway_traffic_to_a_wildcard_host_4() {
-kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_4_out <<\ENDSNIP
@@ -263,7 +263,7 @@ kubectl delete tlsroute forward-wikipedia-from-egress-gateway
 }
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }
 
 snip_cleanup_2() {

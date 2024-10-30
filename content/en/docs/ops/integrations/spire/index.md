@@ -138,7 +138,7 @@ Below are the equivalent manual registrations based off the automatic registrati
     {{< text bash >}}
     $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     /opt/spire/bin/spire-server entry create \
-        -spiffeID spiffe://example.org/ns/default/sa/sleep \
+        -spiffeID spiffe://example.org/ns/default/sa/curl \
         -parentID spiffe://example.org/ns/spire/sa/spire-agent \
         -selector k8s:ns:default \
         -selector k8s:pod-label:spiffe.io/spire-managed-identity:true \
@@ -253,8 +253,8 @@ Below are the equivalent manual registrations based off the automatic registrati
 
 1. Deploy an example workload:
 
-    {{< text syntax=bash snip_id=apply_sleep >}}
-    $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml@ | kubectl apply -f -
+    {{< text syntax=bash snip_id=apply_curl >}}
+    $ istioctl kube-inject --filename @samples/security/spire/curl-spire.yaml@ | kubectl apply -f -
     {{< /text >}}
 
     In addition to needing `spiffe.io/spire-managed-identity` label, the workload will need the SPIFFE CSI Driver volume to access the SPIRE Agent socket. To accomplish this,
@@ -265,24 +265,24 @@ Below are the equivalent manual registrations based off the automatic registrati
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
           matchLabels:
-            app: sleep
+            app: curl
       template:
           metadata:
             labels:
-              app: sleep
+              app: curl
             # Injects custom sidecar template
             annotations:
                 inject.istio.io/templates: "sidecar,spire"
           spec:
             terminationGracePeriodSeconds: 0
-            serviceAccountName: sleep
+            serviceAccountName: curl
             containers:
-            - name: sleep
+            - name: curl
               image: curlimages/curl
               command: ["/bin/sleep", "3650d"]
               imagePullPolicy: IfNotPresent
@@ -322,7 +322,7 @@ JWT-SVID TTL     : default
 Selector         : k8s:pod-uid:88b71387-4641-4d9c-9a89-989c88f7509d
 
 Entry ID         : af7b53dc-4cc9-40d3-aaeb-08abbddd8e54
-SPIFFE ID        : spiffe://example.org/ns/default/sa/sleep
+SPIFFE ID        : spiffe://example.org/ns/default/sa/curl
 Parent ID        : spiffe://example.org/spire/agent/k8s_psat/demo-cluster/bea19580-ae04-4679-a22e-472e18ca4687
 Revision         : 0
 X509-SVID TTL    : default
@@ -345,14 +345,14 @@ After registering an entry for the Ingress-gateway pod, Envoy receives the ident
 
 1. Get pod information:
 
-    {{< text syntax=bash snip_id=set_sleep_pod_var >}}
-    $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
+    {{< text syntax=bash snip_id=set_curl_pod_var >}}
+    $ CURL_POD=$(kubectl get pod -l app=curl -o jsonpath="{.items[0].metadata.name}")
     {{< /text >}}
 
-1. Retrieve sleep's SVID identity document using the istioctl proxy-config secret command:
+1. Retrieve curl's SVID identity document using the istioctl proxy-config secret command:
 
-    {{< text syntax=bash snip_id=get_sleep_svid >}}
-    $ istioctl proxy-config secret "$SLEEP_POD" -o json | jq -r \
+    {{< text syntax=bash snip_id=get_curl_svid >}}
+    $ istioctl proxy-config secret "$CURL_POD" -o json | jq -r \
     '.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytes' | base64 --decode > chain.pem
     {{< /text >}}
 
@@ -360,7 +360,7 @@ After registering an entry for the Ingress-gateway pod, Envoy receives the ident
 
     {{< text syntax=bash snip_id=get_svid_subject >}}
     $ openssl x509 -in chain.pem -text | grep SPIRE
-        Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
+        Subject: C = US, O = SPIRE, CN = curl-5f4d47c948-njvpk
     {{< /text >}}
 
 ## SPIFFE federation

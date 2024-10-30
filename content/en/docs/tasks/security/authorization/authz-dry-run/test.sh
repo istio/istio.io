@@ -32,35 +32,35 @@ _deploy_and_wait_for_addons prometheus zipkin
 snip_enable_tracing_for_mesh_1
 snip_customizing_trace_sampling_1
 
-# Install sleep and httpbin
+# Install curl and httpbin
 snip_before_you_begin_1
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
 
 # Enable RBAC debug logging on httpbin
 _verify_contains snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
-# Send request from sleep to httpbin
+# Send request from curl to httpbin
 _verify_contains snip_before_you_begin_3 "$snip_before_you_begin_3_out"
 
 # Create authorization policy in dry-run mode
 snip_create_dryrun_policy_1
 snip_create_dryrun_policy_2
 
-# Send requests from sleep to httpbin
+# Send requests from curl to httpbin
 _verify_elided snip_create_dryrun_policy_3 "$snip_create_dryrun_policy_3_out"
 
 # Verify Envoy logs for the dry-run result
 function check_logs() {
   # Send more requests in case the log is not showing
-  kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -s -o /dev/null -w "%{http_code}\n"
+  kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -s -o /dev/null -w "%{http_code}\n"
   snip_check_dryrun_result_in_proxy_log_1
 }
 _verify_contains check_logs "ns[foo]-policy[deny-path-headers]-rule[0]"
 
 function query_prometheus() {
   # Send more requests in case the metric is not showing
-  kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s
+  kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s
   curl -sg "http://localhost:9090/api/v1/query?query=$snip_check_dryrun_result_in_metric_using_prometheus_2" | jq '.data.result[0].value[1]'
 }
 
@@ -71,7 +71,7 @@ pgrep istioctl | xargs kill
 
 function query_zipkin() {
   # Send more requests in case the trace is not showing
-  kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s
+  kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s
   curl -s 'http://localhost:9411/zipkin/api/v2/traces?serviceName=httpbin.foo'
 }
 

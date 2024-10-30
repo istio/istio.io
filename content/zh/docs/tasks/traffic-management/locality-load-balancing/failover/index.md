@@ -12,7 +12,7 @@ owner: istio/wg-networking-maintainers
 
 在开始之前，一定要完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)这一节包含的步骤。
 
-在此任务中，您将使用 `Sleep` Pod 在 `region1.zone1` 作为请求源发送到 `HelloWorld` 服务。
+在此任务中，您将使用 `curl` Pod 在 `region1.zone1` 作为请求源发送到 `HelloWorld` 服务。
 然后，您将触发故障，这些故障将按照以下顺序导致不同地域之间的故障转移：
 
 {{< image width="75%"
@@ -21,7 +21,7 @@ owner: istio/wg-networking-maintainers
     >}}
 
 在内部，[Envoy 优先级](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html)用于控制故障转移。
-这些优先级将按照以下方式分配来自 `Sleep` Pod（在 `region1` `zone1`）的流量：
+这些优先级将按照以下方式分配来自 `curl` Pod（在 `region1` `zone1`）的流量：
 
 优先级 | 地域 | 细节
 -------- | -------- | -------
@@ -74,12 +74,12 @@ EOF
 
 ## 验证流量保持在 `region1.zone1` {#verify-traffic-stays-in-region1zone1}
 
-从 `Sleep` Pod 调用 `HelloWorld` 服务：
+从 `curl` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 {{< /text >}}
@@ -100,12 +100,12 @@ $ kubectl --context="${CTX_R1_Z1}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-从 `Sleep` Pod 调用 `HelloWorld` 服务：
+从 `curl` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 {{< /text >}}
@@ -123,12 +123,12 @@ $ kubectl --context="${CTX_R1_Z2}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-从 `Sleep` Pod 调用 `HelloWorld` 服务：
+从 `curl` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 {{< /text >}}
@@ -146,12 +146,12 @@ $ kubectl --context="${CTX_R2_Z3}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-从 `Sleep` Pod 调用 `HelloWorld` 服务：
+从 `curl` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 {{< /text >}}

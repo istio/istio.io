@@ -25,6 +25,6 @@ source "content/en/docs/tasks/traffic-management/request-timeouts/test.sh"
 source "tests/util/samples.sh"
 snip_cleanup_2
 cleanup_bookinfo_sample
-cleanup_sleep_sample
+cleanup_curl_sample
 kubectl label namespace default istio-injection-
 remove_gateway_api_crds

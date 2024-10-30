@@ -66,9 +66,9 @@ kubectl apply --context="${CTX_R3_Z4}" -n sample \
   -f helloworld-region3.zone4.yaml
 }
 
-snip_deploy_sleep_1() {
+snip_deploy_curl_1() {
 kubectl apply --context="${CTX_R1_Z1}" \
-  -f samples/sleep/sleep.yaml -n sample
+  -f samples/curl/curl.yaml -n sample
 }
 
 snip_wait_for_helloworld_pods_1() {

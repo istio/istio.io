@@ -36,9 +36,9 @@ snip_usage_2
 # deploy app namespaces and label them
 snip_usage_3
 snip_usage_4
-_wait_for_deployment app-ns-1 sleep
-_wait_for_deployment app-ns-2 sleep
-_wait_for_deployment app-ns-3 sleep
+_wait_for_deployment app-ns-1 curl
+_wait_for_deployment app-ns-2 curl
+_wait_for_deployment app-ns-3 curl
 
 # verify both the revisions are managing workloads
 _verify_contains snip_usage_5 "istiod-$previousVersionRevision1"
