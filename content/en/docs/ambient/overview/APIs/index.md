@@ -17,8 +17,6 @@ This page lists all the user facing APIs relevant to the ambient mode and its fe
 | [`istio.io/waypoint-for`](/docs/reference/config/labels/) | GA |
 | [`istio.io/use-waypoint-namespace`](/docs/reference/config/labels/) | Beta |
 
-TODO: add exact links to labels page for each when 3307 is merged.
-
 ## Kubernetes Gateway API resources
 
 Below are the resources you can use to configure your Ingress gateway or waypoint proxies:
