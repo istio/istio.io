@@ -904,9 +904,7 @@ EOF
 
 {{< /tabset >}}
 
-{{< warning >}}
 {{< boilerplate auto-san-validation >}}
-{{< /warning >}}
 
 5)  Verify that the credential is supplied to the egress gateway and active:
 
