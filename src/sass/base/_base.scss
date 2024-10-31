@@ -35,7 +35,7 @@
     body {
         overflow-y: scroll;
         margin-top: $headerHeight;
-        font-family: "Barlow", sans-serif;
+        font-family: "Inter", sans-serif;
         color: $textColor;
         background-color: $backgroundColor;
 
@@ -57,7 +57,7 @@ a {
     color: $linkColor;
     text-decoration: none;
     font-weight: $linkWeight;
-    font-family: "Barlow", sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 a:hover, a:focus {
