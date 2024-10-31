@@ -75,19 +75,16 @@ Data plane performance depends on many factors, for example:
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
-### Sidecar CPU and memory usage
+### Sidecar and Ztunnel resource usage
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
 and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each
-- a sidecar proxy with 4 worker threads consumes about 27% CPU and 61 MB of memory.
-- a waypoint proxy with 2 worker threads consumes about 41% CPU and 57 MB of memory
-- a ztunnel proxy consumes about 7% CPU and 12 MB of memory.
+- a single sidecar proxy with 2 worker threads consumes about 0.20 vCPU and 60 MB of memory.
+- a single waypoint proxy with 2 worker threads consumes about 0.25 vCPU and 60 MB of memory
+- a single ztunnel proxy consumes about 0.06 vCPU and 12 MB of memory.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
 A large number of listeners, clusters, and routes can increase memory usage.
-
-Since the proxy normally doesn't buffer the data passing through,
-request rate doesn't affect the memory consumption.
 
 ### Latency
 
@@ -108,7 +105,7 @@ In sidecar mode, a request will pass through the client sidecar proxy and then t
 In ambient mode, a request will pass through the client node ztunnel and then the server node ztunnel before reaching the server.
 With waypoints configured, a request will go through a waypoint proxy between the ztunnels.
 The following charts show the P90 and P99 latency of http/1.1 requests traveling through various dataplane modes.
-To run the tests, we used a bare-metal cluster of 5 [M3 Large](https://deploy.equinix.com/product/servers/m3-large/) machines and Calico as the primary CNI.
+To run the tests, we used a bare-metal cluster of 5 [M3 Large](https://deploy.equinix.com/product/servers/m3-large/) machines and [Flannel](https://github.com/flannel-io/flannel) as the primary CNI.
 We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark) for the `http/1.1` protocol with a 1 KB payload at 500, 750, 1000, 1250, and 1500 requests per second using 4 client connections, 2 proxy workers and mutual TLS enabled.
 
 Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster).
