@@ -2,7 +2,7 @@
 title: "在云中扩展：Istio Ambient 与 Cilium"
 description: 深入探究扩展中的性能。
 publishdate: 2024-10-21
-attribution: "Mitch Connors (Microsoft); Translated by Wilson Wu (DaoCloud)"
+attribution: "Mitch Connors; Translated by Wilson Wu (DaoCloud)"
 keywords: [istio,cilium,analysis]
 ---
 
