@@ -108,11 +108,11 @@ html {
     --semiBoldWeight: 600;
     --boldWeight: 700;
 
-    --textWeight: 500;
+    --textWeight: 400;
     --linkWeight: 400;
-    --h1Weight: var(--boldWeight);
-    --h2Weight: var(--boldWeight);
-    --h3Weight: var(--boldWeight);
+    --h1Weight: var(--semiBoldWeight);
+    --h2Weight: var(--semiBoldWeight);
+    --h3Weight: var(--semiBoldWeight);
     --h4Weight: 500;
     --h5Weight: 500;
     --h6Weight: 500;
