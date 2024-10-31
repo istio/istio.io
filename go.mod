@@ -16,7 +16,7 @@ require (
 	golang.org/x/sync v0.7.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240604185151-ef581f913117
 	google.golang.org/grpc v1.65.0
-	istio.io/istio v0.0.0-20241029155053-08ac111c3b8e
+	istio.io/istio v0.0.0-20241031041049-6649dd8ed6b6
 	k8s.io/apimachinery v0.30.1
 	k8s.io/client-go v0.30.1
 )
