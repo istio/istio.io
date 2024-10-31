@@ -458,9 +458,7 @@ to hold the configuration of the NGINX server:
     The above `DestinationRule` will perform mTLS origination for HTTP requests on port 80 and the `ServiceEntry`
     will then redirect the requests on port 80 to target port 443.
 
-    {{< warning >}}
     {{< boilerplate auto-san-validation >}}
-    {{< /warning >}}
 
 1.  Verify that the credential is supplied to the sidecar and active.
 
