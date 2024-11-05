@@ -12,7 +12,7 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## Updated compatibility profiles
 
-To support compatibility with older versions, Istio 1.24 introduces a new 1.23 [compatibility profiles](/docs/setup/additional-setup/compatibility-versions/) and updates its other profiles to account for changes in Istio 1.24.
+To support compatibility with older versions, Istio 1.24 introduces a new 1.23 [compatibility profile](/docs/setup/additional-setup/compatibility-versions/) and updates its other profiles to account for changes in Istio 1.24.
 
 This profile sets the following values:
 
