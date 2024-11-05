@@ -99,13 +99,14 @@ The old behavior can be retained, temporarily, by setting `PILOT_UNIFIED_SIDECAR
 
 CEL expressions in the telemetry API must use the standard [Envoy attributes](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes) instead of the custom Wasm extended attributes.
 
-Peer metadata is now stored  in `filter_state.downstream_peer` and `filter_state.upstream_peer` instead  of `filter_state["wasm.downstream_peer"]` and`filter_state["wasm.upstream_peer"]`. 
-Node metadata is stored in `xds.node` instead of `node`. 
+Peer metadata is now stored  in `filter_state.downstream_peer` and `filter_state.upstream_peer` instead  of `filter_state["wasm.downstream_peer"]` and`filter_state["wasm.upstream_peer"]`.
+Node metadata is stored in `xds.node` instead of `node`.
 Wasm attributes must be fully qualified, e.g. use `filter_state["wasm.istio_responseClass"]` instead of `istio_responseClass`.
 
 Presence operator can be used for backwards compatible expressions in a mixed proxy scenario, e.g. `has(filter_state.downstream_peer) ? filter_state.downstream_peer.namespace : filter_state["wasm.downstream_peer"].namespace` to read the namespace of the peer.
 
 The peer metadata uses baggage encoding with the following field attributes:
+
 - `namespace`
 - `cluster`
 - `service`

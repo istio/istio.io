@@ -146,7 +146,7 @@ This is an automatically generated rough draft of the release notes and has not 
 
 - **Added** support customized Zipkin collector endpoint under `meshConfig.extensionProviders.zipkin.path`.  ([Issue #53086](https://github.com/istio/istio/issues/53086))
 
-- **Fixed** Added the metrics port to the pods created by [`Gateway` automated deployments](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+- **Fixed** Added the metrics port to the pods created by [`Gateway` automated deployments](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
 
 - **Fixed** The `citadel_server_root_cert_expiry_timestamp`, `citadel_server_root_cert_expiry_seconds`, `citadel_server_cert_chain_expiry_timestamp`, and `citadel_server_cert_chain_expiry_seconds` update when new certificates are loaded.
 
@@ -158,8 +158,7 @@ This is an automatically generated rough draft of the release notes and has not 
 ## Installation
 
 - **Updated** `securityContext.privileged` to false for istio-cni in favor of feature-specific permissions.
-  istio-cni remains a ["privileged" container as per the Kubernetes Pod Security Standards]
-  (https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged), since even without this
+  istio-cni remains a ["privileged" container as per the Kubernetes Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged), since even without this
   flag it has privileged capabilities, namely `CAP_SYS_ADMIN`.
   ([Issue #52558](https://github.com/istio/istio/issues/52558))
 
@@ -225,7 +224,7 @@ This is an automatically generated rough draft of the release notes and has not 
 - **Fixed** an issue where some installation status lines were not finalized correctly which can cause odd rendering when terminal windows are resized.
   ([Issue #52525](https://github.com/istio/istio/issues/52525))
 
-- **Fixed** Set `allowPrivilegeEscalation` to `true` in ztunnel - it has always been forced to `true` in reality but K8S does not properly validate this: https://github.com/kubernetes/kubernetes/issues/119568
+- **Fixed** Set `allowPrivilegeEscalation` to `true` in ztunnel - it has always been forced to `true` in reality but K8S does not properly validate this: <https://github.com/kubernetes/kubernetes/issues/119568>.
 
 - **Fixed** Remove non-critical components from `base` chart, and remove `pilot.enabled` from
   `istiod-remote` and `istio-discovery` charts.
@@ -258,7 +257,7 @@ This is an automatically generated rough draft of the release notes and has not 
 
 ## istioctl
 
-- **Added** automatic detection of a variety of platform-specific incompatibilies during installation.
+- **Added** automatic detection of a variety of platform-specific incompatibilities during installation.
 
 - **Added** a new command, `istioctl manifest translate`, to help migrate from `istioctl install` to `helm`.
 
@@ -285,4 +284,3 @@ This is an automatically generated rough draft of the release notes and has not 
 
 - **Improved** legibility of Istio's documentation by renaming the `sleep` sample to `curl`.
   ([Issue #15725](https://github.com/istio/istio.io/issues/15725))
-
