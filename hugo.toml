@@ -99,6 +99,8 @@ disableAliases = true
         contentDir = "content/en"
     [languages.pt-br]
         contentDir = "content/pt-br"
+    [languages.uk]
+        contentDir = "content/uk"
 
 [menu]
   [[menu.main]]
@@ -272,6 +274,97 @@ disableAliases = true
     name = "文档"
     title = "文档"
     url = "/zh/docs/"
+    weight = 5
+
+  # i18n Ukrainian
+  [[languages.uk.menu.main]]
+    identifier = "about"
+    name = "Про"
+    title = "Розділ Про"
+    weight = 1
+
+    [[languages.uk.menu.main]]
+      identifier = "service-mesh"
+      name = "Сервісна мережа"
+      title = "Service mesh"
+      url = "/uk/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[languages.uk.menu.main]]
+      identifier = "solutions"
+      name = "Рішення"
+      title = "Рішення"
+      url = "/uk/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[languages.uk.menu.main]]
+      identifier = "case-studies"
+      name = "Використання"
+      title = "Використання"
+      url = "/uk/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[languages.uk.menu.main]]
+      identifier = "ecosystem"
+      name = "Екосистема"
+      title = "Екосистема"
+      url = "/uk/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[languages.uk.menu.main]]
+      identifier = "deployment"
+      name = "Розгортання"
+      title = "Розгортання"
+      url = "/uk/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[languages.uk.menu.main]]
+      identifier = "training"
+      name = "Навчання"
+      title = "Навчання"
+      url = "/uk/about/training"
+      parent = "about"
+      weight = 6
+
+    [[languages.uk.menu.main]]
+      identifier = "faq"
+      name = "Часті питання"
+      title = "Часті питання"
+      url = "/uk/about/faq"
+      parent = "about"
+      weight = 7
+
+  [[languages.uk.menu.main]]
+    identifier = "blog"
+    name = "Блог"
+    title = "Блог Istio"
+    url = "/uk/blog/"
+    weight = 2
+
+  [[languages.uk.menu.main]]
+    identifier = "news"
+    name = "Новини"
+    title = "Новини"
+    url = "/uk/news/"
+    weight = 3
+
+  [[languages.uk.menu.main]]
+    identifier = "get-involved"
+    name = "Долучитись"
+    title = "Долучитись"
+    url = "/uk/get-involved/"
+    weight = 4
+
+  [[languages.uk.menu.main]]
+    identifier = "docs"
+    name = "Документація"
+    title = "Документація"
+    url = "/uk/docs/"
     weight = 5
 
 [permalinks]
