@@ -75,7 +75,7 @@ Data plane performance depends on many factors, for example:
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
-### Sidecar and Ztunnel resource usage
+### Sidecar and ztunnel resource usage
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
 and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each
