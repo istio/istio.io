@@ -153,17 +153,11 @@ The following table shows an example using the default access log format for a r
     $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
+    ...
     < server: envoy
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 1.  Check `otel-collector`'s log:

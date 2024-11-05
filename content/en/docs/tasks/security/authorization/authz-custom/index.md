@@ -192,22 +192,12 @@ The external authorizer is now ready to be used by the authorization policy.
 1. Verify a request to path `/headers` with header `x-ext-authz: allow` is allowed by the sample `ext_authz` server:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s
-    {
-      "headers": {
-        "Accept": "*/*",
-        "Host": "httpbin:8000",
-        "User-Agent": "curl/7.76.0-DEV",
-        "X-B3-Parentspanid": "430f770aeb7ef215",
-        "X-B3-Sampled": "0",
-        "X-B3-Spanid": "60ff95c5acdf5288",
-        "X-B3-Traceid": "fba72bb5765daf5a430f770aeb7ef215",
-        "X-Envoy-Attempt-Count": "1",
-        "X-Ext-Authz": "allow",
-        "X-Ext-Authz-Check-Result": "allowed",
-        "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=e5178ee79066bfbafb1d98044fcd0cf80db76be8714c7a4b630c7922df520bf2;Subject=\"\";URI=spiffe://cluster.local/ns/foo/sa/sleep"
-      }
-    }
+    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -H "x-ext-authz: allow" -s | jq '.headers'
+    ...
+      "X-Ext-Authz-Check-Result": [
+        "allowed"
+      ],
+    ...
     {{< /text >}}
 
 1. Verify a request to path `/ip` is allowed and does not trigger the external authorization:

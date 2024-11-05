@@ -47,5 +47,5 @@ snip_cleanup_collector
 
 # clean up istio to restore state of profile=none
 istioctl uninstall --purge -y
-kubectl delete ns istio-system external-1 external-2
+kubectl delete ns istio-system external-1 external-2 --wait=true --timeout=30s
 kubectl label namespace default istio-injection-

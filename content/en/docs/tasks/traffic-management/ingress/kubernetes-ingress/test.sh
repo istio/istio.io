@@ -44,9 +44,9 @@ _verify_elided snip_configuring_ingress_using_an_ingress_resource_3 "$snip_confi
 kubectl apply -f - <<< "$snip_specifying_ingressclass_1"
 
 get_headers() {
-curl -s -H "Foo: bar" -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers"
+curl -s -H "Foo: bar" -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/headers" | jq '.headers["Foo"][0]'
 }
-_verify_contains get_headers '"Foo": "bar"'
+_verify_contains get_headers '"bar"'
 
 # @cleanup
 snip_cleanup_1

@@ -159,6 +159,7 @@ Next, you must configure the traffic from the Istio-enabled pods to use the HTTP
         name: tcp
         protocol: TCP
       location: MESH_EXTERNAL
+      resolution: NONE
     EOF
     {{< /text >}}
 
