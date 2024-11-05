@@ -30,7 +30,7 @@ An amazing lineup of Istio activities awaits you in Salt Lake City, Utah at [Kub
     - [Testing Kubernetes Without Kubernetes: A Networking Deep Dive](https://sched.co/1i7qh)
     - [How GoTo Financial Automates Upgrading 60+ Istio Service Mesh Seamlessly!](https://sched.co/1i7rH)
 
-- Have a chat with maintainers and users at the Istio kiosk in the Project Pavilion throughout the event, where you can grab a cool Istio T-shirt with our brand new design. 
+- Have a chat with maintainers and users at the Istio kiosk in the Project Pavilion throughout the event, where you can grab a cool Istio T-shirt with our brand new design.
 - We also have an interesting surprise for all Istio lovers, to be released at the KubeCon North America CNCF store. Stay tuned!
 
 Follow us on [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/) or [Bluesky](https://bsky.app/profile/istio.io) to get live updates from the event. See you soon!
