@@ -904,6 +904,8 @@ EOF
 
 {{< /tabset >}}
 
+{{< boilerplate auto-san-validation >}}
+
 5)  Verify that the credential is supplied to the egress gateway and active:
 
 {{< tabset category-name="config-api" >}}
