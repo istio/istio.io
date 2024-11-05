@@ -445,12 +445,16 @@ $ kubectl delete destinationrule edition-cnn-com
           tls:
             mode: MUTUAL
             credentialName: client-credential # 这必须与之前创建的用于保存客户端证书的 Secret 相匹配，并且仅当 DR 具有工作负载选择器时才有效
-            sni: my-nginx.mesh-external.svc.cluster.local # 这是可选的
+            sni: my-nginx.mesh-external.svc.cluster.local
+            # subjectAltNames: # 如果证书是使用 SAN 生成的，则可以启用该功能（如上一节所述）
+            # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
 
     上面 `DestinationRule` 将在 80 端口对 HTTP 执行发起 mTLS 请求，
     之后 `ServiceEntry` 将把 80 端口的请求重定向到 443 端口。
+
+    {{< boilerplate auto-san-validation >}}
 
 1.  验证凭据是否已提供给 Sidecar 并且处于活跃状态：
 
