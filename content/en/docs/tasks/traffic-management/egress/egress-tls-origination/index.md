@@ -449,12 +449,16 @@ to hold the configuration of the NGINX server:
           tls:
             mode: MUTUAL
             credentialName: client-credential # this must match the secret created earlier to hold client certs, and works only when DR has a workloadSelector
-            sni: my-nginx.mesh-external.svc.cluster.local # this is optional
+            sni: my-nginx.mesh-external.svc.cluster.local
+            # subjectAltNames: # can be enabled if the certificate was generated with SAN as specified in previous section
+            # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
 
     The above `DestinationRule` will perform mTLS origination for HTTP requests on port 80 and the `ServiceEntry`
     will then redirect the requests on port 80 to target port 443.
+
+    {{< boilerplate auto-san-validation >}}
 
 1.  Verify that the credential is supplied to the sidecar and active.
 
