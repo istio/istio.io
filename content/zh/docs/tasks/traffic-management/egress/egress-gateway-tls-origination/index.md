@@ -952,6 +952,8 @@ EOF
 
 {{< /tabset >}}
 
+{{< boilerplate auto-san-validation >}}
+
 5)  验证凭证是否已提供给 Egress 网关并且处于活动状态：
 
 {{< tabset category-name="config-api" >}}
