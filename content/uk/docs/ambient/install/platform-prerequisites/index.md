@@ -39,6 +39,34 @@ spec:
       - system-node-critical
 {{< /text >}}
 
+### Amazon Elastic Kubernetes Service (EKS)
+
+Якщо ви використовуєте EKS:
+
+- з Amazon VPC CNI
+- з увімкненим Pod ENI trunking
+- **та** використовуєте прикріплені до подів SecurityGroups через [SecurityGroupPolicy](https://aws.github.io/aws-eks-best-practices/networking/sgpp/#enforcing-mode-use-strict-mode-for-isolating-pod-and-node-traffic)
+
+[`POD_SECURITY_GROUP_ENFORCING_MODE` має бути явно встановлено в значення `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), інакше проби справності подів (які за стандартно автоматично виключені з політики VPC CNI) будуть провалені. Це повʼязано з тим, що Istio використовує локальну SNAT-адресу для проб справності kubelet, яку Amazon VPC CNI не розпізнає, а VPC CNI не має опції для виключення локальних адрес з політики.
+
+Ви можете перевірити, чи увімкнено pod ENI trunking, виконавши наступну команду:
+
+{{< text syntax=bash >}}
+$ kubectl set env daemonset aws-node -n kube-system --list | grep ENABLE_POD_ENI
+{{< /text >}}
+
+Ви можете перевірити, чи є у вашому кластері будь-які прикріплені до подів групи безпеки, виконавши таку команду:
+
+{{< text syntax=bash >}}
+$ kubectl get securitygrouppolicies.vpcresources.k8s.aws
+{{< /text >}}
+
+Ви можете встановити `POD_SECURITY_GROUP_ENFORCING_MODE=standard`, виконавши наступну команду, після чого перезапустіть відповідні поди:
+
+{{< text syntax=bash >}}
+$ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
+{{< /text >}}
+
 ### k3d {#k3d}
 
 Коли ви використовуєте [k3d](https://k3d.io/) зі стандартним Flannel CNI, вам потрібно додати коректне значення `platform` до вашої команди встановлення, оскільки k3d використовує нестандартні розташування для конфігурацій CNI та двійкових файлів, що потребують певних перевизначень в Helm.
@@ -73,7 +101,7 @@ spec:
 
 ### K3s {#k3s}
 
-Коли ви використовуєте [K3s](https://k3s.io/) та одну з його вбудованих CNIs, ви повинні додати правильне значення `platform` до ваших команд установки, оскільки K3s використовує нестандартні розташування для конфігурацій CNI та бінарних файлів, що вимагає деяких перевизначень в Helm. Для стандартних шляхів K3s Istio надає вбудовані перевизначення на основі значення `global.platform`.
+Коли ви використовуєте [K3s](https://k3s.io/) та один з його вбудованих CNIs, ви повинні додати правильне значення `platform` до ваших команд установки, оскільки K3s використовує нестандартні розташування для конфігурацій CNI та бінарних файлів, що вимагає деяких перевизначень в Helm. Для стандартних шляхів K3s Istio надає вбудовані перевизначення на основі значення `global.platform`.
 
 {{< tabset category-name="install-method" >}}
 
@@ -202,7 +230,7 @@ OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni`
 
 1. Cilium наразі стандартно проактивно видаляє інші втулки CNI та їх конфігурацію, і його потрібно налаштувати з `cni.exclusive = false`, щоб правильно підтримувати ланцюжки. Див. [документацію Cilium](https://docs.cilium.io/en/stable/helm-reference/) для більш детальної інформації.
 2. BPF маскування в Cilium наразі стандартно вимкнено і має проблеми з використанням локальних IP-адрес Istio для перевірки справності Kubernetes. Увімкнення BPF маскування через `bpf.masquerade=true` наразі не підтримується і призводить до того, що в Istio ambient зʼявляються нефункціональні перевірки стану справності podʼів. Стандартна реалізація маскування iptables Cilium повинна продовжувати функціонувати правильно.
-3. Через те, як Cilium керує ідентифікацією вузлів та внутрішніми списками дозволів на рівні вузлів, проби справності можуть бути передані до podʼів, застосування default-DENY `NetworkPolicy` в установці Cilium CNI, що лежить в основі Istio в режимі оточення, призведе до блокування проб справності `kubelet` (які стандартно не підпадають під дію NetworkPolicy в Cilium)..
+3. Завдяки тому, як Cilium керує ідентифікацією вузлів та внутрішніми списками дозволів на рівні вузлів, проби справності можуть бути передані до подів, застосування будь-якої політики default-DENY `NetworkPolicy` в установці Cilium CNI, що лежить в основі Istio, у зовнішньому режимі призведе до блокування проб справності `kubelet` (які стандартно мовчки вилучаються з усіх політик, що застосовуються Cilium). Це повʼязано з тим, що Istio використовує локальну SNAT-адресу для перевірок справності kubelet, про яку Cilium не знає, а Cilium не має можливості вилучити локальні адреси з-під дії політик.
 
     Це можна вирішити, застосувавши наступну `CiliumClusterWideNetworkPolicy`:
 
@@ -212,7 +240,10 @@ OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni`
     metadata:
       name: "allow-ambient-hostprobes"
     spec:
-      description: "Дозволяє SNAT перевірки справності kubelet в ambient podʼах"
+      description: "Allows SNAT-ed kubelet health check probes into ambient pods"
+      enableDefaultDeny:
+        egress: false
+        ingress: false
       endpointSelector: {}
       ingress:
       - fromCIDR:

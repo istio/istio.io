@@ -40,7 +40,7 @@ EOF
 Щоб підтвердити, що приблизно 10\% зі 100 запитів йдуть до `reviews-v2`, ви можете виконати наступну команду:
 
 {{< text syntax=bash snip_id=test_traffic_split >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/curl -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 Ви помітите, що більшість запитів надходять до `reviews-v1`. Ви можете підтвердити те ж саме, відкривши застосунок Bookinfo у вашому оглядачі та кілька разів оновивши сторінку. Зверніть увагу, що запити від `reviews-v1` не мають зірок, тоді як запити від `reviews-v2` мають чорні зірки.
