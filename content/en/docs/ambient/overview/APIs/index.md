@@ -1,7 +1,7 @@
 ---
 title: Ambient APIs
 description: Understanding ambient APIs and its status.
-weight: 2
+weight: 1
 owner: istio/wg-networking-maintainers
 test: no
 ---
