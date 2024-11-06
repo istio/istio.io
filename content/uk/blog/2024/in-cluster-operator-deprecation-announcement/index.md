@@ -10,7 +10,7 @@ In-Cluster Operator Istio було визнано застарілим в Istio 
 
 ## Чи це вплине на вас? {#does-this-affect-you}
 
-Це застарівання стосується лише користувачів [In-Cluster Operator](/docs/setup/install/operator/). **Користувачі, які встановлюють Istio за допомогою команди <code>istioctl install</code> і YAML файлу `IstioOperator`, не постраждають**.
+Це застарівання стосується лише користувачів [In-Cluster Operator](https://archive.istio.io/v1.23/docs/setup/install/operator/). **Користувачі, які встановлюють Istio за допомогою команди <code>istioctl install</code> і YAML файлу `IstioOperator`, не постраждають**.
 
 Щоб визначити, чи це вплине на вас, виконайте команди `kubectl get deployment -n istio-system istio-operator` і `kubectl get IstioOperator`. Якщо обидві команди повертають непорожні значення, ваш кластер знаходиться під впливом цього застарівання. Згідно з останніми опитуваннями, ми очікуємо, що це вплине на менше ніж 10% користувачів Istio.
 
