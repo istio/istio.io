@@ -145,14 +145,13 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
 ### Міграція з установок без Helm {#migrating-from-non-helm-installations}
 
-Якщо ви переходите з версії Istio, встановленої за допомогою `istioctl` або Operator, на Helm (Istio 1.5 або раніше), вам потрібно видалити ваші поточні ресурси панелі управління Istio та перевстановити Istio за допомогою Helm, як описано вище. При видаленні поточної установки Istio не слід видаляти Custom Resource Definitions (CRDs) Istio, оскільки це може призвести до втрати ваших власних ресурсів Istio.
+Якщо ви переходите з версії Istio, встановленої за допомогою `istioctl`, на Helm (Istio 1.5 або раніше), вам потрібно видалити ваші поточні ресурси панелі управління Istio та перевстановити Istio за допомогою Helm, як описано вище. При видаленні поточної установки Istio не слід видаляти Custom Resource Definitions (CRDs) Istio, оскільки це може призвести до втрати ваших власних ресурсів Istio.
 
 {{< warning >}}
 Рекомендується зробити резервну копію ваших ресурсів Istio за допомогою наведених вище кроків перед видаленням поточної установки Istio у вашому кластері.
 {{< /warning >}}
 
-Ви можете слідувати крокам, наведеним у [посібнику з видалення Istioctl](/docs/setup/install/istioctl#uninstall-istio) або
-[посібнику з видалення Operator](/docs/setup/install/operator/#uninstall) залежно від вашого методу установки.
+Ви можете слідувати крокам, наведеним у [посібнику з видалення Istioctl](/docs/setup/install/istioctl#uninstall-istio).
 
 ### Видалення {#uninstall}
 
