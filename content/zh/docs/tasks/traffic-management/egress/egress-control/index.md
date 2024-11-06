@@ -27,18 +27,18 @@ test: yes
     使用 `demo` [安装配置文件](/zh/docs/setup/additional-setup/config-profiles/)或者
     [启用 Envoy 的访问记录](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
 
-*   部署 [sleep]({{< github_tree >}}/samples/sleep) 这个示例应用，用作发送请求的测试源。
+*   部署 [curl]({{< github_tree >}}/samples/curl) 这个示例应用，用作发送请求的测试源。
     如果您启用了[自动注入 Sidecar](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
     使用以下的命令来部署示例应用：
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    否则，在部署 `sleep` 应用前，使用以下命令手动注入 Sidecar：
+    否则，在部署 `curl` 应用前，使用以下命令手动注入 Sidecar：
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -48,7 +48,7 @@ test: yes
 *   设置环境变量 `SOURCE_POD`，值为您的源 Pod 的名称：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
     {{< /text >}}
 
 ## Envoy 转发流量到外部服务{#envoy-passthrough-to-external-services}
@@ -86,7 +86,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 1. 从 `SOURCE_POD` 向外部 HTTPS 服务发出两个请求，确保能够得到状态码为 `200` 的响应：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
     HTTP/2 200
     HTTP/2 200
     {{< /text >}}
@@ -135,7 +135,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 1. 从 `SOURCE_POD` 向外部 HTTPS 服务发出几个请求，验证它们现在是否被阻止：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
     command terminated with exit code 35
     command terminated with exit code 35
     {{< /text >}}
@@ -181,7 +181,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 1. 从 `SOURCE_POD` 向外部的 HTTP 服务发出一个请求：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -229,7 +229,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 1. 从 `SOURCE_POD` 往外部 HTTPS 服务发送请求：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
@@ -253,7 +253,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
    endpoint 发出 **curl** 请求：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     200
     real    0m5.024s
     user    0m0.003s
@@ -321,7 +321,7 @@ EOF
 3) 几秒后，重新发出 **curl** 请求：
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     504
     real    0m3.149s
     user    0m0.004s
@@ -506,14 +506,14 @@ $ istioctl install <flags-you-used-to-install-Istio> --set values.global.proxy.i
 
 ### 访问外部服务 {#access-the-external-services}
 
-由于绕行配置仅影响新的部署，因此您需要按照[开始之前](#before-you-begin)部分中的说明重新部署 `sleep` 程序。
+由于绕行配置仅影响新的部署，因此您需要按照[开始之前](#before-you-begin)部分中的说明重新部署 `curl` 程序。
 
-在更新 `istio-sidecar-injector` configmap 和重新部署 `sleep` 程序后，
+在更新 `istio-sidecar-injector` configmap 和重新部署 `curl` 程序后，
 Istio Sidecar 将仅拦截和管理集群中的内部请求。任何外部请求都会绕过 Sidecar，
 并直接到达其预期的目的地。举个例子：
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
@@ -569,8 +569,8 @@ $ istioctl install <flags-you-used-to-install-Istio>
 
 ## 清理 {#cleanup}
 
-关闭服务 [sleep]({{< github_tree >}}/samples/sleep)：
+关闭服务 [curl]({{< github_tree >}}/samples/curl)：
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

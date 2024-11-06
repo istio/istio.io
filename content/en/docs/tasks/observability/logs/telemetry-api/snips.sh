@@ -23,7 +23,7 @@ source "content/en/boilerplates/snips/before-you-begin-egress.sh"
 source "content/en/boilerplates/snips/start-httpbin-service.sh"
 
 snip_install_loki() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f samples/open-telemetry/loki/iop.yaml --skip-confirmation
+istioctl install -f samples/open-telemetry/loki/iop.yaml --skip-confirmation
 kubectl apply -f samples/addons/loki.yaml -n istio-system
 kubectl apply -f samples/open-telemetry/loki/otel.yaml -n istio-system
 }
@@ -46,12 +46,12 @@ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
-  name: disable-sleep-logging
+  name: disable-curl-logging
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
   - providers:
     - name: otel
@@ -83,11 +83,11 @@ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: filter-sleep-logging
+  name: filter-curl-logging
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
   - providers:
     - name: otel

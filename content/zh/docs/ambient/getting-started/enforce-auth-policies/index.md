@@ -40,16 +40,16 @@ EOF
 如果您在浏览器中打开 Bookinfo 应用程序（`http://localhost:8080/productpage`），
 如之前一样，您将看到产品页面。但是，如果您尝试从不同的服务帐户访问 `productpage` 服务，则会看到错误。
 
-让我们尝试从 `sleep` Pod 访问 Bookinfo 应用程序：
+让我们尝试从 `curl` Pod 访问 Bookinfo 应用程序：
 
-{{< text syntax=bash snip_id=deploy_sleep >}}
-$ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
+{{< text syntax=bash snip_id=deploy_curl >}}
+$ kubectl apply -f samples/curl/curl.yaml
 {{< /text >}}
 
-由于 `sleep` Pod 使用不同的服务账户，它无法访问 `productpage` 服务：
+由于 `curl` Pod 使用不同的服务账户，它无法访问 `productpage` 服务：
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage"
+$ kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage"
 command terminated with exit code 56
 {{< /text >}}
 
@@ -72,7 +72,7 @@ NAME       CLASS            ADDRESS       PROGRAMMED   AGE
 waypoint   istio-waypoint   10.96.58.95   True         42s
 {{< /text >}}
 
-添加 [L7 鉴权策略](/zh/docs/ambient/usage/l7-features/)将明确允许 `sleep` 服务向
+添加 [L7 鉴权策略](/zh/docs/ambient/usage/l7-features/)将明确允许 `curl` 服务向
 `productpage` 服务发送 `GET` 请求，但不能执行其他操作：
 
 {{< text syntax=bash snip_id=deploy_l7_policy >}}
@@ -92,7 +92,7 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/default/sa/sleep
+        - cluster.local/ns/default/sa/curl
     to:
     - operation:
         methods: ["GET"]
@@ -110,7 +110,7 @@ EOF
 
 {{< text bash >}}
 $ # This fails with an RBAC error because we're not using a GET operation
-$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
+$ kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
@@ -121,8 +121,8 @@ RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # This works as we're explicitly allowing GET requests from the sleep pod
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
+$ # This works as we're explicitly allowing GET requests from the curl pod
+$ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 

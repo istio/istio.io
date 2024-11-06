@@ -45,7 +45,7 @@ ENDSNIP
 
 snip_deploying_a_gateway_2() {
 kubectl create namespace istio-ingress
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f ingress.yaml
+istioctl install -f ingress.yaml
 }
 
 snip_deploying_a_gateway_3() {
@@ -54,7 +54,7 @@ helm install istio-ingressgateway istio/gateway -n istio-ingress
 }
 
 snip_deploying_a_gateway_4() {
-helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
+helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.platform=openshift
 }
 
 ! IFS=$'\n' read -r -d '' snip_deploying_a_gateway_5 <<\ENDSNIP

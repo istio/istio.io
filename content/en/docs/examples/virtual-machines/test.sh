@@ -83,7 +83,7 @@ kubectl label namespace bookinfo istio-injection=enabled --overwrite
 kubectl apply -n bookinfo -f samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl apply -n bookinfo -f samples/bookinfo/networking/bookinfo-gateway.yaml
 kubectl apply -n bookinfo -f samples/bookinfo/networking/destination-rule-all.yaml
-startup_sleep_sample
+startup_curl_sample
 for deploy in "productpage-v1" "details-v1" "ratings-v1" "reviews-v1" "reviews-v2" "reviews-v3"; do
     _wait_for_deployment bookinfo "$deploy"
 done
@@ -105,5 +105,5 @@ _verify_elided run_curl "${snip_reaching_kubernetes_services_from_the_virtual_ma
 docker stop vm
 kubectl delete -f samples/multicluster/expose-istiod.yaml -n istio-system --ignore-not-found=true
 echo y | istioctl uninstall --revision=default
-cleanup_sleep_sample
+cleanup_curl_sample
 kubectl delete namespace istio-system vm bookinfo  --ignore-not-found=true

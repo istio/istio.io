@@ -111,7 +111,7 @@ on usage.
 When deploying the gateway in an OpenShift cluster, use the `openshift` profile to override the default values, for example:
 
 {{< text bash >}}
-$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.platform=openshift
 {{< /text >}}
 
 {{< /tip >}}

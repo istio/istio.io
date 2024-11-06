@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ambient/install/helm/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_configure_helm() {
 helm repo add istio https://istio-release.storage.googleapis.com/charts
@@ -55,10 +56,10 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_show_components_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.23.0     1.23.0
-istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.23.0      1.23.0
-istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.23.0   1.23.0
-ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.23.0  1.23.0
+istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.24.0     1.24.0
+istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.24.0      1.24.0
+istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.24.0   1.24.0
+ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.24.0  1.24.0
 ENDSNIP
 
 snip_check_pods() {
@@ -78,10 +79,10 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_uninstall_1_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.23.0     1.23.0
-istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.23.0      1.23.0
-istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.23.0   1.23.0
-ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.23.0  1.23.0
+istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.24.0     1.24.0
+istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.24.0      1.24.0
+istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.24.0   1.24.0
+ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.24.0  1.24.0
 ENDSNIP
 
 snip_delete_ingress() {

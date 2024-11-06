@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ambient/upgrade/helm/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/crd-upgrade-123.sh"
 
 snip_istioctl_precheck() {
 istioctl x precheck
@@ -40,11 +41,15 @@ export REVISION=istio-1-22-1
 export OLD_REVISION=istio-1-21-2
 }
 
-snip_base_components_1() {
-kubectl apply -f manifests/charts/base/crds
+snip_upgrade_crds() {
+helm upgrade istio-base istio/base -n istio-system
 }
 
-snip_upgrade_istiod() {
+snip_upgrade_istiod_inplace() {
+helm upgrade istiod istio/istiod -n istio-system --wait
+}
+
+snip_upgrade_istiod_revisioned() {
 helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
 }
 
@@ -52,7 +57,11 @@ snip_upgrade_cni() {
 helm upgrade istio-cni istio/cni -n istio-system
 }
 
-snip_upgrade_ztunnel() {
+snip_upgrade_ztunnel_inplace() {
+helm upgrade ztunnel istio/ztunnel -n istio-system --wait
+}
+
+snip_upgrade_ztunnel_revisioned() {
 helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" --wait
 }
 

@@ -26,9 +26,9 @@ GATEWAY_API="${GATEWAY_API:-false}"
 # Make sure automatic sidecar injection is enabled
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample and set up variable pointing to it
+# Deploy curl sample and set up variable pointing to it
 snip_before_you_begin_1
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 snip_before_you_begin_3
 
 # Apply ServiceEntry for external workload and verify 301

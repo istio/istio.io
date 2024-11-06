@@ -81,7 +81,7 @@ $ istioctl manifest apply --set telemetry.enabled=false
 
 Operator 实现使用 Kubernetes controller 来持续监控它们的自定义资源并应用相应的配置更改。Istio controller 监控一个 `IstioControlPlane` 资源，并通过更新相应集群中的 Istio 安装配置来响应更改。
 
-在 1.4 版中，Istio controller 处于开发的 alpha 阶段，没有完全集成到 `istioctl` 中。但是，可以使用 `kubectl` 命令来做[实验](/zh/docs/setup/install/standalone-operator/)。例如，要将 controller 和默认版本的 Istio 安装到集群中，请运行以下命令:
+在 1.4 版中，Istio controller 处于开发的 alpha 阶段，没有完全集成到 `istioctl` 中。但是，可以使用 `kubectl` 命令来做[实验](https://archive.istio.io/v1.23/docs/setup/install/operator/)。例如，要将 controller 和默认版本的 Istio 安装到集群中，请运行以下命令:
 
 {{< text bash >}}
 $ kubectl apply -f https://<repo URL>/operator.yaml

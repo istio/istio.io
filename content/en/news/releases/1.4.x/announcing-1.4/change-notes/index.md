@@ -44,7 +44,7 @@ publishdate: 2019-11-14
 
 ## Installation
 
-- **Added** the experimental [operator controller](/docs/setup/install/operator/) for dynamic updates to an Istio installation.
+- **Added** the experimental [operator controller](https://archive.istio.io/v1.23/docs/setup/install/operator/) for dynamic updates to an Istio installation.
 - **Removed** the `proxy_init` Docker image. Instead, the `istio-init` container reuses the `proxyv2` image.
 - **Updated** the base image to `ubuntu:bionic`.
 

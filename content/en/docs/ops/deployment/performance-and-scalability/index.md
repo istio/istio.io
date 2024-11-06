@@ -31,7 +31,7 @@ The Istio data plane components, the Envoy proxies, handle data flowing through
 the system. The Istio control plane component, Istiod, configures
 the data plane. The data plane and control plane have distinct performance concerns.
 
-## Performance summary for Istio 1.22
+## Performance summary for Istio 1.24
 
 The [Istio load tests](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/load) mesh consists
 of **1000** services and **2000** pods in an Istio mesh with 70,000 mesh-wide requests per second.
@@ -75,58 +75,56 @@ Data plane performance depends on many factors, for example:
 
 The latency, throughput, and the proxies' CPU and memory consumption are measured as a function of said factors.
 
-### Sidecar CPU and memory usage
+### Sidecar and ztunnel resource usage
 
 Since the sidecar proxy performs additional work on the data path, it consumes CPU
-and memory. In Istio 1.22, a sidecar proxy consumes about 0.5 vCPU per 1000
-requests per second.
+and memory. In Istio 1.24, with 1000 http requests per second containing 1 KB of payload each
+- a single sidecar proxy with 2 worker threads consumes about 0.20 vCPU and 60 MB of memory.
+- a single waypoint proxy with 2 worker threads consumes about 0.25 vCPU and 60 MB of memory
+- a single ztunnel proxy consumes about 0.06 vCPU and 12 MB of memory.
 
 The memory consumption of the proxy depends on the total configuration state the proxy holds.
 A large number of listeners, clusters, and routes can increase memory usage.
-In a large namespace with [namespace isolation](/docs/reference/config/networking/sidecar/) enabled, the proxy consumes approximately 50 MB of memory.
-
-Since the proxy normally doesn't buffer the data passing through,
-request rate doesn't affect the memory consumption.
 
 ### Latency
 
-Since Istio injects a sidecar proxy on the data path, latency is an important
+Since Istio adds a sidecar proxy or ztunnel proxy on the data path, latency is an important
 consideration.
 Every feature Istio adds also adds to the path length inside the proxy and potentially affects latency.
 
 The Envoy proxy collects raw telemetry data after a response is sent to the
-client. The time spent collecting raw telemetry for a request does not contribute
-to the total time taken to complete that request. However, since the worker
-is busy handling the request, the worker won't start handling the next request
-immediately. This process adds to the queue wait time of the next request and affects
-average and tail latencies. The actual tail latency depends on the traffic pattern.
+client.
+The time spent collecting raw telemetry for a request does not contribute to the total time taken to complete that request.
+However, since the worker is busy handling the request, the worker won't start handling the next request immediately.
+This process adds to the queue wait time of the next request and affects average and tail latencies.
+The actual tail latency depends on the traffic pattern.
 
-### Latency for Istio 1.22
+### Latency for Istio 1.24
 
-Inside the mesh, a request traverses the client-side proxy and then the server-side
-proxy. In the default ambient mode (with L4) configuration of Istio 1.22,
-the two ztunnel proxies add about 0.17 ms and 0.20 ms to the 90th and 99th percentile latency, respectively, over the baseline data plane latency.
-We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark)
-for the `http/1.1` protocol, with a 1 kB payload at 1000 requests per second using 1,2,4,8,16,32,64 client connections, 2 proxy workers and mutual TLS enabled.
+In sidecar mode, a request will pass through the client sidecar proxy and then the server sidecar proxy before reaching the server, and vice versa.
+In ambient mode, a request will pass through the client node ztunnel and then the server node ztunnel before reaching the server.
+With waypoints configured, a request will go through a waypoint proxy between the ztunnels.
+The following charts show the P90 and P99 latency of http/1.1 requests traveling through various dataplane modes.
+To run the tests, we used a bare-metal cluster of 5 [M3 Large](https://deploy.equinix.com/product/servers/m3-large/) machines and [Flannel](https://github.com/flannel-io/flannel) as the primary CNI.
+We obtained these results using the [Istio benchmarks](https://github.com/istio/tools/tree/{{< source_branch_name >}}/perf/benchmark) for the `http/1.1` protocol with a 1 KB payload at 500, 750, 1000, 1250, and 1500 requests per second using 4 client connections, 2 proxy workers and mutual TLS enabled.
 
-Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster). Different hardware will give different values.
+Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster).
+Different hardware will give different values.
 
-<p><h6 style="text-align: center;"> P90 latency vs client connections </h6></p>
 <img width="90%" style="display: block; margin: auto;"
-    src="istio-1.22.0-fortio-90.png"
+    src="istio-1.24.0-fortio-90.png"
     alt="P90 latency vs client connections"
     caption="P90 latency vs client connections"
 />
 <br><br>
-<p><h6 style="text-align: center;"> P99 latency vs client connections </h6></p>
 <img width="90%" style="display: block; margin: auto;"
-    src="istio-1.22.0-fortio-99.png"
+    src="istio-1.24.0-fortio-99.png"
     alt="P99 latency vs client connections"
     caption="P99 latency vs client connections"
 />
 <br>
 
-- `no_mesh`: Client pod directly calls the server pod, no pods in Istio service mesh.
+- `no mesh`: Client pod directly calls the server pod, no pods in Istio service mesh.
 - `ambient: L4`: Default ambient mode with the {{< gloss >}}secure L4 overlay{{< /gloss >}}
 - `ambient: L4+L7` Default ambient mode with the secure L4 overlay and waypoints enabled for the namespace.
 - `sidecar` Client and server sidecars.

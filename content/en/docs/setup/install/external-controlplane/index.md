@@ -225,15 +225,16 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    $ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    $ istioctl install -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. Confirm that the remote cluster's injection webhook configuration has been installed:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   4          6m24s
+    NAME                                         WEBHOOKS   AGE
+    istio-revision-tag-default-external-istiod   4          2m2s
+    istio-sidecar-injector-external-istiod       4          2m5s
     {{< /text >}}
 
 1. Confirm that the remote cluster's validation webhook configurations have been installed:
@@ -330,6 +331,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: istio
       values:
         global:
+          externalIstiod: true
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
@@ -496,28 +498,28 @@ See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/is
     $ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `helloworld` (`v1`) and `sleep` samples:
+1. Deploy the `helloworld` (`v1`) and `curl` samples:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+1. Wait a few seconds for the `helloworld` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
+    curl-64d7d56698-wqjnm            2/2     Running   0          9s
     helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
-    sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
-1. Send a request from the `sleep` pod to the `helloworld` service:
+1. Send a request from the `curl` pod to the `helloworld` service:
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
@@ -540,6 +542,8 @@ Enable an ingress gateway on the remote cluster:
 $ cat <<EOF > istio-ingressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: ingress-install
 spec:
   profile: empty
   components:
@@ -565,8 +569,8 @@ $ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-cont
 
 See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
-    {{< /tab >}}
-    {{< /tabset >}}
+{{< /tab >}}
+{{< /tabset >}}
 
 You can optionally enable other gateways as well. For example, an egress gateway:
 
@@ -578,6 +582,8 @@ You can optionally enable other gateways as well. For example, an egress gateway
 $ cat <<EOF > istio-egressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: egress-install
 spec:
   profile: empty
   components:
@@ -770,7 +776,7 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
 1. Install the configuration on the remote cluster:
 
     {{< text bash >}}
-    $ istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    $ istioctl install -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
 1. Confirm that the remote cluster's injection webhook configuration has been installed:
@@ -847,28 +853,28 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `helloworld` (`v2`) and `sleep` samples:
+1. Deploy the `helloworld` (`v2`) and `curl` samples:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
-1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+1. Wait a few seconds for the `helloworld` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
     NAME                            READY   STATUS    RESTARTS   AGE
+    curl-557747455f-wtdbr           2/2     Running   0          9s
     helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-    sleep-557747455f-wtdbr          2/2     Running   0          9s
     {{< /text >}}
 
-1. Send a request from the `sleep` pod to the `helloworld` service:
+1. Send a request from the `curl` pod to the `helloworld` service:
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     {{< /text >}}
@@ -891,7 +897,7 @@ Clean up the external control plane cluster:
 
 {{< text bash >}}
 $ kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-$ istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl uninstall -y --purge -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 $ kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 $ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 {{< /text >}}
@@ -900,7 +906,7 @@ Clean up the remote config cluster:
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-$ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+$ istioctl uninstall -y --purge -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 $ kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 $ rm remote-config-cluster.yaml istio-ingressgateway.yaml
 $ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
@@ -910,7 +916,7 @@ Clean up the optional second remote cluster if you installed it:
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-$ istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+$ istioctl uninstall -y --purge -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 $ kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 $ rm second-remote-cluster.yaml eastwest-gateway-2.yaml
 {{< /text >}}

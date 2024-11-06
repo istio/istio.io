@@ -163,5 +163,5 @@ DNS，允许通过 Kubernetes 的主机名进行访问。
     $ kubectl delete service mysqldb
     {{< /text >}}
 
-- 按照[虚拟机卸载](/zh/docs/setup/install/virtual-machine/#configure-the-virtual-machine)
+- 按照[虚拟机卸载](/zh/docs/setup/install/virtual-machine/#uninstall)
   中的步骤清理 VM。

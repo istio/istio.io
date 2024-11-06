@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_install_ambient() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=ambient --skip-confirmation
+istioctl install --set profile=ambient --skip-confirmation
 }
 
 snip_uninstall() {

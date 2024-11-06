@@ -1949,8 +1949,8 @@ No
 </section>
 <h2 id="StringMatch">StringMatch</h2>
 <section>
-<p>Describes how to match a given string in HTTP headers. Match is
-case-sensitive.</p>
+<p>Describes how to match a given string in HTTP headers. <code>exact</code> and <code>prefix</code> matching is
+case-sensitive. <code>regex</code> matching supports case-insensitive matches.</p>
 
 <table class="message-fields">
 <thead>
@@ -1989,6 +1989,7 @@ No
 <td><code>string (oneof)</code></td>
 <td>
 <p><a href="https://github.com/google/re2/wiki/Syntax">RE2 style regex-based match</a>.</p>
+<p>Example: <code>(?i)^aaa$</code> can be used to case-insensitive match a string consisting of three a&rsquo;s.</p>
 
 </td>
 <td>

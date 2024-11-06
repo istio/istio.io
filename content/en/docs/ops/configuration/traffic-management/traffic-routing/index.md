@@ -108,7 +108,7 @@ An exception to this is for protocols declared as HTTP, which will match traffic
 
 {{< warning >}}
 Without Istio, the `ports` field of a headless service is not strictly required because requests go directly to pod IPs, which can accept traffic on all ports.
-However, with Istio the port must be declared in the Service, or it will [not be matched](#unmatched-traffic).
+However, with Istio the port must be declared in the Service, or it will [not be matched](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
 {{< /warning >}}
 
 ### ExternalName Services

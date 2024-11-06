@@ -71,6 +71,7 @@
 2s
 2x
 3.99ms
+32-core
 3ms
 3s
 404s
@@ -147,6 +148,7 @@ Arielli
 arm64
 ArtifactHub
 AssemblyScript
+async
 Atlassian
 attestor
 attestors
@@ -190,6 +192,7 @@ Blatt
 Bloomberg
 Bluecore
 BluePerf
+Bluesky
 boilerplates
 bol.com
 Bookinfo
@@ -384,6 +387,11 @@ CVE-2024-32976
 CVE-2024-34362
 CVE-2024-34363
 CVE-2024-34364
+CVE-2024-45806
+CVE-2024-45807
+CVE-2024-45808
+CVE-2024-45809
+CVE-2024-45810
 CVEs
 cves
 cvss
@@ -474,6 +482,7 @@ example.com
 exec-ing
 ExecAction
 executables
+exfiltrated
 Exfiltrating
 exfiltration
 Expedia
@@ -575,6 +584,7 @@ hyperkube
 hypervisor
 Hystrix
 i.e.
+idempotency
 Idit
 iFood
 ILBs
@@ -602,6 +612,7 @@ IOPs
 ip
 ipBlocks
 IPs
+IPsec
 ipsets
 iptables
 IPv4
@@ -642,6 +653,7 @@ ISTIO-SECURITY-2023-001
 ISTIO-SECURITY-2023-002
 ISTIO-SECURITY-2023-003
 ISTIO-SECURITY-2023-004
+ISTIO-SECURITY-2024-006
 istio-system
 istio.io
 istio.io.
@@ -673,6 +685,7 @@ json
 JSON-formatted
 json-transcoder
 jwcrypto
+JWKs
 JWKS-URI
 JWT
 jwt.io
@@ -705,6 +718,7 @@ Kops
 Korczynski
 Krishnan
 Kristián
+KServe
 Kuat
 Kube
 kube-proxy
@@ -756,6 +770,7 @@ Longmuir
 lookups
 loopback
 Lua
+lucavall.in
 Lukonde
 Luyao
 Lyft
@@ -840,6 +855,7 @@ nginx
 NICs
 NiFi
 Nikhita
+NimbleEdge
 Ning
 Nirupama
 NLBs
@@ -864,6 +880,7 @@ OAuth
 OAuth2
 oc
 OCI-compliant
+oghttp2
 ok
 Okta
 Onboard
@@ -956,6 +973,7 @@ protos
 proxied
 proxy-config
 Proxy-wasm
+ProxyConfig
 proxying
 Proxyless
 proxyless
@@ -992,16 +1010,19 @@ Redis-based
 referer
 Registrator
 registrator
+Rego
 reimplement
 reimplemented
 reinject
 relabeling
+reloadable
 remediate
 remoteIpBlocks
 repo
 repurposed
 Requena
 requires_any
+resized
 Reskill
 ResourceQuota
 resources.limits.cpu
@@ -1030,6 +1051,7 @@ Salesforce
 Salmond
 sandboxed
 sandboxing
+sanitization
 Sathish
 Savcı   
 sayin
@@ -1041,6 +1063,8 @@ sds
 Searcy
 Secura
 SecurityCon
+SecurityGroupPolicy
+SecurityGroups
 security_bulletin
 selinux
 serverless
@@ -1179,6 +1203,7 @@ UIDs
 uint32
 ulimit
 un-injecting
+un-trust
 uncaptured
 uncomment
 uncommented
@@ -1227,6 +1252,7 @@ v1.28
 v1.29
 v1.30
 v1.31
+v1.32
 v1.5
 v1.55
 v1.55.1
@@ -1243,6 +1269,7 @@ v1dev1
 V2
 v2
 v2-mysql
+v2.0
 v3
 validatable
 validator
@@ -1296,6 +1323,7 @@ wikipedia.org
 wildcard
 wildcarded
 wildcards
+WireGuard
 Wireguard
 Wolfi
 workgroup

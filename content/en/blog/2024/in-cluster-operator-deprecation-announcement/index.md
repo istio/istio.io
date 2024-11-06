@@ -10,7 +10,7 @@ Istio’s In-Cluster Operator has been deprecated in Istio 1.23.  Users leveragi
 
 ## Does this affect you?
 
-This deprecation only affects users of the [In-Cluster Operator](/docs/setup/install/operator/).  **Users who install Istio with the <code>istioctl install</code> command and an `IstioOperator` YAML file are not affected**.
+This deprecation only affects users of the [In-Cluster Operator](https://archive.istio.io/v1.23/docs/setup/install/operator/).  **Users who install Istio with the <code>istioctl install</code> command and an `IstioOperator` YAML file are not affected**.
 
 To determine if you are affected, run `kubectl get deployment -n istio-system istio-operator` and `kubectl get IstioOperator`.  If both commands return non-empty values, your cluster will be affected. Based on recent polls, we expect that this will affect fewer than 10% of Istio users.
 

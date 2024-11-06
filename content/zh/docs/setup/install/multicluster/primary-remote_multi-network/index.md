@@ -1,14 +1,14 @@
 ---
-title: 跨网络主从架构的安装
-description: 跨网络、主从架构的 Istio 网格安装。
+title: 跨网络安装主从集群
+description: 跨网络、跨主从集群安装 Istio 网格。
 weight: 40
 keywords: [kubernetes,multicluster]
-test: yes
+test: no
 owner: istio/wg-environments-maintainers
 ---
 
-按照本指南，在 `cluster1` {{< gloss "primary cluster" >}}主集群{{< /gloss >}}
-安装 Istio 控制平面，并配置 `cluster2`
+按照本指南，在 `cluster1` {{< gloss "primary cluster" >}}主集群{{< /gloss >}}安装
+Istio 控制平面，并配置 `cluster2`
 {{< gloss "remote cluster" >}}从集群{{< /gloss >}}指向 `cluster1` 的控制平面。
 集群 `cluster1` 在 `network1` 网络上，而集群 `cluster2` 在 `network2` 网络上。
 所以跨集群边界的 Pod 之间，网络不能直接连通。
@@ -23,7 +23,7 @@ owner: istio/wg-environments-maintainers
 跨集群边界的服务负载，通过专用的东西向流量网关，以间接的方式通讯。
 每个集群中的网关必须可以从其他集群访问。
 
-`cluster2` 中的服务将通过相同的的东西向网关访问 `cluster1` 控制平面。
+`cluster2` 中的服务将通过相同的东西向网关访问 `cluster1` 控制平面。
 
 {{< image width="75%"
     link="arch.svg"
@@ -54,16 +54,17 @@ spec:
       multiCluster:
         clusterName: cluster1
       network: network1
+      externalIstiod: true
 EOF
 {{< /text >}}
 
 将配置应用到 `cluster1`：
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-请注意，`values.pilot.env.EXTERNAL_ISTIOD` 设置为 `true`。
+请注意，`values.global.externalIstiod` 设置为 `true`。
 这将启用安装在 `cluster1` 上的控制平面，使其也用作其他从集群的外部控制平面。
 启用此特性后，`istiod` 将尝试获取领导选举锁，
 并因此管理将附加到它的并且带有[适当注解的](#set-the-control-plane-cluster-for-cluster2)从集群
@@ -233,14 +234,14 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 
 {{< tip >}}
 由于 `cluster2` 是使用远程配置文件安装的，
-因此在主集群上开放服务将在两个集群的东西向网关上开放它们。
+因此在主集群上开放服务将在两个集群的东西向网关上开放这些服务。
 {{< /tip >}}
 
-**恭喜!** 您在跨网络、主从架构的集群上，成功地安装了 Istio 网格。
+**恭喜!** 您成功跨网络、跨主从集群安装了 Istio 网格。
 
 ## 后续步骤 {#next-steps}
 
-现在，您可以[验证此次安装](/zh/docs/setup/install/multicluster/verify)。
+现在，您可以[验证安装结果](/zh/docs/setup/install/multicluster/verify)。
 
 ## 清理 {#cleanup}
 

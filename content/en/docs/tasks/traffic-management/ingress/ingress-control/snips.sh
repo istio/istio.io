@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=minimal
+istioctl install --set profile=minimal
 }
 
 snip_before_you_begin_2() {
@@ -171,7 +171,9 @@ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status
 }
 
 ! IFS=$'\n' read -r -d '' snip_accessing_ingress_services_1_out <<\ENDSNIP
+...
 HTTP/1.1 200 OK
+...
 server: istio-envoy
 ...
 ENDSNIP

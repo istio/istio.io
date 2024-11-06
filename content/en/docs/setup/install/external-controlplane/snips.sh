@@ -47,7 +47,7 @@ EOF
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl install -f controlplane-gateway.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_a_gateway_in_the_external_cluster_3() {
@@ -105,7 +105,7 @@ sed  -i'.bk' \
 
 snip_set_up_the_remote_config_cluster_3() {
 kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl install -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_set_up_the_remote_config_cluster_4() {
@@ -113,8 +113,9 @@ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
 }
 
 ! IFS=$'\n' read -r -d '' snip_set_up_the_remote_config_cluster_4_out <<\ENDSNIP
-NAME                                     WEBHOOKS   AGE
-istio-sidecar-injector-external-istiod   4          6m24s
+NAME                                         WEBHOOKS   AGE
+istio-revision-tag-default-external-istiod   4          2m2s
+istio-sidecar-injector-external-istiod       4          2m5s
 ENDSNIP
 
 snip_set_up_the_remote_config_cluster_5() {
@@ -198,6 +199,7 @@ spec:
           value: istio
   values:
     global:
+      externalIstiod: true
       caAddress: $EXTERNAL_ISTIOD_ADDR:15012
       istioNamespace: external-istiod
       operatorManageWebhooks: true
@@ -218,7 +220,7 @@ sed  -i'.bk' \
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_5() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl install -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_6() {
@@ -331,7 +333,7 @@ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection
 snip_deploy_a_sample_application_2() {
 kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
 kubectl apply -f samples/helloworld/helloworld.yaml -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
+kubectl apply -f samples/curl/curl.yaml -n sample --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_deploy_a_sample_application_3() {
@@ -340,13 +342,13 @@ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
 
 ! IFS=$'\n' read -r -d '' snip_deploy_a_sample_application_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
+curl-64d7d56698-wqjnm            2/2     Running   0          9s
 helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
-sleep-64d7d56698-wqjnm           2/2     Running   0          9s
 ENDSNIP
 
 snip_deploy_a_sample_application_4() {
-kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-    "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+    "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
 
@@ -358,6 +360,8 @@ snip_enable_gateways_1() {
 cat <<EOF > istio-ingressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: ingress-install
 spec:
   profile: empty
   components:
@@ -370,7 +374,7 @@ spec:
       istio-ingressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_2() {
@@ -381,6 +385,8 @@ snip_enable_gateways_3() {
 cat <<EOF > istio-egressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: egress-install
 spec:
   profile: empty
   components:
@@ -393,7 +399,7 @@ spec:
       istio-egressgateway:
         injectionTemplate: gateway
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
+istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespace=external-istiod --context="${CTX_REMOTE_CLUSTER}"
 }
 
 snip_enable_gateways_4() {
@@ -411,7 +417,7 @@ ENDSNIP
 
 snip_install_crds() {
 kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.1.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
 }
 
 snip_configure_and_test_an_ingress_gateway_3() {
@@ -472,7 +478,7 @@ kubectl annotate namespace external-istiod "topology.istio.io/controlPlaneCluste
 }
 
 snip_register_the_new_cluster_4() {
-istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+istioctl install -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_register_the_new_cluster_5() {
@@ -541,7 +547,7 @@ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection
 snip_validate_the_installation_2() {
 kubectl apply -f samples/helloworld/helloworld.yaml -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
 kubectl apply -f samples/helloworld/helloworld.yaml -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-kubectl apply -f samples/sleep/sleep.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
+kubectl apply -f samples/curl/curl.yaml -n sample --context="${CTX_SECOND_CLUSTER}"
 }
 
 snip_validate_the_installation_3() {
@@ -550,13 +556,13 @@ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
 
 ! IFS=$'\n' read -r -d '' snip_validate_the_installation_3_out <<\ENDSNIP
 NAME                            READY   STATUS    RESTARTS   AGE
+curl-557747455f-wtdbr           2/2     Running   0          9s
 helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-sleep-557747455f-wtdbr          2/2     Running   0          9s
 ENDSNIP
 
 snip_validate_the_installation_4() {
-kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-    "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+    "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
 
@@ -578,14 +584,14 @@ ENDSNIP
 
 snip_cleanup_1() {
 kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
+istioctl uninstall -y --purge -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 }
 
 snip_cleanup_2() {
 kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+istioctl uninstall -y --purge -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 rm remote-config-cluster.yaml istio-ingressgateway.yaml
 rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
@@ -593,7 +599,7 @@ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
 
 snip_cleanup_3() {
 kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+istioctl uninstall -y --purge -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 rm second-remote-cluster.yaml eastwest-gateway-2.yaml
 }

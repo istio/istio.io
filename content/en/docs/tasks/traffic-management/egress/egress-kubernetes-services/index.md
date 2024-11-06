@@ -40,17 +40,17 @@ Kubernetes Services for egress traffic work with other protocols as well.
     $ kubectl create namespace without-istio
     {{< /text >}}
 
-*  Start the [sleep]({{< github_tree >}}/samples/sleep) sample in the `without-istio` namespace.
+*  Start the [curl]({{< github_tree >}}/samples/curl) sample in the `without-istio` namespace.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n without-istio
     {{< /text >}}
 
 *   To send requests, create the `SOURCE_POD_WITHOUT_ISTIO` environment variable to store the name of the source
     pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})"
+    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=curl -o jsonpath={.items..metadata.name})"
     {{< /text >}}
 
 *   Verify that the Istio sidecar was not injected, that is the pod has one container:
@@ -58,7 +58,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     {{< text bash >}}
     $ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
     NAME                     READY   STATUS    RESTARTS   AGE
-    sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
+    curl-66c8d79ff5-8tqrl    1/1     Running   0          32s
     {{< /text >}}
 
 ## Kubernetes ExternalName service to access an external service
@@ -95,7 +95,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
     Note that the _curl_ command below uses the [Kubernetes DNS format for services](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records): `<service name>.<namespace>.svc.cluster.local`.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -124,11 +124,11 @@ Kubernetes Services for egress traffic work with other protocols as well.
     {{< /text >}}
 
 1.  Access `httpbin.org` via the Kubernetes service's hostname from the source pod with Istio sidecar. Notice the
-    headers added by Istio sidecar, for example `X-Envoy-Decorator-Operation`. Also note that
+    headers added by Istio sidecar, for example `X-Envoy-Peer-Metadata`. Also note that
     the `Host` header equals to your service's hostname.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -138,9 +138,8 @@ Kubernetes Services for egress traffic work with other protocols as well.
         "X-B3-Sampled": "0",
         "X-B3-Spanid": "5795fab599dca0b8",
         "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
-        "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
         "X-Envoy-Peer-Metadata": "...",
-        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
+        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~curl-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
     }
     {{< /text >}}
@@ -201,7 +200,7 @@ $ kubectl delete service my-httpbin
     Use the `--resolve` option of `curl` to access `wikipedia.org` by the cluster IP:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -225,7 +224,7 @@ $ kubectl delete service my-httpbin
 1.  Access `wikipedia.org` by your Kubernetes service's cluster IP from the source pod with Istio sidecar:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -234,7 +233,7 @@ $ kubectl delete service my-httpbin
     in the output of your service as the cluster IP.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
     * Added en.wikipedia.org:443:172.21.156.230 to DNS cache
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...
@@ -253,16 +252,16 @@ $ kubectl delete service my-wikipedia
 
 ## Cleanup
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+1.  Shutdown the [curl]({{< github_tree >}}/samples/curl) service:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-1.  Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service in the `without-istio` namespace:
+1.  Shutdown the [curl]({{< github_tree >}}/samples/curl) service in the `without-istio` namespace:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n without-istio
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n without-istio
     {{< /text >}}
 
 1.  Delete `without-istio` namespace:

@@ -10,17 +10,17 @@ This guide describes what to do if you have enrolled a namespace, service or wor
 
 ## Problems with traffic routing or security policy
 
-To send some requests to the `reviews` service via the `productpage` service from the `sleep` pod:
+To send some requests to the `reviews` service via the `productpage` service from the `curl` pod:
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage
+$ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage
 {{< /text >}}
 
-To send some requests to the `reviews` `v2` pod from the `sleep` pod:
+To send some requests to the `reviews` `v2` pod from the `curl` pod:
 
 {{< text bash >}}
 $ export REVIEWS_V2_POD_IP=$(kubectl get pod -l version=v2,app=reviews -o jsonpath='{.items[0].status.podIP}')
-$ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
+$ kubectl exec deploy/curl -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
 {{< /text >}}
 
 Requests to the `reviews` service should be enforced by the `reviews-svc-waypoint` for any L7 policies.
@@ -46,7 +46,6 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
     default      details                 10.43.160.119 waypoint
     default      kubernetes              10.43.0.1     waypoint
-    default      notsleep                10.43.156.147 waypoint
     default      productpage             10.43.172.254 waypoint
     default      ratings                 10.43.71.236  waypoint
     default      reviews                 10.43.162.105 reviews-svc-waypoint
@@ -60,7 +59,6 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     NAMESPACE    POD NAME                                    IP         NODE                     WAYPOINT                PROTOCOL
     default      bookinfo-gateway-istio-7c57fc4647-wjqvm     10.42.2.8  k3d-k3s-default-server-0 None                    TCP
     default      details-v1-698d88b-wwsnv                    10.42.2.4  k3d-k3s-default-server-0 None                    HBONE
-    default      notsleep-685df55c6c-nwhs6                   10.42.0.9  k3d-k3s-default-agent-0  None                    HBONE
     default      productpage-v1-675fc69cf-fp65z              10.42.2.6  k3d-k3s-default-server-0 None                    HBONE
     default      ratings-v1-6484c4d9bb-crjtt                 10.42.0.4  k3d-k3s-default-agent-0  None                    HBONE
     default      reviews-svc-waypoint-c49f9f569-b492t        10.42.2.10 k3d-k3s-default-server-0 None                    TCP

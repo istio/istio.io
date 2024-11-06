@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 source "content/en/docs/setup/upgrade/helm/common.sh"
+source "content/en/boilerplates/snips/crd-upgrade-123.sh"
 
 set -e
 set -u
@@ -25,7 +26,6 @@ _install_istio_helm
 _rewrite_helm_repo snip_in_place_upgrade_1
 _rewrite_helm_repo snip_in_place_upgrade_2
 _rewrite_helm_repo snip_in_place_upgrade_3
-_rewrite_helm_repo snip_in_place_upgrade_4
 
 _remove_istio_helm
 # @cleanup

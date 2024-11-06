@@ -48,10 +48,10 @@ controlled way.
     [configuration profile](/docs/setup/additional-setup/config-profiles/).
     {{< /tip >}}
 
-*   Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+*   Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
     {{< tip >}}
@@ -61,7 +61,7 @@ controlled way.
 *   Set the `SOURCE_POD` environment variable to the name of your source pod:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
     {{< warning >}}
@@ -152,7 +152,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
 1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTP request to [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -325,7 +325,7 @@ EOF
 5)  Resend the HTTP request to [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -459,7 +459,7 @@ You need to specify port 443 with protocol `TLS` in a corresponding `ServiceEntr
 1.  Verify that your `ServiceEntry` was applied correctly by sending an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -609,7 +609,7 @@ EOF
     The output should be the same as before.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -708,7 +708,7 @@ the egress gateways.
 This section shows you how to create a
 [Kubernetes network policy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) to prevent
 bypassing of the egress gateway. To test the network policy, you create a namespace, `test-egress`, deploy
-the [sleep]({{< github_tree >}}/samples/sleep) sample to it, and then attempt to send requests to a gateway-secured
+the [curl]({{< github_tree >}}/samples/curl) sample to it, and then attempt to send requests to a gateway-secured
 external service.
 
 1)  Follow the steps in the
@@ -720,25 +720,25 @@ external service.
     $ kubectl create namespace test-egress
     {{< /text >}}
 
-3)  Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample to the `test-egress` namespace.
+3)  Deploy the [curl]({{< github_tree >}}/samples/curl) sample to the `test-egress` namespace.
 
     {{< text bash >}}
-    $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -n test-egress -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 4)  Check that the deployed pod has a single container with no Istio sidecar attached:
 
     {{< text bash >}}
-    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
+    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress
     NAME                     READY     STATUS    RESTARTS   AGE
-    sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
+    curl-776b7bcdcd-z7mc4    1/1       Running   0          18m
     {{< /text >}}
 
-5)  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics) from the `sleep` pod in
+5)  Send an HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics) from the `curl` pod in
     the `test-egress` namespace. The request will succeed since you did not define any restrictive policies yet.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -849,13 +849,13 @@ EOF
 {{< /tabset >}}
 
 9)  Resend the previous HTTPS request to [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Now it
-    should fail since the traffic is blocked by the network policy. Note that the `sleep` pod cannot bypass
+    should fail since the traffic is blocked by the network policy. Note that the `curl` pod cannot bypass
     the egress gateway. The only way it can access `edition.cnn.com` is by using an Istio sidecar proxy and by
     directing the traffic to the egress gateway. This setting demonstrates that even if some malicious pod manages to
     bypass its sidecar proxy, it will not be able to access external sites and will be blocked by the network policy.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -v -sS https://edition.cnn.com/politics
     Hostname was NOT found in DNS cache
       Trying 151.101.65.67...
       Trying 2a04:4e42:200::323...
@@ -869,18 +869,18 @@ EOF
     connect to 151.101.65.67 port 443 failed: Connection timed out
     {{< /text >}}
 
-10) Now inject an Istio sidecar proxy into the `sleep` pod in the `test-egress` namespace by first enabling
+10) Now inject an Istio sidecar proxy into the `curl` pod in the `test-egress` namespace by first enabling
     automatic sidecar proxy injection in the `test-egress` namespace:
 
     {{< text bash >}}
     $ kubectl label namespace test-egress istio-injection=enabled
     {{< /text >}}
 
-11) Then redeploy the `sleep` deployment:
+11) Then redeploy the `curl` deployment:
 
     {{< text bash >}}
-    $ kubectl delete deployment sleep -n test-egress
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n test-egress
+    $ kubectl delete deployment curl -n test-egress
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n test-egress
     {{< /text >}}
 
 12) Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
@@ -890,11 +890,11 @@ EOF
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-sleep istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+curl istio-proxy
 {{< /text >}}
 
-Before proceeding, you'll need to create a similar destination rule as the one used for the `sleep` pod in the `default` namespace,
+Before proceeding, you'll need to create a similar destination rule as the one used for the `curl` pod in the `default` namespace,
 to direct the `test-egress` namespace traffic through the egress gateway:
 
 {{< text bash >}}
@@ -915,8 +915,8 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-sleep istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+curl istio-proxy
 {{< /text >}}
 
 {{< /tab >}}
@@ -928,7 +928,7 @@ sleep istio-proxy
     Network Policy you defined. The gateway then forwards the traffic to `edition.cnn.com`.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -979,7 +979,7 @@ You should see a line similar to the following:
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+$ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
 $ kubectl delete destinationrule egressgateway-for-cnn -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 $ kubectl label namespace kube-system kube-system-
@@ -992,7 +992,7 @@ $ kubectl delete namespace test-egress
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+$ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 $ kubectl label namespace kube-system kube-system-
 $ kubectl label namespace istio-system istio-
@@ -1008,8 +1008,8 @@ $ kubectl delete namespace test-egress
 
 ## Cleanup
 
-Shutdown the [sleep]({{< github_tree >}}/samples/sleep) service:
+Shutdown the [curl]({{< github_tree >}}/samples/curl) service:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

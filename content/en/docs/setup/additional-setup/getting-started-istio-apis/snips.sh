@@ -26,7 +26,7 @@ curl -L https://istio.io/downloadIstio | sh -
 }
 
 snip_download_istio_2() {
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.23.0 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.24.0 TARGET_ARCH=x86_64 sh -
 }
 
 snip_download_istio_4() {
@@ -34,7 +34,7 @@ export PATH=$PWD/bin:$PATH
 }
 
 snip_install_istio_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=demo -y
+istioctl install --set profile=demo -y
 }
 
 ! IFS=$'\n' read -r -d '' snip_install_istio_1_out <<\ENDSNIP

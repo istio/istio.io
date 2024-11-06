@@ -26,9 +26,9 @@ test: yes
 或传递包含 `IstioOperator` {{<gloss CRD>}}自定义资源{{</gloss>}} 的 YAML 文件，
 支持完整的 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/)。
 
-## 先决条件 {#prerequisites}
+## 前提条件 {#prerequisites}
 
-开始之前，请检查以下先决条件：
+开始之前，请检查以下前提条件：
 
 1. [下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)。
 1. 执行任何必要的[平台特定设置](/zh/docs/ambient/install/platform-prerequisites/)。

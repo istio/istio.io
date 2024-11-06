@@ -157,17 +157,15 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
 ### 从非 Helm 安装迁移 {#migrating-from-non-helm-installations}
 
-如果您需要将使用 `istioctl` 或 Operator 安装的 Istio 迁移到 Helm，
-那要删除当前 Istio 控制平面资源，并根据上面的说明，使用 Helm 重新安装 Istio。
+如果你要从使用 `istioctl` 安装的 Istio 版本迁移到 Helm（Istio 1.5 或更早版本），
+则需要删除当前的 Istio 控制平面资源，并根据上面的说明，使用 Helm 重新安装 Istio。
 在删除当前 Istio 时，千万不能删掉 Istio 的自定义资源定义（CRD），以免丢掉您的自定义 Istio 资源。
 
 {{< warning >}}
 建议：从集群中删除 Istio 前，使用上面的说明备份您的 Istio 资源。
 {{< /warning >}}
 
-依据您的安装方式，选择
-[Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio)或
-[Operator 卸载指南](/zh/docs/setup/install/operator/#uninstall)。
+您可以按照 [Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio)中提到的步骤进行操作。
 
 ## 卸载 {#uninstall}
 

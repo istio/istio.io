@@ -196,15 +196,8 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 ...
 HTTP/2 418
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+I'm a teapot!
+...
 ENDSNIP
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_8() {
@@ -223,15 +216,8 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 ...
 HTTP/2 418
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+I'm a teapot!
+...
 ENDSNIP
 
 snip_configure_a_tls_ingress_gateway_for_a_single_host_10() {
@@ -401,15 +387,10 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 
 ! IFS=$'\n' read -r -d '' snip_configure_a_tls_ingress_gateway_for_multiple_hosts_9_out <<\ENDSNIP
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+HTTP/2 418
+...
+server: istio-envoy
+...
 ENDSNIP
 
 snip_configure_a_mutual_tls_ingress_gateway_1() {
@@ -499,15 +480,12 @@ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRES
 
 ! IFS=$'\n' read -r -d '' snip_configure_a_mutual_tls_ingress_gateway_5_out <<\ENDSNIP
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+HTTP/2 418
+...
+server: istio-envoy
+...
+I'm a teapot!
+...
 ENDSNIP
 
 snip_troubleshooting_1() {

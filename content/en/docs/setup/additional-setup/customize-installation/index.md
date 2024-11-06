@@ -45,10 +45,10 @@ $ istioctl install --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
 Helm values can also be set in an `IstioOperator` CR (YAML file) as described in
-[Customize Istio settings using the Helm API](#customize-istio-settings-using-the-helm-api), below.
+[Customize Istio settings using the Helm API](/docs/setup/additional-setup/customize-installation/#customize-istio-settings-using-the-helm-api), below.
 
 If you want to set Kubernetes resource settings, use the `IstioOperator` API as described in
- [Customize Kubernetes settings](#customize-kubernetes-settings).
+ [Customize Kubernetes settings](/docs/setup/additional-setup/customize-installation/#customize-kubernetes-settings).
 {{< /tip >}}
 
 ### Identify an Istio component

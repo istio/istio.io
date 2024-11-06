@@ -20,6 +20,7 @@
 #          docs/setup/upgrade/helm/index.md
 ####################################################################################################
 source "content/en/boilerplates/snips/helm-prereqs.sh"
+source "content/en/boilerplates/snips/crd-upgrade-123.sh"
 source "content/en/boilerplates/snips/revision-tags-middle.sh"
 source "content/en/boilerplates/snips/revision-tags-prologue.sh"
 
@@ -33,7 +34,7 @@ istioctl x precheck
 ENDSNIP
 
 snip_canary_upgrade_recommended_1() {
-kubectl apply -f manifests/charts/base/crds
+helm upgrade istio-base istio/base -n istio-system
 }
 
 snip_canary_upgrade_recommended_2() {
@@ -73,34 +74,30 @@ helm delete istiod -n istio-system
 }
 
 snip_canary_upgrade_recommended_7() {
-helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
+helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system
 }
 
 snip_usage_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-22-1 -n istio-system | kubectl apply -f -
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-23-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-23-1 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision=1-24-0 -n istio-system | kubectl apply -f -
 }
 
 snip_usage_2() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-23-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision=1-24-0 -n istio-system | kubectl apply -f -
 }
 
 snip_default_tag_1() {
-helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-23-0 -n istio-system | kubectl apply -f -
+helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision=1-24-0 -n istio-system | kubectl apply -f -
 }
 
 snip_in_place_upgrade_1() {
-kubectl apply -f manifests/charts/base/crds
+helm upgrade istio-base istio/base -n istio-system
 }
 
 snip_in_place_upgrade_2() {
-helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
-}
-
-snip_in_place_upgrade_3() {
 helm upgrade istiod istio/istiod -n istio-system
 }
 
-snip_in_place_upgrade_4() {
+snip_in_place_upgrade_3() {
 helm upgrade istio-ingress istio/gateway -n istio-ingress
 }

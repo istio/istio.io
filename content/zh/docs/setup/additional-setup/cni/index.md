@@ -28,7 +28,7 @@ Istio CNI 节点代理在 {{< gloss "sidecar" >}}Ambient{{< /gloss >}} 数据平
 除此之外，它还会安装一个**链式** CNI 插件或云提供商使用的集群 CNI，
 其中这种链式 CNI 插件设计为分层堆叠在另一个先前安装的主接口
 CNI（例如 [Calico](https://docs.projectcalico.org)）之上。
-有关详细信息，请参阅[与 CNI 的兼容性](#compatibility-with-other-cnis)。
+有关详细信息，请参阅[与 CNI 的兼容性](/zh/docs/setup/additional-setup/cni/#compatibility-with-other-cnis)。
 {{< /tip >}}
 
 按照本指南安装、配置和使用具有 Sidecar 数据平面模式的 Istio CNI 节点代理。
@@ -151,7 +151,7 @@ $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true 
 则可能未正确设置流量重定向，流量将能够绕过 Istio Sidecar。
 
 对于 Sidecar 数据平面模式，此竞争条件可通过“检测和修复”方法缓解。
-请参阅[竞争条件和缓解](#race-condition-mitigation)部分以了解此缓解措施的含义以及配置说明。
+请参阅[竞争条件和缓解](/zh/docs/setup/additional-setup/cni/#race-condition--mitigation)部分以了解此缓解措施的含义以及配置说明。
 {{< /tip >}}
 
 ### 处理修订的 Init 容器注入 {#handling-init-container-injection-for-revisions}

@@ -26,10 +26,10 @@ source "tests/util/samples.sh"
 # Make sure default namespace is injected
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample and set up variable pointing to it
-# Start the sleep sample
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+# Deploy curl sample and set up variable pointing to it
+# Start the curl sample
+startup_curl_sample
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')
 
 # create external ns
 snip_deploy_an_https_proxy_1
@@ -42,9 +42,9 @@ snip_deploy_an_https_proxy_3
 snip_deploy_an_https_proxy_4
 _wait_for_deployment external squid
 
-# create sleep
+# create curl
 snip_deploy_an_https_proxy_5
-_wait_for_deployment external sleep
+_wait_for_deployment external curl
 snip_deploy_an_https_proxy_6
 snip_deploy_an_https_proxy_7
 

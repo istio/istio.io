@@ -27,7 +27,7 @@ export VERIFY_TIMEOUT=300
 snip_before_you_begin_1
  
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
+_wait_for_deployment foo curl
  
 # Pull the Istio branch from the docs configuration file.
 ISTIO_BRANCH=$(yq '.source_branch_name' "${REPO_ROOT}"/data/args.yml)

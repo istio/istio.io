@@ -53,10 +53,7 @@ snip_set_up_a_gateway_in_the_external_cluster_6
 
 snip_get_remote_config_cluster_iop
 snip_set_up_the_remote_config_cluster_2
-
-#set +e #ignore failures here
 echo y | snip_set_up_the_remote_config_cluster_3
-#set -e
 
 _verify_like snip_set_up_the_remote_config_cluster_4 "$snip_set_up_the_remote_config_cluster_4_out"
 
@@ -94,15 +91,18 @@ _verify_like snip_deploy_a_sample_application_3 "$snip_deploy_a_sample_applicati
 
 _verify_contains snip_deploy_a_sample_application_4 "Hello version: v1"
 
-# Install ingress with istioctl
-echo y | snip_enable_gateways_1
+if [ "$GATEWAY_API" != "true" ]; then
+  # Install ingress gateway
+  echo y | snip_enable_gateways_1
 
-# And egress with helm
-_rewrite_helm_repo snip_enable_gateways_4
+  # Install egress gateway
+  echo y | snip_enable_gateways_3
 
-_verify_same kubectl_get_egress_gateway_for_remote_cluster "Running"
+  _verify_same kubectl_get_egress_gateway_for_remote_cluster "Running"
+fi
 
 if [ "$GATEWAY_API" == "true" ]; then
+  snip_install_crds
   snip_configure_and_test_an_ingress_gateway_4
   snip_configure_and_test_an_ingress_gateway_6
 else

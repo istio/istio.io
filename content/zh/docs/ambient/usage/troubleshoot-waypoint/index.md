@@ -10,17 +10,17 @@ test: no
 
 ## 流量路由或安全策略问题 {#problems-with-traffic-routing-or-security-policy}
 
-通过 `productpage` 服务将一些请求从 `sleep` Pod 发送到 `reviews` 服务：
+通过 `productpage` 服务将一些请求从 `curl` Pod 发送到 `reviews` 服务：
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage
+$ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage
 {{< /text >}}
 
-将一些请求从 `sleep` Pod 发送到 `reviews` `v2` Pod：
+将一些请求从 `curl` Pod 发送到 `reviews` `v2` Pod：
 
 {{< text bash >}}
 $ export REVIEWS_V2_POD_IP=$(kubectl get pod -l version=v2,app=reviews -o jsonpath='{.items[0].status.podIP}')
-$ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
+$ kubectl exec deploy/curl -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
 {{< /text >}}
 
 到 `reviews` 服务的请求应由 `reviews-svc-waypoint` 强制执行所有 L7 策略。
@@ -49,7 +49,6 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
     default      details                 10.43.160.119 waypoint
     default      kubernetes              10.43.0.1     waypoint
-    default      notsleep                10.43.156.147 waypoint
     default      productpage             10.43.172.254 waypoint
     default      ratings                 10.43.71.236  waypoint
     default      reviews                 10.43.162.105 reviews-svc-waypoint
@@ -67,7 +66,6 @@ $ kubectl exec deploy/sleep -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     NAMESPACE    POD NAME                                    IP         NODE                     WAYPOINT                PROTOCOL
     default      bookinfo-gateway-istio-7c57fc4647-wjqvm     10.42.2.8  k3d-k3s-default-server-0 None                    TCP
     default      details-v1-698d88b-wwsnv                    10.42.2.4  k3d-k3s-default-server-0 None                    HBONE
-    default      notsleep-685df55c6c-nwhs6                   10.42.0.9  k3d-k3s-default-agent-0  None                    HBONE
     default      productpage-v1-675fc69cf-fp65z              10.42.2.6  k3d-k3s-default-server-0 None                    HBONE
     default      ratings-v1-6484c4d9bb-crjtt                 10.42.0.4  k3d-k3s-default-agent-0  None                    HBONE
     default      reviews-svc-waypoint-c49f9f569-b492t        10.42.2.10 k3d-k3s-default-server-0 None                    TCP

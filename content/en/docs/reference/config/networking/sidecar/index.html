@@ -397,13 +397,9 @@ No
 <td><code>outboundTrafficPolicy</code></td>
 <td><code><a href="#OutboundTrafficPolicy">OutboundTrafficPolicy</a></code></td>
 <td>
-<p>Configuration for the outbound traffic policy.  If your
-application uses one or more external services that are not known
-apriori, setting the policy to <code>ALLOW_ANY</code> will cause the
-sidecars to route any unknown traffic originating from the
-application to its requested destination. If not specified,
-inherits the system detected defaults from the namespace-wide or
-the global default Sidecar.</p>
+<p>Set the default behavior of the sidecar for handling outbound
+traffic from the application.</p>
+<p>Default mode is <code>ALLOW_ANY</code>, which means outbound traffic to unknown destinations will be allowed.</p>
 
 </td>
 <td>
@@ -661,14 +657,7 @@ No
 <h2 id="OutboundTrafficPolicy">OutboundTrafficPolicy</h2>
 <section>
 <p><code>OutboundTrafficPolicy</code> sets the default behavior of the sidecar for
-handling outbound traffic from the application.
-If your application uses one or more external
-services that are not known apriori, setting the policy to <code>ALLOW_ANY</code>
-will cause the sidecars to route any unknown traffic originating from
-the application to its requested destination.  Users are strongly
-encouraged to use <code>ServiceEntry</code> configurations to explicitly declare any external
-dependencies, instead of using <code>ALLOW_ANY</code>, so that traffic to these
-services can be monitored.</p>
+handling unknown outbound traffic from the application.</p>
 
 <table class="message-fields">
 <thead>
@@ -758,16 +747,21 @@ No
 <tr id="OutboundTrafficPolicy-Mode-REGISTRY_ONLY">
 <td><code>REGISTRY_ONLY</code></td>
 <td>
-<p>Outbound traffic will be restricted to services defined in the
-service registry as well as those defined through <code>ServiceEntry</code> configurations.</p>
+<p>In <code>REGISTRY_ONLY</code> mode, unknown outbound traffic will be dropped.
+Traffic destinations must be explicitly declared into the service registry through <code>ServiceEntry</code> configurations.</p>
+<p>Note: Istio <a href="/docs/ops/best-practices/security/#understand-traffic-capture-limitations">does not offer an outbound traffic security policy</a>.
+This option does not act as one, or as any form of an outbound firewall.
+Instead, this option exists primarily to offer users a way to detect missing <code>ServiceEntry</code> configurations by explicitly failing.</p>
 
 </td>
 </tr>
 <tr id="OutboundTrafficPolicy-Mode-ALLOW_ANY">
 <td><code>ALLOW_ANY</code></td>
 <td>
-<p>Outbound traffic to unknown destinations will be allowed, in case
-there are no services or <code>ServiceEntry</code> configurations for the destination port.</p>
+<p>In <code>ALLOW_ANY</code> mode, any traffic to unknown destinations will be allowed.
+Unknown destination traffic will have limited functionality, however, such as reduced observability.
+This mode allows users that do not have all possible egress destinations registered through <code>ServiceEntry</code> configurations to still connect
+to arbitrary destinations.</p>
 
 </td>
 </tr>

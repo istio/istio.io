@@ -38,19 +38,19 @@ The maximum TLS version for Istio workloads is 1.3.
 After configuring the minimum TLS version of Istio workloads,
 you can verify that the minimum TLS version was configured and works as expected.
 
-* Deploy two workloads: `httpbin` and `sleep`. Deploy these into a single namespace,
+* Deploy two workloads: `httpbin` and `curl`. Deploy these into a single namespace,
   for example `foo`. Both workloads run with an Envoy proxy in front of each.
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     {{< /text >}}
 
-* Verify that `sleep` successfully communicates with `httpbin` using this command:
+* Verify that `curl` successfully communicates with `httpbin` using this command:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -63,7 +63,7 @@ In the example, the minimum TLS version was configured to be 1.3.
 To check that TLS 1.3 is allowed, you can run the following command:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
 {{< /text >}}
 
 The text output should include:
@@ -75,7 +75,7 @@ TLSv1.3
 To check that TLS 1.2 is not allowed, you can run the following command:
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
 {{< /text >}}
 
 The text output should include:
@@ -86,11 +86,11 @@ Cipher is (NONE)
 
 ## Cleanup
 
-Delete sample applications `sleep` and `httpbin` from the `foo` namespace:
+Delete sample applications `curl` and `httpbin` from the `foo` namespace:
 
 {{< text bash >}}
 $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
-$ kubectl delete -f samples/sleep/sleep.yaml -n foo
+$ kubectl delete -f samples/curl/curl.yaml -n foo
 {{< /text >}}
 
 Uninstall Istio from the cluster:

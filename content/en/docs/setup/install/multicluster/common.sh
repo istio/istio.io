@@ -110,14 +110,14 @@ function verify_load_balancing
   snip_deploy_helloworld_v1_1
   snip_deploy_helloworld_v2_1
 
-  # Deploy Sleep
-  snip_deploy_sleep_1
+  # Deploy curl
+  snip_deploy_curl_1
 
   # Wait for all the deployments.
   _wait_for_deployment sample helloworld-v1 "${CTX_CLUSTER1}"
-  _wait_for_deployment sample sleep "${CTX_CLUSTER1}"
+  _wait_for_deployment sample curl "${CTX_CLUSTER1}"
   _wait_for_deployment sample helloworld-v2 "${CTX_CLUSTER2}"
-  _wait_for_deployment sample sleep "${CTX_CLUSTER2}"
+  _wait_for_deployment sample curl "${CTX_CLUSTER2}"
 
   # Verify everything is deployed as expected.
   VERIFY_TIMEOUT=0 # Don't retry.
@@ -125,10 +125,10 @@ function verify_load_balancing
   _verify_like snip_deploy_helloworld_v1_2 "$snip_deploy_helloworld_v1_2_out"
   echo "Verifying helloworld v2 deployment"
   _verify_like snip_deploy_helloworld_v2_2 "$snip_deploy_helloworld_v2_2_out"
-  echo "Verifying sleep deployment in ${CTX_CLUSTER1}"
-  _verify_like snip_deploy_sleep_2 "$snip_deploy_sleep_2_out"
-  echo "Verifying sleep deployment in ${CTX_CLUSTER2}"
-  _verify_like snip_deploy_sleep_3 "$snip_deploy_sleep_3_out"
+  echo "Verifying curl deployment in ${CTX_CLUSTER1}"
+  _verify_like snip_deploy_curl_2 "$snip_deploy_curl_2_out"
+  echo "Verifying curl deployment in ${CTX_CLUSTER2}"
+  _verify_like snip_deploy_curl_3 "$snip_deploy_curl_3_out"
   unset VERIFY_TIMEOUT # Restore default
 
   local EXPECTED_RESPONSE_FROM_CLUSTER1="Hello version: v1, instance:"
