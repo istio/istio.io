@@ -11,10 +11,10 @@ test: no
 
 ## Балансування навантаження між кластерами {#cross-cluster-load-balancing}
 
-Найпоширеніша, але також широкомасштабна проблема з багатомережевими установками — це непрацююче балансування навантаження між кластерами. Зазвичай це проявляється в тому, що ви бачите відповіді тільки від кластерної локального екземпляру сервісу:
+Найпоширеніша, але також широкомасштабна проблема з багатомережевими установками — це непрацююче балансування навантаження між кластерами. Зазвичай це проявляється в тому, що ви бачите відповіді тільки від кластерної локального екземпляра сервісу:
 
 {{< text bash >}}
-$ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec sleep-dd98b5f48-djwdw -c sleep -- curl -s helloworld:5000/hello; done
+$ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec curl-dd98b5f48-djwdw -c curl -- curl -s helloworld:5000/hello; done
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
@@ -58,9 +58,9 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l version=v2 -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER1}" \
-    -f samples/sleep/sleep.yaml -n uninjected-sample
+    -f samples/curl/curl.yaml -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
-    -f samples/sleep/sleep.yaml -n uninjected-sample
+    -f samples/curl/curl.yaml -n uninjected-sample
 {{< /text >}}
 
 Перевірте, що є pod helloworld, що працює в `cluster2`, використовуючи прапорець `-o wide`, щоб отримати IP Pod:
@@ -68,8 +68,8 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
 NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+curl-557747455f-jdsd8            1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
 helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
-sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
 {{< /text >}}
 
 Занотуйте стовпець `IP` для `helloworld`. У цьому випадку це `10.100.0.1`:
@@ -78,12 +78,12 @@ sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2  
 $ REMOTE_POD_IP=10.100.0.1
 {{< /text >}}
 
-Далі спробуйте надіслати трафік від podʼа `sleep` в `cluster1` безпосередньо на цей IP Pod:
+Далі спробуйте надіслати трафік від podʼа `curl` в `cluster1` безпосередньо на цей IP Pod:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n uninjected-sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS $REMOTE_POD_IP:5000/hello
 Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
 {{< /text >}}
@@ -116,12 +116,12 @@ $ diff \
 
 Якщо ви пройшли через вищезазначені розділи та все ще стикаєтеся з проблемами, то час заглибитися трохи глибше.
 
-Наступні кроки передбачають, що ви дотримуєтеся [перевірки HelloWorld](/docs/setup/install/multicluster/verify/). Перед тим як продовжити, переконайтеся, що як `helloworld`, так і `sleep` розгорнуті в кожному кластері.
+Наступні кроки передбачають, що ви дотримуєтеся [перевірки HelloWorld](/docs/setup/install/multicluster/verify/). Перед тим як продовжити, переконайтеся, що як `helloworld`, так і `curl` розгорнуті в кожному кластері.
 
-З кожного кластера знайдіть точки доступу сервісу `sleep` для `helloworld`:
+З кожного кластера знайдіть точки доступу сервісу `curl` для `helloworld`:
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 {{< /text >}}
 
 Інформація для усунення неполадок відрізняється залежно від того, який кластер є джерелом трафіку:
@@ -131,7 +131,7 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 {{< tab name="Основний кластер" category-value="primary" >}}
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.0.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -151,7 +151,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 {{< tab name="Віддалений кластер" category-value="remote" >}}
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER2 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER2 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.1.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -175,7 +175,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 Кроки для Основного та Віддаленого кластерів все ще застосовуються для багатомережевих установок, хоча багатомережеве середовище має додатковий випадок:
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.5.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
@@ -204,7 +204,7 @@ istio-eastwestgateway    LoadBalancer   10.8.17.119   <PENDING>        15021:317
 На podʼі-джерелі перевірте метадані проксі.
 
 {{< text bash >}}
-$ kubectl get pod $SLEEP_POD_NAME \
+$ kubectl get pod $CURL_POD_NAME \
   -o jsonpath="{.spec.containers[*].env[?(@.name=='ISTIO_META_NETWORK')].value}"
 {{< /text >}}
 

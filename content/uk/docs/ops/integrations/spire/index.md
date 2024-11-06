@@ -133,7 +133,7 @@ EOF
     {{< text bash >}}
     $ kubectl exec -n spire "$SPIRE_SERVER_POD" -- \
     /opt/spire/bin/spire-server entry create \
-        -spiffeID spiffe://example.org/ns/default/sa/sleep \
+        -spiffeID spiffe://example.org/ns/default/sa/curl \
         -parentID spiffe://example.org/ns/spire/sa/spire-agent \
         -selector k8s:ns:default \
         -selector k8s:pod-label:spiffe.io/spire-managed-identity:true \
@@ -157,7 +157,6 @@ EOF
       meshConfig:
         trustDomain: example.org
       values:
-        global:
         # Це використовується для налаштування шаблону sidecar.
         # Додає як мітку, щоб вказати, що SPIRE повинен керувати
         # ідентичністю цього pod, так і монтуванням драйвера CSI.
@@ -249,8 +248,8 @@ EOF
 
 1. Розгорніть приклад навантаження:
 
-    {{< text syntax=bash snip_id=apply_sleep >}}
-    $ istioctl kube-inject --filename @samples/security/spire/sleep-spire.yaml@ | kubectl apply -f -
+    {{< text syntax=bash snip_id=apply_curl >}}
+    $ istioctl kube-inject --filename @samples/security/spire/curl-spire.yaml@ | kubectl apply -f -
     {{< /text >}}
 
     Окрім необхідності мітки `spiffe.io/spire-managed-identity`, навантаження потребуватиме тому SPIFFE CSI Driver для доступу до сокета агента SPIRE. Для цього ви можете скористатися шаблоном анотації podʼа `spire` з розділу [Встановлення Istio](#install-istio) або додати том CSI до специфікації розгортання вашого навантаження. Обидва ці варіанти виділені в наступному прикладі:
@@ -259,24 +258,24 @@ EOF
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
           matchLabels:
-            app: sleep
+            app: curl
       template:
           metadata:
             labels:
-              app: sleep
+              app: curl
             # Впроваджує власний шаблон користувача sidecar
             annotations:
                 inject.istio.io/templates: "sidecar,spire"
           spec:
             terminationGracePeriodSeconds: 0
-            serviceAccountName: sleep
+            serviceAccountName: curl
             containers:
-            - name: sleep
+            - name: curl
               image: curlimages/curl
               command: ["/bin/sleep", "3650d"]
               imagePullPolicy: IfNotPresent
@@ -315,7 +314,7 @@ JWT-SVID TTL     : default
 Selector         : k8s:pod-uid:88b71387-4641-4d9c-9a89-989c88f7509d
 
 Entry ID         : af7b53dc-4cc9-40d3-aaeb-08abbddd8e54
-SPIFFE ID        : spiffe://example.org/ns/default/sa/sleep
+SPIFFE ID        : spiffe://example.org/ns/default/sa/curl
 Parent ID        : spiffe://example.org/spire/agent/k8s_psat/demo-cluster/bea19580-ae04-4679-a22e-472e18ca4687
 Revision         : 0
 X509-SVID TTL    : default
@@ -338,14 +337,14 @@ istiod-989f54d9c-sg7sn                  1/1     Running   0          45s
 
 1. Отримайте інформацію про pod:
 
-    {{< text syntax=bash snip_id=set_sleep_pod_var >}}
-    $ SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath="{.items[0].metadata.name}")
+    {{< text syntax=bash snip_id=set_curl_pod_var >}}
+    $ CURL_POD=$(kubectl get pod -l app=curl -o jsonpath="{.items[0].metadata.name}")
     {{< /text >}}
 
-1. Отримайте документ ідентичності SVID для `sleep` за допомогою команди istioctl proxy-config secret:
+1. Отримайте документ ідентичності SVID для `curl` за допомогою команди istioctl proxy-config secret:
 
-    {{< text syntax=bash snip_id=get_sleep_svid >}}
-    $ istioctl proxy-config secret "$SLEEP_POD" -o json | jq -r \
+    {{< text syntax=bash snip_id=get_curl_svid >}}
+    $ istioctl proxy-config secret "$CURL_POD" -o json | jq -r \
     ʼ.dynamicActiveSecrets[0].secret.tlsCertificate.certificateChain.inlineBytesʼ | base64 --decode > chain.pem
     {{< /text >}}
 
@@ -353,7 +352,7 @@ istiod-989f54d9c-sg7sn                  1/1     Running   0          45s
 
     {{< text syntax=bash snip_id=get_svid_subject >}}
     $ openssl x509 -in chain.pem -text | grep SPIRE
-        Subject: C = US, O = SPIRE, CN = sleep-5f4d47c948-njvpk
+        Subject: C = US, O = SPIRE, CN = curl-5f4d47c948-njvpk
     {{< /text >}}
 
 ## Федерація SPIFFE {#spiffe-federation}
