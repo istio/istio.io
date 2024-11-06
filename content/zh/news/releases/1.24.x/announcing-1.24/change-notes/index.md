@@ -108,7 +108,7 @@ aliases:
 - **新增** 添加了一项实验性功能，用于启用延迟创建 Envoy 统计信息子集。
   如果这些统计信息在整个过程的生命周期中从未被引用，
   这将在创建拥有这些统计信息的对象时节省内存和 CPU 周期。
-  可以通过在代理 Deplpyment 中将 `ENABLE_DEFERRED_STATS_CREATION` 设置为 false 来禁用此功能。
+  可以通过在代理 Deployment 中将 `ENABLE_DEFERRED_STATS_CREATION` 设置为 false 来禁用此功能。
 
 - **修复** 修复了 ServiceEntry 中多个服务 VIP 的匹配问题。有关更多信息，请参阅升级说明。
   ([Issue #51747](https://github.com/istio/istio/issues/51747)),([Issue #30282](https://github.com/istio/istio/issues/30282))
