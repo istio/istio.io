@@ -108,7 +108,9 @@ API Gateway мають багато спільного з API Istio, таким�
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -160,12 +162,9 @@ API Gateway мають багато спільного з API Istio, таким�
 7.  Знову зверніться до `/headers` і помітьте, що до запиту було додано заголовок `My-Added-Header`:
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    {
-      "headers": {
-        "Accept": "*/*",
-        "Host": "httpbin.example.com",
-        "My-Added-Header": "added-value",
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
+    ...
+    "added-value"
     ...
     {{< /text >}}
 

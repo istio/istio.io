@@ -194,12 +194,12 @@ EOF
 
 Тепер, коли сервер httpbin розгорнуто та налаштовано, запустіть два клієнти для тестування з’єднання як всередині, так і ззовні mesh:
 
-1. Внутрішній клієнт (sleep) в тому ж просторі імен (test), що і сервіс httpbin, з доданим sidecar.
-2. Зовнішній клієнт (sleep) в просторі імен default (тобто, поза сервісною мережею).
+1. Внутрішній клієнт (curl) в тому ж просторі імен (test), що і сервіс httpbin, з доданим sidecar.
+2. Зовнішній клієнт (curl) в просторі імен default (тобто, поза сервісною мережею).
 
 {{< text bash >}}
-$ kubectl apply -f samples/sleep/sleep.yaml
-$ kubectl -n test apply -f samples/sleep/sleep.yaml
+$ kubectl apply -f samples/curl/curl.yaml
+$ kubectl -n test apply -f samples/curl/curl.yaml
 {{< /text >}}
 
 Запустіть наступні команди, щоб перевірити, що все працює і налаштовано правильно.
@@ -207,21 +207,21 @@ $ kubectl -n test apply -f samples/sleep/sleep.yaml
 {{< text bash >}}
 $ kubectl get pods
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-557747455f-xx88g   1/1     Running   0          4m14s
+curl-557747455f-xx88g    1/1     Running   0          4m14s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pods -n test
 NAME                       READY   STATUS    RESTARTS   AGE
 httpbin-5bbdbd6588-z9vbs   2/2     Running   0          8m44s
-sleep-557747455f-brzf6     2/2     Running   0          6m57s
+curl-557747455f-brzf6      2/2     Running   0          6m57s
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get svc -n test
 NAME      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
 httpbin   ClusterIP   10.100.78.113   <none>        8443/TCP,8080/TCP   10m
-sleep     ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
+curl      ClusterIP   10.110.35.153   <none>        80/TCP              8m49s
 {{< /text >}}
 
 У наступній команді замініть `httpbin-5bbdbd6588-z9vbs` на назву вашого podʼа httpbin.
@@ -238,8 +238,8 @@ file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Cha
 ### Перевірка внутрішнього мережевого зʼєднання на порту 8080 {#verify-internal-mesh-connectivity-on-port-8080}
 
 {{< text bash >}}
-$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=sleep -o jsonpath={.items..metadata.name})
-$ kubectl -n test exec "${INTERNAL_CLIENT}" -c sleep -- curl -IsS "http://httpbin:8080/status/200"
+$ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=curl -o jsonpath={.items..metadata.name})
+$ kubectl -n test exec "${INTERNAL_CLIENT}" -c curl -- curl -IsS "http://httpbin:8080/status/200"
 HTTP/1.1 200 OK
 server: envoy
 date: Mon, 24 Oct 2022 09:04:52 GMT
@@ -252,19 +252,19 @@ x-envoy-upstream-service-time: 5
 
 ### Перевірка зʼєднання ззовні в середину mesh на порту 8443 {#verify-external-to-internal-mesh-connectivity-on-port-8443}
 
-Щоб перевірити трафік mTLS від зовнішнього клієнта, спочатку скопіюйте сертифікат центру сертифікації та сертифікат/ключ клієнта в клієнта sleep, який працює у просторі імен default.
+Щоб перевірити трафік mTLS від зовнішнього клієнта, спочатку скопіюйте сертифікат центру сертифікації та сертифікат/ключ клієнта в клієнта curl, який працює у просторі імен default.
 
 {{< text bash >}}
-$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+$ export EXTERNAL_CLIENT=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 $ kubectl cp client.test.svc.cluster.local.key default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp client.test.svc.cluster.local.crt default/"${EXTERNAL_CLIENT}":/tmp/
 $ kubectl cp example.com.crt default/"${EXTERNAL_CLIENT}":/tmp/ca.crt
 {{< /text >}}
 
-Тепер, коли сертифікати доступні для зовнішнього клієнта sleep, ви можете перевірити підключення з нього до внутрішнього httpbin-сервісу за допомогою наступної команди.
+Тепер, коли сертифікати доступні для зовнішнього клієнта curl, ви можете перевірити підключення з нього до внутрішнього httpbin-сервісу за допомогою наступної команди.
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "https://httpbin.test.svc.cluster.local:8443/status/200"
 server: istio-envoy
 date: Mon, 24 Oct 2022 09:05:31 GMT
 content-type: text/html; charset=utf-8
@@ -278,7 +278,7 @@ x-envoy-decorator-operation: ingress-sidecar.test:9080/*
 Окрім перевірки зовнішнього mTLS-зʼєднання через вхідний порт 8443, важливо також переконатися, що порт 8080 не приймає ніякого зовнішнього mTLS-трафіку.
 
 {{< text bash >}}
-$ kubectl exec "${EXTERNAL_CLIENT}" -c sleep -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
+$ kubectl exec "${EXTERNAL_CLIENT}" -c curl -- curl -IsS --cacert /tmp/ca.crt --key /tmp/client.test.svc.cluster.local.key --cert /tmp/client.test.svc.cluster.local.crt -HHost:httpbin.test.svc.cluster.local "http://httpbin.test.svc.cluster.local:8080/status/200"
 curl: (56) Recv failure: Connection reset by peer
 command terminated with exit code 56
 {{< /text >}}
@@ -289,11 +289,11 @@ command terminated with exit code 56
 
     {{< text bash >}}
     $ kubectl delete secret httpbin-mtls-termination httpbin-mtls-termination-cacert -n test
-    $ kubectl delete service httpbin sleep -n test
-    $ kubectl delete deployment httpbin sleep -n test
+    $ kubectl delete service httpbin curl -n test
+    $ kubectl delete deployment httpbin curl -n test
     $ kubectl delete namespace test
-    $ kubectl delete service sleep
-    $ kubectl delete deployment sleep
+    $ kubectl delete service curl
+    $ kubectl delete deployment curl
     {{< /text >}}
 
 1.  Видаліть сертифікати та приватні ключі:

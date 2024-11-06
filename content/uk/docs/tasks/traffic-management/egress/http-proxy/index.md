@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+
 Приклад [Налаштування Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) показує, як спрямовувати трафік до зовнішніх сервісів з вашої сервісної мережі через компонент Istio на периметрі мережі, який називається _Egress Gateway_. Однак у деяких випадках необхідно використовувати зовнішній, застарілий (non-Istio) HTTPS-проксі для доступу до зовнішніх сервісів. Наприклад, у вашій компанії може вже бути налаштований такий проксі, і всі застосунки в організації можуть бути зобовʼязані спрямовувати свій трафік через нього.
 
 Цей приклад показує, як забезпечити доступ до зовнішнього HTTPS-проксі. Оскільки застосунки використовують метод HTTP [CONNECT](https://tools.ietf.org/html/rfc7231#section-4.3.6) для встановлення зʼєднань з HTTPS-проксі, конфігурація трафіку до зовнішнього HTTPS-проксі відрізняється від конфігурації трафіку до зовнішніх HTTP та HTTPS-сервісів.
@@ -85,10 +86,10 @@ test: yes
     EOF
     {{< /text >}}
 
-1.  Розгорніть зразок [sleep]({{< github_tree >}}/samples/sleep) у просторі імен `external` для тестування трафіку на проксі без контролю трафіку Istio.
+1.  Розгорніть зразок [curl]({{< github_tree >}}/samples/curl) у просторі імен `external` для тестування трафіку на проксі без контролю трафіку Istio.
 
     {{< text bash >}}
-    $ kubectl apply -n external -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -n external -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1.  Отримайте IP-адресу проксі-сервера і визначте змінну оточення `PROXY_IP` для її зберігання:
@@ -103,10 +104,10 @@ test: yes
     $ export PROXY_PORT=3128
     {{< /text >}}
 
-1.  Надішліть запит з пода `sleep` в просторі імен `external` до зовнішнього сервіса через проксі:
+1.  Надішліть запит з пода `curl` в просторі імен `external` до зовнішнього сервіса через проксі:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n external -l app=sleep -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$(kubectl get pod -n external -l app=curl -o jsonpath={.items..metadata.name})" -n external -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -144,13 +145,14 @@ test: yes
         name: tcp
         protocol: TCP
       location: MESH_EXTERNAL
+      resolution: NONE
     EOF
     {{< /text >}}
 
-1.  Надішліть запит з пода `sleep` в просторі імен `default`. Оскільки под `sleep` має sidecar, Istio контролює його трафік.
+1.  Надішліть запит з пода `curl` в просторі імен `default`. Оскільки под `curl` має sidecar, Istio контролює його трафік.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c "HTTPS_PROXY=$PROXY_IP:$PROXY_PORT curl https://en.wikipedia.org/wiki/Main_Page" | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -179,16 +181,16 @@ test: yes
 
 ## Очищення {#cleanup}
 
-1. Завершіть роботу сервісу [sleep]({{< github_tree >}}/samples/sleep):
+1. Завершіть роботу сервісу [curl]({{< github_tree >}}/samples/curl):
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-2. Завершіть роботу сервісу [sleep]({{< github_tree >}}/samples/sleep) в просторі імен `external`:
+2. Завершіть роботу сервісу [curl]({{< github_tree >}}/samples/curl) в просторі імен `external`:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n external
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n external
     {{< /text >}}
 
 3. Завершіть роботу проксі Squid, видаліть `ConfigMap` і конфігураційний файл:

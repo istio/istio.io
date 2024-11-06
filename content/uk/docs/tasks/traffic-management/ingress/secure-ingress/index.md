@@ -244,15 +244,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
     Сервіс `httpbin` поверне код [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3).
@@ -274,15 +267,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 4) Якщо ви спробуєте отримати доступ до `httpbin`, використовуючи попередній ланцюжок сертифікатів, спроба завершиться невдачею:
@@ -478,21 +464,16 @@ EOF
     ...
     {{< /text >}}
 
-2) Надішліть запит HTTPS до `httpbin.example.com` і також отримайте відповідь teapot:
+2) Надішліть запит HTTPS до `httpbin.example.com` і також отримайте відповідь [HTTP 418](https://datatracker.ietf.org/doc/html/rfc2324):
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
     {{< /text >}}
 
 ### Налаштуйте взаємний TLS ingress gateway {#configure-a-mutual-tls-ingress-gateway}
@@ -610,15 +591,12 @@ EOF
       --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
       "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 ## Додаткова інформація {#more-info}

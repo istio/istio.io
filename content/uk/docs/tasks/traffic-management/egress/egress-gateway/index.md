@@ -34,10 +34,10 @@ Istio використовує [ingress та egress gateways](/docs/reference/co
     [профіль конфігурації](/docs/setup/additional-setup/config-profiles/) `demo`.
     {{< /tip >}}
 
-*   Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep), щоб використовувати його як джерело для надсилання тестових запитів.
+*   Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), щоб використовувати його як джерело для надсилання тестових запитів.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
     {{< tip >}}
@@ -47,7 +47,7 @@ Istio використовує [ingress та egress gateways](/docs/reference/co
 *   Встановіть змінну оточення `SOURCE_POD` на імʼя вашого вихідного podʼа:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
     {{< warning >}}
@@ -127,7 +127,7 @@ Egress gateways автоматично [розгортаються](/docs/tasks/
 2.  Переконайтеся, що ваш `ServiceEntry` було застосовано правильно, надіславши HTTP-запит на [http://edition.cnn.com/politics](http://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -296,7 +296,7 @@ EOF
 5)  Повторно надішліть HTTP-запит до [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     ...
     HTTP/1.1 301 Moved Permanently
     ...
@@ -429,7 +429,7 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
 1.  Переконайтеся, що ваш `ServiceEntry` було застосовано правильно, надіславши HTTPS-запит на [https://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -576,7 +576,7 @@ EOF
 4)  Надішліть HTTPS-запит на адресу [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Результат має бути таким самим, як і раніше.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     ...
     HTTP/2 200
     Content-Type: text/html; charset=utf-8
@@ -661,7 +661,7 @@ Istio *не може безпечно забезпечити* те, щоб ве�
 
 ## Застосування мережевих політик Kubernetes {#apply-kubernetes-network-policies}
 
-У цьому розділі описується, як створити [мережеву політику Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/), щоб запобігти оминання шлюзу вихідного трафіку. Для тестування мережевої політики створюється простір імен `test-egress`, у який розгортається зразок [sleep]({{< github_tree >}}/samples/sleep), а потім виконується спроба надіслати запити до зовнішнього сервісу, захищеного шлюзом.
+У цьому розділі описується, як створити [мережеву політику Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/), щоб запобігти оминання шлюзу вихідного трафіку. Для тестування мережевої політики створюється простір імен `test-egress`, у який розгортається зразок [curl]({{< github_tree >}}/samples/curl), а потім виконується спроба надіслати запити до зовнішнього сервісу, захищеного шлюзом.
 
 1) Виконайте кроки з розділу [Шлюз вихідного трафіку для HTTPS-трафіку](#egress-gateway-for-https-traffic).
 
@@ -671,24 +671,24 @@ Istio *не може безпечно забезпечити* те, щоб ве�
     $ kubectl create namespace test-egress
     {{< /text >}}
 
-3) Розгорніть зразок [sleep]({{< github_tree >}}/samples/sleep) у просторі імен `test-egress`.
+3) Розгорніть зразок [curl]({{< github_tree >}}/samples/curl) у просторі імен `test-egress`.
 
     {{< text bash >}}
-    $ kubectl apply -n test-egress -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -n test-egress -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 4) Перевірте, що розгорнутий pod має лише один контейнер без підключеного sidecar контейнера Istio:
 
     {{< text bash >}}
-    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress
+    $ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress
     NAME                     READY     STATUS    RESTARTS   AGE
-    sleep-776b7bcdcd-z7mc4   1/1       Running   0          18m
+    curl-776b7bcdcd-z7mc4    1/1       Running   0          18m
     {{< /text >}}
 
-5) Надішліть HTTPS-запит до [https://edition.cnn.com/politics](https://edition.cnn.com/politics) з podʼа `sleep` у просторі імен `test-egress`. Запит буде успішним, оскільки ви ще не визначили жодних обмежувальних політик.
+5) Надішліть HTTPS-запит до [https://edition.cnn.com/politics](https://edition.cnn.com/politics) з podʼа `curl` у просторі імен `test-egress`. Запит буде успішним, оскільки ви ще не визначили жодних обмежувальних політик.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -s -o /dev/null -w "%{http_code}\n"  https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -793,10 +793,10 @@ EOF
 
 {{< /tabset >}}
 
-9)  Повторно надішліть HTTPS-запит до [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Тепер він має не виконатися, оскільки трафік заблокований мережевою політикою. Зверніть увагу, що pod `sleep` не може оминути шлюз вихідного трафіку. Єдиний спосіб, яким він може отримати доступ до `edition.cnn.com`, — це використання sudecar проксі Istio та спрямування трафіку через шлюз вихідного трафіку. Це налаштування демонструє, що навіть якщо якийсь шкідливий pod зуміє обійти свій sidecar проксі, він не зможе отримати доступ до зовнішніх сайтів і буде заблокований мережевою політикою.
+9)  Повторно надішліть HTTPS-запит до [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Тепер він має не виконатися, оскільки трафік заблокований мережевою політикою. Зверніть увагу, що pod `curl` не може оминути шлюз вихідного трафіку. Єдиний спосіб, яким він може отримати доступ до `edition.cnn.com`, — це використання sudecar проксі Istio та спрямування трафіку через шлюз вихідного трафіку. Це налаштування демонструє, що навіть якщо якийсь шкідливий pod зуміє обійти свій sidecar проксі, він не зможе отримати доступ до зовнішніх сайтів і буде заблокований мережевою політикою.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -v -sS https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -v -sS https://edition.cnn.com/politics
     Hostname was NOT found in DNS cache
       Trying 151.101.65.67...
       Trying 2a04:4e42:200::323...
@@ -810,17 +810,17 @@ EOF
     connect to 151.101.65.67 port 443 failed: Connection timed out
     {{< /text >}}
 
-10)  Тепер додай проксі Istio sidecar у pod `sleep` в просторі імен `test-egress`, спочатку увімкнувши автоматичне додавання sidecar проксі в просторі імен `test-egress`:
+10)  Тепер додай проксі Istio sidecar у pod `curl` в просторі імен `test-egress`, спочатку увімкнувши автоматичне додавання sidecar проксі в просторі імен `test-egress`:
 
     {{< text bash >}}
     $ kubectl label namespace test-egress istio-injection=enabled
     {{< /text >}}
 
-11)  Потім виконайте повторне розгортання `sleep`:
+11)  Потім виконайте повторне розгортання `curl`:
 
     {{< text bash >}}
-    $ kubectl delete deployment sleep -n test-egress
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n test-egress
+    $ kubectl delete deployment curl -n test-egress
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n test-egress
     {{< /text >}}
 
 12)  Перевір, що у розгорнутому pod є два контейнери, включаючи проксі Istio sidecar (`istio-proxy`):
@@ -830,11 +830,11 @@ EOF
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-sleep istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+curl istio-proxy
 {{< /text >}}
 
-Перш ніж продовжити, потрібно створити аналогічне правило призначення, як і для pod `sleep` у просторі імен `default`, щоб спрямувати трафік простору імен `test-egress` через шлюз egress:
+Перш ніж продовжити, потрібно створити аналогічне правило призначення, як і для pod `curl` у просторі імен `default`, щоб спрямувати трафік простору імен `test-egress` через шлюз egress:
 
 {{< text bash >}}
 $ kubectl apply -n test-egress -f - <<EOF
@@ -854,8 +854,8 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-sleep istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+curl istio-proxy
 {{< /text >}}
 
 {{< /tab >}}
@@ -865,7 +865,7 @@ sleep istio-proxy
 13) Надішліть HTTPS-запит на [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Тепер він повинен успішно пройти, оскільки трафік до шлюзу egress дозволений мережевою політикою, яку ви визначили. Шлюз потім пересилає трафік на `edition.cnn.com`.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -n test-egress -l app=sleep -o jsonpath={.items..metadata.name})" -n test-egress -c sleep -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
+    $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -sS -o /dev/null -w "%{http_code}\n" https://edition.cnn.com/politics
     200
     {{< /text >}}
 
@@ -916,7 +916,7 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c i
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+$ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
 $ kubectl delete destinationrule egressgateway-for-cnn -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 $ kubectl label namespace kube-system kube-system-
@@ -929,7 +929,7 @@ $ kubectl delete namespace test-egress
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@ -n test-egress
+$ kubectl delete -f @samples/curl/curl.yaml@ -n test-egress
 $ kubectl delete networkpolicy allow-egress-to-istio-system-and-kube-dns -n test-egress
 $ kubectl label namespace kube-system kube-system-
 $ kubectl label namespace istio-system istio-
@@ -945,8 +945,8 @@ $ kubectl delete namespace test-egress
 
 ## Очищення {#cleanup}
 
-Вимкніть сервіс [sleep]({{< github_tree >}}/samples/sleep):
+Вимкніть сервіс [curl]({{< github_tree >}}/samples/curl):
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

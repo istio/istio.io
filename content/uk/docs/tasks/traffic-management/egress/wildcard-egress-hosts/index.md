@@ -49,17 +49,17 @@ $ istioctl install --set profile=minimal -y \
 
 {{< /tabset >}}
 
-*   Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep) для використання його як джерела тестових запитів.
+*   Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl) для використання його як джерела тестових запитів.
 Якщо у вас увімкнено [автоматична інʼєкія sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду для розгортання застосунку:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    В іншому випадку, вручну додайте sidecar перед розгортанням застосунку `sleep` за допомогою наступної команди:
+    В іншому випадку, вручну додайте sidecar перед розгортанням застосунку `curl` за допомогою наступної команди:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -69,7 +69,7 @@ $ istioctl install --set profile=minimal -y \
 *   Встановіть змінну оточення `SOURCE_POD` на імʼя вашого тестового podʼа:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 ## Налаштування прямого трафіку до хосту за шаблоном {#direct-traffic-to-wildcard-host}
@@ -105,7 +105,7 @@ $ istioctl install --set profile=minimal -y \
 2.  Надішліть HTTPS-запит до [https://en.wikipedia.org](https://en.wikipedia.org) та [https://uk.wikipedia.org](https://uk.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://uk.wikipedia.org/wiki/Головна_сторінка | grep -o "<title>.*</title>"'
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://uk.wikipedia.org/wiki/Головна_сторінка | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Вікіпедія</title>
     {{< /text >}}
@@ -289,7 +289,7 @@ EOF
     [https://en.wikipedia.org](https://en.wikipedia.org) та [https://uk.wikipedia.org](https://uk.wikipedia.org):
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://uk.wikipedia.org/wiki/Головна_сторінка | grep -o "<title>.*</title>"'
+    $ kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://uk.wikipedia.org/wiki/Головна_сторінка | grep -o "<title>.*</title>"'
     <title>Wikipedia, the free encyclopedia</title>
     <title>Вікіпедія</title>
     {{< /text >}}
@@ -357,10 +357,10 @@ $ kubectl delete tlsroute forward-wikipedia-from-egress-gateway
 
 ## Очищення {#cleanup}
 
-* Зупиніть сервіс [sleep]({{< github_tree >}}/samples/sleep):
+* Зупиніть сервіс [curl]({{< github_tree >}}/samples/curl):
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 * Видаліть Istio з вашого кластера:

@@ -78,10 +78,10 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
 \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 {{< /text >}}
 
-У таблиці нижче наведено приклад використання формату стандартних логів доступу для запиту від `sleep` до `httpbin`:
+У таблиці нижче наведено приклад використання формату стандартних логів доступу для запиту від `curl` до `httpbin`:
 
-| Оператор логу | логи доступу у sleep | логи доступу у httpbin |
-|---------------|----------------------|------------------------|
+| Оператор логу | логи доступу у curl | логи доступу у httpbin |
+|---------------|---------------------|------------------------|
 | `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
 | `\"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\"` | `"GET /status/418 HTTP/1.1"` | `"GET /status/418 HTTP/1.1"`
 | `%RESPONSE_CODE%` | `418` | `418`
@@ -107,29 +107,23 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
 
 ## Тестування логів доступу {#test-the-access-log}
 
-1.  Надішліть запит від `sleep` до `httpbin`:
+1.  Надішліть запит від `curl` до `httpbin`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
+    ...
     < server: envoy
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
-1.  Перевірте логи `sleep`:
+1.  Перевірте логи `curl`:
 
     {{< text bash >}}
-    $ kubectl logs -l app=sleep -c istio-proxy
+    $ kubectl logs -l app=curl -c istio-proxy
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 4 4 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "10.44.1.27:80" outbound|8000||httpbin.foo.svc.cluster.local 10.44.1.23:37652 10.0.45.184:8000 10.44.1.23:46520 - default
     {{< /text >}}
 
@@ -140,14 +134,14 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
     {{< /text >}}
 
-Зверніть увагу, що повідомлення, повʼязані із запитом, зʼявляються в логах Istio-проксі як на джерелі, так і на пункті призначення — відповідно, `sleep` і `httpbin`. Ви можете побачити в логах HTTP-метод (`GET`), HTTP-шлях (`/status/418`), код відповіді (`418`) та іншу [інформацію про запит](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules).
+Зверніть увагу, що повідомлення, повʼязані із запитом, зʼявляються в логах Istio-проксі як на джерелі, так і на пункті призначення — відповідно, `curl` і `httpbin`. Ви можете побачити в логах HTTP-метод (`GET`), HTTP-шлях (`/status/418`), код відповіді (`418`) та іншу [інформацію про запит](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules).
 
 ## Очищення {#cleanup}
 
-Завершіть роботу сервісів [sleep]({{< github_tree >}}/samples/sleep) та [httpbin]({{< github_tree >}}/samples/httpbin):
+Завершіть роботу сервісів [curl]({{< github_tree >}}/samples/curl) та [httpbin]({{< github_tree >}}/samples/httpbin):
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
 
