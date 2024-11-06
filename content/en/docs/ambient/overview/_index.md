@@ -3,6 +3,7 @@ title: Overview
 description: An overview of Istio's ambient data plane mode.
 weight: 1
 owner: istio/wg-docs-maintainers-english
+skip_list: true
 test: no
 ---
 
