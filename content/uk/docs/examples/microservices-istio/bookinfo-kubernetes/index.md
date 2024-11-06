@@ -81,16 +81,16 @@ test: no
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-7. Після того, як сервіси досягнуть статусу `Running`, розгорніть тестовий pod, [sleep]({{< github_tree >}}/samples/sleep), для надсилання запитів до ваших мікросервісів:
+7. Після того, як сервіси досягнуть статусу `Running`, розгорніть тестовий pod, [curl]({{< github_tree >}}/samples/curl), для надсилання запитів до ваших мікросервісів:
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/curl/curl.yaml
     {{< /text >}}
 
 8. Щоб підтвердити, що застосунок Bookinfo працює, надішліть запит до нього за допомогою команди curl з вашого тестового podʼа:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec $(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}') -c curl -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 

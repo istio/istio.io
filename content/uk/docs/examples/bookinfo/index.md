@@ -65,10 +65,6 @@ test: yes
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
-    {{< warning >}}
-    Якщо ви використовуєте OpenShift, переконайтеся, що ви надали відповідні дозволи службовим обліковим записам у просторі імен, як описано на [сторінці налаштування OpenShift](/docs/setup/platform-setup/openshift/#privileged-security-context-constraints-for-application-sidecars).
-    {{< /warning >}}
-
 1. Розгорніть ваш застосунок за допомогою команди `kubectl`:
 
     {{< text bash >}}
