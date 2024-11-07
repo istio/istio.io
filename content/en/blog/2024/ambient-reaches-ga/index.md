@@ -130,12 +130,12 @@ In our upcoming releases, we expect to move quickly on the following extensions 
 
 Sidecars are not going away, and remain first-class citizens in Istio. You can continue to use sidecars, and they will remain fully supported. While we believe most use cases will be best served with a mesh in ambient mode, the Istio project remains committed to ongoing sidecar mode support.
 
-## Try ambient mode today!
+## Try ambient mode today
 
-With the 1.24 release of Istio and the GA release of ambient mode, it is now easier than ever to try out Istio on your own workloads. 
+With the 1.24 release of Istio and the GA release of ambient mode, it is now easier than ever to try out Istio on your own workloads.
 
-* Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient mode.
-* Read our [user guides](/docs/ambient/usage/) to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, traffic management, rich L7 authorization policy, and more. 
-* Explore the [new Kiali 2.0 dashboard](https://medium.com/kialiproject/kiali-2-0-for-istio-2087810f337e) to visualize your mesh. 
+- Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient mode.
+- Read our [user guides](/docs/ambient/usage/) to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, traffic management, rich L7 authorization policy, and more.
+- Explore the [new Kiali 2.0 dashboard](https://medium.com/kialiproject/kiali-2-0-for-istio-2087810f337e) to visualize your mesh.
 
 You can engage with the developers in the #ambient channel on [the Istio Slack](https://slack.istio.io), or use the discussion forum on [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
