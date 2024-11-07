@@ -10,10 +10,6 @@ aliases:
     - /news/announcing-1.24.0
 ---
 
-{{< warning >}}
-This is an automatically generated rough draft of the release notes and has not yet been reviewed.
-{{< /warning >}}
-
 ## Ambient
 
 - **Added** support for attaching policies to `ServiceEntry` for waypoints.
