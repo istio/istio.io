@@ -113,7 +113,7 @@ The general availability of ambient mode means the following things are now cons
 - Using waypoints for controlled mesh egress
 - Using `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
 
-Refer to the [feature status page](docs/releases/feature-stages/#ambient-mode) for more information.
+Refer to the [feature status page](/docs/releases/feature-stages/#ambient-mode) for more information.
 
 ### Roadmap
 
