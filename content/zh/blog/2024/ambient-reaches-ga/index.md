@@ -152,7 +152,7 @@ Ambient 网格证明了社区正在接受新想法并务实地努力改善开发
 我们实现了无缝扩展并降低了资源利用率和延迟。这种方法使开发人员能够专注于应用程序开发，
 从而实现由 Ambient 模式支持的更具弹性、更安全、更可扩展的平台。**
 
-— [Jose Marque](https://www.linkedin.com/in/jdcmarques/)，Blip.pt 高级 DevOps 工程师
+— [Jose Marques](https://www.linkedin.com/in/jdcmarques/)，Blip.pt 高级 DevOps 工程师
 {{< /quote >}}
 
 {{< quote >}}
