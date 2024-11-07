@@ -20,7 +20,7 @@ providers:
     logo: "/logos/tetrate.svg"
     url: "https://www.tetrate.io/tetrate-service-bridge/"
   - name: "Gloo Mesh by Solo.io"
-    logo: "/logos/gloomesh.svg"
+    logo: "/logos/solo.svg"
     url: "https://www.solo.io/products/gloo-mesh/"
   - name: "Istio Addon for Azure Kubernetes Service"
     logo: "/logos/microsoft-azure.svg"
