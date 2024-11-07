@@ -28,7 +28,7 @@ The lightweight shared L4 node proxy is called the *[ztunnel](/docs/ambient/over
 
 The L7 proxies are called *[waypoints](/docs/ambient/overview/#waypoint-proxies)*. Waypoints process L7 functions such as traffic routing, rich authorization policy enforcement, and enterprise-grade resilience. Waypoints run outside of your application deployments and can scale independently based on your needs, which could be for the entire namespace or for multiple services within a namespace. Compared with sidecars, you don’t need one waypoint per application pod, and you can scale your waypoint effectively based on its scope, thus saving significant amounts of CPU and memory in most cases.
 
-The separation between the L4 secure overlay layer and L7 processing layer allows incremental adoption of the ambient mode data plane, in contrast to the earlier binary “all-in” injection of sidecars. Users can start with the secure L4 overlay, which offers a majority of features that people deploy Istio for (mTLS, authorization policy, and telemetry). Complex L7 handling such as retries, traffic splitting, load balancing, and observability collection can then be enabled on a case-by-case basis.
+The separation between the L4 secure overlay layer and L7 processing layer allows incremental adoption of the ambient mode data plane, in contrast to the earlier binary "all-in" injection of sidecars. Users can start with the secure L4 overlay, which offers a majority of features that people deploy Istio for (mTLS, authorization policy, and telemetry). Complex L7 handling such as retries, traffic splitting, load balancing, and observability collection can then be enabled on a case-by-case basis.
 
 ## Rapid exploration and adoption of ambient mode
 
@@ -125,7 +125,6 @@ In our upcoming releases, we expect to move quickly on the following extensions 
 - Multi-cluster installations
 - Multi-network support
 - VM support
-
 
 ## What about sidecars?
 
