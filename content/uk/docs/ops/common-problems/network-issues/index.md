@@ -244,11 +244,11 @@ spec:
 
 Імʼя порту `http-web` в визначенні Service явно вказує на протокол http для цього порту.
 
-Припустимо, що у нас також є `Deployment` podʼа [sleep]({{< github_tree >}}/samples/sleep) в стандартному просторі. Коли `nginx` доступний з цього podʼа `sleep`, використовуючи його IP-адресу (це один із поширених способів доступу до headless сервісу), запит проходить через `PassthroughCluster` до серверної сторони, але проксі-сервер на стороні сервера не може знайти маршрут до `nginx` і зіпиняється з помилкою `HTTP 503 UC`.
+Припустимо, що у нас також є `Deployment` podʼа [curl]({{< github_tree >}}/samples/curl) в стандартному просторі. Коли `nginx` доступний з цього podʼа `curl`, використовуючи його IP-адресу (це один із поширених способів доступу до headless сервісу), запит проходить через `PassthroughCluster` до серверної сторони, але проксі-сервер на стороні сервера не може знайти маршрут до `nginx` і зіпиняється з помилкою `HTTP 503 UC`.
 
 {{< text bash >}}
-$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+$ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
   503
 {{< /text >}}
 
@@ -261,8 +261,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
     Заголовок Host у запиті curl стандартно буде IP-адреса Pod. Вказання заголовка Host як `nginx.default` у нашому запиті до `nginx` успішно повертає `HTTP 200 OK`.
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
@@ -275,13 +275,13 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
     Це корисно в певних сценаріях, де клієнт може не мати можливості включити інформацію про заголовок у запит.
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
@@ -290,8 +290,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
     До конкретного екземпляру headless сервісу також можна отримати доступ за допомогою доменного імені.
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 

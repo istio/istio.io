@@ -98,12 +98,12 @@ test: yes
 
 ## Розгортання демонстраційних сервісів {#deploying-example-services}
 
-1. Розгорніть демонстраційні сервіси `httpbin` та  `sleep`.
+1. Розгорніть демонстраційні сервіси `httpbin` та  `curl`.
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
 2. Розгорніть політику для робочих навантажень у просторі імен `foo`, щоб приймати лише взаємний TLS-трафік.
@@ -127,7 +127,7 @@ test: yes
 1.  Почекайте 20 секунд, щоб політика mTLS набула чинності, перш ніж отримати ланцюжок сертифікатів для `httpbin`. Оскільки сертифікат CA, що використовується в цьому прикладі, є самопідписним, помилка `verify error:num=19:self signed certificate in certificate chain`, що повертається командою openssl, є очікуваною.
 
     {{< text bash >}}
-    $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+    $ sleep 20; kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
 1.  Проаналізуйте сертифікати в ланцюжку сертифікатів.
@@ -182,10 +182,10 @@ test: yes
     $ kubectl delete peerauthentication -n foo default
     {{< /text >}}
 
-*   Видаліть демонстраційні застосунки `sleep` та `httpbin`:
+*   Видаліть демонстраційні застосунки `curl` та `httpbin`:
 
     {{< text bash >}}
-    $ kubectl delete -f samples/sleep/sleep.yaml -n foo
+    $ kubectl delete -f samples/curl/curl.yaml -n foo
     $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
     {{< /text >}}
 

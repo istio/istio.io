@@ -17,10 +17,10 @@ Istio надає можливість [розширити свої функці�
 1. Налаштуйте Istio, дотримуючись інструкцій у [посібнику з початку роботи в режимі ambient](/docs/ambient/getting-started).
 2. Розгорніть [демонстраційний застосунок Bookinfo](/docs/ambient/getting-started/deploy-sample-app).
 3. [Додайте простір імен default до ambient mesh](/docs/ambient/getting-started/secure-and-visualize).
-4. Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep), щоб використовувати його як джерело для надсилання тестових запитів.
+4. Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), щоб використовувати його як джерело для надсилання тестових запитів.
 
     {{< text syntax=bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 ## На шлюзі {#at-a-gateway}
@@ -71,14 +71,14 @@ EOF
 1. Перевірте `/productpage` без облікових даних:
 
     {{< text syntax=bash snip_id=test_gateway_productpage_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     401
     {{< /text >}}
 
 2. Перевірте `/productpage` з обліковими даними, налаштованими у ресурсі WasmPlugin:
 
     {{< text syntax=bash snip_id=test_gateway_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+    $ kubectl exec deploy/curl -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     200
     {{< /text >}}
 
@@ -97,7 +97,7 @@ $ istioctl waypoint apply --enroll-namespace --wait
 Переконайтеся, що трафік досягає сервісу:
 
 {{< text syntax=bash snip_id=verify_traffic >}}
-$ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+$ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
 200
 {{< /text >}}
 
@@ -151,14 +151,14 @@ basic-auth-at-waypoint   14m
 1. Перевірте внутрішню точку доступу `/productpage` без облікових даних:
 
     {{< text syntax=bash snip_id=test_waypoint_productpage_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
     401
     {{< /text >}}
 
 2. Перевірте внутрішню точку доступу `/productpage` з обліковими даними:
 
     {{< text syntax=bash snip_id=test_waypoint_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
     200
     {{< /text >}}
 
@@ -198,21 +198,21 @@ EOF
 1. Перевірте внутрішню точку доступу `/productpage` з обліковими даними, налаштованими на загальному проксі `waypoint`:
 
     {{< text syntax=bash snip_id=test_waypoint_service_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
     200
     {{< /text >}}
 
 2. Перевірте внутрішню точку доступу `/reviews` з обліковими даними, налаштованими на конкретному проксі `reviews-svc-waypoint`:
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
     200
     {{< /text >}}
 
 3. Перевірте внутрішню точку доступу `/reviews` без облікових даних:
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
     401
     {{< /text >}}
 

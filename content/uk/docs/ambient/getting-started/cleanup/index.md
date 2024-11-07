@@ -36,12 +36,12 @@ $ kubectl delete namespace istio-system
 
 ## Видалення демонстраційного застосунку {#remove-the-sample-application}
 
-Щоб видалити демонстраційний застосунок Bookinfo та deployment `sleep`, виконайте наступне:
+Щоб видалити демонстраційний застосунок Bookinfo та deployment `curl`, виконайте наступне:
 
 {{< text bash >}}
-$ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl delete -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
-$ kubectl delete -f {{< github_file >}}/samples/sleep/sleep.yaml
+$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl delete -f samples/curl/curl.yaml
 {{< /text >}}
 
 ## Видалення CRD для Kubernetes Gateway API {#remove-gateway-api-crds}

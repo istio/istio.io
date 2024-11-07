@@ -94,13 +94,13 @@ EOF
 
 ### Використання анотації `proxy.istio.io/config` для налаштування трейсингу {#using-proxyistioioconfig-annotation-for-trace-settings}
 
-Ви можете додати анотацію `proxy.istio.io/config` до специфікації метаданих вашого Podʼа  для перевизначення будь-яких мережевих налаштувань трейсингу. Наприклад, щоб змінити розгортання `sleep`, яке постачається з Istio, ви додасте наступне до `samples/sleep/sleep.yaml`:
+Ви можете додати анотацію `proxy.istio.io/config` до специфікації метаданих вашого Podʼа  для перевизначення будь-яких мережевих налаштувань трейсингу. Наприклад, щоб змінити розгортання `curl`, яке постачається з Istio, ви додасте наступне до `samples/curl/curl.yaml`:
 
 {{< text yaml >}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
   ...
   template:

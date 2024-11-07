@@ -43,7 +43,7 @@ $ istioctl install --set values.pilot.traceSampling=0.1
 Якщо ви хочете налаштувати параметри ресурсів Kubernetes, використовуйте API `IstioOperator`, як описано в розділі [Налаштування параметрів Kubernetes](/docs/setup/additional-setup/customize-installation/#customize-kubernetes-settings).
 {{< /tip >}}
 
-### Визначення компоненту Istio {#identify-istio-component}
+### Визначення компонента Istio {#identify-istio-component}
 
 API `IstioOperator` визначає компоненти, як показано в таблиці нижче:
 

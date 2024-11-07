@@ -44,19 +44,19 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
 
 1. Вимкніть журнал доступу для конкретного робочого навантаження
 
-    Ви можете вимкнути журнал доступу для служби `sleep` за допомогою наступної конфігурації:
+    Ви можете вимкнути журнал доступу для служби `curl` за допомогою наступної конфігурації:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n default -f -
     apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
-      name: disable-sleep-logging
+      name: disable-curl-logging
       namespace: default
     spec:
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       accessLogging:
       - providers:
         - name: otel
@@ -96,11 +96,11 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-      name: filter-sleep-logging
+      name: filter-curl-logging
     spec:
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       accessLogging:
       - providers:
         - name: otel

@@ -13,7 +13,7 @@ test: yes
 Рекомендується використовувати [Gateway](/docs/tasks/traffic-management/ingress/ingress-control/), а не Ingress, щоб скористатися повним набором функцій, які пропонує Istio, такими як розширене управління трафіком і функції безпеки.
 {{< /tip >}}
 
-## Перш ніж почати  {#before-you-begin}
+## Перш ніж почати {#before-you-begin}
 
 Дотримуйтесь інструкцій у розділах [Перед початком роботи](/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin) та [Визначення вхідного IP та портів](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) з [завдання Ingress Gateways](/docs/tasks/traffic-management/ingress/ingress-control/).
 
@@ -54,7 +54,9 @@ test: yes
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}

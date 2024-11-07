@@ -75,7 +75,7 @@ istiod-canary-6956db645c-vwhsk
 
 Однак, проста установка нової ревізії не вплине на наявні sidecar проксі. Щоб оновити їх, потрібно налаштувати їх на нову панель управління `istiod-canary`. Це контролюється під час інʼєкції sidecar контейнерів на основі мітки простору імен `istio.io/rev`.
 
-Створіть простір імен `test-ns` з увімкненим `istio-injection`. У просторі імен `test-ns` розгорніть демонстраційний pod `sleep`:
+Створіть простір імен `test-ns` з увімкненим `istio-injection`. У просторі імен `test-ns` розгорніть демонстраційний pod `curl`:
 
 1. Створіть простір імен `test-ns`.
 
@@ -89,10 +89,10 @@ istiod-canary-6956db645c-vwhsk
     $ kubectl label namespace test-ns istio-injection=enabled
     {{< /text >}}
 
-3. Запустіть демонстраційний pod `sleep` у просторі імен `test-ns`.
+3. Запустіть демонстраційний pod `curl` у просторі імен `test-ns`.
 
     {{< text bash >}}
-    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    $ kubectl apply -n test-ns -f samples/curl/curl.yaml
     {{< /text >}}
 
 Щоб оновити простір імен `test-ns`, видаліть мітку `istio-injection` і додайте мітку `istio.io/rev`, щоб вказати на ревізію `canary`. Мітка `istio-injection` повинна бути видалена, оскільки вона має перевагу над міткою `istio.io/rev` для зворотної сумісності.
@@ -152,12 +152,12 @@ $ istioctl proxy-status | grep "\.test-ns "
     $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
     {{< /text >}}
 
-4. Запустіть демонстраційний pod `sleep` в кожному просторі імен:
+4. Запустіть демонстраційний pod `curl` в кожному просторі імен:
 
     {{< text bash >}}
-    $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
-    $ kubectl apply -n app-ns-2 -f samples/sleep/sleep.yaml
-    $ kubectl apply -n app-ns-3 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-1 -f samples/curl/curl.yaml
+    $ kubectl apply -n app-ns-2 -f samples/curl/curl.yaml
+    $ kubectl apply -n app-ns-3 -f samples/curl/curl.yaml
     {{< /text >}}
 
 5. Перевірте відповідність застосунку до панелі управління за допомогою команди `istioctl proxy-status`:
@@ -165,9 +165,9 @@ $ istioctl proxy-status | grep "\.test-ns "
     {{< text bash >}}
     $ istioctl ps
     NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
-    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
-    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
+    curl-78ff5975c6-62pzf.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
+    curl-78ff5975c6-8kxpl.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
+    curl-78ff5975c6-8q7m6.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
     {{< /text >}}
 
 {{< boilerplate revision-tags-middle >}}
@@ -188,9 +188,9 @@ $ kubectl rollout restart deployment -n app-ns-2
 {{< text bash >}}
 $ istioctl ps
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
-sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
-sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-5984f48bc7-kmj6x.app-ns-1                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-78ff5975c6-jldk4.app-ns-3                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-7cdd8dccb9-5bq5n.app-ns-2                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
 {{< /text >}}
 
 ### Стандартний теґ {#default-tag}

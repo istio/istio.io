@@ -29,34 +29,34 @@ Istio автоматично конфігурує sidecar-и навантаже�
 
 ## Налаштування кластера {#set-up-the-cluster}
 
-* Створіть два простори імен, `foo` та `bar`, і розгорніть [httpbin]({{< github_tree >}}/samples/httpbin) та [sleep]({{< github_tree >}}/samples/sleep) з sidecar-ами в обох:
+* Створіть два простори імен, `foo` та `bar`, і розгорніть [httpbin]({{< github_tree >}}/samples/httpbin) та [curl]({{< github_tree >}}/samples/curl) з sidecar-ами в обох:
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     $ kubectl create ns bar
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n bar
     {{< /text >}}
 
-* Створіть інший простір імен, `legacy`, і розгорніть [sleep]({{< github_tree >}}/samples/sleep) без sidecar:
+* Створіть інший простір імен, `legacy`, і розгорніть [curl]({{< github_tree >}}/samples/curl) без sidecar:
 
     {{< text bash >}}
     $ kubectl create ns legacy
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n legacy
     {{< /text >}}
 
-* Перевірте налаштування, надіславши HTTP запити (з використанням curl) з podʼів `sleep`, у просторах імен `foo`, `bar` і `legacy`, до `httpbin.foo` і `httpbin.bar`. Всі запити повинні успішно завершитися з кодом повернення 200.
+* Перевірте налаштування, надіславши HTTP запити (з використанням curl) з podʼів `curl`, у просторах імен `foo`, `bar` і `legacy`, до `httpbin.foo` і `httpbin.bar`. Всі запити повинні успішно завершитися з кодом повернення 200.
 
     {{< text bash >}}
-    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-    sleep.foo to httpbin.foo: 200
-    sleep.foo to httpbin.bar: 200
-    sleep.bar to httpbin.foo: 200
-    sleep.bar to httpbin.bar: 200
-    sleep.legacy to httpbin.foo: 200
-    sleep.legacy to httpbin.bar: 200
+    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+    curl.foo to httpbin.foo: 200
+    curl.foo to httpbin.bar: 200
+    curl.bar to httpbin.foo: 200
+    curl.bar to httpbin.bar: 200
+    curl.legacy to httpbin.foo: 200
+    curl.legacy to httpbin.bar: 200
     {{< /text >}}
 
     {{< tip >}}
@@ -90,17 +90,17 @@ spec:
 EOF
 {{< /text >}}
 
-Тепер ви повинні побачити, що запит від `sleep.legacy` до `httpbin.foo` зазнає невдачі.
+Тепер ви повинні побачити, що запит від `curl.legacy` до `httpbin.foo` зазнає невдачі.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
+curl.legacy to httpbin.bar: 200
 {{< /text >}}
 
 Якщо ви встановили Istio з `values.global.proxy.privileged=true`, ви можете використовувати `tcpdump` для перевірки, чи зашифровано трафік.
@@ -111,7 +111,7 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 {{< /text >}}
 
-Ви побачите як незашифрований, так і зашифрований текст у виводі, коли запити надсилаються з `sleep.legacy` і `sleep.foo` відповідно.
+Ви побачите як незашифрований, так і зашифрований текст у виводі, коли запити надсилаються з `curl.legacy` і `curl.foo` відповідно.
 
 Якщо ви не можете мігрувати всі свої сервіси на Istio (тобто, зробити інʼєкцію sidecar Envoy у всі з них), вам слід продовжити використовувати режим `PERMISSIVE`. Однак у режимі `PERMISSIVE` стандартно жодні перевірки автентифікації чи авторизації не будуть виконані для звичайного трафіку. Рекомендуємо використовувати [Авторизацію Istio](/docs/tasks/security/authorization/authz-http/) для конфігурації різних шляхів з різними політиками авторизації.
 
@@ -131,10 +131,10 @@ spec:
 EOF
 {{< /text >}}
 
-Тепер обидва простори імен `foo` і `bar` забезпечують взаємний трафік тільки з TLS, тому ви повинні бачити, що запити з `sleep.legacy` в обох просторах.
+Тепер обидва простори імен `foo` і `bar` забезпечують взаємний трафік тільки з TLS, тому ви повинні бачити, що запити з `curl.legacy` в обох просторах.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
 {{< /text >}}
 
 ## Очищення прикладу {#clean-up-the-example}

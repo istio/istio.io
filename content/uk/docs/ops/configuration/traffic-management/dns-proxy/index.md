@@ -37,7 +37,7 @@ EOF
 {{< text syntax=yaml snip_id=none >}}
 kind: Deployment
 metadata:
-  name: sleep
+  name: curl
 spec:
 ...
   template:
@@ -80,13 +80,13 @@ EOF
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection=enabled --overwrite
-$ kubectl apply -f @samples/sleep/sleep.yaml@
+$ kubectl apply -f @samples/curl/curl.yaml@
 {{< /text >}}
 
 Без перехоплення DNS запит до `address.internal`, ймовірно, не буде успішно розвʼязаний. Після ввімкнення цієї функції ви маєте отримати відповідь на основі налаштованої `address`:
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -sS -v address.internal
+$ kubectl exec deploy/curl -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
@@ -126,7 +126,7 @@ EOF
 Тепер надішліть запит:
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -sS -v auto.internal
+$ kubectl exec deploy/curl -- curl -sS -v auto.internal
 *   Trying 240.240.0.1:80...
 {{< /text >}}
 
@@ -211,7 +211,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 5. Перевірте, чи слухачі налаштовані окремо для кожного сервісу на стороні клієнта:
 
     {{< text bash >}}
-    $ istioctl pc listener deploy/sleep | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
+    $ istioctl pc listener deploy/curl | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
     ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
@@ -221,7 +221,7 @@ $ kubectl exec deploy/sleep -- curl -sS -v auto.internal
 {{< text bash >}}
 $ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@
 $ kubectl -n external-2 delete -f @samples/tcp-echo/tcp-echo.yaml@
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 $ istioctl uninstall --purge -y
 $ kubectl delete ns istio-system external-1 external-2
 $ kubectl label namespace default istio-injection-

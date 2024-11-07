@@ -18,26 +18,26 @@ test: yes
 
 * Налаштуйте Istio, дотримуючись інструкцій з [Посібника з встановлення](/docs/setup/).
 
-*   Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep), щоб використовувати його як джерело для надсилання тестових запитів.
+*   Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), щоб використовувати його як джерело для надсилання тестових запитів.
 
-    Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду, розгорніть застосунок `sleep`:
+    Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду, розгорніть застосунок `curl`:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    В іншому випадку вам потрібно вручну виконати інʼєкцію sidecar перед розгортанням застосунку `sleep`:
+    В іншому випадку вам потрібно вручну виконати інʼєкцію sidecar перед розгортанням застосунку `curl`:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     Зверніть увагу, що будь-який pod, з якого ви можете виконати `exec` та `curl`, підійде для подальших процедур.
 
-*   Створіть змінну оболонки, яка буде містити ім'я вихідного пакунка для надсилання запитів до зовнішніх сервісів. Якщо ви використовували приклад [sleep]({{< github_tree >}}/samples/sleep), запустіть його:
+*   Створіть змінну оболонки, яка буде містити ім'я вихідного пакунка для надсилання запитів до зовнішніх сервісів. Якщо ви використовували приклад [curl]({{< github_tree >}}/samples/curl), запустіть його:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 *   Для користувачів macOS переконайтеся, що ви використовуєте `openssl` версії 1.1 або новішої:
@@ -86,7 +86,7 @@ test: yes
 2.  Переконайтеся, що ваш `ServiceEntry` було застосовано правильно, надіславши запит до [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -298,7 +298,7 @@ EOF
 6)  Надішліть HTTP-запит до [http://edition.cnn.com/politics] (https://edition.cnn.com/politics).
 
     {{< text bash >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -874,6 +874,8 @@ EOF
 
 {{< /tabset >}}
 
+{{< boilerplate auto-san-validation >}}
+
 5)  Переконайтеся, що облікові дані передано на вихідний шлюз і вони активні:
 
 {{< tabset category-name="config-api" >}}
@@ -903,7 +905,7 @@ kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true        
 6)  Надішліть HTTP-запит на адресу `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -1009,8 +1011,8 @@ $ kubectl delete referencegrant my-nginx-reference-grant -n mesh-external
 
 ## Очищення {#cleanup}
 
-Видаліть сервіс та розгортання `sleep`:
+Видаліть сервіс та розгортання `curl`:
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

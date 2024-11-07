@@ -380,17 +380,17 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 
 Перевірка підключення до Istiod є корисним кроком для усунення проблем. Кожен контейнер проксі в сервісній мережі повинен мати змогу спілкуватися з Istiod. Це можна зробити кількома простими кроками:
 
-1. Створіть под `sleep`:
+1. Створіть под `curl`:
 
     {{< text bash >}}
     $ kubectl create namespace foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
 2. Перевірте підключення до Istiod за допомогою `curl`. Наступний приклад викликає API реєстрації v1 з використанням стандартних параметрів конфігурації Istiod і увімкненим взаємним TLS:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name}) -c sleep -n foo -- curl -sS istiod.istio-system:15014/version
+    $ kubectl exec $(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name}) -c curl -n foo -- curl -sS istiod.istio-system:15014/version
     {{< /text >}}
 
 Ви повинні отримати відповідь, яка містить версію Istiod.

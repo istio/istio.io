@@ -37,19 +37,19 @@ Sidecar проксі можна автоматично додавати до в�
 
 #### Розгортання застосунку {#deploying-an-app}
 
-Розгорніть застосунок sleep. Переконайтесь, що як deployment, так і pod мають один контейнер.
+Розгорніть застосунок curl. Переконайтесь, що як deployment, так і pod мають один контейнер.
 
 {{< text bash >}}
-$ kubectl apply -f @samples/sleep/sleep.yaml@
+$ kubectl apply -f @samples/curl/curl.yaml@
 $ kubectl get deployment -o wide
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                    SELECTOR
-sleep   1/1     1            1           12s   sleep        curlimages/curl           app=sleep
+curl    1/1     1            1           12s   curl         curlimages/curl           app=curl
 {{< /text >}}
 
 {{< text bash >}}
 $ kubectl get pod
 NAME                    READY   STATUS    RESTARTS   AGE
-sleep-8f795f47d-hdcgs   1/1     Running   0          42s
+curl-8f795f47d-hdcgs    1/1     Running   0          42s
 {{< /text >}}
 
 Позначте простір імен `default` міткою `istio-injection=enabled`.
@@ -65,18 +65,18 @@ default              Active   5m9s    enabled
 Інʼєкція відбувається під час створення podʼа. Вбийте запущений pod і переконайтесь, що новий pod створено з впровадженим sidecar проксі. Початковий pod має `1/1 READY`, а контейнер з доданим sidecar проксі має `2/2 READY`.
 
 {{< text bash >}}
-$ kubectl delete pod -l app=sleep
-$ kubectl get pod -l app=sleep
-pod "sleep-776b7bcdcd-7hpnk" deleted
+$ kubectl delete pod -l app=curl
+$ kubectl get pod -l app=curl
+pod "curl-776b7bcdcd-7hpnk" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-7hpnk   1/1       Terminating   0          1m
-sleep-776b7bcdcd-bhn9m   2/2       Running       0          7s
+curl-776b7bcdcd-7hpnk    1/1       Terminating   0          1m
+curl-776b7bcdcd-bhn9m    2/2       Running       0          7s
 {{< /text >}}
 
 Перегляньте детальний стан podʼа з інʼєкцією. Ви повинні побачити доданий контейнер `istio-proxy` та відповідні томи.
 
 {{< text bash >}}
-$ kubectl describe pod -l app=sleep
+$ kubectl describe pod -l app=curl
 ...
 Events:
   Type    Reason     Age   From               Message
@@ -85,8 +85,8 @@ Events:
   Normal  Created    11s   kubelet            Created container istio-init
   Normal  Started    11s   kubelet            Started container istio-init
   ...
-  Normal  Created    10s   kubelet            Created container sleep
-  Normal  Started    10s   kubelet            Started container sleep
+  Normal  Created    10s   kubelet            Created container curl
+  Normal  Started    10s   kubelet            Started container curl
   ...
   Normal  Created    9s    kubelet            Created container istio-proxy
   Normal  Started    8s    kubelet            Started container istio-proxy
@@ -96,13 +96,13 @@ Events:
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
-$ kubectl delete pod -l app=sleep
+$ kubectl delete pod -l app=curl
 $ kubectl get pod
 namespace/default labeled
-pod "sleep-776b7bcdcd-bhn9m" deleted
+pod "curl-776b7bcdcd-bhn9m" deleted
 NAME                     READY     STATUS        RESTARTS   AGE
-sleep-776b7bcdcd-bhn9m   2/2       Terminating   0          2m
-sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
+curl-776b7bcdcd-bhn9m    2/2       Terminating   0          2m
+curl-776b7bcdcd-gmvnr    1/1       Running       0          2s
 {{< /text >}}
 
 #### Контроль політики інʼєкції {#controlling-the-injection-policy}
@@ -134,10 +134,10 @@ sleep-776b7bcdcd-gmvnr   1/1       Running       0          2s
 Для ручної інʼєкції в deployment використовуйте команду [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
-$ istioctl kube-inject -f @samples/sleep/sleep.yaml@ | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
+$ istioctl kube-inject -f @samples/curl/curl.yaml@ | kubectl apply -f -
+serviceaccount/curl created
+service/curl created
+deployment.apps/curl created
 {{< /text >}}
 
 Стандартно буде використовуватися конфігурація в кластері. Альтернативно інʼєкція може бути виконана з використанням локальних копій конфігурації.
@@ -155,19 +155,19 @@ $ istioctl kube-inject \
     --injectConfigFile inject-config.yaml \
     --meshConfigFile mesh-config.yaml \
     --valuesFile inject-values.yaml \
-    --filename @samples/sleep/sleep.yaml@ \
+    --filename @samples/curl/curl.yaml@ \
     | kubectl apply -f -
-serviceaccount/sleep created
-service/sleep created
-deployment.apps/sleep created
+serviceaccount/curl created
+service/curl created
+deployment.apps/curl created
 {{< /text >}}
 
-Перевірте, що sidecar було додано в pod sleep зі значенням `2/2` у колонці READY.
+Перевірте, що sidecar було додано в pod curl зі значенням `2/2` у колонці READY.
 
 {{< text bash >}}
-$ kubectl get pod -l app=sleep
+$ kubectl get pod -l app=curl
 NAME                     READY   STATUS    RESTARTS   AGE
-sleep-64c6f57bc8-f5n4x   2/2     Running   0          24s
+curl-64c6f57bc8-f5n4x    2/2     Running   0          24s
 {{< /text >}}
 
 ## Налаштування інʼєкції {#customizing-injection}
@@ -198,7 +198,7 @@ spec:
     lifecycle:
       preStop:
         exec:
-          command: ["sleep", "10"]
+          command: ["curl", "10"]
   volumes:
   - name: certs
     secret:

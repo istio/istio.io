@@ -8,16 +8,16 @@
     Egress gateway та доступ до логів будуть увімкнені, якщо ви встановите профіль конфігурації `demo` з [додаткових налаштувань](/docs/setup/additional-setup/config-profiles/).
     {{< /tip >}}
 
-* Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep) для використання як джерело тестових запитів. Якщо у вас увімкнено [автоматичне додавання sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду для розгортання демонстраційного застосунку:
+* Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl) для використання як джерело тестових запитів. Якщо у вас увімкнено [автоматичне додавання sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду для розгортання демонстраційного застосунку:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    Інакше, вручну додайте sidecar перед розгортанням застосунку `sleep` за допомогою наступної команди:
+    Інакше, вручну додайте sidecar перед розгортанням застосунку `curl` за допомогою наступної команди:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -27,5 +27,5 @@
 * Встановіть змінну середовища `SOURCE_POD` на імʼя вашого podʼа:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}

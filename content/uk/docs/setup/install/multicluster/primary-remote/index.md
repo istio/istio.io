@@ -42,16 +42,17 @@ spec:
       multiCluster:
         clusterName: cluster1
       network: network1
+      externalIstiod: true
 EOF
 {{< /text >}}
 
 Застосуйте конфігурацію до `cluster1`:
 
 {{< text bash >}}
-$ istioctl install --set values.pilot.env.EXTERNAL_ISTIOD=true --context="${CTX_CLUSTER1}" -f cluster1.yaml
+$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
-Зверніть увагу, що `values.pilot.env.EXTERNAL_ISTIOD` встановлено на `true`. Це дозволяє панелі управління, встановленій у `cluster1`, також виконувати роль зовнішньої панелі управління для інших віддалених кластерів. Коли цю функцію увімкнено, `istiod` намагатиметься отримати блокування лідерства і, відповідно, керувати [відповідно анотованими](#set-the-control-plane-cluster-for-cluster2) віддаленими кластерами, які будуть до нього приєднані (в цьому випадку, `cluster2`).
+Зверніть увагу, що `values.global.externalIstiod` встановлено на `true`. Це дозволяє панелі управління, встановленій у `cluster1`, також виконувати роль зовнішньої панелі управління для інших віддалених кластерів. Коли цю функцію увімкнено, `istiod` намагатиметься отримати блокування лідерства і, відповідно, керувати [відповідно анотованими](#set-the-control-plane-cluster-for-cluster2) віддаленими кластерами, які будуть до нього приєднані (в цьому випадку, `cluster2`).
 
 ## Встановлення шлюзу схід-захід у `cluster1` {#install-the-east-west-gateway-in-cluster1}
 

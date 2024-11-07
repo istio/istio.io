@@ -45,7 +45,7 @@ test: no
     reviews-v2-56f6855586-cnrjp       1/1       Running   0          7h
     reviews-v2-56f6855586-lxc49       1/1       Running   0          7h
     reviews-v2-56f6855586-qh84k       1/1       Running   0          7h
-    sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
+    curl-88ddbcfdd-cc85s              1/1       Running   0          7h
     {{< /text >}}
 
 1.  Kubernetes замінив оригінальні podʼи `productpage` на podʼи з увімкненим Istio прозоро і поступово, виконуючи [rolling update](https://kubernetes.io/docs/tutorials/kubernetes-basics/update-intro/). Kubernetes завершив роботу старого podʼа лише після того, як новий pod почав працювати, і прозоро переключив трафік на нові podʼи, один за одним. Тобто, він не завершив роботу більше ніж одного podʼа, поки не запустив новий pod. Це було зроблено для того, щоб уникнути переривання вашого застосунку, щоб він продовжував працювати під час виконання інʼєкції Istio.
