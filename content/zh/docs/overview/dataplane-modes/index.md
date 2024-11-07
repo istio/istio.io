@@ -19,7 +19,7 @@ Istio 支持两种主要的{{< gloss "data plane mode">}}数据平面模式{{< /
 * **Sidecar 模式**，它会与您在集群中启动的每个 Pod 一起部署一个 Envoy 代理，或者与在虚拟机上运行的服务一同运行。
 * **Ambient 模式**，使用每个节点的四层代理，并且可选地使用每个命名空间的 Envoy 代理来实现七层功能。
 
-这两种模式可以相互交互 <sup>[Alpha 阶段功能](#supported-features)</sup>，并且您可以选择将特定的命名空间或工作负载纳入每种模式。
+您可以选择将某些命名空间或工作负载纳入任意模式。
 
 ## Sidecar 模式 {#sidecar=mode}
 
@@ -279,19 +279,11 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
   </tbody>
 </table>
 
-## 支持的功能 {#supported-features}
+## 不支持的功能 {#unsupported-features}
 
-从 Istio 1.22 开始，以下 Ambient 模式功能已实现，但目前处于 Alpha 状态：
+以下功能在 Sidecar 模式下可用，但尚未在 Ambient 模式下实现：
 
-* 与 Sidecar 的互操作性
-* Istio 的经典 API（VirtualService 和 DestinationRule）
+* Sidecar 与 waypoint 的互操作性
 * 多集群安装
-* DNS 代理
-* IPv6/双栈
-* SOCKS5 支持（用于出站）
-
-以下功能尚未实现：
-
-* 受控的出口流量
 * 多网络支持
 * 虚拟机支持
