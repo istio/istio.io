@@ -280,7 +280,7 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
 
 The following features are available in sidecar mode, but not yet implemented in ambient mode:
 
-* Sidecar and ambient interoperability
+* Sidecar-to-waypoint interoperability
 * Multi-cluster installations
 * Multi-network support
 * VM support

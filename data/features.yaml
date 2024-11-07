@@ -424,7 +424,7 @@ features:
       checklist: features/ambient.md
       maturity: Alpha 
     area: Ambient mode
-  - name: "Waypoints: `DestionationRule`"
+  - name: "Waypoints: `DestinationRule`"
     id: "ambient.destinationrule"
     level:
       checklist: features/ambient.md
