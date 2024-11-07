@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 25
+number_of_entries: 26
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -466,7 +466,18 @@ No
 <td><code>warmupDurationSecs</code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Represents the warmup duration of Service. If set, the newly created endpoint of service
+<p>Deprecated: use <code>warmup</code> instead.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-warmup">
+<td><code>warmup</code></td>
+<td><code><a href="#WarmupConfiguration">WarmupConfiguration</a></code></td>
+<td>
+<p>Represents the warmup configuration of Service. If set, the newly created endpoint of service
 remains in warmup mode starting from its creation time for the duration of this window and
 Istio progressively increases amount of traffic for that endpoint instead of sending proportional amount of traffic.
 This should be enabled for services that require warm up time to serve full production load with reasonable latency.
@@ -474,6 +485,57 @@ Please note that this is most effective when few new endpoints come up like scal
 endpoints are relatively new like new deployment, this is not very effective as all endpoints end up getting same
 amount of requests.
 Currently this is only supported for ROUND_ROBIN and LEAST_REQUEST load balancers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WarmupConfiguration">WarmupConfiguration</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WarmupConfiguration-duration">
+<td><code>duration</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Duration of warmup mode</p>
+
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr id="WarmupConfiguration-minimum_percent">
+<td><code>minimumPercent</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></code></td>
+<td>
+<p>Configures the minimum percentage of origin weight
+If unspecified, defaults to 10</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="WarmupConfiguration-aggression">
+<td><code>aggression</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></code></td>
+<td>
+<p>This parameter controls the speed of traffic increase over the warmup duration. Defaults to 1.0, so that endpoints would
+get linearly increasing amount of traffic. When increasing the value for this parameter,
+the speed of traffic ramp-up increases non-linearly.</p>
 
 </td>
 <td>
@@ -908,7 +970,8 @@ No
 to use in verifying a presented server certificate. <code>CRL</code> is a list of certificates
 that have been revoked by the CA (Certificate Authority) before their scheduled expiration date.
 If specified, the proxy will verify if the presented certificate is part of the revoked list of certificates.
-If omitted, the proxy will not verify the certificate against the <code>crl</code>.</p>
+If omitted, the proxy will not verify the certificate against the <code>crl</code>. Note that if <code>credentialName</code> is set,
+<code>CRL</code> cannot be specified using <code>caCrl</code>, rather it has to be specified inside the credential.</p>
 
 </td>
 <td>

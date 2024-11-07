@@ -17,9 +17,14 @@ necessary configuration required to reach every workload instance in the mesh, a
 well as accept traffic on all the ports associated with the
 workload. The <code>Sidecar</code> configuration provides a way to fine tune the set of
 ports, protocols that the proxy will accept when forwarding traffic to
-and from the workload. In addition, it is possible to restrict the set
-of services that the proxy can reach when forwarding outbound traffic
-from workload instances.</p>
+and from the workload.</p>
+<p>One the common usages of <code>Sidecar</code> is to limit the set of configuration for outbound traffic.
+This configuration scoping, among <a href="/docs/ops/configuration/mesh/configuration-scoping/">other options</a>, is useful to prune
+out unneeded configuration, to improve scalability of the mesh.
+A common misunderstanding is that restricting the configuration amounts to <em>blocking</em> the traffic.
+If requests are sent to destinations not included in the scoping, the traffic will be treated as
+<a href="docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic">unmatched traffic</a>, which is often still allowed.
+The sidecar is not able to enforce an outbound traffic restriction (see <a href="/docs/tasks/traffic-management/egress/egress-gateway/">Egress Gateways</a> for how to achieve this).</p>
 <p>Services and configuration in a mesh are organized into one or more
 namespaces (e.g., a Kubernetes namespace or a CF org/space). A <code>Sidecar</code>
 configuration in a namespace will apply to one or more workload instances in the same
@@ -45,7 +50,7 @@ any <code>workloadSelector</code>.</p>
 <p><strong>NOTE 3</strong>: <em><em>A <code>Sidecar</code> is not applicable to gateways, even though gateways are istio-proxies</em></em>.</p>
 <p>The example below declares a global default <code>Sidecar</code> configuration
 in the root namespace called <code>istio-config</code>, that configures
-sidecars in all namespaces to allow egress traffic only to other
+sidecars in all namespaces to configure egress traffic only to other
 workloads in the same namespace as well as to services in the
 <code>istio-system</code> namespace.</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1
@@ -61,7 +66,7 @@ spec:
 </code></pre>
 <p>The example below declares a <code>Sidecar</code> configuration in the
 <code>prod-us1</code> namespace that overrides the global default defined
-above, and configures the sidecars in the namespace to allow egress
+above, and configures the sidecars in the namespace to configure egress
 traffic to public services in the <code>prod-us1</code>, <code>prod-apis</code>, and the
 <code>istio-system</code> namespaces.</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1
@@ -386,7 +391,7 @@ following precedence, highest to lowest:</p>
 <li>top level <code>TrafficPolicy.ConnectionPool</code> from the <code>DestinationRule</code></li>
 <li>default connection pool settings (essentially unlimited)</li>
 </ul>
-<p>In every case, the connection pool settings are overriden, not merged.</p>
+<p>In every case, the connection pool settings are overridden, not merged.</p>
 
 </td>
 <td>

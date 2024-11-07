@@ -11,6 +11,74 @@ weight: 60
 This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">labels</a> that
 Istio supports to control its behavior.
 </p>
+<h2 id="GatewayManaged">gateway.istio.io/managed</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>gateway.istio.io/managed</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[ServiceAccount Deployment Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Automatically added to all resources <a href="/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment">automatically created</a> by Istio Gateway controller, to indicate which controller created the resource. Users should not set this label themselves.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoK8sNetworkingGatewayGatewayName">gateway.networking.k8s.io/gateway-name</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>gateway.networking.k8s.io/gateway-name</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[ServiceAccount Deployment Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Automatically added to all resources <a href="/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment">automatically created</a> by Istio Gateway controller to indicate which <code>Gateway</code> resulted in the object creation. Users should not set this label themselves.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioDataplaneMode">istio.io/dataplane-mode</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/dataplane-mode</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the <a href="/docs/overview/dataplane-modes/">data plane mode</a> to use.
+Possible values: <code>ambient</code>, <code>none</code>.
+Note: users wishing to use sidecar mode should see the <code>istio-injection</code> label; there is no value on this label to configure sidecars.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="IoIstioRev">istio.io/rev</h2>
 <table class="annotations">
   <tbody>
@@ -29,6 +97,128 @@ Istio supports to control its behavior.
     <tr>
       <th>Description</th>
       <td><p>Istio control plane revision associated with the resource; e.g. <code>canary</code></p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioTag">istio.io/tag</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/tag</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Istio control plane tag name associated with the resource; e.g. <code>canary</code></p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioUseWaypoint">istio.io/use-waypoint</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod WorkloadEntry Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the resource has an associated waypoint with the given name.
+The waypoint is assumed to be in the same namespace; for cross-namespace, see <code>istio.io/use-waypoint-namespace</code>.</p>
+
+<p>When set or a <code>Pod</code> or a <code>Service</code>, this binds that specific resource to the waypoint.
+When set on a <code>Namespace</code>, this applies to all <code>Pod</code>/<code>Service</code> in the namespace.</p>
+
+<p>Note: the waypoint must allow the type, see <code>stio.io/waypoint-for</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioUseWaypointNamespace">istio.io/use-waypoint-namespace</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint-namespace</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod WorkloadEntry Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the resource has an associated waypoint in the provided namespace.
+This must be set in addition to <code>istio.io/use-waypoint</code>, when a cross-namespace reference is desired.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioWaypointFor">istio.io/waypoint-for</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/waypoint-for</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[GatewayClass Gateway]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a waypoint (either by its specific <code>Gateway</code>, or for the entire collection on the <code>GatewayClass</code>),
+indicates the type of traffic this waypoint can handle.</p>
+
+<p>Valid options: <code>service</code>, <code>workload</code>, <code>all</code>, and <code>none</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="NetworkingEnableAutoallocateIp">networking.istio.io/enable-autoallocate-ip</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>networking.istio.io/enable-autoallocate-ip</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[ServiceEntry]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Configures whether a <code>ServiceEntry</code> without any <code>spec.addresses</code> set should get an IP address automatically allocated for it.</p>
+
+<p>Valid options: <code>true</code>, <code>false</code></p>
 </td>
     </tr>
   </tbody>

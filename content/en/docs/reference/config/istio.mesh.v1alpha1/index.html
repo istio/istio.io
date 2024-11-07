@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 76
+number_of_entries: 78
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -128,7 +128,7 @@ No
 the Gateway.selector field, and will be set as <code>istio: INGRESS_SELECTOR</code>.
 By default, <code>ingressgateway</code> is used, which will select the default IngressGateway as it has the
 <code>istio: ingressgateway</code> labels.
-It is recommended that this is the same value as ingress_service.</p>
+It is recommended that this is the same value as ingressService.</p>
 
 </td>
 <td>
@@ -304,7 +304,7 @@ No
 <td><code>trustDomainAliases</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The trust domain aliases represent the aliases of <code>trust_domain</code>.
+<p>The trust domain aliases represent the aliases of <code>trustDomain</code>.
 For example, if we have</p>
 <pre><code class="language-yaml">trustDomain: td1
 trustDomainAliases: [&quot;td2&quot;, &quot;td3&quot;]
@@ -335,7 +335,7 @@ No
 <td><code>defaultServiceExportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The default value for the ServiceEntry.export_to field and services
+<p>The default value for the ServiceEntry.exportTo field and services
 imported through container registry integrations, e.g. this applies to
 Kubernetes Service resources. The value is a list of namespace names and
 reserved namespace aliases. The allowed namespace aliases are:</p>
@@ -366,8 +366,8 @@ No
 <td><code>defaultVirtualServiceExportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The default value for the VirtualService.export_to field. Has the same
-syntax as <code>default_service_export_to</code>.</p>
+<p>The default value for the VirtualService.exportTo field. Has the same
+syntax as <code>defaultServiceExportTo</code>.</p>
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 virtual services are exported to all namespaces</p>
 
@@ -380,8 +380,8 @@ No
 <td><code>defaultDestinationRuleExportTo</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>The default value for the <code>DestinationRule.export_to</code> field. Has the same
-syntax as <code>default_service_export_to</code>.</p>
+<p>The default value for the <code>DestinationRule.exportTo</code> field. Has the same
+syntax as <code>defaultServiceExportTo</code>.</p>
 <p>If not set the system will use &ldquo;*&rdquo; as the default value which implies that
 destination rules are exported to all namespaces</p>
 
@@ -641,7 +641,7 @@ No
 <td><code><a href="#MeshConfig-TLSConfig">TLSConfig</a></code></td>
 <td>
 <p>Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.
-Currently, this supports configuration of ecdh_curves and cipher_suites only.
+Currently, this supports configuration of ecdhCurves and cipherSuites only.
 For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
 
 </td>
@@ -785,7 +785,7 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls_settings to specify the tls mode to use. If the MCP server
+<p>Use the tlsSettings to specify the tls mode to use. If the MCP server
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
@@ -917,12 +917,12 @@ No
 <p>Optional. Specify the list of trust domains to which this trustAnchor data belongs.
 If set, they are used for these trust domains. Otherwise, this trustAnchor is used for default trust domain
 and its aliases.
-Note that we can have multiple trustAnchor data for a same trust_domain.
+Note that we can have multiple trustAnchor data for a same trustDomain.
 In that case, trustAnchors with a same trust domain will be merged and used together to verify peer certificates.
-If neither cert_signers nor trust_domains is set, this trustAnchor is used for all trust domains and all signers.
-If only trust_domains is set, this trustAnchor is used for these trust_domains and all signers.
-If only cert_signers is set, this trustAnchor is used for these cert_signers and all trust domains.
-If both cert_signers and trust_domains is set, this trustAnchor is only used for these signers and trust domains.</p>
+If neither certSigners nor trustDomains is set, this trustAnchor is used for all trust domains and all signers.
+If only trustDomains is set, this trustAnchor is used for these trustDomains and all signers.
+If only certSigners is set, this trustAnchor is used for these certSigners and all trust domains.
+If both certSigners and trustDomains is set, this trustAnchor is only used for these signers and trust domains.</p>
 
 </td>
 <td>
@@ -961,8 +961,8 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls_settings to specify the tls mode to use.
-Regarding tls_settings:</p>
+<p>Use the tlsSettings to specify the tls mode to use.
+Regarding tlsSettings:</p>
 <ul>
 <li>DISABLE MODE is legitimate for the case Istiod is making the request via an Envoy sidecar.
 DISABLE MODE can also be used for testing</li>
@@ -992,7 +992,7 @@ No
 <td><code>istiodSide</code></td>
 <td><code>bool</code></td>
 <td>
-<p>Use istiod_side to specify CA Server integrate to Istiod side or Agent side
+<p>Use istiodSide to specify CA Server integrate to Istiod side or Agent side
 Default: true</p>
 
 </td>
@@ -1165,7 +1165,7 @@ No
 <section>
 <p>Holds the name references to the providers that will be used by default
 in other Istio configuration resources if the provider is not specified.</p>
-<p>These names must match a provider defined in <code>extension_providers</code> that is
+<p>These names must match a provider defined in <code>extensionProviders</code> that is
 one of the supported tracing providers.</p>
 
 <table class="message-fields">
@@ -1361,10 +1361,10 @@ No
 <td><code>uint32</code></td>
 <td>
 <p>Sets the maximum size of a message body that the ext-authz filter will hold in memory.
-If max_request_bytes is reached, and allow_partial_message is false, Envoy will return a 413 (Payload Too Large).
+If maxRequestBytes is reached, and allowPartialMessage is false, Envoy will return a 413 (Payload Too Large).
 Otherwise the request will be sent to the provider with a partial message.
-Note that this setting will have precedence over the fail_open field, the 413 will be returned even when the
-fail_open is set to true.</p>
+Note that this setting will have precedence over the failOpen field, the 413 will be returned even when the
+failOpen is set to true.</p>
 
 </td>
 <td>
@@ -1375,7 +1375,7 @@ No
 <td><code>allowPartialMessage</code></td>
 <td><code>bool</code></td>
 <td>
-<p>When this field is true, ext-authz filter will buffer the message until max_request_bytes is reached.
+<p>When this field is true, ext-authz filter will buffer the message until maxRequestBytes is reached.
 The authorization request will be dispatched and no 413 HTTP error will be returned by the filter.
 A &ldquo;x-envoy-auth-partial-body: false|true&rdquo; metadata header will be added to the authorization request message
 indicating if the body data is partial.</p>
@@ -1392,7 +1392,7 @@ No
 <p>If true, the body sent to the external authorization service in the gRPC authorization request is set with raw bytes
 in the <a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L153">raw_body field</a>.
 Otherwise, it will be filled with UTF-8 string in the <a href="https://github.com/envoyproxy/envoy/blame/cffb095d59d7935abda12b9509bcd136808367bb/api/envoy/service/auth/v3/attribute_context.proto#L147">body field</a>.
-This field only works with the envoy_ext_authz_grpc provider and has no effect for the envoy_ext_authz_http provider.</p>
+This field only works with the envoyExtAuthzGrpc provider and has no effect for the envoyExtAuthzHttp provider.</p>
 
 </td>
 <td>
@@ -1446,7 +1446,7 @@ No
 <td>
 <p>The maximum duration that the proxy will wait for a response from the provider (default timeout: 600s).
 When this timeout condition is met, the proxy marks the communication to the authorization service as failure.
-In this situation, the response sent back to the client will depend on the configured <code>fail_open</code> field.</p>
+In this situation, the response sent back to the client will depend on the configured <code>failOpen</code> field.</p>
 
 </td>
 <td>
@@ -1500,7 +1500,7 @@ Note that in addition to the headers specified here following headers are includ
 <ol>
 <li><em>Host</em>, <em>Method</em>, <em>Path</em> and <em>Content-Length</em> are automatically sent.</li>
 <li><em>Content-Length</em> will be set to 0 and the request will not have a message body. However, the authorization
-request can include the buffered client request body (controlled by include_request_body_in_check setting),
+request can include the buffered client request body (controlled by includeRequestBodyInCheck setting),
 consequently the value of Content-Length of the authorization request reflects the size of its payload size.</li>
 </ol>
 <p>Exact, prefix and suffix matches are supported (similar to the
@@ -1523,7 +1523,7 @@ No
 <td>
 <p>Set of additional fixed headers that should be included in the authorization request sent to the authorization service.
 Key is the header name and value is the header value.
-Note that client request of the same key or headers specified in include_request_headers_in_check will be overridden.</p>
+Note that client request of the same key or headers specified in includeRequestHeadersInCheck will be overridden.</p>
 
 </td>
 <td>
@@ -1614,7 +1614,7 @@ No
 <td><code>includeHeadersInCheck</code></td>
 <td><code>string[]</code></td>
 <td>
-<p>DEPRECATED. Use include_request_headers_in_check instead.</p>
+<p>DEPRECATED. Use includeRequestHeadersInCheck instead.</p>
 
 </td>
 <td>
@@ -1668,7 +1668,7 @@ No
 <td>
 <p>The maximum duration that the proxy will wait for a response from the provider, this is the timeout for a specific request (default timeout: 600s).
 When this timeout condition is met, the proxy marks the communication to the authorization service as failure.
-In this situation, the response sent back to the client will depend on the configured <code>fail_open</code> field.</p>
+In this situation, the response sent back to the client will depend on the configured <code>failOpen</code> field.</p>
 
 </td>
 <td>
@@ -1772,6 +1772,18 @@ No
 <td>
 <p>Optional. A 128 bit trace id will be used in Istio.
 If true, will result in a 64 bit trace id being used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. Specifies the endpoint of Zipkin API.
+The default value is &ldquo;/api/v2/spans&rdquo;.</p>
 
 </td>
 <td>
@@ -2476,6 +2488,50 @@ spec:
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-grpc">
+<td><code>grpc</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-GrpcService">GrpcService</a></code></td>
+<td>
+<p>Optional. Specifies the configuration for exporting OTLP traces via GRPC.
+When empty, traces will check whether HTTP is set.
+If not, traces will use default GRPC configurations.</p>
+<p>The following example shows how to configure the OpenTelemetry ExtensionProvider to export via GRPC:</p>
+<ol>
+<li>Add/change the OpenTelemetry extension provider in <code>MeshConfig</code></li>
+</ol>
+<pre><code class="language-yaml">- name: opentelemetry
+  opentelemetry:
+    port: 8090
+    service: tracing.example.com
+    grpc:
+      timeout: 10s
+      initialMetadata:
+      - name: &quot;Authentication&quot;
+        value: &quot;token-xxxxx&quot;
+</code></pre>
+<ol start="2">
+<li>Deploy a <code>ServiceEntry</code> for the observability back-end</li>
+</ol>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: tracing-grpc
+spec:
+  hosts:
+  - tracing.example.com
+  ports:
+  - number: 8090
+    name: grpc-port
+    protocol: GRPC
+  resolution: DNS
+  location: MESH_EXTERNAL
+</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-resource_detectors">
 <td><code>resourceDetectors</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-ResourceDetectors">ResourceDetectors</a></code></td>
@@ -2489,7 +2545,7 @@ read the attributes from the environment variable <code>OTEL_RESOURCE_ATTRIBUTES
   opentelemetry:
     port: 443
     service: my.olly-backend.com
-    resource_detectors:
+    resourceDetectors:
       environment: {}
 </code></pre>
 
@@ -2514,11 +2570,11 @@ No
       headers:
         - name: &quot;Authorization&quot;
           value: &quot;Api-Token dt0c01.&quot;
-    resource_detectors:
+    resourceDetectors:
       dynatrace: {}
-    dynatrace_sampler:
+    dynatraceSampler:
       tenant: &quot;{your-environment-id}&quot;
-      cluster_id: 1234</code></pre>
+      clusterId: 1234</code></pre>
 
 </td>
 <td>
@@ -2651,6 +2707,48 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="MeshConfig-ExtensionProvider-GrpcService">MeshConfig.ExtensionProvider.GrpcService</h2>
+<section>
+<p>Defines configuration for an GRPC service that can be used by an Extension Provider.
+that does communication via GRPC.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-GrpcService-timeout">
+<td><code>timeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Optional. Specifies the timeout for the GRPC request.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-GrpcService-initial_metadata">
+<td><code>initialMetadata</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-HttpHeader">HttpHeader[]</a></code></td>
+<td>
+<p>Optional. Additional metadata to include in streams initiated to the GrpcService. This can be used for
+scenarios in which additional ad hoc authorization headers (e.g. “x-foo-bar: baz-key“) are to
+be injected.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="MeshConfig-ExtensionProvider-StackdriverProvider-Logging">MeshConfig.ExtensionProvider.StackdriverProvider.Logging</h2>
 <section>
 <table class="message-fields">
@@ -2753,7 +2851,7 @@ No
 <p>Textual format for the envoy access logs. Envoy <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators">command operators</a> may be
 used in the format. The <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-strings">format string documentation</a>
 provides more information.
-Alias to <code>body</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a>
+Alias to <code>body</code> field in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a>
 Example: <code>text: &quot;%LOCAL_REPLY_BODY%:%RESPONSE_CODE%:path=%REQ(:path)%&quot;</code></p>
 
 </td>
@@ -2771,7 +2869,7 @@ can be used as values for fields within the Struct. Values are rendered
 as strings, numbers, or boolean values, as appropriate
 (see: <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-dictionaries">format dictionaries</a>). Nested JSON is
 supported for some command operators (e.g. FILTER_STATE or DYNAMIC_METADATA).
-Alias to <code>attributes</code> filed in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a></p>
+Alias to <code>attributes</code> field in <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/access_loggers/open_telemetry/v3/logs_service.proto">Open Telemetry</a></p>
 <p>Example:</p>
 <pre><code>labels:
   status: &quot;%RESPONSE_CODE%&quot;
@@ -2831,8 +2929,8 @@ No
 when the adaptive value cannot be obtained from the Dynatrace API.</p>
 <p>A default value of <code>1000</code> is used when:</p>
 <ul>
-<li><code>root_spans_per_minute</code> is unset</li>
-<li><code>root_spans_per_minute</code> is set to 0</li>
+<li><code>rootSpansPerMinute</code> is unset</li>
+<li><code>rootSpansPerMinute</code> is set to 0</li>
 </ul>
 
 </td>
@@ -3010,7 +3108,7 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the tls_settings to specify the tls mode to use. If the remote tracing service
+<p>Use the tlsSettings to specify the tls mode to use. If the remote tracing service
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
@@ -3054,7 +3152,7 @@ Note that the gateway proxy will append the downstream connection&rsquo;s source
 address to the X-Forwarded-For (XFF) address and set the
 X-Envoy-External-Address header to the trusted client address before
 forwarding it to the upstream services in the cluster.
-The default value of num_trusted_proxies is 0.
+The default value of numTrustedProxies is 0.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for">Envoy XFF</a>
 header handling for more details.</p>
 
@@ -3451,7 +3549,7 @@ No
 <p>The amount of time allowed for connections to complete on proxy shutdown.
 On receiving <code>SIGTERM</code> or <code>SIGINT</code>, <code>istio-agent</code> tells the active Envoy to start gracefully draining,
 discouraging any new connections and allowing existing connections to complete. It then
-sleeps for the <code>termination_drain_duration</code> and then kills any remaining active Envoy processes.
+sleeps for the <code>terminationDrainDuration</code> and then kills any remaining active Envoy processes.
 If not set, a default of <code>5s</code> will be applied.</p>
 
 </td>
@@ -3646,7 +3744,7 @@ No
 <td><code>tlsSettings</code></td>
 <td><code><a href="/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
-<p>Use the <code>tls_settings</code> to specify the tls mode to use. If the remote service
+<p>Use the <code>tlsSettings</code> to specify the tls mode to use. If the remote service
 uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
@@ -3966,6 +4064,20 @@ By default, <code>APPEND_FORWARD</code> will be used.</p>
 No
 </td>
 </tr>
+<tr id="ProxyConfig-ProxyHeaders-set_current_client_cert_details">
+<td><code>setCurrentClientCertDetails</code></td>
+<td><code><a href="#ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails">SetCurrentClientCertDetails</a></code></td>
+<td>
+<p>This field is valid only when forward_client_cert_details is APPEND_FORWARD or SANITIZE_SET
+and the client connection is mTLS. It specifies the fields in
+the client certificate to be forwarded. Note that <code>Hash</code> is always set, and
+<code>By</code> is always set when the client certificate presents the URI type Subject Alternative Name value.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="ProxyConfig-ProxyHeaders-request_id">
 <td><code>requestId</code></td>
 <td><code><a href="#ProxyConfig-ProxyHeaders-RequestId">RequestId</a></code></td>
@@ -4169,6 +4281,83 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails">ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails-subject">
+<td><code>subject</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Whether to forward the subject of the client cert. Defaults to true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails-cert">
+<td><code>cert</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Whether to forward the entire client cert in URL encoded PEM format. This will appear in the
+XFCC header comma separated from other values with the value Cert=&ldquo;PEM&rdquo;.
+Defaults to false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails-chain">
+<td><code>chain</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Whether to forward the entire client cert chain (including the leaf cert) in URL encoded PEM
+format. This will appear in the XFCC header comma separated from other values with the value
+Chain=&ldquo;PEM&rdquo;.
+Defaults to false.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails-dns">
+<td><code>dns</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Whether to forward the DNS type Subject Alternative Names of the client cert.
+Defaults to true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-SetCurrentClientCertDetails-uri">
+<td><code>uri</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
+<td>
+<p>Whether to forward the URI type Subject Alternative Name of the client cert. Defaults to
+true.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="Network">Network</h2>
 <section>
 <p>Network provides information about the endpoints in a routable L3
@@ -4274,7 +4463,7 @@ adding the <code>ISTIO_META_NETWORK</code> environment variable to the sidecar.<
 <li>
 <p>Explicitly:</p>
 <p>a. By matching the registry name with one of the &ldquo;fromRegistry&rdquo;
-in the mesh config. A &ldquo;from_registry&rdquo; can only be assigned to a
+in the mesh config. A &ldquo;fromRegistry&rdquo; can only be assigned to a
 single network.</p>
 <p>b. By matching the IP against one of the CIDR ranges in a mesh
 config network. The CIDR ranges must not overlap and be assigned to
@@ -4622,7 +4811,7 @@ For example, <code>/a%2f/b</code> normalizes to <code>a/b</code>.</p>
 <td>
 <p>Istio ingress controller will act on ingress resources that do not
 contain any annotation or whose annotations match the value
-specified in the ingress_class parameter described earlier. Use this
+specified in the ingressClass parameter described earlier. Use this
 mode if Istio ingress controller will be the default ingress
 controller for the entire Kubernetes cluster.</p>
 
@@ -4632,7 +4821,7 @@ controller for the entire Kubernetes cluster.</p>
 <td><code>STRICT</code></td>
 <td>
 <p>Istio ingress controller will only act on ingress resources whose
-annotations match the value specified in the ingress_class parameter
+annotations match the value specified in the ingressClass parameter
 described earlier. Use this mode if Istio ingress controller will be
 a secondary ingress controller (e.g., in addition to a
 cloud-provided ingress controller).</p>
@@ -4803,7 +4992,7 @@ Traffic is considered in-mesh if it is secured with Istio mutual TLS. This means
 <h2 id="ProxyConfig-TracingServiceName">ProxyConfig.TracingServiceName</h2>
 <section>
 <p>Allows specification of various Istio-supported naming schemes for the
-Envoy <code>service_cluster</code> value. The <code>servce_cluster</code> value is primarily used
+Envoy <code>service_cluster</code> value. The <code>service_cluster</code> value is primarily used
 by Envoys to provide service names for tracing spans.</p>
 
 <table class="enum-values">
@@ -4924,7 +5113,7 @@ policy.</p>
 <h2 id="ForwardClientCertDetails">ForwardClientCertDetails</h2>
 <section>
 <p>ForwardClientCertDetails controls how the x-forwarded-client-cert (XFCC)
-header is handled by the gateway proxy.
+header is handled by a proxy.
 See <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto.html#enum-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-forwardclientcertdetails">Envoy XFCC</a>
 header handling for more details.</p>
 
@@ -4946,7 +5135,7 @@ header handling for more details.</p>
 <tr id="ForwardClientCertDetails-SANITIZE">
 <td><code>SANITIZE</code></td>
 <td>
-<p>Do not send the XFCC header to the next hop. This is the default value.</p>
+<p>Do not send the XFCC header to the next hop.</p>
 
 </td>
 </tr>
@@ -4962,7 +5151,7 @@ in the request.</p>
 <td><code>APPEND_FORWARD</code></td>
 <td>
 <p>When the client connection is mTLS, append the client certificate
-information to the request’s XFCC header and forward it.</p>
+information to the request’s XFCC header and forward it. This is the default value for sidecar proxies.</p>
 
 </td>
 </tr>
@@ -4970,7 +5159,7 @@ information to the request’s XFCC header and forward it.</p>
 <td><code>SANITIZE_SET</code></td>
 <td>
 <p>When the client connection is mTLS, reset the XFCC header with the client
-certificate information and send it to the next hop.</p>
+certificate information and send it to the next hop. This is the default value for gateway proxies.</p>
 
 </td>
 </tr>
