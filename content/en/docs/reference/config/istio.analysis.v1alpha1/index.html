@@ -27,7 +27,7 @@ messages. All information should be static with respect to the error code.</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageBase-type">
-<td><code>type</code></td>
+<td><code><a href="#AnalysisMessageBase-type">type</a></code></td>
 <td><code><a href="#AnalysisMessageBase-Type">Type</a></code></td>
 <td>
 </td>
@@ -36,7 +36,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageBase-level">
-<td><code>level</code></td>
+<td><code><a href="#AnalysisMessageBase-level">level</a></code></td>
 <td><code><a href="#AnalysisMessageBase-Level">Level</a></code></td>
 <td>
 <p>Represents how severe a message is. Required.</p>
@@ -47,7 +47,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageBase-documentation_url">
-<td><code>documentationUrl</code></td>
+<td><code><a href="#AnalysisMessageBase-documentation_url">documentationUrl</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>A url pointing to the Istio documentation for this specific error type.
@@ -81,7 +81,7 @@ sure that we don&rsquo;t allow committing underspecified types.</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageWeakSchema-message_base">
-<td><code>messageBase</code></td>
+<td><code><a href="#AnalysisMessageWeakSchema-message_base">messageBase</a></code></td>
 <td><code><a href="#AnalysisMessageBase">AnalysisMessageBase</a></code></td>
 <td>
 <p>Required</p>
@@ -92,7 +92,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-description">
-<td><code>description</code></td>
+<td><code><a href="#AnalysisMessageWeakSchema-description">description</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>A human readable description of what the error means. Required.</p>
@@ -103,7 +103,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-template">
-<td><code>template</code></td>
+<td><code><a href="#AnalysisMessageWeakSchema-template">template</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>A go-style template string (<a href="https://golang.org/pkg/fmt/#hdr-Printing">https://golang.org/pkg/fmt/#hdr-Printing</a>)
@@ -116,7 +116,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-args">
-<td><code>args</code></td>
+<td><code><a href="#AnalysisMessageWeakSchema-args">args</a></code></td>
 <td><code><a href="#AnalysisMessageWeakSchema-ArgType">ArgType[]</a></code></td>
 <td>
 <p>A description of the arguments for a particular message type</p>
@@ -149,7 +149,7 @@ of GenericAnalysisMessage for well-known and stable message types.</p>
 </thead>
 <tbody>
 <tr id="GenericAnalysisMessage-message_base">
-<td><code>messageBase</code></td>
+<td><code><a href="#GenericAnalysisMessage-message_base">messageBase</a></code></td>
 <td><code><a href="#AnalysisMessageBase">AnalysisMessageBase</a></code></td>
 <td>
 <p>Required</p>
@@ -160,7 +160,7 @@ No
 </td>
 </tr>
 <tr id="GenericAnalysisMessage-args">
-<td><code>args</code></td>
+<td><code><a href="#GenericAnalysisMessage-args">args</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>Any message-type specific arguments that need to get codified. Optional.</p>
@@ -171,7 +171,7 @@ No
 </td>
 </tr>
 <tr id="GenericAnalysisMessage-resource_paths">
-<td><code>resourcePaths</code></td>
+<td><code><a href="#GenericAnalysisMessage-resource_paths">resourcePaths</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>A list of strings specifying the resource identifiers that were the cause
@@ -205,7 +205,7 @@ error in Istio code that prevented us from performing analysis at all.</p>
 </thead>
 <tbody>
 <tr id="InternalErrorAnalysisMessage-message_base">
-<td><code>messageBase</code></td>
+<td><code><a href="#InternalErrorAnalysisMessage-message_base">messageBase</a></code></td>
 <td><code><a href="#AnalysisMessageBase">AnalysisMessageBase</a></code></td>
 <td>
 <p>Required</p>
@@ -216,7 +216,7 @@ No
 </td>
 </tr>
 <tr id="InternalErrorAnalysisMessage-detail">
-<td><code>detail</code></td>
+<td><code><a href="#InternalErrorAnalysisMessage-detail">detail</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Any detail regarding specifics of the error. Should be human-readable.</p>
@@ -247,7 +247,7 @@ codes between message types.)</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageBase-Type-name">
-<td><code>name</code></td>
+<td><code><a href="#AnalysisMessageBase-Type-name">name</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>A human-readable name for the message type. e.g. &ldquo;InternalError&rdquo;,
@@ -260,7 +260,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageBase-Type-code">
-<td><code>code</code></td>
+<td><code><a href="#AnalysisMessageBase-Type-code">code</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>A 7 character code matching <code>^IST[0-9]{4}$</code> intended to uniquely identify
@@ -288,7 +288,7 @@ No
 </thead>
 <tbody>
 <tr id="AnalysisMessageWeakSchema-ArgType-name">
-<td><code>name</code></td>
+<td><code><a href="#AnalysisMessageWeakSchema-ArgType-name">name</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Required</p>
@@ -299,7 +299,7 @@ No
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-ArgType-go_type">
-<td><code>goType</code></td>
+<td><code><a href="#AnalysisMessageWeakSchema-ArgType-go_type">goType</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Required. Should be a golang type, used in code generation.
@@ -329,24 +329,24 @@ as well as leaving space in between to add more later</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageBase-Level-UNKNOWN">
-<td><code>UNKNOWN</code></td>
+<td><code><a href="#AnalysisMessageBase-Level-UNKNOWN">UNKNOWN</a></code></td>
 <td>
 <p>invalid, but included for proto compatibility for 0 values</p>
 
 </td>
 </tr>
 <tr id="AnalysisMessageBase-Level-ERROR">
-<td><code>ERROR</code></td>
+<td><code><a href="#AnalysisMessageBase-Level-ERROR">ERROR</a></code></td>
 <td>
 </td>
 </tr>
 <tr id="AnalysisMessageBase-Level-WARNING">
-<td><code>WARNING</code></td>
+<td><code><a href="#AnalysisMessageBase-Level-WARNING">WARNING</a></code></td>
 <td>
 </td>
 </tr>
 <tr id="AnalysisMessageBase-Level-INFO">
-<td><code>INFO</code></td>
+<td><code><a href="#AnalysisMessageBase-Level-INFO">INFO</a></code></td>
 <td>
 </td>
 </tr>

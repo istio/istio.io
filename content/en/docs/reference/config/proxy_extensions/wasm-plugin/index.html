@@ -185,7 +185,7 @@ the Istio proxy through WebAssembly filters.</p>
 </thead>
 <tbody>
 <tr id="WasmPlugin-selector">
-<td><code>selector</code></td>
+<td><code><a href="#WasmPlugin-selector">selector</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>Criteria used to select the specific set of pods/VMs on which
@@ -202,7 +202,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-targetRefs">
-<td><code>targetRefs</code></td>
+<td><code><a href="#WasmPlugin-targetRefs">targetRefs</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></code></td>
 <td>
 <p>Optional. The targetRefs specifies a list of resources the policy should be
@@ -227,7 +227,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-url">
-<td><code>url</code></td>
+<td><code><a href="#WasmPlugin-url">url</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>URL of a Wasm module or OCI container. If no scheme is present,
@@ -242,7 +242,7 @@ Yes
 </td>
 </tr>
 <tr id="WasmPlugin-sha256">
-<td><code>sha256</code></td>
+<td><code><a href="#WasmPlugin-sha256">sha256</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>SHA256 checksum that will be used to verify Wasm module or OCI container.
@@ -257,7 +257,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-image_pull_policy">
-<td><code>imagePullPolicy</code></td>
+<td><code><a href="#WasmPlugin-image_pull_policy">imagePullPolicy</a></code></td>
 <td><code><a href="#PullPolicy">PullPolicy</a></code></td>
 <td>
 <p>The pull behaviour to be applied when fetching Wasm module by either
@@ -273,7 +273,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-image_pull_secret">
-<td><code>imagePullSecret</code></td>
+<td><code><a href="#WasmPlugin-image_pull_secret">imagePullSecret</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Credentials to use for OCI image pulling.
@@ -287,7 +287,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-plugin_config">
-<td><code>pluginConfig</code></td>
+<td><code><a href="#WasmPlugin-plugin_config">pluginConfig</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></code></td>
 <td>
 <p>The configuration that will be passed on to the plugin.</p>
@@ -298,7 +298,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-plugin_name">
-<td><code>pluginName</code></td>
+<td><code><a href="#WasmPlugin-plugin_name">pluginName</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The plugin name to be used in the Envoy configuration (used to be called
@@ -311,7 +311,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-phase">
-<td><code>phase</code></td>
+<td><code><a href="#WasmPlugin-phase">phase</a></code></td>
 <td><code><a href="#PluginPhase">PluginPhase</a></code></td>
 <td>
 <p>Determines where in the filter chain this <code>WasmPlugin</code> is to be injected.</p>
@@ -322,7 +322,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-priority">
-<td><code>priority</code></td>
+<td><code><a href="#WasmPlugin-priority">priority</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></code></td>
 <td>
 <p>Determines ordering of <code>WasmPlugins</code> in the same <code>phase</code>.
@@ -338,7 +338,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-fail_strategy">
-<td><code>failStrategy</code></td>
+<td><code><a href="#WasmPlugin-fail_strategy">failStrategy</a></code></td>
 <td><code><a href="#FailStrategy">FailStrategy</a></code></td>
 <td>
 <p>Specifies the failure behavior for the plugin due to fatal errors.</p>
@@ -349,7 +349,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-vm_config">
-<td><code>vmConfig</code></td>
+<td><code><a href="#WasmPlugin-vm_config">vmConfig</a></code></td>
 <td><code><a href="#VmConfig">VmConfig</a></code></td>
 <td>
 <p>Configuration for a Wasm VM.
@@ -361,7 +361,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-match">
-<td><code>match</code></td>
+<td><code><a href="#WasmPlugin-match">match</a></code></td>
 <td><code><a href="#WasmPlugin-TrafficSelector">TrafficSelector[]</a></code></td>
 <td>
 <p>Specifies the criteria to determine which traffic is passed to WasmPlugin.
@@ -374,7 +374,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-type">
-<td><code>type</code></td>
+<td><code><a href="#WasmPlugin-type">type</a></code></td>
 <td><code><a href="#PluginType">PluginType</a></code></td>
 <td>
 <p>Specifies the type of Wasm Extension to be used.</p>
@@ -403,7 +403,7 @@ more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/a
 </thead>
 <tbody>
 <tr id="VmConfig-env">
-<td><code>env</code></td>
+<td><code><a href="#VmConfig-env">env</a></code></td>
 <td><code><a href="#EnvVar">EnvVar[]</a></code></td>
 <td>
 <p>Specifies environment variables to be injected to this VM.
@@ -431,7 +431,7 @@ No
 </thead>
 <tbody>
 <tr id="EnvVar-name">
-<td><code>name</code></td>
+<td><code><a href="#EnvVar-name">name</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Name of the environment variable.
@@ -443,7 +443,7 @@ Yes
 </td>
 </tr>
 <tr id="EnvVar-value_from">
-<td><code>valueFrom</code></td>
+<td><code><a href="#EnvVar-value_from">valueFrom</a></code></td>
 <td><code><a href="#EnvValueSource">EnvValueSource</a></code></td>
 <td>
 <p>Source for the environment variable&rsquo;s value.</p>
@@ -454,7 +454,7 @@ No
 </td>
 </tr>
 <tr id="EnvVar-value">
-<td><code>value</code></td>
+<td><code><a href="#EnvVar-value">value</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Value for the environment variable.
@@ -487,7 +487,7 @@ traffic will be selected.</p>
 </thead>
 <tbody>
 <tr id="WasmPlugin-TrafficSelector-mode">
-<td><code>mode</code></td>
+<td><code><a href="#WasmPlugin-TrafficSelector-mode">mode</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></code></td>
 <td>
 <p>Criteria for selecting traffic by their direction.
@@ -502,7 +502,7 @@ No
 </td>
 </tr>
 <tr id="WasmPlugin-TrafficSelector-ports">
-<td><code>ports</code></td>
+<td><code><a href="#WasmPlugin-TrafficSelector-ports">ports</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></code></td>
 <td>
 <p>Criteria for selecting traffic by their destination port.
@@ -547,21 +547,21 @@ The detailed <code>NETWORK</code> interface can be found here:</p>
 </thead>
 <tbody>
 <tr id="PluginType-UNSPECIFIED_PLUGIN_TYPE">
-<td><code>UNSPECIFIED_PLUGIN_TYPE</code></td>
+<td><code><a href="#PluginType-UNSPECIFIED_PLUGIN_TYPE">UNSPECIFIED_PLUGIN_TYPE</a></code></td>
 <td>
 <p>Defaults to HTTP.</p>
 
 </td>
 </tr>
 <tr id="PluginType-HTTP">
-<td><code>HTTP</code></td>
+<td><code><a href="#PluginType-HTTP">HTTP</a></code></td>
 <td>
 <p>Use HTTP Wasm Extension.</p>
 
 </td>
 </tr>
 <tr id="PluginType-NETWORK">
-<td><code>NETWORK</code></td>
+<td><code><a href="#PluginType-NETWORK">NETWORK</a></code></td>
 <td>
 <p>Use Network Wasm Extension.</p>
 
@@ -583,7 +583,7 @@ The detailed <code>NETWORK</code> interface can be found here:</p>
 </thead>
 <tbody>
 <tr id="PluginPhase-UNSPECIFIED_PHASE">
-<td><code>UNSPECIFIED_PHASE</code></td>
+<td><code><a href="#PluginPhase-UNSPECIFIED_PHASE">UNSPECIFIED_PHASE</a></code></td>
 <td>
 <p>Control plane decides where to insert the plugin. This will generally
 be at the end of the filter chain, right before the Router.
@@ -592,21 +592,21 @@ Do not specify <code>PluginPhase</code> if the plugin is independent of others.<
 </td>
 </tr>
 <tr id="PluginPhase-AUTHN">
-<td><code>AUTHN</code></td>
+<td><code><a href="#PluginPhase-AUTHN">AUTHN</a></code></td>
 <td>
 <p>Insert plugin before Istio authentication filters.</p>
 
 </td>
 </tr>
 <tr id="PluginPhase-AUTHZ">
-<td><code>AUTHZ</code></td>
+<td><code><a href="#PluginPhase-AUTHZ">AUTHZ</a></code></td>
 <td>
 <p>Insert plugin before Istio authorization filters and after Istio authentication filters.</p>
 
 </td>
 </tr>
 <tr id="PluginPhase-STATS">
-<td><code>STATS</code></td>
+<td><code><a href="#PluginPhase-STATS">STATS</a></code></td>
 <td>
 <p>Insert plugin before Istio stats filters and after Istio authorization filters.</p>
 
@@ -629,7 +629,7 @@ mirroring K8s behaviour.</p>
 </thead>
 <tbody>
 <tr id="PullPolicy-UNSPECIFIED_POLICY">
-<td><code>UNSPECIFIED_POLICY</code></td>
+<td><code><a href="#PullPolicy-UNSPECIFIED_POLICY">UNSPECIFIED_POLICY</a></code></td>
 <td>
 <p>Defaults to <code>IfNotPresent</code>, except for OCI images with tag <code>latest</code>, for which
 the default will be <code>Always</code>.</p>
@@ -637,7 +637,7 @@ the default will be <code>Always</code>.</p>
 </td>
 </tr>
 <tr id="PullPolicy-IfNotPresent">
-<td><code>IfNotPresent</code></td>
+<td><code><a href="#PullPolicy-IfNotPresent">IfNotPresent</a></code></td>
 <td>
 <p>If an existing version of the image has been pulled before, that
 will be used. If no version of the image is present locally, we
@@ -646,7 +646,7 @@ will pull the latest version.</p>
 </td>
 </tr>
 <tr id="PullPolicy-Always">
-<td><code>Always</code></td>
+<td><code><a href="#PullPolicy-Always">Always</a></code></td>
 <td>
 <p>We will always pull the latest version of an image when changing
 this plugin. Note that the change includes <code>metadata</code> field as well.</p>
@@ -667,14 +667,14 @@ this plugin. Note that the change includes <code>metadata</code> field as well.<
 </thead>
 <tbody>
 <tr id="EnvValueSource-INLINE">
-<td><code>INLINE</code></td>
+<td><code><a href="#EnvValueSource-INLINE">INLINE</a></code></td>
 <td>
 <p>Explicitly given key-value pairs to be injected to this VM</p>
 
 </td>
 </tr>
 <tr id="EnvValueSource-HOST">
-<td><code>HOST</code></td>
+<td><code><a href="#EnvValueSource-HOST">HOST</a></code></td>
 <td>
 <p><em>Istio-proxy&rsquo;s</em> environment variables exposed to this VM.</p>
 
@@ -694,7 +694,7 @@ this plugin. Note that the change includes <code>metadata</code> field as well.<
 </thead>
 <tbody>
 <tr id="FailStrategy-FAIL_CLOSE">
-<td><code>FAIL_CLOSE</code></td>
+<td><code><a href="#FailStrategy-FAIL_CLOSE">FAIL_CLOSE</a></code></td>
 <td>
 <p>A fatal error in the binary fetching or during the plugin execution causes
 all subsequent requests to fail with 5xx.</p>
@@ -702,7 +702,7 @@ all subsequent requests to fail with 5xx.</p>
 </td>
 </tr>
 <tr id="FailStrategy-FAIL_OPEN">
-<td><code>FAIL_OPEN</code></td>
+<td><code><a href="#FailStrategy-FAIL_OPEN">FAIL_OPEN</a></code></td>
 <td>
 <p>Enables the fail open behavior for the Wasm plugin fatal errors to bypass
 the plugin execution. A fatal error can be a failure to fetch the remote
