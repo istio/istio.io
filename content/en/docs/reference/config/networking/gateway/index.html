@@ -182,7 +182,7 @@ receiving incoming or outgoing HTTP/TCP connections.</p>
 </thead>
 <tbody>
 <tr id="Gateway-servers">
-<td><code>servers</code></td>
+<td><code><a href="#Gateway-servers">servers</a></code></td>
 <td><code><a href="#Server">Server[]</a></code></td>
 <td>
 <p>A list of server specifications.</p>
@@ -193,7 +193,7 @@ No
 </td>
 </tr>
 <tr id="Gateway-selector">
-<td><code>selector</code></td>
+<td><code><a href="#Gateway-selector">selector</a></code></td>
 <td><code>map&lt;string,&nbsp;string&gt;</code></td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
@@ -283,7 +283,7 @@ spec:
 </thead>
 <tbody>
 <tr id="Server-port">
-<td><code>port</code></td>
+<td><code><a href="#Server-port">port</a></code></td>
 <td><code><a href="#Port">Port</a></code></td>
 <td>
 <p>The Port on which the proxy should listen for incoming
@@ -295,7 +295,7 @@ Yes
 </td>
 </tr>
 <tr id="Server-bind">
-<td><code>bind</code></td>
+<td><code><a href="#Server-bind">bind</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The ip or the Unix domain socket to which the listener should be bound
@@ -313,7 +313,7 @@ No
 </td>
 </tr>
 <tr id="Server-hosts">
-<td><code>hosts</code></td>
+<td><code><a href="#Server-hosts">hosts</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>One or more hosts exposed by this gateway.
@@ -349,7 +349,7 @@ Yes
 </td>
 </tr>
 <tr id="Server-tls">
-<td><code>tls</code></td>
+<td><code><a href="#Server-tls">tls</a></code></td>
 <td><code><a href="#ServerTLSSettings">ServerTLSSettings</a></code></td>
 <td>
 <p>Set of TLS related options that govern the server&rsquo;s behavior. Use
@@ -362,7 +362,7 @@ No
 </td>
 </tr>
 <tr id="Server-name">
-<td><code>name</code></td>
+<td><code><a href="#Server-name">name</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>An optional name of the server, when set must be unique across all servers.
@@ -392,7 +392,7 @@ No
 </thead>
 <tbody>
 <tr id="Port-number">
-<td><code>number</code></td>
+<td><code><a href="#Port-number">number</a></code></td>
 <td><code>uint32</code></td>
 <td>
 <p>A valid non-negative integer port number.</p>
@@ -403,7 +403,7 @@ Yes
 </td>
 </tr>
 <tr id="Port-protocol">
-<td><code>protocol</code></td>
+<td><code><a href="#Port-protocol">protocol</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The protocol exposed on the port.
@@ -417,7 +417,7 @@ Yes
 </td>
 </tr>
 <tr id="Port-name">
-<td><code>name</code></td>
+<td><code><a href="#Port-name">name</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Label assigned to the port.</p>
@@ -443,7 +443,7 @@ Yes
 </thead>
 <tbody>
 <tr id="ServerTLSSettings-https_redirect">
-<td><code>httpsRedirect</code></td>
+<td><code><a href="#ServerTLSSettings-https_redirect">httpsRedirect</a></code></td>
 <td><code>bool</code></td>
 <td>
 <p>If set to true, the load balancer will send a 301 redirect for
@@ -455,7 +455,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-mode">
-<td><code>mode</code></td>
+<td><code><a href="#ServerTLSSettings-mode">mode</a></code></td>
 <td><code><a href="#ServerTLSSettings-TLSmode">TLSmode</a></code></td>
 <td>
 <p>Optional: Indicates whether connections to this port should be
@@ -468,7 +468,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-server_certificate">
-<td><code>serverCertificate</code></td>
+<td><code><a href="#ServerTLSSettings-server_certificate">serverCertificate</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
@@ -480,7 +480,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-private_key">
-<td><code>privateKey</code></td>
+<td><code><a href="#ServerTLSSettings-private_key">privateKey</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
@@ -492,7 +492,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-ca_certificates">
-<td><code>caCertificates</code></td>
+<td><code><a href="#ServerTLSSettings-ca_certificates">caCertificates</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>REQUIRED if mode is <code>MUTUAL</code> or <code>OPTIONAL_MUTUAL</code>. The path to a file
@@ -505,7 +505,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-ca_crl">
-<td><code>caCrl</code></td>
+<td><code><a href="#ServerTLSSettings-ca_crl">caCrl</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>OPTIONAL: The path to the file containing the certificate revocation list (CRL)
@@ -520,7 +520,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-credential_name">
-<td><code>credentialName</code></td>
+<td><code><a href="#ServerTLSSettings-credential_name">credentialName</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>For gateways running on Kubernetes, the name of the secret that
@@ -542,11 +542,12 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-subject_alt_names">
-<td><code>subjectAltNames</code></td>
+<td><code><a href="#ServerTLSSettings-subject_alt_names">subjectAltNames</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>A list of alternate names to verify the subject identity in the
-certificate presented by the client.</p>
+certificate presented by the client.
+Requires TLS mode to be set to <code>MUTUAL</code>.</p>
 
 </td>
 <td>
@@ -554,7 +555,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-verify_certificate_spki">
-<td><code>verifyCertificateSpki</code></td>
+<td><code><a href="#ServerTLSSettings-verify_certificate_spki">verifyCertificateSpki</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>An optional list of base64-encoded SHA-256 hashes of the SPKIs of
@@ -569,7 +570,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-verify_certificate_hash">
-<td><code>verifyCertificateHash</code></td>
+<td><code><a href="#ServerTLSSettings-verify_certificate_hash">verifyCertificateHash</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>An optional list of hex-encoded SHA-256 hashes of the
@@ -585,7 +586,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-min_protocol_version">
-<td><code>minProtocolVersion</code></td>
+<td><code><a href="#ServerTLSSettings-min_protocol_version">minProtocolVersion</a></code></td>
 <td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
 <td>
 <p>Optional: Minimum TLS protocol version. By default, it is <code>TLSV1_2</code>.
@@ -599,7 +600,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-max_protocol_version">
-<td><code>maxProtocolVersion</code></td>
+<td><code><a href="#ServerTLSSettings-max_protocol_version">maxProtocolVersion</a></code></td>
 <td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
 <td>
 <p>Optional: Maximum TLS protocol version.</p>
@@ -610,7 +611,7 @@ No
 </td>
 </tr>
 <tr id="ServerTLSSettings-cipher_suites">
-<td><code>cipherSuites</code></td>
+<td><code><a href="#ServerTLSSettings-cipher_suites">cipherSuites</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>Optional: If specified, only support the specified cipher list.
@@ -656,7 +657,7 @@ No
 </thead>
 <tbody>
 <tr id="ServerTLSSettings-TLSmode-PASSTHROUGH">
-<td><code>PASSTHROUGH</code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode-PASSTHROUGH">PASSTHROUGH</a></code></td>
 <td>
 <p>The SNI string presented by the client will be used as the
 match criterion in a VirtualService TLS route to determine
@@ -665,7 +666,7 @@ the destination service from the service registry.</p>
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSmode-SIMPLE">
-<td><code>SIMPLE</code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode-SIMPLE">SIMPLE</a></code></td>
 <td>
 <p>Secure connections with standard TLS semantics. In this mode
 client certificate is not requested during handshake.</p>
@@ -673,7 +674,7 @@ client certificate is not requested during handshake.</p>
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSmode-MUTUAL">
-<td><code>MUTUAL</code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode-MUTUAL">MUTUAL</a></code></td>
 <td>
 <p>Secure connections to the downstream using mutual TLS by
 presenting server certificates for authentication.
@@ -683,7 +684,7 @@ at least one valid certificate is required to be sent by the client.</p>
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSmode-AUTO_PASSTHROUGH">
-<td><code>AUTO_PASSTHROUGH</code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode-AUTO_PASSTHROUGH">AUTO_PASSTHROUGH</a></code></td>
 <td>
 <p>Similar to the passthrough mode, except servers with this TLS
 mode do not require an associated VirtualService to map from
@@ -700,7 +701,7 @@ the destination are using Istio mTLS to secure traffic.</p>
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSmode-ISTIO_MUTUAL">
-<td><code>ISTIO_MUTUAL</code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode-ISTIO_MUTUAL">ISTIO_MUTUAL</a></code></td>
 <td>
 <p>Secure connections from the downstream using mutual TLS by
 presenting server certificates for authentication.  Compared
@@ -712,7 +713,7 @@ fields in <code>TLSOptions</code> should be empty.</p>
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSmode-OPTIONAL_MUTUAL">
-<td><code>OPTIONAL_MUTUAL</code></td>
+<td><code><a href="#ServerTLSSettings-TLSmode-OPTIONAL_MUTUAL">OPTIONAL_MUTUAL</a></code></td>
 <td>
 <p>Similar to MUTUAL mode, except that the client certificate
 is optional. Unlike SIMPLE mode, A client certificate will
@@ -739,35 +740,35 @@ be specified for validating client certificates.</p>
 </thead>
 <tbody>
 <tr id="ServerTLSSettings-TLSProtocol-TLS_AUTO">
-<td><code>TLS_AUTO</code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol-TLS_AUTO">TLS_AUTO</a></code></td>
 <td>
 <p>Automatically choose the optimal TLS version.</p>
 
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSProtocol-TLSV1_0">
-<td><code>TLSV1_0</code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol-TLSV1_0">TLSV1_0</a></code></td>
 <td>
 <p>TLS version 1.0</p>
 
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSProtocol-TLSV1_1">
-<td><code>TLSV1_1</code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol-TLSV1_1">TLSV1_1</a></code></td>
 <td>
 <p>TLS version 1.1</p>
 
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSProtocol-TLSV1_2">
-<td><code>TLSV1_2</code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol-TLSV1_2">TLSV1_2</a></code></td>
 <td>
 <p>TLS version 1.2</p>
 
 </td>
 </tr>
 <tr id="ServerTLSSettings-TLSProtocol-TLSV1_3">
-<td><code>TLSV1_3</code></td>
+<td><code><a href="#ServerTLSSettings-TLSProtocol-TLSV1_3">TLSV1_3</a></code></td>
 <td>
 <p>TLS version 1.3</p>
 

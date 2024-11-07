@@ -21,7 +21,7 @@ number_of_entries: 2
 </thead>
 <tbody>
 <tr id="IstioStatus-conditions">
-<td><code>conditions</code></td>
+<td><code><a href="#IstioStatus-conditions">conditions</a></code></td>
 <td><code><a href="#IstioCondition">IstioCondition[]</a></code></td>
 <td>
 <p>Current service state of the resource.
@@ -33,23 +33,10 @@ No
 </td>
 </tr>
 <tr id="IstioStatus-validation_messages">
-<td><code>validationMessages</code></td>
+<td><code><a href="#IstioStatus-validation_messages">validationMessages</a></code></td>
 <td><code><a href="/docs/reference/config/istio.analysis.v1alpha1/#AnalysisMessageBase">AnalysisMessageBase[]</a></code></td>
 <td>
 <p>Includes any errors or warnings detected by Istio&rsquo;s analyzers.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="IstioStatus-observed_generation">
-<td><code>observedGeneration</code></td>
-<td><code>int64</code></td>
-<td>
-<p>Resource Generation to which the Reconciled Condition refers.
-When this value is not equal to the object&rsquo;s metadata generation, reconciled condition  calculation for the current
-generation is still in progress.  See <a href="/docs/reference/config/config-status/">https://istio.io/latest/docs/reference/config/config-status/</a> for more info.</p>
 
 </td>
 <td>
@@ -72,7 +59,7 @@ No
 </thead>
 <tbody>
 <tr id="IstioCondition-type">
-<td><code>type</code></td>
+<td><code><a href="#IstioCondition-type">type</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Type is the type of the condition.</p>
@@ -83,7 +70,7 @@ No
 </td>
 </tr>
 <tr id="IstioCondition-status">
-<td><code>status</code></td>
+<td><code><a href="#IstioCondition-status">status</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Status is the status of the condition.
@@ -95,7 +82,7 @@ No
 </td>
 </tr>
 <tr id="IstioCondition-last_probe_time">
-<td><code>lastProbeTime</code></td>
+<td><code><a href="#IstioCondition-last_probe_time">lastProbeTime</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
 <td>
 <p>Last time we probed the condition.</p>
@@ -106,7 +93,7 @@ No
 </td>
 </tr>
 <tr id="IstioCondition-last_transition_time">
-<td><code>lastTransitionTime</code></td>
+<td><code><a href="#IstioCondition-last_transition_time">lastTransitionTime</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#timestamp">Timestamp</a></code></td>
 <td>
 <p>Last time the condition transitioned from one status to another.</p>
@@ -117,7 +104,7 @@ No
 </td>
 </tr>
 <tr id="IstioCondition-reason">
-<td><code>reason</code></td>
+<td><code><a href="#IstioCondition-reason">reason</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Unique, one-word, CamelCase reason for the condition&rsquo;s last transition.</p>
@@ -128,10 +115,21 @@ No
 </td>
 </tr>
 <tr id="IstioCondition-message">
-<td><code>message</code></td>
+<td><code><a href="#IstioCondition-message">message</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Human-readable message indicating details about last transition.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="IstioCondition-observed_generation">
+<td><code><a href="#IstioCondition-observed_generation">observedGeneration</a></code></td>
+<td><code>int64</code></td>
+<td>
+<p>Resource Generation to which the Condition refers.</p>
 
 </td>
 <td>
