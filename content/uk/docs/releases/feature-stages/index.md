@@ -59,9 +59,9 @@ test: n/a
 
 {{< features section="Core" >}}
 
-### Ambient {#ambient}
+### Режим ambient {#ambient-mode}
 
-{{< features section="Ambient" >}}
+{{< features section="Ambient mode" >}}
 
 {{< idea >}}
 Звʼяжіться з нами, [приєднавшись до нашої спільноти](/get-involved/), якщо є функції, які ви хотіли б побачити в наших майбутніх випусках!

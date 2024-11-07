@@ -37,7 +37,7 @@ $ kubectl exec deploy/curl -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     Якщо ваше джерело викликає призначення за допомогою імені хосту або IP-адреси сервісу, використовуйте команду `istioctl experimental ztunnel-config service`, щоб підтвердити, що ваш waypoint використовується призначеним сервісом. За прикладом вище, сервіс `reviews` повинен використовувати `reviews-svc-waypoint`, тоді як усі інші сервіси в просторі імен `default` повинні використовувати waypoint простору імен.
 
     {{< text bash >}}
-    $ istioctl experimental ztunnel-config service
+    $ istioctl ztunnel-config service
     NAMESPACE    SERVICE NAME            SERVICE VIP   WAYPOINT
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
@@ -51,10 +51,10 @@ $ kubectl exec deploy/curl -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     ...
     {{< /text >}}
 
-    Якщо вашу джерело викликає призначення за допомогою IP-адреси podʼа, використовуйте команду `istioctl experimental ztunnel-config workload`, щоб підтвердити, що ваш waypoint використовується призначеним podʼом. За прикладом вище, pod `reviews` `v2` повинен використовувати `reviews-v2-pod-waypoint`, тоді як усі інші podʼи в просторі імен `default` не повинні мати жодних waypoint, оскільки стандартно [waypoint обробляє лише трафік, адресований сервісам](/docs/ambient/usage/waypoint/#waypoint-traffic-types).
+    Якщо ваше джерело викликає призначення за допомогою IP-адреси podʼа, використовуйте команду `istioctl ztunnel-config workload`, щоб підтвердити, що ваш waypoint використовується призначеним podʼом. За прикладом вище, pod `reviews` `v2` повинен використовувати `reviews-v2-pod-waypoint`, тоді як усі інші podʼи в просторі імен `default` не повинні мати жодних waypoint, оскільки стандартно [waypoint обробляє лише трафік, адресований сервісам](/docs/ambient/usage/waypoint/#waypoint-traffic-types).
 
     {{< text bash >}}
-    $ istioctl experimental ztunnel-config workload
+    $ istioctl ztunnel-config workload
     NAMESPACE    POD NAME                                    IP         NODE                     WAYPOINT                PROTOCOL
     default      bookinfo-gateway-istio-7c57fc4647-wjqvm     10.42.2.8  k3d-k3s-default-server-0 None                    TCP
     default      details-v1-698d88b-wwsnv                    10.42.2.4  k3d-k3s-default-server-0 None                    HBONE
