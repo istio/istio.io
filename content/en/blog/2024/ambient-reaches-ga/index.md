@@ -32,7 +32,7 @@ The separation between the L4 secure overlay layer and L7 processing layer allow
 
 ## Rapid exploration and adoption of ambient mode
 
-The ztunnel image on Docker Hub has reached over [1 million downloads](https://hub.docker.com/search?q=istio), with ~63k pulls in the last week alone.
+The ztunnel image on Docker Hub has reached over [1 million downloads](https://hub.docker.com/search?q=istio), with ~63,000 pulls in the last week alone.
 
 {{< image width="100%"
     link="./ztunnel-image.png"
@@ -61,7 +61,7 @@ We asked a few of our users for their thoughts on ambient mode’s GA:
 {{< /quote >}}
 
 {{< quote >}}
-**By Switching from AWS App Mesh to Istio in ambient mode, we were able to slash about 45% of the running containers just by removing sidecars and SPIRE agent daemonsets. We gained many benefits, such as reducing compute costs or observability costs related to sidecars, eliminating many of the race conditions related to sidecars startup and shutdown, plus all the out-of-the-box benefits just by migrating, like mTLS, zonal awareness and workload load balancing.**
+**By Switching from AWS App Mesh to Istio in ambient mode, we were able to slash about 45% of the running containers just by removing sidecars and SPIRE agent DaemonSets. We gained many benefits, such as reducing compute costs or observability costs related to sidecars, eliminating many of the race conditions related to sidecars startup and shutdown, plus all the out-of-the-box benefits just by migrating, like mTLS, zonal awareness and workload load balancing.**
 
 — [Ahmad Al-Masry](https://www.linkedin.com/in/ahmad-al-masry-9ab90858/), DevSecOps Engineering Manager at Harri
 {{< /quote >}}
@@ -73,7 +73,7 @@ We asked a few of our users for their thoughts on ambient mode’s GA:
 {{< /quote >}}
 
 {{< quote >}}
-**Extremely proud to see the fast and steady growth of ambient mode to GA, and all the amazing collaboration that took place over the past months to make this happen! We are looking forward to finding out how the new architecture is going to revolutionize the Telco world.**
+**Extremely proud to see the fast and steady growth of ambient mode to GA, and all the amazing collaboration that took place over the past months to make this happen! We are looking forward to finding out how the new architecture is going to revolutionize the telcos world.**
 
 — [Faseela K](https://www.linkedin.com/in/faseela-k-42178528/), Cloud Native Developer at Ericsson
 {{< /quote >}}
