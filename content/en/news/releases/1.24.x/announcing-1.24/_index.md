@@ -2,7 +2,7 @@
 title: Announcing Istio 1.24.0
 linktitle: 1.24.0
 subtitle: Major Release
-description: Istio 1.24 Release Announcement
+description: Istio 1.24 Release Announcement.
 publishdate: 2024-11-07
 release: 1.24.0
 aliases:
