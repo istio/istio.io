@@ -22,12 +22,9 @@
 
 bpsnip_crd_upgrade_123_adopt_legacy_crds() {
 for crd in $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name)
+do
+   kubectl label "$crd" "app.kubernetes.io/managed-by=Helm"
+   kubectl annotate "$crd" "meta.helm.sh/release-name=istio-base" # replace with actual Helm release name, if different from the documentation default
+   kubectl annotate "$crd" "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
+done
 }
-
-! IFS=$'\n' read -r -d '' bpsnip_crd_upgrade_123_adopt_legacy_crds_out <<\ENDSNIP
-  do
-     kubectl label "$crd" "app.kubernetes.io/managed-by=Helm"
-     kubectl annotate "$crd" "meta.helm.sh/release-name=istio-base" # replace with actual Helm release name, if different from the documentation default
-     kubectl annotate "$crd" "meta.helm.sh/release-namespace=istio-system" # replace with actual istio namespace
-  done
-ENDSNIP
