@@ -20,7 +20,7 @@ status: Alpha
 
 * Ознайомтесь з [поняттями авторизації Istio](/docs/concepts/security/#authorization).
 
-* Дотримуйтесь [інструкції з встановлення Istio](/docs/setup/install/istioctl/) для встановлення.
+* Дотримуйтесь [інструкції з встановлення Istio](/docs/setup/install) для встановлення.
 
 * Розгорніть Zipkin для перевірки результатів симуляції. Дотримуйтесь [завдання Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) для встановлення Zipkin у кластер.
 
@@ -28,13 +28,13 @@ status: Alpha
 
 * Розгорніть тестові робочі навантаження:
 
-    Ця задача використовує два робочих навантаження, `httpbin` та `sleep`, обидва розгорнуті в просторі імен `foo`. Обидва робочих навантаження працюють з sidecar проксі Envoy. Створіть простір імен `foo` і розгорніть робочі навантаження за допомогою наступної команди:
+    Ця задача використовує два робочих навантаження, `httpbin` та `curl`, обидва розгорнуті в просторі імен `foo`. Обидва робочих навантаження працюють з sidecar проксі Envoy. Створіть простір імен `foo` і розгорніть робочі навантаження за допомогою наступної команди:
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl label ns foo istio-injection=enabled
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n foo
     {{< /text >}}
 
 * Увімкніть рівень журналів налагодження проксі для перевірки результатів симуляції журналювання:
@@ -44,10 +44,10 @@ status: Alpha
     rbac: debug
     {{< /text >}}
 
-* Перевірте, чи може `sleep` отримати доступ до `httpbin` за допомогою наступної команди:
+* Перевірте, чи може `curl` отримати доступ до `httpbin` за допомогою наступної команди:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -s -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -85,10 +85,10 @@ status: Alpha
     $ kubectl annotate --overwrite authorizationpolicies deny-path-headers -n foo istio.io/dry-run='true'
     {{< /text >}}
 
-1. Перевірте, що запити до шляху `/headers` дозволені, оскільки політика створена в режимі симуляції, запустіть наступну команду для надсилання 20 запитів від `sleep` до `httpbin`, запит включає заголовок `X-B3-Sampled: 1`, щоб завжди активувати трасування Zipkin:
+1. Перевірте, що запити до шляху `/headers` дозволені, оскільки політика створена в режимі симуляції, запустіть наступну команду для надсилання 20 запитів від `curl` до `httpbin`, запит включає заголовок `X-B3-Sampled: 1`, щоб завжди активувати трасування Zipkin:
 
     {{< text bash >}}
-    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
+    $ for i in {1..20}; do kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/headers -H "X-B3-Sampled: 1" -s -o /dev/null -w "%{http_code}\n"; done
     200
     200
     200
@@ -143,7 +143,7 @@ $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..me
     $ istioctl dashboard zipkin
     {{< /text >}}
 
-2. Знайдіть результат трасування для запиту від `sleep` до `httpbin`. Спробуйте надіслати ще кілька запитів, якщо ви не бачите результат трасування через затримку в Zipkin.
+2. Знайдіть результат трасування для запиту від `curl` до `httpbin`. Спробуйте надіслати ще кілька запитів, якщо ви не бачите результат трасування через затримку в Zipkin.
 
 3. У результаті трасування ви повинні знайти наступні власні теґи, що вказують на те, що запит відхилено політикою симуляції `deny-path-headers` у просторі імен `foo`:
 

@@ -36,16 +36,16 @@ EOF
 
 Якщо ви відкриєте застосунок Bookinfo в оглядачі (`http://localhost:8080/productpage`), ви побачите сторінку продукту, як і раніше. Однак, якщо ви спробуєте отримати доступ до сервісу `productpage` з іншого службового облікового запису, ви повинні побачити помилку.
 
-Спробуйте отримати доступ до застосунка Bookinfo з podʼа `sleep`:
+Спробуйте отримати доступ до застосунку Bookinfo з podʼа `curl`:
 
-{{< text syntax=bash snip_id=deploy_sleep >}}
-$ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
+{{< text syntax=bash snip_id=deploy_curl >}}
+$ kubectl apply -f samples/curl/curl.yaml
 {{< /text >}}
 
-Оскільки pod `sleep` використовує інший службовий обліковий запис, він не матиме доступу до сервісу `productpage`:
+Оскільки pod `curl` використовує інший службовий обліковий запис, він не матиме доступу до сервісу `productpage`:
 
 {{< text bash >}}
-$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage"
+$ kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage"
 command terminated with exit code 56
 {{< /text >}}
 
@@ -67,7 +67,7 @@ NAME       CLASS            ADDRESS       PROGRAMMED   AGE
 waypoint   istio-waypoint   10.96.58.95   True         42s
 {{< /text >}}
 
-Додавання [політики авторизації L7](/docs/ambient/usage/l7-features/) явно дозволить сервісу `sleep` надсилати `GET` запити до сервісу `productpage`, але не виконувати інші операції:
+Додавання [політики авторизації L7](/docs/ambient/usage/l7-features/) явно дозволить сервісу `curl` надсилати `GET` запити до сервісу `productpage`, але не виконувати інші операції:
 
 {{< text syntax=bash snip_id=deploy_l7_policy >}}
 $ kubectl apply -f - <<EOF
@@ -86,7 +86,7 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/default/sa/sleep
+        - cluster.local/ns/default/sa/curl
     to:
     - operation:
         methods: ["GET"]
@@ -103,7 +103,7 @@ EOF
 
 {{< text bash >}}
 $ # Це призведе до помилки RBAC, оскільки ми не використовуємо операцію GET
-$ kubectl exec deploy/sleep -- curl -s "http://productpage:9080/productpage" -X DELETE
+$ kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
@@ -114,9 +114,8 @@ RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # Це працює, оскільки ми явно дозволили GET запити від podʼа sleep
-$ kubectl exec deploy/sleep -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
-<title>Simple Bookstore App</title>
+$ # Це працює, оскільки ми явно дозволили GET запити від podʼа curl
+$ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 {{< /text >}}
 
 ## Подальші кроки {#next-steps}

@@ -109,37 +109,37 @@ values:
     $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml@
     {{< /text >}}
 
-1. Розгорніть [sleep]({{< github_tree >}}/samples/sleep) зразок програми для використання як джерела тестових запитів.
+1. Розгорніть [curl]({{< github_tree >}}/samples/curl) зразок програми для використання як джерела тестових запитів.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1. Перевірте, чи трафік досягає podʼів dual-stack:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     {{< /text >}}
 
 1. Перевірте, чи трафік досягає podʼів IPv4:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
     {{< /text >}}
 
 1. Перевірте, чи трафік досягає podʼів IPv6:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
     hello ipv6
     {{< /text >}}
 
 1. Перевірте слухачів envoy:
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000 -ojson | jq '.[] | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
     {{< /text >}}
 
     Ви побачите, що слухачі тепер привʼязані до кількох адрес, але тільки для сервісів dual-stack. Інші сервіси будуть слухати тільки на одній IP-адресі.
@@ -166,6 +166,10 @@ values:
 
 1. Перевірте, чи віртуальні вхідні адреси налаштовані на прослуховування як `0.0.0.0`, так і `[::]`.
 
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack -o json | jq '.[] | select(.name=="virtualInbound") | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
+    {{< /text >}}
+
     {{< text syntax=json snip_id=none >}}
     "name": "virtualInbound",
     "address": {
@@ -189,7 +193,7 @@ values:
 2. Перевірте, чи точки доступу envoy налаштовані на маршрутизацію як до IPv4, так і до IPv6:
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
+    $ istioctl proxy-config endpoints "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" --port 9000
     ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
     10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
     10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local
@@ -204,6 +208,6 @@ values:
 1. Очищення просторів імен і розгортання застосунків
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     $ kubectl delete ns dual-stack ipv4 ipv6
     {{< /text >}}

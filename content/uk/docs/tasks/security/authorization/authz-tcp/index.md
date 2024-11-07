@@ -19,38 +19,38 @@ test: yes
 
 * Встановіть Istio, використовуючи [посібник з установки Istio](/docs/setup/install/istioctl/).
 
-* Розгорніть два навантаження з іменами `sleep` та `tcp-echo` разом у просторі імен, наприклад, `foo`. Обидва навантаження працюють з проксі Envoy попереду кожного з них. Навантаження `tcp-echo` слухає порти 9000, 9001 та 9002 та відповідає будь-якому отриманому трафіку з префіксом `hello`. Наприклад, якщо ви надішлете "world" на `tcp-echo`, він відповість `hello world`. Обʼєкт сервісу Kubernetes `tcp-echo` оголошує тільки порти 9000 і 9001, і не вказує порт 9002. Трафік на порт 9002 буде оброблятися через фільтр прохідного зʼєднання. Розгорніть приклад простору імен та навантаження, використовуючи наступну команду:
+* Розгорніть два навантаження з іменами `curl` та `tcp-echo` разом у просторі імен, наприклад, `foo`. Обидва навантаження працюють з проксі Envoy попереду кожного з них. Навантаження `tcp-echo` слухає порти 9000, 9001 та 9002 та відповідає будь-якому отриманому трафіку з префіксом `hello`. Наприклад, якщо ви надішлете "world" на `tcp-echo`, він відповість `hello world`. Обʼєкт сервісу Kubernetes `tcp-echo` оголошує тільки порти 9000 і 9001, і не вказує порт 9002. Трафік на порт 9002 буде оброблятися через фільтр прохідного зʼєднання. Розгорніть приклад простору імен та навантаження, використовуючи наступну команду:
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/tcp-echo/tcp-echo.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     {{< /text >}}
 
-* Перевірте, чи `sleep` успішно комунікує з `tcp-echo` на портах 9000 та 9001, використовуючи наступну команду:
+* Перевірте, чи `curl` успішно комунікує з `tcp-echo` на портах 9000 та 9001, використовуючи наступну команду:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9000
     connection succeeded
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
     {{< /text >}}
 
-* Перевірте, чи `sleep` успішно комунікує з `tcp-echo` на порту 9002. Вам потрібно надіслати трафік безпосередньо на IP-адресу pod `tcp-echo`, оскільки порт 9002 не визначений у обʼєкті сервісу Kubernetes `tcp-echo`. Отримайте IP-адресу pod і надішліть запит наступною командою:
+* Перевірте, чи `curl` успішно комунікує з `tcp-echo` на порту 9002. Вам потрібно надіслати трафік безпосередньо на IP-адресу pod `tcp-echo`, оскільки порт 9002 не визначений у обʼєкті сервісу Kubernetes `tcp-echo`. Отримайте IP-адресу pod і надішліть запит наступною командою:
 
     {{< text bash >}}
     $ TCP_ECHO_IP=$(kubectl get pod "$(kubectl get pod -l app=tcp-echo -n foo -o jsonpath={.items..metadata.name})" -n foo -o jsonpath="{.status.podIP}")
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9002
     connection succeeded
@@ -86,8 +86,8 @@ test: yes
 1. Перевірте, чи запити на порт 9000 дозволені, використовуючи наступну команду:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9000
     connection succeeded
@@ -96,8 +96,8 @@ test: yes
 1. Перевірте, чи запити на порт 9001 дозволені, використовуючи наступну команду:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded
@@ -106,8 +106,8 @@ test: yes
 1. Перевірте, чи запити на порт 9002 відхилені. Це забезпечується політикою авторизації, яка також застосовується до фільтра прохідного зʼєднання, навіть якщо порт не оголошений явно в обʼєкті сервісу Kubernetes `tcp-echo`. Виконайте наступну команду та перевірте результат:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         "echo \"port 9002\" | nc $TCP_ECHO_IP 9002" | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -137,8 +137,8 @@ test: yes
 1. Перевірте, чи запити на порт 9000 відхилені. Це відбувається, тому що правило стає недійсним, коли використовуються поля тільки для HTTP (`methods`) для TCP-трафіку. Istio ігнорує недійсне правило ALLOW. Остаточний результат — запит відхилено, оскільки він не відповідає жодним ALLOW правилам. Виконайте наступну команду та перевірте результат:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -146,8 +146,8 @@ test: yes
 1. Перевірте, чи запити на порт 9001 відхилені. Це відбувається, оскільки запити не відповідають жодним ALLOW правилам. Виконайте наступну команду та перевірте результат:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -178,8 +178,8 @@ test: yes
 1. Перевірте, чи запити на порт 9000 відхилені. Це відбувається тому, що Istio не розуміє поля тільки для HTTP при створенні правила DENY для TCP-порту, і через свою обмежувальну природу він блокує весь трафік до TCP-портів:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -187,8 +187,8 @@ test: yes
 1. Перевірте, чи запити на порт 9001 відхилені. Та сама причина, що й вище.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -218,8 +218,8 @@ test: yes
 1. Перевірте, чи запити на порт 9000 відхилені. Це відбувається, тому що запит відповідає `ports` у згаданій вище політиці DENY.
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9000" | nc tcp-echo 9000' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     connection rejected
     {{< /text >}}
@@ -227,8 +227,8 @@ test: yes
 1. Перевірте, чи запити на порт 9001 дозволені. Це відбувається, тому що запити не відповідають `ports` у політиці DENY:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" \
-        -c sleep -n foo -- sh -c \
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \
+        -c curl -n foo -- sh -c \
         'echo "port 9001" | nc tcp-echo 9001' | grep "hello" && echo 'connection succeeded' || echo 'connection rejected'
     hello port 9001
     connection succeeded

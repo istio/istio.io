@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-Це завдання показує, як перенести TCP-трафік зі одної версії мікросервісу на іншу.
+Це завдання показує, як перенести TCP-трафік з одної версії мікросервісу на іншу.
 
 Поширений випадок використання — це поступове перенесення TCP трафіку зі старої версії мікросервісу на нову. В Istio ви досягаєте цієї мети, конфігуруючи послідовність правил маршрутизації, які перенаправляють відсоток TCP трафіку з одного призначення на інше.
 
@@ -30,10 +30,10 @@ test: yes
     $ kubectl create namespace istio-io-tcp-traffic-shifting
     {{< /text >}}
 
-2.  Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep), який буде використовуватися як джерело тестових запитів.
+2.  Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), який буде використовуватися як джерело тестових запитів.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n istio-io-tcp-traffic-shifting
     {{< /text >}}
 
 3.  Розгорніть версії `v1` і `v2` мікросервісу `tcp-echo`.
@@ -93,9 +93,9 @@ $ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-tra
 3)  Переконайтеся, що служба `tcp-echo` працює, надіславши до неї деякий TCP-трафік.
 
     {{< text bash >}}
-    $ export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+    $ export CURL=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
     $ for i in {1..20}; do \
-    kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$CURL" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:24:57 UTC 2022
     one Mon Nov 12 23:25:00 UTC 2022
@@ -202,9 +202,9 @@ spec:
 6)  Надішліть ще трохи TCP-трафіку до мікросервісу `tcp-echo`.
 
     {{< text bash >}}
-    $ export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+    $ export CURL=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
     $ for i in {1..20}; do \
-    kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+    kubectl exec "$CURL" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; curl 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
     done
     one Mon Nov 12 23:38:45 UTC 2022
     two Mon Nov 12 23:38:47 UTC 2022
@@ -254,10 +254,10 @@ $ kubectl delete -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio
 
 {{< /tabset >}}
 
-2) Видаліть демонстраційний застосунок `sleep`, застосунок `tcp-echo` і тестовий простір імен:
+2) Видаліть демонстраційний застосунок `curl`, застосунок `tcp-echo` і тестовий простір імен:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n istio-io-tcp-traffic-shifting
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete -f @samples/tcp-echo/tcp-echo-services.yaml@ -n istio-io-tcp-traffic-shifting
     $ kubectl delete namespace istio-io-tcp-traffic-shifting
     {{< /text >}}

@@ -243,30 +243,30 @@ $ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
     $ kubectl apply  -f ./proxyconfig-foo.yaml
     {{< /text >}}
 
-5. Розгорніть демонстраційні застосунки `httpbin` та `leep` у просторах імен `foo` і `bar`.
+5. Розгорніть демонстраційні застосунки `httpbin` та `curl` у просторах імен `foo` і `bar`.
 
     {{< text bash >}}
     $ kubectl label ns foo istio-injection=enabled
     $ kubectl label ns bar istio-injection=enabled
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n foo
-    $ kubectl apply -f samples/sleep/sleep.yaml -n foo
+    $ kubectl apply -f samples/curl/curl.yaml -n foo
     $ kubectl apply -f samples/httpbin/httpbin.yaml -n bar
     {{< /text >}}
 
-## Перевірка мережевої взаємодії між `httpbin` і `sleep` у межах одного простору імен {#verify-the-network-connectivity-between-httpbin-and-sleep-within-the-same-namespace}
+## Перевірка мережевої взаємодії між `httpbin` і `curl` у межах одного простору імен {#verify-the-network-connectivity-between-httpbin-and-curl-within-the-same-namespace}
 
 Коли робочі навантаження розгорнуті, вони надсилають запити CSR з відповідною інформацією про підписувача. Istiod пересилає запит CSR до власного центру сертифікації користувача для підпису. Власний CA використовує відповідного кластерного емітента для підпису сертифіката. Робочі навантаження у просторі імен `foo` використовують кластерних емітентів `foo`, а робочі навантаження у просторі імен `bar` використовують кластерних емітентів `bar`. Щоб перевірити, що сертифікати дійсно підписані правильними кластерними емітентами, можна перевірити, чи можуть робочі навантаження в одному просторі імен спілкуватися між собою, тоді як робочі навантаження з різних просторів імен не можуть.
 
-1. Вкажіть в змінну середовища `SLEEP_POD_FOO` імʼя podʼа `sleep`.
+1. Вкажіть в змінну середовища `CURL_POD_FOO` імʼя podʼа `curl`.
 
     {{< text bash >}}
-    $ export SLEEP_POD_FOO=$(kubectl get pod -n foo -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export CURL_POD_FOO=$(kubectl get pod -n foo -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
-1. Перевірте мережеве зʼєднання між сервісом `sleep` та `httpbin` в просторі імен `foo`.
+1. Перевірте мережеве зʼєднання між сервісом `curl` та `httpbin` в просторі імен `foo`.
 
     {{< text bash >}}
-    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.foo:8000/html
+    $ kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.foo:8000/html
     <!DOCTYPE html>
     <html>
       <head>
@@ -282,10 +282,10 @@ $ export BARCA=$(kubectl get clusterissuers bar -o jsonpath='{.spec.ca.secretNam
       </body>
      {{< /text >}}
 
-1. Перевірте мережеве зʼєднання між сервісами `sleep` у просторі імен `foo` та `shttpbin` у просторі імен `bar`.
+1. Перевірте мережеве зʼєднання між сервісами `curl` у просторі імен `foo` та `httpbin` у просторі імен `bar`.
 
     {{< text bash >}}
-    $ kubectl exec "$SLEEP_POD_FOO" -n foo -c sleep -- curl http://httpbin.bar:8000/html
+    $ kubectl exec "$CURL_POD_FOO" -n foo -c curl -- curl http://httpbin.bar:8000/html
     upstream connect error or disconnect/reset before headers. reset reason: connection failure, transport failure reason: TLS error: 268435581:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED
     {{< /text >}}
 

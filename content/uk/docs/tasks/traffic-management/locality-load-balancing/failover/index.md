@@ -10,14 +10,14 @@ owner: istio/wg-networking-maintainers
 
 Перед тим як продовжити, обовʼязково завершите кроки з розділу [перш ніж розпочати](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
-У цьому завданні ви будете використовувати pod `Sleep` у `region1.zone1` як джерело запитів до сервісу `HelloWorld`. Потім ви ініціюєте відмови, які спричинять аварійне перемикання між локаціями в наступній послідовності:
+У цьому завданні ви будете використовувати pod `curl` у `region1.zone1` як джерело запитів до сервісу `HelloWorld`. Потім ви ініціюєте відмови, які спричинять аварійне перемикання між локаціями в наступній послідовності:
 
 {{< image width="75%"
     link="sequence.svg"
     caption="Послідовність аварійного перемикання локацій"
     >}}
 
-Для керування аварійним перемиканням використовуються [пріоритети Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html). Ці пріоритети будуть призначені наступним чином для трафіку, що походить від podʼа `Sleep` (у `region1` `zone1`):
+Для керування аварійним перемиканням використовуються [пріоритети Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/priority.html). Ці пріоритети будуть призначені наступним чином для трафіку, що походить від podʼа `curl` (у `region1` `zone1`):
 
 Пріоритет | Локація | Деталі
 -------- | -------- | -------
@@ -65,12 +65,12 @@ EOF
 
 ## Перевірте, що трафік залишається в `region1.zone1` {#verify-traffic-stays-in-region1.zone1}
 
-Зробіть запит до сервісу `HelloWorld` з podʼа `Sleep`:
+Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 {{< /text >}}
@@ -90,12 +90,12 @@ $ kubectl --context="${CTX_R1_Z1}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-Зробіть запит до сервісу `HelloWorld` з podʼа `Sleep`:
+Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 {{< /text >}}
@@ -113,12 +113,12 @@ $ kubectl --context="${CTX_R1_Z2}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-Зробіть запит до сервісу `HelloWorld` з podʼа `Sleep`:
+Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 {{< /text >}}
@@ -136,12 +136,12 @@ $ kubectl --context="${CTX_R2_Z3}" exec \
   -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
 {{< /text >}}
 
-Зробіть запит до сервісу `HelloWorld` з podʼа `Sleep`:
+Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 {{< /text >}}

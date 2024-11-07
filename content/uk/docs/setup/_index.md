@@ -8,6 +8,8 @@ aliases:
     - /uk/docs/setup/kubernetes/quick-start.html
     - /uk/docs/setup/kubernetes/download-release/
     - /uk/docs/setup/kubernetes/download/
+    - /uk/docs/setup/install/operator/
+    - /latest/uk/docs/setup/install/operator/
 keywords: [kubernetes,install,quick-start,setup,installation]
 test: table-of-contents
 ---

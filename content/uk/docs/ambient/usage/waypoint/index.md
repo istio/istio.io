@@ -52,6 +52,7 @@ default           Active   24h   ambient
 
 {{< text syntax=bash snip_id=gen_waypoint_resource >}}
 $ istioctl waypoint generate --for service -n default
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -79,6 +80,7 @@ waypoint default/waypoint applied
 
 {{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -194,7 +196,7 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 
 Стандартно проксі waypoint доступний для ресурсів у тому ж просторі імен. Починаючи з Istio 1.23, стало можливим використовувати waypoint в інших просторах імен. У цьому розділі ми розглянемо конфігурацію шлюзу, необхідну для увімкнення використання waypoint у різних просторах імен, а також як налаштувати ваші ресурси для використання waypoint з іншого простору імен.
 
-### Налаштування waypoint для використання у різних просторах імен
+### Налаштування waypoint для використання у різних просторах імен {#configure-a-waypoint-for-cross-namespace-use}
 
 Щоб увімкнути використання waypoint у різних просторах імен, слід налаштувати `Gateway` для [дозволу маршрутів](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes) з інших просторів імен.
 

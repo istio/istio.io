@@ -45,8 +45,8 @@ istio_tcp_connections_opened_total{
   reporter="source",
   request_protocol="tcp",
   response_flags="-",
-  source_app="sleep",
-  source_principal="spiffe://cluster.local/ns/default/sa/sleep",source_workload_namespace="default",
+  source_app="curl",
+  source_principal="spiffe://cluster.local/ns/default/sa/curl",source_workload_namespace="default",
   ...}
 {{< /text >}}
 
@@ -54,11 +54,11 @@ istio_tcp_connections_opened_total{
 
 ## Перевірка mTLS за допомогою логів {#validate-mtls-from-logs}
 
-Ви також можете переглянути лог ztunnel на стороні джерела або призначення, щоб підтвердити, що mTLS увімкнено, а також перевірити ідентичність учасників. Нижче наведено приклад логу ztunnel на стороні джерела для запиту від сервісу `sleep` до сервісу `details`:
+Ви також можете переглянути лог ztunnel на стороні джерела або призначення, щоб підтвердити, що mTLS увімкнено, а також перевірити ідентичність учасників. Нижче наведено приклад логу ztunnel на стороні джерела для запиту від сервісу `curl` до сервісу `details`:
 
 {{< text syntax=plain >}}
-2024-08-21T15:32:05.754291Z info access connection complete src.addr=10.42.0.9:33772 src.workload="sleep-7656cf8794-6lsm4" src.namespace="default"
-src.identity="spiffe://cluster.local/ns/default/sa/sleep" dst.addr=10.42.0.5:15008 dst.hbone_addr=10.42.0.5:9080 dst.service="details.default.svc.cluster.local"
+2024-08-21T15:32:05.754291Z info access connection complete src.addr=10.42.0.9:33772 src.workload="curl-7656cf8794-6lsm4" src.namespace="default"
+src.identity="spiffe://cluster.local/ns/default/sa/curl" dst.addr=10.42.0.5:15008 dst.hbone_addr=10.42.0.5:9080 dst.service="details.default.svc.cluster.local"
 dst.workload="details-v1-857849f66-ft8wx" dst.namespace="default" dst.identity="spiffe://cluster.local/ns/default/sa/bookinfo-details"
 direction="outbound" bytes_sent=84 bytes_recv=358 duration="15ms"
 {{< /text >}}

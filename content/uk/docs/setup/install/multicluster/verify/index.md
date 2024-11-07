@@ -12,7 +12,7 @@ owner: istio/wg-environments-maintainers
 
 У цьому посібнику ми розгорнемо застосунок `HelloWorld` `V1` у `cluster1` та `V2` у `cluster2`. При отриманні запиту `HelloWorld` включатиме свою версію у відповідь.
 
-Ми також розгорнемо контейнер `Sleep` в обох кластерах. Ми будемо використовувати ці контейнери як джерело запитів до сервісу `HelloWorld`, імітуючи трафік всередині мережі. Нарешті, після генерації трафіку ми спостерігатимемо, який кластер отримав запити.
+Ми також розгорнемо контейнер `curl` в обох кластерах. Ми будемо використовувати ці контейнери як джерело запитів до сервісу `HelloWorld`, імітуючи трафік всередині мережі. Нарешті, після генерації трафіку ми спостерігатимемо, який кластер отримав запити.
 
 ## Розгортання сервісу `HelloWorld` {#deploy-the-helloworld-service}
 
@@ -85,47 +85,47 @@ helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 
 Дочекайтесь, поки статус `helloworld-v2` буде `Running`.
 
-## Розгортання `Sleep` {#deploy-sleep}
+## Розгортання `curl` {#deploy-curl}
 
-Розгорніть застосунок `Sleep` в обох кластерах:
+Розгорніть застосунок `curl` в обох кластерах:
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
-    -f @samples/sleep/sleep.yaml@ -n sample
+    -f @samples/curl/curl.yaml@ -n sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
-    -f @samples/sleep/sleep.yaml@ -n sample
+    -f @samples/curl/curl.yaml@ -n sample
 {{< /text >}}
 
-Перевірте статус podʼа `Sleep` в `cluster1`:
+Перевірте статус podʼа `curl` в `cluster1`:
 
 {{< text bash >}}
-$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-n6bzf           2/2     Running   0          5s
+curl-754684654f-n6bzf            2/2     Running   0          5s
 {{< /text >}}
 
-Дочекайтесь, поки статус podʼа `Sleep` буде `Running`.
+Дочекайтесь, поки статус podʼа `curl` буде `Running`.
 
-Перевірте статус podʼа `Sleep` в `cluster2`:
+Перевірте статус podʼа `curl` в `cluster2`:
 
 {{< text bash >}}
-$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-dzl9j           2/2     Running   0          5s
+curl-754684654f-dzl9j            2/2     Running   0          5s
 {{< /text >}}
 
-Дочекайтесь, поки статус podʼа `Sleep` буде `Running`.
+Дочекайтесь, поки статус podʼа `curl` буде `Running`.
 
 ## Перевірка міжкластерного трафіку {#verify-cross-cluster-traffic}
 
-Щоб перевірити, чи працює міжкластерне балансування навантаження як очікується, викликайте сервіс `HelloWorld` кілька разів за допомогою podʼа `Sleep`. Щоб забезпечити правильність балансування навантаження, викликайте сервіс `HelloWorld` з усіх кластерів у вашій установці.
+Щоб перевірити, чи працює міжкластерне балансування навантаження як очікується, викликайте сервіс `HelloWorld` кілька разів за допомогою podʼа `curl`. Щоб забезпечити правильність балансування навантаження, викликайте сервіс `HelloWorld` з усіх кластерів у вашій установці.
 
-Відправте один запит з podʼа `Sleep` в `cluster1` до сервісу `HelloWorld`:
+Відправте один запит з podʼа `curl` в `cluster1` до сервісу `HelloWorld`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 
@@ -137,12 +137,12 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
 {{< /text >}}
 
-Тепер повторіть цей процес з podʼа `Sleep` в `cluster2`:
+Тепер повторіть цей процес з podʼа `curl` в `cluster2`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 

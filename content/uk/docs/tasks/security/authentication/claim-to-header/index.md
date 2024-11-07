@@ -27,19 +27,19 @@ status: Experimental
 
 * Встановіть Istio за допомогою [посібника з установки Istio](/docs/setup/install/istioctl/).
 
-* Розгорніть навантаження `httpbin` та `sleep` в просторі імен `foo` з увімкненою інʼєкцією sidecar. Розгорніть приклад простору імен і навантаження за допомогою цих команд:
+* Розгорніть навантаження `httpbin` та `curl` в просторі імен `foo` з увімкненою інʼєкцією sidecar. Розгорніть приклад простору імен і навантаження за допомогою цих команд:
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl label namespace foo istio-injection=enabled
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@ -n foo
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n foo
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n foo
     {{< /text >}}
 
-* Переконайтеся, що `sleep` успішно взаємодіє з `httpbin` за допомогою цієї команди:
+* Переконайтеся, що `curl` успішно взаємодіє з `httpbin` за допомогою цієї команди:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -74,7 +74,7 @@ status: Experimental
 1. Переконайтеся, що запит з недійсним JWT відхилено:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer invalidToken" -w "%{http_code}\n"
     401
     {{< /text >}}
 
@@ -88,15 +88,15 @@ status: Experimental
 1. Переконайтеся, що запит з дійсним JWT дозволено:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
     200
     {{< /text >}}
 
 1. Переконайтеся, що запит містить дійсний HTTP-заголовок зі значенням заявки JWT:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | grep "X-Jwt-Claim-Foo" | sed -e 's/^[ \t]*//'
-    "X-Jwt-Claim-Foo": "bar"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -H "Authorization: Bearer $TOKEN" | jq '.headers["X-Jwt-Claim-Foo"][0]'
+    "bar"
     {{< /text >}}
 
 ## Очищення {#clean-up}

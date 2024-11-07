@@ -64,11 +64,11 @@ $ cat <<EOF | kubectl apply -n default -f -
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
 metadata:
-  name: sleep-logging
+  name: curl-logging
 spec:
   selector:
     matchLabels:
-      app: sleep
+      app: curl
   accessLogging:
     - providers:
       - name: otel
@@ -116,10 +116,10 @@ Istio використовуватиме наступний стандартни
 \"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 {{< /text >}}
 
-У таблиці нижче наведено приклад використання стандартного формату логів для запиту від `sleep` до `httpbin`:
+У таблиці нижче наведено приклад використання стандартного формату логів для запиту від `curl` до `httpbin`:
 
-| Оператор логів | лог доступу у sleep | лог доступу у httpbin |
-|----------------|---------------------|-----------------------|
+| Оператор логів | лог доступу у curl | лог доступу у httpbin |
+|----------------|--------------------|-----------------------|
 | `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
 | `\"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\"` | `"GET /status/418 HTTP/1.1"` | `"GET /status/418 HTTP/1.1"`
 | `%RESPONSE_CODE%` | `418` | `418`
@@ -145,23 +145,17 @@ Istio використовуватиме наступний стандартни
 
 ## Тестування журналу доступу {#test-the-access-log}
 
-1.  Надішліть запит з `sleep` до `httpbin`:
+1.  Надішліть запит з `curl` до `httpbin`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
     ...
     < HTTP/1.1 418 Unknown
+    ...
     < server: envoy
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 1.  Перевірте журнал `otel-collector`:
@@ -171,15 +165,15 @@ Istio використовуватиме наступний стандартни
     [2020-11-25T21:26:18.409Z] "GET /status/418 HTTP/1.1" 418 - via_upstream - "-" 0 135 3 1 "-" "curl/7.73.0-DEV" "84961386-6d84-929d-98bd-c5aee93b5c88" "httpbin:8000" "127.0.0.1:80" inbound|8000|| 127.0.0.1:41854 10.44.1.27:80 10.44.1.23:37652 outbound_.8000_._.httpbin.foo.svc.cluster.local default
     {{< /text >}}
 
-Зверніть увагу, що повідомлення, що відповідають запиту, з’являються в журналах Istio проксі як для джерела, так і для місця призначення, відповідно `sleep` і `httpbin`. Ви можете побачити в журналі HTTP-дієслово (`GET`), HTTP-шлях (`/status/418`), код відповіді (`418`) та іншу [інформацію про запит](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules).
+Зверніть увагу, що повідомлення, що відповідають запиту, з’являються в журналах Istio проксі як для джерела, так і для місця призначення, відповідно `curl` і `httpbin`. Ви можете побачити в журналі HTTP-дієслово (`GET`), HTTP-шлях (`/status/418`), код відповіді (`418`) та іншу [інформацію про запит](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules).
 
 ## Очищення {#cleanup}
 
-Зупиніть сервіси [sleep]({{< github_tree >}}/samples/sleep) і [httpbin]({{< github_tree >}}/samples/httpbin):
+Зупиніть сервіси [curl]({{< github_tree >}}/samples/curl) і [httpbin]({{< github_tree >}}/samples/httpbin):
 
 {{< text bash >}}
-$ kubectl delete telemetry sleep-logging
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete telemetry curl-logging
+$ kubectl delete -f @samples/curl/curl.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 $ kubectl delete -f @samples/open-telemetry/otel.yaml@ -n istio-system
 $ kubectl delete namespace observability

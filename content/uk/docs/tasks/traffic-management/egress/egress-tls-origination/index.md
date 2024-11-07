@@ -21,26 +21,26 @@ aliases:
 
 * Налаштуйте Istio, дотримуючись інструкцій з [Посібника з встановлення](/docs/setup/).
 
-* Запустіть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep), який буде використовуватися як тестове джерело для зовнішніх викликів.
+* Запустіть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), який буде використовуватися як тестове джерело для зовнішніх викликів.
 
-    Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду, розгорніть застосунок `sleep`:
+    Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду, розгорніть застосунок `curl`:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    В іншому випадку вам потрібно вручну виконати інʼєкцію sidecar перед розгортанням застосунку `sleep`:
+    В іншому випадку вам потрібно вручну виконати інʼєкцію sidecar перед розгортанням застосунку `curl`:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     Зверніть увагу, що будь-який pod, з якого ви можете виконати `exec` та `curl`, підійде для подальших процедур.
 
-* Створіть змінну shell для збереження імені podʼа джерела для надсилання запитів до зовнішніх сервісів. Якщо ви використовували [sleep]({{< github_tree >}}/samples/sleep), виконайте:
+* Створіть змінну shell для збереження імені podʼа джерела для надсилання запитів до зовнішніх сервісів. Якщо ви використовували [curl]({{< github_tree >}}/samples/curl), виконайте:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}
 
 ## Налаштування доступу до зовнішнього сервісу {#configuring-access-to-an-external-service}
@@ -72,7 +72,7 @@ aliases:
 1.  Зробіть запит до зовнішнього HTTP-сервісу:
 
     {{< text syntax=bash snip_id=curl_simple >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 301 Moved Permanently
     ...
     location: https://edition.cnn.com/politics
@@ -133,7 +133,7 @@ aliases:
 2. Надішліть HTTP-запит на `http://edition.cnn.com/politics`, як у попередньому розділі:
 
     {{< text syntax=bash snip_id=curl_origination_http >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
     HTTP/1.1 200 OK
     ...
     {{< /text >}}
@@ -145,7 +145,7 @@ aliases:
 3.  Зверніть увагу, що застосунки, які використовували HTTPS для доступу до зовнішнього сервісу, продовжують працювати як і раніше:
 
     {{< text syntax=bash snip_id=curl_origination_https >}}
-    $ kubectl exec "${SOURCE_POD}" -c sleep -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
+    $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - https://edition.cnn.com/politics
     HTTP/2 200
     ...
     {{< /text >}}
@@ -171,7 +171,7 @@ $ kubectl delete destinationrule edition-cnn-com
 
 1. Створення сертифікатів клієнта та сервера
 1. Розгортання зовнішнього сервісу, який підтримує протокол взаємної автентифікації TLS
-1. Налаштування клієнта (sleep pod) на використання облікових даних, створених на Кроці 1
+1. Налаштування клієнта (curl pod) на використання облікових даних, створених на Кроці 1
 
 Коли ця конфігурація буде завершена, ви зможете налаштувати зовнішній трафік так, щоб він проходив через sidecar, який виконає TLS-автентифікацію.
 
@@ -339,7 +339,7 @@ $ kubectl delete destinationrule edition-cnn-com
     EOF
     {{< /text >}}
 
-### Налаштуйте клієнта (sleep pod) {#configure-the-client-sleep-pod}
+### Налаштуйте клієнта (curl pod) {#configure-the-client-curl-pod}
 
 1.  Створіть Kubernetes [Secrets] (https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів клієнта:
 
@@ -354,11 +354,11 @@ $ kubectl delete destinationrule edition-cnn-com
     {{< boilerplate crl-tip >}}
     {{< /tip >}}
 
-1. Створіть необхідний `RBAC`, щоб переконатися, що секрет, створений на попередньому кроці, доступний клієнтському pod, який ' у цьому випадку — `sleep`.
+1. Створіть необхідний `RBAC`, щоб переконатися, що секрет, створений на попередньому кроці, доступний клієнтському pod, який ' у цьому випадку — `curl`.
 
     {{< text bash >}}
     $ kubectl create role client-credential-role --resource=secret --verb=list
-    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:sleep
+    $ kubectl create rolebinding client-credential-role-binding --role=client-credential-role --serviceaccount=default:curl
     {{< /text >}}
 
 ### Налаштування взаємного TLS для вихідного трафіку на sidecar {#configure-mutual-tls-origination-for-egress-traffic-at-sidecar}
@@ -391,7 +391,7 @@ $ kubectl delete destinationrule edition-cnn-com
     spec:
       workloadSelector:
         matchLabels:
-          app: sleep
+          app: curl
       host: my-nginx.mesh-external.svc.cluster.local
       trafficPolicy:
         loadBalancer:
@@ -402,16 +402,20 @@ $ kubectl delete destinationrule edition-cnn-com
           tls:
             mode: MUTUAL
             credentialName: client-credential # це має збігатися з секретом, створеним раніше для зберігання клієнтських сертифікатів, і працює тільки тоді, коли DR має workloadSelector
-            sni: my-nginx.mesh-external.svc.cluster.local # це необовʼязково
+            sni: my-nginx.mesh-external.svc.cluster.local
+            # subjectAltNames: # можна ввімкнути, якщо сертифікат було згенеровано за допомогою SAN, як зазначено в попередньому розділі
+            # - my-nginx.mesh-external.svc.cluster.local
     EOF
     {{< /text >}}
 
     Вищевказане правило `DestinationRule` виконає створення mTLS для HTTP-запитів на порт 80, а `ServiceEntry` буде перенаправляти запити на порт 80 на цільовий порт 443.
 
+    {{< boilerplate auto-san-validation >}}
+
 2.  Переконайтеся, що обліковий запис підʼєднано до sidecar та активовано.
 
     {{< text bash >}}
-    $ istioctl proxy-config secret deploy/sleep | grep client-credential
+    $ istioctl proxy-config secret deploy/curl | grep client-credential
     kubernetes://client-credential            Cert Chain     ACTIVE     true           1                                          2024-06-04T12:15:20Z     2023-06-05T12:15:20Z
     kubernetes://client-credential-cacert     Cert Chain     ACTIVE     true           10792363984292733914                       2024-06-04T12:15:19Z     2023-06-05T12:15:19Z
     {{< /text >}}
@@ -419,7 +423,7 @@ $ kubectl delete destinationrule edition-cnn-com
 3.  Надішліть HTTP-запит до `http://my-nginx.mesh-external.svc.cluster.local`:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sS http://my-nginx.mesh-external.svc.cluster.local
     <!DOCTYPE html>
     <html>
     <head>
@@ -427,10 +431,10 @@ $ kubectl delete destinationrule edition-cnn-com
     ...
     {{< /text >}}
 
-4.  Перевірте лог podʼа `sleep` на наявність радка, що відповідає вашому запиту.
+4.  Перевірте лог podʼа `curl` на наявність радка, що відповідає вашому запиту.
 
     {{< text bash >}}
-    $ kubectl logs -l app=sleep -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
+    $ kubectl logs -l app=curl -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'
     {{< /text >}}
 
     Ви повинні побачити рядок, схожий на наступний:
@@ -470,9 +474,9 @@ $ kubectl delete destinationrule edition-cnn-com
 
 ## Очищення загальної конфігурації {#cleanup-common-configuration}
 
-Видалити сервіс `sleep` та розгортання:
+Видалити сервіс `curl` та розгортання:
 
 {{< text bash >}}
-$ kubectl delete service sleep
-$ kubectl delete deployment sleep
+$ kubectl delete service curl
+$ kubectl delete deployment curl
 {{< /text >}}

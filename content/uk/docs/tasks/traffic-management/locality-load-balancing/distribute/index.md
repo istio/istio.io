@@ -11,7 +11,7 @@ owner: istio/wg-networking-maintainers
 Перед тим як продовжити, обовʼязково виконайте кроки, описані в розділі
 [перш ніж розпочати](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
-У цьому завданні ви використаєте pod `Sleep` у `region1` `zone1` як джерело
+У цьому завданні ви використаєте pod `curl` у `region1` `zone1` як джерело
 запитів до сервісу `HelloWorld`. Ви налаштуєте Istio з наступним
 розподілом між локаціями:
 
@@ -57,12 +57,12 @@ EOF
 
 ## Перевірка розподілу {#verify-the-distribution}
 
-Викличте сервіс `HelloWorld` з pod `Sleep`:
+Викличте сервіс `HelloWorld` з pod `curl`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 {{< /text >}}
 

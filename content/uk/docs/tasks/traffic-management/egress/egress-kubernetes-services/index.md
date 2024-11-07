@@ -25,16 +25,16 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
     $ kubectl create namespace without-istio
     {{< /text >}}
 
-*  Запустіть зразок [sleep]({{< github_tree >}}/samples/sleep) у просторі імен `without-istio`.
+*  Запустіть зразок [curl]({{< github_tree >}}/samples/curl) у просторі імен `without-istio`.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n without-istio
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n without-istio
     {{< /text >}}
 
 *   Для надсилання запитів створіть змінну оточення `SOURCE_POD_WITHOUT_ISTIO` для зберігання назви джерела podʼа:
 
     {{< text bash >}}
-    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=sleep -o jsonpath={.items..metadata.name})"
+    $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=curl -o jsonpath={.items..metadata.name})"
     {{< /text >}}
 
 *   Переконайтеся, що sidecar Istio не була додано, тобто pod має один контейнер:
@@ -42,7 +42,7 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
     {{< text bash >}}
     $ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
     NAME                     READY   STATUS    RESTARTS   AGE
-    sleep-66c8d79ff5-8tqrl   1/1     Running   0          32s
+    curl-66c8d79ff5-8tqrl    1/1     Running   0          32s
     {{< /text >}}
 
 ## Сервіс Kubernetes ExternalName для доступу до зовнішніх сервісів {#kubernetes-externalname-service-to-access-an-external-service}
@@ -76,7 +76,7 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
 1.  Отримайте доступ до `httpbin.org` через імʼя хосту сервісу Kubernetes з вихідного podʼа без Istio sidecar. Зверніть увагу, що команда _curl_ нижче використовує [формат DNS Kubernetes для сервісів](https://v1-13.docs.kubernetes.io/docs/concepts/services-networking/dns-pod-service/#a-records): `<назва сервісу>.<простір імен>.svc.cluster.local`.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -102,10 +102,10 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
     EOF
     {{< /text >}}
 
-1.  Отримайте доступ до `httpbin.org` через імʼя хоста Kubernetes-сервісу з вихідного podʼа з Istio sidecar. Зверніть увагу на заголовки, додані Istio sidecar, наприклад, `X-Envoy-Decorator-Operation`. Також зауважте, що заголовок `Host` дорівнює імені хосту вашого сервісу.
+1.  Отримайте доступ до `httpbin.org` через імʼя хоста Kubernetes-сервісу з вихідного podʼа з Istio sidecar. Зверніть увагу на заголовки, додані Istio sidecar, наприклад, `X-Envoy-Peer-Metadata`. Також зауважте, що заголовок `Host` дорівнює імені хосту вашого сервісу.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS my-httpbin.default.svc.cluster.local/headers
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS my-httpbin.default.svc.cluster.local/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -115,9 +115,8 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
         "X-B3-Sampled": "0",
         "X-B3-Spanid": "5795fab599dca0b8",
         "X-B3-Traceid": "5079ad3a4af418915795fab599dca0b8",
-        "X-Envoy-Decorator-Operation": "my-httpbin.default.svc.cluster.local:80/*",
         "X-Envoy-Peer-Metadata": "...",
-        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~sleep-6bdb595bcb-drr45.default~default.svc.cluster.local"
+        "X-Envoy-Peer-Metadata-Id": "sidecar~10.28.1.74~curl-6bdb595bcb-drr45.default~default.svc.cluster.local"
       }
     }
     {{< /text >}}
@@ -176,7 +175,7 @@ $ kubectl delete service my-httpbin
 4.  Надсилайте HTTPS-запити до `wikipedia.org` за IP кластера вашого сервісу Kubernetes з вихідного podʼа без Istio sidecar. Використовуйте параметр `--resolve` у команді `curl` для доступу до `wikipedia.org` за кластерною IP-адресою:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
@@ -199,14 +198,14 @@ $ kubectl delete service my-httpbin
 6.  Отримайте доступ до `wikipedia.org` за IP-адресою кластера вашого сервісу Kubernetes з вихідного podʼа за допомогою sidecar Istio:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
 7.  Переконайтеся, що доступ дійсно виконується з IP кластера. Зверніть увагу на речення `Connected to en.wikipedia.org (172.21.156.230)` у виводі `curl -v`, в ньому згадується IP, який було надруковано у виводі вашого сервісу як IP кластера.
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
     * Added en.wikipedia.org:443:172.21.156.230 to DNS cache
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...
@@ -225,25 +224,25 @@ $ kubectl delete service my-wikipedia
 
 ## Очищення {#cleanup}
 
-1.  Вимкніть сервіс [sleep]({{< github_tree >}}/samples/sleep):
+1.  Вимкніть сервіс [curl]({{< github_tree >}}/samples/curl):
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-1.  Вимкніть сервіс [sleep]({{< github_tree >}}/samples/sleep) у просторі імен `without-istio`:
+1.  Вимкніть сервіс [curl]({{< github_tree >}}/samples/curl) у просторі імен `without-istio`:
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@ -n without-istio
+    $ kubectl delete -f @samples/curl/curl.yaml@ -n without-istio
     {{< /text >}}
 
-2.  Видаліть простір імен `without-istio`:
+1.  Видаліть простір імен `without-istio`:
 
     {{< text bash >}}
     $ kubectl delete namespace without-istio
     {{< /text >}}
 
-3. Скиньте змінні оточення:
+1. Скиньте змінні оточення:
 
     {{< text bash >}}
     $ unset SOURCE_POD SOURCE_POD_WITHOUT_ISTIO

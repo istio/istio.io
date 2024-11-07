@@ -22,16 +22,16 @@ test: yes
 
 *   Налаштуйте Istio, дотримуючись інструкцій з [Посібника з встановлення](/docs/setup/). Використовуйте [профіль конфігурації](/docs/setup/additional-setup/config-profiles/) `demo` або ж [увімкніть реєстрацію доступу Envoy](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging).
 
-*   Розгорніть демонстраційний застосунок [sleep]({{< github_tree >}}/samples/sleep), щоб використовувати його як тестове джерело для надсилання запитів. Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду для розгортання демонстраційного застосунку:
+*   Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), щоб використовувати його як тестове джерело для надсилання запитів. Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду для розгортання демонстраційного застосунку:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    Або ж вручну виконайте інʼєкцію sidecar перед розгортанням демонстраційного застосунку `sleep` за допомогою наступної команди:
+    Або ж вручну виконайте інʼєкцію sidecar перед розгортанням демонстраційного застосунку `curl` за допомогою наступної команди:
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -41,7 +41,7 @@ test: yes
 *   В зміну оточення `SOURCE_POD` встановіть назву вашого podʼа джерела:
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
     {{< /text >}}
 
 ## Передача трафіку через Envoy до зовнішніх сервісів {#envoy-passthrough-to-external-services}
@@ -71,7 +71,7 @@ Istio має [опцію встановлення](/docs/reference/config/istio.
 2.  Виконайте кілька запитів до зовнішніх HTTPS сервісів з `SOURCE_POD`, щоб підтвердити успішні відповіді `200`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
     HTTP/2 200
     HTTP/2 200
     {{< /text >}}
@@ -113,7 +113,7 @@ Istio має [опцію встановлення](/docs/reference/config/istio.
 1.  Виконайте кілька запитів до зовнішніх HTTPS сервісів з `SOURCE_POD`, щоб перевірити, що вони тепер заблоковані:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sI https://edition.cnn.com | grep "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sI https://edition.cnn.com | grep "HTTP/"
     command terminated with exit code 35
     command terminated with exit code 35
     {{< /text >}}
@@ -153,7 +153,7 @@ Istio має [опцію встановлення](/docs/reference/config/istio.
 2.  Виконайте запит до зовнішнього HTTP сервісу з `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -201,7 +201,7 @@ Istio має [опцію встановлення](/docs/reference/config/istio.
 1.  Зробіть запит до зовнішнього HTTPS-сервісу з `SOURCE_POD`:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- curl -sSI https://www.google.com | grep  "HTTP/"
+    $ kubectl exec "$SOURCE_POD" -c curl -- curl -sSI https://www.google.com | grep  "HTTP/"
     HTTP/2 200
     {{< /text >}}
 
@@ -223,7 +223,7 @@ Istio має [опцію встановлення](/docs/reference/config/istio.
 1)  Зсередини podʼа, який використовується як тестове джерело, виконайте _curl_ запит до точки доступу `/delay` зовнішнього сервісу httpbin.org:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     200
     real    0m5.024s
     user    0m0.003s
@@ -291,7 +291,7 @@ EOF
 3)  Зачекайте кілька секунд, а потім повторіть запит _curl_ ще раз:
 
     {{< text bash >}}
-    $ kubectl exec "$SOURCE_POD" -c sleep -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
+    $ kubectl exec "$SOURCE_POD" -c curl -- time curl -o /dev/null -sS -w "%{http_code}\n" http://httpbin.org/delay/5
     504
     real    0m3.149s
     user    0m0.004s
@@ -453,12 +453,12 @@ $ istioctl install <flags-you-used-to-install-Istio> --set values.global.proxy.i
 
 ### Доступ до зовнішніх сервісів {#access-the-external-services}
 
-Оскільки конфігурація оминання впливає тільки на нові розгортання, вам потрібно завершити роботу та повторно розгорнути застосунок `sleep`, як описано в розділі [Перш ніж розпочати](#before-you-begin).
+Оскільки конфігурація оминання впливає тільки на нові розгортання, вам потрібно завершити роботу та повторно розгорнути застосунок `curl`, як описано в розділі [Перш ніж розпочати](#before-you-begin).
 
-Після оновлення configmap `istio-sidecar-injector` і повторного розгортання застосунку `sleep`, sidecar Istio перехоплюватиме та керуватиме лише внутрішніми запитами всередині кластера. Будь-які зовнішні запити будуть оминати sidecar і направлятися безпосередньо до відповідного пункту призначення. Наприклад:
+Після оновлення configmap `istio-sidecar-injector` і повторного розгортання застосунку `curl`, sidecar Istio перехоплюватиме та керуватиме лише внутрішніми запитами всередині кластера. Будь-які зовнішні запити будуть оминати sidecar і направлятися безпосередньо до відповідного пункту призначення. Наприклад:
 
 {{< text bash >}}
-$ kubectl exec "$SOURCE_POD" -c sleep -- curl -sS http://httpbin.org/headers
+$ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
 {
   "headers": {
     "Accept": "*/*",
@@ -505,8 +505,8 @@ $ istioctl install <flags-you-used-to-install-Istio>
 
 ## Очищення {#cleanup}
 
-Зупиніть сервіс [sleep]({{< github_tree >}}/samples/sleep):
+Зупиніть сервіс [curl]({{< github_tree >}}/samples/curl):
 
 {{< text bash >}}
-$ kubectl delete -f @samples/sleep/sleep.yaml@
+$ kubectl delete -f @samples/curl/curl.yaml@
 {{< /text >}}

@@ -100,26 +100,26 @@ test: yes
         EOF
         {{< /text >}}
 
-2. Розгорніть `sleep` навантаження, яке ви будете використовувати для надсилання запитів до сервісу `httpbin`:
+2. Розгорніть `curl` навантаження, яке ви будете використовувати для надсилання запитів до сервісу `httpbin`:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       template:
         metadata:
           labels:
-            app: sleep
+            app: curl
         spec:
           containers:
-          - name: sleep
+          - name: curl
             image: curlimages/curl
             command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
@@ -222,7 +222,7 @@ test: yes
 1. Тепер, спрямувавши весь трафік на `httpbin:v1`, надішліть запит до сервісу:
 
     {{< text bash json >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -328,7 +328,7 @@ test: yes
 1. Надішліть трафік:
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
     Тепер ви повинні побачити журнали доступу як для `v1`, так і для `v2`. Журнали доступу, створені в `v2`, є віддзеркаленням запитів, які насправді надходять до `v1`.
@@ -370,9 +370,9 @@ test: yes
 
     {{< /tabset >}}
 
-1. Вилучіть розгортання `httpbin` та `sleep` та сервіс `httpbin` service:
+1. Вилучіть розгортання `httpbin` та `curl` та сервіс `httpbin` service:
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+    $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
     $ kubectl delete svc httpbin
     {{< /text >}}

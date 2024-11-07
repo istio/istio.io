@@ -24,10 +24,6 @@ $ istioctl x precheck
   To get started, check out <https://istio.io/latest/docs/setup/getting-started/>
 {{< /text >}}
 
-{{< warning >}}
-[Helm не оновлює та не видаляє CRD](/docs/setup/install/helm/#some-caveats-and-explanations) під час виконання оновлення. Через це обмеження потрібно виконати додатковий крок при оновленні Istio за допомогою Helm.
-{{< /warning >}}
-
 ### Оновлення Canary (рекомендовано) {#canary-upgrade-recommended}
 
 Ви можете встановити версію canary панелі управління Istio, щоб перевірити, чи нова версія сумісна з вашою поточною конфігурацією та панеллю даних за допомогою наведених нижче кроків:
@@ -36,10 +32,12 @@ $ istioctl x precheck
 Зверніть увагу, що коли ви встановлюєте версію canary сервісу `istiod`, ресурси кластера з базового чарту спільно використовуються між вашими основними та canary установками.
 {{< /warning >}}
 
+{{< boilerplate crd-upgrade-123 >}}
+
 1. Оновіть визначення власних ресурсів Kubernetes ({{< gloss CRD>}}CRD{{</ gloss >}}):
 
     {{< text bash >}}
-    $ kubectl apply -f manifests/charts/base/crds
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
 2. Встановіть канаркову версію чарту виявлення Istio, встановивши ревізію:
@@ -86,10 +84,10 @@ $ istioctl x precheck
     $ helm delete istiod -n istio-system
     {{< /text >}}
 
-8. Оновіть базовий чарт Istio, зробивши нову версію стандартною:
+8. Оновіть знов базовий чарт Istio, цього разу зробивши нову `canary` версію стандартною для всього кластера:
 
     {{< text bash >}}
-    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system --skip-crds
+    $ helm upgrade istio-base istio/base --set defaultRevision=canary -n istio-system
     {{< /text >}}
 
 ### Мітки стабільної версії {#stable-revision-labels}
@@ -136,25 +134,21 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 Додайте файл перевизначення значень або власні параметри до наведених нижче команд, щоб зберегти вашу конфігурацію під час оновлення Helm.
 {{< /warning >}}
 
-1. Оновіть визначення власних ресурсів Kubernetes ({{< gloss CRD >}}CRD{{</ gloss >}}):
+{{< boilerplate crd-upgrade-123 >}}
+
+1. Оновіть базовий чарт Istio:
 
     {{< text bash >}}
-    $ kubectl apply -f manifests/charts/base/crds
+    $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
-2. Оновіть базовий чарт Istio:
-
-    {{< text bash >}}
-    $ helm upgrade istio-base manifests/charts/base -n istio-system --skip-crds
-    {{< /text >}}
-
-3. Оновіть чарт виявлення Istio:
+1. Оновіть чарт виявлення Istio:
 
     {{< text bash >}}
     $ helm upgrade istiod istio/istiod -n istio-system
     {{< /text >}}
 
-4. (Необовʼязково) Оновіть чарти шлюзів, встановлені у вашому кластері:
+1. (Необовʼязково) Оновіть чарти шлюзів, встановлені у вашому кластері:
 
     {{< text bash >}}
     $ helm upgrade istio-ingress istio/gateway -n istio-ingress
