@@ -2,7 +2,7 @@
 title: Announcing Istio 1.24.0
 linktitle: 1.24.0
 subtitle: Major Release
-description: Istio 1.24 Release Announcement.
+description: Istio 1.24 Release Announcement
 publishdate: 2024-11-07
 release: 1.24.0
 aliases:
@@ -33,7 +33,7 @@ On top of [countless changes since the Beta release](/news/releases/1.23.x/annou
 * New `status` messages are now written to a variety of resources, including `Services` and `AuthorizationPolicies`, to help understand the current state of the object.
 * Policies can now be attached directly to `ServiceEntry`s. Give it a try with a simplified [egress gateway](https://www.solo.io/blog/egress-gateways-made-easy/)!
 * A brand new, exhaustive, [troubleshooting guide](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient). Fortunately, a number of bug fixes in Istio 1.24 makes many of these troubleshooting steps no longer needed!
-* Many bug fixes. In particular, edge cases around pods with multiple interfaces, GKE Intranode visibility, IPv4-only clusters, and many more have been improved.
+* Many bug fixes. In particular, edge cases around pods with multiple interfaces, GKE intranode visibility, IPv4-only clusters, and many more issues have been resolved.
 
 ### Improved retries
 
@@ -43,7 +43,7 @@ In Istio 1.24, it gets even better.
 Previously, retries were exclusively implemented on the *client sidecar*.
 However, a common source of connection failures actually comes from communicating between the *server sidecar* and the server application,
 typically from attempting to re-use a connection the backend is closing.
-With the improved functionality, we are able to detect this case and retry on the server sidecar automatically.
+With this improved functionality, we are able to detect this case and retry on the server sidecar automatically.
 
 Additionally, the default policy of retrying `503` errors has been removed.
 This was initially added primarily to handle the above failure types, but has some negative side effects on some applications.
