@@ -289,6 +289,8 @@ If you do not want to have an automated deployment, a `Deployment` and `Service`
 
 When this option is done, you will need to manually link the `Gateway` to the `Service`, as well as keep their port configuration in sync.
 
+In order to support Policy Attachment, e.g. when you're using the [`targetRef`](/docs/reference/config/type/workload-selector/#PolicyTargetReference) field on an AuthorizationPolicy, you will also need to reference the name of your `Gateway` by adding the following label to your gateway pod: `gateway.networking.k8s.io/gateway-name: <gateway name>`.
+
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< text yaml >}}
