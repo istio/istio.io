@@ -207,7 +207,6 @@ Sidecar 不会消失，它仍然是 Istio 的首选。您可以继续使用 Side
   TLS 和 L4 鉴权策略、流量管理、丰富的 L7 鉴权策略等。
 - 探索[新的 Kiali 2.0 仪表板](https://medium.com/kialiproject/kiali-2-0-for-istio-2087810f337e)以可视化您的网格。
 
-You can engage with the developers in the #ambient channel on [the Istio Slack](https://slack.istio.io), or use the discussion forum on [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.
 您可以在 [Istio Slack](https://slack.istio.io) 上的 #ambient
 频道与开发人员交流，或者使用 [GitHub](https://github.com/istio/istio/discussions)
 上的讨论论坛来解答您的任何问题。
