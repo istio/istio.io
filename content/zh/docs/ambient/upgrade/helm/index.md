@@ -270,7 +270,7 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 并且认为不需要回滚，则可以通过运行以下命令删除控制平面的先前版本：
 
 {{< text syntax=bash snip_id=none >}}
-$ helm delete istiod-"$REVISION" -n istio-system
+$ helm delete istiod-"$OLD_REVISION" -n istio-system
 {{< /text >}}
 
 {{< /tab >}}

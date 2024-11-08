@@ -213,7 +213,7 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 Якщо ви оновили всі компоненти панелі даних до нової ревізії панелі управління Istio і задоволені тим, що вам не потрібно виконувати відкат, ви можете видалити попередню ревізію панелі управління, виконавши:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm delete istiod-"$REVISION" -n istio-system
+$ helm delete istiod-"$OLD_REVISION" -n istio-system
 {{< /text >}}
 
 {{< /tab >}}
