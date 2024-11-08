@@ -240,7 +240,9 @@ debug and diagnose their Istio mesh.
 
 </code></pre>
 <h3 id="istioctl-analyze">istioctl analyze</h3>
-<p>Analyze Istio configuration and print validation messages</p>
+<p>Analyze Istio configuration and print validation messages.
+For more information about message codes, refer to:
+https://istio.io/v1.25/docs/reference/config/analysis</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
 </code></pre>
 <table class="command-flags">
@@ -328,11 +330,6 @@ debug and diagnose their Istio mesh.
 <td>The severity level of analysis at which to display messages. Valid values: [Info Warning Error]  (default `Info`)</td>
 </tr>
 <tr>
-<td><code>--recursive</code></td>
-<td><code>-R</code></td>
-<td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
-</tr>
-<tr>
 <td><code>--remote-contexts &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
@@ -378,9 +375,6 @@ debug and diagnose their Istio mesh.
 
   # Analyze the current live cluster, simulating the effect of applying additional yaml files
   istioctl analyze a.yaml b.yaml my-app-config/
-
-  # Analyze the current live cluster, simulating the effect of applying a directory of config recursively
-  istioctl analyze --recursive my-istio-config/
 
   # Analyze yaml files without connecting to a live cluster
   istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
@@ -1120,7 +1114,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -3930,7 +3924,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3953,7 +3947,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4287,7 +4281,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4305,7 +4299,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4399,7 +4393,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4422,7 +4416,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4514,7 +4508,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4537,7 +4531,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6000,7 +5994,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6242,7 +6236,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6358,7 +6352,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6381,7 +6375,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6479,7 +6473,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6502,7 +6496,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -8116,7 +8110,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world configuration on a Resource Request. While this feature uses the delta xds api, it may still occasionally send unchanged configurations instead of just the actual deltas.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DUAL_STACK</code></td>
@@ -8401,7 +8395,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will start a controller that assigns IP addresses to ServiceEntry which do not have a user-supplied IP. This, when combined with DNS capture allows for tcp routing of traffic sent to the ServiceEntry.</td>
 </tr>
 <tr>

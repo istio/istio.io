@@ -93,7 +93,7 @@ We asked a few of our users for their thoughts on ambient mode’s GA:
 {{< quote >}}
 **Our team chose Istio for its service mesh features and strong alignment with the Gateway API to create a robust Kubernetes-based hosting solution. As we integrated applications into the mesh, we faced resource challenges with sidecar proxies, prompting us to transition to ambient mode in Beta for improved scalability and security. We started with L4 security and observability through ztunnel, gaining automatic encryption of in-cluster traffic and transparent traffic flow monitoring. By selectively enabling L7 features and decoupling the proxy from applications, we achieved seamless scaling and reduced resource utilization and latency. This approach allowed developers to focus on application development, resulting in a more resilient, secure, and scalable platform powered by ambient mode.**
 
-— [Jose Marque](https://www.linkedin.com/in/jdcmarques/), Senior DevOps at Blip.pt
+— [Jose Marques](https://www.linkedin.com/in/jdcmarques/), Senior DevOps at Blip.pt
 {{< /quote >}}
 
 {{< quote >}}
@@ -113,7 +113,7 @@ The general availability of ambient mode means the following things are now cons
 - Using waypoints for controlled mesh egress
 - Using `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
 
-Refer to the [feature status page](docs/releases/feature-stages/#ambient-mode) for more information.
+Refer to the [feature status page](/docs/releases/feature-stages/#ambient-mode) for more information.
 
 ### Roadmap
 

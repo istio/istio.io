@@ -3,8 +3,8 @@ title: Kubernetes Gateway API
 description: Описує, як налаштувати Kubernetes Gateway AP з Istio.
 weight: 50
 aliases:
-    - /docs/tasks/traffic-management/ingress/service-apis/
-    - /latest/docs/tasks/traffic-management/ingress/service-apis/
+    - /uk/docs/tasks/traffic-management/ingress/service-apis/
+    - /latest/uk/docs/tasks/traffic-management/ingress/service-apis/
 keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
@@ -268,6 +268,8 @@ spec:
 Якщо ви не хочете автоматичного розгортання, `Deployment` і `Service` можна [налаштувати вручну](/docs/setup/additional-setup/gateway/).
 
 При цьому вам буде потрібно вручну зв’язати `Gateway` з `Service`, а також підтримувати їх конфігурацію портів в актуальному стані.
+
+Для підтримки Policy Attachment, наприклад, коли ви використовуєте поле [`targetRef`](/docs/reference/config/type/workload-selector/#PolicyTargetReference) в AuthorizationPolicy, вам також потрібно вказати імʼя вашого `Gateway`, додавши наступну мітку до вашого podʼа шлюзу: `gateway.networking.k8s.io/gateway-name: <імʼя шлюзу>`.
 
 Щоб зв’язати `Gateway` з `Service`, налаштуйте поле `addresses`, щоб воно вказувало на **один** `Hostname`.
 

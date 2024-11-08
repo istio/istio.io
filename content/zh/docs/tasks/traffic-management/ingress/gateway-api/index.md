@@ -294,6 +294,11 @@ spec:
 
 完成此选项后，您将需要手动将 `Gateway` 链接到 `Service`，并保持它们的端口配置同步。
 
+为了支持策略附件，例如当您在 AuthorizationPolicy 上使用
+[`targetRef`](/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference) 字段时，
+您还需要通过向网关 Pod 添加以下标签来引用 `Gateway` 的名称：
+`gateway.networking.k8s.io/gateway-name: <gateway name>`。
+
 要将 `Gateway` 链接到 `Service`，需要将 `addresses` 字段配置为指向**单个** `Hostname`。
 
 {{< text yaml >}}

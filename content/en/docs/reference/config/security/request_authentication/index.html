@@ -216,7 +216,7 @@ spec:
 </thead>
 <tbody>
 <tr id="RequestAuthentication-selector">
-<td><code>selector</code></td>
+<td><code><a href="#RequestAuthentication-selector">selector</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>Optional. The selector decides where to apply the request authentication policy. The selector will match with workloads
@@ -231,7 +231,7 @@ No
 </td>
 </tr>
 <tr id="RequestAuthentication-targetRefs">
-<td><code>targetRefs</code></td>
+<td><code><a href="#RequestAuthentication-targetRefs">targetRefs</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></code></td>
 <td>
 <p>Optional. The targetRefs specifies a list of resources the policy should be
@@ -256,7 +256,7 @@ No
 </td>
 </tr>
 <tr id="RequestAuthentication-jwt_rules">
-<td><code>jwtRules</code></td>
+<td><code><a href="#RequestAuthentication-jwt_rules">jwtRules</a></code></td>
 <td><code><a href="#JWTRule">JWTRule[]</a></code></td>
 <td>
 <p>Define the list of JWTs that can be validated at the selected workloads&rsquo; proxy. A valid token
@@ -310,7 +310,7 @@ fromHeaders:
 </thead>
 <tbody>
 <tr id="JWTRule-issuer">
-<td><code>issuer</code></td>
+<td><code><a href="#JWTRule-issuer">issuer</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>Identifies the issuer that issued the JWT. See
@@ -325,7 +325,7 @@ Yes
 </td>
 </tr>
 <tr id="JWTRule-audiences">
-<td><code>audiences</code></td>
+<td><code><a href="#JWTRule-audiences">audiences</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>The list of JWT
@@ -345,7 +345,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-jwks_uri">
-<td><code>jwksUri</code></td>
+<td><code><a href="#JWTRule-jwks_uri">jwksUri</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>URL of the provider&rsquo;s public key set to validate signature of the
@@ -364,7 +364,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-jwks">
-<td><code>jwks</code></td>
+<td><code><a href="#JWTRule-jwks">jwks</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>JSON Web Key Set of public keys to validate signature of the JWT.
@@ -377,7 +377,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-from_headers">
-<td><code>fromHeaders</code></td>
+<td><code><a href="#JWTRule-from_headers">fromHeaders</a></code></td>
 <td><code><a href="#JWTHeader">JWTHeader[]</a></code></td>
 <td>
 <p>List of header locations from which JWT is expected. For example, below is the location spec
@@ -395,7 +395,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-from_params">
-<td><code>fromParams</code></td>
+<td><code><a href="#JWTRule-from_params">fromParams</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>List of query parameters from which JWT is expected. For example, if JWT is provided via query
@@ -412,7 +412,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-output_payload_to_header">
-<td><code>outputPayloadToHeader</code></td>
+<td><code><a href="#JWTRule-output_payload_to_header">outputPayloadToHeader</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>This field specifies the header name to output a successfully verified JWT payload to the
@@ -425,7 +425,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-from_cookies">
-<td><code>fromCookies</code></td>
+<td><code><a href="#JWTRule-from_cookies">fromCookies</a></code></td>
 <td><code>string[]</code></td>
 <td>
 <p>List of cookie names from which JWT is expected.	//
@@ -443,7 +443,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-forward_original_token">
-<td><code>forwardOriginalToken</code></td>
+<td><code><a href="#JWTRule-forward_original_token">forwardOriginalToken</a></code></td>
 <td><code>bool</code></td>
 <td>
 <p>If set to true, the original token will be kept for the upstream request. Default is false.</p>
@@ -454,7 +454,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-output_claim_to_headers">
-<td><code>outputClaimToHeaders</code></td>
+<td><code><a href="#JWTRule-output_claim_to_headers">outputClaimToHeaders</a></code></td>
 <td><code><a href="#ClaimToHeader">ClaimToHeader[]</a></code></td>
 <td>
 <p>This field specifies a list of operations to copy the claim to HTTP headers on a successfully verified token.
@@ -476,7 +476,7 @@ No
 </td>
 </tr>
 <tr id="JWTRule-timeout">
-<td><code>timeout</code></td>
+<td><code><a href="#JWTRule-timeout">timeout</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The maximum amount of time that the resolver, determined by the PILOT_JWT_ENABLE_REMOTE_JWKS environment variable,
@@ -505,7 +505,7 @@ No
 </thead>
 <tbody>
 <tr id="JWTHeader-name">
-<td><code>name</code></td>
+<td><code><a href="#JWTHeader-name">name</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The HTTP header name.</p>
@@ -516,7 +516,7 @@ Yes
 </td>
 </tr>
 <tr id="JWTHeader-prefix">
-<td><code>prefix</code></td>
+<td><code><a href="#JWTHeader-prefix">prefix</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The prefix that should be stripped before decoding the token.
@@ -546,7 +546,7 @@ No
 </thead>
 <tbody>
 <tr id="ClaimToHeader-header">
-<td><code>header</code></td>
+<td><code><a href="#ClaimToHeader-header">header</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The name of the header to be created. The header will be overridden if it already exists in the request.</p>
@@ -557,7 +557,7 @@ Yes
 </td>
 </tr>
 <tr id="ClaimToHeader-claim">
-<td><code>claim</code></td>
+<td><code><a href="#ClaimToHeader-claim">claim</a></code></td>
 <td><code>string</code></td>
 <td>
 <p>The name of the claim to be copied from. Only claim of type string/int/bool is supported.

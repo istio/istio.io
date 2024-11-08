@@ -101,7 +101,7 @@ spec:
 </thead>
 <tbody>
 <tr id="PeerAuthentication-selector">
-<td><code>selector</code></td>
+<td><code><a href="#PeerAuthentication-selector">selector</a></code></td>
 <td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
 <td>
 <p>The selector determines the workloads to apply the PeerAuthentication on. The selector will match with workloads in the
@@ -115,7 +115,7 @@ No
 </td>
 </tr>
 <tr id="PeerAuthentication-mtls">
-<td><code>mtls</code></td>
+<td><code><a href="#PeerAuthentication-mtls">mtls</a></code></td>
 <td><code><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></code></td>
 <td>
 <p>Mutual TLS settings for workload. If not defined, inherit from parent.</p>
@@ -126,7 +126,7 @@ No
 </td>
 </tr>
 <tr id="PeerAuthentication-port_level_mtls">
-<td><code>portLevelMtls</code></td>
+<td><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code></td>
 <td><code>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</code></td>
 <td>
 <p>Port specific mutual TLS settings. These only apply when a workload selector
@@ -156,7 +156,7 @@ No
 </thead>
 <tbody>
 <tr id="PeerAuthentication-MutualTLS-mode">
-<td><code>mode</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code></td>
 <td><code><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></code></td>
 <td>
 <p>Defines the mTLS mode used for peer authentication.</p>
@@ -180,28 +180,28 @@ No
 </thead>
 <tbody>
 <tr id="PeerAuthentication-MutualTLS-Mode-UNSET">
-<td><code>UNSET</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-UNSET">UNSET</a></code></td>
 <td>
 <p>Inherit from parent, if has one. Otherwise treated as <code>PERMISSIVE</code>.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-MutualTLS-Mode-DISABLE">
-<td><code>DISABLE</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-DISABLE">DISABLE</a></code></td>
 <td>
 <p>Connection is not tunneled.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-MutualTLS-Mode-PERMISSIVE">
-<td><code>PERMISSIVE</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-PERMISSIVE">PERMISSIVE</a></code></td>
 <td>
 <p>Connection can be either plaintext or mTLS tunnel.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-MutualTLS-Mode-STRICT">
-<td><code>STRICT</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-STRICT">STRICT</a></code></td>
 <td>
 <p>Connection is an mTLS tunnel (TLS with client cert must be presented).</p>
 
