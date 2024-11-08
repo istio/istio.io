@@ -26,7 +26,7 @@ Service workloads communicate directly (pod-to-pod) across cluster boundaries.
 
 ## Configure `cluster1` as a primary
 
-Create the Istio configuration for `cluster1`:
+Create the `istioctl` configuration for `cluster1`:
 
 {{< tabset category-name="multicluster-install-type-cluster-1" >}}
 
@@ -77,7 +77,7 @@ $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER
 
 ## Configure `cluster2` as a primary
 
-Create the Istio configuration for `cluster2`:
+Create the `istioctl` configuration for `cluster2`:
 
 {{< tabset category-name="multicluster-install-type-cluster-2" >}}
 

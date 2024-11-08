@@ -41,7 +41,7 @@ traffic.
 
 ## Configure `cluster1` as a primary
 
-Create the Istio configuration for `cluster1`:
+Create the `istioctl` configuration for `cluster1`:
 
 {{< tabset category-name="multicluster-primary-remote-install-type-primary-cluster" >}}
 
@@ -73,7 +73,7 @@ $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 Notice that `values.global.externalIstiod` is set to `true`. This enables the control plane
 installed on `cluster1` to also serve as an external control plane for other remote clusters.
 When this feature is enabled, `istiod` will attempt to acquire the leadership lock, and consequently manage,
-[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that will be
+[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that are
 attached to it (`cluster2` in this case).
 
 {{< /tab >}}
@@ -85,19 +85,19 @@ Install Istio as primary in `cluster1` using the following Helm commands:
 Install the `base` chart in `cluster1`:
 
 {{< text bash >}}
-$ helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod --version 1.24.0-alpha.0 -n istio-system --set pilot.env.EXTERNAL_ISTIOD=true --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
 {{< /text >}}
 
 Notice that `values.global.externalIstiod` is set to `true`. This enables the control plane
 installed on `cluster1` to also serve as an external control plane for other remote clusters.
 When this feature is enabled, `istiod` will attempt to acquire the leadership lock, and consequently manage,
-[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that will be
+[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that are
 attached to it (`cluster2` in this case).
 
 {{< /tab >}}
@@ -133,7 +133,7 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
 Install the east-west gateway in `cluster1` using the following Helm command:
 
 {{< text bash >}}
-$ helm install istio-eastwestgateway istio/gateway --version 1.24.0-alpha.0 -n istio-system --kube-context "${CTX_CLUSTER1}" --set name=istio-eastwestgateway --set networkGateway=network1
+$ helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER1}" --set name=istio-eastwestgateway --set networkGateway=network1
 {{< /text >}}
 
 {{< warning >}}
@@ -230,13 +230,13 @@ Install Istio as remote in `cluster2` using the following Helm commands:
 Install the `base` chart in `cluster2`:
 
 {{< text bash >}}
-$ helm install istio-base istio/base --version 1.24.0-alpha.0 -n istio-system --set profile=remote --kube-context "${CTX_CLUSTER2}"
+$ helm install istio-base istio/base -n istio-system --set profile=remote --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod --version 1.24.0-alpha.0 -n istio-system --set profile=remote --set global.externalIstiod=true --set pilot.env.EXTERNAL_ISTIOD=true --set global.multiCluster.clusterName=cluster2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --kube-context "${CTX_CLUSTER2}"
+$ helm install istiod istio/istiod -n istio-system --set profile=remote --set global.multiCluster.clusterName=cluster2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
 {{< tip >}}
