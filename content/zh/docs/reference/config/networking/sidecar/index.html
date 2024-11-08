@@ -23,7 +23,7 @@ This configuration scoping, among <a href="/zh/docs/ops/configuration/mesh/confi
 out unneeded configuration, to improve scalability of the mesh.
 A common misunderstanding is that restricting the configuration amounts to <em>blocking</em> the traffic.
 If requests are sent to destinations not included in the scoping, the traffic will be treated as
-<a href="docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic">unmatched traffic</a>, which is often still allowed.
+<a href="/zh/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic">unmatched traffic</a>, which is often still allowed.
 The sidecar is not able to enforce an outbound traffic restriction (see <a href="/zh/docs/tasks/traffic-management/egress/egress-gateway/">Egress Gateways</a> for how to achieve this).</p>
 <p>Services and configuration in a mesh are organized into one or more
 namespaces (e.g., a Kubernetes namespace or a CF org/space). A <code>Sidecar</code>
