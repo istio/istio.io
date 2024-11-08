@@ -59,6 +59,12 @@ Run the following command to apply virtual services that will route all traffic 
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 {{< /text >}}
 
+Run the following command to apply destination rules:
+
+{{< text bash >}}
+$ kubectl apply -f @samples/bookinfo/networking/destination-rule-all-mtls.yaml@
+{{< /text >}}
+
 Because configuration propagation is eventually consistent, wait a few seconds
 for the virtual services to take effect.
 
