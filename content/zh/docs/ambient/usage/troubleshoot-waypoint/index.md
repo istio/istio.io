@@ -41,7 +41,7 @@ $ kubectl exec deploy/curl -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     而 `default` 命名空间中的所有其他服务应使用 `waypoint` 命名空间。
 
     {{< text bash >}}
-    $ istioctl experimental ztunnel-config service
+    $ istioctl ztunnel-config service
     NAMESPACE    SERVICE NAME            SERVICE VIP   WAYPOINT
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
     default      bookinfo-gateway-istio  10.43.164.194 waypoint
@@ -55,14 +55,14 @@ $ kubectl exec deploy/curl -- curl -s http://$REVIEWS_V2_POD_IP:9080/reviews/1
     ...
     {{< /text >}}
 
-    如果您的源使用 Pod IP 调用目标，请使用 `istioctl experimental ztunnel-config workload`
+    如果您的源使用 Pod IP 调用目标，请使用 `istioctl ztunnel-config workload`
     命令确认您的 waypoint 由目标 Pod 所使用。
     根据早前的示例，`reviews` `v2` Pod 应使用 `reviews-v2-pod-waypoint`，
     而 `default` 命名空间中的所有其他 Pod 不应有任何 waypoint，
     因为默认情况下 [waypoint 仅处理面向服务的流量](/zh/docs/ambient/usage/waypoint/#waypoint-traffic-types)。
 
     {{< text bash >}}
-    $ istioctl experimental ztunnel-config workload
+    $ istioctl ztunnel-config workload
     NAMESPACE    POD NAME                                    IP         NODE                     WAYPOINT                PROTOCOL
     default      bookinfo-gateway-istio-7c57fc4647-wjqvm     10.42.2.8  k3d-k3s-default-server-0 None                    TCP
     default      details-v1-698d88b-wwsnv                    10.42.2.4  k3d-k3s-default-server-0 None                    HBONE
