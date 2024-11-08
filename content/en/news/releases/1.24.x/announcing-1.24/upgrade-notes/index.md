@@ -116,3 +116,22 @@ The peer metadata uses baggage encoding with the following field attributes:
 - `workload`
 - `type` (e.g. `"deployment"`)
 - `name` (e.g. `"pod-foo-12345"`)
+
+## Compatibility with cert-manager's `istio-csr`
+
+In this release, Istio introduces increased validation checks in gRPC communication to the control plane.
+Note this only impacts Istio's own internal gRPC usage, not users' traffic.
+
+While Istio's control plane is not impacted by this, a popular third-party CA implementation, [istio-csr](https://github.com/cert-manager/istio-csr) is.
+While this has been [fixed upstream](https://github.com/cert-manager/istio-csr/pull/422), there is not yet a released version with the fix at the time of writing (v0.12.0 does not have the fix).
+
+This can be worked around in the meantime by installing Istio with the following settings:
+
+{{< text yaml >}}
+meshConfig:
+  defaultConfig:
+    proxyMetadata:
+      GRPC_ENFORCE_ALPN_ENABLED: "false"
+{{< /text >}}
+
+If you are impacted by this issue, you will see an error message like `"transport: authentication handshake failed: credentials: cannot check peer: missing selected ALPN property"`.
