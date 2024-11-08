@@ -10,11 +10,7 @@ aliases:
     - /zh/news/announcing-1.24.0
 ---
 
-{{< warning >}}
-该发布说明的自动生成的草稿，尚未经过审核。
-{{< /warning >}}
-
-## Ambient {#ambient}
+## Ambient 模式 {#ambient-mode}
 
 - **新增** 添加了对将策略附加到 waypoint 的 `ServiceEntry` 的支持。
 
