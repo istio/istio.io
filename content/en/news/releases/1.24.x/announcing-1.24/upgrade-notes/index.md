@@ -28,6 +28,19 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 
 See the individual change and upgrade notes for more information.
 
+## Ambient upgrade with DNS proxy
+
+For upgrades to Istio 1.24.0 when using Ambient mode, with `cni.ambient.dnsCapture=true` configured, users will need to follow a specific set of upgrade steps:
+
+1. Upgrade Istio CNI
+1. Restart any workloads enrolled into ambient mode
+1. Upgrade Ztunnel
+
+Failure to do so will result in DNS resolution failures.
+If this occurs, you can restart the workloads to resolve the issue.
+
+This is expected to be improved in future patch releases; follow [the issue](https://github.com/istio/ztunnel/issues/1360) for more information.
+
 ## Istio CRDs are templated by default and can be installed and upgraded via `helm install istio-base`
 
 This changes how CRDs are upgraded.
@@ -122,8 +135,8 @@ The peer metadata uses baggage encoding with the following field attributes:
 In this release, Istio introduces increased validation checks in gRPC communication to the control plane.
 Note this only impacts Istio's own internal gRPC usage, not users' traffic.
 
-While Istio's control plane is not impacted by this, a popular third-party CA implementation, [istio-csr](https://github.com/cert-manager/istio-csr) is.
-While this has been [fixed upstream](https://github.com/cert-manager/istio-csr/pull/422), there is not yet a released version with the fix at the time of writing (v0.12.0 does not have the fix).
+While Istio's control plane is not impacted by this, a popular third-party CA implementation, [`istio-csr`](https://github.com/cert-manager/istio-csr) is.
+While this has been [fixed upstream](https://github.com/cert-manager/istio-csr/pull/422), there is not yet a released version with the fix at the time of writing (`v0.12.0` does not have the fix).
 
 This can be worked around in the meantime by installing Istio with the following settings:
 
