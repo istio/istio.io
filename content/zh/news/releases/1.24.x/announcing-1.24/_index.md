@@ -23,12 +23,12 @@ Istio 1.24.0 正式支持 Kubernetes 版本 `1.28` 至 `1.31`。
 
 ## 新特性 {#whats-new}
 
-### Ambient 模式升级为稳定版 {#ambient-mode-is-promoted-to-stable}
+### Ambient 模式现已正式推出 {#ambient-mode-is-generally-available}
 
-我们很高兴地宣布 Istio Ambient 模式已升级为稳定版本
-（或“通用版本”或“GA”）！这标志着 Istio
-[功能阶段进展](/zh/docs/releases/feature-stages/)的最后阶段，
-表明该功能已完全准备好广泛用于生产。
+我们很高兴地宣布 [Istio Ambient 模式的全面可用性](/zh/blog/2024/ambient-reaches-ga/)！
+核心功能（ztunnel、waypoint 和 API）已被 Istio TOC 标记为稳定。
+这标志着 Istio [功能阶段进展](/zh/docs/releases/feature-stages/)的最后阶段，
+表明这些功能已完全准备好用于广泛的生产用途。
 
 自 [2022 年发布公告](/zh/blog/2022/introducing-ambient-mesh/)以来，
 社区一直在努力进行[创新](/zh/blog/2024/inpod-traffic-redirection-ambient/)、
