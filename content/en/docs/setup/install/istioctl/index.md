@@ -106,7 +106,6 @@ to install the `demo` profile:
 $ istioctl install --set profile=demo
 {{< /text >}}
 
-
 ## Generate a manifest before installation
 
 You can generate the manifest before installing Istio using the `manifest generate`
