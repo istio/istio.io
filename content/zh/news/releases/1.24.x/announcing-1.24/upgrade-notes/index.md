@@ -30,6 +30,21 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 
 请参阅单独的变更和升级说明以了解更多信息。
 
+## 使用 DNS 代理升级 Ambient {#ambient-upgrade-with-dns-proxy}
+
+在使用 Ambient 模式升级到 Istio 1.24.0 时，如果配置了 `cni.ambient.dnsCapture=true`，
+用户需要遵循一组特定的升级步骤：
+
+1. 升级 Istio CNI
+1. 重启已在 Ambient 模式运行的所有工作负载
+1. 升级 Ztunnel
+
+否则将导致 DNS 解析失败。
+如果发生这种情况，您可以重新启动工作负载来解决问题。
+
+预计在未来的补丁版本中将会改进这个问题；请关注
+[Issue](https://github.com/istio/ztunnel/issues/1360)以获取更多信息。
+
 ## Istio CRD 默认是模板化的，可以通过 `helm install istio-base` 安装和升级 {#istio-crds-are-templated-by-default-and-can-be-installed-and-upgraded-via-helm-install-istio-base}
 
 这改变了 CRD 的升级方式。之前，我们建议并记录了以下内容：
@@ -123,3 +138,25 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 - `workload`
 - `type`（例如 `"deployment"`）
 - `name`（例如 `"pod-foo-12345"`）
+
+## 与 cert-manager `istio-csr` 兼容
+
+在此版本中，Istio 在与控制平面的 gRPC 通信中引入了增强的验证检查。
+请注意，这只会影响 Istio 自己的内部 gRPC 使用情况，而不会影响用户的流量。
+
+虽然 Istio 的控制平面不会受到影响，但流行的第三方 CA 实现
+[`istio-csr`](https://github.com/cert-manager/istio-csr) 会受到影响。
+虽然这个问题已经[在上游修复](https://github.com/cert-manager/istio-csr/pull/422)，
+但在撰写本文时尚未发布修复版本（`v0.12.0` 没有修复）。
+
+可以通过使用以下设置安装 Istio 来解决此问题：
+
+{{< text yaml >}}
+meshConfig:
+  defaultConfig:
+    proxyMetadata:
+      GRPC_ENFORCE_ALPN_ENABLED: "false"
+{{< /text >}}
+
+如果您受到此问题的影响，您将看到一条错误消息，例如
+ `"transport: authentication handshake failed: credentials: cannot check peer: missing selected ALPN property"`。
