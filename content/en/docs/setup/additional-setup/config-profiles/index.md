@@ -13,7 +13,7 @@ This page describes the built-in configuration profiles that can be used when
 [installing Istio](/docs/setup/install/istioctl/).
 The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
 
-You can start with one of Istio’s built-in configuration profiles and then further
+You can start with one of [Istio’s built-in configuration profiles]({{< github_file >}}/manifests/profiles) and then further
 [customize the configuration](/docs/setup/additional-setup/customize-installation/)
 for your specific needs. The following built-in configuration profiles are currently available:
 
@@ -22,7 +22,6 @@ for your specific needs. The following built-in configuration profiles are curre
     This profile is recommended for production deployments and for
     {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} in a
     [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
-    You can display the default settings by running the `istioctl profile dump` command.
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
     It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
