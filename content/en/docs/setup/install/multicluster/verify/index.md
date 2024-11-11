@@ -39,7 +39,7 @@ a `STATUS` of `timeout` that means that Istiod in the primary cluster is unable 
 communicate with the remote cluster. See the Istiod logs for detailed error
 messages.
 
-Note: if there is an intermediary host (such as the [Rancher auth proxy](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters))
+Note: if you do see `timeout` issues and there is an intermediary host (such as the [Rancher auth proxy](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters))
 sitting between Istiod in the primary cluster and the Kubernetes control plane in
 the remote cluster, you may need to update the `certificate-authority-data` field
 of the kubeconfig that `istioctl create-remote-secret` generates in order to
