@@ -100,6 +100,9 @@ providers:
   - name: "Control Plane"
     logo: "/logos/controlplane.svg"
     url: "https://controlplane.com"
+  - name: "Alauda"
+    logo: "/logos/alauda-logo.png"
+    url: "https://www.alauda.io"
 
 integrations:
   - name: "Aeraki"
