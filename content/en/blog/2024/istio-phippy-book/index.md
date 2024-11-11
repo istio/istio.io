@@ -25,7 +25,7 @@ Join Izzy's smart and adventurous chase of the pirates who want to spoil Captain
 
 ## Who is the book for?
 
-This book is the answer to each one of you, who has at least once encountered those curious little eyes, who keep asking you what "Service Mesh" is. This is also a great gift for anyone who needs to understand what “Istio” is or who thinks "Istio is complex to understand".
+This book is the answer to each one of you, who has at least once encountered those curious little eyes, who keep asking you what "Service Mesh" is. This is also a great gift for anyone who needs to understand what "Istio" is or who thinks "Istio is complex to understand".
 
 ## Acknowledgement
 
