@@ -51,13 +51,14 @@ test: n/a
 
 标注 &#x2714; 的组件安装在每个配置文件中：
 
-|     | default | demo | minimal | remote | empty | preview | ambient |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 核心组件 | | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; | &#x2714; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI` | | | | | | | &#x2714; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel` | | | | | | | &#x2714; |
+|                                                            | default  | demo     | minimal  | remote | empty | preview  | ambient  |  |  |
+|------------------------------------------------------------|----------|----------|----------|--------|-------|----------|----------|--|--|
+| 核心组件                                                       |          |          |          |        |       |          |          |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway`  |          | &#x2714; |          |        |       |          |          |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; |          |        |       | &#x2714; |          |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod`               | &#x2714; | &#x2714; | &#x2714; |        |       | &#x2714; | &#x2714; |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI`                  |          |          |          |        |       |          | &#x2714; |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel`              |          |          |          |        |       |          | &#x2714; |  |  |
 
-为了进一步自定义 Istio，还可以安装一些附加组件。详情请参阅[集成](/zh/docs/ops/integrations)。
+为了进一步自定义 Istio，还可以安装一些附加组件。
+详情请参阅[集成](/zh/docs/ops/integrations)。
