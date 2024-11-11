@@ -12,15 +12,13 @@ test: n/a
 本页面描述了在[安装 Istio](/zh/docs/setup/install/istioctl/) 时所能够使用的内置配置文件。
 这些配置文件提供了对 Istio 控制平面和 Istio 数据平面 Sidecar 的定制内容。
 
-您可以从其中一个 Istio 内置配置文件开始入手，
-然后根据您的特定需求进一步[自定义配置文件](/zh/docs/setup/additional-setup/customize-installation/)。
+您可以从其中一个 [Istio 的内置配置文件]({{< github_file >}}/manifests/profiles)之一开始入手，
+然后根据您的特定需求来进一步[自定义配置文件](/zh/docs/setup/additional-setup/customize-installation/)。
 当前提供以下几种内置配置文件：
 
 1. **default**：根据 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 的默认设置来启用组件。
     建议用于生产部署和[多集群网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters)
     中的{{< gloss "primary cluster" >}}主集群{{< /gloss >}}。
-
-    您可以运行 `istioctl profile dump` 命令来查看默认设置。
 
 1. **demo**：这一配置具有适度的资源需求，旨在展示 Istio 的功能。
     它适合运行 [Bookinfo](/zh/docs/examples/bookinfo/) 应用程序和相关任务。
@@ -53,13 +51,14 @@ test: n/a
 
 标注 &#x2714; 的组件安装在每个配置文件中：
 
-|     | default | demo | minimal | remote | empty | preview | ambient |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 核心组件 | | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway` | | &#x2714; | | | | | | | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; | | | | &#x2714; | |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod` | &#x2714; | &#x2714; | &#x2714; | | | &#x2714; | &#x2714; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI` | | | | | | | &#x2714; |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel` | | | | | | | &#x2714; |
+|                                                            | default  | demo     | minimal  | remote | empty | preview  | ambient  |  |  |
+|------------------------------------------------------------|----------|----------|----------|--------|-------|----------|----------|--|--|
+| 核心组件                                                       |          |          |          |        |       |          |          |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-egressgateway`  |          | &#x2714; |          |        |       |          |          |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istio-ingressgateway` | &#x2714; | &#x2714; |          |        |       | &#x2714; |          |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`istiod`               | &#x2714; | &#x2714; | &#x2714; |        |       | &#x2714; | &#x2714; |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`CNI`                  |          |          |          |        |       |          | &#x2714; |  |  |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Ztunnel`              |          |          |          |        |       |          | &#x2714; |  |  |
 
-为了进一步自定义 Istio，还可以安装一些附加组件。详情请参阅[集成](/zh/docs/ops/integrations)。
+为了进一步自定义 Istio，还可以安装一些附加组件。
+详情请参阅[集成](/zh/docs/ops/integrations)。

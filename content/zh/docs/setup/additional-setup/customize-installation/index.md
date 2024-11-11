@@ -158,16 +158,9 @@ Istio 社区推荐使用 `IstioOperator` API，因为它更一致、更有效、
 
 网关因为支持定义多个入站、出站网关，所以它是一种特殊类型的组件。
 在 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 中，
-网关被定义为列表类型。`default` 配置档会安装一个名为 `istio-ingressgateway` 的入站网关。
-您可以检查这个网关的默认值：
-
-{{< text bash >}}
-$ istioctl profile dump --config-path components.ingressGateways
-$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
-{{< /text >}}
-
-这些命令显示了网关的 `IstioOperator` 和 Helm 两种设置，它们一起用于定义生成的网关资源。
-内置的网关就像其他组件一样的可以被定制。
+`default` 配置文件会安装一个名为 `istio-ingressgateway`
+的入口网关。您可以[检查此网关的默认值]({{< github_file >}}/manifests/charts/gateways/istio-ingress/values.yaml)。
+内置网关可以像任何其他组件一样进行自定义。
 
 {{< warning >}}
 从 1.7 开始，覆盖路由配置时必须指定路由名称。
