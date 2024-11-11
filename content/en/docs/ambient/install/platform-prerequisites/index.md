@@ -210,6 +210,7 @@ If you use `istioctl`, you must use a special profile named `openshift-ambient` 
 
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install ztunnel istio/ztunnel -n kube-system --set global.platform=openshift --wait
     {{< /text >}}
 
 {{< /tab >}}
