@@ -195,16 +195,21 @@ spec:
 OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni` 组件，
 并且要求为所有 Chart 设置 `global.platform=openshift`。
 
-如果您使用 `helm`，您可以直接设置目标命名空间和 `global.platform` 值。
-
-如果您使用 `istioctl`，则必须使用名为 `openshift-ambient` 的特殊配置文件来完成相同的操作。
-
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
+    您必须为安装的**每个** Chart 并设置 `--set global.platform=openshift`，例如 `istiod` Chart：
+
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install istiod istio/istiod -n istio-system --set profile=ambient --set global.platform=openshift --wait
+    {{< /text >}}
+
+    此外，必须在 `kube-system` 命名空间中安装 `istio-cni` 和 `ztunnel`，例如：
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/istio-cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
 {{< /tab >}}
