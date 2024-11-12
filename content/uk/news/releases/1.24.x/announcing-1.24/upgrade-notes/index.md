@@ -25,6 +25,18 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 
 Дивіться індивідуальні примітки щодо змін та оновлень для отримання додаткової інформації.
 
+## Оновлення ambient з проксі DNS {#ambient-upgrade-with-dns-proxy}
+
+Для оновлення до Istio 1.24.0 у режимі Ambient з параметром `cni.ambient.dnsCapture=true`, користувачам потрібно виконати певний набір кроків для оновлення:
+
+1. Оновлення Istio CNI
+1. Перезапуск всіх робочих навантажень, що перейшли в режим ambient
+1. Оновлення Ztunnel
+
+Якщо цього не зробити, це призведе до збоїв у процесі розпізнавання DNS. Якщо це станеться, ви можете перезапустити робочі навантаження, щоб розвʼязати проблему.
+
+Очікується, що цю проблему буде виправлено у наступних випусках патчів; стежте за [тікетом #1360](https://github.com/istio/ztunnel/issues/1360) для отримання додаткової інформації.
+
 ## Istio CRD стандартно шаблонізовані та можуть бути встановлені та оновлені через `helm install istio-base` {#istio-crds-are-templated-by-default-and-can-be-installed-and-upgraded-via-helm-install-istio-base}
 
 Це змінює спосіб оновлення CRD. Раніше ми рекомендували:
@@ -104,3 +116,20 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 - `workload`
 - `type` (наприклад, `"deployment"`)
 - `name` (наприклад, `"pod-foo-12345"`)
+
+## Сумісність з `istio-csr` cert-manager'а {#compatibility-with-cert-managers-istio-csr}
+
+У цьому випуску Istio вводить посилені перевірки валідації в gRPC-звʼязку з панеллю управління. Зверніть увагу, що це впливає лише на внутрішнє використання gRPC в Istio, а не на трафік користувачів.
+
+Хоча на панель управління Istio це не впливає, це впливає на популярну реалізацію стороннього центру сертифікації [`istio-csr`] (https://github.com/cert-manager/istio-csr). Хоча це було [виправлено](https://github.com/cert-manager/istio-csr/pull/422), на момент написання статті ще не було випущено версії з виправленням (`v0.12.0` не має виправлення).
+
+Тим часом цю проблему можна вирішити, встановивши Istio з наступними налаштуваннями:
+
+{{< text yaml >}}
+meshConfig:
+  defaultConfig:
+    proxyMetadata:
+      GRPC_ENFORCE_ALPN_ENABLED: "false"
+{{< /text >}}
+
+Якщо у вас виникла ця проблема, ви побачите повідомлення про помилку на кшталт `«transport: authentication handshake failed: credentials: cannot check peer: missing selected ALPN property»`.

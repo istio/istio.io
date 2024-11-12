@@ -10,17 +10,13 @@ aliases:
     - /uk/news/announcing-1.24.0
 ---
 
-{{< warning >}}
-Це автоматично згенерований чорновий варіант приміток до випуску, який ще не був рецензований.
-{{< /warning >}}
-
-## Ambient
+## Режим ambient {#ambient-mode}
 
 - **Додано** підтримку прикріплення політик до `ServiceEntry` для waypointʼів.
 
 - **Додано** нову анотацію, `ambient.istio.io/bypassInboundCapture`, яку можна застосувати, щоб змусити ztunnel захоплювати лише вихідний трафік. Це може бути корисним для уникнення зайвого переходу для робочих навантажень, які приймають трафік тільки від клієнтів за межами mesh (наприклад, podʼи з доступом до Інтернету).
 
-- **Додано** нову анотацію, `networking.istio.io/traffic-distribution`, яка дозволяє ztunnel надавати перевагу локальним подам при передачі трафіку. Це працює так само, як поле [`spec.trafficDistribution`](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) у `Service`, але дозволяє використання на старіших версіях Kubernetes (оскільки поле було додано як бета у Kubernetes 1.31). Зазначимо, що waypointʼи автоматично налаштовують цю анотацію.
+- **Додано** нову анотацію, `networking.istio.io/traffic-distribution`, яка дозволяє ztunnel надавати перевагу локальним подам при передачі трафіку. Це працює так само як поле [`spec.trafficDistribution`](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) у `Service`, але дозволяє використання на старіших версіях Kubernetes (оскільки поле було додано як бета у Kubernetes 1.31). Зазначимо, що waypointʼи автоматично налаштовують цю анотацію.
 
 - **Виправлено** проблему, яка заважала працювати [протоколам з ініціативою від сервера](/docs/ops/deployment/application-requirements/#server-first-protocols) з waypoint'ами.
 
