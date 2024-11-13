@@ -281,7 +281,6 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 * shutting down connection #0
 {{< /text >}}
 
-
 ## Cleanup
 
 {{< text bash >}}
