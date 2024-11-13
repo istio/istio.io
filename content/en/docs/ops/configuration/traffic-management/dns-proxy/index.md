@@ -101,7 +101,7 @@ to [the following section](#external-tcp-services-without-vips) for more details
 To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
 
 {{< tip >}}
-Please see [DNS Auto Allocation V2](/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2) for a new enhanced implementation of auto allocation supported by Istio from 1.21 onwards.
+Please see [DNS Auto Allocation V2](/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2) for a new enhanced implementation of auto allocation supported by Istio from 1.23 onwards.
 {{< /tip >}}
 
 When this feature is enabled, the DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`. When using `ISTIO_META_DNS_AUTO_ALLOCATE`, Istio will automatically allocate non-routable VIPs (from the Class E subnet) to such services as long as they do not use a wildcard host. The Istio agent on the sidecar will use the VIPs as responses to the DNS lookup queries from the application. Envoy can now clearly distinguish traffic bound for each external TCP service and forward it to the right target. For more information check respective [Istio blog about smart DNS proxying](/blog/2020/dns-proxy/#automatic-vip-allocation-where-possible).
@@ -225,30 +225,30 @@ A virtual IP address will be assigned to every service entry so that client side
 
 ## DNS Auto Allocation V2
 
-Istio now offers an enhanced implementation of DNS Auto Allocation. To use the new feature, replace the feature flag `ISTIO_META_DNS_AUTO_ALLOCATE` which was used in the previous example, with `PILOT_ENABLE_IP_AUTOALLOCATE` while installing Istio. All examples given so far would work as is.
+Istio now offers an enhanced implementation of DNS Auto Allocation. To use the new feature, replace the feature flag `ISTIO_META_DNS_AUTO_ALLOCATE`, which was used in the previous example, with `PILOT_ENABLE_IP_AUTOALLOCATE` while installing Istio. All examples given so far would work as is.
 
-    {{< text bash >}}
-    $ cat <<EOF | istioctl install -y -f -
-    apiVersion: install.istio.io/v1alpha1
-    kind: IstioOperator
-    spec:
-      values:
-        pilot:
-          env:
-            # Enable automatic address allocation, optional
-            PILOT_ENABLE_IP_AUTOALLOCATE: "true"
-      meshConfig:
-        defaultConfig:
-          proxyMetadata:
-            # Enable basic DNS proxying
-            ISTIO_META_DNS_CAPTURE: "true"
-        # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
-        # so that we do not have to use an external site for testing.
-        discoverySelectors:
-        - matchLabels:
-            istio-injection: enabled
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    pilot:
+      env:
+        # Enable automatic address allocation, optional
+        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        # Enable basic DNS proxying
+        ISTIO_META_DNS_CAPTURE: "true"
+    # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
+    # so that we do not have to use an external site for testing.
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
+EOF
+{{< /text >}}
 
 Users also have the flexibility for more granular configuration by adding the label `networking.istio.io/enable-autoallocate-ip="true/false"` to their `ServiceEntry`. This label configures whether a `ServiceEntry` without any `spec.addresses` set should get an IP address automatically allocated for it.
 
