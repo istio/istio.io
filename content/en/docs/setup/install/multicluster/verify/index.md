@@ -13,14 +13,37 @@ Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin) as well as
 choosing and following one of the multicluster installation guides.
 
-In this guide, we will deploy the `HelloWorld` application `V1` to `cluster1`
-and `V2` to `cluster2`. Upon receiving a request, `HelloWorld` will include
-its version in its response.
+In this guide, we will verify multicluster is functional, deploy the `HelloWorld`
+application `V1` to `cluster1` and `V2` to `cluster2`. Upon receiving a request,
+`HelloWorld` will include its version in its response.
 
 We will also deploy the `curl` container to both clusters. We will use these
 pods as the source of requests to the `HelloWorld` service,
 simulating in-mesh traffic. Finally, after generating traffic, we will observe
 which cluster received the requests.
+
+## Verify Multicluster
+
+To confirm that Istiod is now able to communicate with the Kubernetes control plane
+of the remote cluster.
+
+{{< text bash >}}
+$ istioctl remote-clusters --context="${CTX_CLUSTER1}"
+NAME        SECRET                              STATUS     ISTIOD
+cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
+cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+{{< /text >}}
+
+All clusters should indicate their status as `synced`. If a cluster is listed with
+a `STATUS` of `timeout` that means that Istiod in the primary cluster is unable to
+communicate with the remote cluster. See the Istiod logs for detailed error
+messages.
+
+Note: if you do see `timeout` issues and there is an intermediary host (such as the [Rancher auth proxy](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters))
+sitting between Istiod in the primary cluster and the Kubernetes control plane in
+the remote cluster, you may need to update the `certificate-authority-data` field
+of the kubeconfig that `istioctl create-remote-secret` generates in order to
+match the certificate being used by the intermediate host.
 
 ## Deploy the `HelloWorld` Service
 

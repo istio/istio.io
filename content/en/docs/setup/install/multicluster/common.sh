@@ -101,6 +101,10 @@ function cleanup_cluster2
 # between CLUSTER1 and CLUSTER2.
 function verify_load_balancing
 {
+  # Verify istiod is synced
+  echo "Verifying istiod is synced to remote cluster."
+  _verify_like snip_verify_multicluster_1 "$snip_verify_multicluster_1_out"
+
   # Deploy the HelloWorld service.
   snip_deploy_the_helloworld_service_1
   snip_deploy_the_helloworld_service_2
