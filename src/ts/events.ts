@@ -161,7 +161,7 @@ function handleEvents(): void {
     function toggleActiveHeader(): void {
         const top = window.scrollY;
 
-        if (!banner) {
+        if (!banner || !banner.length) {
             return;
         }
 
