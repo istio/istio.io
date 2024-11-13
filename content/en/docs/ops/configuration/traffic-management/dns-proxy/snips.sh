@@ -160,7 +160,7 @@ ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.
 ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
 ENDSNIP
 
-snip_dns_auto_allocation_version_2_1() {
+snip_dns_auto_allocation_v2_1() {
 cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -183,7 +183,7 @@ spec:
 EOF
 }
 
-snip_dns_auto_allocation_version_2_2() {
+snip_dns_auto_allocation_v2_2() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
@@ -202,11 +202,11 @@ spec:
 EOF
 }
 
-snip_dns_auto_allocation_version_2_3() {
+snip_dns_auto_allocation_v2_3() {
 kubectl exec deploy/curl -- curl -sS -v auto.internal
 }
 
-! IFS=$'\n' read -r -d '' snip_dns_auto_allocation_version_2_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_dns_auto_allocation_v2_3_out <<\ENDSNIP
 * Could not resolve host: auto.internal
 * shutting down connection #0
 ENDSNIP
