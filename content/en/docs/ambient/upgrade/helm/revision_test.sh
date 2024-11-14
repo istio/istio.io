@@ -48,8 +48,7 @@ _rewrite_helm_repo snip_rollback_tag
 
 # upgrading a tag creates an MWC, let's clean it up 
 export REVISION=istio-1-22-1
-export OLD_REVISION=istio-1-21-2
 helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{tagname}" --set revision="$OLD_REVISION" -n istio-system | kubectl delete -f -
-helm delete istiod-"$OLD_REVISION" -n istio-system
 helm delete istiod-"$REVISION" -n istio-system
+snip_delete_old_revision
 _remove_istio_ambient_helm
