@@ -101,7 +101,7 @@ to [the following section](#external-tcp-services-without-vips) for more details
 To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
 
 {{< tip >}}
-Please see [DNS Auto Allocation V2](/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2) for a new enhanced implementation of auto allocation supported by Istio from 1.23 onwards. DNS Auto Allocation V2 is the recommended for sidecar mode and required for ambient mode.
+Please see [DNS Auto Allocation V2](/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2) for a new enhanced implementation of auto allocation supported by Istio from 1.23 onwards. DNS Auto Allocation V2 is recommended for sidecar mode and required for ambient mode.
 {{< /tip >}}
 
 When this feature is enabled, the DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`. When using `ISTIO_META_DNS_AUTO_ALLOCATE`, Istio will automatically allocate non-routable VIPs (from the Class E subnet) to such services as long as they do not use a wildcard host. The Istio agent on the sidecar will use the VIPs as responses to the DNS lookup queries from the application. Envoy can now clearly distinguish traffic bound for each external TCP service and forward it to the right target. For more information check respective [Istio blog about smart DNS proxying](/blog/2020/dns-proxy/#automatic-vip-allocation-where-possible).
