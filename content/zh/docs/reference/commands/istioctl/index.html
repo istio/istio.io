@@ -330,13 +330,18 @@ https://istio.io/v1.25/docs/reference/config/analysis</p>
 <td>The severity level of analysis at which to display messages. Valid values: [Info Warning Error]  (default `Info`)</td>
 </tr>
 <tr>
+<td><code>--recursive</code></td>
+<td><code>-R</code></td>
+<td>[Removed: The recursive flag has been removed and is hardcoded to true] Process directory arguments recursively. </td>
+</tr>
+<tr>
 <td><code>--remote-contexts &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>analyze a specific revision deployed.  (default `default`)</td>
 </tr>
 <tr>
@@ -8313,6 +8318,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></td>
+<td>String</td>
+<td><code>100</code></td>
+<td>Sets the `udp_max_queries` option in Envoy for the Cares DNS resolver. Defaults to 0, an unlimited number of queries. See `extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig` in https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto and `ARES_OPT_UDP_MAX_QUERIES` in https://c-ares.org/docs/ares_init.html</td>
 </tr>
 <tr>
 <td><code>PILOT_DRAINING_LABEL</code></td>

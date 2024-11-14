@@ -1491,6 +1491,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
 </tr>
 <tr>
+<td><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></td>
+<td>String</td>
+<td><code>100</code></td>
+<td>Sets the `udp_max_queries` option in Envoy for the Cares DNS resolver. Defaults to 0, an unlimited number of queries. See `extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig` in https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto and `ARES_OPT_UDP_MAX_QUERIES` in https://c-ares.org/docs/ares_init.html</td>
+</tr>
+<tr>
 <td><code>PILOT_DRAINING_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/draining</code></td>
