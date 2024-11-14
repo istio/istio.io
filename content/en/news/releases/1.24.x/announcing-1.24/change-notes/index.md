@@ -14,7 +14,7 @@ aliases:
 
 - **Added** support for attaching policies to `ServiceEntry` for waypoints.
 
-- **Added** a new annotation, `ambient.istio.io/bypassInboundCapture`, that can be applied to make ztunnel only capture outbound traffic.
+- **Added** a new annotation, `ambient.istio.io/bypass-inbound-capture"`, that can be applied to make ztunnel only capture outbound traffic.
   This can be useful to skip an unnecessary hop for workloads that only accept traffic from out-of-mesh clients (such as internet-facing pods).
 
 - **Added** a new annotation, `networking.istio.io/traffic-distribution`, that can be applied to make ztunnel prefer sending traffic to local pods.
