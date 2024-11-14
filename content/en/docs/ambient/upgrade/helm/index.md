@@ -213,7 +213,7 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 
 If you have upgraded all data plane components to use the new revision of the Istio control plane, and are satisfied that you do not need to roll back, you can remove the previous revision of the control plane by running:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text syntax=bash snip_id=delete_old_revision >}}
 $ helm delete istiod-"$OLD_REVISION" -n istio-system
 {{< /text >}}
 
