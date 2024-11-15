@@ -160,6 +160,57 @@ ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.
 ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
 ENDSNIP
 
+snip_dns_auto_allocation_v2_1() {
+cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    pilot:
+      env:
+        # Enable automatic address allocation, optional
+        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        # Enable basic DNS proxying
+        ISTIO_META_DNS_CAPTURE: "true"
+    # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
+    # so that we do not have to use an external site for testing.
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
+EOF
+}
+
+snip_dns_auto_allocation_v2_2() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
+spec:
+  hosts:
+  - auto.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: DNS
+EOF
+}
+
+snip_dns_auto_allocation_v2_3() {
+kubectl exec deploy/curl -- curl -sS -v auto.internal
+}
+
+! IFS=$'\n' read -r -d '' snip_dns_auto_allocation_v2_3_out <<\ENDSNIP
+* Could not resolve host: auto.internal
+* shutting down connection #0
+ENDSNIP
+
 snip_cleanup_1() {
 kubectl -n external-1 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl -n external-2 delete -f samples/tcp-echo/tcp-echo.yaml
