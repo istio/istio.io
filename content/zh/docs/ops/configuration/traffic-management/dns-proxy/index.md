@@ -114,6 +114,12 @@ TCP 携带的信息更少，只能在目标 IP 和端口号上路由。由于后
 为了解决这些问题，DNS 代理还支持为没有明确定义的 `ServiceEntry` 自动分配地址。
 这是通过 `ISTIO_META_DNS_AUTO_ALLOCATE` 选项配置的。
 
+{{< tip >}}
+请参阅 [DNS 自动分配 V2](/zh/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2)，
+了解 Istio 从 1.23 开始支持的新的自动分配增强实现。
+DNS 自动分配 V2 是 Sidecar 模式的推荐配置，也是 Ambient 模式的必需配置。
+{{< /tip >}}
+
 启用此特性后，DNS 响应将为每个 `ServiceEntry` 自动分配一个不同的独立地址。
 然后代理能匹配请求与 IP 地址，并将请求转发到相应的 `ServiceEntry`。
 当使用 `ISTIO_META_DNS_AUTO_ALLOCATE` 时，Istio 会自动为不可路由的 VIP（从 Class E 子网中）
@@ -247,6 +253,70 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
     ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
+
+## DNS 自动分配 V2 {#dns-auto-allocation-v2}
+
+Istio 现在提供了 DNS 自动分配的增强实现。要使用新功能，
+请在安装 Istio 时将上一个示例中使用的 `MeshConfig` 标志
+`ISTIO_META_DNS_AUTO_ALLOCATE` 替换为 pilot 环境变量
+`PILOT_ENABLE_IP_AUTOALLOCATE`。到目前为止给出的所有示例均可按原样运行。
+
+{{< text bash >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    pilot:
+      env:
+        # 启用自动地址分配，可选
+        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        # 启用基本 DNS 代理
+        ISTIO_META_DNS_CAPTURE: "true"
+    # 下面的 discoverySelectors 配置仅用于模拟外部服务 TCP 场景，
+    # 这样我们就不必使用外部站点进行测试。
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
+EOF
+{{< /text >}}
+
+用户还可以通过向其 `ServiceEntry` 添加标签
+`networking.istio.io/enable-autoallocate-ip="true/false"`
+来灵活地进行更细粒度的配置。此标签配置未设置任何 `spec.addresses`
+的 `ServiceEntry` 是否应自动为其分配 IP 地址。
+
+要尝试此功能，请使用退出标签更新现有的 `ServiceEntry`：
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
+spec:
+  hosts:
+  - auto.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: DNS
+EOF
+{{< /text >}}
+
+现在，发送请求并验证自动分配不再发生：
+
+{{< text bash >}}
+$ kubectl exec deploy/curl -- curl -sS -v auto.internal
+* Could not resolve host: auto.internal
+* shutting down connection #0
+{{< /text >}}
 
 ## 清理  {#cleanup}
 
