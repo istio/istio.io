@@ -203,8 +203,8 @@ EOF
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` - 遵循 [MetalLB 配置指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)使得类型为
-   `LoadBalancer` 的 Service 能够工作。
+* `kind` - 按照[指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)使
+  `LoadBalancer` 类型的 Service 正常工作。
 
 * 其他平台 - 您可以使用 [MetalLB](https://metallb.universe.tf/installation/) 获取
   `EXTERNAL-IP` 用于 `LoadBalancer` Service。
