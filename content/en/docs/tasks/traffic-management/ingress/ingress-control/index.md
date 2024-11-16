@@ -213,7 +213,7 @@ in some environments (e.g., test) you may need to do the following:
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` - follow the [guide for setting up MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` type services to work.
+* `kind` - follow the [guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` type services to work.
 
 * other platforms - you may be able to use [MetalLB](https://metallb.universe.tf/installation/) to get an `EXTERNAL-IP` for `LoadBalancer` services.
 
