@@ -12,14 +12,14 @@ test: no
 kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本地开发或 CI。
 请按照以下说明为 Istio 安装准备好 kind 集群。
 
-## 准备{#prerequisites}
+## 准备 {#prerequisites}
 
 - 请使用最新的 Go 版本。
 - 为了使用 kind，还需要[安装 Docker](https://docs.docker.com/install/)。
 - 安装最新版本的 [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)。
 - 增加 Docker 的[内存限制](/zh/docs/setup/platform-setup/docker/)。
 
-## 安装步骤{#installation-steps}
+## 安装步骤 {#installation-steps}
 
 1. 使用下列命令创建一个集群：
 
@@ -67,7 +67,13 @@ kind 主要是为了测试 Kubernetes 自身而设计的，但它也可用于本
     Deleting cluster "istio-testing" ...
     {{< /text >}}
 
-## 为 kind 设置操作界面{#setup-Dashboard-for-kind}
+## 为 kind 设置负载均衡器 {#setup-loadbalancer-for-kind}
+
+kind 没有任何内置方式为你的 `Loadbalancer` 服务类型提供 IP 地址，
+为确保将 IP 地址分配给 `Gateway` 服务，
+请查阅[本指南](https://kind.sigs.k8s.io/docs/user/loadbalancer/)了解更多信息。
+
+## 为 kind 设置操作界面 {#setup-dashboard-ui-for-kind}
 
 kind 不像 minikube 一样内置了操作界面。但仍然可以设置一个基于网页的 Kubernetes 界面，以查看集群。
 参考以下说明来为 kind 设置操作界面。
