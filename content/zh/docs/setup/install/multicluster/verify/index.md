@@ -11,13 +11,33 @@ owner: istio/wg-environments-maintainers
 
 继续操作之前，请确保完成了[准备工作](/zh/docs/setup/install/multicluster/before-you-begin)中的步骤。
 
-在本指南中，我们将在 `cluster1` 安装 `V1` 版的 `HelloWorld` 应用程序，
-在 `cluster2` 安装 `V2` 版的 `HelloWorld` 应用程序。
-当处理一个请求时，`HelloWorld` 会在响应消息中包含它自身的版本号。
+在本指南中，我们将验证多集群是否正常运行，
+将 `HelloWorld` 应用程序 `V1` 部署到 `cluster1`，
+将 `V2` 部署到 `cluster2`。收到请求后，`HelloWorld` 将在其响应中包含其版本。
 
 我们也会在两个集群中均部署 `curl` 容器。
 这些 Pod 将被用作客户端（source），发送请求给 `HelloWorld`。
 最后，通过收集这些流量数据，我们将能观测并识别出是那个集群处理了请求。
+
+## 验证多集群 {#verify-multicluster}
+
+确认 Istiod 现在能够与远程集群的 Kubernetes 控制平面通信。
+
+{{< text bash >}}
+$ istioctl remote-clusters --context="${CTX_CLUSTER1}"
+NAME        SECRET                              STATUS     ISTIOD
+cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
+cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+{{< /text >}}
+
+所有集群都应将其状态指示为 `synced`。如果集群的 `STATUS` 为 `timeout`，
+则表示主集群中的 Istiod 无法与远程集群通信。请参阅 Istiod 日志以获取详细的错误消息。
+
+注意：如果您确实看到了 `timeout` 问题，
+并且主集群中的 Istiod 和远程集群中的 Kubernetes
+控制平面之间存在中间主机（例如 [Rancher 认证代理](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters)），
+则可能需要更新 `istioctl create-remote-secret` 生成的 kubeconfig
+中的 `certificate-authority-data` 字段，以匹配中间主机正在使用的证书。
 
 ## 部署服务 `HelloWorld` {#deploy-the-helloworld-service}
 
