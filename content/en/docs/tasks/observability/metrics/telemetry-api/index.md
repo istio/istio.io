@@ -4,7 +4,7 @@ description: This task shows you how to customize the Istio metrics with Telemet
 weight: 10
 keywords: [telemetry,metrics,customize]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 Telemetry API has been in Istio as a first-class API for quite sometime now.
