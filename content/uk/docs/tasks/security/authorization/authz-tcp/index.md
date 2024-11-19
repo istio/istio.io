@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
     - /uk/docs/tasks/security/authz-tcp/
 owner: istio/wg-security-maintainers
-test: yes
+test: no
 ---
 
 Це завдання показує, як налаштувати політику авторизації Istio для TCP-трафіку в Istio mesh.

@@ -9,9 +9,7 @@ test: no
 Додавши waypoint-проксі до потоку вашого трафіку, ви можете увімкнути більше [функцій Istio](/docs/concepts). Waypoints налаштовуються за допомогою {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
 
 {{< warning >}}
-Класичні API керування трафіком Istio (virtual service, destination rules тощо) залишаються на стадії Alpha, якщо використовуються з режимом ambient панелі даних.
-
-Змішування конфігурацій Istio classic API та Gateway API не підтримується і призведе до невизначеної поведінки.
+Використання VirtualService з режимом ambient data plane вважається альфа-версією. Змішування з конфігурацією API Gateway не підтримується і призведе до невизначеної поведінки.
 {{< /warning >}}
 
 ## Прив’язка маршрутів та політик {#route-and-policy-attachment}
