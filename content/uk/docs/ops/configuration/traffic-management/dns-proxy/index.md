@@ -98,6 +98,10 @@ $ kubectl exec deploy/curl -- curl -sS -v address.internal
 
 Щоб обійти ці проблеми, DNS-проксі додатково підтримує автоматичний розподіл адрес для `ServiceEntry`, які явно не визначають адресу. Це налаштовується за допомогою опції `ISTIO_META_DNS_AUTO_ALLOCATE`.
 
+{{< tip >}}
+Будь ласка, перегляньте [DNS Auto Allocation V2](/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2) для нової покращеної реалізації автоматичного розподілу, що підтримується Istio починаючи з версії 1.23. DNS Auto Allocation V2 рекомендується для режиму sidecar і є обовʼязковим для режиму ambient.
+{{< /tip >}}
+
 Коли ця функція ввімкнена, відповідь DNS включатиме унікальну автоматично призначену адресу для кожного `ServiceEntry`. Проксі налаштовується для відповідності запитам до цієї IP-адреси та пересилає запит до відповідного `ServiceEntry`. При використанні `ISTIO_META_DNS_AUTO_ALLOCATE` Istio автоматично розподілятиме нерозвʼязувані VIP (з підмережі Class E) для таких сервісів, якщо вони не використовують узагальнений хост. Агент Istio на sidecar використовуватиме VIP як відповіді на запити DNS-запитів з застосунку. Envoy тепер може чітко розрізняти трафік, спрямований на кожен зовнішній TCP-сервіс, і пересилати його до правильного призначення. Для отримання додаткової інформації зверніться до відповідного [допису блогу Istio про розумне DNS-проксіювання](/blog/2020/dns-proxy/#automatic-vip-allocation-where-possible).
 
 {{< warning >}}
@@ -215,6 +219,64 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
     ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
+
+## Автоматичний розподіл DNS V2 {#dns-auto-allocation-v2}
+
+Istio тепер пропонує розширену реалізацію автоматичного розподілу DNS. Щоб скористатися новою функцією, замініть прапорець `MeshConfig` `ISTIO_META_DNS_AUTO_ALLOCATE`, який було використано у попередньому прикладі, на змінну пілотного середовища `PILOT_ENABLE_IP_AUTOALLOCATE` під час встановлення Istio. Всі приклади, наведені до цього часу, працюватимуть як є.
+
+{{< text bash >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    pilot:
+      env:
+        # Вмикання автоматичного присвоєння адреси, необовʼязково
+        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        # Активація базового проксі-сервера DNS
+        ISTIO_META_DNS_CAPTURE: "true"
+    # конфігурація discoverySelectors, наведена нижче, використовується лише для імітації сценарію зовнішнього сервісу TCP,
+    # щоб нам не довелося використовувати зовнішній сайт для тестування.
+    discoverySelectors:
+    - matchLabels:
+        istio-injection: enabled
+EOF
+{{< /text >}}
+
+Користувачі також можуть гнучко налаштувати більш детальну конфігурацію, додавши мітку `networking.istio.io/enable-autoallocate-ip="true/false"` до свого `ServiceEntry`. Ця мітка визначає, чи має `ServiceEntry`, для якого не вказано жодної `spec.addresses`, автоматично отримувати IP-адресу.
+
+Щоб спробувати це, оновіть наявний `ServiceEntry` міткою відмови:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
+spec:
+  hosts:
+  - auto.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: DNS
+EOF
+{{< /text >}}
+
+Тепер надішліть запит і переконайтеся, що автоматичний розподіл більше не відбувається:
+
+{{< text bash >}}
+$ kubectl exec deploy/curl -- curl -sS -v auto.internal
+* Could not resolve host: auto.internal
+* shutting down connection #0
+{{< /text >}}
 
 ## Очищення {#cleanup}
 
