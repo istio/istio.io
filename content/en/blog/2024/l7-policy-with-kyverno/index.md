@@ -65,9 +65,11 @@ It is configurable using Kyverno `AuthorizationPolicy` resources, either stored 
 {{< text bash >}}
 $ kubectl create ns kyverno
 {{< /text >}}
+
 {{< text bash >}}
 $ kubectl label namespace kyverno istio-injection=enabled
 {{< /text >}}
+
 {{< text bash >}}
 $ helm install kyverno-authz-server --namespace kyverno --wait --repo https://kyverno.github.io/kyverno-envoy-plugin kyverno-authz-server
 {{< /text >}}
@@ -79,9 +81,11 @@ Httpbin is a well-known application that can be used to test HTTP requests and h
 {{< text bash >}}
 $ kubectl create ns my-app
 {{< /text >}}
+
 {{< text bash >}}
 $ kubectl label namespace my-app istio-injection=enabled
 {{< /text >}}
+
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/httpbin/httpbin.yaml -n my-app
 {{< /text >}}
@@ -444,6 +448,7 @@ Run the request and check the logs of the application:
 {{< text bash >}}
 $ kubectl exec -n my-app curl -c curl -- curl -s -I httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
+
 {{< text bash >}}
 $ kubectl logs -n my-app deploy/httpbin -c istio-proxy --tail 1
 {{< /text >}}
