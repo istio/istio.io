@@ -141,7 +141,7 @@ $ kubectl patch deploy httpbin -n my-app --type=merge -p='{
 
 A Kyverno `AuthorizationPolicy` defines the rules used by the Kyverno Authz Server to make a decision based on a given Envoy [CheckRequest](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto#service-auth-v3-checkrequest).
 
-It uses the [CEL language](https://github.com/google/cel-spec) to analyse an incoming `CheckRequest` and is expected to produce a [CheckResponse](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto#service-auth-v3-checkresponse) in return.
+It uses the [CEL language](https://github.com/google/cel-spec) to analyze an incoming `CheckRequest` and is expected to produce a [CheckResponse](https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto#service-auth-v3-checkresponse) in return.
 
 The incoming request is available under the `object` field, and the policy can define `variables` that will be made available to all `authorizations`.
 
@@ -340,7 +340,7 @@ EOF
 In that policy, you can see:
 
 - If the request has the `x-force-unauthenticated: true`  header  (or `x-force-unauthenticated: enabled`), we will return `401` with the "Authentication Failed" body
-- Else, if the request has the `x-force-authorized: true`  header  (or `x-force-authorized: enabled`), we will return `200` and manipulate request headers, response headers and inject dynamic metadatas
+- Else, if the request has the `x-force-authorized: true`  header  (or `x-force-authorized: enabled`), we will return `200` and manipulate request headers, response headers and inject dynamic metadata
 - In all other cases, we will return `403` with the "Unauthorized Request" body
 
 The corresponding CheckResponse will be returned to the Envoy proxy from the Kyverno Authz Server. Envoy will use those values to modify the request and response accordingly.
