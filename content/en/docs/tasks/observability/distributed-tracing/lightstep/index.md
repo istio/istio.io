@@ -1,6 +1,6 @@
 ---
-title: Lightstep
-description: How to configure the proxies to send tracing requests to Lightstep.
+title: ServiceNow Cloud Observability
+description: Learn how to configure the proxies to send tracing requests to ServiceNow Cloud Observability.
 weight: 11
 keywords: [telemetry,tracing,lightstep]
 aliases:
@@ -11,8 +11,7 @@ test: no
 
 {{< boilerplate telemetry-tracing-tips >}}
 
-This task shows you how to configure Istio to collect trace spans and send them to [Lightstep](https://lightstep.com).
-Lightstep lets you analyze 100% of unsampled transaction data from large scale production software to produce meaningful
+This task shows you how to configure Istio to collect trace spans and send them to [ServiceNow Cloud Observability](https://lightstep.com) (formerly known as Lightstep). Lightstep lets you analyze 100% of unsampled transaction data from large scale production software to produce meaningful
 distributed traces and metrics that help explain performance behaviors and accelerate root cause analysis.
 At the end of this task, Istio sends trace spans from the proxies to a Lightstep Satellite pool making them
 available to the web UI. By default, all HTTP requests are captured (to see end-to-end traces, your code needs to forward OT headers even if it does not join the traces).
