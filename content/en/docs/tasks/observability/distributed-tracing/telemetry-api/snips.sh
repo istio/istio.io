@@ -20,7 +20,7 @@
 #          docs/tasks/observability/distributed-tracing/telemetry-api/index.md
 ####################################################################################################
 
-snip_installation_1() {
+snip_configure_an_extension_provider_1() {
 cat <<EOF > ./tracing.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -28,7 +28,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled MeshConfig tracing options
+      tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
     # add zipkin provider
     - name: zipkin
@@ -39,7 +39,7 @@ EOF
 istioctl install -f ./tracing.yaml --skip-confirmation
 }
 
-snip_enable_tracing_for_mesh_1() {
+snip_enable_tracing_1() {
 kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
@@ -63,7 +63,7 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: "zipkin"
+        - name: zipkin
       randomSamplingPercentage: 100.00
 EOF
 }
@@ -128,7 +128,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled tracing options via `MeshConfig`
+      tracing: {} # disable legacy tracing options via `MeshConfig`
     extensionProviders:
     # add zipkin provider
     - name: zipkin

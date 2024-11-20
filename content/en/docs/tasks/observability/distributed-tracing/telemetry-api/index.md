@@ -20,7 +20,11 @@ This task shows you how to customize the tracing options with Telemetry API.
 
 ## Installation
 
-In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/), so make sure it is installed:
+In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/), so make sure it is installed.
+
+### Configure an extension provider
+
+Install Istio with an [extension provider](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -28,7 +32,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
-    enableTracing: false
+    enableTracing: true
     defaultConfig:
       tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
@@ -41,7 +45,7 @@ EOF
 $ istioctl install -f ./tracing.yaml --skip-confirmation
 {{< /text >}}
 
-### Enable tracing for mesh
+### Enable tracing
 
 Enable tracing by applying the following configuration:
 
@@ -58,6 +62,10 @@ spec:
         - name: "zipkin"
 EOF
 {{< /text >}}
+
+### Verify the results
+
+You can verify the results by accessing the [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
 
 ## Customizing trace sampling
 
@@ -81,7 +89,9 @@ spec:
 EOF
 {{< /text >}}
 
-## Customizing tracing tags
+## Customization
+
+### Customizing tracing tags
 
 Custom tags can be added to spans based on literals, environmental variables and
 client request headers in order to provide additional information in spans
@@ -159,7 +169,7 @@ You can customize the tags using any of the three supported options below.
                 defaultValue: <VALUE>      # optional
     {{< /text >}}
 
-## Customizing tracing tag length
+### Customizing tracing tag length
 
 By default, the maximum length for the request path included as part of the `HttpUrl` span tag is 256.
 To modify this maximum length, add the following to your `tracing.yaml` file.
@@ -171,7 +181,7 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled tracing options via `MeshConfig`
+      tracing: {} # disable legacy tracing options via `MeshConfig`
     extensionProviders:
     # add zipkin provider
     - name: zipkin
@@ -180,7 +190,3 @@ spec:
         port: 9411
         maxTagLength: <VALUE>
 {{< /text >}}
-
-## Verify the results
-
-You can verify the results with [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).

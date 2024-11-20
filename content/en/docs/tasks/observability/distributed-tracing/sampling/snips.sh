@@ -22,6 +22,37 @@
 source "content/en/boilerplates/snips/start-otel-collector-service.sh"
 source "content/en/boilerplates/snips/trace-generation.sh"
 
+snip_install_without_sampling() {
+cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4317
+        service: opentelemetry-collector.observability.svc.cluster.local
+        resource_detectors:
+          environment: {}
+EOF
+}
+
+snip_enable_telemetry_with_sampling() {
+kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+   name: otel-demo
+spec:
+  tracing:
+  - providers:
+    - name: otel-tracing
+    randomSamplingPercentage: 10
+EOF
+}
+
 snip_install_default_sampling() {
 cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
@@ -53,37 +84,6 @@ spec:
   tracing:
   - providers:
     - name: otel-tracing
-EOF
-}
-
-snip_install_without_sampling() {
-cat <<EOF | istioctl install -y -f -
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    extensionProviders:
-    - name: otel-tracing
-      opentelemetry:
-        port: 4317
-        service: opentelemetry-collector.observability.svc.cluster.local
-        resource_detectors:
-          environment: {}
-EOF
-}
-
-snip_enable_telemetry_with_sampling() {
-kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1
-kind: Telemetry
-metadata:
-   name: otel-demo
-spec:
-  tracing:
-  - providers:
-    - name: otel-tracing
-    randomSamplingPercentage: 10
 EOF
 }
 

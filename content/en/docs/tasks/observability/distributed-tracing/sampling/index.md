@@ -1,5 +1,5 @@
 ---
-title: Trace Sampling
+title: Configure trace sampling
 description: Learn the different approaches on how to configure trace sampling on the proxies.
 weight: 4
 keywords: [sampling,telemetry,tracing,opentelemetry]
@@ -21,10 +21,6 @@ all the different ways sampling can be configured.
 
 1.  Custom OpenTelemetry Sampler: A custom sampler implementation, that must be paired with the `OpenTelemetryTracingProvider`.
 
-1.  Deploy the OpenTelemetry Collector
-
-    {{< boilerplate start-otel-collector-service >}}
-
 ### Percentage Sampler
 
 {{< boilerplate telemetry-tracing-tips >}}
@@ -35,6 +31,46 @@ The sampling rate should be in the range of 0.0 to 100.0 with a precision of 0.0
 For example, to trace 5 requests out of every 10000, use 0.05 as the value here.
 
 There are three ways you can configure the random sampling rate:
+
+#### Telemetry API
+
+Sampling can be configured on various scopes: mesh-wide, namespace or workload, offering great flexibility.
+To learn more, please see the [Telemetry API](/docs/tasks/observability/telemetry/) documentation.
+
+Install Istio without setting `sampling` inside `defaultConfig`:
+
+{{< text syntax=bash snip_id=install_without_sampling >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4317
+        service: opentelemetry-collector.observability.svc.cluster.local
+        resource_detectors:
+          environment: {}
+EOF
+{{< /text >}}
+
+Enable the tracing provider via the Telemetry API and set the `randomSamplingPercentage`:
+
+{{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+   name: otel-demo
+spec:
+  tracing:
+  - providers:
+    - name: otel-tracing
+    randomSamplingPercentage: 10
+EOF
+{{< /text >}}
 
 #### Globally via `MeshConfig`
 
@@ -102,46 +138,7 @@ spec:
       ...
 {{< /text >}}
 
-#### Telemetry API
 
-The random percentage sampler can also be configured via the Telemetry API.
-Via the Telemetry API, sampling can be configured on various scopes: mesh-wide, namespace or workload, offering great flexibility.
-To learn more, please see the [Telemetry API](/docs/tasks/observability/telemetry/) documentation.
-
-Install Istio without setting `sampling` inside `defaultConfig`:
-
-{{< text syntax=bash snip_id=install_without_sampling >}}
-$ cat <<EOF | istioctl install -y -f -
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    extensionProviders:
-    - name: otel-tracing
-      opentelemetry:
-        port: 4317
-        service: opentelemetry-collector.observability.svc.cluster.local
-        resource_detectors:
-          environment: {}
-EOF
-{{< /text >}}
-
-Then enable the tracing provider via Telemetry API and set the `randomSamplingPercentage`.
-
-{{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
-$ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1
-kind: Telemetry
-metadata:
-   name: otel-demo
-spec:
-  tracing:
-  - providers:
-    - name: otel-tracing
-    randomSamplingPercentage: 10
-EOF
-{{< /text >}}
 
 ### Custom OpenTelemetry Sampler
 
@@ -188,19 +185,23 @@ spec:
 With multiple ways of configuring sampling, it is important to understand
 the order of precedence of each method.
 
-When using the random percentage sampler the order of precedence is:
+When using the random percentage sampler, the order of precedence is:
 
-`Telemetry API` > `Pod Annotation` > `MeshConfig`.
+<table><tr><td>Telemetry API > Pod Annotation > <code>MeshConfig</code> </td></tr></table>
 
-That means, if a value is defined in all of the above, the value on the `Telemetry API` is the one selected.
+That means, if a value is defined in all of the above, the value on the Telemetry API is the one selected.
 
 When a custom OpenTelemetry sampler is configured, the order of precedence is:
 
-`Custom OTel Sampler` > (`Telemetry API` | `Pod Annotation` | `MeshConfig`)
+<table><tr><td>Custom OTel Sampler > (Telemetry API | Pod Annotation | <code>MeshConfig</code>)</td></tr></table>
 
-That means, if a custom OpenTelemetry sampler is configured, it overrides all the others methods.
-Additionally, the random percentage value is set to `100` and cannot be changed. This is important
+That means, if a custom OpenTelemetry sampler is configured, it overrides all the others' methods.
+Additionally, the random percentage value is set to `100` and cannot be changed. This is important,
 because the custom sampler needs to receive 100% of spans to be able to properly perform its decision.
+
+## Deploy the OpenTelemetry Collector
+
+{{< boilerplate start-otel-collector-service >}}
 
 ## Deploy the Bookinfo Application
 
