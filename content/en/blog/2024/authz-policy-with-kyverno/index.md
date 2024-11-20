@@ -1,7 +1,7 @@
 ---
-title: "Can Your Platform Do Policy? (A Kyverno revisit)"
-description: Is policy your core competency? Likely not, but you need to do right. Do it once with Istio and Kyverno and get back team focus on what matters most.
-publishdate: 2024-11-05
+title: Policy based authorization - Using Kyverno Authz Server
+description: Delegate authorization decisions logic to Kyverno Authz Server, leveraging Kyverno authorization policies based on CEL bringing safety, flexibility, and unprecedented performance.
+publishdate: 2024-11-20
 attribution: "Charles-Edouard Brétéché (Nirmata)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
