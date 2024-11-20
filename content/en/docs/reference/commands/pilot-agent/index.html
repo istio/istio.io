@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: pilot-agent
 description: Istio Pilot agent.
 generator: pkg-collateral-docs
-number_of_entries: 13
+number_of_entries: 12
 max_toc_level: 2
 remove_toc_prefix: 'pilot-agent '
 ---
@@ -273,86 +273,6 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="pilot-agent-istio-clean-iptables">pilot-agent istio-clean-iptables</h3>
-<p>Script responsible for cleaning up iptables rules</p>
-<pre class="language-bash"><code>pilot-agent istio-clean-iptables [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--capture-all-dns</code></td>
-<td></td>
-<td>Instead of only capturing DNS traffic to DNS server IP, capture all DNS traffic at port 53. This setting is only effective when redirect dns is enabled. </td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td><code>-n</code></td>
-<td>Do not call any external dependencies like iptables. </td>
-</tr>
-<tr>
-<td><code>--istio-inbound-interception-mode &lt;string&gt;</code></td>
-<td><code>-m</code></td>
-<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istio-inbound-tproxy-mark &lt;string&gt;</code></td>
-<td><code>-t</code></td>
-<td>  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_as_json</code></td>
-<td></td>
-<td>Whether to format output as JSON or in plain console-friendly format </td>
-</tr>
-<tr>
-<td><code>--log_caller &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_output_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
-</tr>
-<tr>
-<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
-</tr>
-<tr>
-<td><code>--log_target &lt;stringArray&gt;</code></td>
-<td></td>
-<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
-</tr>
-<tr>
-<td><code>--proxy-gid &lt;string&gt;</code></td>
-<td><code>-g</code></td>
-<td>Specify the GID of the user for which the redirection is not applied (same default value as -u param).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--proxy-uid &lt;string&gt;</code></td>
-<td><code>-u</code></td>
-<td>Specify the UID of the user for which the redirection is not applied. Typically, this is the UID of the proxy container.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--redirect-dns</code></td>
-<td></td>
-<td>Enable capture of dns traffic by istio-agent. </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 </tbody>
