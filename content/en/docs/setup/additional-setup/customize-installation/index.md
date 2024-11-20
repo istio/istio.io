@@ -158,16 +158,8 @@ consistent, is validated, and follows the [community graduation process](https:/
 
 Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
 [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
-The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can inspect the default values
-for this gateway:
-
-{{< text bash >}}
-$ istioctl profile dump --config-path components.ingressGateways
-$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
-{{< /text >}}
-
-These commands show both the `IstioOperator` and Helm settings for the gateway, which are used together to define the
-generated gateway resources. The built-in gateways can be customized just like any other component.
+The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can [inspect the default values
+for this gateway]({{< github_file >}}/manifests/charts/gateways/istio-ingress/values.yaml). The built-in gateways can be customized just like any other component.
 
 {{< warning >}}
 From 1.7 onward, the gateway name must always be specified when overlaying. Not specifying any name no longer
