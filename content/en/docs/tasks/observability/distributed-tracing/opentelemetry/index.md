@@ -1,7 +1,7 @@
 ---
 title: OpenTelemetry
-description: Learn how to configure the proxies to send OpenTelemetry traces to a Collector.
-weight: 10
+description: Learn how to configure the proxies to send traces in OpenTelemetry format.
+weight: 9
 keywords: [telemetry,tracing,opentelemetry,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/opentelemetry/

@@ -1,14 +1,13 @@
 ---
 title: Configure tracing with Telemetry API
 description: How to configure tracing options using Telemetry API.
-weight: 8
+weight: 2
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-Istio provides the ability to configure advanced tracing options,
-such as sampling rate and adding custom tags to reported spans.
+Istio provides the ability to configure tracing options, such as sampling rate and adding custom tags to reported spans.
 This task shows you how to customize the tracing options with Telemetry API.
 
 ## Before you begin
@@ -16,12 +15,12 @@ This task shows you how to customize the tracing options with Telemetry API.
 1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
-    based on your preferred tracing backend to install the appropriate addon and
-    configure your Istio proxies to send traces to the tracing deployment.
+    based on your preferred tracing backend to install the appropriate software and
+    configure an extension provider.
 
 ## Installation
 
-In this example, we will send tracing to [`zipkin`](/docs/ops/integrations/zipkin/) so make sure it is installed:
+In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/), so make sure it is installed:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -29,9 +28,9 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
-    enableTracing: true
+    enableTracing: false
     defaultConfig:
-      tracing: {} # disabled MeshConfig tracing options
+      tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
     # add zipkin provider
     - name: zipkin
@@ -60,7 +59,7 @@ spec:
 EOF
 {{< /text >}}
 
-## Customizing Trace sampling
+## Customizing trace sampling
 
 The sampling rate option can be used to control what percentage of requests get
 reported to your tracing system. This should be configured based upon your
@@ -77,7 +76,7 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: "zipkin"
+        - name: zipkin
       randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}

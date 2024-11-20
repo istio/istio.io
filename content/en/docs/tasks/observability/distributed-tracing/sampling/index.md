@@ -1,7 +1,7 @@
 ---
 title: Trace Sampling
 description: Learn the different approaches on how to configure trace sampling on the proxies.
-weight: 10
+weight: 4
 keywords: [sampling,telemetry,tracing,opentelemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
