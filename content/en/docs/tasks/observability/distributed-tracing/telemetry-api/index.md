@@ -86,7 +86,7 @@ spec:
   tracing:
   - providers:
     - name: "zipkin"
-  randomSamplingPercentage: 100.00
+    randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
 
@@ -114,11 +114,11 @@ You can customize the tags using any of the three supported options below.
       tracing:
       - providers:
         - name: "zipkin"
-      randomSamplingPercentage: 100.00
-      customTags:
-        "provider":
-          literal:
-            value: "zipkin"
+        randomSamplingPercentage: 100.00
+        customTags:
+          "provider":
+            literal:
+              value: "zipkin"
     {{< /text >}}
 
 1.  Environmental variables can be used where the value of the custom tag is
@@ -134,12 +134,12 @@ You can customize the tags using any of the three supported options below.
       tracing:
         - providers:
           - name: "zipkin"
-        randomSamplingPercentage: 100.00
-        customTags:
-          "cluster_id":
-            environment:
-              name: ISTIO_META_CLUSTER_ID
-              defaultValue: Kubernetes # optional
+          randomSamplingPercentage: 100.00
+          customTags:
+            "cluster_id":
+              environment:
+                name: ISTIO_META_CLUSTER_ID
+                defaultValue: Kubernetes # optional
     {{< /text >}}
 
     {{< warning >}}
@@ -160,12 +160,12 @@ You can customize the tags using any of the three supported options below.
       tracing:
         - providers:
           - name: "zipkin"
-        randomSamplingPercentage: 100.00
-        customTags:
-          my_tag_header:
-            header:
-              name: <CLIENT-HEADER>
-              defaultValue: <VALUE>      # optional
+          randomSamplingPercentage: 100.00
+          customTags:
+            my_tag_header:
+              header:
+                name: <CLIENT-HEADER>
+                defaultValue: <VALUE>      # optional
     {{< /text >}}
 
 ### Customizing tracing tag length
