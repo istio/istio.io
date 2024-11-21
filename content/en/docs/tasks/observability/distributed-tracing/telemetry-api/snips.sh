@@ -63,7 +63,7 @@ spec:
   tracing:
   - providers:
     - name: "zipkin"
-  randomSamplingPercentage: 100.00
+    randomSamplingPercentage: 100.00
 EOF
 }
 
@@ -77,11 +77,11 @@ spec:
   tracing:
   - providers:
     - name: "zipkin"
-  randomSamplingPercentage: 100.00
-  customTags:
-    "provider":
-      literal:
-        value: "zipkin"
+    randomSamplingPercentage: 100.00
+    customTags:
+      "provider":
+        literal:
+          value: "zipkin"
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_2 <<\ENDSNIP
@@ -94,12 +94,12 @@ spec:
   tracing:
     - providers:
       - name: "zipkin"
-    randomSamplingPercentage: 100.00
-    customTags:
-      "cluster_id":
-        environment:
-          name: ISTIO_META_CLUSTER_ID
-          defaultValue: Kubernetes # optional
+      randomSamplingPercentage: 100.00
+      customTags:
+        "cluster_id":
+          environment:
+            name: ISTIO_META_CLUSTER_ID
+            defaultValue: Kubernetes # optional
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_3 <<\ENDSNIP
@@ -112,12 +112,12 @@ spec:
   tracing:
     - providers:
       - name: "zipkin"
-    randomSamplingPercentage: 100.00
-    customTags:
-      my_tag_header:
-        header:
-          name: <CLIENT-HEADER>
-          defaultValue: <VALUE>      # optional
+      randomSamplingPercentage: 100.00
+      customTags:
+        my_tag_header:
+          header:
+            name: <CLIENT-HEADER>
+            defaultValue: <VALUE>      # optional
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tag_length_1 <<\ENDSNIP
