@@ -124,7 +124,7 @@ any other unintentional accesses.
 
 1.  Change the `meshConfig.outboundTrafficPolicy.mode` option to `REGISTRY_ONLY`.
 
-    If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
+    If you used an `IstioOperator` configuration to install Istio, add the following field to your configuration:
 
     {{< text yaml >}}
     spec:

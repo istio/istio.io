@@ -72,7 +72,7 @@ spec:
 EOF
 {{< /text >}}
 
-#### Globally via `MeshConfig`
+#### Using `MeshConfig`
 
 Random percentage sampling can be configured globally via `MeshConfig`.
 
@@ -96,7 +96,7 @@ spec:
 EOF
 {{< /text >}}
 
-Then enable the tracing provider via Telemetry API. Note we don't set `randomSamplingPercentage` here.
+Then, enable the tracing provider via Telemetry API. Note that we don't set `randomSamplingPercentage` here.
 
 {{< text syntax=bash snip_id=enable_telemetry_no_sampling >}}
 $ kubectl apply -f - <<EOF
@@ -112,7 +112,7 @@ spec:
 EOF
 {{< /text >}}
 
-#### Pod annotation `proxy.istio.io/config`
+#### Using the `proxy.istio.io/config` annotation
 
 You can add the `proxy.istio.io/config` annotation to your Pod metadata
 specification to override any mesh-wide sampling settings.
@@ -138,18 +138,16 @@ spec:
       ...
 {{< /text >}}
 
-
-
 ### Custom OpenTelemetry Sampler
 
-The OpenTelemetry specification defines the [Sampler API](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.31.0/specification/trace/sdk.md#sampler).
+The OpenTelemetry specification defines the [Sampler API](https://opentelemetry.io/docs/specs/otel/trace/sdk/#sampler).
 The Sampler API enables building a custom sampler that can perform more intelligent and efficient sampling decisions,
-such as [Probability Sampling](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.31.0/specification/trace/tracestate-probability-sampling.md).
+such as [probability sampling](https://opentelemetry.io/docs/specs/otel/trace/tracestate-probability-sampling-experimental/).
 
 Such samplers can then be paired with the [`OpenTelemetryTracingProvider`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider).
 
 {{< quote >}}
-The sampler implementation resides in the proxy and can be found in
+The sampler implementation resides in the proxy, and can be found in
 [Envoy OpenTelemetry Samplers](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/opentelemetry/samplers#opentelemetry-samplers).
 {{< /quote >}}
 
@@ -157,7 +155,7 @@ Current custom sampler configurations in Istio:
 
 - [Dynatrace Sampler](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler)
 
-Custom samplers are configured via `Meshconfig`. Here is an example of configuring the Dynatrace sampler:
+Custom samplers are configured via `MeshConfig`. Here is an example of configuring the Dynatrace sampler:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -180,7 +178,7 @@ spec:
           cluster_id: 123
 {{< /text >}}
 
-## Order of precedence
+### Order of precedence
 
 With multiple ways of configuring sampling, it is important to understand
 the order of precedence of each method.

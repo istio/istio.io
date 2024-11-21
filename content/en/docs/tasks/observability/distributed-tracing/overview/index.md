@@ -16,14 +16,13 @@ Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/env
 
 Most tracing backends now use the [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) protocol to receive traces, though Istio also supports legacy protocols for projects like [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
 
-
 ## Configuring tracing
 
 Istio provides a [Telemetry API](/docs/tasks/observability/distributed-tracing/telemetry-api/) which can be used to configure distributed tracing, including selecting a provider, setting [sampling rate](/docs/tasks/observability/distributed-tracing/sampling/) and header modification.
 
 ## Extension providers
 
-[Extension providers](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) are defined in `MeshConfig`, and allow defining the configuration for a trace backend. Supported providers are OpenTelemetry, Zipkin, SkyWalking, DataDog and Stackdriver.
+[Extension providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) are defined in `MeshConfig`, and allow defining the configuration for a trace backend. Supported providers are OpenTelemetry, Zipkin, SkyWalking, Datadog and Stackdriver.
 
 ## Building applications to support trace context propagation
 
@@ -34,7 +33,7 @@ To do this, each application must collect headers from each incoming request and
 All applications should forward the following headers:
 
 * `x-request-id`: an Envoy-specific header that is used to consistently sample logs and traces.
-* `traceparent` and `tracestate`: [W3C-standardized headers](https://www.w3.org/TR/trace-context/)
+* `traceparent` and `tracestate`: [W3C standard headers](https://www.w3.org/TR/trace-context/)
 
 For Zipkin, the [B3 multi-header format](https://github.com/openzipkin/b3-propagation) should be forwarded:
 
@@ -44,20 +43,7 @@ For Zipkin, the [B3 multi-header format](https://github.com/openzipkin/b3-propag
 * `x-b3-sampled`
 * `x-b3-flags`
 
-For Datadog, the following headers should be forwarded. Forwarding these is handled automatically by Datadog client libraries for many languages and frameworks.
-
-* `x-datadog-trace-id`.
-* `x-datadog-parent-id`.
-* `x-datadog-sampling-priority`.
-
-For ServiceNow Cloud Observability, the OpenTracing span context header should be forwarded:
-
-* `x-ot-span-context`
-
-For Stackdriver, you can choose to use any one of the following headers instead of the traceparent or B3 formats:
-
-* `grpc-trace-bin`: Standard gRPC trace header.
-* `x-cloud-trace-context`: used by Google Cloud product APIs.
+For commercial observability tools, refer to their documentation.
 
 If you look at the sample Python `productpage` service, for example, you see that the application extracts the required headers for all tracers from an HTTP request using OpenTelemetry libraries:
 

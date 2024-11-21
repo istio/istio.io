@@ -1,7 +1,7 @@
 ---
 title: Apache SkyWalking
 description: Learn how to configure the proxies to send tracing requests to Apache SkyWalking.
-weight: 10
+weight: 8
 keywords: [telemetry,tracing,skywalking,span,port-forwarding]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
@@ -16,7 +16,7 @@ To learn how Istio handles tracing, visit the [Distributed Tracing Overview](../
 
 ## Configure tracing
 
-If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
+If you used an `IstioOperator` configuration to install Istio, add the following field to your configuration:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -61,7 +61,7 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
 
 ## Accessing the dashboard
 
-[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
+The [Remotely Accessing Telemetry Addons task](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed SkyWalking to the `istio-system` namespace:
 
