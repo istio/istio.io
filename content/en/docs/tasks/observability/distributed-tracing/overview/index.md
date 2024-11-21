@@ -14,7 +14,7 @@ This allows a deeper understanding about request latency, serialization and para
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
 
-Most tracing backends now use the [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) protocol to receive traces, though Istio also supports legacy protocols for projects like [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
+Most tracing backends now accept [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) protocol to receive traces, though Istio also supports legacy protocols for projects like [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
 
 ## Configuring tracing
 
