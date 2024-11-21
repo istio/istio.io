@@ -29,7 +29,7 @@ snip_configure_an_extension_provider_1
 _deploy_and_wait_for_addons prometheus zipkin
 
 # Configure Zipkin tracing for the mesh
-snip_enable_tracing_for_mesh_1
+snip_enable_tracing_1
 snip_customizing_trace_sampling_1
 
 # Install curl and httpbin
