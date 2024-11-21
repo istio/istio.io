@@ -68,8 +68,8 @@ IP 列表或通过代理的 DNS 解析（可能是同一主机名或不同的主
 与大多数客户端在请求时按需执行 DNS 请求（然后通常缓存结果）不同，
 Istio 代理从不执行同步 DNS 请求。配置 `resolution: DNS`
 类型的 `ServiceEntry` 后，代理将定期解析配置的主机名并将其用于所有请求。
-此时间间隔由 DNS 响应的 [TTL](https://en.wikipedia.org/wiki/Time_to_live#DNS_records)
-确定。即使代理从未向这些应用程序发送任何请求，该情况也会发生。
+此间隔固定为 30 秒，目前无法更改。
+即使代理从未向这些应用程序发送任何请求，该情况也会发生。
 
 对于具有许多代理或许多 `resolution: DNS` 类型 `ServiceEntry`
 的网格而言，尤其是在使用较低 `TTL` 时，可能会导致 DNS 服务器的负载很高。
