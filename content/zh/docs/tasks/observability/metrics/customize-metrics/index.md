@@ -99,10 +99,10 @@ Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/
 
 | 字段       | 类型     | 值                                                      |
 |-------------|----------|------------------------------------------------------------|
-| `app`       | `string` | Application name.                                          |
-| `version`   | `string` | Application version.                                       |
-| `service`   | `string` | Service instance.                                          |
-| `revision`  | `string` | Service version.                                           |
+| `app`       | `string` | Application 名称。                                          |
+| `version`   | `string` | Application 版本。                                       |
+| `service`   | `string` | 服务实例。                                          |
+| `revision`  | `string` | 服务版本。                                           |
 | `name`      | `string` | Pod 名称。                                           |
 | `namespace` | `string` | Pod 所处命名空间。                            |
 | `type`      | `string` | 工作负载 type.                                             |
