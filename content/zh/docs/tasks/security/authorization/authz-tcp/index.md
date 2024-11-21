@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,tcp,authorization]
 aliases:
     - /zh/docs/tasks/security/authz-tcp/
 owner: istio/wg-security-maintainers
-test: yes
+test: no
 ---
 
 该任务向您展示了在 Istio 网格中如何为 TCP 流量设置 Istio 授权策略。
