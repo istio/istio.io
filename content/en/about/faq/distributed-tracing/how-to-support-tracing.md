@@ -5,7 +5,7 @@ weight: 10
 
 Istio enables reporting of trace spans for workload-to-workload communications within a mesh. However, in order for various trace spans to be stitched together for a complete view of the traffic flow, applications must propagate the trace context between incoming and outgoing requests.
 
-In particular, Istio relies on applications to forward he Envoy-generated request ID, and standard headers. These headers include:
+In particular, Istio relies on applications to forward the Envoy-generated request ID, and standard headers. These headers include:
 
 - `x-request-id`
 - `traceparent`
