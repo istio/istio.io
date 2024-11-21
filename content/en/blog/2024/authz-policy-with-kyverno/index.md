@@ -218,7 +218,7 @@ Let's test the simple usage (authorization) and then let's create a more advance
 Deploy an app to run curl commands to the httpbin sample application:
 
 {{< text bash >}}
-$ kubectl -n my-app run --image=curlimages/curl curl -- /bin/sleep 100d
+$ kubectl apply -n my-app -f {{< github_file >}}/samples/curl/curl.yaml
 {{< /text >}}
 
 Apply the policy:
