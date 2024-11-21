@@ -21,6 +21,38 @@
 ####################################################################################################
 source "content/en/boilerplates/snips/trace-generation.sh"
 
+snip_configure_an_extension_provider_1() {
+cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+      tracing: {} # disable legacy MeshConfig tracing options
+    extensionProviders:
+    - name: jaeger
+      opentelemetry:
+        port: 4317
+        service: jaeger-collector.istio-system.svc.cluster.local
+EOF
+istioctl install -f ./tracing.yaml --skip-confirmation
+}
+
+snip_enable_tracing_1() {
+kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: jaeger
+EOF
+}
+
 snip_accessing_the_dashboard_1() {
 istioctl dashboard jaeger
 }

@@ -30,8 +30,7 @@ spec:
     defaultConfig:
       tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
@@ -48,8 +47,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
+  - providers:
+    - name: "zipkin"
 EOF
 }
 
@@ -62,9 +61,9 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: zipkin
-      randomSamplingPercentage: 100.00
+  - providers:
+    - name: "zipkin"
+  randomSamplingPercentage: 100.00
 EOF
 }
 
@@ -75,14 +74,14 @@ metadata:
 name: mesh-default
 namespace: istio-system
 spec:
-tracing:
-    - providers:
-        - name: "zipkin"
-    randomSamplingPercentage: 100.00
-    customTags:
-      "provider":
-        literal:
-          value: "zipkin"
+  tracing:
+  - providers:
+    - name: "zipkin"
+  randomSamplingPercentage: 100.00
+  customTags:
+    "provider":
+      literal:
+        value: "zipkin"
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_2 <<\ENDSNIP
@@ -94,13 +93,13 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
-      customTags:
-        "cluster_id":
-          environment:
-            name: ISTIO_META_CLUSTER_ID
-            defaultValue: Kubernetes # optional
+      - name: "zipkin"
+    randomSamplingPercentage: 100.00
+    customTags:
+      "cluster_id":
+        environment:
+          name: ISTIO_META_CLUSTER_ID
+          defaultValue: Kubernetes # optional
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tags_3 <<\ENDSNIP
@@ -112,13 +111,13 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
-      customTags:
-        my_tag_header:
-          header:
-            name: <CLIENT-HEADER>
-            defaultValue: <VALUE>      # optional
+      - name: "zipkin"
+    randomSamplingPercentage: 100.00
+    customTags:
+      my_tag_header:
+        header:
+          name: <CLIENT-HEADER>
+          defaultValue: <VALUE>      # optional
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_customizing_tracing_tag_length_1 <<\ENDSNIP
@@ -130,8 +129,7 @@ spec:
     defaultConfig:
       tracing: {} # disable legacy tracing options via `MeshConfig`
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411

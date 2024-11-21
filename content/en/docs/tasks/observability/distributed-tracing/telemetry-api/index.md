@@ -57,8 +57,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
+  - providers:
+    - name: "zipkin"
 EOF
 {{< /text >}}
 
@@ -84,9 +84,9 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
+  - providers:
+    - name: "zipkin"
+  randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
 
@@ -111,14 +111,14 @@ You can customize the tags using any of the three supported options below.
     name: mesh-default
     namespace: istio-system
     spec:
-    tracing:
-        - providers:
-            - name: "zipkin"
-        randomSamplingPercentage: 100.00
-        customTags:
-          "provider":
-            literal:
-              value: "zipkin"
+      tracing:
+      - providers:
+        - name: "zipkin"
+      randomSamplingPercentage: 100.00
+      customTags:
+        "provider":
+          literal:
+            value: "zipkin"
     {{< /text >}}
 
 1.  Environmental variables can be used where the value of the custom tag is
@@ -133,13 +133,13 @@ You can customize the tags using any of the three supported options below.
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
-          randomSamplingPercentage: 100.00
-          customTags:
-            "cluster_id":
-              environment:
-                name: ISTIO_META_CLUSTER_ID
-                defaultValue: Kubernetes # optional
+          - name: "zipkin"
+        randomSamplingPercentage: 100.00
+        customTags:
+          "cluster_id":
+            environment:
+              name: ISTIO_META_CLUSTER_ID
+              defaultValue: Kubernetes # optional
     {{< /text >}}
 
     {{< warning >}}
@@ -159,13 +159,13 @@ You can customize the tags using any of the three supported options below.
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
-          randomSamplingPercentage: 100.00
-          customTags:
-            my_tag_header:
-              header:
-                name: <CLIENT-HEADER>
-                defaultValue: <VALUE>      # optional
+          - name: "zipkin"
+        randomSamplingPercentage: 100.00
+        customTags:
+          my_tag_header:
+            header:
+              name: <CLIENT-HEADER>
+              defaultValue: <VALUE>      # optional
     {{< /text >}}
 
 ### Customizing tracing tag length
