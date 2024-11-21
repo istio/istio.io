@@ -1,17 +1,14 @@
 ---
-title: Policy based authorization - Using Kyverno Authz Server
-description: Delegate authorization decisions logic to Kyverno Authz Server, leveraging Kyverno authorization policies based on CEL bringing safety, flexibility, and unprecedented performance.
+title: Policy based authorization using Kyverno
+description: Delegate Layer 7 authorization decision logic using Kyverno's Authz Server, leveraging policies based on CEL.
 publishdate: 2024-11-20
 attribution: "Charles-Edouard Brétéché (Nirmata)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
 
-A couple of weeks ago, the [Can Your Platform Do Policy? Accelerate Teams With Platform L7 Policy Functionality](../l7-policy-with-opa) blog post was published.
+Istio supports integration with many different projects.  The Istio blog recently featured a post on [L7 policy functionality with OpenPolicyAgent](../l7-policy-with-opa). Kyverno is a similar project, and today we will dive how Istio and the Kyverno Authz Server can be used together to enforce Layer 7 policies in your platform.
 
-This blog post is a follow-up article, demonstrating the same capacity with the Kyverno Authz Server instead of OPA.
-
-Today, we're going to dive into how Istio and the Kyverno Authz Server can be used together to enforce Layer 7 policies in your platform.
-We'll show you how to get started with a simple example.
+We will show you how to get started with a simple example.
 You will come to see how this combination is a solid option to deliver policy quickly and transparently to application team everywhere in the business, while also providing the data the security teams need for audit and compliance.
 
 ## Try it out
@@ -37,7 +34,7 @@ spec:
     accessLogFormat: |
       [KYVERNO DEMO] my-new-dynamic-metadata: '%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%'
     extensionProviders:
-    - name: kyverno-authz-server.local
+    - name: kyverno-authz-server
       envoyExtAuthzGrpc:
         service: kyverno-authz-server.kyverno.svc.cluster.local
         port: '9081'
@@ -49,7 +46,7 @@ Notice that in the configuration, we define an `extensionProviders` section that
 {{< text yaml >}}
 [...]
     extensionProviders:
-    - name: kyverno-authz-server.local
+    - name: kyverno-authz-server
       envoyExtAuthzGrpc:
         service: kyverno-authz-server.kyverno.svc.cluster.local
         port: '9081'
@@ -64,29 +61,17 @@ It is configurable using Kyverno `AuthorizationPolicy` resources, either stored 
 
 {{< text bash >}}
 $ kubectl create ns kyverno
-{{< /text >}}
-
-{{< text bash >}}
 $ kubectl label namespace kyverno istio-injection=enabled
-{{< /text >}}
-
-{{< text bash >}}
 $ helm install kyverno-authz-server --namespace kyverno --wait --repo https://kyverno.github.io/kyverno-envoy-plugin kyverno-authz-server
 {{< /text >}}
 
 #### Deploy the sample application
 
-Httpbin is a well-known application that can be used to test HTTP requests and helps to show quickly how we can play with the request and response attributes.
+httpbin is a well-known application that can be used to test HTTP requests and helps to show quickly how we can play with the request and response attributes.
 
 {{< text bash >}}
 $ kubectl create ns my-app
-{{< /text >}}
-
-{{< text bash >}}
 $ kubectl label namespace my-app istio-injection=enabled
-{{< /text >}}
-
-{{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/httpbin/httpbin.yaml -n my-app
 {{< /text >}}
 
@@ -100,14 +85,14 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: my-kyverno-authz
-  namespace: istio-system # This enforce the policy on all the mesh being istio-system the mesh config namespace
+  namespace: istio-system # This enforce the policy on all the mesh, istio-system being the mesh root namespace
 spec:
   selector:
     matchLabels:
       ext-authz: enabled
   action: CUSTOM
   provider:
-    name: kyverno-authz-server.local
+    name: kyverno-authz-server
   rules: [{}] # Empty rules, it will apply to selectors with ext-authz: enabled label
 EOF
 {{< /text >}}
@@ -117,11 +102,13 @@ Notice that in this resource, we define the Kyverno Authz Server `extensionProvi
 {{< text yaml >}}
 [...]
   provider:
-    name: kyverno-authz-server.local
+    name: kyverno-authz-server
 [...]
 {{< /text >}}
 
 #### Label the app to enforce the policy
+
+Let’s label the app to enforce the policy. The label is needed for the Istio `AuthorizationPolicy` to apply to the sample application pods.
 
 {{< text bash >}}
 $ kubectl patch deploy httpbin -n my-app --type=merge -p='{
@@ -222,7 +209,7 @@ Reviewing [Envoy's Authorization service documentation](https://www.envoyproxy.i
 
 This means that based on the response from the authz server, Envoy can add or remove headers, query parameters, and even change the response body.
 
-The Kyverno Authz Server can do this as well, as documented in the [Kyverno Authz Server documentation](https://kyverno.github.io/kyverno-envoy-plugin).
+We can do this as well, as documented in the [Kyverno Authz Server documentation](https://kyverno.github.io/kyverno-envoy-plugin).
 
 ## Testing
 
