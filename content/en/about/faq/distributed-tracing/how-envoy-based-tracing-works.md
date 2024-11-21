@@ -12,4 +12,4 @@ Envoy:
 - sends the generated trace spans to the tracing backends
 - forwards the trace headers to the proxied application
 
-Istio supports the Envoy-based integrations of [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) and [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), as well as all Zipkin API-compatible backends, including [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).
+Istio supports [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) and compatible backends including [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/). Other supported platforms include [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).

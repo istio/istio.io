@@ -921,6 +921,7 @@ optname
 OS-level
 OSS-Fuzz
 Ostrowski
+OTel
 otel-collector
 outsized
 overridden
@@ -1094,7 +1095,6 @@ servicegraph-example
 ServiceMesh
 ServiceMeshCon
 ServiceMesher
-sha256
 Shamsher
 Shaojun
 sharded
@@ -1316,6 +1316,7 @@ VPC
 VPCs
 VPN
 VPNs
+W3C
 Walle
 Warman
 Wasm

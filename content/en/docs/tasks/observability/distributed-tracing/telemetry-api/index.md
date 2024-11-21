@@ -20,11 +20,11 @@ This task shows you how to customize the tracing options with Telemetry API.
 
 ## Installation
 
-In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/), so make sure it is installed.
+In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/). Install Zipkin before you continue.
 
 ### Configure an extension provider
 
-Install Istio with an [extension provider](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
+Install Istio with an [extension provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -36,8 +36,7 @@ spec:
     defaultConfig:
       tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
@@ -65,9 +64,11 @@ EOF
 
 ### Verify the results
 
-You can verify the results by accessing the [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
+You can verify the results by [accessing the Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
 
-## Customizing trace sampling
+## Customization
+
+### Customizing trace sampling
 
 The sampling rate option can be used to control what percentage of requests get
 reported to your tracing system. This should be configured based upon your
@@ -84,12 +85,10 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: zipkin
+        - name: "zipkin"
       randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
-
-## Customization
 
 ### Customizing tracing tags
 
@@ -183,8 +182,7 @@ spec:
     defaultConfig:
       tracing: {} # disable legacy tracing options via `MeshConfig`
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411

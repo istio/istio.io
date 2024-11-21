@@ -23,7 +23,7 @@ source "tests/util/addons.sh"
 source "content/en/docs/tasks/observability/distributed-tracing/telemetry-api/snips.sh"
 
 # @setup profile=none
-snip_installation_1
+snip_configure_an_extension_provider_1()
 
 # Install Prometheus and Zipkin
 _deploy_and_wait_for_addons prometheus zipkin

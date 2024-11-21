@@ -95,7 +95,7 @@ in the following sections.
 
     If no pods are returned, deploy the Istio egress gateway by performing the following step.
 
-1.  If you used an `IstioOperator` CR to install Istio, add the following fields to your configuration:
+1.  If you used an `IstioOperator` configuration to install Istio, add the following fields to your configuration:
 
     {{< text yaml >}}
     spec:
