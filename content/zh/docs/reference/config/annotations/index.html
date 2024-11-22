@@ -101,6 +101,28 @@ User should not manually modify this annotation.</p>
     </tr>
   </tbody>
 </table>
+<h2 id="IoIstioRerouteVirtualInterfaces">istio.io/reroute-virtual-interfaces</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/reroute-virtual-interfaces</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="IoIstioRev">istio.io/rev</h2>
 <table class="annotations">
   <tbody>
@@ -1063,13 +1085,13 @@ If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</l
 <h2 id="SidecarTrafficKubevirtInterfaces">traffic.sidecar.istio.io/kubevirtInterfaces</h2>
 <table class="annotations">
   <tbody>
-    <tr>
+    <tr class="deprecated">
       <th>Name</th>
       <td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
     </tr>
     <tr>
       <th>Feature Status</th>
-      <td>Alpha</td>
+      <td>Deprecated</td>
     </tr>
     <tr>
       <th>Resource Types</th>
@@ -1077,7 +1099,7 @@ If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</l
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound.</p>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. Deprecated in favor of <code>istio.io/redirect-virtual-interfaces</code></p>
 </td>
     </tr>
   </tbody>
