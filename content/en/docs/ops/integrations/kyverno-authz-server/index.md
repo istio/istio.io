@@ -32,7 +32,7 @@ spec:
     accessLogFormat: |
       [KYVERNO DEMO] my-new-dynamic-metadata: '%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%'
     extensionProviders:
-    - name: kyverno-authz-server.local
+    - name: kyverno-authz-server
       envoyExtAuthzGrpc:
         service: kyverno-authz-server.kyverno.svc.cluster.local
         port: '9081'
@@ -44,7 +44,7 @@ Notice that in the configuration, we define an `extensionProviders` section that
 {{< text yaml >}}
 [...]
     extensionProviders:
-    - name: kyverno-authz-server.local
+    - name: kyverno-authz-server
       envoyExtAuthzGrpc:
         service: kyverno-authz-server.kyverno.svc.cluster.local
         port: '9081'
@@ -71,7 +71,7 @@ $ helm install kyverno-authz-server --namespace kyverno --wait --repo https://ky
 
 #### Deploy the sample application
 
-Httpbin is a well-known application that can be used to test HTTP requests and helps to show quickly how we can play with the request and response attributes.
+httpbin is a well-known application that can be used to test HTTP requests and helps to show quickly how we can play with the request and response attributes.
 
 {{< text bash >}}
 $ kubectl create ns my-app
@@ -95,14 +95,14 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: my-kyverno-authz
-  namespace: istio-system # This enforce the policy on all the mesh being istio-system the mesh config namespace
+  namespace: istio-system # This enforce the policy on all the mesh, istio-system being the mesh root namespace
 spec:
   selector:
     matchLabels:
       ext-authz: enabled
   action: CUSTOM
   provider:
-    name: kyverno-authz-server.local
+    name: kyverno-authz-server
   rules: [{}] # Empty rules, it will apply to selectors with ext-authz: enabled label
 EOF
 {{< /text >}}
@@ -112,11 +112,13 @@ Notice that in this resource, we define the Kyverno Authz Server `extensionProvi
 {{< text yaml >}}
 [...]
   provider:
-    name: kyverno-authz-server.local
+    name: kyverno-authz-server
 [...]
 {{< /text >}}
 
 #### Label the app to enforce the policy
+
+Let’s label the app to enforce the policy. The label is needed for the Istio `AuthorizationPolicy` to apply to the sample application pods.
 
 {{< text bash >}}
 $ kubectl patch deploy httpbin -n my-app --type=merge -p='{
@@ -217,7 +219,7 @@ Reviewing [Envoy's Authorization service documentation](https://www.envoyproxy.i
 
 This means that based on the response from the authz server, Envoy can add or remove headers, query parameters, and even change the response body.
 
-The Kyverno Authz Server can do this as well, as documented in the [Kyverno Authz Server documentation](https://kyverno.github.io/kyverno-envoy-plugin).
+We can do this as well, as documented in the [Kyverno Authz Server documentation](https://kyverno.github.io/kyverno-envoy-plugin).
 
 ## Testing
 
@@ -226,7 +228,7 @@ Let's test the simple usage (authorization) and then let's create a more advance
 Deploy an app to run curl commands to the httpbin sample application:
 
 {{< text bash >}}
-$ kubectl -n my-app run --image=curlimages/curl curl -- /bin/sleep 100d
+$ kubectl apply -n my-app run -f {{< github_file >}}/samples/curl/curl.yaml
 {{< /text >}}
 
 Apply the policy:
@@ -276,13 +278,13 @@ In this case, we combined allow and denied response handling in a single express
 The following request will return `403`:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get
+$ kubectl exec -n my-app deploy/curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get
 {{< /text >}}
 
 The following request will return `200`:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app deploy/curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
 
 ### Advanced manipulations
@@ -345,7 +347,7 @@ The corresponding CheckResponse will be returned to the Envoy proxy from the Kyv
 Let's test the new capabilities:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get
+$ kubectl exec -n my-app deploy/curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get
 {{< /text >}}
 
 Now we can change the response body.
@@ -362,7 +364,7 @@ http_code=403
 Running the request with the header `x-force-unauthenticated: true`:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-unauthenticated: true"
+$ kubectl exec -n my-app deploy/curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-unauthenticated: true"
 {{< /text >}}
 
 This time you should receive the body "Authentication Failed" and error `401`:
@@ -377,7 +379,7 @@ http_code=401
 Running a valid request:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app deploy/curl -- curl -s -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
 
 You should receive the echo body with the new header `x-validated-by: my-security-checkpoint` and the header `x-force-authorized` removed:
@@ -396,7 +398,7 @@ http_code=200
 Running the same request but showing only the header:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -I -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app deploy/curl -- curl -s -I -w "\nhttp_code=%{http_code}" httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
 
 You will find the response header added during the Authz check `x-add-custom-response-header: added`:
@@ -441,7 +443,7 @@ Let's test the dynamic metadata. In the advance rule, we are creating a new meta
 Run the request and check the logs of the application:
 
 {{< text bash >}}
-$ kubectl exec -n my-app curl -c curl -- curl -s -I httpbin:8000/get -H "x-force-authorized: true"
+$ kubectl exec -n my-app deploy/curl -- curl -s -I httpbin:8000/get -H "x-force-authorized: true"
 {{< /text >}}
 
 {{< text bash >}}
