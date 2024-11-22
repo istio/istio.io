@@ -159,7 +159,7 @@ Istio 社区推荐使用 `IstioOperator` API，因为它更一致、更有效、
 网关因为支持定义多个入站、出站网关，所以它是一种特殊类型的组件。
 在 [`IstioOperator` API](/zh/docs/reference/config/istio.operator.v1alpha1/) 中，
 `default` 配置文件会安装一个名为 `istio-ingressgateway`
-的入口网关。您可以[检查此网关的默认值]({{< github_file >}}/manifests/charts/gateways/istio-ingress/values.yaml)。
+的入口网关。您可以[检查此网关的默认值]({{< github_tree >}}/manifests/charts/gateways/istio-ingress/values.yaml)。
 内置网关可以像任何其他组件一样进行自定义。
 
 {{< warning >}}
