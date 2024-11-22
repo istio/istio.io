@@ -45,7 +45,7 @@ For Zipkin, the [B3 multi-header format](https://github.com/openzipkin/b3-propag
 
 For commercial observability tools, refer to their documentation.
 
-If you look at the sample Python `productpage` service, for example, you see that the application extracts the required headers for all tracers from an HTTP request using OpenTelemetry libraries:
+If you look at the [sample Python `productpage` service]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L125), for example, you see that the application extracts the required headers for all tracers from an HTTP request using OpenTelemetry libraries:
 
 {{< text python >}}
 def getForwardHeaders(request):
@@ -82,7 +82,7 @@ def getForwardHeaders(request):
     return headers
 {{< /text >}}
 
-The reviews application (Java) does something similar using `requestHeaders`:
+The [reviews application](https://github.com/istio/istio/blob/6ace6654bec1ec19b739e1d4a3df421b9c5ccf5c/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L186) (Java) does something similar using `requestHeaders`:
 
 {{< text java >}}
 @GET
