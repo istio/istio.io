@@ -82,7 +82,7 @@ def getForwardHeaders(request):
     return headers
 {{< /text >}}
 
-The [reviews application](https://github.com/istio/istio/blob/6ace6654bec1ec19b739e1d4a3df421b9c5ccf5c/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L186) (Java) does something similar using `requestHeaders`:
+The [reviews application]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L186) (Java) does something similar using `requestHeaders`:
 
 {{< text java >}}
 @GET
