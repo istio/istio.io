@@ -52,7 +52,7 @@ It might take a minute for the Istio components to be installed. Once the instal
 {{< /text >}}
 
 {{< tip >}}
-You can verify the installed components using the command `istioctl verify-install`.
+You can verify the installed components using the command `kubectl get all -n istio-system`.
 {{< /tip >}}
 
 ## Install the Kubernetes Gateway API CRDs
