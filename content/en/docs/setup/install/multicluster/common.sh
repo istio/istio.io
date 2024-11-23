@@ -71,27 +71,27 @@ function configure_trust
   popd || exit # Return to the previous directory.
 }
 
-# cleanup removes all resources created by the tests.
-function cleanup
+# cleanup_istioctl removes all resources created by the tests with istioctl.
+function cleanup_istioctl
 {
   # Remove temp files.
   rm -f cluster1.yaml cluster2.yaml certs
 
   # Cleanup both clusters concurrently
-  cleanup_cluster1 &
-  cleanup_cluster2 &
+  cleanup_cluster1_istioctl &
+  cleanup_cluster2_istioctl &
   wait
 }
 
-# cleanup_cluster1 removes the istio-system and sample namespaces on CLUSTER1.
-function cleanup_cluster1
+# cleanup_cluster1_istioctl removes the istio-system and sample namespaces on CLUSTER1 with istioctl.
+function cleanup_cluster1_istioctl
 {
   echo y | istioctl uninstall --revision=default --context="${CTX_CLUSTER1}"
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER1}" --ignore-not-found
 }
 
-# cleanup_cluster2 removes the istio-system and sample namespaces on CLUSTER2.
-function cleanup_cluster2
+# cleanup_cluster2_istioctl removes the istio-system and sample namespaces on CLUSTER2 with istioctl.
+function cleanup_cluster2_istioctl
 {
   echo y | istioctl uninstall --revision=default --context="${CTX_CLUSTER2}"
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER2}" --ignore-not-found
@@ -147,4 +147,44 @@ function verify_load_balancing
   echo "Verifying load balancing from ${CTX_CLUSTER2}"
   _verify_contains snip_verifying_crosscluster_traffic_3 "$EXPECTED_RESPONSE_FROM_CLUSTER1"
   _verify_contains snip_verifying_crosscluster_traffic_3 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
+}
+
+# For Helm multi-cluster installation steps
+
+function create_istio_system_ns
+{
+  snip_create_istio_system_namespace_cluster_1
+  snip_create_istio_system_namespace_cluster_2
+}
+
+function setup_helm_repo
+{
+  snip_setup_helm_repo_cluster_1
+  snip_setup_helm_repo_cluster_2
+}
+
+snip_create_istio_system_namespace_cluster_1() {
+kubectl create namespace istio-system --context "${CTX_CLUSTER1}"
+}
+
+snip_create_istio_system_namespace_cluster_2() {
+kubectl create namespace istio-system --context "${CTX_CLUSTER2}"
+}
+
+snip_setup_helm_repo_cluster_1() {
+helm repo add istio https://istio-release.storage.googleapis.com/charts --kube-context "${CTX_CLUSTER1}"
+helm repo update --kube-context "${CTX_CLUSTER1}"
+}
+
+snip_setup_helm_repo_cluster_2() {
+helm repo add istio https://istio-release.storage.googleapis.com/charts --kube-context "${CTX_CLUSTER2}"
+helm repo update --kube-context "${CTX_CLUSTER2}"
+}
+
+snip_delete_sample_ns_cluster_1() {
+kubectl delete namespace sample --context "${CTX_CLUSTER1}"
+}
+
+snip_delete_sample_ns_cluster_2() {
+kubectl delete namespace sample --context "${CTX_CLUSTER2}"
 }
