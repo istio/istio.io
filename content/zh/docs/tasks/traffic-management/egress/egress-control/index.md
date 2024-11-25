@@ -116,7 +116,7 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
 
 1. 执行以下命令来将 `global.outboundTrafficPolicy.mode` 选项改为 `REGISTRY_ONLY`：
 
-    如果您使用 `IstioOperator` CR 安装 Istio，请在配置中添加以下字段：
+    如果您使用 `IstioOperator` 配置安装 Istio，请在配置中添加以下字段：
 
     {{< text yaml >}}
     spec:

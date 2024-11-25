@@ -1,7 +1,7 @@
 ---
 title: 使用 MeshConfig 和 Pod 注解配置链路追踪
 description: 如何使用 MeshConfig 和 Pod 注解配置链路追踪。
-weight: 11
+weight: 3
 keywords: [telemetry,tracing]
 aliases:
  - /zh/docs/tasks/observability/distributed-tracing/configurability/
@@ -11,19 +11,16 @@ test: no
 status: Beta
 ---
 
-{{< tip >}}
-鼓励用户使用 [Telemetry API](/zh/docs/tasks/observability/telemetry/) 配置链路追踪。
-{{</ tip >}}
+{{< boilerplate telemetry-tracing-tips >}}
 
 Istio 提供了配置高级链路追踪选项的能力，例如采样率和向报告的 span 中添加自定义标签。
-采样是一个 Beta 级别特性，但是添加自定义标签和追踪的标签长度会考虑在本版本中开发。
 
 ## 开始之前  {#before-you-begin}
 
 1. 确保您的应用程序按照[此处](/zh/docs/tasks/observability/distributed-tracing/overview/)所述传输链路追踪的标头。
 
-1. 遵循位于[集成](/zh/docs/ops/integrations/)章节下关于链路追踪的安装指南，
-   根据您喜欢的追踪后端安装适当的插件并且配置您的 Istio 代理以将追踪信息发送到部署的追踪后端中。
+1. 按照位于[集成](/zh/docs/ops/integrations/)下的链路追踪安装指南，
+   根据您首选的链路追踪后端安装适当的软件并配置您的 Istio 代理以将链路发送到链路追踪部署。
 
 ## 可用的链路追踪配置  {#available-tracing-configurations}
 
@@ -39,15 +36,13 @@ Istio 提供了配置高级链路追踪选项的能力，例如采样率和向�
 
 有两种方法可以配置链路追踪选项：
 
-1. 全局通过 `MeshConfig` 选项。
+1. 全局地，通过 `MeshConfig` 选项。
 
-1. 用于工作负载特定定制的每个 Pod 注解。
+1. 基于每个 Pod 的注释，用于特定工作负载的定制。
 
 {{< warning >}}
 为了使新的链路追踪配置对其中任何一个 Pod 生效，您需要重新启动注入 Istio 代理的 Pod。
-{{< /warning >}}
 
-{{< warning >}}
 为链路追踪配置而添加的任何 Pod 注解都会覆盖全局设置。为了保留全局设置，
 您应该将它们从全局网格配置复制到 Pod 注解中，并进行特定于工作负载的定制。
 特别是要确保注解中始终提供链路追踪后端的地址，以确保正确地报告工作负载的追踪信息。
@@ -130,7 +125,9 @@ spec:
       ...
 {{< /text >}}
 
-## 自定义链路追踪采样 {#customizing-trace-sampling}
+## 自定义 {#customization}
+
+### 自定义链路追踪采样 {#customizing-trace-sampling}
 
 采样率选项可用于控制向链路追踪系统报告的请求的百分比，
 这应该根据网格中的通信量和想要收集的追踪数据量进行配置，
@@ -159,7 +156,7 @@ spec:
 采样率应在 0.0 到 100.0 的范围内，精度为 0.01。
 例如，要最终每 10000 个请求中的 5 个，使用 0.05 作为这里的值。
 
-## 定制追踪标签  {#customizing-tracing-tags}
+### 定制追踪标签 {#customizing-tracing-tags}
 
 可以根据文字、环境变量和客户端请求标头向 span 中添加自定义标签，
 以便在 span 中提供特定于您的环境的额外信息。
@@ -225,7 +222,7 @@ spec:
                   defaultValue: <VALUE>      # 可选
     {{< /text >}}
 
-## 自定义链路追踪标签长度  {#customizing-tracing-tag-length}
+### 自定义链路追踪标签长度 {#customizing-tracing-tag-length}
 
 默认情况下，`HttpUrl` span 标签中包含的请求路径的最大长度是 256。
 要修改此最大长度，请将以下内容添加到您的 `tracing.yaml` 文件。

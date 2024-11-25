@@ -89,7 +89,7 @@ EOF
 
 ### 使用网格配置 {#using-mesh-config}
 
-如果您使用了 `IstioOperator` CR 来安装 Istio，请将以下字段添加到您的配置：
+如果您使用了 `IstioOperator` 配置来安装 Istio，请将以下字段添加到您的配置：
 
 {{< text yaml >}}
 spec:

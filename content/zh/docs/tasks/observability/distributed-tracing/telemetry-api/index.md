@@ -1,26 +1,30 @@
 ---
 title: 使用 Telemetry API 配置链路追踪
 description: 如何使用 Telemetry API 配置链路追踪。
-weight: 8
+weight: 2
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-Istio 提供了配置高级链路追踪选项的功能，例如采样率和向已采集的 span 中添加自定义标签。
-本任务将向您展示如何使用 Telemetry API 自定义链路追踪选项。
+Istio 提供了配置链路追踪选项的功能，例如采样率和向报告的 Span 添加自定义标签。
+此任务向您展示如何使用 Telemetry API 自定义链路追踪选项。
 
-## 开始之前  {#before-you-begin}
+## 开始之前 {#before-you-begin}
 
 1. 请确保您的应用程序按照[这里](/zh/docs/tasks/observability/distributed-tracing/overview/)所描述的方式配置链路追踪的标头。
 
-1. 请根据您首选的追踪后端，根据[集成](/zh/docs/ops/integrations/)追踪安装指南安装适当的插件,
-   并配置您的 Istio 代理将链路追踪信息发送到链路追踪部署服务端。
+1. 根据您首选的链路追踪后端，
+   按照位于[集成](/zh/docs/ops/integrations/)下的链路追踪安装指南安装适当的软件并配置扩展提供程序。
 
-## 安装  {#installation}
+## 安装 {#installation}
 
-在此示例中，我们将发送跟踪信息到[`链路追踪系统 zipkin`](/zh/docs/ops/integrations/zipkin/)，
-请确保已安装它：
+在此示例中，我们将链路发送到 [Zipkin](/zh/docs/ops/integrations/zipkin/)。
+继续操作之前，请先安装 Zipkin。
+
+### 配置扩展提供程序 {#configure-an-extension-provider}
+
+使用引用 Zipkin 服务的[扩展提供程序](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)安装 Istio：
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -30,10 +34,10 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # 禁用 MeshConfig 链路追踪选项
+      tracing: {} # 禁用旧版 MeshConfig 链路追踪选项
     extensionProviders:
     # 添加 zipkin 提供商
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
@@ -41,7 +45,7 @@ EOF
 $ istioctl install -f ./tracing.yaml --skip-confirmation
 {{< /text >}}
 
-### 启用服务网格的链路追踪  {#enable-tracing-for-mesh}
+### 启用链路追踪 {#enable-tracing}
 
 通过以下配置启用链路追踪：
 
@@ -54,12 +58,18 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
+  - providers:
+    - name: "zipkin"
 EOF
 {{< /text >}}
 
-## 自定义链路追踪采样率  {#customizing-trace-sampling}
+### 验证结果 {#verify-the-results}
+
+您可以通过[访问 Zipkin UI](/zh/docs/tasks/observability/distributed-tracing/zipkin/)来验证结果。
+
+## 自定义 {#customization}
+
+### 自定义链路采样 {#customizing-trace-sampling}
 
 采样率选项可用于控制向链路追踪系统报告的请求百分比，
 应根据服务网格中的流量和您想要收集的链路追踪数据量来配置此选项，
@@ -74,13 +84,13 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
+  - providers:
+    - name: "zipkin"
+    randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
 
-## 自定义链路追踪标签  {#customizing-tracing-tags}
+### 自定义链路追踪标签 {#customizing-tracing-tags}
 
 可以基于文本、环境变量和客户端请求标头向 span 中添加自定义标签，以在与环境相关的 span
 中提供额外的信息。
@@ -101,8 +111,8 @@ EOF
       namespace: istio-system
     spec:
       tracing:
-        - providers:
-            - name: "zipkin"
+      - providers:
+        - name: "zipkin"
         randomSamplingPercentage: 100.00
         customTags:
           "provider":
@@ -121,7 +131,7 @@ EOF
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
+          - name: "zipkin"
           randomSamplingPercentage: 100.00
           customTags:
             "cluster_id":
@@ -146,7 +156,7 @@ EOF
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
+          - name: "zipkin"
           randomSamplingPercentage: 100.00
           customTags:
             my_tag_header:
@@ -155,7 +165,7 @@ EOF
                 defaultValue: <VALUE>      # 可选
     {{< /text >}}
 
-## 自定义链路追踪标签长度  {#customizing-tracing-tag-length}
+### 自定义链路追踪标签长度 {#customizing-tracing-tag-length}
 
 默认情况下，`HttpUrl` 的 span 标签的请求最大长度为 256。要修改此最大长度，
 请将以下内容添加到您的 `tracing.yaml` 配置文件中。
@@ -167,16 +177,11 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # 通过 MeshConfig 禁用链路追踪选项
+      tracing: {} # 通过 MeshConfig 禁用旧版链路追踪选项
     extensionProviders:
-    # 添加 zipkin 提供商
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
         maxTagLength: <VALUE>
 {{< /text >}}
-
-## 验证结果  {#verify-the-results}
-
-您可以使用 [Zipkin 界面](/zh/docs/tasks/observability/distributed-tracing/zipkin/)来验证结果。
