@@ -1,7 +1,7 @@
 ---
 title: Policy based authorization using Kyverno
 description: Delegate Layer 7 authorization decision logic using Kyverno's Authz Server, leveraging policies based on CEL.
-publishdate: 2024-11-20
+publishdate: 2024-11-25
 attribution: "Charles-Edouard Brétéché (Nirmata)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
