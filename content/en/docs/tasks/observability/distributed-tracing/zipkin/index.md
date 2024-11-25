@@ -1,7 +1,7 @@
 ---
 title: Zipkin
 description: Learn how to configure the proxies to send tracing requests to Zipkin.
-weight: 10
+weight: 7
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /docs/tasks/zipkin-tracing.html
@@ -20,16 +20,53 @@ To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 1.  Follow the [Zipkin installation](/docs/ops/integrations/zipkin/#installation) documentation to deploy Zipkin into your cluster.
 
-1.  When you enable tracing, you can set the sampling rate that Istio uses for tracing.
-    Use the `meshConfig.defaultConfig.tracing.sampling` option during installation to
-    [set the sampling rate](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling).
-    The default sampling rate is 1%.
-
 1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+
+## Configure Istio for distributed tracing
+
+### Configure an extension provider
+
+Install Istio with an [extension provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
+
+{{< text bash >}}
+$ cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+      tracing: {} # disable legacy MeshConfig tracing options
+    extensionProviders:
+    - name: zipkin
+      zipkin:
+        service: zipkin.istio-system.svc.cluster.local
+        port: 9411
+EOF
+$ istioctl install -f ./tracing.yaml --skip-confirmation
+{{< /text >}}
+
+### Enable tracing
+
+Enable tracing by applying the following configuration:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: zipkin
+EOF
+{{< /text >}}
 
 ## Accessing the dashboard
 
-[Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
+The [Remotely Accessing Telemetry Addons task](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
 

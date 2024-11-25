@@ -47,7 +47,7 @@ For more information about using the Telemetry API, see the [Telemetry API overv
 
 ### Using Mesh Config
 
-If you used an `IstioOperator` CR to install Istio, add the following field to your configuration:
+If you used an `IstioOperator` configuration to install Istio, add the following field to your configuration:
 
 {{< text yaml >}}
 spec:
