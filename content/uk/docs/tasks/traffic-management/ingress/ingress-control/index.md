@@ -182,7 +182,7 @@ EOF
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` — дотримуйтеся [посібника з налаштування MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/), щоб забезпечити роботу сервісів типу `LoadBalancer`.
+* `kind` — дотримуйтеся [посібника](https://kind.sigs.k8s.io/docs/user/loadbalancer/), щоб забезпечити роботу сервісів типу `LoadBalancer`.
 
 * інші платформи — ви можете використовувати [MetalLB](https://metallb.universe.tf/installation/) для отримання `EXTERNAL-IP` для сервісів типу `LoadBalancer`.
 
