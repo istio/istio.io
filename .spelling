@@ -30,6 +30,7 @@
 1.23.x.
 1.24.0
 1.24.x
+1.24.x.
 1.25.x
 1.26.x
 1.27.3
@@ -138,6 +139,7 @@ Apigee
 APIs
 apiVersion
 Aporeto
+AppArmor
 AppDeveloperCon
 AppOptics
 AppSwitch
