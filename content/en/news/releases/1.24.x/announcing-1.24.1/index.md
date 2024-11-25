@@ -23,10 +23,10 @@ This release note describes what is different between Istio 1.24.0 and 1.24.1.
 
 - **Fixed** an issue where `istioctl install` was not working as expected on Windows.
 
-- **Fixed** an issue where merging `Duration` with an `EnvoyFilter` can lead to all listeners associated attributes being unexpectedly modified.
+- **Fixed** an issue where merging `Duration` with an `EnvoyFilter` can lead to all listeners associated attributes being unexpectedly modified
   because all of the listeners shared the same pointer typed `listener_filters_timeout`.
 
-- **Fixed** an issue where `istioctl install` deadlocks if multiple ingress gateways are specified in the IstioOperator file
+- **Fixed** an issue where `istioctl install` deadlocks if multiple ingress gateways are specified in the IstioOperator file.
   ([Issue #53875](https://github.com/istio/istio/issues/53875))
 
 - **Fixed** an issue where errors were being raised during cleanup of iptables rules that are conditional on the iptables configuration.
