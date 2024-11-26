@@ -12,14 +12,25 @@ test: n/a
 分布式链路追踪可以让用户对跨多个分布式服务网格的 1 个请求进行追踪分析。
 进而可以通过可视化的方式更加深入地了解请求的延迟、序列化和并行度。
 
-Istio 利用 [Envoy 的分布式追踪](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing)功能提供了开箱即用的链路追踪集成。
-确切地说，Istio 提供了安装各种链路追踪后端服务的选项，并且通过配置代理来自动发送链路追踪 span 到分布式追踪系统服务。
-请参阅 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、
-[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/) 和
-[Lightstep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)
-的任务文档来了解 Istio 如何与这些分布式链路追踪系统协作。
+Istio 利用 [Envoy 的分布式链路追踪](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing)功能提供开箱即用的链路追踪集成。
 
-## 追踪上下文传递  {#trace-context-propagation}
+现在，大多数链路追踪后端都接受
+[OpenTelemetry](/zh/docs/tasks/observability/distributed-tracing/opentelemetry/) 协议来接收链路，
+但 Istio 还支持 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)
+和 [Apache SkyWalking](/zh/docs/tasks/observability/distributed-tracing/skywalking/) 等项目的传统协议。
+
+## 配置链路追踪 {#configuring-tracing}
+
+Istio 提供了 [Telemetry API](/zh/docs/tasks/observability/distributed-tracing/telemetry-api/)，
+可用于配置分布式链路追踪，包括选择提供商、
+设置[采样率](/zh/docs/tasks/observability/distributed-tracing/sampling/)和修改标头。
+
+## 扩展提供程序 {#extension-providers}
+
+[扩展提供程序](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)在 `MeshConfig` 中定义，
+并允许定义链路追踪后端的配置。支持的提供程序包括 OpenTelemetry、Zipkin、SkyWalking、Datadog 和 Stackdriver。
+
+## 构建应用程序以支持链路上下文传播 {#building-applications-to-support-trace-context-propagation}
 
 尽管 Istio 代理能够自动发送 span，但需要一些附加信息才能将这些 span 加到同一个调用链。
 所以当代理发送 span 信息的时候，应用程序需要附加适当的 HTTP 请求头信息，这样才能够把多个
@@ -31,9 +42,10 @@ span 加到同一个调用链。
 
 所有应用程序必须转发以下请求头：
 
-* `x-request-id`：这是 Envoy 专用的请求头，用于对日志和追踪进行一致的采样。
+* `x-request-id`：一个 Envoy 特定的标头，用于一致地采样日志和链路。
+* `traceparent` 和 `tracestate`：[W3C 标准标头](https://www.w3.org/TR/trace-context/)
 
-对于 Zipkin、Jaeger 和 Stackdriver，应转发 B3 多请求头格式：
+对于 Zipkin，应转发 [B3 多标头格式](https://github.com/openzipkin/b3-propagation)：
 
 * `x-b3-traceid`
 * `x-b3-spanid`
@@ -41,41 +53,18 @@ span 加到同一个调用链。
 * `x-b3-sampled`
 * `x-b3-flags`
 
-这些是 Zipkin、Jaeger 和其它更多工具支持的请求头。
+对于商业可观察性工具，请参阅其文档。
 
-对于 Datadog，应转发以下请求头，这些转发由对应语言和框架的 Datadog 客户端库自动处理。
-
-* `x-datadog-trace-id`
-* `x-datadog-parent-id`
-* `x-datadog-sampling-priority`
-
-对于 Lightstep，应转发 OpenTracing span 上下文请求头：
-
-* `x-ot-span-context`
-
-对于 Stackdriver，您可以使用以下任一请求头来替代 B3 多请求头格式：
-
-* `grpc-trace-bin`：标准的 grpc 追踪头。
-* `traceparent`：追踪所用的 W3C 追踪上下文标准，受 OpenTelemetry
-  和日益增加的 Jaeger 客户端库所支持。
-* `x-cloud-trace-context`：被 Google Cloud 产品 API 所使用。
-
-例如，如果您看基于 Python 语言的 `productpage` 服务这个例子，可以看到这个应用程序使用了
-[OpenTracing](https://opentracing.io/) 库从 HTTP 请求中提取所需的请求头信息：
+例如，如果你查看[示例 Python `productpage` 服务]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L125)，
+你会看到应用程序使用 OpenTelemetry 库从 HTTP 请求中提取所有链路追踪器所需的标头：
 
 {{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
-    # 可以使用 opentracing span 填充 x-b3-*** 请求头
-    span = get_current_span()
-    carrier = {}
-    tracer.inject(
-        span_context=span.context,
-        format=Format.HTTP_HEADERS,
-        carrier=carrier)
-
-    headers.update(carrier)
+    # 可以使用 OpenTelemetry 跨度填充 x-b3-*** 标头
+    ctx = propagator.extract(carrier={k.lower(): v for k, v in request.headers})
+    propagator.inject(headers, ctx)
 
     # ...
 
@@ -104,7 +93,7 @@ def getForwardHeaders(request):
     return headers
 {{< /text >}}
 
-在 review 这个应用中（Java）使用 `requestHeaders` 做了类似的事情：
+在 [reviews 应用程序]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L186) (Java) 中使用 `requestHeaders` 做了类似的事情：
 
 {{< text java >}}
 @GET

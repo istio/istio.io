@@ -90,7 +90,7 @@ Egress 网关允许您将 Istio 的功能（例如监控和路由规则）应用
 
     如果没有 Pod 被返回，通过接下来的步骤来部署 Istio Egress 网关。
 
-1. 如果您使用 `IstioOperator` CR 安装 Istio，请在配置中添加以下字段：
+1. 如果您使用 `IstioOperator` 配置安装 Istio，请在配置中添加以下字段：
 
     {{< text yaml >}}
     spec:
