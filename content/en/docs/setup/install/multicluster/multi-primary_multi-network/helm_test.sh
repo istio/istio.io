@@ -74,11 +74,6 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
-function delete_crds_cluster_2() {
-  kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
-}
-
-time delete_crds_cluster_2
 time configure_trust
 time install_istio_helm
 time enable_endpoint_discovery

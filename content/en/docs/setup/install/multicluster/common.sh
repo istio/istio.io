@@ -86,14 +86,14 @@ function cleanup_istioctl
 # cleanup_cluster1_istioctl removes the istio-system and sample namespaces on CLUSTER1 with istioctl.
 function cleanup_cluster1_istioctl
 {
-  echo y | istioctl uninstall --revision=default --context="${CTX_CLUSTER1}"
+  echo y | istioctl uninstall --revision=default --context="${CTX_CLUSTER1}" -y --purge
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER1}" --ignore-not-found
 }
 
 # cleanup_cluster2_istioctl removes the istio-system and sample namespaces on CLUSTER2 with istioctl.
 function cleanup_cluster2_istioctl
 {
-  echo y | istioctl uninstall --revision=default --context="${CTX_CLUSTER2}"
+  echo y | istioctl uninstall --revision=default --context="${CTX_CLUSTER2}" -y --purge
   kubectl delete ns istio-system sample --context="${CTX_CLUSTER2}" --ignore-not-found
 }
 
