@@ -34,6 +34,10 @@ _verify_contains snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out
 snip_address_auto_allocation_1
 _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
 
+# verify opt-out
+snip_address_auto_allocation_3
+_verify_contains snip_address_auto_allocation_4  "$snip_address_auto_allocation_4_out"
+
 # verify external tcp services without vips
 snip_external_tcp_services_without_vips_1
 snip_external_tcp_services_without_vips_2
@@ -44,18 +48,6 @@ _verify_lines snip_external_tcp_services_without_vips_5 "
 + outbound|9000||tcp-echo.external-2.svc.cluster.local
 + outbound|9000||tcp-echo.external-1.svc.cluster.local
 "
-
-# enable enhanced dns auto allocation and verify all the above steps once again
-snip_dns_auto_allocation_v2_1
-_verify_contains snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
-_verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
-_verify_lines snip_external_tcp_services_without_vips_5 "
-+ outbound|9000||tcp-echo.external-2.svc.cluster.local
-+ outbound|9000||tcp-echo.external-1.svc.cluster.local
-"
-# verify opt-out
-snip_dns_auto_allocation_v2_2
-_verify_contains snip_dns_auto_allocation_v2_3  "$snip_dns_auto_allocation_v2_3_out"
 
 # @cleanup
 
