@@ -50,11 +50,12 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
-function delete_crds {
-  snip_delete_crds
+function delete_crds_cluster_1() {
+  kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
 }
 
-time delete_crds
+time delete_crds_cluster_1
+
 time configure_trust
 time install_istio_helm
 time enable_endpoint_discovery
@@ -79,10 +80,10 @@ function cleanup_cluster2_helm {
 function cleanup_helm {
   cleanup_cluster1_helm
   cleanup_cluster2_helm
+  snip_delete_crds
 }
 
 time cleanup_helm
-time delete_crds
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.
