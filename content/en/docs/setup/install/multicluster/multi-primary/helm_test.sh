@@ -50,6 +50,7 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
+time delete_crds
 time configure_trust
 time install_istio_helm
 time enable_endpoint_discovery
