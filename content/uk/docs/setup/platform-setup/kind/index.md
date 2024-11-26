@@ -63,7 +63,7 @@ test: no
     Deleting cluster "istio-testing" ...
     {{< /text >}}
 
-## Налаштування MetalLB для kind {#setting-up-metallb-for-kind}
+## Налаштування LoadBalancer для kind {#setting-up-loadbalancer-for-kind}
 
 kind не має вбудованого способу надання IP-адрес для сервісів типу `Loadbalancer`. Щоб забезпечити призначення IP-адрес для сервісів `Gateway`, будь ласка, ознайомтеся з [цією інструкцією](https://kind.sigs.k8s.io/docs/user/loadbalancer/) для отримання додаткової інформації.
 
