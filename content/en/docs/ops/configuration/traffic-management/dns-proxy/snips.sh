@@ -30,8 +30,6 @@ spec:
       proxyMetadata:
         # Enable basic DNS proxying
         ISTIO_META_DNS_CAPTURE: "true"
-        # Enable automatic address allocation, optional
-        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 EOF
 }
 
@@ -91,6 +89,34 @@ kubectl exec deploy/curl -- curl -sS -v auto.internal
 *   Trying 240.240.0.1:80...
 ENDSNIP
 
+snip_address_auto_allocation_3() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
+spec:
+  hosts:
+  - auto.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: DNS
+EOF
+}
+
+snip_address_auto_allocation_4() {
+kubectl exec deploy/curl -- curl -sS -v auto.internal
+}
+
+! IFS=$'\n' read -r -d '' snip_address_auto_allocation_4_out <<\ENDSNIP
+* Could not resolve host: auto.internal
+* shutting down connection #0
+ENDSNIP
+
 snip_external_tcp_services_without_vips_1() {
 cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
@@ -101,8 +127,6 @@ spec:
       proxyMetadata:
         # Enable basic DNS proxying
         ISTIO_META_DNS_CAPTURE: "true"
-        # Enable automatic address allocation, optional
-        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
     # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
     # so that we do not have to use an external site for testing.
     discoverySelectors:
@@ -158,57 +182,6 @@ istioctl pc listener deploy/curl | grep tcp-echo | awk '{printf "ADDRESS=%s, DES
 ! IFS=$'\n' read -r -d '' snip_external_tcp_services_without_vips_5_out <<\ENDSNIP
 ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
 ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
-ENDSNIP
-
-snip_dns_auto_allocation_v2_1() {
-cat <<EOF | istioctl install -y -f -
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    pilot:
-      env:
-        # Enable automatic address allocation, optional
-        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
-  meshConfig:
-    defaultConfig:
-      proxyMetadata:
-        # Enable basic DNS proxying
-        ISTIO_META_DNS_CAPTURE: "true"
-    # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
-    # so that we do not have to use an external site for testing.
-    discoverySelectors:
-    - matchLabels:
-        istio-injection: enabled
-EOF
-}
-
-snip_dns_auto_allocation_v2_2() {
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1
-kind: ServiceEntry
-metadata:
-  name: external-auto
-  labels:
-    networking.istio.io/enable-autoallocate-ip: "false"
-spec:
-  hosts:
-  - auto.internal
-  ports:
-  - name: http
-    number: 80
-    protocol: HTTP
-  resolution: DNS
-EOF
-}
-
-snip_dns_auto_allocation_v2_3() {
-kubectl exec deploy/curl -- curl -sS -v auto.internal
-}
-
-! IFS=$'\n' read -r -d '' snip_dns_auto_allocation_v2_3_out <<\ENDSNIP
-* Could not resolve host: auto.internal
-* shutting down connection #0
 ENDSNIP
 
 snip_cleanup_1() {
