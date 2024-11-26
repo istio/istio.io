@@ -44,7 +44,7 @@ You will use the Kubernetes Gateway API to deploy a gateway called `bookinfo-gat
 $ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 {{< /text >}}
 
-By default, Istio creates a `LoadBalancer` service for a gateway. As we will access this gateway by a tunnel, we don't need a load balancer. Change the service type to `ClusterIP` by annotating the gateway:
+By default, Istio creates a `LoadBalancer` service for a gateway. As you will access this gateway by a tunnel, you don't need a load balancer. Change the service type to `ClusterIP` by annotating the gateway:
 
 {{< text syntax=bash snip_id=annotate_bookinfo_gateway >}}
 $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default

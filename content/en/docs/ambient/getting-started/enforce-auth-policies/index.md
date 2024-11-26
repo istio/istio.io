@@ -115,7 +115,7 @@ RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # This works as we're explicitly allowing GET requests from the curl pod
+$ # This works as you're explicitly allowing GET requests from the curl pod
 $ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
