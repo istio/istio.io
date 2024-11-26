@@ -68,7 +68,7 @@ You will connect to the Bookinfo `productpage` service through the gateway you j
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 {{< /text >}}
 
-Open your browser and navigate to [http://localhost:8080/productpage/](http://localhost:8080/productpage/) to view the Bookinfo application.
+Open your browser and navigate to `http://localhost:8080/productpage` to view the Bookinfo application.
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
 
