@@ -50,6 +50,10 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
+function delete_crds {
+  snip_delete_crds
+}
+
 time delete_crds
 time configure_trust
 time install_istio_helm
@@ -70,10 +74,6 @@ function cleanup_cluster2_helm {
   snip_cleanup_5
   snip_cleanup_6
   snip_delete_sample_ns_cluster_2
-}
-
-function delete_crds {
-  snip_delete_crds
 }
 
 function cleanup_helm {
