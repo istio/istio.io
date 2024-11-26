@@ -72,13 +72,17 @@ function cleanup_cluster2_helm {
   snip_delete_sample_ns_cluster_2
 }
 
-function cleanup_helm {
-  cleanup_cluster1_helm
-  cleanup_cluster2_helm
+function delete_crds {
   snip_delete_crds
 }
 
+function cleanup_helm {
+  cleanup_cluster1_helm
+  cleanup_cluster2_helm
+}
+
 time cleanup_helm
+time delete_crds
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.
