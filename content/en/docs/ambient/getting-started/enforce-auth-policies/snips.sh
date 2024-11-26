@@ -95,7 +95,7 @@ EOF
 }
 
 snip_enforce_layer_7_authorization_policy_4() {
-# This fails with an RBAC error because we're not using a GET operation
+# This fails with an RBAC error because you're not using a GET operation
 kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 }
 

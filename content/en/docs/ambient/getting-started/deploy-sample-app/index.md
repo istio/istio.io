@@ -1,5 +1,5 @@
 ---
-title: Deploy the application
+title: Deploy a sample application
 description: Deploy the Bookinfo sample application.
 weight: 2
 owner: istio/wg-networking-maintainers
@@ -58,6 +58,8 @@ NAME               CLASS   ADDRESS                                            PR
 bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         42s
 {{< /text >}}
 
+Wait for the gateway to show as programmed before continuing.
+
 ## Access the application
 
 You will connect to the Bookinfo `productpage` service through the gateway you just provisioned. To access the gateway, you need to use the `kubectl port-forward` command:
@@ -66,11 +68,11 @@ You will connect to the Bookinfo `productpage` service through the gateway you j
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 {{< /text >}}
 
-Open your browser and navigate to `http://localhost:8080/productpage` to view the Bookinfo application.
+Open your browser and navigate to [http://localhost:8080/productpage/](http://localhost:8080/productpage/) to view the Bookinfo application.
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
 
-If you refresh the page, you should see the book reviews and ratings changing as the requests are distributed across the different versions of the `reviews` service.
+If you refresh the page, you should see the display of the book ratings changing as the requests are distributed across the different versions of the `reviews` service.
 
 ## Next steps
 

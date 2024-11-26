@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Now we have a waypoint proxy installed, we will learn how to split traffic between services.
+Now you have a waypoint proxy installed, you will learn how to split traffic between services.
 
 ## Split traffic between services
 
@@ -47,4 +47,4 @@ You'll notice the majority of requests go to `reviews-v1`. You can confirm the s
 
 ## Next steps
 
-This section concludes the Getting Started guide for ambient mode. You can continue to the [Cleanup](/docs/ambient/getting-started/cleanup) section to remove Istio or continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
+This section concludes the Getting Started guide for Istio's ambient mode. You can continue to the [Cleanup](/docs/ambient/getting-started/cleanup) section to remove Istio or continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
