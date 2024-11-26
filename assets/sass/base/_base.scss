@@ -210,7 +210,7 @@ ol {
 
 h1, h2, h3, h4, h5, h6 {
     border: 0;
-    line-height: 1.2;
+    line-height: 1.4;
     color: $textColor;
 }
 
@@ -559,4 +559,6 @@ iframe {
     h2 {
         word-wrap: break-word;
     }
+
+    line-height: 1.75rem;
 }

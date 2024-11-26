@@ -1,7 +1,6 @@
 html {
     --backgroundColor: #ffffff;
 
-    --textCodeColor: #7dc6f2;
     --primaryColor: #293655;            //dark-grey-blue
     --secondaryColor: #516ba9;          //dull-blue
     --accentColor: #7dc6f2;             //light-blue
@@ -9,8 +8,9 @@ html {
     --paleGray: #f8f9fa;
 
     --inputBorderColor: #566ca5;
-    --textColor: #293655;
-    --textCodeColor: #d14;
+    --textColor: #111;
+    --textCodeColor: #111;
+    --textCodeBackgroundColor: #818b981f;
     --disabledTextColor: #{lighten(#535f61, 50%)};
     --textGray: #8a8a8c;
 
@@ -19,9 +19,9 @@ html {
     --linkDisabledColor: #cccccc;
     --linkActiveColor: #516baa;
 
-    --h1Color: var(--textColor);
-    --h2Color: var(--textColor);
-    --h3Color: var(--textColor);
+    --h1Color: var(--primaryColor);
+    --h2Color: var(--primaryColor);
+    --h3Color: var(--primaryColor);
     --h4Color: #{$dark-gray};
     --h5Color: #{$dark-gray};
     --h6Color: #{$dark-gray};
@@ -108,7 +108,7 @@ html {
     --semiBoldWeight: 600;
     --boldWeight: 700;
 
-    --textWeight: 500;
+    --textWeight: 400;
     --linkWeight: 400;
     --h1Weight: var(--boldWeight);
     --h2Weight: var(--boldWeight);
@@ -117,7 +117,7 @@ html {
     --h5Weight: 500;
     --h6Weight: 500;
     --tableHeaderWeight: 400;
-    --boldTextWeight: 600;
+    --boldTextWeight: 700;
     --blogAttributeWeight: 600;
     --sectionIndexLinkWeight: 400;
     --buttonWeight: 500;
