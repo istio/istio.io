@@ -42,7 +42,7 @@ $ helm install ... --set compatibilityVersion={{< istio_previous_version >}}
 
 Compatibility versions should be used only when an incompatibility between releases exists, as a temporary measure. You should plan to migrate to the new behavior as soon as practical.
 
-Compatibility versions for a release will be removed, and will no longer be supported, when the release they refer to reaches end-of-life. Refer to the [current Istio release support status chart](https://istio.io/latest/docs/releases/supported-releases/#support-status-of-istio-releases) for the status of specific releases.
+Compatibility versions for a release will be removed, and will no longer be supported, when the release they refer to reaches end-of-life. Refer to the [current Istio release support status chart](/docs/releases/supported-releases/#support-status-of-istio-releases) for the status of specific releases.
 
 To help detect if a compatibility version should be used, `istioctl x precheck` can be used with the `--from-version` flag.
 For instance, if you are upgrading from version {{< istio_previous_version >}}:
