@@ -23,7 +23,7 @@ test: yes
 该功能也适用于在 Kubernetes 外部运行的服务。
 这意味着所有的内部服务都可以被解析，而不需要再使用笨重的运行方法来暴露集群外的 Kubernetes DNS 条目。
 
-## 开始  {#getting-started}
+## 开始 {#getting-started}
 
 此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置：
 
@@ -62,7 +62,7 @@ spec:
 默认启用基础 DNS 代理。
 {{< /tip >}}
 
-## DNS 捕获  {#DNS-capture-in-action}
+## DNS 捕获 {#DNS-capture-in-action}
 
 为了尝试 DNS 捕获，首先在外部服务启动一个 `ServiceEntry`：
 
@@ -99,7 +99,7 @@ $ kubectl exec deploy/curl -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
-## 自动分配地址  {#address-auto-allocation}
+## 自动分配地址 {#address-auto-allocation}
 
 在上面的示例中，对于发送请求的服务，您有一个预定义的 IP 地址。
 但是常规情况下，服务访问外部服务时一般没有一个相对固定的地址，
@@ -160,34 +160,33 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 
 要尝试此功能，请使用退出标签更新现有的 `ServiceEntry`：
 
-```bash
+{{< text bash >}}
 $ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
-  name: external-auto
-  labels:
-    networking.istio.io/enable-autoallocate-ip: "false"
+  name: external-address
 spec:
+  addresses:
+  - 198.51.100.1
   hosts:
-  - auto.internal
+  - address.internal
   ports:
   - name: http
     number: 80
     protocol: HTTP
-  resolution: DNS
 EOF
-```
+{{< /text >}}
 
 现在，发送请求并验证自动分配不再发生：
 
-```bash
+{{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 * Could not resolve host: auto.internal
 * shutting down connection #0
-```
+{{< /text >}}
 
-## 不带 VIP 的外部 TCP 服务  {#external-tcp-services-without-vips}
+## 不带 VIP 的外部 TCP 服务 {#external-tcp-services-without-vips}
 
 默认情况下，Istio 在路由外部 TCP 流量时存在限制，因为它无法区分相同端口上的多个 TCP 服务。
 当使用第三方数据库（如 AWS 关系型数据库服务）或任何具有地理冗余设置的数据库时，这种限制尤为明显。
@@ -281,7 +280,7 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
-## 清理  {#cleanup}
+## 清理 {#cleanup}
 
 {{< text bash >}}
 $ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@
