@@ -36,7 +36,6 @@
         }
 
         .year-button {
-            height: 36px;
             margin: 1em;
             border-radius: 28px;
             border: solid 2px $inputBorderColor;
@@ -48,6 +47,7 @@
             @media (min-width: $bp-md) {
                 min-width: 168px;
                 padding: .5em 3.5em;
+                
                 &:hover {
                     outline: 0;
                     -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
