@@ -30,14 +30,12 @@
 
     .year-buttons {
         display: grid;
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         @media (min-width: $bp-md) {
             grid-template-columns: repeat(4, 1fr);
         }
 
         .year-button {
-            padding: .5em 3.5em;
-            min-width: 168px;
             height: 36px;
             margin: 1em;
             border-radius: 28px;
@@ -48,6 +46,8 @@
             letter-spacing: normal;
             color: $linkActiveColor;
             @media (min-width: $bp-md) {
+                min-width: 168px;
+                padding: .5em 3.5em;
                 &:hover {
                     outline: 0;
                     -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
