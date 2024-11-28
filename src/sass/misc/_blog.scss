@@ -29,30 +29,33 @@
     }
 
     .year-buttons {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        @media (min-width: $bp-md) {
-            grid-template-columns: repeat(4, 1fr);
-        }
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
 
         .year-button {
-            margin: 1em;
-            border-radius: 28px;
-            border: solid 2px $inputBorderColor;
             background-color: #fff;
-            font-weight: $boldTextWeight;
-            line-height: 1.5;
-            letter-spacing: normal;
+            border: solid 2px $inputBorderColor;
+            border-radius: 28px;
             color: $linkActiveColor;
+            font-weight: $boldTextWeight;
+            letter-spacing: normal;
+            line-height: 1.5;
+            margin-top: 1em;
+            margin-right: 1em;
+            margin-bottom: 1em;
+            padding: .5em 1.5em;
+
             @media (min-width: $bp-md) {
                 min-width: 168px;
                 padding: .5em 3.5em;
 
                 &:hover {
-                    outline: 0;
+                    box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
                     -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
                     -moz-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
-                    box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    outline: 0;
                 }
             }
 
