@@ -23,7 +23,7 @@ test: yes
 该功能也适用于在 Kubernetes 外部运行的服务。
 这意味着所有的内部服务都可以被解析，而不需要再使用笨重的运行方法来暴露集群外的 Kubernetes DNS 条目。
 
-## 开始  {#getting-started}
+## 开始 {#getting-started}
 
 此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置：
 
@@ -37,8 +37,6 @@ spec:
       proxyMetadata:
         # 启用基本 DNS 代理
         ISTIO_META_DNS_CAPTURE: "true"
-        # 启用自动地址分配，可选
-        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 EOF
 {{< /text >}}
 
@@ -56,7 +54,6 @@ spec:
         proxy.istio.io/config: |
           proxyMetadata:
             ISTIO_META_DNS_CAPTURE: "true"
-            ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 ...
 {{< /text >}}
 
@@ -65,7 +62,7 @@ spec:
 默认启用基础 DNS 代理。
 {{< /tip >}}
 
-## DNS 捕获  {#DNS-capture-in-action}
+## DNS 捕获 {#DNS-capture-in-action}
 
 为了尝试 DNS 捕获，首先在外部服务启动一个 `ServiceEntry`：
 
@@ -102,7 +99,7 @@ $ kubectl exec deploy/curl -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
-## 自动分配地址  {#address-auto-allocation}
+## 自动分配地址 {#address-auto-allocation}
 
 在上面的示例中，对于发送请求的服务，您有一个预定义的 IP 地址。
 但是常规情况下，服务访问外部服务时一般没有一个相对固定的地址，
@@ -115,23 +112,12 @@ TCP 携带的信息更少，只能在目标 IP 和端口号上路由。
 只剩下端口号，但是这会导致多个 `ServiceEntry` 使用 TCP
 服务会共享同一端口而产生冲突。更多细节参阅[以下章节](#external-tcp-services-without-vips)。
 
-为了解决这些问题，DNS 代理还支持为没有明确定义的 `ServiceEntry` 自动分配地址。
-这是通过 `ISTIO_META_DNS_AUTO_ALLOCATE` 选项配置的。
-
-{{< tip >}}
-请参阅 [DNS 自动分配 V2](/zh/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2)，
-了解 Istio 从 1.23 开始支持的新的自动分配增强实现。
-DNS 自动分配 V2 是 Sidecar 模式的推荐配置，也是 Ambient 模式的必需配置。
-{{< /tip >}}
-
-启用此特性后，DNS 响应将为每个 `ServiceEntry` 自动分配一个不同的独立地址。
-然后代理能匹配请求与 IP 地址，并将请求转发到相应的 `ServiceEntry`。
-当使用 `ISTIO_META_DNS_AUTO_ALLOCATE` 时，
-Istio 会自动为不可路由的 VIP（从 Class E 子网中）分配给这些服务，
-只要它们不使用通配符主机。Sidecar 上的 Istio 代理将使用 VIP
-作为应用程序中 DNS 查找查询的响应。Envoy 现在可以清楚地区分每个外部
-TCP 服务的流量，并将其转发到正确的目标。有关更多信息，
-请查阅相应的[关于智能 DNS 代理的 Istio 博客](/zh/blog/2020/dns-proxy/#automatic-vip-allocation-where-possible)。
+为了解决这些问题，DNS 代理还支持自动为未明确指定地址的 `ServiceEntry` 分配地址。
+DNS 响应将为每个 `ServiceEntry` 包含一个独特且自动分配的地址。然后，
+代理被配置为将请求匹配到该 IP 地址，并将请求转发到相应的 `ServiceEntry`。
+只要这些服务不使用通配符主机，Istio 将自动为这些服务分配不可路由的虚拟 IP
+（来自 Class E 子网）。侧车上的 Istio 代理将使用这些虚拟 IP 作为应用程序
+DNS 查找查询的响应。Envoy 现在可以清晰地区分每个外部 TCP 服务的流量，并将其转发到正确的目标。
 
 {{< warning >}}
 由于该特性修改了 DNS 响应，因此可能无法兼容所有应用程序。
@@ -167,7 +153,40 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 这些地址将从 `240.240.0.0/16` 预留的 IP 地址池中挑选出来，
 以避免与真实的服务发生冲突。
 
-## 不带 VIP 的外部 TCP 服务  {#external-tcp-services-without-vips}
+用户还可以通过向其 `ServiceEntry` 添加标签
+`networking.istio.io/enable-autoallocate-ip="true/false"`
+来灵活地进行更细粒度的配置。此标签配置未设置任何 `spec.addresses`
+的 `ServiceEntry` 是否应自动为其分配 IP 地址。
+
+要尝试此功能，请使用退出标签更新现有的 `ServiceEntry`：
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-address
+spec:
+  addresses:
+  - 198.51.100.1
+  hosts:
+  - address.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+EOF
+{{< /text >}}
+
+现在，发送请求并验证自动分配不再发生：
+
+{{< text bash >}}
+$ kubectl exec deploy/curl -- curl -sS -v auto.internal
+* Could not resolve host: auto.internal
+* shutting down connection #0
+{{< /text >}}
+
+## 不带 VIP 的外部 TCP 服务 {#external-tcp-services-without-vips}
 
 默认情况下，Istio 在路由外部 TCP 流量时存在限制，因为它无法区分相同端口上的多个 TCP 服务。
 当使用第三方数据库（如 AWS 关系型数据库服务）或任何具有地理冗余设置的数据库时，这种限制尤为明显。
@@ -199,8 +218,6 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
           proxyMetadata:
             # 启用基本 DNS 代理
             ISTIO_META_DNS_CAPTURE: "true"
-            # 启用自动地址分配，可选
-            ISTIO_META_DNS_AUTO_ALLOCATE: "true"
         # 下面的 discoverySelectors 配置只是用于模拟外部服务 TCP 场景，
         # 这样我们就不必使用外部站点进行测试。
         discoverySelectors:
@@ -263,71 +280,7 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
-## DNS 自动分配 V2 {#dns-auto-allocation-v2}
-
-Istio 现在提供了 DNS 自动分配的增强实现。要使用新功能，
-请在安装 Istio 时将上一个示例中使用的 `MeshConfig` 标志
-`ISTIO_META_DNS_AUTO_ALLOCATE` 替换为 pilot 环境变量
-`PILOT_ENABLE_IP_AUTOALLOCATE`。到目前为止给出的所有示例均可按原样运行。
-
-{{< text bash >}}
-$ cat <<EOF | istioctl install -y -f -
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    pilot:
-      env:
-        # 启用自动地址分配，可选
-        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
-  meshConfig:
-    defaultConfig:
-      proxyMetadata:
-        # 启用基本 DNS 代理
-        ISTIO_META_DNS_CAPTURE: "true"
-    # 下面的 discoverySelectors 配置仅用于模拟外部服务 TCP 场景，
-    # 这样我们就不必使用外部站点进行测试。
-    discoverySelectors:
-    - matchLabels:
-        istio-injection: enabled
-EOF
-{{< /text >}}
-
-用户还可以通过向其 `ServiceEntry` 添加标签
-`networking.istio.io/enable-autoallocate-ip="true/false"`
-来灵活地进行更细粒度的配置。此标签配置未设置任何 `spec.addresses`
-的 `ServiceEntry` 是否应自动为其分配 IP 地址。
-
-要尝试此功能，请使用退出标签更新现有的 `ServiceEntry`：
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1
-kind: ServiceEntry
-metadata:
-  name: external-auto
-  labels:
-    networking.istio.io/enable-autoallocate-ip: "false"
-spec:
-  hosts:
-  - auto.internal
-  ports:
-  - name: http
-    number: 80
-    protocol: HTTP
-  resolution: DNS
-EOF
-{{< /text >}}
-
-现在，发送请求并验证自动分配不再发生：
-
-{{< text bash >}}
-$ kubectl exec deploy/curl -- curl -sS -v auto.internal
-* Could not resolve host: auto.internal
-* shutting down connection #0
-{{< /text >}}
-
-## 清理  {#cleanup}
+## 清理 {#cleanup}
 
 {{< text bash >}}
 $ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@
