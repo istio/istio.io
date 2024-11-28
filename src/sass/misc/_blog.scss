@@ -29,20 +29,17 @@
     }
 
     .year-buttons {
-        display: flex;
-        overflow: auto;
-        white-space: nowrap;
-        @media (min-width: $bp-xl) {
-            white-space: normal;
-            overflow: unset;
-            justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        @media (min-width: $bp-md) {
+            grid-template-columns: repeat(4, 1fr);
         }
 
         .year-button {
             padding: .5em 3.5em;
             min-width: 168px;
             height: 36px;
-            margin: 2.5em .5em 3.75em;
+            margin: 1.0em;
             border-radius: 28px;
             border: solid 2px $inputBorderColor;
             background-color: #fff;
@@ -51,8 +48,6 @@
             letter-spacing: normal;
             color: $linkActiveColor;
             @media (min-width: $bp-md) {
-                margin: 2.5em 1.15em 3.75em 0;
-
                 &:hover {
                     outline: 0;
                     -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
@@ -60,7 +55,9 @@
                     box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
                 }
             }
-
+            &:hover {
+                cursor: pointer
+            }
         }
 
         .active {
