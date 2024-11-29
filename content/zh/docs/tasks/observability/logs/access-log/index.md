@@ -46,7 +46,7 @@ spec:
 
 ### 使用网格配置  {#using-mesh-config}
 
-如果您使用 `IstioOperator` CR 来安装 Istio，请在您的配置中添加以下字段：
+如果您使用 `IstioOperator` 配置来安装 Istio，请在您的配置中添加以下字段：
 
 {{< text yaml >}}
 spec:

@@ -228,6 +228,8 @@ Cernich
 CFP
 Chaomeng
 Chavali
+CheckRequest
+CheckResponse
 checksum
 Chircop
 Chrony
@@ -750,6 +752,7 @@ Kumar
 Kustomization
 Kustomize
 kustomize
+Kyverno
 kyzy
 L2-L4
 L3-4
@@ -909,6 +912,7 @@ OpenCensus
 OpenID
 OpenID_Connect
 OpenMetrics
+OpenPolicyAgent
 OpenShift
 OpenSSL
 openssl
@@ -921,6 +925,7 @@ optname
 OS-level
 OSS-Fuzz
 Ostrowski
+OTel
 otel-collector
 outsized
 overridden
@@ -1316,6 +1321,7 @@ VPC
 VPCs
 VPN
 VPNs
+W3C
 Walle
 Warman
 Wasm

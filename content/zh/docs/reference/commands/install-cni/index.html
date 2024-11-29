@@ -614,12 +614,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
 <tr>
-<td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
-</tr>
-<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -684,12 +678,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
-</tr>
-<tr>
-<td><code>ENABLE_RESOLUTION_NONE_TARGET_PORT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, targetPort will be supported for resolution=NONE ServiceEntry</td>
 </tr>
 <tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>

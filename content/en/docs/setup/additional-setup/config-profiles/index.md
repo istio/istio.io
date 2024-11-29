@@ -13,7 +13,7 @@ This page describes the built-in configuration profiles that can be used when
 [installing Istio](/docs/setup/install/istioctl/).
 The profiles provide customization of the Istio control plane and of the sidecars for the Istio data plane.
 
-You can start with one of [Istio’s built-in configuration profiles]({{< github_file >}}/manifests/profiles) and then further
+You can start with one of [Istio’s built-in configuration profiles]({{< github_tree >}}/manifests/profiles) and then further
 [customize the configuration](/docs/setup/additional-setup/customize-installation/)
 for your specific needs. The following built-in configuration profiles are currently available:
 

@@ -28,8 +28,6 @@ spec:
       proxyMetadata:
         # Enable basic DNS proxying
         ISTIO_META_DNS_CAPTURE: "true"
-        # Enable automatic address allocation, optional
-        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 EOF
 {{< /text >}}
 
@@ -47,7 +45,6 @@ spec:
         proxy.istio.io/config: |
           proxyMetadata:
             ISTIO_META_DNS_CAPTURE: "true"
-            ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 ...
 {{< /text >}}
 
@@ -98,13 +95,7 @@ In the above example, you had a predefined IP address for the service to which y
 This is especially problematic with TCP traffic. Unlike HTTP requests, which are routed based on `Host` headers, TCP carries much less information; you can only route on the destination IP and port number. Because you don't have a stable IP for the backend, you cannot route based on that either, leaving only port number, which leads to conflicts when multiple `ServiceEntry`s for TCP services share the same port. Refer
 to [the following section](#external-tcp-services-without-vips) for more details.
 
-To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. This is configured by the `ISTIO_META_DNS_AUTO_ALLOCATE` option.
-
-{{< tip >}}
-Please see [DNS Auto Allocation V2](/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2) for a new enhanced implementation of auto allocation supported by Istio from 1.23 onwards. DNS Auto Allocation V2 is recommended for sidecar mode and required for ambient mode.
-{{< /tip >}}
-
-When this feature is enabled, the DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`. When using `ISTIO_META_DNS_AUTO_ALLOCATE`, Istio will automatically allocate non-routable VIPs (from the Class E subnet) to such services as long as they do not use a wildcard host. The Istio agent on the sidecar will use the VIPs as responses to the DNS lookup queries from the application. Envoy can now clearly distinguish traffic bound for each external TCP service and forward it to the right target. For more information check respective [Istio blog about smart DNS proxying](/blog/2020/dns-proxy/#automatic-vip-allocation-where-possible).
+To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. The DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`. Istio will automatically allocate non-routable VIPs (from the Class E subnet) to such services as long as they do not use a wildcard host. The Istio agent on the sidecar will use the VIPs as responses to the DNS lookup queries from the application. Envoy can now clearly distinguish traffic bound for each external TCP service and forward it to the right target.
 
 {{< warning >}}
 Because this feature modifies DNS responses, it may not be compatible with all applications.
@@ -138,6 +129,37 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 
 As you can see, the request is sent to an automatically allocated address, `240.240.0.1`. These addresses will be picked from the `240.240.0.0/16` reserved IP address range to avoid conflicting with real services.
 
+Users also have the flexibility for more granular configuration by adding the label `networking.istio.io/enable-autoallocate-ip="true/false"` to their `ServiceEntry`. This label configures whether a `ServiceEntry` without any `spec.addresses` set should get an IP address automatically allocated for it.
+
+To try this out, update the existing `ServiceEntry` with the opt-out label:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
+spec:
+  hosts:
+  - auto.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: DNS
+EOF
+{{< /text >}}
+
+Now, send a request and verify that the auto allocation is no longer happening:
+
+{{< text bash >}}
+$ kubectl exec deploy/curl -- curl -sS -v auto.internal
+* Could not resolve host: auto.internal
+* shutting down connection #0
+{{< /text >}}
+
 ## External TCP services without VIPs
 
 By default, Istio has a limitation when routing external TCP traffic because it is unable to distinguish between multiple TCP services on the same port. This limitation is particularly apparent when using third party databases such as AWS Relational Database Service or any database setup with geographical redundancy. Similar, but different external TCP services, cannot be handled separately by default. For the sidecar to distinguish traffic between two different TCP services that are outside of the mesh, the services must be on different ports or they need to have globally unique VIPs.
@@ -159,8 +181,6 @@ A virtual IP address will be assigned to every service entry so that client side
           proxyMetadata:
             # Enable basic DNS proxying
             ISTIO_META_DNS_CAPTURE: "true"
-            # Enable automatic address allocation, optional
-            ISTIO_META_DNS_AUTO_ALLOCATE: "true"
         # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
         # so that we do not have to use an external site for testing.
         discoverySelectors:
@@ -222,64 +242,6 @@ A virtual IP address will be assigned to every service entry so that client side
     ADDRESS=240.240.105.94, DESTINATION=Cluster: outbound|9000||tcp-echo.external-2.svc.cluster.local
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
-
-## DNS Auto Allocation V2
-
-Istio now offers an enhanced implementation of DNS Auto Allocation. To use the new feature, replace the `MeshConfig` flag `ISTIO_META_DNS_AUTO_ALLOCATE`, which was used in the previous example, with the pilot environment variable `PILOT_ENABLE_IP_AUTOALLOCATE` while installing Istio. All examples given so far would work as is.
-
-{{< text bash >}}
-$ cat <<EOF | istioctl install -y -f -
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  values:
-    pilot:
-      env:
-        # Enable automatic address allocation, optional
-        PILOT_ENABLE_IP_AUTOALLOCATE: "true"
-  meshConfig:
-    defaultConfig:
-      proxyMetadata:
-        # Enable basic DNS proxying
-        ISTIO_META_DNS_CAPTURE: "true"
-    # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
-    # so that we do not have to use an external site for testing.
-    discoverySelectors:
-    - matchLabels:
-        istio-injection: enabled
-EOF
-{{< /text >}}
-
-Users also have the flexibility for more granular configuration by adding the label `networking.istio.io/enable-autoallocate-ip="true/false"` to their `ServiceEntry`. This label configures whether a `ServiceEntry` without any `spec.addresses` set should get an IP address automatically allocated for it.
-
-To try this out, update the existing `ServiceEntry` with the opt-out label:
-
-{{< text bash >}}
-$ kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1
-kind: ServiceEntry
-metadata:
-  name: external-auto
-  labels:
-    networking.istio.io/enable-autoallocate-ip: "false"
-spec:
-  hosts:
-  - auto.internal
-  ports:
-  - name: http
-    number: 80
-    protocol: HTTP
-  resolution: DNS
-EOF
-{{< /text >}}
-
-Now, send a request and verify that the auto allocation is no longer happening:
-
-{{< text bash >}}
-$ kubectl exec deploy/curl -- curl -sS -v auto.internal
-* Could not resolve host: auto.internal
-* shutting down connection #0
-{{< /text >}}
 
 ## Cleanup
 

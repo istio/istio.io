@@ -43,10 +43,10 @@ $ istioctl dashboard kiali
 Let's send some traffic to the Bookinfo application, so Kiali generates the traffic graph:
 
 {{< text bash >}}
-$ for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
+$ for i in $(seq 1 100); do curl -sSI -o /dev/null http://localhost:8080/productpage; done
 {{< /text >}}
 
-Next, click on the Traffic Graph and you should see the Bookinfo application:
+Next, click on the Traffic Graph and select "Default" from the "Select Namespaces" drop-down. You should see the Bookinfo application:
 
 {{< image link="./kiali-ambient-bookinfo.png" caption="Kiali dashboard" >}}
 
@@ -64,4 +64,4 @@ In addition to the TCP metrics, Istio has created a strong identity for each ser
 
 ## Next steps
 
-Now that we have identities assigned to the services, let's [enforce authorization policies](/docs/ambient/getting-started/enforce-auth-policies/) to secure access to the application.
+Now that you have identities assigned to the services, let's [enforce authorization policies](/docs/ambient/getting-started/enforce-auth-policies/) to secure access to the application.

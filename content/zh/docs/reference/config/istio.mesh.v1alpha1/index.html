@@ -1070,17 +1070,6 @@ No
 No
 </td>
 </tr>
-<tr id="MeshConfig-ExtensionProvider-stackdriver" class="oneof">
-<td><code><a href="#MeshConfig-ExtensionProvider-stackdriver">stackdriver</a></code></td>
-<td><code><a href="#MeshConfig-ExtensionProvider-StackdriverProvider">StackdriverProvider (oneof)</a></code></td>
-<td>
-<p>Configures a Stackdriver provider.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="MeshConfig-ExtensionProvider-skywalking" class="oneof">
 <td><code><a href="#MeshConfig-ExtensionProvider-skywalking">skywalking</a></code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-SkyWalkingTracingProvider">SkyWalkingTracingProvider (oneof)</a></code></td>
@@ -3072,46 +3061,11 @@ and adds host/process related attributes to the OpenTelemetry resource.</p>
 No
 </td>
 </tr>
-<tr id="Tracing-lightstep" class="oneof">
-<td><code><a href="#Tracing-lightstep">lightstep</a></code></td>
-<td><code><a href="#Tracing-Lightstep">Lightstep (oneof)</a></code></td>
-<td>
-<p>Use a Lightstep tracer.
-NOTE: For Istio 1.15+, this configuration option will result
-in using OpenTelemetry-based Lightstep integration.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
 <tr id="Tracing-datadog" class="oneof">
 <td><code><a href="#Tracing-datadog">datadog</a></code></td>
 <td><code><a href="#Tracing-Datadog">Datadog (oneof)</a></code></td>
 <td>
 <p>Use a Datadog tracer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-stackdriver" class="oneof">
-<td><code><a href="#Tracing-stackdriver">stackdriver</a></code></td>
-<td><code><a href="#Tracing-Stackdriver">Stackdriver (oneof)</a></code></td>
-<td>
-<p>Use a Stackdriver tracer.</p>
-
-</td>
-<td>
-No
-</td>
-</tr>
-<tr id="Tracing-open_census_agent" class="oneof">
-<td><code><a href="#Tracing-open_census_agent">openCensusAgent</a></code></td>
-<td><code><a href="#Tracing-OpenCensusAgent">OpenCensusAgent (oneof)</a></code></td>
-<td>
-<p>Use an OpenCensus tracer exporting to an OpenCensus agent.</p>
 
 </td>
 <td>

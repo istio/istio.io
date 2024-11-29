@@ -28,7 +28,7 @@
 - version: "1.21"
   supported: "Yes"
   releaseDate: "Mar 13, 2024"
-  eolDate: "~Sept 2024 (Expected)"
+  eolDate: "Sept 27, 2024"
   k8sVersions: ["1.26", "1.27", "1.28", "1.29"]
   testedK8sVersions: ["1.23", "1.24", "1.25"]
 - version: "1.20"

@@ -89,7 +89,7 @@ EOF
 }
 
 snip_verify_the_multiple_control_plane_creation_1() {
-kubectl get ns usergroup-1 usergroup2 --show-labels
+kubectl get ns usergroup-1 usergroup-2 --show-labels
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_the_multiple_control_plane_creation_1_out <<\ENDSNIP

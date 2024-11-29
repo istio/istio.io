@@ -24,7 +24,7 @@ set -o pipefail
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
 
-function install_istio_on_cluster1 {
+function install_istio_on_cluster1_istioctl {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
     snip_configure_cluster1_as_a_primary_1
     echo y | snip_configure_cluster1_as_a_primary_2
@@ -33,13 +33,13 @@ function install_istio_on_cluster1 {
     snip_install_the_eastwest_gateway_in_cluster1_1
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster1_2 "$snip_install_the_eastwest_gateway_in_cluster1_2_out"
+    _verify_like snip_install_the_eastwest_gateway_in_cluster1_3 "$snip_install_the_eastwest_gateway_in_cluster1_3_out"
 
     echo "Exposing istiod via the east-west gateway"
     snip_expose_the_control_plane_in_cluster1_1
 }
 
-function install_istio_on_cluster2 {
+function install_istio_on_cluster2_istioctl {
     echo "Installing Istio on Remote cluster: ${CTX_CLUSTER2}"
     snip_set_the_control_plane_cluster_for_cluster2_1
     snip_set_the_default_network_for_cluster2_1
@@ -54,11 +54,11 @@ function install_istio_on_cluster2 {
     snip_install_the_eastwest_gateway_in_cluster2_1
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster2_2 "$snip_install_the_eastwest_gateway_in_cluster2_2_out"
+    _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
 }
 
-time install_istio_on_cluster1
-time install_istio_on_cluster2
+time install_istio_on_cluster1_istioctl
+time install_istio_on_cluster2_istioctl
 
 echo "Exposing services via the east-west gateway for both clusters"
 snip_expose_services_in_cluster1_and_cluster2_1
@@ -68,7 +68,7 @@ time verify_load_balancing
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
-time cleanup
+time cleanup_istioctl
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.

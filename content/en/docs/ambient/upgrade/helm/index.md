@@ -30,7 +30,7 @@ Like sidecar mode, gateways can make use of [revision tags](/docs/setup/upgrade/
 
 ### Prepare for the upgrade
 
-Before upgrading Istio, we recommend downloading the new version of istioctl, and running `istioctl x precheck` to make sure the upgrade is compatible with your environment. The output should looks something like this:
+Before upgrading Istio, we recommend downloading the new version of istioctl, and running `istioctl x precheck` to make sure the upgrade is compatible with your environment. The output should look something like this:
 
 {{< text syntax=bash snip_id=istioctl_precheck >}}
 $ istioctl x precheck
@@ -213,8 +213,8 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 
 If you have upgraded all data plane components to use the new revision of the Istio control plane, and are satisfied that you do not need to roll back, you can remove the previous revision of the control plane by running:
 
-{{< text syntax=bash snip_id=none >}}
-$ helm delete istiod-"$REVISION" -n istio-system
+{{< text syntax=bash snip_id=delete_old_revision >}}
+$ helm delete istiod-"$OLD_REVISION" -n istio-system
 {{< /text >}}
 
 {{< /tab >}}

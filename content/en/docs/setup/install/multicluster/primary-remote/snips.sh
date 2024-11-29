@@ -39,6 +39,14 @@ snip_configure_cluster1_as_a_primary_2() {
 istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 }
 
+snip_configure_cluster1_as_a_primary_3() {
+helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
+}
+
+snip_configure_cluster1_as_a_primary_4() {
+helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+}
+
 snip_install_the_eastwest_gateway_in_cluster1_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network network1 | \
@@ -46,10 +54,14 @@ samples/multicluster/gen-eastwest-gateway.sh \
 }
 
 snip_install_the_eastwest_gateway_in_cluster1_2() {
+helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER1}" --set name=istio-eastwestgateway --set networkGateway=network1
+}
+
+snip_install_the_eastwest_gateway_in_cluster1_3() {
 kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 }
 
-! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_install_the_eastwest_gateway_in_cluster1_3_out <<\ENDSNIP
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 ENDSNIP
@@ -93,9 +105,41 @@ snip_configure_cluster2_as_a_remote_3() {
 istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 }
 
+snip_configure_cluster2_as_a_remote_4() {
+helm install istio-base istio/base -n istio-system --set profile=remote --kube-context "${CTX_CLUSTER2}"
+}
+
+snip_configure_cluster2_as_a_remote_5() {
+helm install istiod istio/istiod -n istio-system --set profile=remote --set global.multiCluster.clusterName=cluster2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --kube-context "${CTX_CLUSTER2}"
+}
+
 snip_attach_cluster2_as_a_remote_cluster_of_cluster1_1() {
 istioctl create-remote-secret \
     --context="${CTX_CLUSTER2}" \
     --name=cluster2 | \
     kubectl apply -f - --context="${CTX_CLUSTER1}"
+}
+
+snip_cleanup_3() {
+helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
+helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER1}"
+helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
+}
+
+snip_cleanup_4() {
+kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+}
+
+snip_cleanup_5() {
+helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
+}
+
+snip_cleanup_6() {
+kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+}
+
+snip_delete_crds() {
+kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
 }
