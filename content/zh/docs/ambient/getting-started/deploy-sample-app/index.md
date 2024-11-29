@@ -1,5 +1,5 @@
 ---
-title: 部署应用程序
+title: 部署示例应用程序
 description: 部署 Bookinfo 示例应用程序。
 weight: 2
 owner: istio/wg-networking-maintainers
@@ -45,8 +45,9 @@ reviews-v3-7d99fd7978-dm6mx      1/1     Running   0          42s
 $ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 {{< /text >}}
 
-默认情况下，Istio 会为网关创建一个 `LoadBalancer` 服务。
-由于我们将通过隧道访问此网关，因此不需要负载均衡器。通过注解将网关的服务类型更改为 `ClusterIP`：
+在默认情况下，Istio 会为网关创建一个 `LoadBalancer` 服务。
+由于您将通过隧道访问此网关，因此不需要负载均衡器。
+通过注解将网关的服务类型更改为 `ClusterIP`：
 
 {{< text syntax=bash snip_id=annotate_bookinfo_gateway >}}
 $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
@@ -59,6 +60,8 @@ $ kubectl get gateway
 NAME               CLASS   ADDRESS                                            PROGRAMMED   AGE
 bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         42s
 {{< /text >}}
+
+等待网关按照程序显示后再继续。
 
 ## 访问应用程序 {#access-the-application}
 
@@ -73,8 +76,10 @@ $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo 应用程序" >}}
 
-如果您刷新页面，您应该会看到 reviews 和 ratings 发生变化，因为请求分布在 `reviews` 服务的不同版本上。
+如果您刷新页面，您应该会看到书籍的 ratings 发生变化，
+因为请求分布在 `reviews` 服务的不同版本上。
 
 ## 下一步 {#next-steps}
 
-[继续下一部分](../secure-and-visualize/)将应用程序添加到网格中，并了解如何保护和可视化应用程序之间的通信。
+[继续下一部分](../secure-and-visualize/)将应用程序添加到网格中，
+并了解如何保护和可视化应用程序之间的通信。
