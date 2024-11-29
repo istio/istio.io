@@ -29,8 +29,8 @@ Check that you are able to run `istioctl` by printing the version of the command
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl version
-no ready Istio pods in "istio-system"
-{{< istio_full_version >}}
+Istio is not present in the cluster: no running Istio pods in namespace "istio-system"
+client version: {{< istio_full_version >}}
 {{< /text >}}
 
 ## Install Istio on to your cluster
@@ -41,7 +41,7 @@ no ready Istio pods in "istio-system"
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
-It might take a minute for the Istio components to be installed. Once the installation completes, you’ll get the following output that indicates all components have been installed successfully.
+Once the installation completes, you’ll get the following output that indicates all components have been installed successfully.
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -53,10 +53,10 @@ It might take a minute for the Istio components to be installed. Once the instal
 
 ## Install the Kubernetes Gateway API CRDs
 
-{{< boilerplate gateway-api-install-crds >}}
-
 You will use the Kubernetes Gateway API to configure traffic routing.
+
+{{< boilerplate gateway-api-install-crds >}}
 
 ## Next steps
 
-Congratulations! You've successfully installed Istio with support for ambient mode. Continue to the next step to [install the demo application and add it to the ambient mesh](/docs/ambient/getting-started/deploy-sample-app/).
+Congratulations! You've successfully installed Istio with support for ambient mode. Continue to the next step to [install a sample application](/docs/ambient/getting-started/deploy-sample-app/).

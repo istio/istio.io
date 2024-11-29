@@ -63,8 +63,8 @@ _verify_lines snip_test_traffic_split "
 "
 
 # @cleanup
-snip_remove_the_ambient_and_waypoint_labels_1
 snip_remove_waypoint_proxies_1
+snip_remove_the_namespace_from_the_ambient_data_plane_1
 snip_remove_the_sample_application_1
 samples/bookinfo/platform/kube/cleanup.sh
 bpsnip_gateway_api_remove_crds_remove_crds
