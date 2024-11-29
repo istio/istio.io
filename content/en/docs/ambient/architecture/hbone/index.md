@@ -29,7 +29,7 @@ By Istio convention, ztunnel and other proxies that understand the HBONE protoco
 As HBONE is merely a combination of HTTP/2, HTTP CONNECT, and mTLS, the HBONE tunnel packets that flow between HBONE-enabled proxies looks like the following figure:
 
 {{< image width="100%"
-link="hbone-packet.png"
+link="hbone-packet.svg"
 caption="HBONE L3 packet format"
 >}}
 

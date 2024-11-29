@@ -9,9 +9,7 @@ test: no
 By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using the {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
 
 {{< warning >}}
-The Istio classic traffic management APIs (virtual service, destination rules etc) remain at Alpha when used with the ambient data plane mode.
-
-Mixing Istio classic API and Gateway API configuration is not supported, and will lead to undefined behavior.
+Usage of VirtualService with the ambient data plane mode is considered Alpha. Mixing with Gateway API configuration is not supported, and will lead to undefined behavior.
 {{< /warning >}}
 
 ## Route and policy attachment

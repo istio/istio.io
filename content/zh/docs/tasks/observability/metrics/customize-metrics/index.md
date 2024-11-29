@@ -97,21 +97,20 @@ has(request.host) ? request.host : "unknown"
 Istio 公开了所有标准 [Envoy 属性](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes)。
 对等元数据可用作出站属性 `upstream_peer` 和入站属性 `downstream_peer`，具有以下字段：
 
-|字段  | 类型  | 值 |
-|---|---|---|
-| `name` | `string` | Pod 的名字。 |
-| `namespace` | `string` | Pod 运行的命名空间。 |
-| `labels` | `map` | 工作负载标签。 |
-| `owner` | `string` | 工作负载所有者。|
-| `workload_name` | `string` | 工作负载名称。 |
-| `platform_metadata` | `map` | 带有前缀键的平台元数据。 |
-| `istio_version` | `string` | 代理的版本标识符。 |
-| `mesh_id` | `string` | 网格的唯一标识符。 |
-| `app_containers` | `list<string>` | 应用程序容器的短名称列表。 |
-| `cluster_id` | `string` | 此工作负载所属的集群的标识符。 |
+| 字段         | 类型      | 值                              |
+|-------------|----------|---------------------------------|
+| `app`       | `string` | Application 名称。               |
+| `version`   | `string` | Application 版本。               |
+| `service`   | `string` | 服务实例。                        |
+| `revision`  | `string` | 服务版本。                        |
+| `name`      | `string` | Pod 名称。                       |
+| `namespace` | `string` | Pod 所处命名空间。                |
+| `type`      | `string` | 工作负载类型。                    |
+| `workload`  | `string` | 工作负载名称。                    |
+| `cluster`   | `string` | 此工作负载所属集群的标识符。        |
 
-例如，要在出站配置中使用的对等 `app` 标签的表达式是
-`upstream_peer.labels['app'].value`。
+例如，要在出站配置中使用的对等 `app` 标签的表达式是 `filter_state.downstream_peer.app`
+或 `filter_state.upstream_peer.app`。
 
 ## 清理  {#cleanup}
 

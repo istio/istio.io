@@ -198,16 +198,21 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 
 OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni` були встановлені в просторі імен `kube-system`, і щоб для всіх чартів було встановлено `global.platform=openshift`.
 
-Якщо ви використовуєте `helm`, ви можете безпосередньо встановити цільовий простір імен і значення `global.platform`.
-
-Якщо ви використовуєте `istioctl`, ви повинні використати спеціальний профіль з назвою `openshift-ambient`, щоб досягти того самого результату.
-
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
+    Ви повинні встановити `--set global.platform=openshift` для **кожного** чарту, які ви встановлюєте, ось приклад з чартом `istiod`:
+
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install istiod istio/istiod -n istio-system --set profile=ambient --set global.platform=openshift --wait
+    {{< /text >}}
+
+    На додачу, ви маєте встановити `istio-cni` та `ztunnel` в простір імен `kube-system`, наприклад:
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/istio-cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
 {{< /tab >}}

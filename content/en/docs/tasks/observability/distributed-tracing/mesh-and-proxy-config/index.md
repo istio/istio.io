@@ -1,7 +1,7 @@
 ---
-title: Configure tracing using MeshConfig and Pod annotations
+title: Configure tracing using MeshConfig and pod annotations
 description: How to configure tracing options using MeshConfig and pod annotations.
-weight: 11
+weight: 3
 keywords: [telemetry,tracing]
 aliases:
  - /docs/tasks/observability/distributed-tracing/configurability/
@@ -15,15 +15,13 @@ status: Beta
 
 Istio provides the ability to configure advanced tracing options,
 such as sampling rate and adding custom tags to reported spans.
-Sampling is a beta feature, but adding custom tags and tracing tag length are
-considered in-development for this release.
 
 ## Before you begin
 
 1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
-    based on your preferred tracing backend to install the appropriate addon and
+    based on your preferred tracing backend to install the appropriate software and
     configure your Istio proxies to send traces to the tracing deployment.
 
 ## Available tracing configurations
@@ -43,16 +41,14 @@ You can configure the following tracing options in Istio:
 
 There are two ways you can configure tracing options:
 
-1.  Globally via `MeshConfig` options.
+1.  Globally, via `MeshConfig` options.
 
-1.  Per-pod annotations for workload specific customization.
+1.  Per-pod annotations, for workload specific customization.
 
 {{< warning >}}
 In order for the new tracing configuration to take effect for either of these
 options you need to restart pods injected with Istio proxies.
-{{< /warning >}}
 
-{{< warning >}}
 Any pod annotations added for tracing configuration override global settings.
 In order to preserve any global settings you should copy them from
 global mesh config to pod annotations along with workload specific
@@ -141,7 +137,9 @@ spec:
       ...
 {{< /text >}}
 
-## Customizing Trace sampling
+## Customization
+
+### Customizing trace sampling
 
 The sampling rate option can be used to control what percentage of requests get
 reported to your tracing system. This should be configured depending upon your
@@ -175,7 +173,7 @@ spec:
 The sampling rate should be in the range of 0.0 to 100.0 with a precision of 0.01.
 For example, to trace 5 requests out of every 10000, use 0.05 as the value here.
 
-## Customizing tracing tags
+### Customizing tracing tags
 
 Custom tags can be added to spans based on literals, environmental variables and
 client request headers in order to provide additional information in spans
@@ -244,7 +242,7 @@ You can customize the tags using any of the three supported options below.
                   defaultValue: <VALUE>      # optional
     {{< /text >}}
 
-## Customizing tracing tag length
+### Customizing tracing tag length
 
 By default, the maximum length for the request path included as part of the `HttpUrl` span tag is 256.
 To modify this maximum length, add the following to your `tracing.yaml` file.

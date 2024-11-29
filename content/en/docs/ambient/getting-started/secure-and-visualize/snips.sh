@@ -29,5 +29,5 @@ namespace/default labeled
 ENDSNIP
 
 snip_visualize_the_application_and_metrics_3() {
-for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
+for i in $(seq 1 100); do curl -sSI -o /dev/null http://localhost:8080/productpage; done
 }

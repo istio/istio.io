@@ -20,6 +20,16 @@
 #          docs/setup/install/multicluster/verify/index.md
 ####################################################################################################
 
+snip_verify_multicluster_1() {
+istioctl remote-clusters --context="${CTX_CLUSTER1}"
+}
+
+! IFS=$'\n' read -r -d '' snip_verify_multicluster_1_out <<\ENDSNIP
+NAME        SECRET                              STATUS     ISTIOD
+cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
+cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+ENDSNIP
+
 snip_deploy_the_helloworld_service_1() {
 kubectl create --context="${CTX_CLUSTER1}" namespace sample
 kubectl create --context="${CTX_CLUSTER2}" namespace sample

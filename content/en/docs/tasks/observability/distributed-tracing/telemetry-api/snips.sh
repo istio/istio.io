@@ -20,7 +20,7 @@
 #          docs/tasks/observability/distributed-tracing/telemetry-api/index.md
 ####################################################################################################
 
-snip_installation_1() {
+snip_configure_an_extension_provider_1() {
 cat <<EOF > ./tracing.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -28,10 +28,9 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled MeshConfig tracing options
+      tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
@@ -39,7 +38,7 @@ EOF
 istioctl install -f ./tracing.yaml --skip-confirmation
 }
 
-snip_enable_tracing_for_mesh_1() {
+snip_enable_tracing_1() {
 kubectl apply -f - <<EOF
 apiVersion: telemetry.istio.io/v1
 kind: Telemetry
@@ -48,8 +47,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
+  - providers:
+    - name: "zipkin"
 EOF
 }
 
@@ -62,9 +61,9 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
+  - providers:
+    - name: "zipkin"
+    randomSamplingPercentage: 100.00
 EOF
 }
 
@@ -75,9 +74,9 @@ metadata:
 name: mesh-default
 namespace: istio-system
 spec:
-tracing:
-    - providers:
-        - name: "zipkin"
+  tracing:
+  - providers:
+    - name: "zipkin"
     randomSamplingPercentage: 100.00
     customTags:
       "provider":
@@ -94,7 +93,7 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: "zipkin"
+      - name: "zipkin"
       randomSamplingPercentage: 100.00
       customTags:
         "cluster_id":
@@ -112,7 +111,7 @@ metadata:
 spec:
   tracing:
     - providers:
-        - name: "zipkin"
+      - name: "zipkin"
       randomSamplingPercentage: 100.00
       customTags:
         my_tag_header:
@@ -128,10 +127,9 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled tracing options via `MeshConfig`
+      tracing: {} # disable legacy tracing options via `MeshConfig`
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411

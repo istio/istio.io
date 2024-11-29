@@ -11,7 +11,7 @@ Like all Istio {{< gloss >}}data plane{{< /gloss >}} modes, Ambient uses the Ist
 The figure shows an overview of the control plane related components and flows between ztunnel proxy and the `istiod` control plane.
 
 {{< image width="100%"
-link="ztunnel-architecture.png"
+link="ztunnel-architecture.svg"
 caption="Ztunnel architecture"
 >}}
 

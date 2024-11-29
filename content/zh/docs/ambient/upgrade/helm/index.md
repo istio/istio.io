@@ -269,8 +269,8 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 如果您已升级所有数据平面组件以使用 Istio 控制平面的新版本，
 并且认为不需要回滚，则可以通过运行以下命令删除控制平面的先前版本：
 
-{{< text syntax=bash snip_id=none >}}
-$ helm delete istiod-"$REVISION" -n istio-system
+{{< text syntax=bash snip_id=delete_old_revision >}}
+$ helm delete istiod-"$OLD_REVISION" -n istio-system
 {{< /text >}}
 
 {{< /tab >}}

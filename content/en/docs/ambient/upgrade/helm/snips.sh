@@ -80,3 +80,7 @@ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revision
 snip_upgrade_gateway() {
 helm upgrade istio-ingress istio/gateway -n istio-ingress
 }
+
+snip_delete_old_revision() {
+helm delete istiod-"$OLD_REVISION" -n istio-system
+}

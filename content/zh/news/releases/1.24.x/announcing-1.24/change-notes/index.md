@@ -14,7 +14,7 @@ aliases:
 
 - **新增** 添加了对将策略附加到 waypoint 的 `ServiceEntry` 的支持。
 
-- **新增** 添加了新的注解 `ambient.istio.io/bypassInboundCapture`，
+- **新增** 添加了新的注解 `ambient.istio.io/bypass-inbound-capture`，
   可应用于使 ztunnel 仅捕获出站流量。
   这对于仅接受来自网格外客户端（例如面向互联网的 Pod）的流量的工作负载跳过不必要的跳跃非常有用。
 

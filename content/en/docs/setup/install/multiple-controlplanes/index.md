@@ -113,7 +113,7 @@ Istio revisions and `discoverySelectors` are then used to scope the resources an
 1. Check the labels on the system namespaces for each control plane:
 
     {{< text bash >}}
-    $ kubectl get ns usergroup-1 usergroup2 --show-labels
+    $ kubectl get ns usergroup-1 usergroup-2 --show-labels
     NAME              STATUS   AGE     LABELS
     usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
     usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2

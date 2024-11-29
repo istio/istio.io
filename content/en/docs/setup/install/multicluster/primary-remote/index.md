@@ -41,7 +41,13 @@ traffic.
 
 ## Configure `cluster1` as a primary
 
-Create the Istio configuration for `cluster1`:
+Create the `istioctl` configuration for `cluster1`:
+
+{{< tabset category-name="multicluster-primary-remote-install-type-primary-cluster" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Install Istio as primary in `cluster1` using istioctl and the `IstioOperator` API.
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -67,8 +73,36 @@ $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 Notice that `values.global.externalIstiod` is set to `true`. This enables the control plane
 installed on `cluster1` to also serve as an external control plane for other remote clusters.
 When this feature is enabled, `istiod` will attempt to acquire the leadership lock, and consequently manage,
-[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that will be
+[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that are
 attached to it (`cluster2` in this case).
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+Install Istio as primary in `cluster1` using the following Helm commands:
+
+Install the `base` chart in `cluster1`:
+
+{{< text bash >}}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
+{{< /text >}}
+
+Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.externalIstiod=true --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+{{< /text >}}
+
+Notice that `values.global.externalIstiod` is set to `true`. This enables the control plane
+installed on `cluster1` to also serve as an external control plane for other remote clusters.
+When this feature is enabled, `istiod` will attempt to acquire the leadership lock, and consequently manage,
+[appropriately annotated](#set-the-control-plane-cluster-for-cluster2) remote clusters that are
+attached to it (`cluster2` in this case).
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Install the east-west gateway in `cluster1`
 
@@ -79,6 +113,10 @@ require additional access restrictions (e.g. via firewall rules) to prevent
 external attacks. Check with your cloud vendor to see what options are
 available.
 
+{{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network1 | \
@@ -88,6 +126,23 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< warning >}}
 If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
 {{< /warning >}}
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install the east-west gateway in `cluster1` using the following Helm command:
+
+{{< text bash >}}
+$ helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER1}" --set name=istio-eastwestgateway --set networkGateway=network1
+{{< /text >}}
+
+{{< warning >}}
+If the control-plane was installed with a revision, you must add a `--set revision=<my-revision>` flag to the Helm install command.
+{{< /warning >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 Wait for the east-west gateway to be assigned an external IP address:
 
@@ -143,6 +198,10 @@ $ export DISCOVERY_ADDRESS=$(kubectl \
 
 Now create a remote configuration for `cluster2`.
 
+{{< tabset category-name="multicluster-primary-remote-install-type-remote-cluster" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
 apiVersion: install.istio.io/v1alpha1
@@ -157,6 +216,39 @@ spec:
 EOF
 {{< /text >}}
 
+Apply the configuration to `cluster2`:
+
+{{< text bash >}}
+$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
+{{< /text >}}
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Install Istio as remote in `cluster2` using the following Helm commands:
+
+Install the `base` chart in `cluster2`:
+
+{{< text bash >}}
+$ helm install istio-base istio/base -n istio-system --set profile=remote --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --set profile=remote --set global.multiCluster.clusterName=cluster2 --set istiodRemote.injectionPath=/inject/cluster/cluster2/net/network1 --set global.configCluster=true --set global.remotePilotAddress="${DISCOVERY_ADDRESS}" --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< tip >}}
+
+The `remote` profile for the `base` and `istiod` Helm charts is only available from Istio release 1.24 onwards.
+
+{{< /tip >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 {{< tip >}}
 Here we're configuring the location of the control plane using the `injectionPath` and
 `remotePilotAddress` parameters. Although convenient for demonstration, in a production
@@ -164,12 +256,6 @@ environment it is recommended to instead configure the `injectionURL` parameter 
 properly signed DNS certs similar to the configuration shown in the
 [external control plane instructions](/docs/setup/install/external-controlplane/#register-the-new-cluster).
 {{< /tip >}}
-
-Apply the configuration to `cluster2`:
-
-{{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
-{{< /text >}}
 
 ## Attach `cluster2` as a remote cluster of `cluster1`
 
@@ -209,16 +295,67 @@ You can now [verify the installation](/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 
-1. Uninstall Istio in `cluster1`:
+Uninstall Istio from both `cluster1` and `cluster2` using the same mechanism you installed Istio with (istioctl or Helm).
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
-    {{< /text >}}
+{{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 
-1. Uninstall Istio in `cluster2`:
+{{< tab name="IstioOperator" category-value="iop" >}}
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
-    {{< /text >}}
+Uninstall Istio in `cluster1`:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+Uninstall Istio in `cluster2`:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+Delete Istio Helm installation from `cluster1`:
+
+{{< text syntax=bash >}}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
+{{< /text >}}
+
+Delete the `istio-system` namespace from `cluster1`:
+
+{{< text syntax=bash >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+Delete Istio Helm installation from `cluster2`:
+
+{{< text syntax=bash >}}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+Delete the `istio-system` namespace from `cluster2`:
+
+{{< text syntax=bash >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
+
+(Optional) Delete CRDs installed by Istio:
+
+Deleting CRDs permanently removes any Istio resources you have created in your clusters.
+To delete Istio CRDs installed in your clusters:
+
+{{< text syntax=bash snip_id=delete_crds >}}
+$ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+$ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}

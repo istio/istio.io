@@ -23,7 +23,7 @@ source "tests/util/samples.sh"
 source "tests/util/addons.sh"
 
 # @setup profile=none
-snip_installation_1
+snip_configure_an_extension_provider_1
 _wait_for_deployment istio-system istiod
 _wait_for_deployment istio-system istio-ingressgateway
 

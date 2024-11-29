@@ -27,12 +27,16 @@ snip_getting_started_1
 # deploy test application
 snip_dns_capture_in_action_2
 
-# configure service entries and verify
+# configure service entries #and verify
 snip_dns_capture_in_action_1
 _verify_contains snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
 
 snip_address_auto_allocation_1
 _verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
+
+# verify opt-out
+snip_address_auto_allocation_3
+_verify_contains snip_address_auto_allocation_4  "$snip_address_auto_allocation_4_out"
 
 # verify external tcp services without vips
 snip_external_tcp_services_without_vips_1
