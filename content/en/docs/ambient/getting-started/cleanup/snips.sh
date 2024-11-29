@@ -21,17 +21,24 @@
 ####################################################################################################
 source "content/en/boilerplates/snips/gateway-api-remove-crds.sh"
 
-snip_remove_the_ambient_and_waypoint_labels_1() {
-kubectl label namespace default istio.io/dataplane-mode-
-kubectl label namespace default istio.io/use-waypoint-
-}
-
 snip_remove_waypoint_proxies_1() {
+kubectl label namespace default istio.io/use-waypoint-
 istioctl waypoint delete --all
 }
 
+snip_remove_the_namespace_from_the_ambient_data_plane_1() {
+kubectl label namespace default istio.io/dataplane-mode-
+}
+
 snip_remove_the_sample_application_1() {
+kubectl delete httproute reviews
+kubectl delete authorizationpolicy productpage-viewer
+kubectl delete -f samples/curl/curl.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
 kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
-kubectl delete -f samples/curl/curl.yaml
+kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
 }
+
+! IFS=$'\n' read -r -d '' snip_remove_the_sample_application_1_out <<\ENDSNIP
+
+ENDSNIP

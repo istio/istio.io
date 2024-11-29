@@ -13,7 +13,7 @@ identities that are automatically issued to all workloads in the mesh.
 
 ## Enforce Layer 4 authorization policy
 
-Let's create an [authorization policy](/docs/reference/config/security/authorization-policy/) that restricts which services can communicate with the `productpage` service. The policy is applied to pods with the `app: productpage` label, and it allows calls only from the the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. (This is the service account that is used by the Bookinfo gateway you deployed in the previous step.)
+Let's create an [authorization policy](/docs/reference/config/security/authorization-policy/) that restricts which services can communicate with the `productpage` service. The policy is applied to pods with the `app: productpage` label, and it allows calls only from the the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. This is the service account that is used by the Bookinfo gateway you deployed in the previous step.
 
 {{< text syntax=bash snip_id=deploy_l4_policy >}}
 $ kubectl apply -f - <<EOF
@@ -37,7 +37,7 @@ EOF
 
 If you open the Bookinfo application in your browser (`http://localhost:8080/productpage`), you will see the product page, just as before. However, if you try to access the `productpage` service from a different service account, you should see an error.
 
-Let's try accessing Bookinfo application from a `curl` pod:
+Let's try accessing Bookinfo application from a different client in the cluster:
 
 {{< text syntax=bash snip_id=deploy_curl >}}
 $ kubectl apply -f samples/curl/curl.yaml
@@ -94,7 +94,7 @@ spec:
 EOF
 {{< /text >}}
 
-Note the `targetRefs` field is used to specify the target service for the authorization policy of a waypoint proxy. The rules section is similar as before, but this time we added the `to` section to specify the operation that is allowed.
+Note the `targetRefs` field is used to specify the target service for the authorization policy of a waypoint proxy. The rules section is similar as before, but this time you added the `to` section to specify the operation that is allowed.
 
 {{< tip >}}
 To learn about how to enable more Istio's features, read the [Use Layer 7 features user guide](/docs/ambient/usage/l7-features/).
@@ -103,7 +103,7 @@ To learn about how to enable more Istio's features, read the [Use Layer 7 featur
 Confirm the new waypoint proxy is enforcing the updated authorization policy:
 
 {{< text bash >}}
-$ # This fails with an RBAC error because we're not using a GET operation
+$ # This fails with an RBAC error because you're not using a GET operation
 $ kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
@@ -115,11 +115,11 @@ RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # This works as we're explicitly allowing GET requests from the curl pod
+$ # This works as you're explicitly allowing GET requests from the curl pod
 $ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
 ## Next steps
 
-With the waypoint proxy in place, you can now enforce Layer 7 policies in the namespace. In addition to authorization policies, [we can use the waypoint proxy to split traffic between services](../manage-traffic/). This is useful when doing canary deployments or A/B testing.
+With the waypoint proxy in place, you can now enforce Layer 7 policies in the namespace. In addition to authorization policies, [you can use the waypoint proxy to split traffic between services](../manage-traffic/). This is useful when doing canary deployments or A/B testing.
