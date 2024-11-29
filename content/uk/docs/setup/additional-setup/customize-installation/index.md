@@ -140,14 +140,7 @@ spec:
 
 ### Налаштування шлюзів {#configure-gateways}
 
-Шлюзи є особливим типом компонента, оскільки можна визначити кілька шлюзів для вхідного та вихідного трафіку. В [API `IstioOperator`](/docs/reference/config/istio.operator.v1alpha1/) шлюзи визначаються як список. Профіль `default` встановлює один шлюз для вхідного трафіку, названий `istio-ingressgateway`. Ви можете перевірити стандартне значення для цього шлюзу:
-
-{{< text bash >}}
-$ istioctl profile dump --config-path components.ingressGateways
-$ istioctl profile dump --config-path values.gateways.istio-ingressgateway
-{{< /text >}}
-
-Ці команди покажуть як налаштування `IstioOperator`, так і Helm для шлюзу, які використовуються разом для визначення згенерованих ресурсів шлюзу. Вбудовані шлюзи можна налаштовувати так само як і будь-який інший компонент.
+Шлюзи є особливим типом компонента, оскільки можна визначити кілька шлюзів для вхідного та вихідного трафіку. В [API `IstioOperator`](/docs/reference/config/istio.operator.v1alpha1/) шлюзи визначаються як список. Профіль `default` встановлює один шлюз для вхідного трафіку, названий `istio-ingressgateway`. Ви можете [перевірити стандартні значення для цього шлюзу]({{< github_tree >}}/manifests/charts/gateways/istio-ingress/values.yaml). Вбудовані шлюзи можна налаштовувати так само як і будь-який інший компонент.
 
 {{< warning >}}
 З версії 1.7 і пізніше імʼя шлюзу завжди повинно бути зазначене при накладанні. Відсутність імені більше не призводить до стандартного використання `istio-ingressgateway` або `istio-egressgateway`.
