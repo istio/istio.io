@@ -1,7 +1,7 @@
 ---
 title: Zipkin
 description: Дізнайтеся, як налаштувати проксі-сервери для надсилання запитів на трейсинг до Zipkin.
-weight: 50
+weight: 7
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
 aliases:
     - /uk/docs/tasks/zipkin-tracing.html
@@ -19,13 +19,53 @@ test: yes
 
 1. Дотримуйтесь інструкцій у розділі [Встановлення Zipkin](/docs/ops/integrations/zipkin/#installation) для розгортання Zipkin у вашому кластері.
 
-2. Коли ви увімкнете трейсинг, ви зможете встановити коефіцієнт відбору, який Istio використовує для трейсингу. Використовуйте параметр `meshConfig.defaultConfig.tracing.sampling` під час встановлення, щоб [встановити коефіцієнт відбору](/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/#customizing-trace-sampling). Стандартне значення для коефіцієнта відбору дорвінює 1%.
+1. Розгорніть зразок застосунку [Bookinfo](/docs/examples/bookinfo/#deploying-the-application).
 
-3. Розгорніть зразок застосунку [Bookinfo](/docs/examples/bookinfo/#deploying-the-application).
+## Налаштування Istio для розподіленого трейсингу {#configure-istio-for-distributed-tracing}
+
+### Налаштування постачальника розширень {#configure-an-extension-provider}
+
+Встановіть Istio з [постачальником розширень](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) посилаючись на сервіс Zipkin:
+
+{{< text bash >}}
+$ cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+       tracing: {} # відключіть застарілі параметри трейсингу MeshConfig
+    extensionProviders:
+    - name: zipkin
+      zipkin:
+        address: zipkin.istio-system.svc.cluster.local
+        port: 9411
+EOF
+$ istioctl install -f ./tracing.yaml --skip-confirmation
+{{< /text >}}
+
+### Увімкнення трейсингу {#enable-tracing}
+
+Увімкніть трейсинг, застосувавши наступну конфігурацію:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+   tracing:
+   - providers:
+     - name: "zipkin"
+EOF
+{{< /text >}}
 
 ## Доступ до інфопанелі (дашбоарду) {#accessing-the-dashboard}
 
-Детальніше про конфігурацію доступу до надбудов Istio через шлюз можна прочитати в розділі [Віддалений доступ до надбудов телеметрії](/docs/tasks/observability/gateways).
+Детальніше про конфігурацію доступу до надбудов Istio через шлюз можна прочитати в завданні [Віддалений доступ до надбудов телеметрії](/docs/tasks/observability/gateways).
 
 Для тестування (та тимчасового доступу) ви також можете використовувати перенаправлення портів. Використовуйте наступну команду, припускаючи, що ви розгорнули Zipkin у просторі імен `istio-system`:
 
