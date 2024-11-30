@@ -30,37 +30,37 @@
 
     .year-buttons {
         display: flex;
-        overflow: auto;
-        white-space: nowrap;
-        @media (min-width: $bp-xl) {
-            white-space: normal;
-            overflow: unset;
-            justify-content: center;
-        }
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
 
         .year-button {
-            padding: .5em 3.5em;
-            min-width: 168px;
-            height: 36px;
-            margin: 2.5em .5em 3.75em;
-            border-radius: 28px;
-            border: solid 2px $inputBorderColor;
             background-color: #fff;
-            font-weight: $boldTextWeight;
-            line-height: 1.5;
-            letter-spacing: normal;
+            border: solid 2px $inputBorderColor;
+            border-radius: 28px;
             color: $linkActiveColor;
+            font-weight: $boldTextWeight;
+            letter-spacing: normal;
+            line-height: 1.5;
+            margin: 1em .5em;
+            min-width: 5rem;
+            padding: .5em 1.5em;
+
             @media (min-width: $bp-md) {
-                margin: 2.5em 1.15em 3.75em 0;
+                min-width: 10rem;
+                padding: .5em 3.5em;
 
                 &:hover {
-                    outline: 0;
+                    box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
                     -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
                     -moz-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
-                    box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    outline: 0;
                 }
             }
 
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .active {
