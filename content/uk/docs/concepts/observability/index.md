@@ -105,7 +105,7 @@ istio_requests_total{
 
 Istio підтримує розподілені трейси через проксі Envoy. Проксі автоматично генерують відрізки трейсів від імені застосунків, які вони обробляють, що вимагає лише того, щоб застосунки пересилали відповідний контекст запиту.
 
-Istio підтримує кілька бекендів для трейсів, включаючи [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) та [Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/). Оператори можуть керувати частотою вибірки для генерації трейсів (тобто, швидкістю, з якою генеруються дані трейсів для кожного запиту). Це дозволяє операторам контролювати обсяг і швидкість генерації даних трейсів для їхнього mesh.
+Istio підтримує кілька бекендів для трейсів, включаючи [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/) та багато інструментів та сервісів, що підтримують [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/). Оператори можуть керувати частотою вибірки для генерації трейсів (тобто, швидкістю, з якою генеруються дані трейсів для кожного запиту). Це дозволяє операторам контролювати обсяг і швидкість генерації даних трейсів для їхнього mesh.
 
 Більше інформації про розподілені трейси з Istio можна знайти у наших [Частих питаннях про розподілені трейси](/about/faq/#distributed-tracing).
 
