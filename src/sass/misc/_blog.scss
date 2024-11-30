@@ -42,13 +42,12 @@
             font-weight: $boldTextWeight;
             letter-spacing: normal;
             line-height: 1.5;
-            margin-top: 1em;
-            margin-right: 1em;
-            margin-bottom: 1em;
+            margin: 1em .5em;
+            min-width: 5rem;
             padding: .5em 1.5em;
 
             @media (min-width: $bp-md) {
-                min-width: 168px;
+                min-width: 10rem;
                 padding: .5em 3.5em;
 
                 &:hover {
