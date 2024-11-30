@@ -28,8 +28,8 @@ $ export PATH=$PWD/bin:$PATH
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl version
-no ready Istio pods in "istio-system"
-{{< istio_full_version >}}
+Istio is not present in the cluster: no running Istio pods in namespace "istio-system"
+client version: {{< istio_full_version >}}
 {{< /text >}}
 
 ## Встановлення Istio у ваш кластер {#install-istio-on-to-your-cluster}
@@ -40,7 +40,7 @@ no ready Istio pods in "istio-system"
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
-Може знадобитися кілька хвилин, щоб компоненти Istio були встановлені. Як тільки установка буде завершена, ви отримаєте наступний результат, який вказує на те, що всі компоненти були успішно встановлені.
+Як тільки установку буде завершено, ви отримаєте наступний результат, який вказує на те, що всі компоненти були успішно встановлені.
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -50,16 +50,12 @@ $ istioctl install --set profile=ambient --skip-confirmation
 ✔ Installation complete
 {{< /text >}}
 
-{{< tip >}}
-Ви можете перевірити встановлені компоненти за допомогою команди `istioctl verify-install`.
-{{< /tip >}}
-
 ## Встановлення CRD для Kubernetes Gateway API {#install-the-kubernetes-gateway-api-crds}
-
-{{< boilerplate gateway-api-install-crds >}}
 
 Ви використовуватимете Kubernetes Gateway API для налаштування маршрутизації трафіку.
 
+{{< boilerplate gateway-api-install-crds >}}
+
 ## Подальші кроки {#next-steps}
 
-Вітаємо! Ви успішно встановили Istio з підтримкою режиму оточення. Перейдіть до наступного кроку, щоб [встановити демонстраційний застосунок і додати його до сервісної мережі в режимі оточення](/docs/ambient/getting-started/deploy-sample-app/).
+Вітаємо! Ви успішно встановили Istio з підтримкою режиму оточення. Перейдіть до наступного кроку, щоб [встановити демонстраційний застосунок](/docs/ambient/getting-started/deploy-sample-app/).

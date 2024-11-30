@@ -1,6 +1,6 @@
 ---
-title: Розгортання застосунку
-description: РОзротання демонстраційного застосунку Bookinfo.
+title: Розгортання демонстраційного застосунку
+description: Розротання демонстраційного застосунку Bookinfo.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: yes
@@ -58,6 +58,8 @@ NAME               CLASS   ADDRESS                                            PR
 bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         42s
 {{< /text >}}
 
+Зачекайте, поки шлюз не зʼявиться, як запрограмовано, перш ніж продовжити.
+
 ## Доступ до застосунку {#access-the-application}
 
 Ви зможете зʼєднатись з сервісом Bookinfo `productpage` через шлюз, який ви щойно налаштували. Щоб отримати доступ до шлюзу, використовуйте команду `kubectl port-forward`:
@@ -70,7 +72,7 @@ $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Застосунок Bookinfo" >}}
 
-Якщо ви оновите сторінку, ви повинні побачити, як відгуки та рейтинги книг змінюються, оскільки запити розподіляються між різними версіями сервісу `reviews`.
+Якщо ви оновите сторінку, ви повинні побачити, як рейтинги книг змінюються, оскільки запити розподіляються між різними версіями сервісу `reviews`.
 
 ## Подальші кроки {#next-steps}
 
