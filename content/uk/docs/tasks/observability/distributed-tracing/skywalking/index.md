@@ -1,7 +1,7 @@
 ---
 title: Apache SkyWalking
 description: Дізнайтеся, як налаштувати проксі для надсилання запитів трейсингу до Apache SkyWalking.
-weight: 10
+weight: 8
 keywords: [телеметрія,трейсинг,skywalking,спан,порт-форвардинг,telemetry,tracing,skywalking,span,port-forwarding]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
@@ -15,7 +15,7 @@ test: yes
 
 ## Налаштування трейсингу {#configure-tracing}
 
-Якщо ви використовували CR `IstioOperator` для установки Istio, додайте наступне поле до вашої конфігурації:
+Якщо ви використовували конфігурацію `IstioOperator` для установки Istio, додайте наступне поле до вашої конфігурації:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -60,7 +60,7 @@ EOF
 
 ## Доступ до панелі управління {#accessing-the-dashboard}
 
-[Віддалений доступ до надбудов телеметрії](/docs/tasks/observability/gateways) описує, як налаштувати доступ до надбудов Istio через шлюз.
+Завдання [Віддалений доступ до надбудов телеметрії](/docs/tasks/observability/gateways) описує, як налаштувати доступ до надбудов Istio через шлюз.
 
 Для тестування (та тимчасового доступу) ви також можете використовувати порт-форвардинг. Використовуйте наступне, припускаючи, що ви розгорнули SkyWalking у просторі імен `istio-system`:
 

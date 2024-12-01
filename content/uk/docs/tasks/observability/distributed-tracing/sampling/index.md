@@ -1,7 +1,7 @@
 ---
-title: Вибірка трейсів
+title: Налаштування вибірки трейсів
 description: Досліджуйте різні підходи до налаштування вибірки трейсів на проксі.
-weight: 40
+weight: 4
 keywords: [sampling, telemetry, tracing, opentelemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
@@ -19,10 +19,6 @@ Istio надає кілька способів налаштування вибі
 
 1. Власний OpenTelemetry Sampler: реалізація власного семплера, яка повинна бути поєднана з `OpenTelemetryTracingProvider`.
 
-1. Розгорніть OpenTelemetry Collector
-
-    {{< boilerplate start-otel-collector-service >}}
-
 ### Вибірка за відсотком {#percentage-sampler}
 
 {{< boilerplate telemetry-tracing-tips >}}
@@ -33,7 +29,46 @@ Istio надає кілька способів налаштування вибі
 
 Є три способи налаштування випадкової швидкості вибірки:
 
-#### Глобально через `MeshConfig` {#globally-via-meshconfig}
+#### Telemetry API {#telemetry-api}
+
+Вибірку можна налаштувати для різних масштабів: для всієї mesh-мережі, для простору імен або для конкретного навантаження, що забезпечує велику гнучкість. Щоб дізнатися більше, будь ласка, ознайомтеся з документацією [Telemetry API](/docs/tasks/observability/telemetry/).
+
+Встановіть Istio без налаштування `sampling` всередині `defaultConfig`:
+
+{{< text syntax=bash snip_id=install_without_sampling >}}
+$ cat <<EOF | istioctl install -y -f -
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    extensionProviders:
+    - name: otel-tracing
+      opentelemetry:
+        port: 4317
+        service: opentelemetry-collector.observability.svc.cluster.local
+        resource_detectors:
+          environment: {}
+EOF
+{{< /text >}}
+
+Увімкніть провайдера трейсингу через Telemetry API та задайте `randomSamplingPercentage`.
+
+{{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+   name: otel-demo
+spec:
+  tracing:
+  - providers:
+    - name: otel-tracing
+    randomSamplingPercentage: 10
+EOF
+{{< /text >}}
+
+#### Використання `MeshConfig` {#using-meshconfig}
 
 Випадкова вибірка за відсотком може бути налаштована глобально через `MeshConfig`.
 
@@ -73,7 +108,7 @@ spec:
 EOF
 {{< /text >}}
 
-#### Анотація Pod `proxy.istio.io/config` {#pod-annotation-proxyistioioconfig}
+#### Використання анотації `proxy.istio.io/config` {#using-the-proxyistioioconfig-annotation}
 
 Ви можете додати анотацію `proxy.istio.io/config` до метаданих вашого Pod, щоб перевизначити будь-які налаштування вибірки на рівні мережі.
 
@@ -98,48 +133,9 @@ spec:
       ...
 {{< /text >}}
 
-#### Telemetry API {#telemetry-api}
-
-Випадкову вибірку за відсотком також можна налаштувати через Telemetry API. Через Telemetry API вибірку можна налаштувати на різних масштабах: глобально, на рівні простору імен або на рівні навантаження, що забезпечує велику гнучкість. Щоб дізнатися більше, будь ласка, ознайомтеся з документацією [Telemetry API](/docs/tasks/observability/telemetry/).
-
-Встановіть Istio без налаштування `sampling` всередині `defaultConfig`:
-
-{{< text syntax=bash snip_id=install_without_sampling >}}
-$ cat <<EOF | istioctl install -y -f -
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-spec:
-  meshConfig:
-    enableTracing: true
-    extensionProviders:
-    - name: otel-tracing
-      opentelemetry:
-        port: 4317
-        service: opentelemetry-collector.observability.svc.cluster.local
-        resource_detectors:
-          environment: {}
-EOF
-{{< /text >}}
-
-Потім увімкніть провайдера трейсингу через Telemetry API та задайте `randomSamplingPercentage`.
-
-{{< text syntax=bash snip_id=enable_telemetry_with_sampling >}}
-$ kubectl apply -f - <<EOF
-apiVersion: telemetry.istio.io/v1
-kind: Telemetry
-metadata:
-   name: otel-demo
-spec:
-  tracing:
-  - providers:
-    - name: otel-tracing
-    randomSamplingPercentage: 10
-EOF
-{{< /text >}}
-
 ### Власний OpenTelemetry Sampler {#custom-opentelemetry-sampler}
 
-Специфікація OpenTelemetry визначає [Sampler API](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.31.0/specification/trace/sdk.md#sampler). Sampler API дозволяє створювати власний семплер, який може здійснювати більш інтелектуальні та ефективні рішення для вибірки, такі як [Probability Sampling](https://github.com/open-telemetry/opentelemetry-specification/blob/v1.31.0/specification/trace/tracestate-probability-sampling.md).
+Специфікація OpenTelemetry визначає [Sampler API](https://opentelemetry.io/docs/specs/otel/trace/sdk/#sampler). Sampler API дозволяє створювати власний семплер, який може здійснювати більш інтелектуальні та ефективні рішення для вибірки, такі як [Probability Sampling](https://opentelemetry.io/docs/specs/otel/trace/tracestate-probability-sampling-experimental/).
 
 Такі семплери потім можна поєднати з [`OpenTelemetryTracingProvider`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider).
 
@@ -151,7 +147,7 @@ EOF
 
 - [Dynatrace Sampler](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler)
 
-Власні семплери налаштовуються через `Meshconfig`. Ось приклад конфігурації семплера Dynatrace:
+Власні семплери налаштовуються через `MeshConfig`. Ось приклад конфігурації семплера Dynatrace:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -174,21 +170,25 @@ spec:
           cluster_id: 123
 {{< /text >}}
 
-## Порядок пріоритету {#order-of-precedence}
+### Порядок пріоритету {#order-of-precedence}
 
 З кількома способами налаштування вибірки важливо розуміти порядок пріоритету кожного методу.
 
 При використанні випадкової вибірки за відсотком порядок пріоритету є:
 
-`Telemetry API` > `Анотація Pod` > `MeshConfig`.
+<table><tr><td>Telemetry API > Анотація Pod > <code>MeshConfig</code> </td></tr></table>
 
-Це означає, що якщо значення визначено в усіх з зазначених, вибирається значення з `Telemetry API`.
+Це означає, що якщо значення визначено в усіх з зазначених, вибирається значення з Telemetry API.
 
 Коли налаштований власний OpenTelemetry семплер, порядок пріоритету є:
 
-`Custom OTel Sampler` > (`Telemetry API` | `Анотація Pod` | `MeshConfig`)
+<table><tr><td>Custom OTel Sampler > (Telemetry API | Анотація Pod | <code>MeshConfig</code>)</td></tr></table>
 
 Це означає, що якщо налаштований власний OpenTelemetry семплер, він перевизначить усі інші методи. Крім того, значення випадкової вибірки встановлено на `100` і не може бути змінене. Це важливо, оскільки власний семплер має отримувати 100% відрізків для правильного прийняття рішень.
+
+## Розгортання OpenTelemetry Collector {#deploy-the-opentelemetry-collector}
+
+{{< boilerplate start-otel-collector-service >}}
 
 ## Розгортання Bookinfo {#deploy-the-bookinfo-application}
 

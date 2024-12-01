@@ -47,4 +47,4 @@ $ kubectl exec deploy/curl -- sh -c "for i in \$(seq 1 100); do curl -s http://p
 
 ## Подальші кроки {#next-steps}
 
-Ця секція завершує посібник по початку роботи з ambient mode. Ви можете перейти до розділу [Очищення](/docs/ambient/getting-started/cleanup), щоб видалити Istio, або продовжити дослідження [посібників користувача ambient mode](/docs/ambient/usage/), щоб дізнатися більше про функції та можливості Istio.
+Ця секція завершує посібник по початку роботи з ambient mode в Istio. Ви можете перейти до розділу [Очищення](/docs/ambient/getting-started/cleanup), щоб видалити Istio, або продовжити дослідження [посібників користувача ambient mode](/docs/ambient/usage/), щоб дізнатися більше про функції та можливості Istio.
