@@ -226,7 +226,7 @@ Note: only one address may be specified.
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because the resources are generated with well-known labels (`gateway.networking.k8s.io/gateway-name: <gateway name>`) and names:
+This is easily done because [the resources are generated with well-known labels](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment) (`gateway.networking.k8s.io/gateway-name: <gateway name>`) and names:
 
 * Gateway: `<gateway name>-<gateway class name>`
 * Waypoint: `<gateway name>`
