@@ -22,7 +22,12 @@ owner: istio/wg-environments-maintainers
 
 ## Налаштування `cluster1` як primary {#configure-cluster1-as-a-primary}
 
-Створіть конфігурацію Istio для `cluster1`:
+Створіть конфігурацію `istioctl` для `cluster1`:
+{{< tabset category-name="multicluster-install-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Встановіть Istio як primary в `cluster1` використовуючи istioctl та `IstioOperator` API.
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -44,9 +49,36 @@ EOF
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Встановіть Istio як primary у `cluster1` за допомогою наступних команд Helm:
+
+Встановіть чарт `base` в `cluster1`:
+
+{{< text bash >}}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
+{{< /text >}}
+
+Потім встановіть чарт `istiod` в `cluster1` з наступними параметрами для мультикластера:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Налаштування `cluster2` як primary {#configure-cluster2-as-a-primary}
 
-Створіть конфігурацію Istio для `cluster2`:
+Створіть конфігурацію `istioctl` для `cluster2`:
+
+{{< tabset category-name="multicluster-install-type-cluster-2" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Встановіть Istio як primary у `cluster2` за допомогою istioctl та API `IstioOperator`.
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
@@ -67,6 +99,27 @@ EOF
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Встановіть Istio як primary у `cluster2` за допомогою наступних команд Helm:
+
+Встановіть чарт `base` у `cluster2`:
+
+{{< text bash >}}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+Потім встановіть чарт `istiod` у `cluster2` з наступними налаштуваннями мультикластера:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network1
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Увімкнення виявлення точок доступу {#enable-endpoint-discovery}
 
@@ -96,16 +149,65 @@ $ istioctl create-remote-secret \
 
 ## Очищення {#cleanup}
 
-1. Видаліть Istio у `cluster1`:
+Видаліть Istio з `cluster1` і `cluster2` за допомогою того ж механізму, за допомогою якого ви встановлювали Istio (istioctl або Helm).
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
-    {{< /text >}}
+{{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 
-1. Видаліть Istio у `cluster2`:
+{{< tab name="IstioOperator" category-value="iop" >}}
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
-    {{< /text >}}
+Видаліть Istio з `cluster1`:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+Видаліть Istio з `cluster2`:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+Видаліть встановлення Istio Helm з `cluster1`:
+
+{{< text syntax=bash >}}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
+{{< /text >}}
+
+Видаліть простір імен `istio-system` з `cluster1`:
+
+{{< text syntax=bash >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+Видаліть встановлення Istio Helm з `cluster2`:
+
+{{< text syntax=bash >}}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+Видаліть простір імен `istio-system` з `cluster2`:
+
+{{< text syntax=bash >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
+
+(Опціонально) Видаліть CRD, встановлені Istio:
+
+Видалення CRD назавжди видаляє всі ресурси Istio, які ви створили у ваших кластерах. Видаліть CRD Istio, встановлені у ваших кластерах, за допомогою запуску:
+
+{{< text syntax=bash snip_id=delete_crds >}}
+$ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+$ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}

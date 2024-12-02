@@ -34,7 +34,13 @@ $ kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
 
 ## Налаштування `cluster1` як primary кластера {#configure-cluster1-as-a-primary}
 
-Створіть конфігурацію Istio для `cluster1`:
+Створіть конфігурацію `istioctl` для `cluster1`:
+
+{{< tabset category-name="multicluster-install-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Встановіть Istio як primary у `cluster1` за допомогою istioctl та API `IstioOperator`.
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -56,9 +62,34 @@ EOF
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /text >}}
 
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Встановіть Istio як primary у `cluster1` за допомогою наступних команд Helm:
+
+Встановіть чарт `base` у `cluster1`:
+
+{{< text bash >}}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
+{{< /text >}}
+
+Потім встановіть чарт `istiod` в `cluster1` з наступними налаштуваннями мультикластера:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Встановлення east-west шлюзу в `cluster1` {#install-the-east-west-gateway-in-cluster1}
 
 Встановіть шлюз в `cluster1`, який призначений для [east-west](https://en.wikipedia.org/wiki/East-west_traffic) трафіку. Стандартно цей шлюз буде доступний в Інтернеті. Операційні розгортання можуть вимагати додаткових обмежень доступу (наприклад, через правила брандмауера), щоб запобігти зовнішнім атакам. Зверніться до свого хмарного постачальника, щоб дізнатися про доступні варіанти.
+
+{{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
@@ -69,6 +100,23 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< warning >}}
 Якщо панель управління була встановлена з використанням ревізії, додайте прапорець `--revision rev` до команди `gen-eastwest-gateway.sh`.
 {{< /warning >}}
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Встановіть шлюз east-west у `cluster1` за допомогою наступної команди Helm:
+
+{{< text bash >}}
+$ helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER1}" --set name=istio-eastwestgateway --set networkGateway=network1
+{{< /text >}}
+
+{{< warning >}}
+Якщо панель управління було встановлено з ревізією, вам слід додати прапорець `--set revision=<моя-ревізія>` до команди встановлення Helm.
+{{< /warning >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 Дочекайтеся призначення зовнішньої IP-адреси для east-west шлюзу:
 
@@ -89,7 +137,7 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -n istio-system -f \
 
 ## Встановлення стандартної мережі для `cluster2` {#set-the-default-network-for-cluster2}
 
-Якщо простір імен istio-system вже створений, необхідно втсановити мережу кластера:
+Якщо простір імен istio-system вже створений, необхідно встановити мережу кластера:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
@@ -98,7 +146,13 @@ $ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
 
 ## Налаштування `cluster2` як primary кластера {#configure-cluster2-as-a-primary}
 
-Створіть конфігурацію Istio для `cluster2`:
+Створіть конфігурацію `istioctl` для `cluster2`:
+
+{{< tabset category-name="multicluster-install-type-cluster-2" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+Встановіть Istio як primary у `cluster2` за допомогою istioctl та API `IstioOperator`.
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
@@ -120,15 +174,57 @@ EOF
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /text >}}
 
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Встановіть Istio як primary у `cluster2` за допомогою наступних команд Helm:
+
+Встановіть чарт `base` у `cluster2`:
+
+{{< text bash >}}
+$ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+Потім встановіть чарт `istiod` у `cluster2` з наступними налаштуваннями мультикластера:
+
+{{< text bash >}}
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Встановлення east-west шлюзу в `cluster2` {#install-the-east-west-gateway-in-cluster2}
 
 Як і у випадку з `cluster1`, встановіть шлюз у `cluster2`, який призначений для east-west трафіку.
+
+{{< tabset category-name="east-west-gateway-install-type-cluster-2" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
 
 {{< text bash >}}
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network2 | \
     istioctl --context="${CTX_CLUSTER2}" install -y -f -
 {{< /text >}}
+
+{{< /tab >}}
+{{< tab name="Helm" category-value="helm" >}}
+
+Встановіть шлюз east-west у `cluster2` за допомогою наступної команди Helm:
+
+{{< text bash >}}
+$ helm install istio-eastwestgateway istio/gateway -n istio-system --kube-context "${CTX_CLUSTER2}" --set name=istio-eastwestgateway --set networkGateway=network2
+{{< /text >}}
+
+{{< warning >}}
+Якщо панель управління було встановлено з ревізією, вам слід додати прапорець `--set revision=<моя-ревізія>` до команди встановлення Helm.
+{{< /warning >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 Дочекайтеся призначення зовнішньої IP-адреси для east-west шлюзу:
 
@@ -175,16 +271,67 @@ $ istioctl create-remote-secret \
 
 ## Очищення {#cleanup}
 
-1. Видаліть Istio у `cluster1`:
+Видаліть Istio з `cluster1` і `cluster2` за допомогою того ж механізму, за допомогою якого ви встановлювали Istio (istioctl або Helm).
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
-    {{< /text >}}
+{{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 
-1. Видаліть Istio у `cluster2`:
+{{< tab name="IstioOperator" category-value="iop" >}}
 
-    {{< text syntax=bash snip_id=none >}}
-    $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
-    $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
-    {{< /text >}}
+Видаліть Istio з `cluster1`:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+Видаліть Istio з `cluster2`:
+
+{{< text syntax=bash snip_id=none >}}
+$ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+Видаліть встановлення Istio Helm з `cluster1`:
+
+{{< text syntax=bash >}}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
+{{< /text >}}
+
+Видаліть простір імен `istio-system` з `cluster1`:
+
+{{< text syntax=bash >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
+{{< /text >}}
+
+Видаліть встановлення Istio Helm з `cluster2`:
+
+{{< text syntax=bash >}}
+$ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
+$ helm delete istio-eastwestgateway -n istio-system --kube-context "${CTX_CLUSTER2}"
+$ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+Видаліть простір імен `istio-system` з `cluster2`:
+
+{{< text syntax=bash >}}
+$ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
+{{< /text >}}
+
+(Опціонально) Видаліть CRD, встановлені Istio:
+
+Видалення CRD назавжди видаляє всі ресурси Istio, які ви створили у ваших кластерах. Щоб видалити Istio CRD, встановлені у ваших кластерах:
+
+{{< text syntax=bash snip_id=delete_crds >}}
+$ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+$ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}

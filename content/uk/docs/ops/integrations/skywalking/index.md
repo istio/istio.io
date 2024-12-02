@@ -46,4 +46,4 @@ spec:
 
 ## Використання {#usage}
 
-Для отримання додаткової інформації про використання SkyWalking, будь ласка, ознайомтеся з [завданням SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
+Для отримання інформації про використання SkyWalking, будь ласка, ознайомтеся з [завданням SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
