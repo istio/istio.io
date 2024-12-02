@@ -48,10 +48,11 @@ $ istioctl dashboard kiali
 让我们向 Bookinfo 应用程序发送一些流量，以便 Kiali 生成流量图：
 
 {{< text bash >}}
-$ for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
+$ for i in $(seq 1 100); do curl -sSI -o /dev/null http://localhost:8080/productpage; done
 {{< /text >}}
 
-接下来，单击 Traffic Graph，您应该会看到 Bookinfo 应用程序：
+接下来，点击流量图并从 "Select Namespaces" 下拉菜单中选择 "Default"。
+您应该看到 Bookinfo 应用程序：
 
 {{< image link="./kiali-ambient-bookinfo.png" caption="Kiali 仪表盘" >}}
 
@@ -70,5 +71,5 @@ $ for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
 
 ## 下一步 {#next-steps}
 
-现在我们已为服务分配了身份，
-接下来让我们[执行鉴权策略](/zh/docs/ambient/getting-started/enforce-auth-policies/)来确保应用程序访问的安全。
+现在您已为服务分配了身份，
+接下来让我们[执行鉴权策略](/zh/docs/ambient/getting-started/enforce-auth-policies/)以确保应用程序访问的安全。

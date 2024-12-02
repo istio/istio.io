@@ -13,9 +13,9 @@ test: yes
 ## 执行四层鉴权策略 {#enforce-layer-4-authorization-policy}
 
 让我们创建一个[鉴权策略](/zh/docs/reference/config/security/authorization-policy/)，
-以限制哪些服务可以与 `productpage` 服务进行通信。该策略应用于带有 `app: productpage` 标签的 Pod，
-并且仅允许来自服务帐户 `cluster.local/ns/default/sa/bookinfo-gateway-istio` 的调用。
-（这是您在上一步中部署的 Bookinfo 网关所使用的服务帐户。）
+以限制哪些服务可以与 `productpage` 服务进行通信。该策略应用于带有 `app: productpage`
+标签的 Pod，并且仅允许来自服务帐户 `cluster.local/ns/default/sa/bookinfo-gateway-istio` 的调用。
+这是您在上一步中部署的 Bookinfo 网关所使用的服务帐户。
 
 {{< text syntax=bash snip_id=deploy_l4_policy >}}
 $ kubectl apply -f - <<EOF
@@ -40,7 +40,7 @@ EOF
 如果您在浏览器中打开 Bookinfo 应用程序（`http://localhost:8080/productpage`），
 如之前一样，您将看到产品页面。但是，如果您尝试从不同的服务帐户访问 `productpage` 服务，则会看到错误。
 
-让我们尝试从 `curl` Pod 访问 Bookinfo 应用程序：
+让我们尝试从集群中的不同客户端访问 Bookinfo 应用程序：
 
 {{< text syntax=bash snip_id=deploy_curl >}}
 $ kubectl apply -f samples/curl/curl.yaml
@@ -99,8 +99,8 @@ spec:
 EOF
 {{< /text >}}
 
-请注意，`targetRefs` 字段用于指定 waypoint 代理授权策略的目标服务。
-规则部分与以前类似，但这次我们添加了 `to` 部分来指定允许的操作。
+请注意，`targetRefs` 字段使用于指定 waypoint 代理授权策略的目标服务。
+规则部分与以前类似，但这次您添加了 `to` 部分来指定允许的操作。
 
 {{< tip >}}
 要了解如何启用更多 Istio 功能，请阅读[使用七层功能用户指南](/zh/docs/ambient/usage/l7-features/)。
@@ -109,25 +109,25 @@ EOF
 确认新的 waypoint 代理正在执行更新后的鉴权策略：
 
 {{< text bash >}}
-$ # This fails with an RBAC error because we're not using a GET operation
+$ # 由于您没有使用 GET 操作，因此此操作会失败并出现 RBAC 错误
 $ kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # This fails with an RBAC error because the identity of the reviews-v1 service is not allowed
+$ # 由于 reviews-v1 服务的身份不被允许，因此此操作失败并出现 RBAC 错误
 $ kubectl exec deploy/reviews-v1 -- curl -s http://productpage:9080/productpage
 RBAC: access denied
 {{< /text >}}
 
 {{< text bash >}}
-$ # This works as we're explicitly allowing GET requests from the curl pod
+$ # 这是有效的，因为您明确允许来自 curl Pod 的 GET 请求
 $ kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 <title>Simple Bookstore App</title>
 {{< /text >}}
 
 ## 下一步 {#next-steps}
 
-使用 waypoint 代理后，您现在可以在命名空间中执行七层策略。除了鉴权策略之外，
-[我们还可以使用 waypoint 代理在服务之间拆分流量](../manage-traffic/)。
+使用 waypoint 代理后，您现在可以在命名空间中执行七层策略。
+除了鉴权策略之外，[您还可以使用 waypoint 代理在服务之间拆分流量](../manage-traffic/)。
 这在进行金丝雀部署或 A/B 测试时非常有用。
