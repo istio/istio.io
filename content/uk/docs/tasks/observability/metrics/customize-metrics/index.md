@@ -85,20 +85,19 @@ has(request.host) ? request.host : "unknown"
 
 Istio відкриває всі стандартні [атрибути Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes). Метадані peer доступні як атрибути `upstream_peer` для виходу і `downstream_peer` для входу з наступними полями:
 
-|Поле   | Тип  | Значення |
-|---|---|---|
-| `name` | `string` | Назва poaʼа. |
-| `namespace` | `string` | Простір імен, у якому працює pod. |
-| `labels` | `map` | Мітки навантаження. |
-| `owner` | `string` | Власник навантаження. |
-| `workload_name` | `string` | Назва навантаження. |
-| `platform_metadata` | `map` |  Метадані платформи з префіксованими ключами. |
-| `istio_version` | `string` | Ідентифікатор версії для проксі. |
-| `mesh_id` | `string` | Унікальний ідентифікатор для мережі. |
-| `app_containers` | `list<string>` | Список коротких імен для контейнерів застосунку. |
-| `cluster_id` | `string` | Ідентифікатор кластера, до якого належить це навантаження. |
+|Поле         | Тип      | Значення                                                          |
+|-------------|----------|-------------------------------------------------------------------|
+| `app`       | `string` | Назва застосунку.                                                 |
+| `version`   | `string` | Версія застосунку.                                                |
+| `service`   | `string` | Екземпляр Service.                                                |
+| `revision`  | `string` | Версія Service.                                                   |
+| `name`      | `string` | Імʼя podʼа.                                                       |
+| `namespace` | `string` | Простір імен, в якому запущено pod.                               |
+| `type`      | `string` | Тип робочого навантаження.                                        |
+| `workload`  | `string` | Назва робочого навантаження.                                      |
+| `cluster`   | `string` | Ідентифікатор кластера, до якого належить це робоче навантаження. |
 
-Наприклад, вираз для мітки peer `app`, що використовується у вихідній конфігурації, — це `upstream_peer.labels['app'].value`.
+Наприклад, вираз для мітки peer `app`, що використовується у вихідній конфігурації, — це `filter_state.downstream_peer.app` або `filter_state.upstream_peer.app`.
 
 ## Очищення {#cleanup}
 
