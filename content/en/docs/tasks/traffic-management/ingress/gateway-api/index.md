@@ -224,13 +224,12 @@ Note: only one address may be specified.
 
 #### Resource Attachment and Scaling
 
-{{< warning >}}
-Resource attachment is currently experimental.
-{{< /warning >}}
-
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `gateway.networking.k8s.io/gateway-name: <gateway name>`.
+This is easily done because [the resources are generated with well-known labels](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment) (`gateway.networking.k8s.io/gateway-name: <gateway name>`) and names:
+
+* Gateway: `<gateway name>-<gateway class name>`
+* Waypoint: `<gateway name>`
 
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
