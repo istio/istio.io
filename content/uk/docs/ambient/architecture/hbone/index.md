@@ -29,7 +29,7 @@ HTTP CONNECT використовується для встановлення т
 Оскільки HBONE є комбінацією HTTP/2, HTTP CONNECT та mTLS, пакети тунелів HBONE, що проходять між проксі, що підтримують HBONE, виглядають наступним чином:
 
 {{< image width="100%"
-link="hbone-packet.png"
+link="hbone-packet.svg"
 caption="Формат пакету HBONE L3"
 >}}
 

@@ -10,9 +10,24 @@ owner: istio/wg-environments-maintainers
 
 Перед тим як продовжити, обовʼязково завершите кроки в розділі [перш ніж почати](/docs/setup/install/multicluster/before-you-begin), а також виберіть і дотримуйтесь одного з посібників з установки для кількох кластерів.
 
-У цьому посібнику ми розгорнемо застосунок `HelloWorld` `V1` у `cluster1` та `V2` у `cluster2`. При отриманні запиту `HelloWorld` включатиме свою версію у відповідь.
+У цьому посібнику ми перевіримо працездатність мультикластера, розгорнемо застосунок `HelloWorld` `V1` у `cluster1` і `V2` у `cluster2`. Отримавши запит, `HelloWorld` додасть у відповідь свою версію.
 
 Ми також розгорнемо контейнер `curl` в обох кластерах. Ми будемо використовувати ці контейнери як джерело запитів до сервісу `HelloWorld`, імітуючи трафік всередині мережі. Нарешті, після генерації трафіку ми спостерігатимемо, який кластер отримав запити.
+
+## Перевірка мультикластера {#verify-multicluster}
+
+Щоб підтвердити, що Istiod тепер може взаємодіяти з панеллю управління Kubernetes на віддаленому кластері.
+
+{{< text bash >}}
+$ istioctl remote-clusters --context="${CTX_CLUSTER1}"
+NAME        SECRET                              STATUS     ISTIOD
+cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
+cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+{{< /text >}}
+
+Всі кластери повинні мати статус `synced`. Якщо кластер вказано зі статусом `STATUS` `timeout`, це означає, що Istiod на головному кластері не може звʼязатися з віддаленим кластером. Докладні повідомлення про помилки дивіться у журналах Istiod.
+
+Зауваження: якщо у вас виникають проблеми з `timeout` між Istiod на основному кластері та панеллю управління Kubernetes і на віддаленому кластері знаходиться проміжний хост (наприклад, [Rancher auth proxy](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters)), вам можливо доведеться оновити поле `certificate-authority-data` у kubeconfig, яке генерує команда `istioctl create-remote-secret`, щоб воно відповідало сертифікату, який використовується на проміжному хості.
 
 ## Розгортання сервісу `HelloWorld` {#deploy-the-helloworld-service}
 
