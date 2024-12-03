@@ -17,7 +17,9 @@ test: no
 
 ### Google Kubernetes Engine (GKE) {#google-kubernetes-engine-gke}
 
-У GKE компоненти Istio з `priorityClassName` [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) можуть бути встановлені лише в просторах імен, в яких визначено [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/). Стандартно у GKE лише `kube-system` має визначений ResourceQuota для класу `node-critical`. Історичний агент CNI та `ztunnel` обидва потребують класу `node-critical`, тому в GKE обидва компоненти повинні бути:
+#### Обмеження простору імен {#namespace-restrictions}
+
+У GKE будь-які podʼи з `priorityClassName` [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) можуть бути встановлені лише в просторах імен, в яких визначено [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/). Стандартно у GKE лише `kube-system` має визначений ResourceQuota для класу `node-critical`. Історичний агент CNI та `ztunnel` обидва потребують класу `node-critical`, тому в GKE обидва компоненти повинні бути:
 
 - Встановлені в `kube-system` (_не_ в `istio-system`)
 - Встановлені в інший простір імен (наприклад, `istio-system`), в якому вручну створено ResourceQuota, наприклад:
@@ -38,6 +40,30 @@ spec:
       values:
       - system-node-critical
 {{< /text >}}
+
+#### Профіль платформи {#platform-profile}
+
+Під час використання GKE ви повинні додавати правильне значення `platform` до команд встановлення, оскільки GKE використовує нестандартне розташування двійкових файлів CNI, що вимагає перевизначення змінних в Helm.
+
+{{< tabset category-name="install-method" >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.platform=gke
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ### Amazon Elastic Kubernetes Service (EKS)
 
