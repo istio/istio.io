@@ -7,7 +7,7 @@
     BUILD_WITH_CONTAINER = "0"
     GO_VERSION = "1.23.3"
     PYTHON_VERSION = "3.12.3"
-    RUBY_VERSION = "3.2"
+    RUBY_VERSION = "3.2.2"
 
 [[headers]]
   for = "/*"
