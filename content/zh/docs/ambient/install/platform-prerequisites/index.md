@@ -17,11 +17,14 @@ test: no
 
 ### Google Kubernetes Engine（GKE） {#google-kubernetes-engine-gke}
 
-在 GKE 上，具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
-`priorityClassName` 的 Istio 组件只能安装在定义了
-[ResourceQuota](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)
-的命名空间中。默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical` 类定义了 ResourceQuota。
-Istio CNI 节点代理和 `ztunnel` 都需要 `node-critical` 类，因此在 GKE 中，两个组件都必须满足以下任一条件：
+#### 命名空间限制 {#namespace-restrictions}
+
+在 GKE 上，任何具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+`priorityClassName` 的 Pod 只能安装在定义了
+[ResourceQuota](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/) 的命名空间中。
+默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical` 类定义了 ResourceQuota。
+Istio CNI 节点代理和 `ztunnel` 都需要 `node-critical` 类，
+因此在 GKE 中，两个组件都必须满足以下任一条件：
 
 - 安装到 `kube-system`（**不是** `istio-system`）
 - 安装到另一个已手动创建 ResourceQuota 的命名空间（如 `istio-system`），例如：
@@ -42,6 +45,31 @@ spec:
       values:
       - system-node-critical
 {{< /text >}}
+
+#### 平台配置文件 {#platform-profile}
+
+使用 GKE 时，您必须将正确的 `platform` 值附加到安装命令中，
+因为 GKE 对 CNI 二进制文件使用非标准位置，这需要 Helm 覆盖。
+
+{{< tabset category-name="install-method" >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.platform=gke
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ### Amazon Elastic Kubernetes Service（EKS） {#amazon-elastic-kubernetes-service-EKS}
 
