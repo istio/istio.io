@@ -16,7 +16,7 @@ test: no
 Встановіть Istio, використовуючи профіль OpenShift:
 
 {{< text bash >}}
-$ istioctl install --set global.platform=openshift
+$ istioctl install --set profile=openshift
 {{< /text >}}
 
 Після завершення встановлення, створіть маршрут OpenShift для ingress gateway:
