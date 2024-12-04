@@ -1,74 +1,69 @@
-// PrismJS 1.14.0
-// http://prismjs.com/download.html#themes=prism-tomorrow&languages=clike+javascript+bash+docker+go+java+protobuf+python+yaml
-//
-// prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML
-// Based on https://github.com/chriskempson/tomorrow-theme
-// @author Rose Pritchard
+/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+javascript */
+/**
+ * prism.js Dark theme for JavaScript, CSS and HTML
+ * Based on the slides of the talk “/Reg(exp){2}lained/”
+ * @author Lea Verou
+ */
 
 .dark-theme {
     .token.comment,
-    .token.block-comment,
     .token.prolog,
     .token.doctype,
     .token.cdata {
-        color: #999;
+        color: hsl(30, 20%, 50%);
     }
 
     .token.punctuation {
-        color: #ccc;
+        opacity: .7;
     }
 
-    .token.tag,
-    .token.attr-name,
-    .token.namespace,
-    .token.deleted {
-        color: #e2777a;
-    }
-
-    .token.function-name {
-        color: #6196cc;
-    }
-
-    .token.boolean,
-    .token.number,
-    .token.function {
-        color: #f08d49;
+    .token.namespace {
+        opacity: .7;
     }
 
     .token.property,
-    .token.class-name,
+    .token.tag,
+    .token.boolean,
+    .token.number,
     .token.constant,
     .token.symbol {
-        color: #f8c555;
+        color: hsl(350, 40%, 70%);
     }
 
     .token.selector,
-    .token.important,
-    .token.atrule,
-    .token.keyword,
-    .token.builtin {
-        color: #dda9d8;
-    }
-
+    .token.attr-name,
     .token.string,
     .token.char,
-    .token.attr-value,
-    .token.regex,
-    .token.variable {
-        color: #7ec699;
+    .token.builtin,
+    .token.inserted {
+        color: hsl(75, 70%, 60%);
     }
 
     .token.operator,
     .token.entity,
-    .token.url {
-        color: #67cdcc;
+    .token.url,
+    .language-css .token.string,
+    .style .token.string,
+    .token.variable {
+        color: hsl(40, 90%, 60%);
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+        color: hsl(350, 40%, 70%);
+    }
+
+    .token.regex,
+    .token.important {
+        color: #e90;
     }
 
     .token.important,
     .token.bold {
         font-weight: bold;
     }
-
     .token.italic {
         font-style: italic;
     }
@@ -77,7 +72,7 @@
         cursor: help;
     }
 
-    .token.inserted {
-        color: green;
+    .token.deleted {
+        color: red;
     }
 }
