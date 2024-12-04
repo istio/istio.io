@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.WorkloadGroup
 aliases: [/docs/reference/config/networking/v1alpha3/workload-group]
-number_of_entries: 7
+number_of_entries: 8
 ---
 <p><code>WorkloadGroup</code> describes a collection of workload instances.
 It provides a specification that the workload instances can use to bootstrap
@@ -218,6 +218,17 @@ No
 No
 </td>
 </tr>
+<tr id="ReadinessProbe-grpc" class="oneof">
+<td><code><a href="#ReadinessProbe-grpc">grpc</a></code></td>
+<td><code><a href="#GrpcHealthCheckConfig">GrpcHealthCheckConfig (oneof)</a></code></td>
+<td>
+<p>GRPC call is made and response/error is used to determine health.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -284,6 +295,43 @@ No
 <td>
 <p>Headers the proxy will pass on to make the request.
 Allows repeated headers.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="GrpcHealthCheckConfig">GrpcHealthCheckConfig</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="GrpcHealthCheckConfig-port">
+<td><code><a href="#GrpcHealthCheckConfig-port">port</a></code></td>
+<td><code>uint32</code></td>
+<td>
+<p>Port on which the endpoint lives.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="GrpcHealthCheckConfig-service">
+<td><code><a href="#GrpcHealthCheckConfig-service">service</a></code></td>
+<td><code>string</code></td>
+<td>
+<p>Service is the fully qualified name of the service to send the grpc health check request</p>
 
 </td>
 <td>
