@@ -139,16 +139,16 @@ archive-version:
 netlify_install:
 	@npm init -y
 	@npm install --omit=dev --global \
-	    sass@v1.52.1 \
-	    typescript@v4.7.2 \
-	    svgstore-cli@v1.3.2 \
-		@babel/core@v7.18.2 \
-		@babel/cli@v7.17.10 \
-		@babel/preset-env@v7.18.2
+	    sass@v1.82.0 \
+	    typescript@v5.7.2 \
+	    svgstore-cli@v3.0.1 \
+		@babel/core@v7.26.0 \
+		@babel/cli@v7.25.9 \
+		@babel/preset-env@v7.26.0
 	@npm install --omit=dev --save-dev \
 		babel-preset-minify@v0.5.2
 	@npm install --save \
-		core-js@3.31.1
+		core-js@3.39.0
 
 netlify: netlify_install
 	@scripts/gen_site.sh
