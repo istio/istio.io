@@ -159,12 +159,16 @@ Istio CNI 节点代理负责检测添加到 Ambient 网格的 Pod，
 
 {{< warning >}}
 **即使使用修订版本**，Istio 目前也不支持 istio-cni 的金丝雀升级。
+如果这对您的 Ambient 造成严重破坏，或者需要对 CNI 升级进行更严格的影响范围控制，
+则建议推迟 `istio-cni` 升级，直到节点本身排空并升级，
+或者利用节点污点并手动协调此组件的升级。
 
-将 Istio CNI 节点代理就地升级到兼容版本不会中断已成功添加到
-Ambient 网格的正在运行的 Pod 的网络，但在升级完成且节点上升级的
-Istio CNI 代理通过就绪检查之前，不应在节点上安排任何新 Pod。
-如果这是一个严重的中断问题，或者需要对 CNI 升级进行更严格的影响范围控制，
-建议使用节点污点和/或节点警戒线。
+Istio CNI 节点代理是一个[系统节点关键](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+DaemonSet。它**必须**在每个节点上运行，才能在该节点上维护 Istio 的 Ambient 流量安全和操作保证。
+默认情况下，Istio CNI 节点代理 DaemonSet 支持安全的就地升级，
+并且在升级或重新启动时将阻止在该节点上启动新的 Pod，直到该节点上有可用的代理实例来处理它们，
+以防止不安全的流量泄漏。升级前已成功添加到 Ambient 网格的现有 Pod
+将在升级期间继续按照 Istio 的流量安全要求运行。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
