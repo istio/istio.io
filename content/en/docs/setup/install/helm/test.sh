@@ -20,7 +20,6 @@ set -o pipefail
 
 # @setup profile=none
 
-snip_create_istio_system_namespace
 _rewrite_helm_repo snip_install_base
 
 _rewrite_helm_repo snip_install_discovery
