@@ -142,6 +142,8 @@ not create the `istiod-default-validator` validating webhook configuration unles
 that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
 Kubernetes environment does not support third party service account tokens.
 
+Note that it is recommended to append `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment, which will embed those cluster-specific environment settings into the generated manifests. This does require network access to a live cluster, however.
+
 1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
 cluster in the correct order.
 
@@ -150,38 +152,6 @@ if you remove a gateway). This does not happen when you use `istio manifest gene
 resources must be removed manually.
 
 {{< /warning >}}
-
-## Show differences in manifests
-
-You can show the differences in the generated manifests in a YAML style diff between the default profile and a
-customized install using these commands:
-
-{{< text bash >}}
-$ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yaml 2.yaml
-Differences in manifests are:
-
-
-Object Deployment:istio-system:istiod has diffs:
-
-spec:
-  template:
-    spec:
-      containers:
-        '[#0]':
-          resources:
-            requests:
-              cpu: 500m -> 1000m
-              memory: 2048Mi -> 4096Mi
-
-
-Object HorizontalPodAutoscaler:istio-system:istiod has diffs:
-
-spec:
-  maxReplicas: 5 -> 10
-  minReplicas: 1 -> 2
-{{< /text >}}
 
 ## Verify a successful installation
 
