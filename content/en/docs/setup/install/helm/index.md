@@ -230,7 +230,7 @@ $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 
 You can generate the manifests for each component before installing Istio using the `helm template`
 sub-command.
-For example, use the following command to generate a `kubectl`-installable manifest for the `istiod` component:
+For example, use the following command to generate a manifest that can be installed with `kubectl` for the `istiod` component:
 
 {{< text syntax=bash snip_id=none >}}
 $ helm template istiod istio/istiod -n istio-system --kube-version <Kubernetes version of target cluster> > istiod.yaml

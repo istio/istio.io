@@ -37,10 +37,10 @@ The following lists some of the pros and cons of each of the available methods:
     - Fewer checks and validations compared to `istioctl install`.
     - Some administrative tasks require more steps and have higher complexity.
 
-1. Pregenerated Kubernetes manifest
+1. Generated Kubernetes manifest
 
-    - [Pregenerating Kubernetes manifests with `istioctl`](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
-    - [Pregenerating Kubernetes manifests with `helm`](/docs/setup/install/helm/#generate-a-manifest-before-installation)
+    - [Generating Kubernetes manifests with `istioctl`](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+    - [Generating Kubernetes manifests with `helm`](/docs/setup/install/helm/#generate-a-manifest-before-installation)
 
     This method is suitable where strict auditing or augmentation of output manifests is required, or there are 3rd party tooling constraints.
 
@@ -54,7 +54,6 @@ The following lists some of the pros and cons of each of the available methods:
     - No install-time checks, environment detection, or validations supported by either of the above methods are performed.
     - No installation management or upgrade capability is supported.
     - UX is less streamlined.
-    - Error reporting duirng installation is not as robust.
-
+    - Error reporting during installation is not as robust.
 
 Installation instructions for all of these methods are available on the [Istio install page](/docs/setup/install).
