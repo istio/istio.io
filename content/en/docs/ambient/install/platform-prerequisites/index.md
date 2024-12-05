@@ -239,7 +239,7 @@ OpenShift requires that `ztunnel` and `istio-cni` components are installed in th
     In addition, you must install `istio-cni` and `ztunnel` in the `kube-system` namespace, for example:
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/istio-cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
     $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
