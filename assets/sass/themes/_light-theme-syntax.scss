@@ -1,5 +1,5 @@
-// PrismJS 1.14.0
-// http://prismjs.com/download.html#themes=prism&languages=clike+javascript+bash+docker+go+java+protobuf+python+yaml
+// PrismJS 1.29.0
+// https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript
 //
 // prism.js default theme for JavaScript, CSS and HTML
 // Based on dabblet (http://dabblet.com)
@@ -9,15 +9,15 @@
 .token.prolog,
 .token.doctype,
 .token.cdata {
-    color: slategray;
+	color: slategray;
 }
 
 .token.punctuation {
-    color: #999;
+	color: #999;
 }
 
-.namespace {
-    opacity: .7;
+.token.namespace {
+	opacity: .7;
 }
 
 .token.property,
@@ -27,7 +27,7 @@
 .token.constant,
 .token.symbol,
 .token.deleted {
-    color: #905;
+	color: #905;
 }
 
 .token.selector,
@@ -36,7 +36,7 @@
 .token.char,
 .token.builtin,
 .token.inserted {
-    color: #690;
+	color: #690;
 }
 
 .token.operator,
@@ -44,36 +44,37 @@
 .token.url,
 .language-css .token.string,
 .style .token.string {
-    color: $textCodeColor;
+	color: $textCodeColor;
+	/* This background color was intended by the author of this theme. */
+	background: hsla(0, 0%, 100%, .5);
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-    color: #07a;
+	color: #07a;
 }
 
 .token.function,
 .token.class-name {
-    color: $textCodeColor;
+	color: $textCodeColor;
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-    color: #516baa;
+	color: #e90;
 }
 
 .token.important,
 .token.bold {
-    font-weight: bold;
+	font-weight: bold;
 }
-
 .token.italic {
-    font-style: italic;
+	font-style: italic;
 }
 
 .token.entity {
-    cursor: help;
+	cursor: help;
 }
 
