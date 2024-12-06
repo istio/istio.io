@@ -235,7 +235,7 @@ To install the manifest generated above, which will create the `istiod` componen
 $ kubectl apply -f istiod.yaml
 {{< /text >}}
 
-Note that this alternative installation method may not apply the resources with the same sequencing of dependencies as `helm install` and is not tested in Istio releases.
+Note that this alternative installation method may not apply the resources with the same sequencing of dependencies as `helm install` and is not tested as part of Istio releases.
 
 {{< warning >}}
 If attempting to install and manage Istio using `helm template`, please note the following caveats:
