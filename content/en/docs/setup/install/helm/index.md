@@ -233,7 +233,7 @@ sub-command.
 For example, to generate a manifest that can be installed with `kubectl` for the `istiod` component:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm template istiod istio/istiod -n istio-system --kube-version <Kubernetes version of target cluster> > istiod.yaml
+$ helm template istiod istio/istiod -n istio-system --kube-version {Kubernetes version of target cluster} > istiod.yaml
 {{< /text >}}
 
 The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time.
