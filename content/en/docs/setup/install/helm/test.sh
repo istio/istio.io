@@ -20,7 +20,6 @@ set -o pipefail
 
 # @setup profile=none
 
-snip_create_istio_system_namespace
 _rewrite_helm_repo snip_install_base
 
 _rewrite_helm_repo snip_install_discovery
@@ -31,7 +30,7 @@ _wait_for_deployment istio-ingress istio-ingress
 
 # shellcheck disable=SC2154
 _verify_like snip_helm_ls "$snip_helm_ls_out"
-_verify_contains snip_installation_steps_7 "STATUS: deployed"
+_verify_contains snip_installation_steps_6 "STATUS: deployed"
 
 # @cleanup
 snip_delete_delete_gateway_charts
