@@ -142,7 +142,7 @@ not create the `istiod-default-validator` validating webhook configuration unles
 that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
 Kubernetes environment does not support third party service account tokens.
 
-Note that it is recommended to append `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment, which will embed those cluster-specific environment settings into the generated manifests. This does require network access to a live cluster, however.
+Note that it is recommended to append `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment, which will embed those cluster-specific environment settings into the generated manifests. This requires network access to your running cluster.
 
 1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
 cluster in the correct order.
