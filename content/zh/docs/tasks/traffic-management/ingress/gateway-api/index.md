@@ -226,15 +226,14 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
 #### 资源附加和扩缩  {#resource-attachment-and-scaling}
 
-{{< warning >}}
-资源附加目前是实验性的功能。
-{{< /warning >}}
-
 资源可以附加到 `Gateway` 进行自定义。
 然而，大多数 Kubernetes 资源目前不支持直接附加到 `Gateway`，
 但这些资源可以转为直接被附加到相应生成的 `Deployment` 和 `Service`。
-这个操作比较简单，因为这两种资源被生成时名称为 `<gateway name>-<gateway class name>`
-且带有标签 `gateway.networking.k8s.io/gateway-name: <gateway name>`。
+这很容易做到，因为[资源是用众所周知的标签](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment)
+（`gateway.networking.k8s.io/gateway-name: <gateway name>`）和名称生成的：
+
+* Gateway: `<gateway name>-<gateway class name>`
+* waypoint: `<gateway name>`
 
 例如，参照以下部署类别为 `HorizontalPodAutoscaler` 和 `PodDisruptionBudget` 的 `Gateway`：
 
