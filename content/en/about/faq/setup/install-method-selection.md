@@ -37,7 +37,7 @@ The following lists some of the pros and cons of each of the available methods:
     - Fewer checks and validations compared to `istioctl install`.
     - Some administrative tasks require more steps and have higher complexity.
 
-1. Generated Kubernetes manifest
+1. Apply a generated Kubernetes manifest
 
     - [Generating Kubernetes manifests with `istioctl`](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
     - [Generating Kubernetes manifests with `helm`](/docs/setup/install/helm/#generate-a-manifest-before-installation)
