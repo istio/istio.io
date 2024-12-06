@@ -238,7 +238,7 @@ $ helm template istiod istio/istiod -n istio-system --kube-version <Kubernetes v
 
 The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time. Note that any additional flags or values overrides you would normally use for installation should also be supplied to the `helm template` command.
 
-The following can be used to install the manifest generated above, which will create the `istiod` component in the target cluster:
+To install the manifest generated above, which will create the `istiod` component in the target cluster:
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl apply -f istiod.yaml
