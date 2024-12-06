@@ -38,16 +38,6 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 和 [Gateway Chart 配置参数](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values)。
 {{< /tip >}}
 
-1. 为 Istio 组件，创建命名空间 `istio-system`：
-
-    {{< tip >}}
-    如果在第二步使用了 `--create-namespace` 参数，可以跳过这一步。
-    {{< /tip >}}
-
-    {{< text syntax=bash snip_id=create_istio_system_namespace >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
 1. 安装 Istio Base Chart，它包含了集群范围的自定义资源定义 (CRD)，这些资源必须在部署 Istio 控制平面之前安装：
 
     {{< warning >}}
@@ -56,7 +46,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
-    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default
+    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace
     {{< /text >}}
 
 1. 使用 `helm ls` 命令验证 CRD 的安装情况：
