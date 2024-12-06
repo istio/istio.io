@@ -34,15 +34,6 @@ Default configuration values can be changed using one or more `--set <parameter>
 You can display the default values of configuration parameters using the `helm show values <chart>` command or refer to `artifacthub` chart documentation at [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) and [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
-1. Create the namespace, `istio-system`, for the Istio components:
-    {{< tip >}}
-    This step can be skipped if using the `--create-namespace` argument in step 2.
-    {{< /tip >}}
-
-    {{< text syntax=bash snip_id=create_istio_system_namespace >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
 1. Install the Istio base chart which contains cluster-wide Custom Resource Definitions (CRDs) which must be installed prior to the deployment of the Istio control plane:
 
     {{< warning >}}
@@ -51,7 +42,7 @@ You can display the default values of configuration parameters using the `helm s
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
-    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default
+    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace
     {{< /text >}}
 
 1. Validate the CRD installation with the `helm ls` command:
