@@ -61,7 +61,7 @@ could result in non-Helm-upgradable CRDs being generated that required manual in
 
 With this change, out-of-band install and upgrade of Istio CRDs with the `kubectl` command when using Helm is **no longer required**.
 
-If you do not use Helm to install, template or manage Istio resources,
+If you do not use Helm to install, template, or manage Istio resources,
 you can continue to do so and install CRDs manually with `kubectl apply -f manifests/charts/base/files/crd-all.gen.yaml`
 
 If you previously installed CRDs with `helm install istio-base` OR `kubectl apply`, you can begin safely upgrading Istio CRDs
