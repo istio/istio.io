@@ -1,28 +1,25 @@
 {{ $skipPageNav := .Scratch.Get "skipPageNav" }}
 {{ if not (or .Params.skip_pagenav $skipPageNav) }}
-  {{- $reversePagination := .Scratch.Get "reversePagination" | default false -}}
-  {{- $prev := cond $reversePagination .Params.next .Params.prev -}}
-  {{- $next := cond $reversePagination .Params.prev .Params.next -}}
-
-  {{ with $prev }}
-    {{ $prev = $.Site.GetPage . }}
-  {{ end }}
-  {{ with $next }}
-    {{ $next = $.Site.GetPage . }}
-  {{ end }}
-
-  {{- if or $prev $next -}}
-  <nav class="pagenav">
-    {{ if $prev }}
-    <div class="left">
-      <a href="{{ $prev.RelPermalink }}" title="{{ $prev.Title }}">Prev: {{ $prev.Title }}</a>
-    </div>
+    {{$prev := .PrevInSection}}
+    {{$next := .NextInSection}}
+    {{ with .Params.prevInSection }}
+        {{$prev = .}}
     {{ end }}
-    {{ if $next }}
-    <div class="right">
-      <a href="{{ $next.RelPermalink }}" title="{{ $next.Title }}">Next: {{ $next.Title }}</a>
-    </div>
+    {{ with .Params.nextInSection }}
+        {{$next = .}}
     {{ end }}
-  </nav>
-  {{- end -}}
+    {{ if or $prev $next }}
+        <nav class="pagenav">
+            <div class="left">
+                {{ if $prev }}
+                    <a title="{{ $prev.Description }}" href="{{ $prev.Permalink }}" class="next-link">{{- partial "icon.html" "left-arrow" -}}{{- $prev.LinkTitle -}}</a>
+                {{ end }}
+            </div>
+            <div class="right">
+                {{ if $next }}
+                    <a title="{{ $next.Description }}" href="{{ $next.Permalink }}" class="next-link">{{- $next.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
+                {{ end }}
+            </div>
+        </nav>
+    {{ end }}
 {{ end }}
