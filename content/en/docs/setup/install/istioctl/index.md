@@ -110,20 +110,17 @@ $ istioctl install --set profile=demo
 
 You can generate the manifest before installing Istio using the `manifest generate`
 sub-command.
-For example, use the following command to generate a manifest for the `default` profile:
+For example, use the following command to generate a manifest for the `default` profile that can be installed with `kubectl`:
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest
-over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it,
-the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be
-used to track the actual installed resources.
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it, the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be used to track the actual installed resources.
 
-The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
-these alternative installation methods may not apply the resources with the same sequencing of dependencies as
-`istioctl install` and are not tested in an Istio release.
+{{< tip >}}
+Any additional flags or custom values overrides you would normally use for installation should also be supplied to the `istioctl manifest generate` command.
+{{< /tip >}}
 
 {{< warning >}}
 If attempting to install and manage Istio using `istioctl manifest generate`, please note the following caveats:
@@ -136,6 +133,9 @@ not create the `istiod-default-validator` validating webhook configuration unles
     {{< text bash >}}
     $ istioctl manifest generate --set values.defaultRevision=default
     {{< /text >}}
+
+1. Resources may not be installed with the same sequencing of dependencies as
+`istioctl install` and is not tested as part of Istio releases.
 
 1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
 `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure

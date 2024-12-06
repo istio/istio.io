@@ -227,7 +227,11 @@ For example, to generate a manifest that can be installed with `kubectl` for the
 $ helm template istiod istio/istiod -n istio-system --kube-version <Kubernetes version of target cluster> > istiod.yaml
 {{< /text >}}
 
-The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time. Note that any additional flags or values overrides you would normally use for installation should also be supplied to the `helm template` command.
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time.
+
+{{< tip >}}
+Any additional flags or custom values overrides you would normally use for installation should also be supplied to the `helm template` command.
+{{< /tip >}}
 
 To install the manifest generated above, which will create the `istiod` component in the target cluster:
 
@@ -235,12 +239,13 @@ To install the manifest generated above, which will create the `istiod` componen
 $ kubectl apply -f istiod.yaml
 {{< /text >}}
 
-Note that this alternative installation method may not apply the resources with the same sequencing of dependencies as `helm install` and is not tested as part of Istio releases.
-
 {{< warning >}}
 If attempting to install and manage Istio using `helm template`, please note the following caveats:
 
 1. The Istio namespace (`istio-system` by default) must be created manually.
+
+1. Resources may not be installed with the same sequencing of dependencies as
+`helm install` and is not tested as part of Istio releases.
 
 1. While `helm install` will automatically detect environment specific settings from your Kubernetes context,
 `helm template` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
