@@ -25,7 +25,7 @@ The following lists some of the pros and cons of each of the available methods:
 
 1. [Install using Helm](/docs/setup/install/helm/)
 
-    Using Helm charts allows easy integration with Helm based workflows and automated resource pruning during upgrades.
+    Allows easy integration with Helm-based workflows and automated resource pruning during upgrades.
 
     Pros:
 
