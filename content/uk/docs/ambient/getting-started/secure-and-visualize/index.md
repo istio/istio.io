@@ -43,10 +43,10 @@ $ istioctl dashboard kiali
 Надішліть трохи трафіку до застосунку Bookinfo, щоб Kiali згенерувала графік:
 
 {{< text bash >}}
-$ for i in $(seq 1 100); do curl -s http://localhost:8080/productpage; done
+$ for i in $(seq 1 100); do curl -sSI -o /dev/null http://localhost:8080/productpage; done
 {{< /text >}}
 
-Далі, натисніть на графік трафіку, і ви повинні побачити застосунок Bookinfo:
+Далі, натисніть на графік трафіку, і оберіть "Default" в меню ""Select Namespaces". Ви повинні побачити застосунок Bookinfo:
 
 {{< image link="./kiali-ambient-bookinfo.png" caption="Дашборд Kiali" >}}
 

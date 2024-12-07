@@ -94,7 +94,7 @@ Istio має [опцію встановлення](/docs/reference/config/istio.
 
 1.  Змініть опцію `meshConfig.outboundTrafficPolicy.mode` на `REGISTRY_ONLY`.
 
-    Якщо ви використовували CR `IstioOperator` для встановлення Istio, додайте наступне поле до вашої конфігурації:
+    Якщо ви використовували конфігурацію `IstioOperator` для встановлення Istio, додайте наступне поле до вашої конфігурації:
 
     {{< text yaml >}}
     spec:

@@ -12,7 +12,7 @@ test: yes
 
 ## Забезпечення політики авторизації Layer 4 {#enforce-layer-4-authorization-policy}
 
-Створимо [політику авторизації](/docs/reference/config/security/authorization-policy/), яка обмежує, які сервіси можуть спілкуватися з сервісом `productpage`. Політика застосовується до podʼів з міткою `app: productpage` та дозволяє виклики тільки зі службового облікового запису `cluster.local/ns/default/sa/bookinfo-gateway-istio`. (Це службовий обліковий запис, який використовується шлюзом Bookinfo, який ви розгорнули на попередньому кроці.)
+Створимо [політику авторизації](/docs/reference/config/security/authorization-policy/), яка обмежує, які сервіси можуть спілкуватися з сервісом `productpage`. Політика застосовується до podʼів з міткою `app: productpage` та дозволяє виклики тільки зі службового облікового запису `cluster.local/ns/default/sa/bookinfo-gateway-istio`. Це службовий обліковий запис, який використовується шлюзом Bookinfo, який ви розгорнули на попередньому кроці.
 
 {{< text syntax=bash snip_id=deploy_l4_policy >}}
 $ kubectl apply -f - <<EOF
@@ -36,7 +36,7 @@ EOF
 
 Якщо ви відкриєте застосунок Bookinfo в оглядачі (`http://localhost:8080/productpage`), ви побачите сторінку продукту, як і раніше. Однак, якщо ви спробуєте отримати доступ до сервісу `productpage` з іншого службового облікового запису, ви повинні побачити помилку.
 
-Спробуйте отримати доступ до застосунку Bookinfo з podʼа `curl`:
+Спробуйте отримати доступ до застосунку Bookinfo з іншого клієнта в кластері:
 
 {{< text syntax=bash snip_id=deploy_curl >}}
 $ kubectl apply -f samples/curl/curl.yaml

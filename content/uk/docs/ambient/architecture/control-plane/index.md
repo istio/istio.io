@@ -11,7 +11,7 @@ test: no
 На малюнку показано загальний вигляд компонентів панелі управління та потоків між проксі ztunnel і панеллю управління `istiod`.
 
 {{< image width="100%"
-link="ztunnel-architecture.png"
+link="ztunnel-architecture.svg"
 caption="Архітектура Ztunnel"
 >}}
 

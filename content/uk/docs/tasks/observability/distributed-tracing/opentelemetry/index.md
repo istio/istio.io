@@ -1,20 +1,23 @@
 ---
 title: OpenTelemetry
-description: Дізнайтеся, як налаштувати проксі для надсилання трейсів OpenTelemetry до Колектора.
-weight: 30
+description: Дізнайтеся, як налаштувати проксі для надсилання трейсів у форматі OpenTelemetry.
+weight: 5
 keywords: [телеметрія,трейсинг,opentelemetry,спан,порт-форвардинг,telemetry,tracing,opentelemetry,span,port-forwarding]
 aliases:
  - /uk/docs/tasks/telemetry/distributed-tracing/opentelemetry/
+ - /uk/docs/tasks/observability/distributed-tracing/lightstep/
+ - /latest/uk/docs/tasks/observability/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-Після завершення цього завдання ви зможете зрозуміти, як ваш застосунок може брати участь у трейсингу з [OpenTelemetry](https://www.opentelemetry.io/), незалежно від мови, фреймворка або платформи, який ви використовуєте для створення застосунку.
-
-Це завдання використовує [Bookinfo](/docs/examples/bookinfo/) як демонстраційний застосунок та
-[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) як приймач трейсів.
+[OpenTelemetry](https://opentelemetry.io/) (OTel) — це незалежна від постачальника платформа з відкритим вихідним кодом для вимірювання, генерації, збору та експорту телеметричних даних. Трейси [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otlp/) (OTLP) можна надсилати до [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), а також до багатьох комерційних сервісів.
 
 Щоб дізнатися, як Istio обробляє трейсинг, відвідайте [огляд цього завдання](../overview/).
+
+Після завершення цього завдання ви зможете зрозуміти, як ваш застосунок може брати участь у трейсингу з [OpenTelemetry](https://www.opentelemetry.io/), незалежно від мови, фреймворка або платформи, який ви використовуєте для створення застосунку.
+
+Це завдання використовує [Bookinfo](/docs/examples/bookinfo/) як демонстраційний застосунок та [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) як приймач трейсів. Приклад надсилання трейсів безпосередньо до OTLP-сумісного бекенду наведено у [завданні Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).
 
 ## Розгортання OpenTelemetry Collector {#deploy-the-opentelemetry-collector}
 

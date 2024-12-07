@@ -12,4 +12,4 @@ Envoy:
 - надсилає згенеровані трейс-відрізки (span) до бекендів трейсингу
 - передає заголовки трейсингу до застосунку, який проходить через проксі
 
-Istio підтримує інтеграції трейсингу на основі Envoy для [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) та [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), а також усіх сумісних з API Zipkin бекендів, включаючи [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).
+Istio підтримує [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) та сумісні бекенди включаючи [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/). Серед інших платформ також підтримуються [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) та [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).

@@ -11,19 +11,30 @@ test: n/a
 
 Розподілений трейсинг дозволяє користувачам відстежувати запит через мережу, розподілену між кількома сервісами. Це дозволяє глибше зрозуміти затримки запиту, серіалізацію та паралелізм через візуалізацію.
 
-Istio використовує [розподілений трейсинг Envoy](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing), щоб забезпечити інтеграцію трейсингу з коробки. Зокрема, Istio надає можливість встановлення різних бекендів трейсингу та конфігурації проксі для автоматичного надсилання трейс-спанів до них. Дивіться документацію завдань [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), та [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) про те, як Istio працює з цими системами трейсингу.
+Istio використовує [розподілений трейсинг Envoy](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing), щоб забезпечити інтеграцію трейсингу з коробки.
 
-## Пропагування контексту трейсингу {#trace-context-propagation}
+Більшість бекендів трейсингу зараз приймають протокол [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) для отримання трейсів, хоча Istio також підтримує застарілі протоколи для таких проєктів, як [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) та [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
+
+## Налаштування трейсингу {#configuring-tracing}
+
+Istio надає [Telemetry API](/docs/tasks/observability/distributed-tracing/telemetry-api/), за допомогою якого можна налаштувати розподілений трейсинг, включаючи вибір провайдера, встановлення [частоти дискретизації](/docs/tasks/observability/distributed-tracing/sampling/) та зміну заголовків.
+
+## Постачальники розширень {#extension-providers}
+
+[Провайдери розширень](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) визначаються у `MeshConfig` і дозволяють визначити конфігурацію для бекенду трейсингу. Підтримувані провайдери: OpenTelemetry, Zipkin, SkyWalking, Datadog та Stackdriver.
+
+## Створення застосунків для підтримки поширення контексту трейсингу {#building-applications-to-support-trace-context-propagation}
 
 Хоча проксі Istio можуть автоматично надсилати відрізки, додаткова інформація потрібна для зʼєднання цих відрізків в один трейс. Застосунки повинні пропагувати цю інформацію в HTTP-заголовках, щоб, коли проксі надсилають відрізки, бекенд міг обʼєднати їх у єдиний трейс.
 
 Для цього кожний застосунок має збирати заголовки з кожного вхідного запиту і передавати заголовки всім вихідним запитам, що ініціюються цим вхідним запитом. Вибір заголовків для передачі залежить від налаштованого бекенду трейсингу. Набір заголовків для передачі описується на кожній сторінці специфічних завдань трейсингу. Ось короткий огляд:
 
-Усі застосунки повинні передавати наступний заголовок:
+Усі застосунки повинні передавати наступні заголовки:
 
 * `x-request-id`: це заголовок, специфічний для Envoy, який використовується для послідовного відбору логів та трейсів.
+* `traceparent` та `tracestate`: [W3C standard headers](https://www.w3.org/TR/trace-context/)
 
-Для Zipkin, Jaeger та Stackdriver слід передавати формат B3 multi-header:
+Для Zipkin слід передавати [формат B3 multi-header](https://github.com/openzipkin/b3-propagation):
 
 * `x-b3-traceid`
 * `x-b3-spanid`
@@ -31,39 +42,17 @@ Istio використовує [розподілений трейсинг Envoy]
 * `x-b3-sampled`
 * `x-b3-flags`
 
-Ці заголовки підтримуються Zipkin, Jaeger та багатьма іншими інструментами.
+Щодо комерційних інструментів спостереження, зверніться до їхньої документації.
 
-Для Datadog слід передавати наступні заголовки. Передача цих заголовків автоматично обробляється бібліотеками клієнтів Datadog для багатьох мов і фреймворків.
-
-* `x-datadog-trace-id`.
-* `x-datadog-parent-id`.
-* `x-datadog-sampling-priority`.
-
-Для Lightstep слід передавати заголовок контексту відрізку OpenTracing:
-
-* `x-ot-span-context`
-
-Для Stackdriver ви можете вибрати один з наступних заголовків замість формату B3 multi-header.
-
-* `grpc-trace-bin`: стандартний заголовок трейсингу grpc.
-* `traceparent`: стандарт W3C Trace Context для трейсингу. Підтримується OpenTelemetry та збільшується кількість бібліотек клієнтів Jaeger.
-* `x-cloud-trace-context`: використовується API продуктів Google Cloud.
-
-Якщо подивитися на приклад сервісу Python `productpage`, наприклад, ви побачите, що застосунок витягує необхідні заголовки для всіх трейсерів з HTTP-запиту за допомогою бібліотек [OpenTracing](https://opentracing.io/):
+Якщо подивитися на [приклад сервісу Python `productpage`]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L125), наприклад, ви побачите, що застосунок витягує необхідні заголовки для всіх трейсерів з HTTP-запиту за допомогою бібліотек OpenTelemetry:
 
 {{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
-    # x-b3-*** заголовки можуть бути заповнені за допомогою відрізку opentracing
-    span = get_current_span()
-    carrier = {}
-    tracer.inject(
-        span_context=span.context,
-        format=Format.HTTP_HEADERS,
-        carrier=carrier)
-
-    headers.update(carrier)
+    # x-b3-*** заголовки можуть бути поширені за допомогою відрізку OpenTelemetry
+    ctx = propagators.extract(carrier={k.lower(): v for k, v in request.headers})
+    propagators.inject(headers, ctx)
 
     # ...
 
@@ -92,7 +81,7 @@ def getForwardHeaders(request):
     return headers
 {{< /text >}}
 
-Застосунок reviews (Java) робить щось подібне за допомогою `requestHeaders`:
+[Застосунок reviews]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L186) (Java) робить щось подібне за допомогою `requestHeaders`:
 
 {{< text java >}}
 @GET

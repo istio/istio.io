@@ -1,7 +1,7 @@
 ---
 title: Налаштування трейсингу за допомогою Telemetry API
 description: Як налаштувати параметри трейсингу за допомогою Telemetry API.
-weight: 8
+weight: 2
 keywords: [телеметрія,трейсинг,telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
@@ -13,11 +13,15 @@ Istio надає можливість налаштувати розширені 
 
 1. Переконайтеся, що ваші застосунки пропагують заголовки трейсингу, як описано [тут](/docs/tasks/observability/distributed-tracing/overview/).
 
-1. Дотримуйтесь посібника з установки трейсингу, розташованого в розділі [Інтеграції](/docs/ops/integrations/), залежно від вашого вибраного бекенду трейсингу, щоб встановити відповідний застосунок та налаштувати ваші проксі Istio для надсилання трейсів до розгортання трейсингу.
+1. Дотримуйтесь посібника з установки трейсингу, розташованого в розділі [Інтеграції](/docs/ops/integrations/), залежно від вашого вибраного бекенду трейсингу, щоб встановити відповідне програмне забезпечення та налаштувати постачальника розширення.
 
 ## Установка {#installation}
 
-В цьому прикладі ми надсилаємо трейсинг до [`zipkin`](/docs/ops/integrations/zipkin/), тому переконайтеся, що він встановлений:
+В цьому прикладі ми надсилатимемо трейси до [`zipkin`](/docs/ops/integrations/zipkin/), тому переконайтеся, що він встановлений:
+
+### Налаштування постачальника розширення {#configure-an-extension-provider}
+
+Встановіть Istio з [постачальником розширення](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider), посилаючись на сервіс Zipkin:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -27,10 +31,9 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # відключені параметри трейсингу MeshConfig
+      tracing: {} # відключіть застарілі параметри трейсингу MeshConfig
     extensionProviders:
-    # додати провайдера zipkin
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
@@ -38,7 +41,7 @@ EOF
 $ istioctl install -f ./tracing.yaml --skip-confirmation
 {{< /text >}}
 
-### Увімкнення трейсингу для мережі {#enable-tracing-for-mesh}
+### Увімкнення трейсингу {#enable-tracing}
 
 Увімкніть трейсинг, застосувавши наступну конфігурацію:
 
@@ -51,10 +54,16 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
+  - providers:
+    - name: "zipkin"
 EOF
 {{< /text >}}
+
+### Перевірка результатів {#verify-the-results}
+
+Ви можете перевірити результати за допомогою [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
+
+## Налаштування {#customization}
 
 ## Налаштування відбору трейсів {#customizing-trace-sampling}
 
@@ -69,13 +78,13 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
+  - providers:
+    - name: "zipkin"
+    randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
 
-## Налаштування теґів трейсингу {#customizing-tracing-tags}
+### Налаштування теґів трейсингу {#customizing-tracing-tags}
 
 Власні теґи можуть бути додані до відрізків на основі літералів, змінних середовища та заголовків запитів клієнтів для надання додаткової інформації у відрізках, специфічних для вашого середовища.
 
@@ -94,9 +103,9 @@ EOF
     name: mesh-default
     namespace: istio-system
     spec:
-    tracing:
-        - providers:
-            - name: "zipkin"
+      tracing:
+      - providers:
+        - name: "zipkin"
         randomSamplingPercentage: 100.00
         customTags:
           "provider":
@@ -115,7 +124,7 @@ EOF
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
+          - name: "zipkin"
           randomSamplingPercentage: 100.00
           customTags:
             "cluster_id":
@@ -139,7 +148,7 @@ EOF
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
+          - name: "zipkin"
           randomSamplingPercentage: 100.00
           customTags:
             my_tag_header:
@@ -148,7 +157,7 @@ EOF
                 defaultValue: <VALUE>      # необов'язково
     {{< /text >}}
 
-## Налаштування довжини теґів трейсингу {#customizing-tracing-tag-length}
+### Налаштування довжини теґів трейсингу {#customizing-tracing-tag-length}
 
 Стандартно максимальна довжина для шляху запиту, включеного в теґ відрізку `HttpUrl`, становить 256. Щоб змінити цю максимальну довжину, додайте наступне до вашого файлу `tracing.yaml`.
 
@@ -159,16 +168,11 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # відключені параметри трейсингу через `MeshConfig`
+      tracing: {} # відключіть застарілі параметри трейсингу через `MeshConfig`
     extensionProviders:
-    # додати провайдера zipkin
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
         maxTagLength: <VALUE>
 {{< /text >}}
-
-## Перевірка результатів {#verify-the-results}
-
-Ви можете перевірити результати за допомогою [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
