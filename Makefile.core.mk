@@ -144,6 +144,7 @@ netlify_install:
 	    svgstore-cli@v1.3.2 \
 		@babel/core@v7.18.2 \
 		@babel/cli@v7.17.10 \
+		@babel/traverse@7.25.9 \
 		@babel/preset-env@v7.18.2
 	@npm install --omit=dev --save-dev \
 		babel-preset-minify@v0.5.2
