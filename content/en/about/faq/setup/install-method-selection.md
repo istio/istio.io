@@ -42,7 +42,7 @@ The following lists some of the pros and cons of each of the available methods:
     - [Generating Kubernetes manifests with `istioctl`](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
     - [Generating Kubernetes manifests with `helm`](/docs/setup/install/helm/#generate-a-manifest-before-installation)
 
-    This method is suitable where strict auditing or augmentation of output manifests is required, or there are 3rd party tooling constraints.
+    This method is suitable where strict auditing or augmentation of output manifests is required, or there are third-party tooling constraints.
 
     Pros:
 
