@@ -236,7 +236,7 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
     此外，必须在 `kube-system` 命名空间中安装 `istio-cni` 和 `ztunnel`，例如：
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/istio-cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
     $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
