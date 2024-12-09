@@ -62,11 +62,12 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 以前，这仅在某些条件下才有效，并且当使用某些安装标志时，
 可能会导致生成不可 Helm 升级的 CRD，需要手动干预才能修复。
 
-作为这一操作的必然结果，CRD 上的标签会更改为与其他 Helm 安装的资源保持一致。
+经过此更改后，在使用 Helm 运行 `kubectl` 命令进行带有外部安装和升级 Istio CRD **不再被需要**。
 
-如果您之前使用 `kubectl apply` 而不是 Helm 安装或升级了 CRD，那么您可以继续这样做。
+如果您不使用 Helm 来安装、模板化或管理 Istio 资源，
+您可以继续使用 `kubectl apply -f manifests/charts/base/files/crd-all.gen.yaml` 手动安装 CRD。
 
-如果您之前使用 `helm install istio-base` 或 `kubectl apply` 安装了 CRD，
+如果您之前仅使用 `helm install istio-base` 或 `kubectl apply` 安装了 CRD，
 则可以在运行以下 kubectl 命令作为一次性迁移后，
 从此版本以及所有后续版本开始使用 `helm upgrade istio-base` 安全地升级 Istio CRD：
 
