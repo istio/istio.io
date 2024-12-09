@@ -23,25 +23,9 @@ The following lists some of the pros and cons of each of the available methods:
     - The `istioctl` command can set values automatically based on your running environment,
       thereby producing varying installations in different Kubernetes environments.
 
-1. [istioctl manifest generate](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
-
-    Generate the Kubernetes manifest and then apply with `kubectl apply --prune`.
-    This method is suitable where strict auditing or augmentation of output manifests is needed.
-
-    Pros:
-
-    - Resources are generated from the same `IstioOperator` API as used in `istioctl install`.
-    - Uses the `IstioOperator` API which provides extensive configuration/customization options.
-
-    Cons:
-
-    - Some checks performed in `istioctl install` are not done.
-    - UX is less streamlined compared to `istioctl install`.
-    - Error reporting is not as robust as `istioctl install` for the apply step.
-
 1. [Install using Helm](/docs/setup/install/helm/)
 
-    Using Helm charts allows easy integration with Helm based workflows and automated resource pruning during upgrades.
+    Allows easy integration with Helm-based workflows and automated resource pruning during upgrades.
 
     Pros:
 
@@ -52,5 +36,24 @@ The following lists some of the pros and cons of each of the available methods:
 
     - Fewer checks and validations compared to `istioctl install`.
     - Some administrative tasks require more steps and have higher complexity.
+
+1. Apply a generated Kubernetes manifest
+
+    - [Generating Kubernetes manifests with `istioctl`](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+    - [Generating Kubernetes manifests with `helm`](/docs/setup/install/helm/#generate-a-manifest-before-installation)
+
+    This method is suitable where strict auditing or augmentation of output manifests is required, or there are third-party tooling constraints.
+
+    Pros:
+
+    - Easier to integrate with tooling that doesn't use `helm` or `istioctl`.
+    - No installation tools required other than `kubectl`.
+
+    Cons:
+
+    - No install-time checks, environment detection, or validations supported by either of the above methods are performed.
+    - No installation management or upgrade capability is supported.
+    - UX is less streamlined.
+    - Error reporting during installation is not as robust.
 
 Installation instructions for all of these methods are available on the [Istio install page](/docs/setup/install).
