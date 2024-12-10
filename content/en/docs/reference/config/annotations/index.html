@@ -101,28 +101,6 @@ User should not manually modify this annotation.</p>
     </tr>
   </tbody>
 </table>
-<h2 id="IoIstioRerouteVirtualInterfaces">istio.io/reroute-virtual-interfaces</h2>
-<table class="annotations">
-  <tbody>
-    <tr>
-      <th>Name</th>
-      <td><code>istio.io/reroute-virtual-interfaces</code></td>
-    </tr>
-    <tr>
-      <th>Feature Status</th>
-      <td>Alpha</td>
-    </tr>
-    <tr>
-      <th>Resource Types</th>
-      <td>[Pod]</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.</p>
-</td>
-    </tr>
-  </tbody>
-</table>
 <h2 id="IoIstioRev">istio.io/rev</h2>
 <table class="annotations">
   <tbody>
@@ -184,7 +162,7 @@ User should not manually modify this annotation.</p>
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>Specifies the namespaces to which this service should be exported to. A value of <code>*</code> indicates it is reachable within the mesh. <code>.</code> indicates it is reachable within its namespace. &lsquo;~&rsquo; indicates it is hidden and exported to no namespaces. Additionally, a list of comma separated namespace names can be specified.</p>
+      <td><p>Specifies the namespaces to which this service should be exported to. A value of &lsquo;*&rsquo; indicates it is reachable within the mesh &lsquo;.&rsquo; indicates it is reachable within its namespace.</p>
 </td>
     </tr>
   </tbody>
@@ -1085,13 +1063,13 @@ If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</l
 <h2 id="SidecarTrafficKubevirtInterfaces">traffic.sidecar.istio.io/kubevirtInterfaces</h2>
 <table class="annotations">
   <tbody>
-    <tr class="deprecated">
+    <tr>
       <th>Name</th>
       <td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
     </tr>
     <tr>
       <th>Feature Status</th>
-      <td>Deprecated</td>
+      <td>Alpha</td>
     </tr>
     <tr>
       <th>Resource Types</th>
@@ -1099,7 +1077,7 @@ If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</l
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. Deprecated in favor of <code>istio.io/redirect-virtual-interfaces</code></p>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound.</p>
 </td>
     </tr>
   </tbody>
