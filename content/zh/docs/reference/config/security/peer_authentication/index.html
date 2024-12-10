@@ -99,9 +99,9 @@ spec:
 </thead>
 <tbody>
 <tr id="PeerAuthentication-selector">
-<td><code><a href="#PeerAuthentication-selector">selector</a></code><br/>
-<em><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-selector">selector</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>The selector determines the workloads to apply the PeerAuthentication on. The selector will match with workloads in the
 same namespace as the policy. If the policy is in the root namespace, the selector will additionally match with workloads in all namespace.</p>
@@ -111,18 +111,18 @@ to all workloads in the mesh.</p>
 </td>
 </tr>
 <tr id="PeerAuthentication-mtls">
-<td><code><a href="#PeerAuthentication-mtls">mtls</a></code><br/>
-<em><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-mtls">mtls</a></code></div>
+<div class="type"><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></div>
+</div></td>
 <td>
 <p>Mutual TLS settings for workload. If not defined, inherit from parent.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-port_level_mtls">
-<td><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code><br/>
-<em>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code></div>
+<div class="type">map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</div>
+</div></td>
 <td>
 <p>Port specific mutual TLS settings. These only apply when a workload selector
 is specified. The port refers to the port of the workload, not the port of the
@@ -146,9 +146,9 @@ Kubernetes service.</p>
 </thead>
 <tbody>
 <tr id="PeerAuthentication-MutualTLS-mode">
-<td><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code><br/>
-<em><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code></div>
+<div class="type"><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></div>
+</div></td>
 <td>
 <p>Defines the mTLS mode used for peer authentication.</p>
 

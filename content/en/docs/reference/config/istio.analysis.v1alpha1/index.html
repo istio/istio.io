@@ -25,25 +25,25 @@ messages. All information should be static with respect to the error code.</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageBase-type">
-<td><code><a href="#AnalysisMessageBase-type">type</a></code><br/>
-<em><a href="#AnalysisMessageBase-Type">Type</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageBase-type">type</a></code></div>
+<div class="type"><a href="#AnalysisMessageBase-Type">Type</a></div>
+</div></td>
 <td>
 </td>
 </tr>
 <tr id="AnalysisMessageBase-level">
-<td><code><a href="#AnalysisMessageBase-level">level</a></code><br/>
-<em><a href="#AnalysisMessageBase-Level">Level</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageBase-level">level</a></code></div>
+<div class="type"><a href="#AnalysisMessageBase-Level">Level</a></div>
+</div></td>
 <td>
 <p>Represents how severe a message is. Required.</p>
 
 </td>
 </tr>
 <tr id="AnalysisMessageBase-documentation_url">
-<td><code><a href="#AnalysisMessageBase-documentation_url">documentationUrl</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageBase-documentation_url">documentationUrl</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>A url pointing to the Istio documentation for this specific error type.
 Should be of the form
@@ -71,9 +71,9 @@ codes between message types.)</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageBase-Type-name">
-<td><code><a href="#AnalysisMessageBase-Type-name">name</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageBase-Type-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>A human-readable name for the message type. e.g. &ldquo;InternalError&rdquo;,
 &ldquo;PodMissingProxy&rdquo;. This should be the same for all messages of the same type.
@@ -82,9 +82,9 @@ Required.</p>
 </td>
 </tr>
 <tr id="AnalysisMessageBase-Type-code">
-<td><code><a href="#AnalysisMessageBase-Type-code">code</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageBase-Type-code">code</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>A 7 character code matching <code>^IST[0-9]{4}$</code> intended to uniquely identify
 the message type. (e.g. &ldquo;IST0001&rdquo; is mapped to the &ldquo;InternalError&rdquo; message
@@ -149,27 +149,27 @@ sure that we don&rsquo;t allow committing underspecified types.</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageWeakSchema-message_base">
-<td><code><a href="#AnalysisMessageWeakSchema-message_base">messageBase</a></code><br/>
-<em><a href="#AnalysisMessageBase">AnalysisMessageBase</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageWeakSchema-message_base">messageBase</a></code></div>
+<div class="type"><a href="#AnalysisMessageBase">AnalysisMessageBase</a></div>
+</div></td>
 <td>
 <p>Required</p>
 
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-description">
-<td><code><a href="#AnalysisMessageWeakSchema-description">description</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageWeakSchema-description">description</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>A human readable description of what the error means. Required.</p>
 
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-template">
-<td><code><a href="#AnalysisMessageWeakSchema-template">template</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageWeakSchema-template">template</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>A go-style template string (<a href="https://golang.org/pkg/fmt/#hdr-Printing">https://golang.org/pkg/fmt/#hdr-Printing</a>)
 defining how to combine the args for a  particular message into a log line.
@@ -178,9 +178,9 @@ Required.</p>
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-args">
-<td><code><a href="#AnalysisMessageWeakSchema-args">args</a></code><br/>
-<em><a href="#AnalysisMessageWeakSchema-ArgType">ArgType[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageWeakSchema-args">args</a></code></div>
+<div class="type"><a href="#AnalysisMessageWeakSchema-ArgType">ArgType[]</a></div>
+</div></td>
 <td>
 <p>A description of the arguments for a particular message type</p>
 
@@ -200,18 +200,18 @@ Required.</p>
 </thead>
 <tbody>
 <tr id="AnalysisMessageWeakSchema-ArgType-name">
-<td><code><a href="#AnalysisMessageWeakSchema-ArgType-name">name</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageWeakSchema-ArgType-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Required</p>
 
 </td>
 </tr>
 <tr id="AnalysisMessageWeakSchema-ArgType-go_type">
-<td><code><a href="#AnalysisMessageWeakSchema-ArgType-go_type">goType</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AnalysisMessageWeakSchema-ArgType-go_type">goType</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Should be a golang type, used in code generation.
 Ideally this will change to a less language-pinned type before this gets
@@ -241,27 +241,27 @@ of GenericAnalysisMessage for well-known and stable message types.</p>
 </thead>
 <tbody>
 <tr id="GenericAnalysisMessage-message_base">
-<td><code><a href="#GenericAnalysisMessage-message_base">messageBase</a></code><br/>
-<em><a href="#AnalysisMessageBase">AnalysisMessageBase</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#GenericAnalysisMessage-message_base">messageBase</a></code></div>
+<div class="type"><a href="#AnalysisMessageBase">AnalysisMessageBase</a></div>
+</div></td>
 <td>
 <p>Required</p>
 
 </td>
 </tr>
 <tr id="GenericAnalysisMessage-args">
-<td><code><a href="#GenericAnalysisMessage-args">args</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#GenericAnalysisMessage-args">args</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></div>
+</div></td>
 <td>
 <p>Any message-type specific arguments that need to get codified. Optional.</p>
 
 </td>
 </tr>
 <tr id="GenericAnalysisMessage-resource_paths">
-<td><code><a href="#GenericAnalysisMessage-resource_paths">resourcePaths</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#GenericAnalysisMessage-resource_paths">resourcePaths</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of strings specifying the resource identifiers that were the cause
 of message generation. A &ldquo;path&rdquo; here is a (NAMESPACE/)?RESOURCETYPE/NAME
@@ -289,18 +289,18 @@ error in Istio code that prevented us from performing analysis at all.</p>
 </thead>
 <tbody>
 <tr id="InternalErrorAnalysisMessage-message_base">
-<td><code><a href="#InternalErrorAnalysisMessage-message_base">messageBase</a></code><br/>
-<em><a href="#AnalysisMessageBase">AnalysisMessageBase</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#InternalErrorAnalysisMessage-message_base">messageBase</a></code></div>
+<div class="type"><a href="#AnalysisMessageBase">AnalysisMessageBase</a></div>
+</div></td>
 <td>
 <p>Required</p>
 
 </td>
 </tr>
 <tr id="InternalErrorAnalysisMessage-detail">
-<td><code><a href="#InternalErrorAnalysisMessage-detail">detail</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#InternalErrorAnalysisMessage-detail">detail</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Any detail regarding specifics of the error. Should be human-readable.</p>
 

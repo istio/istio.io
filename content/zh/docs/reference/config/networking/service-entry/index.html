@@ -356,10 +356,10 @@ service registry.</p>
 </thead>
 <tbody>
 <tr id="ServiceEntry-hosts">
-<td><code><a href="#ServiceEntry-hosts">hosts</a></code><br/>
-<em>string[]</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-hosts">hosts</a></code></div>
+<div class="type">string[]</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>The hosts associated with the ServiceEntry. Could be a DNS
 name with wildcard prefix.</p>
@@ -388,9 +388,9 @@ SANs specified here will also be verified.</li>
 </td>
 </tr>
 <tr id="ServiceEntry-addresses">
-<td><code><a href="#ServiceEntry-addresses">addresses</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-addresses">addresses</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>The virtual IP addresses associated with the service. Could be CIDR
 prefix. For HTTP traffic, generated route configurations will include http route
@@ -410,9 +410,9 @@ addresses are not supported in this field.</p>
 </td>
 </tr>
 <tr id="ServiceEntry-ports">
-<td><code><a href="#ServiceEntry-ports">ports</a></code><br/>
-<em><a href="#ServicePort">ServicePort[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-ports">ports</a></code></div>
+<div class="type"><a href="#ServicePort">ServicePort[]</a></div>
+</div></td>
 <td>
 <p>The ports associated with the external service. If the
 Endpoints are Unix domain socket addresses, there must be exactly one
@@ -421,9 +421,9 @@ port.</p>
 </td>
 </tr>
 <tr id="ServiceEntry-location">
-<td><code><a href="#ServiceEntry-location">location</a></code><br/>
-<em><a href="#ServiceEntry-Location">Location</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-location">location</a></code></div>
+<div class="type"><a href="#ServiceEntry-Location">Location</a></div>
+</div></td>
 <td>
 <p>Specify whether the service should be considered external to the mesh
 or part of the mesh.</p>
@@ -431,9 +431,9 @@ or part of the mesh.</p>
 </td>
 </tr>
 <tr id="ServiceEntry-resolution">
-<td><code><a href="#ServiceEntry-resolution">resolution</a></code><br/>
-<em><a href="#ServiceEntry-Resolution">Resolution</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-resolution">resolution</a></code></div>
+<div class="type"><a href="#ServiceEntry-Resolution">Resolution</a></div>
+</div></td>
 <td>
 <p>Service resolution mode for the hosts. Care must be taken
 when setting the resolution mode to NONE for a TCP port without
@@ -443,9 +443,9 @@ said port will be allowed (i.e. <code>0.0.0.0:&lt;port&gt;</code>).</p>
 </td>
 </tr>
 <tr id="ServiceEntry-endpoints">
-<td><code><a href="#ServiceEntry-endpoints">endpoints</a></code><br/>
-<em><a href="/zh/docs/reference/config/networking/workload-entry/#WorkloadEntry">WorkloadEntry[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-endpoints">endpoints</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/networking/workload-entry/#WorkloadEntry">WorkloadEntry[]</a></div>
+</div></td>
 <td>
 <p>One or more endpoints associated with the service. Only one of
 <code>endpoints</code> or <code>workloadSelector</code> can be specified.</p>
@@ -453,9 +453,9 @@ said port will be allowed (i.e. <code>0.0.0.0:&lt;port&gt;</code>).</p>
 </td>
 </tr>
 <tr id="ServiceEntry-workload_selector">
-<td><code><a href="#ServiceEntry-workload_selector">workloadSelector</a></code><br/>
-<em><a href="/zh/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-workload_selector">workloadSelector</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/networking/sidecar/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>Applicable only for MESH_INTERNAL services. Only one of
 <code>endpoints</code> or <code>workloadSelector</code> can be specified. Selects one
@@ -467,9 +467,9 @@ the ServiceEntry.</p>
 </td>
 </tr>
 <tr id="ServiceEntry-export_to">
-<td><code><a href="#ServiceEntry-export_to">exportTo</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-export_to">exportTo</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of namespaces to which this service is exported. Exporting a service
 allows it to be used by sidecars, gateways and virtual services defined in
@@ -488,9 +488,9 @@ of namespace names.</p>
 </td>
 </tr>
 <tr id="ServiceEntry-subject_alt_names">
-<td><code><a href="#ServiceEntry-subject_alt_names">subjectAltNames</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntry-subject_alt_names">subjectAltNames</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>If specified, the proxy will verify that the server certificate&rsquo;s
 subject alternate name matches one of the specified values.</p>
@@ -625,19 +625,19 @@ cannot be used with Unix domain socket endpoints.</p>
 </thead>
 <tbody>
 <tr id="ServicePort-number">
-<td><code><a href="#ServicePort-number">number</a></code><br/>
-<em>uint32</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServicePort-number">number</a></code></div>
+<div class="type">uint32</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>A valid non-negative integer port number.</p>
 
 </td>
 </tr>
 <tr id="ServicePort-protocol">
-<td><code><a href="#ServicePort-protocol">protocol</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServicePort-protocol">protocol</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The protocol exposed on the port.
 MUST BE one of HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS.
@@ -647,19 +647,19 @@ the destination without terminating the TLS connection.</p>
 </td>
 </tr>
 <tr id="ServicePort-name">
-<td><code><a href="#ServicePort-name">name</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServicePort-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Label assigned to the port.</p>
 
 </td>
 </tr>
 <tr id="ServicePort-target_port">
-<td><code><a href="#ServicePort-target_port">targetPort</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServicePort-target_port">targetPort</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>The port number on the endpoint where the traffic will be
 received. If unset, default to <code>number</code>.</p>
@@ -680,9 +680,9 @@ received. If unset, default to <code>number</code>.</p>
 </thead>
 <tbody>
 <tr id="ServiceEntryStatus-conditions">
-<td><code><a href="#ServiceEntryStatus-conditions">conditions</a></code><br/>
-<em><a href="/zh/docs/reference/config/meta/v1beta1/istio-status/#IstioCondition">IstioCondition[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryStatus-conditions">conditions</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/meta/v1beta1/istio-status/#IstioCondition">IstioCondition[]</a></div>
+</div></td>
 <td>
 <p>Current service state of ServiceEntry.
 More info: <a href="/zh/docs/reference/config/config-status/">https://istio.io/docs/reference/config/config-status/</a></p>
@@ -690,18 +690,18 @@ More info: <a href="/zh/docs/reference/config/config-status/">https://istio.io/d
 </td>
 </tr>
 <tr id="ServiceEntryStatus-validation_messages">
-<td><code><a href="#ServiceEntryStatus-validation_messages">validationMessages</a></code><br/>
-<em><a href="/zh/docs/reference/config/istio.analysis.v1alpha1/#AnalysisMessageBase">AnalysisMessageBase[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryStatus-validation_messages">validationMessages</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/istio.analysis.v1alpha1/#AnalysisMessageBase">AnalysisMessageBase[]</a></div>
+</div></td>
 <td>
 <p>Includes any errors or warnings detected by Istio&rsquo;s analyzers.</p>
 
 </td>
 </tr>
 <tr id="ServiceEntryStatus-observed_generation">
-<td><code><a href="#ServiceEntryStatus-observed_generation">observedGeneration</a></code><br/>
-<em>int64</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryStatus-observed_generation">observedGeneration</a></code></div>
+<div class="type">int64</div>
+</div></td>
 <td>
 <p>Resource Generation to which the Reconciled Condition refers.
 When this value is not equal to the object&rsquo;s metadata generation, reconciled condition  calculation for the current
@@ -710,9 +710,9 @@ generation is still in progress.  See <a href="/latest/docs/reference/config/con
 </td>
 </tr>
 <tr id="ServiceEntryStatus-addresses">
-<td><code><a href="#ServiceEntryStatus-addresses">addresses</a></code><br/>
-<em><a href="#ServiceEntryAddress">ServiceEntryAddress[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryStatus-addresses">addresses</a></code></div>
+<div class="type"><a href="#ServiceEntryAddress">ServiceEntryAddress[]</a></div>
+</div></td>
 <td>
 <p>List of addresses which were assigned to this ServiceEntry.</p>
 
@@ -734,18 +734,18 @@ generation is still in progress.  See <a href="/latest/docs/reference/config/con
 </thead>
 <tbody>
 <tr id="ServiceEntryAddress-value">
-<td><code><a href="#ServiceEntryAddress-value">value</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryAddress-value">value</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Value is the address (192.168.0.2)</p>
 
 </td>
 </tr>
 <tr id="ServiceEntryAddress-host">
-<td><code><a href="#ServiceEntryAddress-host">host</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryAddress-host">host</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Host is the name associated with this address</p>
 

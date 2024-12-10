@@ -100,9 +100,9 @@ spec:
 </thead>
 <tbody>
 <tr id="VirtualService-hosts">
-<td><code><a href="#VirtualService-hosts">hosts</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#VirtualService-hosts">hosts</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>The destination hosts to which traffic is being sent. Could
 be a DNS name with wildcard prefix or an IP address.  Depending on the
@@ -133,9 +133,9 @@ only for services defined via the Gateway.</p>
 </td>
 </tr>
 <tr id="VirtualService-gateways">
-<td><code><a href="#VirtualService-gateways">gateways</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#VirtualService-gateways">gateways</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>The names of gateways and sidecars that should apply these routes.
 Gateways in other namespaces may be referred to by
@@ -154,9 +154,9 @@ gateways and sidecars, specify <code>mesh</code> as one of the gateway names.</p
 </td>
 </tr>
 <tr id="VirtualService-http">
-<td><code><a href="#VirtualService-http">http</a></code><br/>
-<em><a href="#HTTPRoute">HTTPRoute[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#VirtualService-http">http</a></code></div>
+<div class="type"><a href="#HTTPRoute">HTTPRoute[]</a></div>
+</div></td>
 <td>
 <p>An ordered list of route rules for HTTP traffic. HTTP routes will be
 applied to platform service ports using HTTP/HTTP2/GRPC protocols, gateway
@@ -167,9 +167,9 @@ an incoming request is used.</p>
 </td>
 </tr>
 <tr id="VirtualService-tls">
-<td><code><a href="#VirtualService-tls">tls</a></code><br/>
-<em><a href="#TLSRoute">TLSRoute[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#VirtualService-tls">tls</a></code></div>
+<div class="type"><a href="#TLSRoute">TLSRoute[]</a></div>
+</div></td>
 <td>
 <p>An ordered list of route rule for non-terminated TLS &amp; HTTPS
 traffic. Routing is typically performed using the SNI value presented
@@ -184,9 +184,9 @@ traffic.</p>
 </td>
 </tr>
 <tr id="VirtualService-tcp">
-<td><code><a href="#VirtualService-tcp">tcp</a></code><br/>
-<em><a href="#TCPRoute">TCPRoute[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#VirtualService-tcp">tcp</a></code></div>
+<div class="type"><a href="#TCPRoute">TCPRoute[]</a></div>
+</div></td>
 <td>
 <p>An ordered list of route rules for opaque TCP traffic. TCP routes will
 be applied to any port that is not a HTTP or TLS port. The first rule
@@ -195,9 +195,9 @@ matching an incoming request is used.</p>
 </td>
 </tr>
 <tr id="VirtualService-export_to">
-<td><code><a href="#VirtualService-export_to">exportTo</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#VirtualService-export_to">exportTo</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of namespaces to which this virtual service is exported. Exporting a
 virtual service allows it to be used by sidecars and gateways defined in
@@ -341,10 +341,10 @@ spec:
 </thead>
 <tbody>
 <tr id="Destination-host">
-<td><code><a href="#Destination-host">host</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Destination-host">host</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
@@ -363,9 +363,9 @@ qualified domain names over short names.</p>
 </td>
 </tr>
 <tr id="Destination-subset">
-<td><code><a href="#Destination-subset">subset</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Destination-subset">subset</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The name of a subset within the service. Applicable only to services
 within the mesh. The subset must be defined in a corresponding
@@ -374,9 +374,9 @@ DestinationRule.</p>
 </td>
 </tr>
 <tr id="Destination-port">
-<td><code><a href="#Destination-port">port</a></code><br/>
-<em><a href="#PortSelector">PortSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Destination-port">port</a></code></div>
+<div class="type"><a href="#PortSelector">PortSelector</a></div>
+</div></td>
 <td>
 <p>Specifies the port on the host that is being addressed. If a service
 exposes only a single port it is not required to explicitly select the
@@ -401,9 +401,9 @@ gRPC traffic. See VirtualService for usage examples.</p>
 </thead>
 <tbody>
 <tr id="HTTPRoute-name">
-<td><code><a href="#HTTPRoute-name">name</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The name assigned to the route for debugging purposes. The
 route&rsquo;s name will be concatenated with the match&rsquo;s name and will
@@ -413,9 +413,9 @@ route/match.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-match">
-<td><code><a href="#HTTPRoute-match">match</a></code><br/>
-<em><a href="#HTTPMatchRequest">HTTPMatchRequest[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-match">match</a></code></div>
+<div class="type"><a href="#HTTPMatchRequest">HTTPMatchRequest[]</a></div>
+</div></td>
 <td>
 <p>Match conditions to be satisfied for the rule to be
 activated. All conditions inside a single match block have AND
@@ -425,9 +425,9 @@ is matched if any one of the match blocks succeed.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-route">
-<td><code><a href="#HTTPRoute-route">route</a></code><br/>
-<em><a href="#HTTPRouteDestination">HTTPRouteDestination[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-route">route</a></code></div>
+<div class="type"><a href="#HTTPRouteDestination">HTTPRouteDestination[]</a></div>
+</div></td>
 <td>
 <p>A HTTP rule can either return a direct_response, redirect or forward (default) traffic.
 The forwarding target can be one of several versions of a service (see
@@ -437,9 +437,9 @@ service version determine the proportion of traffic it receives.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-redirect">
-<td><code><a href="#HTTPRoute-redirect">redirect</a></code><br/>
-<em><a href="#HTTPRedirect">HTTPRedirect</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-redirect">redirect</a></code></div>
+<div class="type"><a href="#HTTPRedirect">HTTPRedirect</a></div>
+</div></td>
 <td>
 <p>A HTTP rule can either return a direct_response, redirect or forward (default) traffic.
 If traffic passthrough option is specified in the rule,
@@ -449,9 +449,9 @@ send a HTTP 301 redirect to a different URI or Authority.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-direct_response">
-<td><code><a href="#HTTPRoute-direct_response">directResponse</a></code><br/>
-<em><a href="#HTTPDirectResponse">HTTPDirectResponse</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-direct_response">directResponse</a></code></div>
+<div class="type"><a href="#HTTPDirectResponse">HTTPDirectResponse</a></div>
+</div></td>
 <td>
 <p>A HTTP rule can either return a direct_response, redirect or forward (default) traffic.
 Direct Response is used to specify a fixed response that should
@@ -461,9 +461,9 @@ be sent to clients.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-delegate">
-<td><code><a href="#HTTPRoute-delegate">delegate</a></code><br/>
-<em><a href="#Delegate">Delegate</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-delegate">delegate</a></code></div>
+<div class="type"><a href="#Delegate">Delegate</a></div>
+</div></td>
 <td>
 <p>Delegate is used to specify the particular VirtualService which
 can be used to define delegate HTTPRoute.</p>
@@ -480,9 +480,9 @@ otherwise there is a conflict and the HTTPRoute will not take effect.</li>
 </td>
 </tr>
 <tr id="HTTPRoute-rewrite">
-<td><code><a href="#HTTPRoute-rewrite">rewrite</a></code><br/>
-<em><a href="#HTTPRewrite">HTTPRewrite</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-rewrite">rewrite</a></code></div>
+<div class="type"><a href="#HTTPRewrite">HTTPRewrite</a></div>
+</div></td>
 <td>
 <p>Rewrite HTTP URIs and Authority headers. Rewrite cannot be used with
 Redirect primitive. Rewrite will be performed before forwarding.</p>
@@ -490,18 +490,18 @@ Redirect primitive. Rewrite will be performed before forwarding.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-timeout">
-<td><code><a href="#HTTPRoute-timeout">timeout</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-timeout">timeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Timeout for HTTP requests, default is disabled.</p>
 
 </td>
 </tr>
 <tr id="HTTPRoute-retries">
-<td><code><a href="#HTTPRoute-retries">retries</a></code><br/>
-<em><a href="#HTTPRetry">HTTPRetry</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-retries">retries</a></code></div>
+<div class="type"><a href="#HTTPRetry">HTTPRetry</a></div>
+</div></td>
 <td>
 <p>Retry policy for HTTP requests.</p>
 <p>Note: the default cluster-wide retry policy, if not specified, is:</p>
@@ -513,9 +513,9 @@ retryOn: &quot;connect-failure,refused-stream,unavailable,cancelled,503&quot;
 </td>
 </tr>
 <tr id="HTTPRoute-fault">
-<td><code><a href="#HTTPRoute-fault">fault</a></code><br/>
-<em><a href="#HTTPFaultInjection">HTTPFaultInjection</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-fault">fault</a></code></div>
+<div class="type"><a href="#HTTPFaultInjection">HTTPFaultInjection</a></div>
+</div></td>
 <td>
 <p>Fault injection policy to apply on HTTP traffic at the client side.
 Note that timeouts or retries will not be enabled when faults are
@@ -524,9 +524,9 @@ enabled on the client side.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-mirror">
-<td><code><a href="#HTTPRoute-mirror">mirror</a></code><br/>
-<em><a href="#Destination">Destination</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-mirror">mirror</a></code></div>
+<div class="type"><a href="#Destination">Destination</a></div>
+</div></td>
 <td>
 <p>Mirror HTTP traffic to a another destination in addition to forwarding
 the requests to the intended destination. Mirrored traffic is on a
@@ -538,9 +538,9 @@ destination.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-mirrors">
-<td><code><a href="#HTTPRoute-mirrors">mirrors</a></code><br/>
-<em><a href="#HTTPMirrorPolicy">HTTPMirrorPolicy[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-mirrors">mirrors</a></code></div>
+<div class="type"><a href="#HTTPMirrorPolicy">HTTPMirrorPolicy[]</a></div>
+</div></td>
 <td>
 <p>Specifies the destinations to mirror HTTP traffic in addition
 to the original destination. Mirrored traffic is on a
@@ -552,9 +552,9 @@ destination.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-mirror_percentage">
-<td><code><a href="#HTTPRoute-mirror_percentage">mirrorPercentage</a></code><br/>
-<em><a href="#Percent">Percent</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-mirror_percentage">mirrorPercentage</a></code></div>
+<div class="type"><a href="#Percent">Percent</a></div>
+</div></td>
 <td>
 <p>Percentage of the traffic to be mirrored by the <code>mirror</code> field.
 If this field is absent, all the traffic (100%) will be mirrored.
@@ -563,9 +563,9 @@ Max value is 100.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-cors_policy">
-<td><code><a href="#HTTPRoute-cors_policy">corsPolicy</a></code><br/>
-<em><a href="#CorsPolicy">CorsPolicy</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-cors_policy">corsPolicy</a></code></div>
+<div class="type"><a href="#CorsPolicy">CorsPolicy</a></div>
+</div></td>
 <td>
 <p>Cross-Origin Resource Sharing policy (CORS). Refer to
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a>
@@ -574,9 +574,9 @@ for further details about cross origin resource sharing.</p>
 </td>
 </tr>
 <tr id="HTTPRoute-headers">
-<td><code><a href="#HTTPRoute-headers">headers</a></code><br/>
-<em><a href="#Headers">Headers</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-headers">headers</a></code></div>
+<div class="type"><a href="#Headers">Headers</a></div>
+</div></td>
 <td>
 <p>Header manipulation rules</p>
 
@@ -651,18 +651,18 @@ spec:
 </thead>
 <tbody>
 <tr id="Delegate-name">
-<td><code><a href="#Delegate-name">name</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Delegate-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Name specifies the name of the delegate VirtualService.</p>
 
 </td>
 </tr>
 <tr id="Delegate-namespace">
-<td><code><a href="#Delegate-namespace">namespace</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Delegate-namespace">namespace</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Namespace specifies the namespace where the delegate VirtualService resides.
 By default, it is same to the root&rsquo;s.</p>
@@ -717,9 +717,9 @@ spec:
 </thead>
 <tbody>
 <tr id="Headers-request">
-<td><code><a href="#Headers-request">request</a></code><br/>
-<em><a href="#Headers-HeaderOperations">HeaderOperations</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Headers-request">request</a></code></div>
+<div class="type"><a href="#Headers-HeaderOperations">HeaderOperations</a></div>
+</div></td>
 <td>
 <p>Header manipulation rules to apply before forwarding a request
 to the destination service</p>
@@ -727,9 +727,9 @@ to the destination service</p>
 </td>
 </tr>
 <tr id="Headers-response">
-<td><code><a href="#Headers-response">response</a></code><br/>
-<em><a href="#Headers-HeaderOperations">HeaderOperations</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Headers-response">response</a></code></div>
+<div class="type"><a href="#Headers-HeaderOperations">HeaderOperations</a></div>
+</div></td>
 <td>
 <p>Header manipulation rules to apply before returning a response
 to the caller</p>
@@ -752,18 +752,18 @@ to the caller</p>
 </thead>
 <tbody>
 <tr id="Headers-HeaderOperations-set">
-<td><code><a href="#Headers-HeaderOperations-set">set</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Headers-HeaderOperations-set">set</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>Overwrite the headers specified by key with the given values</p>
 
 </td>
 </tr>
 <tr id="Headers-HeaderOperations-add">
-<td><code><a href="#Headers-HeaderOperations-add">add</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Headers-HeaderOperations-add">add</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>Append the given values to the headers specified by keys
 (will create a comma-separated list of values)</p>
@@ -771,9 +771,9 @@ to the caller</p>
 </td>
 </tr>
 <tr id="Headers-HeaderOperations-remove">
-<td><code><a href="#Headers-HeaderOperations-remove">remove</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Headers-HeaderOperations-remove">remove</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>Remove the specified headers</p>
 
@@ -823,10 +823,10 @@ spec:
 </thead>
 <tbody>
 <tr id="TLSRoute-match">
-<td><code><a href="#TLSRoute-match">match</a></code><br/>
-<em><a href="#TLSMatchAttributes">TLSMatchAttributes[]</a></em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSRoute-match">match</a></code></div>
+<div class="type"><a href="#TLSMatchAttributes">TLSMatchAttributes[]</a></div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Match conditions to be satisfied for the rule to be
 activated. All conditions inside a single match block have AND
@@ -836,9 +836,9 @@ is matched if any one of the match blocks succeed.</p>
 </td>
 </tr>
 <tr id="TLSRoute-route">
-<td><code><a href="#TLSRoute-route">route</a></code><br/>
-<em><a href="#RouteDestination">RouteDestination[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSRoute-route">route</a></code></div>
+<div class="type"><a href="#RouteDestination">RouteDestination[]</a></div>
+</div></td>
 <td>
 <p>The destination to which the connection should be forwarded to.</p>
 
@@ -878,9 +878,9 @@ spec:
 </thead>
 <tbody>
 <tr id="TCPRoute-match">
-<td><code><a href="#TCPRoute-match">match</a></code><br/>
-<em><a href="#L4MatchAttributes">L4MatchAttributes[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TCPRoute-match">match</a></code></div>
+<div class="type"><a href="#L4MatchAttributes">L4MatchAttributes[]</a></div>
+</div></td>
 <td>
 <p>Match conditions to be satisfied for the rule to be
 activated. All conditions inside a single match block have AND
@@ -890,9 +890,9 @@ is matched if any one of the match blocks succeed.</p>
 </td>
 </tr>
 <tr id="TCPRoute-route">
-<td><code><a href="#TCPRoute-route">route</a></code><br/>
-<em><a href="#RouteDestination">RouteDestination[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TCPRoute-route">route</a></code></div>
+<div class="type"><a href="#RouteDestination">RouteDestination[]</a></div>
+</div></td>
 <td>
 <p>The destination to which the connection should be forwarded to.</p>
 
@@ -943,9 +943,9 @@ spec:
 </thead>
 <tbody>
 <tr id="HTTPMatchRequest-name">
-<td><code><a href="#HTTPMatchRequest-name">name</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The name assigned to a match. The match&rsquo;s name will be
 concatenated with the parent route&rsquo;s name and will be logged in
@@ -954,9 +954,9 @@ the access logs for requests matching this route.</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-uri">
-<td><code><a href="#HTTPMatchRequest-uri">uri</a></code><br/>
-<em><a href="#StringMatch">StringMatch</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-uri">uri</a></code></div>
+<div class="type"><a href="#StringMatch">StringMatch</a></div>
+</div></td>
 <td>
 <p>URI to match
 values are case-sensitive and formatted as follows:</p>
@@ -977,9 +977,9 @@ values are case-sensitive and formatted as follows:</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-scheme">
-<td><code><a href="#HTTPMatchRequest-scheme">scheme</a></code><br/>
-<em><a href="#StringMatch">StringMatch</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-scheme">scheme</a></code></div>
+<div class="type"><a href="#StringMatch">StringMatch</a></div>
+</div></td>
 <td>
 <p>URI Scheme
 values are case-sensitive and formatted as follows:</p>
@@ -998,9 +998,9 @@ values are case-sensitive and formatted as follows:</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-method">
-<td><code><a href="#HTTPMatchRequest-method">method</a></code><br/>
-<em><a href="#StringMatch">StringMatch</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-method">method</a></code></div>
+<div class="type"><a href="#StringMatch">StringMatch</a></div>
+</div></td>
 <td>
 <p>HTTP Method
 values are case-sensitive and formatted as follows:</p>
@@ -1019,9 +1019,9 @@ values are case-sensitive and formatted as follows:</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-authority">
-<td><code><a href="#HTTPMatchRequest-authority">authority</a></code><br/>
-<em><a href="#StringMatch">StringMatch</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-authority">authority</a></code></div>
+<div class="type"><a href="#StringMatch">StringMatch</a></div>
+</div></td>
 <td>
 <p>HTTP Authority
 values are case-sensitive and formatted as follows:</p>
@@ -1040,9 +1040,9 @@ values are case-sensitive and formatted as follows:</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-headers">
-<td><code><a href="#HTTPMatchRequest-headers">headers</a></code><br/>
-<em>map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-headers">headers</a></code></div>
+<div class="type">map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</div>
+</div></td>
 <td>
 <p>The header keys must be lowercase and use hyphen as the separator,
 e.g. <em>x-request-id</em>.</p>
@@ -1069,9 +1069,9 @@ To provide an empty value, use <code>{}</code>, for example:</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-port">
-<td><code><a href="#HTTPMatchRequest-port">port</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-port">port</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>Specifies the ports on the host that is being addressed. Many services
 only expose a single port or label ports with the protocols they support,
@@ -1080,9 +1080,9 @@ in these cases it is not required to explicitly select the port.</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-source_labels">
-<td><code><a href="#HTTPMatchRequest-source_labels">sourceLabels</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-source_labels">sourceLabels</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>One or more labels that constrain the applicability of a rule to source (client) workloads
 with the given labels. If the VirtualService has a list of gateways specified
@@ -1092,9 +1092,9 @@ in the top-level <code>gateways</code> field, it must include the reserved gatew
 </td>
 </tr>
 <tr id="HTTPMatchRequest-gateways">
-<td><code><a href="#HTTPMatchRequest-gateways">gateways</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-gateways">gateways</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>Names of gateways where the rule should be applied. Gateway names
 in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
@@ -1103,9 +1103,9 @@ match is independent of sourceLabels.</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-query_params">
-<td><code><a href="#HTTPMatchRequest-query_params">queryParams</a></code><br/>
-<em>map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-query_params">queryParams</a></code></div>
+<div class="type">map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</div>
+</div></td>
 <td>
 <p>Query parameters for matching.</p>
 <p>Ex:</p>
@@ -1132,9 +1132,9 @@ configuration will only match values like &ldquo;123&rdquo; but not &ldquo;a123&
 </td>
 </tr>
 <tr id="HTTPMatchRequest-ignore_uri_case">
-<td><code><a href="#HTTPMatchRequest-ignore_uri_case">ignoreUriCase</a></code><br/>
-<em>bool</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-ignore_uri_case">ignoreUriCase</a></code></div>
+<div class="type">bool</div>
+</div></td>
 <td>
 <p>Flag to specify whether the URI matching should be case-insensitive.</p>
 <p><strong>Note:</strong> The case will be ignored only in the case of <code>exact</code> and <code>prefix</code>
@@ -1143,9 +1143,9 @@ URI matches.</p>
 </td>
 </tr>
 <tr id="HTTPMatchRequest-without_headers">
-<td><code><a href="#HTTPMatchRequest-without_headers">withoutHeaders</a></code><br/>
-<em>map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-without_headers">withoutHeaders</a></code></div>
+<div class="type">map&lt;string,&nbsp;<a href="#StringMatch">StringMatch</a>&gt;</div>
+</div></td>
 <td>
 <p>withoutHeader has the same syntax with the header, but has opposite meaning.
 If a header is matched with a matching rule among withoutHeader, the traffic becomes not matched one.</p>
@@ -1153,9 +1153,9 @@ If a header is matched with a matching rule among withoutHeader, the traffic bec
 </td>
 </tr>
 <tr id="HTTPMatchRequest-source_namespace">
-<td><code><a href="#HTTPMatchRequest-source_namespace">sourceNamespace</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-source_namespace">sourceNamespace</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Source namespace constraining the applicability of a rule to workloads in that namespace.
 If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
@@ -1164,9 +1164,9 @@ it must include the reserved gateway <code>mesh</code> for this field to be appl
 </td>
 </tr>
 <tr id="HTTPMatchRequest-stat_prefix">
-<td><code><a href="#HTTPMatchRequest-stat_prefix">statPrefix</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMatchRequest-stat_prefix">statPrefix</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The human readable prefix to use when emitting statistics for this route.
 The statistics are generated with prefix route.&lt;stat_prefix&gt;.
@@ -1250,10 +1250,10 @@ spec:
 </thead>
 <tbody>
 <tr id="HTTPRouteDestination-destination">
-<td><code><a href="#HTTPRouteDestination-destination">destination</a></code><br/>
-<em><a href="#Destination">Destination</a></em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteDestination-destination">destination</a></code></div>
+<div class="type"><a href="#Destination">Destination</a></div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Destination uniquely identifies the instances of a service
 to which the request/connection should be forwarded to.</p>
@@ -1261,9 +1261,9 @@ to which the request/connection should be forwarded to.</p>
 </td>
 </tr>
 <tr id="HTTPRouteDestination-weight">
-<td><code><a href="#HTTPRouteDestination-weight">weight</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteDestination-weight">weight</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Weight specifies the relative proportion of traffic to be forwarded to the destination. A destination will receive <code>weight/(sum of all weights)</code> requests.
 If there is only one destination in a rule, it will receive all traffic.
@@ -1272,9 +1272,9 @@ Otherwise, if weight is <code>0</code>, the destination will not receive any tra
 </td>
 </tr>
 <tr id="HTTPRouteDestination-headers">
-<td><code><a href="#HTTPRouteDestination-headers">headers</a></code><br/>
-<em><a href="#Headers">Headers</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteDestination-headers">headers</a></code></div>
+<div class="type"><a href="#Headers">Headers</a></div>
+</div></td>
 <td>
 <p>Header manipulation rules</p>
 
@@ -1296,10 +1296,10 @@ Otherwise, if weight is <code>0</code>, the destination will not receive any tra
 </thead>
 <tbody>
 <tr id="RouteDestination-destination">
-<td><code><a href="#RouteDestination-destination">destination</a></code><br/>
-<em><a href="#Destination">Destination</a></em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#RouteDestination-destination">destination</a></code></div>
+<div class="type"><a href="#Destination">Destination</a></div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Destination uniquely identifies the instances of a service
 to which the request/connection should be forwarded to.</p>
@@ -1307,9 +1307,9 @@ to which the request/connection should be forwarded to.</p>
 </td>
 </tr>
 <tr id="RouteDestination-weight">
-<td><code><a href="#RouteDestination-weight">weight</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#RouteDestination-weight">weight</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Weight specifies the relative proportion of traffic to be forwarded to the destination. A destination will receive <code>weight/(sum of all weights)</code> requests.
 If there is only one destination in a rule, it will receive all traffic.
@@ -1334,9 +1334,9 @@ is incomplete.</p>
 </thead>
 <tbody>
 <tr id="L4MatchAttributes-destination_subnets">
-<td><code><a href="#L4MatchAttributes-destination_subnets">destinationSubnets</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#L4MatchAttributes-destination_subnets">destinationSubnets</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>IPv4 or IPv6 ip addresses of destination with optional subnet.  E.g.,
 a.b.c.d/xx form or just a.b.c.d.</p>
@@ -1344,9 +1344,9 @@ a.b.c.d/xx form or just a.b.c.d.</p>
 </td>
 </tr>
 <tr id="L4MatchAttributes-port">
-<td><code><a href="#L4MatchAttributes-port">port</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#L4MatchAttributes-port">port</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>Specifies the port on the host that is being addressed. Many services
 only expose a single port or label ports with the protocols they support,
@@ -1355,9 +1355,9 @@ in these cases it is not required to explicitly select the port.</p>
 </td>
 </tr>
 <tr id="L4MatchAttributes-source_labels">
-<td><code><a href="#L4MatchAttributes-source_labels">sourceLabels</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#L4MatchAttributes-source_labels">sourceLabels</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
@@ -1367,9 +1367,9 @@ gateways specified in the top-level <code>gateways</code> field, it should inclu
 </td>
 </tr>
 <tr id="L4MatchAttributes-gateways">
-<td><code><a href="#L4MatchAttributes-gateways">gateways</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#L4MatchAttributes-gateways">gateways</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>Names of gateways where the rule should be applied. Gateway names
 in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
@@ -1378,9 +1378,9 @@ match is independent of sourceLabels.</p>
 </td>
 </tr>
 <tr id="L4MatchAttributes-source_namespace">
-<td><code><a href="#L4MatchAttributes-source_namespace">sourceNamespace</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#L4MatchAttributes-source_namespace">sourceNamespace</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Source namespace constraining the applicability of a rule to workloads in that namespace.
 If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
@@ -1404,10 +1404,10 @@ it must include the reserved gateway <code>mesh</code> for this field to be appl
 </thead>
 <tbody>
 <tr id="TLSMatchAttributes-sni_hosts">
-<td><code><a href="#TLSMatchAttributes-sni_hosts">sniHosts</a></code><br/>
-<em>string[]</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSMatchAttributes-sni_hosts">sniHosts</a></code></div>
+<div class="type">string[]</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>SNI (server name indicator) to match on. Wildcard prefixes
 can be used in the SNI value, e.g., *.com will match foo.example.com
@@ -1417,9 +1417,9 @@ within the domain) of the corresponding virtual service&rsquo;s hosts.</p>
 </td>
 </tr>
 <tr id="TLSMatchAttributes-destination_subnets">
-<td><code><a href="#TLSMatchAttributes-destination_subnets">destinationSubnets</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSMatchAttributes-destination_subnets">destinationSubnets</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>IPv4 or IPv6 ip addresses of destination with optional subnet.  E.g.,
 a.b.c.d/xx form or just a.b.c.d.</p>
@@ -1427,9 +1427,9 @@ a.b.c.d/xx form or just a.b.c.d.</p>
 </td>
 </tr>
 <tr id="TLSMatchAttributes-port">
-<td><code><a href="#TLSMatchAttributes-port">port</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSMatchAttributes-port">port</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>Specifies the port on the host that is being addressed. Many services
 only expose a single port or label ports with the protocols they
@@ -1439,9 +1439,9 @@ port.</p>
 </td>
 </tr>
 <tr id="TLSMatchAttributes-source_labels">
-<td><code><a href="#TLSMatchAttributes-source_labels">sourceLabels</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSMatchAttributes-source_labels">sourceLabels</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>One or more labels that constrain the applicability of a rule to
 workloads with the given labels. If the VirtualService has a list of
@@ -1451,9 +1451,9 @@ gateways specified in the top-level <code>gateways</code> field, it should inclu
 </td>
 </tr>
 <tr id="TLSMatchAttributes-gateways">
-<td><code><a href="#TLSMatchAttributes-gateways">gateways</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSMatchAttributes-gateways">gateways</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>Names of gateways where the rule should be applied. Gateway names
 in the top-level <code>gateways</code> field of the VirtualService (if any) are overridden. The gateway
@@ -1462,9 +1462,9 @@ match is independent of sourceLabels.</p>
 </td>
 </tr>
 <tr id="TLSMatchAttributes-source_namespace">
-<td><code><a href="#TLSMatchAttributes-source_namespace">sourceNamespace</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TLSMatchAttributes-source_namespace">sourceNamespace</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Source namespace constraining the applicability of a rule to workloads in that namespace.
 If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
@@ -1508,9 +1508,9 @@ spec:
 </thead>
 <tbody>
 <tr id="HTTPRedirect-uri">
-<td><code><a href="#HTTPRedirect-uri">uri</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRedirect-uri">uri</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>On a redirect, overwrite the Path portion of the URL with this
 value. Note that the entire path will be replaced, irrespective of the
@@ -1519,9 +1519,9 @@ request URI being matched as an exact path or prefix.</p>
 </td>
 </tr>
 <tr id="HTTPRedirect-authority">
-<td><code><a href="#HTTPRedirect-authority">authority</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRedirect-authority">authority</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>On a redirect, overwrite the Authority/Host portion of the URL with
 this value.</p>
@@ -1529,18 +1529,18 @@ this value.</p>
 </td>
 </tr>
 <tr id="HTTPRedirect-port" class="oneof oneof-start">
-<td><code><a href="#HTTPRedirect-port">port</a></code><br/>
-<em>uint32 (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRedirect-port">port</a></code></div>
+<div class="type">uint32 (oneof)</div>
+</div></td>
 <td>
 <p>On a redirect, overwrite the port portion of the URL with this value.</p>
 
 </td>
 </tr>
 <tr id="HTTPRedirect-derive_port" class="oneof">
-<td><code><a href="#HTTPRedirect-derive_port">derivePort</a></code><br/>
-<em><a href="#HTTPRedirect-RedirectPortSelection">RedirectPortSelection (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRedirect-derive_port">derivePort</a></code></div>
+<div class="type"><a href="#HTTPRedirect-RedirectPortSelection">RedirectPortSelection (oneof)</a></div>
+</div></td>
 <td>
 <p>On a redirect, dynamically set the port:</p>
 <ul>
@@ -1551,9 +1551,9 @@ this value.</p>
 </td>
 </tr>
 <tr id="HTTPRedirect-scheme">
-<td><code><a href="#HTTPRedirect-scheme">scheme</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRedirect-scheme">scheme</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>On a redirect, overwrite the scheme portion of the URL with this value.
 For example, <code>http</code> or <code>https</code>.
@@ -1563,9 +1563,9 @@ If <code>derivePort</code> is set to <code>FROM_PROTOCOL_DEFAULT</code>, this wi
 </td>
 </tr>
 <tr id="HTTPRedirect-redirect_code">
-<td><code><a href="#HTTPRedirect-redirect_code">redirectCode</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRedirect-redirect_code">redirectCode</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>On a redirect, Specifies the HTTP status code to use in the redirect
 response. The default response code is MOVED_PERMANENTLY (301).</p>
@@ -1673,19 +1673,19 @@ spec:
 </thead>
 <tbody>
 <tr id="HTTPDirectResponse-status">
-<td><code><a href="#HTTPDirectResponse-status">status</a></code><br/>
-<em>uint32</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPDirectResponse-status">status</a></code></div>
+<div class="type">uint32</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Specifies the HTTP response status to be returned.</p>
 
 </td>
 </tr>
 <tr id="HTTPDirectResponse-body">
-<td><code><a href="#HTTPDirectResponse-body">body</a></code><br/>
-<em><a href="#HTTPBody">HTTPBody</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPDirectResponse-body">body</a></code></div>
+<div class="type"><a href="#HTTPBody">HTTPBody</a></div>
+</div></td>
 <td>
 <p>Specifies the content of the response body. If this setting is omitted,
 no body is included in the generated response.</p>
@@ -1706,18 +1706,18 @@ no body is included in the generated response.</p>
 </thead>
 <tbody>
 <tr id="HTTPBody-string" class="oneof oneof-start">
-<td><code><a href="#HTTPBody-string">string</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPBody-string">string</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>response body as a string</p>
 
 </td>
 </tr>
 <tr id="HTTPBody-bytes" class="oneof">
-<td><code><a href="#HTTPBody-bytes">bytes</a></code><br/>
-<em>bytes (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPBody-bytes">bytes</a></code></div>
+<div class="type">bytes (oneof)</div>
+</div></td>
 <td>
 <p>response body as base64 encoded bytes.</p>
 
@@ -1761,9 +1761,9 @@ spec:
 </thead>
 <tbody>
 <tr id="HTTPRewrite-uri">
-<td><code><a href="#HTTPRewrite-uri">uri</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRewrite-uri">uri</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>rewrite the path (or the prefix) portion of the URI with this
 value. If the original URI was matched based on prefix, the value
@@ -1772,18 +1772,18 @@ provided in this field will replace the corresponding matched prefix.</p>
 </td>
 </tr>
 <tr id="HTTPRewrite-authority">
-<td><code><a href="#HTTPRewrite-authority">authority</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRewrite-authority">authority</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>rewrite the Authority/Host header with this value.</p>
 
 </td>
 </tr>
 <tr id="HTTPRewrite-uri_regex_rewrite">
-<td><code><a href="#HTTPRewrite-uri_regex_rewrite">uriRegexRewrite</a></code><br/>
-<em><a href="#RegexRewrite">RegexRewrite</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRewrite-uri_regex_rewrite">uriRegexRewrite</a></code></div>
+<div class="type"><a href="#RegexRewrite">RegexRewrite</a></div>
+</div></td>
 <td>
 <p>rewrite the path portion of the URI with the specified regex.</p>
 
@@ -1803,18 +1803,18 @@ provided in this field will replace the corresponding matched prefix.</p>
 </thead>
 <tbody>
 <tr id="RegexRewrite-match">
-<td><code><a href="#RegexRewrite-match">match</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#RegexRewrite-match">match</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p><a href="https://github.com/google/re2/wiki/Syntax">RE2 style regex-based match</a>.</p>
 
 </td>
 </tr>
 <tr id="RegexRewrite-rewrite">
-<td><code><a href="#RegexRewrite-rewrite">rewrite</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#RegexRewrite-rewrite">rewrite</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The string that should replace into matching portions of original URI.
 Capture groups in the pattern can be referenced in the new URI.
@@ -1845,27 +1845,27 @@ case-sensitive. <code>regex</code> matching supports case-insensitive matches.</
 </thead>
 <tbody>
 <tr id="StringMatch-exact" class="oneof oneof-start">
-<td><code><a href="#StringMatch-exact">exact</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#StringMatch-exact">exact</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>exact string match</p>
 
 </td>
 </tr>
 <tr id="StringMatch-prefix" class="oneof">
-<td><code><a href="#StringMatch-prefix">prefix</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#StringMatch-prefix">prefix</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>prefix-based match</p>
 
 </td>
 </tr>
 <tr id="StringMatch-regex" class="oneof">
-<td><code><a href="#StringMatch-regex">regex</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#StringMatch-regex">regex</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p><a href="https://github.com/google/re2/wiki/Syntax">RE2 style regex-based match</a>.</p>
 <p>Example: <code>(?i)^aaa$</code> can be used to case-insensitive match a string consisting of three a&rsquo;s.</p>
@@ -1909,9 +1909,9 @@ spec:
 </thead>
 <tbody>
 <tr id="HTTPRetry-attempts">
-<td><code><a href="#HTTPRetry-attempts">attempts</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRetry-attempts">attempts</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Number of retries to be allowed for a given request. The interval
 between retries will be determined automatically (25ms+). When request
@@ -1923,9 +1923,9 @@ The maximum possible number of requests made will be 1 + <code>attempts</code>.<
 </td>
 </tr>
 <tr id="HTTPRetry-per_try_timeout">
-<td><code><a href="#HTTPRetry-per_try_timeout">perTryTimeout</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRetry-per_try_timeout">perTryTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Timeout per attempt for a given request, including the initial call and any retries. Format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.
 Default is same value as request
@@ -1935,9 +1935,9 @@ which means no timeout.</p>
 </td>
 </tr>
 <tr id="HTTPRetry-retry_on">
-<td><code><a href="#HTTPRetry-retry_on">retryOn</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRetry-retry_on">retryOn</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Specifies the conditions under which retry takes place.
 One or more policies can be specified using a ‘,’ delimited list.
@@ -1952,9 +1952,9 @@ However, the destination did not return a 503 error, so this would not match <co
 </td>
 </tr>
 <tr id="HTTPRetry-retry_remote_localities">
-<td><code><a href="#HTTPRetry-retry_remote_localities">retryRemoteLocalities</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPRetry-retry_remote_localities">retryRemoteLocalities</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>Flag to specify whether the retries should retry to other localities.
 See the <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_connection_management#retry-plugin-configuration">retry plugin configuration</a> for more details.</p>
@@ -2006,9 +2006,9 @@ spec:
 </thead>
 <tbody>
 <tr id="CorsPolicy-allow_origins">
-<td><code><a href="#CorsPolicy-allow_origins">allowOrigins</a></code><br/>
-<em><a href="#StringMatch">StringMatch[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-allow_origins">allowOrigins</a></code></div>
+<div class="type"><a href="#StringMatch">StringMatch[]</a></div>
+</div></td>
 <td>
 <p>String patterns that match allowed origins.
 An origin is allowed if any of the string matchers match.
@@ -2017,9 +2017,9 @@ If a match is found, then the outgoing Access-Control-Allow-Origin would be set 
 </td>
 </tr>
 <tr id="CorsPolicy-allow_methods">
-<td><code><a href="#CorsPolicy-allow_methods">allowMethods</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-allow_methods">allowMethods</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>List of HTTP methods allowed to access the resource. The content will
 be serialized into the Access-Control-Allow-Methods header.</p>
@@ -2027,9 +2027,9 @@ be serialized into the Access-Control-Allow-Methods header.</p>
 </td>
 </tr>
 <tr id="CorsPolicy-allow_headers">
-<td><code><a href="#CorsPolicy-allow_headers">allowHeaders</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-allow_headers">allowHeaders</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>List of HTTP headers that can be used when requesting the
 resource. Serialized to Access-Control-Allow-Headers header.</p>
@@ -2037,9 +2037,9 @@ resource. Serialized to Access-Control-Allow-Headers header.</p>
 </td>
 </tr>
 <tr id="CorsPolicy-expose_headers">
-<td><code><a href="#CorsPolicy-expose_headers">exposeHeaders</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-expose_headers">exposeHeaders</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of HTTP headers that the browsers are allowed to
 access. Serialized into Access-Control-Expose-Headers header.</p>
@@ -2047,9 +2047,9 @@ access. Serialized into Access-Control-Expose-Headers header.</p>
 </td>
 </tr>
 <tr id="CorsPolicy-max_age">
-<td><code><a href="#CorsPolicy-max_age">maxAge</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-max_age">maxAge</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Specifies how long the results of a preflight request can be
 cached. Translates to the <code>Access-Control-Max-Age</code> header.</p>
@@ -2057,9 +2057,9 @@ cached. Translates to the <code>Access-Control-Max-Age</code> header.</p>
 </td>
 </tr>
 <tr id="CorsPolicy-allow_credentials">
-<td><code><a href="#CorsPolicy-allow_credentials">allowCredentials</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-allow_credentials">allowCredentials</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>Indicates whether the caller is allowed to send the actual request
 (not the preflight) using credentials. Translates to
@@ -2068,9 +2068,9 @@ cached. Translates to the <code>Access-Control-Max-Age</code> header.</p>
 </td>
 </tr>
 <tr id="CorsPolicy-unmatched_preflights">
-<td><code><a href="#CorsPolicy-unmatched_preflights">unmatchedPreflights</a></code><br/>
-<em><a href="#CorsPolicy-UnmatchedPreflights">UnmatchedPreflights</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#CorsPolicy-unmatched_preflights">unmatchedPreflights</a></code></div>
+<div class="type"><a href="#CorsPolicy-UnmatchedPreflights">UnmatchedPreflights</a></div>
+</div></td>
 <td>
 <p>Indicates whether preflight requests not matching the configured
 allowed origin shouldn&rsquo;t be forwarded to the upstream.
@@ -2136,9 +2136,9 @@ both are specified simultaneously.</p>
 </thead>
 <tbody>
 <tr id="HTTPFaultInjection-delay">
-<td><code><a href="#HTTPFaultInjection-delay">delay</a></code><br/>
-<em><a href="#HTTPFaultInjection-Delay">Delay</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-delay">delay</a></code></div>
+<div class="type"><a href="#HTTPFaultInjection-Delay">Delay</a></div>
+</div></td>
 <td>
 <p>Delay requests before forwarding, emulating various failures such as
 network issues, overloaded upstream service, etc.</p>
@@ -2146,9 +2146,9 @@ network issues, overloaded upstream service, etc.</p>
 </td>
 </tr>
 <tr id="HTTPFaultInjection-abort">
-<td><code><a href="#HTTPFaultInjection-abort">abort</a></code><br/>
-<em><a href="#HTTPFaultInjection-Abort">Abort</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-abort">abort</a></code></div>
+<div class="type"><a href="#HTTPFaultInjection-Abort">Abort</a></div>
+</div></td>
 <td>
 <p>Abort Http request attempts and return error codes back to downstream
 service, giving the impression that the upstream service is faulty.</p>
@@ -2198,9 +2198,9 @@ percentage of requests. If left unspecified, no request will be delayed.</p>
 </thead>
 <tbody>
 <tr id="HTTPFaultInjection-Delay-fixed_delay" class="oneof oneof-start">
-<td><code><a href="#HTTPFaultInjection-Delay-fixed_delay">fixedDelay</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-Delay-fixed_delay">fixedDelay</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration (oneof)</a></div>
+</div></td>
 <td>
 <p>Add a fixed delay before forwarding the request. Format:
 1h/1m/1s/1ms. MUST be &gt;=1ms.</p>
@@ -2208,9 +2208,9 @@ percentage of requests. If left unspecified, no request will be delayed.</p>
 </td>
 </tr>
 <tr id="HTTPFaultInjection-Delay-percentage">
-<td><code><a href="#HTTPFaultInjection-Delay-percentage">percentage</a></code><br/>
-<em><a href="#Percent">Percent</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-Delay-percentage">percentage</a></code></div>
+<div class="type"><a href="#Percent">Percent</a></div>
+</div></td>
 <td>
 <p>Percentage of requests on which the delay will be injected.
 If left unspecified, no request will be delayed.</p>
@@ -2218,9 +2218,9 @@ If left unspecified, no request will be delayed.</p>
 </td>
 </tr>
 <tr id="HTTPFaultInjection-Delay-percent" class="deprecated ">
-<td><code><a href="#HTTPFaultInjection-Delay-percent">percent</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-Delay-percent">percent</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Percentage of requests on which the delay will be injected (0-100).
 Use of integer <code>percent</code> value is deprecated. Use the double <code>percentage</code>
@@ -2268,18 +2268,18 @@ aborted.</p>
 </thead>
 <tbody>
 <tr id="HTTPFaultInjection-Abort-http_status" class="oneof oneof-start">
-<td><code><a href="#HTTPFaultInjection-Abort-http_status">httpStatus</a></code><br/>
-<em>int32 (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-Abort-http_status">httpStatus</a></code></div>
+<div class="type">int32 (oneof)</div>
+</div></td>
 <td>
 <p>HTTP status code to use to abort the Http request.</p>
 
 </td>
 </tr>
 <tr id="HTTPFaultInjection-Abort-grpc_status" class="oneof">
-<td><code><a href="#HTTPFaultInjection-Abort-grpc_status">grpcStatus</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-Abort-grpc_status">grpcStatus</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>GRPC status code to use to abort the request. The supported
 codes are documented in <a href="https://github.com/grpc/grpc/blob/master/doc/statuscodes.md">https://github.com/grpc/grpc/blob/master/doc/statuscodes.md</a>
@@ -2289,9 +2289,9 @@ specify the code as <code>UNAVAILABLE</code>(all caps), but not <code>14</code>.
 </td>
 </tr>
 <tr id="HTTPFaultInjection-Abort-percentage">
-<td><code><a href="#HTTPFaultInjection-Abort-percentage">percentage</a></code><br/>
-<em><a href="#Percent">Percent</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPFaultInjection-Abort-percentage">percentage</a></code></div>
+<div class="type"><a href="#Percent">Percent</a></div>
+</div></td>
 <td>
 <p>Percentage of requests to be aborted with the error code provided.
 If not specified, no request will be aborted.</p>
@@ -2319,19 +2319,19 @@ destination.</p>
 </thead>
 <tbody>
 <tr id="HTTPMirrorPolicy-destination">
-<td><code><a href="#HTTPMirrorPolicy-destination">destination</a></code><br/>
-<em><a href="#Destination">Destination</a></em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMirrorPolicy-destination">destination</a></code></div>
+<div class="type"><a href="#Destination">Destination</a></div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Destination specifies the target of the mirror operation.</p>
 
 </td>
 </tr>
 <tr id="HTTPMirrorPolicy-percentage">
-<td><code><a href="#HTTPMirrorPolicy-percentage">percentage</a></code><br/>
-<em><a href="#Percent">Percent</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#HTTPMirrorPolicy-percentage">percentage</a></code></div>
+<div class="type"><a href="#Percent">Percent</a></div>
+</div></td>
 <td>
 <p>Percentage of the traffic to be mirrored by the <code>destination</code> field.
 If this field is absent, all the traffic (100%) will be mirrored.
@@ -2356,9 +2356,9 @@ matching or selection for final routing.</p>
 </thead>
 <tbody>
 <tr id="PortSelector-number">
-<td><code><a href="#PortSelector-number">number</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#PortSelector-number">number</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>Valid port number</p>
 
@@ -2380,9 +2380,9 @@ matching or selection for final routing.</p>
 </thead>
 <tbody>
 <tr id="Percent-value">
-<td><code><a href="#Percent-value">value</a></code><br/>
-<em>double</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Percent-value">value</a></code></div>
+<div class="type">double</div>
+</div></td>
 <td>
 </td>
 </tr>
@@ -2403,9 +2403,9 @@ matching or selection for final routing.</p>
 </thead>
 <tbody>
 <tr id="google-protobuf-UInt32Value-value">
-<td><code><a href="#google-protobuf-UInt32Value-value">value</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#google-protobuf-UInt32Value-value">value</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>The uint32 value.</p>
 

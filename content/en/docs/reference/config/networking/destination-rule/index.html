@@ -108,10 +108,10 @@ after routing has occurred.</p>
 </thead>
 <tbody>
 <tr id="DestinationRule-host">
-<td><code><a href="#DestinationRule-host">host</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#DestinationRule-host">host</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>The name of a service from the service registry. Service
 names are looked up from the platform&rsquo;s service registry (e.g.,
@@ -131,9 +131,9 @@ qualified domain names over short names.</em></p>
 </td>
 </tr>
 <tr id="DestinationRule-traffic_policy">
-<td><code><a href="#DestinationRule-traffic_policy">trafficPolicy</a></code><br/>
-<em><a href="#TrafficPolicy">TrafficPolicy</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#DestinationRule-traffic_policy">trafficPolicy</a></code></div>
+<div class="type"><a href="#TrafficPolicy">TrafficPolicy</a></div>
+</div></td>
 <td>
 <p>Traffic policies to apply (load balancing policy, connection pool
 sizes, outlier detection).</p>
@@ -141,9 +141,9 @@ sizes, outlier detection).</p>
 </td>
 </tr>
 <tr id="DestinationRule-subsets">
-<td><code><a href="#DestinationRule-subsets">subsets</a></code><br/>
-<em><a href="#Subset">Subset[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#DestinationRule-subsets">subsets</a></code></div>
+<div class="type"><a href="#Subset">Subset[]</a></div>
+</div></td>
 <td>
 <p>One or more named sets that represent individual versions of a
 service. Traffic policies can be overridden at subset level.</p>
@@ -151,9 +151,9 @@ service. Traffic policies can be overridden at subset level.</p>
 </td>
 </tr>
 <tr id="DestinationRule-export_to">
-<td><code><a href="#DestinationRule-export_to">exportTo</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#DestinationRule-export_to">exportTo</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of namespaces to which this destination rule is exported.
 The resolution of a destination rule to apply to a service occurs in the
@@ -171,9 +171,9 @@ defines an export to all namespaces.</p>
 </td>
 </tr>
 <tr id="DestinationRule-workload_selector">
-<td><code><a href="#DestinationRule-workload_selector">workloadSelector</a></code><br/>
-<em><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#DestinationRule-workload_selector">workloadSelector</a></code></div>
+<div class="type"><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>Criteria used to select the specific set of pods/VMs on which this
 <code>DestinationRule</code> configuration should be applied. If specified, the <code>DestinationRule</code>
@@ -203,45 +203,45 @@ destination ports. See DestinationRule for examples.</p>
 </thead>
 <tbody>
 <tr id="TrafficPolicy-load_balancer">
-<td><code><a href="#TrafficPolicy-load_balancer">loadBalancer</a></code><br/>
-<em><a href="#LoadBalancerSettings">LoadBalancerSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-load_balancer">loadBalancer</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings">LoadBalancerSettings</a></div>
+</div></td>
 <td>
 <p>Settings controlling the load balancer algorithms.</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-connection_pool">
-<td><code><a href="#TrafficPolicy-connection_pool">connectionPool</a></code><br/>
-<em><a href="#ConnectionPoolSettings">ConnectionPoolSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-connection_pool">connectionPool</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings">ConnectionPoolSettings</a></div>
+</div></td>
 <td>
 <p>Settings controlling the volume of connections to an upstream service</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-outlier_detection">
-<td><code><a href="#TrafficPolicy-outlier_detection">outlierDetection</a></code><br/>
-<em><a href="#OutlierDetection">OutlierDetection</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-outlier_detection">outlierDetection</a></code></div>
+<div class="type"><a href="#OutlierDetection">OutlierDetection</a></div>
+</div></td>
 <td>
 <p>Settings controlling eviction of unhealthy hosts from the load balancing pool</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-tls">
-<td><code><a href="#TrafficPolicy-tls">tls</a></code><br/>
-<em><a href="#ClientTLSSettings">ClientTLSSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-tls">tls</a></code></div>
+<div class="type"><a href="#ClientTLSSettings">ClientTLSSettings</a></div>
+</div></td>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-port_level_settings">
-<td><code><a href="#TrafficPolicy-port_level_settings">portLevelSettings</a></code><br/>
-<em><a href="#TrafficPolicy-PortTrafficPolicy">PortTrafficPolicy[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-port_level_settings">portLevelSettings</a></code></div>
+<div class="type"><a href="#TrafficPolicy-PortTrafficPolicy">PortTrafficPolicy[]</a></div>
+</div></td>
 <td>
 <p>Traffic policies specific to individual ports. Note that port level
 settings will override the destination-level settings. Traffic
@@ -252,9 +252,9 @@ to fields omitted in port-level traffic policies.</p>
 </td>
 </tr>
 <tr id="TrafficPolicy-tunnel">
-<td><code><a href="#TrafficPolicy-tunnel">tunnel</a></code><br/>
-<em><a href="#TrafficPolicy-TunnelSettings">TunnelSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-tunnel">tunnel</a></code></div>
+<div class="type"><a href="#TrafficPolicy-TunnelSettings">TunnelSettings</a></div>
+</div></td>
 <td>
 <p>Configuration of tunneling TCP over other transport or application layers
 for the host configured in the DestinationRule.
@@ -263,9 +263,9 @@ Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied t
 </td>
 </tr>
 <tr id="TrafficPolicy-proxy_protocol">
-<td><code><a href="#TrafficPolicy-proxy_protocol">proxyProtocol</a></code><br/>
-<em><a href="#TrafficPolicy-ProxyProtocol">ProxyProtocol</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-proxy_protocol">proxyProtocol</a></code></div>
+<div class="type"><a href="#TrafficPolicy-ProxyProtocol">ProxyProtocol</a></div>
+</div></td>
 <td>
 <p>The upstream PROXY protocol settings.</p>
 
@@ -287,9 +287,9 @@ Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied t
 </thead>
 <tbody>
 <tr id="TrafficPolicy-PortTrafficPolicy-port">
-<td><code><a href="#TrafficPolicy-PortTrafficPolicy-port">port</a></code><br/>
-<em><a href="/docs/reference/config/networking/virtual-service/#PortSelector">PortSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-PortTrafficPolicy-port">port</a></code></div>
+<div class="type"><a href="/docs/reference/config/networking/virtual-service/#PortSelector">PortSelector</a></div>
+</div></td>
 <td>
 <p>Specifies the number of a port on the destination service
 on which this policy is being applied.</p>
@@ -297,36 +297,36 @@ on which this policy is being applied.</p>
 </td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-load_balancer">
-<td><code><a href="#TrafficPolicy-PortTrafficPolicy-load_balancer">loadBalancer</a></code><br/>
-<em><a href="#LoadBalancerSettings">LoadBalancerSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-PortTrafficPolicy-load_balancer">loadBalancer</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings">LoadBalancerSettings</a></div>
+</div></td>
 <td>
 <p>Settings controlling the load balancer algorithms.</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-connection_pool">
-<td><code><a href="#TrafficPolicy-PortTrafficPolicy-connection_pool">connectionPool</a></code><br/>
-<em><a href="#ConnectionPoolSettings">ConnectionPoolSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-PortTrafficPolicy-connection_pool">connectionPool</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings">ConnectionPoolSettings</a></div>
+</div></td>
 <td>
 <p>Settings controlling the volume of connections to an upstream service</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-outlier_detection">
-<td><code><a href="#TrafficPolicy-PortTrafficPolicy-outlier_detection">outlierDetection</a></code><br/>
-<em><a href="#OutlierDetection">OutlierDetection</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-PortTrafficPolicy-outlier_detection">outlierDetection</a></code></div>
+<div class="type"><a href="#OutlierDetection">OutlierDetection</a></div>
+</div></td>
 <td>
 <p>Settings controlling eviction of unhealthy hosts from the load balancing pool</p>
 
 </td>
 </tr>
 <tr id="TrafficPolicy-PortTrafficPolicy-tls">
-<td><code><a href="#TrafficPolicy-PortTrafficPolicy-tls">tls</a></code><br/>
-<em><a href="#ClientTLSSettings">ClientTLSSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-PortTrafficPolicy-tls">tls</a></code></div>
+<div class="type"><a href="#ClientTLSSettings">ClientTLSSettings</a></div>
+</div></td>
 <td>
 <p>TLS related settings for connections to the upstream service.</p>
 
@@ -346,9 +346,9 @@ on which this policy is being applied.</p>
 </thead>
 <tbody>
 <tr id="TrafficPolicy-TunnelSettings-protocol">
-<td><code><a href="#TrafficPolicy-TunnelSettings-protocol">protocol</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-TunnelSettings-protocol">protocol</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Specifies which protocol to use for tunneling the downstream connection.
 Supported protocols are:
@@ -360,10 +360,10 @@ HTTP version for upstream requests is determined by the service protocol defined
 </td>
 </tr>
 <tr id="TrafficPolicy-TunnelSettings-target_host">
-<td><code><a href="#TrafficPolicy-TunnelSettings-target_host">targetHost</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-TunnelSettings-target_host">targetHost</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Specifies a host to which the downstream connection is tunneled.
 Target host must be an FQDN or IP address.</p>
@@ -371,10 +371,10 @@ Target host must be an FQDN or IP address.</p>
 </td>
 </tr>
 <tr id="TrafficPolicy-TunnelSettings-target_port">
-<td><code><a href="#TrafficPolicy-TunnelSettings-target_port">targetPort</a></code><br/>
-<em>uint32</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-TunnelSettings-target_port">targetPort</a></code></div>
+<div class="type">uint32</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Specifies a port to which the downstream connection is tunneled.</p>
 
@@ -394,9 +394,9 @@ Target host must be an FQDN or IP address.</p>
 </thead>
 <tbody>
 <tr id="TrafficPolicy-ProxyProtocol-version">
-<td><code><a href="#TrafficPolicy-ProxyProtocol-version">version</a></code><br/>
-<em><a href="#TrafficPolicy-ProxyProtocol-VERSION">VERSION</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-ProxyProtocol-version">version</a></code></div>
+<div class="type"><a href="#TrafficPolicy-ProxyProtocol-VERSION">VERSION</a></div>
+</div></td>
 <td>
 <p>The PROXY protocol version to use. See <a href="https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt">https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt</a> for details.
 By default it is <code>V1</code>.</p>
@@ -477,10 +477,10 @@ can be used to identify a specific SNI host corresponding to the named subset.</
 </thead>
 <tbody>
 <tr id="Subset-name">
-<td><code><a href="#Subset-name">name</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Subset-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Name of the subset. The service name and the subset name can
 be used for traffic splitting in a route rule.</p>
@@ -488,9 +488,9 @@ be used for traffic splitting in a route rule.</p>
 </td>
 </tr>
 <tr id="Subset-labels">
-<td><code><a href="#Subset-labels">labels</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Subset-labels">labels</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>Labels apply a filter over the endpoints of a service in the
 service registry. See route rules for examples of usage.</p>
@@ -498,9 +498,9 @@ service registry. See route rules for examples of usage.</p>
 </td>
 </tr>
 <tr id="Subset-traffic_policy">
-<td><code><a href="#Subset-traffic_policy">trafficPolicy</a></code><br/>
-<em><a href="#TrafficPolicy">TrafficPolicy</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Subset-traffic_policy">trafficPolicy</a></code></div>
+<div class="type"><a href="#TrafficPolicy">TrafficPolicy</a></div>
+</div></td>
 <td>
 <p>Traffic policies that apply to this subset. Subsets inherit the
 traffic policies specified at the DestinationRule level. Settings
@@ -556,23 +556,23 @@ spec:
 </thead>
 <tbody>
 <tr id="LoadBalancerSettings-simple" class="oneof oneof-start">
-<td><code><a href="#LoadBalancerSettings-simple">simple</a></code><br/>
-<em><a href="#LoadBalancerSettings-SimpleLB">SimpleLB (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-simple">simple</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-SimpleLB">SimpleLB (oneof)</a></div>
+</div></td>
 <td>
 </td>
 </tr>
 <tr id="LoadBalancerSettings-consistent_hash" class="oneof">
-<td><code><a href="#LoadBalancerSettings-consistent_hash">consistentHash</a></code><br/>
-<em><a href="#LoadBalancerSettings-ConsistentHashLB">ConsistentHashLB (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-consistent_hash">consistentHash</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-ConsistentHashLB">ConsistentHashLB (oneof)</a></div>
+</div></td>
 <td>
 </td>
 </tr>
 <tr id="LoadBalancerSettings-locality_lb_setting">
-<td><code><a href="#LoadBalancerSettings-locality_lb_setting">localityLbSetting</a></code><br/>
-<em><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-locality_lb_setting">localityLbSetting</a></code></div>
+<div class="type"><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></div>
+</div></td>
 <td>
 <p>Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed
 between this object and the object one in MeshConfig</p>
@@ -580,18 +580,18 @@ between this object and the object one in MeshConfig</p>
 </td>
 </tr>
 <tr id="LoadBalancerSettings-warmup_duration_secs">
-<td><code><a href="#LoadBalancerSettings-warmup_duration_secs">warmupDurationSecs</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-warmup_duration_secs">warmupDurationSecs</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Deprecated: use <code>warmup</code> instead.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-warmup">
-<td><code><a href="#LoadBalancerSettings-warmup">warmup</a></code><br/>
-<em><a href="#WarmupConfiguration">WarmupConfiguration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-warmup">warmup</a></code></div>
+<div class="type"><a href="#WarmupConfiguration">WarmupConfiguration</a></div>
+</div></td>
 <td>
 <p>Represents the warmup configuration of Service. If set, the newly created endpoint of service
 remains in warmup mode starting from its creation time for the duration of this window and
@@ -633,27 +633,27 @@ or a high level load balancer handles locality affinity.</p>
 </thead>
 <tbody>
 <tr id="LoadBalancerSettings-ConsistentHashLB-http_header_name" class="oneof oneof-start">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-http_header_name">httpHeaderName</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-http_header_name">httpHeaderName</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>Hash based on a specific HTTP header.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-http_cookie" class="oneof">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-http_cookie">httpCookie</a></code><br/>
-<em><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie">HTTPCookie (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-http_cookie">httpCookie</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie">HTTPCookie (oneof)</a></div>
+</div></td>
 <td>
 <p>Hash based on HTTP cookie.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-use_source_ip" class="oneof">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-use_source_ip">useSourceIp</a></code><br/>
-<em>bool (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-use_source_ip">useSourceIp</a></code></div>
+<div class="type">bool (oneof)</div>
+</div></td>
 <td>
 <p>Hash based on the source IP address.
 This is applicable for both TCP and HTTP connections.</p>
@@ -661,36 +661,36 @@ This is applicable for both TCP and HTTP connections.</p>
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-http_query_parameter_name" class="oneof">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-http_query_parameter_name">httpQueryParameterName</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-http_query_parameter_name">httpQueryParameterName</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>Hash based on a specific HTTP query parameter.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-ring_hash" class="oneof oneof-start">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-ring_hash">ringHash</a></code><br/>
-<em><a href="#LoadBalancerSettings-ConsistentHashLB-RingHash">RingHash (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-ring_hash">ringHash</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-ConsistentHashLB-RingHash">RingHash (oneof)</a></div>
+</div></td>
 <td>
 <p>The ring/modulo hash load balancer implements consistent hashing to backend hosts.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-maglev" class="oneof">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-maglev">maglev</a></code><br/>
-<em><a href="#LoadBalancerSettings-ConsistentHashLB-MagLev">MagLev (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-maglev">maglev</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-ConsistentHashLB-MagLev">MagLev (oneof)</a></div>
+</div></td>
 <td>
 <p>The Maglev load balancer implements consistent hashing to backend hosts.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-minimum_ring_size" class="deprecated ">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-minimum_ring_size">minimumRingSize</a></code><br/>
-<em>uint64</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-minimum_ring_size">minimumRingSize</a></code></div>
+<div class="type">uint64</div>
+</div></td>
 <td>
 <p>Deprecated. Use RingHash instead.</p>
 
@@ -710,9 +710,9 @@ This is applicable for both TCP and HTTP connections.</p>
 </thead>
 <tbody>
 <tr id="LoadBalancerSettings-ConsistentHashLB-RingHash-minimum_ring_size">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-RingHash-minimum_ring_size">minimumRingSize</a></code><br/>
-<em>uint64</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-RingHash-minimum_ring_size">minimumRingSize</a></code></div>
+<div class="type">uint64</div>
+</div></td>
 <td>
 <p>The minimum number of virtual nodes to use for the hash
 ring. Defaults to 1024. Larger ring sizes result in more granular
@@ -736,9 +736,9 @@ single virtual node.</p>
 </thead>
 <tbody>
 <tr id="LoadBalancerSettings-ConsistentHashLB-MagLev-table_size">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-MagLev-table_size">tableSize</a></code><br/>
-<em>uint64</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-MagLev-table_size">tableSize</a></code></div>
+<div class="type">uint64</div>
+</div></td>
 <td>
 <p>The table size for Maglev hashing. This helps in controlling the
 disruption when the backend hosts change.
@@ -765,28 +765,28 @@ Consistent Hash load balancer.</p>
 </thead>
 <tbody>
 <tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-name">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-name">name</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Name of the cookie.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-path">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-path">path</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-path">path</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Path to set for the cookie.</p>
 
 </td>
 </tr>
 <tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-ttl">
-<td><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-ttl">ttl</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-ttl">ttl</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Lifetime of the cookie. If specified, a cookie with the TTL will be
 generated if the cookie is not present. If the TTL is present and zero,
@@ -878,19 +878,19 @@ LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
 </thead>
 <tbody>
 <tr id="WarmupConfiguration-duration">
-<td><code><a href="#WarmupConfiguration-duration">duration</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WarmupConfiguration-duration">duration</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Duration of warmup mode</p>
 
 </td>
 </tr>
 <tr id="WarmupConfiguration-minimum_percent">
-<td><code><a href="#WarmupConfiguration-minimum_percent">minimumPercent</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WarmupConfiguration-minimum_percent">minimumPercent</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></div>
+</div></td>
 <td>
 <p>Configures the minimum percentage of origin weight
 If unspecified, defaults to 10</p>
@@ -898,9 +898,9 @@ If unspecified, defaults to 10</p>
 </td>
 </tr>
 <tr id="WarmupConfiguration-aggression">
-<td><code><a href="#WarmupConfiguration-aggression">aggression</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WarmupConfiguration-aggression">aggression</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></div>
+</div></td>
 <td>
 <p>This parameter controls the speed of traffic increase over the warmup duration. Defaults to 1.0, so that endpoints would
 get linearly increasing amount of traffic. When increasing the value for this parameter,
@@ -945,18 +945,18 @@ spec:
 </thead>
 <tbody>
 <tr id="ConnectionPoolSettings-tcp">
-<td><code><a href="#ConnectionPoolSettings-tcp">tcp</a></code><br/>
-<em><a href="#ConnectionPoolSettings-TCPSettings">TCPSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-tcp">tcp</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings-TCPSettings">TCPSettings</a></div>
+</div></td>
 <td>
 <p>Settings common to both HTTP and TCP upstream connections.</p>
 
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-http">
-<td><code><a href="#ConnectionPoolSettings-http">http</a></code><br/>
-<em><a href="#ConnectionPoolSettings-HTTPSettings">HTTPSettings</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-http">http</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings-HTTPSettings">HTTPSettings</a></div>
+</div></td>
 <td>
 <p>HTTP connection pool settings.</p>
 
@@ -978,18 +978,18 @@ spec:
 </thead>
 <tbody>
 <tr id="ConnectionPoolSettings-TCPSettings-max_connections">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-max_connections">maxConnections</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-max_connections">maxConnections</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Maximum number of HTTP1 /TCP connections to a destination host. Default 2^32-1.</p>
 
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-connect_timeout">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-connect_timeout">connectTimeout</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-connect_timeout">connectTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>TCP connection timeout. format:
 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
@@ -997,18 +997,18 @@ spec:
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-tcp_keepalive">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-tcp_keepalive">tcpKeepalive</a></code><br/>
-<em><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-tcp_keepalive">tcpKeepalive</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></div>
+</div></td>
 <td>
 <p>If set then set SO_KEEPALIVE on the socket to enable TCP Keepalives.</p>
 
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-max_connection_duration">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-max_connection_duration">maxConnectionDuration</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-max_connection_duration">maxConnectionDuration</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>The maximum duration of a connection. The duration is defined as the period since a connection
 was established. If not set, there is no max duration. When max_connection_duration
@@ -1017,9 +1017,9 @@ is reached the connection will be closed. Duration must be at least 1ms.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-idle_timeout">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-idle_timeout">idleTimeout</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-idle_timeout">idleTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>The idle timeout for TCP connections.
 The idle timeout is defined as the period in which there are no bytes sent or received on either
@@ -1048,9 +1048,9 @@ which means also for all weighted routes.</p>
 </thead>
 <tbody>
 <tr id="ConnectionPoolSettings-TCPSettings-TcpKeepalive-probes">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive-probes">probes</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive-probes">probes</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>Maximum number of keepalive probes to send without response before
 deciding the connection is dead. Default is to use the OS level configuration
@@ -1059,9 +1059,9 @@ deciding the connection is dead. Default is to use the OS level configuration
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-TcpKeepalive-time">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive-time">time</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive-time">time</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>The time duration a connection needs to be idle before keep-alive
 probes start being sent. Default is to use the OS level configuration
@@ -1070,9 +1070,9 @@ probes start being sent. Default is to use the OS level configuration
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-TCPSettings-TcpKeepalive-interval">
-<td><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive-interval">interval</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-TCPSettings-TcpKeepalive-interval">interval</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>The time duration between keep-alive probes.
 Default is to use the OS level configuration
@@ -1096,9 +1096,9 @@ Default is to use the OS level configuration
 </thead>
 <tbody>
 <tr id="ConnectionPoolSettings-HTTPSettings-http1_max_pending_requests">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-http1_max_pending_requests">http1MaxPendingRequests</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-http1_max_pending_requests">http1MaxPendingRequests</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Maximum number of requests that will be queued while waiting for
 a ready connection pool connection. Default 2^32-1.
@@ -1109,9 +1109,9 @@ Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-http2_max_requests">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-http2_max_requests">http2MaxRequests</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-http2_max_requests">http2MaxRequests</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Maximum number of active requests to a destination. Default 2^32-1.
 Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
@@ -1119,9 +1119,9 @@ Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-max_requests_per_connection">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-max_requests_per_connection">maxRequestsPerConnection</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-max_requests_per_connection">maxRequestsPerConnection</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Maximum number of requests per connection to a backend. Setting this
 parameter to 1 disables keep alive. Default 0, meaning &ldquo;unlimited&rdquo;,
@@ -1130,9 +1130,9 @@ up to 2^29.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-max_retries">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-max_retries">maxRetries</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-max_retries">maxRetries</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Maximum number of retries that can be outstanding to all hosts in a
 cluster at a given time. Defaults to 2^32-1.</p>
@@ -1140,9 +1140,9 @@ cluster at a given time. Defaults to 2^32-1.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-idle_timeout">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-idle_timeout">idleTimeout</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-idle_timeout">idleTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>The idle timeout for upstream connection pool connections. The idle timeout
 is defined as the period in which there are no active requests.
@@ -1155,18 +1155,18 @@ keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-h2_upgrade_policy">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-h2_upgrade_policy">h2UpgradePolicy</a></code><br/>
-<em><a href="#ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy">H2UpgradePolicy</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-h2_upgrade_policy">h2UpgradePolicy</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings-HTTPSettings-H2UpgradePolicy">H2UpgradePolicy</a></div>
+</div></td>
 <td>
 <p>Specify if http1.1 connection should be upgraded to http2 for the associated destination.</p>
 
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-use_client_protocol">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-use_client_protocol">useClientProtocol</a></code><br/>
-<em>bool</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-use_client_protocol">useClientProtocol</a></code></div>
+<div class="type">bool</div>
+</div></td>
 <td>
 <p>If set to true, client protocol will be preserved while initiating connection to backend.
 Note that when this is set to true, h2_upgrade_policy will be ineffective i.e. the client
@@ -1175,9 +1175,9 @@ connections will not be upgraded to http2.</p>
 </td>
 </tr>
 <tr id="ConnectionPoolSettings-HTTPSettings-max_concurrent_streams">
-<td><code><a href="#ConnectionPoolSettings-HTTPSettings-max_concurrent_streams">maxConcurrentStreams</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-max_concurrent_streams">maxConcurrentStreams</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>The maximum number of concurrent streams allowed for a peer on one HTTP/2 connection.
 Defaults to 2^31-1.</p>
@@ -1269,9 +1269,9 @@ spec:
 </thead>
 <tbody>
 <tr id="OutlierDetection-split_external_local_origin_errors">
-<td><code><a href="#OutlierDetection-split_external_local_origin_errors">splitExternalLocalOriginErrors</a></code><br/>
-<em>bool</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-split_external_local_origin_errors">splitExternalLocalOriginErrors</a></code></div>
+<div class="type">bool</div>
+</div></td>
 <td>
 <p>Determines whether to distinguish local origin failures from external errors. If set to true
 consecutive_local_origin_failure is taken into account for outlier detection calculations.
@@ -1285,9 +1285,9 @@ Defaults to false.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-consecutive_local_origin_failures">
-<td><code><a href="#OutlierDetection-consecutive_local_origin_failures">consecutiveLocalOriginFailures</a></code><br/>
-<em><a href="#google-protobuf-UInt32Value">UInt32Value</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-consecutive_local_origin_failures">consecutiveLocalOriginFailures</a></code></div>
+<div class="type"><a href="#google-protobuf-UInt32Value">UInt32Value</a></div>
+</div></td>
 <td>
 <p>The number of consecutive locally originated failures before ejection
 occurs. Defaults to 5. Parameter takes effect only when split_external_local_origin_errors
@@ -1296,9 +1296,9 @@ is set to true.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-consecutive_gateway_errors">
-<td><code><a href="#OutlierDetection-consecutive_gateway_errors">consecutiveGatewayErrors</a></code><br/>
-<em><a href="#google-protobuf-UInt32Value">UInt32Value</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-consecutive_gateway_errors">consecutiveGatewayErrors</a></code></div>
+<div class="type"><a href="#google-protobuf-UInt32Value">UInt32Value</a></div>
+</div></td>
 <td>
 <p>Number of gateway errors before a host is ejected from the connection pool.
 When the upstream host is accessed over HTTP, a 502, 503, or 504 return
@@ -1316,9 +1316,9 @@ no effect.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-consecutive_5xx_errors">
-<td><code><a href="#OutlierDetection-consecutive_5xx_errors">consecutive5xxErrors</a></code><br/>
-<em><a href="#google-protobuf-UInt32Value">UInt32Value</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-consecutive_5xx_errors">consecutive5xxErrors</a></code></div>
+<div class="type"><a href="#google-protobuf-UInt32Value">UInt32Value</a></div>
+</div></td>
 <td>
 <p>Number of 5xx errors before a host is ejected from the connection pool.
 When the upstream host is accessed over an opaque TCP connection, connect
@@ -1335,9 +1335,9 @@ no effect.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-interval">
-<td><code><a href="#OutlierDetection-interval">interval</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-interval">interval</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Time interval between ejection sweep analysis. format:
 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
@@ -1345,9 +1345,9 @@ no effect.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-base_ejection_time">
-<td><code><a href="#OutlierDetection-base_ejection_time">baseEjectionTime</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-base_ejection_time">baseEjectionTime</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Minimum ejection duration. A host will remain ejected for a period
 equal to the product of minimum ejection duration and the number of
@@ -1358,9 +1358,9 @@ servers. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-max_ejection_percent">
-<td><code><a href="#OutlierDetection-max_ejection_percent">maxEjectionPercent</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-max_ejection_percent">maxEjectionPercent</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Maximum % of hosts in the load balancing pool for the upstream
 service that can be ejected. Defaults to 10%.</p>
@@ -1368,9 +1368,9 @@ service that can be ejected. Defaults to 10%.</p>
 </td>
 </tr>
 <tr id="OutlierDetection-min_health_percent">
-<td><code><a href="#OutlierDetection-min_health_percent">minHealthPercent</a></code><br/>
-<em>int32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-min_health_percent">minHealthPercent</a></code></div>
+<div class="type">int32</div>
+</div></td>
 <td>
 <p>Outlier detection will be enabled as long as the associated load balancing
 pool has at least min_health_percent hosts in healthy mode. When the
@@ -1439,9 +1439,9 @@ spec:
 </thead>
 <tbody>
 <tr id="ClientTLSSettings-mode">
-<td><code><a href="#ClientTLSSettings-mode">mode</a></code><br/>
-<em><a href="#ClientTLSSettings-TLSmode">TLSmode</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-mode">mode</a></code></div>
+<div class="type"><a href="#ClientTLSSettings-TLSmode">TLSmode</a></div>
+</div></td>
 <td>
 <p>Indicates whether connections to this port should be secured
 using TLS. The value of this field determines how TLS is enforced.</p>
@@ -1449,9 +1449,9 @@ using TLS. The value of this field determines how TLS is enforced.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-client_certificate">
-<td><code><a href="#ClientTLSSettings-client_certificate">clientCertificate</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-client_certificate">clientCertificate</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the
 client-side TLS certificate to use.
@@ -1460,9 +1460,9 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-private_key">
-<td><code><a href="#ClientTLSSettings-private_key">privateKey</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-private_key">privateKey</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>REQUIRED if mode is <code>MUTUAL</code>. The path to the file holding the
 client&rsquo;s private key.
@@ -1471,9 +1471,9 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-ca_certificates">
-<td><code><a href="#ClientTLSSettings-ca_certificates">caCertificates</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-ca_certificates">caCertificates</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>OPTIONAL: The path to the file containing certificate authority
 certificates to use in verifying a presented server certificate. If
@@ -1484,9 +1484,9 @@ Should be empty if mode is <code>ISTIO_MUTUAL</code>.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-credential_name">
-<td><code><a href="#ClientTLSSettings-credential_name">credentialName</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-credential_name">credentialName</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The name of the secret that holds the TLS certs for the
 client including the CA certificates. This secret must exist in
@@ -1510,9 +1510,9 @@ sidecars will continue to use the certificate paths.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-subject_alt_names">
-<td><code><a href="#ClientTLSSettings-subject_alt_names">subjectAltNames</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-subject_alt_names">subjectAltNames</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of alternate names to verify the subject identity in the
 certificate. If specified, the proxy will verify that the server
@@ -1525,9 +1525,9 @@ downstream HTTP host/authority header.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-sni">
-<td><code><a href="#ClientTLSSettings-sni">sni</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-sni">sni</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>SNI string to present to the server during TLS handshake.
 If unspecified, SNI will be automatically set based on downstream HTTP
@@ -1536,9 +1536,9 @@ host/authority header for SIMPLE and MUTUAL TLS modes.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-insecure_skip_verify">
-<td><code><a href="#ClientTLSSettings-insecure_skip_verify">insecureSkipVerify</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-insecure_skip_verify">insecureSkipVerify</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p><code>insecureSkipVerify</code> specifies whether the proxy should skip verifying the
 CA signature and SAN for the server certificate corresponding to the host.
@@ -1547,9 +1547,9 @@ The default value of this field is false.</p>
 </td>
 </tr>
 <tr id="ClientTLSSettings-ca_crl">
-<td><code><a href="#ClientTLSSettings-ca_crl">caCrl</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-ca_crl">caCrl</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>OPTIONAL: The path to the file containing the certificate revocation list (CRL)
 to use in verifying a presented server certificate. <code>CRL</code> is a list of certificates
@@ -1663,9 +1663,9 @@ and similarly us-west should failover to us-east.</p>
 </thead>
 <tbody>
 <tr id="LocalityLoadBalancerSetting-distribute">
-<td><code><a href="#LocalityLoadBalancerSetting-distribute">distribute</a></code><br/>
-<em><a href="#LocalityLoadBalancerSetting-Distribute">Distribute[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-distribute">distribute</a></code></div>
+<div class="type"><a href="#LocalityLoadBalancerSetting-Distribute">Distribute[]</a></div>
+</div></td>
 <td>
 <p>only one of distribute, failover or failoverPriority can be set.
 Explicitly specify loadbalancing weight across different zones and geographical locations.
@@ -1675,9 +1675,9 @@ If empty, the locality weight is set according to the endpoints number within it
 </td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-failover">
-<td><code><a href="#LocalityLoadBalancerSetting-failover">failover</a></code><br/>
-<em><a href="#LocalityLoadBalancerSetting-Failover">Failover[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-failover">failover</a></code></div>
+<div class="type"><a href="#LocalityLoadBalancerSetting-Failover">Failover[]</a></div>
+</div></td>
 <td>
 <p>only one of distribute, failover or failoverPriority can be set.
 Explicitly specify the region traffic will land on when endpoints in local region becomes unhealthy.
@@ -1687,9 +1687,9 @@ Note: if no OutlierDetection specified, this will not take effect.</p>
 </td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-failover_priority">
-<td><code><a href="#LocalityLoadBalancerSetting-failover_priority">failoverPriority</a></code><br/>
-<em>string[]</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-failover_priority">failoverPriority</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>failoverPriority is an ordered list of labels used to sort endpoints to do priority based load balancing.
 This is to support traffic failover across different groups of endpoints.
@@ -1757,9 +1757,9 @@ And it should be used together with <code>OutlierDetection</code> to detect unhe
 </td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-enabled">
-<td><code><a href="#LocalityLoadBalancerSetting-enabled">enabled</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-enabled">enabled</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>enable locality load balancing, this is DestinationRule-level and will override mesh wide settings in entirety.
 e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh wide settings is.</p>
@@ -1788,18 +1788,18 @@ segment of the specification. Examples:</p>
 </thead>
 <tbody>
 <tr id="LocalityLoadBalancerSetting-Distribute-from">
-<td><code><a href="#LocalityLoadBalancerSetting-Distribute-from">from</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-Distribute-from">from</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Originating locality, &lsquo;/&rsquo; separated, e.g. &lsquo;region/zone/sub_zone&rsquo;.</p>
 
 </td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-Distribute-to">
-<td><code><a href="#LocalityLoadBalancerSetting-Distribute-to">to</a></code><br/>
-<em>map&lt;string,&nbsp;uint32&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-Distribute-to">to</a></code></div>
+<div class="type">map&lt;string,&nbsp;uint32&gt;</div>
+</div></td>
 <td>
 <p>Map of upstream localities to traffic distribution weights. The sum of
 all weights should be 100. Any locality not present will
@@ -1829,18 +1829,18 @@ like regulatory controls.</p>
 </thead>
 <tbody>
 <tr id="LocalityLoadBalancerSetting-Failover-from">
-<td><code><a href="#LocalityLoadBalancerSetting-Failover-from">from</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-Failover-from">from</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Originating region.</p>
 
 </td>
 </tr>
 <tr id="LocalityLoadBalancerSetting-Failover-to">
-<td><code><a href="#LocalityLoadBalancerSetting-Failover-to">to</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-Failover-to">to</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Destination region the traffic will fail over to when endpoints in
 the &lsquo;from&rsquo; region becomes unhealthy.</p>
@@ -1864,9 +1864,9 @@ the &lsquo;from&rsquo; region becomes unhealthy.</p>
 </thead>
 <tbody>
 <tr id="google-protobuf-UInt32Value-value">
-<td><code><a href="#google-protobuf-UInt32Value-value">value</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#google-protobuf-UInt32Value-value">value</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>The uint32 value.</p>
 

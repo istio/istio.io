@@ -133,9 +133,9 @@ spec:
 </thead>
 <tbody>
 <tr id="WorkloadEntry-address">
-<td><code><a href="#WorkloadEntry-address">address</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-address">address</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Address associated with the network endpoint without the
 port.  Domain names can be used if and only if the resolution is set
@@ -146,9 +146,9 @@ If address is empty, network must be specified.</p>
 </td>
 </tr>
 <tr id="WorkloadEntry-ports">
-<td><code><a href="#WorkloadEntry-ports">ports</a></code><br/>
-<em>map&lt;string,&nbsp;uint32&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-ports">ports</a></code></div>
+<div class="type">map&lt;string,&nbsp;uint32&gt;</div>
+</div></td>
 <td>
 <p>Set of ports associated with the endpoint. If the port map is
 specified, it must be a map of servicePortName to this endpoint&rsquo;s
@@ -166,18 +166,18 @@ the same port.</p>
 </td>
 </tr>
 <tr id="WorkloadEntry-labels">
-<td><code><a href="#WorkloadEntry-labels">labels</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-labels">labels</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>One or more labels associated with the endpoint.</p>
 
 </td>
 </tr>
 <tr id="WorkloadEntry-network">
-<td><code><a href="#WorkloadEntry-network">network</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-network">network</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Network enables Istio to group endpoints resident in the same L3
 domain/network. All endpoints in the same network are assumed to be
@@ -191,9 +191,9 @@ over multiple clusters. Required if address is not provided.</p>
 </td>
 </tr>
 <tr id="WorkloadEntry-locality">
-<td><code><a href="#WorkloadEntry-locality">locality</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-locality">locality</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The locality associated with the endpoint. A locality corresponds
 to a failure domain (e.g., country/region/zone). Arbitrary failure
@@ -216,9 +216,9 @@ standard service endpoint.</p>
 </td>
 </tr>
 <tr id="WorkloadEntry-weight">
-<td><code><a href="#WorkloadEntry-weight">weight</a></code><br/>
-<em>uint32</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-weight">weight</a></code></div>
+<div class="type">uint32</div>
+</div></td>
 <td>
 <p>The load balancing weight associated with the endpoint. Endpoints
 with higher weights will receive proportionally higher traffic.</p>
@@ -226,9 +226,9 @@ with higher weights will receive proportionally higher traffic.</p>
 </td>
 </tr>
 <tr id="WorkloadEntry-service_account">
-<td><code><a href="#WorkloadEntry-service_account">serviceAccount</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadEntry-service_account">serviceAccount</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The service account associated with the workload if a sidecar
 is present in the workload. The service account must be present

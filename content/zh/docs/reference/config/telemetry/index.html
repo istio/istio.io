@@ -204,9 +204,9 @@ spec:
 </thead>
 <tbody>
 <tr id="Telemetry-selector">
-<td><code><a href="#Telemetry-selector">selector</a></code><br/>
-<em><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Telemetry-selector">selector</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>The selector decides where to apply the policy.
 If not set, the policy will be applied to all workloads in the
@@ -216,9 +216,9 @@ same namespace as the policy.</p>
 </td>
 </tr>
 <tr id="Telemetry-targetRefs">
-<td><code><a href="#Telemetry-targetRefs">targetRefs</a></code><br/>
-<em><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Telemetry-targetRefs">targetRefs</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></div>
+</div></td>
 <td>
 <p>The targetRefs specifies a list of resources the policy should be
 applied to. The targeted resources specified will determine which workloads
@@ -238,9 +238,9 @@ from misinterpreting the policy as namespace-wide during the upgrade process.</p
 </td>
 </tr>
 <tr id="Telemetry-tracing">
-<td><code><a href="#Telemetry-tracing">tracing</a></code><br/>
-<em><a href="#Tracing">Tracing[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Telemetry-tracing">tracing</a></code></div>
+<div class="type"><a href="#Tracing">Tracing[]</a></div>
+</div></td>
 <td>
 <p>Tracing configures the tracing behavior for all
 selected workloads.</p>
@@ -248,9 +248,9 @@ selected workloads.</p>
 </td>
 </tr>
 <tr id="Telemetry-metrics">
-<td><code><a href="#Telemetry-metrics">metrics</a></code><br/>
-<em><a href="#Metrics">Metrics[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Telemetry-metrics">metrics</a></code></div>
+<div class="type"><a href="#Metrics">Metrics[]</a></div>
+</div></td>
 <td>
 <p>Metrics configures the metrics behavior for all
 selected workloads.</p>
@@ -258,9 +258,9 @@ selected workloads.</p>
 </td>
 </tr>
 <tr id="Telemetry-access_logging">
-<td><code><a href="#Telemetry-access_logging">accessLogging</a></code><br/>
-<em><a href="#AccessLogging">AccessLogging[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Telemetry-access_logging">accessLogging</a></code></div>
+<div class="type"><a href="#AccessLogging">AccessLogging[]</a></div>
+</div></td>
 <td>
 <p>Access logging configures the access logging behavior for all
 selected workloads.</p>
@@ -290,18 +290,18 @@ fully replace any values provided by parent configuration.</p>
 </thead>
 <tbody>
 <tr id="Tracing-match">
-<td><code><a href="#Tracing-match">match</a></code><br/>
-<em><a href="#Tracing-TracingSelector">TracingSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-match">match</a></code></div>
+<div class="type"><a href="#Tracing-TracingSelector">TracingSelector</a></div>
+</div></td>
 <td>
 <p>Allows tailoring of behavior to specific conditions.</p>
 
 </td>
 </tr>
 <tr id="Tracing-providers">
-<td><code><a href="#Tracing-providers">providers</a></code><br/>
-<em><a href="#ProviderRef">ProviderRef[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-providers">providers</a></code></div>
+<div class="type"><a href="#ProviderRef">ProviderRef[]</a></div>
+</div></td>
 <td>
 <p>Name of provider(s) to use for span reporting. If a provider is
 not specified, the <a href="/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders">default tracing
@@ -312,9 +312,9 @@ given Tracing rule.</p>
 </td>
 </tr>
 <tr id="Tracing-random_sampling_percentage">
-<td><code><a href="#Tracing-random_sampling_percentage">randomSamplingPercentage</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-random_sampling_percentage">randomSamplingPercentage</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></div>
+</div></td>
 <td>
 <p>Controls the rate at which traffic will be selected for tracing if no
 prior sampling decision has been made. If a prior sampling decision has
@@ -328,9 +328,9 @@ increments.</p>
 </td>
 </tr>
 <tr id="Tracing-disable_span_reporting">
-<td><code><a href="#Tracing-disable_span_reporting">disableSpanReporting</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-disable_span_reporting">disableSpanReporting</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>Controls span reporting. If set to true, no spans will be reported for
 impacted workloads. This does NOT impact context propagation or trace
@@ -339,18 +339,18 @@ sampling behavior.</p>
 </td>
 </tr>
 <tr id="Tracing-custom_tags">
-<td><code><a href="#Tracing-custom_tags">customTags</a></code><br/>
-<em>map&lt;string,&nbsp;<a href="#Tracing-CustomTag">CustomTag</a>&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-custom_tags">customTags</a></code></div>
+<div class="type">map&lt;string,&nbsp;<a href="#Tracing-CustomTag">CustomTag</a>&gt;</div>
+</div></td>
 <td>
 <p>Configures additional custom tags to the generated trace spans.</p>
 
 </td>
 </tr>
 <tr id="Tracing-enable_istio_tags">
-<td><code><a href="#Tracing-enable_istio_tags">enableIstioTags</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-enable_istio_tags">enableIstioTags</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>Determines whether or not trace spans generated by Envoy will include Istio specific tags.
 By default Istio specific tags are included in the trace spans.</p>
@@ -374,9 +374,9 @@ behavior based on certain traffic metadata (such as traffic direction).</p>
 </thead>
 <tbody>
 <tr id="Tracing-TracingSelector-mode">
-<td><code><a href="#Tracing-TracingSelector-mode">mode</a></code><br/>
-<em><a href="#WorkloadMode">WorkloadMode</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-TracingSelector-mode">mode</a></code></div>
+<div class="type"><a href="#WorkloadMode">WorkloadMode</a></div>
+</div></td>
 <td>
 <p>This determines whether or not to apply the tracing configuration
 based on the direction of traffic relative to the proxied workload.</p>
@@ -404,27 +404,27 @@ by parent configuration.</p>
 </thead>
 <tbody>
 <tr id="Tracing-CustomTag-literal" class="oneof oneof-start">
-<td><code><a href="#Tracing-CustomTag-literal">literal</a></code><br/>
-<em><a href="#Tracing-Literal">Literal (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-CustomTag-literal">literal</a></code></div>
+<div class="type"><a href="#Tracing-Literal">Literal (oneof)</a></div>
+</div></td>
 <td>
 <p>Literal adds the same, hard-coded value to each span.</p>
 
 </td>
 </tr>
 <tr id="Tracing-CustomTag-environment" class="oneof">
-<td><code><a href="#Tracing-CustomTag-environment">environment</a></code><br/>
-<em><a href="#Tracing-Environment">Environment (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-CustomTag-environment">environment</a></code></div>
+<div class="type"><a href="#Tracing-Environment">Environment (oneof)</a></div>
+</div></td>
 <td>
 <p>Environment adds the value of an environment variable to each span.</p>
 
 </td>
 </tr>
 <tr id="Tracing-CustomTag-header" class="oneof">
-<td><code><a href="#Tracing-CustomTag-header">header</a></code><br/>
-<em><a href="#Tracing-RequestHeader">RequestHeader (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-CustomTag-header">header</a></code></div>
+<div class="type"><a href="#Tracing-RequestHeader">RequestHeader (oneof)</a></div>
+</div></td>
 <td>
 <p>RequestHeader adds the value of an header from the request to each
 span.</p>
@@ -445,10 +445,10 @@ span.</p>
 </thead>
 <tbody>
 <tr id="Tracing-Literal-value">
-<td><code><a href="#Tracing-Literal-value">value</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-Literal-value">value</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>The tag value to use.</p>
 
@@ -468,19 +468,19 @@ span.</p>
 </thead>
 <tbody>
 <tr id="Tracing-Environment-name">
-<td><code><a href="#Tracing-Environment-name">name</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-Environment-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Name of the environment variable from which to extract the tag value.</p>
 
 </td>
 </tr>
 <tr id="Tracing-Environment-default_value">
-<td><code><a href="#Tracing-Environment-default_value">defaultValue</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-Environment-default_value">defaultValue</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>If the environment variable is not found, this value will be
 used instead.</p>
@@ -501,19 +501,19 @@ used instead.</p>
 </thead>
 <tbody>
 <tr id="Tracing-RequestHeader-name">
-<td><code><a href="#Tracing-RequestHeader-name">name</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-RequestHeader-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Name of the header from which to extract the tag value.</p>
 
 </td>
 </tr>
 <tr id="Tracing-RequestHeader-default_value">
-<td><code><a href="#Tracing-RequestHeader-default_value">defaultValue</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Tracing-RequestHeader-default_value">defaultValue</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>If the header is not found, this value will be
 used instead.</p>
@@ -537,10 +537,10 @@ targeted customization.</p>
 </thead>
 <tbody>
 <tr id="ProviderRef-name">
-<td><code><a href="#ProviderRef-name">name</a></code><br/>
-<em>string</em><br/>
-<strong>Required</strong>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ProviderRef-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Name of Telemetry provider in <a href="/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider">MeshConfig</a>.</p>
 
@@ -564,9 +564,9 @@ as to customize the dimensions of the generated metrics.</p>
 </thead>
 <tbody>
 <tr id="Metrics-providers">
-<td><code><a href="#Metrics-providers">providers</a></code><br/>
-<em><a href="#ProviderRef">ProviderRef[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Metrics-providers">providers</a></code></div>
+<div class="type"><a href="#ProviderRef">ProviderRef[]</a></div>
+</div></td>
 <td>
 <p>Name of providers to which this configuration should apply.
 If a provider is not specified, the <a href="/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders">default metrics
@@ -576,9 +576,9 @@ used.</p>
 </td>
 </tr>
 <tr id="Metrics-overrides">
-<td><code><a href="#Metrics-overrides">overrides</a></code><br/>
-<em><a href="#MetricsOverrides">MetricsOverrides[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Metrics-overrides">overrides</a></code></div>
+<div class="type"><a href="#MetricsOverrides">MetricsOverrides[]</a></div>
+</div></td>
 <td>
 <p>Ordered list of overrides to metrics generation behavior.</p>
 <p>Specified overrides will be applied in order. They will be applied on
@@ -597,9 +597,9 @@ overrides following them.</p>
 </td>
 </tr>
 <tr id="Metrics-reporting_interval">
-<td><code><a href="#Metrics-reporting_interval">reportingInterval</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#Metrics-reporting_interval">reportingInterval</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
 <td>
 <p>Reporting interval allows configuration of the time between calls out to for metrics reporting.
 This currently only supports TCP metrics but we may use this for long duration HTTP streams in the future.
@@ -624,18 +624,18 @@ behaviors.</p>
 </thead>
 <tbody>
 <tr id="MetricSelector-metric" class="oneof oneof-start">
-<td><code><a href="#MetricSelector-metric">metric</a></code><br/>
-<em><a href="#MetricSelector-IstioMetric">IstioMetric (oneof)</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricSelector-metric">metric</a></code></div>
+<div class="type"><a href="#MetricSelector-IstioMetric">IstioMetric (oneof)</a></div>
+</div></td>
 <td>
 <p>One of the well-known <a href="/latest/docs/reference/config/metrics/">Istio Standard Metrics</a>.</p>
 
 </td>
 </tr>
 <tr id="MetricSelector-custom_metric" class="oneof">
-<td><code><a href="#MetricSelector-custom_metric">customMetric</a></code><br/>
-<em>string (oneof)</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricSelector-custom_metric">customMetric</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
 <td>
 <p>Allows free-form specification of a metric. No validation of custom
 metrics is provided.</p>
@@ -643,9 +643,9 @@ metrics is provided.</p>
 </td>
 </tr>
 <tr id="MetricSelector-mode">
-<td><code><a href="#MetricSelector-mode">mode</a></code><br/>
-<em><a href="#WorkloadMode">WorkloadMode</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricSelector-mode">mode</a></code></div>
+<div class="type"><a href="#WorkloadMode">WorkloadMode</a></div>
+</div></td>
 <td>
 <p>Controls which mode of metrics generation is selected: <code>CLIENT</code>, <code>SERVER</code>,
 or <code>CLIENT_AND_SERVER</code>.</p>
@@ -825,9 +825,9 @@ metric or the set of all standard metrics.</p>
 </thead>
 <tbody>
 <tr id="MetricsOverrides-match">
-<td><code><a href="#MetricsOverrides-match">match</a></code><br/>
-<em><a href="#MetricSelector">MetricSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricsOverrides-match">match</a></code></div>
+<div class="type"><a href="#MetricSelector">MetricSelector</a></div>
+</div></td>
 <td>
 <p>Match allows providing the scope of the override. It can be used to select
 individual metrics, as well as the workload modes (server, client, or both)
@@ -838,9 +838,9 @@ in which the metrics will be generated.</p>
 </td>
 </tr>
 <tr id="MetricsOverrides-disabled">
-<td><code><a href="#MetricsOverrides-disabled">disabled</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricsOverrides-disabled">disabled</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>Must explicitly set this to <code>true</code> to turn off metrics reporting
 for the listed metrics. If disabled has been set to <code>true</code> in a parent
@@ -850,9 +850,9 @@ reporting on in the workloads selected by the Telemetry resource.</p>
 </td>
 </tr>
 <tr id="MetricsOverrides-tag_overrides">
-<td><code><a href="#MetricsOverrides-tag_overrides">tagOverrides</a></code><br/>
-<em>map&lt;string,&nbsp;<a href="#MetricsOverrides-TagOverride">TagOverride</a>&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricsOverrides-tag_overrides">tagOverrides</a></code></div>
+<div class="type">map&lt;string,&nbsp;<a href="#MetricsOverrides-TagOverride">TagOverride</a>&gt;</div>
+</div></td>
 <td>
 <p>Collection of tag names and tag expressions to override in the
 selected metric(s).
@@ -881,18 +881,18 @@ values overridden.</p>
 </thead>
 <tbody>
 <tr id="MetricsOverrides-TagOverride-operation">
-<td><code><a href="#MetricsOverrides-TagOverride-operation">operation</a></code><br/>
-<em><a href="#MetricsOverrides-TagOverride-Operation">Operation</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricsOverrides-TagOverride-operation">operation</a></code></div>
+<div class="type"><a href="#MetricsOverrides-TagOverride-Operation">Operation</a></div>
+</div></td>
 <td>
 <p>Operation controls whether or not to update/add a tag, or to remove it.</p>
 
 </td>
 </tr>
 <tr id="MetricsOverrides-TagOverride-value">
-<td><code><a href="#MetricsOverrides-TagOverride-value">value</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#MetricsOverrides-TagOverride-value">value</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>Value is only considered if the operation is <code>UPSERT</code>.
 Values are <a href="https://opensource.google/projects/cel">CEL expressions</a> over
@@ -952,18 +952,18 @@ generation for a workload.</p>
 </thead>
 <tbody>
 <tr id="AccessLogging-match">
-<td><code><a href="#AccessLogging-match">match</a></code><br/>
-<em><a href="#AccessLogging-LogSelector">LogSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AccessLogging-match">match</a></code></div>
+<div class="type"><a href="#AccessLogging-LogSelector">LogSelector</a></div>
+</div></td>
 <td>
 <p>Allows tailoring of logging behavior to specific conditions.</p>
 
 </td>
 </tr>
 <tr id="AccessLogging-providers">
-<td><code><a href="#AccessLogging-providers">providers</a></code><br/>
-<em><a href="#ProviderRef">ProviderRef[]</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AccessLogging-providers">providers</a></code></div>
+<div class="type"><a href="#ProviderRef">ProviderRef[]</a></div>
+</div></td>
 <td>
 <p>Name of providers to which this configuration should apply.
 If a provider is not specified, the <a href="/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders">default logging
@@ -972,9 +972,9 @@ provider</a> will be used.</p>
 </td>
 </tr>
 <tr id="AccessLogging-disabled">
-<td><code><a href="#AccessLogging-disabled">disabled</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AccessLogging-disabled">disabled</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
 <td>
 <p>Controls logging. If set to true, no access logs will be generated for
 impacted workloads (for the specified providers).
@@ -985,9 +985,9 @@ future releases.</p>
 </td>
 </tr>
 <tr id="AccessLogging-filter">
-<td><code><a href="#AccessLogging-filter">filter</a></code><br/>
-<em><a href="#AccessLogging-Filter">Filter</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AccessLogging-filter">filter</a></code></div>
+<div class="type"><a href="#AccessLogging-Filter">Filter</a></div>
+</div></td>
 <td>
 <p>If specified, this filter will be used to select specific
 requests/connections for logging.</p>
@@ -1015,9 +1015,9 @@ Finer-grained logging behavior can be further configured via <code>filter</code>
 </thead>
 <tbody>
 <tr id="AccessLogging-LogSelector-mode">
-<td><code><a href="#AccessLogging-LogSelector-mode">mode</a></code><br/>
-<em><a href="#WorkloadMode">WorkloadMode</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AccessLogging-LogSelector-mode">mode</a></code></div>
+<div class="type"><a href="#WorkloadMode">WorkloadMode</a></div>
+</div></td>
 <td>
 <p>This determines whether or not to apply the access logging configuration
 based on the direction of traffic relative to the proxied workload.</p>
@@ -1040,9 +1040,9 @@ based on the direction of traffic relative to the proxied workload.</p>
 </thead>
 <tbody>
 <tr id="AccessLogging-Filter-expression">
-<td><code><a href="#AccessLogging-Filter-expression">expression</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#AccessLogging-Filter-expression">expression</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>CEL expression for selecting when requests/connections should be logged.</p>
 <p>Examples:</p>

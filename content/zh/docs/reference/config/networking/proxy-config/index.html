@@ -70,9 +70,9 @@ with the CR taking precedence over the annotation for overlapping fields. Simila
 </thead>
 <tbody>
 <tr id="ProxyConfig-selector">
-<td><code><a href="#ProxyConfig-selector">selector</a></code><br/>
-<em><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-selector">selector</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>Selectors specify the set of pods/VMs on which this <code>ProxyConfig</code> resource should be applied.
 If not set, the <code>ProxyConfig</code> resource will be applied to all workloads in the namespace where this resource is defined.</p>
@@ -80,9 +80,9 @@ If not set, the <code>ProxyConfig</code> resource will be applied to all workloa
 </td>
 </tr>
 <tr id="ProxyConfig-concurrency">
-<td><code><a href="#ProxyConfig-concurrency">concurrency</a></code><br/>
-<em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-concurrency">concurrency</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
 <td>
 <p>The number of worker threads to run.
 If unset, this will be automatically determined based on CPU limits.
@@ -91,9 +91,9 @@ If set to 0, all cores on the machine will be used.</p>
 </td>
 </tr>
 <tr id="ProxyConfig-environment_variables">
-<td><code><a href="#ProxyConfig-environment_variables">environmentVariables</a></code><br/>
-<em>map&lt;string,&nbsp;string&gt;</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-environment_variables">environmentVariables</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>Additional environment variables for the proxy.
 Names starting with <code>ISTIO_META_</code> will be included in the generated bootstrap configuration and sent to the XDS server.</p>
@@ -101,9 +101,9 @@ Names starting with <code>ISTIO_META_</code> will be included in the generated b
 </td>
 </tr>
 <tr id="ProxyConfig-image">
-<td><code><a href="#ProxyConfig-image">image</a></code><br/>
-<em><a href="#ProxyImage">ProxyImage</a></em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-image">image</a></code></div>
+<div class="type"><a href="#ProxyImage">ProxyImage</a></div>
+</div></td>
 <td>
 <p>Specifies the details of the proxy image.</p>
 
@@ -128,9 +128,9 @@ This information was previously part of the Values API.</p>
 </thead>
 <tbody>
 <tr id="ProxyImage-image_type">
-<td><code><a href="#ProxyImage-image_type">imageType</a></code><br/>
-<em>string</em><br/>
-</td>
+<td><div class="field"><div class="name"><code><a href="#ProxyImage-image_type">imageType</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The image type of the image.
 Istio publishes default, debug, and distroless images.
