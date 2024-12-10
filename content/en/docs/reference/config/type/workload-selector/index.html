@@ -28,7 +28,6 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <tr id="WorkloadSelector-match_labels">
 <td><code><a href="#WorkloadSelector-match_labels">matchLabels</a></code><br/>
 <em>map&lt;string,&nbsp;string&gt;</em><br/>
-Optional
 </td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
@@ -56,7 +55,7 @@ a listener having a specific port.</p>
 <tr id="PortSelector-number">
 <td><code><a href="#PortSelector-number">number</a></code><br/>
 <em>uint32</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>Port number</p>
@@ -108,7 +107,6 @@ spec:
 <tr id="PolicyTargetReference-group">
 <td><code><a href="#PolicyTargetReference-group">group</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>group is the group of the target resource.</p>
@@ -118,7 +116,7 @@ Optional
 <tr id="PolicyTargetReference-kind">
 <td><code><a href="#PolicyTargetReference-kind">kind</a></code><br/>
 <em>string</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>kind is kind of the target resource.</p>
@@ -128,7 +126,7 @@ Required
 <tr id="PolicyTargetReference-name">
 <td><code><a href="#PolicyTargetReference-name">name</a></code><br/>
 <em>string</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>name is the name of the target resource.</p>
@@ -138,7 +136,6 @@ Required
 <tr id="PolicyTargetReference-namespace">
 <td><code><a href="#PolicyTargetReference-namespace">namespace</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>namespace is the namespace of the referent. When unspecified, the local

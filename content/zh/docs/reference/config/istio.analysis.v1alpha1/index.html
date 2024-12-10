@@ -27,7 +27,6 @@ messages. All information should be static with respect to the error code.</p>
 <tr id="AnalysisMessageBase-type">
 <td><code><a href="#AnalysisMessageBase-type">type</a></code><br/>
 <em><a href="#AnalysisMessageBase-Type">Type</a></em><br/>
-Optional
 </td>
 <td>
 </td>
@@ -35,7 +34,6 @@ Optional
 <tr id="AnalysisMessageBase-level">
 <td><code><a href="#AnalysisMessageBase-level">level</a></code><br/>
 <em><a href="#AnalysisMessageBase-Level">Level</a></em><br/>
-Optional
 </td>
 <td>
 <p>Represents how severe a message is. Required.</p>
@@ -45,7 +43,6 @@ Optional
 <tr id="AnalysisMessageBase-documentation_url">
 <td><code><a href="#AnalysisMessageBase-documentation_url">documentationUrl</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>A url pointing to the Istio documentation for this specific error type.
@@ -76,7 +73,6 @@ codes between message types.)</p>
 <tr id="AnalysisMessageBase-Type-name">
 <td><code><a href="#AnalysisMessageBase-Type-name">name</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>A human-readable name for the message type. e.g. &ldquo;InternalError&rdquo;,
@@ -88,7 +84,6 @@ Required.</p>
 <tr id="AnalysisMessageBase-Type-code">
 <td><code><a href="#AnalysisMessageBase-Type-code">code</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>A 7 character code matching <code>^IST[0-9]{4}$</code> intended to uniquely identify
@@ -156,7 +151,6 @@ sure that we don&rsquo;t allow committing underspecified types.</p>
 <tr id="AnalysisMessageWeakSchema-message_base">
 <td><code><a href="#AnalysisMessageWeakSchema-message_base">messageBase</a></code><br/>
 <em><a href="#AnalysisMessageBase">AnalysisMessageBase</a></em><br/>
-Optional
 </td>
 <td>
 <p>Required</p>
@@ -166,7 +160,6 @@ Optional
 <tr id="AnalysisMessageWeakSchema-description">
 <td><code><a href="#AnalysisMessageWeakSchema-description">description</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>A human readable description of what the error means. Required.</p>
@@ -176,7 +169,6 @@ Optional
 <tr id="AnalysisMessageWeakSchema-template">
 <td><code><a href="#AnalysisMessageWeakSchema-template">template</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>A go-style template string (<a href="https://golang.org/pkg/fmt/#hdr-Printing">https://golang.org/pkg/fmt/#hdr-Printing</a>)
@@ -188,7 +180,6 @@ Required.</p>
 <tr id="AnalysisMessageWeakSchema-args">
 <td><code><a href="#AnalysisMessageWeakSchema-args">args</a></code><br/>
 <em><a href="#AnalysisMessageWeakSchema-ArgType">ArgType[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>A description of the arguments for a particular message type</p>
@@ -211,7 +202,6 @@ Optional
 <tr id="AnalysisMessageWeakSchema-ArgType-name">
 <td><code><a href="#AnalysisMessageWeakSchema-ArgType-name">name</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Required</p>
@@ -221,7 +211,6 @@ Optional
 <tr id="AnalysisMessageWeakSchema-ArgType-go_type">
 <td><code><a href="#AnalysisMessageWeakSchema-ArgType-go_type">goType</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Should be a golang type, used in code generation.
@@ -254,7 +243,6 @@ of GenericAnalysisMessage for well-known and stable message types.</p>
 <tr id="GenericAnalysisMessage-message_base">
 <td><code><a href="#GenericAnalysisMessage-message_base">messageBase</a></code><br/>
 <em><a href="#AnalysisMessageBase">AnalysisMessageBase</a></em><br/>
-Optional
 </td>
 <td>
 <p>Required</p>
@@ -264,7 +252,6 @@ Optional
 <tr id="GenericAnalysisMessage-args">
 <td><code><a href="#GenericAnalysisMessage-args">args</a></code><br/>
 <em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></em><br/>
-Optional
 </td>
 <td>
 <p>Any message-type specific arguments that need to get codified. Optional.</p>
@@ -274,7 +261,6 @@ Optional
 <tr id="GenericAnalysisMessage-resource_paths">
 <td><code><a href="#GenericAnalysisMessage-resource_paths">resourcePaths</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of strings specifying the resource identifiers that were the cause
@@ -305,7 +291,6 @@ error in Istio code that prevented us from performing analysis at all.</p>
 <tr id="InternalErrorAnalysisMessage-message_base">
 <td><code><a href="#InternalErrorAnalysisMessage-message_base">messageBase</a></code><br/>
 <em><a href="#AnalysisMessageBase">AnalysisMessageBase</a></em><br/>
-Optional
 </td>
 <td>
 <p>Required</p>
@@ -315,7 +300,6 @@ Optional
 <tr id="InternalErrorAnalysisMessage-detail">
 <td><code><a href="#InternalErrorAnalysisMessage-detail">detail</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Any detail regarding specifics of the error. Should be human-readable.</p>

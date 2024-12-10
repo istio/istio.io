@@ -72,7 +72,6 @@ with the CR taking precedence over the annotation for overlapping fields. Simila
 <tr id="ProxyConfig-selector">
 <td><code><a href="#ProxyConfig-selector">selector</a></code><br/>
 <em><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-Optional
 </td>
 <td>
 <p>Selectors specify the set of pods/VMs on which this <code>ProxyConfig</code> resource should be applied.
@@ -83,7 +82,6 @@ If not set, the <code>ProxyConfig</code> resource will be applied to all workloa
 <tr id="ProxyConfig-concurrency">
 <td><code><a href="#ProxyConfig-concurrency">concurrency</a></code><br/>
 <em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></em><br/>
-Optional
 </td>
 <td>
 <p>The number of worker threads to run.
@@ -95,7 +93,6 @@ If set to 0, all cores on the machine will be used.</p>
 <tr id="ProxyConfig-environment_variables">
 <td><code><a href="#ProxyConfig-environment_variables">environmentVariables</a></code><br/>
 <em>map&lt;string,&nbsp;string&gt;</em><br/>
-Optional
 </td>
 <td>
 <p>Additional environment variables for the proxy.
@@ -106,7 +103,6 @@ Names starting with <code>ISTIO_META_</code> will be included in the generated b
 <tr id="ProxyConfig-image">
 <td><code><a href="#ProxyConfig-image">image</a></code><br/>
 <em><a href="#ProxyImage">ProxyImage</a></em><br/>
-Optional
 </td>
 <td>
 <p>Specifies the details of the proxy image.</p>
@@ -134,7 +130,6 @@ This information was previously part of the Values API.</p>
 <tr id="ProxyImage-image_type">
 <td><code><a href="#ProxyImage-image_type">imageType</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The image type of the image.

@@ -101,7 +101,6 @@ spec:
 <tr id="PeerAuthentication-selector">
 <td><code><a href="#PeerAuthentication-selector">selector</a></code><br/>
 <em><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-Optional
 </td>
 <td>
 <p>The selector determines the workloads to apply the PeerAuthentication on. The selector will match with workloads in the
@@ -114,7 +113,6 @@ to all workloads in the mesh.</p>
 <tr id="PeerAuthentication-mtls">
 <td><code><a href="#PeerAuthentication-mtls">mtls</a></code><br/>
 <em><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></em><br/>
-Optional
 </td>
 <td>
 <p>Mutual TLS settings for workload. If not defined, inherit from parent.</p>
@@ -124,7 +122,6 @@ Optional
 <tr id="PeerAuthentication-port_level_mtls">
 <td><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code><br/>
 <em>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</em><br/>
-Optional
 </td>
 <td>
 <p>Port specific mutual TLS settings. These only apply when a workload selector
@@ -151,7 +148,6 @@ Kubernetes service.</p>
 <tr id="PeerAuthentication-MutualTLS-mode">
 <td><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code><br/>
 <em><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></em><br/>
-Optional
 </td>
 <td>
 <p>Defines the mTLS mode used for peer authentication.</p>

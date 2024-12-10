@@ -135,7 +135,6 @@ spec:
 <tr id="WorkloadEntry-address">
 <td><code><a href="#WorkloadEntry-address">address</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Address associated with the network endpoint without the
@@ -149,7 +148,6 @@ If address is empty, network must be specified.</p>
 <tr id="WorkloadEntry-ports">
 <td><code><a href="#WorkloadEntry-ports">ports</a></code><br/>
 <em>map&lt;string,&nbsp;uint32&gt;</em><br/>
-Optional
 </td>
 <td>
 <p>Set of ports associated with the endpoint. If the port map is
@@ -170,7 +168,6 @@ the same port.</p>
 <tr id="WorkloadEntry-labels">
 <td><code><a href="#WorkloadEntry-labels">labels</a></code><br/>
 <em>map&lt;string,&nbsp;string&gt;</em><br/>
-Optional
 </td>
 <td>
 <p>One or more labels associated with the endpoint.</p>
@@ -180,7 +177,6 @@ Optional
 <tr id="WorkloadEntry-network">
 <td><code><a href="#WorkloadEntry-network">network</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Network enables Istio to group endpoints resident in the same L3
@@ -197,7 +193,6 @@ over multiple clusters. Required if address is not provided.</p>
 <tr id="WorkloadEntry-locality">
 <td><code><a href="#WorkloadEntry-locality">locality</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The locality associated with the endpoint. A locality corresponds
@@ -223,7 +218,6 @@ standard service endpoint.</p>
 <tr id="WorkloadEntry-weight">
 <td><code><a href="#WorkloadEntry-weight">weight</a></code><br/>
 <em>uint32</em><br/>
-Optional
 </td>
 <td>
 <p>The load balancing weight associated with the endpoint. Endpoints
@@ -234,7 +228,6 @@ with higher weights will receive proportionally higher traffic.</p>
 <tr id="WorkloadEntry-service_account">
 <td><code><a href="#WorkloadEntry-service_account">serviceAccount</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The service account associated with the workload if a sidecar

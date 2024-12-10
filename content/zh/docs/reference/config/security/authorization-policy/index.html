@@ -211,7 +211,6 @@ spec:
 <tr id="AuthorizationPolicy-selector">
 <td><code><a href="#AuthorizationPolicy-selector">selector</a></code><br/>
 <em><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-Optional
 </td>
 <td>
 <p>The selector decides where to apply the authorization policy. The selector will match with workloads
@@ -225,7 +224,6 @@ will additionally match with workloads in all namespaces.</p>
 <tr id="AuthorizationPolicy-targetRefs">
 <td><code><a href="#AuthorizationPolicy-targetRefs">targetRefs</a></code><br/>
 <em><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>The targetRefs specifies a list of resources the policy should be
@@ -249,7 +247,6 @@ from misinterpreting the policy as namespace-wide during the upgrade process.</p
 <tr id="AuthorizationPolicy-rules">
 <td><code><a href="#AuthorizationPolicy-rules">rules</a></code><br/>
 <em><a href="#Rule">Rule[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>A list of rules to match the request. A match occurs when at least one rule matches the request.</p>
@@ -261,7 +258,6 @@ the action is ALLOW.</p>
 <tr id="AuthorizationPolicy-action">
 <td><code><a href="#AuthorizationPolicy-action">action</a></code><br/>
 <em><a href="#AuthorizationPolicy-Action">Action</a></em><br/>
-Optional
 </td>
 <td>
 <p>The action to take if the request is matched with the rules. Default is ALLOW if not specified.</p>
@@ -271,7 +267,6 @@ Optional
 <tr id="AuthorizationPolicy-provider" class="oneof oneof-start">
 <td><code><a href="#AuthorizationPolicy-provider">provider</a></code><br/>
 <em><a href="#AuthorizationPolicy-ExtensionProvider">ExtensionProvider (oneof)</a></em><br/>
-Optional
 </td>
 <td>
 <p>Specifies detailed configuration of the CUSTOM action. Must be used only with CUSTOM action.</p>
@@ -294,7 +289,6 @@ Optional
 <tr id="AuthorizationPolicy-ExtensionProvider-name">
 <td><code><a href="#AuthorizationPolicy-ExtensionProvider-name">name</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Specifies the name of the extension provider. The list of available providers is defined in the MeshConfig.
@@ -398,7 +392,6 @@ matches the request. An empty rule is always matched.</p>
 <tr id="Rule-from">
 <td><code><a href="#Rule-from">from</a></code><br/>
 <em><a href="#Rule-From">From[]</a></em><br/>
-Optional
 </td>
 <td>
 <p><code>from</code> specifies the source of a request.</p>
@@ -409,7 +402,6 @@ Optional
 <tr id="Rule-to">
 <td><code><a href="#Rule-to">to</a></code><br/>
 <em><a href="#Rule-To">To[]</a></em><br/>
-Optional
 </td>
 <td>
 <p><code>to</code> specifies the operation of a request.</p>
@@ -420,7 +412,6 @@ Optional
 <tr id="Rule-when">
 <td><code><a href="#Rule-when">when</a></code><br/>
 <em><a href="#Condition">Condition[]</a></em><br/>
-Optional
 </td>
 <td>
 <p><code>when</code> specifies a list of additional conditions of a request.</p>
@@ -446,7 +437,6 @@ Optional
 <tr id="Rule-From-source">
 <td><code><a href="#Rule-From-source">source</a></code><br/>
 <em><a href="#Source">Source</a></em><br/>
-Optional
 </td>
 <td>
 <p>Source specifies the source of a request.</p>
@@ -471,7 +461,6 @@ Optional
 <tr id="Rule-To-operation">
 <td><code><a href="#Rule-To-operation">operation</a></code><br/>
 <em><a href="#Operation">Operation</a></em><br/>
-Optional
 </td>
 <td>
 <p>Operation specifies the operation of a request.</p>
@@ -503,7 +492,6 @@ notIpBlocks: [&quot;203.0.113.4&quot;]
 <tr id="Source-principals">
 <td><code><a href="#Source-principals">principals</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of peer identities derived from the peer certificate. The peer identity is in the format of
@@ -516,7 +504,6 @@ This field requires mTLS enabled and is the same as the <code>source.principal</
 <tr id="Source-not_principals">
 <td><code><a href="#Source-not_principals">notPrincipals</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of peer identities.</p>
@@ -526,7 +513,6 @@ Optional
 <tr id="Source-request_principals">
 <td><code><a href="#Source-request_principals">requestPrincipals</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of request identities derived from the JWT. The request identity is in the format of
@@ -539,7 +525,6 @@ same as the <code>request.auth.principal</code> attribute.</p>
 <tr id="Source-not_request_principals">
 <td><code><a href="#Source-not_request_principals">notRequestPrincipals</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of request identities.</p>
@@ -549,7 +534,6 @@ Optional
 <tr id="Source-namespaces">
 <td><code><a href="#Source-namespaces">namespaces</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of namespaces derived from the peer certificate.
@@ -561,7 +545,6 @@ This field requires mTLS enabled and is the same as the <code>source.namespace</
 <tr id="Source-not_namespaces">
 <td><code><a href="#Source-not_namespaces">notNamespaces</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of namespaces.</p>
@@ -571,7 +554,6 @@ Optional
 <tr id="Source-ip_blocks">
 <td><code><a href="#Source-ip_blocks">ipBlocks</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of IP blocks, populated from the source address of the IP packet. Single IP (e.g. <code>203.0.113.4</code>) and
@@ -583,7 +565,6 @@ CIDR (e.g. <code>203.0.113.0/24</code>) are supported. This is the same as the <
 <tr id="Source-not_ip_blocks">
 <td><code><a href="#Source-not_ip_blocks">notIpBlocks</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of IP blocks.</p>
@@ -593,7 +574,6 @@ Optional
 <tr id="Source-remote_ip_blocks">
 <td><code><a href="#Source-remote_ip_blocks">remoteIpBlocks</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of IP blocks, populated from <code>X-Forwarded-For</code> header or proxy protocol.
@@ -609,7 +589,6 @@ This is the same as the <code>remote.ip</code> attribute.</p>
 <tr id="Source-not_remote_ip_blocks">
 <td><code><a href="#Source-not_remote_ip_blocks">notRemoteIpBlocks</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of remote IP blocks.</p>
@@ -641,7 +620,6 @@ notPaths: [&quot;/admin*&quot;]
 <tr id="Operation-hosts">
 <td><code><a href="#Operation-hosts">hosts</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of hosts as specified in the HTTP request. The match is case-insensitive.
@@ -654,7 +632,6 @@ recommended usage of this field.</p>
 <tr id="Operation-not_hosts">
 <td><code><a href="#Operation-not_hosts">notHosts</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of hosts as specified in the HTTP request. The match is case-insensitive.</p>
@@ -664,7 +641,6 @@ Optional
 <tr id="Operation-ports">
 <td><code><a href="#Operation-ports">ports</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of ports as specified in the connection.</p>
@@ -675,7 +651,6 @@ Optional
 <tr id="Operation-not_ports">
 <td><code><a href="#Operation-not_ports">notPorts</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of ports as specified in the connection.</p>
@@ -685,7 +660,6 @@ Optional
 <tr id="Operation-methods">
 <td><code><a href="#Operation-methods">methods</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of methods as specified in the HTTP request.
@@ -697,7 +671,6 @@ For gRPC service, this will always be <code>POST</code>.</p>
 <tr id="Operation-not_methods">
 <td><code><a href="#Operation-not_methods">notMethods</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of methods as specified in the HTTP request.</p>
@@ -707,7 +680,6 @@ Optional
 <tr id="Operation-paths">
 <td><code><a href="#Operation-paths">paths</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of paths as specified in the HTTP request. See the <a href="/latest/docs/reference/config/security/normalization/">Authorization Policy Normalization</a>
@@ -736,7 +708,6 @@ To be a valid path template, the path must not contain <code>*</code>, <code>{</
 <tr id="Operation-not_paths">
 <td><code><a href="#Operation-not_paths">notPaths</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of paths.</p>
@@ -761,7 +732,7 @@ Optional
 <tr id="Condition-key">
 <td><code><a href="#Condition-key">key</a></code><br/>
 <em>string</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>The name of an Istio attribute.
@@ -772,7 +743,6 @@ See the <a href="/zh/docs/reference/config/security/conditions/">full list of su
 <tr id="Condition-values">
 <td><code><a href="#Condition-values">values</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of allowed values for the attribute.
@@ -783,7 +753,6 @@ Note: at least one of <code>values</code> or <code>notValues</code> must be set.
 <tr id="Condition-not_values">
 <td><code><a href="#Condition-not_values">notValues</a></code><br/>
 <em>string[]</em><br/>
-Optional
 </td>
 <td>
 <p>A list of negative match of values for the attribute.

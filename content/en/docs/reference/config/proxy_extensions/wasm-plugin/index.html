@@ -185,7 +185,6 @@ the Istio proxy through WebAssembly filters.</p>
 <tr id="WasmPlugin-selector">
 <td><code><a href="#WasmPlugin-selector">selector</a></code><br/>
 <em><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></em><br/>
-Optional
 </td>
 <td>
 <p>Criteria used to select the specific set of pods/VMs on which
@@ -201,7 +200,6 @@ namespace.</p>
 <tr id="WasmPlugin-targetRefs">
 <td><code><a href="#WasmPlugin-targetRefs">targetRefs</a></code><br/>
 <em><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>The targetRefs specifies a list of resources the policy should be
@@ -225,7 +223,7 @@ from misinterpreting the policy as namespace-wide during the upgrade process.</p
 <tr id="WasmPlugin-url">
 <td><code><a href="#WasmPlugin-url">url</a></code><br/>
 <em>string</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>URL of a Wasm module or OCI container. If no scheme is present,
@@ -239,7 +237,6 @@ hosted remotely.</p>
 <tr id="WasmPlugin-sha256">
 <td><code><a href="#WasmPlugin-sha256">sha256</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>SHA256 checksum that will be used to verify Wasm module or OCI container.
@@ -253,7 +250,6 @@ against the contents of this field after pulling.</p>
 <tr id="WasmPlugin-image_pull_policy">
 <td><code><a href="#WasmPlugin-image_pull_policy">imagePullPolicy</a></code><br/>
 <em><a href="#PullPolicy">PullPolicy</a></em><br/>
-Optional
 </td>
 <td>
 <p>The pull behaviour to be applied when fetching Wasm module by either
@@ -268,7 +264,6 @@ mirroring Kubernetes behaviour.</p>
 <tr id="WasmPlugin-image_pull_secret">
 <td><code><a href="#WasmPlugin-image_pull_secret">imagePullSecret</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Credentials to use for OCI image pulling.
@@ -281,7 +276,6 @@ against the registry when pulling the image.</p>
 <tr id="WasmPlugin-plugin_config">
 <td><code><a href="#WasmPlugin-plugin_config">pluginConfig</a></code><br/>
 <em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></em><br/>
-Optional
 </td>
 <td>
 <p>The configuration that will be passed on to the plugin.</p>
@@ -291,7 +285,6 @@ Optional
 <tr id="WasmPlugin-plugin_name">
 <td><code><a href="#WasmPlugin-plugin_name">pluginName</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The plugin name to be used in the Envoy configuration (used to be called
@@ -303,7 +296,6 @@ plugin to execute.</p>
 <tr id="WasmPlugin-phase">
 <td><code><a href="#WasmPlugin-phase">phase</a></code><br/>
 <em><a href="#PluginPhase">PluginPhase</a></em><br/>
-Optional
 </td>
 <td>
 <p>Determines where in the filter chain this <code>WasmPlugin</code> is to be injected.</p>
@@ -313,7 +305,6 @@ Optional
 <tr id="WasmPlugin-priority">
 <td><code><a href="#WasmPlugin-priority">priority</a></code><br/>
 <em><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></em><br/>
-Optional
 </td>
 <td>
 <p>Determines ordering of <code>WasmPlugins</code> in the same <code>phase</code>.
@@ -328,7 +319,6 @@ namespace of the <code>WasmPlugins</code>. Defaults to <code>0</code>.</p>
 <tr id="WasmPlugin-fail_strategy">
 <td><code><a href="#WasmPlugin-fail_strategy">failStrategy</a></code><br/>
 <em><a href="#FailStrategy">FailStrategy</a></em><br/>
-Optional
 </td>
 <td>
 <p>Specifies the failure behavior for the plugin due to fatal errors.</p>
@@ -338,7 +328,6 @@ Optional
 <tr id="WasmPlugin-vm_config">
 <td><code><a href="#WasmPlugin-vm_config">vmConfig</a></code><br/>
 <em><a href="#VmConfig">VmConfig</a></em><br/>
-Optional
 </td>
 <td>
 <p>Configuration for a Wasm VM.
@@ -349,7 +338,6 @@ More details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/a
 <tr id="WasmPlugin-match">
 <td><code><a href="#WasmPlugin-match">match</a></code><br/>
 <em><a href="#WasmPlugin-TrafficSelector">TrafficSelector[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>Specifies the criteria to determine which traffic is passed to WasmPlugin.
@@ -361,7 +349,6 @@ the traffic passes the WasmPlugin.</p>
 <tr id="WasmPlugin-type">
 <td><code><a href="#WasmPlugin-type">type</a></code><br/>
 <em><a href="#PluginType">PluginType</a></em><br/>
-Optional
 </td>
 <td>
 <p>Specifies the type of Wasm Extension to be used.</p>
@@ -389,7 +376,6 @@ traffic will be selected.</p>
 <tr id="WasmPlugin-TrafficSelector-mode">
 <td><code><a href="#WasmPlugin-TrafficSelector-mode">mode</a></code><br/>
 <em><a href="/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></em><br/>
-Optional
 </td>
 <td>
 <p>Criteria for selecting traffic by their direction.
@@ -403,7 +389,6 @@ If not specified, the default value is <code>CLIENT_AND_SERVER</code>.</p>
 <tr id="WasmPlugin-TrafficSelector-ports">
 <td><code><a href="#WasmPlugin-TrafficSelector-ports">ports</a></code><br/>
 <em><a href="/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>Criteria for selecting traffic by their destination port.
@@ -434,7 +419,6 @@ more details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/a
 <tr id="VmConfig-env">
 <td><code><a href="#VmConfig-env">env</a></code><br/>
 <em><a href="#EnvVar">EnvVar[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>Specifies environment variables to be injected to this VM.
@@ -459,7 +443,7 @@ Note that if a key does not exist, it will be ignored.</p>
 <tr id="EnvVar-name">
 <td><code><a href="#EnvVar-name">name</a></code><br/>
 <em>string</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>Name of the environment variable.
@@ -470,7 +454,6 @@ Must be a C_IDENTIFIER.</p>
 <tr id="EnvVar-value_from">
 <td><code><a href="#EnvVar-value_from">valueFrom</a></code><br/>
 <em><a href="#EnvValueSource">EnvValueSource</a></em><br/>
-Optional
 </td>
 <td>
 <p>Source for the environment variable&rsquo;s value.</p>
@@ -480,7 +463,6 @@ Optional
 <tr id="EnvVar-value">
 <td><code><a href="#EnvVar-value">value</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Value for the environment variable.

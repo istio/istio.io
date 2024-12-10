@@ -323,7 +323,6 @@ attached.</p>
 <tr id="Sidecar-workload_selector">
 <td><code><a href="#Sidecar-workload_selector">workloadSelector</a></code><br/>
 <em><a href="#WorkloadSelector">WorkloadSelector</a></em><br/>
-Optional
 </td>
 <td>
 <p>Criteria used to select the specific set of pods/VMs on which this
@@ -335,7 +334,6 @@ configuration will be applied to all workload instances in the same namespace.</
 <tr id="Sidecar-ingress">
 <td><code><a href="#Sidecar-ingress">ingress</a></code><br/>
 <em><a href="#IstioIngressListener">IstioIngressListener[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>Ingress specifies the configuration of the sidecar for processing
@@ -350,7 +348,6 @@ workload instance is associated with a service.</p>
 <tr id="Sidecar-egress">
 <td><code><a href="#Sidecar-egress">egress</a></code><br/>
 <em><a href="#IstioEgressListener">IstioEgressListener[]</a></em><br/>
-Optional
 </td>
 <td>
 <p>Egress specifies the configuration of the sidecar for processing
@@ -363,7 +360,6 @@ detected defaults from the namespace-wide or the global default Sidecar.</p>
 <tr id="Sidecar-inbound_connection_pool">
 <td><code><a href="#Sidecar-inbound_connection_pool">inboundConnectionPool</a></code><br/>
 <em><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings">ConnectionPoolSettings</a></em><br/>
-Optional
 </td>
 <td>
 <p>Settings controlling the volume of connections Envoy will accept from the network.
@@ -395,7 +391,6 @@ following precedence, highest to lowest:</p>
 <tr id="Sidecar-outbound_traffic_policy">
 <td><code><a href="#Sidecar-outbound_traffic_policy">outboundTrafficPolicy</a></code><br/>
 <em><a href="#OutboundTrafficPolicy">OutboundTrafficPolicy</a></em><br/>
-Optional
 </td>
 <td>
 <p>Set the default behavior of the sidecar for handling outbound
@@ -423,7 +418,7 @@ traffic listener on the sidecar proxy attached to a workload instance.</p>
 <tr id="IstioIngressListener-port">
 <td><code><a href="#IstioIngressListener-port">port</a></code><br/>
 <em><a href="#SidecarPort">SidecarPort</a></em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>The port associated with the listener.</p>
@@ -433,7 +428,6 @@ Required
 <tr id="IstioIngressListener-bind">
 <td><code><a href="#IstioIngressListener-bind">bind</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The IP(IPv4 or IPv6) to which the listener should be bound.
@@ -448,7 +442,6 @@ to.</p>
 <tr id="IstioIngressListener-capture_mode">
 <td><code><a href="#IstioIngressListener-capture_mode">captureMode</a></code><br/>
 <em><a href="#CaptureMode">CaptureMode</a></em><br/>
-Optional
 </td>
 <td>
 <p>The captureMode option dictates how traffic to the listener is
@@ -459,7 +452,6 @@ expected to be captured (or not).</p>
 <tr id="IstioIngressListener-default_endpoint">
 <td><code><a href="#IstioIngressListener-default_endpoint">defaultEndpoint</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The IP endpoint or Unix domain socket to which
@@ -476,7 +468,6 @@ or <code>unix:///path/to/socket</code> (forward to Unix domain socket).</p>
 <tr id="IstioIngressListener-tls">
 <td><code><a href="#IstioIngressListener-tls">tls</a></code><br/>
 <em><a href="/docs/reference/config/networking/gateway/#ServerTLSSettings">ServerTLSSettings</a></em><br/>
-Optional
 </td>
 <td>
 <p>Set of TLS related options that will enable TLS termination on the
@@ -488,7 +479,6 @@ Currently supports only SIMPLE and MUTUAL TLS modes.</p>
 <tr id="IstioIngressListener-connection_pool">
 <td><code><a href="#IstioIngressListener-connection_pool">connectionPool</a></code><br/>
 <em><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings">ConnectionPoolSettings</a></em><br/>
-Optional
 </td>
 <td>
 <p>Settings controlling the volume of connections Envoy will accept from the network.
@@ -520,7 +510,6 @@ listener on the sidecar proxy attached to a workload instance.</p>
 <tr id="IstioEgressListener-port">
 <td><code><a href="#IstioEgressListener-port">port</a></code><br/>
 <em><a href="#SidecarPort">SidecarPort</a></em><br/>
-Optional
 </td>
 <td>
 <p>The port associated with the listener. If using Unix domain socket,
@@ -538,7 +527,6 @@ port.</p>
 <tr id="IstioEgressListener-bind">
 <td><code><a href="#IstioEgressListener-bind">bind</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The IP(IPv4 or IPv6) or the Unix domain socket to which the listener should be bound
@@ -554,7 +542,6 @@ the captureMode. If captureMode is <code>NONE</code>, bind will default to
 <tr id="IstioEgressListener-capture_mode">
 <td><code><a href="#IstioEgressListener-capture_mode">captureMode</a></code><br/>
 <em><a href="#CaptureMode">CaptureMode</a></em><br/>
-Optional
 </td>
 <td>
 <p>When the bind address is an IP, the captureMode option dictates
@@ -566,7 +553,7 @@ captureMode must be DEFAULT or <code>NONE</code> for Unix domain socket binds.</
 <tr id="IstioEgressListener-hosts">
 <td><code><a href="#IstioEgressListener-hosts">hosts</a></code><br/>
 <em>string[]</em><br/>
-Required
+<strong>Required</strong>
 </td>
 <td>
 <p>One or more service hosts exposed by the listener
@@ -622,7 +609,6 @@ label based selection mechanism is supported.</p>
 <tr id="WorkloadSelector-labels">
 <td><code><a href="#WorkloadSelector-labels">labels</a></code><br/>
 <em>map&lt;string,&nbsp;string&gt;</em><br/>
-Optional
 </td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
@@ -651,7 +637,6 @@ handling unknown outbound traffic from the application.</p>
 <tr id="OutboundTrafficPolicy-mode">
 <td><code><a href="#OutboundTrafficPolicy-mode">mode</a></code><br/>
 <em><a href="#OutboundTrafficPolicy-Mode">Mode</a></em><br/>
-Optional
 </td>
 <td>
 </td>
@@ -708,7 +693,6 @@ to arbitrary destinations.</p>
 <tr id="SidecarPort-number">
 <td><code><a href="#SidecarPort-number">number</a></code><br/>
 <em>uint32</em><br/>
-Optional
 </td>
 <td>
 <p>A valid non-negative integer port number.</p>
@@ -718,7 +702,6 @@ Optional
 <tr id="SidecarPort-protocol">
 <td><code><a href="#SidecarPort-protocol">protocol</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>The protocol exposed on the port.
@@ -731,7 +714,6 @@ or to route traffic based on SNI header to the destination without terminating t
 <tr id="SidecarPort-name">
 <td><code><a href="#SidecarPort-name">name</a></code><br/>
 <em>string</em><br/>
-Optional
 </td>
 <td>
 <p>Label assigned to the port.</p>
