@@ -21,23 +21,19 @@ selected. Currently, only label based selection mechanism is supported.</p>
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="WorkloadSelector-match_labels">
-<td><code><a href="#WorkloadSelector-match_labels">matchLabels</a></code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td><div class="field"><div class="name"><code><a href="#WorkloadSelector-match_labels">matchLabels</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
 on which a policy should be applied. The scope of label search is restricted to
 the configuration namespace in which the resource is present.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 </tbody>
@@ -52,21 +48,18 @@ a listener having a specific port.</p>
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="PortSelector-number">
-<td><code><a href="#PortSelector-number">number</a></code></td>
-<td><code>uint32</code></td>
+<td><div class="field"><div class="name"><code><a href="#PortSelector-number">number</a></code></div>
+<div class="type">uint32</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Port number</p>
 
-</td>
-<td>
-Yes
 </td>
 </tr>
 </tbody>
@@ -107,55 +100,47 @@ spec:
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="PolicyTargetReference-group">
-<td><code><a href="#PolicyTargetReference-group">group</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#PolicyTargetReference-group">group</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>group is the group of the target resource.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="PolicyTargetReference-kind">
-<td><code><a href="#PolicyTargetReference-kind">kind</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#PolicyTargetReference-kind">kind</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>kind is kind of the target resource.</p>
 
 </td>
-<td>
-Yes
-</td>
 </tr>
 <tr id="PolicyTargetReference-name">
-<td><code><a href="#PolicyTargetReference-name">name</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#PolicyTargetReference-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>name is the name of the target resource.</p>
 
 </td>
-<td>
-Yes
-</td>
 </tr>
 <tr id="PolicyTargetReference-namespace">
-<td><code><a href="#PolicyTargetReference-namespace">namespace</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#PolicyTargetReference-namespace">namespace</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>namespace is the namespace of the referent. When unspecified, the local
 namespace is inferred.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 </tbody>
