@@ -1917,7 +1917,7 @@ spec:
 between retries will be determined automatically (25ms+). When request
 <code>timeout</code> of the <a href="/zh/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>
 or <code>per_try_timeout</code> is configured, the actual number of retries attempted also depends on
-the specified request <code>timeout</code> and <code>per_try_timeout</code> values. MUST BE &gt;= 0. If <code>0</code>, retries will be disabled.
+the specified request <code>timeout</code> and <code>per_try_timeout</code> values. MUST be &gt;= 0. If <code>0</code>, retries will be disabled.
 The maximum possible number of requests made will be 1 + <code>attempts</code>.</p>
 
 </td>
@@ -1927,7 +1927,7 @@ The maximum possible number of requests made will be 1 + <code>attempts</code>.<
 <div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
 </div></td>
 <td>
-<p>Timeout per attempt for a given request, including the initial call and any retries. Format: 1h/1m/1s/1ms. MUST BE &gt;=1ms.
+<p>Timeout per attempt for a given request, including the initial call and any retries. Format: 1h/1m/1s/1ms. MUST be &gt;=1ms.
 Default is same value as request
 <code>timeout</code> of the <a href="/zh/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>,
 which means no timeout.</p>

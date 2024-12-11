@@ -351,11 +351,13 @@ on which this policy is being applied.</p>
 </div></td>
 <td>
 <p>Specifies which protocol to use for tunneling the downstream connection.
-Supported protocols are:
-CONNECT - uses HTTP CONNECT;
-POST - uses HTTP POST.
-CONNECT is used by default if not specified.
-HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
+Supported protocols are:</p>
+<ul>
+<li>CONNECT - uses HTTP CONNECT;</li>
+<li>POST - uses HTTP POST.</li>
+</ul>
+<p>CONNECT is used by default if not specified.</p>
+<p>HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
 
 </td>
 </tr>
@@ -574,7 +576,7 @@ spec:
 <div class="type"><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></div>
 </div></td>
 <td>
-<p>Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed
+<p>Locality load balancer settings, this will override mesh-wide settings in entirety, meaning no merging would be performed
 between this object and the object one in MeshConfig</p>
 
 </td>
@@ -992,7 +994,7 @@ spec:
 </div></td>
 <td>
 <p>TCP connection timeout. format:
-1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
+1h/1m/1s/1ms. MUST be &gt;=1ms. Default is 10s.</p>
 
 </td>
 </tr>
@@ -1274,7 +1276,7 @@ spec:
 </div></td>
 <td>
 <p>Determines whether to distinguish local origin failures from external errors. If set to true
-consecutive_local_origin_failure is taken into account for outlier detection calculations.
+<code>consecutive_local_origin_failure</code> is taken into account for outlier detection calculations.
 This should be used when you want to derive the outlier detection status based on the errors
 seen locally such as failure to connect, timeout while connecting etc. rather than the status code
 returned by upstream service. This is especially useful when the upstream service explicitly returns
@@ -1290,7 +1292,7 @@ Defaults to false.</p>
 </div></td>
 <td>
 <p>The number of consecutive locally originated failures before ejection
-occurs. Defaults to 5. Parameter takes effect only when split_external_local_origin_errors
+occurs. Defaults to 5. Parameter takes effect only when <code>split_external_local_origin_errors</code>
 is set to true.</p>
 
 </td>
@@ -1306,11 +1308,11 @@ code qualifies as a gateway error. When the upstream host is accessed over
 an opaque TCP connection, connect timeouts and connection error/failure
 events qualify as a gateway error.
 This feature is disabled by default or when set to the value 0.</p>
-<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
+<p>Note that <code>consecutive_gateway_errors</code> and <code>consecutive_5xx_errors</code> can be
 used separately or together. Because the errors counted by
-consecutive_gateway_errors are also included in consecutive_5xx_errors,
-if the value of consecutive_gateway_errors is greater than or equal to
-the value of consecutive_5xx_errors, consecutive_gateway_errors will have
+<code>consecutive_gateway_errors</code> are also included in <code>consecutive_5xx_errors</code>,
+if the value of <code>consecutive_gateway_errors</code> is greater than or equal to
+the value of <code>consecutive_5xx_errors, </code>consecutive_gateway_errors` will have
 no effect.</p>
 
 </td>
@@ -1325,11 +1327,11 @@ When the upstream host is accessed over an opaque TCP connection, connect
 timeouts, connection error/failure and request failure events qualify as a
 5xx error.
 This feature defaults to 5 but can be disabled by setting the value to 0.</p>
-<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
+<p>Note that <code>consecutive_gateway_errors</code> and <code>consecutive_5xx_errors</code> can be
 used separately or together. Because the errors counted by
-consecutive_gateway_errors are also included in consecutive_5xx_errors,
-if the value of consecutive_gateway_errors is greater than or equal to
-the value of consecutive_5xx_errors, consecutive_gateway_errors will have
+<code>consecutive_gateway_errors</code> are also included in <code>consecutive_5xx_errors</code>,
+if the value of <code>consecutive_gateway_errors</code> is greater than or equal to
+the value of <code>consecutive_5xx_errors, </code>consecutive_gateway_errors` will have
 no effect.</p>
 
 </td>
@@ -1340,7 +1342,7 @@ no effect.</p>
 </div></td>
 <td>
 <p>Time interval between ejection sweep analysis. format:
-1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
+1h/1m/1s/1ms. MUST be &gt;=1ms. Default is 10s.</p>
 
 </td>
 </tr>
@@ -1353,7 +1355,7 @@ no effect.</p>
 equal to the product of minimum ejection duration and the number of
 times the host has been ejected. This technique allows the system to
 automatically increase the ejection period for unhealthy upstream
-servers. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</p>
+servers. format: 1h/1m/1s/1ms. MUST be &gt;=1ms. Default is 30s.</p>
 
 </td>
 </tr>
@@ -1373,7 +1375,7 @@ service that can be ejected. Defaults to 10%.</p>
 </div></td>
 <td>
 <p>Outlier detection will be enabled as long as the associated load balancing
-pool has at least min_health_percent hosts in healthy mode. When the
+pool has at least <code>min_health_percent</code> hosts in healthy mode. When the
 percentage of healthy hosts in the load balancing pool drops below this
 threshold, outlier detection will be disabled and the proxy will load balance
 across all hosts in the pool (healthy and unhealthy). The threshold can be
@@ -1620,13 +1622,13 @@ specified using arbitrary labels that designate a hierarchy of localities in
 {region}/{zone}/{sub-zone} form. For additional detail refer to
 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality Weight</a>
 The following example shows how to setup locality weights mesh-wide.</p>
-<p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/<em>&rdquo;
-and &ldquo;us-west/zone2/</em>&rdquo;. This example specifies that when traffic accessing a
-service originates from workloads in &ldquo;us-west/zone1/<em>&rdquo;, 80% of the traffic
-will be sent to endpoints in &ldquo;us-west/zone1/</em>&rdquo;, i.e the same zone, and the
-remaining 20% will go to endpoints in &ldquo;us-west/zone2/<em>&rdquo;. This setup is
+<p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/*&rdquo;
+and &ldquo;us-west/zone2/*&rdquo;. This example specifies that when traffic accessing a
+service originates from workloads in &ldquo;us-west/zone1/*&rdquo;, 80% of the traffic
+will be sent to endpoints in &ldquo;us-west/zone1/*&rdquo;, i.e the same zone, and the
+remaining 20% will go to endpoints in &ldquo;us-west/zone2/*&rdquo;. This setup is
 intended to favor routing traffic to endpoints in the same locality.
-A similar setting is specified for traffic originating in &ldquo;us-west/zone2/</em>&rdquo;.</p>
+A similar setting is specified for traffic originating in &ldquo;us-west/zone2/*&rdquo;.</p>
 <pre><code class="language-yaml">  distribute:
     - from: us-west/zone1/*
       to:
@@ -1652,7 +1654,6 @@ and similarly us-west should failover to us-east.</p>
    - from: us-west
      to: us-east
 </code></pre>
-<p>Locality load balancing settings.</p>
 
 <table class="message-fields">
 <thead>
@@ -1761,8 +1762,8 @@ And it should be used together with <code>OutlierDetection</code> to detect unhe
 <div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
 </div></td>
 <td>
-<p>enable locality load balancing, this is DestinationRule-level and will override mesh wide settings in entirety.
-e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh wide settings is.</p>
+<p>Enable locality load balancing. This is DestinationRule-level and will override mesh-wide settings in entirety.
+e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh-wide settings is.</p>
 
 </td>
 </tr>

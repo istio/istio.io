@@ -57,7 +57,7 @@ Default port is 15006.</p>
 <div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
 </div></td>
 <td>
-<p>Connection timeout used by Envoy. (MUST BE &gt;=1ms)
+<p>Connection timeout used by Envoy. (MUST be &gt;=1ms)
 Default timeout is 10s.</p>
 
 </td>
@@ -852,15 +852,6 @@ Default: true</p>
 </div></td>
 <td>
 <p>Configures a Datadog tracing provider.</p>
-
-</td>
-</tr>
-<tr id="MeshConfig-ExtensionProvider-stackdriver" class="oneof">
-<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-stackdriver">stackdriver</a></code></div>
-<div class="type"><a href="#MeshConfig-ExtensionProvider-StackdriverProvider">StackdriverProvider (oneof)</a></div>
-</div></td>
-<td>
-<p>Configures a Stackdriver provider.</p>
 
 </td>
 </tr>
@@ -2927,7 +2918,7 @@ fs:/// to specify a file-based backend with absolute path to the directory.</p>
 </div></td>
 <td>
 <p>Use the tlsSettings to specify the tls mode to use. If the MCP server
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+uses Istio mutual TLS and shares the root CA with istiod, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -2965,41 +2956,12 @@ mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
 </tr>
-<tr id="Tracing-lightstep" class="oneof">
-<td><div class="field"><div class="name"><code><a href="#Tracing-lightstep">lightstep</a></code></div>
-<div class="type"><a href="#Tracing-Lightstep">Lightstep (oneof)</a></div>
-</div></td>
-<td>
-<p>Use a Lightstep tracer.
-NOTE: For Istio 1.15+, this configuration option will result
-in using OpenTelemetry-based Lightstep integration.</p>
-
-</td>
-</tr>
 <tr id="Tracing-datadog" class="oneof">
 <td><div class="field"><div class="name"><code><a href="#Tracing-datadog">datadog</a></code></div>
 <div class="type"><a href="#Tracing-Datadog">Datadog (oneof)</a></div>
 </div></td>
 <td>
 <p>Use a Datadog tracer.</p>
-
-</td>
-</tr>
-<tr id="Tracing-stackdriver" class="oneof">
-<td><div class="field"><div class="name"><code><a href="#Tracing-stackdriver">stackdriver</a></code></div>
-<div class="type"><a href="#Tracing-Stackdriver">Stackdriver (oneof)</a></div>
-</div></td>
-<td>
-<p>Use a Stackdriver tracer.</p>
-
-</td>
-</tr>
-<tr id="Tracing-open_census_agent" class="oneof">
-<td><div class="field"><div class="name"><code><a href="#Tracing-open_census_agent">openCensusAgent</a></code></div>
-<div class="type"><a href="#Tracing-OpenCensusAgent">OpenCensusAgent (oneof)</a></div>
-</div></td>
-<td>
-<p>Use an OpenCensus tracer exporting to an OpenCensus agent.</p>
 
 </td>
 </tr>
@@ -3019,7 +2981,7 @@ if not requested by the client or not forced. Default is 1.0.</p>
 </div></td>
 <td>
 <p>Use the tlsSettings to specify the tls mode to use. If the remote tracing service
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+uses Istio mutual TLS and shares the root CA with istiod, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -3265,7 +3227,7 @@ downstream connections on a gateway.</p>
 <h2 id="PrivateKeyProvider">PrivateKeyProvider</h2>
 <section>
 <p>PrivateKeyProvider defines private key configuration for gateways and sidecars. This can be configured
-mesh wide or individual per-workload basis.</p>
+mesh-wide or individual per-workload basis.</p>
 
 <table class="message-fields">
 <thead>
@@ -3378,7 +3340,7 @@ The default value is false.</p>
 <section>
 <p>ProxyConfig defines variables for individual Envoy instances. This can be configured on a per-workload basis
 as well as by the mesh-wide defaults.
-To set the mesh wide defaults, configure the <code>defaultConfig</code> section of <code>meshConfig</code>. For example:</p>
+To set the mesh-wide defaults, configure the <code>defaultConfig</code> section of <code>meshConfig</code>. For example:</p>
 <pre><code>meshConfig:
   defaultConfig:
     discoveryAddress: istiod:15012
@@ -3507,7 +3469,7 @@ Default is set to <code>MUTUAL_TLS</code>.</p>
 </div></td>
 <td>
 <p>File path of custom proxy configuration, currently used by proxies
-in front of Mixer and Pilot.</p>
+in front of istiod.</p>
 
 </td>
 </tr>
@@ -3761,9 +3723,15 @@ Note: currently all headers are enabled by default.</p>
 <pre><code class="language-yaml">proxyHeaders:
   server:
     value: &quot;my-custom-server&quot;
-  requestId: {} // Explicitly enable Request IDs. As this is the default, this has no effect.
+  # Explicitly enable Request IDs.
+  # As this is the default, this has no effect.
+  requestId: {}
   attemptCount:
     disabled: true
+</code></pre>
+<p>Below shows an example of preserving the header case for HTTP 1.x requests</p>
+<pre><code class="language-yaml">proxyHeaders:
+  perserveHttp1HeaderCase: true
 </code></pre>
 <p>Some headers are enabled by default, and require explicitly disabling. See below for an example of disabling all default-enabled headers:</p>
 <pre><code class="language-yaml">proxyHeaders:
@@ -3927,6 +3895,23 @@ These headers are enabled by default if not configured.</p>
 <p>Controls Istio metadata exchange headers <code>X-Envoy-Peer-Metadata</code> and <code>X-Envoy-Peer-Metadata-Id</code>.
 By default, the behavior is unspecified.
 If IN_MESH, these headers will not be appended to outbound requests from sidecars to services not in-mesh.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-preserve_http1_header_case">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ProxyHeaders-preserve_http1_header_case">preserveHttp1HeaderCase</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
+<td>
+<p>When true, the original case of HTTP/1.x headers will be preserved
+as they pass through the proxy, rather than normalizing them to lowercase.
+This field is particularly useful for applications that require case-sensitive
+headers for interoperability with downstream systems or APIs that expect specific
+casing.
+The preserve_http1_header_case option only applies to HTTP/1.x traffic, as HTTP/2 requires all headers
+to be lowercase per the protocol specification. Envoy will ignore this field for HTTP/2
+requests and automatically normalize headers to lowercase, ensuring compliance with HTTP/2
+standards.</p>
 
 </td>
 </tr>
@@ -4244,7 +4229,7 @@ qualified DNS name.</p>
 </div></td>
 <td>
 <p>Use the <code>tlsSettings</code> to specify the tls mode to use. If the remote service
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+uses Istio mutual TLS and shares the root CA with istiod, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -4378,7 +4363,7 @@ use mTLS.</p>
 <div class="type">string (oneof)</div>
 </div></td>
 <td>
-<p>A fully qualified domain name of the gateway service.  Pilot will
+<p>A fully qualified domain name of the gateway service.  istiod will
 lookup the service from the service registries in the network and
 obtain the endpoint IPs of the gateway from the service
 registry. Note that while the service name is a fully qualified
