@@ -1,9 +1,7 @@
 ---
 title: 添加一个新版本的 reviews
 overview: 部署一个新版本的微服务。
-
 weight: 50
-
 owner: istio/wg-docs-maintainers
 test: no
 ---
@@ -97,7 +95,7 @@ test: no
     deployment.apps/reviews-v2 scaled
     {{< /text >}}
 
-    现在，您可以访问几次您的应用页面，看到黑色星标出现的时间大约是一半。
+    现在，您可以多次访问您的应用页面，看到黑色星标出现的时间大约是一半。
 
 1.  现在，您可以停用旧版本：
 
@@ -106,7 +104,7 @@ test: no
     deployment.apps "reviews-v1" deleted
     {{< /text >}}
 
-    访问该应用的页面时，将只返回带有黑色星标的 reviews。
+    访问该应用的页面时，将只返回带有黑色星标的 `reviews`。
 
 在以上步骤中，您对 `reviews` 执行了更新操作。首先，您部署了新版本且没有发送模拟的生产流量。
 您在生产环境中使用测试流量对其进行了测试。您确认了新版本提供正确的结果。
