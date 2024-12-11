@@ -1,7 +1,6 @@
 html {
     --backgroundColor: #ffffff;
 
-    --textCodeColor: #7dc6f2;
     --primaryColor: #293655;            //dark-grey-blue
     --secondaryColor: #516ba9;          //dull-blue
     --accentColor: #7dc6f2;             //light-blue
@@ -10,7 +9,8 @@ html {
 
     --inputBorderColor: #566ca5;
     --textColor: #293655;
-    --textCodeColor: #d14;
+    --textCodeColor: #293655;
+    --textCodeBackgroundColor: rgba(129, 139, 152, .12);
     --disabledTextColor: #{lighten(#535f61, 50%)};
     --textGray: #8a8a8c;
 
