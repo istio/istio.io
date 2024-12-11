@@ -1,7 +1,5 @@
 code {
     color: $textCodeColor;
-    background-color: $textCodeBackgroundColor;
-    padding: .2em .4em;
     font-size: 85%;
     font-weight: $textCodeWeight;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -42,7 +40,7 @@ pre {
         background: $preBlockBackgroundColor;
 
         a {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             font-weight: $textCodeWeight;
         }
     }
