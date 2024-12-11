@@ -55,7 +55,7 @@
         {{- if $snippet -}}
             {{- errorf "Snippets only work for imported text blocks (%s)" .Position -}}
         {{- end -}}
-        {{- $text = partial "strip_indent.html" (dict "content" .Inner "pos" .Position) -}}
+        {{- $text = chomp (partial "strip_indent.html" (dict "content" .Inner "pos" .Position)) -}}
     {{- end -}}
 
     {{- if (hasPrefix $text " ") -}}
