@@ -88,7 +88,7 @@ You can generate the manifest before installing Istio using the `manifest genera
 sub-command.
 For example, use the following command to generate a manifest for the `default` profile that can be installed with `kubectl`:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=none >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
@@ -106,7 +106,7 @@ If attempting to install and manage Istio using `istioctl manifest generate`, pl
 1. Istio validation will not be enabled by default. Unlike `istioctl install`, the `manifest generate` command will
 not create the `istiod-default-validator` validating webhook configuration unless `values.defaultRevision` is set:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=none >}}
     $ istioctl manifest generate --set values.defaultRevision=default
     {{< /text >}}
 
