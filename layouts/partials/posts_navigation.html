@@ -6,9 +6,9 @@
         {{$prev = $.Site.GetPage $.Site.Language.Lang .}}
     {{ end }}
 
-    {{- with .Params.next -}}
+    {{ with .Params.next }}
         {{$next = $.Site.GetPage $.Site.Language.Lang .}}
-    {{- end -}}
+    {{ end }}
 
     {{ if or $prev $next }}
         <nav class="pagenav">
