@@ -1,9 +1,16 @@
 code {
     color: $textCodeColor;
-    font-size: 87.5%;
+    font-size: 85%;
     font-weight: $textCodeWeight;
-    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     word-break: break-word;
+    background: $textCodeBackgroundColor;
+    padding: .2em .4em;
+
+    a {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-weight: $textCodeWeight;
+    }
 }
 
 pre {
@@ -14,7 +21,7 @@ pre {
     min-width: 12em;
     max-height: 31em;
     border-left: 4px solid $preBlockBorderColor;
-    font-size: 87.5%;
+    font-size: 85%;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -29,9 +36,11 @@ pre {
         display: block;
         padding: .5em;
         color: $textColor;
+        font-size: 100%;
+        background: $preBlockBackgroundColor;
 
         a {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             font-weight: $textCodeWeight;
         }
     }
