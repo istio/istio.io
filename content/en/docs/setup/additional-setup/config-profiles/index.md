@@ -12,7 +12,7 @@ test: n/a
 This page describes the built-in configuration profiles that can be used when
 [installing Istio](/docs/setup/install).
 
-Configuration profiles are simply named groups of Helm chart value overrides that are built into the charts, 
+Configuration profiles are simply named groups of Helm chart value overrides that are built into the charts,
 and can be used when installing via either `helm` or `istioctl`.
 
 The profiles provide high-level customization of the Istio control plane and data plane for common deployment topologies and target platforms.
@@ -60,8 +60,8 @@ With `helm`, this is not the case - users are expected to install each required 
 You can think of this as `istioctl` and `helm` sharing exactly the same configuration profiles with the same names, but when you use `istioctl`, it will additionally choose what components to install for you based on the configuration profile you select, so only one command is needed to achieve the same result.
 {{< /warning >}}
 
-
 ## Deployment Profiles
+
 The following built-in deployment profiles are currently available for both `istioctl` and `helm` install mechanisms. Note that as these are just sets of Helm values overrides, using them is not strictly required to install Istio, but they do provide a convenient baseline and are recommended for new installs. Additionally, you may [customize the configuration](/docs/setup/additional-setup/customize-installation/)
 beyond what the deployment profile includes, for your specific needs. The following built-in deployment profiles are currently available:
 
@@ -112,13 +112,14 @@ Refer to [integrations](/docs/ops/integrations) for more details.
 {{< /tip >}}
 
 ## Platform Profiles
+
 The following built-in platform profiles are currently available for both `istioctl` and `helm` install mechanisms. Note that as these are just sets of Helm values overrides, using them is not strictly required to install Istio in these environments, but they do provide a convenient baseline and are recommended for new installs:
 
 1. **gke**: Sets chart options required or recommended for installing Istio in Google Kubernetes Engine (GKE) environments.
 
 1. **eks**: Sets chart options required or recommended for installing Istio in Amazon's Elastic Kubernetes Service (EKS) environments.
 
-1. **openshift**: Sets chart options required or recommended for installing Istio in Openshift environments.
+1. **openshift**: Sets chart options required or recommended for installing Istio in OpenShift environments.
 
 1. **k3d**: Sets chart options required or recommended for installing Istio in [k3d](https://k3d.io/) environments.
 
