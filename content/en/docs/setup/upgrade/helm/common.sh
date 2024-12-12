@@ -20,7 +20,6 @@ _install_istio_helm() {
     # This can be dropped once tests start pulling 1.24 charts
     bpsnip_crd_upgrade_123_adopt_legacy_crds
 
-    _rewrite_helm_repo snip_create_istio_system_namespace
     _rewrite_helm_repo snip_install_base
     _rewrite_helm_repo snip_install_discovery
     _rewrite_helm_repo snip_install_ingressgateway
