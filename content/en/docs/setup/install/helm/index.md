@@ -245,7 +245,9 @@ If attempting to install and manage Istio using `helm template`, please note the
 1. The Istio namespace (`istio-system` by default) must be created manually.
 
 1. Resources may not be installed with the same sequencing of dependencies as
-`helm install` and is not tested as part of Istio releases.
+`helm install`
+
+1. This method is not tested as part of Istio releases.
 
 1. While `helm install` will automatically detect environment specific settings from your Kubernetes context,
 `helm template` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure

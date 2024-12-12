@@ -135,7 +135,9 @@ not create the `istiod-default-validator` validating webhook configuration unles
     {{< /text >}}
 
 1. Resources may not be installed with the same sequencing of dependencies as
-`istioctl install` and is not tested as part of Istio releases.
+`istioctl install`.
+
+1. This method is not tested as part of Istio releases.
 
 1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
 `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
