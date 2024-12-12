@@ -4,6 +4,7 @@ description: Delete Istio and associated resources.
 weight: 6
 owner: istio/wg-networking-maintainers
 test: yes
+next: /docs/ambient/install
 ---
 
 If you no longer need Istio and associated resources, you can delete them by following the steps in this section.
