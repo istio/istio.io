@@ -26,13 +26,13 @@ There are 2 kinds of configuration profiles: _deployment_ profiles and _platform
 - _deployment_ profiles are intended to provide good defaults for a given deployment topology (`default`, `remote`, `ambient`, etc).
 - _platform_ profiles are intended to provide necessary platform-specific defaults, for a given target platform (`eks`, `gke`, `openshift`, etc).
 
-For example, if you are installing `default` sidecar dataplane on `gke`, we recommend using the following deployment and platform profiles to get started.
+For example, if you are installing `default` sidecar dataplane on `gke`, we recommend using the following deployment and platform profiles to get started:
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
-For Helm, supply the same `profile` and `platform` for every chart you install, for example `istiod`:
+    For Helm, supply the same `profile` and `platform` for every chart you install, for example `istiod`:
 
     {{< text syntax=bash snip_id=install_istiod_helm_platform >}}
     $ helm install istiod istio/istiod -n istio-system --set profile=default --set global.platform=gke --wait
@@ -42,7 +42,7 @@ For Helm, supply the same `profile` and `platform` for every chart you install, 
 
 {{< tab name="istioctl" category-value="istioctl" >}}
 
-For `istioctl`, supply the same `profile` and `platform` as arguments:
+    For `istioctl`, supply the same `profile` and `platform` as arguments:
 
     {{< text syntax=bash snip_id=install_istiod_istioctl_platform >}}
     $ istioctl install --set profile=default --set values.global.platform=gke
@@ -95,7 +95,7 @@ beyond what the deployment profile includes, for your specific needs. The follow
 
 Istio's [deployment profile value sets are defined here]({{< github_tree >}}/manifests/helm-profiles), for both `istioctl` and `helm`.
 
-For `istioctl` only, specifying configuration profiles additionally automatically selects certain Istio components for installation, as marked with &#x2714; below
+For `istioctl` only, specifying configuration profiles additionally automatically selects certain Istio components for installation, as marked with &#x2714; below:
 
 |     | default | demo | minimal | remote | empty | preview | ambient |
 | --- | --- | --- | --- | --- | --- | --- | --- |
