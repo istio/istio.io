@@ -12,7 +12,7 @@ number_of_entries: 9
 ---
 <p>WasmPlugins provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
-<p>Order of execution (as part of Envoy&rsquo;s filter chain) is determined by
+<p>The order of execution (as part of Envoy&rsquo;s filter chain) is determined by
 phase and priority settings, allowing the configuration of complex
 interactions between user-supplied WasmPlugins and Istio&rsquo;s internal
 filters.</p>
@@ -171,7 +171,7 @@ spec:
 
 <h2 id="WasmPlugin">WasmPlugin</h2>
 <section>
-<p>WasmPlugins provides a mechanism to extend the functionality provided by
+<p>WasmPlugin provides a mechanism to extend the functionality provided by
 the Istio proxy through WebAssembly filters.</p>
 
 <table class="message-fields">
@@ -676,7 +676,7 @@ this plugin. Note that the change includes <code>metadata</code> field as well.<
 <tr id="EnvValueSource-HOST">
 <td><code><a href="#EnvValueSource-HOST">HOST</a></code></td>
 <td>
-<p><em>Istio-proxy&rsquo;s</em> environment variables exposed to this VM.</p>
+<p>Proxy environment variables exposed to this VM.</p>
 
 </td>
 </tr>

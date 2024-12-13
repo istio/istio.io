@@ -10,17 +10,13 @@ schema: istio.security.v1beta1.RequestAuthentication
 aliases: [/docs/reference/config/security/v1beta1/request_authentication, /docs/reference/config/security/v1beta1/jwt, /docs/reference/config/security/v1beta1/jwt.html]
 number_of_entries: 4
 ---
-<h2 id="RequestAuthentication">RequestAuthentication</h2>
-<section>
 <p>RequestAuthentication defines what request authentication methods are supported by a workload.
 It will reject a request if the request contains invalid authentication information, based on the
 configured authentication rules. A request that does not contain any authentication credentials
 will be accepted but will not have any authenticated identity. To restrict access to authenticated
 requests only, this should be accompanied by an authorization rule.
 Examples:</p>
-<ul>
-<li>Require JWT for all request for workloads that have label <code>app:httpbin</code></li>
-</ul>
+<p>Require JWT for all request for workloads that have label <code>app:httpbin</code>:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -48,11 +44,9 @@ spec:
     - source:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
-<ul>
-<li>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
+<p>A policy in the root namespace (&ldquo;istio-system&rdquo; by default) applies to workloads in all namespaces
 in a mesh. The following policy makes all workloads only accept requests that contain a
-valid JWT token.</li>
-</ul>
+valid JWT token:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -74,11 +68,9 @@ spec:
     - source:
         requestPrincipals: [&quot;*&quot;]
 </code></pre>
-<ul>
-<li>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
+<p>The next example shows how to set a different JWT requirement for a different <code>host</code>. The <code>RequestAuthentication</code>
 declares it can accept JWTs issued by either <code>issuer-foo</code> or <code>issuer-bar</code> (the public key set is implicitly
-set from the OpenID Connect spec).</li>
-</ul>
+set from the OpenID Connect spec):</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: RequestAuthentication
 metadata:
@@ -115,11 +107,9 @@ spec:
     - operation:
         hosts: [&quot;another-host.com&quot;]
 </code></pre>
-<ul>
-<li>You can fine tune the authorization policy to set different requirement per path. For example,
+<p>You can fine-tune the authorization policy to set different requirement per path. For example,
 to require JWT on all paths, except /healthz, the same <code>RequestAuthentication</code> can be used, but the
-authorization policy could be:</li>
-</ul>
+authorization policy could be:</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -204,6 +194,9 @@ spec:
         host: foo.prod.svc.cluster.local
         subset: v1
 </code></pre>
+
+<h2 id="RequestAuthentication">RequestAuthentication</h2>
+<section>
 
 <table class="message-fields">
 <thead>

@@ -10,8 +10,6 @@ schema: istio.security.v1beta1.PeerAuthentication
 aliases: [/docs/reference/config/security/v1beta1/peer_authentication]
 number_of_entries: 3
 ---
-<h2 id="PeerAuthentication">PeerAuthentication</h2>
-<section>
 <p>PeerAuthentication defines mutual TLS (mTLS) requirements for incoming connections.</p>
 <p>In sidecar mode, PeerAuthentication determines whether or not mTLS is allowed or required
 for connections to an Envoy proxy sidecar.</p>
@@ -89,6 +87,9 @@ spec:
     8080:
       mode: DISABLE
 </code></pre>
+
+<h2 id="PeerAuthentication">PeerAuthentication</h2>
+<section>
 
 <table class="message-fields">
 <thead>
