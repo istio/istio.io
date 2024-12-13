@@ -123,9 +123,9 @@ instead of &ldquo;reviews.default.svc.cluster.local&rdquo;), Istio will interpre
 the short name based on the namespace of the rule, not the service. A
 rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
 interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;, irrespective of
-the actual namespace associated with the reviews service. <em>To avoid
+the actual namespace associated with the reviews service. To avoid
 potential misconfigurations, it is recommended to always use fully
-qualified domain names over short names.</em></p>
+qualified domain names over short names.</p>
 <p>Note that the host field applies to both HTTP and TCP services.</p>
 
 </td>
@@ -454,7 +454,7 @@ No
 <td><code><a href="#LoadBalancerSettings-locality_lb_setting">localityLbSetting</a></code></td>
 <td><code><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></code></td>
 <td>
-<p>Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed
+<p>Locality load balancer settings, this will override mesh-wide settings in entirety, meaning no merging would be performed
 between this object and the object one in MeshConfig</p>
 
 </td>
@@ -655,7 +655,7 @@ spec:
 <td><code>bool</code></td>
 <td>
 <p>Determines whether to distinguish local origin failures from external errors. If set to true
-consecutive_local_origin_failure is taken into account for outlier detection calculations.
+<code>consecutiveLocalOriginFailures</code> is taken into account for outlier detection calculations.
 This should be used when you want to derive the outlier detection status based on the errors
 seen locally such as failure to connect, timeout while connecting etc. rather than the status code
 returned by upstream service. This is especially useful when the upstream service explicitly returns
@@ -673,7 +673,7 @@ No
 <td><code><a href="#google-protobuf-UInt32Value">UInt32Value</a></code></td>
 <td>
 <p>The number of consecutive locally originated failures before ejection
-occurs. Defaults to 5. Parameter takes effect only when split_external_local_origin_errors
+occurs. Defaults to 5. Parameter takes effect only when <code>splitExternalLocalOriginErrors</code>
 is set to true.</p>
 
 </td>
@@ -691,11 +691,11 @@ code qualifies as a gateway error. When the upstream host is accessed over
 an opaque TCP connection, connect timeouts and connection error/failure
 events qualify as a gateway error.
 This feature is disabled by default or when set to the value 0.</p>
-<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
+<p>Note that <code>consecutiveGatewayErrors</code> and <code>consecutive5xxErrors</code> can be
 used separately or together. Because the errors counted by
-consecutive_gateway_errors are also included in consecutive_5xx_errors,
-if the value of consecutive_gateway_errors is greater than or equal to
-the value of consecutive_5xx_errors, consecutive_gateway_errors will have
+<code>consecutiveGatewayErrors</code> are also included in <code>consecutive5xxErrors</code>,
+if the value of <code>consecutiveGatewayErrors</code> is greater than or equal to
+the value of <code>consecutive5xxErrors</code>, <code>consecutiveGatewayErrors</code> will have
 no effect.</p>
 
 </td>
@@ -712,11 +712,11 @@ When the upstream host is accessed over an opaque TCP connection, connect
 timeouts, connection error/failure and request failure events qualify as a
 5xx error.
 This feature defaults to 5 but can be disabled by setting the value to 0.</p>
-<p>Note that consecutive_gateway_errors and consecutive_5xx_errors can be
+<p>Note that <code>consecutiveGatewayErrors</code> and <code>consecutive5xxErrors</code> can be
 used separately or together. Because the errors counted by
-consecutive_gateway_errors are also included in consecutive_5xx_errors,
-if the value of consecutive_gateway_errors is greater than or equal to
-the value of consecutive_5xx_errors, consecutive_gateway_errors will have
+<code>consecutiveGatewayErrors</code> are also included in <code>consecutive5xxErrors</code>,
+if the value of <code>consecutiveGatewayErrors</code> is greater than or equal to
+the value of <code>consecutive5xxErrors</code>, <code>consecutiveGatewayErrors</code> will have
 no effect.</p>
 
 </td>
@@ -729,7 +729,7 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>Time interval between ejection sweep analysis. format:
-1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
+1h/1m/1s/1ms. MUST be &gt;=1ms. Default is 10s.</p>
 
 </td>
 <td>
@@ -744,7 +744,7 @@ No
 equal to the product of minimum ejection duration and the number of
 times the host has been ejected. This technique allows the system to
 automatically increase the ejection period for unhealthy upstream
-servers. format: 1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 30s.</p>
+servers. format: 1h/1m/1s/1ms. MUST be &gt;=1ms. Default is 30s.</p>
 
 </td>
 <td>
@@ -768,7 +768,7 @@ No
 <td><code>int32</code></td>
 <td>
 <p>Outlier detection will be enabled as long as the associated load balancing
-pool has at least min_health_percent hosts in healthy mode. When the
+pool has at least <code>minHealthPercent</code> hosts in healthy mode. When the
 percentage of healthy hosts in the load balancing pool drops below this
 threshold, outlier detection will be disabled and the proxy will load balance
 across all hosts in the pool (healthy and unhealthy). The threshold can be
@@ -926,8 +926,8 @@ No
 <p>A list of alternate names to verify the subject identity in the
 certificate. If specified, the proxy will verify that the server
 certificate&rsquo;s subject alt name matches one of the specified values.
-If specified, this list overrides the value of subject_alt_names
-from the ServiceEntry. If unspecified, automatic validation of upstream
+If specified, this list overrides the value of <code>subjectAltNames</code>
+from the <code>ServiceEntry</code>. If unspecified, automatic validation of upstream
 presented certificate for new upstream connections will be done based on the
 downstream HTTP host/authority header.</p>
 
@@ -990,13 +990,13 @@ specified using arbitrary labels that designate a hierarchy of localities in
 {region}/{zone}/{sub-zone} form. For additional detail refer to
 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality Weight</a>
 The following example shows how to setup locality weights mesh-wide.</p>
-<p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/<em>&rdquo;
-and &ldquo;us-west/zone2/</em>&rdquo;. This example specifies that when traffic accessing a
-service originates from workloads in &ldquo;us-west/zone1/<em>&rdquo;, 80% of the traffic
-will be sent to endpoints in &ldquo;us-west/zone1/</em>&rdquo;, i.e the same zone, and the
-remaining 20% will go to endpoints in &ldquo;us-west/zone2/<em>&rdquo;. This setup is
+<p>Given a mesh with workloads and their service deployed to &ldquo;us-west/zone1/*&rdquo;
+and &ldquo;us-west/zone2/*&rdquo;. This example specifies that when traffic accessing a
+service originates from workloads in &ldquo;us-west/zone1/*&rdquo;, 80% of the traffic
+will be sent to endpoints in &ldquo;us-west/zone1/*&rdquo;, i.e the same zone, and the
+remaining 20% will go to endpoints in &ldquo;us-west/zone2/*&rdquo;. This setup is
 intended to favor routing traffic to endpoints in the same locality.
-A similar setting is specified for traffic originating in &ldquo;us-west/zone2/</em>&rdquo;.</p>
+A similar setting is specified for traffic originating in &ldquo;us-west/zone2/*&rdquo;.</p>
 <pre><code class="language-yaml">  distribute:
     - from: us-west/zone1/*
       to:
@@ -1022,7 +1022,6 @@ and similarly us-west should failover to us-east.</p>
    - from: us-west
      to: us-east
 </code></pre>
-<p>Locality load balancing settings.</p>
 
 <table class="message-fields">
 <thead>
@@ -1138,8 +1137,8 @@ No
 <td><code><a href="#LocalityLoadBalancerSetting-enabled">enabled</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></code></td>
 <td>
-<p>enable locality load balancing, this is DestinationRule-level and will override mesh wide settings in entirety.
-e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh wide settings is.</p>
+<p>Enable locality load balancing. This is DestinationRule-level and will override mesh-wide settings in entirety.
+e.g. true means that turn on locality load balancing for this DestinationRule no matter what mesh-wide settings is.</p>
 
 </td>
 <td>
@@ -1239,11 +1238,13 @@ No
 <td><code>string</code></td>
 <td>
 <p>Specifies which protocol to use for tunneling the downstream connection.
-Supported protocols are:
-CONNECT - uses HTTP CONNECT;
-POST - uses HTTP POST.
-CONNECT is used by default if not specified.
-HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
+Supported protocols are:</p>
+<ul>
+<li>CONNECT - uses HTTP CONNECT;</li>
+<li>POST - uses HTTP POST.</li>
+</ul>
+<p>CONNECT is used by default if not specified.</p>
+<p>HTTP version for upstream requests is determined by the service protocol defined for the proxy.</p>
 
 </td>
 <td>
@@ -1554,7 +1555,7 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>TCP connection timeout. format:
-1h/1m/1s/1ms. MUST BE &gt;=1ms. Default is 10s.</p>
+1h/1m/1s/1ms. MUST be &gt;=1ms. Default is 10s.</p>
 
 </td>
 <td>
@@ -1577,7 +1578,7 @@ No
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
 <p>The maximum duration of a connection. The duration is defined as the period since a connection
-was established. If not set, there is no max duration. When max_connection_duration
+was established. If not set, there is no max duration. When <code>maxConnectionDuration</code>
 is reached the connection will be closed. Duration must be at least 1ms.</p>
 
 </td>
@@ -1705,7 +1706,7 @@ No
 <td><code>bool</code></td>
 <td>
 <p>If set to true, client protocol will be preserved while initiating connection to backend.
-Note that when this is set to true, h2_upgrade_policy will be ineffective i.e. the client
+Note that when this is set to true, <code>h2UpgradePolicy</code> will be ineffective i.e. the client
 connections will not be upgraded to http2.</p>
 
 </td>

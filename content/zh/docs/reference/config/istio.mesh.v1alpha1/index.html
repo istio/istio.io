@@ -64,7 +64,7 @@ No
 <td><code><a href="#MeshConfig-connect_timeout">connectTimeout</a></code></td>
 <td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
 <td>
-<p>Connection timeout used by Envoy. (MUST BE &gt;=1ms)
+<p>Connection timeout used by Envoy. (MUST be &gt;=1ms)
 Default timeout is 10s.</p>
 
 </td>
@@ -786,7 +786,7 @@ No
 <td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tlsSettings to specify the tls mode to use. If the MCP server
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+uses Istio mutual TLS and shares the root CA with istiod, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -3089,7 +3089,7 @@ No
 <td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the tlsSettings to specify the tls mode to use. If the remote tracing service
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+uses Istio mutual TLS and shares the root CA with istiod, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -3183,7 +3183,7 @@ No
 <h2 id="PrivateKeyProvider">PrivateKeyProvider</h2>
 <section>
 <p>PrivateKeyProvider defines private key configuration for gateways and sidecars. This can be configured
-mesh wide or individual per-workload basis.</p>
+mesh-wide or individual per-workload basis.</p>
 
 <table class="message-fields">
 <thead>
@@ -3224,7 +3224,7 @@ No
 <section>
 <p>ProxyConfig defines variables for individual Envoy instances. This can be configured on a per-workload basis
 as well as by the mesh-wide defaults.
-To set the mesh wide defaults, configure the <code>defaultConfig</code> section of <code>meshConfig</code>. For example:</p>
+To set the mesh-wide defaults, configure the <code>defaultConfig</code> section of <code>meshConfig</code>. For example:</p>
 <pre><code>meshConfig:
   defaultConfig:
     discoveryAddress: istiod:15012
@@ -3372,7 +3372,7 @@ No
 <td><code>string</code></td>
 <td>
 <p>File path of custom proxy configuration, currently used by proxies
-in front of Mixer and Pilot.</p>
+in front of istiod.</p>
 
 </td>
 <td>
@@ -3668,7 +3668,9 @@ Note: currently all headers are enabled by default.</p>
 <pre><code class="language-yaml">proxyHeaders:
   server:
     value: &quot;my-custom-server&quot;
-  requestId: {} // Explicitly enable Request IDs. As this is the default, this has no effect.
+  # Explicitly enable Request IDs.
+  # As this is the default, this has no effect.
+  requestId: {}
   attemptCount:
     disabled: true
 </code></pre>
@@ -3741,7 +3743,7 @@ No
 <td><code><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></code></td>
 <td>
 <p>Use the <code>tlsSettings</code> to specify the tls mode to use. If the remote service
-uses Istio mutual TLS and shares the root CA with Pilot, specify the TLS
+uses Istio mutual TLS and shares the root CA with istiod, specify the TLS
 mode as <code>ISTIO_MUTUAL</code>.</p>
 
 </td>
@@ -4546,7 +4548,7 @@ use mTLS.</p>
 <td><code><a href="#Network-IstioNetworkGateway-registry_service_name">registryServiceName</a></code></td>
 <td><code>string (oneof)</code></td>
 <td>
-<p>A fully qualified domain name of the gateway service.  Pilot will
+<p>A fully qualified domain name of the gateway service.  istiod will
 lookup the service from the service registries in the network and
 obtain the endpoint IPs of the gateway from the service
 registry. Note that while the service name is a fully qualified
