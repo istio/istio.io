@@ -148,8 +148,9 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 ### 从非 Helm 安装迁移 {#migrating-from-non-helm-installations}
 
 如果你要从使用 `istioctl` 安装的 Istio 版本迁移到 Helm（Istio 1.5 或更早版本），
-则需要删除当前的 Istio 控制平面资源，并根据上面的说明，使用 Helm 重新安装 Istio。
-在删除当前 Istio 时，千万不能删掉 Istio 的自定义资源定义（CRD），以免丢掉您的自定义 Istio 资源。
+则需要删除当前的 Istio 控制平面资源，并根据上面的说明，
+使用 Helm 重新安装 Istio。在删除当前 Istio 时，
+千万不能删掉 Istio 的自定义资源定义（CRD），以免丢掉您的自定义 Istio 资源。
 
 {{< warning >}}
 建议：从集群中删除 Istio 前，使用上面的说明备份您的 Istio 资源。
@@ -216,3 +217,46 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 {{< text syntax=bash snip_id=delete_crds >}}
 $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 {{< /text >}}
+
+## 安装前生成清单 {#generate-a-manifest-before-installation}
+
+您可以在安装 Istio 之前使用 `helm template` 子命令为每个组件生成清单。
+例如，要为 `istiod` 组件生成可以使用 `kubectl` 安装的清单：
+
+{{< text syntax=bash snip_id=none >}}
+$ helm template istiod istio/istiod -n istio-system --kube-version {Kubernetes version of target cluster} > istiod.yaml
+{{< /text >}}
+
+生成的清单可用于检查具体安装了什么以及跟踪清单随时间的变化。
+
+{{< tip >}}
+您通常用于安装的任何其他标志或自定义值覆盖也应提供给 `helm template` 命令。
+{{< /tip >}}
+
+要安装上面生成的清单，它将在目标集群中创建 `istiod` 组件：
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl apply -f istiod.yaml
+{{< /text >}}
+
+{{< warning >}}
+如果尝试使用 `helm template` 安装和管理 Istio，请注意以下注意事项：
+
+1. 必须手动创建 Istio 命名空间（默认为 `istio-system`）。
+
+1. 资源可能未按照与 `helm install` 相同的依赖顺序进行安装
+
+1. 此方法尚未作为 Istio 版本的一部分进行测试。
+
+1. 虽然 `helm install` 会自动从 Kubernetes 上下文中检测特定于环境的设置，
+   但 `helm template` 无法做到这一点，因为它是离线运行的，
+   这可能会导致意外结果。特别是，如果您的 Kubernetes 环境不支持第三方服务帐户令牌，
+   您必须确保遵循[这些步骤](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)。
+
+1. 由于集群中的资源没有按正确的顺序可用，生成的清单的 `kubectl apply` 可能会显示瞬态错误。
+
+1. `helm install` 会自动修剪配置更改时应删除的任何资源（例如，如果您删除网关）。
+   当您将 `helm template` 与 `kubectl` 一起使用时，
+   不会发生这种情况，必须手动删除这些资源。
+
+{{< /warning >}}
