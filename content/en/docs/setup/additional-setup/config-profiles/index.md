@@ -26,7 +26,7 @@ There are 2 kinds of configuration profiles: _deployment_ profiles and _platform
 - _deployment_ profiles are intended to provide good defaults for a given deployment topology (`default`, `remote`, `ambient`, etc).
 - _platform_ profiles are intended to provide necessary platform-specific defaults, for a given target platform (`eks`, `gke`, `openshift`, etc).
 
-For example, if you are installing `default` sidecar dataplane on `gke`, we recommend using the following deployment and platform profiles to get started:
+For example, if you are installing `default` sidecar dataplane on GKE, we recommend using the following deployment and platform profiles to get started:
 
 {{< tabset category-name="install-method" >}}
 
