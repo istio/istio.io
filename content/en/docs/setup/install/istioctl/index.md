@@ -110,20 +110,17 @@ $ istioctl install --set profile=demo
 
 You can generate the manifest before installing Istio using the `manifest generate`
 sub-command.
-For example, use the following command to generate a manifest for the `default` profile:
+For example, use the following command to generate a manifest for the `default` profile that can be installed with `kubectl`:
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest
-over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it,
-the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be
-used to track the actual installed resources.
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it, the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be used to track the actual installed resources.
 
-The output from `manifest generate` can also be used to install Istio using `kubectl apply` or equivalent. However,
-these alternative installation methods may not apply the resources with the same sequencing of dependencies as
-`istioctl install` and are not tested in an Istio release.
+{{< tip >}}
+Any additional flags or custom values overrides you would normally use for installation should also be supplied to the `istioctl manifest generate` command.
+{{< /tip >}}
 
 {{< warning >}}
 If attempting to install and manage Istio using `istioctl manifest generate`, please note the following caveats:
@@ -137,10 +134,15 @@ not create the `istiod-default-validator` validating webhook configuration unles
     $ istioctl manifest generate --set values.defaultRevision=default
     {{< /text >}}
 
+1. Resources may not be installed with the same sequencing of dependencies as
+`istioctl install`.
+
+1. This method is not tested as part of Istio releases.
+
 1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
 `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
 that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
-Kubernetes environment does not support third party service account tokens.
+Kubernetes environment does not support third party service account tokens. It is recommended to append `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment, which will embed those cluster-specific environment settings into the generated manifests. This requires network access to your running cluster.
 
 1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
 cluster in the correct order.
@@ -150,38 +152,6 @@ if you remove a gateway). This does not happen when you use `istio manifest gene
 resources must be removed manually.
 
 {{< /warning >}}
-
-## Show differences in manifests
-
-You can show the differences in the generated manifests in a YAML style diff between the default profile and a
-customized install using these commands:
-
-{{< text bash >}}
-$ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yaml 2.yaml
-Differences in manifests are:
-
-
-Object Deployment:istio-system:istiod has diffs:
-
-spec:
-  template:
-    spec:
-      containers:
-        '[#0]':
-          resources:
-            requests:
-              cpu: 500m -> 1000m
-              memory: 2048Mi -> 4096Mi
-
-
-Object HorizontalPodAutoscaler:istio-system:istiod has diffs:
-
-spec:
-  maxReplicas: 5 -> 10
-  minReplicas: 1 -> 2
-{{< /text >}}
 
 ## Verify a successful installation
 
