@@ -103,7 +103,7 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer-ztunnel
+  name: productpage-ztunnel
   namespace: default
 spec:
   selector:
