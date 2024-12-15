@@ -280,14 +280,6 @@ features:
       maturity: Experimental
       nextExpectedPromotion: ""
     area: Security and policy enforcement
-  - name: "In-Cluster Operator"
-    id: "core.in_cluster_operator"
-    link: ""
-    level:
-      checklist: ""
-      maturity: Deprecated
-      nextExpectedPromotion: ""
-    area: Core
   - name: "Kubernetes: Envoy Installation and Traffic Interception"
     id: "core.envoy_installation"
     link: "/docs/setup/"
@@ -407,58 +399,82 @@ features:
       maturity: Stable
       nextExpectedPromotion: ""
 
-  # Ambient
-  - name: "Ztunnel Core"
+  # Ambient mode
+  - name: "ztunnel: Core"
     id: "ambient.ztunnel"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Waypoints Core"
+      maturity: Stable
+    area: Ambient mode
+  - name: "Waypoints: Core"
     id: "ambient.waypoints"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Authorization Policies"
-    id: "ambient.authz"
+      maturity: Stable
+    area: Ambient mode
+  - name: "Waypoints: Gateway API Stable Channel (`HTTPRoute`, `GRPCRoute`)"
+    id: "ambient.gateway_stable"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Gateway API (HTTPRoute)"
-    id: "ambient.httproute"
+      maturity: Stable 
+    area: Ambient mode
+  - name: "Waypoints: Gateway API Experimental Channel (`TLSRoute`, `TCPRoute`)"
+    id: "ambient.gateway_experimental"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Sidecar Interop"
-    id: "ambient.sidecar_interoperability"
+      maturity: Alpha 
+    area: Ambient mode
+  - name: "Waypoints: `DestinationRule`"
+    id: "ambient.destinationrule"
+    level:
+      checklist: features/ambient.md
+      maturity: Stable
+    area: Ambient mode
+  - name: "Waypoints: `VirtualService`"
+    id: "ambient.destinationrule"
     level:
       checklist: features/ambient.md
       maturity: Alpha
-    area: Ambient
+    area: Ambient mode
+  - name: "Waypoints: Cross-namespace usage"
+    id: "ambient.cross_namespace_waypoints"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient mode  
+  - name: "Waypoints: WebAssembly extensibility (`WasmPlugin`)"
+    id: "ambient.waypoint_wasm"
+    level:
+      checklist: features/ambient.md
+      maturity: Alpha
+    area: Ambient mode  
+  - name: "`AuthorizationPolicy`"
+    id: "ambient.authz"
+    level:
+      checklist: features/ambient.md
+      maturity: Stable
+    area: Ambient mode
+  - name: "`PeerAuthentication`"
+    id: "ambient.peer_authentication"
+    level:
+      checklist: features/ambient.md
+      maturity: Stable
+    area: Ambient mode
+  - name: "`RequestAuthentication`"
+    id: "ambient.request_authentication"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient mode  
   - name: "DNS Proxying"
     id: "ambient.dns_proxying"
     level:
       checklist: features/ambient.md
-      maturity: Alpha
-    area: Ambient
-  - name: "Multi-cluster"
-    id: "ambient.multi_cluster"  
-    level:
-      checklist: features/ambient.md
-      maturity: Alpha
-    area: Ambient
-  - name: "Multi-network"
-    id: "ambient.multi_network"
-    level:
-      checklist: features/ambient.md
-      maturity: Experimental
-    area: Ambient
+      maturity: Beta
+    area: Ambient mode
   - name: "Dual Stack, IPv6"
     id: "ambient.dual_stack"
     level:
       checklist: features/ambient.md
-      maturity: Experimental
-    area: Ambient
+      maturity: Beta
+    area: Ambient mode
