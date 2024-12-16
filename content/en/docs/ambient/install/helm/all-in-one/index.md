@@ -28,7 +28,6 @@ We encourage the use of Helm to install Istio for production use in ambient mode
     $ helm repo update
     {{< /text >}}
 
-
 <!-- ### Base components -->
 
 <!-- The `base` chart contains the basic CRDs and cluster roles required to set up Istio. -->
@@ -49,7 +48,7 @@ ambient, using a Helm wrapper chart that composes the individual component chart
 
 {{< warning >}}
 Note that if you install everything as part of this wrapper chart, you can only upgrade or uninstall
-ambient via this wrapper chart - you cannot upgrade or uninstall subcomponents individually.
+ambient via this wrapper chart - you cannot upgrade or uninstall sub-components individually.
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=install_ambient_aio >}}
@@ -89,18 +88,18 @@ the components individually, by prefixing the value path with the name of the co
 Example:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istiod istio/istiod --set hub=gcr.io/istio-testing 
+$ helm install istiod istio/istiod --set hub=gcr.io/istio-testing
 {{< /text >}}
 
 Becomes:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install ambient istio/ambient --set istiod.hub=gcr.io/istio-testing 
+$ helm install istio-ambient istio/ambient --set istiod.hub=gcr.io/istio-testing
 {{< /text >}}
 
 when set via the wrapper chart.
 
-To view supported configuration options and documentation for each subcomponent, run:
+To view supported configuration options and documentation for each sub-component, run:
 
 {{< text syntax=bash >}}
 $ helm show values istio/istiod
@@ -119,10 +118,7 @@ After installing all the components, you can check the Helm deployment status wi
 {{< text syntax=bash snip_id=show_components >}}
 $ helm ls -n istio-system
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-{{< istio_full_version >}}     {{< istio_full_version >}}
-istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-{{< istio_full_version >}}      {{< istio_full_version >}}
-istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-{{< istio_full_version >}}   {{< istio_full_version >}}
-ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-{{< istio_full_version >}}  {{< istio_full_version >}}
+ambient      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ambient-{{< istio_full_version >}}     {{< istio_full_version >}}
 {{< /text >}}
 
 You can check the status of the deployed pods with:
@@ -142,10 +138,11 @@ After installing ambient mode with Helm, you can follow the [Deploy the sample a
 
 ## Uninstall
 
-You can uninstall Istio and its components by uninstalling the charts
+You can uninstall Istio and its components by uninstalling the chart
 installed above.
 
-1. 
+1. Uninstall all Istio components
+
     {{< text syntax=bash snip_id=delete_ambient_aio >}}
     $ helm delete ambient -n istio-system
     {{< /text >}}

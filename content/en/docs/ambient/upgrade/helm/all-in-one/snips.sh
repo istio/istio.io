@@ -34,5 +34,5 @@ helm repo update istio
 }
 
 snip_upgrade_ambient_aio() {
-helm upgrade ambient istio/ambient -n istio-system --wait
+helm upgrade istio-ambient istio/ambient -n istio-system --wait
 }

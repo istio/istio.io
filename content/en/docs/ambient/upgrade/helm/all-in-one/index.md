@@ -11,7 +11,7 @@ Follow this guide to upgrade and configure an ambient mode installation using
 [Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm and the ambient wrapper chart](/docs/ambient/install/helm/all-in-one) with a previous version of Istio.
 
 {{< warning >}}
-Note that these upgrade instructions only apply if you are upgrading Helm installation created using the 
+Note that these upgrade instructions only apply if you are upgrading Helm installation created using the
 ambient wrapper chart, if you installed via individual Helm component charts, see [the relevant upgrade docs](docs/ambient/upgrade/helm)
 {{< /warning >}}
 
@@ -19,7 +19,7 @@ ambient wrapper chart, if you installed via individual Helm component charts, se
 
 {{< warning >}}
 Note that if you install everything as part of this wrapper chart, you can only upgrade or uninstall
-ambient via this wrapper chart - you cannot upgrade or uninstall subcomponents individually.
+ambient via this wrapper chart - you cannot upgrade or uninstall sub-components individually.
 {{< /warning >}}
 
 ## Prerequisites
@@ -54,7 +54,7 @@ ambient, using a Helm wrapper chart that composes the individual component chart
 If you have customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep settings consistent.
 
 {{< text syntax=bash snip_id=upgrade_ambient_aio >}}
-$ helm upgrade ambient istio/ambient -n istio-system --wait
+$ helm upgrade istio-ambient istio/ambient -n istio-system --wait
 {{< /text >}}
 
 ### Upgrade manually deployed gateway chart (optional)
