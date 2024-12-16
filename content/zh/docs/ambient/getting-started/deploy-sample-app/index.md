@@ -6,7 +6,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-为了探索 Istio，您需要安装示例 [Bookinfo 应用程序](/zh/docs/examples/bookinfo/)，
+为了探索 Istio，您需要安装示例
+[Bookinfo 应用程序](/zh/docs/examples/bookinfo/)，
 它由四个独立的微服务组成，用于演示各种 Istio 功能。
 
 {{< image width="50%" link="./bookinfo.svg" caption="Istio 的 Bookinfo 示例应用程序以多种不同的语言编写" >}}
@@ -18,8 +19,8 @@ test: yes
 首先部署应用程序：
 
 {{< text bash >}}
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 {{< /text >}}
 
 要验证应用程序是否正在运行，请检查 Pod 的状态：
@@ -42,7 +43,7 @@ reviews-v3-7d99fd7978-dm6mx      1/1     Running   0          42s
 您将使用 Kubernetes Gateway API 部署一个名为 `bookinfo-gateway` 的网关：
 
 {{< text syntax=bash snip_id=deploy_bookinfo_gateway >}}
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
 {{< /text >}}
 
 在默认情况下，Istio 会为网关创建一个 `LoadBalancer` 服务。
