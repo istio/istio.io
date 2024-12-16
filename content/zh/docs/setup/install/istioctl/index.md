@@ -100,20 +100,22 @@ $ istioctl install --set profile=demo
 
 ## 安装前生成清单文件 {#generate-a-manifest-before-installation}
 
-在安装 Istio 之前，可以用 `manifest generate` 子命令生成清单文件。
-例如，用下面命令生成 `default` 配置档的清单文件：
+在安装 Istio 之前，可以用 `manifest generate`
+子命令生成清单文件。例如，使用以下命令为可以使用 `kubectl`
+安装的 `default` 配置文件生成清单：
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-生成的清单文件可用于检查具体安装了什么，也可用于跟踪清单是如何随着时间而改变的。
-虽然 `IstioOperator` CR 代表完整的用户配置，足以用于跟踪，
-但 `manifest generate` 命令的输出还能截获底层 chart 潜在的改变，因此可以用于跟踪实际安装过的资源。
+生成的清单可用于检查具体安装了什么以及跟踪清单随时间的变化。
+虽然 `IstioOperator` CR 代表完整的用户配置并且足以跟踪它，
+但 `manifest generate` 的输出还捕获了底层图表中可能的变化，
+因此可用于跟踪实际安装的资源。
 
-`manifest generate` 的输出还能传递给 `kubectl apply` 或类似的命令，用来安装 Istio。
-然而，这些替代的安装方法不能像 `istioctl install` 那样，将相同的依赖顺序应用于资源，
-并且也没有在 Istio 发行版中测试过。
+{{< tip >}}
+您通常用于安装的任何其他标志或自定义值覆盖也应提供给 `istioctl manifest generate` 命令。
+{{< /tip >}}
 
 {{< warning >}}
 如果尝试使用 `istioctl manifest generate` 安装和管理 Istio，请注意以下事项：
@@ -127,47 +129,25 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
     $ istioctl manifest generate --set values.defaultRevision=default
     {{< /text >}}
 
+1. 资源可能没有按照与 `istioctl install` 相同的依赖项顺序进行安装。
+
+1. 此方法尚未作为 Istio 版本的一部分进行测试。
+
 1. `istioctl install` 会在 Kubernetes 上下文中自动探测环境特定的设置，
    但以离线运行的 `manifest generate` 不行，而且可能导致意外结果。
-   特别是，如果 Kubernetes 环境不支持第三方服务帐户令牌，则必须确保遵循[这些步骤](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)。
+   特别是，如果 Kubernetes 环境不支持第三方服务帐户令牌，
+   则必须确保遵循[这些步骤](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)。
+   建议在 `istio manifest generate` 命令后附加'`--cluster-specific` 以检测目标集群的环境，
+   这会将这些特定于集群的环境设置嵌入到生成的清单中。这需要对正在运行的集群进行网络访问。
 
-1. 用 `kubectl apply` 执行生成的清单，会显示临时错误，这是因为集群中的资源进入可用状态的顺序有问题。
+1. 用 `kubectl apply` 执行生成的清单，会显示临时错误，
+   这是因为集群中的资源进入可用状态的顺序有问题。
 
 1. `istioctl install` 自动清除一些资源，其实这些资源在配置改变时（例如，当您删除网关）就应该被删掉了。
-   但此机制在 `kubectl` 和 `istio manifest generate` 协同使用时并不会发生，所以这些资源必须手动删除。
+   但此机制在 `kubectl` 和 `istio manifest generate`
+   协同使用时并不会发生，所以这些资源必须手动删除。
 
 {{< /warning >}}
-
-## 显示清单的差异 {#show-differences-in-manifests}
-
-使用这一组命令，以 YAML 风格的差异对比方式，显示 default 配置项和定制安装生成的两个清单之间的差异：
-
-{{< text bash >}}
-$ istioctl manifest generate > 1.yaml
-$ istioctl manifest generate -f samples/operator/pilot-k8s.yaml > 2.yaml
-$ istioctl manifest diff 1.yaml 2.yaml
-Differences in manifests are:
-
-
-Object Deployment:istio-system:istiod has diffs:
-
-spec:
-  template:
-    spec:
-      containers:
-        '[#0]':
-          resources:
-            requests:
-              cpu: 500m -> 1000m
-              memory: 2048Mi -> 4096Mi
-
-
-Object HorizontalPodAutoscaler:istio-system:istiod has diffs:
-
-spec:
-  maxReplicas: 5 -> 10
-  minReplicas: 1 -> 2
-{{< /text >}}
 
 ## 验证安装是否成功 {#verify-a-successful-installation}
 
