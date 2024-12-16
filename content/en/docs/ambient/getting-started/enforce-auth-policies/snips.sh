@@ -25,7 +25,7 @@ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: productpage-ztunnel
   namespace: default
 spec:
   selector:
@@ -75,7 +75,7 @@ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: productpage-waypoint
   namespace: default
 spec:
   targetRefs:
@@ -94,18 +94,30 @@ spec:
 EOF
 }
 
-snip_enforce_layer_7_authorization_policy_4() {
-# This fails with an RBAC error because you're not using a GET operation
-kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
+snip_update_l4_policy() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-ztunnel
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/bookinfo-gateway-istio
+        - cluster.local/ns/default/sa/waypoint
+EOF
 }
 
-! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_4_out <<\ENDSNIP
-RBAC: access denied
-ENDSNIP
-
 snip_enforce_layer_7_authorization_policy_5() {
-# This fails with an RBAC error because the identity of the reviews-v1 service is not allowed
-kubectl exec deploy/reviews-v1 -- curl -s http://productpage:9080/productpage
+# This fails with an RBAC error because you're not using a GET operation
+kubectl exec deploy/curl -- curl -s "http://productpage:9080/productpage" -X DELETE
 }
 
 ! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_5_out <<\ENDSNIP
@@ -113,10 +125,19 @@ RBAC: access denied
 ENDSNIP
 
 snip_enforce_layer_7_authorization_policy_6() {
+# This fails with an RBAC error because the identity of the reviews-v1 service is not allowed
+kubectl exec deploy/reviews-v1 -- curl -s http://productpage:9080/productpage
+}
+
+! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_6_out <<\ENDSNIP
+RBAC: access denied
+ENDSNIP
+
+snip_enforce_layer_7_authorization_policy_7() {
 # This works as you're explicitly allowing GET requests from the curl pod
 kubectl exec deploy/curl -- curl -s http://productpage:9080/productpage | grep -o "<title>.*</title>"
 }
 
-! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enforce_layer_7_authorization_policy_7_out <<\ENDSNIP
 <title>Simple Bookstore App</title>
 ENDSNIP

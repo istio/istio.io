@@ -20,7 +20,7 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: productpage-ztunnel
   namespace: default
 spec:
   selector:
@@ -40,7 +40,7 @@ If you open the Bookinfo application in your browser (`http://localhost:8080/pro
 Let's try accessing Bookinfo application from a different client in the cluster:
 
 {{< text syntax=bash snip_id=deploy_curl >}}
-$ kubectl apply -f samples/curl/curl.yaml
+$ kubectl apply -f @samples/curl/curl.yaml@
 {{< /text >}}
 
 Since the `curl` pod is using a different service account, it will not have access the `productpage` service:
@@ -75,7 +75,7 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: productpage-waypoint
   namespace: default
 spec:
   targetRefs:
@@ -96,8 +96,31 @@ EOF
 
 Note the `targetRefs` field is used to specify the target service for the authorization policy of a waypoint proxy. The rules section is similar as before, but this time you added the `to` section to specify the operation that is allowed.
 
+Remember that our L4 policy instructed the ztunnel to only allow connections from the gateway? We now need to update it to also allow connections from the waypoint.
+
+{{< text syntax=bash snip_id=update_l4_policy >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-ztunnel
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/bookinfo-gateway-istio
+        - cluster.local/ns/default/sa/waypoint
+EOF
+{{< /text >}}
+
 {{< tip >}}
-To learn about how to enable more Istio's features, read the [Use Layer 7 features user guide](/docs/ambient/usage/l7-features/).
+To learn about how to enable more of Istio's features, read the [Layer 7 features user guide](/docs/ambient/usage/l7-features/).
 {{< /tip >}}
 
 Confirm the new waypoint proxy is enforcing the updated authorization policy:
