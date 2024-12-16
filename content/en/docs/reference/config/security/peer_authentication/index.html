@@ -10,8 +10,6 @@ schema: istio.security.v1beta1.PeerAuthentication
 aliases: [/docs/reference/config/security/v1beta1/peer_authentication]
 number_of_entries: 3
 ---
-<h2 id="PeerAuthentication">PeerAuthentication</h2>
-<section>
 <p>PeerAuthentication defines mutual TLS (mTLS) requirements for incoming connections.</p>
 <p>In sidecar mode, PeerAuthentication determines whether or not mTLS is allowed or required
 for connections to an Envoy proxy sidecar.</p>
@@ -90,19 +88,21 @@ spec:
       mode: DISABLE
 </code></pre>
 
+<h2 id="PeerAuthentication">PeerAuthentication</h2>
+<section>
+
 <table class="message-fields">
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="PeerAuthentication-selector">
-<td><code>selector</code></td>
-<td><code><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-selector">selector</a></code></div>
+<div class="type"><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>The selector determines the workloads to apply the PeerAuthentication on. The selector will match with workloads in the
 same namespace as the policy. If the policy is in the root namespace, the selector will additionally match with workloads in all namespace.</p>
@@ -110,38 +110,31 @@ same namespace as the policy. If the policy is in the root namespace, the select
 to all workloads in the mesh.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="PeerAuthentication-mtls">
-<td><code>mtls</code></td>
-<td><code><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-mtls">mtls</a></code></div>
+<div class="type"><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></div>
+</div></td>
 <td>
 <p>Mutual TLS settings for workload. If not defined, inherit from parent.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="PeerAuthentication-port_level_mtls">
-<td><code>portLevelMtls</code></td>
-<td><code>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code></div>
+<div class="type">map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</div>
+</div></td>
 <td>
 <p>Port specific mutual TLS settings. These only apply when a workload selector
 is specified. The port refers to the port of the workload, not the port of the
 Kubernetes service.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 </tbody>
 </table>
 </section>
-<h2 id="PeerAuthentication-MutualTLS">PeerAuthentication.MutualTLS</h2>
+<h3 id="PeerAuthentication-MutualTLS">MutualTLS</h3>
 <section>
 <p>Mutual TLS settings.</p>
 
@@ -149,27 +142,23 @@ No
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="PeerAuthentication-MutualTLS-mode">
-<td><code>mode</code></td>
-<td><code><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code></div>
+<div class="type"><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></div>
+</div></td>
 <td>
 <p>Defines the mTLS mode used for peer authentication.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 </tbody>
 </table>
 </section>
-<h2 id="PeerAuthentication-MutualTLS-Mode">PeerAuthentication.MutualTLS.Mode</h2>
+<h4 id="PeerAuthentication-MutualTLS-Mode">Mode</h4>
 <section>
 <table class="enum-values">
 <thead>
@@ -180,28 +169,28 @@ No
 </thead>
 <tbody>
 <tr id="PeerAuthentication-MutualTLS-Mode-UNSET">
-<td><code>UNSET</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-UNSET">UNSET</a></code></td>
 <td>
 <p>Inherit from parent, if has one. Otherwise treated as <code>PERMISSIVE</code>.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-MutualTLS-Mode-DISABLE">
-<td><code>DISABLE</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-DISABLE">DISABLE</a></code></td>
 <td>
 <p>Connection is not tunneled.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-MutualTLS-Mode-PERMISSIVE">
-<td><code>PERMISSIVE</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-PERMISSIVE">PERMISSIVE</a></code></td>
 <td>
 <p>Connection can be either plaintext or mTLS tunnel.</p>
 
 </td>
 </tr>
 <tr id="PeerAuthentication-MutualTLS-Mode-STRICT">
-<td><code>STRICT</code></td>
+<td><code><a href="#PeerAuthentication-MutualTLS-Mode-STRICT">STRICT</a></code></td>
 <td>
 <p>Connection is an mTLS tunnel (TLS with client cert must be presented).</p>
 
