@@ -56,12 +56,11 @@ The [full set of Istio traffic metrics](/docs/reference/config/metrics/) are exp
 
 ## Extension
 
-As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, the extension mechanisms that are available for Envoy in {{< gloss "sidecar">}}sidecar mode{{< /gloss >}} are also available to waypoint proxies.
+As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, some of the extension mechanisms that are available for Envoy in {{< gloss "sidecar">}}sidecar mode{{< /gloss >}} are also available to waypoint proxies.
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
 | `WasmPlugin` † | Alpha | `targetRefs` |
-| `EnvoyFilter` | Alpha | `targetRefs` |
 
 † [Read more on how to extend waypoints with WebAssembly plugins](/docs/ambient/usage/extend-waypoint-wasm/).
 
