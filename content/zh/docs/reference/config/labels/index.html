@@ -289,6 +289,29 @@ indicates the type of traffic this waypoint can handle.</p>
     </tr>
   </tbody>
 </table>
+<h2 id="ServiceWorkloadName">service.istio.io/workload-name</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>service.istio.io/workload-name</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod WorkloadEntry]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>The workload name of the application a workload belongs to. If unset, defaults to the detect parent resource.
+For example, a <code>Pod</code> resource may default to the <code>Deployment</code> name.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="SidecarInject">sidecar.istio.io/inject</h2>
 <table class="annotations">
   <tbody>
