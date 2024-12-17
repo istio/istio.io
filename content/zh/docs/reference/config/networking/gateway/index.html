@@ -175,26 +175,23 @@ receiving incoming or outgoing HTTP/TCP connections.</p>
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="Gateway-servers">
-<td><code><a href="#Gateway-servers">servers</a></code></td>
-<td><code><a href="#Server">Server[]</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#Gateway-servers">servers</a></code></div>
+<div class="type"><a href="#Server">Server[]</a></div>
+</div></td>
 <td>
 <p>A list of server specifications.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="Gateway-selector">
-<td><code><a href="#Gateway-selector">selector</a></code></td>
-<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td><div class="field"><div class="name"><code><a href="#Gateway-selector">selector</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
 <td>
 <p>One or more labels that indicate a specific set of pods/VMs
 on which this gateway configuration should be applied.
@@ -209,9 +206,6 @@ resource must reside in the same namespace as the gateway workload
 instance.
 If selector is nil, the Gateway will be applied to all workloads.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 </tbody>
@@ -276,27 +270,25 @@ spec:
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="Server-port">
-<td><code><a href="#Server-port">port</a></code></td>
-<td><code><a href="#Port">Port</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#Server-port">port</a></code></div>
+<div class="type"><a href="#Port">Port</a></div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>The Port on which the proxy should listen for incoming
 connections.</p>
 
 </td>
-<td>
-Yes
-</td>
 </tr>
 <tr id="Server-bind">
-<td><code><a href="#Server-bind">bind</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#Server-bind">bind</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>The ip or the Unix domain socket to which the listener should be bound
 to. Format: <code>x.x.x.x</code> or <code>unix:///path/to/uds</code> or <code>unix://@foobar</code>
@@ -308,13 +300,12 @@ e.g. publishing metrics. In such case, the server created with the
 specified bind will not be available to external gateway clients.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="Server-hosts">
-<td><code><a href="#Server-hosts">hosts</a></code></td>
-<td><code>string[]</code></td>
+<td><div class="field"><div class="name"><code><a href="#Server-hosts">hosts</a></code></div>
+<div class="type">string[]</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>One or more hosts exposed by this gateway.
 While typically applicable to
@@ -344,34 +335,27 @@ available. Refer to the <code>exportTo</code> setting in <code>VirtualService</c
 <code>DestinationRule</code>, and <code>ServiceEntry</code> configurations for details.</p>
 
 </td>
-<td>
-Yes
-</td>
 </tr>
 <tr id="Server-tls">
-<td><code><a href="#Server-tls">tls</a></code></td>
-<td><code><a href="#ServerTLSSettings">ServerTLSSettings</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#Server-tls">tls</a></code></div>
+<div class="type"><a href="#ServerTLSSettings">ServerTLSSettings</a></div>
+</div></td>
 <td>
 <p>Set of TLS related options that govern the server&rsquo;s behavior. Use
 these options to control if all http requests should be redirected to
 https, and the TLS modes to use.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="Server-name">
-<td><code><a href="#Server-name">name</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#Server-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>An optional name of the server, when set must be unique across all servers.
 This will be used for variety of purposes like prefixing stats generated with
 this name etc.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 </tbody>
@@ -385,26 +369,25 @@ No
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="Port-number">
-<td><code><a href="#Port-number">number</a></code></td>
-<td><code>uint32</code></td>
+<td><div class="field"><div class="name"><code><a href="#Port-number">number</a></code></div>
+<div class="type">uint32</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>A valid non-negative integer port number.</p>
 
 </td>
-<td>
-Yes
-</td>
 </tr>
 <tr id="Port-protocol">
-<td><code><a href="#Port-protocol">protocol</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#Port-protocol">protocol</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>The protocol exposed on the port.
 MUST be one of HTTP|HTTPS|GRPC|GRPC-WEB|HTTP2|MONGO|TCP|TLS.
@@ -412,19 +395,15 @@ TLS can be either used to terminate non-HTTP based connections on a specific por
 or to route traffic based on SNI header to the destination without terminating the TLS connection.</p>
 
 </td>
-<td>
-Yes
-</td>
 </tr>
 <tr id="Port-name">
-<td><code><a href="#Port-name">name</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#Port-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
 <td>
 <p>Label assigned to the port.</p>
 
-</td>
-<td>
-Yes
 </td>
 </tr>
 </tbody>
@@ -436,77 +415,66 @@ Yes
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="ServerTLSSettings-https_redirect">
-<td><code><a href="#ServerTLSSettings-https_redirect">httpsRedirect</a></code></td>
-<td><code>bool</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-https_redirect">httpsRedirect</a></code></div>
+<div class="type">bool</div>
+</div></td>
 <td>
 <p>If set to true, the load balancer will send a 301 redirect for
 all http connections, asking the clients to use HTTPS.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-mode">
-<td><code><a href="#ServerTLSSettings-mode">mode</a></code></td>
-<td><code><a href="#ServerTLSSettings-TLSmode">TLSmode</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-mode">mode</a></code></div>
+<div class="type"><a href="#ServerTLSSettings-TLSmode">TLSmode</a></div>
+</div></td>
 <td>
-<p>Optional: Indicates whether connections to this port should be
+<p>Indicates whether connections to this port should be
 secured using TLS. The value of this field determines how TLS is
 enforced.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-server_certificate">
-<td><code><a href="#ServerTLSSettings-server_certificate">serverCertificate</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-server_certificate">serverCertificate</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
 holding the server-side TLS certificate to use.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-private_key">
-<td><code><a href="#ServerTLSSettings-private_key">privateKey</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-private_key">privateKey</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
 holding the server&rsquo;s private key.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-ca_certificates">
-<td><code><a href="#ServerTLSSettings-ca_certificates">caCertificates</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-ca_certificates">caCertificates</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>REQUIRED if mode is <code>MUTUAL</code> or <code>OPTIONAL_MUTUAL</code>. The path to a file
 containing certificate authority certificates to use in verifying a presented
 client side certificate.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-ca_crl">
-<td><code><a href="#ServerTLSSettings-ca_crl">caCrl</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-ca_crl">caCrl</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>OPTIONAL: The path to the file containing the certificate revocation list (CRL)
 to use in verifying a presented client side certificate. <code>CRL</code> is a list of certificates
@@ -515,13 +483,11 @@ If specified, the proxy will verify if the presented certificate is part of the 
 If omitted, the proxy will not verify the certificate against the <code>crl</code>.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-credential_name">
-<td><code><a href="#ServerTLSSettings-credential_name">credentialName</a></code></td>
-<td><code>string</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-credential_name">credentialName</a></code></div>
+<div class="type">string</div>
+</div></td>
 <td>
 <p>For gateways running on Kubernetes, the name of the secret that
 holds the TLS certs including the CA certificates. Applicable
@@ -537,26 +503,22 @@ Only one of server certificates and CA certificate
 or credentialName can be specified.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-subject_alt_names">
-<td><code><a href="#ServerTLSSettings-subject_alt_names">subjectAltNames</a></code></td>
-<td><code>string[]</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-subject_alt_names">subjectAltNames</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>A list of alternate names to verify the subject identity in the
 certificate presented by the client.
 Requires TLS mode to be set to <code>MUTUAL</code>.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-verify_certificate_spki">
-<td><code><a href="#ServerTLSSettings-verify_certificate_spki">verifyCertificateSpki</a></code></td>
-<td><code>string[]</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-verify_certificate_spki">verifyCertificateSpki</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>An optional list of base64-encoded SHA-256 hashes of the SPKIs of
 authorized client certificates.
@@ -565,13 +527,11 @@ are specified, a hash matching either value will result in the
 certificate being accepted.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-verify_certificate_hash">
-<td><code><a href="#ServerTLSSettings-verify_certificate_hash">verifyCertificateHash</a></code></td>
-<td><code>string[]</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-verify_certificate_hash">verifyCertificateHash</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
 <p>An optional list of hex-encoded SHA-256 hashes of the
 authorized client certificates. Both simple and colon separated
@@ -581,40 +541,34 @@ are specified, a hash matching either value will result in the
 certificate being accepted.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-min_protocol_version">
-<td><code><a href="#ServerTLSSettings-min_protocol_version">minProtocolVersion</a></code></td>
-<td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-min_protocol_version">minProtocolVersion</a></code></div>
+<div class="type"><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></div>
+</div></td>
 <td>
-<p>Optional: Minimum TLS protocol version. By default, it is <code>TLSV1_2</code>.
+<p>Minimum TLS protocol version. By default, it is <code>TLSV1_2</code>.
 TLS protocol versions below TLSV1_2 require setting compatible ciphers with the
 <code>cipherSuites</code> setting as they no longer include compatible ciphers.</p>
 <p>Note: Using TLS protocol versions below TLSV1_2 has serious security risks.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="ServerTLSSettings-max_protocol_version">
-<td><code><a href="#ServerTLSSettings-max_protocol_version">maxProtocolVersion</a></code></td>
-<td><code><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-max_protocol_version">maxProtocolVersion</a></code></div>
+<div class="type"><a href="#ServerTLSSettings-TLSProtocol">TLSProtocol</a></div>
+</div></td>
 <td>
-<p>Optional: Maximum TLS protocol version.</p>
+<p>Maximum TLS protocol version.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 <tr id="ServerTLSSettings-cipher_suites">
-<td><code><a href="#ServerTLSSettings-cipher_suites">cipherSuites</a></code></td>
-<td><code>string[]</code></td>
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-cipher_suites">cipherSuites</a></code></div>
+<div class="type">string[]</div>
+</div></td>
 <td>
-<p>Optional: If specified, only support the specified cipher list.
+<p>If specified, only support the specified cipher list.
 Otherwise default to the default cipher list supported by Envoy
 as specified <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto">here</a>.
 The supported list of ciphers are:</p>
@@ -637,14 +591,11 @@ The supported list of ciphers are:</p>
 </ul>
 
 </td>
-<td>
-No
-</td>
 </tr>
 </tbody>
 </table>
 </section>
-<h2 id="ServerTLSSettings-TLSmode">ServerTLSSettings.TLSmode</h2>
+<h3 id="ServerTLSSettings-TLSmode">TLSmode</h3>
 <section>
 <p>TLS modes enforced by the proxy</p>
 
@@ -727,7 +678,7 @@ be specified for validating client certificates.</p>
 </tbody>
 </table>
 </section>
-<h2 id="ServerTLSSettings-TLSProtocol">ServerTLSSettings.TLSProtocol</h2>
+<h3 id="ServerTLSSettings-TLSProtocol">TLSProtocol</h3>
 <section>
 <p>TLS protocol versions.</p>
 

@@ -95,15 +95,14 @@ spec:
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="PeerAuthentication-selector">
-<td><code><a href="#PeerAuthentication-selector">selector</a></code></td>
-<td><code><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-selector">selector</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
 <td>
 <p>The selector determines the workloads to apply the PeerAuthentication on. The selector will match with workloads in the
 same namespace as the policy. If the policy is in the root namespace, the selector will additionally match with workloads in all namespace.</p>
@@ -111,38 +110,31 @@ same namespace as the policy. If the policy is in the root namespace, the select
 to all workloads in the mesh.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="PeerAuthentication-mtls">
-<td><code><a href="#PeerAuthentication-mtls">mtls</a></code></td>
-<td><code><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-mtls">mtls</a></code></div>
+<div class="type"><a href="#PeerAuthentication-MutualTLS">MutualTLS</a></div>
+</div></td>
 <td>
 <p>Mutual TLS settings for workload. If not defined, inherit from parent.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 <tr id="PeerAuthentication-port_level_mtls">
-<td><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code></td>
-<td><code>map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-port_level_mtls">portLevelMtls</a></code></div>
+<div class="type">map&lt;uint32,&nbsp;<a href="#PeerAuthentication-MutualTLS">MutualTLS</a>&gt;</div>
+</div></td>
 <td>
 <p>Port specific mutual TLS settings. These only apply when a workload selector
 is specified. The port refers to the port of the workload, not the port of the
 Kubernetes service.</p>
 
 </td>
-<td>
-No
-</td>
 </tr>
 </tbody>
 </table>
 </section>
-<h2 id="PeerAuthentication-MutualTLS">PeerAuthentication.MutualTLS</h2>
+<h3 id="PeerAuthentication-MutualTLS">MutualTLS</h3>
 <section>
 <p>Mutual TLS settings.</p>
 
@@ -150,27 +142,23 @@ No
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
 <th>Description</th>
-<th>Required</th>
 </tr>
 </thead>
 <tbody>
 <tr id="PeerAuthentication-MutualTLS-mode">
-<td><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code></td>
-<td><code><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></code></td>
+<td><div class="field"><div class="name"><code><a href="#PeerAuthentication-MutualTLS-mode">mode</a></code></div>
+<div class="type"><a href="#PeerAuthentication-MutualTLS-Mode">Mode</a></div>
+</div></td>
 <td>
 <p>Defines the mTLS mode used for peer authentication.</p>
 
-</td>
-<td>
-No
 </td>
 </tr>
 </tbody>
 </table>
 </section>
-<h2 id="PeerAuthentication-MutualTLS-Mode">PeerAuthentication.MutualTLS.Mode</h2>
+<h4 id="PeerAuthentication-MutualTLS-Mode">Mode</h4>
 <section>
 <table class="enum-values">
 <thead>
