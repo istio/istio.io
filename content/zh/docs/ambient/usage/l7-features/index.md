@@ -67,12 +67,11 @@ ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而�
 ## 扩展 {#extension}
 
 由于 waypoint 代理是 {{< gloss >}}Envoy{{< /gloss >}} 的部署，
-因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的扩展机制模式也可用于 waypoint 代理。
+因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的某些扩展机制模式也可用于 waypoint 代理。
 
 |  名称  | 功能状态 | 附加方式 |
 | --- | --- | --- |
 | `WasmPlugin` †  | Alpha | `targetRefs` |
-| `EnvoyFilter` | Alpha | `targetRefs` |
 
 † [阅读更多关于如何使用 WebAssembly 插件扩展 waypoint 的信息](/zh/docs/ambient/usage/extend-waypoint-wasm/)。
 
