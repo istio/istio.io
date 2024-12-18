@@ -20,7 +20,8 @@ $ istioctl waypoint delete --all
 ## 从 Ambient 数据平面中删除命名空间 {#remove-the-namespace-from-the-ambient-data-plane}
 
 删除 Istio 时，指示 Istio 自动将 `default`
-命名空间中的应用程序包含到 Ambient 网格的标签不会被删除。使用以下命令将其删除：
+命名空间中的应用程序包含到 Ambient 网格的标签不会被删除。
+使用以下命令将其删除：
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/dataplane-mode-
@@ -35,10 +36,10 @@ $ kubectl label namespace default istio.io/dataplane-mode-
 {{< text bash >}}
 $ kubectl delete httproute reviews
 $ kubectl delete authorizationpolicy productpage-viewer
-$ kubectl delete -f samples/curl/curl.yaml
-$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
-$ kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl delete -f @samples/curl/curl.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+$ kubectl delete -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
 
 {{< /text >}}
 

@@ -15,12 +15,12 @@ owner: istio/wg-environments-maintainers
 访问 [Ambient 模式入门](/zh/docs/ambient/getting-started) 指南！
 {{< /tip >}}
 
-本指南帮您快速评估 Istio。
-如果您已经熟悉 Istio，或对安装其他配置类型或高级[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
+本指南帮您快速评估 Istio。如果您已经熟悉 Istio，
+或对安装其他配置类型或高级[部署模型](/zh/docs/ops/deployment/deployment-models/)感兴趣，
 请参阅[我们应该采用哪种 Istio 安装方法？](/zh/about/faq/#install-method-selection) 的 FAQ 页面。
 
-您需要一个 Kubernetes 集群才能继续。如果您没有集群，则可以使用
-[kind](/zh/docs/setup/platform-setup/kind)
+您需要一个 Kubernetes 集群才能继续。如果您没有集群，
+则可以使用 [kind](/zh/docs/setup/platform-setup/kind)
 或任何其他[受支持的 Kubernetes 平台](/zh/docs/setup/platform-setup)。
 
 请按照以下步骤开始使用 Istio：
@@ -66,7 +66,8 @@ owner: istio/wg-environments-maintainers
 与 [Istio Gateway](/zh/docs/concepts/traffic-management/#gateways) 不同，
 创建 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) 时，
 默认情况下还会[部署网关代理服务器](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)。
-由于不会使用它们，因此我们禁用通常作为 `demo` 配置文件的一部分安装的默认 Istio Gateway 服务的部署。
+由于不会使用它们，因此我们禁用通常作为 `demo`
+配置文件的一部分安装的默认 Istio Gateway 服务的部署。
 
 1. 使用 `demo` 配置文件安装 Istio，无需任何 Gateway：
 
@@ -104,7 +105,7 @@ Kubernetes Gateway API CRD 在大多数 Kubernetes 集群上不会默认安装�
 1.  部署 [`Bookinfo` 示例应用](/zh/docs/examples/bookinfo/)：
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     service/details created
     serviceaccount/bookinfo-details created
     deployment.apps/details-v1 created
@@ -168,8 +169,9 @@ Bookinfo 应用程序已部署，但无法从外部访问。为了使其可访�
     httproute.gateway.networking.k8s.io/bookinfo created
     {{< /text >}}
 
-    默认情况下，Istio 会为网关创建一个 `LoadBalancer` 服务。由于我们将通过隧道访问此网关，
-    因此不需要负载均衡器。如果您想了解如何为外部 IP 地址配置负载均衡器，
+    默认情况下，Istio 会为网关创建一个 `LoadBalancer` 服务。
+    由于我们将通过隧道访问此网关，因此不需要负载均衡器。
+    如果您想了解如何为外部 IP 地址配置负载均衡器，
     请阅读 [Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/) 文档。
 
 1.  通过注解网关将服务类型更改为 `ClusterIP`：
@@ -199,7 +201,8 @@ $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 
 {{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo 应用程序" >}}
 
-如果您刷新页面，您应该会看到书评和评分发生变化，因为请求分布在 `reviews` 服务的不同版本上。
+如果您刷新页面，您应该会看到书评和评分发生变化，
+因为请求分布在 `reviews` 服务的不同版本上。
 
 ## 查看仪表板 {#dashboard}
 
@@ -214,7 +217,7 @@ Istio 和[几个遥测应用](/zh/docs/ops/integrations)做了集成。
 1.  安装 [Kiali 和其他插件]({{< github_tree >}}/samples/addons)，等待部署完成。
 
     {{< text bash >}}
-    $ kubectl apply -f samples/addons
+    $ kubectl apply -f @samples/addons@
     $ kubectl rollout status deployment/kiali -n istio-system
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out
@@ -226,7 +229,8 @@ Istio 和[几个遥测应用](/zh/docs/ops/integrations)做了集成。
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  在左侧的导航菜单，选择 _Graph_ ，然后在 _Namespace_ 下拉列表中，选择 _default_ 。
+1.  在左侧的导航菜单，选择 **Graph**，
+    然后在 **Namespace** 下拉列表中，选择 **default**。
 
     {{< tip >}}
     {{< boilerplate trace-generation >}}
@@ -241,7 +245,8 @@ Istio 和[几个遥测应用](/zh/docs/ops/integrations)做了集成。
 
 恭喜您完成了评估安装！
 
-对于新手来说，以下这些任务是非常好的学习资源，可以借助 `demo` 安装更深入评估 Istio 的特性：
+对于新手来说，以下这些任务是非常好的学习资源，
+可以借助 `demo` 安装更深入评估 Istio 的特性：
 
 - [请求路由](/zh/docs/tasks/traffic-management/request-routing/)
 - [错误注入](/zh/docs/tasks/traffic-management/fault-injection/)
@@ -267,8 +272,9 @@ Istio 和[几个遥测应用](/zh/docs/ops/integrations)做了集成。
 
 要删除 `Bookinfo` 示例应用和配置，请参阅[清理 `Bookinfo`](/zh/docs/examples/bookinfo/#cleanup)。
 
-Istio 卸载程序按照层次结构逐级地从 `istio-system` 命令空间中删除 RBAC
-权限和所有资源。对于不存在的资源报错，可以安全地忽略掉，毕竟它们已经被分层地删除了。
+Istio 卸载程序按照层次结构逐级地从 `istio-system`
+命令空间中删除 RBAC 权限和所有资源。对于不存在的资源报错，
+可以安全地忽略掉，毕竟它们已经被分层地删除了。
 
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
