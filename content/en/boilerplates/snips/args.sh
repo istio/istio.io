@@ -29,5 +29,5 @@ ENDSNIP
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
-1.24.1
+1.24.2
 ENDSNIP
