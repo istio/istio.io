@@ -18,7 +18,7 @@ This release implements the security updates described in our 18th of December p
 - **Added** the `DAC_OVERRIDE` capability to the `istio-cni-node` DaemonSet. This fixes issues when running in environments
   where certain files are owned by non-root users.
   Note: prior to Istio 1.24, the `istio-cni-node` ran as `privileged`. Istio 1.24 removed this, but removed some required
-  privileges which are now added back. Relatively to Istio 1.23, `istio-cni-node` still has fewer privileges than it does 
+  privileges which are now added back. Relatively to Istio 1.23, `istio-cni-node` still has fewer privileges than it does
   with this change.
 
 - **Fixed** Helm rendering to properly apply annotations on Pilot's `ServiceAccount`.
