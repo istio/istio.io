@@ -964,7 +964,6 @@ pluggability
 pluggable
 png
 Poddar
-PodDisruptionBudget
 Polshakova
 Posta
 PostgreSQL
@@ -1047,7 +1046,6 @@ remoteIpBlocks
 repo
 repurposed
 Requena
-RequestAuthentication
 requires_any
 resized
 Reskill
