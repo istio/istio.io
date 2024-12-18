@@ -7,7 +7,7 @@ publishdate: 2024-12-18
 release: 1.23.4
 ---
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.23.3 and Istio 1.23.4
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.23.3 and Istio 1.23.4.
 
 This release implements the security updates described in our 18th of December post, [`ISTIO-SECURITY-2024-007`](/news/security/istio-security-2024-007).
 
@@ -15,11 +15,11 @@ This release implements the security updates described in our 18th of December p
 
 ## Changes
 
-- **Added** support for providing arbitrary environment variables to `istio-cni` chart
+- **Added** support for providing arbitrary environment variables to `istio-cni` chart.
 
-- **Fixed** merging Duration with a EnvoyFilter can lead to all listeners associated attributes unexpectedly modified because all listeners share a same pointer typed `listener_filters_timeout`.
+- **Fixed** an issue where merging `Duration` with an `EnvoyFilter` could lead to all listener associated attributes unexpectedly being modified because all listeners shared the same pointer typed `listener_filters_timeout`.
 
-- **Fixed** Helm render to properly apply annotations on pilot `serviceAccount`
+- **Fixed** Helm rendering to properly apply annotations on Pilot's `ServiceAccount`.
   ([Issue #51289](https://github.com/istio/istio/issues/51289))
 
-- **Fixed** Injection config errors were being silenced (i.e. logged and not returned) when the sidecar injector was unable to process the sidecar config. This change will now propagate the error to the user instead of continuing to process a faulty config.  ([Issue #53357](https://github.com/istio/istio/issues/53357))
+- **Fixed** an issue where injection config errors were being silenced (i.e. logged and not returned) when the sidecar injector was unable to process the sidecar config. This change will now propagate the error to the user instead of continuing to process a faulty config.  ([Issue #53357](https://github.com/istio/istio/issues/53357))
