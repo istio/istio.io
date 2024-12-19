@@ -497,6 +497,7 @@ notIpBlocks: [&quot;203.0.113.4&quot;]
 <p>A list of peer identities derived from the peer certificate. The peer identity is in the format of
 <code>&quot;&lt;TRUST_DOMAIN&gt;/ns/&lt;NAMESPACE&gt;/sa/&lt;SERVICE_ACCOUNT&gt;&quot;</code>, for example, <code>&quot;cluster.local/ns/default/sa/productpage&quot;</code>.
 This field requires mTLS enabled and is the same as the <code>source.principal</code> attribute.</p>
+<p>Usage of <code>serviceAccounts</code> is typically simpler and offers the same functionality.</p>
 <p>If not set, any principal is allowed.</p>
 
 </td>
@@ -548,6 +549,31 @@ This field requires mTLS enabled and is the same as the <code>source.namespace</
 </div></td>
 <td>
 <p>A list of negative match of namespaces.</p>
+
+</td>
+</tr>
+<tr id="Source-service_accounts">
+<td><div class="field"><div class="name"><code><a href="#Source-service_accounts">serviceAccounts</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+<p>A list of Kubernetes service accounts derived from the peer certificate.
+This field requires mTLS enabled and is the same as the <code>source.serviceaccount</code> attribute.</p>
+<p>This takes the format <code>&lt;namespace&gt;/&lt;serviceaccount&gt;</code>.</p>
+<p>If not set, any service account is allowed.</p>
+<p>No form of wildcard (<code>*</code>) is allowed.
+Cannot be set with <code>principals</code> or <code>namespaces</code>.</p>
+
+</td>
+</tr>
+<tr id="Source-not_service_accounts">
+<td><div class="field"><div class="name"><code><a href="#Source-not_service_accounts">notServiceAccounts</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+<p>A list of negative match of Kubernetes service accounts.</p>
+<p>This takes the format <code>&lt;namespace&gt;/&lt;serviceaccount&gt;</code>.</p>
+<p>No form of wildcard (<code>*</code>) is allowed.</p>
 
 </td>
 </tr>
