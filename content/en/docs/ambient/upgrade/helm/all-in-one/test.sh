@@ -22,7 +22,7 @@ source "content/en/docs/ambient/upgrade/helm/all-in-one/common.sh"
 source "content/en/docs/ambient/upgrade/helm/all-in-one/snips.sh"
 
 # @setup profile=none
-_rewrite_helm_repo snip_install_ambient_helm_aio
+_install_istio_ambient_helm_aio
 
 snip_update_helm
 
