@@ -149,22 +149,6 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 
 {{< /warning >}}
 
-## 验证安装是否成功 {#verify-a-successful-installation}
-
-您可以用 `verify-install` 命令检查 Istio 是否安装成功，此命令用您指定的清单对比集群中实际的安装情况。
-
-如果您在部署前还没有生成清单文件，那现在就运行下面命令生成一个：
-
-{{< text bash >}}
-$ istioctl manifest generate <your original installation options> > $HOME/generated-manifest.yaml
-{{< /text >}}
-
-紧接着运行 `verify-install` 命令，查看安装是否成功：
-
-{{< text bash >}}
-$ istioctl verify-install -f $HOME/generated-manifest.yaml
-{{< /text >}}
-
 有关定制安装的更多信息，请参阅[定制安装配置](/zh/docs/setup/additional-setup/customize-installation/)。
 
 ## 卸载 Istio {#uninstall}
