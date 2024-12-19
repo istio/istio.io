@@ -18,8 +18,8 @@ set -u
 
 set -o pipefail
 
-source "content/en/docs/ambient/install/helm/common.sh"
-source "content/en/docs/ambient/upgrade/helm/common.sh"
+source "content/en/docs/ambient/upgrade/helm/all-in-one/common.sh"
+source "content/en/docs/ambient/upgrade/helm/all-in-one/snips.sh"
 
 # @setup profile=none
 _rewrite_helm_repo snip_install_ambient_helm_aio
