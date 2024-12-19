@@ -4,6 +4,7 @@ description: Deploy the Bookinfo sample application.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: yes
+prev: /docs/ambient/getting-started
 ---
 
 To explore Istio, you will install the sample [Bookinfo application](/docs/examples/bookinfo/), composed of four separate microservices used to demonstrate various Istio features.
