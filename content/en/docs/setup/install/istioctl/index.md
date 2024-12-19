@@ -153,24 +153,6 @@ resources must be removed manually.
 
 {{< /warning >}}
 
-## Verify a successful installation
-
-You can check if the Istio installation succeeded using the `verify-install` command
-which compares the installation on your cluster to a manifest you specify.
-
-If you didn't generate your manifest prior to deployment, run the following command to
-generate it now:
-
-{{< text bash >}}
-$ istioctl manifest generate <your original installation options> > $HOME/generated-manifest.yaml
-{{< /text >}}
-
-Then run the following `verify-install` command to see if the installation was successful:
-
-{{< text bash >}}
-$ istioctl verify-install -f $HOME/generated-manifest.yaml
-{{< /text >}}
-
 See [Customizing the installation configuration](/docs/setup/additional-setup/customize-installation/) for additional information on customizing the install.
 
 ## Uninstall Istio
