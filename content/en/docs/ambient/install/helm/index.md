@@ -86,6 +86,12 @@ $ helm install ztunnel istio/ztunnel -n istio-system --wait
 
 ### Ingress gateway (optional)
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+If you use the Gateway API, you do not need to install and manage an ingress gateway Helm chart as described below.
+Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
+{{< /tip >}}
+
 To install an ingress gateway, run the command below:
 
 {{< text syntax=bash snip_id=install_ingress >}}

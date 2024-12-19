@@ -149,6 +149,14 @@ _rewrite_helm_repo() {
   cmd="$(echo "${cmd}" | sed 's|istio/cni|manifests/charts/istio-cni|')"
   cmd="$(echo "${cmd}" | sed 's|istio/ztunnel|manifests/charts/ztunnel|')"
   cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/ambient|manifests/sample-charts/ambient|')"
   cmd="$(echo "${cmd}" | sed -E "s|(helm[[:space:]]+[^[:space:]]+)|\1 --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest}|g")"
+  # Since we are using local charts here, we may need to manually rebundle the updates
+  # This is not required if installing directly from a real Helm repo
+  if [[ $cmd =~ "manifests/sample-charts/ambient" ]]; then
+    pushd manifests/sample-charts/ambient && helm dep update
+    popd || exit
+  fi
+
   eval "${cmd}"
 }
