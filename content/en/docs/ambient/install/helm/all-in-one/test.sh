@@ -22,9 +22,6 @@ set -o pipefail
 
 # @setup profile=none
 
-snip_delete_crds
-snip_delete_system_namespace
-
 snip_configure_helm
 _rewrite_helm_repo snip_install_ambient_aio
 
