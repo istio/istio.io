@@ -118,7 +118,7 @@ After installing all the components, you can check the Helm deployment status wi
 {{< text syntax=bash snip_id=show_components >}}
 $ helm ls -n istio-system
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-ambient      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ambient-{{< istio_full_version >}}     {{< istio_full_version >}}
+istio-ambient      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ambient-{{< istio_full_version >}}     {{< istio_full_version >}}
 {{< /text >}}
 
 You can check the status of the deployed pods with:
