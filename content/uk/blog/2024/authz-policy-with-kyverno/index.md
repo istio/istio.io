@@ -61,7 +61,7 @@ EOF
 {{< text bash >}}
 $ kubectl create ns kyverno
 $ kubectl label namespace kyverno istio-injection=enabled
-$ helm install kyverno-authz-server --namespace kyverno --wait --repo https://kyverno.github.io/kyverno-envoy-plugin kyverno-authz-server
+$ helm install kyverno-authz-server --namespace kyverno --wait --version 0.1.0 --repo https://kyverno.github.io/kyverno-envoy-plugin kyverno-authz-server
 {{< /text >}}
 
 #### Розгортання демонстраційного застосунку {#deploy-the-sample-application}
