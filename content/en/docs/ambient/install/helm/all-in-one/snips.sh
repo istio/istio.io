@@ -27,7 +27,7 @@ helm repo update
 }
 
 snip_install_ambient_aio() {
-helm install ambient istio/ambient --namespace istio-system --create-namespace --wait
+helm install istio-ambient istio/ambient --namespace istio-system --create-namespace --wait
 }
 
 snip_install_ingress() {
@@ -59,7 +59,7 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 ENDSNIP
 
 snip_delete_ambient_aio() {
-helm delete ambient -n istio-system
+helm delete istio-ambient -n istio-system
 }
 
 snip_delete_ingress() {

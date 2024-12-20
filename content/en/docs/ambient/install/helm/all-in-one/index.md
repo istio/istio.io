@@ -52,7 +52,7 @@ ambient via this wrapper chart - you cannot upgrade or uninstall sub-components 
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=install_ambient_aio >}}
-$ helm install ambient istio/ambient --namespace istio-system --create-namespace --wait
+$ helm install istio-ambient istio/ambient --namespace istio-system --create-namespace --wait
 {{< /text >}}
 
 ### Ingress gateway (optional)
@@ -144,7 +144,7 @@ installed above.
 1. Uninstall all Istio components
 
     {{< text syntax=bash snip_id=delete_ambient_aio >}}
-    $ helm delete ambient -n istio-system
+    $ helm delete istio-ambient -n istio-system
     {{< /text >}}
 
 1. (Optional) Delete any Istio gateway chart installations:
