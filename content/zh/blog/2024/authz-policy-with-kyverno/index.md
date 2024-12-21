@@ -64,7 +64,7 @@ Kyverno Authz 服务器是一个能够处理 Envoy 外部授权请求的 GRPC �
 {{< text bash >}}
 $ kubectl create ns kyverno
 $ kubectl label namespace kyverno istio-injection=enabled
-$ helm install kyverno-authz-server --namespace kyverno --wait --repo https://kyverno.github.io/kyverno-envoy-plugin kyverno-authz-server
+$ helm install kyverno-authz-server --namespace kyverno --wait --version 0.1.0 --repo https://kyverno.github.io/kyverno-envoy-plugin kyverno-authz-server
 {{< /text >}}
 
 #### 部署示例应用程序 {#deploy-the-sample-application}
