@@ -159,7 +159,7 @@ preserve your custom configuration during Helm upgrades.
     $ helm upgrade istiod istio/istiod -n istio-system
     {{< /text >}}
 
-1. (Optional) Upgrade and gateway charts  installed in your cluster:
+1. (Optional) Upgrade any gateway charts installed in your cluster:
 
     {{< text bash >}}
     $ helm upgrade istio-ingress istio/gateway -n istio-ingress
