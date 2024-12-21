@@ -35,9 +35,9 @@ status: Experimental
 但本质上与[在 Sidecar 模式下升级这些组件的过程](/zh/docs/setup/upgrade/canary/)相同。
 
 与 Sidecar 模式类似，网关可以使用[修订标签](/zh/docs/setup/upgrade/canary/#stable-revision-labels)来对
-{{< gloss >}}Gateway{{</ gloss >}}）升级，
-包括 waypoint 进行细粒度控制，并可通过简单的控件随时回滚到 Istio 控制平面的旧版本。
-但是，与 Sidecar 模式不同，ztunnel 作为 DaemonSet（每个节点的代理）运行，
+{{< gloss >}}Gateway{{</ gloss >}}）升级，包括 waypoint 进行细粒度控制，
+并可通过简单的控件随时回滚到 Istio 控制平面的旧版本。但是，
+与 Sidecar 模式不同，ztunnel 作为 DaemonSet（每个节点的代理）运行，
 这意味着 ztunnel 升级至少一次会影响整个节点。虽然这在许多情况下是可以接受的，
 但具有长 TCP 连接的应用程序可能会中断。在这种情况下，
 我们建议在升级给定节点的 ztunnel 之前使用节点封锁和排空。
@@ -47,8 +47,8 @@ status: Experimental
 
 ### 准备升级 {#prepare-for-the-upgrade}
 
-在升级 Istio 之前，我们建议下载新版本的 istioctl，并运行 `istioctl x precheck`
-以确保升级与您的 Ambient 兼容。输出应如下所示：
+在升级 Istio 之前，我们建议下载新版本的 istioctl，
+并运行 `istioctl x precheck` 以确保升级与您的 Ambient 兼容。输出应如下所示：
 
 {{< text syntax=bash snip_id=istioctl_precheck >}}
 $ istioctl x precheck
@@ -83,19 +83,20 @@ $ helm repo update istio
 
 ### 选择修订名称 {#choose-a-revision-name}
 
-修订标识了 Istio 控制平面的唯一实例，允许您在单个网格中同时运行控制平面的多个不同版本。
+修订标识了 Istio 控制平面的唯一实例，
+允许您在单个网格中同时运行控制平面的多个不同版本。
 
 建议修订版本保持不变，也就是说，一旦使用特定修订版本名称安装了控制平面，
-就不应修改安装，也不应重用修订版本名称。另一方面，标签是指向修订版本的可变指针。
-这使集群操作员能够进行数据平面升级，而无需调整任何工作负载标签，
-只需将标签从一个修订版本移动到下一个修订版本即可。
+就不应修改安装，也不应重用修订版本名称。另一方面，
+标签是指向修订版本的可变指针。这使集群操作员能够进行数据平面升级，
+而无需调整任何工作负载标签，只需将标签从一个修订版本移动到下一个修订版本即可。
 所有数据平面将仅连接到一个控制平面，该控制平面由 `istio.io/rev`
 标签（指向修订版本或标签）指定，如果不存在 `istio.io/rev` 标签，
 则由默认修订版本指定。升级数据平面只需通过修改标签或编辑标签来更改它指向的控制平面即可。
 
 由于修订版本是不可变的，我们建议选择与您正在安装的 Istio 版本相对应的修订版本名称，
-例如 `1-22-1`。除了选择新的修订版本名称外，您还应该记下当前的修订版本名称。
-您可以通过运行以下命令找到它：
+例如 `1-22-1`。除了选择新的修订版本名称外，
+您还应该记下当前的修订版本名称。您可以通过运行以下命令找到它：
 
 {{< text syntax=bash snip_id=list_revisions >}}
 $ kubectl get mutatingwebhookconfigurations -l 'istio.io/rev,!istio.io/tag' -L istio\.io/rev
@@ -114,7 +115,8 @@ $ export OLD_REVISION=istio-1-21-2
 
 {{< boilerplate crd-upgrade-123 >}}
 
-在部署新版本的控制平面之前，必须升级集群范围的 Custom Resource Definitions（CRD）：
+在部署新版本的控制平面之前，
+必须升级集群范围的 Custom Resource Definitions（CRD）：
 
 {{< text syntax=bash snip_id=upgrade_crds >}}
 $ helm upgrade istio-base istio/base -n istio-system
@@ -122,8 +124,8 @@ $ helm upgrade istio-base istio/base -n istio-system
 
 ### istiod 控制平面 {#istiod-control-plane}
 
-[Istiod](/zh/docs/ops/deployment/architecture/#istiod) 控制平面管理和配置在网格内路由流量的代理。
-以下命令将在当前实例旁边安装控制平面的新实例，
+[Istiod](/zh/docs/ops/deployment/architecture/#istiod)
+控制平面管理和配置在网格内路由流量的代理。以下命令将在当前实例旁边安装控制平面的新实例，
 但不会引入任何新网关代理或 waypoint，也不会接管现有代理的控制权。
 
 如果您已经定制了 istiod 安装，则可以重用以前升级或安装中的 `values.yaml` 文件，以保持控制平面的一致性。
@@ -155,7 +157,8 @@ Istio CNI 节点代理负责检测添加到 Ambient 网格的 Pod，
 并在 Pod 网络命名空间内配置流量重定向。它不是数据平面或控制平面的一部分。
 
 1.x 版本的 CNI 与 1.x+1 和 1.x 版本的控制平面兼容。
-这意味着，只要控制平面和 Istio CNI 的版本差异在一个小版本以内，就必须在升级控制平面之前对其升级。
+这意味着，只要控制平面和 Istio CNI 的版本差异在一个小版本以内，
+就必须在升级控制平面之前对其升级。
 
 {{< warning >}}
 **即使使用修订版本**，Istio 目前也不支持 istio-cni 的金丝雀升级。
@@ -166,9 +169,9 @@ Istio CNI 节点代理负责检测添加到 Ambient 网格的 Pod，
 Istio CNI 节点代理是一个[系统节点关键](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
 DaemonSet。它**必须**在每个节点上运行，才能在该节点上维护 Istio 的 Ambient 流量安全和操作保证。
 默认情况下，Istio CNI 节点代理 DaemonSet 支持安全的就地升级，
-并且在升级或重新启动时将阻止在该节点上启动新的 Pod，直到该节点上有可用的代理实例来处理它们，
-以防止不安全的流量泄漏。升级前已成功添加到 Ambient 网格的现有 Pod
-将在升级期间继续按照 Istio 的流量安全要求运行。
+并且在升级或重新启动时将阻止在该节点上启动新的 Pod，
+直到该节点上有可用的代理实例来处理它们，以防止不安全的流量泄漏。
+升级前已成功添加到 Ambient 网格的现有 Pod 将在升级期间继续按照 Istio 的流量安全要求运行。
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
@@ -232,8 +235,8 @@ $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 ### 使用标签升级 waypoint 和网关 {#upgrade-waypoints-and-gateways-using-tags}
 
 如果您遵循了最佳实践，则所有网关、工作负载和命名空间都使用默认修订版本（实际上是名为 `default` 的标签）
-或 `istio.io/rev` 标签，其值设置为标签名称。
-现在，您可以通过移动它们的标签以指向新版本（一次一个）来将它们全部升级到新版本的 Istio 数据平面。
+或 `istio.io/rev` 标签，其值设置为标签名称。现在，
+您可以通过移动它们的标签以指向新版本（一次一个）来将它们全部升级到新版本的 Istio 数据平面。
 要列出集群中的所有标签，请运行：
 
 {{< text syntax=bash snip_id=list_tags >}}
@@ -261,8 +264,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 ### 升级手动部署的网关（可选） {#upgrade-manually-deployed-gateways-optional}
 
 必须使用 Helm
-单独升级[手动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment)
-的 `Gateway`：
+单独升级[手动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment)的 `Gateway`：
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress

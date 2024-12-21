@@ -29,7 +29,8 @@ $ istioctl x precheck
 您可以使用以下步骤，安装金丝雀版本的 Istio 控制平面来校验新版本是否与您现有的配置和数据平面兼容：
 
 {{< warning >}}
-请注意，当您安装一个金丝雀版本的 `istiod` 服务时，可以在主要安装和金丝雀安装之间共享来自 Base Chart 的底层集群范围资源。
+请注意，当您安装一个金丝雀版本的 `istiod` 服务时，
+可以在主要安装和金丝雀安装之间共享来自 Base Chart 的底层集群范围资源。
 {{< /warning >}}
 
 {{< boilerplate crd-upgrade-123 >}}
@@ -143,13 +144,13 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
     $ helm upgrade istio-base istio/base -n istio-system
     {{< /text >}}
 
-1. 升级 Istio discovery chart：
+1. 升级 Istio Discovery Chart：
 
     {{< text bash >}}
     $ helm upgrade istiod istio/istiod -n istio-system
     {{< /text >}}
 
-1. （可选）升级集群中安装的 gateway chart：
+1. （可选）升级任何集群中安装的 Gateway Chart：
 
     {{< text bash >}}
     $ helm upgrade istio-ingress istio/gateway -n istio-ingress
