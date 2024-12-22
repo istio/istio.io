@@ -10,36 +10,39 @@ test: n/a
 Istio 服务网格在逻辑上分为数据平面和控制平面。
 
 {{< gloss "data plane" >}}数据平面{{< /gloss >}}是一组代理，用于调解和控制微服务之间的所有网络通信。
-它们还收集和报告所有网格流量的可观测数据。
+这些代理还可以收集和报告所有网格流量的可观测数据。
 
-{{< gloss "control plane" >}}控制平面{{< /gloss >}}管理和配置数据平面中的代理。
+{{< gloss "control plane" >}}控制平面{{< /gloss >}}管理和配置数据平面中的这些代理。
 
 Istio 支持两种主要的{{< gloss "data plane mode">}}数据平面模式{{< /gloss >}}：
 
-* **Sidecar 模式**，它会与您在集群中启动的每个 Pod 一起部署一个 Envoy 代理，或者与在虚拟机上运行的服务一同运行。
-* **Ambient 模式**，使用每个节点的四层代理，并且可选地使用每个命名空间的 Envoy 代理来实现七层功能。
+* **Sidecar 模式**，此模式会为集群中启动的每个 Pod 都部署一个 Envoy 代理，
+  或者与在虚拟机上运行的服务并行运行一个 Envoy 代理。
+* **Ambient 模式**，此模式在每个节点上使用四层代理，
+  另外可以选择为每个命名空间使用一个 Envoy 代理来实现七层功能。
 
-您可以选择将某些命名空间或工作负载纳入任意模式。
+您可以选择将某些命名空间或工作负载纳入任一模式。
 
 ## Sidecar 模式 {#sidecar=mode}
 
 Istio 自 2017 年首次发布以来就基于 Sidecar 模式构建。
 Sidecar 模式易于理解且经过彻底的实战测试，但需要花费资源成本和运营开销。
 
-* 您部署的每个应用程序都有一个 Envoy 代理{{< gloss "injection" >}}被注入{{< /gloss >}}作为 Sidecar
+* 您部署的每个应用都有一个 Envoy 代理{{< gloss "injection" >}}被注入{{< /gloss >}}作为 Sidecar
 * 所有代理都可以处理四层和七层流量
 
 ## Ambient 模式 {#ambient-mode}
 
-Ambient 模式于 2022 年推出，旨在解决 Sidecar 模式用户报告的缺点。从 Istio 1.22 开始，它已准备好用于单集群用例的生产环境。
+Ambient 模式于 2022 年推出，旨在解决 Sidecar 模式用户报告的缺点。
+从 Istio 1.22 开始，它在单集群使用场景就达到生产就绪状态。
 
 * 所有流量都通过仅支持四层的节点代理进行代理
-* 应用程序可以选择通过 Envoy 代理进行路由，以获得七层功能
+* 应用可以选择通过 Envoy 代理进行路由，以获得七层功能
 
-## 在 Sidecar 和 Ambient 之间进行选择 {#choosing-between-sidecar-and-ambient}
+## 在 Sidecar 和 Ambient 之间做出选择 {#choosing-between-sidecar-and-ambient}
 
 用户通常首先部署网格以实现零信任安全态势，然后根据需要选择性地启用 L7 功能。
-Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本。
+Ambient 网格允许这些用户在不需要 L7 功能时完全绕过 L7 处理的成本。
 
 <table>
   <thead>
@@ -63,7 +66,7 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
     <tr>
       <th>可观测性</th>
       <td>完整的 Istio 功能集</td>
-      <td>完整的 Istio 功能集：Ambient 模式下具备 L4 可观测；使用 waypoint 实现 L7 可观察性</td>
+      <td>完整的 Istio 功能集：Ambient 模式下具备 L4 遥测；使用 waypoint 实现 L7 可观测性</td>
     </tr>
     <tr>
       <th>可扩展性</th>
@@ -72,23 +75,23 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
     </tr>
     <tr>
       <th>向网格添加工作负载</th>
-      <td>标记命名空间并重新启动所有 Pod 以添加 Sidecar</td>
-      <td>标记命名空间 - 无需重启 Pod</td>
+      <td>为命名空间添加标签并重启所有 Pod 以添加 Sidecar</td>
+      <td>为命名空间添加标签 - 无需重启 Pod</td>
     </tr>
     <tr>
-      <th>增量部署</th>
+      <th>递增式部署</th>
       <td>二进制：Sidecar 是否已被注入</td>
       <td>渐进式：L4 始终开启，L7 可通过配置添加</td>
     </tr>
     <tr>
       <th>生命周期管理</th>
-      <td>代理由应用程序开发人员管理</td>
+      <td>代理由应用开发人员管理</td>
       <td>平台管理员</td>
     </tr>
     <tr>
-      <th>资源利用</th>
-      <td>浪费；必须为每个单独的 Pod 的最坏情况配置 CPU 和内存资源</td>
-      <td>waypoint 代理可以像任何其他 Kubernetes 部署一样自动扩展。<br>具有多个副本的工作负载可以使用同一个 waypoint，而不是每个副本都有自己的边车。</td>
+      <th>资源利用率</th>
+      <td>浪费；必须考虑到每个单独 Pod 的最糟情况并配置最大的 CPU 和内存资源</td>
+      <td>waypoint 代理可以像任何其他 Kubernetes Deployment 一样自动扩缩容。<br>有多个副本的工作负载可以使用同一个 waypoint，而不是每个副本都有自己的 Sidecar。</td>
     </tr>
     <tr>
       <th>平均资源成本</th>
@@ -126,7 +129,7 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
       <td>强：每个节点代理仅具有该节点上工作负载的密钥</td>
     </tr>
     <tr>
-      <th>被入侵的应用程序 Pod<br>可访问网格密钥</th>
+      <th>被入侵的应用 Pod<br>可访问网格密钥</th>
       <td>可以</td>
       <td>不可以</td>
     </tr>
@@ -146,7 +149,7 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
 ## 四层与七层功能 {#layer-4-vs-layer-7-features}
 
 在七层处理协议的开销远远高于在四层处理网络数据包的开销。
-对于给定的服务，如果您的要求可以在 L4 满足，则可以以更低的成本提供服务网格。
+对于给定的服务，如果您的要求可以在 L4 被满足，则可以以明显更低的成本交付服务网格。
 
 ### 安全 {#security}
 
@@ -161,25 +164,25 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
    <tbody>
     <tr>
       <th>加密</th>
-      <td>所有 Pod 之间的流量都使用 {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}} 加密.</td>
+      <td>所有 Pod 之间的流量都使用 {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}} 加密。</td>
       <td>不适用；Istio 中的服务身份基于 TLS。</td>
     </tr>
     <tr>
       <th>服务到服务的身份验证</th>
-      <td>{{< gloss >}}SPIFFE{{< /gloss >}}，通过 mTLS 证书。Istio 颁发一个短期 X.509 证书，该证书对 Pod 的服务帐户身份进行编码。</td>
+      <td>通过 mTLS 证书执行 {{< gloss >}}SPIFFE{{< /gloss >}}。Istio 颁发一个短期 X.509 证书，对 Pod 的服务帐户身份进行编码。</td>
       <td>不适用；Istio 中的服务身份基于 TLS。</td>
     </tr>
     <tr>
       <th>服务到服务的鉴权</th>
       <td>基于网络的鉴权，加上基于身份的策略，例如：
         <ul>
-          <li>A 只能接受来自“10.2.0.0/16”的入站呼叫；</li>
+          <li>A 只能接受来自“10.2.0.0/16”的入站调用；</li>
           <li>A 可以调用 B。</li>
         </ul>
       </td>
       <td>完整政策，例如：
         <ul>
-          <li>只有使用包含 READ 范围的有效最终用户凭据，A 才能在 B 上执行 GET /foo 操作。</li>
+          <li>只有使用包含 READ 范围的有效最终用户凭证，A 才能在 B 上执行 GET /foo 操作。</li>
         </ul>
       </td>
     </tr>
@@ -191,7 +194,7 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
     <tr>
       <th>最终用户鉴权</th>
       <td>不适用；同上</td>
-      <td>可以扩展服务到服务的策略，以要求<a href="/zh/docs/reference/config/security/conditions/">具有特定范围、发行者、主体、受众等的最终用户凭证</a><br />可以使用外部鉴权实现完整的用户到资源访问，允许根据外部服务的决策制定每个请求的策略，例如 OPA。</td>
+      <td>可以扩展服务到服务的策略，以要求<a href="/zh/docs/reference/config/security/conditions/">具有特定范围、发行者、主体、受众等的最终用户凭证</a>。<br />可以使用外部鉴权，实现完整的用户到资源的访问，允许根据外部服务的决策来制定每个请求的策略，例如 OPA。</td>
     </tr>
   </tbody>
 </table>
@@ -220,7 +223,7 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
     <tr>
       <th>指标</th>
       <td>仅 TCP（发送/接收的字节数、数据包数量等）。</td>
-      <td>L7 RED 指标：请求率、错误率、请求持续时间（延迟）。</td>
+      <td>L7 RED 指标：请求率、错误率、请求时间（延迟）。</td>
     </tr>
   </tbody>
 </table>
@@ -247,19 +250,19 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
       <td>除了 TCP 之外，<a href="/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings">还有 HTTP 设置</a>。</td>
     </tr>
     <tr>
-      <th>异常值检测</th>
+      <th>离群值检测</th>
       <td>当连接建立/失败时。</td>
       <td>请求成功/失败。</td>
     </tr>
     <tr>
       <th>限流</th>
-      <td><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/rate_limit_filter#config-network-filters-rate-limit">仅在建立连接时对 L4 连接数据进行限流</a>，具有全局和本地限流选项。</td>
+      <td>使用全局限流选项和本地限流选项，<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/rate_limit_filter#config-network-filters-rate-limit">仅在建立连接时对 L4 连接数据进行限流</a>。</td>
       <td>根据每个请求，<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter#config-http-filters-rate-limit">L7 请求元数据的限流</a>。</td>
     </tr>
     <tr>
       <th>超时</th>
-      <td>仅建立连接（通过断路设置来配置连接保持）。</td>
-      <td>根据要求。</td>
+      <td>仅建立连接（通过熔断设置来配置保持活跃的连接）。</td>
+      <td>按请求。</td>
     </tr>
     <tr>
       <th>重试</th>
@@ -269,7 +272,7 @@ Ambient 网格允许这些用户在不需要时完全绕过 L7 处理的成本�
     <tr>
       <th>故障注入</th>
       <td>不适用；无法在 TCP 连接上配置故障注入。</td>
-      <td>完整的应用程序和连接级故障（<a href="/zh/docs/tasks/traffic-management/fault-injection/">超时、延迟、特定响应码</a>）。</td>
+      <td>完整的应用和连接级故障（<a href="/zh/docs/tasks/traffic-management/fault-injection/">超时、延迟、特定响应码</a>）。</td>
     </tr>
     <tr>
       <th>流量镜像</th>
