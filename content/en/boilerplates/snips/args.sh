@@ -21,7 +21,7 @@
 ####################################################################################################
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
-v1.2.0
+v1.2.1
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
