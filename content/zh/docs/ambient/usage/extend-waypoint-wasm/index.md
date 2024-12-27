@@ -20,10 +20,10 @@ Wasm 可扩展性的一个主要优势是可以在运行时动态加载扩展插
 1. 参照 [Ambient 模式入门指南](/zh/docs/ambient/getting-started)中的指示说明设置 Istio。
 1. 部署 [Bookinfo 示例应用](/zh/docs/ambient/getting-started/deploy-sample-app)。
 1. [将 default 命名空间添加到 Ambient 网格](/zh/docs/ambient/getting-started/secure-and-visualize)。
-1. 部署 [sleep]({{< github_tree >}}/samples/sleep) 样例应用，用作发送请求的测试源。
+1. 部署 [curl]({{< github_tree >}}/samples/curl) 样例应用，用作发送请求的测试源。
 
     {{< text syntax=bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 ## 在网关处 {#at-a-gateway}
@@ -83,14 +83,14 @@ Istio 代理将解释 WasmPlugin 配置，从 OCI 镜像仓库下载远程 Wasm 
 1. 在没有凭据的情况下测试 `/productpage`：
 
     {{< text syntax=bash snip_id=test_gateway_productpage_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     401
     {{< /text >}}
 
 1. 使用 WasmPlugin 资源中配置的凭据来测试 `/productpage`：
 
     {{< text syntax=bash snip_id=test_gateway_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+    $ kubectl exec deploy/curl -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     200
     {{< /text >}}
 
@@ -111,7 +111,7 @@ $ istioctl waypoint apply --enroll-namespace --wait
 验证到达服务的流量：
 
 {{< text syntax=bash snip_id=verify_traffic >}}
-$ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+$ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
 200
 {{< /text >}}
 
@@ -166,14 +166,14 @@ basic-auth-at-waypoint   14m
 1. 在不含凭据的情况下测试内部 `/productpage`：
 
     {{< text syntax=bash snip_id=test_waypoint_productpage_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
     401
     {{< /text >}}
 
 1. 在有凭据的情况下测试内部 `/productpage`：
 
     {{< text syntax=bash snip_id=test_waypoint_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
     200
     {{< /text >}}
 
@@ -216,21 +216,21 @@ EOF
 1. 使用通用 `waypoint` 代理处配置的凭据来测试内部 `/productpage`：
 
     {{< text syntax=bash snip_id=test_waypoint_service_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
     200
     {{< /text >}}
 
 1. 使用特定的 `reviews-svc-waypoint` 代理处配置的凭据来测试内部 `/reviews`：
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
     200
     {{< /text >}}
 
 1. 在没有凭据的情况下测试内部 `/reviews`：
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
     401
     {{< /text >}}
 

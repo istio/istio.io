@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.23-alpha
+ISTIO_IMAGE_VERSION ?= 1.25-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -77,7 +77,7 @@ baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= release-1.23
+export SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh
@@ -144,6 +144,7 @@ netlify_install:
 	    svgstore-cli@v1.3.2 \
 		@babel/core@v7.18.2 \
 		@babel/cli@v7.17.10 \
+		@babel/traverse@7.25.9 \
 		@babel/preset-env@v7.18.2
 	@npm install --omit=dev --save-dev \
 		babel-preset-minify@v0.5.2

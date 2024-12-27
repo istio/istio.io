@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 100
+number_of_entries: 91
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -20,6 +20,21 @@ debug and diagnose their Istio mesh.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -63,6 +78,21 @@ debug and diagnose their Istio mesh.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -115,6 +145,21 @@ debug and diagnose their Istio mesh.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -195,7 +240,9 @@ debug and diagnose their Istio mesh.
 
 </code></pre>
 <h3 id="istioctl-analyze">istioctl analyze</h3>
-<p>Analyze Istio configuration and print validation messages</p>
+<p>Analyze Istio configuration and print validation messages.
+For more information about message codes, refer to:
+https://istio.io/v1.25/docs/reference/config/analysis</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
 </code></pre>
 <table class="command-flags">
@@ -211,6 +258,21 @@ debug and diagnose their Istio mesh.
 <td><code>--all-namespaces</code></td>
 <td><code>-A</code></td>
 <td>Analyze all namespaces </td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--color</code></td>
@@ -270,11 +332,16 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--recursive</code></td>
 <td><code>-R</code></td>
-<td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
+<td>[Removed: The recursive flag has been removed and is hardcoded to true] Process directory arguments recursively. </td>
+</tr>
+<tr>
+<td><code>--remote-contexts &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>analyze a specific revision deployed.  (default `default`)</td>
 </tr>
 <tr>
@@ -314,9 +381,6 @@ debug and diagnose their Istio mesh.
   # Analyze the current live cluster, simulating the effect of applying additional yaml files
   istioctl analyze a.yaml b.yaml my-app-config/
 
-  # Analyze the current live cluster, simulating the effect of applying a directory of config recursively
-  istioctl analyze --recursive my-istio-config/
-
   # Analyze yaml files without connecting to a live cluster
   istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
 
@@ -343,6 +407,21 @@ debug and diagnose their Istio mesh.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -393,6 +472,21 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -508,6 +602,21 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -634,6 +743,21 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -665,14 +789,13 @@ See each sub-command&#39;s help for details on how to use the generated script.
 <p>This script depends on the &#39;bash-completion&#39; package.
 If it is not installed already, you can install it via your OS&#39;s package manager.</p>
 <p>To load completions in your current shell session:</p>
-<p>	source &lt;(istioctl completion bash)</p>
+<pre class="language-bash"><code>source &lt;(istioctl completion bash)</code></pre>
 <p>To load completions for every new session, execute once:</p>
-<p>#### Linux:</p>
-<p>	istioctl completion bash &gt; /etc/bash_completion.d/istioctl</p>
-<p>#### macOS:</p>
-<p>	istioctl completion bash &gt; $(brew --prefix)/etc/bash_completion.d/istioctl</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+<h4>Linux:</h4>
+<pre class="language-bash"><code>istioctl completion bash &gt; /etc/bash_completion.d/istioctl</code></pre>
+<h4>macOS:</h4>
+<pre class="language-bash"><code>istioctl completion bash &gt; /usr/local/etc/bash_completion.d/istioctl</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>istioctl completion bash
 </code></pre>
 <table class="command-flags">
@@ -684,6 +807,21 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -719,11 +857,10 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <h3 id="istioctl-completion-fish">istioctl completion fish</h3>
 <p>Generate the autocompletion script for the fish shell.</p>
 <p>To load completions in your current shell session:</p>
-<p>	istioctl completion fish | source</p>
+<pre class="language-bash"><code>istioctl completion fish | source</code></pre>
 <p>To load completions for every new session, execute once:</p>
-<p>	istioctl completion fish &gt; ~/.config/fish/completions/istioctl.fish</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+<pre class="language-bash"><code>istioctl completion bash &gt; ~/.config/fish/completions/istioctl.fish</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>istioctl completion fish [flags]
 </code></pre>
 <table class="command-flags">
@@ -735,6 +872,21 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -768,12 +920,10 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tbody>
 </table>
 <h3 id="istioctl-completion-powershell">istioctl completion powershell</h3>
-<p>Generate the autocompletion script for powershell.</p>
+<p>Generate the autocompletion script for PowerShell.</p>
 <p>To load completions in your current shell session:</p>
-<p>	istioctl completion powershell | Out-String | Invoke-Expression</p>
-<p>To load completions for every new session, add the output of the above command
-to your powershell profile.
-</p>
+<pre class="language-bash"><code>istioctl completion powershell | Out-String | Invoke-Expression</code></pre>
+<p>To load completions for every new session, add the output of the above command to your powershell profile.</p>
 <pre class="language-bash"><code>istioctl completion powershell [flags]
 </code></pre>
 <table class="command-flags">
@@ -785,6 +935,21 @@ to your powershell profile.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -819,18 +984,16 @@ to your powershell profile.
 </table>
 <h3 id="istioctl-completion-zsh">istioctl completion zsh</h3>
 <p>Generate the autocompletion script for the zsh shell.</p>
-<p>If shell completion is not already enabled in your environment you will need
-to enable it.  You can execute the following once:</p>
-<p>	echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</p>
-<p>To load completions in your current shell session:</p>
-<p>	source &lt;(istioctl completion zsh)</p>
-<p>To load completions for every new session, execute once:</p>
-<p>#### Linux:</p>
-<p>	istioctl completion zsh &gt; &#34;${fpath[1]}/_istioctl&#34;</p>
-<p>#### macOS:</p>
-<p>	istioctl completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_istioctl</p>
-<p>You will need to start a new shell for this setup to take effect.
-</p>
+	<p>If shell completion is not already enabled in your environment you will need to enable it. You can execute the following once:</p>
+	<pre class="language-bash"><code>echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</code></pre>
+	<p>To load completions in your current shell session:</p>
+	<pre class="language-bash"><code>source &lt;(istioctl completion zsh)</code></pre>
+	<p>To load completions for every new session, execute once:</p>
+	<h4>Linux:</h4>
+	<pre class="language-bash"><code>istioctl completion zsh &gt; &#34;${fpath[1]}/_istioctl&#34;</code></pre>
+	<h4>macOS:</h4>
+	<pre class="language-bash"><code>istioctl completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_istioctl</code></pre>
+	<p>You will need to start a new shell for this setup to take effect.</p>
 <pre class="language-bash"><code>istioctl completion zsh [flags]
 </code></pre>
 <table class="command-flags">
@@ -842,6 +1005,21 @@ to enable it.  You can execute the following once:</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -888,6 +1066,21 @@ to enable it.  You can execute the following once:</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--auth-plugin-config &lt;stringToString&gt;</code></td>
 <td></td>
 <td>Authenticator plug-in configuration. --auth-type=plugin must be set with this option  (default `[]`)</td>
@@ -926,7 +1119,7 @@ to enable it.  You can execute the following once:</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -1001,6 +1194,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1054,6 +1262,21 @@ istioctl d [flags]
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--browser</code></td>
@@ -1138,6 +1361,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1215,6 +1453,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1280,6 +1533,21 @@ istioctl d [flags]
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--browser</code></td>
@@ -1357,6 +1625,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1422,6 +1705,21 @@ istioctl d [flags]
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--browser</code></td>
@@ -1491,6 +1789,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1556,6 +1869,21 @@ istioctl d [flags]
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--browser</code></td>
@@ -1641,6 +1969,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1708,6 +2051,21 @@ istioctl d [flags]
 <td>Address to listen on. Only accepts IP address or localhost as a value. When localhost is supplied, istioctl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these address are available to bind.  (default `localhost`)</td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--browser</code></td>
 <td></td>
 <td>When --browser is supplied as false, istioctl dashboard will not open the browser. Default is true which means istioctl dashboard will always open a browser to view the dashboard. </td>
@@ -1768,6 +2126,21 @@ istioctl d [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -1806,6 +2179,21 @@ istioctl d [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -1850,6 +2238,21 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -1906,6 +2309,21 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -1964,6 +2382,21 @@ Checks associated resources of the given resource, and running webhooks to exami
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2008,6 +2441,21 @@ Checks associated resources of the given resource, and running webhooks to exami
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2050,6 +2498,21 @@ Checks associated resources of the given resource, and running webhooks to exami
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -2095,6 +2558,21 @@ the configuration objects that affect that pod.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -2149,6 +2627,21 @@ the configuration objects that affect that service.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2200,6 +2693,21 @@ the configuration objects that affect that service.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2228,6 +2736,11 @@ the configuration objects that affect that service.</p>
 <td><code>--proxy-admin-port &lt;int&gt;</code></td>
 <td></td>
 <td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--selector &lt;string&gt;</code></td>
+<td><code>-l</code></td>
+<td>Label selector  (default ``)</td>
 </tr>
 <tr>
 <td><code>--type &lt;string&gt;</code></td>
@@ -2272,6 +2785,21 @@ the configuration objects that affect that service.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2314,6 +2842,21 @@ the configuration objects that affect that service.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -2365,6 +2908,21 @@ THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
 <td><code>--all</code></td>
 <td></td>
 <td>Send the same request to all instances of Istiod. Only applicable for in-cluster deployment. </td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--authority &lt;string&gt;</code></td>
@@ -2492,6 +3050,21 @@ calculated over a time interval of 1 minute.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2546,6 +3119,21 @@ calculated over a time interval of 1 minute.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -2626,6 +3214,21 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--authority &lt;string&gt;</code></td>
 <td></td>
@@ -2756,6 +3359,21 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--authority &lt;string&gt;</code></td>
 <td></td>
 <td>XDS Subject Alternative Name (for example istiod.istio-system.svc)  (default ``)</td>
@@ -2872,6 +3490,21 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2917,6 +3550,21 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -2961,6 +3609,21 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--autoregister</code></td>
 <td></td>
@@ -3067,6 +3730,21 @@ Configure requires either the WorkloadGroup artifact path or its location on the
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -3114,6 +3792,21 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td><code>--annotations &lt;stringSlice&gt;</code></td>
 <td><code>-a</code></td>
 <td>The annotations to apply to the workload instances  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -3182,6 +3875,21 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--charts &lt;string&gt;</code></td>
 <td></td>
 <td>Deprecated, use --manifests instead.  (default ``)</td>
@@ -3221,7 +3929,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3244,7 +3952,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3298,6 +4006,21 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--authority &lt;string&gt;</code></td>
 <td></td>
@@ -3444,6 +4167,21 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -3467,85 +4205,6 @@ doubt re-run istioctl kube-inject on deployments to get the most up-to-date chan
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-manifest-diff">istioctl manifest diff</h3>
-<p>The diff subcommand compares manifests from two files or directories. The output is a list of
-changed paths with the value changes shown as OLD-VALUE -&gt; NEW-VALUE.
-List order changes are shown as [OLD-INDEX-&gt;NEW-INDEX], with ? used where a list item is added or
-removed.</p>
-<pre class="language-bash"><code>istioctl manifest diff &lt;file|dir&gt; &lt;file|dir&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--directory</code></td>
-<td><code>-r</code></td>
-<td>Compare directory. </td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--ignore &lt;string&gt;</code></td>
-<td></td>
-<td>Ignore all listed items during comparison, using the same list format as selectResources.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--rename &lt;string&gt;</code></td>
-<td></td>
-<td>Rename resources before comparison.
-The format of each renaming pair is A-&gt;B, all renaming pairs are comma separated.
-e.g. Service:*:istiod-&gt;Service:*:istio-control - rename istiod service into istio-control  (default ``)</td>
-</tr>
-<tr>
-<td><code>--select &lt;string&gt;</code></td>
-<td></td>
-<td>Constrain the list of resources to compare to only the ones in this list, ignoring all others.
-The format of each list item is &#34;::&#34; and the items are comma separated. The &#34;*&#34; character represents wildcard selection.
-e.g.
-    Deployment:istio-system:* - compare all deployments in istio-system namespace
-    Service:*:istiod - compare Services called &#34;istiod&#34; in all namespaces  (default `::`)</td>
-</tr>
-<tr>
-<td><code>--verbose</code></td>
-<td><code>-v</code></td>
-<td>Verbose output. </td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3568,6 +4227,21 @@ e.g.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--charts &lt;string&gt;</code></td>
 <td></td>
 <td>Deprecated, use --manifests instead.  (default ``)</td>
@@ -3576,11 +4250,6 @@ e.g.
 <td><code>--cluster-specific</code></td>
 <td></td>
 <td>If enabled, the current cluster will be checked for cluster-specific setting detection. </td>
-</tr>
-<tr>
-<td><code>--component &lt;stringSlice&gt;</code></td>
-<td></td>
-<td>Specify which component to generate manifests for.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -3617,18 +4286,13 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Manifest output directory path.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -3640,7 +4304,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3680,6 +4344,21 @@ settings (--set meshConfig.enableTracing=true). See documentation for more info:
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--charts &lt;string&gt;</code></td>
 <td></td>
 <td>Deprecated, use --manifests instead.  (default ``)</td>
@@ -3719,7 +4398,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3742,7 +4421,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -3776,47 +4455,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
-<h3 id="istioctl-operator">istioctl operator</h3>
-<p>The operator command installs, dumps, removes and shows the status of the operator controller.</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-operator-dump">istioctl operator dump</h3>
-<p>The dump subcommand dumps the Istio operator controller manifest.</p>
-<pre class="language-bash"><code>istioctl operator dump [flags]
+<h3 id="istioctl-manifest-translate">istioctl manifest translate</h3>
+<p>The translate subcommand translates an Istio install manifest and outputs to the console by default.</p>
+<pre class="language-bash"><code>istioctl manifest translate [flags]
 </code></pre>
 <table class="command-flags">
 <thead>
@@ -3828,421 +4469,19 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
+<td><code>--as &lt;string&gt;</code></td>
 <td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--context &lt;string&gt;</code></td>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
 <td></td>
-<td>Kubernetes configuration context  (default ``)</td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--dry-run</code></td>
+<td><code>--as-uid &lt;string&gt;</code></td>
 <td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--hub &lt;string&gt;</code></td>
-<td></td>
-<td>The hub for the operator controller image.  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--imagePullSecrets &lt;stringSlice&gt;</code></td>
-<td></td>
-<td>The imagePullSecrets are used to pull the operator image from the private registry,
-could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSecret1,imagePullSecret2&#39;  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--operatorNamespace &lt;string&gt;</code></td>
-<td></td>
-<td>The namespace the operator controller is installed into.  (default `istio-operator`)</td>
-</tr>
-<tr>
-<td><code>--output &lt;string&gt;</code></td>
-<td><code>-o</code></td>
-<td>Output format: one of json|yaml  (default `yaml`)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Target revision for the operator.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--tag &lt;string&gt;</code></td>
-<td></td>
-<td>The tag for the operator controller image.  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--watchedNamespaces &lt;string&gt;</code></td>
-<td></td>
-<td>The namespaces the operator controller watches, could be namespace list separated by comma, eg. &#39;ns1,ns2&#39;  (default `istio-system`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-operator-init">istioctl operator init</h3>
-<p>The init subcommand installs the Istio operator controller in the cluster.</p>
-<pre class="language-bash"><code>istioctl operator init [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--filename &lt;string&gt;</code></td>
-<td><code>-f</code></td>
-<td>Path to file containing IstioOperator custom resource
-This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--hub &lt;string&gt;</code></td>
-<td></td>
-<td>The hub for the operator controller image.  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--imagePullSecrets &lt;stringSlice&gt;</code></td>
-<td></td>
-<td>The imagePullSecrets are used to pull the operator image from the private registry,
-could be secret list separated by comma, eg. &#39;--imagePullSecrets imagePullSecret1,imagePullSecret2&#39;  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--operatorNamespace &lt;string&gt;</code></td>
-<td></td>
-<td>The namespace the operator controller is installed into.  (default `istio-operator`)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Target revision for the operator.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--tag &lt;string&gt;</code></td>
-<td></td>
-<td>The tag for the operator controller image.  (default `unknown`)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-<tr>
-<td><code>--watchedNamespaces &lt;string&gt;</code></td>
-<td></td>
-<td>The namespaces the operator controller watches, could be namespace list separated by comma, eg. &#39;ns1,ns2&#39;  (default `istio-system`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-operator-remove">istioctl operator remove</h3>
-<p>The remove subcommand removes the Istio operator controller from the cluster.</p>
-<pre class="language-bash"><code>istioctl operator remove [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--force</code></td>
-<td></td>
-<td>Proceed even with validation errors. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--operatorNamespace &lt;string&gt;</code></td>
-<td></td>
-<td>The namespace the operator controller is installed into.  (default `istio-operator`)</td>
-</tr>
-<tr>
-<td><code>--purge</code></td>
-<td></td>
-<td>Remove all versions of Istio operator. </td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Target revision for the operator.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--skip-confirmation</code></td>
-<td><code>-y</code></td>
-<td>The skipConfirmation determines whether the user is prompted for confirmation.
-If set to true, the user is not prompted and a Yes response is assumed in all cases. </td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-options">istioctl options</h3>
-<p>Displays istioctl global options</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="istioctl-profile">istioctl profile</h3>
-<p>The profile command lists, dumps or diffs Istio configuration profiles.</p>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="istioctl-profile Examples">Examples</h4>
-<pre class="language-bash"><code>istioctl profile list
-istioctl install --set profile=demo  # Use a profile from the list
-</code></pre>
-<h3 id="istioctl-profile-diff">istioctl profile diff</h3>
-<p>The diff subcommand displays the differences between two Istio configuration profiles.</p>
-<pre class="language-bash"><code>istioctl profile diff &lt;profile|file1.yaml&gt; &lt;profile|file2.yaml&gt; [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
-  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="istioctl-profile-diff Examples">Examples</h4>
-<pre class="language-bash"><code>  # Profile diff by providing yaml files
-  istioctl profile diff manifests/profiles/default.yaml manifests/profiles/demo.yaml
-
-  # Profile diff by providing a profile name
-  istioctl profile diff default demo
-</code></pre>
-<h3 id="istioctl-profile-dump">istioctl profile dump</h3>
-<p>The dump subcommand dumps the values in an Istio configuration profile.</p>
-<pre class="language-bash"><code>istioctl profile dump [&lt;profile&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--charts &lt;string&gt;</code></td>
-<td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--config-path &lt;string&gt;</code></td>
-<td><code>-p</code></td>
-<td>The path the root of the configuration subtree to dump e.g. components.pilot. By default, dump whole tree  (default ``)</td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -4274,7 +4513,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4285,7 +4524,19 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format: one of json|yaml|flags  (default `yaml`)</td>
+<td>where to put translated outputs  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4294,10 +4545,25 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </tbody>
 </table>
-<h3 id="istioctl-profile-list">istioctl profile list</h3>
-<p>The list subcommand lists the available Istio configuration profiles.</p>
-<pre class="language-bash"><code>istioctl profile list [flags]
+<h4 id="istioctl-manifest-translate Examples">Examples</h4>
+<pre class="language-bash"><code>  # Translate an IstioOperator yaml file into helm values
+  istioctl manifest translate -f istio.yaml
+
+  # Translate a default Istio installation
+  istioctl manifest translate
+
+  # Enable Tracing
+  istioctl manifest translate --set meshConfig.enableTracing=true
+
+  # Translate the demo profile
+  istioctl manifest translate --set profile=demo
+
+  # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
+  istioctl manifest translate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
+
 </code></pre>
+<h3 id="istioctl-options">istioctl options</h3>
+<p>Displays istioctl global options</p>
 <table class="command-flags">
 <thead>
 <tr>
@@ -4308,19 +4574,24 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </thead>
 <tbody>
 <tr>
-<td><code>--charts &lt;string&gt;</code></td>
+<td><code>--as &lt;string&gt;</code></td>
 <td></td>
-<td>Deprecated, use --manifests instead.  (default ``)</td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--dry-run</code></td>
-<td></td>
-<td>Console/log output only, make no changes. </td>
 </tr>
 <tr>
 <td><code>--istioNamespace &lt;string&gt;</code></td>
@@ -4331,13 +4602,6 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--kubeconfig &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
-  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -4362,6 +4626,21 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -4401,7 +4680,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </table>
 <h4 id="istioctl-proxy-config Examples">Examples</h4>
 <pre class="language-bash"><code>  # Retrieve information about proxy configuration from an Envoy instance.
-  istioctl proxy-config &lt;clusters|listeners|routes|endpoints|bootstrap|log|secret&gt; &lt;pod-name[.namespace]&gt;
+  istioctl proxy-config &lt;clusters|listeners|routes|endpoints|ecds|bootstrap|log|secret&gt; &lt;pod-name[.namespace]&gt;
 </code></pre>
 <h3 id="istioctl-proxy-config-all">istioctl proxy-config all</h3>
 <p>Retrieve information about all configuration for the Envoy instance in the specified pod.</p>
@@ -4423,6 +4702,21 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by address field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -4505,6 +4799,9 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <pre class="language-bash"><code>  # Retrieve summary about all configuration for a given pod from Envoy.
   istioctl proxy-config all &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about all configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config all deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve full cluster dump as JSON
   istioctl proxy-config all &lt;pod-name[.namespace]&gt; -o json
 
@@ -4532,6 +4829,21 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -4578,6 +4890,9 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <pre class="language-bash"><code>  # Retrieve full bootstrap configuration for a given pod from Envoy.
   istioctl proxy-config bootstrap &lt;pod-name[.namespace]&gt;
 
+  # Retrieve full bootstrap configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config bootstrap deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve full bootstrap without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config bootstrap --file envoy-config.json
@@ -4603,6 +4918,21 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -4669,6 +4999,9 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve summary about cluster configuration for a given pod from Envoy.
   istioctl proxy-config clusters &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about cluster configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config clusters deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve cluster summary for clusters with port 9080.
   istioctl proxy-config clusters &lt;pod-name[.namespace]&gt; --port 9080
 
@@ -4696,6 +5029,21 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -4742,6 +5090,9 @@ istioctl proxy-config c [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve full typed extension configuration for a given pod from Envoy.
   istioctl proxy-config ecds &lt;pod-name[.namespace]&gt;
 
+  # Retrieve full typed extension configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config ecds deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve endpoint summary without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config ecds --file envoy-config.json
@@ -4768,6 +5119,21 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Filter endpoints by address field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--cluster &lt;string&gt;</code></td>
@@ -4830,6 +5196,9 @@ istioctl proxy-config ep [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve full endpoint configuration for a given pod from Envoy.
   istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt;
 
+  # Retrieve full endpoint configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config endpoint deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve endpoint summary for endpoint with port 9080.
   istioctl proxy-config endpoint &lt;pod-name[.namespace]&gt; --port 9080
 
@@ -4867,6 +5236,21 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Filter listeners by address field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -4929,6 +5313,9 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve summary about listener configuration for a given pod from Envoy.
   istioctl proxy-config listeners &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about listener configuration a pod under a deployment from Envoy.
+  istioctl proxy-config deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve listener summary for listeners with port 9080.
   istioctl proxy-config listeners &lt;pod-name[.namespace]&gt; --port 9080
 
@@ -4956,6 +5343,21 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -5040,6 +5442,21 @@ istioctl proxy-config l [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -5098,6 +5515,21 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -5153,6 +5585,9 @@ istioctl proxy-config r [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve summary about route configuration for a given pod from Envoy.
   istioctl proxy-config routes &lt;pod-name[.namespace]&gt;
 
+  # Retrieve summary about route configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config routes deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve route summary for route 9080.
   istioctl proxy-config route &lt;pod-name[.namespace]&gt; --name 9080
 
@@ -5181,6 +5616,21 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -5227,6 +5677,9 @@ istioctl proxy-config s [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
 <pre class="language-bash"><code>  # Retrieve full secret configuration for a given pod from Envoy.
   istioctl proxy-config secret &lt;pod-name[.namespace]&gt;
 
+  # Retrieve full secret configuration for a pod under a deployment from Envoy.
+  istioctl proxy-config secret deployment/&lt;deployment-name[.namespace]&gt;
+
   # Retrieve full bootstrap without using Kubernetes API
   ssh &lt;user@hostname&gt; &#39;curl localhost:15000/config_dump&#39; &gt; envoy-config.json
   istioctl proxy-config secret --file envoy-config.json
@@ -5249,6 +5702,21 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--authority &lt;string&gt;</code></td>
 <td></td>
@@ -5369,6 +5837,21 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -5422,6 +5905,21 @@ without manual relabeling of the &#34;istio.io/rev&#34; tag.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -5463,6 +5961,21 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--auto-inject-namespaces</code></td>
 <td></td>
 <td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
@@ -5486,7 +5999,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -5553,6 +6066,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -5575,7 +6103,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <tr>
 <td><code>--output &lt;string&gt;</code></td>
 <td><code>-o</code></td>
-<td>Output format for tag description (available formats: table,json)  (default `table`)</td>
+<td>Output format for tag description (available formats: table,json,yaml)  (default `table`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -5585,7 +6113,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h4 id="istioctl-tag-list Examples">Examples</h4>
-<pre class="language-bash"><code>istioctl tag list
+<pre class="language-bash"><code>  istioctl tag list
 </code></pre>
 <h3 id="istioctl-tag-remove">istioctl tag remove</h3>
 <p>Remove Istio control plane revision tag.</p>
@@ -5607,6 +6135,21 @@ revision tag before removing using the &#34;istioctl tag list&#34; command.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -5660,6 +6203,21 @@ injection labels.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--auto-inject-namespaces</code></td>
 <td></td>
 <td>If set to true, the sidecars should be automatically injected into all namespaces by default </td>
@@ -5683,7 +6241,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -5751,6 +6309,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -5784,7 +6357,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5807,7 +6380,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -5851,6 +6424,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--charts &lt;string&gt;</code></td>
 <td></td>
 <td>Deprecated, use --manifests instead.  (default ``)</td>
@@ -5890,7 +6478,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).
+(e.g. ~/Downloads/istio-1.25.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -5913,7 +6501,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.23/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -5949,6 +6537,21 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6001,84 +6604,6 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml
 
 </code></pre>
-<h3 id="istioctl-verify-install">istioctl verify-install</h3>
-<p>
-verify-install verifies Istio installation status against the installation file
-you specified when you installed Istio. It loops through all the installation
-resources defined in your installation file and reports whether all of them are
-in ready status. It will report failure when any of them are not ready.</p>
-<p>If you do not specify an installation it will check for an IstioOperator resource
-and will verify if pods and services defined in it are present.</p>
-<p>Note: For verifying whether your cluster is ready for Istio installation, see
-istioctl experimental precheck.
-</p>
-<pre class="language-bash"><code>istioctl verify-install [-f &lt;deployment or istio operator file&gt;] [--revision &lt;revision&gt;] [flags]
-</code></pre>
-<table class="command-flags">
-<thead>
-<tr>
-<th>Flags</th>
-<th>Shorthand</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--context &lt;string&gt;</code></td>
-<td></td>
-<td>Kubernetes configuration context  (default ``)</td>
-</tr>
-<tr>
-<td><code>--filename &lt;stringSlice&gt;</code></td>
-<td><code>-f</code></td>
-<td>Istio YAML installation file.  (default `[]`)</td>
-</tr>
-<tr>
-<td><code>--istioNamespace &lt;string&gt;</code></td>
-<td><code>-i</code></td>
-<td>Istio system namespace  (default `istio-system`)</td>
-</tr>
-<tr>
-<td><code>--kubeconfig &lt;string&gt;</code></td>
-<td><code>-c</code></td>
-<td>Kubernetes configuration file  (default ``)</td>
-</tr>
-<tr>
-<td><code>--manifests &lt;string&gt;</code></td>
-<td><code>-d</code></td>
-<td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.23.0/manifests).  (default ``)</td>
-</tr>
-<tr>
-<td><code>--namespace &lt;string&gt;</code></td>
-<td><code>-n</code></td>
-<td>Kubernetes namespace  (default ``)</td>
-</tr>
-<tr>
-<td><code>--revision &lt;string&gt;</code></td>
-<td><code>-r</code></td>
-<td>Control plane revision  (default ``)</td>
-</tr>
-<tr>
-<td><code>--vklog &lt;Level&gt;</code></td>
-<td></td>
-<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="istioctl-verify-install Examples">Examples</h4>
-<pre class="language-bash"><code>  # Verify that Istio is installed correctly via Istio Operator
-  istioctl verify-install
-
-  # Verify the deployment matches a custom Istio deployment configuration
-  istioctl verify-install -f $HOME/istio.yaml
-
-  # Verify the deployment matches the Istio Operator deployment definition
-  istioctl verify-install --revision &lt;canary&gt;
-
-  # Verify the installation of specific revision
-  istioctl verify-install -r 1-9-0
-</code></pre>
 <h3 id="istioctl-version">istioctl version</h3>
 <p>Prints out build version information</p>
 <pre class="language-bash"><code>istioctl version [flags]
@@ -6092,6 +6617,21 @@ istioctl experimental precheck.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6153,6 +6693,21 @@ istioctl experimental precheck.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6207,6 +6762,21 @@ istioctl experimental precheck.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6290,6 +6860,21 @@ istioctl experimental precheck.
 <td>Delete all waypoints in the namespace </td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6347,6 +6932,21 @@ istioctl experimental precheck.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6412,6 +7012,21 @@ istioctl experimental precheck.
 <td>List all waypoints in all namespaces </td>
 </tr>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6464,6 +7079,21 @@ istioctl experimental precheck.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6514,6 +7144,21 @@ istioctl experimental precheck.
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6560,6 +7205,21 @@ istioctl experimental precheck.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6612,7 +7272,7 @@ istioctl experimental precheck.
   istioctl ztunnel-config all
 
   # Retrieve full configuration dump of workloads for a given Ztunnel instance.
-  istioctl ztunnel-config policies &lt;ztunnel-name[.namespace]&gt; -o json
+  istioctl ztunnel-config all &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
 <h3 id="istioctl-ztunnel-config-certificate">istioctl ztunnel-config certificate</h3>
@@ -6633,6 +7293,21 @@ istioctl ztunnel-config cert [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6704,6 +7379,21 @@ istioctl ztunnel-config cert [flags]
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
@@ -6794,6 +7484,21 @@ istioctl ztunnel-config pol [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6872,6 +7577,21 @@ istioctl ztunnel-config svc [flags]
 </thead>
 <tbody>
 <tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--context &lt;string&gt;</code></td>
 <td></td>
 <td>Kubernetes configuration context  (default ``)</td>
@@ -6927,7 +7647,7 @@ istioctl ztunnel-config svc [flags]
 <pre class="language-bash"><code>  # Retrieve summary about services configuration for a randomly chosen ztunnel.
   istioctl ztunnel-config services
 
-  # Retrieve full certificate dump of workloads for a given Ztunnel instance.
+  # Retrieve full services dump of workloads for a given Ztunnel instance.
   istioctl ztunnel-config services &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
@@ -6952,6 +7672,21 @@ istioctl ztunnel-config workloads [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;
 <td><code>--address &lt;string&gt;</code></td>
 <td></td>
 <td>Filter workloads by address field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--context &lt;string&gt;</code></td>
@@ -7029,7 +7764,7 @@ istioctl ztunnel-config workloads [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;
 
 </code></pre>
 <h2 id="envvars">Environment variables</h2>
-These environment variables affect the behavior of the <code>istioctl</code> command. Please use with caution as these environment variables are experimental and can change anytime.
+These environment variables affect the behavior of the <code>istioctl</code> command. 
 <table class="envvars">
 <thead>
 <tr>
@@ -7040,6 +7775,18 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>AMBIENT_ENABLE_STATUS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
+</tr>
+<tr>
+<td><code>BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, overload manager will not be applied to static listeners</td>
+</tr>
 <tr>
 <td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
 <td>String</td>
@@ -7113,22 +7860,22 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
 </tr>
 <tr>
+<td><code>ENABLE_DEFERRED_STATS_CREATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio will lazily initialize a subset of the stats</td>
+</tr>
+<tr>
 <td><code>ENABLE_DELIMITED_STATS_TAG_REGEX</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, pilot will use the new delimited stat tag regex to generate Envoy stats tags.</td>
 </tr>
 <tr>
-<td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
+<td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
-</tr>
-<tr>
-<td><code>ENABLE_EXTERNAL_NAME_ALIAS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, ExternalName Services will be treated as simple aliases: anywhere where we would match the concrete service, we also match the ExternalName. In general, this mirrors Kubernetes behavior more closely. However, it means that policies (routes and DestinationRule) cannot be applied to the ExternalName service. If disabled, ExternalName behaves in fairly unexpected manner. Port matters, while it does not in Kubernetes. If it is a TCP port, all traffic on that port will be matched, which can have disastrous consequences. Additionally, the destination is seen as an opaque destination; even if it is another service in the mesh, policies such as mTLS and load balancing will not be used when connecting to it.</td>
+<td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
 <tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
@@ -7139,14 +7886,26 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <tr>
 <td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
+</tr>
+<tr>
+<td><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Gateways will call service waypoints if the &#39;istio.io/ingress-use-waypoint&#39; label set on the Service.</td>
 </tr>
 <tr>
 <td><code>ENABLE_LEADER_ELECTION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LOCALITY_WEIGHTED_LB_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, always set LocalityWeightedLbConfig for a cluster,  otherwise only apply it when locality lb is specified by DestinationRule for a service</td>
 </tr>
 <tr>
 <td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
@@ -7191,12 +7950,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
-<td><code>ENABLE_RESOLUTION_NONE_TARGET_PORT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, targetPort will be supported for resolution=NONE ServiceEntry</td>
-</tr>
-<tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -7215,6 +7968,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
 </tr>
 <tr>
+<td><code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, excludes unsafe retry on 503 from default retry policy.</td>
+</tr>
+<tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7231,6 +7990,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>String</td>
 <td><code></code></td>
 <td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
+</tr>
+<tr>
+<td><code>GCP_ZONE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>GCP Zone where the workload is running on.</td>
 </tr>
 <tr>
 <td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
@@ -7344,7 +8109,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world configuration on a Resource Request. While this feature uses the delta xds api, it may still occasionally send unchanged configurations instead of just the actual deltas.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DUAL_STACK</code></td>
@@ -7495,12 +8260,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
 <tr>
-<td><code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, istiod will persist the oldest first heuristic for subtly conflicting traffic policy selection(such as with overlapping wildcard hosts)</td>
-</tr>
-<tr>
 <td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -7547,6 +8306,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></td>
+<td>String</td>
+<td><code>100</code></td>
+<td>Sets the `udp_max_queries` option in Envoy for the Cares DNS resolver. Defaults to 0, an unlimited number of queries. See `extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig` in https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto and `ARES_OPT_UDP_MAX_QUERIES` in https://c-ares.org/docs/ares_init.html</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_JITTER_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>Jitter added to periodic DNS resolution</td>
 </tr>
 <tr>
 <td><code>PILOT_DRAINING_LABEL</code></td>
@@ -7635,7 +8406,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will start a controller that assigns IP addresses to ServiceEntry which do not have a user-supplied IP. This, when combined with DNS capture allows for tcp routing of traffic sent to the ServiceEntry.</td>
 </tr>
 <tr>
@@ -7715,12 +8486,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, HBONE support can be configured for proxies.</td>
-</tr>
-<tr>
-<td><code>PILOT_ENABLE_STATUS</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, pilot will update the CRD Status field of all istio resources with reconciliation status.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
@@ -7903,6 +8668,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 1.0.</td>
 </tr>
 <tr>
+<td><code>PILOT_UNIFIED_SIDECAR_SCOPE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, unified SidecarScope creation will be used. This is only intended as a temporary feature flag for backwards compatibility.</td>
+</tr>
+<tr>
 <td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
@@ -7933,10 +8704,10 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Platform where Istio is deployed. Possible values are &#34;openshift&#34; and &#34;gcp&#34;</td>
 </tr>
 <tr>
-<td><code>REQUIRE_3P_TOKEN</code></td>
+<td><code>PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>Reject k8s default tokens, without audience. If false, default K8S token will be accepted</td>
+<td><code>true</code></td>
+<td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
 </tr>
 <tr>
 <td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
@@ -8005,12 +8776,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If not empty, the controller will automatically patch validatingwebhookconfiguration when the CA certificate changes. Only works in kubernetes environment.</td>
 </tr>
 <tr>
-<td><code>VERIFY_CERTIFICATE_AT_CLIENT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, certificates received by the proxy will be verified against the OS CA certificate bundle.</td>
-</tr>
-<tr>
 <td><code>XDS_AUTH</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -8035,20 +8800,11 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>auto_registration_success_total</code></td><td><code>Sum</code></td><td>Total number of successful auto registrations.</td></tr>
 <tr><td><code>auto_registration_unregister_total</code></td><td><code>Sum</code></td><td>Total number of unregistrations.</td></tr>
 <tr><td><code>auto_registration_updates_total</code></td><td><code>Sum</code></td><td>Total number of auto registration updates.</td></tr>
-<tr><td><code>cache_flush_total</code></td><td><code>Sum</code></td><td>number of times operator cache was flushed</td></tr>
 <tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
-<tr><td><code>cr_deletion_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR deleted</td></tr>
-<tr><td><code>cr_merge_failure_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR merge failures</td></tr>
-<tr><td><code>cr_validation_error_total</code></td><td><code>Sum</code></td><td>Number of IstioOperator CR validation failures</td></tr>
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
-<tr><td><code>get_cr_error_total</code></td><td><code>Sum</code></td><td>Number of times fetching CR from apiserver failed</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istiod_managed_clusters</code></td><td><code>LastValue</code></td><td>Number of clusters managed by istiod</td></tr>
-<tr><td><code>legacy_path_translation_total</code></td><td><code>Sum</code></td><td>Number of times a legacy API path is translated</td></tr>
-<tr><td><code>manifest_patch_error_total</code></td><td><code>Sum</code></td><td>Number of times K8S patch overlays failed</td></tr>
-<tr><td><code>manifest_render_error_total</code></td><td><code>Sum</code></td><td>Number of times error occurred during rendering output manifest</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
-<tr><td><code>owned_resource_total</code></td><td><code>LastValue</code></td><td>Number of resources currently owned by the operator</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue.</td></tr>
@@ -8093,13 +8849,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
 <tr><td><code>provider_lookup_cluster_failures</code></td><td><code>Sum</code></td><td>Number of times a cluster lookup failed</td></tr>
-<tr><td><code>reconcile_request_total</code></td><td><code>Sum</code></td><td>Number of times requesting Reconcile</td></tr>
 <tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
-<tr><td><code>render_manifest_total</code></td><td><code>Sum</code></td><td>Number of component manifests rendered</td></tr>
-<tr><td><code>resource_creation_total</code></td><td><code>Sum</code></td><td>Number of resources created by the operator</td></tr>
-<tr><td><code>resource_deletion_total</code></td><td><code>Sum</code></td><td>Number of resources deleted by the operator</td></tr>
-<tr><td><code>resource_prune_total</code></td><td><code>Sum</code></td><td>Number of resources pruned by the operator</td></tr>
-<tr><td><code>resource_update_total</code></td><td><code>Sum</code></td><td>Number of resources updated by the operator</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
 <tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
@@ -8108,7 +8858,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_time_seconds</code></td><td><code>Distribution</code></td><td>Total time taken for injection in seconds.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
-<tr><td><code>version</code></td><td><code>LastValue</code></td><td>Version of operator binary</td></tr>
 <tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
 <tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
 <tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>

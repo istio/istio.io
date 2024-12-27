@@ -126,13 +126,13 @@ $ kubectl apply --context="${CTX_R3_Z4}" -n sample \
   -f helloworld-region3.zone4.yaml
 {{< /text >}}
 
-## 部署 `Sleep` {#deploy-sleep}
+## 部署 `curl` {#deploy-curl}
 
-部署 `Sleep` 应用到 `region1` `zone1`：
+部署 `curl` 应用到 `region1` `zone1`：
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_R1_Z1}" \
-  -f @samples/sleep/sleep.yaml@ -n sample
+  -f @samples/curl/curl.yaml@ -n sample
 {{< /text >}}
 
 ## 等待 `HelloWorld` Pod {#wait-for-helloworld-pods}

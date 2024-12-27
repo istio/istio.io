@@ -9,8 +9,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
-而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为
+HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，
 即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
 
 本任务中的 HTTPS 示例服务是一个简单的

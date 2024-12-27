@@ -27,6 +27,10 @@ test: no
 要选择使用 Istio 的 L7 功能（例如流量路由），
 您需要[部署 waypoint 代理并注册您的工作负载](/zh/docs/ambient/usage/waypoint/)。
 
+### Ambient 和 Kubernetes NetworkPolicy {#ambient-and-kubernetes-networkpolicy}
+
+请参阅 [Ambient 和 Kubernetes NetworkPolicy](/zh/docs/ambient/usage/networkpolicy/)。
+
 ## 不同数据平面模式下的 Pod 间通信 {#communicating-between-pods-in-different-data-plane-modes}
 
 使用 Ambient 数据平面模式的应用 Pod 与非 Ambient 端点

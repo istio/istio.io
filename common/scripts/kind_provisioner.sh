@@ -32,7 +32,10 @@ set -x
 ####################################################################
 
 # DEFAULT_KIND_IMAGE is used to set the Kubernetes version for KinD unless overridden in params to setup_kind_cluster(s)
-DEFAULT_KIND_IMAGE="gcr.io/istio-testing/kind-node:v1.28.4"
+DEFAULT_KIND_IMAGE="gcr.io/istio-testing/kind-node:v1.32.0"
+
+# the default kind cluster should be ipv4 if not otherwise specified
+IP_FAMILY="${IP_FAMILY:-ipv4}"
 
 # COMMON_SCRIPTS contains the directory this file is in.
 COMMON_SCRIPTS=$(dirname "${BASH_SOURCE:-$0}")
@@ -174,11 +177,6 @@ function setup_kind_cluster() {
     CONFIG=${DEFAULT_CLUSTER_YAML}
   fi
 
-  # Configure the ipFamily of the cluster
-  if [ -n "${IP_FAMILY}" ]; then
-      yq eval ".networking.ipFamily = \"${IP_FAMILY}\"" -i "${CONFIG}"
-  fi
-
   KIND_WAIT_FLAG="--wait=180s"
   KIND_DISABLE_CNI="false"
   if [[ -n "${KUBERNETES_CNI:-}" ]]; then
@@ -187,7 +185,8 @@ function setup_kind_cluster() {
   fi
 
   # Create KinD cluster
-  if ! (yq eval "${CONFIG}" --expression ".networking.disableDefaultCNI = ${KIND_DISABLE_CNI}" | \
+  if ! (yq eval "${CONFIG}" --expression ".networking.disableDefaultCNI = ${KIND_DISABLE_CNI}" \
+    --expression ".networking.ipFamily = \"${IP_FAMILY}\"" | \
     kind create cluster --name="${NAME}" -v4 --retain --image "${IMAGE}" ${KIND_WAIT_FLAG:+"$KIND_WAIT_FLAG"} --config -); then
     echo "Could not setup KinD environment. Something wrong with KinD setup. Exporting logs."
     return 9
@@ -196,7 +195,7 @@ function setup_kind_cluster() {
   kubectl taint nodes "${NAME}"-control-plane node-role.kubernetes.io/control-plane- 2>/dev/null || true
 
   # Determine what CNI to install
-  case "${KUBERNETES_CNI:-}" in 
+  case "${KUBERNETES_CNI:-}" in
 
     "calico")
       echo "Installing Calico CNI"

@@ -76,14 +76,6 @@ values:
 
 {{< /tab >}}
 
-{{< tab name="Istioctl" category-value="istioctl" >}}
-
-{{< text syntax=bash snip_id=none >}}
-$ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig.defaultConfig.proxyMetadata.ISTIO_DUAL_STACK="true" --set values.gateways.istio-ingressgateway.ipFamilyPolicy=RequireDualStack --set values.gateways.istio-egressgateway.ipFamilyPolicy=RequireDualStack -y
-{{< /text >}}
-
-{{< /tab >}}
-
 {{< /tabset >}}
 
 ## Verification
@@ -117,37 +109,37 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
     $ kubectl apply --namespace ipv6 -f @samples/tcp-echo/tcp-echo-ipv6.yaml@
     {{< /text >}}
 
-1. Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+1. Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 1. Verify the traffic reaches the dual-stack pods:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo dualstack | nc tcp-echo.dual-stack 9000"
     hello dualstack
     {{< /text >}}
 
 1. Verify the traffic reaches the IPv4 pods:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv4 | nc tcp-echo.ipv4 9000"
     hello ipv4
     {{< /text >}}
 
 1. Verify the traffic reaches the IPv6 pods:
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
+    $ kubectl exec "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" -- sh -c "echo ipv6 | nc tcp-echo.ipv6 9000"
     hello ipv6
     {{< /text >}}
 
 1. Verify the envoy listeners:
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack --port 9000 -ojson | jq '.[] | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
     {{< /text >}}
 
     You will see listeners are now bound to multiple addresses, but only for dual stack services. Other services will only be listening on a single IP address.
@@ -174,6 +166,10 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
 
 1. Verify virtual inbound addresses are configured to listen on both `0.0.0.0` and `[::]`.
 
+    {{< text syntax=bash snip_id=none >}}
+    $ istioctl proxy-config listeners "$(kubectl get pod -n dual-stack -l app=tcp-echo -o jsonpath='{.items[0].metadata.name}')" -n dual-stack -o json | jq '.[] | select(.name=="virtualInbound") | {name: .name, address: .address, additionalAddresses: .additionalAddresses}'
+    {{< /text >}}
+
     {{< text syntax=json snip_id=none >}}
     "name": "virtualInbound",
     "address": {
@@ -197,7 +193,7 @@ $ istioctl install --set values.pilot.env.ISTIO_DUAL_STACK=true --set meshConfig
 1. Verify envoy endpoints are configured to route to both IPv4 and IPv6:
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl proxy-config endpoints "$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')" --port 9000
+    $ istioctl proxy-config endpoints "$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')" --port 9000
     ENDPOINT                 STATUS      OUTLIER CHECK     CLUSTER
     10.244.0.19:9000         HEALTHY     OK                outbound|9000||tcp-echo.ipv4.svc.cluster.local
     10.244.0.26:9000         HEALTHY     OK                outbound|9000||tcp-echo.dual-stack.svc.cluster.local
@@ -212,6 +208,6 @@ Now you can experiment with dual-stack services in your environment!
 1. Cleanup application namespaces and deployments
 
     {{< text bash >}}
-    $ kubectl delete -f @samples/sleep/sleep.yaml@
+    $ kubectl delete -f @samples/curl/curl.yaml@
     $ kubectl delete ns dual-stack ipv4 ipv6
     {{< /text >}}

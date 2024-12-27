@@ -108,7 +108,7 @@ resource and reacts to changes by updating the Istio installation configuration 
 
 In the 1.4 release, the Istio controller is in the alpha phase of development and not fully
 integrated with `istioctl`. It is, however,
-[available for experimentation](/docs/setup/install/operator/) using `kubectl` commands.
+[available for experimentation](https://archive.istio.io/v1.23/docs/setup/install/operator/) using `kubectl` commands.
 For example, to install the controller and a default version of Istio into your cluster,
 run the following command:
 

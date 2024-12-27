@@ -1,5 +1,7 @@
+# yaml-language-server: $schema=features_schema.json
+
 features:
-  - name: "Protocols:HTTP1.1/HTTP2/gRPC/TCP"
+  - name: "Protocols: HTTP1.1/HTTP2/gRPC/TCP"
     id: "traffic.http_protocols"
     link: "/docs/ops/configuration/traffic-management/protocol-selection/"
     level:
@@ -7,7 +9,7 @@ features:
       maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
-  - name: "Protocols:Websockets/MongoDB"
+  - name: "Protocols: Websockets/MongoDB"
     id: "traffic.websocket_protocols"
     level:
       checklist: ""
@@ -36,7 +38,7 @@ features:
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Gateway Injection"
-    id: :"traffic.gateway_injection"
+    id: "traffic.gateway_injection"
     level:
       checklist: features/gateway_injection.md
       maturity: Beta
@@ -76,7 +78,7 @@ features:
     link: "/docs/reference/config/networking/sidecar/"
     level:
       checklist: ""
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "DNS Proxying"
@@ -96,23 +98,23 @@ features:
     area: Traffic Management
     id: "traffic.k8s_gateway_apis"
   - name: "Kubernetes Gateway APIs for mesh (`Service` `parentRef`) "
+    id: "traffic.k8s_gateway_apis_+mesh"
     link: "/docs/tasks/traffic-management/"
     level:
       checklist: features/k8s-gateway-apis.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Traffic Management
-    id: "traffic.k8s_gateway_apis_+mesh"
-  - name: "Gateway Network Topology Configuration"
-    link: "/docs/ops/configuration/traffic-management/network-topologies/"
+  - name: "Gateway Network Topology configuration"
     id: "traffic.gateway_topology"
+    link: "/docs/ops/configuration/traffic-management/network-topologies/"
     level:
        checklist: features/configuring_gateway_network_topology.md
        maturity: Alpha
        nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Kubernetes Multi-Cluster Service (MCS) Discovery"
-    id: :"traffic.kubernetes_mcs"
+    id: "traffic.kubernetes_mcs"
     level:
       checklist: features/kubernetes_mcs.md
       maturity: Experimental
@@ -235,7 +237,7 @@ features:
     link: "/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls"
     level:
       checklist: features/auto_mtls.md
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Security and policy enforcement
   - name: "VM: Service Credential Distribution"
@@ -278,14 +280,6 @@ features:
       maturity: Experimental
       nextExpectedPromotion: ""
     area: Security and policy enforcement
-  - name: "In-Cluster Operator"
-    id: "core.in_cluster_operator"
-    link: "/docs/setup/install/operator/"
-    level:
-      checklist: ""
-      maturity: Beta
-      nextExpectedPromotion: ""
-    area: Core
   - name: "Kubernetes: Envoy Installation and Traffic Interception"
     id: "core.envoy_installation"
     link: "/docs/setup/"
@@ -338,7 +332,7 @@ features:
     link: "/docs/setup/additional-setup/cni/"
     level:
       checklist: "features/cni.md"
-      maturity: Beta
+      maturity: Stable
       nextExpectedPromotion: ""
     area: Core
   - name: "IPv6 Support for Kubernetes"
@@ -346,10 +340,17 @@ features:
     level:
       checklist: features/ipv6-support.md
       maturity: Alpha
-      maturityNotes: Dual stack is experimental still.
       nextExpectedPromotion: ""
     area: Core
-  - name: "Distroless Base Images for Istio"
+  - name: "Dual Stack IPv4/IPv6"
+    id: "core.dual_stack"
+    level:
+      checklist: features/dual-stack-support.md
+      maturity: Alpha 
+      link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
+      nextExpectedPromotion: ""
+    area: Core
+  - name: "Distroless base images"
     id: "core.distroless"
     link: "/docs/ops/configuration/security/harden-docker-images/"
     level:
@@ -365,7 +366,7 @@ features:
       maturity: Beta
       nextExpectedPromotion: ""
     area: Core
-  - name: "Helm Based Installation"
+  - name: "Helm Installation"
     id: "core.helm_installation"
     link: "/docs/setup/install/helm/"
     level:
@@ -397,58 +398,83 @@ features:
       checklist: features/telemetry_api.md
       maturity: Stable
       nextExpectedPromotion: ""
-  - name: "Dual Stack Support in Istio"
-    id: "core.dual_stack"
-    level:
-      checklist: features/dual-stack-support.md
-      maturity: Experimental 
-      maturityNotes: Dual Stack IPv4 and IPv6 is supported.
-      link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
-      nextExpectedPromotion: ""
-    area: Core
-  # Ambient
-  - name: "Ztunnel Core"
+
+  # Ambient mode
+  - name: "ztunnel: Core"
+    id: "ambient.ztunnel"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Waypoints Core"
+      maturity: Stable
+    area: Ambient mode
+  - name: "Waypoints: Core"
+    id: "ambient.waypoints"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Authorization Policies"
+      maturity: Stable
+    area: Ambient mode
+  - name: "Waypoints: Gateway API Stable Channel (`HTTPRoute`, `GRPCRoute`)"
+    id: "ambient.gateway_stable"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Gateway API (HTTPRoute)"
+      maturity: Stable 
+    area: Ambient mode
+  - name: "Waypoints: Gateway API Experimental Channel (`TLSRoute`, `TCPRoute`)"
+    id: "ambient.gateway_experimental"
     level:
       checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient
-  - name: "Sidecar Interop"
+      maturity: Alpha 
+    area: Ambient mode
+  - name: "Waypoints: `DestinationRule`"
+    id: "ambient.destinationrule"
+    level:
+      checklist: features/ambient.md
+      maturity: Stable
+    area: Ambient mode
+  - name: "Waypoints: `VirtualService`"
+    id: "ambient.destinationrule"
     level:
       checklist: features/ambient.md
       maturity: Alpha
-    area: Ambient
+    area: Ambient mode
+  - name: "Waypoints: Cross-namespace usage"
+    id: "ambient.cross_namespace_waypoints"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient mode  
+  - name: "Waypoints: WebAssembly extensibility (`WasmPlugin`)"
+    id: "ambient.waypoint_wasm"
+    level:
+      checklist: features/ambient.md
+      maturity: Alpha
+    area: Ambient mode  
+  - name: "`AuthorizationPolicy`"
+    id: "ambient.authz"
+    level:
+      checklist: features/ambient.md
+      maturity: Stable
+    area: Ambient mode
+  - name: "`PeerAuthentication`"
+    id: "ambient.peer_authentication"
+    level:
+      checklist: features/ambient.md
+      maturity: Stable
+    area: Ambient mode
+  - name: "`RequestAuthentication`"
+    id: "ambient.request_authentication"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+    area: Ambient mode  
   - name: "DNS Proxying"
+    id: "ambient.dns_proxying"
     level:
       checklist: features/ambient.md
-      maturity: Alpha
-    area: Ambient
-  - name: "Multi-cluster"
-    level:
-      checklist: features/ambient.md
-      maturity: Alpha
-    area: Ambient
-  - name: "Multi-network"
-    level:
-      checklist: features/ambient.md
-      maturity: Experimental
-    area: Ambient
+      maturity: Beta
+    area: Ambient mode
   - name: "Dual Stack, IPv6"
+    id: "ambient.dual_stack"
     level:
       checklist: features/ambient.md
-      maturity: Experimental
-    area: Ambient
+      maturity: Beta
+    area: Ambient mode

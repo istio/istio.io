@@ -27,7 +27,7 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_1
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 snip_before_you_begin_3
 
 _verify_not_contains snip_envoy_passthrough_to_external_services_1 "REGISTRY_ONLY"
@@ -59,13 +59,13 @@ _wait_for_deployment istio-system istiod
 
 _verify_contains snip_envoy_passthrough_to_external_services_1 "REGISTRY_ONLY"
 
-# Restart the sleep service
+# Restart the curl service
 snip_cleanup_1
 snip_before_you_begin_1
 start=$(date +%s)
 kubectl wait --for=delete "pod/$SOURCE_POD" --timeout=180s
 echo "Wait for termination duration: $(($(date +%s)-start)) seconds"
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 
 kubectl get po
 
@@ -73,7 +73,7 @@ snip_before_you_begin_3
 
 echo "SOURCE_POD: $SOURCE_POD"
 
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v http://httpbin.org/headers
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v http://httpbin.org/headers
 
 #_verify_elided snip_access_the_external_services_1 "$snip_access_the_external_services_1_out"
 # TODO This doesn't work, curl returns 502.

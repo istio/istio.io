@@ -58,7 +58,7 @@ a static list of IPs or by doing its own DNS resolution (potentially of the same
 Unlike most clients, which will do DNS requests on demand at the time of requests (and then typically cache the results),
 the Istio proxy never does synchronous DNS requests.
 When a `resolution: DNS` type `ServiceEntry` is configured, the proxy will periodically resolve the configured hostnames and use those for all requests.
-This interval is determined by the [TTL](https://en.wikipedia.org/wiki/Time_to_live#DNS_records) of the DNS response.
+This interval is fixed at 30 seconds and cannot be changed at this time.
 This happens even if the proxy never sends any requests to these applications.
 
 For meshes with many proxies or many `resolution: DNS` type `ServiceEntries`, especially when low `TTL`s are used, this may cause a high load on DNS servers.

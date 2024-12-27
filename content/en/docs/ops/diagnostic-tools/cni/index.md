@@ -21,7 +21,7 @@ To make debugging easier, the CNI plugin also sends its log to the `istio-cni-no
 The default log level for the CNI plugin is `info`. To get more detailed log output, you can change the level by editing the `values.cni.logLevel` installation option and restarting the CNI DaemonSet pod.
 
 The Istio CNI DaemonSet pod log also provides information about CNI plugin installation,
-and [race condition repairing](/docs/setup/additional-setup/cni/#race-condition-mitigation).
+and [race condition repairing](/docs/setup/additional-setup/cni/#race-condition--mitigation).
 
 ## Monitoring
 
@@ -38,7 +38,7 @@ You can also track CNI installation readiness via the `istio_cni_install_ready` 
 
 ## Race condition repair
 
-By default, the Istio CNI DaemonSet has [race condition mitigation](/docs/setup/additional-setup/cni/#race-condition-mitigation) enabled,
+By default, the Istio CNI DaemonSet has [race condition mitigation](/docs/setup/additional-setup/cni/#race-condition--mitigation) enabled,
 which will evict a pod that was started before the CNI plugin was ready.
 To understand which pods were evicted, look for log lines like the following:
 
@@ -79,5 +79,5 @@ search the `istio-cni-node` for the pod ID.
 
 Another symptom of a malfunctioned CNI plugin is that the application pod is continuously evicted at start-up time.
 This is typically because the plugin is not properly installed, thus pod traffic redirection cannot be set up.
-CNI [race repair logic](/docs/setup/additional-setup/cni/#race-condition-mitigation) considers the pod is broken due to the race condition and evicts the pod continuously.
+CNI [race repair logic](/docs/setup/additional-setup/cni/#race-condition--mitigation) considers the pod is broken due to the race condition and evicts the pod continuously.
 When running into this issue,  check the CNI DaemonSet log for information on why the plugin could not be properly installed.

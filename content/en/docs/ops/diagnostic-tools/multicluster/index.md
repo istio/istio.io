@@ -16,7 +16,7 @@ and read the [Deployment Models](/docs/ops/deployment/deployment-models/) guide.
 The most common, but also broad problem with multi-network installations is that cross-cluster load balancing doesn’t work. Usually this manifests itself as only seeing responses from the cluster-local instance of a Service:
 
 {{< text bash >}}
-$ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec sleep-dd98b5f48-djwdw -c sleep -- curl -s helloworld:5000/hello; done
+$ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec curl-dd98b5f48-djwdw -c curl -- curl -s helloworld:5000/hello; done
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
@@ -65,9 +65,9 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l version=v2 -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER1}" \
-    -f samples/sleep/sleep.yaml -n uninjected-sample
+    -f samples/curl/curl.yaml -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
-    -f samples/sleep/sleep.yaml -n uninjected-sample
+    -f samples/curl/curl.yaml -n uninjected-sample
 {{< /text >}}
 
 Verify that there is a helloworld pod running in `cluster2`, using the `-o wide` flag, so we can get the Pod IP:
@@ -75,8 +75,8 @@ Verify that there is a helloworld pod running in `cluster2`, using the `-o wide`
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
 NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+curl-557747455f-jdsd8            1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
 helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
-sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
 {{< /text >}}
 
 Take note of the `IP` column for `helloworld`. In this case, it is `10.100.0.1`:
@@ -85,12 +85,12 @@ Take note of the `IP` column for `helloworld`. In this case, it is `10.100.0.1`:
 $ REMOTE_POD_IP=10.100.0.1
 {{< /text >}}
 
-Next, attempt to send traffic from the `sleep` pod in `cluster1` directly to this Pod IP:
+Next, attempt to send traffic from the `curl` pod in `cluster1` directly to this Pod IP:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n uninjected-sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS $REMOTE_POD_IP:5000/hello
 Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
 {{< /text >}}
@@ -133,12 +133,12 @@ guide, ensuring to run the steps for every cluster.
 If you've gone through the sections above and are still having issues, then it's time to dig a little deeper.
 
 The following steps assume you're following the [HelloWorld verification](/docs/setup/install/multicluster/verify/).
-Before continuing, make sure both `helloworld` and `sleep` are deployed in each cluster.
+Before continuing, make sure both `helloworld` and `curl` are deployed in each cluster.
 
-From each cluster, find the endpoints the `sleep` service has for `helloworld`:
+From each cluster, find the endpoints the `curl` service has for `helloworld`:
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 {{< /text >}}
 
 Troubleshooting information differs based on the cluster that is the source of traffic:
@@ -148,7 +148,7 @@ Troubleshooting information differs based on the cluster that is the source of t
 {{< tab name="Primary cluster" category-value="primary" >}}
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.0.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -171,7 +171,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 {{< tab name="Remote cluster" category-value="remote" >}}
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER2 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER2 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.1.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -201,7 +201,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 The steps for Primary and Remote clusters still apply for multi-network, although multi-network has an additional case:
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.5.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
@@ -234,7 +234,7 @@ value. If that is incorrect, reinstall the gateway and make sure to set the --ne
 On the source pod, check the proxy metadata.
 
 {{< text bash >}}
-$ kubectl get pod $SLEEP_POD_NAME \
+$ kubectl get pod $CURL_POD_NAME \
   -o jsonpath="{.spec.containers[*].env[?(@.name=='ISTIO_META_NETWORK')].value}"
 {{< /text >}}
 

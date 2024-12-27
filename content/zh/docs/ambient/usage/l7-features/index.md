@@ -10,9 +10,8 @@ test: no
 waypoint 使用 {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}} 配置。
 
 {{< warning >}}
-Istio 经典流量管理 API（虚拟服务、目标规则等）在与 Ambient 数据平面模式一起使用时仍处于 Alpha 阶段。
-
-不支持混合使用 Istio 经典 API 和 Gateway API 配置，这会导致未定义的行为。
+VirtualService 与 Ambient 数据平面模式的结合使用仍处于 Alpha 阶段。
+不支持与 Gateway API 配置混合使用，否则会导致未定义的行为。
 {{< /warning >}}
 
 ## 路由和策略附件 {#route-and-policy-attachment}
@@ -68,12 +67,11 @@ ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而�
 ## 扩展 {#extension}
 
 由于 waypoint 代理是 {{< gloss >}}Envoy{{< /gloss >}} 的部署，
-因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的扩展机制模式也可用于 waypoint 代理。
+因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的某些扩展机制模式也可用于 waypoint 代理。
 
 |  名称  | 功能状态 | 附加方式 |
 | --- | --- | --- |
 | `WasmPlugin` †  | Alpha | `targetRefs` |
-| `EnvoyFilter` | Alpha | `targetRefs` |
 
 † [阅读更多关于如何使用 WebAssembly 插件扩展 waypoint 的信息](/zh/docs/ambient/usage/extend-waypoint-wasm/)。
 

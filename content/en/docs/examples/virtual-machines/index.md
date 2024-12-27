@@ -161,4 +161,4 @@ Istio's [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) au
     $ kubectl delete service mysqldb
     {{< /text >}}
 
-- Cleanup the VM following the steps in [virtual-machine uninstall](/docs/setup/install/virtual-machine/#configure-the-virtual-machine).
+- Cleanup the VM following the steps in [virtual-machine uninstall](/docs/setup/install/virtual-machine/#uninstall).

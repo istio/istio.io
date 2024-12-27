@@ -28,7 +28,7 @@ snip_verification_3
 snip_verification_4
 
 # wait for deployments to be up and running
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 _wait_for_deployment dual-stack tcp-echo
 _wait_for_deployment ipv4 tcp-echo
 _wait_for_deployment ipv6 tcp-echo

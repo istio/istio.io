@@ -213,7 +213,7 @@ in some environments (e.g., test) you may need to do the following:
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` - follow the [guide for setting up MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` type services to work.
+* `kind` - follow the [guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` type services to work.
 
 * other platforms - you may be able to use [MetalLB](https://metallb.universe.tf/installation/) to get an `EXTERNAL-IP` for `LoadBalancer` services.
 
@@ -307,7 +307,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -536,8 +538,8 @@ $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 Delete the `Gateway` and `HTTPRoute` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
-$ kubectl delete gtw httpbin-gateway
 $ kubectl delete httproute httpbin
+$ kubectl delete gtw httpbin-gateway
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
 

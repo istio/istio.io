@@ -21,13 +21,13 @@
 ####################################################################################################
 
 bpsnip_before_you_begin_egress_before_you_begin_1() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 bpsnip_before_you_begin_egress_before_you_begin_2() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml)
 }
 
 bpsnip_before_you_begin_egress_before_you_begin_3() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }

@@ -20,7 +20,7 @@ This guide is focused on using the Istio CNI node agent as an optional part of t
 
 {{< tip >}}
 Note: The Istio CNI node agent _does not_ replace your cluster's existing {{< gloss="cni" >}}CNI{{< /gloss >}}. Among other things, it installs a _chained_ CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
-See [compatibility with CNIs](#compatibility-with-other-cnis) for details.
+See [compatibility with CNIs](/docs/setup/additional-setup/cni/#compatibility-with-other-cnis) for details.
 {{< /tip >}}
 
 Follow this guide to install, configure, and use the Istio CNI node agent with the sidecar data plane mode.
@@ -130,7 +130,7 @@ There is a time gap between a node becomes schedulable and the Istio CNI plugin 
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
 
 This race condition is mitigated for the sidecar data plane mode by a "detect and repair" method.
-Please take a look at [race condition & mitigation](#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions.
+Please take a look at [race condition & mitigation](/docs/setup/additional-setup/cni/#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions.
 {{< /tip >}}
 
 ### Handling init container injection for revisions

@@ -18,7 +18,7 @@ Istio supports two main {{< gloss "data plane mode">}}data plane modes{{< /gloss
 * **sidecar mode**, which deploys an Envoy proxy along with each pod that you start in your cluster, or running alongside services running on VMs.
 * **ambient mode**, which uses a per-node Layer 4 proxy, and optionally a per-namespace Envoy proxy for Layer 7 features.
 
-The two modes can interoperate with one another<sup>[α](#supported-features)</sup>, and you can opt certain namespaces or workloads into each mode.
+You can opt certain namespaces or workloads into each mode.
 
 ## Sidecar mode
 
@@ -276,19 +276,11 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
   </tbody>
 </table>
 
-## Supported features
+## Unsupported features
 
-As of Istio 1.22, the following ambient mode features are implemented but are currently in Alpha status:
+The following features are available in sidecar mode, but not yet implemented in ambient mode:
 
-* Interoperability with sidecars
-* Istio’s classic APIs (VirtualService and DestinationRule)
+* Sidecar-to-waypoint interoperability
 * Multi-cluster installations
-* DNS proxying
-* IPv6/Dual stack
-* SOCKS5 support (for outbound)
-
-The following features are not yet implemented:
-
-* Controlled egress traffic
 * Multi-network support
 * VM support

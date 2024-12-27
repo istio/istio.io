@@ -22,26 +22,26 @@
 source "content/en/boilerplates/snips/gateway-api-support.sh"
 
 snip_before_you_begin_1() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
+istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 }
 
 snip_before_you_begin_2() {
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true --set profile=minimal -y \
+istioctl install --set profile=minimal -y \
     --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true \
     --set meshConfig.accessLogFile=/dev/stdout \
     --set meshConfig.outboundTrafficPolicy.mode=REGISTRY_ONLY
 }
 
 snip_before_you_begin_3() {
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_before_you_begin_4() {
-kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml)
+kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml)
 }
 
 snip_before_you_begin_5() {
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }
 
 snip_configure_direct_traffic_to_a_wildcard_host_1() {
@@ -61,7 +61,7 @@ EOF
 }
 
 snip_configure_direct_traffic_to_a_wildcard_host_2() {
-kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_direct_traffic_to_a_wildcard_host_2_out <<\ENDSNIP
@@ -223,7 +223,7 @@ EOF
 }
 
 snip_configure_egress_gateway_traffic_to_a_wildcard_host_4() {
-kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
+kubectl exec "$SOURCE_POD" -c curl -- sh -c 'curl -s https://en.wikipedia.org/wiki/Main_Page | grep -o "<title>.*</title>"; curl -s https://de.wikipedia.org/wiki/Wikipedia:Hauptseite | grep -o "<title>.*</title>"'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configure_egress_gateway_traffic_to_a_wildcard_host_4_out <<\ENDSNIP
@@ -257,13 +257,13 @@ kubectl delete destinationrule egressgateway-for-wikipedia
 snip_cleanup_egress_gateway_traffic_to_a_wildcard_host_2() {
 kubectl delete se wikipedia
 kubectl delete se www-wikipedia
-kubectl delete gtw wikipedia-egress-gateway
+kubectl delete gtw --cascade=foreground wikipedia-egress-gateway
 kubectl delete tlsroute direct-wikipedia-to-egress-gateway
 kubectl delete tlsroute forward-wikipedia-from-egress-gateway
 }
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 }
 
 snip_cleanup_2() {

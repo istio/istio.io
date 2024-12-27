@@ -151,7 +151,7 @@ spec:
 [Istio 标准指标](/zh/docs/reference/config/metrics/)中的全部项，包括全部的 Istio 维度。
 尽管这有助于通过联邦控制指标维度，您可能仍想进一步优化记录规则来匹配您现有的仪表盘、告警以及特定的引用。
 
-如需要更多关于如何配置您的记录规则。请参考[使用记录规则优化指标收集](#optimizing-metrics-collection-with-recording-rules)。
+如需要更多关于如何配置您的记录规则。请参考[使用记录规则优化指标收集](/zh/docs/ops/best-practices/observability/#optimizing-metrics-collection-with-recording-rules)。
 {{< /tip >}}
 
 ### 使用负载级别的聚合指标进行联邦 {#federation-using-workload-level-aggregated-metrics}

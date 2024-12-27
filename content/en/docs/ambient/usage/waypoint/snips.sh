@@ -37,6 +37,7 @@ istioctl waypoint generate --for service -n default
 }
 
 ! IFS=$'\n' read -r -d '' snip_gen_waypoint_resource_out <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -61,6 +62,7 @@ ENDSNIP
 
 snip_deploy_a_waypoint_proxy_4() {
 kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -123,6 +125,35 @@ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod
 
 ! IFS=$'\n' read -r -d '' snip_configure_a_pod_to_use_a_specific_waypoint_2_out <<\ENDSNIP
 pod/reviews-v2-5b667bcbf8-spnnh labeled
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_configure_a_waypoint_for_crossnamespace_use_1 <<\ENDSNIP
+kind: Gateway
+metadata:
+  name: egress-gateway
+  namespace: common-infrastructure
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: cross-namespace-waypoint-consumer
+ENDSNIP
+
+snip_configure_resources_to_use_a_crossnamespace_waypoint_proxy_1() {
+kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint=egress-gateway
+}
+
+! IFS=$'\n' read -r -d '' snip_configure_resources_to_use_a_crossnamespace_waypoint_proxy_1_out <<\ENDSNIP
+serviceentries.networking.istio.io/istio-site labeled
+kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint-namespace=common-infrastructure
+serviceentries.networking.istio.io/istio-site labeled
 ENDSNIP
 
 snip_delete_waypoint() {

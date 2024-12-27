@@ -30,7 +30,7 @@ spec:
       namespace: istio-system
       enabled: true
 EOF
-istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -f istio-cni.yaml -y
+istioctl install -f istio-cni.yaml -y
 }
 
 snip_cni_agent_helm_install() {

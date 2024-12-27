@@ -1,0 +1,562 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+@media screen {
+    // ensure that deep-linking in a doc positions the target correctly relative
+    // to the page header. Without this, the target ends up under the page header.
+    :target::before {
+        content: "";
+        display: block;
+        height: $headerHeight;
+        margin-top: -$headerHeight;
+
+        @media (min-width: $bp-lg) {
+            height: $headerHeightLg;
+            margin-top: -$headerHeightLg;
+        }
+    }
+
+    // This is here to undo the effect of the above for table rows. Otherwise,
+    // table rows with ids don't render properly when used for deep-linking.
+    //
+    // Unfortunately, although this fixes the bad rendering, it does mean that deep-linking to a
+    // table row will position the row right underneath the page header. To deal with that case,
+    // we have a hack in JavaScript to force-scroll the row into view.
+    tr[id]::before {
+        content: normal;
+    }
+
+    html {
+        position: relative;
+        min-height: 100%;
+    }
+
+    body {
+        overflow-y: scroll;
+        margin-top: $headerHeight;
+        font-family: "Barlow", sans-serif;
+        color: $textColor;
+        background-color: $backgroundColor;
+
+        &.modal-open {
+            overflow: hidden;
+        }
+
+        @media (min-width: $bp-lg) {
+            margin-top: $headerHeightLg;
+        }
+    }
+}
+
+body {
+    line-height: 1.5;
+}
+
+a {
+    color: $linkColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+    font-family: "Barlow", sans-serif;
+}
+
+a:hover, a:focus {
+    color: $linkHoverColor;
+    text-decoration: underline;
+    font-weight: $linkWeight;
+    outline: 0;
+}
+
+a.disabled {
+    color: $linkDisabledColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+}
+
+a.active {
+    color: $linkActiveColor;
+    text-decoration: none;
+    font-weight: $linkWeight;
+}
+
+a.dropdown-item {
+    cursor: pointer;
+}
+
+table, th, td, tr {
+    padding: .5em;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+}
+
+table p:first-of-type {
+    margin-top: 0;
+}
+
+table p:last-of-type {
+    margin-bottom: 0;
+}
+
+td {
+
+    code {
+        word-break: normal;
+    }
+}
+
+th {
+    color: $textBrandColor;
+    background-color: $secondBrandColor;
+    font-weight: $tableHeaderWeight;
+    vertical-align: middle;
+    white-space: pre;
+
+    code {
+        color: $textBrandColor;
+    }
+}
+
+tr.oneof>td {
+    border-bottom: 1px dashed $dividerBarColor;
+    border-top: 1px dashed $dividerBarColor;
+}
+
+th, td {
+    border-left: 1px solid $boxBorderColor;
+    border-top: 1px solid $boxBorderColor;
+}
+
+tr:first-child th:first-child {
+    border-top-left-radius: $border-radius;
+}
+
+tr:first-child td:first-child {
+    border-top-left-radius: $border-radius;
+}
+
+tr:first-child th:last-child {
+    border-top-right-radius: $border-radius;
+}
+
+tr:first-child td:last-child {
+    border-top-right-radius: $border-radius;
+}
+
+tr:last-child td {
+    border-bottom: 1px solid $boxBorderColor;
+}
+
+tr:last-child td:first-child {
+    border-bottom-left-radius: $border-radius;
+}
+
+tr:last-child td:last-child {
+    border-bottom-right-radius: $border-radius;
+}
+
+tr th:last-child {
+    border-right: 1px solid $boxBorderColor;
+}
+
+tr td:last-child {
+    border-right: 1px solid $boxBorderColor;
+}
+
+thead+tbody tr:first-child td:first-child {
+    border-radius: 0;
+}
+
+thead+tbody tr:first-child td:last-child {
+    border-radius: 0;
+}
+
+p {
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: 1.25em 0;
+
+    @media (min-width: $bp-md) {
+        margin: 1.5em 0;
+    }
+}
+
+li, dt, dd {
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: .25em;
+}
+
+ol, ul, dl {
+    list-style: initial;
+    font-size: $font-size--primary;
+    font-weight: $textWeight;
+    margin: 0 0 0 1.5em;
+    padding: 0;
+}
+
+li p, dt p, dd p {
+    margin: .4em 0;
+}
+
+ol {
+    list-style: decimal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    border: 0;
+    line-height: 1.2;
+    color: $textColor;
+}
+
+h1 {
+    font-size: $font-size--xxl;
+    color: $h1Color;
+    font-weight: $h1Weight;
+    margin-bottom: 2.5rem;
+    margin-top: 4rem;
+
+    @media (min-width: $bp-md) {
+        font-size: $font-size--xxxl;
+        margin-bottom: 3.5rem;
+        margin-top: 5.25rem;
+    }
+}
+
+h2 {
+    font-size: $font-size--l;
+    color: $h2Color;
+    font-weight: $h2Weight;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+
+    @media (min-width: $bp-md) {
+        margin-top: 3rem;
+        font-size: $font-size--xxl;
+    }
+}
+
+h3 {
+    font-size: $font-size--l;
+    color: $h3Color;
+    font-weight: $h3Weight;
+    margin-bottom: 1.75rem;
+    margin-top: 3rem;
+}
+
+h4 {
+    font-size: $font-size--l;
+    color: $h4Color;
+    font-weight: $h4Weight;
+    margin: 30px 0 20px;
+
+    // Text immediately following h4 should have same level of indention
+    + p {
+        margin: 5px 0;
+
+        @media (min-width: $bp-md) {
+            margin: 10px 0;
+        }
+    }
+}
+
+h5 {
+    font-size: $font-size--s;
+    color: $h5Color;
+    font-weight: $h5Weight;
+}
+
+h6 {
+    font-size: .9rem;
+    color: $h6Color;
+    font-weight: $h6Weight;
+}
+
+.self-link {
+    position: relative;
+    left: .5em;
+    top: -.1em;
+    opacity: 0;
+    font-size: .6em;
+    display: none;
+}
+
+@media screen {
+    .self-link {
+        display: inline;
+    }
+}
+
+h2:hover .self-link,
+h3:hover .self-link,
+h4:hover .self-link,
+h5:hover .self-link,
+h6:hover .self-link,
+dt:hover .self-link {
+    transition: opacity .4s ease-in-out;
+    opacity: 1;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: $boldTextWeight;
+}
+
+img:not(.company-logo-img) {
+    width: 100%;
+}
+
+.quote-text {
+    font-size: $font-size--l;
+    font-weight: $boldWeight;
+    font-style: italic;
+    color: $secondaryColor;
+    display: block;
+    border-radius: $border-radius;
+
+    &::before {
+        content: "”";
+        }
+
+    &::after {
+        content: "”";
+    }
+}
+
+.quote-author {
+    font-size: 1.125rem;
+    margin-top: 2.125rem;
+    color: $primaryColor;
+    font-weight: $boldWeight;
+    line-height: 1.2;
+}
+
+.quote-company {
+    font-size: .9rem;
+    font-weight: $mediumWeight;
+    margin-top: 5px;
+}
+
+.quote-author-image {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    border: 2px solid $accentColor;
+    overflow: hidden;
+
+    img {
+        position: absolute;
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}
+
+.deprecated {
+    background: $deprecatedBackgroundColor;
+}
+
+div.aliases::before {
+    content: "Alternate forms:";
+}
+
+@media print {
+    h1, h2, h3 {
+        color: #000;
+        background: none;
+        page-break-after: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    blockquote, img {
+        page-break-inside: avoid;
+    }
+}
+
+sup {
+    font-size: 50%;
+    vertical-align: super;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.large-icon {
+    width: 1.4em;
+    height: 1.4em;
+    display: inline;
+    fill: $textColor;
+    stroke: $textColor;
+    vertical-align: middle;
+}
+
+.page-icon {
+    margin-right: .3em;
+}
+
+.title-area {
+    display: flex;
+    align-items: center;
+
+    h1 {
+        margin: 0;
+
+        & + p {
+            margin-top: 2.625rem;
+        }
+
+        & + .byline {
+            margin-top: .75rem;
+        }
+    }
+
+    .subtitle {
+        margin-bottom: 0;
+    }
+
+    .reading-time {
+        opacity: 60%;
+        color: #293655;
+    }
+}
+
+.flipped {
+    transform: scaleX(-1);
+}
+
+.subtitle {
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    font-weight: $mediumWeight;
+
+    & + .subtitle { margin-top: -2rem; }
+
+    @media (min-width: $bp-md) {
+        margin-bottom: 3.75rem;
+        font-size: $font-size--l !important;
+
+        & + .subtitle { margin-top: -3.75rem; }
+    }
+}
+
+.byline {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 75%;
+    opacity: 60%;
+}
+
+.attribution {
+    font-weight: $blogAttributeWeight;
+}
+
+@mixin container($value) {
+    box-sizing: content-box;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+    max-width: $value;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.container {
+    @include container($container);
+
+    @media (min-width: $bp-md) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    &-s {
+        @include container($container-s);
+    }
+
+    &-l {
+        @include container($container-l);
+    }
+
+    &-no-padding {
+        padding-right: 1.75rem;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1300px;
+        padding-left: 0;
+    }
+}
+
+.cta-container {
+    text-align: center;
+    margin-top: 2.25rem;
+
+    @media (min-width: $bp-md) {
+        margin-top: 3.125rem;
+    }
+}
+
+.splide.istio-splide {
+    .splide__pagination {// sass-lint:disable-line class-name-format
+        position: relative;
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin-top: 2.25rem;
+        bottom: unset;
+
+        &__page {// sass-lint:disable-line bem-depth class-name-format
+            height: 18px;
+            width: 18px;
+            background: #ffffff;
+            border: 2px solid $accentColor;
+
+            &.is-active {
+                background: $accentColor;
+                transform: none;
+            }
+        }
+    }
+}
+
+.centered-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 750px;
+}
+
+iframe {
+    max-width: 100%;
+}
+
+.article-container {
+    h2 {
+        word-wrap: break-word;
+    }
+}

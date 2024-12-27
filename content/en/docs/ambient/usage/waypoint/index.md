@@ -52,6 +52,7 @@ default           Active   24h   ambient
 
 {{< text syntax=bash snip_id=gen_waypoint_resource >}}
 $ istioctl waypoint generate --for service -n default
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -79,6 +80,7 @@ Or, you can deploy the generated Gateway resource:
 
 {{< text syntax=bash >}}
 $ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -102,14 +104,16 @@ By default, a waypoint will only handle traffic destined for **services** in its
 
 It is also possible for the waypoint to handle all traffic, only handle traffic sent directly to **workloads** (pods or VMs) in the cluster, or no traffic at all. The types of traffic that will be redirected to the waypoint are determined by the `istio.io/waypoint-for` label on the `Gateway` object.
 
-The `--for` parameter to `istioctl waypoint apply` can be used to change the [traffic type](#waypoint-traffic-types) redirected to the waypoint:
+Use the `--for` argument to `istioctl waypoint apply` to change the types of traffic that can be redirected to the waypoint:
 
-| `waypoint-for` value | Traffic type |
+| `waypoint-for` value | Original destination type |
 | -------------------- | ------------ |
 | `service`            | Kubernetes services |
-| `workload`           | Pod or VM IPs |
+| `workload`           | Pod IPs or VM IPs |
 | `all`                | Both service and workload traffic |
 | `none`               | No traffic (useful for testing) |
+
+Waypoint selection occurs based on the destination type, `service` or `workload`, to which traffic was _originally addressed_. If traffic is addressed to a service which does not have a waypoint, a waypoint will not be transited: even if the eventual workload it reaches _does_ have an attached waypoint.
 
 ## Use a waypoint proxy {#useawaypoint}
 
@@ -184,6 +188,59 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
 Any requests from pods in the ambient mesh to the `reviews-v2` pod IP will now be routed through the `reviews-v2-pod-waypoint` waypoint for L7 processing and policy enforcement.
+
+{{< tip >}}
+The original destination type of the traffic is used to determine if a service or workload waypoint will be used. By using the original destination type the ambient mesh avoids having traffic transit waypoint twice, even if both service and workload have attached waypoints.
+For instance, traffic which is addressed to a service, even though ultimately resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint.
+{{< /tip >}}
+
+## Cross-namespace waypoint use {#usewaypointnamespace}
+
+Straight out of the box, a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23, it is possible to use waypoints in different namespaces. In this section, we will examine
+the gateway configuration required to enable cross-namespace use and how to configure your resources to use a waypoint from a different namespace.
+
+### Configure a waypoint for cross-namespace use
+
+In order to enable cross-namespace use of a waypoint, the `Gateway` should be configured to [allow routes](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1.AllowedRoutes) from other namespaces.
+
+{{< tip >}}
+The keyword `All` may be specified as the value for `allowedRoutes.namespaces.from` in order to allow routes from any namespace.
+{{< /tip >}}
+
+The following `Gateway` would allow resources in a namespace called "cross-namespace-waypoint-consumer" to use this `egress-gateway`:
+
+{{< text syntax=yaml >}}
+kind: Gateway
+metadata:
+  name: egress-gateway
+  namespace: common-infrastructure
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: cross-namespace-waypoint-consumer
+{{< /text >}}
+
+### Configure resources to use a cross-namespace waypoint proxy
+
+By default, the Istio control plane will look for a waypoint specified using the `istio.io/use-waypoint` label in the same namespace as the resource which the label is applied to. It is possible to use
+a waypoint in another namespace by adding a new label, `istio.io/use-waypoint-namespace`. `istio.io/use-waypoint-namespace` works for all resources which support the `istio.io/use-waypoint` label.
+Together, the two labels specify the name and namespace of your waypoint respectively. For example, to configure a `ServiceEntry` named `istio-site` to use a waypoint named `egress-gateway` in the namespace
+named `common-infrastructure`, you could use the following commands:
+
+{{< text syntax=bash >}}
+$ kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint=egress-gateway
+serviceentries.networking.istio.io/istio-site labeled
+$ kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint-namespace=common-infrastructure
+serviceentries.networking.istio.io/istio-site labeled
+{{< /text >}}
 
 ### Cleaning up
 

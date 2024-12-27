@@ -131,10 +131,10 @@ Istio 支持通过 Envoy 代理进行分布式追踪。代理自动为其应用�
 只需要应用程序转发适当的请求上下文即可。
 
 Istio 支持很多追踪系统，包括 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)、
-[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)、
-[LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)、
-[Datadog](https://www.datadoghq.com/blog/monitor-istio-with-datadog/)。
-运维人员控制生成追踪的采样率（每个请求生成跟踪数据的速率）。这允许运维人员控制网格生成追踪数据的数量和速率。
+[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)，
+以及许多支持 [OpenTelemetry](/zh/docs/tasks/observability/distributed-tracing/opentelemetry/) 的工具和服务。
+操作员控制链路生成的采样率（即每个请求生成链路数据的速率）。
+这允许操作员控制为其网格生成的链路追踪数据的数量和速率。
 
 更多关于 Istio 分布式追踪的信息可以在[分布式追踪 FAQ](/zh/about/faq/distributed-tracing/) 中找到。
 

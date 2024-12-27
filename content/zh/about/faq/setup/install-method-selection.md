@@ -15,61 +15,44 @@ weight: 10
 
     - 完整的配置和运行状态的验证。
     - 使用提供了扩展的配置、自定义选项的 `IstioOperator` API。
-    - 不需要在集群内运行特权 Pod，通过执行 `istioctl` 命令修改。
 
     缺点：
 
     - 需要维护多个 Istio 次要版本的二进制文件。
-    - `istioctl` 命令可能根据您的运行环境设置诸如 `JWT_POLICY` 之类的值，从而能够在不同的
+    - `istioctl` 命令可能根据您的运行环境自动设置相关值，从而能够在不同的
       Kubernetes 环境中进行不同的安装。
 
-1. [使用 istioctl 生成清单](/zh/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+1. [使用 Helm 进行安装](/zh/docs/setup/install/helm/)
 
-    生成 Kubernetes 的配置清单，并通过 `kubectl apply --prune` 应用到集群中，
-    该方法适用于需要严格审查或者增加配置清单的情况。
-
-    优点：
-
-    - 资源是由与 `istioctl install` 和 Operator 里使用的相同的 `IstioOperator` API 生成的。
-    - 使用提供了扩展的配置、自定义选项的 `IstioOperator` API。
-
-    缺点：
-
-    - 一些在 `istioctl install` 和 Operator 中执行的未完成的检查将不会执行。
-    - 与 `istioctl install` 相比，UX 的精简程度较低。
-    - 错误报告不如 `istioctl install` 的错误报告详细、全面。
-
-1. [使用 Helm 安装](/zh/docs/setup/install/helm/)
-
-    使用 Helm Chart 可以通过 Helm 的工作流程轻松的完成，并在升级的过程中自动清理资源。
+    允许轻松与基于 Helm 的工作流程集成并在升级期间自动进行资源修剪。
 
     优点：
 
-    - 使用熟悉、常用的行业标准工具。
-    - Helm 原生的版本、升级管理。
+    - 使用行业标准工具的熟悉方法。
+    - Helm 原生发布和升级管理。
 
     缺点：
 
-    - 相比于 `istioctl install` 和 Operator 相比，检查较少。
-    - 一些高权限任务需要更多步骤，并且具有更高的复杂性。
+    - 与 `istioctl install` 相比，检查和验证更少。
+    - 某些管理任务需要更多步骤并且复杂性更高。
 
-1. [Istio Operator](/zh/docs/setup/install/operator/)
+1. 应用生成的 Kubernetes 清单
 
-    {{< warning >}}
-    不建议在新安装时使用 Operator，虽然 Operator 将继续得到支持，但新特性请求将不会被优先化。
-    {{< /warning >}}
+    - [使用 `istioctl` 生成 Kubernetes 清单](/zh/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+    - [使用 `helm` 生成 Kubernetes 清单](/zh/docs/setup/install/helm/#generate-a-manifest-before-installation)
 
-    Istio Operator 提供了一个不需要 `istioctl` 二进制文件的安装方式。这可以用于简化升级工作流，
-    其中不需要考虑集群内特权控制器的运行，此方法适用于不需要严格审计或增加输出清单的情况。
+    此方法适用于需要严格审核或扩充输出清单，或存在第三方工具限制的情况。
 
     优点：
 
-    - 与 `istioctl install` 使用相同的 API，但驱动是通过集群中的一个带有完全声明式操作的控制器。
-    - 使用提供了扩展的配置、自定义选项的 `IstioOperator` API。
-    - 不需要管理多个 `istioctl` 二进制文件。
+    - 更容易与未使用 `helm` 或 `istioctl` 的工具集成。
+    - 除了 `kubectl` 之外，不需要其他安装工具。
 
     缺点：
 
-    - 集群中运行的特权控制器存在安全风险。
+    - 不执行上述任一方法支持的安装时检查、环境检测或验证。
+    - 不支持安装管理或升级功能。
+    - 用户体验不够精简。
+    - 安装过程中的错误报告不够完善。
 
 这些安装方式的安装向导在 [Istio 安装页面](/zh/docs/setup/install)中。

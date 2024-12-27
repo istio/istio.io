@@ -21,7 +21,7 @@
 ####################################################################################################
 
 snip_getting_started_1() {
-cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -30,8 +30,6 @@ spec:
       proxyMetadata:
         # Enable basic DNS proxying
         ISTIO_META_DNS_CAPTURE: "true"
-        # Enable automatic address allocation, optional
-        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
 EOF
 }
 
@@ -55,11 +53,11 @@ EOF
 
 snip_dns_capture_in_action_2() {
 kubectl label namespace default istio-injection=enabled --overwrite
-kubectl apply -f samples/sleep/sleep.yaml
+kubectl apply -f samples/curl/curl.yaml
 }
 
 snip_dns_capture_in_action_3() {
-kubectl exec deploy/sleep -- curl -sS -v address.internal
+kubectl exec deploy/curl -- curl -sS -v address.internal
 }
 
 ! IFS=$'\n' read -r -d '' snip_dns_capture_in_action_3_out <<\ENDSNIP
@@ -84,15 +82,43 @@ EOF
 }
 
 snip_address_auto_allocation_2() {
-kubectl exec deploy/sleep -- curl -sS -v auto.internal
+kubectl exec deploy/curl -- curl -sS -v auto.internal
 }
 
 ! IFS=$'\n' read -r -d '' snip_address_auto_allocation_2_out <<\ENDSNIP
 *   Trying 240.240.0.1:80...
 ENDSNIP
 
+snip_address_auto_allocation_3() {
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
+spec:
+  hosts:
+  - auto.internal
+  ports:
+  - name: http
+    number: 80
+    protocol: HTTP
+  resolution: DNS
+EOF
+}
+
+snip_address_auto_allocation_4() {
+kubectl exec deploy/curl -- curl -sS -v auto.internal
+}
+
+! IFS=$'\n' read -r -d '' snip_address_auto_allocation_4_out <<\ENDSNIP
+* Could not resolve host: auto.internal
+* shutting down connection #0
+ENDSNIP
+
 snip_external_tcp_services_without_vips_1() {
-cat <<EOF | istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true -y -f -
+cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
@@ -101,8 +127,6 @@ spec:
       proxyMetadata:
         # Enable basic DNS proxying
         ISTIO_META_DNS_CAPTURE: "true"
-        # Enable automatic address allocation, optional
-        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
     # discoverySelectors configuration below is just used for simulating the external service TCP scenario,
     # so that we do not have to use an external site for testing.
     discoverySelectors:
@@ -152,7 +176,7 @@ EOF
 }
 
 snip_external_tcp_services_without_vips_5() {
-istioctl pc listener deploy/sleep | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
+istioctl pc listener deploy/curl | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_external_tcp_services_without_vips_5_out <<\ENDSNIP
@@ -163,7 +187,7 @@ ENDSNIP
 snip_cleanup_1() {
 kubectl -n external-1 delete -f samples/tcp-echo/tcp-echo.yaml
 kubectl -n external-2 delete -f samples/tcp-echo/tcp-echo.yaml
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 istioctl uninstall --purge -y
 kubectl delete ns istio-system external-1 external-2
 kubectl label namespace default istio-injection-

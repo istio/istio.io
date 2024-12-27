@@ -109,12 +109,12 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
 
 ## 部署示例服务{#deploying-example-services}
 
-1. 部署 `httpbin` 和 `sleep` 示例服务。
+1. 部署 `httpbin` 和 `curl` 示例服务。
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f samples/sleep/sleep.yaml) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
 1. 为 `foo` 命名空间中的工作负载部署一个策略，使其只接受相互的 TLS 流量。
@@ -139,7 +139,7 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
    所以可以预料 openssl 命令返回 `verify error:num=19:self signed certificate in certificate chain`。
 
     {{< text bash >}}
-    $ sleep 20; kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
+    $ sleep 20; kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -showcerts -connect httpbin.foo:8000 > httpbin-proxy-cert.txt
     {{< /text >}}
 
 1. 解析证书链上的证书。
@@ -194,10 +194,10 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
     $ kubectl delete peerauthentication -n foo default
     {{< /text >}}
 
-*  删除示例应用 `sleep` 和 `httpbin`：
+*  删除示例应用 `curl` 和 `httpbin`：
 
     {{< text bash >}}
-    $ kubectl delete -f samples/sleep/sleep.yaml -n foo
+    $ kubectl delete -f samples/curl/curl.yaml -n foo
     $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
     {{< /text >}}
 

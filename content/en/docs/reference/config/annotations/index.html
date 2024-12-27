@@ -11,6 +11,30 @@ weight: 60
 This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">annotations</a> that
 Istio supports to control its behavior.
 </p>
+<h2 id="AmbientRedirection">ambient.istio.io/redirection</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>ambient.istio.io/redirection</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Automatically configured by Istio to indicate a Pod was successfully enrolled in ambient mode.
+This shows the actual state; to specify intent that a workload should be in ambient mode, see <code>istio.io/dataplane-mode</code>.
+User should not manually modify this annotation.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="GalleyAnalyzeSuppress">galley.istio.io/analyze-suppress</h2>
 <table class="annotations">
   <tbody>
@@ -55,72 +79,6 @@ Istio supports to control its behavior.
     </tr>
   </tbody>
 </table>
-<h2 id="OperatorInstallChartOwner">install.operator.istio.io/chart-owner</h2>
-<table class="annotations">
-  <tbody>
-    <tr>
-      <th>Name</th>
-      <td><code>install.operator.istio.io/chart-owner</code></td>
-    </tr>
-    <tr>
-      <th>Feature Status</th>
-      <td>Alpha</td>
-    </tr>
-    <tr>
-      <th>Resource Types</th>
-      <td>[Any]</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td><p>Represents the name of the chart used to create this resource.</p>
-</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="OperatorInstallOwnerGeneration">install.operator.istio.io/owner-generation</h2>
-<table class="annotations">
-  <tbody>
-    <tr>
-      <th>Name</th>
-      <td><code>install.operator.istio.io/owner-generation</code></td>
-    </tr>
-    <tr>
-      <th>Feature Status</th>
-      <td>Alpha</td>
-    </tr>
-    <tr>
-      <th>Resource Types</th>
-      <td>[Any]</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td><p>Represents the generation to which the resource was last reconciled.</p>
-</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="OperatorInstallVersion">install.operator.istio.io/version</h2>
-<table class="annotations">
-  <tbody>
-    <tr>
-      <th>Name</th>
-      <td><code>install.operator.istio.io/version</code></td>
-    </tr>
-    <tr>
-      <th>Feature Status</th>
-      <td>Alpha</td>
-    </tr>
-    <tr>
-      <th>Resource Types</th>
-      <td>[Any]</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td><p>Represents the Istio version associated with the resource</p>
-</td>
-    </tr>
-  </tbody>
-</table>
 <h2 id="IoIstioDryRun">istio.io/dry-run</h2>
 <table class="annotations">
   <tbody>
@@ -139,6 +97,28 @@ Istio supports to control its behavior.
     <tr>
       <th>Description</th>
       <td><p>Specifies whether or not the given resource is in dry-run mode. See <a href="/docs/tasks/security/authorization/authz-dry-run/" target="_blank">https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/</a> for more information.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioRerouteVirtualInterfaces">istio.io/reroute-virtual-interfaces</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/reroute-virtual-interfaces</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.</p>
 </td>
     </tr>
   </tbody>
@@ -204,7 +184,42 @@ Istio supports to control its behavior.
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>Specifies the namespaces to which this service should be exported to. A value of &lsquo;*&rsquo; indicates it is reachable within the mesh &lsquo;.&rsquo; indicates it is reachable within its namespace.</p>
+      <td><p>Specifies the namespaces to which this service should be exported to. A value of <code>*</code> indicates it is reachable within the mesh. <code>.</code> indicates it is reachable within its namespace. &lsquo;~&rsquo; indicates it is hidden and exported to no namespaces. Additionally, a list of comma separated namespace names can be specified.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="NetworkingTrafficDistribution">networking.istio.io/traffic-distribution</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>networking.istio.io/traffic-distribution</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Service ServiceEntry]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Controls how traffic is distributed across the set of available endpoints.</p>
+
+<p>At this time, this annotation only impacts routing done by Ztunnel.</p>
+
+<p>Accepted values:</p>
+
+<ul>
+<li><code>PreferClose</code>: endpoints will be categorized by how &ldquo;close&rdquo; they are, consider network, region, zone, and subzone.
+Traffic will be prioritized to the closest healthy endpoints.
+For example, if I have a Service with <code>PreferClose</code> set, with endpoints in zones <code>us-west,us-west,us-east</code>. When
+sending traffic from a client in zone <code>us-west</code>, all traffic will go to the two <code>us-west</code> backends.
+If one those backends become unhealthy, all traffic will go to the remaining endpoint in <code>us-west</code>.
+If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</li>
+</ul>
 </td>
     </tr>
   </tbody>
@@ -407,28 +422,6 @@ Istio supports to control its behavior.
     </tr>
   </tbody>
 </table>
-<h2 id="SidecarControlPlaneAuthPolicy">sidecar.istio.io/controlPlaneAuthPolicy</h2>
-<table class="annotations">
-  <tbody>
-    <tr class="deprecated">
-      <th>Name</th>
-      <td><code>sidecar.istio.io/controlPlaneAuthPolicy</code></td>
-    </tr>
-    <tr>
-      <th>Feature Status</th>
-      <td>Deprecated</td>
-    </tr>
-    <tr>
-      <th>Resource Types</th>
-      <td>[Pod]</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td><p>Specifies the auth policy used by the Istio control plane. If NONE, traffic will not be encrypted. If MUTUAL_TLS, traffic between Envoy sidecar will be wrapped into mutual TLS connections.</p>
-</td>
-    </tr>
-  </tbody>
-</table>
 <h2 id="SidecarDiscoveryAddress">sidecar.istio.io/discoveryAddress</h2>
 <table class="annotations">
   <tbody>
@@ -447,28 +440,6 @@ Istio supports to control its behavior.
     <tr>
       <th>Description</th>
       <td><p>Specifies the XDS discovery address to be used by the Envoy sidecar.</p>
-</td>
-    </tr>
-  </tbody>
-</table>
-<h2 id="SidecarEnableCoreDump">sidecar.istio.io/enableCoreDump</h2>
-<table class="annotations">
-  <tbody>
-    <tr>
-      <th>Name</th>
-      <td><code>sidecar.istio.io/enableCoreDump</code></td>
-    </tr>
-    <tr>
-      <th>Feature Status</th>
-      <td>Alpha</td>
-    </tr>
-    <tr>
-      <th>Resource Types</th>
-      <td>[Pod]</td>
-    </tr>
-    <tr>
-      <th>Description</th>
-      <td><p>Specifies whether or not an Envoy sidecar should enable core dump.</p>
 </td>
     </tr>
   </tbody>
@@ -512,7 +483,7 @@ Istio supports to control its behavior.
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>Specifies whether or not an Envoy sidecar should be automatically injected into the workload. Deprecated in favor of <code>sidecar.istio.io/inject</code> label.</p>
+      <td><p>Specifies whether or not an Envoy sidecar should be automatically injected into the workload. This annotation has been deprecated in favor of the <code>sidecar.istio.io/inject</code> label documented <a href="/docs/reference/config/labels/#SidecarInject">here</a>.</p>
 </td>
     </tr>
   </tbody>
@@ -557,6 +528,28 @@ Istio supports to control its behavior.
     <tr>
       <th>Description</th>
       <td><p>Specifies the log level for Envoy.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="SidecarNativeSidecar">sidecar.istio.io/nativeSidecar</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/nativeSidecar</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies if the istio-proxy sidecar should be injected as a native sidecar or not. Takes precedence over the ENABLE_NATIVE_SIDECARS environment variable.</p>
 </td>
     </tr>
   </tbody>
@@ -1092,13 +1085,13 @@ Istio supports to control its behavior.
 <h2 id="SidecarTrafficKubevirtInterfaces">traffic.sidecar.istio.io/kubevirtInterfaces</h2>
 <table class="annotations">
   <tbody>
-    <tr>
+    <tr class="deprecated">
       <th>Name</th>
       <td><code>traffic.sidecar.istio.io/kubevirtInterfaces</code></td>
     </tr>
     <tr>
       <th>Feature Status</th>
-      <td>Alpha</td>
+      <td>Deprecated</td>
     </tr>
     <tr>
       <th>Resource Types</th>
@@ -1106,7 +1099,7 @@ Istio supports to control its behavior.
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound.</p>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic (from VM) will be treated as outbound. Deprecated in favor of <code>istio.io/redirect-virtual-interfaces</code></p>
 </td>
     </tr>
   </tbody>

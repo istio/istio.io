@@ -86,7 +86,7 @@ aliases:
 
     - 跟踪 ID 的位宽现在是 128。
 
-    - 现在支持将追踪数据发送到 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/)。
+    - 现在支持将追踪数据发送到 LightStep。
 
     - 添加了一个选项，可用于完全禁用由 Mixer 支持的服务的跟踪功能。
 

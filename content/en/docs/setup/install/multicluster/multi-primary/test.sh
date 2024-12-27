@@ -24,23 +24,23 @@ set -o pipefail
 source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
 
-function install_istio_on_cluster1 {
+function install_istio_on_cluster1_istioctl {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
     snip_configure_cluster1_as_a_primary_1
     echo y | snip_configure_cluster1_as_a_primary_2
 }
 
-function install_istio_on_cluster2 {
+function install_istio_on_cluster2_istioctl {
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
     snip_configure_cluster2_as_a_primary_1
     echo y | snip_configure_cluster2_as_a_primary_2
 }
 
-function install_istio {
+function install_istio_istioctl {
   # Install Istio on the 2 clusters. Executing in
   # parallel to reduce test time.
-  install_istio_on_cluster1 &
-  install_istio_on_cluster2 &
+  install_istio_on_cluster1_istioctl &
+  install_istio_on_cluster2_istioctl &
   wait
 }
 
@@ -50,14 +50,14 @@ function enable_endpoint_discovery {
 }
 
 time configure_trust
-time install_istio
+time install_istio_istioctl
 time enable_endpoint_discovery
 time verify_load_balancing
 
 # @cleanup
 source content/en/docs/setup/install/multicluster/common.sh
 set_single_network_vars
-time cleanup
+time cleanup_istioctl
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.

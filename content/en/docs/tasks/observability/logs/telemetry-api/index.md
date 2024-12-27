@@ -45,19 +45,19 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
 
 1. Disable access log for specific workload
 
-    You can disable access log for `sleep` service with the following configuration:
+    You can disable access log for `curl` service with the following configuration:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -n default -f -
     apiVersion: telemetry.istio.io/v1
     kind: Telemetry
     metadata:
-      name: disable-sleep-logging
+      name: disable-curl-logging
       namespace: default
     spec:
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       accessLogging:
       - providers:
         - name: otel
@@ -97,11 +97,11 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     apiVersion: telemetry.istio.io/v1alpha1
     kind: Telemetry
     metadata:
-      name: filter-sleep-logging
+      name: filter-curl-logging
     spec:
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       accessLogging:
       - providers:
         - name: otel

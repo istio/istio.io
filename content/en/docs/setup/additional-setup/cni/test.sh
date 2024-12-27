@@ -47,12 +47,12 @@ _wait_for_deployment istio-system istiod
 _wait_for_daemonset istio-system istio-cni-node
 
 startup_bookinfo_sample
-startup_sleep_sample
+startup_curl_sample
 
 _verify_contains get_productpage "glyphicon glyphicon-star"
 
 # @cleanup
 cleanup_bookinfo_sample
-cleanup_sleep_sample
+cleanup_curl_sample
 echo y | istioctl uninstall --revision=default
 kubectl delete ns istio-system

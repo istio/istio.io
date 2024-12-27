@@ -67,7 +67,10 @@ while (( "$#" )); do
       esac
       shift 2
       ;;
-
+    --skip-cleanup)
+      export SKIP_CLEANUP=true
+      shift
+    ;;
     --topology-config)
       CLUSTER_TOPOLOGY_CONFIG_FILE=$2
       shift 2
@@ -102,7 +105,7 @@ if [ -n "${PULL_NUMBER:-}" ]; then
 fi
 
 export IP_FAMILY="${IP_FAMILY:-ipv4}"
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.27.3"
+export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.31.0"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"

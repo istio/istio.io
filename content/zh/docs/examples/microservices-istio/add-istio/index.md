@@ -50,7 +50,7 @@ test: no
     reviews-v2-56f6855586-cnrjp       1/1       Running   0          7h
     reviews-v2-56f6855586-lxc49       1/1       Running   0          7h
     reviews-v2-56f6855586-qh84k       1/1       Running   0          7h
-    sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
+    curl-88ddbcfdd-cc85s              1/1       Running   0          7h
     {{< /text >}}
 
 1. Kubernetes 采取无侵入的和逐步的[滚动更新](https://kubernetes.io/zh-cn/docs/tutorials/kubernetes-basics/update/update-intro/)

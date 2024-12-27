@@ -26,7 +26,7 @@ kubectl create namespace istio-io-tcp-traffic-shifting
 }
 
 snip_set_up_the_test_environment_2() {
-kubectl apply -f samples/sleep/sleep.yaml -n istio-io-tcp-traffic-shifting
+kubectl apply -f samples/curl/curl.yaml -n istio-io-tcp-traffic-shifting
 }
 
 snip_set_up_the_test_environment_3() {
@@ -48,9 +48,9 @@ export TCP_INGRESS_PORT=$(kubectl get gtw tcp-echo-gateway -n istio-io-tcp-traff
 }
 
 snip_apply_weightbased_tcp_routing_4() {
-export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+export CURL=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
 for i in {1..20}; do \
-kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+kubectl exec "$CURL" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
 done
 }
 
@@ -134,9 +134,9 @@ spec:
 ENDSNIP
 
 snip_apply_weightbased_tcp_routing_9() {
-export SLEEP=$(kubectl get pod -l app=sleep -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
+export CURL=$(kubectl get pod -l app=curl -n istio-io-tcp-traffic-shifting -o jsonpath={.items..metadata.name})
 for i in {1..20}; do \
-kubectl exec "$SLEEP" -c sleep -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
+kubectl exec "$CURL" -c curl -n istio-io-tcp-traffic-shifting -- sh -c "(date; sleep 1) | nc $INGRESS_HOST $TCP_INGRESS_PORT"; \
 done
 }
 
@@ -163,7 +163,7 @@ kubectl delete -f samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml -n istio-io-
 }
 
 snip_cleanup_3() {
-kubectl delete -f samples/sleep/sleep.yaml -n istio-io-tcp-traffic-shifting
+kubectl delete -f samples/curl/curl.yaml -n istio-io-tcp-traffic-shifting
 kubectl delete -f samples/tcp-echo/tcp-echo-services.yaml -n istio-io-tcp-traffic-shifting
 kubectl delete namespace istio-io-tcp-traffic-shifting
 }

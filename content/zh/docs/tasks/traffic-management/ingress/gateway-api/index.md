@@ -122,7 +122,9 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -176,12 +178,9 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 1.  再次访问 `/headers`，注意到 `My-Added-Header` 标头已被添加到请求：
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    {
-      "headers": {
-        "Accept": "*/*",
-        "Host": "httpbin.example.com",
-        "My-Added-Header": "added-value",
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
+    ...
+    "added-value"
     ...
     {{< /text >}}
 
@@ -227,15 +226,14 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
 #### 资源附加和扩缩  {#resource-attachment-and-scaling}
 
-{{< warning >}}
-资源附加目前是实验性的功能。
-{{< /warning >}}
-
 资源可以附加到 `Gateway` 进行自定义。
 然而，大多数 Kubernetes 资源目前不支持直接附加到 `Gateway`，
 但这些资源可以转为直接被附加到相应生成的 `Deployment` 和 `Service`。
-这个操作比较简单，因为这两种资源被生成时名称为 `<gateway name>-<gateway class name>`
-且带有标签 `gateway.networking.k8s.io/gateway-name: <gateway name>`。
+这很容易做到，因为[资源是用众所周知的标签](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment)
+（`gateway.networking.k8s.io/gateway-name: <gateway name>`）和名称生成的：
+
+* Gateway: `<gateway name>-<gateway class name>`
+* waypoint: `<gateway name>`
 
 例如，参照以下部署类别为 `HorizontalPodAutoscaler` 和 `PodDisruptionBudget` 的 `Gateway`：
 
@@ -294,6 +292,11 @@ spec:
 `Deployment` 和 `Service`。
 
 完成此选项后，您将需要手动将 `Gateway` 链接到 `Service`，并保持它们的端口配置同步。
+
+为了支持策略附件，例如当您在 AuthorizationPolicy 上使用
+[`targetRef`](/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference) 字段时，
+您还需要通过向网关 Pod 添加以下标签来引用 `Gateway` 的名称：
+`gateway.networking.k8s.io/gateway-name: <gateway name>`。
 
 要将 `Gateway` 链接到 `Service`，需要将 `addresses` 字段配置为指向**单个** `Hostname`。
 
