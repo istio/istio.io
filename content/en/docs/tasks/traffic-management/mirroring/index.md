@@ -279,10 +279,10 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
             host: httpbin
             subset: v1
           weight: 100
-        mirror:
+      - mirror:
           host: httpbin
           subset: v2
-        mirrorPercentage:
+      - mirrorPercentage:
           value: 100.0
     EOF
     {{< /text >}}
