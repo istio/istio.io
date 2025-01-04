@@ -6,8 +6,9 @@ aliases:
   - /docs/ops/ambient/getting-started
   - /latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
-skip_list: true
 test: yes
+skip_list: true
+next: /docs/ambient/getting-started/deploy-sample-app
 ---
 
 This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
