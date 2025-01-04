@@ -250,7 +250,6 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
    Secret，以访问从集群的 `kube-apiserver` 并将其安装在外部集群中：
 
     {{< text bash >}}
-    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
