@@ -115,7 +115,7 @@ While the ztunnel is a shared resource, it only has access to the keys of the wo
 Thus, its blast radius is no worse than any other encrypted CNI that relies on per-node keys for encryption.
 Also, given the ztunnel’s limited L4 only attack surface area and Envoy’s aforementioned security properties, we feel this risk is limited and acceptable.
 
-Finally, while the waypoint proxies are a shared resource, they are limited to serving just one service account.
+Finally, while the waypoint proxies are a shared resource, they can be limited to serving just one service account.
 This makes them no worse than sidecars are today; if one waypoint proxy is compromised, the credential associated with that waypoint is lost, and nothing else.
 
 ## Is this the end of the road for the sidecar?
