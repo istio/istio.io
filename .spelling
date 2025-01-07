@@ -477,6 +477,7 @@ edition.cnn.com
 Eilers
 Eitan
 Ekansh
+eks
 Elasticsearch
 embeddable
 emojis
@@ -551,6 +552,7 @@ git
 GitHub
 GitOps
 GKE
+gke
 glibc
 Gloo
 GlueCon
@@ -822,6 +824,7 @@ metaprotocol
 metaresources
 MiB
 MicroK8s
+microk8s
 microservice
 microservices
 middleboxes
@@ -918,6 +921,7 @@ OpenID_Connect
 OpenMetrics
 OpenPolicyAgent
 OpenShift
+openshift
 OpenSSL
 openssl
 OpenTelemetry
