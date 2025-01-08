@@ -73,7 +73,9 @@ If you are using EKS:
 - with Pod ENI trunking enabled
 - **and** you are using EKS pod-attached SecurityGroups via [SecurityGroupPolicy](https://aws.github.io/aws-eks-best-practices/networking/sgpp/#enforcing-mode-use-strict-mode-for-isolating-pod-and-node-traffic)
 
-[`POD_SECURITY_GROUP_ENFORCING_MODE` must be explicitly set to `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), or pod health probes (which are by-default silently exempted from all policy enforcement by the VPC CNI) will fail. This is because Istio uses a link-local SNAT address for kubelet health probes, which Amazon's VPC CNI is not aware of, and the VPC CNI does not have an option to exempt link-local addresses from policy enforcement.
+[`POD_SECURITY_GROUP_ENFORCING_MODE` must be explicitly set to `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), or pod health probes will fail. This is because Istio uses a link-local SNAT address to identify kubelet health probes, and VPC CNI currently misroutes link-local packets in Pod Security Group `strict` mode. Explicitly adding a CIDR exclusion for the link-local address to your SecurityGroup will not work, because VPC CNI's Pod Security Group mode works by silently routing traffic across links, looping them thru the trunked `pod ENI` for SecurityGroup policy enforcement. Since [link-local traffic is not routable across links](https://datatracker.ietf.org/doc/html/rfc3927#section-2.6.2), the Pod Security Group feature cannot enforce policy against them as a design constraint, and drops the packets in `strict` mode.
+
+There is an [open issue on the VPC CNI component](https://github.com/aws/amazon-vpc-cni-k8s/issues/2797) for this limitation. The current recommendation from the VPC CNI team is to disable `strict` mode to work around it, if you are using Pod Security Groups, or to use `exec`-based Kubernetes probes for your pods instead of kubelet-based ones.
 
 You can check if you have pod ENI trunking enabled by running the following command:
 
