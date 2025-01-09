@@ -88,13 +88,13 @@ the components individually, by prefixing the value path with the name of the co
 Example:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istiod istio/istiod --set hub=gcr.io/istio-testing
+$ helm install istiod istio/istiod
 {{< /text >}}
 
 Becomes:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istio-ambient istio/ambient --set istiod.hub=gcr.io/istio-testing
+$ helm install istio-ambient istio/ambient
 {{< /text >}}
 
 when set via the wrapper chart.
