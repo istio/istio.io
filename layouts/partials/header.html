@@ -23,49 +23,49 @@
         <div id="header-links" class="main-navigation-links-wrapper">
             <ul class="main-navigation-links">
                 {{ $currentPage := .}}
-                {{ range .Site.Menus.main }}
-                    {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if .HasChildren }}
-                        <li class="main-navigation-links-item">
+                    {{ range .Site.Menus.main }}
+                        {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
+                        {{ if .HasChildren }}
+                            <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
-                                <span>{{ .Name }}</span>
-                                {{ partial "icon.html" "dropdown-arrow" }}
-                            </a>
+                                    <span>{{ .Name }}</span>
+                                    {{ partial "icon.html" "dropdown-arrow" }}
+                                </a>
 
-                            <ul class="main-navigation-links-dropdown">
-                                {{ range .Children }}
-                                    <li class="main-navigation-links-dropdown-item">
-                                        <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
-                                    </li>
-                                {{ end }}
-                            </ul>
-                        </li>
-                    {{ else }}
-                        <li class="main-navigation-links-item">
+                                <ul class="main-navigation-links-dropdown">
+                                    {{ range .Children }}
+                                        <li class="main-navigation-links-dropdown-item">
+                                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                                        </li>
+                                    {{ end }}
+                                </ul>
+                            </li>
+                        {{ else }}
+                            <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL }}"{{end}} class="main-navigation-links-link {{ if $active }}active{{ end }}">
-                                <span>{{ .Name }}</span>
-                            </a>
-                        </li>
-                    {{ end }}
-                {{ end }}
-                <li class="main-navigation-links-item language-dropdown">
-                    <a class="main-navigation-links-link has-dropdown">
-                        en/关于
-                        {{ partial "icon.html" "dropdown-arrow" }}
-                    </a>
-                    <ul class="main-navigation-links-dropdown">
-                        {{ range $supportedLanguages}}
-                            {{ $active := eq $currentLanguage .code }}
-                            <li class="main-navigation-links-dropdown-item">
-                                <a tabindex="-1" lang="{{.code}}" id="switch-lang-{{.code}}" class="main-navigation-links-link ">
-                                    {{ .name }}
+                                    <span>{{ .Name }}</span>
                                 </a>
                             </li>
                         {{ end }}
+                    {{ end }}
+            </ul>
+            <div class="main-navigation-links language-switcher">
+                <li class="main-navigation-links-item">
+                    <a class="main-navigation-links-link has-dropdown">
+                        {{ partial "icon.html" "language-outline" }}
+                    </a>
+                    <ul class="main-navigation-links-dropdown">
+                    {{ range $supportedLanguages }}
+                        {{ $active := eq $currentLanguage .code }}
+                        <li class="main-navigation-links-dropdown-item">
+                            <a tabindex="-1" lang="{{.code}}" id="switch-lang-{{.code}}" class="main-navigation-links-link ">
+                                {{ .name }}
+                            </a>
+                        </li>
+                        {{ end }}
                     </ul>
                 </li>
-            </ul>
-
+            </div>
             <div class="main-navigation-footer">
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
                 <a href='{{ "/docs/setup/getting-started" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>

@@ -112,6 +112,11 @@
         margin-left: 1rem;
     }
 
+    svg.language-outline {
+        width: 1.6em;
+        height: 1.6em;
+    }
+
     #search-show {
         display: none;
         @media (min-width: $bp-lg) {
