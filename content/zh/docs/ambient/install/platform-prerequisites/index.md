@@ -73,11 +73,44 @@ spec:
 
 ### Amazon Elastic Kubernetes Service（EKS） {#amazon-elastic-kubernetes-service-EKS}
 
-如果您使用已启用 Amazon VPC CNI 的 EKS，
-[则必须将 `POD_SECURITY_GROUP_ENFORCING_MODE` 明确设置为 `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110)，
-否则 Pod 运行状况探测（默认情况下，该 VPC CNI 会默默地免除所有策略实施）将失败。
-这是因为 Istio 对 kubelet 运行状况探测使用链路本地 SNAT 地址，
-而 Amazon VPC CNI 对此并不了解，并且该 VPC CNI 没有免除链路本地地址策略实施的选项。
+如果您使用 EKS：
+
+- 使用亚马逊的 VPC CNI
+- 启用 Pod ENI 中继
+- **并且**您正在通过 [SecurityGroupPolicy](https://aws.github.io/aws-eks-best-practices/networking/sgpp/#enforcing-mode-use-strict-mode-for-isolating-pod-and-node-traffic)
+  使用 EKS Pod 附加的安全组
+
+[`POD_SECURITY_GROUP_ENFORCING_MODE` 必须明确设置为 `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110)，
+否则 Pod 运行状况探测将失败。这是因为 Istio 使用链路本地 SNAT 地址来识别 kubelet 运行状况探测，
+而 VPC CNI 当前在 Pod 安全组 `strict` 模式下错误路由链路本地数据包。
+明确将链路本地地址的 CIDR 排除添加到您的安全组将不起作用，
+因为 VPC CNI 的 Pod 安全组模式通过静默路由链路之间的流量来工作，
+将它们循环通过中继 `Pod ENI` 以实施安全组策略。
+由于[链路本地流量无法跨链路路由](https://datatracker.ietf.org/doc/html/rfc3927#section-2.6.2)，
+Pod 安全组功能无法将策略强制应用于它们，这是设计约束，并且在 `strict` 模式下会丢弃数据包。
+
+[VPC CNI 组件上有一个未解决的问题](https://github.com/aws/amazon-vpc-cni-k8s/issues/2797)针对此限制。
+如果您使用 Pod 安全组，VPC CNI 团队目前的建议是禁用 `strict` 模式来解决此问题，
+或者为您的 Pod 使用基于 `exec` 的 Kubernetes 探测器，而不是基于 kubelet 的探测器。
+
+您可以通过运行以下命令来检查是否启用了 Pod ENI 中继：
+
+{{< text syntax=bash >}}
+$ kubectl set env daemonset aws-node -n kube-system --list | grep ENABLE_POD_ENI
+{{< /text >}}
+
+您可以通过运行以下命令来检查集群中是否有任何附加 Pod 的安全组：
+
+{{< text syntax=bash >}}
+$ kubectl get securitygrouppolicies.vpcresources.k8s.aws
+{{< /text >}}
+
+您可以通过运行以下命令设置  `POD_SECURITY_GROUP_ENFORCING_MODE=standard`，
+并回收受影响的 Pod：
+
+{{< text syntax=bash >}}
+$ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
+{{< /text >}}
 
 ### k3d
 
