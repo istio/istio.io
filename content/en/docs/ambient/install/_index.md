@@ -8,7 +8,6 @@ aliases:
 owner: istio/wg-environment-maintainers
 test: n/a
 list_below: yes
-prev: /docs/ambient/getting-started/cleanup
 ---
 
 {{< tip >}}
