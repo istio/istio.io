@@ -105,7 +105,7 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< warning >}}
 如果尝试使用 `istioctl manifest generate` 安装和管理 Istio，请注意以下事项：
 
-1. 必须手动创建 Istio 命名空间（默认为 `istio-system`）。
+1. 手动创建 Istio 命名空间（默认为 `istio-system`）。
 
 1. Istio 验证默认不会启用。与 `istioctl install` 不同，
    `manifest generate` 命令不会创建 `istiod-default-validator`
