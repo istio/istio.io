@@ -23,14 +23,16 @@ For example, the following `NetworkPolicy` will block incoming {{< gloss >}}HBON
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
-  ingress:
-  - ports:
-    - port: 9090
-      protocol: TCP
   podSelector:
     matchLabels:
       app.kubernetes.io/name: my-app
+  ingress:
+  - ports:
+    - port: 8080
+      protocol: TCP
 {{< /text >}}
 
 and should be changed to
@@ -38,16 +40,18 @@ and should be changed to
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: my-app
   ingress:
   - ports:
     - port: 8080
       protocol: TCP
     - port: 15008
       protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: my-app
 {{< /text >}}
 
 if `my-app` is added to the ambient mesh.
