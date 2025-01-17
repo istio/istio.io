@@ -354,6 +354,32 @@ spec:
         typed_config:
           &quot;@type&quot;: &quot;type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol&quot;
 </code></pre>
+<p>The following example configures ratelimits for the domain <code>foo.com</code>.</p>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: domain-match-example
+  namespace: myns
+spec:
+  configPatches:
+  - applyTo: VIRTUAL_HOST
+    match:
+      context: GATEWAY
+      routeConfiguration:
+        vhost:
+          domainName: 'foo.com'
+    patch:
+      operation: MERGE
+      value:
+        rate_limits:
+          actions:
+            - request_headers: 
+                header_name: &quot;authorization&quot;
+                descriptor_key: &quot;jwt&quot;
+            - request_headers:
+                header_name: &quot;:path&quot;
+                descriptor_key: &quot;path&quot;
+</code></pre>
 
 <h2 id="EnvoyFilter">EnvoyFilter</h2>
 <section>
@@ -718,6 +744,17 @@ routes.</p>
 host:port, where the host typically corresponds to the
 VirtualService&rsquo;s host field or the hostname of a service in the
 registry.</p>
+
+</td>
+</tr>
+<tr id="EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch-domain_name">
+<td><div class="field"><div class="name"><code><a href="#EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch-domain_name">domainName</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>Match a domain name in a virtual host. If this domain name is part of
+the list of domains that the virtual host serves, the patch will be
+applied.</p>
 
 </td>
 </tr>
