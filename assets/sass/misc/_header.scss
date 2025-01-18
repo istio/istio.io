@@ -423,7 +423,7 @@
         }
 
         &-links {
-            display: inline-block;
+            display: inline-flex;
 
             &-item {
                 display: inline-block;
@@ -478,7 +478,7 @@
         }
 
         &-footer {
-            display: inline-block;
+            display: inline-flex;
             margin: 0;
 
             #try-istio { margin-left: 1rem; }
