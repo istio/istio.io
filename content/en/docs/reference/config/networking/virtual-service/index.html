@@ -1947,7 +1947,7 @@ and <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http
 Note these status codes refer to the actual responses received from the destination.
 For example, if a connection is reset, Istio will translate this to 503 for it&rsquo;s response.
 However, the destination did not return a 503 error, so this would not match <code>&quot;503&quot;</code> (it would, however, match <code>&quot;reset&quot;</code>).</p>
-<p>If not specified, this defaults to <code>connect-failure,refused-stream,unavailable,cancelled,503</code>.</p>
+<p>If not specified, this defaults to <code>connect-failure,refused-stream,unavailable,cancelled</code>.</p>
 
 </td>
 </tr>
