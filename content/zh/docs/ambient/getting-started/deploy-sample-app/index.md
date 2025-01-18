@@ -4,7 +4,7 @@ description: 部署 Bookinfo 示例应用程序。
 weight: 2
 owner: istio/wg-networking-maintainers
 test: yes
-prev: /zh/docs/ambient/getting-started
+prev: /docs/ambient/getting-started
 ---
 
 为了探索 Istio，您需要安装示例
