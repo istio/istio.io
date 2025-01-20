@@ -4,6 +4,7 @@ description: 删除 Istio 和相关资源。
 weight: 6
 owner: istio/wg-networking-maintainers
 test: yes
+next: /docs/ambient/install
 ---
 
 如果您不再需要 Istio 和相关资源，可以按照本节中的步骤删除它们。
