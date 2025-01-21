@@ -104,7 +104,15 @@ if [ -n "${PULL_NUMBER:-}" ]; then
   fi
 fi
 
-export IP_FAMILY="${IP_FAMILY:-ipv4}"
+# Default IP family of the cluster is IPv4
+KIND_IP_FAMILY="ipv4"
+export IP_FAMILIES="${IP_FAMILIES:-IPv4}"
+if [[ "$IP_FAMILIES" == "IPv6" ]]; then
+   KIND_IP_FAMILY="ipv6"
+elif [[ "$IP_FAMILIES" =~ "IPv6" ]] && [[ "$IP_FAMILIES" =~ "IPv4" ]]; then
+   KIND_IP_FAMILY="dual"
+fi
+export KIND_IP_FAMILY
 export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.31.0"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
@@ -116,7 +124,7 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
     time setup_kind_cluster "istio-testing" "${NODE_IMAGE}"
   else
     time load_cluster_topology "${CLUSTER_TOPOLOGY_CONFIG_FILE}"
-    time setup_kind_clusters "${NODE_IMAGE}" "${IP_FAMILY}"
+    time setup_kind_clusters "${NODE_IMAGE}" "${KIND_IP_FAMILY}"
 
     export TEST_ENV=kind-metallb
     export DOCTEST_KUBECONFIG
