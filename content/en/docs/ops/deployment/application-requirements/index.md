@@ -90,6 +90,7 @@ To avoid port conflicts with sidecars, applications should not use any of the po
 |----|----|----|----|
 | 15000 | TCP | Envoy admin port (commands/diagnostics) | Yes |
 | 15001 | TCP | Envoy outbound | No |
+| 15002 | TCP | Listen port for failure detection | Yes |
 | 15004 | HTTP | Debug port | Yes |
 | 15006 | TCP | Envoy inbound | No |
 | 15008 | HTTP2 | {{< gloss >}}HBONE{{</ gloss >}} mTLS tunnel port | No |
