@@ -7,9 +7,6 @@ full_version: "1.25.0"
 # The previous Istio version identifier the docs describe, used for upgrade documentation
 previous_version: "1.24"
 
-# The year to display in copyright notices
-copyright_year: 2025
-
 # Controls the incarnation of the site
 #
 # when preliminary=false and archive=false, we're building for istio.io
