@@ -4,6 +4,7 @@ description: Delete Istio and associated resources.
 weight: 6
 owner: istio/wg-networking-maintainers
 test: yes
+next: /docs/ambient/install
 ---
 
 If you no longer need Istio and associated resources, you can delete them by following the steps in this section.
@@ -34,10 +35,10 @@ To delete the Bookinfo sample application and the `curl` deployment, run the fol
 {{< text bash >}}
 $ kubectl delete httproute reviews
 $ kubectl delete authorizationpolicy productpage-viewer
-$ kubectl delete -f samples/curl/curl.yaml
-$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
-$ kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl delete -f @samples/curl/curl.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+$ kubectl delete -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
 
 {{< /text >}}
 

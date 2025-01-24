@@ -221,6 +221,11 @@ In general, any field in a pod can be set. However, care must be taken for certa
 * Fields `securityContext.RunAsUser` and `securityContext.RunAsGroup` might not be honored in some cases, for instance, when `TPROXY` mode is used,
   as it requires the sidecar to run as user `0`. Overriding these fields incorrectly can cause traffic loss, and should be done with extreme caution.
 
+{{< warning >}}
+Other admission controllers may execute against the Pod spec prior to Istio injection, which can mutate or reject the configuration.
+For instance, `LimitRange` may automatically insert resource requests prior to Istio adding its configured resources, giving unexpected results.
+{{< /warning >}}
+
 Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
 
 * If `sidecar.istio.io/proxyCPU` is set, make sure to explicitly set `sidecar.istio.io/proxyCPULimit`. Otherwise the sidecar's `cpu` limit will be set as unlimited.

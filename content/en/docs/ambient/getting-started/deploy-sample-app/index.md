@@ -4,6 +4,7 @@ description: Deploy the Bookinfo sample application.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: yes
+prev: /docs/ambient/getting-started
 ---
 
 To explore Istio, you will install the sample [Bookinfo application](/docs/examples/bookinfo/), composed of four separate microservices used to demonstrate various Istio features.
@@ -17,8 +18,8 @@ As part of this guide, you'll deploy the Bookinfo application and expose the `pr
 Start by deploying the application:
 
 {{< text bash >}}
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 {{< /text >}}
 
 To verify that the application is running, check the status of the pods:
@@ -41,7 +42,7 @@ To access the `productpage` service from outside the cluster, you need to config
 You will use the Kubernetes Gateway API to deploy a gateway called `bookinfo-gateway`:
 
 {{< text syntax=bash snip_id=deploy_bookinfo_gateway >}}
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
 {{< /text >}}
 
 By default, Istio creates a `LoadBalancer` service for a gateway. As you will access this gateway by a tunnel, you don't need a load balancer. Change the service type to `ClusterIP` by annotating the gateway:

@@ -30,8 +30,8 @@ You now have mTLS encryption between all your pods — without even restarting o
 Using Istio's dashboard, Kiali, and the Prometheus metrics engine, you can visualize the Bookinfo application. Deploy them both:
 
 {{< text syntax=bash snip_id=none >}}
-$ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
-$ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
+$ kubectl apply -f @samples/addons/prometheus.yaml@
+$ kubectl apply -f @samples/addons/kiali.yaml@
 {{< /text >}}
 
 You can access the Kiali dashboard by running the following command:

@@ -13,7 +13,8 @@ test: yes
 
 {{< tip >}}
 按照本指南安装和配置支持 Ambient 模式的 Istio 网格。
-如果您是 Istio 新手，只想尝试一下，请按照[快速入门说明](/zh/docs/ambient/getting-started)进行操作。
+如果您是 Istio 新手，只想尝试一下，
+请按照[快速入门说明](/zh/docs/ambient/getting-started)进行操作。
 {{< /tip >}}
 
 我们鼓励使用 Helm 在 Ambient 模式下安装 Istio 以供生产使用。
@@ -72,7 +73,8 @@ $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 
 ### istiod 控制平面 {#istiod-control-plane}
 
-`istiod` Chart 安装了修订版的 Istiod。Istiod 是管理和配置代理以在网格内路由流量的控制平面组件。
+`istiod` Chart 安装了修订版的 Istiod。
+Istiod 是管理和配置代理以在网格内路由流量的控制平面组件。
 
 {{< text syntax=bash snip_id=install_istiod >}}
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
@@ -99,16 +101,20 @@ $ helm install ztunnel istio/ztunnel -n istio-system --wait
 
 ### 入口网关（可选） {#ingress-gateway-optional}
 
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+如果您使用 Gateway API，则无需按照下文所述安装和管理入口网关 Helm Chart。
+有关详细信息，请参阅 [Gateway API 任务](/zh/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)。
+{{< /tip >}}
+
 要安装入口网关，请运行以下命令：
 
 {{< text syntax=bash snip_id=install_ingress >}}
 $ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
 {{< /text >}}
 
-如果您的 Kubernetes 集群不支持分配了正确外部 IP 的
-`LoadBalancer` 服务类型（`type: LoadBalancer`），
-请在不带 `--wait` 参数的情况下运行上述命令，以避免无限等待。
-有关网关安装的详细文档，
+如果您的 Kubernetes 集群不支持分配了正确外部 IP 的 `LoadBalancer` 服务类型（`type: LoadBalancer`），
+请在不带 `--wait` 参数的情况下运行上述命令，以避免无限等待。有关网关安装的详细文档，
 请参阅[安装 Gateway](/zh/docs/setup/additional-setup/gateway/)。
 
 ## 配置 {#configuration}
@@ -215,3 +221,47 @@ ztunnel-c2z4s                    1/1     Running   0          10m
     {{< text syntax=bash snip_id=delete_system_namespace >}}
     $ kubectl delete namespace istio-system
     {{< /text >}}
+
+## 安装前生成清单 {#generate-a-manifest-before-installation}
+
+您可以在安装 Istio 之前使用 `helm template` 子命令为每个组件生成清单。
+例如，要为 `istiod` 组件生成可以使用 `kubectl` 安装的清单：
+
+{{< text syntax=bash snip_id=none >}}
+$ helm template istiod istio/istiod -n istio-system --kube-version {Kubernetes version of target cluster} > istiod.yaml
+{{< /text >}}
+
+生成的清单可用于检查具体安装了什么以及跟踪清单随时间的变化。
+
+{{< tip >}}
+您通常用于安装的任何其他标志或自定义值覆盖也应提供给 `helm template` 命令。
+{{< /tip >}}
+
+要安装上面生成的清单，它将在目标集群中创建 `istiod` 组件：
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl apply -f istiod.yaml
+{{< /text >}}
+
+{{< warning >}}
+如果尝试使用 `helm template` 安装和管理 Istio，请注意以下注意事项：
+
+1. 必须手动创建 Istio 命名空间（默认为 `istio-system`）。
+
+1. 资源可能未按照与 `helm install` 相同的依赖顺序进行安装
+
+1. 此方法尚未作为 Istio 版本的一部分进行测试。
+
+1. 虽然 `helm install` 会自动从 Kubernetes 上下文中检测特定于环境的设置，
+   但 `helm template` 无法做到这一点，因为它是离线运行的，
+   这可能会导致意外结果。特别是，如果您的 Kubernetes 环境不支持第三方服务帐户令牌，
+   您必须确保遵循[这些步骤](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)。
+
+1. 由于集群中的资源没有按正确的顺序可用，
+   生成的清单的 `kubectl apply` 可能会显示瞬态错误。
+
+1. `helm install` 会自动修剪配置更改时应删除的任何资源（例如，如果您删除网关）。
+   当您将 `helm template` 与 `kubectl` 一起使用时，
+   不会发生这种情况，必须手动删除这些资源。
+
+{{< /warning >}}

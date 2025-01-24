@@ -37,7 +37,6 @@ fi
 REPOS=(
     https://github.com/istio/istio.git@"${SOURCE_BRANCH_NAME}"
     https://github.com/istio/api.git@"${SOURCE_BRANCH_NAME}"
-    https://github.com/istio/proxy.git@"${SOURCE_BRANCH_NAME}"
 )
 
 # The components to build and extract usage docs from.
@@ -96,7 +95,7 @@ locate_file() {
 
     LEN=${#WORK_DIR}
 
-    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" && "${REPO_URL}" != "https://github.com/istio/proxy.git" ]]; then
+    if [[ "${REPO_URL}" != "https://github.com/istio/istio.git" && "${REPO_URL}" != "https://github.com/istio/api.git" ]]; then
         sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/en/docs${PP}/${FN}/index.html"
         sed -i -e 's/layout: protoc-gen-docs/layout: partner-component/g' "${ROOTDIR}/content/zh/docs${PP}/${FN}/index.html"
     fi

@@ -410,6 +410,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 </thead>
 <tbody>
 <tr>
+<td><code>AMBIENT_ENABLE_MULTI_NETWORK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the multi-network functionality will be enabled.</td>
+</tr>
+<tr>
 <td><code>AMBIENT_ENABLE_STATUS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1246,6 +1252,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
+</tr>
+<tr>
+<td><code>PILOT_MX_ADDITIONAL_LABELS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
 </tr>
 <tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>

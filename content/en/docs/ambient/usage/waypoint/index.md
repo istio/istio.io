@@ -67,7 +67,7 @@ spec:
     protocol: HBONE
 {{< /text >}}
 
-Note the Gateway resource has the `istio-waypoint` label set to `gatewayClassName` which indicates it is a waypoint provided by Istio. The Gateway resource is labeled with `istio.io/waypoint-for: service`, indicating the waypoint can process traffic for services, which is the default.
+Note the Gateway resource has a `gatewayClassName` of `istio-waypoint`, which instantiates an Istio-managed waypoint. The Gateway resource is labeled with `istio.io/waypoint-for: service`, indicating the waypoint can process traffic for services, which is the default.
 
 To deploy a waypoint proxy directly, use `apply` instead of `generate`:
 

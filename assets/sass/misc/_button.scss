@@ -48,3 +48,13 @@
         }
     }
 }
+
+header {
+    .btn {
+        &--primary {
+            &:hover, &:focus, &:active {
+                background-color: #ffffff;
+            }
+        }
+    }
+}

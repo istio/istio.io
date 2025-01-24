@@ -399,6 +399,9 @@ CVE-2024-45807
 CVE-2024-45808
 CVE-2024-45809
 CVE-2024-45810
+CVE-2024-53269
+CVE-2024-53270
+CVE-2024-53271
 CVEs
 cves
 cvss
@@ -474,6 +477,7 @@ edition.cnn.com
 Eilers
 Eitan
 Ekansh
+eks
 Elasticsearch
 embeddable
 emojis
@@ -548,6 +552,7 @@ git
 GitHub
 GitOps
 GKE
+gke
 glibc
 Gloo
 GlueCon
@@ -667,6 +672,7 @@ ISTIO-SECURITY-2023-002
 ISTIO-SECURITY-2023-003
 ISTIO-SECURITY-2023-004
 ISTIO-SECURITY-2024-006
+ISTIO-SECURITY-2024-007
 istio-system
 istio.io
 istio.io.
@@ -818,6 +824,7 @@ metaprotocol
 metaresources
 MiB
 MicroK8s
+microk8s
 microservice
 microservices
 middleboxes
@@ -829,6 +836,7 @@ misconfigurations
 misconfigured
 Mishra
 misordered
+misroutes
 Mitigations
 mitigations
 Mittal
@@ -914,6 +922,7 @@ OpenID_Connect
 OpenMetrics
 OpenPolicyAgent
 OpenShift
+openshift
 OpenSSL
 openssl
 OpenTelemetry
@@ -1085,6 +1094,7 @@ sds
 Searcy
 Secura
 SecurityCon
+SecurityGroup
 SecurityGroupPolicy
 SecurityGroups
 security_bulletin
@@ -1220,6 +1230,7 @@ TrafficPolicy
 Trendyol
 Trivedi
 Trulia
+trunked
 trustability
 tunneling
 U.S.

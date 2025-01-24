@@ -59,12 +59,13 @@ This change allows:
 Previously this only worked under certain conditions, and when certain install flags were used,
 could result in non-Helm-upgradable CRDs being generated that required manual intervention to fix.
 
-As a necessary consequence of this, the labels on the CRDs are changed to be consistent with other Helm-installed resources.
+With this change, out-of-band install and upgrade of Istio CRDs with the `kubectl` command when using Helm is **no longer required**.
 
-If you previously installed or upgraded CRDs with `kubectl apply` and not Helm, you can continue to do so.
+If you do not use Helm to install, template, or manage Istio resources,
+you can continue to do so and install CRDs manually with `kubectl apply -f manifests/charts/base/files/crd-all.gen.yaml`
 
 If you previously installed CRDs with `helm install istio-base` OR `kubectl apply`, you can begin safely upgrading Istio CRDs
-with `helm upgrade istio-base` from this and all subsequent releases
+with only `helm upgrade istio-base` from this and all subsequent releases
 after running the below kubectl commands as a one-time migration:
 
 - `kubectl label $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name) "app.kubernetes.io/managed-by=Helm"`

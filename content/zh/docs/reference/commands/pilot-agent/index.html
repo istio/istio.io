@@ -535,7 +535,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--proxyLogLevel &lt;string&gt;</code></td>
-<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off}).Level may also include one or more scopes, such as &#39;info,misc:error,upstream:debug&#39;  (default `warning,misc:error`)</td>
+<td>The log level used to start the Envoy proxy (choose from {trace, debug, info, warning, error, critical, off}).Level may also include one or more scopes, such as &#39;info,misc:error,upstream:debug&#39;  (default `warning`)</td>
 </tr>
 <tr>
 <td><code>--serviceCluster &lt;string&gt;</code></td>
@@ -722,6 +722,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>AMBIENT_ENABLE_MULTI_NETWORK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the multi-network functionality will be enabled.</td>
+</tr>
 <tr>
 <td><code>AMBIENT_ENABLE_STATUS</code></td>
 <td>Boolean</td>
@@ -985,6 +991,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Integer</td>
 <td><code>15090</code></td>
 <td>Envoy prometheus redirection port value</td>
+</tr>
+<tr>
+<td><code>ENVOY_SKIP_DEPRECATED_LOGS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>By default, deprecated log messages are skipped, Set to &#39;false&#39; to display all deprecated log messages.</td>
 </tr>
 <tr>
 <td><code>ENVOY_STATUS_PORT</code></td>
@@ -1675,6 +1687,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
 </tr>
 <tr>
+<td><code>PILOT_MX_ADDITIONAL_LABELS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/persistent-session-header</code></td>
@@ -1829,18 +1847,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, agent retrieves dynamic proxy-config updates via xds channel</td>
-</tr>
-<tr>
-<td><code>PROXY_XDS_DEBUG_VIA_AGENT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If set to true, the agent will listen on tap port and offer pilot&#39;s XDS istio.io/debug debug API there.</td>
-</tr>
-<tr>
-<td><code>PROXY_XDS_DEBUG_VIA_AGENT_PORT</code></td>
-<td>Integer</td>
-<td><code>15004</code></td>
-<td>Agent debugging port.</td>
 </tr>
 <tr>
 <td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>

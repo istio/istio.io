@@ -3304,16 +3304,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td></td>
 <td>Istiod pod port  (default `15012`)</td>
 </tr>
-<tr>
-<td><code>--xds-via-agents</code></td>
-<td></td>
-<td>Access Istiod via the tap service of each agent </td>
-</tr>
-<tr>
-<td><code>--xds-via-agents-limit &lt;xds-via-agent&gt;</code></td>
-<td></td>
-<td>Maximum number of pods being visited by istioctl when xds-via-agent flag is true.To iterate all the agent pods without limit, set to 0  (default `100`)</td>
-</tr>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-proxy-status Examples">Examples</h4>
@@ -3837,6 +3827,11 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>The namespace that the workload instances will belong to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--network &lt;string&gt;</code></td>
+<td></td>
+<td>Network enables Istio to group endpoints resident in the same L3 domain/network.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ports &lt;stringSlice&gt;</code></td>
@@ -7776,6 +7771,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </thead>
 <tbody>
 <tr>
+<td><code>AMBIENT_ENABLE_MULTI_NETWORK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the multi-network functionality will be enabled.</td>
+</tr>
+<tr>
 <td><code>AMBIENT_ENABLE_STATUS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -8582,6 +8583,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
+</tr>
+<tr>
+<td><code>PILOT_MX_ADDITIONAL_LABELS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
 </tr>
 <tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>

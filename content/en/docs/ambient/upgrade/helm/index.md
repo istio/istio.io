@@ -122,9 +122,9 @@ The Istio CNI node agent is responsible for detecting pods added to the ambient 
 The CNI at version 1.x is compatible with the control plane at version 1.x+1 and 1.x. This means the control plane must be upgraded before Istio CNI, as long as their version difference is within one minor version.
 
 {{< warning >}}
-Istio does not currently support canary upgrades of istio-cni, **even with the use of revisions**.
+Istio does not currently support canary upgrades of istio-cni, **even with the use of revisions**. If this is a significant disruption concern for your environment, or stricter blast radius controls are desired for CNI upgrades, it is recommended to defer `istio-cni` upgrades until the nodes themselves are drained and upgraded, or leverage node taints and manually orchestrate the upgrade for this component.
 
-Upgrading the Istio CNI node agent to a compatible version in-place will not disrupt networking for running pods already successfully added to an ambient mesh, but no new pods should be scheduled on the node until the upgrade is complete and the upgraded Istio CNI agent on the node passes readiness checks. If this is a significant disruption concern, or stricter blast radius controls are desired for CNI upgrades, node taints and/or node cordons are recommended.
+The Istio CNI node agent is a [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) DaemonSet. It **must** be running on each node for Istio's ambient traffic security and operational guarantees to be upheld on that node. By default, the Istio CNI node agent DaemonSet supports safe in-place upgrades, and while being upgraded or restarted will prevent new pods from being started on that node until an instance of the agent is available on the node to handle them, in order to prevent unsecured traffic leakage. Existing pods that have already been successfully added to the ambient mesh prior to the upgrade will continue to operate under Istio's traffic security requirements during the upgrade.
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}

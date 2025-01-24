@@ -1,9 +1,7 @@
 ---
 title: Add a new version of reviews
 overview: Deploy a new version of a microservice.
-
 weight: 50
-
 owner: istio/wg-docs-maintainers
 test: no
 ---
@@ -125,7 +123,7 @@ tests, end-to-end tests and tests in a staging environment.
     deployment.apps "reviews-v1" deleted
     {{< /text >}}
 
-    Accessing the web page of the application will return reviews with black
+    Accessing the web page of the application will return `reviews` with black
     stars only.
 
 In the previous steps, you performed the update of `reviews`. First,
@@ -157,14 +155,14 @@ From here, you have two choices:
 
 1. Implement the required functionality in the application code. Most of the
    functionality is already available in various libraries, for example in the
-   Netflix's [Hystrix](https://github.com/Netflix/Hystrix) library  for the Java
+   Netflix's [Hystrix](https://github.com/Netflix/Hystrix) library for the Java
    programming language. However, now you have to change your code to use the
    libraries. You have to put additional effort, your code will bloat, business
    logic will be mixed with reporting, routing, policies, networking logic.
    Since your microservices use different programming languages, you have to
    learn, use, update multiple libraries.
 
-See [The Istio service mesh](/about/service-mesh/) to learn how Istio can per
+See [The Istio service mesh](/about/service-mesh/) to learn how Istio
 can perform the tasks mentioned here and more. In the
 next modules, you explore various Istio features.
 

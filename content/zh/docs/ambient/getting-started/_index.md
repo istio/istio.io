@@ -6,8 +6,9 @@ aliases:
   - /zh/docs/ops/ambient/getting-started
   - /zh/latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
-skip_list: true
 test: yes
+skip_list: true
+next: /docs/ambient/getting-started/deploy-sample-app
 ---
 
 本指南可让您快速评估 Istio 的 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}。

@@ -133,7 +133,6 @@ kubectl create namespace external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 }
 
 snip_set_up_the_control_plane_in_the_external_cluster_2() {
-kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 istioctl create-remote-secret \
   --context="${CTX_REMOTE_CLUSTER}" \
   --type=config \
@@ -417,7 +416,7 @@ ENDSNIP
 
 snip_install_crds() {
 kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.0" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.1" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
 }
 
 snip_configure_and_test_an_ingress_gateway_3() {
