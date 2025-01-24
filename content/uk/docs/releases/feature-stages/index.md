@@ -8,7 +8,7 @@ aliases:
     - /uk/docs/welcome/feature-stages.html
     - /uk/docs/home/roadmap.html
     - /uk/about/feature-stages
-    - /uk/latest/about/feature-stages
+    - /latest/uk/about/feature-stages
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

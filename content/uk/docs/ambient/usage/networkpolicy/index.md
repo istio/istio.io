@@ -23,14 +23,16 @@ Kubernetes [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networki
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
-  ingress:
-  - ports:
-    - port: 9090
-      protocol: TCP
   podSelector:
     matchLabels:
       app.kubernetes.io/name: my-app
+  ingress:
+  - ports:
+    - port: 8080
+      protocol: TCP
 {{< /text >}}
 
 і його слід змінити на
@@ -38,16 +40,18 @@ spec:
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: my-app
   ingress:
   - ports:
     - port: 8080
       protocol: TCP
     - port: 15008
       protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: my-app
 {{< /text >}}
 
 якщо `my-app` доданий до ambient mesh.

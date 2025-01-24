@@ -4,7 +4,7 @@ description: Інформація для налаштування та експ�
 weight: 17
 aliases:
   - /uk/docs/ops/ambient
-  - /uk/latest/docs/ops/ambient
+  - /latest/uk/docs/ops/ambient
 keywords: [ambient]
 test: n/a
 ---

@@ -10,7 +10,7 @@ aliases:
     - /uk/about/contribute/creating-and-editing-pages
     - /uk/create
     - /uk/about/contribute
-    - /uk/latest/about/contribute
+    - /latest/uk/about/contribute
 keywords: [contribute, github, docs, shortcodes, code-blocks, website]
 list_below: true
 owner: istio/wg-docs-maintainers

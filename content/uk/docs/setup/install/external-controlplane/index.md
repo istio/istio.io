@@ -4,7 +4,7 @@ description: Встановіть Istio із зовнішньою панеллю
 weight: 50
 aliases:
     - /uk/docs/setup/additional-setup/external-controlplane/
-    - /uk/latest/docs/setup/additional-setup/external-controlplane/
+    - /latest/uk/docs/setup/additional-setup/external-controlplane/
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
 test: yes
@@ -222,7 +222,6 @@ $ export REMOTE_CLUSTER_NAME=<your remote cluster name>
 2. Панелі управління в зовнішньому кластері потрібен доступ до віддаленого кластера для виявлення сервісів, точок доступу та атрибутів podʼів. Створіть секрет із обліковими даними для доступу до `kube-apiserver` віддаленого кластера та встановіть його у зовнішньому кластері:
 
     {{< text bash >}}
-    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \

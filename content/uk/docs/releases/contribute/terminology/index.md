@@ -6,7 +6,7 @@ aliases:
     - /uk/docs/welcome/contribute/style-guide.html
     - /uk/docs/reference/contribute/style-guide.html
     - /uk/about/contribute/terminology
-    - /uk/latest/about/contribute/terminology
+    - /latest/uk/about/contribute/terminology
 keywords: [contribute, documentation, guide, code-block]
 owner: istio/wg-docs-maintainers
 test: n/a

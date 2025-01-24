@@ -6,7 +6,7 @@
 
 1. Перевірте [Вимоги до Podʼів та Сервісів](/docs/ops/deployment/application-requirements/).
 
-1. [Встановіть клієнт Helm](https://helm.sh/docs/intro/install/), версії 3.6 або вище.
+1. [Встановіть останню версію клієнта Helm](https://helm.sh/docs/intro/install/). Версії Helm, випущені до [найстарішого поточного підтримуваного випуску Istio](docs/releases/supported-releases/#support-status-of-istio-releases), не тестуються, не підтримуються і не рекомендуються.
 
 1. Налаштуйте репозиторій Helm:
 

@@ -4,7 +4,7 @@ description: Посібник зі встановлення Istio в режим�
 weight: 5
 aliases:
   - /uk/docs/ops/ambient/install
-  - /uk/latest/docs/ops/ambient/install
+  - /latest/uk/docs/ops/ambient/install
 owner: istio/wg-environment-maintainers
 test: n/a
 list_below: yes

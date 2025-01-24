@@ -4,7 +4,7 @@ description: Пояснює, як включати код у вашу докум
 weight: 8
 aliases:
   - /uk/about/contribute/code-blocks
-  - /uk/latest/about/contribute/code-blocks
+  - /latest/uk/about/contribute/code-blocks
 keywords: [внесок, документація, посібник, блоки-коду]
 owner: istio/wg-docs-maintainers
 test: n/a

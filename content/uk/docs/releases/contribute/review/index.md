@@ -4,7 +4,7 @@ description: Показує, як зміни до документації та 
 weight: 7
 aliases:
   - /uk/about/contribute/review
-  - /uk/latest/about/contribute/review
+  - /latest/uk/about/contribute/review
 keywords: [contribute,community,github,pr,documentation,review, approval]
 owner: istio/wg-docs-maintainers
 test: n/a

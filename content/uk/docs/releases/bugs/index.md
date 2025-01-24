@@ -7,7 +7,7 @@ aliases:
     - /uk/bugs/index.html
     - /uk/help/bugs/
     - /uk/about/bugs
-    - /uk/latest/about/bugs
+    - /latest/uk/about/bugs
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

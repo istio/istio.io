@@ -8,7 +8,7 @@ aliases:
     - /uk/about/contribute/writing-a-new-topic.html
     - /uk/create
     - /uk/about/contribute/add-content
-    - /uk/latest/about/contribute/add-content
+    - /latest/uk/about/contribute/add-content
 keywords: [contribute]
 owner: istio/wg-docs-maintainers
 test: n/a

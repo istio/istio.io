@@ -4,7 +4,7 @@ description: Як налаштувати сервісну мережу для в
 weight: 15
 aliases:
   - /uk/docs/ops/ambient/usage
-  - /uk/latest/docs/ops/ambient/usage  
+  - /latest/uk/docs/ops/ambient/usage
 owner: istio/wg-networking-maintainers
 test: n/a
 ---

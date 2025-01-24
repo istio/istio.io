@@ -12,9 +12,9 @@ skip_breadcrumb: true
 aliases:
     - /uk/community
     - /uk/about/community
-    - /uk/latest/about/community
+    - /latest/uk/about/community
     - /uk/about/community/join
-    - /uk/latest/about/community/join
+    - /latest/uk/about/community/join
 doc_type: get-involved
 ---
 

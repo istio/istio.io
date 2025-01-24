@@ -4,7 +4,7 @@ description: Пояснює, як локально побудувати, про�
 weight: 5
 aliases:
   - /uk/about/contribute/build
-  - /uk/latest/about/contribute/build
+  - /latest/uk/about/contribute/build
 keywords: [внесок, обслуговування, Docker, Hugo, побудова]
 owner: istio/wg-docs-maintainers
 test: n/a

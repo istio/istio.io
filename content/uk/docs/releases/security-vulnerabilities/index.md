@@ -4,7 +4,7 @@ description: Як ми обробляємо вразливості безпек�
 weight: 35
 aliases:
     - /uk/about/security-vulnerabilities
-    - /uk/latest/about/security-vulnerabilities
+    - /latest/uk/about/security-vulnerabilities
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

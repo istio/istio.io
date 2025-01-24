@@ -4,7 +4,7 @@ description: Спробуйте функції Istio швидко та легк�
 weight: 5
 aliases:
     - /uk/docs/setup/additional-setup/getting-started/
-    - /uk/latest/docs/setup/additional-setup/getting-started/
+    - /latest/uk/docs/setup/additional-setup/getting-started/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes, gateway-api]
 owner: istio/wg-environments-maintainers
 test: yes
@@ -92,7 +92,7 @@ CRD Kubernetes Gateway API не встановлені стандартно у �
 1. Розгорніть [демонстраційний застосунок `Bookinfo`](/docs/examples/bookinfo/):
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     service/details created
     serviceaccount/bookinfo-details created
     deployment.apps/details-v1 created
@@ -194,7 +194,7 @@ Istio інтегрується з [різними застосунками дл�
 1. Встановіть [Kiali та інші надбудови]({{< github_tree >}}/samples/addons) та дочекайтесь їх розгортання.
 
     {{< text bash >}}
-    $ kubectl apply -f samples/addons
+    $ kubectl apply -f @samples/addons@
     $ kubectl rollout status deployment/kiali -n istio-system
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out

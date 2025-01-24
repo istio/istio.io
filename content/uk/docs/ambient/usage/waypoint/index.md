@@ -4,7 +4,7 @@ description: Отримайте повний набір функцій Istio з 
 weight: 30
 aliases:
   - /uk/docs/ops/ambient/usage/waypoint
-  - /uk/latest/docs/ops/ambient/usage/waypoint
+  - /latest/uk/docs/ops/ambient/usage/waypoint
 owner: istio/wg-networking-maintainers
 test: yes
 ---
@@ -67,7 +67,7 @@ spec:
     protocol: HBONE
 {{< /text >}}
 
-Зверніть увагу, що ресурс Gateway має мітку `istio-waypoint`, встановлену на `gatewayClassName`, що вказує на те, що це waypoint, надано Istio. Ресурс Gateway позначений міткою `istio.io/waypoint-for: service`, що вказує на те, що waypoint може обробляти трафік для сервісів, що є стандартним налаштуванням.
+Зверніть увагу, що ресурс Gateway має `gatewayClassName` з `istio-waypoint`, який є екземпляром waypoint, керованого Istio. Ресурс Gateway позначено як `istio.io/waypoint-for: service`, що вказує на те, що waypoint може обробляти трафік для сервісів, що є стандартним значенням.
 
 Для безпосереднього розгортання waypoint-проксі використовуйте `apply` замість `generate`:
 

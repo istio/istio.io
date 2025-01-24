@@ -4,7 +4,7 @@ description: Пояснює стандартну розмітку, що вико
 weight: 10
 aliases:
     - /uk/about/contribute/formatting
-    - /uk/latest/about/contribute/formatting
+    - /latest/uk/about/contribute/formatting
 keywords: [contribute]
 owner: istio/wg-docs-maintainers
 test: n/a

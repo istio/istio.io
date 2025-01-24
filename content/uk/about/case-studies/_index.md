@@ -3,7 +3,7 @@ title: Приклади використання
 aliases:
     - /uk/case-studies
     - /uk/about/community/customers
-    - /uk/latest/about/community/customers
+    - /latest/uk/about/community/customers
 doc_type: about
 type: case-studies
 sidebar_none: true

@@ -8,7 +8,7 @@ skip_byline: true
 skip_pagenav: true
 aliases:
     - /uk/about/community/partners/
-    - /uk/latest/about/community/partners/
+    - /latest/uk/about/community/partners/
 doc_type: about
 ---
 

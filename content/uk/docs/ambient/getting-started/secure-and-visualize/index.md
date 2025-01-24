@@ -27,11 +27,11 @@ namespace/default labeled
 
 ## Візуалізація застосунку та метрик {#visualize-the-application-and-metrics}
 
-Використовуючи панель інструментів Istio, Kiali та систему метрик Prometheus, ви можете візуалізувати застосунок Bookinfo. Розгорніть їх обидва:
+Використовуючи інфопанель Istio Kiali та систему метрик Prometheus, ви можете візуалізувати застосунок Bookinfo. Розгорніть їх обидва:
 
 {{< text syntax=bash snip_id=none >}}
-$ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
-$ kubectl apply -f {{< github_file >}}/samples/addons/kiali.yaml
+$ kubectl apply -f @samples/addons/prometheus.yaml@
+$ kubectl apply -f @samples/addons/kiali.yaml@
 {{< /text >}}
 
 Ви можете отримати доступ до дашборду Kiali, запустивши наступну команду:
