@@ -615,6 +615,9 @@ users:
   - name: "GoTo Financial"
     logo: "/logos/gotofinancial.svg"
     url: "https://gotofinancial.com/"
+  - name: "CitrixLab PH"
+    logo: "/logos/citrixlabph.svg"
+    url: "https://citrixlab.vercel.app"
 
 training:
   - name: "Introduction to Istio"
