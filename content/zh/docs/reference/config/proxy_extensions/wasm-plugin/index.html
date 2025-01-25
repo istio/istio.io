@@ -208,7 +208,9 @@ the policy applies to.</p>
 <p>Currently, the following resource attachment types are supported:</p>
 <ul>
 <li><code>kind: Gateway</code> with <code>group: gateway.networking.k8s.io</code> in the same namespace.</li>
+<li><code>kind: GatewayClass</code> with <code>group: gateway.networking.k8s.io</code> in the root namespace.</li>
 <li><code>kind: Service</code> with <code>group: &quot;&quot;</code> or <code>group: &quot;core&quot;</code> in the same namespace. This type is only supported for waypoints.</li>
+<li><code>kind: ServiceEntry</code> with <code>group: networking.istio.io</code> in the same namespace.</li>
 </ul>
 <p>If not set, the policy is applied as defined by the selector.
 At most one of the selector and targetRefs can be set.</p>

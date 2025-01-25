@@ -6895,6 +6895,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Delete the specified version of the waypoint in the namespace  (default ``)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6913,6 +6918,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # Delete all waypoints in a specific namespace
   istioctl waypoint delete --all --namespace default
+
+  # Delete specific revision waypoints in a namespace
+  istioctl waypoint delete --revision v1 --namespace default
 </code></pre>
 <h3 id="istioctl-waypoint-generate">istioctl waypoint generate</h3>
 <p>Generate a waypoint configuration as YAML</p>
