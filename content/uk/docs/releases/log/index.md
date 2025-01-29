@@ -4,7 +4,7 @@ description: Список останніх змін на цьому вебсай
 weight: 110
 aliases:
     - /uk/about/log
-    - /uk/latest/about/log
+    - /latest/uk/about/log
 skip_seealso: true
 skip_byline: true
 owner: istio/wg-docs-maintainers

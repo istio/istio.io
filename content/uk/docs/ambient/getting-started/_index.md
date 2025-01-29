@@ -4,10 +4,11 @@ description: Як розгорнути та встановити Istio в реж
 weight: 2
 aliases:
   - /uk/docs/ops/ambient/getting-started
-  - /uk/latest/docs/ops/ambient/getting-started
+  - /latest/uk/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
-skip_list: true
 test: yes
+skip_list: true
+next: /docs/ambient/getting-started/deploy-sample-app
 ---
 
 Цей посібник дозволяє швидко оцінити режим {{< gloss "ambient" >}}ambient{{< /gloss >}} в Istio. Для продовження вам знадобиться кластер Kubernetes. Якщо у вас немає кластера, ви можете використовувати [kind](/docs/setup/platform-setup/kind) або будь-яку іншу [підтримувану платформу Kubernetes](/docs/setup/platform-setup).

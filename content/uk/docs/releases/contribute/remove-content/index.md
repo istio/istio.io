@@ -4,7 +4,7 @@ description: Деталі про те, як видалити застарілу 
 weight: 4
 aliases:
     - /uk/about/contribute/remove-content
-    - /uk/latest/about/contribute/remove-content
+    - /latest/uk/about/contribute/remove-content
 keywords: [внесок]
 owner: istio/wg-docs-maintainers
 test: n/a

@@ -12,7 +12,7 @@ aliases:
     - /uk/docs/concepts/what-is-istio/goals
     - /uk/about/intro
     - /uk/docs/concepts/what-is-istio/
-    - /uk/latest/docs/concepts/what-is-istio/
+    - /latest/uk/docs/concepts/what-is-istio/
 doc_type: about
 ---
 

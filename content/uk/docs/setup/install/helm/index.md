@@ -34,26 +34,17 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 Ви можете показати стандатні значення конфігураційних параметрів, використовуючи команду `helm show values <chart>`, або звернутися до документації чарту на `artifacthub` за посиланнями [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) та [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
-1. Створіть простір імен `istio-system` для компонентів Istio:
-    {{< tip >}}
-    Цей крок можна пропустити, якщо використовувати аргумент `--create-namespace` у кроці 2.
-    {{< /tip >}}
-
-    {{< text syntax=bash snip_id=create_istio_system_namespace >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
-2. Встановіть базовий чарт Istio, який містить кластерні Custom Resource Definitions (CRDs), які повинні бути встановлені перед розгортанням панелі управління Istio:
+1. Встановіть базовий чарт Istio, який містить кластерні Custom Resource Definitions (CRDs), які повинні бути встановлені перед розгортанням панелі управління Istio:
 
     {{< warning >}}
     При виконанні встановлення з ревізією базовий чарт вимагає вказання значення `--set defaultRevision=<revision>` для функціонування перевірки ресурсів. Нижче ми встановлюємо ревізію `default`, тому вказуємо `--set defaultRevision=default`.
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
-    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default
+    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace
     {{< /text >}}
 
-3. Перевірте установку CRD за допомогою команди `helm ls`:
+1. Перевірте установку CRD за допомогою команди `helm ls`:
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
@@ -63,15 +54,15 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
     У виводі знайдіть запис для `istio-base` і переконайтесь, що статус встановлений на `deployed`.
 
-4. Якщо ви плануєте використовувати чарт Istio CNI, зробіть це зараз. Див. [Встановлення Istio за допомогою втулка CNI](/docs/setup/additional-setup/cni/#installing-with-helm) для отримання додаткової інформації.
+1. Якщо ви плануєте використовувати чарт Istio CNI, зробіть це зараз. Див. [Встановлення Istio за допомогою втулка CNI](/docs/setup/additional-setup/cni/#installing-with-helm) для отримання додаткової інформації.
 
-5. Встановіть чарт виявлення Istio, який розгортає сервіс `istiod`:
+1. Встановіть чарт виявлення Istio, який розгортає сервіс `istiod`:
 
     {{< text syntax=bash snip_id=install_discovery >}}
     $ helm install istiod istio/istiod -n istio-system --wait
     {{< /text >}}
 
-6. Перевірте установку чарту виявлення Istio:
+1. Перевірте установку чарту виявлення Istio:
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
@@ -80,7 +71,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-{{< istio_full_version >}} {{< istio_full_version >}}
     {{< /text >}}
 
-7. Отримайте статус встановленого Helm-чарту, щоб переконатися, що він розгорнутий:
+1. Отримайте статус встановленого Helm-чарту, щоб переконатися, що він розгорнутий:
 
     {{< text syntax=bash >}}
     $ helm status istiod -n istio-system
@@ -114,7 +105,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     Tell us how your install/upgrade experience went at https://forms.gle/99uiMML96AmsXY5d6
     {{< /text >}}
 
-8. Перевірте, чи успішно встановлено сервіс `istiod` та чи працюють його podʼи:
+1. Перевірте, чи успішно встановлено сервіс `istiod` та чи працюють його podʼи:
 
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
@@ -122,7 +113,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:{{< istio_full_version >}}   istio=pilot
     {{< /text >}}
 
-9. (Додатково) Встановіть ingress gateway:
+1. (Додатково) Встановіть ingress gateway:
 
     {{< text syntax=bash snip_id=install_ingressgateway >}}
     $ kubectl create namespace istio-ingress
@@ -214,3 +205,40 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< text syntax=bash >}}
 $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 {{< /text >}}
+
+## Генерація маніфесту перед встановленням {#generate-a-manifest-before-installation}
+
+Ви можете згенерувати маніфести для кожного компонента перед встановленням Istio, використовуючи команду `helm template`. Наприклад, щоб згенерувати маніфест, який можна встановити за допомогою `kubectl` для компонента `istiod`:
+
+{{< text syntax=bash snip_id=none >}}
+$ helm template istiod istio/istiod -n istio-system --kube-version {версія Kubernetes цільового кластера} > istiod.yaml
+{{< /text >}}
+
+Згенерований маніфест можна використовувати для перевірки того, що саме встановлюється, а також для відстеження змін у маніфесті з часом.
+
+{{< tip >}}
+Будь-які додаткові прапорці або перевизначення значень, які ви зазвичай використовуєте для встановлення, також повинні бути передані команді `helm template`.
+{{< /tip >}}
+
+Щоб встановити маніфест, згенерований вище, який створить компонент `istiod` у цільовому кластері:
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl apply -f istiod.yaml
+{{< /text >}}
+
+{{< warning >}}
+Якщо ви намагаєтеся встановити та керувати Istio за допомогою `helm template`, зверніть увагу на наступні застереження:
+
+1. Простір імен Istio (стандартно `istio-system`) повинен бути створений вручну.
+
+1. Ресурси можуть не встановлюватися з тією ж послідовністю залежностей, як при `helm install`.
+
+1. Цей метод не тестується як частина випусків Istio.
+
+1. Хоча `helm install` автоматично виявляє налаштування середовища з вашого контексту Kubernetes, `helm template` не може це робити, оскільки він працює офлайн, що може призвести до несподіваних результатів. Зокрема, ви повинні переконатися, що ви дотримуєтеся [цих кроків](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens), якщо ваше середовище Kubernetes не підтримує токени сторонніх службових облікових записів.
+
+1. `kubectl apply` згенерованого маніфесту може показувати тимчасові помилки через те, що ресурси не доступні в кластері в правильному порядку.
+
+1. `helm install` автоматично видаляє будь-які ресурси, які повинні бути видалені при зміні конфігурації (наприклад, якщо ви видаляєте шлюз). Це не відбувається, коли ви використовуєте `helm template` з `kubectl`, і ці ресурси повинні бути видалені вручну.
+
+{{< /warning >}}

@@ -10,7 +10,7 @@ aliases:
     - /uk/about/contribute/editing
     - /uk/about/contribute/staging-your-changes
     - /uk/about/contribute/github
-    - /uk/latest/about/contribute/github
+    - /latest/uk/about/contribute/github
 keywords: [contribute,community,github,pr]
 owner: istio/wg-docs-maintainers
 test: n/a

@@ -4,7 +4,7 @@ description: Передумови для встановлення Istio в ре�
 weight: 2
 aliases:
   - /uk/docs/ops/ambient/install/platform-prerequisites
-  - /uk/latest/docs/ops/ambient/install/platform-prerequisites
+  - /latest/uk/docs/ops/ambient/install/platform-prerequisites
 owner: istio/wg-environments-maintainers
 test: no
 ---
@@ -17,7 +17,9 @@ test: no
 
 ### Google Kubernetes Engine (GKE) {#google-kubernetes-engine-gke}
 
-У GKE компоненти Istio з `priorityClassName` [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) можуть бути встановлені лише в просторах імен, в яких визначено [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/). Стандартно у GKE лише `kube-system` має визначений ResourceQuota для класу `node-critical`. Історичний агент CNI та `ztunnel` обидва потребують класу `node-critical`, тому в GKE обидва компоненти повинні бути:
+#### Обмеження простору імен {#namespace-restrictions}
+
+У GKE будь-які podʼи з `priorityClassName` [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) можуть бути встановлені лише в просторах імен, в яких визначено [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/). Стандартно у GKE лише `kube-system` має визначений ResourceQuota для класу `node-critical`. Історичний агент CNI та `ztunnel` обидва потребують класу `node-critical`, тому в GKE обидва компоненти повинні бути:
 
 - Встановлені в `kube-system` (_не_ в `istio-system`)
 - Встановлені в інший простір імен (наприклад, `istio-system`), в якому вручну створено ResourceQuota, наприклад:
@@ -39,7 +41,31 @@ spec:
       - system-node-critical
 {{< /text >}}
 
-### Amazon Elastic Kubernetes Service (EKS)
+#### Профіль платформи {#platform-profile}
+
+Під час використання GKE ви повинні додавати правильне значення `platform` до команд встановлення, оскільки GKE використовує нестандартне розташування двійкових файлів CNI, що вимагає перевизначення змінних в Helm.
+
+{{< tabset category-name="install-method" >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.platform=gke
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+### Amazon Elastic Kubernetes Service (EKS) {#amazon-elastic-kubernetes-service-eks}
 
 Якщо ви використовуєте EKS:
 
@@ -47,7 +73,9 @@ spec:
 - з увімкненим Pod ENI trunking
 - **та** використовуєте прикріплені до подів SecurityGroups через [SecurityGroupPolicy](https://aws.github.io/aws-eks-best-practices/networking/sgpp/#enforcing-mode-use-strict-mode-for-isolating-pod-and-node-traffic)
 
-[`POD_SECURITY_GROUP_ENFORCING_MODE` має бути явно встановлено в значення `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), інакше проби справності подів (які за стандартно автоматично виключені з політики VPC CNI) будуть провалені. Це повʼязано з тим, що Istio використовує локальну SNAT-адресу для проб справності kubelet, яку Amazon VPC CNI не розпізнає, а VPC CNI не має опції для виключення локальних адрес з політики.
+[`POD_SECURITY_GROUP_ENFORCING_MODE` має бути явно встановлено у `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), інакше перевірка стану podʼів не вдасться. Це тому, що Istio використовує локальну SNAT-адресу для ідентифікації перевірок стану kubelet, а VPC CNI наразі неправильно маршрутизує локальні пакети в режимі `strict` Pod Security Group. Явне додавання виключення CIDR для локальної адреси до вашої SecurityGroup не працюватиме, оскільки режим Pod Security Group VPC CNI працює шляхом тихої маршрутизації трафіку через зʼєднання, пропускаючи їх через trunked `pod ENI` для забезпечення політики SecurityGroup. Оскільки [локальний трафік не маршрутизується через зʼєднання](https://datatracker.ietf.org/doc/html/rfc3927#section-2.6.2), функція Pod Security Group не може забезпечити політику для них як обмеження дизайну і відкидає пакети в режимі `strict`.
+
+Існує [відкритий тікет в компоненті VPC CNI](https://github.com/aws/amazon-vpc-cni-k8s/issues/2797) для цього обмеження. Поточна рекомендація від команди VPC CNI — вимкнути режим `strict`, щоб обійти це, якщо ви використовуєте Pod Security Groups, або використовувати Kubernetes перевірки на основі `exec` для ваших podʼів замість перевірок на основі kubelet.
 
 Ви можете перевірити, чи увімкнено pod ENI trunking, виконавши наступну команду:
 
@@ -145,7 +173,7 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 
 {{< /tabset >}}
 
-### MicroK8s
+### MicroK8s {#microk8s}
 
 Якщо ви встановлюєте Istio на [MicroK8s](https://microk8s.io/), вам потрібно додати коректне значення `platform` до вашої команди встановлення, оскільки MicroK8s [використовує нестандартні розташування для конфігурації CNI та двійкових файлів](https://microk8s.io/docs/change-cidr). Наприклад:
 
@@ -170,7 +198,7 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 
 {{< /tabset >}}
 
-### minikube
+### minikube {#minikube}
 
 Якщо ви використовуєте [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) з [Docker-драйвером](https://minikube.sigs.k8s.io/docs/drivers/docker/), вам потрібно додати коректне значення `platform` до вашої команди встановлення, оскільки minikube з Docker використовує нестандартні привʼязки монтування шляхів для контейнерів. Наприклад:
 
@@ -211,7 +239,7 @@ OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni`
     На додачу, ви маєте встановити `istio-cni` та `ztunnel` в простір імен `kube-system`, наприклад:
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/istio-cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install istio-cni istio/-cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
     $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
@@ -231,7 +259,7 @@ OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni`
 
 Наведені нижче конфігурації застосовуються до всіх платформ, якщо використовуються певні {{< gloss "CNI" >}}втулки CNI{{< /gloss >}}:
 
-### Cilium
+### Cilium {#cilium}
 
 1. Cilium наразі стандартно проактивно видаляє інші втулки CNI та їх конфігурацію, і його потрібно налаштувати з `cni.exclusive = false`, щоб правильно підтримувати ланцюжки. Див. [документацію Cilium](https://docs.cilium.io/en/stable/helm-reference/) для більш детальної інформації.
 2. BPF маскування в Cilium наразі стандартно вимкнено і має проблеми з використанням локальних IP-адрес Istio для перевірки справності Kubernetes. Увімкнення BPF маскування через `bpf.masquerade=true` наразі не підтримується і призводить до того, що в Istio ambient зʼявляються нефункціональні перевірки стану справності podʼів. Стандартна реалізація маскування iptables Cilium повинна продовжувати функціонувати правильно.

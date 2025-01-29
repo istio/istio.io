@@ -1,9 +1,7 @@
 ---
 title: Додавання нової версії відгуків
 overview: Розгорніть нову версію мікросервісу.
-
 weight: 50
-
 owner: istio/wg-docs-maintainers
 test: no
 ---

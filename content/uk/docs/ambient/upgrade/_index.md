@@ -4,7 +4,7 @@ description: Посібники з оновлення для Istio в режим
 weight: 10
 aliases:
   - /uk/docs/ops/ambient/upgrade
-  - /uk/latest/docs/ops/ambient/upgrade
+  - /latest/uk/docs/ops/ambient/upgrade
 owner: istio/wg-environment-maintainers
 test: n/a
 ---

@@ -4,6 +4,7 @@ description: Розротання демонстраційного застос�
 weight: 2
 owner: istio/wg-networking-maintainers
 test: yes
+prev: /docs/ambient/getting-started
 ---
 
 Щоб дослідити Istio, ви встановите демонстраційний [застосунок Bookinfo](/docs/examples/bookinfo/), що складається з чотирьох окремих мікросервісів, які використовуються для демонстрації різних функцій Istio.
@@ -17,8 +18,8 @@ test: yes
 Розпочніть з розгортання застосунку:
 
 {{< text bash >}}
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo-versions.yaml
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 {{< /text >}}
 
 Щоб перевірити, що застосунок працює, перевірте статус podʼів:
@@ -41,7 +42,7 @@ reviews-v3-7d99fd7978-dm6mx      1/1     Running   0          42s
 Ви будете використовувати Kubernetes Gateway API для розгортання шлюзу з назвою `bookinfo-gateway`:
 
 {{< text syntax=bash snip_id=deploy_bookinfo_gateway >}}
-$ kubectl apply -f {{< github_file >}}/samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
 {{< /text >}}
 
 Стандартно Istio створює сервіс `LoadBalancer` для шлюзу. Оскільки ми будемо отримувати доступ до цього шлюзу через тунель, нам не потрібен балансувальник навантаження. Змініть тип сервісу на `ClusterIP`, додавши анотацію до шлюзу:

@@ -4,7 +4,7 @@ description: Поточні підтримувані релізи Istio.
 weight: 36
 aliases:
     - /uk/about/supported-releases
-    - /uk/latest/about/supported-releases
+    - /latest/uk/about/supported-releases
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

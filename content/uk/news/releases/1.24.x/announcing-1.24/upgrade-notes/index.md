@@ -53,11 +53,11 @@ BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: "false"
 
 Раніше це працювало лише за певних умов, і при використанні певних прапорців встановлення могло призводити до генерації CRD, які не можна було оновити через Helm і потребували ручного втручання для виправлення.
 
-Як наслідок цього, мітки на CRD змінено для відповідності іншим ресурсам, встановленим через Helm.
+Завдяки цій зміні позасмугове встановлення та оновлення Istio CRD за допомогою команди `kubectl` під час використання Helm **більше не потрібне**.
 
-Якщо ви раніше встановлювали або оновлювали CRD за допомогою `kubectl apply`, а не Helm, ви можете продовжити робити це.
+Якщо ви не використовуєте Helm для встановлення, шаблонування або керування ресурсами Istio, ви можете продовжити робити це і встановити CRD вручну за допомогою `kubectl apply -f manifests/charts/base/files/crd-all.gen.yaml`.
 
-Якщо ви раніше встановлювали CRD за допомогою `helm install istio-base` АБО `kubectl apply`, ви можете почати безпечно оновлювати Istio CRD за допомогою `helm upgrade istio-base` з цієї та всіх наступних версій, після того як ви виконаєте нижче вказані команди kubectl для одноразової міграції:
+Якщо ви раніше встановлювали CRD за допомогою `helm install istio-base` АБО `kubectl apply`, ви можете почати безпечно оновлювати Istio CRD тільки за допомогою `helm upgrade istio-base` з цієї та всіх наступних версій, після того, як ви виконаєте нижче вказані команди kubectl для одноразової міграції:
 
 - `kubectl label $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name) "app.kubernetes.io/managed-by=Helm"`
 - `kubectl annotate $(kubectl get crds -l chart=istio -o name && kubectl get crds -l app.kubernetes.io/part-of=istio -o name) "meta.helm.sh/release-name=istio-base"` (замініть на фактичну назву релізу `istio-base`)

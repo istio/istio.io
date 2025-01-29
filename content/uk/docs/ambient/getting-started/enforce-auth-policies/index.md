@@ -19,7 +19,7 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: productpage-ztunnel
   namespace: default
 spec:
   selector:
@@ -39,7 +39,7 @@ EOF
 Спробуйте отримати доступ до застосунку Bookinfo з іншого клієнта в кластері:
 
 {{< text syntax=bash snip_id=deploy_curl >}}
-$ kubectl apply -f samples/curl/curl.yaml
+$ kubectl apply -f @samples/curl/curl.yaml@
 {{< /text >}}
 
 Оскільки pod `curl` використовує інший службовий обліковий запис, він не матиме доступу до сервісу `productpage`:
@@ -74,7 +74,7 @@ $ kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: productpage-viewer
+  name: productpage-waypoint
   namespace: default
 spec:
   targetRefs:
@@ -94,6 +94,29 @@ EOF
 {{< /text >}}
 
 Зверніть увагу, що поле `targetRefs` використовується для вказання цільового сервісу для політики авторизації проксі waypoint. Розділ `rules` подібний до попереднього, але тепер ми додали розділ `to`, щоб вказати дозволену операцію.
+
+Памʼятаєте, що наша політика L4 вказувала ztunnel дозволяти зʼєднання тільки зі шлюзу? Тепер нам потрібно оновити її, щоб дозволити зʼєднання і з waypoint.
+
+{{< text syntax=bash snip_id=update_l4_policy >}}
+$ kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-ztunnel
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/bookinfo-gateway-istio
+        - cluster.local/ns/default/sa/waypoint
+EOF
+{{< /text >}}
 
 {{< tip >}}
 Щоб дізнатися більше про те, як увімкнути інші функції Istio, прочитайте [посібник з використання функцій Layer 7](/docs/ambient/usage/l7-features/).

@@ -4,6 +4,7 @@ description: Видаліть Istio та повʼязані з ним ресур
 weight: 6
 owner: istio/wg-networking-maintainers
 test: yes
+next: /docs/ambient/install
 ---
 
 Якщо вам більше не потрібні Istio та повʼязані ресурси, ви можете видалити їх, дотримуючись цих кроків.
@@ -34,10 +35,10 @@ $ kubectl label namespace default istio.io/dataplane-mode-
 {{< text bash >}}
 $ kubectl delete httproute reviews
 $ kubectl delete authorizationpolicy productpage-viewer
-$ kubectl delete -f samples/curl/curl.yaml
-$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo.yaml
-$ kubectl delete -f samples/bookinfo/platform/kube/bookinfo-versions.yaml
-$ kubectl delete -f samples/bookinfo/gateway-api/bookinfo-gateway.yaml
+$ kubectl delete -f @samples/curl/curl.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo.yaml@
+$ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
+$ kubectl delete -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
 {{< /text >}}
 
 ## Видалення Istio {#uninstall-istio}

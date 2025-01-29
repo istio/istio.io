@@ -4,7 +4,7 @@ description: Пояснює front matter, що використовується 
 weight: 6
 aliases:
     - /uk/about/contribute/front-matter
-    - /uk/latest/about/contribute/front-matter
+    - /latest/uk/about/contribute/front-matter
 keywords: [metadata,navigation,table-of-contents]
 owner: istio/wg-docs-maintainers
 test: n/a
