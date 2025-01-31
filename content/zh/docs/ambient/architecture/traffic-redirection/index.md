@@ -160,10 +160,10 @@ COMMIT
 COMMIT
 {{< /text >}}
 
-命令输出显示，在应用程序 Pod 的网络命名空间内，
-netfilter/iptables 中的 NAT 和 Mangle 表中添加了其他 Istio 特定链。
-进入 Pod 的所有 TCP 流量都将重定向到 ztunnel 代理进行入口处理。
-如果流量是纯文本（目标端口 != 15008），它将被重定向到 Pod 内的 ztunnel 纯文本监听端口 15006。
-如果流量是 HBONE（目标端口 == 15008），它将被重定向到 Pod 内的 ztunnel HBONE 监听端口 15008。
-离开 Pod 的任何 TCP 流量都将重定向到 ztunnel 的端口 15001 进行出口处理，
+命令输出显示，额外的 Istio 特定链已被添加到应用程序 Pod
+网络命名空间内的 netfilter/iptables 中的 NAT 和 Mangle 表中。
+所有进入 Pod 的 TCP 流量都会被重定向到 ztunnel 代理进行入口处理。
+如果流量是明文（源端口不等于 15008），会被重定向到 in-Pod ztunnel 明文侦听端口 15006。
+如果流量是 HBONE（源端口等于 15008），会被重定向到 in-Pod ztunnel HBONE 侦听端口 15008。
+任何离开 Pod 的 TCP 流量都会被重定向到 ztunnel 的端口 15001 进行出口处理，
 然后由 ztunnel 使用 HBONE 封装发送出去。
