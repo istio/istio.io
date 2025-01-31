@@ -915,6 +915,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If true, Gateways will call service waypoints if the &#39;istio.io/ingress-use-waypoint&#39; label set on the Service.</td>
 </tr>
 <tr>
+<td><code>ENABLE_LAYERED_WAYPOINT_AUTHORIZATION_POLICIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, selector based authorization policies will be enforced as L4 policies in front of the waypoint.</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEADER_ELECTION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
