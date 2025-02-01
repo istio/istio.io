@@ -75,7 +75,7 @@
         </ul>
 
         <div class="footer-base">
-            <span class="footer-base-copyright">&copy; {{ .Site.Data.args.copyright_year }} the Istio Authors.</span>
+            <span class="footer-base-copyright">&copy; {{ time.Now.Year }} the Istio Authors.</span>
 
             <span class="footer-base-version">
                 {{ $advisory := (i18n "advisory") }}
