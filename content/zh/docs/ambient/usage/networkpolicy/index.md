@@ -30,14 +30,16 @@ Istio 不是 CNI，不强制执行或管理 `NetworkPolicy`，
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
-  ingress:
-  - ports:
-    - port: 9090
-      protocol: TCP
   podSelector:
     matchLabels:
       app.kubernetes.io/name: my-app
+  ingress:
+  - ports:
+    - port: 8080
+      protocol: TCP
 {{< /text >}}
 
 如果已将 `my-app` 添加到 Ambient 网格中，应改为：
@@ -45,16 +47,18 @@ spec:
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: my-app
   ingress:
   - ports:
     - port: 8080
       protocol: TCP
     - port: 15008
       protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: my-app
 {{< /text >}}
 
 ## Ambient、健康探测和 Kubernetes NetworkPolicy {#ambient-health-probes-and-kubernetes-networkpolicy}
