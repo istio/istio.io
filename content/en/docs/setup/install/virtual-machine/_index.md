@@ -7,8 +7,9 @@ keywords:
 - virtual-machine
 - gateways
 - vms
+skip_list: true
+test: true
 owner: istio/wg-environments-maintainers
-test: yes
 ---
 
 Follow this guide to deploy Istio and connect a virtual machine to it.
@@ -449,6 +450,7 @@ For more information about virtual machines:
 
 * [Debugging Virtual Machines](/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
 * [Bookinfo with a Virtual Machine](/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
+* [Running Containerized proxies](/docs/setup/install/virtual-machine/containerized/) to deploy containerized sidecars on virtual machines.
 
 ## Uninstall
 
