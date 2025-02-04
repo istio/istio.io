@@ -54,7 +54,7 @@ spec:
       protocol: TCP
 {{< /text >}}
 
-if `my-app` is added to the ambient mesh.
+if `my-app` is added to the mesh.
 
 ## Ambient, health probes, and Kubernetes NetworkPolicy
 
