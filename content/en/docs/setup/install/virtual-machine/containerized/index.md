@@ -10,10 +10,10 @@ keywords:
 - docker
 - containers
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 
 ---
-Follow this guide to run the Istio-proxy as a container instead of the Istio virtual machine integration runtime allowing more flexibility of the underlying platform.
+Follow this guide to run the Istio-proxy as a container instead of the Istio virtual machine integration runtime, allowing you more control over the underlying platform.
 
 ## Prerequisites
 
@@ -24,22 +24,22 @@ Follow this guide to run the Istio-proxy as a container instead of the Istio vir
 ## Host OS requirements
 
 1. Have a container runtime installed like [Docker](https://docs.docker.com/engine/install/) (used in this guide) or [Podman](https://podman.io/docs/installation).
-1. Ability to run a container with `--network=host`- allowing it to interact with the hosts Iptables.
-1. Ability to run a container with the capability: `NET_ADMIN` - allowing it to update Iptables.
+1. Ability to run a container with `--network=host`- to configure Iptables of the host OS.
+1. Ability to run a container with the capability: `NET_ADMIN` - giving the container privileges to configure iptables.
 1. Reserve UID `1337` for the user: `istio-proxy`.
 
 ## Overview
 
 Installing the Istio-proxy package comes with a start-[script]({{< github_blob >}}tools/packaging/common/istio-start.sh) to bootstrap some final variables
 and runs [istio-iptables](/docs/reference/commands/pilot-agent/#pilot-agent-istio-iptables) and [istio-clean-iptables](/docs/reference/commands/pilot-agent/#pilot-agent-istio-clean-iptables)
-to correctly configure `iptables` before starting the [istio-proxy](docs/reference/commands/pilot-agent/#pilot-agent-proxy) itself.
-This guide will cover this extra configurations to run the Istio-proxy as a sidecar-container.
+to correctly configure `iptables` before starting the [istio-proxy](docs/reference/commands/pilot-agent/#pilot-agent-proxy).
+This guide will cover this extra configurations required to run the Istio-proxy as a sidecar-container.
 
 ## Extra configuration
 
 Like mentioned above, extra configuration to `cluster.env` and `mesh.yaml` is required. This is an addition on the already generated configuration via [Virtual Machine Installation](/docs/setup/install/virtual-machine/#create-files-to-transfer-to-the-virtual-machine):
 
-1. setup some extra environment variables:
+1. setup extra environment variables:
 
     {{< text bash >}}
     $ INSTANCE_IP="<the primary IP of the VM>"
@@ -99,9 +99,15 @@ Run the following commands on the virtual machine:
 1. Install the [Mesh Config](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
 
     {{< text bash >}}
-    $ sudo mkdir -p /etc/istio/config
+    $ sudo mkdir /etc/istio
+    $ sudo ln -s /var/lib/istio /etc/istio
+    $ sudo mkdir /etc/istio/config
     $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
     {{< /text >}}
+
+    {{< warning >}}
+    The install spec of Istio virtual machine intergration runtime creates the /etc/istio > /var/lib/istio symlink, we keep it for consistency.
+    {{< /warning >}}
 
 1. Add the istiod host to `/etc/hosts`:
 
@@ -109,7 +115,7 @@ Run the following commands on the virtual machine:
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
     {{< /text >}}
 
-1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
+1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to Istio proxy:
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
@@ -157,7 +163,7 @@ Run the following commands on the virtual machine:
     {{< /text >}}
 
     {{< warning >}}
-    The proxyv2 image is configured to use iptables-legacy, hence we need to do some trickery with `update-alternatives` to consult the correct iptables endpoint.
+    The proxyv2 image is configured to use iptables-legacy, hence we need to do some trickery with `update-alternatives` to consult the correct iptables endpoint(nf_tables > legeacy).
     {{< /warning >}}
 
 1. Start the Istio-proxy container:
@@ -219,6 +225,5 @@ Run the following commands on the virtual machine:
     {{< /text >}}
 
     {{< idea >}}
-    A more sophisticated way of running containerized Istio-proxy would be to reuse the startup script or setup systemd unit files to take care of start and stopping your Istio-proxy.
-    Making sure it always has a correct configured environment.
+    A more sophisticated way of running containerized Istio-proxy is to use a start/stop script or setup systemd unit file to realize the correct ordering and environment setup.
     {{< /idea >}}
