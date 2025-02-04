@@ -456,7 +456,6 @@ DNS
 DNS_AUTO_ALLOCATE
 docker-compose's
 docker.io
-Podman
 doc_type
 dogfood
 Dolfi
@@ -970,6 +969,7 @@ pluggability
 pluggable
 png
 Poddar
+Podman
 Polshakova
 Posta
 PostgreSQL
