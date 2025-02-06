@@ -8,4 +8,4 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-Follow [EKS Blueprints for Istio](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/) instructions to provision EKS cluster with Istio setup in AWS cloud.
+Follow [Istio on EKS](https://github.com/aws-samples/istio-on-eks) instructions to provision EKS cluster with Istio setup in AWS cloud.
