@@ -10,7 +10,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.10.0
-	istio.io/istio v0.0.0-20250201115045-98cc110fca75
+	istio.io/istio v0.0.0-20250208152229-26fce72551e0
 	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
 )
@@ -43,10 +43,10 @@ require (
 	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.2 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.1 // indirect
-	github.com/envoyproxy/go-control-plane/contrib v1.32.4-0.20250124152931-009f366fdf49 // indirect
-	github.com/envoyproxy/go-control-plane/envoy v1.32.4-0.20250124152931-009f366fdf49 // indirect
+	github.com/envoyproxy/go-control-plane/contrib v1.32.4-0.20250129071740-454f8a02b0a2 // indirect
+	github.com/envoyproxy/go-control-plane/envoy v1.32.4-0.20250129071740-454f8a02b0a2 // indirect
 	github.com/envoyproxy/go-control-plane/ratelimit v0.1.0 // indirect
-	github.com/envoyproxy/protoc-gen-validate v1.1.0 // indirect
+	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
 	github.com/fatih/camelcase v1.0.0 // indirect
@@ -180,16 +180,16 @@ require (
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250122153221-138b5a5a4fd4 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250122153221-138b5a5a4fd4 // indirect
-	google.golang.org/grpc v1.69.4 // indirect
-	google.golang.org/protobuf v1.36.3 // indirect
+	google.golang.org/grpc v1.70.0 // indirect
+	google.golang.org/protobuf v1.36.4 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.17.0 // indirect
-	istio.io/api v1.25.0-alpha.0.0.20250131163253-07553b9282e7 // indirect
-	istio.io/client-go v1.25.0-alpha.0.0.20250131163555-62dfd07e8a0a // indirect
+	istio.io/api v1.25.0-alpha.0.0.20250204010814-22f48aedd503 // indirect
+	istio.io/client-go v1.25.0-alpha.0.0.20250204011224-d53ff786b50f // indirect
 	k8s.io/api v0.32.1 // indirect
 	k8s.io/apiextensions-apiserver v0.32.1 // indirect
 	k8s.io/apiserver v0.32.1 // indirect
