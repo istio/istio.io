@@ -8,7 +8,7 @@ release: 1.24.3
 ---
 
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio x.y.(z-1) and Istio x.y.z
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.24.2 and Istio 1.24.3
 
 {{< relnote >}}
 
@@ -44,9 +44,7 @@ in a permissive policy due to incorrect evaluation logic (AND vs. OR).
 
 - **Fixed** an issue in the gateway chart where `--set platform` worked but `--set global.platform` did not.
   
-
 - **Fixed** an issue where ingress gateways did not use WDS discovery to retrieve metadata for ambient destinations.
-  
 
 - **Fixed** an issue causing istio-iptables cmd to fail when a non-built-in table is present in the system.  
 
