@@ -13,23 +13,23 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** a bug where mixed cases Hosts in Gateway and TLS redirect results in stale RDS.
+- **Fixed** a bug where mixed-case Hosts in Gateway and TLS redirect resulted in stale RDS.
   ([Issue #49638](https://github.com/istio/istio/issues/49638))
 
-- **Fixed** a bug where Ambient `PeerAuthentication` policies were overly strict.
+- **Fixed** an issue where ambient mode `PeerAuthentication` policies were overly strict.
   ([Issue #53884](https://github.com/istio/istio/issues/53884))
 
-- **Fixed** a bug in Ambient (only) where multiple STRICT port-level mTLS rules in a `PeerAuthentication` policy would effectively result
+- **Fixed** a bug in where multiple STRICT port-level mTLS rules in an ambient mode PeerAuthentication policy would effectively result
 in a permissive policy due to incorrect evaluation logic (AND vs. OR).
   ([Issue #54146](https://github.com/istio/istio/issues/54146))
 
-- **Fixed** non-default revisions controlling gateways lacking istio.io/rev labels.
+- **Fixed** non-default revisions controlling gateways lacking `istio.io/rev` labels.
   ([Issue #54280](https://github.com/istio/istio/issues/54280))
 
-- **Fixed** a bug where access log order instability is causing connection draining.
+- **Fixed** an issue where access log order instability caused connection draining.
   ([Issue #54672](https://github.com/istio/istio/issues/54672))
 
-- **Fixed** a bug where Istiod sending an incompatible access log format to <1.23 proxies.
+- **Fixed** a bug where Istiod would send an incompatible access log format to <1.23 proxies.
   ([Issue #54795](https://github.com/istio/istio/issues/54795))
 
 - **Improved** Istiod's validation webhook to accept versions it does not know about.
