@@ -14,39 +14,39 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** a bug with mixed cases Hosts in Gateway and TLS redirect results in stale RDS.
+- **Fixed** a bug with mixed-case Hosts in Gateway and TLS redirect resulted in stale RDS.
   ([Issue #49638](https://github.com/istio/istio/issues/49638))
 
 - **Fixed** an issue where Ambient `PeerAuthentication` policies were overly strict.
   ([Issue #53884](https://github.com/istio/istio/issues/53884))
 
-- **Fixed** failed to patch managed gateway/waypoint deployment during upgrade to 1.24.
+- **Fixed** failure to patch managed gateway/waypoint deployments during upgrade to 1.24.
   ([Issue #54145](https://github.com/istio/istio/issues/54145))
 
-- **Fixed** a bug in Ambient (only) where multiple STRICT port-level mTLS rules in a PeerAuthentication policy would effectively result
+- **Fixed** a bug in where multiple STRICT port-level mTLS rules in an ambient mode PeerAuthentication policy would effectively result
 in a permissive policy due to incorrect evaluation logic (AND vs. OR).
   ([Issue #54146](https://github.com/istio/istio/issues/54146))
 
-- **Fixed** the wording of the status message when L7 rules are present in an AuthorizationPolicy which is bound to ztunnel to be clearer.
+- **Fixed** the wording of the status message when L7 rules are present in an AuthorizationPolicy which is bound to ztunnel, to be clearer.
   ([Issue #54334](https://github.com/istio/istio/issues/54334))
 
-- **Fixed** a bug where request mirror filter incorrectly computing the percentage.
+- **Fixed** a bug where the request mirror filter incorrectly computed the percentage.
   ([Issue #54357](https://github.com/istio/istio/issues/54357))
 
-- **Fixed** an issue where using a tag in the istio.io/rev label on a gateway causes the gateway to be improperly programmed, and to lack status.
+- **Fixed** an issue where using a tag in the `istio.io/rev` label on a gateway caused the gateway to be improperly programmed, and to lack status.
   ([Issue #54458](https://github.com/istio/istio/issues/54458))
 
-- **Fixed** issue where out-of-order ztunnel disconnects could put `istio-cni` in a state where it believes it has no connections.
+- **Fixed** an issue where out-of-order ztunnel disconnects could put `istio-cni` in a state where it believes it has no connections.
   ([Issue #54544](https://github.com/istio/istio/issues/54544)),([Issue #53843](https://github.com/istio/istio/issues/53843))
 
-- **Fixed** an issue that access log order instability causing connection draining.
+- **Fixed** an issue where access log order caused instability during connection draining.
   ([Issue #54672](https://github.com/istio/istio/issues/54672))
 
 - **Fixed** an issue in the gateway chart where `--set platform` worked but `--set global.platform` did not.
-  
-- **Fixed** an issue where ingress gateways did not use WDS discovery to retrieve metadata for ambient destinations.
 
-- **Fixed** an issue causing istio-iptables cmd to fail when a non-built-in table is present in the system.  
+- **Fixed** an issue where ingress gateways did not use WDS discovery to retrieve metadata for ambient mode destinations.
+
+- **Fixed** an issue causing the `istio-iptables` command to fail when a non-built-in table is present in the system.
 
 - **Fixed** an issue causing configuration to be rejected when there is a partial overlap between IP addresses across multiple services.
 For example, a Service with `[IP-A]` and one with `[IP-B, IP-A]`.  ([Issue #52847](https://github.com/istio/istio/issues/52847))
