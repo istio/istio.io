@@ -21,7 +21,7 @@ release: 1.23.5
   ([Issue #53884](https://github.com/istio/istio/issues/53884))
 
 - **修复** 修复了一个错误，即 Ambient 模式
-  PeerAuthentication 策略中的多个 STRICT 端口级 mTLS 
+  PeerAuthentication 策略中的多个 STRICT 端口级 mTLS
   规则由于不正确的评估逻辑（AND 与 OR）实际上会导致宽松的策略。
   ([Issue #54146](https://github.com/istio/istio/issues/54146))
 
