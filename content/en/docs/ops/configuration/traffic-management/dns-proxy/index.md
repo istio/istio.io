@@ -52,6 +52,10 @@ spec:
 When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
 {{< /tip >}}
 
+{{< tip >}}
+When using the ambient data plane in Istio 1.24 or earlier, DNS Capture is not enabled by default. To enable DNS Capture for ambient set `values.cni.ambient.dnsCapture=true` during installation.
+{{< /tip >}}
+
 ## DNS capture In action
 
 To try out the DNS capture, first setup a `ServiceEntry` for some external service:
