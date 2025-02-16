@@ -10,7 +10,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.10.0
-	istio.io/istio v0.0.0-20250208152229-26fce72551e0
+	istio.io/istio v0.0.0-20250215152246-90d9b29174e1
 	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
 )
@@ -43,8 +43,8 @@ require (
 	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.2 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.1 // indirect
-	github.com/envoyproxy/go-control-plane/contrib v1.32.4-0.20250129071740-454f8a02b0a2 // indirect
-	github.com/envoyproxy/go-control-plane/envoy v1.32.4-0.20250129071740-454f8a02b0a2 // indirect
+	github.com/envoyproxy/go-control-plane/contrib v1.32.5-0.20250207140015-90270e3c85fd // indirect
+	github.com/envoyproxy/go-control-plane/envoy v1.32.5-0.20250207140015-90270e3c85fd // indirect
 	github.com/envoyproxy/go-control-plane/ratelimit v0.1.0 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
@@ -188,8 +188,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.17.0 // indirect
-	istio.io/api v1.25.0-alpha.0.0.20250204010814-22f48aedd503 // indirect
-	istio.io/client-go v1.25.0-alpha.0.0.20250204011224-d53ff786b50f // indirect
+	istio.io/api v1.25.0-alpha.0.0.20250210220544-0b64afd2de85 // indirect
+	istio.io/client-go v1.25.0-alpha.0.0.20250210220843-5a4065fded65 // indirect
 	k8s.io/api v0.32.1 // indirect
 	k8s.io/apiextensions-apiserver v0.32.1 // indirect
 	k8s.io/apiserver v0.32.1 // indirect
