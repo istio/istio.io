@@ -20,7 +20,7 @@
 #          docs/ops/configuration/traffic-management/dns-proxy/index.md
 ####################################################################################################
 
-snip_getting_started_1() {
+snip_sidecar_mode_1() {
 cat <<EOF | istioctl install -y -f -
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -64,7 +64,7 @@ kubectl exec deploy/curl -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 ENDSNIP
 
-snip_address_auto_allocation_1() {
+snip_address_autoallocation_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
@@ -81,15 +81,15 @@ spec:
 EOF
 }
 
-snip_address_auto_allocation_2() {
+snip_address_autoallocation_2() {
 kubectl exec deploy/curl -- curl -sS -v auto.internal
 }
 
-! IFS=$'\n' read -r -d '' snip_address_auto_allocation_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_address_autoallocation_2_out <<\ENDSNIP
 *   Trying 240.240.0.1:80...
 ENDSNIP
 
-snip_address_auto_allocation_3() {
+snip_address_autoallocation_3() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
@@ -108,11 +108,11 @@ spec:
 EOF
 }
 
-snip_address_auto_allocation_4() {
+snip_address_autoallocation_4() {
 kubectl exec deploy/curl -- curl -sS -v auto.internal
 }
 
-! IFS=$'\n' read -r -d '' snip_address_auto_allocation_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_address_autoallocation_4_out <<\ENDSNIP
 * Could not resolve host: auto.internal
 * shutting down connection #0
 ENDSNIP
