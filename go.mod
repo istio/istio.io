@@ -11,9 +11,7 @@ require (
 	github.com/envoyproxy/go-control-plane/envoy v1.32.5-0.20250211152746-ef139ef8ea6b
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.10.0
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250122153221-138b5a5a4fd4
-	google.golang.org/grpc v1.70.0
-	istio.io/istio v0.0.0-20250221134152-423701a49378
+	istio.io/istio v0.0.0-20250220213352-eb24e1c15223
 	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
 )
@@ -188,8 +186,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.17.0 // indirect
-	istio.io/api v1.25.0-alpha.0.0.20250219222751-f4ae20b76d6e // indirect
-	istio.io/client-go v1.25.0-alpha.0.0.20250219223050-f56591e7d32b // indirect
+	istio.io/api v1.25.0-alpha.0.0.20250212060243-76cd29bc906f // indirect
+	istio.io/client-go v1.25.0-alpha.0.0.20250212060743-20055c33db8f // indirect
 	k8s.io/api v0.32.1 // indirect
 	k8s.io/apiextensions-apiserver v0.32.1 // indirect
 	k8s.io/apiserver v0.32.1 // indirect
