@@ -645,6 +645,12 @@ training:
     description: "Istio Fundamentals"
     details:
       - "Tetrate presents Istio Fundamentals, a course that enables users to learn Istio easily with concept text, labs, and quizzes."
+  - name: "IT-Schulungen.com"
+    logo: "/logos/it-schulungen.png"
+    url: "https://www.it-schulungen.com/seminare/softwareentwicklung/devops/istio/index.html"
+    description: "ICA Istio Certified Associate"
+    details:
+    - "In this 3-day ICA Istio Certified Associate training, you will learn to consolidate your fundamental knowledge of Istio principles, terminology and best practices. You will be able to set up Istio successfully and the course will show you how to put your knowledge into practice in this regard. This course prepares you for the ICA Istio Certified Associate certification."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
