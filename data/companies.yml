@@ -648,9 +648,10 @@ training:
   - name: "IT-Schulungen.com"
     logo: "/logos/it-schulungen.png"
     url: "https://www.it-schulungen.com/seminare/softwareentwicklung/devops/istio/index.html"
-    description: "ICA Istio Certified Associate"
+    description: "Istio Certified Trainings"
     details:
-    - "In this 3-day ICA Istio Certified Associate training, you will learn to consolidate your fundamental knowledge of Istio principles, terminology and best practices. You will be able to set up Istio successfully and the course will show you how to put your knowledge into practice in this regard. This course prepares you for the ICA Istio Certified Associate certification."
+    - "In our Istio training courses you will acquire exactly the practical and specialist knowledge with which you can master your professional challenges. You benefit from the comprehensive knowledge of our lecturers with project and practical experience."
+    - "Choose between different training types: We offer Istio as open training in our training centers, as a tailor-made company seminar or in-house training."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
@@ -667,6 +668,12 @@ certification:
     details:
       - "The Istio Certified Associate (ICA) exam demonstrates a solid understanding of Istio principles, terminology, and best practices for setting up Istio."
       - "The ICA is a pre-professional certification designed for engineers, CI/CD practitioners, or anyone with special interests in Istio. A certified ICA will confirm their foundational knowledge of Istio principles, terminology, and best practices and demonstrate their ability to set up Istio."
+  - name: "IT-Schulungen.com"
+    logo: "/logos/it-schulungen.png"
+    url: "https://www.it-schulungen.com/seminare/softwareentwicklung/devops/istio/index.html"
+    description: "ICA Istio Certified Associate"
+    details:
+    - "In this 3-day ICA Istio Certified Associate training, you will learn to consolidate your fundamental knowledge of Istio principles, terminology and best practices. You will be able to set up Istio successfully and the course will show you how to put your knowledge into practice in this regard. This course prepares you for the ICA Istio Certified Associate certification."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
