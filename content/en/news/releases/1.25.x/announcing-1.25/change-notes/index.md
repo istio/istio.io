@@ -14,7 +14,7 @@ aliases:
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
 
-- **Deprecated** use of `ISTIO_META_DNS_AUTO_ALLOCATE` in proxyMetadata in favor of https://istio.io/latest/docs/ops/configuration/traffic-management/dns-proxy/#dns-auto-allocation-v2. New users of Istio IP auto-allocation should adopt the new status-based controller. Existing users may continue to use the older implementation.
+- **Deprecated** use of `ISTIO_META_DNS_AUTO_ALLOCATE` in `proxyMetadata` in favor of /docs/ops/configuration/traffic-management/dns-proxy #dns-auto-allocation-v2. New users of Istio IP auto-allocation should adopt the new status-based controller. Existing users may continue to use the older implementation.
   ([Issue #53596](https://github.com/istio/istio/issues/53596))
 
 ## Traffic Management
@@ -22,7 +22,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Promoted** the `cni.ambient.dnsCapture` value to default to `true`.
 This enables the DNS proxying for workloads in ambient mesh by default, improving security, performance, and enabling
 a number of features. This can be disabled explicitly or with `compatibilityVersion=1.24`.
-Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconcilation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=false`.
+Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=false`.
 
 - **Promoted** the `PILOT_ENABLE_IP_AUTOALLOCATE` value to default to `true`.
 This enables the new iteration of [IP auto-allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation),
@@ -43,22 +43,22 @@ See `dns_jitter` in `https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/c
 - **Added** `ambient.reconcileIptablesOnStartup` field in the `istio-cni` chart and the corresponding `AMBIENT_RECONCILE_POD_RULES_ON_STARTUP` flag
 to control whether the ambient CNI agent should reconcile the iptables of pods at startup.
 
-- **Added** Added ObservedGeneration to Ambient status conditions. This field will show the generation of the object that was observed by the controller when the condition was generated.
+- **Added** Added `ObservedGeneration` to Ambient status conditions. This field will show the generation of the object that was observed by the controller when the condition was generated.
   ([Issue #53331](https://github.com/istio/istio/issues/53331))
 
 - **Added** Istiod environment variable `PILOT_DNS_CARES_UDP_MAX_QUERIES` that controls the `udp_max_queries` field of Envoy's default Cares DNS resolver.
 This value defaults to 100 when unset.
-For more information, see https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto#envoy-v3-api-field-extensions-network-dns-resolver-cares-v3-caresdnsresolverconfig-udp-max-queries
+For more information, see [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto#envoy-v3-api-field-extensions-network-dns-resolver-cares-v3-caresdnsresolverconfig-udp-max-queries)
   ([Issue #53577](https://github.com/istio/istio/issues/53577))
 
 - **Added** Support for reconciling in-pod iptables rules of existing ambient pods from the previous version on `istio-cni` upgrade. Feature can be toggled with `--set cni.ambient.reconcileIptablesOnStartup=true` and will be enabled by default in future releases.
   ([Issue #1360](https://github.com/istio/istio/issues/1360))
 
-- **Added** `istio.io/reroute-virtual-interfaces` annotation, a comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with both sidecar and ambient mesh traffic capture.
+- **Added** `istio.io/reroute-virtual-interfaces` annotation, a comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualised networking (KubeVirt, VMs, docker-in-docker, etc) to function correctly with both sidecar and ambient mesh traffic capture.
 **Deprecated** `traffic.sidecar.istio.io/kubevirtInterfaces`, in favor of `istio.io/reroute-virtual-interfaces`
   ([Issue #49829](https://github.com/istio/istio/issues/49829))
 
-- **Added** support for attaching policy defaults for istio-waypoint by targetting the GatewayClass.
+- **Added** support for attaching policy defaults for istio-waypoint by targeting the GatewayClass.
   ([Issue #54696](https://github.com/istio/istio/issues/54696))
 
 - **Added** `ambient.istio.io/dns-capture` annotation. May be unset, or set to `true` or `false`.
@@ -76,21 +76,21 @@ Note: this feature previously existed only for ztunnel, but is now supported acr
 
 - **Fixed** a bug with mixed cases Hosts in Gateway and TLS redirect results in stale RDS.  ([Issue #49638](https://github.com/istio/istio/issues/49638))
 
-- **Fixed** an issue where an HTTPRoute in a VirtualService with a matcher specifying sourceLabels would be applied to a waypoint.
+- **Fixed** an issue where an HTTPRoute in a VirtualService with a matcher specifying `sourceLabels` would be applied to a waypoint.
   ([Issue #51565](https://github.com/istio/istio/issues/51565))
 
-- **Fixed** an issue where if a wasm image fetch fails, an allow all RBAC filter is used. Now if `failStrategy` is set to `FAIL_CLOSE`, a DENY-ALL RBAC filter will be used.  ([Issue #53279](https://github.com/istio/istio/issues/53279)),([Issue #23624](https://github.com/istio/istio/issues/23624))
+- **Fixed** an issue where if a Wasm image fetch fails, an allow all RBAC filter is used. Now if `failStrategy` is set to `FAIL_CLOSE`, a DENY-ALL RBAC filter will be used.  ([Issue #53279](https://github.com/istio/istio/issues/53279)),([Issue #23624](https://github.com/istio/istio/issues/23624))
 
 - **Fixed** waypoint proxy to respect trust domain.
 
-- **Fixed** merging Duration with a envoyfilter can lead to all listeners associated attributes unexpectedly modified becasue all listeners share a same pointer typed `listener_filters_timeout`.
+- **Fixed** merging Duration with a EnvoyFilter can lead to all listeners associated attributes unexpectedly modified because all listeners share a same pointer typed `listener_filters_timeout`.
 
 - **Fixed** errors being raised during cleanup of iptables rules that are conditional on the iptables configuration.
 
 - **Fixed** DNS traffic (UDP and TCP) is now affected by traffic annotations like `traffic.sidecar.istio.io/excludeOutboundIPRanges` and `traffic.sidecar.istio.io/excludeOutboundPorts`. Before, UDP/DNS traffic would uniquely ignore these traffic annotations, even if a DNS port was specified, because of the rule structure. The behavior change actually happened in the 1.23 release series, but was left out of the release notes for 1.23.
   ([Issue #53949](https://github.com/istio/istio/issues/53949))
 
-- **Fixed** an issue where istiod did not handle RequestAuthentication correctly for cross-namespace waypoint proxies  ([Issue #54051](https://github.com/istio/istio/issues/54051))
+- **Fixed** an issue where istiod did not handle `RequestAuthentication` correctly for cross-namespace waypoint proxies  ([Issue #54051](https://github.com/istio/istio/issues/54051))
 
 - **Fixed** failed to patch managed gateway/waypoint deployment during upgrade to 1.24.
   ([Issue #54145](https://github.com/istio/istio/issues/54145))
@@ -131,11 +131,11 @@ where certain files are owned by non-root users.
 Note: prior to Istio 1.24, the `istio-cni-node` ran as `privileged`. Istio 1.24 removed this, but removed some required
 privileges which are now added back. Relatively to Istio 1.23, `istio-cni-node` still has fewer privileges than it does with this change.
 
-- **Added** unconfined AppArmor annotation to the istio-cni-node DaemonSet to avoid conflicts with
+- **Added** unconfined AppArmor annotation to the `istio-cni-node` DaemonSet to avoid conflicts with
 AppArmor profiles which block certain privileged pod capabilities. Previously, AppArmor
 (when enabled) was bypassed for the istio-cni-node DaemonSet since privileged was set to true
-in the SecurityContext. This change ensures that the AppArmor profile is set to unconfined
-for the istio-cni-node DaemonSet.
+in the `SecurityContext`. This change ensures that the AppArmor profile is set to unconfined
+for the `istio-cni-node` DaemonSet.
 
 - **Fixed** an issue where Ambient `PeerAuthentication` policies were overly strict.
   ([Issue #53884](https://github.com/istio/istio/issues/53884))
@@ -159,7 +159,7 @@ in a permissive policy due to incorrect evaluation logic (AND vs. OR).
 
 - **Added** a fallback to use the `WorkloadGroup` name as the "workload name" (as reported in telemetry) for `WorkloadEntry`s created by a `WorkloadGroup`.
 
-- **Fixed** $(HOST_IP) interpolation causes istio-proxy failures when datadog tracing enabled on IPv6 clusters.
+- **Fixed** `$(HOST_IP)` interpolation causes istio-proxy failures when Datadog tracing enabled on IPv6 clusters.
   ([Issue #54267](https://github.com/istio/istio/issues/54267))
 
 - **Fixed** an issue that access log order instability causing connection draining.
@@ -176,26 +176,26 @@ interval configured to be larger than `15s`.
 - **Improved** Both `platform` and `profile` Helm values overrides now equivalently support
 global or local override forms, e.g.
   - `--set global.platform=foo`
-  - `--set platform=foo`
   - `--set global.profile=bar`
+  - `--set platform=foo`
   - `--set profile=bar`
 
 - **Improved** the ztunnel Helm chart to set resource names to `.Release.Name` instead of hard-coded to ztunnel.
 
-- **Added** new messages to the WaypointBound condition to represent a service binding to a waypoint proxy for ingress.
+- **Added** new messages to the `WaypointBound` condition to represent a service binding to a waypoint proxy for ingress.
 
 - **Added** an issue that `istioctl install` not working on windows.
 
-- **Added** a pod `dnsPolicy` of ClusterFirstWithHostNet to `istio-cni` when it runs with `hostNetwork=true` (i.e. ambient mode).
+- **Added** a pod `dnsPolicy` of `ClusterFirstWithHostNet` to `istio-cni` when it runs with `hostNetwork=true` (i.e. ambient mode).
 
-- **Added** GKE platform profile for ambient mode. When installing on GKE, use `--set global.platform=gke` (Helm) or `--set values.global.platform=gke` (istioctl) to apply GKE-specific value overrides. This replaces the previous GKE autodetection based on K8S version used in the `istio-cni` chart.
+- **Added** GKE platform profile for ambient mode. When installing on GKE, use `--set global.platform=gke` (Helm) or `--set values.global.platform=gke` (istioctl) to apply GKE-specific value overrides. This replaces the previous GKE auto detection based on K8S version used in the `istio-cni` chart.
 
-- **Added** support for Envoy config parameter to skip deprecated logs, with the default set to true. Setting the ENVOY_SKIP_DEPRECATED_LOGS environment variable to false will enable deprecated logs.
+- **Added** support for Envoy config parameter to skip deprecated logs, with the default set to true. Setting the `ENVOY_SKIP_DEPRECATED_LOGS` environment variable to false will enable deprecated logs.
 
 - **Added** ambient dataplane exclusion labels to Istio-shipped gateways by default, to avoid out-of-the-box confusing behavior if installing gateways outside of `istio-system`.
   ([Issue #54824](https://github.com/istio/istio/issues/54824))
 
-- **Fixed** an issue where ipset entry creation would fail on certain kinds of Docker-based kubernetes nodes
+- **Fixed** an issue where `ipset` entry creation would fail on certain kinds of Docker-based Kubernetes nodes
   ([Issue #53512](https://github.com/istio/istio/issues/53512))
 
 - **Fixed** Helm render to properly apply annotations on pilot `serviceAccount`
@@ -212,9 +212,9 @@ global or local override forms, e.g.
 - **Fixed** an issue that `gateway` injection template didn't respect the `kubectl.kubernetes.io/default-logs-container`
 and `kubectl.kubernetes.io/default-container` annotations.
 
-- **Fixed** an issue causing istio-iptables cmd to fail when a non-built-in table is present in the system.
+- **Fixed** an issue causing istio-iptables command to fail when a non-built-in table is present in the system.
 
-- **Fixed** an issue preventing the PodDisruptionBudget `maxUnavailable` field from being customizable.
+- **Fixed** an issue preventing the `PodDisruptionBudget` `maxUnavailable` field from being customizable.
   ([Issue #54087](https://github.com/istio/istio/issues/54087))
 
 - **Fixed** Injection config errors were being silenced (i.e. logged and not returned) when the sidecar injector was unable to process the sidecar config. This change will now propagate the error to the user instead of continuing to process a faulty config.  ([Issue #53357](https://github.com/istio/istio/issues/53357))
@@ -225,15 +225,15 @@ and `kubectl.kubernetes.io/default-container` annotations.
 
 - **Added** shortcode `-r` for `--revision` flags in `istioctl analyze`.
 
-- **Added** support for AuthorizationPolicies with `CUSTOM` action in the `istioct x authz check` command.
+- **Added** support for `AuthorizationPolicies` with `CUSTOM` action in the `istioct x authz check` command.
 
 - **Added** support `--network` parameter for `istioctl experimental workload group create`.
   ([Issue #54022](https://github.com/istio/istio/issues/54022))
 
-- **Added** Ability to safely restart/upgrade the system-node-critical `istio-cni` node agent Daemonset in-place. This works by preventing new pods from starting on the node while `istio-cni` is being restarted or upgraded. This feature is enabled by default and can be disabled by setting the environment variable `AMBIENT_DISABLE_SAFE_UPGRADE=true` in `istio-cni`.
+- **Added** Ability to safely restart/upgrade the system-node-critical `istio-cni` node agent DaemonSet in-place. This works by preventing new pods from starting on the node while `istio-cni` is being restarted or upgraded. This feature is enabled by default and can be disabled by setting the environment variable `AMBIENT_DISABLE_SAFE_UPGRADE=true` in `istio-cni`.
   ([Issue #49009](https://github.com/istio/istio/issues/49009))
 
-- **Added** changes for rootca-compare command to handle the case when pod has multiple root CA  ([Issue #54545](https://github.com/istio/istio/issues/54545))
+- **Added** changes for `rootca-compare` command to handle the case when pod has multiple root CA  ([Issue #54545](https://github.com/istio/istio/issues/54545))
 
 - **Added** support for `istioctl waypoint delete` to delete specified revision waypoint.
 
@@ -249,7 +249,7 @@ and `kubectl.kubernetes.io/default-container` annotations.
 - **Fixed** `istioctl waypoint delete --all` deletes gateway resources that are not waypoints.
   ([Issue #54056](https://github.com/istio/istio/issues/54056))
 
-- **Fixed** `istioctl experimental injector list` print redundant namespaces for injector webook.
+- **Fixed** `istioctl experimental injector list` print redundant namespaces for injector webhook.
 
 - **Fixed** `istioctl proxyconfig` performance issue.
   ([Issue #53931](https://github.com/istio/istio/issues/53931))
@@ -258,6 +258,6 @@ and `kubectl.kubernetes.io/default-container` annotations.
 
 - **Fixed** 'istioctl --as' implicitly sets `--as-group=""` when `--as` is used without `--as-group`.
 
-- **Removed** `--recursive` flags and hardcode recursion to ture for `istioctl analyze`.
+- **Removed** `--recursive` flags and set recursion to true for `istioctl analyze`.
 
 - **Removed**  the experimental flag `--xds-via-agents` to the `istioctl proxy-status` command.

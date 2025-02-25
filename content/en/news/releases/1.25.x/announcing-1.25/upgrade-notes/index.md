@@ -10,9 +10,9 @@ These notes detail the changes which purposefully break backwards compatibility 
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.24.x.
 
-## Ambient pod upgrade reconcilation
+## Ambient pod upgrade reconciliation
 
-When a new `istio-cni` Daemonset pod starts up, it will inspect pods that were previously enrolled in the ambient mesh, and upgrade their in-pod iptables rules to the current state if there is a diff or delta. This is off by default as of 1.25.0, but will eventually be enabled by default. Feature can be enabled by `helm install cni --set ambient.reconcileIptablesOnStartup=true` (helm) or `istioctl install --set values.cni.ambient.reconcileIptablesOnStartup=true` (istioctl)
+When a new `istio-cni` DaemonSet pod starts up, it will inspect pods that were previously enrolled in the ambient mesh, and upgrade their in-pod iptables rules to the current state if there is a diff or delta. This is off by default as of 1.25.0, but will eventually be enabled by default. Feature can be enabled by `helm install cni --set ambient.reconcileIptablesOnStartup=true` (helm) or `istioctl install --set values.cni.ambient.reconcileIptablesOnStartup=true` (istioctl)
 
 ## DNS traffic (TCP and UDP) now respects traffic exclusion annotations
 
@@ -20,9 +20,7 @@ DNS traffic (UDP and TCP) now respects pod-level traffic annotations like `traff
 
 ## Ambient DNS capture on by default
 
-DNS proxying is enabled by default for ambient workloads in this release. Note that only new pods will have DNS enabled, existing pods will not have their DNS traffic captured.
-To enable this feature for existing pods, existing pods must either be manually restarted, or alternatively the iptables reconcilation feature can be enabled when upgrading
-`istio-cni` via `--set cni.ambient.reconcileIptablesOnStartup=true` which will reconcile existing pods automatically on upgrade.
+DNS proxying is enabled by default for ambient workloads in this release. Note that only new pods will have DNS enabled, existing pods will not have their DNS traffic captured. To enable this feature for existing pods, existing pods must either be manually restarted, or alternatively the iptables reconciliation feature can be enabled when upgrading `istio-cni` via `--set cni.ambient.reconcileIptablesOnStartup=true` which will reconcile existing pods automatically on upgrade. Individual pods may opt-out of global ambient DNS capture by applying the`ambient.istio.io/dns-capture=false` annotation.
 
 ## Grafana dashboard changes
 
