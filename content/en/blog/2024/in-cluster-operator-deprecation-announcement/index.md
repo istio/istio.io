@@ -30,7 +30,11 @@ Users who prefer the operator pattern for running Istio can migrate to either of
 
 ### Migrating to Helm
 
-Helm migration requires translating your `IstioOperator` YAML into a Helm `values.yaml` file.  Tooling to support this migration will be provided alongside the Istio 1.24 release.
+Helm migration requires translating your `IstioOperator` YAML into Helm values. Istio 1.24 and above includes a `manifest translate` command to perform this operation. The output is a `values.yaml` file, and a shell script to install equivalent Helm charts.
+
+{{< text bash >}}
+$ istioctl manifest translate -f istio.yaml
+{{< /text >}}
 
 ### Migrating to istioctl
 
@@ -43,7 +47,7 @@ $ kubectl get IstioOperator
 Using the name of your resource, download your operator configuration in YAML format:
 
 {{< text bash >}}
-$ kubectl get IstioOperator <name> > istio.yaml
+$ kubectl get IstioOperator <name> -o yaml > istio.yaml
 {{< /text >}}
 
 Disable the In-Cluster Operator. This will not disable your control plane or disrupt your current mesh traffic.
