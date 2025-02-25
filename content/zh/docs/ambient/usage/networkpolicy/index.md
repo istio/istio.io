@@ -24,6 +24,8 @@ Istio 不是 CNI，不强制执行或管理 `NetworkPolicy`，
 但是，`NetworkPolicy` 是在主机上强制执行的，在 Pod 之外。这意味着，
 如果您已经存在 `NetworkPolicy`，例如，它将拒绝除 443 之外的每个端口上到 Ambient Pod 的入站流量，
 则您必须为端口 15008 向该 `NetworkPolicy` 添加例外。
+接收流量的 Sidecar 工作负载还需要允许端口 15008 上的入站流量，
+以允许 Ambient 工作负载与它们通信。
 
 例如，以下 `NetworkPolicy` 将阻止传入 {{< gloss >}}HBONE{{< /gloss >}} 到端口 15008 上的 `my-app` 的流量：
 

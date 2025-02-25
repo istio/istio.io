@@ -9,9 +9,9 @@ test: yes
 
 除了捕获应用流量，Istio 还可以捕获 DNS 请求，
 以提高网格的性能和可用性。当 Istio 代理 DNS 时，
-所有来自应用程序的 DNS 请求将会被重定向到 Sidecar，
-因为 Sidecar 存储了域名到 IP 地址的映射。如果请求被 Sidecar 处理，
-它将直接给应用返回响应，避免了对上游DNS服务器的往返。
+所有来自应用程序的 DNS 请求将会被重定向到 Sidecar 或 ztunnel 代理，
+因为 Sidecar 存储了域名到 IP 地址的映射。如果请求被代理处理，
+它将直接给应用返回响应，避免了对上游 DNS 服务器的往返。
 反之，请求将按照标准的 `/etc/resolv.conf` DNS 配置向上游转发。
 
 虽然 Kubernetes 为 Kubernetes `Service`
@@ -24,6 +24,22 @@ test: yes
 这意味着所有的内部服务都可以被解析，而不需要再使用笨重的运行方法来暴露集群外的 Kubernetes DNS 条目。
 
 ## 开始 {#getting-started}
+
+Istio 通常会基于 HTTP 头来路由流量。如果无法基于 HTTP 头进行路由
+（例如在 Ambient 模式下，或在 Sidecar 模式下使用 TCP 流量时），则可以启用 DNS 代理。
+
+在 Ambient 模式下，ztunnel 仅能看到第 4 层流量，无法访问 HTTP 头。
+因此，DNS 代理机制对于解析 `ServiceEntry` 地址是必需的，
+特别是在[将出口流量发送到 waypoint](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints)的情况下更是如此。
+
+### Ambient 模式 {#ambient-mode}
+
+从 Istio 1.25 开始，Ambient 模式默认启用了 DNS 代理机制。
+
+对于 1.25 之前的版本，您可以在安装时通过设置 `values.cni.ambient.dnsCapture=true`
+和 `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` 来启用 DNS 捕获。
+
+### Sidecar 模式 {#sidecar-mode}
 
 此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置：
 
@@ -64,7 +80,7 @@ spec:
 
 ## DNS 捕获 {#DNS-capture-in-action}
 
-为了尝试 DNS 捕获，首先在外部服务启动一个 `ServiceEntry`：
+为了尝试 DNS 捕获，首先为某些外部服务启动一个 `ServiceEntry`：
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -91,8 +107,8 @@ $ kubectl label namespace default istio-injection=enabled --overwrite
 $ kubectl apply -f @samples/curl/curl.yaml@
 {{< /text >}}
 
-如果不开启 DNS 代理功能，请求 `address.internal`
-时可能解析失败。一旦启用，您将收到一个基于 `address` 配置的响应：
+如果不开启 DNS 捕获，请求 `address.internal`
+时可能解析失败。一旦启用 DNS 捕获，您将收到一个基于 `address` 配置的响应：
 
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v address.internal
@@ -165,16 +181,17 @@ $ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
-  name: external-address
+  name: external-auto
+  labels:
+    networking.istio.io/enable-autoallocate-ip: "false"
 spec:
-  addresses:
-  - 198.51.100.1
   hosts:
-  - address.internal
+  - auto.internal
   ports:
   - name: http
     number: 80
     protocol: HTTP
+  resolution: DNS
 EOF
 {{< /text >}}
 

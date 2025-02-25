@@ -8,13 +8,25 @@ test: yes
 ---
 
 In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
-When proxying DNS, all DNS requests from an application will be redirected to the sidecar, which stores a local mapping of domain names to IP addresses. If the request can be handled by the sidecar, it will directly return a response to the application, avoiding a roundtrip to the upstream DNS server. Otherwise, the request is forwarded upstream following the standard `/etc/resolv.conf` DNS configuration.
+When proxying DNS, all DNS requests from an application will be redirected to the sidecar or ztunnel proxy, which stores a local mapping of domain names to IP addresses. If the request can be handled by the proxy, it will directly return a response to the application, avoiding a roundtrip to the upstream DNS server. Otherwise, the request is forwarded upstream following the standard `/etc/resolv.conf` DNS configuration.
 
 While Kubernetes provides DNS resolution for Kubernetes `Service`s out of the box, any custom `ServiceEntry`s will not be recognized. With this feature, `ServiceEntry` addresses can be resolved without requiring custom configuration of a DNS server. For Kubernetes `Service`s, the DNS response will be the same, but with reduced load on `kube-dns` and increased performance.
 
 This functionality is also available for services running outside of Kubernetes. This means that all internal services can be resolved without clunky workarounds to expose Kubernetes DNS entries outside of the cluster.
 
 ## Getting started
+
+Istio will generally route traffic based on HTTP headers. If routing based on a HTTP header is not possible - in ambient mode, or with TCP traffic in sidecar mode - DNS proxy can be enabled.
+
+In ambient mode, the ztunnel only sees traffic at Layer 4, and does not have access to HTTP headers. Therefore, DNS proxying is required to enable resolution of `ServiceEntry` addresses, especially in the case of [sending egress traffic to waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
+
+### Ambient mode
+
+DNS proxying is enabled by default in ambient mode from Istio 1.25 onwards.
+
+For versions prior to 1.25, you can enable DNS capture by setting `values.cni.ambient.dnsCapture=true` and `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` during installation.
+
+### Sidecar mode
 
 This feature is not currently enabled by default. To enable it, install Istio with the following settings:
 
@@ -52,9 +64,9 @@ spec:
 When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
 {{< /tip >}}
 
-## DNS capture In action
+## DNS capture in action
 
-To try out the DNS capture, first setup a `ServiceEntry` for some external service:
+To try out the DNS capture, first set up a `ServiceEntry` for some external service:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -88,7 +100,7 @@ $ kubectl exec deploy/curl -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
-## Address auto allocation
+## Address auto-allocation
 
 In the above example, you had a predefined IP address for the service to which you sent the request. However, it's common to access external services that do not have stable addresses, and instead rely on DNS. In this case, the DNS proxy will not have enough information to return a response, and will need to forward DNS requests upstream.
 
