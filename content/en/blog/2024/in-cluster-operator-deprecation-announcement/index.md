@@ -32,7 +32,7 @@ Users who prefer the operator pattern for running Istio can migrate to either of
 
 Helm migration requires translating your `IstioOperator` YAML into a Helm `values.yaml` file.  Tooling to support this migration will be provided alongside the Istio 1.24 release.
 
-Translate an IstioOperator YAML file into helm values:
+Translate an IstioOperator YAML file into Helm values and a shell script to install equivalent Helm charts:
 
 {{< text bash >}}
 $ istioctl manifest translate -f istio.yaml
