@@ -2,7 +2,7 @@
 title: Istio 1.24 Upgrade Notes
 description: Important changes to consider when upgrading to Istio 1.24.0.
 weight: 20
-publishdate: 2024-11-07
+publishdate: 2025-02-27
 ---
 
 When upgrading from Istio 1.24.x to Istio 1.25.x, please consider the changes on this page.
