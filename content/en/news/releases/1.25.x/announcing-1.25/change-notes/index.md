@@ -174,10 +174,10 @@ interval configured to be larger than `15s`.
 ## Installation
 
 - **Improved** Both `platform` and `profile` Helm values overrides now equivalently support global or local override forms, e.g.
-  - `--set global.platform=foo`
-  - `--set global.profile=bar`
-  - `--set platform=foo`
-  - `--set profile=bar`
+    - `--set global.platform=foo`
+    - `--set global.profile=bar`
+    - `--set platform=foo`
+    - `--set profile=bar`
 
 - **Improved** the ztunnel Helm chart to set resource names to `.Release.Name` instead of hard-coded to ztunnel.
 
