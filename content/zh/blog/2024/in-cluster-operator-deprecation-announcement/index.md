@@ -41,8 +41,13 @@ Helm 安装还可以使用 GitOps 工具（例如 [Flux](https://fluxcd.io/)
 
 ### 迁移到 Helm {#migrating-to-helm}
 
-Helm 迁移需要将您的 `IstioOperator` YAML 转换为 Helm `values.yaml` 文件。
-支持此迁移的工具将与 Istio 1.24 版本一起提供。
+Helm 迁移需要将您的 `IstioOperator` YAML 转换为 Helm Values。
+Istio 1.24 及更高版本包含一个 `manifest translate` 命令来执行此操作。
+输出是一个 `values.yaml` 文件和一个用于安装等效 Helm Chart 的 shell 脚本。
+
+{{< text bash >}}
+$ istioctl manifest translate -f istio.yaml
+{{< /text >}}
 
 ### 迁移到 istioctl {#migrating-to-istioctl}
 
@@ -55,7 +60,7 @@ $ kubectl get IstioOperator
 使用您的资源名称，以 YAML 格式下载您的 Operator 配置：
 
 {{< text bash >}}
-$ kubectl get IstioOperator <name> > istio.yaml
+$ kubectl get IstioOperator <name> -o yaml > istio.yaml
 {{< /text >}}
 
 禁用 In-Cluster Operator。这不会禁用您的控制平面或中断您当前的网格流量。
