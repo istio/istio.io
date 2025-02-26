@@ -14,30 +14,30 @@ aliases:
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
 
-- **Deprecated** use of `ISTIO_META_DNS_AUTO_ALLOCATE` in `proxyMetadata` in favor of /docs/ops/configuration/traffic-management/dns-proxy #dns-auto-allocation-v2. New users of Istio IP auto-allocation should adopt the new status-based controller. Existing users may continue to use the older implementation.
+- **Deprecated** use of `ISTIO_META_DNS_AUTO_ALLOCATE` in `proxyMetadata` in favor of a newer version of [DNS Auto Allocation](/docs/ops/configuration/traffic-management/dns-proxy #dns-auto-allocation-v2). New users of Istio IP `auto-allocation` should adopt the new status based controller. Existing users may continue to use the older implementation.
   ([Issue #53596](https://github.com/istio/istio/issues/53596))
 
 ## Traffic Management
 
 - **Promoted** the `cni.ambient.dnsCapture` value to default to `true`.
-This enables the DNS proxying for workloads in ambient mesh by default, improving security, performance, and enabling
-a number of features. This can be disabled explicitly or with `compatibilityVersion=1.24`.
-Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=false`.
+  This enables the DNS proxying for workloads in ambient mesh by default, improving security, performance, and enabling
+  a number of features. This can be disabled explicitly or with `compatibilityVersion=1.24`.
+  Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=false`.
 
 - **Promoted** the `PILOT_ENABLE_IP_AUTOALLOCATE` value to default to `true`.
-This enables the new iteration of [IP auto-allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation),
-fixing long-standing issues around allocation instability, ambient support, and increased visibility.
-`ServiceEntry` objects without `spec.address` set will now see a new field, `status.addresses`, automatically set.
-Note these will not be used unless proxies are configured to do DNS proxying, which remains off-by-default.
-  ([Issue #53596](https://github.com/istio/istio/issues/53596))
+  This enables the new iteration of [IP auto-allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation),
+  fixing long-standing issues around allocation instability, ambient support, and increased visibility.
+  `ServiceEntry` objects without `spec.address` set will now see a new field, `status.addresses`, automatically set.
+  Note: these will not be used unless proxies are configured to do DNS proxying, which remains off-by-default.
 
 - **Updated** the `PILOT_SEND_UNHEALTHY_ENDPOINTS` feature (which is off by default) to not include terminating endpoints.
-This ensures a service is not considered unhealthy during scale down or rollout events.
+  This ensures a service is not considered unhealthy during scale down or rollout events.
 
-- **Updated** randomly select which upstreams to forward DNS requests to  ([Issue #53414](https://github.com/istio/istio/issues/53414))
+- **Updated** DNS proxying algorithm to randomly select which upstreams to forward DNS requests to.
+  ([Issue #53414](https://github.com/istio/istio/issues/53414))
 
 - **Added** new istiod environment variable `PILOT_DNS_JITTER_DURATION` that sets jitter for periodic DNS resolution.
-See `dns_jitter` in `https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto`.
+  See `dns_jitter` in `https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto`.
   ([Issue #52877](https://github.com/istio/istio/issues/52877))
 
 - **Added** `ambient.reconcileIptablesOnStartup` field in the `istio-cni` chart and the corresponding `AMBIENT_RECONCILE_POD_RULES_ON_STARTUP` flag
@@ -54,7 +54,7 @@ For more information, see [Envoy documentation](https://www.envoyproxy.io/docs/e
 - **Added** Support for reconciling in-pod iptables rules of existing ambient pods from the previous version on `istio-cni` upgrade. Feature can be toggled with `--set cni.ambient.reconcileIptablesOnStartup=true` and will be enabled by default in future releases.
   ([Issue #1360](https://github.com/istio/istio/issues/1360))
 
-- **Added** `istio.io/reroute-virtual-interfaces` annotation, a comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualised networking (KubeVirt, VMs, docker-in-docker, etc) to function correctly with both sidecar and ambient mesh traffic capture.
+- **Added** `istio.io/reroute-virtual-interfaces` annotation, a comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtual networking (KubeVirt, VMs, docker-in-docker, etc) to function correctly with both sidecar and ambient mesh traffic capture.
 **Deprecated** `traffic.sidecar.istio.io/kubevirtInterfaces`, in favor of `istio.io/reroute-virtual-interfaces`
   ([Issue #49829](https://github.com/istio/istio/issues/49829))
 
@@ -133,7 +133,7 @@ privileges which are now added back. Relatively to Istio 1.23, `istio-cni-node` 
 
 - **Added** unconfined AppArmor annotation to the `istio-cni-node` DaemonSet to avoid conflicts with
 AppArmor profiles which block certain privileged pod capabilities. Previously, AppArmor
-(when enabled) was bypassed for the istio-cni-node DaemonSet since privileged was set to true
+(when enabled) was bypassed for the `istio-cni-node` DaemonSet since privileged was set to true
 in the `SecurityContext`. This change ensures that the AppArmor profile is set to unconfined
 for the `istio-cni-node` DaemonSet.
 
@@ -173,8 +173,7 @@ interval configured to be larger than `15s`.
 
 ## Installation
 
-- **Improved** Both `platform` and `profile` Helm values overrides now equivalently support
-global or local override forms, e.g.
+- **Improved** Both `platform` and `profile` Helm values overrides now equivalently support global or local override forms, e.g.
   - `--set global.platform=foo`
   - `--set global.profile=bar`
   - `--set platform=foo`
@@ -251,13 +250,11 @@ and `kubectl.kubernetes.io/default-container` annotations.
 
 - **Fixed** `istioctl experimental injector list` print redundant namespaces for injector webhook.
 
-- **Fixed** `istioctl proxyconfig` performance issue.
-  ([Issue #53931](https://github.com/istio/istio/issues/53931))
+- **Fixed** `istioctl analyze` reporting `IST0145` errors when using the same host with different ports and multiple gateways.
+  ([Issue #54643](https://github.com/istio/istio/issues/54643))
 
-- **Fixed** 'istioctl analyze' reports IST0145 error when using the same host with different ports and multiple gateways.  ([Issue #54643](https://github.com/istio/istio/issues/54643))
-
-- **Fixed** 'istioctl --as' implicitly sets `--as-group=""` when `--as` is used without `--as-group`.
+- **Fixed** an issue where `istioctl --as` implicitly set `--as-group=""` when `--as` is used without `--as-group`.
 
 - **Removed** `--recursive` flags and set recursion to true for `istioctl analyze`.
 
-- **Removed**  the experimental flag `--xds-via-agents` to the `istioctl proxy-status` command.
+- **Removed**  the experimental flag `--xds-via-agents` from the `istioctl proxy-status` command.
