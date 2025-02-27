@@ -40,9 +40,6 @@ These notices describe functionality that will be removed in a future release ac
   See `dns_jitter` in `https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto`.
   ([Issue #52877](https://github.com/istio/istio/issues/52877))
 
-- **Added** `ambient.reconcileIptablesOnStartup` field in the `istio-cni` chart and the corresponding `AMBIENT_RECONCILE_POD_RULES_ON_STARTUP` flag
-to control whether the ambient CNI agent should reconcile the iptables of pods at startup.
-
 - **Added** Added `ObservedGeneration` to Ambient status conditions. This field will show the generation of the object that was observed by the controller when the condition was generated.
   ([Issue #53331](https://github.com/istio/istio/issues/53331))
 
