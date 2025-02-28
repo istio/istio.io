@@ -246,7 +246,6 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** an issue where `istioctl install` deadlocks if multiple ingress gateways are specified in the `IstioOperator` file.
   ([Issue #53875](https://github.com/istio/istio/issues/53875))
 
-
 - **Fixed** an issue where `istioctl waypoint delete --all` would delete all gateway resources, even non-waypoints.
   ([Issue #54056](https://github.com/istio/istio/issues/54056))
 
