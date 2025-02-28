@@ -258,4 +258,4 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Removed** `--recursive` flags and set recursion to true for `istioctl analyze`.
 
-- **Removed**  the experimental flag `--xds-via-agents` from the `istioctl proxy-status` command.
+- **Removed** the experimental flag `--xds-via-agents` from the `istioctl proxy-status` command.
