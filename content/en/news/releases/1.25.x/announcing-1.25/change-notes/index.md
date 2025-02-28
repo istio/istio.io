@@ -3,7 +3,7 @@ title: Istio 1.25.0 Change Notes
 linktitle: 1.25.0
 subtitle: Major Release
 description: Istio 1.25.0 release notes.
-publishdate: 2025-02-27
+publishdate: 2025-02-28
 release: 1.25.0
 weight: 10
 aliases:
