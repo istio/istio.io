@@ -12,7 +12,7 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## Ambient mode pod upgrade reconciliation
 
-When a new `istio-cni` DaemonSet pod starts up, it will inspect pods that were previously enrolled in the ambient mesh, and upgrade their in-pod iptables rules to the current state if there is a diff or delta. This is off by default as of 1.25.0, but will eventually be enabled by default. This feature can be enabled by `helm install cni --set ambient.reconcileIptablesOnStartup=true` (Helm) or `istioctl install --set values.cni.ambient.reconcileIptablesOnStartup=true` (istioctl).
+When a new `istio-cni` `DaemonSet` pod starts up, it will inspect pods that were previously enrolled in the ambient mesh, and upgrade their in-pod iptables rules to the current state if there is a diff or delta. This is off by default as of 1.25.0, but will eventually be enabled by default. This feature can be enabled by `helm install cni --set ambient.reconcileIptablesOnStartup=true` (Helm) or `istioctl install --set values.cni.ambient.reconcileIptablesOnStartup=true` (istioctl).
 
 ## DNS traffic (TCP and UDP) now respects traffic exclusion annotations
 
