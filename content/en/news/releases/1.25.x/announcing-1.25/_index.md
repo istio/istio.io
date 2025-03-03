@@ -3,7 +3,7 @@ title: Announcing Istio 1.25.0
 linktitle: 1.25.0
 subtitle: Major Release
 description: Istio 1.25 Release Announcement.
-publishdate: 2025-02-28
+publishdate: 2025-03-03
 release: 1.25.0
 aliases:
 - /news/announcing-1.25
