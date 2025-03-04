@@ -1,0 +1,6839 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Istio Blog and News</title><description>Combined blog and news feed for the Istio service mesh.</description><link>/v1.24/</link><image><title>Istio Blog and News</title><url>/v1.24//favicons/android-192x192.png</url><link>/v1.24/</link></image><category>Service mesh</category><item><title>Анос Istio 1.24.1</title><description><![CDATA[<p>У цьому документі описується різниця між версіями Istio 1.24.0 та 1.24.1.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+                
+                
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+
+
+
+    
+
+
+<div class="relnote-actions call-to-action">
+    
+    
+
+    
+    
+        
+        
+            
+            
+        
+            
+            
+        
+    
+
+    
+        <a class="entry" href="/v1.24/uk/news/releases/1.24.x/announcing-1.24/upgrade-notes/">
+            <h5>ПЕРШ НІЖ ОНОВИТИСЬ</h5>
+            <p>Що потрібно знати та підготувати перед оновленням.</p>
+        </a>
+    
+
+    
+        
+        
+            
+                
+            
+
+            <a class="entry" href="https://github.com/istio/istio/releases/tag/1.24.1">
+                <h5>ЗАВАНТАЖИТИ</h5>
+                <p>Завантажити та встановити цей випуск.</p>
+            </a>
+        
+    
+
+    
+    
+
+    <a class="entry" href="https://istio.io/uk/docs">
+        <h5>ДОКУМЕНТАЦІЯ</h5>
+        <p>Відвідайте документацію до цього випуску.</p>
+    </a>
+
+    
+    
+
+    
+        
+        
+
+        <a class="entry" href="https://github.com/istio/istio/compare/1.24.0...1.24.1">
+            <h5>ЗМІНИ СИРЦІВ</h5>
+            <p>Ознайомтеся з повним набором змін у вихідному коді.</p>
+        </a>
+    
+</div>
+
+<h2 id="changes">Зміни</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> невизначену анотацію AppArmor до <code>istio-cni-node</code> <code>DaemonSet</code>, щоб уникнути конфліктів з профілями AppArmor, які блокують певні можливості привілейованих pod. Раніше AppArmor (коли його увімкнено) оминався для <code>istio-cni-node</code> <code>DaemonSet</code>, оскільки privileged було встановлено у значення true у <code>SecurityContext</code>. Ця зміна гарантує, що профіль AppArmor для <code>istio-cni-node</code> <code>DaemonSet</code> буде встановлено у значення unconfined.</p>
+</li>
+<li>
+<p><strong>Додано</strong> <code>dnsPolicy</code> <code>ClusterFirstWithHostNet</code> до <code>istio-cni</code>, коли він працює з <code>hostNetwork=true</code> (тобто у режимі ambient).</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли <code>istioctl install</code> не працював належним чином у Windows.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли обʼєднання <code>Duration</code> з <code>EnvoyFilter</code> могло призвести до несподіваної модифікації всіх атрибутів, повʼязаних зі слухачами, оскільки всі слухачі мали спільний вказівник з типом <code>listener_filters_timeout</code>.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли <code>istioctl install</code> призводив до глухого кута, якщо у файлі IstioOperator вказано декілька вхідних шлюзів.
+(<a href="https://github.com/istio/istio/issues/53875">Тікет #53875</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> помилку, яка виникала під час очищення правил iptables, що залежать від конфігурації iptables.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему під час оновлення waypoint проксі з Istio 1.23.x до Istio 1.24.x.
+(<a href="https://github.com/istio/istio/issues/53883">Тікет #53883</a>)</p>
+</li>
+</ul>
+]]></description><pubDate>Mon, 25 Nov 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.24.x/announcing-1.24.1/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.24.x/announcing-1.24.1/</guid></item><item><title>Анонс Istio 1.24.0</title><description><![CDATA[<p>Ми раді повідомити про випуск Istio 1.24. Дякуємо всім нашим учасникам, тестувальникам, користувачам та ентузіастам, які допомогли нам випустити версію 1.24.0! Ми хотіли б подякувати менеджерам релізу за цей випуск, <strong>Zhonghu Xu</strong> з Huawei, <strong>Mike Morris</strong> з Microsoft і <strong>Daniel Hawton</strong> з Solo.io.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+                
+                
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+
+
+
+    
+
+
+<div class="relnote-actions call-to-action">
+    
+    
+        <a class="entry" href="./change-notes">
+            <h5>ЗМІНИ</h5>
+            <p>Отримайте детальний список змін.</p>
+        </a>
+    
+
+    
+    
+
+    
+        <a class="entry" href="/v1.24/uk/news/releases/1.24.x/announcing-1.24/upgrade-notes/">
+            <h5>ПЕРШ НІЖ ОНОВИТИСЬ</h5>
+            <p>Що потрібно знати та підготувати перед оновленням.</p>
+        </a>
+    
+
+    
+        
+        
+            
+            <a class="update-notice entry"
+                data-title='Update Notice'
+                data-downloadhref="https://github.com/istio/istio/releases/tag/1.24.0"
+                data-downloadbuttontext="DOWNLOAD 1.24.0"
+                data-updateadvice='Перш ніж завантажити 1.24, вам слід знати, що вийшов новий патч з останніми виправленнями помилок та покращеннями.'
+                data-updatebutton='LEARN ABOUT ISTIO 1.24.1'
+                data-updatehref="/v1.24/uk/news/releases/1.24.x/announcing-1.24.1/">
+                <h5>ЗАВАНТАЖИТИ</h5>
+                <p>Завантажити та встановити цей випуск.</p>
+            </a>
+        
+    
+
+    
+    
+
+    <a class="entry" href="https://istio.io/uk/docs">
+        <h5>ДОКУМЕНТАЦІЯ</h5>
+        <p>Відвідайте документацію до цього випуску.</p>
+    </a>
+
+    
+    
+
+    
+</div>
+
+<div>
+    <aside class="callout tip">
+        <div class="type">
+            <svg class="large-icon"><use xlink:href="/img/icons.svg#callout-tip"/></svg>
+        </div>
+        <div class="content">Istio 1.24.0 офіційно підтримується на Kubernetes версій <code>1.28</code> до <code>1.31</code>.</div>
+    </aside>
+</div>
+
+<h2 id="whats-new">Що нового?</h2>
+<h3 id="ambient-mode-is-promoted-to-stable">Ambient mode підвищено до стабільної версії</h3>
+<p>Ми раді оголосити про перехід Istio ambient mode до стабільної версії (або &ldquo;General Available&rdquo; - GA)! Це останній етап у <a href="/uk/docs/releases/feature-stages/">прогресії фаз функцій</a> Istio, що сигналізує про готовність функції до широкого використання у промисловому середовищі.</p>
+<p>З моменту <a href="/blog/2022/introducing-ambient-mesh/">оголошення у 2022 році</a> спільнота активно працювала над <a href="/blog/2024/inpod-traffic-redirection-ambient/">інноваціями</a>, <a href="/uk/blog/2024/ambient-vs-cilium/">масштабуванням</a>, <a href="/uk/blog/2024/ambient-reaches-beta/">стабілізацією</a> і вдосконаленням ambient mode для готовності до широкого застосування.</p>
+<p>У новій версії Istio 1.24 ambient mode отримав ряд покращень:</p>
+<ul>
+<li>Нові повідомлення <code>status</code> тепер додаються до різних ресурсів, включаючи <code>Services</code> та <code>AuthorizationPolicies</code>, що допомагає зрозуміти поточний стан обʼєкта.</li>
+<li>Політики тепер можна прикріплювати безпосередньо до <code>ServiceEntry</code>. Спробуйте з простим <a href="https://www.solo.io/blog/egress-gateways-made-easy/">egress gateway</a>!</li>
+<li>Новий вичерпний <a href="https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient">посібник з усунення несправностей</a>. На щастя, в Istio 1.24 багато з цих кроків для усунення несправностей тепер уже не потрібні завдяки виправленим помилкам!</li>
+<li>Багато виправлень. Зокрема, вдосконалено крайні випадки, повʼязані з podʼами з кількома інтерфейсами, внутрішньою видимістю GKE, IPv4-кластерами та іншими аспектами.</li>
+</ul>
+<h3 id="improved-retries">Покращені повторні спроби</h3>
+<p>Автоматичні <a href="/uk/docs/concepts/traffic-management/#retries">повторні спроби</a> були основною частиною функціоналу керування трафіком в Istio. У версії Istio 1.24 ця функція стала ще кращою.</p>
+<p>Раніше повторні спроби виконувались виключно на <em>клієнтському sidecar</em>. Однак, загальним джерелом збоїв у зʼєднанні є комунікація між <em>sidecarʼом сервера</em> і серверним застосунком, зазвичай при спробі повторного використання зʼєднання, яке закриває сервер. Завдяки новій функціональності ми можемо виявити цей випадок і автоматично виконувати повторні спроби на стороні серверного sidecarʼа.</p>
+<p>Крім того, було видалено стандартну політику для повторної спроби для помилок <code>503</code>. Вона була додана переважно для обробки вищезгаданих типів збоїв, але мала деякі негативні ефекти для деяких застосунків.</p>
+<h2 id="upgrading-to-1.24">Оновлення до версії 1.24</h2>
+<p>Ми будемо раді отримати ваш відгук щодо вашого досвіду оновлення до Istio 1.24. Ви можете залишити відгук в каналі <code>#release-1.24</code> у нашому <a href="https://slack.istio.io/">Slack workspace</a>.</p>
+<p>Бажаєте безпосередньо зробити свій внесок в Istio? Знайдіть і приєднуйтесь до однієї з наших <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">робочих груп</a>, щоб допомогти нам покращувати проєкт.</p>
+<p>Відвідайте KubeCon North America 2024? Не забудьте заглянути на <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/">Istio Day</a>, щоб почути <a href="/uk/blog/2024/kubecon-na/">цікаві доповіді</a> або завітайте до <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/venue-travel/#venue-maps">стенду Istio</a>, щоб поспілкуватися.</p>
+]]></description><pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.24.x/announcing-1.24/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.24.x/announcing-1.24/</guid></item><item><title>Примітки до оновлення Istio 1.24</title><description><![CDATA[<p>Коли ви оновлюєтесь з Istio 1.23.x до Istio 1.24.x, будь ласка, зверніть увагу на зміни на цій сторінці. Ці примітки деталізують зміни, які навмисно порушують зворотну сумісність з Istio 1.23.x. Примітки також згадують зміни, які зберігають зворотну сумісність, одночасно вводячи нову поведінку. Зміни включені лише в тому випадку, якщо нова поведінка може бути несподіваною для користувача Istio 1.23.x.</p>
+<h2 id="updated-compatibility-profiles">Оновлені профілі сумісності</h2>
+<p>Для підтримки сумісності зі старішими версіями, Istio 1.24 вводить новий профіль сумісності 1.23 <a href="/uk/docs/setup/additional-setup/compatibility-versions/">профіль сумісності</a> та оновлює інші профілі для врахування змін в Istio 1.24.</p>
+<p>Цей профіль встановлює такі значення:</p>
+<pre><code class='language-yaml' data-expandlinks='true' data-repo='istio' >ENABLE_INBOUND_RETRY_POLICY: &#34;false&#34;
+EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY: &#34;false&#34;
+PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES: &#34;false&#34;
+ENABLE_ENHANCED_DESTINATIONRULE_MERGE: &#34;false&#34;
+PILOT_UNIFIED_SIDECAR_SCOPE: &#34;false&#34;
+ENABLE_DEFERRED_STATS_CREATION: &#34;false&#34;
+BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS: &#34;false&#34;</code></pre>
+<p>Дивіться індивідуальні примітки щодо змін та оновлень для отримання додаткової інформації.</p>
+<h2 id="istio-crds-are-templated-by-default-and-can-be-installed-and-upgraded-via-helm-install-istio-base">Istio CRD стандартно шаблонізовані та можуть бути встановлені та оновлені через <code>helm install istio-base</code></h2>
+<p>Це змінює спосіб оновлення CRD. Раніше ми рекомендували:</p>
+<ul>
+<li>Встановлення: <code>helm install istio-base</code></li>
+<li>Оновлення: <code>kubectl apply -f manifests/charts/base/files/crd-all.gen.yaml</code> або подібне.</li>
+<li>Видалення: <code>kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete</code></li>
+</ul>
+<p>Ця зміна дозволяє:</p>
+<ul>
+<li>Встановлення: <code>helm install istio-base</code></li>
+<li>Оновлення: <code>helm upgrade istio-base</code></li>
+<li>Видалення: <code>kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete</code></li>
+</ul>
+<p>Раніше це працювало лише за певних умов, і при використанні певних прапорців встановлення могло призводити до генерації CRD, які не можна було оновити через Helm і потребували ручного втручання для виправлення.</p>
+<p>Як наслідок цього, мітки на CRD змінено для відповідності іншим ресурсам, встановленим через Helm.</p>
+<p>Якщо ви раніше встановлювали або оновлювали CRD за допомогою <code>kubectl apply</code>, а не Helm, ви можете продовжити робити це.</p>
+<p>Якщо ви раніше встановлювали CRD за допомогою <code>helm install istio-base</code> АБО <code>kubectl apply</code>, ви можете почати безпечно оновлювати Istio CRD за допомогою <code>helm upgrade istio-base</code> з цієї та всіх наступних версій, після того як ви виконаєте нижче вказані команди kubectl для одноразової міграції:</p>
+<ul>
+<li><code>kubectl label $(kubectl get crds -l chart=istio -o name &amp;&amp; kubectl get crds -l app.kubernetes.io/part-of=istio -o name) &quot;app.kubernetes.io/managed-by=Helm&quot;</code></li>
+<li><code>kubectl annotate $(kubectl get crds -l chart=istio -o name &amp;&amp; kubectl get crds -l app.kubernetes.io/part-of=istio -o name) &quot;meta.helm.sh/release-name=istio-base&quot;</code> (замініть на фактичну назву релізу <code>istio-base</code>)</li>
+<li><code>kubectl annotate $(kubectl get crds -l chart=istio -o name &amp;&amp; kubectl get crds -l app.kubernetes.io/part-of=istio -o name) &quot;meta.helm.sh/release-namespace=istio-system&quot;</code> (замініть на фактичний простір імен istio)</li>
+</ul>
+<p>Якщо бажано, можна згенерувати застарілі мітки, встановивши <code>base.enableCRDTemplates=false</code> під час <code>helm install base</code>, але ця опція буде видалена в наступних версіях.</p>
+<h2 id="istiod-remote-chart-replaced-with-remote-profile">Чарт <code>istiod-remote</code> замінено на профіль <code>remote</code></h2>
+<p>Встановлення кластерів istio з віддаленою/зовнішньою панеллю управління через Helm ніколи не було офіційно задокументовано або стабільним. Це змінює спосіб встановлення кластерів, які використовують віддалений екземпляр istio, підготовляючи документацію з цього питання.</p>
+<p>Чарт <code>istiod-remote</code> був обʼєднаний з регулярним чартом <code>istio-discovery</code>.</p>
+<p>Раніше:</p>
+<ul>
+<li><code>helm install istiod-remote istio/istiod-remote</code></li>
+</ul>
+<p>З цією зміною:</p>
+<ul>
+<li><code>helm install istiod istio/istiod --set profile=remote</code></li>
+</ul>
+<p>Зверніть увагу, що, як зазначено у попередній примітці щодо оновлень, тепер встановлення чарта <code>istio-base</code> є обовʼязковим як для локальних, так і для віддалених кластерів.</p>
+<h2 id="sidecar-scoping-changes">Зміни у сфері дії <code>Sidecar</code></h2>
+<p>Під час обробки сервісів Istio має різні стратегії вирішення конфліктів. Історично ці стратегії дещо відрізнялися, коли користувач мав ресурс <code>Sidecar</code>, порівняно з тим, коли він його не мав. Це застосовувалося навіть у випадку, якщо ресурс <code>Sidecar</code> містив лише <code>egress: &quot;*/*&quot;</code>, що повинно було бути тим самим, як не мати його взагалі.</p>
+<p>У цій версії поведінка між двома варіантами була уніфікована:</p>
+<p><em>Багато сервісів, визначених з одним і тим самим ім&rsquo;ям хоста</em></p>
+<p>Поведінка раніше, без <code>Sidecar</code>: надавати перевагу Kubernetes <code>Service</code> (а не <code>ServiceEntry</code>), інакше вибрати будь-який випадковий. Поведінка раніше, з <code>Sidecar</code>: надавати перевагу сервісу в тій самій простору імен, що і проксі, інакше вибрати будь-який випадковий. Нова поведінка: надавати перевагу сервісу в тій самій простору імен, що і проксі, потім Kubernetes Service (не ServiceEntry), інакше вибрати будь-який випадковий.</p>
+<p><em>Багато маршрутів API Gateway, визначених для одного сервісу</em></p>
+<p>Поведінка раніше, без <code>Sidecar</code>: надавати перевагу локальному простору імен проксі для дозволу перевизначення споживачами. Поведінка раніше, з <code>Sidecar</code>: випадковий порядок. Нова поведінка: надавати перевагу локальному простору імен проксі для дозволу перевизначення споживачами.</p>
+<p>Стару поведінку можна зберегти тимчасово, встановивши <code>PILOT_UNIFIED_SIDECAR_SCOPE=false</code>.</p>
+<h2 id="standardization-of-the-peer-metadata-attributes">Стандартизація атрибутів метаданих учасників</h2>
+<p>Вирази CEL в API телеметрії повинні використовувати стандартні <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes">атрибути Envoy</a> замість власних розширених атрибутів Wasm.</p>
+<p>Метадані учасників тепер зберігаються в <code>filter_state.downstream_peer</code> та <code>filter_state.upstream_peer</code> замість <code>filter_state[&quot;wasm.downstream_peer&quot;]</code> та <code>filter_state[&quot;wasm.upstream_peer&quot;]</code>. Метадані вузлів зберігаються в <code>xds.node</code> замість <code>node</code>. Атрибути Wasm повинні бути повністю кваліфікованими, наприклад, використовуйте <code>filter_state[&quot;wasm.istio_responseClass&quot;]</code> замість <code>istio_responseClass</code>.</p>
+<p>Оператор присутності можна використовувати для сумісних виразів у змішаному проксі-сценарії, наприклад, <code>has(filter_state.downstream_peer) ? filter_state.downstream_peer.namespace : filter_state[&quot;wasm.downstream_peer&quot;].namespace</code>, щоб отримати простір імен учасника.</p>
+<p>Метадані учасників використовують кодування багажу з наступними атрибутами полів:</p>
+<ul>
+<li><code>namespace</code></li>
+<li><code>cluster</code></li>
+<li><code>service</code></li>
+<li><code>revision</code></li>
+<li><code>app</code></li>
+<li><code>version</code></li>
+<li><code>workload</code></li>
+<li><code>type</code> (наприклад, <code>&quot;deployment&quot;</code>)</li>
+<li><code>name</code> (наприклад, <code>&quot;pod-foo-12345&quot;</code>)</li>
+</ul>
+]]></description><pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.24.x/announcing-1.24/upgrade-notes/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.24.x/announcing-1.24/upgrade-notes/</guid></item><item><title>Примітки до змін Istio 1.24.0</title><description><![CDATA[<div>
+    <aside class="callout warning">
+        <div class="type">
+            <svg class="large-icon"><use xlink:href="/img/icons.svg#callout-warning"/></svg>
+        </div>
+        <div class="content">Це автоматично згенерований чорновий варіант приміток до випуску, який ще не був рецензований.</div>
+    </aside>
+</div>
+
+<h2 id="ambient">Ambient</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> підтримку прикріплення політик до <code>ServiceEntry</code> для waypointʼів.</p>
+</li>
+<li>
+<p><strong>Додано</strong> нову анотацію, <code>ambient.istio.io/bypass-inbound-capture</code>, яку можна застосувати, щоб змусити ztunnel захоплювати лише вихідний трафік. Це може бути корисним для уникнення зайвого переходу для робочих навантажень, які приймають трафік тільки від клієнтів за межами mesh (наприклад, podʼи з доступом до Інтернету).</p>
+</li>
+<li>
+<p><strong>Додано</strong> нову анотацію, <code>networking.istio.io/traffic-distribution</code>, яка дозволяє ztunnel надавати перевагу локальним подам при передачі трафіку. Це працює так само, як поле <a href="https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution"><code>spec.trafficDistribution</code></a> у <code>Service</code>, але дозволяє використання на старіших версіях Kubernetes (оскільки поле було додано як бета у Kubernetes 1.31). Зазначимо, що waypointʼи автоматично налаштовують цю анотацію.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, яка заважала працювати <a href="/uk/docs/ops/deployment/application-requirements/#server-first-protocols">протоколам з ініціативою від сервера</a> з waypoint&rsquo;ами.</p>
+</li>
+<li>
+<p><strong>Покращено</strong> журнали Envoy, що містять деталі про збої зʼєднання в ambient mode.</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку налаштування <code>Telemetry</code> у waypoint proxy.</p>
+</li>
+<li>
+<p><strong>Додано</strong> записування статусу для привʼязки AuthorizationPolicy до waypoint proxy. Форматування статусів наразі <strong>експериментальне</strong> і може змінитися. Політика з кількома <code>targetRefs</code> наразі отримує єдиний статус. Як тільки патерн для статусів із кількома посиланнями буде прийнятий у Kubernetes Gateway API, Istio прийме цей стандарт для більш детальної інформації при використанні кількох <code>targetRefs</code>.
+(<a href="https://github.com/istio/istio/issues/52699">Issue #52699</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку podʼи з <code>hostNetwork</code> функціонували неправильно в ambient mode.</p>
+</li>
+<li>
+<p><strong>Покращено</strong> спосіб, яким ztunnel визначає, від імені якого podʼа він діє. Раніше це залежало від IP-адрес, що було ненадійним у деяких сценаріях.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку ігнорувалися будь-які <code>portLevelSettings</code> у <code>DestinationRule</code> у waypoint&rsquo;ах.
+(<a href="https://github.com/istio/istio/issues/52532">Issue #52532</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему з використанням політик дзеркалювання з waypointʼами.
+(<a href="https://github.com/istio/istio/issues/52713">Issue #52713</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку правила <code>connection.sni</code> у <code>AuthorizationPolicy</code>, застосованого до waypoint&rsquo;а.
+(<a href="https://github.com/istio/istio/issues/52752">Issue #52752</a>)</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> метод перенаправлення, що використовується в Ambient, з <code>TPROXY</code> на <code>REDIRECT</code>. Для більшості користувачів це не повинно вплинути на роботу, але вирішує деякі проблеми сумісності з <code>TPROXY</code>.
+(<a href="https://github.com/istio/istio/issues/52260">Issue #52260</a>),(<a href="https://github.com/istio/istio/issues/52576">Issue #52576</a>)</p>
+</li>
+</ul>
+<h2 id="traffic-management">Управління трафіком</h2>
+<ul>
+<li>
+<p><strong>Підвищено</strong> підтримку Istio dual-stack до Альфа-версії.
+(<a href="https://github.com/istio/istio/issues/47998">Issue #47998</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> параметри <code>warmup.aggression</code>, <code>warmup.duration</code>, <code>warmup.minimumPercent</code> до <code>DestinationRule</code> для більш гнучкого контролю поведінки під час розігріву.
+(<a href="https://github.com/istio/api/issues/3215">Issue #3215</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> політику повторних спроб для вхідних запитів, яка автоматично скидає запити, які сервіс не обробив. Це можна скасувати, встановивши <code>ENABLE_INBOUND_RETRY_POLICY</code> на false.
+(<a href="https://github.com/istio/istio/issues/51704">Issue #51704</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> стандартну політику повторних спроб, щоб виключити повтори для 503, що потенційно небезпечно для ідемпотентних запитів. Цю поведінку можна тимчасово скасувати, встановивши <code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY=false</code>.
+(<a href="https://github.com/istio/istio/issues/50506">Issue #50506</a>)</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> поведінку XDS-генерації для узгодженості у випадках, коли <code>Sidecar</code> конфігуровано, та коли ні. Дивіться примітки до оновлення для отримання додаткової інформації.</p>
+</li>
+<li>
+<p><strong>Покращено</strong> вебхук для валідації Istiod, щоб приймати версії, про які він не знає. Це забезпечує можливість старішим версіям Istio валідувати ресурси, створені новішими CRD.</p>
+</li>
+<li>
+<p><strong>Покращено</strong> підтримку dual-stack сервісів, об’єднуючи кілька IP-адрес в одну єдину точку доступу, замість їх обробки як двох окремих.
+(<a href="https://github.com/istio/istio/issues/40394">Issue #40394</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку відповідності декількох IP-адрес (для dual-stack сервісів) у HTTP-маршруті.</p>
+</li>
+<li>
+<p><strong>Додано</strong> у <code>VirtualService</code> підтримку <code>sourceNamespaces</code>, які тепер враховуються при фільтрації непотрібної конфігурації.</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку обходу менеджера перевантаження для статичних слухачів. Це можна скасувати, встановивши <code>BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS</code> на false у Deployment агента.
+(<a href="https://github.com/istio/istio/issues/41859">Issue #41859</a>),(<a href="https://github.com/istio/istio/issues/52663">Issue #52663</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> нову змінну середовища <code>ENVOY_DNS_JITTER_DURATION</code> для istiod зі стандартним значенням <code>100ms</code>, яка встановлює джиттер для періодичного DNS-розвʼязування. Дивіться <code>dns_jitter</code> у <code>https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto</code>. Це може допомогти зменшити навантаження на  DNS-сервер кластера.
+(<a href="https://github.com/istio/istio/issues/52877">Issue #52877</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку налаштування параметрів сертифікатів під час заповнення XFCC заголовка через нове поле <code>ProxyConfig</code>, <code>proxyHeaders.setCurrentClientCertDetails</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> можливість для користувачів вставляти додаткові пробіли між просторами імен в анотації <code>networking.istio.io/exportTo</code>.
+(<a href="https://github.com/istio/istio/issues/53429">Issue #53429</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> експериментальну функцію для лінивого створення підмножини статистик Envoy. Це дозволить економити памʼять та обчислювальні ресурси при створенні обʼєктів, що зберігають ці статистики, якщо ці статистики не будуть використані протягом усього часу виконання процесу. Це можна вимкнути, встановивши <code>ENABLE_DEFERRED_STATS_CREATION</code> на false у Deployment агента.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> відповідність кількох IP-сервісів у ServiceEntry. Дивіться примітки до оновлення для отримання додаткової інформації.
+(<a href="https://github.com/istio/istio/issues/51747">Issue #51747</a>),(<a href="https://github.com/istio/istio/issues/30282">Issue #30282</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> <code>MeshConfig</code> <code>serviceSettings.settings.clusterLocal</code> для надання переваги більш точним іменам хостів, дозволяючи виключення хостів.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> <code>DestinationRules</code> на одному хості, щоб вони не обʼєднувалися, якщо мають різні значення <code>exportTo</code>. Стару поведінку можна тимчасово відновити, встановивши <code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE=false</code>.
+(<a href="https://github.com/istio/istio/issues/52519">Issue #52519</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли IP-адреси, призначені контролером, не відповідали перехопленню DNS для проксі так само, як тимчасові автоматично призначені IP-адреси.
+(<a href="https://github.com/istio/istio/issues/52609">Issue #52609</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку waypointʼи ігнорували автоматично призначені IP-адреси для <code>ServiceEntry</code> у деяких випадках.
+(<a href="https://github.com/istio/istio/issues/52746">Issue #52746</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли ланцюг <code>ISTIO_OUTPUT</code> у <code>iptables</code> не видалявся за допомогою команди <code>pilot-agent istio-clean-iptables</code>.
+(<a href="https://github.com/istio/istio/issues/52835">Issue #52835</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли використання HTTPS у повільних сценаріях запитів, таких як мережі з великими втратами пакетів, могло потенційно призвести до витоку памʼяті в Envoy.
+(<a href="https://github.com/istio/istio/issues/52850">Issue #52850</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> помилку, коли DNS-проксі містив непідготовлені точки доступу для headless сервісів.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> застарілу мітку <code>istio.io/gateway-name</code>, будь ласка, використовуйте натомість <code>gateway.networking.k8s.io/gateway-name</code>.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> записування <code>kubeconfig</code> у теку CNI net.
+(<a href="https://github.com/istio/istio/issues/52315">Issue #52315</a>)</p>
+</li>
+<li>
+<p><strong>Видалено</strong> <code>CNI_NET_DIR</code> з configmap <code>istio-cni</code>, оскільки він більше не виконує ніяких функцій.
+(<a href="https://github.com/istio/istio/issues/52315">Issue #52315</a>)</p>
+</li>
+</ul>
+<h2 id="telemetry">Телеметрія</h2>
+<ul>
+<li>
+<p><strong>Оновлено</strong> словник CEL, що використовується в API телеметрії та розширеннях. Дивіться примітки до оновлення для детальнішої інформації.</p>
+</li>
+<li>
+<p><strong>Додано</strong> нову змінну шаблону (<code>%SERVICE_NAME%</code>) для префіксу статистики
+(<a href="https://github.com/istio/istio/issues/52177">Issue #52177</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> значення <code>logAsJson</code> до Helm-чарту ztunnel
+(<a href="https://github.com/istio/istio/issues/52631">Issue #52631</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> конфігурацію теґів статистики для метрик спостереження.
+(<a href="https://github.com/istio/istio/issues/52731">Issue #52731</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку заголовків та конфігурацій тайм-ауту для gRPC-запитів під час експорту трейсів до OpenTelemetry Collector. (<a href="https://github.com/istio/istio/issues/52873">Issue #52873</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку налаштованої точки доступу Zipkin collector через <code>meshConfig.extensionProviders.zipkin.path</code>.  (<a href="https://github.com/istio/istio/issues/53086">Issue #53086</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> Додано порт метрик до podʼів, створених автоматизованими розгортаннями <a href="/uk/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment"><code>Gateway</code></a>.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> Оновлення <code>citadel_server_root_cert_expiry_timestamp</code>, <code>citadel_server_root_cert_expiry_seconds</code>, <code>citadel_server_cert_chain_expiry_timestamp</code> та <code>citadel_server_cert_chain_expiry_seconds</code> при завантаженні нових сертифікатів.</p>
+</li>
+<li>
+<p><strong>Додано</strong> параметр <code>SECRET_GRACE_PERIOD_RATIO_JITTER</code> зі стандартним значенням <code>0.01</code> для введення випадкового зсуву в <code>SECRET_GRACE_PERIOD_RATIO</code>. Без цієї конфігурації проксі, розгорнуті одночасно, запитуватимуть оновлення сертифікатів одночасно, що може призвести до надмірного навантаження на сервер CA. Нова типова поведінка передбачає оновлення сертифікатів кожні 12 годин, що коригується на +/- приблизно 15 хвилин завдяки цьому значенню.
+(<a href="https://github.com/istio/istio/issues/52102">Issue #52102</a>)</p>
+</li>
+</ul>
+<h2 id="installation">Встановлення</h2>
+<ul>
+<li>
+<p><strong>Оновлено</strong> значення <code>securityContext.privileged</code> для istio-cni на false на користь специфічних для функцій дозволів. istio-cni залишається <a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged">&ldquo;привілейованим&rdquo; контейнером відповідно до стандартів безпеки Kubernetes для Podʼів</a>, оскільки навіть без цього прапорця він має привілейовані можливості, зокрема <code>CAP_SYS_ADMIN</code>.
+(<a href="https://github.com/istio/istio/issues/52558">Issue #52558</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> ресурс Waypoint тепер можна налаштувати за допомогою <code>global.waypoint.resources</code>.
+(<a href="https://github.com/istio/istio/issues/51496">Issue #51496</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> <code>affinity</code> для podʼів Waypoint тепер налаштовується через <code>waypoint.affinity</code>.
+(<a href="https://github.com/istio/istio/issues/52883">Issue #52883</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> параметри <code>topologySpreadConstraints</code> для podʼів Waypoint тепер налаштовуються через <code>global.waypoint.topologySpreadConstraints</code>.
+(<a href="https://github.com/istio/istio/issues/52901">Issue #52901</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> параметри <code>tolerations</code> для podʼів Waypoint тепер налаштовуються через <code>global.waypoint.tolerations</code>.
+(<a href="https://github.com/istio/istio/issues/52901">Issue #52901</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> параметри <code>nodeSelector</code> для podʼів Waypoint тепер налаштовуються через <code>global.waypoint.nodeSelector</code>.
+(<a href="https://github.com/istio/istio/issues/52901">Issue #52901</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> обсяг памʼяті DaemonSet <code>istio-cni-node</code>. У багатьох випадках це дозволяє зменшити споживання памʼяті до 80%.
+(<a href="https://github.com/istio/istio/issues/53493">Issue #53493</a>)</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> зразок застосунку Kiali до <a href="https://medium.com/kialiproject/kiali-2-0-for-istio-2087810f337e">версії v2.0</a>.</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> всі компоненти Istio для читання <code>v1</code> CRD, де це можливо. Це не має впливати на роботу, якщо кластер не використовує CRD версії Istio 1.21 або старішої (яка не підтримується).</p>
+</li>
+<li>
+<p><strong>Додано</strong> мітки <code>app.kubernetes.io/name</code>, <code>app.kubernetes.io/instance</code>, <code>app.kubernetes.io/part-of</code>, <code>app.kubernetes.io/version</code>, <code>app.kubernetes.io/managed-by</code>, та <code>helm.sh/chart</code> до майже всіх ресурсів.
+(<a href="https://github.com/istio/istio/issues/52034">Issue #52034</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> конфігурації для встановлення Helm для конкретних платформ. Приклад:
+<code>helm install istio-cni --set profile=ambient --set global.platform=k3s</code>
+<code>helm install istiod --set profile=ambient --set global.platform=k3s</code></p>
+<p>Для списку наразі підтримуваних перевизначень для платформ перегляньте файли <code>manifests/charts/platform-xxx.yaml</code>.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> варіанти профілю <code>openshift</code>, замінені на перевизначення <code>global.platform</code>. Приклад:
+<code>helm install istio-cni --set profile=ambient-openshift</code> тепер
+<code>helm install istio-cni --set profile=ambient --set global.platform=openshift</code></p>
+</li>
+<li>
+<p><strong>Додано</strong> можливість налаштовувати <code>initContainers</code> для Istiod.
+(<a href="https://github.com/istio/istio/issues/53120">Issue #53120</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> налаштування (<code>strategy</code>, <code>minReadySeconds</code>, і <code>terminationGracePeriodSeconds</code>) для стабілізації шлюзів при великому навантаженні.
+(<a href="https://github.com/istio/istio/issues/53121">Issue #53121</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> значення <code>seLinuxOptions</code> до Helm-чарту <code>istio-cni</code>. На деяких платформах (наприклад, OpenShift) необхідно встановити <code>seLinuxOptions.type</code> як <code>spc_t</code>, щоб обійти деякі обмеження SELinux, повʼязані з томами <code>hostPath</code>. Без цього налаштування podʼи <code>istio-cni-node</code> можуть не запускатися.  (<a href="https://github.com/istio/istio/issues/53558">Issue #53558</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку додавання довільних змінних середовища в Helm-чарт <code>istio-cni</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> нову анотацію <code>sidecar.istio.io/nativeSidecar</code> для керування інʼєкцією вбудованого sidecar на рівні podʼів. Ця анотація може бути встановлена як <code>true</code> або <code>false</code>, щоб увімкнути або вимкнути вбудовану інʼєкцію для podʼа. Вона має вищий пріоритет над глобальною змінною середовища <code>ENABLE_NATIVE_SIDECARS</code>.
+(<a href="https://github.com/istio/istio/issues/53452">Issue #53452</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> можливість додавати налаштовану анотацію до <code>MutatingWebhookConfiguration</code> для теґів ревізій через Helm-чарт.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> правила <code>kube-virt-interfaces</code>, які не видалялися інструментом <code>istio-clean-iptables</code>.
+(<a href="https://github.com/istio/istio/issues/48368">Issue #48368</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> можливість повторного виконання istio-iptables, пропускаючи крок застосування, якщо існуючі правила сумісні.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, де деякі рядки статусу втсановлення не завершувалися коректно, що могло спричиняти некоректне відображення при зміні розміру вікон терміналу.
+(<a href="https://github.com/istio/istio/issues/52525">Issue #52525</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> значення <code>allowPrivilegeEscalation</code> на <code>true</code> у ztunnel — насправді воно завжди було примусово <code>true</code>, але K8S не перевіряє це належним чином: <a href="https://github.com/kubernetes/kubernetes/issues/119568">https://github.com/kubernetes/kubernetes/issues/119568</a>.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> видалено некритичні компоненти з <code>base</code>-чарту та видалено <code>pilot.enabled</code> з чартів <code>istiod-remote</code> та <code>istio-discovery</code>.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> стандартне встановлення шаблонних CRD у <code>base</code>-чарті. Раніше це працювало лише за певних умов, і при використанні певних прапорців інсталяції могло призводити до CRD, які можна було оновити лише вручну через <code>kubectl</code>. Дивіться примітки до оновлення для детальнішої інформації.</p>
+</li>
+<li>
+<p><strong>Застаріло</strong> <code>Values.base.enableCRDTemplates</code>. Ця опція тепер стандартно має значення <code>true</code> і буде видалена в майбутньому релізі. До того часу, щоб увімкнути попередню поведінку, можна встановити значення <code>false</code>.
+(<a href="https://github.com/istio/istio/issues/43204">Issue #43204</a>)</p>
+</li>
+<li>
+<p><strong>Видалено</strong> деякі поля з API значень helm, які не мали ефекту, а в деяких випадках були давно застарілими. Видалені поля: <code>pilot.configNamespace</code>, <code>pilot.configSource</code>, <code>pilot.enableProtocolSniffingForOutbound</code>, <code>pilot.enableProtocolSniffingForInbound</code>, <code>pilot.useMCP</code>, <code>global.autoscalingV2API</code>, <code>global.configRootNamespace</code>, <code>global.defaultConfigVisibilitySettings</code>, <code>global.useMCP</code>, <code>sidecarInjectorWebhook.objectSelector</code>, та <code>sidecarInjectorWebhook.useLegacySelectors</code>.
+(<a href="https://github.com/istio/istio/issues/51987">Issue #51987</a>)</p>
+</li>
+<li>
+<p><strong>Видалено</strong> невикористовувані значення <code>istio_cni</code> з чарту <code>istiod</code>, які були позначені як застарілі два релізи тому (#49290).
+(<a href="https://github.com/istio/istio/issues/52645">Issue #52645</a>)</p>
+</li>
+<li>
+<p><strong>Видалено</strong> чарт <code>istiod-remote</code> на користь <code>helm install istio-discovery --set profile=remote</code>.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> підтримку профілю сумісності <code>1.20</code>. Цей профіль налаштовував такі параметри: <code>ENABLE_EXTERNAL_NAME_ALIAS</code>, <code>PERSIST_OLDEST_FIRST_HEURISTIC_FOR_VIRTUAL_SERVICE_HOST_MATCHING</code>, <code>VERIFY_CERTIFICATE_AT_CLIENT</code> та <code>ENABLE_AUTO_SNI</code>. Всі ці прапорці, крім <code>ENABLE_AUTO_SNI</code>, також були повністю видалені з Istio.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> анотацію <code>sidecar.istio.io/enableCoreDump</code>. Зразок налаштування для увімкнення дампів памʼяті тепер доступний у файлі <code>samples/proxy-coredump</code>.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> застарілі параметри прапорця <code>--log_rotate_*</code>. Користувачам, які бажають використовувати обертання логів, рекомендовано застосовувати зовнішні інструменти для цього.</p>
+</li>
+</ul>
+<h2 id="istioctl">istioctl</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> автоматичне виявлення різних платформо-залежних несумісностей під час встановлення.</p>
+</li>
+<li>
+<p><strong>Додано</strong> нову команду <code>istioctl manifest translate</code> для допомоги у переході з <code>istioctl install</code> на <code>helm</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> новий прапорець <code>remote-contexts</code> до команди <code>istioctl analyze</code> для вказання контекстів віддалених кластерів під час багатокластерного аналізу.
+(<a href="https://github.com/istio/istio/issues/51934">Issue #51934</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку фільтрації Pod за селектором міток у <code>istioctl x envoy-stats</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку фільтрації ресурсів за простором назв у <code>istioctl experimental injector list</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку прапорців <code>--impersonate</code> у istioctl.
+(<a href="https://github.com/istio/istio/issues/52285">Issue #52285</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> помилку IST0145 у звіті <code>istioctl analyze</code> з підстановочним ім’ям хосту та певним субдоменом.
+(<a href="https://github.com/istio/istio/issues/52413">Issue #52413</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> <code>istioctl experimental injector list</code> тепер не відображає вебхуки, які не стосуються Istio.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> команди <code>istioctl manifest diff</code> та <code>istioctl manifest profile diff</code>. Користувачі, які хочуть порівняти маніфести, можуть скористатися загальними інструментами порівняння YAML.</p>
+</li>
+<li>
+<p><strong>Видалено</strong> команду <code>istioctl profile</code>. Така інформація доступна у документації Istio.</p>
+</li>
+</ul>
+<h2 id="documentation-changes">Зміни в документації</h2>
+<ul>
+<li><strong>Покращено</strong> читабельність документації Istio, перейменувавши зразковий застосунок <code>sleep</code> на <code>curl</code>.
+(<a href="https://github.com/istio/istio.io/issues/15725">Issue #15725</a>)</li>
+</ul>
+]]></description><pubDate>Thu, 07 Nov 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.24.x/announcing-1.24/change-notes/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.24.x/announcing-1.24/change-notes/</guid></item><item><title>Анонс Istio 1.23.3</title><description><![CDATA[<p>Цей випуск містить виправлення помилок для підвищення надійності. У цьому документі описується різниця між Istio 1.23.2 та Istio 1.23.3</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+                
+                
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+
+
+
+
+<div class="relnote-actions call-to-action">
+    
+    
+
+    
+    
+        
+        
+            
+            
+        
+            
+            
+        
+    
+
+    
+        <a class="entry" href="/v1.24/uk/news/releases/1.23.x/announcing-1.23/upgrade-notes/">
+            <h5>ПЕРШ НІЖ ОНОВИТИСЬ</h5>
+            <p>Що потрібно знати та підготувати перед оновленням.</p>
+        </a>
+    
+
+    
+        
+        
+            
+
+            <a class="entry" href="https://github.com/istio/istio/releases/tag/1.23.3">
+                <h5>ЗАВАНТАЖИТИ</h5>
+                <p>Завантажити та встановити цей випуск.</p>
+            </a>
+        
+    
+
+    
+    
+        
+    
+
+    <a class="entry" href="https://archive.istio.io/v1.23/docs">
+        <h5>ДОКУМЕНТАЦІЯ</h5>
+        <p>Відвідайте документацію до цього випуску.</p>
+    </a>
+
+    
+    
+
+    
+        
+        
+
+        <a class="entry" href="https://github.com/istio/istio/compare/1.23.2...1.23.3">
+            <h5>ЗМІНИ СИРЦІВ</h5>
+            <p>Ознайомтеся з повним набором змін у вихідному коді.</p>
+        </a>
+    
+</div>
+
+<h2 id="changes">Зміни</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> виключення хостів <code>clusterLocal</code> для мультикластерів.</p>
+</li>
+<li>
+<p><strong>Додано</strong> порт метрик у специфікації контейнерів <code>DaemonSet</code> чарт <code>istio-cni</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> порт метрик у специфікації контейнерів <code>kube-gateway</code> чарт <code>istio-discovery</code>.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> правила <code>kube-virt-interfaces</code>, які не видаляються інструментом <code>istio-clean-iptables</code>.
+(<a href="https://github.com/istio/istio/issues/48368">Тікет #48368</a>)</p>
+</li>
+</ul>
+]]></description><pubDate>Thu, 24 Oct 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.23.x/announcing-1.23.3/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.23.x/announcing-1.23.3/</guid></item><item><title>Підтримка Istio 1.21 завершена</title><description><![CDATA[<p>Як було <a href="/news/support/announcing-1.21-eol/">оголошено раніше</a>, підтримка Istio 1.21 офіційно завершена.</p>
+<p>З цього моменту ми більше не будемо здійснювати перенесення виправлень для питань безпеки та критичних помилок до версії 1.21. Рекомендуємо вам оновитись до останньої версії Istio (1.24.3), якщо ви ще цього не зробили.</p>
+]]></description><pubDate>Fri, 27 Sep 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/support/announcing-1.21-eol-final/</link><guid isPermaLink="true">/v1.24//uk/news/support/announcing-1.21-eol-final/</guid></item><item><title>ISTIO-SECURITY-2024-006</title><description><![CDATA[
+
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Подробиці розкриття інформації</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>CVE(s)</td>
+            <td>
+                
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45807">CVE-2024-45807</a><br>
+                
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45808">CVE-2024-45808</a><br>
+                
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45806">CVE-2024-45806</a><br>
+                
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45809">CVE-2024-45809</a><br>
+                
+                    <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45810">CVE-2024-45810</a><br>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>Індекс впливу CVSS</td>
+            <td>7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV%3aN%2fAC%3aL%2fPR%3aN%2fUI%3aN%2fS%3aU%2fC%3aN%2fI%3aN%2fA%3aH&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></td>
+        </tr>
+        <tr>
+            <td>Постраждалі випуски</td>
+            <td>
+                
+                    1.22.0 до 1.22.4<br>
+                
+                    1.23.0 до 1.23.1<br>
+                
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="cve">CVE</h2>
+<h3 id="cve-від-envoy">CVE від Envoy</h3>
+<ul>
+<li>
+<p><strong><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-qc52-r4x5-9w37">CVE-2024-45807</a></strong>: (CVSS Score 7.5, висока): oghttp2 може аварійно завершити роботу при обробці <code>OnBeginHeadersForStream</code>.</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-p222-xhp9-39rc">CVE-2024-45808</a></strong>: (CVSS Score 6.5, помірна): Відсутність валідації для поля <code>REQUESTED_SERVER_NAME</code> для логерів доступу дозволяє впроваджувати неочікуваний вміст у логи доступу.</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-ffhv-fvxq-r6mf">CVE-2024-45806</a></strong>: (CVSS Score 6.5, помірна): Можливість маніпуляцій з заголовками <code>x-envoy</code> зовнішніми джерелами.</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-wqr5-qmq7-3qw3">CVE-2024-45809</a></strong>: (CVSS Score 5.3, помірна): Аварійне завершення роботи фільтра JWT в кеші маршрутів для віддалених JWK.</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-qm74-x36m-555q">CVE-2024-45810</a></strong>: (CVSS Score 6.5, помірна): Аварійне завершення роботи Envoy для <code>LocalReply</code> у асинхронному HTTP клієнті.</p>
+</li>
+</ul>
+<h2 id="чи-впливає-це-на-мене">Чи впливає це на мене?</h2>
+<p>Ви піддаєтесь впливу, якщо використовуєте Istio версії 1.22.0 до 1.22.4 або 1.23.0 до 1.23.1.</p>
+<p>Якщо ви розгортаєте Istio Ingress Gateway, ви можете бути вразливими до маніпуляцій з заголовками <code>x-envoy</code> зовнішніми джерелами. Раніше Envoy вважав усі приватні IP-адреси стандартно внутрішніми, тому не очищав заголовки від зовнішніх джерел з приватними IP-адресами. Envoy додав підтримку прапорця <code>envoy.reloadable_features.explicit_internal_address_config</code> для явного ігнорування всіх IP-адрес. Envoy та Istio наразі стандартно вимикають цей прапорець для зворотної сумісності. У майбутніх релізах Envoy та Istio прапорець <code>envoy.reloadable_features.explicit_internal_address_config</code> буде стандартно увімкнений. Прапорець Envoy можна налаштувати для всієї мережі або для кожного проксі через <a href="/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig">ProxyConfig</a> у параметрі <code>runtimeValues</code>.</p>
+<p>Приклад конфігурації для всієї мережі:</p>
+<pre><code class='language-yaml' data-expandlinks='true' data-repo='istio' >meshConfig:
+  defaultConfig:
+    runtimeValues:
+      &#34;envoy.reloadable_features.explicit_internal_address_config&#34;: &#34;true&#34;</code></pre>
+<p>Приклад конфігурації для кожного проксі:</p>
+<pre><code class='language-yaml' data-expandlinks='true' data-repo='istio' >annotations:
+  proxy.istio.io/config: |
+    runtimeValues:
+      &#34;envoy.reloadable_features.explicit_internal_address_config&#34;: &#34;true&#34;</code></pre>
+<p>Зверніть увагу, що поля в ProxyConfig не налаштовуються динамічно; для застосування змін необхідно перезапустити робочі навантаження.</p>
+]]></description><pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/security/istio-security-2024-006/</link><guid isPermaLink="true">/v1.24//uk/news/security/istio-security-2024-006/</guid><category>CVE</category></item><item><title>Анонс Istio 1.23.2</title><description><![CDATA[<p>У цьому випуску виправлено уразливості, описані в нашому пості від 19 вересня, <a href="/uk/news/security/istio-security-2024-006/">ISTIO-SECURITY-2024-006</a>. У цьому документі описується різниця між версіями Istio 1.23.1 та 1.23.2.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+                
+                
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+
+
+
+
+<div class="relnote-actions call-to-action">
+    
+    
+
+    
+    
+        
+        
+            
+            
+        
+            
+            
+        
+    
+
+    
+        <a class="entry" href="/v1.24/uk/news/releases/1.23.x/announcing-1.23/upgrade-notes/">
+            <h5>ПЕРШ НІЖ ОНОВИТИСЬ</h5>
+            <p>Що потрібно знати та підготувати перед оновленням.</p>
+        </a>
+    
+
+    
+        
+        
+            
+            <a class="update-notice entry"
+                data-title='Update Notice'
+                data-downloadhref="https://github.com/istio/istio/releases/tag/1.23.2"
+                data-downloadbuttontext="DOWNLOAD 1.23.2"
+                data-updateadvice='Перш ніж завантажити 1.23.2, вам слід знати, що вийшов новий патч з останніми виправленнями помилок та покращеннями.'
+                data-updatebutton='LEARN ABOUT ISTIO 1.23.3'
+                data-updatehref="/v1.24/uk/news/releases/1.23.x/announcing-1.23.3/">
+                <h5>ЗАВАНТАЖИТИ</h5>
+                <p>Завантажити та встановити цей випуск.</p>
+            </a>
+        
+    
+
+    
+    
+        
+    
+
+    <a class="entry" href="https://archive.istio.io/v1.23/docs">
+        <h5>ДОКУМЕНТАЦІЯ</h5>
+        <p>Відвідайте документацію до цього випуску.</p>
+    </a>
+
+    
+    
+
+    
+        
+        
+
+        <a class="entry" href="https://github.com/istio/istio/compare/1.23.1...1.23.2">
+            <h5>ЗМІНИ СИРЦІВ</h5>
+            <p>Ознайомтеся з повним набором змін у вихідному коді.</p>
+        </a>
+    
+</div>
+
+<h2 id="changes">Зміни</h2>
+<ul>
+<li><strong>Виправлено</strong> функцію <code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code> в sidecars для підтримки встановлення внутрішніх адрес у mesh-мережі, а не локального хосту, щоб запобігти очищенню заголовків, якщо увімкнено <code>envoy.reloadable_features.explicit_internal_address_config</code>.</li>
+</ul>
+]]></description><pubDate>Thu, 19 Sep 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.23.x/announcing-1.23.2/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.23.x/announcing-1.23.2/</guid></item><item><title>Анонс Istio 1.23.1</title><description><![CDATA[<p>У цьому повідомленні про випуск описано відмінності між версіями Istio 1.23.0 та 1.23.1.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+                
+                
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+
+
+
+
+<div class="relnote-actions call-to-action">
+    
+    
+
+    
+    
+        
+        
+            
+            
+        
+            
+            
+        
+    
+
+    
+        <a class="entry" href="/v1.24/uk/news/releases/1.23.x/announcing-1.23/upgrade-notes/">
+            <h5>ПЕРШ НІЖ ОНОВИТИСЬ</h5>
+            <p>Що потрібно знати та підготувати перед оновленням.</p>
+        </a>
+    
+
+    
+        
+        
+            
+            <a class="update-notice entry"
+                data-title='Update Notice'
+                data-downloadhref="https://github.com/istio/istio/releases/tag/1.23.1"
+                data-downloadbuttontext="DOWNLOAD 1.23.1"
+                data-updateadvice='Перш ніж завантажити 1.23.1, вам слід знати, що вийшов новий патч з останніми виправленнями помилок та покращеннями.'
+                data-updatebutton='LEARN ABOUT ISTIO 1.23.3'
+                data-updatehref="/v1.24/uk/news/releases/1.23.x/announcing-1.23.3/">
+                <h5>ЗАВАНТАЖИТИ</h5>
+                <p>Завантажити та встановити цей випуск.</p>
+            </a>
+        
+    
+
+    
+    
+        
+    
+
+    <a class="entry" href="https://archive.istio.io/v1.23/docs">
+        <h5>ДОКУМЕНТАЦІЯ</h5>
+        <p>Відвідайте документацію до цього випуску.</p>
+    </a>
+
+    
+    
+
+    
+        
+        
+
+        <a class="entry" href="https://github.com/istio/istio/compare/1.23.0...1.23.1">
+            <h5>ЗМІНИ СИРЦІВ</h5>
+            <p>Ознайомтеся з повним набором змін у вихідному коді.</p>
+        </a>
+    
+</div>
+
+<h2 id="changes">Зміни</h2>
+<ul>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку IP-адреси, призначені контролером, не дотримувалися захоплення DNS на проксі, так само як і автоматично виділені тимчасові IP-адреси.
+(<a href="https://github.com/istio/istio/issues/52609">Тікет #52609</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку для waypoint-проксі була потрібна активація DNS-проксі для використання автоматично виділених IP-адрес.
+(<a href="https://github.com/istio/istio/issues/52746">Тікет #52746</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку ланцюг <code>ISTIO_OUTPUT</code> <code>iptables</code> не видалявся за допомогою команди <code>pilot-agent istio-clean-iptables</code>.
+(<a href="https://github.com/istio/istio/issues/52835">Тікет #52835</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, що призводила до ігнорування будь-яких <code>portLevelSettings</code> у <code>DestinationRule</code> для waypoint-проксі.
+(<a href="https://github.com/istio/istio/issues/52532">Тікет #52532</a>)</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> запис <code>kubeconfig</code> в теці мережевих налаштувань CNI.
+(<a href="https://github.com/istio/istio/issues/52315">Тікет #52315</a>)</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> параметр <code>CNI_NET_DIR</code> з <code>ConfigMap</code> <code>istio-cni</code>, оскільки тепер він не має жодного впливу.
+(<a href="https://github.com/istio/istio/issues/52315">Тікет #52315</a>)</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> зміну в Istio 1.23.0, яка викликала регресії для <code>ServiceEntries</code> з кількома адресами.
+Примітка: повернена зміна виправила проблему відсутніх адрес (#51747), але спричинила нові проблеми. Початкову проблему можна обійти, створивши ресурс sidecar.
+(<a href="https://github.com/istio/istio/issues/52944">Тікет #52944</a>), (<a href="https://github.com/istio/istio/issues/52847">Тікет #52847</a>)</p>
+</li>
+</ul>
+]]></description><pubDate>Tue, 10 Sep 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.23.x/announcing-1.23.1/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.23.x/announcing-1.23.1/</guid></item><item><title>Анонс Istio 1.23.0</title><description><![CDATA[<p>Ми раді оголосити про випуск Istio 1.23. Дякуємо всім нашим учасникам, тестувальникам, користувачам та ентузіастам за допомогу в публікації версії 1.23.0! Особливу подяку висловлюємо менеджерам випуску <strong>Sumit Vij</strong> з Credit Karma, <strong>Zhonghu Xu</strong> з Huawei та <strong>Mike Morris</strong> з Microsoft.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+                
+                
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+            
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+
+
+
+
+
+
+<div class="relnote-actions call-to-action">
+    
+    
+        <a class="entry" href="./change-notes">
+            <h5>ЗМІНИ</h5>
+            <p>Отримайте детальний список змін.</p>
+        </a>
+    
+
+    
+    
+
+    
+        <a class="entry" href="/v1.24/uk/news/releases/1.23.x/announcing-1.23/upgrade-notes/">
+            <h5>ПЕРШ НІЖ ОНОВИТИСЬ</h5>
+            <p>Що потрібно знати та підготувати перед оновленням.</p>
+        </a>
+    
+
+    
+        
+        
+            
+            <a class="update-notice entry"
+                data-title='Update Notice'
+                data-downloadhref="https://github.com/istio/istio/releases/tag/1.23.0"
+                data-downloadbuttontext="DOWNLOAD 1.23.0"
+                data-updateadvice='Перш ніж завантажити 1.23, вам слід знати, що вийшов новий патч з останніми виправленнями помилок та покращеннями.'
+                data-updatebutton='LEARN ABOUT ISTIO 1.23.3'
+                data-updatehref="/v1.24/uk/news/releases/1.23.x/announcing-1.23.3/">
+                <h5>ЗАВАНТАЖИТИ</h5>
+                <p>Завантажити та встановити цей випуск.</p>
+            </a>
+        
+    
+
+    
+    
+        
+    
+
+    <a class="entry" href="https://archive.istio.io/v1.23/docs">
+        <h5>ДОКУМЕНТАЦІЯ</h5>
+        <p>Відвідайте документацію до цього випуску.</p>
+    </a>
+
+    
+    
+
+    
+</div>
+
+<div>
+    <aside class="callout tip">
+        <div class="type">
+            <svg class="large-icon"><use xlink:href="/img/icons.svg#callout-tip"/></svg>
+        </div>
+        <div class="content">Istio 1.23.0 офіційно підтримується на версіях Kubernetes від <code>1.27</code> до <code>1.30</code>.</div>
+    </aside>
+</div>
+
+<h2 id="whats-new">Що нового?</h2>
+<h3 id="ambient-ambient-ambient">Ambient, ambient, ambient</h3>
+<p>Після недавнього просування <a href="/uk/blog/2024/ambient-reaches-beta/">режиму ambient до стану Beta у версії Istio 1.22</a>, Istio 1.23 пропонує величезний набір покращень. Працюючи в тісній співпраці з багатьма користувачами, які прийняли режим ambient, ми старанно працювали над вирішенням отриманих відгуків. Ці покращення включають розширену підтримку платформ, додані функції, виправлення помилок і покращення продуктивності.</p>
+<p>Невеликий перелік основних моментів:</p>
+<ul>
+<li>Підтримка <code>DestinationRule</code> у проксі waypoint.</li>
+<li>Підтримка DNS <code>ServiceEntries</code> у waypoint та ztunnel.</li>
+<li>Підтримка спільного використання waypoint між просторами імен.</li>
+<li>Підтримка нового поля <code>Service</code> <code>trafficDistribution</code>, що дозволяє зберігати трафік у локальних зонах/регіонах.</li>
+<li>Підтримка Dual Stack та кластерів IPv6.</li>
+<li>Нова панель Grafana для ztunnel.</li>
+<li>Єдиний Helm-чарт для встановлення всіх компонентів режиму ambient одразу.</li>
+<li>Покращення продуктивності: наші тести показують до 50% покращення пропускної здатності порівняно з версією Istio 1.22.</li>
+<li>Безліч виправлень помилок: покращення запуску podʼів, підтримка Services без селекторів, покращення ведення журналу та інше!</li>
+</ul>
+<h3 id="dns-auto-allocation-improvements">Покращення авто-розподілу DNS</h3>
+<p>Протягом багатьох років Istio використовує <a href="/uk/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation">опцію авто-розподілу адрес</a> для DNS-проксі. Це вирішує низку проблем із маршрутизацією Service.</p>
+<p>У версії Istio 1.23 було додано нову реалізацію цієї функції. У новому підході виділені IP-адреси зберігаються в полі <code>ServiceEntry</code> <code>status</code>, що гарантує їх незмінність. Це виправляє давні проблеми з надійністю старого підходу, де розподіл іноді змінювався, викликаючи проблеми. Крім того, новий підхід є більш стандартним, легшим для налагодження і працює в режимі ambient!</p>
+<p>Цей режим стандартно вимкнено у версії 1.23, але його можна увімкнути за допомогою <code>PILOT_ENABLE_IP_AUTOALLOCATE=true</code>.</p>
+<h3 id="retry-improvements-preview">Попередній перегляд покращень retry</h3>
+<p>У цьому випуску реалізовано нову функцію для покращення стандартної політики retry. Історично retry застосовувався лише до <em>вихідного</em> трафіку. У багатьох випадках це бажано: запит можна повторити на інший pod, який має більше шансів на успіх. Однак залишалась прогалина: часто запит не вдавався через те, що застосунок закрив зʼєднання, яке ми намагалися повторно використати.</p>
+<p>Ми додали можливість виявляти цей сценарій та повторювати запит. Очікується, що це зменшить кількість помилок 503 у мережі.</p>
+<p>Цю функцію можна увімкнути за допомогою <code>ENABLE_INBOUND_RETRY_POLICY=true</code>. Очікується, що вона буде стандартно увімкнена у майбутніх випусках.</p>
+<h3 id="a-coat-of-paint-for-bookinfo">Новий вигляд для Bookinfo</h3>
+<p>Покращення у версії 1.23 стосуються не лише самого Istio: у цьому випуску оновлено й улюблений демонстраційний застосунок Bookinfo!</p>
+<p>Нова версія застосунку має сучасніший дизайн і покращення продуктивності, що вирішують деяку неочікувану повільність у сервісах <code>productpage</code> та <code>details</code>.</p>
+<figure style="width:80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:60.719041278295606%">
+        <a data-skipendnotes="true" href="/uk/docs/setup/getting-started/bookinfo-browser.png" title="Оновлений застосунок Bookinfo">
+            <img class="element-to-stretch" src="/uk/docs/setup/getting-started/bookinfo-browser.png" alt="Оновлений застосунок Bookinfo" />
+        </a>
+    </div>
+    <figcaption>Оновлений застосунок Bookinfo</figcaption>
+</figure>
+<h3 id="other-highlights">Інші нововведення</h3>
+<ul>
+<li>Образи distroless були оновлені на основі ОС контейнера <a href="https://github.com/wolfi-dev">Wolfi</a>.</li>
+<li>Команда <code>istioctl proxy-status</code> була покращена та тепер містить час від останньої зміни та інші релевантні статуси.</li>
+</ul>
+<h2 id="deprecating-the-in-cluster-operator">Припинення використання вбудованого Оператора</h2>
+<p>Три роки тому ми <a href="https://archive.istio.io/v1.23/docs/setup/install/operator/">оновили нашу документацію</a> і не рекомендували використовувати вбудований оператор для нових установок Istio. Тепер ми готові офіційно відмовитися від його використання у версії Istio 1.23. Користувачам, які використовують оператор (що, за нашими оцінками, складає менше ніж 10% користувачів), потрібно буде перейти на інші механізми встановлення та оновлення для оновлення до версії Istio 1.24 або вище. Очікувана дата виходу версії 1.24 — листопад 2024 року.</p>
+<p>Ми рекомендуємо користувачам перейти на Helm та istioctl, які залишаються підтримуваними проєктом Istio. Міграція на istioctl проста, а міграція на Helm вимагатиме інструментів, які ми опублікуємо разом з випуском 1.24.</p>
+<p>Користувачі, які бажають залишитися з оператором, мають дві сторонні опції в організації <a href="https://github.com/istio-ecosystem/">istio-ecosystem</a>.</p>
+<p>Детальніше про зміни ви можете прочитати в <a href="/uk/blog/2024/in-cluster-operator-deprecation-announcement/">нашому повідомленні про відмову від підтримки</a>.</p>
+<h2 id="upgrading-to-1.23">Оновлення до 1.23</h2>
+<p>Ми хочемо почути ваші відгуки щодо досвіду оновлення до Istio 1.23. Ви можете залишити відгук у каналі <code>#release-1.23</code> на нашій <a href="https://slack.istio.io/">Slack-платформі</a>.</p>
+<p>Бажаєте зробити внесок безпосередньо в Istio? Знайдіть і приєднуйтесь до однієї з наших <a href="https://github.com/istio/community/blob/master/WORKING-GROUPS.md">робочих груп</a> і допоможіть нам покращити проєкт.</p>
+]]></description><pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.23.x/announcing-1.23/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.23.x/announcing-1.23/</guid></item><item><title>Примітки до оновлення Istio 1.23</title><description><![CDATA[<p>Під час оновлення з Istio 1.22.x до Istio 1.23.x, зверніть увагу на зміни, описані на цій сторінці. Ці примітки детально описують зміни, які навмисно порушують зворотну сумісність з Istio 1.22.x. Також зазначені зміни, які зберігають зворотну сумісність, але впроваджують нову поведінку. Зміни включені лише в тому випадку, якщо нова поведінка може бути несподіваною для користувачів версії Istio 1.22.x.</p>
+<h2 id="internal-api-protobuf-changes">Зміни у внутрішньому API Protobuf</h2>
+<p>Якщо ви не використовуєте API Istio з Go (через <code>istio.io/api</code> або <code>istio.io/client-go</code>) або Protobuf (з <code>istio.io/api</code>), ця зміна вас не стосується.</p>
+<p>У попередніх версіях API Istio містили ідентичний вміст, що дублювався в декількох версіях. Наприклад, одне й те саме повідомлення Protobuf <code>VirtualService</code> було визначено тричі (<code>v1alpha3</code>, <code>v1beta1</code> та <code>v1</code>). Ці схеми ідентичні, за винятком пакета, в якому вони знаходяться.</p>
+<p>У цій версії Istio ці версії були обʼєднані до однієї. Для ресурсів, що мали кілька версій, зберігається найстаріша версія.</p>
+<ul>
+<li>Якщо ви використовуєте API Istio лише через Kubernetes (YAML), це не впливає на вас.</li>
+<li>Якщо ви використовуєте API Istio через типи Go, це фактично не має впливу. Кожна видалена версія була замінена типами-аліасами на поточну версію, що забезпечує зворотну сумісність. Однак специфічні випадки використання (рефлексія тощо) можуть мати певний вплив.</li>
+<li>Якщо ви безпосередньо використовуєте API Istio через Protobuf і використовуєте новіші версії, вони більше не включатимуться до складу API. Будь ласка, звʼяжіться з командою, якщо це вас стосується.</li>
+</ul>
+]]></description><pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.23.x/announcing-1.23/upgrade-notes/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.23.x/announcing-1.23/upgrade-notes/</guid></item><item><title>Опис змін в Istio 1.23.0</title><description><![CDATA[<h2 id="deprecations">Застарівання</h2>
+<ul>
+<li><strong>Визнано застарілим</strong> використання кластерного Оператора. Будь ласка, ознайомтеся з <a href="/uk/blog/2024/in-cluster-operator-deprecation-announcement/">нашим оголошенням про визнання Оператора застарілим</a> для отримання додаткової інформації.</li>
+</ul>
+<h2 id="traffic-management">Управління Трафіком</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> підтримку проксіювання заголовків <code>100 Continue</code>. Це можна відключити, встановивши значення <code>ENABLE_100_CONTINUE_HEADERS</code> на <code>false</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> можливість читання типу трафіку для waypoint з мітки <code>istio.io/waypoint-for</code> на батьківському класі шлюзу. Це значення замінює глобальне стандартне значення і буде замінено, якщо мітка застосовується до ресурсу waypoint.
+(<a href="https://github.com/istio/istio/issues/50933">Issue #50933</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку відповідності кільком VIP сервісам у проксі waypoint.
+(<a href="https://github.com/istio/istio/issues/51886">Issue #51886</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> експериментальну функцію для створення кластерів на робочих потоках під час запитів. Це дозволить заощадити памʼять і процесорні ресурси в разі великої кількості неактивних кластерів і більше ніж одного робочого потоку. Це можна вимкнути, встановивши значення <code>ENABLE_DEFERRED_CLUSTER_CREATION</code> на <code>false</code> у розгортанні агента.</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку нової політики повторних спроб <code>reset-before-request</code>, доданої в Envoy 1.31.
+(<a href="https://github.com/istio/istio/issues/51704">Issue #51704</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> помилку, через яку трафік UDP у ланцюжку iptables <code>ISTIO_OUTPUT</code> виходив передчасно.
+(<a href="https://github.com/istio/istio/issues/51377">Issue #51377</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> поле адрес статусу <code>ServiceEntry</code>, яке не підтримувало призначення IP-адрес окремим хостам, що призводило до небажаної розбіжності в поведінці між новими та старими реалізаціями автоматичних виділень. Додано поле &ldquo;Host&rdquo; до адреси для підтримки зіставлення виділеного IP з хостом.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли фільтр CORS пересилав запити preflight, якщо походження не було дозволено.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> логіку повторних спроб для забезпечення безпеки отримання метрик envoy у режимі <code>EXIT_ON_ZERO_ACTIVE_CONNECTIONS</code>.
+(<a href="https://github.com/istio/istio/issues/50596">Issue #50596</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> поширення налаштувань IPv6 до <code>istio-cni</code>. Зверніть увагу, що підтримка IPv6 все ще є нестабільною.
+(<a href="https://github.com/istio/istio/issues/50162">Issue #50162</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку ZDS не передавав <code>trust_domain</code>.
+(<a href="https://github.com/istio/istio/issues/51182">Issue #51182</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему з правилами iptables для ambient при роботі з IPv6.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> автоматичне виділення IP для <code>ServiceEntry</code> з виділенням на хост, а не на <code>ServiceEntry</code>.
+(<a href="https://github.com/istio/istio/issues/52319">Issue #52319</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> перевірку <code>ServiceEntry</code>, щоб придушити попередження &ldquo;потрібна адреса&rdquo; при використанні контролера автоматичного виділення IP.
+(<a href="https://github.com/istio/istio/issues/52422">Issue #52422</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, через яку налаштування TLS у <code>DestinationRule</code> не враховувалися при зʼєднанні від шлюзу або sidecar до бекенду, зареєстрованого в режимі ambient.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, яка заважала працювати <code>proxyProtocol</code> у <code>DestinationRule</code>, коли TLS був відключений.</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> прапорець функцій <code>ISTIO_ENABLE_OPTIMIZED_SERVICE_PUSH</code>.</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> прапорець функцій <code>ENABLE_OPTIMIZED_CONFIG_REBUILD</code>.</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> експериментальний прапорець функцій <code>PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING</code> і відповідну команду <code>istioctl experimental wait</code>.</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> config map для <code>istio-cni</code>, щоб експонувати лише ті змінні середовища, які можна налаштувати користувач.</p>
+</li>
+</ul>
+<h2 id="security">Безпека</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> суворішу перевірку CSR, коли Istio функціонує як RA і налаштований із зовнішнім CA для підписання сертифікатів робочих навантажень.
+(<a href="https://github.com/istio/istio/issues/51966">Issue #51966</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> можливість використання SPIRE для SDS, дозволивши вказувати власне імʼя сокета сервера. Раніше документація SPIRE вимагала, щоб сервер SPIRE SDS був налаштований на використання сокета SDS за замовчуванням від Istio. У цьому випуску введено змінну середовища агента <code>WORKLOAD_IDENTITY_SOCKET_FILE</code>. Якщо встановлено значення, відмінне від стандартно значення, агент очікуватиме наявність нестандартного сокета сервера SDS за фіксованим шляхом: <code>WorkloadIdentityPath/WORKLOAD_IDENTITY_SOCKET_FILE</code> і видасть помилку, якщо не знайдено активного сокета. В іншому разі агент слухатиме цей сокет. Якщо змінна не встановлена, агент запустить стандартний екземпляр сервера SDS від Istio з фіксованим шляхом і сокетом: <code>WorkloadIdentityPath/DefaultWorkloadIdentitySocketFile</code> і слухатиме його. Це видаляє/замінює змінну середовища агента <code>USE_EXTERNAL_WORKLOAD_SDS</code> (додано у #45941).
+(<a href="https://github.com/istio/istio/issues/48845">Issue #48845</a>)</p>
+</li>
+</ul>
+<h2 id="telemetry">Телеметрія</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> підтримку <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/formatter/formatter">форматування журналу доступу</a> для OpenTelemetry. Користувачі можуть додавати команди <code>CEL</code>/<code>METADATA</code>/<code>REQ_WITHOUT_QUERY</code> після оновлення всіх проксі до Istio 1.23+.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли код статусу не був встановлений при використанні OpenTelemetry трейсингу.
+(<a href="https://github.com/istio/istio/issues/50195">Issue #50195</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли імʼя span не встановлювалося при використанні провайдера OpenTelemetry.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> регулярний вираз у <code>statsMatcher</code>, який не відповідав <code>stat_prefix</code> маршруту.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли мітки <code>cluster_name</code> та <code>http_conn_manager_prefix</code> були неправильно усічені для сервісів без суфікса <code>.svc.cluster.local</code>.</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> метрики Istio Stackdriver з XDS.
+(<a href="https://github.com/istio/istio/issues/50808">Issue #50808</a>)</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> трейсер OpenCensus з Istio XDS.
+(<a href="https://github.com/istio/istio/issues/50808">Issue #50808</a>)</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> прапорець функцій <code>ENABLE_OTEL_BUILTIN_RESOURCE_LABELS</code>.</p>
+</li>
+</ul>
+<h2 id="extensibility">Розширюваність</h2>
+<ul>
+<li><strong>Вилучено</strong> внутрішні файли multi-version protobuf з API. Це внутрішня зміна для більшості користувачів. Якщо ви безпосередньо використовуєте API Istio у вигляді protobuf, ознайомтеся з примітками до оновлення.
+(<a href="https://github.com/istio/api/issues/3127">Issue #3127</a>)</li>
+</ul>
+<h2 id="installation">Встановлення</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> параметр <code>.Values.pilot.trustedZtunnelNamespace</code> до Helm-чарту <code>istiod</code>. Встановіть це значення, якщо ztunnel розміщено в іншому просторі імен, ніж <code>istiod</code>. Це значення замінює <code>.Values.pilot.env.CA_TRUSTED_NODE_ACCOUNTS</code> (яке все ще враховується, якщо встановлено).</p>
+</li>
+<li>
+<p><strong>Додано</strong> прапорець <code>releaseChannel:extended</code> для функцій та API, які не є GA.
+(<a href="https://github.com/istio/enhancements/issues/173">Issue #173</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> можливість налаштування шляху журналу для конфігурації проксі мережі, що дозволяє користувачам вказати шлях до файлу журналу виявлення аномалій.
+(<a href="https://github.com/istio/istio/issues/50781">Issue #50781</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> загальний Helm-чарт <code>ambient</code>, який охоплює базові компоненти Istio, необхідні для встановлення Istio з підтримкою ambient.</p>
+</li>
+<li>
+<p><strong>Додано</strong> підтримку перевірок готовності через https для <code>istiod</code> для використання в кластерах, що використовують віддалену панель управління для інʼєкції sidecar.
+(<a href="https://github.com/istio/istio/issues/51506">Issue #51506</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли втулок CNI успадковував рівень журналювання агента CNI.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему з форматуванням анотацій облікових записів сервісів, шляхом видалення дефісів.
+(<a href="https://github.com/istio/istio/issues/51289">Issue #51289</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли анотації користувача не передавалися в чарт ztunnel.</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли анотація <code>sidecar.istio.io/proxyImage</code> ігнорувалася під час інʼєкції шлюзу.
+(<a href="https://github.com/istio/istio/issues/51888">Issue #51888</a>)</p>
+</li>
+<li>
+<p><strong>Виправлено</strong> проблему, коли помилки netlink не були правильно розпізнані, що призводило до того, що <code>istio-cni</code> неправильно ігнорував залишкові ipsets.</p>
+</li>
+<li>
+<p><strong>Покращено</strong> конфігурацію журналювання для CNI.
+(<a href="https://github.com/istio/istio/issues/50958">Issue #50958</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> Helm-інсталяцію для multi-cluster конфігурації Istiod для primary-remote. Тепер під час встановлення Helm потрібно лише встановити <code>global.externalIstiod</code>, замість того, щоб також встановлювати <code>pilot.env.EXTERNAL_ISTIOD</code>.
+(<a href="https://github.com/istio/istio/issues/51595">Issue #51595</a>)</p>
+</li>
+<li>
+<p><strong>Вилучено</strong> <code>values.cni.logLevel</code>, який тепер застарів. Використовуйте замість нього <code>values.{cni|global}.logging.level</code>.</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> <a href="/uk/docs/ops/configuration/security/harden-docker-images/">distroless</a> образи, які тепер базуються на <a href="https://wolfi.dev">Wolfi</a>. Це не повинно вплинути на користувачів.</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> застосунок Kiali до версії 1.87.0.</p>
+</li>
+<li>
+<p><strong>Оновлено</strong> базові образи для налагодження до останньої версії LTS Ubuntu, <code>ubuntu:noble</code>. Раніше використовувалась версія <code>ubuntu:focal</code>.</p>
+</li>
+</ul>
+<h2 id="istioctl">istioctl</h2>
+<ul>
+<li>
+<p><strong>Додано</strong> підкоманду статусу, яка виводить стан шлюзу(-ів) для зазначеного простору імен.
+(<a href="https://github.com/istio/istio/issues/51294">Issue #51294</a>)</p>
+</li>
+<li>
+<p><strong>Додано</strong> можливість користувачам встановлювати параметр <code>seccompProfile.type</code> (наприклад, <code>RuntimeDefault</code>) для автоматично розгорнутих waypoints, встановивши значення <code>values.gateways.seccompProfile.type</code> в конфігурації інʼєкції <code>istiod</code>.</p>
+</li>
+<li>
+<p><strong>Додано</strong> прапорець <code>overwrite</code> до команди <code>istioctl apply</code>, що дозволяє перезаписувати наявні ресурси в кластері (спочатку тільки для реєстрацій waypoints у просторі імен).
+(<a href="https://github.com/istio/istio/issues/51312">Issue #51312</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> виведення для команди <code>istioctl version</code>, зробивши його більш зручним для користувачів.
+(<a href="https://github.com/istio/istio/issues/51296">Issue #51296</a>)</p>
+</li>
+<li>
+<p><strong>Покращено</strong> команду <code>istioctl proxy-status</code>:</p>
+<ul>
+<li>Тепер кожен статус включає час з моменту останньої зміни.</li>
+<li>Якщо проксі не підписаний на ресурс, він буде показаний як <code>IGNORED</code> замість <code>NOT SENT</code>. <code>NOT SENT</code> продовжує використовуватись для ресурсів, які були запитані, але не надіслані.</li>
+<li>Додано новий статус <code>ERROR</code>, коли конфігурація відхиляється.</li>
+</ul>
+</li>
+</ul>
+<h2 id="samples">Зразки</h2>
+<ul>
+<li><strong>Покращено</strong> зовнішній вигляд та зручність застосунку Bookinfo.</li>
+</ul>
+]]></description><pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/news/releases/1.23.x/announcing-1.23/change-notes/</link><guid isPermaLink="true">/v1.24//uk/news/releases/1.23.x/announcing-1.23/change-notes/</guid></item><item><title>Нова історія про Фіппі та друзів: Іззі рятує день народження</title><description><![CDATA[<p>На початку цього року <a href="/blog/2024/istio-phippy/">ми додали Дельфіна Іззі, індо-тихоокеанського афаліну</a> до <a href="https://www.cncf.io/phippy/">родини CNCF &ldquo;Фіппі та друзі&rdquo;</a>. З того часу шанувальники Istio по всьому світу з нетерпінням чекали на першу дитячу книжку за участю нашого милого дельфіна.</p>
+<p>І ось вона!</p>
+<figure style="width:75%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:78.04208600182983%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/istio-phippy-book/book_cover.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/istio-phippy-book/book_cover.png" alt="Обкладинка книги Іззі рятує день народження" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<p>Проєкт Istio радий представити пригоди Іззі, що пливе разом із родиною Фіппі на <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/">KubeCon North America 2024</a> цього тижня, коли ми разом святкуємо 10-річний ювілей Kubernetes. Примірники доступні в магазині CNCF або в <a href="https://store.cncf.io">онлайн-магазині</a> незабаром після події.</p>
+<p>Капітан Куб влаштовує грандіозне святкування дня народження під час особливого круїзу з Фіппі та її друзями, але корабель у великій небезпеці! Проте хвилюватися нема про що, коли Іззі відповідає за безпеку! Приєднуйтесь до цікавого та захопливого переслідування піратів Іззі, які хочуть зіпсувати святкування дня народження Капітана Куба.</p>
+<h2 id="навіщо-ця-книга">Навіщо ця книга?</h2>
+<p>Співавторки книги, Фасіла К. та Лін Сан, є мейнтейнерами Istio та батьками. Вони часто опинялися в складній ситуації, пояснюючи, чим займаються на роботі, особливо в контексті, зрозумілому для молодших людей. Їхні діти читали та насолоджувалися <a href="https://www.cncf.io/phippy/the-childrens-illustrated-guide-to-kubernetes/">Ілюстрованим дитячим путівником по Kubernetes</a>, але були зацікавлені дізнатися більше про інших персонажів та їхні ролі та обовʼязки!</p>
+<p>Ця книга для всіх, хто стикався з допитливими очима, які постійно запитують, що таке &ldquo;Service Mesh&rdquo;. Це також чудовий подарунок для будь-кого будь-якого віку, хто хоче зрозуміти, що таке Istio, або хто вважає, що сервісна мережа занадто складна.</p>
+<h2 id="подяки">Подяки</h2>
+<p>Керівний комітет Istio хоче подякувати Фасілі та Лін за написання цієї чудової книги. Сурі Патель та Алекс Деві з CNCF чудово попрацювали над дизайном та ілюстраціями, ожививши історію. І, нарешті, велика подяка Кеті Грінлі за її підтримку протягом усього процесу, щоб книга була випущена вчасно до святкування дня народження Капітана Куба на нашій найбільшій міжнародній конференції спільноти.</p>
+<p>Ми плануємо захід з підписанням книг на наступному <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon EU в Лондоні</a>.</p>
+<p>Веселого читання!</p>
+<figure style="width:75%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:42.22222222222222%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/istio-phippy-book/phippy_and_family.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/istio-phippy-book/phippy_and_family.png" alt="Фіппі та родина" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+]]></description><pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/istio-phippy-book/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/istio-phippy-book/</guid><category>istio</category><category>phippy</category><category>izzy</category><category>dolphin</category></item><item><title>Istio в Солт-Лейк-Сіті!</title><description><![CDATA[<p>Неймовірна програма заходів Istio чекає на вас у Солт-Лейк-Сіті, штат Юта, на <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/">KubeCon + CloudNativeCon North America 2024</a>!</p>
+<figure style="width:75%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:45.933014354066984%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/kubecon-na/kubecon-na.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/kubecon-na/kubecon-na.png" alt="KubeCon &#43; CloudNativeCon North America, 12-15 листопада 2024, Солт-Лейк-Сіті, Юта. #KubeCon" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<ul>
+<li>
+<p>Відвідайте <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/">Istio Day</a>, що проводиться на конференції.</p>
+</li>
+<li>
+<p>Долучайтеся до сесії Istio Maintainers&rsquo; Track: <a href="https://sched.co/1hovw">Життя пакета: Ambient Edition</a></p>
+</li>
+<li>
+<p>Завітайте на сесію Istio Contribfest: <a href="https://sched.co/1hoyI">Сервісна мережа без sidecar: Давайте разом працювати над Istio V2</a></p>
+</li>
+<li>
+<p>Додайте наступні сесії KubeCon до свого розкладу, всі вони мають тематику Istio:</p>
+<ul>
+<li><a href="https://sched.co/1iW9Q">Чому обрати Istio у 2025 році | Короткі доповіді проєктів</a></li>
+<li><a href="https://sched.co/1i7k0">Короткі доповіді: Легке, без sidecarʼів mTLS та політики авторизації за 5 хвилин</a></li>
+<li><a href="https://sched.co/1i7mr">Cесія gjcnthsd: Використання прогнозування для масштабування компонентів панелі управління</a></li>
+<li><a href="https://sched.co/1i7nP">Що Istio зробив неправильно: уроки з семирічного досвіду в Service Mesh</a></li>
+<li><a href="https://sched.co/1i7np">Навчання: Робота з API Gateway V1.2</a></li>
+<li><a href="https://sched.co/1i7ow"><code>Mish-Mesh</code>: Використання Service Mesh для компрометації середовищ Kubernetes</a></li>
+<li><a href="https://sched.co/1i7r4">Взаємодія з KServe Community: Вплив інтеграції з проєктами CNCF</a></li>
+<li><a href="https://sched.co/1i7pE">Як Google створив нову хмару на базі Kubernetes</a></li>
+<li><a href="https://sched.co/1i7ps">Забезпечення вихідного трафіку: створення потужного шлюзу для надійного зʼєднання з Інтернетом</a></li>
+<li><a href="https://sched.co/1i7qh">Тестування Kubernetes без Kubernetes: глибокий аналіз мережевих рішень</a></li>
+<li><a href="https://sched.co/1i7rH">Як GoTo Financial автоматизує оновлення більш ніж 60 Istio Service Mesh без простоїв!</a></li>
+</ul>
+</li>
+<li>
+<p>Поспілкуйтеся з розробниками та користувачами на стенді Istio в Project Pavilion протягом усього заходу, де ви зможете отримати круту футболку Istio з новим дизайном.</p>
+</li>
+<li>
+<p>У нас також буде цікавий сюрприз для всіх шанувальників Istio, який буде представлено в магазині CNCF на KubeCon North America. Слідкуйте за новинами!</p>
+</li>
+</ul>
+<p>Слідкуйте за нами на <a href="https://x.com/istiomesh">X</a>, <a href="https://www.linkedin.com/company/istio/">LinkedIn</a> або <a href="https://bsky.app/profile/istio.io">Bluesky</a>, щоб отримувати актуальні новини з події. До зустрічі!</p>
+]]></description><pubDate>Tue, 05 Nov 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/kubecon-na/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/kubecon-na/</guid><category>Istio Day</category><category>Istio</category><category>conference</category><category>KubeCon</category><category>CloudNativeCon</category></item><item><title>Масштабування в хмарі: Istio Ambient проти Cilium</title><description><![CDATA[<p>Звичне питання від потенційних користувачів Istio: &ldquo;Як порівняти Istio з Cilium?&rdquo; Хоча спочатку Cilium пропонував лише функціональність L3/L4, включаючи мережеву політику, останні релізи додали функції сервісної мережі за допомогою Envoy, а також шифрування за допомогою WireGuard. Як і Istio, Cilium є проєктом, що досяг статусу CNCF Graduated, та присутній у спільноті протягом багатьох років.</p>
+<p>Попри подібний набір функцій, ці два проєкти мають суттєво різні архітектури, особливо в тому, як Cilium використовує eBPF та WireGuard для обробки та шифрування L4-трафіку в ядрі, на відміну від Istio, який використовує компонент ztunnel для L4 у просторі користувача. Ці відмінності породили чимало припущень щодо продуктивності Istio на великих масштабах у порівнянні з Cilium.</p>
+<p>Хоча вже було зроблено чимало порівнянь щодо моделей оренди, протоколів безпеки та базової продуктивності двох проєктів, повна оцінка на рівні корпоративного масштабу ще не опублікована. Замість теоретичних показників продуктивності, ми випробували режим ambient в Istio та Cilium у реальних навантаженнях, зосередившись на таких ключових метриках, як затримка, пропускна здатність та споживання ресурсів. Ми збільшили навантаження у реалістичних сценаріях для Kubernetes, і врешті-решт розширили наш кластер AKS до 1 000 вузлів на 11 000 ядрах, щоб зрозуміти, як ці проєкти поводяться на великих масштабах. Наші результати показують, що обидва проєкти мають місце для вдосконалення, але також вказують, що Istio є очевидним переможцем.</p>
+<h2 id="test-scenario">Сценарій тестування</h2>
+<p>Щоб випробувати Istio та Cilium на межі можливостей, ми створили 500 різних сервісів, кожен з яких підтримувався 100 подами. Кожен сервіс був створений в окремому просторі імен, який також містив клієнта для навантаження <a href="https://fortio.org/">Fortio</a>. Ми обмежили клієнтів пулом вузлів зі 100 32-ядерних машин, щоб усунути шум від спільних клієнтів, та виділили решту 900 8-ядерних екземплярів для наших сервісів.</p>
+<figure style="width:60%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:78.66379310344827%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/ambient-vs-cilium/scale-scenario.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/ambient-vs-cilium/scale-scenario.png" alt="Масштабування до 500 сервісів з 50 000 подами." />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<p>Для тесту Istio ми використали його режим ambient з <a href="/uk/docs/ambient/usage/waypoint/">waypoint проксі</a> у кожному просторі імен сервісу та стандартними параметрами інсталяції. Щоб зробити наші тестові сценарії схожими, ми увімкнули кілька нестандартних функцій у Cilium, включаючи шифрування WireGuard, L7-проксі та Node Init. Ми також створили мережеву політику Cilium у кожному просторі імен з правилами на основі HTTP-шляхів. У кожному сценарії ми створили зміни, масштабуючи один сервіс випадковим чином між 85 і 115 екземплярами щосекунди та переіменовуючи один простір імен щохвилини. Для перегляду точних налаштувань, які ми використовували, та для відтворення наших результатів, дивіться <a href="https://github.com/therealmitchconnors/tools/blob/2384dc26f114300687b21f921581a158f27dc9e1/perf/load/many-svc-scenario/README.md">ці нотатки</a>.</p>
+<h2 id="scalability-scorecard">Оцінка масштабованості</h2>
+<figure style="width:80%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:56.081525312294545%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/ambient-vs-cilium/scale-scorecard.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/ambient-vs-cilium/scale-scorecard.png" alt="Оцінка масштабованості: Istio проти Cilium!" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<p>Istio вдалося обробити на 56% більше запитів за 20% меншої затримки. Споживання ресурсів процесора було на 30% менше у Cilium, хоча наші вимірювання не враховують ядра, які Cilium використовував для обробки шифрування, що здійснюється у ядрі.</p>
+<p>Враховуючи використані ресурси, Istio обробила 2178 запитів на ядро проти 1815 у Cilium, що є покращенням на 20%.</p>
+<ul>
+<li><strong>Уповільнення Cilium:</strong> Хоча Cilium має напрочуд низьку затримку зі стандартними параметрами встановлення, він значно уповільнюється, коли активуються основні функції Istio, такі як політики L7 та шифрування. Крім того, споживання памʼяті та процесора в Cilium залишалося високим, навіть коли в мережі не було трафіку. Це може вплинути на загальну стабільність та надійність вашого кластера, особливо при його зростанні.</li>
+<li><strong>Istio — стабільний гравець:</strong> Режим ambient в Istio продемонстрував свою силу у стабільності та підтримці пристойної пропускної здатності, навіть з додатковим навантаженням через шифрування. Хоча Istio споживав більше памʼяті та процесора ніж Cilium під час тесту, використання процесора стабілізувалося на рівні, що значно нижчий, ніж у Cilium, коли мережа не була навантажена.</li>
+</ul>
+<h2 id="behind-the-scenes-why-the-difference">За лаштунками: Чому така різниця?</h2>
+<p>Ключ до розуміння цих відмінностей у продуктивності лежить в архітектурі та дизайні кожного інструменту.</p>
+<ul>
+<li><strong>Дилема панелі управління Cilium:</strong> Cilium запускає екземпляр панелі управління на кожному вузлі, що спричиняє навантаження на API-сервер та створює додаткові конфігураційні складнощі зі збільшенням кластера. Це часто призводило до збоїв API-сервера, через що Cilium ставав недоступним, і весь кластер ставав неактивним.</li>
+<li><strong>Перевага Istio в ефективності:</strong> Istio, завдяки централізованій панелі управління та підходу, заснованому на ідентифікації, спрощує конфігурацію та зменшує навантаження на API-сервер і вузли, спрямовуючи критичні ресурси на обробку та захист трафіку.</li>
+</ul>
+<h2 id="digging-deeper">Додаткові подробиці</h2>
+<p>Хоча метою цього проєкту є порівняння масштабованості Istio та Cilium, існують кілька обмежень, що ускладнюють пряме порівняння.</p>
+<h3 id="layer-4-isnt-always-layer-4">Не завжди L4 — це L4</h3>
+<p>Хоча Istio та Cilium обидва забезпечують політику L4, їхні API та реалізація значно відрізняються.</p>
+<h3 id="not-all-encryption-is-created-equal">Не все шифрування однакове</h3>
+<p>Cilium підтримує IPsec для шифрування, що відповідає FIPS, проте більшість інших функцій Cilium, як-от політика L7 та балансування навантаження, несумісні з IPsec.</p>
+<h3 id="hidden-costs">Приховані витрати</h3>
+<p>Хоча Istio повністю працює у просторі користувача, панель даних L4 Cilium працює в ядрі Linux за допомогою eBPF. Метрики Prometheus для використання ресурсів враховують лише ресурси простору користувача.</p>
+<h2 id="recommendations-choosing-the-right-tool-for-the-job">Рекомендації: Вибір правильного інструменту для завдання</h2>
+<p>Отже, яке рішення обрати? Це залежить від ваших конкретних потреб і пріоритетів. Для малих кластерів з чисто L3/L4 сценаріями використання та без потреби в шифруванні, Cilium пропонує економічно вигідне та продуктивне рішення. Проте для більших кластерів з акцентом на стабільність, масштабованість та розширені функції, варто обрати Istio в режимі ambient разом з альтернативною реалізацією NetworkPolicy. Багато клієнтів поєднують L3/L4 функції Cilium з L4/L7 та функціями шифрування Istio для стратегії багаторівневого захисту.</p>
+<p>Памʼятайте, що світ cloud-native мережевих технологій постійно розвивається. Слідкуйте за розвитком як Istio, так і Cilium, оскільки обидва інструменти продовжують вдосконалюватись і вирішувати ці виклики.</p>
+<h2 id="lets-keep-the-conversation-going">Продовжимо спілкування</h2>
+<p>Ви вже працювали з Istio в режимі ambient або з Cilium? Які у вас досвід та враження? Поділіться своїми думками в коментарях нижче. Вчімося один в одного та разом досліджуймо захопливий світ Kubernetes!</p>
+]]></description><pubDate>Mon, 21 Oct 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/ambient-vs-cilium/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/ambient-vs-cilium/</guid><category>istio</category><category>cilium</category><category>analysis</category></item><item><title>Залучення спільноти: Регулярні вибори в Технічний наглядовий комітет Istio</title><description><![CDATA[<p>Як і багато проєктів з відкритим кодом, проєкт Istio має дві керівні групи: <a href="https://github.com/istio/community/blob/master/steering/CHARTER.md">Керівний комітет</a>, що відповідає за адміністративні та маркетингові аспекти проєкту, і <a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md">Технічний наглядовий комітет</a> (TOC), що відповідає за прийняття важливих рішень щодо продукту та дизайну.</p>
+<p>Керівний комітет представляє компанії та учасників, які підтримують проєкт Istio, тоді як TOC є найвищим щаблем в <a href="https://github.com/istio/community/blob/master/ROLES.md">індивідуальній системі внесків</a>, що включає членів, мейнтейнерів та лідерів робочих груп.</p>
+<p>Щороку ми формуємо Керівний комітет з представників наших основних комерційних учасників і членів, обраних нашою спільнотою мейнтейнерів. Саме ця група відповідає за вибори нових членів TOC, які раніше виконували свої обовʼязки безстроково.</p>
+<p>Ми хочемо гарантувати, що всі члени нашої спільноти мають можливість висувати свої кандидатури та обіймати наші керівні посади. Сьогодні ми раді оголосити про перехід до регулярних виборів у TOC, де члени працюватимуть впродовж дворічного терміну, і закликаємо кандидатів до участі у наших перших виборах.</p>
+<h2 id="чим-займається-технічний-наглядовий-комітет">Чим займається Технічний наглядовий комітет?</h2>
+<p>Статут TOC описує обовʼязки його членів, включаючи:</p>
+<ul>
+<li>Встановлення загального технічного напрямку та планів проєкту.</li>
+<li>Розвʼязання технічних питань, розбіжностей і суперечок.</li>
+<li>Призначення <a href="/uk/docs/releases/feature-stages/">рівнів зрілості для функцій Istio</a>.</li>
+<li>Схвалення створення та розпуску робочих груп і затвердження змін у керівництві робочих груп.</li>
+<li>Забезпечення дотримання <a href="https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct">кодексу поведінки</a> та поваги до <a href="https://github.com/istio/community/blob/master/VALUES.md">цінностей спільноти</a>.</li>
+<li>Створення здорової та дружньої атмосфери для розробників і учасників спільноти.</li>
+</ul>
+<p>Хоча інтереси наших комерційних партнерів представлені Керівним комітетом, членство в TOC пов’язане з особистістю, незалежно від їхнього роботодавця. Члени діють незалежно, у своїй індивідуальній якості, і повинні ставити інтереси проєкту та спільноти на перше місце. Всі рішення ухвалюються на основі консенсусу, і тому кількість членів TOC є парною. TOC традиційно складається з 6 членів, і це залишиться без змін.</p>
+<h2 id="що-змінюється-з-новим-статутом">Що змінюється з новим статутом?</h2>
+<p>Основні зміни в <a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#charter">новому статуті</a>, нещодавно ратифікованому Керівним комітетом, включають:</p>
+<ul>
+<li>Члени тепер працюватимуть терміном у 2 роки.</li>
+<li>Керівний комітет щороку голосуватиме за переобрання 3 із 6 членів TOC.</li>
+<li>Процедура виборів <a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#qualification-and-eligibility">чітко визначена</a>, включаючи вимоги до кандидатів та оцінювання.</li>
+<li>Формалізовано очікування щодо регулярних зустрічей між Керівним комітетом і TOC.</li>
+<li>Передбачено формальний процес усунення члена TOC у разі втрати довіри з боку Керівного комітету.</li>
+</ul>
+<p><sup>†</sup> Немає обмежень на кількість термінів, протягом яких член може перебувати на посаді, і чинні члени TOC можуть знову балотуватися після закінчення їхнього терміну.</p>
+<h2 id="прощання-з-членами-toc">Прощання з членами TOC</h2>
+<p>Ми нещодавно оголосили про <a href="/news/releases/1.22.x/announcing-1.22/#a-thank-you">вихід з проєкту давнього учасника Еріка Ван Нормана</a>. Також ми прощаємось із Ніраджем Поддаром з Istio TOC. Нірадж брав участь у проєкті з 2017 року, став співзасновником Aspen Mesh у F5, а пізніше очолював Gloo Mesh як віце-президент з інженерії в Solo.io. Він вперше був обраний до TOC у 2020 році. <a href="https://www.linkedin.com/feed/update/urn:li:activity:7251958639400206336/">Нірадж прийняв посаду віце-президента інженерії в NimbleEdge</a>, і ми вітаємо його та бажаємо успіхів у майбутньому.</p>
+<h2 id="мейнтейнери-беріть-участь-у-перших-виборах">Мейнтейнери: беріть участь у перших виборах</h2>
+<p>Ми запланували щорічні вибори до TOC після формування Керівного комітету кожного року, що дозволить провести перші вибори приблизно в березні 2025 року.</p>
+<p>Однак, оскільки в нас наразі є дві вакансії, ми оголошуємо наші перші вибори як додаткові, щоб заповнити ці два місця на <a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#members">решту їхніх термінів</a>.</p>
+<p>Планка для приєднання до TOC навмисно встановлена високо. Кандидати повинні бути постійними мантейнерами, визнаними у спільноті Istio як технічні лідери, здатні до співпраці, і відповідати <a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#qualification-and-eligibility">вимогам кваліфікації</a>, які демонструють їхню відповідність цій посаді.</p>
+<p>Щоб подати заявку на місце в TOC, надішліть електронного листа на <a href="mailto:elections@istio.io">elections@istio.io</a>, включивши посилання на односторінковий документ Google Doc з вашою самооцінкою за критеріями кваліфікації. Приймання заявок закривається через два тижні, 31 жовтня.</p>
+<p>Бажаємо успіхів!</p>
+]]></description><pubDate>Thu, 17 Oct 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/toc-charter-elections/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/toc-charter-elections/</guid><category>istio</category><category>toc</category><category>governance</category><category>community</category><category>election</category></item><item><title>Чи може ваша платформа реалізовувати політики? Прискорте команди завдяки функціональності платформних політик L7</title><description><![CDATA[<p>Спільні обчислювальні платформи надають ресурси та функціональність для команд орендарів, щоб їм не доводилося створювати все з нуля. Хоча часом буває важко збалансувати всі запити від орендарів, важливо, щоб платформа ставила питання: яку найціннішу функцію ми можемо запропонувати нашим орендарям?</p>
+<p>Часто роботу доручають безпосередньо командам що створюють застосунки, але деякі функції найкраще реалізувати один раз і надавати їх як сервіс для всіх команд. Однією з таких функцій, яку може запропонувати більшість команд, що опікуються платформами, є надання стандартної, гнучкої системи політики авторизації для рівня застосунків L7. Політика як код дозволяє командам переносити рішення щодо авторизації з рівня застосунків у легку та ефективну розподілену систему. Це може здатися складним завданням, але з правильними інструментами воно не обов’язково є таким.</p>
+<p>Ми розглянемо, як Istio та Open Policy Agent (OPA) можуть використовуватися для забезпечення політик рівня L7 у вашій платформі. Ми покажемо, як почати з простого прикладу. Ви побачите, як ця комбінація є надійним варіантом для швидкого і прозорого надання політик командам розробки застосунків у бізнесі, а також забезпечує дані, необхідні командам безпеки для аудиту та дотримання стандартів.</p>
+<h2 id="try-it-out">Спробуйте самі</h2>
+<p>Коли OPA інтегровано з Istio, він може використовуватися для забезпечення детальних політик контролю доступу для мікросервісів. У цьому посібнику описано, як забезпечити політики контролю доступу для простого мікросервісного застосунку.</p>
+<h3 id="prerequisites">Попередні вимоги</h3>
+<ul>
+<li>Кластер Kubernetes з встановленим Istio.</li>
+<li>Встановлений інструмент командного рядка <code>istioctl</code>.</li>
+</ul>
+<p>Встановіть Istio і налаштуйте <a href="/docs/reference/config/istio.mesh.v1alpha1/">параметри mesh</a>, щоб увімкнути OPA:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ istioctl install -y -f - &lt;&lt;&#39;EOF&#39;
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+    accessLogFormat: |
+      [OPA DEMO] my-new-dynamic-metadata: &#34;%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%&#34;
+    extensionProviders:
+    - name: &#34;opa.local&#34;
+      envoyExtAuthzGrpc:
+        service: &#34;opa.opa.svc.cluster.local&#34;
+        port: &#34;9191&#34;
+EOF</code></pre>
+<p>Зверніть увагу, що в конфігурації ми визначаємо розділ <code>extensionProviders</code>, який вказує на самостійне встановлення OPA.</p>
+<p>Розгорніть приклад застосунків. Httpbin — відомий застосунок, який можна використовувати для тестування HTTP-запитів; він швидко демонструє, як можна працювати з атрибутами запиту та відповіді.</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl create ns my-app
+$ kubectl label namespace my-app istio-injection=enabled
+
+$ kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/httpbin/httpbin.yaml -n my-app</code></pre>
+<p>Розгорніть OPA. Це не вдасться, оскільки очікується <code>configMap</code>, що містить стандартне правило Rego для використання. Цей <code>configMap</code> буде розгорнуто пізніше у нашому прикладі.</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl create ns opa
+$ kubectl label namespace opa istio-injection=enabled
+
+$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: opa
+  name: opa
+  namespace: opa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opa
+  template:
+    metadata:
+      labels:
+        app: opa
+    spec:
+      containers:
+      - image: openpolicyagent/opa:0.61.0-envoy
+        name: opa
+        args:
+          - &#34;run&#34;
+          - &#34;--server&#34;
+          - &#34;--disable-telemetry&#34;
+          - &#34;--config-file=/config/config.yaml&#34;
+          - &#34;--log-level=debug&#34; # Розкоментуйте цей рядок, щоб увімкнути журнали налагодження
+          - &#34;--diagnostic-addr=0.0.0.0:8282&#34;
+          - &#34;/policy/policy.rego&#34; # Стандартна політика
+        volumeMounts:
+          - mountPath: &#34;/config&#34;
+            name: opa-config
+          - mountPath: &#34;/policy&#34;
+            name: opa-policy
+      volumes:
+        - name: opa-config
+          configMap:
+            name: opa-config
+        - name: opa-policy
+          configMap:
+            name: opa-policy
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-config
+  namespace: opa
+data:
+  config.yaml: |
+    # Тут ви знайдете конфігурацію OPA, яку ви можете знайти в офіційній документації
+    decision_logs:
+      console: true
+    plugins:
+      envoy_ext_authz_grpc:
+        addr: &#34;:9191&#34;
+        path: mypackage/mysubpackage/myrule # Default path for grpc plugin
+    # Тут ви можете додати власну конфігурацію з сервісами та пакетами
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opa
+  namespace: opa
+  labels:
+    app: opa
+spec:
+  ports:
+    - port: 9191
+      protocol: TCP
+      name: grpc
+  selector:
+    app: opa
+---
+EOF</code></pre>
+<p>Розгорніть <code>AuthorizationPolicy</code>, щоб визначити, які служби будуть захищені OPA.</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: my-opa-authz
+  namespace: istio-system # Цей рядок застосовує політику до всіх мереж в просторі назв налаштувань istio-system
+spec:
+  selector:
+    matchLabels:
+      ext-authz: enabled
+  action: CUSTOM
+  provider:
+    name: &#34;opa.local&#34;
+  rules: [{}] # Порожнє правило, буде застосовуватися до селекторів з міткою ext-authz: enabled
+EOF</code></pre>
+<p>Позначімо застосунок міткою, щоб впровадити політику:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl patch deploy httpbin -n my-app --type=merge -p=&#39;{
+  &#34;spec&#34;: {
+    &#34;template&#34;: {
+      &#34;metadata&#34;: {
+        &#34;labels&#34;: {
+          &#34;ext-authz&#34;: &#34;enabled&#34;
+        }
+      }
+    }
+  }
+}&#39;</code></pre>
+<p>Зверніть увагу, що в цьому ресурсі ми визначаємо OPA <code>extensionProvider</code>, який ви встановили в конфігурації Istio:</p>
+<pre><code class='language-yaml' data-expandlinks='true' data-repo='istio' >[...]
+  provider:
+    name: &#34;opa.local&#34;
+[...]</code></pre>
+<h2 id="how-it-works">Як це працює</h2>
+<p>При застосуванні <code>AuthorizationPolicy</code> панель управління Istio (istiod) надсилає необхідні конфігурації до sidecar проксі (Envoy) вибраних сервісів, зазначених у політиці. Envoy потім відправляє запит на сервер OPA, щоб перевірити, чи дозволено цей запит.</p>
+<figure style="width:75%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:47.43008314436886%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/l7-policy-with-opa/opa1.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/l7-policy-with-opa/opa1.png" alt="Istio та OPA" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<p>Проксі Envoy працює шляхом налаштування фільтрів у ланцюгу. Одним із таких фільтрів є <code>ext_authz</code>, який реалізує зовнішню службу авторизації з певним повідомленням. Будь-який сервер, що реалізує відповідний protobuf, може підʼєднатися до проксі Envoy та надати рішення щодо авторизації; OPA є одним з таких серверів.</p>
+<figure style="width:75%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:40.17825311942959%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/l7-policy-with-opa/opa2.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/l7-policy-with-opa/opa2.png" alt="Фільтри" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<p>Раніше, коли ви встановлювали сервер OPA, ви використовували версію сервера Envoy. Цей образ дозволяє налаштувати втулок gRPC, який впроваджує службу <code>ext_authz</code> protobuf.</p>
+<pre><code class='language-yaml' data-expandlinks='true' data-repo='istio' >[...]
+      containers:
+      - image: openpolicyagent/opa:0.61.0-envoy # Це версія образу OPA з втулком Envoy
+        name: opa
+[...]</code></pre>
+<p>У конфігурації ви увімкнули втулок Envoy та порт, на якому він слухає:</p>
+<pre><code class='language-yaml' data-expandlinks='true' data-repo='istio' >[...]
+    decision_logs:
+      console: true
+    plugins:
+      envoy_ext_authz_grpc:
+        addr: &#34;:9191&#34; # Це порт, на якому буде слухати втулок Envoy
+        path: mypackage/mysubpackage/myrule # Стандартний шлях для втулка grpc
+    # Тут ви можете додати власну конфігурацію з сервісами та наборами даних
+[...]</code></pre>
+<p>Переглядаючи <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/service/auth/v3/external_auth.proto">документацію про службу авторизації Envoy</a>, можна побачити, що повідомлення має такі атрибути:</p>
+<pre><code class='language-json' data-expandlinks='true' data-repo='istio' >OkHttpResponse
+{
+  &#34;status&#34;: {...},
+  &#34;denied_response&#34;: {...},
+  &#34;ok_response&#34;: {
+      &#34;headers&#34;: [],
+      &#34;headers_to_remove&#34;: [],
+      &#34;dynamic_metadata&#34;: {...},
+      &#34;response_headers_to_add&#34;: [],
+      &#34;query_parameters_to_set&#34;: [],
+      &#34;query_parameters_to_remove&#34;: []
+    },
+  &#34;dynamic_metadata&#34;: {...}
+}</code></pre>
+<p>Це означає, що на основі відповіді від сервера authz Envoy може додавати або видаляти заголовки, параметри запиту та навіть змінювати статус відповіді. OPA також може це робити, як описано в його <a href="https://www.openpolicyagent.org/docs/latest/envoy-primer/#example-policy-with-additional-controls">документації</a>.</p>
+<h2 id="testing">Тестування</h2>
+<p>Протестуймо просте використання (авторизацію), а потім створимо більш розширене правило, щоб показати, як можна використовувати OPA для зміни запиту та відповіді.</p>
+<p>Розгорніть застосунок для запуску команд curl до тестового застосунку httpbin:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl -n my-app run --image=curlimages/curl curl -- /bin/sleep 100d</code></pre>
+<p>Застосуйте перше правило Rego і перезапустіть розгортання OPA:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: opa
+data:
+  policy.rego: |
+    package mypackage.mysubpackage
+
+    import rego.v1
+
+    default myrule := false
+
+    myrule if {
+      input.attributes.request.http.headers[&#34;x-force-authorized&#34;] == &#34;enabled&#34;
+    }
+
+    myrule if {
+      input.attributes.request.http.headers[&#34;x-force-authorized&#34;] == &#34;true&#34;
+    }
+EOF</code></pre>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl rollout restart deployment -n opa</code></pre>
+<p>Простий сценарій передбачає дозвіл запитів, якщо вони містять заголовок <code>x-force-authorized</code> зі значенням <code>enabled</code> або <code>true</code>. Якщо заголовок відсутній або має інше значення, запит буде відхилено.</p>
+<p>Існує кілька способів створити правило Rego. У цьому випадку ми створили два різні правила. Виконуються вони у порядку, і перше правило, яке задовольняє всі умови, буде застосоване.</p>
+<h3 id="simple-rule">Просте правило</h3>
+<p>Результатом наступного запиту буде відповідь <code>403</code>:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s -w &#34;\nhttp_code=%{http_code}&#34; httpbin:8000/get</code></pre>
+<p>Наступний запит поверне <code>200</code> та тіло відповіді:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s -w &#34;\nhttp_code=%{http_code}&#34; httpbin:8000/get -H &#34;x-force-authorized: enabled&#34;</code></pre>
+<h3 id="advanced-manipulations">Складніші маніпуляції</h3>
+<p>Тепер складніше правило. Застосуйте друге правило Rego і перезапустіть розгортання OPA:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl apply -f - &lt;&lt;EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: opa
+data:
+  policy.rego: |
+    package mypackage.mysubpackage
+
+    import rego.v1
+
+    request_headers := input.attributes.request.http.headers
+
+    force_unauthenticated if request_headers[&#34;x-force-unauthenticated&#34;] == &#34;enabled&#34;
+
+    default allow := false
+
+    allow if {
+      not force_unauthenticated
+      request_headers[&#34;x-force-authorized&#34;] == &#34;true&#34;
+    }
+
+    default status_code := 403
+
+    status_code := 200 if allow
+
+    status_code := 401 if force_unauthenticated
+
+    default body := &#34;Unauthorized Request&#34;
+
+    body := &#34;Authentication Failed&#34; if force_unauthenticated
+
+    myrule := {
+      &#34;body&#34;: body,
+      &#34;http_status&#34;: status_code,
+      &#34;allowed&#34;: allow,
+      &#34;headers&#34;: {&#34;x-validated-by&#34;: &#34;my-security-checkpoint&#34;},
+      &#34;response_headers_to_add&#34;: {&#34;x-add-custom-response-header&#34;: &#34;added&#34;},
+      &#34;request_headers_to_remove&#34;: [&#34;x-force-authorized&#34;],
+      &#34;dynamic_metadata&#34;: {&#34;my-new-metadata&#34;: &#34;my-new-value&#34;},
+    }
+EOF</code></pre>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl rollout restart deployment -n opa</code></pre>
+<p>В цьому правилі ви можете побачити:</p>
+<pre><code class='language-plain' data-expandlinks='true' data-repo='istio' >myrule[&#34;allowed&#34;] := allow # Зверніть увагу, що `allowed` є обовʼязковим при поверненні обʼєкта, як тут `myrule`.
+myrule[&#34;headers&#34;] := headers
+myrule[&#34;response_headers_to_add&#34;] := response_headers_to_add
+myrule[&#34;request_headers_to_remove&#34;] := request_headers_to_remove
+myrule[&#34;body&#34;] := body
+myrule[&#34;http_status&#34;] := status_code</code></pre>
+<p>Це значення, які будуть повернуті проксі-серверу Envoy від OPA-сервера. Envoy буде використовувати ці значення для модифікації запиту і відповіді.</p>
+<p>Зверніть увагу, що при поверненні JSON-обʼєкта потрібно вказувати <code>allowed</code>, а не тільки true/false. Це можна знайти <a href="https://www.openpolicyagent.org/docs/latest/envoy-primer/#output-document">в документації OPA</a>.</p>
+<h4 id="change-returned-body">Зміна тіла відповіді</h4>
+<p>Випробуємо нові можливості:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s -w &#34;\nhttp_code=%{http_code}&#34; httpbin:8000/get</code></pre>
+<p>Тепер ми можемо змінити тіло відповіді. Значення <code>403</code> змінює тіло в правилі Rego на «Unauthorized Request» (Несанкціонований запит). За допомогою попередньої команди ви повинні отримати:</p>
+<pre><code class='language-plain' data-expandlinks='true' data-repo='istio' >Unauthorized Request
+http_code=403</code></pre>
+<h4 id="change-returned-body-and-status-code">Зміна тіла, що повертається і коду статусу</h4>
+<p>Запустивши запит із заголовком <code>x-force-authorized: enabled</code> ви повинні отримати тіло «Authentication Failed» і помилку «401»:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s -w &#34;\nhttp_code=%{http_code}&#34; httpbin:8000/get -H &#34;x-force-unauthenticated: enabled&#34;</code></pre>
+<h4 id="adding-headers-to-request">Додавання заголовків до запиту</h4>
+<p>Запустивши відповідний запит, ви повинні отримати тіло відповіді з новим заголовком <code>x-validated-by: my-security-checkpoint</code> і видаленим заголовком <code>x-force-authorized</code>:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s httpbin:8000/get -H &#34;x-force-authorized: true&#34;</code></pre>
+<h4 id="adding-headers-to-response">Додавання заголовків до відповіді</h4>
+<p>Запустивши той самий запит, але показавши лише заголовок, ви побачите заголовок відповіді, доданий під час перевірки Authz <code>x-add-custom-response-header: added</code>:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s -I httpbin:8000/get -H &#34;x-force-authorized: true&#34;</code></pre>
+<h4 id="sharing-data-between-filters">Обмін даними між фільтрами</h4>
+<p>Останнім кроком є передача даних іншим фільтрам Envoy за допомогою <code>dynamic_metadata</code>. Це корисно, коли потрібно передати дані іншому фільтру <code>ext_authz</code> у ланцюзі або вивести їх у логи застосунку.</p>
+<figure style="width:75%">
+    <div class="wrapper-with-intrinsic-ratio" style="padding-bottom:44.210204705163456%">
+        <a data-skipendnotes="true" href="/uk/blog/2024/l7-policy-with-opa/opa3.png" title="">
+            <img class="element-to-stretch" src="/uk/blog/2024/l7-policy-with-opa/opa3.png" alt="Metadata" />
+        </a>
+    </div>
+    <figcaption></figcaption>
+</figure>
+<p>Для цього перегляньте формат журналу доступу, який ви налаштували раніше:</p>
+<pre><code class='language-plain' data-expandlinks='true' data-repo='istio' >[...]
+    accessLogFormat: |
+      [OPA DEMO] my-new-dynamic-metadata: &#34;%DYNAMIC_METADATA(envoy.filters.http.ext_authz)%&#34;
+[...]</code></pre>
+<p><code>DYNAMIC_METADATA</code> — це зарезервоване ключове слово для доступу до обʼєкта метаданих. Далі вказується назва фільтра, до якого ви хочете звернутися. У вашому випадку, імʼя <code>envoy.filters.http.ext_authz</code> автоматично створюється Istio. Ви можете перевірити це, вивівши конфігурацію Envoy:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ istioctl pc all deploy/httpbin -n my-app -oyaml | grep envoy.filters.http.ext_authz</code></pre>
+<p>Ви побачите конфігурації для фільтра.</p>
+<p>Тепер перевіримо динамічні метадані. У розширеному правилі ви створюєте новий запис метаданих: <code>{&quot;my-new-metadata&quot;: &quot;my-new-value&quot;}</code>.</p>
+<p>Виконайте запит і перевірте логи застосунку:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl exec -n my-app curl -c curl  -- curl -s -I httpbin:8000/get -H &#34;x-force-authorized: true&#34;
+$ kubectl logs -n my-app deploy/httpbin -c istio-proxy --tail 1</code></pre>
+<p>У виводі ви побачите нові атрибути, налаштовані за допомогою правил OPA Rego:</p>
+<pre><code class='language-plain' data-expandlinks='true' data-repo='istio' >[...]
+ my-new-dynamic-metadata: &#34;{&#34;my-new-metadata&#34;:&#34;my-new-value&#34;,&#34;decision_id&#34;:&#34;8a6d5359-142c-4431-96cd-d683801e889f&#34;,&#34;ext_authz_duration&#34;:7}&#34;
+[...]</code></pre>
+<h2 id="conclusion">Підсумки</h2>
+<p>У цьому посібнику ми показали, як інтегрувати Istio та OPA для впровадження політик для простого мікросервісного застосунку. Ми також продемонстрували, як використовувати Rego для модифікації атрибутів запиту та відповіді. Це основний приклад для побудови системи політик на платформі, яку можуть використовувати всі команди розробників застосунків.</p>
+]]></description><pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/l7-policy-with-opa/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/l7-policy-with-opa/</guid><category>istio</category><category>opa</category><category>policy</category><category>platform</category><category>authorization</category></item><item><title>Зовнішня публікація: Сервісна мережа Istio для тих, хто має справи</title><description><![CDATA[<div>
+    <aside class="callout quote">
+        <div class="type">
+            <svg class="large-icon"><use xlink:href="/img/icons.svg#callout-quote"/></svg>
+        </div>
+        <div class="content">Нещодавно я зробив невеликий внесок в Istio, проєкт з відкритим кодом для створення сервісних мереж. Мій внесок полягав у додаванні кількох тестів для однієї з команд CLI Istio. Якщо вам цікаві деталі, ви можете знайти pull request тут. Це були незначні зміни, але чудовий досвід навчання. Робота з Istio допомогла мені глибше зрозуміти сервісні мережі. Я з нетерпінням чекаю можливості зробити ще більше змін. У цій публікації я поясню, що таке Istio, чому цей проєкт може бути корисним та як він працює.</div>
+
+        
+    </aside>
+</div>
+
+<p><a href="https://www.lucavall.in/blog/the-istio-service-mesh-for-people-who-have-stuff-to-do">Прочитайте повну публікацію на lucavall.in</a>.</p>
+]]></description><pubDate>Thu, 10 Oct 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/link-the-istio-service-mesh-for-people-who-have-stuff-to-do/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/link-the-istio-service-mesh-for-people-who-have-stuff-to-do/</guid></item><item><title>Представляємо Sail Operator: новий спосіб керування Istio</title><description><![CDATA[<p>З нещодавнім оголошенням про <a href="/uk/blog/2024/in-cluster-operator-deprecation-announcement/">застарівання</a> In-Cluster IstioOperator в Istio 1.23 та його подальше видалення в Istio 1.24, ми хочемо підвищити обізнаність про <a href="https://github.com/istio-ecosystem/sail-operator">новий оператор</a>, який команда Red Hat розробляє для керування Istio в рамках організації <a href="https://github.com/istio-ecosystem">istio-ecosystem</a>.</p>
+<p>Sail Operator керує життєвим циклом панелей управління Istio, що спрощує й робить ефективнішим процес розгортання, налаштування та оновлення Istio для адміністраторів кластерів у великих виробничих середовищах. Замість того, щоб створювати нову схему конфігурації та &ldquo;вигадувати велосипед&rdquo;, API Sail Operator побудовані навколо API Helm charts Istio. Усі параметри інсталяції та конфігурації, які надаються через Helm charts Istio, доступні через поля значень CRD Sail Operator. Це означає, що ви можете легко керувати та налаштовувати Istio за допомогою знайомих конфігурацій без необхідності вивчати додаткові елементи.</p>
+<p>Sail Operator має три основні концепції ресурсів:</p>
+<ul>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#istio-resource">Istio</a>: використовується для керування панелями управління Istio.</li>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#istiorevision-resource">Istio Revision</a>: представляє ревізію панелі управління, що є інстанцією Istio з певною версією та імʼям ревізії.</li>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#istiocni-resource">Istio CNI</a>: використовується для керування ресурсами та життєвим циклом втулка Istio CNI. Для інсталяції втулка Istio CNI створюється ресурс <code>IstioCNI</code>.</li>
+</ul>
+<p>Наразі основна функція Sail Operator — це стратегія оновлення. Оператор надає інтерфейс для керування оновленням панелей управління Istio. Він підтримує дві стратегії оновлення:</p>
+<ul>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#inplace">In Place</a>: зі стратегією <code>InPlace</code>, наявна панель управління Istio замінюється новою версією, і sidecarʼи навантажень одразу підключаються до нової панелі управління. Це означає, що навантаження не потрібно переносити з однієї панелі управління на іншу.</li>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#revisionbased">Revision Based</a>: зі стратегією <code>RevisionBased</code>, новий екземпляр панелі управління Istio створюється для кожної зміни поля <code>Istio.spec.version</code>. Стара панель управління залишається на місці, доки всі навантаження не будуть перенесені на новий екземпляр. Додатково, прапорець <code>updateWorkloads</code> може бути встановлений для автоматичного переміщення навантажень на нову панель управління після її готовності.</li>
+</ul>
+<p>Ми розуміємо, що оновлення панелі управління Istio повʼязане з ризиками та може вимагати значних зусиль для великих розгортань, тому це є нашим основним фокусом на цей момент. У майбутньому ми розглядаємо можливості покращення Sail Operator для підтримки таких випадків використання, як мультиоренда та ізоляція, федерація між кластерами та спрощена інтеграція зі сторонніми проєктами.</p>
+<p>Проєкт Sail Operator ще на стадії alpha і знаходиться у стадії активної розробки. Зазначимо, що як проєкт з організації istio-ecosystem, він не підтримується в рамках основного проєкту Istio. Ми активно шукаємо відгуки та внески від спільноти. Якщо ви бажаєте взяти участь у проєкті, зверніться до <a href="https://github.com/istio-ecosystem/sail-operator/blob/main/README.md">документації</a> та <a href="https://github.com/istio-ecosystem/sail-operator/blob/main/CONTRIBUTING.md">інструкцій для внесків</a>. Також ви можете випробувати новий оператор, дотримуючись вказівок у <a href="https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md">документації для користувачів</a>.</p>
+<p>Для додаткової інформації звʼяжіться з нами:</p>
+<ul>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/discussions">Обговорення</a></li>
+<li><a href="https://github.com/istio-ecosystem/sail-operator/issues">Питання</a></li>
+<li><a href="https://istio.slack.com/archives/C06SE9XCK3Q">Slack</a></li>
+</ul>
+]]></description><pubDate>Mon, 19 Aug 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/introducing-sail-operator/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/introducing-sail-operator/</guid><category>istio</category><category>operator</category><category>sail</category><category>incluster</category><category>deprecation</category></item><item><title>Istio оголошує про визнання застарілим In-Cluster Operator</title><description><![CDATA[<p>In-Cluster Operator Istio було визнано застарілим в Istio 1.23. Користувачам, які використовують оператор, кількість яких ми оцінюємо менше ніж 10% від нашої бази користувачів, потрібно буде мігрувати до інших механізмів інсталяції та оновлення, щоб оновитися до Istio 1.24 або вище. Читайте далі, щоб дізнатися, чому ми прийняли це рішення та що потрібно зробити користувачам оператора.</p>
+<h2 id="does-this-affect-you">Чи це вплине на вас?</h2>
+<p>Це застарівання стосується лише користувачів <a href="https://archive.istio.io/v1.23/docs/setup/install/operator/">In-Cluster Operator</a>. <strong>Користувачі, які встановлюють Istio за допомогою команди <code>istioctl install</code> і YAML файлу <code>IstioOperator</code>, не постраждають</strong>.</p>
+<p>Щоб визначити, чи це вплине на вас, виконайте команди <code>kubectl get deployment -n istio-system istio-operator</code> і <code>kubectl get IstioOperator</code>. Якщо обидві команди повертають непорожні значення, ваш кластер знаходиться під впливом цього застарівання. Згідно з останніми опитуваннями, ми очікуємо, що це вплине на менше ніж 10% користувачів Istio.</p>
+<p>Інсталяції Istio на основі оператора продовжать працювати безстроково, але не зможуть бути оновлені вище 1.23.x.</p>
+<h2 id="when-do-i-need-to-migrate">Коли потрібно мігрувати?</h2>
+<p>Відповідно до політики визнання функцій застарілими в Istio для бета-функцій, In-Cluster Operator Istio буде видалено з релізом Istio 1.24, приблизно через три місяці після цього оголошення. Istio 1.23 буде підтримуватись до березня 2025 року, після чого користувачам оператора потрібно буде мігрувати до іншого механізму інсталяції для збереження підтримки.</p>
+<h2 id="how-do-i-migrate">Як мігрувати?</h2>
+<p>Проєкт Istio продовжить підтримувати інсталяцію та оновлення через команду <code>istioctl</code>, а також з допомогою Helm. Через популярність Helm в екосистемі розробки платформ, ми рекомендуємо більшості користувачів мігрувати на Helm. <code>istioctl install</code> базується на шаблонах Helm, і в майбутніх версіях можливе глибше інтегрування з Helm.</p>
+<p>Інсталяції Helm також можуть бути керовані з допомогою GitOps інструментів, таких як <a href="https://fluxcd.io/">Flux</a> або <a href="https://argo-cd.readthedocs.io/">Argo CD</a>.</p>
+<p>Користувачі, які віддають перевагу шаблону оператора для запуску Istio, можуть мігрувати до одного з двох нових проєктів екосистеми Istio: Classic Operator Controller або Sail Operator.</p>
+<h3 id="migrating-to-helm">Міграція на Helm</h3>
+<p>Міграція на Helm вимагає переведення вашого YAML файлу <code>IstioOperator</code> у Helm <code>values.yaml</code>. Інструменти для підтримки цієї міграції будуть надані разом з релізом Istio 1.24.</p>
+<h3 id="migrating-to-istioctl">Міграція на istioctl</h3>
+<p>Визначте ваш ресурс <code>IstioOperator</code>: має бути лише один результат.</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl get IstioOperator</code></pre>
+<p>Використовуючи імʼя вашого ресурсу, завантажте конфігурацію вашого оператора у форматі YAML:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl get IstioOperator &lt;name&gt; &gt; istio.yaml</code></pre>
+<p>Вимкніть In-Cluster Operator. Це не вимкне вашу панель управління або порушить ваш поточний трафік мережі.</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl scale deployment -n istio-system istio-operator –replicas 0</code></pre>
+<p>Коли ви будете готові оновити Istio до версії 1.24 або пізнішої, дотримуйтесь <a href="/uk/docs/setup/upgrade/canary/">інструкцій з оновлення</a>, використовуючи файл <code>istio.yaml</code>, який ви завантажили вище.</p>
+<p>Після завершення та перевірки вашої міграції виконайте наступні команди для очищення ресурсів оператора:</p>
+<pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl delete deployment -n istio-system istio-operator
+$ kubectl delete customresourcedefinition istiooperator</code></pre>
+<h3 id="migrating-to-the-classic-operator-controller">Міграція на Classic Operator Controller</h3>
+<p>Новий проєкт екосистеми, <a href="https://github.com/istio-ecosystem/classic-operator-controller">Classic Operator Controller</a>, є форком оригінального контролера, вбудованого в Istio. Цей проєкт підтримує той самий API та кодову базу, що й оригінальний оператор, але підтримується поза основним проєктом Istio.</p>
+<p>Оскільки API є таким самим, міграція є прямолінійною: потрібно лише інсталювати новий оператор.</p>
+<p>Classic Operator Controller не підтримується проєктом Istio.</p>
+<h3 id="migrating-to-sail-operator">Міграція на Sail Operator</h3>
+<p>Новий проєкт екосистеми, <a href="https://github.com/istio-ecosystem/sail-operator">Sail Operator</a>, може інсталювати та керувати життєвим циклом панелі управління Istio у Kubernetes або OpenShift кластері.</p>
+<p>API Sail Operator побудовані навколо API Helm charts Istio. Усі параметри інсталяції та конфігурації, які надаються через Helm charts Istio, доступні через поля <code>values:</code> CRD Sail Operator.</p>
+<p>Sail Operator не підтримується проєктом Istio.</p>
+<h2 id="what-is-an-operator-and-why-did-istio-have-one">Що таке оператор і чому Istio його мав?</h2>
+<p><a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">Шаблон оператора</a> був популяризований CoreOS у 2016 році метод кодифікації людського інтелекту в код. Найбільш поширене використання — це оператор бази даних, де користувач може мати кілька екземплярів бази даних в одному кластері з кількома поточними операційними завданнями (резервні копії, вакуумування, розподіл).</p>
+<p>Istio вперше представив istioctl і In-Cluster Operator у версії 1.4, у відповідь на проблеми з Helm v2. Того ж часу було представлено Helm v3, який вирішив проблеми спільноти і є переважним методом інсталяції програмного забезпечення в Kubernetes сьогодні. Підтримка Helm v3 була додана в Istio 1.8.</p>
+<p>In-Cluster Operator Istio обробляв інсталяцію компонентів сервісної мережі — операцію, яку зазвичай виконуєте один раз і для одного екземпляра на кластер. Можна вважати це способом запуску istioctl всередині вашого кластера. Однак це означало, що у вас є контролер з високими привілеями всередині вашого кластера, що послаблює вашу безпеку. Він не обробляє жодних поточних адміністративних завдань (резервні копії, знімки тощо, не є вимогами для запуску Istio).</p>
+<p>Istio оператор є чимось, що потрібно встановити в кластер, що означає, що ви вже повинні управляти інсталяцією чогось. Використання його для оновлення кластера також спочатку вимагало завантаження та запуску нової версії istioctl.</p>
+<p>Використання оператора означає, що ви створили рівень абстракції, де вам потрібно мати параметри у вашому власному ресурсі для налаштування всього, що ви можете бажати змінити в інсталяції. Istio обійшов це, пропонуючи API <code>IstioOperator</code>, яке дозволяє конфігурувати параметри інсталяції. Цей ресурс використовується як In-Cluster Operator, так і istioctl install, тому є тривіальний шлях міграції для користувачів оператора.</p>
+<p>Три роки тому, приблизно в часі Istio 1.12, ми оновили нашу документацію, щоб сказати, що використання оператора для нових інсталяцій Istio не рекомендується, і що користувачі повинні використовувати istioctl або Helm для інсталяції Istio.</p>
+<p><a href="https://blog.howardjohn.info/posts/istio-install/">Наявність трьох різних методів інсталяції викликало плутанину</a>, і для того, щоб забезпечити найкращий досвід для людей, які використовують Helm або istioctl, понад 90% нашої бази установок, ми вирішили офіційно визнати застарілим In-Cluster Operator в Istio 1.23.</p>
+]]></description><pubDate>Wed, 14 Aug 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/in-cluster-operator-deprecation-announcement/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/in-cluster-operator-deprecation-announcement/</guid><category>operator</category><category>deprecation</category></item><item><title>Прощавай, sidecar: Ambient режим Istio досяг бета-версії в v1.22</title><description><![CDATA[<p>Сьогодні революційний новий режим Ambient <span class="term" data-title="Панель даних" data-body="&lt;p&gt;Панель даних — це частина mesh, яка безпосередньо обробляє та маршрутизує трафік між екземплярами навантаження.&lt;/p&gt;
+&lt;p&gt;У режимі &lt;span class=&#34;term&#34; data-title=&#34;Sidecar&#34; data-body=&#34;&amp;lt;p&amp;gt;Sidecar загалом є контейнером, який працює поряд з основним застосунком, надаючи додаткову функціональність. В Istio режим sidecar — це &amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#data-plane-mode&amp;#34;&amp;gt;режим панелі даних&amp;lt;/a&amp;gt;, який запускає проксі &amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#envoy&amp;#34;&amp;gt;Envoy&amp;lt;/a&amp;gt; поряд з кожним
+&amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#pod&amp;#34;&amp;gt;Podʼом&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&#34;&gt;sidecar&lt;/span&gt; панель даних Istio використовує проксі &lt;a href=&#34;/v1.24/uk/docs/reference/glossary/#envoy&#34;&gt;Envoy&lt;/a&gt;, розгорнуті як sidecar, для медіації та контролю всього трафіку, який надсилають і отримують ваші сервіси mesh.&lt;/p&gt;
+&lt;p&gt;У режимі &lt;span class=&#34;term&#34; data-title=&#34;Ambient&#34; data-body=&#34;&amp;lt;p&amp;gt;Режим ambient (режим оточення) належить до &amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#data-plane-mode&amp;#34;&amp;gt;режиму панелі даних&amp;lt;/a&amp;gt;, що складається з компонента для кожного вузла та, за бажанням, компонента для кожного простору імен. Мережа, що створюється при встановленні Istio в режимі ambient, може називатися ambient &amp;lt;em&amp;gt;mesh&amp;lt;/em&amp;gt;. Режим ambient є альтернативою розгортанню в &amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#sidecar&amp;#34;&amp;gt;режимі sidecar&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&#34;&gt;ambient&lt;/span&gt; панель даних Istio використовує проксі &lt;span class=&#34;term&#34; data-title=&#34;ztunnel&#34; data-body=&#34;&amp;lt;p&amp;gt;Ztunnel належить до компонента проксі вузла в режимі &amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#ambient&amp;#34;&amp;gt;ambient&amp;lt;/a&amp;gt; панелі даних. Ztunnel працює на кожному вузлі й безпечно передає трафік, використовуючи протокол &amp;lt;a href=&amp;#34;/uk/docs/reference/glossary/#hbone&amp;#34;&amp;gt;HBONE&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Детальнішу інформацію можна знайти в &amp;lt;a href=&amp;#34;/uk/docs/ambient/architecture/data-plane/&amp;#34;&amp;gt;документації по панелі даних ambient&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&#34;&gt;ztunnel&lt;/span&gt; на рівні вузла, розгорнуті як DaemonSet, для медіації та контролю всього трафіку, який надсилають і отримують ваші сервіси mesh.&lt;/p&gt;
+">панелі даних</span> в Istio досяг бета-версії. Ambient режим розроблений для спрощення операцій, розширення сумісності з застосунками та зменшення витрат на інфраструктуру. Він забезпечує панель даних без sidecar, інтегровану у вашу інфраструктуру, залишаючи основні функції Istio, такі як безпека нульового рівня довіри, телеметрія та управління трафіком.</p>
+<p>Ambient режим <a href="/blog/2022/introducing-ambient-mesh/">був оголошений у вересні 2022 року</a>. З того часу наша спільнота впродовж 20 місяців важкої роботи та співпраці, з участю від Solo.io, Google, Microsoft, Intel, Aviatrix, Huawei, IBM, Red Hat та багатьох інших, зробила значний внесок. Статус бета-версії в 1.22 вказує на те, що функції ambient режиму тепер готові до промислового використання з відповідними запобіжними заходами. Це величезна подія для Istio, що забезпечує як функції рівня 4, так і рівня 7 для готовності до використання без sidecar контейнерів.</p>
+<h2 id="why-ambient-mode">Чому режим Ambient?</h2>
+<p>Дослухаючись до відгуків користувачів Istio, ми спостерігали зростаючий попит на можливості мережі для застосунків — але почули, що багато з вас вважали витрати ресурсів та операційну складність sidecar важкими для подолання. Проблеми, якими користувачі sidecar ділилися з нами, включають те, як Istio може зламати застосунки після додавання sidecar контейнерів, велике споживання CPU та памʼяті sidecar контейнерами та незручність вимоги перезапуску застосунків з кожним новим випуском проксі.</p>
+<p>Як спільнота, ми спроєктували режим ambient для усунення цих проблем, прибираючи попередні барʼєри складності, з якими стикалися користувачі, які намагалися впровадити сервісну мережу. Новий набір функцій був названий &ldquo;ambient режим&rdquo; (режим оточення) оскільки він був призначений бути прозорим для вашого застосунку, забезпечуючи відсутність необхідності додаткової конфігурації для його прийняття, і не вимагав перезапуску застосунків користувачами.</p>
+<p>У режимі ambient додати чи видалити застосунки з мережі дуже просто. Тепер ви можете просто <a href="/uk/docs/ambient/usage/add-workloads/">позначити простір імен</a>, і всі застосунки в цьому просторі імен будуть додані до мережі. Це негайно забезпечує весь трафік з mTLS, все без sidecar контейнерів чи потреби перезапуску застосунків.</p>
+<p>Перегляньте <a href="/blog/2022/introducing-ambient-mesh/">блог про представлення Ambient Mesh</a> для отримання додаткової інформації про те, чому ми створили режим ambient.</p>
+<h2 id="how-does-ambient-mode-make-adoption-easier">Як режим Ambient полегшує адаптацію?</h2>
+<p>Режим ambient Istio вводить легкі, спільні проксі рівня 4 (L4) та необовʼязкові проксі рівня 7 (L7), усуваючи необхідність традиційних sidecar проксі з панелі даних. Основна інновація за режимом ambient полягає в тому, що він розділяє обробку L4 і L7 на два окремі шари. Такий шаровий підхід дозволяє вам поступово впроваджувати Istio, забезпечуючи плавний перехід від відсутності мережі до безпечного накладення (L4), до необовʼязкової повної обробки L7, в основі простору імен, за необхідності, по всьому вашому флоту.</p>
+<p>Режим ambient працює без будь-яких модифікацій ваших поточних розгортань Kubernetes. Ви можете позначити простір імен, щоб додати всі його навантаження до мережі або вибрати певні розгортання за потреби. Використовуючи режим ambient, користувачі оминають деякі з попередніх обмежувальних елементів моделі sidecar контейнерів. Протоколи &ldquo;server-send-first&rdquo; тепер працюють, більшість зарезервованих портів тепер доступні, і можливість для контейнерів оминати sidecar контейнер, або зловмисно, або ні, — усунена.</p>
+<p>Легкий спільний L4 проксі називається <em><a href="/uk/docs/ambient/overview/#ztunnel">ztunnel</a></em> (тунель нульової довіри). Ztunnel радикально зменшує витрати на запуск мережі, усуваючи потребу в потенційному перевиділенню памʼяті та CPU в кластері для обробки очікуваних навантажень. У деяких випадках економія може перевищувати 90% і більше, при цьому забезпечуючи безпеку нульового рівня довіри за допомогою мTLS з криптографічною ідентичністю, простими політиками авторизації L4 та телеметрією.</p>
+<p>Проксі L7 називаються <em><a href="/uk/docs/ambient/overview/#waypoint-proxies">waypoints</a></em>. Waypoints обробляють функції L7 такі як маршрутизація трафіку, докладний контроль політики авторизації та стійкість на промисловому рівні. Waypoints працюють поза вашими розгортаннями застосунків і можуть масштабуватися незалежно від ваших потреб, хай то для всього простору імен або для кількох сервісів у просторі імен. В порівнянні з sidecar, вам не потрібен waypoint на кожен pod застосунку, і ви можете ефективно масштабувати свій waypoint залежно від його обсягу, таким чином зберігаючи значні кількості CPU і памʼяті у більшості випадків.</p>
+<p>Розділення між рівнем безпеки L4 і рівнем обробки L7 дозволяє поступову адаптацію панелі даних до режиму ambient, на відміну від ранньої бінарної &ldquo;все-разом&rdquo; інʼєкції sidecar контейнерів. Користувачі можуть почати з рівня безпеки L4, який пропонує більшість функцій, для яких люди впроваджують Istio (mTLS, політика авторизації та телеметрія). Складна обробка L7, така як повторні спроби, розподіл трафіку, балансування навантаження та збір спостережень, можна додати поступово у разі потреби в кожному конкретному випадку.</p>
+<h2 id="what-is-in-the-scope-of-the-beta">Що в рамках бета-версії?</h2>
+<p>Ми рекомендуємо вам дослідити наступні функції бета-версії режиму ambient у промисловому застосуванні з відповідними запобіжними заходами, після перевірки їх у тестових середовищах:</p>
+<ul>
+<li><a href="/uk/docs/ambient/install/">Інсталяція Istio з підтримкою режиму ambient</a>.</li>
+<li><a href="/uk/docs/ambient/usage/add-workloads/">Додавання ваших навантажень до мережі</a> для отримання мTLS з криптографічною ідентичністю, <a href="/uk/docs/ambient/usage/l4-policy/">політик авторизації L4</a> та телеметрії.</li>
+<li><a href="/uk/docs/ambient/usage/waypoint/">Конфігурація waypoints</a> для <a href="/uk/docs/ambient/usage/l7-features/">використання функцій L7</a> таких як перемикання трафіку, маршрутизація запитів та контроль докладної політики авторизації.</li>
+<li>Підключення шлюзу вхідного трафіку Istio до навантажень у режимі ambient, підтримуючи всі наявні API Istio.</li>
+<li>Використання <code>istioctl</code> для управління waypoint&rsquo;ами та усунення несправностей ztunnel і waypoint&rsquo;ів.</li>
+</ul>
+<h3 id="alpha-features">Альфа-функції</h3>
+<p>Багато інших функцій, які ми хочемо включити в режим ambient, були реалізовані, але залишаються в статусі альфа у цьому випуску. Будь ласка, допоможіть перевірити їх, щоб вони могли бути підвищені до бета-версії в 1.23 або пізніше:</p>
+<ul>
+<li>Мільтикластерні встановлення</li>
+<li>Проксіювання DNS</li>
+<li>Взаємодія з sidecar</li>
+<li>Підтримка IPv6/Двох стеків</li>
+<li>Підтримка SOCKS5 (для виводу)</li>
+<li>Класичні API Istio (<code>VirtualService</code> та <code>DestinationRule</code>)</li>
+</ul>
+<h3 id="roadmap">Плани</h3>
+<p>У нас є кілька функцій, які ще не реалізовані в режимі ambient, але заплановані для майбутніх випусків:</p>
+<ul>
+<li>Контрольований вихідний трафік</li>
+<li>Підтримка мультимереж</li>
+<li>Покращення повідомлень <code>status</code> на ресурсах для допомоги в усуненні несправностей та розумінні мережі</li>
+<li>Підтримка віртуальних машин</li>
+</ul>
+<h2 id="what-about-sidecars">Що з sidecar?</h2>
+<p>Sidecar контейнери не зникають і залишаються в Istio. Ви можете продовжувати використовувати sidecar контейнери, і вони залишаться повністю підтримуваними. Для будь-якої функції поза межами альфа- або бета-версії режиму ambient, слід розглянути використання sidecar режиму до того, як функція буде додана до режиму ambient. Деякі випадки використання, такі як перемикання трафіку на основі міток джерел, все ще краще реалізовані за допомогою режиму sidecar. Хоча ми вважаємо, що більшість випадків використання будуть найкраще обслужені мережею в режимі ambient, проєкт Istio залишається відданим постійній підтримці sidecar режиму.</p>
+<h2 id="try-ambient-mode-today">Спробуйте режим ambient сьогодні</h2>
+<p>З випуском 1.22 Istio та бета-версією режиму ambient, тепер простіше ніж будь-коли спробувати Istio на ваших власних навантаженнях. Слідуйте <a href="/uk/docs/ambient/getting-started/">інструкції з початку роботи</a>, щоб дослідити режим ambient, або прочитайте наші нові <a href="/uk/docs/ambient/usage/">посібники користувача</a>, щоб дізнатися, як поступово впроваджувати ambient для mTLS та політики авторизації L4, управління трафіком, розширеної політики авторизації L7 та іншого. Ви можете спілкуватися з розробниками в каналі #ambient на <a href="https://slack.istio.io">Istio Slack</a>, або скористатися форумом discussion на <a href="https://github.com/istio/istio/discussions">GitHub</a> для будь-яких запитань, які можуть у вас виникнути.</p>
+]]></description><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><link>/v1.24//uk/blog/2024/ambient-reaches-beta/</link><guid isPermaLink="true">/v1.24//uk/blog/2024/ambient-reaches-beta/</guid><category>ambient</category><category>sidecars</category></item></channel></rss>
