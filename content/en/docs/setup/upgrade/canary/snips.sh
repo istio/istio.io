@@ -41,7 +41,7 @@ kubectl get pods -n istio-system -l app=istiod
 
 ! IFS=$'\n' read -r -d '' snip_control_plane_2_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-istiod-1-24-1-bdf5948d5-htddg    1/1     Running   0          47s
+istiod-1-25-1-bdf5948d5-htddg    1/1     Running   0          47s
 istiod-canary-84c8d4dcfb-skcfv   1/1     Running   0          25s
 ENDSNIP
 
@@ -51,7 +51,7 @@ kubectl get svc -n istio-system -l app=istiod
 
 ! IFS=$'\n' read -r -d '' snip_control_plane_3_out <<\ENDSNIP
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                 AGE
-istiod-1-24-1   ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
+istiod-1-25-1   ClusterIP   10.96.93.151     <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   109s
 istiod-canary   ClusterIP   10.104.186.250   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP   87s
 ENDSNIP
 
@@ -61,7 +61,7 @@ kubectl get mutatingwebhookconfigurations
 
 ! IFS=$'\n' read -r -d '' snip_control_plane_4_out <<\ENDSNIP
 NAME                            WEBHOOKS   AGE
-istio-sidecar-injector-1-24-1   2          2m16s
+istio-sidecar-injector-1-25-1   2          2m16s
 istio-sidecar-injector-canary   2          114s
 ENDSNIP
 
@@ -98,13 +98,13 @@ istioctl proxy-status | grep "\.test-ns "
 }
 
 snip_usage_1() {
-istioctl install --revision=1-24-1 --set profile=minimal --skip-confirmation
-istioctl install --revision=1-25-0 --set profile=minimal --skip-confirmation
+istioctl install --revision=1-25-1 --set profile=minimal --skip-confirmation
+istioctl install --revision=1-26-0 --set profile=minimal --skip-confirmation
 }
 
 snip_usage_2() {
-istioctl tag set prod-stable --revision 1-24-1
-istioctl tag set prod-canary --revision 1-25-0
+istioctl tag set prod-stable --revision 1-25-1
+istioctl tag set prod-canary --revision 1-26-0
 }
 
 snip_usage_3() {
@@ -128,13 +128,13 @@ istioctl ps
 
 ! IFS=$'\n' read -r -d '' snip_usage_5_out <<\ENDSNIP
 NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-curl-78ff5975c6-62pzf.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-25-0-7f6fc6cfd6-s8zfg     1.25.0
-curl-78ff5975c6-8kxpl.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-24-1-bdf5948d5-n72r2      1.24.1
-curl-78ff5975c6-8q7m6.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-24-1-bdf5948d5-n72r2      1-24.1
+curl-78ff5975c6-62pzf.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-26-0-7f6fc6cfd6-s8zfg     1.26.0
+curl-78ff5975c6-8kxpl.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-25-1-bdf5948d5-n72r2      1.25.1
+curl-78ff5975c6-8q7m6.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-1-25-1-bdf5948d5-n72r2      1-25.1
 ENDSNIP
 
 snip_usage_6() {
-istioctl tag set prod-stable --revision 1-25-0 --overwrite
+istioctl tag set prod-stable --revision 1-26-0 --overwrite
 }
 
 snip_usage_7() {
@@ -148,17 +148,17 @@ istioctl ps
 
 ! IFS=$'\n' read -r -d '' snip_usage_8_out <<\ENDSNIP
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-curl-5984f48bc7-kmj6x.app-ns-1                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-25-0-7f6fc6cfd6-jsktb     1.25.0
-curl-78ff5975c6-jldk4.app-ns-3                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-25-0-7f6fc6cfd6-jsktb     1.25.0
-curl-7cdd8dccb9-5bq5n.app-ns-2                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-25-0-7f6fc6cfd6-jsktb     1.25.0
+curl-5984f48bc7-kmj6x.app-ns-1                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-26-0-7f6fc6cfd6-jsktb     1.26.0
+curl-78ff5975c6-jldk4.app-ns-3                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-26-0-7f6fc6cfd6-jsktb     1.26.0
+curl-7cdd8dccb9-5bq5n.app-ns-2                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-1-26-0-7f6fc6cfd6-jsktb     1.26.0
 ENDSNIP
 
 snip_default_tag_1() {
-istioctl tag set default --revision 1-25-0
+istioctl tag set default --revision 1-26-0
 }
 
 snip_uninstall_old_control_plane_1() {
-istioctl uninstall --revision 1-24-1 -y
+istioctl uninstall --revision 1-25-1 -y
 }
 
 snip_uninstall_old_control_plane_2() {

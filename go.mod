@@ -10,7 +10,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.10.0
-	istio.io/istio v0.0.0-20250225195528-57e59c2e5d6b
+	istio.io/istio v0.0.0-20250303231758-3313c1247743
 	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
 )
@@ -43,8 +43,8 @@ require (
 	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.8.2 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.1 // indirect
-	github.com/envoyproxy/go-control-plane/contrib v1.32.5-0.20250211152746-ef139ef8ea6b // indirect
-	github.com/envoyproxy/go-control-plane/envoy v1.32.5-0.20250211152746-ef139ef8ea6b // indirect
+	github.com/envoyproxy/go-control-plane/contrib v1.32.5-0.20250228031205-63a55395d7a3 // indirect
+	github.com/envoyproxy/go-control-plane/envoy v1.32.5-0.20250228031205-63a55395d7a3 // indirect
 	github.com/envoyproxy/go-control-plane/ratelimit v0.1.0 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
@@ -171,7 +171,7 @@ require (
 	golang.org/x/exp v0.0.0-20241215155358-4a5509556b9e // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/net v0.34.0 // indirect
-	golang.org/x/oauth2 v0.25.0 // indirect
+	golang.org/x/oauth2 v0.27.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/term v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
@@ -188,8 +188,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.17.0 // indirect
-	istio.io/api v1.25.0-alpha.0.0.20250212060243-76cd29bc906f // indirect
-	istio.io/client-go v1.25.0-alpha.0.0.20250212060743-20055c33db8f // indirect
+	istio.io/api v1.25.0-alpha.0.0.20250227144231-affcb4000ed2 // indirect
+	istio.io/client-go v1.25.0-alpha.0.0.20250227171830-489349726dc9 // indirect
 	k8s.io/api v0.32.1 // indirect
 	k8s.io/apiextensions-apiserver v0.32.1 // indirect
 	k8s.io/apiserver v0.32.1 // indirect
