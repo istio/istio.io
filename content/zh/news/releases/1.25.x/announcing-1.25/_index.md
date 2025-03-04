@@ -31,7 +31,7 @@ ztunnel 只能看到四层的流量，无法访问 HTTP 标头。因此，
 
 为了在默认情况下简化此操作，在 Istio 1.25 的 Ambient 模式安装中默认启用 DNS 代理。
 已添加注解以允许工作负载选择退出 DNS 代理。
-查看[升级说明](/zh/upgrade-notes/#ambient-mode-dns-capture-on-by-default)了解更多信息。
+查看[升级说明](/zh/news/releases/1.25.x/announcing-1.25/upgrade-notes#ambient-mode-dns-capture-on-by-default)了解更多信息。
 
 ### 适用于 waypoint 的默认拒绝策略 {#default-deny-policy-available-for-waypoints}
 
@@ -62,7 +62,7 @@ waypoint 代理通过使用 Gateway API 样式的 `targetRef` 字段进行绑定
 - `istio-cni` DaemonSet 现在可以在活动集群中安全地就地升级，
   而无需节点警戒线来防止升级过程中生成的 Pod 逃脱 Ambient 流量捕获。
 
-请参阅[完整变更说明](/zh/change-notes/)以了解所有其他新内容。
+请参阅[完整变更说明](/zh/news/releases/1.25.x/announcing-1.25/change-notes/)以了解所有其他新内容。
 
 ## 升级到 1.25 {#upgrading-to-1-25}
 
