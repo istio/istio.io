@@ -16,7 +16,7 @@ copyright_year: 2025
 # When preliminary=true, we're building for preliminary.istio.io
 # when archive=true, we're building for archive.istio.io
 # when archive_landing=true, we're building the landing page for archive.istio.io
-preliminary: true
+preliminary: false
 archive: false
 archive_landing: false
 
@@ -26,7 +26,7 @@ archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
 source_branch_name: release-1.25
-doc_branch_name: master
+doc_branch_name: release-1.25
 
 ####### Static values
 
