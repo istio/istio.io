@@ -46,7 +46,7 @@ In ambient mode, ztunnel will now report the additional `source_zone`, `source_r
 - We have added the ability to provide a list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtual networking (KubeVirt, VMs, docker-in-docker, etc) to function correctly with both sidecar and ambient mode traffic capture.
 - The `istio-cni` DaemonSet can now be safely upgraded in-place in an active cluster, without requiring a node cordon to prevent pods spawned during the upgrade process from escaping ambient traffic capture.
 
-See the full change notes
+See [the full change notes](change-notes/) for everything else that is new.
 
 ## Upgrading to 1.25
 
@@ -54,4 +54,4 @@ We would like to hear from you regarding your experience upgrading to Istio 1.25
 
 Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
 
-Attending KubeCon Europe 2025? Be sure to stop by the co-located [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) to catch some great talks, or swing by the [Istio project booth](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/attend/venue-travel/) to chat.
+Attending KubeCon Europe 2025? Be sure to stop by the co-located [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/) to catch some great talks, or swing by the [Istio project booth](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/features-add-ons/project-engagement/#project-kiosk-directory/) to chat.
