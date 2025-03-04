@@ -193,7 +193,7 @@ aliases:
 
 - **修复** 修复了如果 Prometheus 的抓取间隔配置大于 `15s`，
   Grafana 仪表板中的许多面板会显示**无数据**的问题。
-  （[背景信息](https://grafana.com/blog/2020/09/28/new-in-grafana-7.2-__rate_interval-for-prometheus-rate-queries-that-just-work/)）（[使用](https://istio.io/latest/zh/docs/tasks/observability/metrics/using-istio-dashboard/)）
+  （[背景信息](https://grafana.com/blog/2020/09/28/new-in-grafana-7.2-__rate_interval-for-prometheus-rate-queries-that-just-work/)）（[使用](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)）
 
 - **移除** 删除了对 OpenCensus 的支持。
 
