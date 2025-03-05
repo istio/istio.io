@@ -9,7 +9,7 @@ keywords: [istio,performance,ambient]
 Encryption in transit is a baseline requirement for almost all Kubernetes environments today, and forms the foundation of a zero-trust security posture. However, when it comes to security, everyone *wants* more of it, in theory.
 The problem, however, is that security doesn’t come for free – it is always a tradeoff between complexity, user experience, performance, and more.
 
-While most Cloud Native users will know of Istio as a service mesh, providing advanced HTTP functionality, it can also serve the role of providing a foundational network security layer. When we set out to build [Istio's ambient mode](/docs/overview/dataplane-modes/#ambient-mode), these two layers are explicitly split. One of our primary objectives was to be able to offer security (and a long list of [other features](/docs/concepts/!)) *without* compromise.
+While most Cloud Native users will know of Istio as a service mesh, providing advanced HTTP functionality, it can also serve the role of providing a foundational network security layer. When we set out to build [Istio's ambient mode](/docs/overview/dataplane-modes/#ambient-mode), these two layers are explicitly split. One of our primary objectives was to be able to offer security (and a long list of [other features](/docs/concepts/)!) *without* compromise.
 
 With ambient mode, Istio is now the highest bandwidth way to achieve a secure zero-trust network in Kubernetes.
 First lets look at some results before we dive into the how and why.
@@ -39,12 +39,13 @@ Over the last 4 releases, the performance of Ztunnel has improved by 75%!
 
 Implementations under test:
 * Istio: version 1.26 (prerelease), default settings
-* [Linkerd](http://linkerd.io/): version `edge-25.2.2`, default settings
-* [Cilium](https://cilium.io/): version `v1.16.6` with `kubeProxyReplacement=true`
+* <a href="https://linkerd.io/">Linkerd</a>: version `edge-25.2.2`, default settings
+* <a href="https://cilium.io/">Cilium</a>: version `v1.16.6` with `kubeProxyReplacement=true`
   * WireGuard uses `encryption.type=wireguard`
-  * IPSec uses `encryption.type=ipsec` with the `GCM-128-AES` algorithm
-* [Calico](https://www.tigera.io/project-calico/): version `v3.29.2` with `calicoNetwork.linuxDataplane=BPF` and `wireguardEnabled=true`
-* [Kindnet](https://kindnet.es/): version `v1.8.5` with `--ipsec-overlay=true`.
+  * IPsec uses `encryption.type=ipsec` with the `GCM-128-AES` algorithm
+  * Additionally, both modes were tested with all of the recommendations in <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/>Cilium's tuning guide</a> (including `netkit`, `native` routing mode, BIGTCP (for WireGuard; IPsec is incompatible), BPF masquerade, and BBR bandwidth manager). However, the results were the same with and without these settings applied, so only one result is reported.
+* <a href="https://www.tigera.io/project-calico/">Calico</a>: version `v3.29.2` with `calicoNetwork.linuxDataplane=BPF` and `wireguardEnabled=true`
+* <a href="https://kindnet.es/">Kindnet</a>: version `v1.8.5` with `--ipsec-overlay=true`.
 
 Some implementations only encrypt traffic cross-node so are included from the same-node tests.
 
