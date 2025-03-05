@@ -242,7 +242,7 @@ debug and diagnose their Istio mesh.
 <h3 id="istioctl-analyze">istioctl analyze</h3>
 <p>Analyze Istio configuration and print validation messages.
 For more information about message codes, refer to:
-https://istio.io/v1.25/docs/reference/config/analysis</p>
+https://istio.io/v1.26/docs/reference/config/analysis</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
 </code></pre>
 <table class="command-flags">
@@ -258,6 +258,11 @@ https://istio.io/v1.25/docs/reference/config/analysis</p>
 <td><code>--all-namespaces</code></td>
 <td><code>-A</code></td>
 <td>Analyze all namespaces </td>
+</tr>
+<tr>
+<td><code>--analyzer &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Select specific analyzers to run. Can be repeated. If not specified, all analyzers are run. (e.g. istioctl analyze --analyzer &#34;gateway.ConflictingGatewayAnalyzer&#34;)  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--as &lt;string&gt;</code></td>
@@ -393,6 +398,9 @@ https://istio.io/v1.25/docs/reference/config/analysis</p>
 
   # List available analyzers
   istioctl analyze -L
+  
+  # Run specific analyzer
+  istioctl analyze --analyzer &#34;gateway.ConflictingGatewayAnalyzer&#34;
 </code></pre>
 <h3 id="istioctl-authz">istioctl authz</h3>
 <p>(authz is experimental. Use `istioctl experimental authz`)</p>
@@ -1119,7 +1127,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.26.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -3819,6 +3827,11 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td>The labels to apply to the workload instances; e.g. -l env=prod,vers=2  (default `[]`)</td>
 </tr>
 <tr>
+<td><code>--locality &lt;string&gt;</code></td>
+<td></td>
+<td>The locality associated with the endpoint.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the workload group  (default ``)</td>
@@ -3924,7 +3937,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3947,7 +3960,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4281,7 +4294,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4299,7 +4312,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4393,7 +4406,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4416,7 +4429,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4508,7 +4521,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4531,7 +4544,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -5994,7 +6007,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.26.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6236,7 +6249,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.26.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6352,7 +6365,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6375,7 +6388,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6473,7 +6486,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.25.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6496,7 +6509,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.25/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6907,10 +6920,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h4 id="istioctl-waypoint-delete Examples">Examples</h4>
-<pre class="language-bash"><code>  # Delete a waypoint from the default namespace
-  istioctl waypoint delete
-
-  # Delete a waypoint by name, which can obtain from istioctl waypoint list
+<pre class="language-bash"><code># Delete a waypoint by name, which can obtain from istioctl waypoint list
   istioctl waypoint delete waypoint-name --namespace default
 
   # Delete several waypoints by name
@@ -7130,10 +7140,10 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </table>
 <h4 id="istioctl-waypoint-status Examples">Examples</h4>
 <pre class="language-bash"><code>  # Show the status of the waypoint in the default namespace
-		 istioctl waypoint status
-		  
-		 # Show the status of the waypoint in a specific namespace
-  		 istioctl waypoint status --namespace default
+  istioctl waypoint status
+
+  # Show the status of the waypoint in a specific namespace
+  istioctl waypoint status --namespace default
 </code></pre>
 <h3 id="istioctl-ztunnel-config">istioctl ztunnel-config</h3>
 <p>A group of commands used to update or retrieve Ztunnel configuration from a Ztunnel instance.</p>
@@ -7863,22 +7873,10 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
 <tr>
-<td><code>ENABLE_DEFERRED_CLUSTER_CREATION</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
-</tr>
-<tr>
 <td><code>ENABLE_DEFERRED_STATS_CREATION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio will lazily initialize a subset of the stats</td>
-</tr>
-<tr>
-<td><code>ENABLE_DELIMITED_STATS_TAG_REGEX</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, pilot will use the new delimited stat tag regex to generate Envoy stats tags.</td>
 </tr>
 <tr>
 <td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
@@ -8828,7 +8826,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
-<tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue.</td></tr>
+<tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue (includes pushcontext_init_seconds).</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
 <tr><td><code>pilot_dns_cluster_without_endpoints</code></td><td><code>LastValue</code></td><td>DNS clusters without endpoints caused by the endpoint field in STRICT_DNS type cluster is not set or the corresponding subset cannot select any endpoint</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
@@ -8863,7 +8861,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
-<tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
 <tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
