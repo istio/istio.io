@@ -25,7 +25,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Promoted** the `cni.ambient.dnsCapture` value to default to `true`.
   This enables the DNS proxying for workloads in ambient mesh by default, improving security, performance, and enabling
   a number of features. This can be disabled explicitly or with `compatibilityVersion=1.24`.
-  Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=false`.
+  Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=true`.
 
 - **Promoted** the `PILOT_ENABLE_IP_AUTOALLOCATE` value to default to `true`.
   This enables the new iteration of [IP auto-allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation),
