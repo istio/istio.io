@@ -1,5 +1,5 @@
 ---
-title: "Istio: the most performant way to achieve network security."
+title: "Istio: the most performant way to achieve network security"
 description: Istio's' ambient mode trailblazes as the highest performance security solution in the ecosystem.
 publishdate: 2025-03-12
 attribution: "John Howard (Solo.io)"
