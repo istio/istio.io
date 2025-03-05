@@ -52,6 +52,10 @@ Some implementations only encrypt traffic cross-node so are included from the sa
 Tests were run on a single `iperf` connection (`iperf3 -c iperf-server`), averaging the result of 3 consecutive runs.
 The tests run on 16 core x86 machines running Linux 6.13 (note: for various reasons, no implementation makes use of more than 1-2 cores when handling a single connection, so the core count is not a bottleneck).
 
+Note: many of these implementations support HTTP control.
+This test does not exercise this functionality in any implementation.
+[Previous posts](/blog/2024/ambient-vs-cilium/) have focused on this area of Istio.
+
 </details>
 
 ## Outpacing the Kernel
