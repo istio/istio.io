@@ -165,7 +165,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** an issue where many panels in the Grafana dashboards showed **No data** if Prometheus had a scrape
   interval configured to be larger than `15s`.
-  ([Background information](https://grafana.com/blog/2020/09/28/new-in-grafana-7.2-__rate_interval-for-prometheus-rate-queries-that-just-work/))([Usage](https://istio.io/latest/docs/tasks/observability/metrics/using-istio-dashboard/))
+  ([Background information](https://grafana.com/blog/2020/09/28/new-in-grafana-7.2-__rate_interval-for-prometheus-rate-queries-that-just-work/))([Usage](/docs/tasks/observability/metrics/using-istio-dashboard/))
 
 - **Removed** OpenCensus support.
 
