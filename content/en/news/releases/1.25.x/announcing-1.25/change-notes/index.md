@@ -14,7 +14,7 @@ aliases:
 
 These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
 
-- **Deprecated** use of `ISTIO_META_DNS_AUTO_ALLOCATE` in `proxyMetadata` in favor of a newer version of [DNS Auto Allocation](/docs/ops/configuration/traffic-management/dns-proxy #dns-auto-allocation-v2). New users of Istio IP `auto-allocation` should adopt the new status based controller. Existing users may continue to use the older implementation.
+- **Deprecated** use of `ISTIO_META_DNS_AUTO_ALLOCATE` in `proxyMetadata` in favor of a newer version of [DNS Auto Allocation](/docs/ops/configuration/traffic-management/dns-proxy#dns-auto-allocation-v2). New users of Istio IP `auto-allocation` should adopt the new status based controller. Existing users may continue to use the older implementation.
   ([Issue #53596](https://github.com/istio/istio/issues/53596))
 
 - **Deprecated** `traffic.sidecar.istio.io/kubevirtInterfaces`, in favor of `istio.io/reroute-virtual-interfaces`.
