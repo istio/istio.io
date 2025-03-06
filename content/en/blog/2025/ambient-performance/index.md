@@ -6,7 +6,7 @@ attribution: "John Howard (Solo.io)"
 keywords: [istio,performance,ambient]
 ---
 
-Encryption in transit is a baseline requirement for almost all Kubernetes environments today, and forms the foundation of a zero-trust security posture. 
+Encryption in transit is a baseline requirement for almost all Kubernetes environments today, and forms the foundation of a zero-trust security posture.
 
 However, the challenge with security is that it doesn’t come without a cost: it often involves a trade-off between complexity, user experience, and performance.
 
