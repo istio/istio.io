@@ -1,7 +1,7 @@
 ---
 title: "Istio: The Highest-Performance Solution for Network Security"
 description: Ambient mode provides more encrypted throughput than any other project in the Kubernetes ecosystem.
-publishdate: 2025-03-12
+publishdate: 2025-03-06
 attribution: "John Howard (Solo.io)"
 keywords: [istio,performance,ambient]
 ---
