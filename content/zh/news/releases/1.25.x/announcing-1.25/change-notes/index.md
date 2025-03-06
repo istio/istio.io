@@ -16,7 +16,7 @@ aliases:
 请考虑升级您的环境以删除已弃用的功能。
 
 - **弃用** 弃用了 `proxyMetadata` 中 `ISTIO_META_DNS_AUTO_ALLOCATE` 的使用，
-  转而使用较新版本的 [DNS 自动分配](/zh/docs/ops/configuration/traffic-management/dns-proxy#dns-auto-allocation-v2)。
+  转而使用较新版本的 [DNS 自动分配](/zh/docs/ops/configuration/traffic-management/dns-proxy#address-auto-allocation)。
   Istio IP `auto-allocation` 的新用户应采用新的基于状态的控制器。
   现有用户可以继续使用较旧的实现。
   ([Issue #53596](https://github.com/istio/istio/issues/53596))
@@ -30,7 +30,7 @@ aliases:
   这将默认启用 Ambient 网格中工作负载的 DNS 代理，从而提高安全性和性能并启用多项功能。
   可以明确禁用此功能，也可以使用 `compatibilityVersion=1.24` 禁用。
   注意：只有新 Pod 才会启用 DNS。要为现有 Pod 启用此功能，必须手动重新启动 Pod，
-  或者必须使用 `--set cni.ambient.reconcileIptablesOnStartup=false` 启用 iptables 协调功能。
+  或者必须使用 `--set cni.ambient.reconcileIptablesOnStartup=true` 启用 iptables 协调功能。
 
 - **提升** 将 `PILOT_ENABLE_IP_AUTOALLOCATE` 值默认提升为 `true`。
   这将启用 [IP 自动分配](/zh/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)的新迭代，
@@ -193,7 +193,7 @@ aliases:
 
 - **修复** 修复了如果 Prometheus 的抓取间隔配置大于 `15s`，
   Grafana 仪表板中的许多面板会显示**无数据**的问题。
-  （[背景信息](https://grafana.com/blog/2020/09/28/new-in-grafana-7.2-__rate_interval-for-prometheus-rate-queries-that-just-work/)）（[使用](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)）
+  （[背景信息](https://grafana.com/blog/2020/09/28/new-in-grafana-7.2-__rate_interval-for-prometheus-rate-queries-that-just-work/)和[使用](/zh/docs/tasks/observability/metrics/using-istio-dashboard/)）
 
 - **移除** 删除了对 OpenCensus 的支持。
 
