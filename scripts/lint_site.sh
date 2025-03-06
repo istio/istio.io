@@ -52,7 +52,7 @@ check_content() {
     # create a throwaway copy of the content
     cp -R "${DIR}" "${TMP}"
     cp .spelling "${TMP}"
-    cp mdl.rb "${TMP}"
+    cp .markdownlint.json "${TMP}"  # Updated to use markdownlint-cli2 config
 
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
@@ -60,7 +60,7 @@ check_content() {
     # replace the {{< mermaid >}} shortcodes with ```mermaid
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< mermaid .*>\}\}/\`\`\`mermaid/g" {} ";"
 
-    # replace the {{< /text >}} shortcodes with ```
+    # replace thze {{< /text >}} shortcodes with ```
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< \/text .*>\}\}/\`\`\`/g" {} ";"
 
     # replace the {{< /mermaid >}} shortcodes with ```
@@ -82,8 +82,9 @@ check_content() {
         error "To learn how to address spelling errors, please see https://istio.io/about/contribute/build/#test-your-changes"
         FAILED=1
     fi
-
-    if ! mdl --ignore-front-matter --style mdl.rb .; then
+    
+    # Updated to use markdownlint-cli2
+    if ! markdownlint-cli2 --config .markdownlint.jsonc "*.md"; then
         FAILED=1
     fi
 
