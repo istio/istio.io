@@ -1,0 +1,12 @@
+{
+  "MD002": { "level": 2 },
+  "MD007": { "indent": 4 },
+  "MD013": { "line_length": 160, "code_blocks": false, "tables": false },
+  "MD026": { "punctuation": ".,;:!" },
+  "MD014": false,
+  "MD030": false,
+  "MD032": false,
+  "MD033": false,
+  "MD041": false,
+  "MD046": false
+}
