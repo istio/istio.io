@@ -2,7 +2,7 @@
   "default": true,
   "MD002": { "level": 2 },
   "MD007": { "indent": 4 },
-  "MD013": { "line_length": 160, "code_blocks": false, "tables": false },
+  "MD013": false,
   "MD026": { "punctuation": ".,;:!" }, 
   "MD014": false,
   "MD030": false,
