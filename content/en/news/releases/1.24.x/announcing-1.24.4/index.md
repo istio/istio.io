@@ -14,17 +14,16 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** an issue where customizing the workload identity SDS socketname via `WORKLOAD_IDENTITY_SOCKET_FILE` did not work, due to envoy bootstrap not being updated.
+- **Fixed** an issue where customizing the workload identity SDS socket name  via `WORKLOAD_IDENTITY_SOCKET_FILE` did not work, due to Envoy bootstrap not being updated.
   ([Issue #51979](https://github.com/istio/istio/issues/51979))
 
-- **Fixed** an issue in `istio-cni` where if a pod being enrolled in ambient has more than one network namespace, we (incorrectly) selected the
+- **Fixed** an issue in `istio-cni` where if a pod being enrolled in an ambient mesh has more than one network namespace, we (incorrectly) selected the
 netns belonging to the newest PID, rather than the oldest PID.
   ([Issue #55139](https://github.com/istio/istio/issues/55139))
 
-- **Fixed** an issue that `gateway` injection template didn't respect the `kubectl.kubernetes.io/default-logs-container` and `kubectl.kubernetes.io/default-container` annotations.
+- **Fixed** an issue where the gateway injection template didn't respect the `kubectl.kubernetes.io/default-logs-container` and `kubectl.kubernetes.io/default-container` annotations.
 
-- **Fixed** Some user specified values in `IstioOperator` were being overwritten with default values.
-          Specifying `.values.pilot.cni.enabled=true` did not work without specifying `.components.cni.enabled=true`.
+- **Fixed** a case where some user-specified values in `IstioOperator` were being overwritten with default values.
 
 - **Fixed** an issue causing VirtualService header name validation to reject valid header names.
 
