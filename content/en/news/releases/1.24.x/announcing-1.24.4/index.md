@@ -8,7 +8,7 @@ release: 1.24.3
 ---
 
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.24.3 and Istio 1.24.4
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.24.3 and Istio 1.24.4.
 
 {{< relnote >}}
 
@@ -21,8 +21,7 @@ This release contains bug fixes to improve robustness. This release note describ
 netns belonging to the newest PID, rather than the oldest PID.
   ([Issue #55139](https://github.com/istio/istio/issues/55139))
 
-- **Fixed** an issue that `gateway` injection template didn't respect the `kubectl.kubernetes.io/default-logs-container`
-and `kubectl.kubernetes.io/default-container` annotations. 
+- **Fixed** an issue that `gateway` injection template didn't respect the `kubectl.kubernetes.io/default-logs-container` and `kubectl.kubernetes.io/default-container` annotations.
 
 - **Fixed** Some user specified values in `IstioOperator` were being overwritten with default values.
           Specifying `.values.pilot.cni.enabled=true` did not work without specifying `.components.cni.enabled=true`.
