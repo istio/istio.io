@@ -1,0 +1,14 @@
+{
+    "default": false,
+    "MD002": { "level": 1 },
+    "MD007": false,
+    "MD013": false,
+    "MD026": { "punctuation": ".,;:!" }, 
+    "MD014": false,
+    "MD030": false,
+    "MD032": false,
+    "MD033": false,
+    "MD041": false,
+    "MD046": false
+  }
+  

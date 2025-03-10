@@ -1,7 +1,7 @@
 {
-  "default": true,
+  "default": false,
   "MD002": { "level": 2 },
-  "MD007": { "indent": 4 },
+  "MD007": false,
   "MD013": false,
   "MD026": { "punctuation": ".,;:!" }, 
   "MD014": false,

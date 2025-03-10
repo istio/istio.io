@@ -84,9 +84,7 @@ check_content() {
     fi
     
     # Updated to use markdownlint-cli2
-    if ! command -v markdownlint-cli2 >/dev/null 2>&1 ; then
-        npm install -g markdownlint-cli2
-    fi
+
     if ! markdownlint-cli2 --config .markdownlint.json "**/*.md" ; then
         FAILED=1
     fi
