@@ -153,9 +153,9 @@ aliases:
 - **Improved** the output for `istioctl version` to be more user-friendly.  ([Issue #51296](https://github.com/istio/istio/issues/51296))
 
 - **Improved** the `istioctl proxy-status` command.
-    - Each status now includes the time since the last change.
-    - If a proxy is not subscribed to a resource, it will now be shown as `IGNORED` instead of `NOT SENT`. `NOT SENT` continues to be used for resources that are requested, but never sent.
-    - Include a new `ERROR` status when configuration is rejected.
+  - Each status now includes the time since the last change.
+  - If a proxy is not subscribed to a resource, it will now be shown as `IGNORED` instead of `NOT SENT`. `NOT SENT` continues to be used for resources that are requested, but never sent.
+  - Include a new `ERROR` status when configuration is rejected.
 
 ## Samples
 

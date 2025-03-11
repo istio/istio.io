@@ -22,16 +22,16 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - name: reviews-v1
+- backendRefs:
+  - name: reviews-v1
       port: 9080
       weight: 90
-    - name: reviews-v2
+  - name: reviews-v2
       port: 9080
       weight: 10
 EOF

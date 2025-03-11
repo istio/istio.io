@@ -133,7 +133,7 @@ metadata:
     service: httpbin
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     targetPort: 80
   selector:
@@ -182,24 +182,24 @@ spec:
 上述比较中使用的配置。
 
 * Azure AKS Kubernetes 集群
-    * v1.21
-    * 三个节点的集群
-    * 每个节点 Standard_D4ds_v5：第三代 Intel® Xeon® Platinum 8370C (Ice Lake)，4 个 vCPU，16 GB 内存
+  * v1.21
+  * 三个节点的集群
+  * 每个节点 Standard_D4ds_v5：第三代 Intel® Xeon® Platinum 8370C (Ice Lake)，4 个 vCPU，16 GB 内存
 * Istio
-    * 1.14-dev
-    * Istio 入口网关 pod
-        * resources.request.cpu: 2
-        * resources.request.memory: 4 GB
-        * resources.limits.cpu: 2
-        * resources.limits.memory: 4 GB
+  * 1.14-dev
+  * Istio 入口网关 pod
+    * resources.request.cpu: 2
+    * resources.request.memory: 4 GB
+    * resources.limits.cpu: 2
+    * resources.limits.memory: 4 GB
 * K6
-    * loadimpact/k6:latest
+  * loadimpact/k6:latest
 * Fortio
-    * fortio/fortio:1.27.0
+  * fortio/fortio:1.27.0
 * K6 客户端、envoy 和 fortio pod 被迫通过 Kubernetes AntiAffinity 和节点选择器强制运行在不同的节点上
 * 在上图中
-    * Istio 已按上述配置安装
-    * Istio 与 CryptoMB (AVX-512) 的上述配置加以下设置
+  * Istio 已按上述配置安装
+  * Istio 与 CryptoMB (AVX-512) 的上述配置加以下设置
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1

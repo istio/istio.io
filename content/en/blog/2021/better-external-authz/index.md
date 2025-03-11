@@ -60,23 +60,23 @@ metadata:
   name: ext-authz
   namespace: istio-system
 spec:
-  # The selector applies to the ingress gateway in the istio-system namespace.
+  # The selector applies to the ingress gateway in the istio-system namespace
   selector:
     matchLabels:
       app: istio-ingressgateway
   # The action "CUSTOM" delegates the access control to an external authorizer, this is different from
-  # the ALLOW/DENY action that enforces the access control right inside the proxy.
+  # the ALLOW/DENY action that enforces the access control right inside the proxy
   action: CUSTOM
   # The provider specifies the name of the external authorizer defined in the meshconfig, which tells where and how to
-  # talk to the external auth service. We will cover this more later.
+  # talk to the external auth service. We will cover this more later
   provider:
     name: "my-ext-authz-service"
-  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/".
+  # The rule specifies that the access control is triggered only if the request path has the prefix "/admin/"
   # This allows you to easily enable or disable the external authorization based on the requests, avoiding the external
-  # check request if it is not needed.
+  # check request if it is not needed
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/admin/*"]
 {{< /text >}}
 
@@ -84,15 +84,15 @@ It refers to a provider called `my-ext-authz-service` which is defined in the me
 
 {{< text yaml >}}
 extensionProviders:
-# The name "my-ext-authz-service" is referred to by the authorization policy in its provider field.
+# The name "my-ext-authz-service" is referred to by the authorization policy in its provider field
 - name: "my-ext-authz-service"
   # The "envoyExtAuthzGrpc" field specifies the type of the external authorization service is implemented by the Envoy
-  # ext-authz filter gRPC API. The other supported type is the Envoy ext-authz filter HTTP API.
-  # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter.
+  # ext-authz filter gRPC API. The other supported type is the Envoy ext-authz filter HTTP API
+  # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter
   envoyExtAuthzGrpc:
     # The service and port specifies the address of the external auth service, "ext-authz.istio-system.svc.cluster.local"
     # means the service is deployed in the mesh. It can also be defined out of the mesh or even inside the pod as a separate
-    # container.
+    # container
     service: "ext-authz.istio-system.svc.cluster.local"
     port: 9000
 {{< /text >}}
@@ -182,24 +182,24 @@ metadata:
     service: httpbin-with-opa
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     targetPort: 80
   selector:
     app: httpbin-with-opa
 ---
-# Define the service entry for the local OPA service on port 9191.
+# Define the service entry for the local OPA service on port 9191
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
   name: local-opa-grpc
 spec:
   hosts:
-  - "local-opa-grpc.local"
+- "local-opa-grpc.local"
   endpoints:
-  - address: "127.0.0.1"
+- address: "127.0.0.1"
   ports:
-  - name: grpc
+- name: grpc
     number: 9191
     protocol: GRPC
   resolution: STATIC
@@ -282,7 +282,7 @@ metadata:
     app: opa
 spec:
   ports:
-  - name: grpc
+- name: grpc
     port: 9191
     targetPort: 9191
   selector:
@@ -428,8 +428,8 @@ spec:
   provider:
     name: "opa.local"
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/ip"]
 EOF
 {{< /text >}}
@@ -452,8 +452,8 @@ spec:
   provider:
     name: "opa.default"
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/ip"]
 EOF
 {{< /text >}}
@@ -601,11 +601,11 @@ authorization system with the following benefits:
 
 - Support for various deployment type of the external authorizer:
 
-    - A normal service and pod with or without proxy
+  - A normal service and pod with or without proxy
 
-    - Inside the workload pod as a separate container
+  - Inside the workload pod as a separate container
 
-    - Outside the mesh
+  - Outside the mesh
 
 We're working to promote this feature to a more stable stage in following versions and welcome your feedback at
 [discuss.istio.io](https://discuss.istio.io/c/security/).

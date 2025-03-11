@@ -36,9 +36,9 @@ Istio 作为一种服务网格技术应运而生。它利用 Sidecar 提供流�
 ### 第一个场景的部署和配置 {#deployment-and-configuration-for-the-first-scenario}
 
 - `sleep` 部署在命名空间 foo 中
-    - `sleep` Pod 被调度到节点 A
+  - `sleep` Pod 被调度到节点 A
 - `httpbin` 部署在命名空间 bar 中
-    - `httpbin` 被调度到节点 B
+  - `httpbin` 被调度到节点 B
 - foo 命名空间启用 Ambient 模式（foo 命名空间包含标签：`istio.io/dataplane-mode=ambient`）
 - bar 命名空间启用 Sidecar 注入（bar 命名空间包含标签：`istio-injection：enabled`）
 
@@ -82,14 +82,14 @@ Pod 内的 iptables 规则会拦截并通过 Pod 中的 `eth0` 接口将其重�
 ### 第二种场景的部署和配置 {#deployment-and-configuration-for-the-second-scenario}
 
 - `sleep` 部署在命名空间 foo 中
-    - `sleep` Pod 被调度到节点 A
+  - `sleep` Pod 被调度到节点 A
 - `httpbin` 部署在命名空间 bar-1 中
-    - `httpbin` Pod 被调度到节点 B
-    - `httpbin` 的 waypoint 代理被禁用
+  - `httpbin` Pod 被调度到节点 B
+  - `httpbin` 的 waypoint 代理被禁用
 - `helloworld` 部署在命名空间 bar-2 中
-    - `helloworld` Pod 被调度到节点 D
-    - `helloworld` 的 waypoint 代理被启用
-    - waypoint 代理被调度到节点 C
+  - `helloworld` Pod 被调度到节点 D
+  - `helloworld` 的 waypoint 代理被启用
+  - waypoint 代理被调度到节点 C
 - foo 命名空间启用 Sidecar 注入（foo 命名空间包含标签：`istio-injection:enabled`）
 - bar-1 命名空间启用 Ambient 模式（bar-1 命名空间包含标签：`istio.io/dataplane-mode=ambient`）
 

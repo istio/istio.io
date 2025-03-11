@@ -68,25 +68,25 @@ test: n/a
 
 * Поточні та попередні журнали всіх компонентів Istio та sidecar. Ось кілька прикладів того, як їх отримати, будь ласка, адаптуйте для вашого середовища:
 
-    * Журнали Istiod:
+  * Журнали Istiod:
 
         {{< text bash >}}
         $ kubectl logs -n istio-system -l app=istiod
         {{< /text >}}
 
-    * Журнали Ingress Gateway:
+  * Журнали Ingress Gateway:
 
         {{< text bash >}}
         $ kubectl logs -l istio=ingressgateway -n istio-system
         {{< /text >}}
 
-    * Журнали Egress Gateway:
+  * Журнали Egress Gateway:
 
         {{< text bash >}}
         $ kubectl logs -l istio=egressgateway -n istio-system
         {{< /text >}}
 
-    * Журнали Sidecar:
+  * Журнали Sidecar:
 
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done

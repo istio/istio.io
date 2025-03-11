@@ -29,7 +29,7 @@ spec:
       app: reviews4
   configPatches:
     # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
       proxy:
@@ -71,7 +71,7 @@ spec:
     labels:
       app: reviews4
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
     patch:
@@ -113,7 +113,7 @@ spec:
   priority: 10
   configPatches:
     # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
       proxy:
@@ -156,7 +156,7 @@ spec:
       app: reviews4
   priority: 20
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
     patch:

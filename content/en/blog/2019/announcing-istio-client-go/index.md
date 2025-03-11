@@ -24,8 +24,8 @@ this:
 {{< text go>}}
 import (
   ...
-  - versionedclient "github.com/aspenmesh/istio-client-go/pkg/client/clientset/versioned"
-  + versionedclient "istio.io/client-go/pkg/clientset/versioned"
+- versionedclient "github.com/aspenmesh/istio-client-go/pkg/client/clientset/versioned"
++ versionedclient "istio.io/client-go/pkg/clientset/versioned"
 )
 {{< /text >}}
 

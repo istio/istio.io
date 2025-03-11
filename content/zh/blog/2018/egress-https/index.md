@@ -94,9 +94,9 @@ metadata:
   name: googleapis
 spec:
   hosts:
-  - www.googleapis.com
+- www.googleapis.com
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
   location: MESH_EXTERNAL
@@ -108,14 +108,14 @@ metadata:
   name: googleapis
 spec:
   hosts:
-  - www.googleapis.com
+- www.googleapis.com
   tls:
-  - match:
-    - port: 443
+- match:
+  - port: 443
       sni_hosts:
-      - www.googleapis.com
+    - www.googleapis.com
     route:
-    - destination:
+  - destination:
         host: www.googleapis.com
         port:
           number: 443

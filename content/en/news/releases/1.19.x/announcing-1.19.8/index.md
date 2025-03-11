@@ -22,17 +22,17 @@ This release note describes what’s different between Istio 1.19.7 and 1.19.8.
   curves to `P-256`.
 
     These restrictions apply on the following data paths:
-    * mTLS communication between Envoy proxies;
-    * regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
-    * Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions);
-    * Istiod xDS server;
-    * Istiod injection and validation webhook servers.
+  * mTLS communication between Envoy proxies;
+  * regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
+  * Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions);
+  * Istiod xDS server;
+  * Istiod injection and validation webhook servers.
 
     The restrictions are not applied on the following data paths:
-    * Istiod to Kubernetes API server;
-    * JWK fetch from Istiod;
-    * Wasm image and URL fetch from Istio Proxy containers;
-    * ztunnel.
+  * Istiod to Kubernetes API server;
+  * JWK fetch from Istiod;
+  * Wasm image and URL fetch from Istio Proxy containers;
+  * ztunnel.
 
   Note that Istio injector will propagate the value of `COMPLIANCE_POLICY` to the
   injected proxy container, when set.

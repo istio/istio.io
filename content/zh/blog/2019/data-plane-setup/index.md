@@ -56,35 +56,35 @@ $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.da
 policy: enabled
 template: |-
   initContainers:
-  - name: istio-init
+- name: istio-init
     image: docker.io/istio/proxy_init:1.0.2
     args:
-    - "-p"
-    - [[ .MeshConfig.ProxyListenPort ]]
-    - "-u"
-    - 1337
+  - "-p"
+  - [[ .MeshConfig.ProxyListenPort ]]
+  - "-u"
+  - 1337
     .....
     imagePullPolicy: IfNotPresent
     securityContext:
       capabilities:
         add:
-        - NET_ADMIN
+    - NET_ADMIN
     restartPolicy: Always
 
   containers:
-  - name: istio-proxy
+- name: istio-proxy
     image: [[ if (isset .ObjectMeta.Annotations "sidecar.istio.io/proxyImage") -]]
     "[[ index .ObjectMeta.Annotations "sidecar.istio.io/proxyImage" ]]"
     [[ else -]]
     docker.io/istio/proxyv2:1.0.2
     [[ end -]]
     args:
-    - proxy
-    - sidecar
+  - proxy
+  - sidecar
     .....
     env:
     .....
-    - name: ISTIO_META_INTERCEPTION_MODE
+  - name: ISTIO_META_INTERCEPTION_MODE
       value: [[ or (index .ObjectMeta.Annotations "sidecar.istio.io/interceptionMode") .ProxyConfig.InterceptionMode.String ]]
     imagePullPolicy: IfNotPresent
     securityContext:
@@ -92,7 +92,7 @@ template: |-
       [[ if eq (or (index .ObjectMeta.Annotations "sidecar.istio.io/interceptionMode") .ProxyConfig.InterceptionMode.String) "TPROXY" -]]
       capabilities:
         add:
-        - NET_ADMIN
+    - NET_ADMIN
     restartPolicy: Always
     .....
 {{< /text >}}
@@ -273,11 +273,11 @@ $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.da
 policy: enabled
 template: |-
   initContainers:
-  - name: istio-init
+- name: istio-init
     image: "gcr.io/istio-release/proxy_init:1.0.2"
     args:
-    - "-p"
-    - [[ .MeshConfig.ProxyListenPort ]]
+  - "-p"
+  - [[ .MeshConfig.ProxyListenPort ]]
 {{< /text >}}
 
 您还可以在 pod 模板中使用注解 `sidecar.istio.io/inject` 覆盖默认策略。以下示例展示如何为 `Deployment` 中的 pod 禁用 sidecar 自动注入。

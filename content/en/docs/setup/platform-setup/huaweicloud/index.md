@@ -88,27 +88,27 @@ spec:
   externalTrafficPolicy: Cluster
   loadBalancerIP: 119.8.36.132     ## ELB EIP
   ports:
-  - name: status-port
+- name: status-port
     nodePort: 32484
     port: 15021
     protocol: TCP
     targetPort: 15021
-  - name: http2
+- name: http2
     nodePort: 30294
     port: 80
     protocol: TCP
     targetPort: 8080
-  - name: https
+- name: https
     nodePort: 31301
     port: 443
     protocol: TCP
     targetPort: 8443
-  - name: tcp
+- name: tcp
     nodePort: 30229
     port: 31400
     protocol: TCP
     targetPort: 31400
-  - name: tls
+- name: tls
     nodePort: 32028
     port: 15443
     protocol: TCP

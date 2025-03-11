@@ -20,7 +20,7 @@ metadata:
   namespace: bookinfo
 spec:
   configPatches:
-  - applyTo: ROUTE_CONFIGURATION
+- applyTo: ROUTE_CONFIGURATION
     match:
       context: SIDECAR_INBOUND
     patch:

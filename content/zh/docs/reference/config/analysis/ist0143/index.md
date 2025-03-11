@@ -27,7 +27,7 @@ metadata:
   name: netcat
 spec:
   ports:
-  - port: 8080
+- port: 8080
     protocol: TCP
   selector:
     app: netcat
@@ -62,7 +62,7 @@ spec:
     labels:
       app: netcat
   ingress:
-  - port:
+- port:
       number: 8080
       protocol: TCP
       name: tcp

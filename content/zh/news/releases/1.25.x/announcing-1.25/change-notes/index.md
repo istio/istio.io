@@ -200,10 +200,10 @@ aliases:
 ## 安装 {#installation}
 
 - **改进** 改进了 `platform` 和 `profile` Helm 值覆盖现在等效地支持全局或本地覆盖形式，例如
-    - `--set global.platform=foo`
-    - `--set global.profile=bar`
-    - `--set platform=foo`
-    - `--set profile=bar`
+  - `--set global.platform=foo`
+  - `--set global.profile=bar`
+  - `--set platform=foo`
+  - `--set profile=bar`
 
 - **改进** 改进了 ztunnel Helm Chart，将资源名称设置为 `.Release.Name`，而不是硬编码为 ztunnel。
 

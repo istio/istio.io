@@ -17,7 +17,7 @@ A vulnerability affecting the HTTP2 library used by Envoy has been fixed and pub
 
 * __[CVE-2020-11080](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-11080)__:
 By sending a specially crafted packet, an attacker could cause the CPU to spike at 100%. This could be sent to the ingress gateway or a sidecar.
-    * CVSS Score: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
+  * CVSS Score: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
 
 ## Mitigation
 
@@ -35,7 +35,7 @@ spec:
     labels:
       istio: ingressgateway
   configPatches:
-  - applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
+- applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
     match:
       context: GATEWAY
       listener:

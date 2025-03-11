@@ -25,7 +25,7 @@ spec:
   priority: 10
   configPatches:
     # 第一个补丁将 Lua 过滤器添加到 listener/http 连接管理器
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_INBOUND
       listener:

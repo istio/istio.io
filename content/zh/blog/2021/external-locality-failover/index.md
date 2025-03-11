@@ -53,19 +53,19 @@ metadata:
   name: external-svc-dns
 spec:
   hosts:
-  - mydb.com
+- mydb.com
   location: MESH_EXTERNAL
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
   resolution: DNS
   endpoints:
-  - address: dynamodb.us-east-1.amazonaws.com
+- address: dynamodb.us-east-1.amazonaws.com
     locality: us-east1
     ports:
       http: 80
-  - address: dynamodb.us-west-1.amazonaws.com
+- address: dynamodb.us-west-1.amazonaws.com
     locality: us-west
     ports:
       http: 80
@@ -140,19 +140,19 @@ metadata:
   name: external-svc-dns
 spec:
   hosts:
-  - mydb.com
+- mydb.com
   location: MESH_EXTERNAL
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
   resolution: DNS
   endpoints:
-  - address: dynamodb.us-east-1.amazonaws.com
+- address: dynamodb.us-east-1.amazonaws.com
     locality: us-east1
     ports:
       http: 81 # INVALID - This is purposefully wrong to trigger failover
-  - address: dynamodb.us-west-1.amazonaws.com
+- address: dynamodb.us-west-1.amazonaws.com
     locality: us-west
     ports:
       http: 80
@@ -191,17 +191,17 @@ metadata:
   name: external-svc-dns
 spec:
   hosts:
-  - mydb.com
+- mydb.com
   ports:
-  - number: 80
+- number: 80
     name: http-port
     protocol: HTTP
     targetPort: 443
   resolution: DNS
   endpoints:
-  - address: dynamodb.us-east-1.amazonaws.com
+- address: dynamodb.us-east-1.amazonaws.com
     locality: us-east1
-  - address: dynamodb.us-west-1.amazonaws.com
+- address: dynamodb.us-west-1.amazonaws.com
     locality: us-west
 {{< /text >}}
 

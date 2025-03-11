@@ -110,12 +110,12 @@ metadata:
   name: bookinfo-gateway
 spec:
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - bookinfo.com
+  - bookinfo.com
     tls:
       mode: SIMPLE
       serverCertificate: /tmp/tls.crt
@@ -135,10 +135,10 @@ spec:
   hosts:
     - bookinfo.com
   gateways:
-  - bookinfo-gateway # <---- bind to gateway
+- bookinfo-gateway # <---- bind to gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /reviews
     route:
     ...
@@ -171,7 +171,7 @@ spec:
     name: reviews
   precedence: 1
   route:
-  - labels:
+- labels:
       version: v1
 ---
 apiVersion: config.istio.io/v1alpha2
@@ -188,7 +188,7 @@ spec:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
   route:
-  - labels:
+- labels:
       version: v2
 {{< /text >}}
 
@@ -203,16 +203,16 @@ spec:
   hosts:
     - reviews
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         cookie:
           regex: "^(.*?;)?(user=jason)(;.*)?$"
     route:
-    - destination:
+  - destination:
         host: reviews
         subset: v2
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v1
 {{< /text >}}
@@ -241,17 +241,17 @@ spec:
   hosts:
     - bookinfo.com
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /reviews
     route:
-    - destination:
+  - destination:
         host: reviews
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /ratings
     route:
-    - destination:
+  - destination:
         host: ratings
   ...
 {{< /text >}}
@@ -300,16 +300,16 @@ spec:
     loadBalancer:
       simple: RANDOM
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
-  - name: v3
+- name: v3
     labels:
       version: v3
 {{< /text >}}
@@ -335,9 +335,9 @@ metadata:
   name: foo-ext
 spec:
   hosts:
-  - foo.com
+- foo.com
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
 {{< /text >}}

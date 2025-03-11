@@ -76,10 +76,10 @@ metadata:
 spec:
   host: mysvc.myns.svc.cluster.local
   subsets:
-  - name: cluster-1
+- name: cluster-1
     labels:
       topology.istio.io/cluster: cluster-1
-  - name: cluster-2
+- name: cluster-2
     labels:
       topology.istio.io/cluster: cluster-2
 {{< /text >}}
@@ -96,22 +96,22 @@ metadata:
   name: mysvc-cluster-local-vs
 spec:
   hosts:
-  - mysvc.myns.svc.cluster.local
+- mysvc.myns.svc.cluster.local
   http:
-  - name: "cluster-1-local"
+- name: "cluster-1-local"
     match:
-    - sourceLabels:
+  - sourceLabels:
         topology.istio.io/cluster: "cluster-1"
     route:
-    - destination:
+  - destination:
         host: mysvc.myns.svc.cluster.local
         subset: cluster-1
-  - name: "cluster-2-local"
+- name: "cluster-2-local"
     match:
-    - sourceLabels:
+  - sourceLabels:
         topology.istio.io/cluster: "cluster-2"
     route:
-    - destination:
+  - destination:
         host: mysvc.myns.svc.cluster.local
         subset: cluster-2
 {{< /text >}}

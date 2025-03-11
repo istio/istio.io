@@ -146,12 +146,12 @@ metadata:
 spec:
   failurePolicy: Fail
   variables:
-  - name: force_authorized
+- name: force_authorized
     expression: object.attributes.request.http.?headers["x-force-authorized"].orValue("")
-  - name: allowed
+- name: allowed
     expression: variables.force_authorized in ["enabled", "true"]
   authorizations:
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : envoy.Denied(403).Response()
@@ -163,7 +163,7 @@ EOF
 
 {{< text yaml >}}
 [...]
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : envoy.Denied(403).Response()
@@ -242,12 +242,12 @@ metadata:
 spec:
   failurePolicy: Fail
   variables:
-  - name: force_authorized
+- name: force_authorized
     expression: object.attributes.request.http.?headers["x-force-authorized"].orValue("")
-  - name: allowed
+- name: allowed
     expression: variables.force_authorized in ["enabled", "true"]
   authorizations:
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : envoy.Denied(403).Response()
@@ -265,12 +265,12 @@ EOF
 [...]
   authorizations:
   # 当标头值匹配时允许请求
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : null
   # 否则拒绝请求
-  - expression: >
+- expression: >
       envoy.Denied(403).Response()
 [...]
 {{< /text >}}
@@ -301,15 +301,15 @@ metadata:
   name: demo-policy.example.com
 spec:
   variables:
-  - name: force_authorized
+- name: force_authorized
     expression: object.attributes.request.http.headers[?"x-force-authorized"].orValue("") in ["enabled", "true"]
-  - name: force_unauthenticated
+- name: force_unauthenticated
     expression: object.attributes.request.http.headers[?"x-force-unauthenticated"].orValue("") in ["enabled", "true"]
-  - name: metadata
+- name: metadata
     expression: '{"my-new-metadata": "my-new-value"}'
   authorizations:
     # 如果 force_unauthenticated -> 401
-  - expression: >
+- expression: >
       variables.force_unauthenticated
         ? envoy
             .Denied(401)
@@ -317,7 +317,7 @@ spec:
             .Response()
         : null
     # 如果 force_authorized -> 200
-  - expression: >
+- expression: >
       variables.force_authorized
         ? envoy
             .Allowed()
@@ -328,7 +328,7 @@ spec:
             .WithMetadata(variables.metadata)
         : null
     # 否则 -> 403
-  - expression: >
+- expression: >
       envoy
         .Denied(403)
         .WithBody("Unauthorized Request")

@@ -17,7 +17,7 @@ Istio 1.4 到 1.4.6 和 Istio 1.5 包含以下漏洞:
 
 * __[`CVE-2020-1764`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1764)__:
   Istio 对 Kiali 使用默认的 `signing_key`。这允许攻击者查看和修改 Istio 配置。
-    * CVSS Score: 8.7 [AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
+  * CVSS Score: 8.7 [AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
 
 此外，此版本中还修复了另一个CVE，如下所述：
 [Kiali 安全告](https://kiali.io/news/security-bulletins/kiali-security-001/).

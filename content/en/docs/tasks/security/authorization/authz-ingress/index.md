@@ -6,8 +6,9 @@ keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denyl
 owner: istio/wg-security-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD026 -->
 This task shows you how to enforce IP-based access control on an Istio ingress gateway using an authorization policy.
+<!-- markdownlint-enable MD026 -->
 
 {{< boilerplate gateway-api-support >}}
 
@@ -329,8 +330,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 {{< /text >}}
@@ -350,8 +351,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 {{< /text >}}
@@ -376,8 +377,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 {{< /text >}}
@@ -398,8 +399,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 {{< /text >}}
@@ -479,8 +480,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -500,8 +501,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -526,8 +527,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -548,8 +549,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -588,8 +589,8 @@ spec:
       app: istio-ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -609,8 +610,8 @@ spec:
       app: istio-ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -635,8 +636,8 @@ spec:
     name: httpbin-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["$CLIENT_IP"]
 EOF
 {{< /text >}}
@@ -657,8 +658,8 @@ spec:
     name: httpbin-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["$CLIENT_IP"]
 EOF
 {{< /text >}}

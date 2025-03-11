@@ -70,11 +70,11 @@ metadata:
   name: external-authz-grpc-local
 spec:
   hosts:
-  - "external-authz-grpc.local" # Імʼя сервісу, яке буде використовуватися у провайдері розширення в конфігурації mesh.
+- "external-authz-grpc.local" # Імʼя сервісу, яке буде використовуватися у провайдері розширення в конфігурації mesh.
   endpoints:
-  - address: "127.0.0.1"
+- address: "127.0.0.1"
   ports:
-  - name: grpc
+- name: grpc
     number: 9191 # Номер порту, який буде використовуватися у провайдері розширення в конфігурації mesh.
     protocol: GRPC
   resolution: STATIC
@@ -155,7 +155,7 @@ spec:
         # Ви також можете замінити його на sample-ext-authz-http, щоб протестувати визначення іншого зовнішнього авторизатора.
         name: sample-ext-authz-grpc
       rules:
-      # Правила визначають, коли запускати зовнішній авторизатор.
+      # Правила визначають, коли запускати зовнішній авторизатор
       - to:
         - operation:
             paths: ["/headers"]

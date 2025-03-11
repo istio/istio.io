@@ -58,8 +58,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: "zipkin"
+- providers:
+  - name: "zipkin"
 EOF
 {{< /text >}}
 
@@ -84,8 +84,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: "zipkin"
+- providers:
+  - name: "zipkin"
     randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}

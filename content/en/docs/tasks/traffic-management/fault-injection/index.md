@@ -32,8 +32,8 @@ This task shows you how to inject faults to test the resiliency of your applicat
     {{< /text >}}
 
 * With the above configuration, this is how requests flow:
-    *  `productpage` → `reviews:v2` → `ratings` (only for user `jason`)
-    *  `productpage` → `reviews:v1` (for everyone else)
+  *  `productpage` → `reviews:v2` → `ratings` (only for user `jason`)
+  *  `productpage` → `reviews:v1` (for everyone else)
 
 ## Injecting an HTTP delay fault
 

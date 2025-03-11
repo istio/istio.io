@@ -17,7 +17,7 @@ Istio is vulnerable to a newly discovered vulnerability:
 
 * __[`CVE-2020-16844`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-16844)__:
 Callers to TCP services that have a defined Authorization Policies with `DENY` actions using wildcard suffixes (e.g. `*-some-suffix`) for source principals or namespace fields will never be denied access.
-    * CVSS Score: 6.8 [AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N&version=3.1)
+  * CVSS Score: 6.8 [AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N&version=3.1)
 
 Istio users are exposed to this vulnerability in the following ways:
 
@@ -32,10 +32,10 @@ metadata:
 spec:
  action: DENY
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals:
-       - */ns/ns1/sa/foo # indicating any trust domain, ns1 namespace, foo svc account
+    - */ns/ns1/sa/foo # indicating any trust domain, ns1 namespace, foo svc account
 {{< /text >}}
 
 Istio translates the principal (and `source.principal`) field to an Envoy level string match

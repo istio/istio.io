@@ -161,12 +161,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - "*.wikipedia.org"
+  - "*.wikipedia.org"
     tls:
       mode: PASSTHROUGH
 ---
@@ -185,32 +185,32 @@ metadata:
   name: direct-wikipedia-through-egress-gateway
 spec:
   hosts:
-  - "*.wikipedia.org"
+- "*.wikipedia.org"
   gateways:
-  - mesh
-  - istio-egressgateway
+- mesh
+- istio-egressgateway
   tls:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 443
       sniHosts:
-      - "*.wikipedia.org"
+    - "*.wikipedia.org"
     route:
-    - destination:
+  - destination:
         host: istio-egressgateway.istio-system.svc.cluster.local
         subset: wikipedia
         port:
           number: 443
       weight: 100
-  - match:
-    - gateways:
-      - istio-egressgateway
+- match:
+  - gateways:
+    - istio-egressgateway
       port: 443
       sniHosts:
-      - "*.wikipedia.org"
+    - "*.wikipedia.org"
     route:
-    - destination:
+  - destination:
         host: www.wikipedia.org
         port:
           number: 443
@@ -233,7 +233,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: tls
+- name: tls
     hostname: "*.wikipedia.org"
     port: 443
     protocol: TLS
@@ -249,12 +249,12 @@ metadata:
   name: direct-wikipedia-to-egress-gateway
 spec:
   parentRefs:
-  - kind: ServiceEntry
+- kind: ServiceEntry
     group: networking.istio.io
     name: wikipedia
   rules:
-  - backendRefs:
-    - name: wikipedia-egress-gateway-istio
+- backendRefs:
+  - name: wikipedia-egress-gateway-istio
       port: 443
 ---
 apiVersion: gateway.networking.k8s.io/v1alpha2
@@ -263,12 +263,12 @@ metadata:
   name: forward-wikipedia-from-egress-gateway
 spec:
   parentRefs:
-  - name: wikipedia-egress-gateway
+- name: wikipedia-egress-gateway
   hostnames:
-  - "*.wikipedia.org"
+- "*.wikipedia.org"
   rules:
-  - backendRefs:
-    - kind: Hostname
+- backendRefs:
+  - kind: Hostname
       group: networking.istio.io
       name: www.wikipedia.org
       port: 443
@@ -279,9 +279,9 @@ metadata:
   name: wikipedia
 spec:
   hosts:
-  - "*.wikipedia.org"
+- "*.wikipedia.org"
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
 EOF

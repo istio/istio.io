@@ -20,8 +20,8 @@ aliases:
 - **新增** 新增了对通过 xDS 配置工作负载的 gRPC 支持，而无需 Envoy 代理。
 
 - **新增** 向 `istioctl x workload entry configure` 新增了两个互斥标识。
-    - **`--internal-ip`** 为 VM 工作负载配置一个私有 IP 地址，用于工作负载自动注册和健康探测。
-    - **`--external-ip`** 为虚拟机工作负载配置一个用于工作负载自动注册的公网 IP 地址。同时，它通过将环境变量 `REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION` 设置为 true 来配置通过本地主机执行的健康探测。
+  - **`--internal-ip`** 为 VM 工作负载配置一个私有 IP 地址，用于工作负载自动注册和健康探测。
+  - **`--external-ip`** 为虚拟机工作负载配置一个用于工作负载自动注册的公网 IP 地址。同时，它通过将环境变量 `REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION` 设置为 true 来配置通过本地主机执行的健康探测。
   ([Issue #34411](https://github.com/istio/istio/issues/34411))
 
 - **新增** 如果在 Pod 或者工作负载标签中不存在 `topology.istio.io/network` 标签，就增加拓扑标签 `topology.istio.io/network` 到 `IstioEndpoint` 中。

@@ -27,10 +27,10 @@ spec:
      app: httpbin
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/curl
+    - cluster.local/ns/ambient-demo/sa/curl
 {{< /text >}}
 
 This policy can be used in both {{< gloss "sidecar" >}}sidecar mode{{< /gloss >}} and ambient mode.
@@ -78,12 +78,12 @@ spec:
      app: httpbin
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/curl
+    - cluster.local/ns/ambient-demo/sa/curl
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
 EOF
 {{< /text >}}

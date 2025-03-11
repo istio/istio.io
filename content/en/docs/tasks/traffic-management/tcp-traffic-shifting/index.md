@@ -156,16 +156,16 @@ kind: VirtualService
 spec:
   ...
   tcp:
-  - match:
-    - port: 31400
+- match:
+  - port: 31400
     route:
-    - destination:
+  - destination:
         host: tcp-echo
         port:
           number: 9000
         subset: v1
       weight: 80
-    - destination:
+  - destination:
         host: tcp-echo
         port:
           number: 9000
@@ -184,18 +184,18 @@ kind: TCPRoute
   ...
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
+- group: gateway.networking.k8s.io
     kind: Gateway
     name: tcp-echo-gateway
     sectionName: tcp-31400
   rules:
-  - backendRefs:
-    - group: ""
+- backendRefs:
+  - group: ""
       kind: Service
       name: tcp-echo-v1
       port: 9000
       weight: 80
-    - group: ""
+  - group: ""
       kind: Service
       name: tcp-echo-v2
       port: 9000

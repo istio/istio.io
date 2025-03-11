@@ -39,8 +39,8 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   ingress:
-  - ports:
-    - port: 8080
+- ports:
+  - port: 8080
       protocol: TCP
 {{< /text >}}
 
@@ -56,10 +56,10 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   ingress:
-  - ports:
-    - port: 8080
+- ports:
+  - port: 8080
       protocol: TCP
-    - port: 15008
+  - port: 15008
       protocol: TCP
 {{< /text >}}
 
@@ -100,7 +100,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   policyTypes:
-  - Ingress
+- Ingress
 {{< /text >}}
 
 一旦 Pod 注册到 Ambient 网格中，健康探测数据包将开始通过 SNAT 分配一个链接本地地址，

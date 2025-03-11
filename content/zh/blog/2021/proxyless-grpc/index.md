@@ -23,17 +23,17 @@ Istio 1.11 中新增了直接向网格添加 gRPC 服务的实验性支持。
 
 * 基本服务发现。您的 gRPC 服务可以正常访问网格中注册的其他 Pod 和虚拟机。
 * [`DestinationRule`](/zh/docs/reference/config/networking/destination-rule/)：
-    * Subset：您的 gRPC 服务可以根据标签选择器将流量拆分到不同的实例组。
-    * Istio 目前唯一支持的 `loadBalancer` 策略是 `ROUND_ROBIN`，
+  * Subset：您的 gRPC 服务可以根据标签选择器将流量拆分到不同的实例组。
+  * Istio 目前唯一支持的 `loadBalancer` 策略是 `ROUND_ROBIN`，
       而在 Istio 未来版本中将添加 `consistencyHash` 策略（gRPC 已经支持）。
-    * `tls` 设置仅针对 `DISABLE` 或 `ISTIO_MUTUAL` 生效。其他模式下将被视为 `DISABLE`。
+  * `tls` 设置仅针对 `DISABLE` 或 `ISTIO_MUTUAL` 生效。其他模式下将被视为 `DISABLE`。
 * [`VirtualService`](/zh/docs/reference/config/networking/virtual-service/)：
-    * 头匹配和 URI 匹配格式为 `/ServiceName/RPCName`。
-    * 覆盖目标主机和 Subset。
-    * 基于权重的流量转移。
+  * 头匹配和 URI 匹配格式为 `/ServiceName/RPCName`。
+  * 覆盖目标主机和 Subset。
+  * 基于权重的流量转移。
 * [`PeerAuthentication`](/zh/docs/reference/config/security/peer_authentication/)：
-    * 仅支持 `DISABLE` 和 `STRICT`。其他模式将被视为 `DISABLE`。
-    * 未来版本中可能会支持自动 mTLS。
+  * 仅支持 `DISABLE` 和 `STRICT`。其他模式将被视为 `DISABLE`。
+  * 未来版本中可能会支持自动 mTLS。
 
 未来版本可能会支持包括：故障、重试、超时、镜像和重写规则等其他功能。
 其中部分功能正在等待基于 gRPC 的实现，另外一部分功能则需要 Istio 来支持。
@@ -222,10 +222,10 @@ metadata:
 spec:
   host: echo.echo-grpc.svc.cluster.local
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
 EOF
@@ -244,14 +244,14 @@ metadata:
   namespace: echo-grpc
 spec:
   hosts:
-  - echo.echo-grpc.svc.cluster.local
+- echo.echo-grpc.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: echo.echo-grpc.svc.cluster.local
         subset: v1
       weight: 20
-    - destination:
+  - destination:
         host: echo.echo-grpc.svc.cluster.local
         subset: v2
       weight: 80
@@ -373,16 +373,16 @@ Handling connection for 17171
 ### 实验设置 {#experiment-setup}
 
 * 使用 Fortio，一个基于 Go 语言实现的压力测试应用程序
-    * 稍作修改，使其支持 gRPC 的 xDS 功能（PR）
+  * 稍作修改，使其支持 gRPC 的 xDS 功能（PR）
 * 资源：
-    * GKE 1.20 集群，具有 3 个 `e2-standard-16` 节点（每个节点 16 CPU + 64 GB 内存）
-    * Fortio 客户端和服务端应用程序：1.5 vCPU、1000 MiB 内存
-    * Sidecar（istio-agent 及可能会用到的 Envoy 代理）：1 vCPU，512 MiB 内存
+  * GKE 1.20 集群，具有 3 个 `e2-standard-16` 节点（每个节点 16 CPU + 64 GB 内存）
+  * Fortio 客户端和服务端应用程序：1.5 vCPU、1000 MiB 内存
+  * Sidecar（istio-agent 及可能会用到的 Envoy 代理）：1 vCPU，512 MiB 内存
 * 测试的工作负载类型：
-    * 基线：常规 gRPC，不使用 Envoy 代理或无代理 xDS
-    * Envoy：标准 istio-agent + Envoy 代理 Sidecar
-    * 无代理：gRPC 使用 xDS gRPC 服务器实现以及客户端中的 `xds:///` 解析器
-    * 通过 `PeerAuthentication` 和 `DestinationRule` 开启/禁用 mTLS
+  * 基线：常规 gRPC，不使用 Envoy 代理或无代理 xDS
+  * Envoy：标准 istio-agent + Envoy 代理 Sidecar
+  * 无代理：gRPC 使用 xDS gRPC 服务器实现以及客户端中的 `xds:///` 解析器
+  * 通过 `PeerAuthentication` 和 `DestinationRule` 开启/禁用 mTLS
 
 ### 延迟 {#latency}
 

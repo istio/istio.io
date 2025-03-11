@@ -43,10 +43,10 @@ metadata:
   name: default
 spec:
   egress:
-  - hosts:
-    - "./*" # Import all configuration from our own namespace
-    - "bookinfo/*" # Import all configuration from the bookinfo namespace
-    - "external-services/example.com" # Import only 'example.com' from the external-services namespace
+- hosts:
+  - "./*" # Import all configuration from our own namespace
+  - "bookinfo/*" # Import all configuration from the bookinfo namespace
+  - "external-services/example.com" # Import only 'example.com' from the external-services namespace
 {{< /text >}}
 
 ### `exportTo`

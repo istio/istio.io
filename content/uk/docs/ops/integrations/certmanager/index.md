@@ -92,10 +92,10 @@ metadata:
     kubernetes.io/ingress.class: istio
 spec:
   rules:
-  - host: my.example.com
+- host: my.example.com
     http: ...
   tls:
-  - hosts:
-    - my.example.com # Це повинно відповідати DNS імені в сертифікаті
+- hosts:
+  - my.example.com # Це повинно відповідати DNS імені в сертифікаті
     secretName: ingress-cert # Це повинно відповідати secretName сертифіката
 {{< /text >}}

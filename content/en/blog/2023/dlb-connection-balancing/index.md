@@ -34,19 +34,19 @@ Intel DLB is a hardware managed system of queues and arbiters connecting produce
 Intel DLB implements the following load balancing features:
 
 - Offloads queue management from software — useful where there are significant queuing-based costs.
-    - Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations.
-    - The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues.
+  - Especially with multi-producer / multi-consumer scenarios and enqueue batching to multiple destinations.
+  - The overhead locks are required to access shared queues in the software. Intel DLB implements lock-free access to shared queues.
 - Dynamic, flow aware load balancing and reordering.
-    - Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required.
-    - Distributes high bandwidth flows across many cores without loss of packet order.
-    - Better determinism and avoids excessive queuing latencies.
-    - Uses less IO memory footprint and saves DDR Bandwidth.
+  - Ensures equal distribution of tasks and better CPU core utilization. Can provide flow-based atomicity if required.
+  - Distributes high bandwidth flows across many cores without loss of packet order.
+  - Better determinism and avoids excessive queuing latencies.
+  - Uses less IO memory footprint and saves DDR Bandwidth.
 - Priority queuing (up to 8 levels) — allows for QOS.
-    - Lower latency for traffic that is latency sensitive.
-    - Optional delay measurements in the packets.
+  - Lower latency for traffic that is latency sensitive.
+  - Optional delay measurements in the packets.
 - Scalability
-    - Allows dynamic sizing of applications, seamless scale up/down.
-    - Power aware; application can drop workers to lower power state in cases of lighter load.
+  - Allows dynamic sizing of applications, seamless scale up/down.
+  - Power aware; application can drop workers to lower power state in cases of lighter load.
 
 There are three types of load balancing queues:
 
@@ -170,17 +170,17 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
-  # The selector matches the ingress gateway pod labels.
+  # The selector matches the ingress gateway pod labels
   # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "httpbin.example.com"
+  - "httpbin.example.com"
 EOF
 $ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -189,17 +189,17 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "httpbin.example.com"
+- "httpbin.example.com"
   gateways:
-  - httpbin-gateway
+- httpbin-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /status
-    - uri:
+  - uri:
         prefix: /delay
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin
@@ -224,7 +224,7 @@ spec:
     labels:
       istio: ingressgateway
   configPatches:
-  - applyTo: LISTENER
+- applyTo: LISTENER
     match:
       context: GATEWAY
     patch:

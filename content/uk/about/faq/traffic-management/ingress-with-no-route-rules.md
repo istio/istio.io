@@ -17,10 +17,10 @@ metadata:
     kubernetes.io/ingress.class: istio
 spec:
   rules:
-  - host: example.com
+- host: example.com
     http:
       paths:
-      - path: /helloworld
+  - path: /helloworld
         pathType: Prefix
         backend:
           service:
@@ -44,10 +44,10 @@ metadata:
     ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: example.com
+- host: example.com
     http:
       paths:
-      - path: /hello(.*?)world/
+  - path: /hello(.*?)world/
         pathType: Prefix
         backend:
           service:

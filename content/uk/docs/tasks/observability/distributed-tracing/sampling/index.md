@@ -62,8 +62,8 @@ metadata:
    name: otel-demo
 spec:
   tracing:
-  - providers:
-    - name: otel-tracing
+- providers:
+  - name: otel-tracing
     randomSamplingPercentage: 10
 EOF
 {{< /text >}}
@@ -103,8 +103,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: otel-tracing
+- providers:
+  - name: otel-tracing
 EOF
 {{< /text >}}
 

@@ -10,19 +10,19 @@ weight: 80
 * [`istioctl proxy-config`](/docs/reference/commands/istioctl/#istioctl-proxy-config): Отримати інформацію про конфігурацію проксі, коли ви працюєте в Kubernetes:
 
     {{< text plain >}}
-    # Отримати інформацію про конфігурацію bootstrap для екземпляра Envoy у вказаному podʼі.
+    # Отримати інформацію про конфігурацію bootstrap для екземпляра Envoy у вказаному podʼі
     $ istioctl proxy-config bootstrap productpage-v1-bb8d5cbc7-k7qbm
 
-    # Отримати інформацію про конфігурацію кластера для екземпляра Envoy у вказаному podʼі.
+    # Отримати інформацію про конфігурацію кластера для екземпляра Envoy у вказаному podʼі
     $ istioctl proxy-config cluster productpage-v1-bb8d5cbc7-k7qbm
 
-    # Отримати інформацію про конфігурацію прослуховувача для екземпляра Envoy у вказаному podʼі.
+    # Отримати інформацію про конфігурацію прослуховувача для екземпляра Envoy у вказаному podʼі
     $ istioctl proxy-config listener productpage-v1-bb8d5cbc7-k7qbm
 
-    # Отримати інформацію про конфігурацію маршрутизації для екземпляра Envoy у вказаному podʼі.
+    # Отримати інформацію про конфігурацію маршрутизації для екземпляра Envoy у вказаному podʼі
     $ istioctl proxy-config route productpage-v1-bb8d5cbc7-k7qbm
 
-    # Отримати інформацію про конфігурацію точок доступу для екземпляра Envoy у вказаному podʼі.
+    # Отримати інформацію про конфігурацію точок доступу для екземпляра Envoy у вказаному podʼі
     $ istioctl proxy-config endpoints productpage-v1-bb8d5cbc7-k7qbm
 
     # Спробуйте наступне, щоб дізнатися більше про команди proxy-config

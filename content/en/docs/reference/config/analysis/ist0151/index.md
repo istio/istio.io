@@ -23,7 +23,7 @@ spec:
       app: reviews2
   configPatches:
     # The first patch adds the Lua filter to the listener/http connection manager
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_INBOUND
       listener:
@@ -70,7 +70,7 @@ spec:
       app: reviews2
   configPatches:
     # The first patch adds the Lua filter to the listener/http connection manager
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_INBOUND
       listener:

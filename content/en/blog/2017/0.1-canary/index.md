@@ -8,10 +8,11 @@ keywords: [traffic-management,canary]
 aliases:
     - /blog/canary-deployments-using-istio.html
 ---
-
+<!-- markdownlint-disable MD026 -->
 {{< tip >}}
 This post was updated on May 16, 2018 to use the latest version of the traffic management model.
 {{< /tip >}}
+<!-- markdownlint-enable MD026 -->
 
 One of the benefits of the [Istio](/) project is that it provides the control needed to deploy canary services. The idea behind
 canary deployment (or rollout) is to introduce a new version of a service by first testing it using a small percentage of user
@@ -104,12 +105,12 @@ spec:
   hosts:
     - helloworld
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: helloworld
         subset: v1
       weight: 90
-    - destination:
+  - destination:
         host: helloworld
         subset: v2
       weight: 10
@@ -121,10 +122,10 @@ metadata:
 spec:
   host: helloworld
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
 EOF
@@ -209,21 +210,21 @@ spec:
   hosts:
     - helloworld
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         cookie:
           regex: "^(.*?;)?(email=[^;]*@some-company-name.com)(;.*)?$"
     route:
-    - destination:
+  - destination:
         host: helloworld
         subset: v1
       weight: 50
-    - destination:
+  - destination:
         host: helloworld
         subset: v2
       weight: 50
-  - route:
-    - destination:
+- route:
+  - destination:
         host: helloworld
         subset: v1
 EOF

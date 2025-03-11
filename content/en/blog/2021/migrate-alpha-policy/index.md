@@ -153,7 +153,7 @@ metadata:
   name: "default"
 spec:
   peers:
-  - mtls: {}
+- mtls: {}
 ---
 # A Policy that enables mTLS permissive mode and enables JWT for the httpbin service on port 8000
 apiVersion: authentication.istio.io/v1alpha1
@@ -163,21 +163,21 @@ metadata:
   namespace: foo
 spec:
   targets:
-  - name: httpbin
+- name: httpbin
     ports:
-    - number: 8000
+  - number: 8000
   peers:
-  - mtls:
+- mtls:
       mode: PERMISSIVE
   origins:
-  - jwt:
+- jwt:
       issuer: testing@example.com
       jwksUri: https://www.example.com/jwks.json
       triggerRules:
-      - includedPaths:
-        - prefix: /admin/
+  - includedPaths:
+    - prefix: /admin/
         excludedPaths:
-        - exact: /admin/status
+    - exact: /admin/status
   principalBinding: USE_ORIGIN
 ---
 # A ClusterRbacConfig that enables RBAC globally, including the foo namespace
@@ -196,7 +196,7 @@ metadata:
   namespace: foo
 spec:
   rules:
-  - services: ["httpbin.foo.svc.cluster.local"]
+- services: ["httpbin.foo.svc.cluster.local"]
     methods: ["GET"]
 ---
 # A ServiceRoleBinding for the above ServiceRole
@@ -207,7 +207,7 @@ metadata:
   namespace: foo
 spec:
   subjects:
-  - user: cluster.local/ns/foo/sa/sleep
+- user: cluster.local/ns/foo/sa/sleep
     roleRef:
       kind: ServiceRole
       name: httpbin
@@ -225,7 +225,7 @@ metadata:
   namespace: foo
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     targetPort: 80
   selector:
@@ -277,7 +277,7 @@ spec:
     matchLabels:
       app: httpbin
   jwtRules:
-  - issuer: testing@example.com
+- issuer: testing@example.com
     jwksUri: https://www.example.com/jwks.json
 ---
 # An AuthorizationPolicy that enforces to require JWT validation for the httpbin workload, migrated from the Policy
@@ -293,12 +293,12 @@ spec:
     matchLabels:
       app: httpbin
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         # This makes sure requests without JWT token will be denied
         notRequestPrincipals: ["*"]
     to:
-    - operation:
+  - operation:
         # This should be the workload port 80, not the service port 8000
         ports: ["80"]
         # The path and notPath is converted from the trigger rule in the Policy
@@ -334,11 +334,11 @@ spec:
       version: v1
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         principals: ["cluster.local/ns/foo/sa/sleep"]
     to:
-    - operation:
+  - operation:
         methods: ["GET"]
 {{< /text >}}
 

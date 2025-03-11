@@ -57,9 +57,9 @@ Security in Istio involves multiple components:
 - A Certificate Authority (CA) for key and certificate management
 - The configuration API server distributes to the proxies:
 
-    - [authentication policies](/docs/concepts/security/#authentication-policies)
-    - [authorization policies](/docs/concepts/security/#authorization-policies)
-    - [secure naming information](/docs/concepts/security/#secure-naming)
+  - [authentication policies](/docs/concepts/security/#authentication-policies)
+  - [authorization policies](/docs/concepts/security/#authorization-policies)
+  - [secure naming information](/docs/concepts/security/#secure-naming)
 
 - Sidecar and perimeter proxies work as [Policy Enforcement Points](https://csrc.nist.gov/glossary/term/policy_enforcement_point)
     (PEPs) to  secure communication between clients and servers.
@@ -146,10 +146,10 @@ Istio provides two types of authentication:
    TLS](https://en.wikipedia.org/wiki/Mutual_authentication) as a full stack
    solution for transport authentication, which can be enabled without
    requiring service code changes. This solution:
-    - Provides each service with a strong identity representing its role
+  - Provides each service with a strong identity representing its role
       to enable interoperability across clusters and clouds.
-    - Secures service-to-service communication.
-    - Provides a key management system to automate key and certificate
+  - Secures service-to-service communication.
+  - Provides a key management system to automate key and certificate
       generation, distribution, and rotation.
 
 - Request authentication: Used for end-user authentication to verify the
@@ -157,11 +157,11 @@ Istio provides two types of authentication:
    authentication with JSON Web Token (JWT) validation and a streamlined
    developer experience using a custom authentication provider or any OpenID
    Connect providers, for example:
-    - [ORY Hydra](https://www.ory.sh/)
-    - [Keycloak](https://www.keycloak.org/)
-    - [Auth0](https://auth0.com/)
-    - [Firebase Auth](https://firebase.google.com/docs/auth/)
-    - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
+  - [ORY Hydra](https://www.ory.sh/)
+  - [Keycloak](https://www.keycloak.org/)
+  - [Auth0](https://auth0.com/)
+  - [Firebase Auth](https://firebase.google.com/docs/auth/)
+  - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
 
 In all cases, Istio stores the authentication policies in the `Istio config
 store` via a custom Kubernetes API. {{< gloss >}}Istiod{{< /gloss >}} keeps them up-to-date for each proxy,
@@ -452,7 +452,7 @@ metadata:
   namespace: foo
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     protocol: TCP
     targetPort: 80
@@ -565,9 +565,9 @@ An authorization policy includes a selector, an action, and a list of rules:
 - The `selector` field specifies the target of the policy
 - The `action` field specifies whether to allow or deny the request
 - The `rules` specify when to trigger the action
-    - The `from` field in the `rules` specifies the sources of the request
-    - The `to` field in the `rules` specifies the operations of the request
-    - The `when` field specifies the conditions needed to apply the rule
+  - The `from` field in the `rules` specifies the sources of the request
+  - The `to` field in the `rules` specifies the operations of the request
+  - The `when` field specifies the conditions needed to apply the rule
 
 The following example shows an authorization policy that allows two sources, the
 `cluster.local/ns/default/sa/curl` service account and the `dev` namespace, to
@@ -587,16 +587,16 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/curl"]
-   - source:
+  - source:
        namespaces: ["dev"]
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
    when:
-   - key: request.auth.claims[iss]
+  - key: request.auth.claims[iss]
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
@@ -616,8 +616,8 @@ spec:
      version: v1
  action: DENY
  rules:
- - from:
-   - source:
+- from:
+  - source:
        notNamespaces: ["foo"]
 {{< /text >}}
 
@@ -656,8 +656,8 @@ spec:
       app: products
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
          methods: ["GET", "HEAD"]
 {{< /text >}}
 
@@ -698,8 +698,8 @@ spec:
       app: products
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/test/*", "*/info"]
 {{< /text >}}
 
@@ -724,11 +724,11 @@ spec:
       app: products
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/healthz"]
     from:
-    - source:
+  - source:
         requestPrincipals: ["*"]
 {{< /text >}}
 
@@ -747,11 +747,11 @@ spec:
       app: products
   action: DENY
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/admin"]
     from:
-    - source:
+  - source:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
@@ -774,7 +774,7 @@ metadata:
   name: allow-nothing
 spec:
   action: ALLOW
-  # the rules field is not specified, and the policy will never match.
+  # the rules field is not specified, and the policy will never match
 {{< /text >}}
 
 The following example shows a `DENY` policy that explicitly denies all access. It will always deny the request even if
@@ -788,9 +788,9 @@ metadata:
   name: deny-all
 spec:
   action: DENY
-  # the rules field has an empty rule, and the policy will always match.
+  # the rules field has an empty rule, and the policy will always match
   rules:
-  - {}
+- {}
 {{< /text >}}
 
 The following example shows an `ALLOW` policy that allows full access to the workload. It will make other `ALLOW` policies
@@ -804,9 +804,9 @@ metadata:
   name: allow-all
 spec:
   action: ALLOW
-  # This matches everything.
+  # This matches everything
   rules:
-  - {}
+- {}
 {{< /text >}}
 
 #### Custom conditions
@@ -830,14 +830,14 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/curl"]
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
    when:
-   - key: request.headers[version]
+  - key: request.headers[version]
      values: ["v1", "v2"]
 {{< /text >}}
 
@@ -862,8 +862,8 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - to:
-   - operation:
+- to:
+  - operation:
        methods: ["GET", "POST"]
 {{< /text >}}
 
@@ -883,11 +883,11 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["*"]
    to:
-   - operation:
+  - operation:
        methods: ["GET", "POST"]
 {{< /text >}}
 
@@ -922,11 +922,11 @@ spec:
      app: mongodb
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
    to:
-   - operation:
+  - operation:
        ports: ["27017"]
 {{< /text >}}
 

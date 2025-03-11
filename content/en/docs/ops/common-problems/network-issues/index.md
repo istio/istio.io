@@ -91,17 +91,17 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
+- "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /hello
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
-  - match:
+- match:
     ...
 {{< /text >}}
 
@@ -114,10 +114,10 @@ metadata:
   name: helloworld
 spec:
   hosts:
-  - helloworld.default.svc.cluster.local
+- helloworld.default.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
 {{< /text >}}
@@ -139,18 +139,18 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
+- "myapp.com" # or maybe "*" if you are testing without DNS using the ingress-gateway IP (e.g., http://1.2.3.4/hello)
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /hello
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-  - match:
+- match:
     ...
 {{< /text >}}
 
@@ -163,26 +163,26 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com # cannot use "*" here since this is being combined with the mesh services
-  - helloworld.default.svc.cluster.local
+- myapp.com # cannot use "*" here since this is being combined with the mesh services
+- helloworld.default.svc.cluster.local
   gateways:
-  - mesh # applies internally as well as externally
-  - myapp-gateway
+- mesh # applies internally as well as externally
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /hello
       gateways:
-      - myapp-gateway #restricts this rule to apply only to ingress gateway
+    - myapp-gateway #restricts this rule to apply only to ingress gateway
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-  - match:
-    - gateways:
-      - mesh # applies to all services inside the mesh
+- match:
+  - gateways:
+    - mesh # applies to all services inside the mesh
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
 {{< /text >}}
@@ -241,7 +241,7 @@ metadata:
     app: nginx
 spec:
   ports:
-  - port: 80
+- port: 80
     name: http-web  # Explicitly defining an http port
   clusterIP: None   # Creates a Headless Service
   selector:
@@ -347,9 +347,9 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 443
+- number: 443
     name: http
     protocol: HTTP
   resolution: DNS
@@ -367,7 +367,7 @@ To fix this, you should change the port protocol to HTTPS:
 {{< text yaml >}}
 spec:
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
 {{< /text >}}
@@ -391,12 +391,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-      - "*"
+  - "*"
     tls:
       mode: SIMPLE
       credentialName: sds-credential
@@ -407,15 +407,15 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "*.example.com"
+- "*.example.com"
   gateways:
-  - istio-system/gateway
+- istio-system/gateway
   tls:
-  - match:
-    - sniHosts:
-      - "*.example.com"
+- match:
+  - sniHosts:
+    - "*.example.com"
     route:
-    - destination:
+  - destination:
         host: httpbin.org
 {{< /text >}}
 
@@ -434,8 +434,8 @@ To fix this problem, you should switch the virtual service to specify `http` rou
 spec:
   ...
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         ":authority":
           regex: "*.example.com"
 {{< /text >}}
@@ -451,8 +451,8 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - hosts:
-    - "*"
+- hosts:
+  - "*"
     port:
       name: https
       number: 443
@@ -466,12 +466,12 @@ metadata:
   name: virtual-service
 spec:
   gateways:
-  - gateway
+- gateway
   hosts:
-  - httpbin.example.com
+- httpbin.example.com
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: httpbin.org
 {{< /text >}}
 
@@ -484,10 +484,10 @@ To fix this, you should switch the virtual service to configure `tls` routing:
 {{< text yaml >}}
 spec:
   tls:
-  - match:
-    - sniHosts: ["httpbin.example.com"]
+- match:
+  - sniHosts: ["httpbin.example.com"]
     route:
-    - destination:
+  - destination:
         host: httpbin.org
 {{< /text >}}
 
@@ -516,9 +516,9 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
   resolution: DNS
@@ -546,9 +546,9 @@ You can fix this example by changing the port protocol in the `ServiceEntry` to 
 {{< text yaml >}}
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 443
+- number: 443
     name: http
     protocol: HTTP
 {{< /text >}}
@@ -561,9 +561,9 @@ and then redirect requests to `targetPort` 443 for the TLS origination:
 {{< text yaml >}}
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
     targetPort: 443
@@ -634,7 +634,7 @@ Consider a filter with the following specification:
 {{< text yaml >}}
 spec:
   configPatches:
-  - applyTo: NETWORK_FILTER
+- applyTo: NETWORK_FILTER
     match:
       context: SIDECAR_OUTBOUND
       listener:
@@ -677,10 +677,10 @@ spec:
   hosts:
     - "*"
   gateways:
-  - helloworld-gateway
+- helloworld-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         exact: /hello
     fault:
       abort:
@@ -691,7 +691,7 @@ spec:
       attempts: 5
       retryOn: 5xx
     route:
-    - destination:
+  - destination:
         host: helloworld
         port:
           number: 5000
@@ -713,7 +713,7 @@ spec:
     labels:
       app: helloworld
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_INBOUND # will match outbound listeners in all sidecars
       listener:

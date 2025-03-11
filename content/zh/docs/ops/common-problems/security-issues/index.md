@@ -104,14 +104,14 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths:
-        - /foo
-  - from:
-    - source:
+    - /foo
+- from:
+  - source:
         namespaces:
-        - foo
+    - foo
 {{< /text >}}
 
 您期望的策略所允许的请求是符合路径为 `/foo` **且**源命名空间为 `foo`。

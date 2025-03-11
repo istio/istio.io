@@ -45,16 +45,16 @@ Istio 社区决定在 Istio 1.22 中将这些 API 升级到 `v1`。
 `v1` Telemetry API 是唯一一个与之前的 API 版本相比有所更改升级的 API。
 以下 `v1alpha1` 功能未被升级至 `v1`：
 * `metrics.reportingInterval`
-    * 报告间隔允许配置调用指标报告之间的时间。
+  * 报告间隔允许配置调用指标报告之间的时间。
       目前它仅支持 TCP 指标，但我们将来可能会将其用于持续时间较长的 HTTP 流。
 
       **目前，Istio 缺乏使用数据来支持此功能的需求。**
 * `accessLogging.filter`
-    * 如果指定，此过滤器将用于选择特定的请求/连接进行日志记录。
+  * 如果指定，此过滤器将用于选择特定的请求/连接进行日志记录。
 
       **此功能基于 Envoy 中相对较新的功能，Istio 需要进一步开发用例和实现，然后才能将其升级到 `v1`。**
 * `tracing.useRequestIdForTraceSampling`
-    * 该值默认为 true。该请求 ID 的格式是 Envoy 特定的，
+  * 该值默认为 true。该请求 ID 的格式是 Envoy 特定的，
       如果首先接收用户流量的代理生成的请求 ID 不是 Envoy 特定的，
       Envoy 将中断链路，因为它无法解释该请求 ID。通过将此值设置为 false，我们可以阻止
       [Envoy 根据请求 ID 进行采样](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing#trace-context-propagation)。

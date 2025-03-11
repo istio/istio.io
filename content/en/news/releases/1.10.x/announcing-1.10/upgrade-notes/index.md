@@ -53,7 +53,7 @@ spec:
     labels:
       app: ratings
   ingress:
-  - port:
+- port:
       number: 9080
       protocol: HTTP
       name: http

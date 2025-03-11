@@ -30,8 +30,8 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   ingress:
-  - ports:
-    - port: 8080
+- ports:
+  - port: 8080
       protocol: TCP
 {{< /text >}}
 
@@ -47,10 +47,10 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   ingress:
-  - ports:
-    - port: 8080
+- ports:
+  - port: 8080
       protocol: TCP
-    - port: 15008
+  - port: 15008
       protocol: TCP
 {{< /text >}}
 
@@ -80,7 +80,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   policyTypes:
-  - Ingress
+- Ingress
 {{< /text >}}
 
 Після того, як pod буде зареєстровано в ambient mesh, пакети перевірки справності почнуть призначатися локальною адресою через SNAT, що означає, що проби справності можуть почати блокуватися вашим CNI при реалізації `NetworkPolicy`. Щоб дозволити пробам справності ambient обходити `NetworkPolicy`, явно дозвольте трафік від вузла до вашого podʼа, додавши до білого списку локальну адресу, яку використовує ambient для цього трафіку:

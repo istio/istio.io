@@ -59,10 +59,10 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
 
 - We enhanced control plane monitoring in the following ways:
 
-    - Added new metrics to monitor configuration state
-    - Added metrics for sidecar injector
-    - Added a new Grafana dashboard for Citadel
-    - Improved the Pilot dashboard to expose additional key metrics
+  - Added new metrics to monitor configuration state
+  - Added metrics for sidecar injector
+  - Added a new Grafana dashboard for Citadel
+  - Improved the Pilot dashboard to expose additional key metrics
 
 - Added the new [Istio Deployment Models concept](/docs/ops/deployment/deployment-models/) to help you decide what deployment model suits your needs.
 

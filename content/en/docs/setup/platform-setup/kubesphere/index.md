@@ -24,15 +24,15 @@ A Linux machine that is either a virtual machine or bare metal. This machine req
 
 - Hardware:
 
-    - CPU: at least 2 Cores
-    - Memory: at least 4 `GB`
+  - CPU: at least 2 Cores
+  - Memory: at least 4 `GB`
 
 - Operating Systems:
 
-    - CentOS 7.4 ~ 7.7 (`64-bit`)
-    - Ubuntu 16.04/18.04 LTS (`64-bit`)
-    - RHEL 7.4 (`64-bit`)
-    - Debian Stretch 9.5 (`64-bit`)
+  - CentOS 7.4 ~ 7.7 (`64-bit`)
+  - Ubuntu 16.04/18.04 LTS (`64-bit`)
+  - RHEL 7.4 (`64-bit`)
+  - Debian Stretch 9.5 (`64-bit`)
 
 {{< tip >}}
 Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/installation/port-firewall/). If this is not immediately feasible, you may evaluate Istio and KubeSphere by disabling the firewall as documented in your distribution.
@@ -58,7 +58,7 @@ Ensure your firewall meets the [port requirements](https://kubesphere.io/docs/in
 
     {{< text plain >}}
     #####################################################
-    ###              Welcome to KubeSphere!           ###
+    ###              Welcome to KubeSphere           ###
     #####################################################
     Console: http://192.168.0.8:30880
     Account: admin

@@ -84,7 +84,7 @@ metadata:
   namespace: bookinfo
 spec:
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_INBOUND
       listener:

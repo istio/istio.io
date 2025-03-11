@@ -84,8 +84,8 @@ scrape_configs:
       - '{job="kubernetes-pods"}'
 
   static_configs:
-    - targets:
-      - 'prometheus.{{INGRESS_DOMAIN}}'
+  - targets:
+    - 'prometheus.{{INGRESS_DOMAIN}}'
       labels:
         cluster: '{{CLUSTER_NAME}}'
 {{< /text >}}
@@ -138,8 +138,8 @@ scrape_configs:
       - '{job="kubernetes-pods"}'
 
   static_configs:
-    - targets:
-      - 'prometheus.{{REMOTE_INGRESS_DOMAIN}}'
+  - targets:
+    - 'prometheus.{{REMOTE_INGRESS_DOMAIN}}'
       labels:
         cluster: '{{REMOTE_CLUSTER_NAME}}'
 

@@ -26,7 +26,7 @@ target_release: 1.0
     {{< text bash >}}
     $ kubectl config get-contexts
     CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
-    *         cluster1   cluster1   user@foo.com   default
+  *         cluster1   cluster1   user@foo.com   default
               cluster2   cluster2   user@foo.com   default
     {{< /text >}}
 
@@ -52,7 +52,7 @@ metadata:
     app: productpage
 spec:
   ports:
-  - port: 9080
+- port: 9080
     name: http
   selector:
     app: productpage
@@ -84,7 +84,7 @@ metadata:
     app: details
 spec:
   ports:
-  - port: 9080
+- port: 9080
     name: http
   selector:
     app: details
@@ -116,7 +116,7 @@ metadata:
     app: reviews
 spec:
   ports:
-  - port: 9080
+- port: 9080
     name: http
   selector:
     app: reviews
@@ -157,7 +157,7 @@ metadata:
     app: ratings
 spec:
   ports:
-  - port: 9080
+- port: 9080
     name: http
   selector:
     app: ratings
@@ -189,7 +189,7 @@ metadata:
     app: reviews
 spec:
   ports:
-  - port: 9080
+- port: 9080
     name: http
   selector:
     app: reviews
@@ -267,17 +267,17 @@ metadata:
   name: reviews-default
 spec:
   hosts:
-  - reviews.default.global
+- reviews.default.global
   location: MESH_INTERNAL
   ports:
-  - name: http1
+- name: http1
     number: 9080
     protocol: http
   resolution: DNS
   addresses:
-  - 240.0.0.3
+- 240.0.0.3
   endpoints:
-  - address: ${CLUSTER2_GW_ADDR}
+- address: ${CLUSTER2_GW_ADDR}
     labels:
       cluster: cluster2
     ports:
@@ -293,10 +293,10 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
   subsets:
-  - name: v2
+- name: v2
     labels:
       cluster: cluster2
-  - name: v3
+- name: v3
     labels:
       cluster: cluster2
 EOF
@@ -322,13 +322,13 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
-  - name: v3
+- name: v3
     labels:
       version: v3
 EOF
@@ -346,13 +346,13 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
-  - name: v3
+- name: v3
     labels:
       version: v3
 EOF
@@ -378,21 +378,21 @@ spec:
   hosts:
     - reviews.default.svc.cluster.local
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         end-user:
           exact: jason
     route:
-    - destination:
+  - destination:
         host: reviews.default.global
         subset: v2
       weight: 50
-    - destination:
+  - destination:
         host: reviews.default.global
         subset: v3
       weight: 50
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews.default.svc.cluster.local
         subset: v1
 EOF

@@ -18,22 +18,22 @@ metadata:
   name: tls-routing
 spec:
   hosts:
-  - www1.googleapis.com
-  - api1.facebook.com
+- www1.googleapis.com
+- api1.facebook.com
   tls:
-  - match:
-    - port: 2443
+- match:
+  - port: 2443
       sniHosts:
-      - www1.googleapis.com
+    - www1.googleapis.com
     route:
-    - destination:
+  - destination:
         host: www1.googleapis.com
-  - match:
-    - port: 2443
+- match:
+  - port: 2443
       sniHosts:
-      - www1.googleapis.com
+    - www1.googleapis.com
     route:
-    - destination:
+  - destination:
         host: api1.facebook.com
 {{< /text >}}
 

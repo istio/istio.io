@@ -94,14 +94,14 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths:
-        - /foo
-  - from:
-    - source:
+    - /foo
+- from:
+  - source:
         namespaces:
-        - foo
+    - foo
 {{< /text >}}
 
 Ви можете очікувати, що політика дозволить запити, якщо шлях `/foo` **і** простір імен джерела `foo`. Однак, насправді політика дозволяє запити, якщо шлях `/foo` **або** простір імен джерела `foo`, що є більш ліберальним.

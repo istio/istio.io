@@ -24,7 +24,7 @@ spec:
     labels:
       app: mysvc2
   configPatches:
-  - applyTo: ROUTE_CONFIGURATION
+- applyTo: ROUTE_CONFIGURATION
     match:
       context: GATEWAY
       listener:

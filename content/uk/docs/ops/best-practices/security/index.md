@@ -49,8 +49,8 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/public"]
 {{< /text >}}
 
@@ -66,8 +66,8 @@ metadata:
 spec:
   action: DENY
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/public"]
 {{< /text >}}
 
@@ -229,7 +229,7 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: GATEWAY
       listener:
@@ -267,8 +267,8 @@ spec:
       app: istio-ingressgateway
   action: DENY
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         hosts: ["example.com", "example.com:*"]
 {{< /text >}}
 
@@ -426,12 +426,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - "*.example.com"
+  - "*.example.com"
     tls:
       mode: SIMPLE
 ---
@@ -442,12 +442,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - admin.example.com
+  - admin.example.com
     tls:
       mode: MUTUAL
 {{< /text >}}
@@ -461,12 +461,12 @@ metadata:
   name: disable-sensitive
 spec:
   hosts:
-  - "admin.example.com"
+- "admin.example.com"
   gateways:
-  - guestgateway
+- guestgateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /
     fault:
       abort:
@@ -474,7 +474,7 @@ spec:
           value: 100
         httpStatus: 421
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: dest.default.cluster.local

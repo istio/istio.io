@@ -41,19 +41,19 @@ Intel DLB 是一个硬件管理的队列和仲裁器系统，连接生产者和�
 Intel DLB 实现了以下负载均衡功能：
 
 - 从软件中卸载队列管理 —— 在存在重要的基于排队成本的情况下有用。
-    - 特别适用于多生产者/多消费者场景和将任务批量排队到多个目的地的情况。
-    - 在软件中访问共享队列需要使用锁。Intel DLB 实现了无锁访问共享队列。
+  - 特别适用于多生产者/多消费者场景和将任务批量排队到多个目的地的情况。
+  - 在软件中访问共享队列需要使用锁。Intel DLB 实现了无锁访问共享队列。
 - 动态的、流感知的负载均衡和重新排序。
-    - 确保任务均匀分配并更好地利用 CPU 核心。可以在需要的情况下提供基于流的原子性。
-    - 在不丢失报文顺序的情况下，将高带宽流量分布到多个核心中。
-    - 更好的确定性，避免过多的排队延迟。
-    - 使用更少的 IO 内存占用和节省 DDR 带宽。
+  - 确保任务均匀分配并更好地利用 CPU 核心。可以在需要的情况下提供基于流的原子性。
+  - 在不丢失报文顺序的情况下，将高带宽流量分布到多个核心中。
+  - 更好的确定性，避免过多的排队延迟。
+  - 使用更少的 IO 内存占用和节省 DDR 带宽。
 - 优先级排队（最多 8 个级别）—— 允许 QOS。
-    - 对于延迟敏感的流量，可以实现较低的延迟。
-    - 报文中可选的延迟测量。
+  - 对于延迟敏感的流量，可以实现较低的延迟。
+  - 报文中可选的延迟测量。
 - 可扩展性
-    - 允许动态调整应用程序的大小，无缝缩放。
-    - 功耗感知；应用程序可以在负载较轻的情况下将工作进程降低到较低功耗状态。
+  - 允许动态调整应用程序的大小，无缝缩放。
+  - 功耗感知；应用程序可以在负载较轻的情况下将工作进程降低到较低功耗状态。
 
 负载均衡队列有三种类型：
 
@@ -189,12 +189,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "httpbin.example.com"
+  - "httpbin.example.com"
 EOF
 $ kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
@@ -203,17 +203,17 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "httpbin.example.com"
+- "httpbin.example.com"
   gateways:
-  - httpbin-gateway
+- httpbin-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /status
-    - uri:
+  - uri:
         prefix: /delay
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin
@@ -240,7 +240,7 @@ spec:
     labels:
       istio: ingressgateway
   configPatches:
-  - applyTo: LISTENER
+- applyTo: LISTENER
     match:
       context: GATEWAY
     patch:

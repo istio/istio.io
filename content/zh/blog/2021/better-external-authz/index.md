@@ -77,8 +77,8 @@ spec:
   # 这条规则指定只有请求路径有前缀 “/admin/” 时才触发访问控制。
   # 这允许您轻松地根据请求启用或禁用外部授权，避免在不需要时进行外部检查请求。
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/admin/*"]
 {{< /text >}}
 
@@ -90,7 +90,7 @@ extensionProviders:
 - name: "my-ext-authz-service"
   # “envoyExtAuthzGrpc” 字段指定 Envoy ext-authz 过滤器 gRPC API 实现的外部授权服务的类型。
   # 另一种支持的类型是 Envoy ext-authz 过滤器 HTTP API。
-  # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter.
+  # See more in https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter
   # 更多信息请参见 https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter。
   envoyExtAuthzGrpc:
     # service 和 port 指定外部 auth 服务的地址，
@@ -188,7 +188,7 @@ metadata:
     service: httpbin-with-opa
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     targetPort: 80
   selector:
@@ -201,11 +201,11 @@ metadata:
   name: local-opa-grpc
 spec:
   hosts:
-  - "local-opa-grpc.local"
+- "local-opa-grpc.local"
   endpoints:
-  - address: "127.0.0.1"
+- address: "127.0.0.1"
   ports:
-  - name: grpc
+- name: grpc
     number: 9191
     protocol: GRPC
   resolution: STATIC
@@ -288,7 +288,7 @@ metadata:
     app: opa
 spec:
   ports:
-  - name: grpc
+- name: grpc
     port: 9191
     targetPort: 9191
   selector:
@@ -433,8 +433,8 @@ spec:
   provider:
     name: "opa.local"
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/ip"]
 EOF
 {{< /text >}}
@@ -457,8 +457,8 @@ spec:
   provider:
     name: "opa.default"
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/ip"]
 EOF
 {{< /text >}}
@@ -610,11 +610,11 @@ Istio 与任何外部授权系统集成，并具备以下优势：
 
 - 支持外部授权方的各种部署类型：
 
-    - 开启或不开启代理的 Pod 或普通服务
+  - 开启或不开启代理的 Pod 或普通服务
 
-    - 在工作负载 Pod 内作为一个单独的容器方式
+  - 在工作负载 Pod 内作为一个单独的容器方式
 
-    - 位于网格外部
+  - 位于网格外部
 
 我们正努力在后续版本中将此功能提升到更稳定的阶段，
 并欢迎您在 [discuss.istio.io](https://discuss.istio.io/c/security/) 上提供反馈。

@@ -45,7 +45,7 @@ metadata:
   name: add-header
 spec:
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
       listener:
@@ -75,7 +75,7 @@ metadata:
   name: add-header
 spec:
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
       listener:

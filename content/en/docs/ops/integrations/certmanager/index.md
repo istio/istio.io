@@ -102,10 +102,10 @@ metadata:
     kubernetes.io/ingress.class: istio
 spec:
   rules:
-  - host: my.example.com
+- host: my.example.com
     http: ...
   tls:
-  - hosts:
-    - my.example.com # This should match a DNS name in the Certificate
+- hosts:
+  - my.example.com # This should match a DNS name in the Certificate
     secretName: ingress-cert # This should match the Certificate secretName
 {{< /text >}}

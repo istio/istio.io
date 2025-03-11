@@ -133,7 +133,7 @@ metadata:
     service: httpbin
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     targetPort: 80
   selector:
@@ -182,24 +182,24 @@ We have [published a white paper](https://www.intel.com/content/www/us/en/archit
 Configuration used in above comparison.
 
 * Azure AKS Kubernetes cluster
-    * v1.21
-    * Three-node cluster
-    * Each node Standard_D4ds_v5: 3rd Generation Intel® Xeon® Platinum 8370C (Ice Lake), 4 vCPU, 16 GB memory
+  * v1.21
+  * Three-node cluster
+  * Each node Standard_D4ds_v5: 3rd Generation Intel® Xeon® Platinum 8370C (Ice Lake), 4 vCPU, 16 GB memory
 * Istio
-    * 1.14-dev
-    * Istio ingress gateway pod
-        * resources.request.cpu: 2
-        * resources.request.memory: 4 GB
-        * resources.limits.cpu: 2
-        * resources.limits.memory: 4 GB
+  * 1.14-dev
+  * Istio ingress gateway pod
+    * resources.request.cpu: 2
+    * resources.request.memory: 4 GB
+    * resources.limits.cpu: 2
+    * resources.limits.memory: 4 GB
 * K6
-    * loadimpact/k6:latest
+  * loadimpact/k6:latest
 * Fortio
-    * fortio/fortio:1.27.0
+  * fortio/fortio:1.27.0
 * K6 client, envoy and fortio pods are forced to run on separate nodes via Kubernetes AntiAffinity and node selectors
 * In above picture
-    * Istio is installed with above configuration
-    * Istio with CryptoMB (AVX-512) with above configuration + below settings
+  * Istio is installed with above configuration
+  * Istio with CryptoMB (AVX-512) with above configuration + below settings
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1

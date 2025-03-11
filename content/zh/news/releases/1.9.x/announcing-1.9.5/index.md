@@ -21,13 +21,13 @@ aliases:
 
 - __[CVE-2021-31920](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-31920)__:
 Istio 包含一个可远程利用的漏洞，当使用基于路径的授权规则时，带有多个斜杠或转义斜杠字符 (`%2F` 或 `%5C`) 的 HTTP 请求路径可能会绕过 Istio 的授权策略。有关更多详细信息，请参阅 [ISTIO-SECURITY-2021-005 bulletin](/zh/news/security/istio-security-2021-005) 公告。
-    - __CVSS Score__: 8.1 [AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N)
+  - __CVSS Score__: 8.1 [AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N)
 - __[CVE-2021-29492](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-29492)__:
   Envoy 包含一个可远程利用的漏洞，其中带有转义斜杠字符的 HTTP 请求可以绕过 Envoy 的授权机制。
-    - __CVSS Score__: 8.3 [AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L)
+  - __CVSS Score__: 8.3 [AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L)
 - __[CVE-2021-31921](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-31921)__:
   Istio 包含一个可远程利用的漏洞，当网关配置了 `AUTO_PASSTHROUGH` 路由配置时，外部客户端可以访问集群中的意外服务，从而绕过授权检查。有关更多详细信息，请参阅 [ISTIO-SECURITY-2021-006 bulletin](/zh/news/security/istio-security-2021-006) 公告。
-    - __CVSS Score__: 10.0 [AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H)
+  - __CVSS Score__: 10.0 [AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H)
 
 ## 改变{#changes}
 

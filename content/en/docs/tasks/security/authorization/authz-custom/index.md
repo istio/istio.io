@@ -78,11 +78,11 @@ metadata:
   name: external-authz-grpc-local
 spec:
   hosts:
-  - "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
+- "external-authz-grpc.local" # The service name to be used in the extension provider in the mesh config.
   endpoints:
-  - address: "127.0.0.1"
+- address: "127.0.0.1"
   ports:
-  - name: grpc
+- name: grpc
     number: 9191 # The port number to be used in the extension provider in the mesh config.
     protocol: GRPC
   resolution: STATIC
@@ -172,7 +172,7 @@ The external authorizer is now ready to be used by the authorization policy.
         # You can also replace this with sample-ext-authz-http to test the other external authorizer definition.
         name: sample-ext-authz-grpc
       rules:
-      # The rules specify when to trigger the external authorizer.
+      # The rules specify when to trigger the external authorizer
       - to:
         - operation:
             paths: ["/headers"]

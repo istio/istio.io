@@ -105,40 +105,40 @@ metadata:
     app.kubernetes.io/name: istio-prometheus
 spec:
   groups:
-  - name: "istio.metricsAggregation-rules"
+- name: "istio.metricsAggregation-rules"
     interval: 5s
     rules:
-    - record: "workload:istio_requests_total"
+  - record: "workload:istio_requests_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_requests_total)"
 
-    - record: "workload:istio_request_duration_milliseconds_count"
+  - record: "workload:istio_request_duration_milliseconds_count"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_duration_milliseconds_count)"
-    - record: "workload:istio_request_duration_milliseconds_sum"
+  - record: "workload:istio_request_duration_milliseconds_sum"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_duration_milliseconds_sum)"
-    - record: "workload:istio_request_duration_milliseconds_bucket"
+  - record: "workload:istio_request_duration_milliseconds_bucket"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_duration_milliseconds_bucket)"
 
-    - record: "workload:istio_request_bytes_count"
+  - record: "workload:istio_request_bytes_count"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_bytes_count)"
-    - record: "workload:istio_request_bytes_sum"
+  - record: "workload:istio_request_bytes_sum"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_bytes_sum)"
-    - record: "workload:istio_request_bytes_bucket"
+  - record: "workload:istio_request_bytes_bucket"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_bytes_bucket)"
 
-    - record: "workload:istio_response_bytes_count"
+  - record: "workload:istio_response_bytes_count"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_count)"
-    - record: "workload:istio_response_bytes_sum"
+  - record: "workload:istio_response_bytes_sum"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_sum)"
-    - record: "workload:istio_response_bytes_bucket"
+  - record: "workload:istio_response_bytes_bucket"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)"
 
-    - record: "workload:istio_tcp_sent_bytes_total"
+  - record: "workload:istio_tcp_sent_bytes_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_sent_bytes_total)"
-    - record: "workload:istio_tcp_received_bytes_total"
+  - record: "workload:istio_tcp_received_bytes_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_received_bytes_total)"
-    - record: "workload:istio_tcp_connections_opened_total"
+  - record: "workload:istio_tcp_connections_opened_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_connections_opened_total)"
-    - record: "workload:istio_tcp_connections_closed_total"
+  - record: "workload:istio_tcp_connections_closed_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_connections_closed_total)"
 {{< /text >}}
 
@@ -196,17 +196,17 @@ spec:
     matchLabels:
       app: prometheus
   endpoints:
-  - interval: 30s
+- interval: 30s
     scrapeTimeout: 30s
     params:
       'match[]':
-      - '{__name__=~"workload:(.*)"}'
-      - '{__name__=~"pilot(.*)"}'
+  - '{__name__=~"workload:(.*)"}'
+  - '{__name__=~"pilot(.*)"}'
     path: /federate
     targetPort: 9090
     honorLabels: true
     metricRelabelings:
-    - sourceLabels: ["__name__"]
+  - sourceLabels: ["__name__"]
       regex: 'workload:(.*)'
       targetLabel: "__name__"
       action: replace

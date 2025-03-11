@@ -5,7 +5,7 @@
     {{< text bash >}}
     $ kubectl config get-contexts
     CURRENT   NAME       CLUSTER    AUTHINFO       NAMESPACE
-    *         cluster1   cluster1   user@foo.com   default
+*         cluster1   cluster1   user@foo.com   default
               cluster2   cluster2   user@foo.com   default
     {{< /text >}}
 

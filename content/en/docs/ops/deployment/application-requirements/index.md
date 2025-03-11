@@ -69,8 +69,8 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
   These labels add contextual information to the metrics and telemetry that Istio collects.
   Each of these values are read from multiple labels ordered from highest to lowest precedence:
 
-    - Application name: `service.istio.io/canonical-name`, `app.kubernetes.io/name`, or `app`.
-    - Application version: `service.istio.io/canonical-revision`, `app.kubernetes.io/version`, or `version`.
+  - Application name: `service.istio.io/canonical-name`, `app.kubernetes.io/name`, or `app`.
+  - Application version: `service.istio.io/canonical-revision`, `app.kubernetes.io/version`, or `version`.
 
 - **Named service ports**: Service ports may optionally be named to explicitly specify a protocol.
   See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for

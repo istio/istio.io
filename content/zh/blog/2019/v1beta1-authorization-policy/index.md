@@ -79,14 +79,14 @@ spec:
      app: httpbin
      version: v1
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/sleep"]
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
    when:
-   - key: request.headers[version]
+  - key: request.headers[version]
      values: ["v1", "v2"]
 {{< /text >}}
 
@@ -128,10 +128,10 @@ metadata:
   namespace: foo
 spec:
   rules:
-  - services: ["httpbin.foo.svc.cluster.local"]
+- services: ["httpbin.foo.svc.cluster.local"]
     methods: ["GET"]
     constraints:
-    - key: request.headers[version]
+  - key: request.headers[version]
       values: ["v1", "v2"]
 ---
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -141,7 +141,7 @@ metadata:
   namespace: foo
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/sleep"
+- user: "cluster.local/ns/default/sa/sleep"
   roleRef:
     kind: ServiceRole
     name: "httpbin"
@@ -332,7 +332,7 @@ metadata:
   namespace: foo
 spec:
   rules:
-  - services: ["httpbin.foo.svc.cluster.local"]
+- services: ["httpbin.foo.svc.cluster.local"]
     methods: ["GET"]
 ---
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -342,7 +342,7 @@ metadata:
   namespace: foo
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/sleep"
+- user: "cluster.local/ns/default/sa/sleep"
   roleRef:
     kind: ServiceRole
     name: "httpbin"

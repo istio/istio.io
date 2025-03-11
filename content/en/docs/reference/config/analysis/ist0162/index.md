@@ -21,18 +21,18 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "*"
-  - port:
+  - "*"
+- port:
       number: 8004
       name: http2
       protocol: HTTP
     hosts:
-    - "*"
+  - "*"
 ---
 
 # Default Gateway Service
@@ -45,15 +45,15 @@ spec:
   selector:
     istio: ingressgateway
   ports:
-  - name: status-port
+- name: status-port
     port: 15021
     protocol: TCP
     targetPort: 15021
-  - name: http2
+- name: http2
     port: 80
     protocol: TCP
     targetPort: 8080
-  - name: https
+- name: https
     port: 443
     protocol: TCP
     targetPort: 8443
@@ -79,16 +79,16 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 8080
       name: http2
       protocol: HTTP
     hosts:
-    - "*"
-  - port:
+  - "*"
+- port:
       number: 8443
       name: https
       protocol: HTTP
     hosts:
-    - "*"
+  - "*"
 {{< /text >}}

@@ -59,8 +59,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: jaeger
+- providers:
+  - name: jaeger
 EOF
 {{< /text >}}
 

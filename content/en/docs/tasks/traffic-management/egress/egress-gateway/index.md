@@ -189,12 +189,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - edition.cnn.com
+  - edition.cnn.com
 ---
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
@@ -203,7 +203,7 @@ metadata:
 spec:
   host: istio-egressgateway.istio-system.svc.cluster.local
   subsets:
-  - name: cnn
+- name: cnn
 EOF
 {{< /text >}}
 
@@ -222,7 +222,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: http
+- name: http
     hostname: edition.cnn.com
     port: 80
     protocol: HTTP
@@ -251,28 +251,28 @@ metadata:
   name: direct-cnn-through-egress-gateway
 spec:
   hosts:
-  - edition.cnn.com
+- edition.cnn.com
   gateways:
-  - istio-egressgateway
-  - mesh
+- istio-egressgateway
+- mesh
   http:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 80
     route:
-    - destination:
+  - destination:
         host: istio-egressgateway.istio-system.svc.cluster.local
         subset: cnn
         port:
           number: 80
       weight: 100
-  - match:
-    - gateways:
-      - istio-egressgateway
+- match:
+  - gateways:
+    - istio-egressgateway
       port: 80
     route:
-    - destination:
+  - destination:
         host: edition.cnn.com
         port:
           number: 80
@@ -292,12 +292,12 @@ metadata:
   name: direct-cnn-to-egress-gateway
 spec:
   parentRefs:
-  - kind: ServiceEntry
+- kind: ServiceEntry
     group: networking.istio.io
     name: cnn
   rules:
-  - backendRefs:
-    - name: cnn-egress-gateway-istio
+- backendRefs:
+  - name: cnn-egress-gateway-istio
       port: 80
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -306,12 +306,12 @@ metadata:
   name: forward-cnn-from-egress-gateway
 spec:
   parentRefs:
-  - name: cnn-egress-gateway
+- name: cnn-egress-gateway
   hostnames:
-  - edition.cnn.com
+- edition.cnn.com
   rules:
-  - backendRefs:
-    - kind: Hostname
+- backendRefs:
+  - kind: Hostname
       group: networking.istio.io
       name: edition.cnn.com
       port: 80
@@ -488,12 +488,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: tls
       protocol: TLS
     hosts:
-    - edition.cnn.com
+  - edition.cnn.com
     tls:
       mode: PASSTHROUGH
 ---
@@ -504,7 +504,7 @@ metadata:
 spec:
   host: istio-egressgateway.istio-system.svc.cluster.local
   subsets:
-  - name: cnn
+- name: cnn
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -512,31 +512,31 @@ metadata:
   name: direct-cnn-through-egress-gateway
 spec:
   hosts:
-  - edition.cnn.com
+- edition.cnn.com
   gateways:
-  - mesh
-  - istio-egressgateway
+- mesh
+- istio-egressgateway
   tls:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 443
       sniHosts:
-      - edition.cnn.com
+    - edition.cnn.com
     route:
-    - destination:
+  - destination:
         host: istio-egressgateway.istio-system.svc.cluster.local
         subset: cnn
         port:
           number: 443
-  - match:
-    - gateways:
-      - istio-egressgateway
+- match:
+  - gateways:
+    - istio-egressgateway
       port: 443
       sniHosts:
-      - edition.cnn.com
+    - edition.cnn.com
     route:
-    - destination:
+  - destination:
         host: edition.cnn.com
         port:
           number: 443
@@ -559,7 +559,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: tls
+- name: tls
     hostname: edition.cnn.com
     port: 443
     protocol: TLS
@@ -575,12 +575,12 @@ metadata:
   name: direct-cnn-to-egress-gateway
 spec:
   parentRefs:
-  - kind: ServiceEntry
+- kind: ServiceEntry
     group: networking.istio.io
     name: cnn
   rules:
-  - backendRefs:
-    - name: cnn-egress-gateway-istio
+- backendRefs:
+  - name: cnn-egress-gateway-istio
       port: 443
 ---
 apiVersion: gateway.networking.k8s.io/v1alpha2
@@ -589,12 +589,12 @@ metadata:
   name: forward-cnn-from-egress-gateway
 spec:
   parentRefs:
-  - name: cnn-egress-gateway
+- name: cnn-egress-gateway
   hostnames:
-  - edition.cnn.com
+- edition.cnn.com
   rules:
-  - backendRefs:
-    - kind: Hostname
+- backendRefs:
+  - kind: Hostname
       group: networking.istio.io
       name: edition.cnn.com
       port: 443
@@ -795,17 +795,17 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Egress
+- Egress
   egress:
-  - to:
-    - namespaceSelector:
+- to:
+  - namespaceSelector:
         matchLabels:
           kube-system: "true"
     ports:
-    - protocol: UDP
+  - protocol: UDP
       port: 53
-  - to:
-    - namespaceSelector:
+- to:
+  - namespaceSelector:
         matchLabels:
           istio: system
 EOF
@@ -824,21 +824,21 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Egress
+- Egress
   egress:
-  - to:
-    - namespaceSelector:
+- to:
+  - namespaceSelector:
         matchLabels:
           kube-system: "true"
     ports:
-    - protocol: UDP
+  - protocol: UDP
       port: 53
-  - to:
-    - namespaceSelector:
+- to:
+  - namespaceSelector:
         matchLabels:
           istio: system
-  - to:
-    - namespaceSelector:
+- to:
+  - namespaceSelector:
         matchLabels:
           gateway: "true"
 EOF
@@ -906,7 +906,7 @@ metadata:
 spec:
   host: istio-egressgateway.istio-system.svc.cluster.local
   subsets:
-  - name: cnn
+- name: cnn
 EOF
 {{< /text >}}
 

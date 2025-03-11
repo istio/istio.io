@@ -131,11 +131,11 @@ be configured using [authentication policies](/docs/concepts/security/#authentic
 
 - Enhancements and bug fixes:
 
-    - Align `kubeconfig` handling with `kubectl`
+  - Align `kubeconfig` handling with `kubectl`
 
-    - `istioctl get all` returns all types of networking and authentication configuration.
+  - `istioctl get all` returns all types of networking and authentication configuration.
 
-    - Added the `--all-namespaces` flag to `istioctl get` to retrieve resources across all namespaces.
+  - Added the `--all-namespaces` flag to `istioctl get` to retrieve resources across all namespaces.
 
 ### Known issues with 1.0
 

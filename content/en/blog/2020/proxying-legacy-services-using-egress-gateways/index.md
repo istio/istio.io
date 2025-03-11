@@ -95,7 +95,7 @@ Save this as `config.yaml`.
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 kubeadmConfigPatches:
-  - |
+- |
     apiVersion: kubeadm.k8s.io/v1beta2
     kind: ClusterConfiguration
     metadata:
@@ -256,20 +256,20 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - hosts:
-    - "<my-proxied-service-hostname>"
+- hosts:
+  - "<my-proxied-service-hostname>"
     port:
       name: http
       number: 80
       protocol: HTTP
     tls:
      httpsRedirect: true
-  - port:
+- port:
       number: 443
       name: https
       protocol: https
     hosts:
-    - "<my-proxied-service-hostname>"
+  - "<my-proxied-service-hostname>"
     tls:
       mode: SIMPLE
       credentialName: <my-secret-name>
@@ -292,8 +292,8 @@ spec:
     istio: egressgateway
     service.istio.io/canonical-name: "httpbin-egress"
   servers:
-  - hosts:
-    - "<my-proxied-service-hostname>"
+- hosts:
+  - "<my-proxied-service-hostname>"
     port:
       number: 80
       name: http
@@ -322,30 +322,30 @@ metadata:
   namespace: "httpbin"
 spec:
   hosts:
-  - "<my-proxied-service-hostname>"
+- "<my-proxied-service-hostname>"
   gateways:
-  - mesh
-  - "istio-system/my-ingressgateway"
-  - "httpbin/httpbin-egress"
+- mesh
+- "istio-system/my-ingressgateway"
+- "httpbin/httpbin-egress"
   http:
-  - match:
-    - gateways:
-      - "istio-system/my-ingressgateway"
-      - mesh
+- match:
+  - gateways:
+    - "istio-system/my-ingressgateway"
+    - mesh
       uri:
         prefix: "/"
     route:
-    - destination:
+  - destination:
         host: "httpbin-egress.httpbin.svc.cluster.local"
         port:
           number: 80
-  - match:
-    - gateways:
-      - "httpbin/httpbin-egress"
+- match:
+  - gateways:
+    - "httpbin/httpbin-egress"
       uri:
         prefix: "/"
     route:
-    - destination:
+  - destination:
         host: "httpbin.org"
         subset: "http-egress-subset"
         port:
@@ -370,10 +370,10 @@ metadata:
   namespace: "httpbin"
 spec:
   hosts:
-  - "httpbin.org"
+- "httpbin.org"
   location: MESH_EXTERNAL
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: TLS
   resolution: DNS
@@ -392,12 +392,12 @@ metadata:
 spec:
   host: "httpbin.org"
   subsets:
-  - name: "http-egress-subset"
+- name: "http-egress-subset"
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
       portLevelSettings:
-      - port:
+  - port:
           number: 443
         tls:
           mode: SIMPLE

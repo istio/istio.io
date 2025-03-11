@@ -161,18 +161,18 @@ metadata:
   name: reviews
 spec:
   hosts:
-  - reviews
+- reviews
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         end-user:
           exact: jason
     route:
-    - destination:
+  - destination:
         host: reviews
         subset: v2
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v3
 {{< /text >}}
@@ -217,7 +217,7 @@ the appropriate requests.
 
 {{< text yaml >}}
 - match:
-   - headers:
+  - headers:
        end-user:
          exact: jason
 {{< /text >}}
@@ -295,17 +295,17 @@ spec:
   hosts:
     - bookinfo.com
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /reviews
     route:
-    - destination:
+  - destination:
         host: reviews
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /ratings
     route:
-    - destination:
+  - destination:
         host: ratings
 {{< /text >}}
 
@@ -326,14 +326,14 @@ by percentage "weight". This is useful for A/B testing and canary rollouts:
 {{< text yaml >}}
 spec:
   hosts:
-  - reviews
+- reviews
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v1
       weight: 75
-    - destination:
+  - destination:
         host: reviews
         subset: v2
       weight: 25
@@ -405,16 +405,16 @@ spec:
     loadBalancer:
       simple: RANDOM
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
-  - name: v3
+- name: v3
     labels:
       version: v3
 {{< /text >}}
@@ -479,12 +479,12 @@ spec:
   selector:
     app: my-gateway-controller
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - ext-host.example.com
+  - ext-host.example.com
     tls:
       mode: SIMPLE
       credentialName: ext-host-cert
@@ -504,9 +504,9 @@ metadata:
   name: virtual-svc
 spec:
   hosts:
-  - ext-host.example.com
+- ext-host.example.com
   gateways:
-  - ext-host-gwy
+- ext-host-gwy
 {{< /text >}}
 
 You can then configure the virtual service with routing rules for the external
@@ -545,9 +545,9 @@ metadata:
   name: svc-entry
 spec:
   hosts:
-  - ext-svc.example.com
+- ext-svc.example.com
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
   location: MESH_EXTERNAL
@@ -608,9 +608,9 @@ metadata:
   namespace: bookinfo
 spec:
   egress:
-  - hosts:
-    - "./*"
-    - "istio-system/*"
+- hosts:
+  - "./*"
+  - "istio-system/*"
 {{< /text >}}
 
 See the [Sidecar reference](/docs/reference/config/networking/sidecar/)
@@ -648,10 +648,10 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - ratings
+- ratings
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: ratings
         subset: v1
     timeout: 10s
@@ -685,10 +685,10 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - ratings
+- ratings
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: ratings
         subset: v1
     retries:
@@ -721,7 +721,7 @@ metadata:
 spec:
   host: reviews
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
     trafficPolicy:
@@ -773,15 +773,15 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - ratings
+- ratings
   http:
-  - fault:
+- fault:
       delay:
         percentage:
           value: 0.1
         fixedDelay: 5s
     route:
-    - destination:
+  - destination:
         host: ratings
         subset: v1
 {{< /text >}}

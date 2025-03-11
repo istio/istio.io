@@ -44,8 +44,8 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notNamespaces: ["foo"]
 {{< /text >}}
 
@@ -63,8 +63,8 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["foo"]
 {{< /text >}}
 
@@ -95,10 +95,10 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notNamespaces: ["foo"]
-        # Add the following to explicitly only allow mTLS traffic.
+        # Add the following to explicitly only allow mTLS traffic
         namespaces: ["*"]
 {{< /text >}}
 
@@ -110,12 +110,12 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["foo"]
-  # Add the following rule to explicitly reject plain text traffic.
-  - from:
-    - source:
+  # Add the following rule to explicitly reject plain text traffic
+- from:
+  - source:
         notNamespaces: ["*"]
 {{< /text >}}
 

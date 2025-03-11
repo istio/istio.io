@@ -17,7 +17,7 @@ skip_seealso: true
 
 * __[CVE-2020-11080](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-11080)__：
 通过发送特制数据包，攻击者可能会导致 CPU 峰值激增100％。 这可以发送到 Ingress 网关或 Sidecar。
-    * CVSS Score: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
+  * CVSS Score: 7.5 [AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
 
 ## 防范{#mitigation}
 
@@ -35,7 +35,7 @@ spec:
     labels:
       istio: ingressgateway
   configPatches:
-  - applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
+- applyTo: NETWORK_FILTER # http connection manager is a filter in Envoy
     match:
       context: GATEWAY
       listener:

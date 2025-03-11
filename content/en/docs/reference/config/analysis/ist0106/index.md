@@ -24,14 +24,14 @@ metadata:
   namespace: default
 spec:
   hosts:
-  - ratings
+- ratings
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: ratings
         subset: v1
       weight: 999
-    - destination:
+  - destination:
         host: ratings
         subset: v2
       weight: 888

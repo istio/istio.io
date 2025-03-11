@@ -161,8 +161,8 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 
 * If the secret is missing, create it.
 * If the secret is present:
-    * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
-    * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
+  * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
+  * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
      remote Kubernetes API server. Log messages may include `Failed to add remote cluster from secret` along with an
      error reason.
 
@@ -184,12 +184,12 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 
 * If the secret is missing, create it.
 * If the secret is present and the endpoint is a Pod in the **primary** cluster:
-    * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
-    * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
+  * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
+  * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
      remote Kubernetes API server. Log messages may include `Failed to add remote cluster from secret` along with an
      error reason.
 * If the secret is present and the endpoint is a Pod in the **remote** cluster:
-    * The proxy is reading configuration from an istiod inside the remote cluster. When a remote cluster has an in
+  * The proxy is reading configuration from an istiod inside the remote cluster. When a remote cluster has an in
      -cluster istiod,  it is only meant for sidecar injection and CA. You can verify this is the problem by looking
      for a Service named `istiod-remote` in the `istio-system` namespace. If it's missing, reinstall making sure
      `values.global.remotePilotAddress` is set.

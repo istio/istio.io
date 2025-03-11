@@ -99,8 +99,8 @@ metadata:
   name: otel-demo
 spec:
   tracing:
-  - providers:
-    - name: otel-tracing
+- providers:
+  - name: otel-tracing
     randomSamplingPercentage: 100
     customTags:
       "my-attribute":

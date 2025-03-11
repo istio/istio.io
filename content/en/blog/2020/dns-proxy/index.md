@@ -79,9 +79,9 @@ metadata:
   namespace: ns1
 spec:
   hosts:
-  - mysql-instance1.us-east-1.rds.amazonaws.com
+- mysql-instance1.us-east-1.rds.amazonaws.com
   ports:
-  - name: mysql
+- name: mysql
     number: 3306
     protocol: TCP
   resolution: DNS
@@ -93,9 +93,9 @@ metadata:
   namespace: ns1
 spec:
   hosts:
-  - mysql-instance2.us-east-1.rds.amazonaws.com
+- mysql-instance2.us-east-1.rds.amazonaws.com
   ports:
-  - name: mysql
+- name: mysql
     number: 3306
     protocol: TCP
   resolution: DNS

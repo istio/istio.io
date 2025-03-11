@@ -85,17 +85,17 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者如果您正在通过 ingress-gateway IP（例如 http://1.2.3.4/hello）而不是 DNS 进行测试，也可以配置成 "*"
+- "myapp.com" # 或者如果您正在通过 ingress-gateway IP（例如 http://1.2.3.4/hello）而不是 DNS 进行测试，也可以配置成 "*"
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /hello
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
-  - match:
+- match:
     ...
 {{< /text >}}
 
@@ -108,10 +108,10 @@ metadata:
   name: helloworld
 spec:
   hosts:
-  - helloworld.default.svc.cluster.local
+- helloworld.default.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
 {{< /text >}}
@@ -134,18 +134,18 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - "myapp.com" # 或者如果您正在通过 ingress-gateway IP（例如 http://1.2.3.4/hello）而不是 DNS 进行测试，也可以配置成 "*"
+- "myapp.com" # 或者如果您正在通过 ingress-gateway IP（例如 http://1.2.3.4/hello）而不是 DNS 进行测试，也可以配置成 "*"
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /hello
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-  - match:
+- match:
     ...
 {{< /text >}}
 
@@ -158,26 +158,26 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com # 这里不能使用“*”，因为这是与网格服务关联在一起的
-  - helloworld.default.svc.cluster.local
+- myapp.com # 这里不能使用“*”，因为这是与网格服务关联在一起的
+- helloworld.default.svc.cluster.local
   gateways:
-  - mesh # 内部和外部都可以应用
-  - myapp-gateway
+- mesh # 内部和外部都可以应用
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /hello
       gateways:
-      - myapp-gateway # 只对 Ingress Gateway 严格应用这条规则
+    - myapp-gateway # 只对 Ingress Gateway 严格应用这条规则
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
-  - match:
-    - gateways:
-      - mesh # 应用到网格中的所有服务
+- match:
+  - gateways:
+    - mesh # 应用到网格中的所有服务
     route:
-    - destination:
+  - destination:
         host: helloworld.default.svc.cluster.local
         subset: v1
 {{< /text >}}
@@ -240,7 +240,7 @@ metadata:
     app: nginx
 spec:
   ports:
-  - port: 80
+- port: 80
     name: http-web  # 显式定义一个 http 端口
   clusterIP: None   # 创建一个 Headless Service
   selector:
@@ -349,9 +349,9 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 443
+- number: 443
     name: http
     protocol: HTTP
   resolution: DNS
@@ -369,7 +369,7 @@ spec:
 {{< text yaml >}}
 spec:
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
 {{< /text >}}
@@ -393,12 +393,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-      - "*"
+  - "*"
     tls:
       mode: SIMPLE
       credentialName: sds-credential
@@ -409,15 +409,15 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "*.example.com"
+- "*.example.com"
   gateways:
-  - istio-system/gateway
+- istio-system/gateway
   tls:
-  - match:
-    - sniHosts:
-      - "*.example.com"
+- match:
+  - sniHosts:
+    - "*.example.com"
     route:
-    - destination:
+  - destination:
         host: httpbin.org
 {{< /text >}}
 
@@ -434,8 +434,8 @@ spec:
 spec:
   ...
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         ":authority":
           regex: "*.example.com"
 {{< /text >}}
@@ -451,8 +451,8 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - hosts:
-    - "*"
+- hosts:
+  - "*"
     port:
       name: https
       number: 443
@@ -466,12 +466,12 @@ metadata:
   name: virtual-service
 spec:
   gateways:
-  - gateway
+- gateway
   hosts:
-  - httpbin.example.com
+- httpbin.example.com
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: httpbin.org
 {{< /text >}}
 
@@ -484,10 +484,10 @@ spec:
 {{< text yaml >}}
 spec:
   tls:
-  - match:
-    - sniHosts: ["httpbin.example.com"]
+- match:
+  - sniHosts: ["httpbin.example.com"]
     route:
-    - destination:
+  - destination:
         host: httpbin.org
 {{< /text >}}
 
@@ -516,9 +516,9 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 443
+- number: 443
     name: https
     protocol: HTTPS
   resolution: DNS
@@ -545,9 +545,9 @@ spec:
 {{< text yaml >}}
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 443
+- number: 443
     name: http
     protocol: HTTP
 {{< /text >}}
@@ -560,9 +560,9 @@ spec:
 {{< text yaml >}}
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
     targetPort: 443
@@ -637,7 +637,7 @@ SNI，因此，如果您要终止云负载均衡器中的 TLS，则可能需要�
 {{< text yaml >}}
 spec:
   configPatches:
-  - applyTo: NETWORK_FILTER
+- applyTo: NETWORK_FILTER
     match:
       context: SIDECAR_OUTBOUND
       listener:
@@ -676,10 +676,10 @@ spec:
   hosts:
     - "*"
   gateways:
-  - helloworld-gateway
+- helloworld-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         exact: /hello
     fault:
       abort:
@@ -690,7 +690,7 @@ spec:
       attempts: 5
       retryOn: 5xx
     route:
-    - destination:
+  - destination:
         host: helloworld
         port:
           number: 5000
@@ -711,7 +711,7 @@ spec:
     labels:
       app: helloworld
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_INBOUND # 将匹配所有 Sidecar 中的出站监听器
       listener:

@@ -100,14 +100,14 @@ kind: VirtualService
 ...
 spec:
   hosts:
-  - reviews
+- reviews
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v1
       weight: 50
-    - destination:
+  - destination:
         host: reviews
         subset: v3
       weight: 50
@@ -124,30 +124,30 @@ kind: HTTPRoute
 ...
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - group: ""
+- backendRefs:
+  - group: ""
       kind: Service
       name: reviews-v1
       port: 9080
       weight: 50
-    - group: ""
+  - group: ""
       kind: Service
       name: reviews-v3
       port: 9080
       weight: 50
     matches:
-    - path:
+  - path:
         type: PathPrefix
         value: /
 status:
   parents:
-  - conditions:
-    - lastTransitionTime: "2022-11-10T18:13:43Z"
+- conditions:
+  - lastTransitionTime: "2022-11-10T18:13:43Z"
       message: Route was valid
       observedGeneration: 14
       reason: Accepted

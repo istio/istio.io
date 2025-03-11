@@ -96,12 +96,12 @@ metadata:
   name: echo
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: echo
   rules:
-  - backendRefs:
-    - name: echo-v1
+- backendRefs:
+  - name: echo-v1
       port: 80
 {{< /text >}}
 

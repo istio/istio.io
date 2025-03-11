@@ -68,9 +68,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 80
+- port: 80
     name: http
-  - port: 443
+- port: 443
     name: https
   selector:
     istio: ingress
@@ -89,10 +89,10 @@ spec:
     matchLabels:
       istio: ingress
   ingress:
-  - ports:
-    - protocol: TCP
+- ports:
+  - protocol: TCP
       port: 80
-    - protocol: TCP
+  - protocol: TCP
       port: 443
 {{< /text >}}
 
@@ -118,11 +118,11 @@ spec:
     matchLabels:
       app: productpage
   ingress:
-  - ports:
-    - protocol: TCP
+- ports:
+  - protocol: TCP
       port: 9080
     from:
-    - podSelector:
+  - podSelector:
         matchLabels:
           istio: ingress
 {{< /text >}}

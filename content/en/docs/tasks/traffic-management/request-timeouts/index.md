@@ -45,8 +45,8 @@ spec:
   hosts:
     - reviews
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v2
 EOF
@@ -64,13 +64,13 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - name: reviews-v2
+- backendRefs:
+  - name: reviews-v2
       port: 9080
 EOF
 {{< /text >}}
@@ -93,15 +93,15 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - ratings
+- ratings
   http:
-  - fault:
+- fault:
       delay:
         percentage:
           value: 100
         fixedDelay: 2s
     route:
-    - destination:
+  - destination:
         host: ratings
         subset: v1
 EOF
@@ -122,15 +122,15 @@ metadata:
   name: ratings
 spec:
   hosts:
-  - ratings
+- ratings
   http:
-  - fault:
+- fault:
       delay:
         percentage:
           value: 100
         fixedDelay: 2s
     route:
-    - destination:
+  - destination:
         host: ratings
 EOF
 {{< /text >}}
@@ -159,10 +159,10 @@ metadata:
   name: reviews
 spec:
   hosts:
-  - reviews
+- reviews
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v2
     timeout: 0.5s
@@ -181,13 +181,13 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - name: reviews-v2
+- backendRefs:
+  - name: reviews-v2
       port: 9080
     timeouts:
       request: 500ms

@@ -38,26 +38,26 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - matches:
-    - headers:
-      - name: my-favorite-service-mesh
+- matches:
+  - headers:
+    - name: my-favorite-service-mesh
         value: istio
     filters:
-    - type: RequestHeaderModifier
+  - type: RequestHeaderModifier
       requestHeaderModifier:
       add:
-        - name: hello
+    - name: hello
           value: world
     backendRefs:
-    - name: reviews-v2
+  - name: reviews-v2
       port: 9080
-  - backendRefs:
-    - name: reviews-v1
+- backendRefs:
+  - name: reviews-v1
       port: 9080
 {{< /text >}}
 

@@ -133,9 +133,9 @@ spec:
   selector:
     istio: ingressgateway
   ports:
-  - port: 80
+- port: 80
     name: http
-  - port: 443
+- port: 443
     name: https
 ---
 apiVersion: apps/v1

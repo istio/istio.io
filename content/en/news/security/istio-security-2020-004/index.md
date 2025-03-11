@@ -17,7 +17,7 @@ Istio 1.4 to 1.4.6 and Istio 1.5 contain the following vulnerability:
 
 * __[`CVE-2020-1764`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1764)__:
   Istio uses a default `signing_key` for Kiali. This can allow an attacker to view and modify the Istio configuration.
-    * CVSS Score: 8.7 [AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
+  * CVSS Score: 8.7 [AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1)
 
 In addition, another CVE is fixed in this release, described by this
 [Kiali security bulletin](https://kiali.io/news/security-bulletins/kiali-security-001/).

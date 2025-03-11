@@ -34,7 +34,7 @@ metadata:
 spec:
   gatewayClassName: istio-waypoint
   listeners:
-  - name: mesh
+- name: mesh
     port: 15008
     protocol: HBONE
 {{< /text >}}
@@ -162,11 +162,11 @@ $ istioctl proxy-config routes deploy/bookinfo-reviews-istio-waypoint --name "in
 - name: inbound-vip|9080|http|reviews.default.svc.cluster.local
  validateClusters: false
  virtualHosts:
- - domains:
-   - '*'
+- domains:
+  - '*'
    name: inbound|http|9080
    routes:
-   - decorator:
+  - decorator:
        operation: reviews:9080/*
      match:
        prefix: /

@@ -23,7 +23,7 @@ spec:
       app: reviews4
   configPatches:
     # The first patch adds the Lua filter to the listener/http connection manager
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
       proxy:
@@ -65,7 +65,7 @@ spec:
     labels:
       app: reviews4
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
     patch:
@@ -106,7 +106,7 @@ spec:
   priority: 10
   configPatches:
     # The first patch adds the Lua filter to the listener/http connection manager
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
       proxy:
@@ -149,7 +149,7 @@ spec:
       app: reviews4
   priority: 20
   configPatches:
-  - applyTo: HTTP_FILTER
+- applyTo: HTTP_FILTER
     match:
       context: SIDECAR_OUTBOUND
     patch:

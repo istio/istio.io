@@ -68,10 +68,10 @@ Istio 团队每发布几个版本，都会在可用性、API 和整体系统性�
 
 - 我们通过以下方式增强了控制平面监控：
 
-    - 添加新指标以监视配置状态
-    - 添加 sidecar 注入相关的指标
-    - 为 Citadel 添加了新的 Grafana 仪表板
-    - 改进 Pilot 仪表板，以显示其他关键指标
+  - 添加新指标以监视配置状态
+  - 添加 sidecar 注入相关的指标
+  - 为 Citadel 添加了新的 Grafana 仪表板
+  - 改进 Pilot 仪表板，以显示其他关键指标
 
 - 添加 [Istio 部署模型概念](/zh/docs/ops/deployment/deployment-models/)以帮助您确定哪种部署模型适合您的需求。
 

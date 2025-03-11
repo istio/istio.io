@@ -30,8 +30,8 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   ingress:
-  - ports:
-    - port: 8080
+- ports:
+  - port: 8080
       protocol: TCP
 {{< /text >}}
 
@@ -47,10 +47,10 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   ingress:
-  - ports:
-    - port: 8080
+- ports:
+  - port: 8080
       protocol: TCP
-    - port: 15008
+  - port: 15008
       protocol: TCP
 {{< /text >}}
 
@@ -80,7 +80,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: my-app
   policyTypes:
-  - Ingress
+- Ingress
 {{< /text >}}
 
 Once the pod is enrolled in the ambient mesh, health probe packets will begin to be assigned a link local address via SNAT, which means health probes may begin to be blocked by your CNI's `NetworkPolicy` implementation. To allow ambient health probes to bypass `NetworkPolicy`, explicitly allow traffic from the host node to your pod by allow-listing the link-local address ambient uses for this traffic:

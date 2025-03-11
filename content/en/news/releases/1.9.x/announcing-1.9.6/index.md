@@ -18,7 +18,7 @@ well as a few minor bug fixes to improve robustness. This release note describes
 
 - __[CVE-2021-34824](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-34824)__:
 Istio contains a remotely exploitable vulnerability where credentials specified in the `Gateway` and `DestinationRule` `credentialName` field can be accessed from different namespaces. See the [ISTIO-SECURITY-2021-007 bulletin](/news/security/istio-security-2021-007) for more details.
-    - __CVSS Score__: 9.1 [CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L)
+  - __CVSS Score__: 9.1 [CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L)
 
 ## Changes
 

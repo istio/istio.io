@@ -20,20 +20,20 @@ metadata:
   namespace: foo
 spec:
   hosts:
-  - sample.foo.svc.cluster.local
+- sample.foo.svc.cluster.local
   http:
-  - fault:
+- fault:
       delay:
         fixedDelay: 5s
         percentage:
           value: 100
     route:
-    - destination:
+  - destination:
         host: sample.foo.svc.cluster.local
-  - mirror:
+- mirror:
       host: sample.bar.svc.cluster.local
     route:
-    - destination:
+  - destination:
         host: sample.bar.svc.cluster.local
         subset: v1
 {{< /text >}}

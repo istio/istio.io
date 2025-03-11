@@ -96,12 +96,12 @@ spec:
   selector:
     istio: ingressgateway # use istio default controller
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+  - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -109,19 +109,19 @@ metadata:
   name: reviews
 spec:
   hosts:
-  - "*"
+- "*"
   gateways:
-  - reviews-gateway
+- reviews-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /reviews
     route:
-    - destination:
+  - destination:
         host: reviews
         subset: v1
       weight: 50
-    - destination:
+  - destination:
         host: reviews
         subset: v2
       weight: 50
@@ -133,13 +133,13 @@ metadata:
 spec:
   host: reviews
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
-  - name: v3
+- name: v3
     labels:
       version: v3
 EOF

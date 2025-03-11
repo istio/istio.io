@@ -67,17 +67,17 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
-  # The selector matches the ingress gateway pod labels.
+  # The selector matches the ingress gateway pod labels
   # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "httpbin.example.com"
+  - "httpbin.example.com"
 EOF
 {{< /text >}}
 
@@ -91,17 +91,17 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "httpbin.example.com"
+- "httpbin.example.com"
   gateways:
-  - httpbin-gateway
+- httpbin-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /status
-    - uri:
+  - uri:
         prefix: /delay
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin
@@ -141,7 +141,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: http
+- name: http
     hostname: "httpbin.example.com"
     port: 80
     protocol: HTTP
@@ -176,18 +176,18 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - name: httpbin-gateway
+- name: httpbin-gateway
   hostnames: ["httpbin.example.com"]
   rules:
-  - matches:
-    - path:
+- matches:
+  - path:
         type: PathPrefix
         value: /status
-    - path:
+  - path:
         type: PathPrefix
         value: /delay
     backendRefs:
-    - name: httpbin
+  - name: httpbin
       port: 8000
 EOF
 {{< /text >}}
@@ -349,17 +349,17 @@ kind: Gateway
 metadata:
   name: httpbin-gateway
 spec:
-  # The selector matches the ingress gateway pod labels.
+  # The selector matches the ingress gateway pod labels
   # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+  - "*"
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -367,15 +367,15 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "*"
+- "*"
   gateways:
-  - httpbin-gateway
+- httpbin-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /headers
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin
@@ -398,7 +398,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: http
+- name: http
     port: 80
     protocol: HTTP
     allowedRoutes:
@@ -411,14 +411,14 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - name: httpbin-gateway
+- name: httpbin-gateway
   rules:
-  - matches:
-    - path:
+- matches:
+  - path:
         type: PathPrefix
         value: /headers
     backendRefs:
-    - name: httpbin
+  - name: httpbin
       port: 8000
 EOF
 {{< /text >}}

@@ -294,7 +294,7 @@ metadata:
   name: istiod
 spec:
   ports:
-  - name: https-dns
+- name: https-dns
     port: 11111
 ---
 {{< /text >}}

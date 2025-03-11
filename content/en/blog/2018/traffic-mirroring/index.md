@@ -22,10 +22,10 @@ spec:
     name: httpbin
   precedence: 11
   route:
-  - labels:
+- labels:
       version: v1
     weight: 100
-  - labels:
+- labels:
       version: v2
     weight: 0
   mirror:

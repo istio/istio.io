@@ -105,10 +105,10 @@ metadata:
 spec:
   ingressClassName: istio
   rules:
-  - host: httpbin.example.com
+- host: httpbin.example.com
     http:
       paths:
-      - path: /
+  - path: /
         pathType: Prefix
         backend:
           service:

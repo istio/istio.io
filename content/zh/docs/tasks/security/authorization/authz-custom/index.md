@@ -76,11 +76,11 @@ metadata:
   name: external-authz-grpc-local
 spec:
   hosts:
-  - "external-authz-grpc.local" # 网格配置中的扩展提供程序中使用的服务名称
+- "external-authz-grpc.local" # 网格配置中的扩展提供程序中使用的服务名称
   endpoints:
-  - address: "127.0.0.1"
+- address: "127.0.0.1"
   ports:
-  - name: grpc
+- name: grpc
     number: 9191 # 网格配置中的扩展提供程序要使用的端口号
     protocol: GRPC
   resolution: STATIC

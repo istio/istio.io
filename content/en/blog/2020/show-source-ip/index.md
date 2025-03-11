@@ -56,7 +56,7 @@ spec:
     labels:
       istio: ingressgateway
   configPatches:
-  - applyTo: LISTENER
+- applyTo: LISTENER
     patch:
       operation: MERGE
       value:
@@ -77,7 +77,7 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: NETWORK_FILTER
+- applyTo: NETWORK_FILTER
     match:
       listener:
         filterChain:
@@ -109,12 +109,12 @@ spec:
   selector:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
+  - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -122,15 +122,15 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
+- "a25fa0b4835b.elb.us-west-2.amazonaws.com"
   gateways:
-  - httpbin-gateway
+- httpbin-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /headers
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin
@@ -145,7 +145,7 @@ spec:
   selector:
     istio: ingressgateway # use istio default ingress gateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
@@ -153,7 +153,7 @@ spec:
       mode: SIMPLE
       credentialName: httpbin-credential # must be the same as secret
     hosts:
-    - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
+  - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -161,15 +161,15 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
+- "a25fa0b4835b.elb.us-west-2.amazonaws.com"
   gateways:
-  - mygateway2
+- mygateway2
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /headers
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin

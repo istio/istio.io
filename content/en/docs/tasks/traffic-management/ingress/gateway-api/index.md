@@ -241,7 +241,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: default
+- name: default
     hostname: "*.example.com"
     port: 80
     protocol: HTTP
@@ -255,7 +255,7 @@ metadata:
   name: gateway
 spec:
   # Match the generated Deployment by reference
-  # Note: Do not use `kind: Gateway`.
+  # Note: Do not use `kind: Gateway`
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -263,7 +263,7 @@ spec:
   minReplicas: 2
   maxReplicas: 5
   metrics:
-  - type: Resource
+- type: Resource
     resource:
       name: cpu
       target:
@@ -299,7 +299,7 @@ metadata:
   name: gateway
 spec:
   addresses:
-  - value: ingress.istio-gateways.svc.cluster.local
+- value: ingress.istio-gateways.svc.cluster.local
     type: Hostname
 ...
 {{< /text >}}
@@ -318,18 +318,18 @@ metadata:
   name: mesh
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: example
   rules:
-  - filters:
-    - type: RequestHeaderModifier
+- filters:
+  - type: RequestHeaderModifier
       requestHeaderModifier:
         add:
-        - name: my-added-header
+    - name: my-added-header
           value: added-value
     backendRefs:
-    - name: example
+  - name: example
       port: 80
 {{< /text >}}
 

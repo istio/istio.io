@@ -80,10 +80,10 @@ branches.
 
 - Once the binaries are available, an announcement is sent out on the following channels:
 
-    - The [Istio blog](/blog)
-    - The [Announcements](https://discuss.istio.io/c/announcements) category on discuss.istio.io
-    - The [Istio Twitter feed](https://twitter.com/IstioMesh)
-    - The [#announcements channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)
+  - The [Istio blog](/blog)
+  - The [Announcements](https://discuss.istio.io/c/announcements) category on discuss.istio.io
+  - The [Istio Twitter feed](https://twitter.com/IstioMesh)
+  - The [#announcements channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)
 
 As much as possible this announcement will be actionable, and include any mitigating steps customers can take prior to
 upgrading to a fixed version. The recommended target time for these announcements is 16:00 UTC from Monday to Thursday.

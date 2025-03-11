@@ -54,7 +54,7 @@ metadata:
     release: istio
     heritage: Tiller
 webhooks:
-  - name: pilot.validation.istio.io
+- name: pilot.validation.istio.io
     clientConfig:
       service:
         name: istio-galley
@@ -62,7 +62,7 @@ webhooks:
         path: "/admitpilot"
       caBundle: ""
     rules:
-      - operations:
+  - operations:
       (... snip ...)
 {{< /text >}}
 

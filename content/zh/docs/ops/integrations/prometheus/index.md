@@ -97,7 +97,7 @@ Chart 提供的配置。
   - role: endpoints
     namespaces:
       names:
-      - istio-system
+    - istio-system
   relabel_configs:
   - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
     action: keep
@@ -154,13 +154,13 @@ Sidecar 将会转发 SDS 证书并将其输出到可以与 Prometheus
 
 {{< text yaml >}}
 containers:
-  - name: prometheus-server
+- name: prometheus-server
     ...
     volumeMounts:
       mountPath: /etc/prom-certs/
       name: istio-certs
 volumes:
-  - emptyDir:
+- emptyDir:
       medium: Memory
     name: istio-certs
 {{< /text >}}

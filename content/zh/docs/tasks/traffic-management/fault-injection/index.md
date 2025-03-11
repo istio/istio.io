@@ -28,8 +28,8 @@ test: yes
     {{< /text >}}
 
 * 经过上面的配置，下面是请求的流程：
-    * `productpage` → `reviews:v2` → `ratings`（针对 `jason` 用户）
-    * `productpage` → `reviews:v1`（其他用户）
+  * `productpage` → `reviews:v2` → `ratings`（针对 `jason` 用户）
+  * `productpage` → `reviews:v1`（其他用户）
 
 ## 注入 HTTP 延迟故障  {#injecting-an-http-delay-fault}
 

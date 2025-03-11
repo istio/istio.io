@@ -77,11 +77,11 @@ clusters with version 1.22 and greater.
   ([Issue #22161](https://github.com/istio/istio/issues/22161))
 
 - **Improved** the experimental [External Authorization](/docs/tasks/security/authorization/authz-custom/) feature with new capabilities:
-    - **Added** the `timeout` field to configure the timeout (default is `10m`) between the `ext_authz` filter and the external service.
-    - **Added** the `include_additional_headers_in_check` field to send additional headers to the external service.
-    - **Added** the `include_request_body_in_check` field to send the body to the external service.
-    - **Supported** prefix and suffix match in the `include_request_headers_in_check`, `headers_to_upstream_on_allow` and `headers_to_downstream_on_deny` field.
-    - **Deprecated** the `include_headers_in_check` field with the new `include_request_headers_in_check` field for better naming. ([Reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider), [PR #1926](https://github.com/istio/api/pull/1926))
+  - **Added** the `timeout` field to configure the timeout (default is `10m`) between the `ext_authz` filter and the external service.
+  - **Added** the `include_additional_headers_in_check` field to send additional headers to the external service.
+  - **Added** the `include_request_body_in_check` field to send the body to the external service.
+  - **Supported** prefix and suffix match in the `include_request_headers_in_check`, `headers_to_upstream_on_allow` and `headers_to_downstream_on_deny` field.
+  - **Deprecated** the `include_headers_in_check` field with the new `include_request_headers_in_check` field for better naming. ([Reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider), [PR #1926](https://github.com/istio/api/pull/1926))
 
 - **Added** experimental option to configure Envoy to fetch the JWKS by itself. This should be enabled if the `jwks_uri` is a mesh cluster URL for mTLS and has other benefits like retries, JWKS caching etc.
 This is disabled by default and can be enabled by setting `PILOT_JWT_ENABLE_REMOTE_JWKS` to true.

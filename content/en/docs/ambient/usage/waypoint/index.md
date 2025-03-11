@@ -62,7 +62,7 @@ metadata:
 spec:
   gatewayClassName: istio-waypoint
   listeners:
-  - name: mesh
+- name: mesh
     port: 15008
     protocol: HBONE
 {{< /text >}}
@@ -90,7 +90,7 @@ metadata:
 spec:
   gatewayClassName: istio-waypoint
   listeners:
-  - name: mesh
+- name: mesh
     port: 15008
     protocol: HBONE
 EOF
@@ -217,7 +217,7 @@ metadata:
 spec:
   gatewayClassName: istio-waypoint
   listeners:
-  - name: mesh
+- name: mesh
     port: 15008
     protocol: HBONE
     allowedRoutes:

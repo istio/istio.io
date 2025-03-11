@@ -187,17 +187,17 @@ aliases:
   `ECDHE-RSA-AES256-GCM-SHA384` 和 ECDH 转到 `P-256` 的子级。
 
     这些限制适用于以下数据路径：
-    * Envoy 代理之间的 mTLS 通信。
-    * Envoy 代理下游和上游的常规 TLS（例如网关）
-    * 来自 Envoy 代理的 Google gRPC 端请求（例如 Stackdriver 扩展）。
-    * Istiod xDS 服务器。
-    * Istiod 用于注入和验证 Webhook 服务器。
+  * Envoy 代理之间的 mTLS 通信。
+  * Envoy 代理下游和上游的常规 TLS（例如网关）
+  * 来自 Envoy 代理的 Google gRPC 端请求（例如 Stackdriver 扩展）。
+  * Istiod xDS 服务器。
+  * Istiod 用于注入和验证 Webhook 服务器。
 
     这些限制不适用于以下数据路径：
-    * Istiod 到 Kubernetes API 服务器。
-    * JWK 从 Istiod 获取。
-    * 从 Istio 代理容器获取 Wasm 镜像和 URL。
-    * ztunnel。
+  * Istiod 到 Kubernetes API 服务器。
+  * JWK 从 Istiod 获取。
+  * 从 Istio 代理容器获取 Wasm 镜像和 URL。
+  * ztunnel。
 
     请注意，当设置后，Istio 注入器会将 `COMPLIANCE_POLICY`
     的值传播到被注入的代理容器中。

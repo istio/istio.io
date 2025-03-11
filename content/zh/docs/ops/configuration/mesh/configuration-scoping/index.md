@@ -41,10 +41,10 @@ metadata:
   name: default
 spec:
   egress:
-  - hosts:
-    - "./*" # 从我们自有命名空间导入所有配置
-    - "bookinfo/*" # 从 bookinfo 命名空间导入所有配置
-    - "external-services/example.com" # 仅从 external-services 命名空间导入 'example.com'
+- hosts:
+  - "./*" # 从我们自有命名空间导入所有配置
+  - "bookinfo/*" # 从 bookinfo 命名空间导入所有配置
+  - "external-services/example.com" # 仅从 external-services 命名空间导入 'example.com'
 {{< /text >}}
 
 ### `exportTo` {#exportto}

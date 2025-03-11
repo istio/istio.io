@@ -35,7 +35,7 @@ metadata:
     networking.istio.io/exportTwo: bar
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     targetPort: 80
   selector:

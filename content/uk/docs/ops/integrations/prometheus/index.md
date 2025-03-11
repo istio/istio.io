@@ -75,7 +75,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
   - role: endpoints
     namespaces:
       names:
-      - istio-system
+    - istio-system
   relabel_configs:
   - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
     action: keep
@@ -124,13 +124,13 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 
 {{< text yaml >}}
 containers:
-  - name: prometheus-server
+- name: prometheus-server
     ...
     volumeMounts:
       mountPath: /etc/prom-certs/
       name: istio-certs
 volumes:
-  - emptyDir:
+- emptyDir:
       medium: Memory
     name: istio-certs
 {{< /text >}}

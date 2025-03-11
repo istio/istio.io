@@ -31,7 +31,7 @@ metadata:
 spec:
   host: reviews
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
     trafficPolicy:
@@ -56,7 +56,7 @@ spec:
       tcp:
         maxConnections: 100
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
 {{< /text >}}
@@ -70,10 +70,10 @@ metadata:
   name: reviews
 spec:
   hosts:
-  - reviews
+- reviews
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v1
 {{< /text >}}
@@ -89,12 +89,12 @@ metadata:
   name: myservice
 spec:
   hosts:
-  - myservice.com
+- myservice.com
   exportTo:
-  - "."
+- "."
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: myservice
 {{< /text >}}
 
@@ -151,23 +151,23 @@ metadata:
   name: myapp
 spec:
   hosts:
-  - myapp.com
+- myapp.com
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /service1
     route:
-    - destination:
+  - destination:
         host: service1.default.svc.cluster.local
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /service2
     route:
-    - destination:
+  - destination:
         host: service2.default.svc.cluster.local
-  - match:
+- match:
     ...
 {{< /text >}}
 
@@ -182,15 +182,15 @@ metadata:
   name: myapp-service1
 spec:
   hosts:
-  - myapp.com
+- myapp.com
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /service1
     route:
-    - destination:
+  - destination:
         host: service1.default.svc.cluster.local
 ---
 apiVersion: networking.istio.io/v1
@@ -199,15 +199,15 @@ metadata:
   name: myapp-service2
 spec:
   hosts:
-  - myapp.com
+- myapp.com
   gateways:
-  - myapp-gateway
+- myapp-gateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /service2
     route:
-    - destination:
+  - destination:
         host: service2.default.svc.cluster.local
 ---
 apiVersion: networking.istio.io/v1

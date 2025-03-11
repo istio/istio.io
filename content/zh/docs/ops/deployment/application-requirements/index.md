@@ -65,8 +65,8 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
   这些标签将上下文信息添加到 Istio 收集的指标和遥测数据中。
   每个值都是从多个标签中读取的，按优先级从最高到最低的顺序排列：
 
-    - 应用程序名称：`service.istio.io/canonical-name`、`app.kubernetes.io/name` 或 `app`。
-    - 应用程序版本：`service.istio.io/canonical-revision`、`app.kubernetes.io/version` 或 `version`。
+  - 应用程序名称：`service.istio.io/canonical-name`、`app.kubernetes.io/name` 或 `app`。
+  - 应用程序版本：`service.istio.io/canonical-revision`、`app.kubernetes.io/version` 或 `version`。
 
 - **已命名 Service 端口**：可以选择已命名 Service 端口用于显式指定协议。
   更多详细信息请参见[协议选择](/zh/docs/ops/configuration/traffic-management/protocol-selection/)。

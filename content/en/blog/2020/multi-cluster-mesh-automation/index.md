@@ -47,21 +47,21 @@ metadata:
   name: payments.global-se
 spec:
   addresses:
-  - 240.0.0.10
+- 240.0.0.10
   endpoints:
-  - address: ef394f...us-east-2.elb.amazonaws.com
+- address: ef394f...us-east-2.elb.amazonaws.com
     locality: us-east-2
     ports:
       http: 15443
-  - address: ad38bc...us-west-2.elb.amazonaws.com
+- address: ad38bc...us-west-2.elb.amazonaws.com
     locality: us-west-2
     ports:
       http: 15443
   hosts:
-  - payments.global
+- payments.global
   location: MESH_INTERNAL
   ports:
-  - name: http
+- name: http
     number: 80
     protocol: http
   resolution: DNS
@@ -76,21 +76,21 @@ metadata:
   name: payments.global-se
 spec:
   addresses:
-  - 240.0.0.10
+- 240.0.0.10
   endpoints:
-  - address: ef39xf...us-east-2.elb.amazonaws.com
+- address: ef39xf...us-east-2.elb.amazonaws.com
     locality: us-east-2
     ports:
       http: 15443
-  - address: payments.default.svc.cluster.local
+- address: payments.default.svc.cluster.local
     locality: us-west-2
     ports:
       http: 80
   hosts:
-  - payments.global
+- payments.global
   location: MESH_INTERNAL
   ports:
-  - name: http
+- name: http
     number: 80
     protocol: http
   resolution: DNS
@@ -128,12 +128,12 @@ spec:
   selector:
     identity: payments
   policy:
-  - dns: default.payments.global
+- dns: default.payments.global
     lbType: 1
     target:
-    - region: us-west-2/*
+  - region: us-west-2/*
       weight: 10
-    - region: us-east-2/*
+  - region: us-east-2/*
       weight: 90
 {{< /text >}}
 
@@ -157,7 +157,7 @@ spec:
   source: orders
   identityLabel: identity
   destinations:
-  - payments
+- payments
 {{< /text >}}
 
 `Dependency` is optional and a missing dependency for a service will result in an Istio configuration for that service pushed to all clusters.

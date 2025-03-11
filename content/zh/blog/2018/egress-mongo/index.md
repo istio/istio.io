@@ -919,8 +919,8 @@ $ kubectl delete destinationrule egressgateway-for-mongo
                 mode: ISTIO_MUTUAL
     ---
     # The following filter is used to forward the original SNI (sent by the application) as the SNI of the mutual TLS
-    # connection.
-    # The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value.
+    # connection
+    # The forwarded SNI will be reported to Mixer so that policies will be enforced based on the original SNI value
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:
@@ -935,10 +935,10 @@ $ kubectl delete destinationrule egressgateway-for-mongo
         filterConfig: {}
     ---
     # The following filter verifies that the SNI of the mutual TLS connection (the SNI reported to Mixer) is
-    # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy).
+    # identical to the original SNI issued by the application (the SNI used for routing by the SNI proxy)
     # The filter prevents Mixer from being deceived by a malicious application: routing to one SNI while
     # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection, the
-    # filter will block the connection to the external service.
+    # filter will block the connection to the external service
     apiVersion: networking.istio.io/v1alpha3
     kind: EnvoyFilter
     metadata:

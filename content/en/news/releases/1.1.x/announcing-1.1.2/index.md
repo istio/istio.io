@@ -32,15 +32,15 @@ vulnerabilities impact Istio features that rely on Envoy to enforce any of autho
 The following Istio releases are vulnerable:
 
 - 1.1, 1.1.1
-    - These releases can be patched to Istio 1.1.2.
-    - 1.1.2 is built from the same source as 1.1.1 with the addition of Envoy patches minimally sufficient to address the CVEs.
+  - These releases can be patched to Istio 1.1.2.
+  - 1.1.2 is built from the same source as 1.1.1 with the addition of Envoy patches minimally sufficient to address the CVEs.
 
 - 1.0, 1.0.1, 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6
-    - These releases can be patched to Istio 1.0.7
-    - 1.0.7 is built from the same source as 1.0.6 with the addition of Envoy patches minimally sufficient to address the CVEs.
+  - These releases can be patched to Istio 1.0.7
+  - 1.0.7 is built from the same source as 1.0.6 with the addition of Envoy patches minimally sufficient to address the CVEs.
 
 - 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8
-    - These releases are no longer supported and will not be patched. Please upgrade to a supported release with the necessary fixes.
+  - These releases are no longer supported and will not be patched. Please upgrade to a supported release with the necessary fixes.
 
 ## Vulnerability impact
 

@@ -47,7 +47,7 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - randomSamplingPercentage: 100.00
+- randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
 

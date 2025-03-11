@@ -26,15 +26,15 @@ metadata:
   name: svc1
 spec:
   hosts:
-  - svc1.internal.com
+- svc1.internal.com
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
   resolution: STATIC
   endpoints:
-  - address: 1.1.1.1
-  - address: 2.2.2.2
+- address: 1.1.1.1
+- address: 2.2.2.2
   ....
 {{< /text >}}
 
@@ -75,9 +75,9 @@ metadata:
   namespace: ns1
 spec:
   hosts:
-  - svc1.internal.com
+- svc1.internal.com
   ports:
-  - number: 80
+- number: 80
     name: http
     protocol: HTTP
   resolution: STATIC

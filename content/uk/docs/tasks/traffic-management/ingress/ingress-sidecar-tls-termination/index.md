@@ -117,10 +117,10 @@ metadata:
     service: httpbin
 spec:
   ports:
-  - port: 8443
+- port: 8443
     name: https
     targetPort: 9080
-  - port: 8080
+- port: 8080
     name: http
     targetPort: 9081
   selector:
@@ -172,7 +172,7 @@ spec:
       app: httpbin
       version: v1
   ingress:
-  - port:
+- port:
       number: 9080
       protocol: HTTPS
       name: external
@@ -182,7 +182,7 @@ spec:
       privateKey: "/etc/istio/tls-certs/tls.key"
       serverCertificate: "/etc/istio/tls-certs/tls.crt"
       caCertificates: "/etc/istio/tls-ca-certs/ca.crt"
-  - port:
+- port:
       number: 9081
       protocol: HTTP
       name: internal

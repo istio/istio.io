@@ -94,14 +94,14 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths:
-        - /foo
-  - from:
-    - source:
+    - /foo
+- from:
+  - source:
         namespaces:
-        - foo
+    - foo
 {{< /text >}}
 
 You may expect the policy to allow requests if the path is `/foo` **and** the source namespace is `foo`.

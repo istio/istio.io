@@ -25,7 +25,7 @@ metadata:
 spec:
   externalName: nginx.example.com
   ports:
-  - name: tcp
+- name: tcp
     port: 443
     protocol: TCP
     targetPort: 443

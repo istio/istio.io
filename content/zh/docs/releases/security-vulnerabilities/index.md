@@ -75,10 +75,10 @@ Istio 项目维护了一个邮件列表，用于在私下及早的公开安全�
 
 - 二进制文件可用后，将通过以下渠道发送公告：
 
-    - [Istio 博客](/zh/blog)
-    - discuss.istio.io 上的 [Announcements](https://discuss.istio.io/c/announcements) 栏目
-    - [Istio Twitter feed](https://twitter.com/IstioMesh)
-    - Slack 上的 [#announcements](https://istio.slack.com/messages/CFXS256EQ/) 频道
+  - [Istio 博客](/zh/blog)
+  - discuss.istio.io 上的 [Announcements](https://discuss.istio.io/c/announcements) 栏目
+  - [Istio Twitter feed](https://twitter.com/IstioMesh)
+  - Slack 上的 [#announcements](https://istio.slack.com/messages/CFXS256EQ/) 频道
 
 该公告将尽可能包含客户在升级到固定版本之前能够采取的任何缓解措施，
 这些公告的建议发布时间是 UTC 时间星期一至四的 16:00。

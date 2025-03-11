@@ -109,7 +109,7 @@ spec:
   selector:
     istio: egressgateway
   ports:
-  - port: 443
+- port: 443
     name: tls-egress
     targetPort: 8443
 
@@ -192,12 +192,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 8443
       name: tls-egress
       protocol: TLS
     hosts:
-      - "*"
+  - "*"
     tls:
       mode: ISTIO_MUTUAL
 
@@ -213,28 +213,28 @@ spec:
   hosts:
     - "*.wikipedia.org"
   gateways:
-  - mesh
-  - egressgateway
+- mesh
+- egressgateway
   tls:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 443
       sniHosts:
-        - "*.wikipedia.org"
+      - "*.wikipedia.org"
     route:
-    - destination:
+  - destination:
         host: egressgateway.istio-egress.svc.cluster.local
         subset: wildcard
 # 虚拟路由指令。如果省略，则不会有任何引用指向网关定义，
 # 并且 istiod 将优化整个新侦听器。
   tcp:
-  - match:
-    - gateways:
-      - egressgateway
+- match:
+  - gateways:
+    - egressgateway
       port: 8443
     route:
-    - destination:
+  - destination:
         host: "dummy.local"
       weight: 100
 
@@ -248,7 +248,7 @@ metadata:
 spec:
   host: egressgateway.istio-egress.svc.cluster.local
   subsets:
-  - name: wildcard
+- name: wildcard
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -264,7 +264,7 @@ spec:
   hosts:
     - "*.wikipedia.org"
   ports:
-  - number: 443
+- number: 443
     name: tls
     protocol: TLS
 
@@ -290,7 +290,7 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: CLUSTER
+- applyTo: CLUSTER
     match:
       context: GATEWAY
     patch:
@@ -305,7 +305,7 @@ spec:
                 address:
                   envoy_internal_address:
                     server_listener_name: sni_listener
-  - applyTo: CLUSTER
+- applyTo: CLUSTER
     match:
       context: GATEWAY
     patch:
@@ -321,7 +321,7 @@ spec:
               name: dynamic_forward_proxy_cache_config
               dns_lookup_family: V4_ONLY
 
-  - applyTo: LISTENER
+- applyTo: LISTENER
     match:
       context: GATEWAY
     patch:
@@ -367,7 +367,7 @@ spec:
                           %REQUESTED_SERVER_NAME% %ROUTE_NAME%
 
                           '
-  - applyTo: NETWORK_FILTER
+- applyTo: NETWORK_FILTER
     match:
       context: GATEWAY
       listener:

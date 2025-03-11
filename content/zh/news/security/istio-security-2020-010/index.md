@@ -17,7 +17,7 @@ Envoy 及 Istio 容易受到新发现的漏洞的攻击:
 
 - __[CVE-2020-25017](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-25017)__：
 在某些情况下，Envoy 只会在出现多个（HTTP）头信息时考虑第一个值。而且 Envoy 不会替换所有存在的 non-inline（HTTP）头信息 。
-    - __CVSS Score__：8.3 [AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L&version=3.1)
+  - __CVSS Score__：8.3 [AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L&version=3.1)
 
 ## 防范{#mitigation}
 

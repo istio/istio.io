@@ -11,9 +11,9 @@ Starting with Istio 1.6, we are introducing a new method for integration with te
 In previous releases, these addons were bundled as part of the Istio installation. This allowed users to quickly get started with Istio without any complicated configurations to install and integrate these addons. However, it came with some issues:
 
 * The Istio addon installations were not as up to date or feature rich as upstream installation methods. Users were left missing out on some of the great features provided by these applications, such as:
-    * Persistent storage
-    * Features like `Alertmanager` for Prometheus
-    * Advanced security settings
+  * Persistent storage
+  * Features like `Alertmanager` for Prometheus
+  * Advanced security settings
 *  Integration with existing deployments that were using these features was more challenging than it should be.
 
 ## Changes
@@ -24,9 +24,9 @@ In order to address these gaps, we have made a number of changes:
 
 * Reduced the amount of configuration required to set up telemetry addons
 
-    * Grafana dashboards are now [published to `grafana.com`](/docs/ops/integrations/grafana/#import-from-grafana-com).
+  * Grafana dashboards are now [published to `grafana.com`](/docs/ops/integrations/grafana/#import-from-grafana-com).
 
-    * Prometheus can now scrape all Istio pods [using standard `prometheus.io` annotations](/docs/ops/integrations/prometheus/#option-2-metrics-merging). This allows most Prometheus deployments to work with Istio without any special configuration.
+  * Prometheus can now scrape all Istio pods [using standard `prometheus.io` annotations](/docs/ops/integrations/prometheus/#option-2-metrics-merging). This allows most Prometheus deployments to work with Istio without any special configuration.
 
 * Removed the bundled addon installations from `istioctl` and the operator. Istio does not install components that are not delivered by the Istio project. As a result, Istio will stop shipping installation artifacts related to addons. However, Istio will guarantee version compatibility where necessary. It is the user's responsibility to install these components by using the official [Integrations](/docs/ops/integrations/) documentation and artifacts provided by the respective projects. For demos, users can deploy simple YAML files from the [`samples/addons/` directory]({{< github_tree >}}/samples/addons).
 

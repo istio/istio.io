@@ -17,7 +17,7 @@ Envoy, and subsequently Istio, is vulnerable to a newly discovered vulnerability
 
 * __[CVE-2021-21378](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-21378)__:
   JWT authentication bypass with unknown issuer token
-    * CVSS Score: 8.2 [AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N)
+  * CVSS Score: 8.2 [AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N)
 
 You are subject to the vulnerability if you are using `RequestAuthentication` alone for JWT validation.
 

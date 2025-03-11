@@ -179,9 +179,9 @@ aliases:
   ([Issue #51296](https://github.com/istio/istio/issues/51296))
 
 - **改进** 改进了 `istioctl proxy-status` 命令。
-    - 现在每个状态都包括自上次更改以来的时间。
-    - 如果代理未订阅资源，则现在将显示为 `IGNORED` 而不是 `NOT SENT`。对于已请求但从未发送的资源，将继续使用 `NOT SENT`。
-    - 当配置被拒绝时，包含一个新的 `ERROR` 状态。
+  - 现在每个状态都包括自上次更改以来的时间。
+  - 如果代理未订阅资源，则现在将显示为 `IGNORED` 而不是 `NOT SENT`。对于已请求但从未发送的资源，将继续使用 `NOT SENT`。
+  - 当配置被拒绝时，包含一个新的 `ERROR` 状态。
 
 ## 示例 {#samples}
 

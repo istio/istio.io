@@ -78,10 +78,10 @@ metadata:
   namespace: backend
 spec:
   rules:
-  - services: ["*"]
+- services: ["*"]
     methods: ["*”]
     constraints:
-    - key: "destination.labels[visibility]”
+  - key: "destination.labels[visibility]”
       values: ["external"]
 ---
 apiVersion: "rbac.istio.io/v1alpha1"
@@ -91,7 +91,7 @@ metadata:
   namespace: backend
 spec:
   subjects:
-  - properties:
+- properties:
       source.namespace: "frontend”
   roleRef:
     kind: ServiceRole
@@ -116,7 +116,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - services: ["bookstore.default.svc.cluster.local"]
+- services: ["bookstore.default.svc.cluster.local"]
     paths: ["/books/*”]
     methods: ["GET”]
 {{< /text >}}
@@ -134,7 +134,7 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/bookstore-frontend”
+- user: "cluster.local/ns/default/sa/bookstore-frontend”
   roleRef:
     kind: ServiceRole
     name: "book-reader"
@@ -150,7 +150,7 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - user: "cluster.local/ns/default/sa/bookstore-frontend”
+- user: "cluster.local/ns/default/sa/bookstore-frontend”
     properties:
       request.auth.claims[group]: "qualified-reviewer”
   roleRef:
@@ -170,7 +170,7 @@ metadata:
   namespace: default
 spec:
   subjects:
-  - properties:
+- properties:
       source.ip: 10.20.0.0/9
   roleRef:
     kind: ServiceRole

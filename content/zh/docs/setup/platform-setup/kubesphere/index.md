@@ -28,15 +28,15 @@ KubeSphere 提供了 [All-in-One](https://kubesphere.io/docs/installation/all-in
 
 - 硬件：
 
-    - CPU：至少 2 Cores
-    - Memory：至少 4 `GB`
+  - CPU：至少 2 Cores
+  - Memory：至少 4 `GB`
 
 - 操作系统：
 
-    - CentOS 7.4 ~ 7.7 (`64-bit`)
-    - Ubuntu 16.04/18.04 LTS (`64-bit`)
-    - RHEL 7.4 (`64-bit`)
-    - Debian Stretch 9.5 (`64-bit`)
+  - CentOS 7.4 ~ 7.7 (`64-bit`)
+  - Ubuntu 16.04/18.04 LTS (`64-bit`)
+  - RHEL 7.4 (`64-bit`)
+  - Debian Stretch 9.5 (`64-bit`)
 
 {{< tip >}}
 确保防火墙策略满足指定[端口需求](https://kubesphere.io/docs/installation/port-firewall/)。
@@ -63,7 +63,7 @@ KubeSphere 提供了 [All-in-One](https://kubesphere.io/docs/installation/all-in
 
     {{< text plain >}}
     #####################################################
-    ###              Welcome to KubeSphere!           ###
+    ###              Welcome to KubeSphere           ###
     #####################################################
     Console: http://192.168.0.8:30880
     Account: admin

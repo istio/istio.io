@@ -67,10 +67,10 @@ test: n/a
 
 - Після того як бінарні файли стають доступними, надсилається оголошення через такі канали:
 
-    - [Блог Istio](/blog)
-    - Категорія [Оголошення](https://discuss.istio.io/c/announcements) на discuss.istio.io
-    - [Twitter-аккаунт Istio](https://twitter.com/IstioMesh)
-    - Канал [#announcements на Slack](https://istio.slack.com/messages/CFXS256EQ/)
+  - [Блог Istio](/blog)
+  - Категорія [Оголошення](https://discuss.istio.io/c/announcements) на discuss.istio.io
+  - [Twitter-аккаунт Istio](https://twitter.com/IstioMesh)
+  - Канал [#announcements на Slack](https://istio.slack.com/messages/CFXS256EQ/)
 
 Наскільки це можливо, це оголошення буде корисним і міститиме будь-які заходи помʼякшення, які клієнти можуть вжити перед оновленням до виправленої версії. Рекомендований цільовий час для таких оголошень — 16:00 UTC з понеділка по четвер. Це означає, що оголошення буде видно вранці на Тихоокеанському узбережжі, на початку вечора в Європі та пізно ввечері в Азії.
 

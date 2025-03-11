@@ -124,13 +124,13 @@ metadata:
   name: sleep
 spec:
   initContainers:
-  - name: check-traffic
+- name: check-traffic
     image: istio/base
     command:
-    - curl
-    - httpbin.org/get
+  - curl
+  - httpbin.org/get
   containers:
-  - name: sleep
+- name: sleep
     image: istio/base
     command: ["/bin/sleep", "infinity"]
 {{< /text >}}

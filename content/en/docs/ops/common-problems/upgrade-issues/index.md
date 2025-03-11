@@ -50,10 +50,10 @@ metadata:
   name: namespace-metrics
 spec:
   metrics:
-  - providers:
-    - name: prometheus
+- providers:
+  - name: prometheus
     overrides:
-    - match:
+  - match:
         metric: REQUEST_COUNT
       mode: SERVER
       tagOverrides:
@@ -86,7 +86,7 @@ metadata:
   name: ingressgateway-redirect-config
 spec:
   configPatches:
-  - applyTo: NETWORK_FILTER
+- applyTo: NETWORK_FILTER
     match:
       context: GATEWAY
       listener:
@@ -130,7 +130,7 @@ metadata:
   name: proxy-protocol
 spec:
   configPatches:
-  - applyTo: LISTENER_FILTER
+- applyTo: LISTENER_FILTER
     patch:
       operation: INSERT_FIRST
       value:
@@ -169,7 +169,7 @@ spec:
     labels:
       istio: ingressgateway
   configPatches:
-  - applyTo: BOOTSTRAP
+- applyTo: BOOTSTRAP
     patch:
       operation: MERGE
       value:

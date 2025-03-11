@@ -74,13 +74,13 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - name: reviews-v1
+- backendRefs:
+  - name: reviews-v1
       port: 9080
 EOF
 {{< /text >}}
@@ -102,10 +102,10 @@ $ kubectl get virtualservices -o yaml
   ...
   spec:
     hosts:
-    - details
+  - details
     http:
-    - route:
-      - destination:
+  - route:
+    - destination:
           host: details
           subset: v1
 - apiVersion: networking.istio.io/v1
@@ -113,10 +113,10 @@ $ kubectl get virtualservices -o yaml
   ...
   spec:
     hosts:
-    - productpage
+  - productpage
     http:
-    - route:
-      - destination:
+  - route:
+    - destination:
           host: productpage
           subset: v1
 - apiVersion: networking.istio.io/v1
@@ -124,10 +124,10 @@ $ kubectl get virtualservices -o yaml
   ...
   spec:
     hosts:
-    - ratings
+  - ratings
     http:
-    - route:
-      - destination:
+  - route:
+    - destination:
           host: ratings
           subset: v1
 - apiVersion: networking.istio.io/v1
@@ -135,10 +135,10 @@ $ kubectl get virtualservices -o yaml
   ...
   spec:
     hosts:
-    - reviews
+  - reviews
     http:
-    - route:
-      - destination:
+  - route:
+    - destination:
           host: reviews
           subset: v1
 {{< /text >}}
@@ -158,31 +158,31 @@ $ kubectl get httproute reviews -o yaml
 ...
 spec:
   parentRefs:
-  - group: gateway.networking.k8s.io
+- group: gateway.networking.k8s.io
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - group: ""
+- backendRefs:
+  - group: ""
       kind: Service
       name: reviews-v1
       port: 9080
       weight: 1
     matches:
-    - path:
+  - path:
         type: PathPrefix
         value: /
 status:
   parents:
-  - conditions:
-    - lastTransitionTime: "2022-11-08T19:56:19Z"
+- conditions:
+  - lastTransitionTime: "2022-11-08T19:56:19Z"
       message: Route was valid
       observedGeneration: 8
       reason: Accepted
       status: "True"
       type: Accepted
-    - lastTransitionTime: "2022-11-08T19:56:19Z"
+  - lastTransitionTime: "2022-11-08T19:56:19Z"
       message: All references resolved
       observedGeneration: 8
       reason: ResolvedRefs
@@ -251,18 +251,18 @@ kind: VirtualService
 ...
 spec:
   hosts:
-  - reviews
+- reviews
   http:
-  - match:
-    - headers:
+- match:
+  - headers:
         end-user:
           exact: jason
     route:
-    - destination:
+  - destination:
         host: reviews
         subset: v2
-  - route:
-    - destination:
+- route:
+  - destination:
         host: reviews
         subset: v1
 {{< /text >}}
@@ -279,20 +279,20 @@ metadata:
   name: reviews
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - matches:
-    - headers:
-      - name: end-user
+- matches:
+  - headers:
+    - name: end-user
         value: jason
     backendRefs:
-    - name: reviews-v2
+  - name: reviews-v2
       port: 9080
-  - backendRefs:
-    - name: reviews-v1
+- backendRefs:
+  - name: reviews-v1
       port: 9080
 EOF
 {{< /text >}}

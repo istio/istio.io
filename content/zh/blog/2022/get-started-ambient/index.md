@@ -211,8 +211,8 @@ spec:
      app: productpage
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 EOF
 {{< /text >}}
@@ -255,7 +255,7 @@ $ kubectl get gateway productpage -o yaml
 ...
 status:
   conditions:
-  - lastTransitionTime: "2022-09-06T20:24:41Z"
+- lastTransitionTime: "2022-09-06T20:24:41Z"
     message: Deployed waypoint proxy to "default" namespace for "bookinfo-productpage"
       service account
     observedGeneration: 1
@@ -279,11 +279,11 @@ spec:
      app: productpage
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/sleep", "cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
 EOF
 {{< /text >}}

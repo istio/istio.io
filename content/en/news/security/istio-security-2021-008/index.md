@@ -162,11 +162,11 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["dev"]
     to:
-    - operation:
+  - operation:
         hosts: ["httpbin.com", "httpbin.com:*"]
 {{< /text >}}
 

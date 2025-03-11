@@ -43,10 +43,10 @@ metadata:
   name: namespace-metrics
 spec:
   metrics:
-  - providers:
-    - name: prometheus
+- providers:
+  - name: prometheus
     overrides:
-    - match:
+  - match:
         metric: REQUEST_COUNT
       tagOverrides:
         destination_port:

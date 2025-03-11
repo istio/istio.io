@@ -78,25 +78,25 @@ $ istioctl bug-report
 * 来自所有 Istio 组件和 Sidecar 的当前日志和历史日志。这里有一些关于如何获取这些日志的例子，
   请根据您的环境进行调整：
 
-    * Istiod 日志：
+  * Istiod 日志：
 
         {{< text bash >}}
         $ kubectl logs -n istio-system -l app=istiod
         {{< /text >}}
 
-    * Ingress Gateway 日志：
+  * Ingress Gateway 日志：
 
         {{< text bash >}}
         $ kubectl logs -l istio=ingressgateway -n istio-system
         {{< /text >}}
 
-    * Egress Gateway 日志：
+  * Egress Gateway 日志：
 
         {{< text bash >}}
         $ kubectl logs -l istio=egressgateway -n istio-system
         {{< /text >}}
 
-    * Sidecar 日志：
+  * Sidecar 日志：
 
         {{< text bash >}}
         $ for ns in $(kubectl get ns -o jsonpath='{.items[*].metadata.name}') ; do kubectl logs -l service.istio.io/canonical-revision -c istio-proxy -n $ns ; done

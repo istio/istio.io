@@ -17,7 +17,7 @@ Envoy 和 Istio 容易受到新发现漏洞的攻击：
 
 * __[CVE-2021-21378](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-21378)__:
   JWT 身份验证绕过未知的颁发者令牌
-    * CVSS Score: 8.2 [AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N)
+  * CVSS Score: 8.2 [AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N)
 
 如果仅将 `RequestAuthentication` 用于 JWT 验证，则您会受到此漏洞的影响。
 

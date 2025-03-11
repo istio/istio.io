@@ -19,15 +19,15 @@ metadata:
   namespace: default
 spec:
   gateways:
-  - istio-system/testing-gateway
+- istio-system/testing-gateway
   hosts:
-  - wrong.com
+- wrong.com
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /
     route:
-    - destination:
+  - destination:
         host: ratings
 {{< /text >}}
 
@@ -43,8 +43,8 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - hosts:
-    - testing.com
+- hosts:
+  - testing.com
     port:
       name: http
       number: 80

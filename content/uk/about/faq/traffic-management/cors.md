@@ -16,11 +16,11 @@ metadata:
   name: bank
 spec:
   hosts:
-  - bank.example.com
+- bank.example.com
   http:
-  - corsPolicy:
+- corsPolicy:
       allowOrigins:
-      - exact: https://attack.example.com
+  - exact: https://attack.example.com
 ...
 {{< /text >}}
 

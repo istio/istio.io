@@ -34,10 +34,10 @@ metadata:
   name: default
 spec:
   egress:
-  - hosts:
-    - "./*" # Імплементувати всі конфігурації з нашого простору імен
-    - "bookinfo/*" # Імплементувати всі конфігурації з простору імен bookinfo
-    - "external-services/example.com" # Імплементувати тільки 'example.com' з простору імен external-services
+- hosts:
+  - "./*" # Імплементувати всі конфігурації з нашого простору імен
+  - "bookinfo/*" # Імплементувати всі конфігурації з простору імен bookinfo
+  - "external-services/example.com" # Імплементувати тільки 'example.com' з простору імен external-services
 {{< /text >}}
 
 ### `exportTo` {#exportTo}

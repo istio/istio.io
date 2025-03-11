@@ -193,22 +193,22 @@ metadata:
   name: example
 spec:
   containers:
-  - name: hello
+- name: hello
     image: alpine
-  - name: istio-proxy
+- name: istio-proxy
     image: auto
     resources:
       requests:
         cpu: "100m"
     volumeMounts:
-    - mountPath: /etc/certs
+  - mountPath: /etc/certs
       name: certs
     lifecycle:
       preStop:
         exec:
           command: ["curl", "10"]
   volumes:
-  - name: certs
+- name: certs
     secret:
       secretName: istio-certs
 {{< /text >}}
@@ -245,7 +245,7 @@ spec:
 {{< text yaml >}}
 spec:
   containers:
-  - name: istio-proxy
+- name: istio-proxy
     resources:
       limits:
         memory: 5Gi

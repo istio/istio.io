@@ -124,7 +124,7 @@ spec:
   selector:
     istio: ingressgateway # 使用 istio 默认入口网关
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
@@ -132,7 +132,7 @@ spec:
       mode: SIMPLE
       credentialName: httpbin-credential # 必须与 Secret 相同
     hosts:
-    - httpbin.example.com
+  - httpbin.example.com
 EOF
 {{< /text >}}
 
@@ -146,17 +146,17 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "httpbin.example.com"
+- "httpbin.example.com"
   gateways:
-  - mygateway
+- mygateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         prefix: /status
-    - uri:
+  - uri:
         prefix: /delay
     route:
-    - destination:
+  - destination:
         port:
           number: 8000
         host: httpbin
@@ -183,14 +183,14 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: https
+- name: https
     hostname: "httpbin.example.com"
     port: 443
     protocol: HTTPS
     tls:
       mode: Terminate
       certificateRefs:
-      - name: httpbin-credential
+  - name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
@@ -210,19 +210,19 @@ metadata:
   name: httpbin
 spec:
   parentRefs:
-  - name: mygateway
+- name: mygateway
     namespace: istio-system
   hostnames: ["httpbin.example.com"]
   rules:
-  - matches:
-    - path:
+- matches:
+  - path:
         type: PathPrefix
         value: /status
-    - path:
+  - path:
         type: PathPrefix
         value: /delay
     backendRefs:
-    - name: httpbin
+  - name: httpbin
       port: 8000
 EOF
 {{< /text >}}
@@ -335,7 +335,7 @@ spec:
   selector:
     istio: ingressgateway # 使用 istio 默认入口网关
   servers:
-  - port:
+- port:
       number: 443
       name: https-httpbin
       protocol: HTTPS
@@ -343,8 +343,8 @@ spec:
       mode: SIMPLE
       credentialName: httpbin-credential
     hosts:
-    - httpbin.example.com
-  - port:
+  - httpbin.example.com
+- port:
       number: 443
       name: https-helloworld
       protocol: HTTPS
@@ -352,7 +352,7 @@ spec:
       mode: SIMPLE
       credentialName: helloworld-credential
     hosts:
-    - helloworld.example.com
+  - helloworld.example.com
 EOF
 {{< /text >}}
 
@@ -366,15 +366,15 @@ metadata:
   name: helloworld
 spec:
   hosts:
-  - helloworld.example.com
+- helloworld.example.com
   gateways:
-  - mygateway
+- mygateway
   http:
-  - match:
-    - uri:
+- match:
+  - uri:
         exact: /hello
     route:
-    - destination:
+  - destination:
         host: helloworld
         port:
           number: 5000
@@ -398,28 +398,28 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: https-httpbin
+- name: https-httpbin
     hostname: "httpbin.example.com"
     port: 443
     protocol: HTTPS
     tls:
       mode: Terminate
       certificateRefs:
-      - name: httpbin-credential
+  - name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
         selector:
           matchLabels:
             kubernetes.io/metadata.name: default
-  - name: https-helloworld
+- name: https-helloworld
     hostname: "helloworld.example.com"
     port: 443
     protocol: HTTPS
     tls:
       mode: Terminate
       certificateRefs:
-      - name: helloworld-credential
+  - name: helloworld-credential
     allowedRoutes:
       namespaces:
         from: Selector
@@ -439,16 +439,16 @@ metadata:
   name: helloworld
 spec:
   parentRefs:
-  - name: mygateway
+- name: mygateway
     namespace: istio-system
   hostnames: ["helloworld.example.com"]
   rules:
-  - matches:
-    - path:
+- matches:
+  - path:
         type: Exact
         value: /hello
     backendRefs:
-    - name: helloworld
+  - name: helloworld
       port: 5000
 EOF
 {{< /text >}}
@@ -522,7 +522,7 @@ spec:
   selector:
     istio: ingressgateway # 使用 istio 默认入口网关
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
@@ -530,7 +530,7 @@ spec:
       mode: MUTUAL
       credentialName: httpbin-credential # 必须与 Secret 相同
     hosts:
-    - httpbin.example.com
+  - httpbin.example.com
 EOF
 {{< /text >}}
 
@@ -552,14 +552,14 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: https
+- name: https
     hostname: "httpbin.example.com"
     port: 443
     protocol: HTTPS
     tls:
       mode: Terminate
       certificateRefs:
-      - name: httpbin-credential
+  - name: httpbin-credential
       options:
         gateway.istio.io/tls-terminate-mode: MUTUAL
     allowedRoutes:

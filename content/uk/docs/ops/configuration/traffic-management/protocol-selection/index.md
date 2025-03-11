@@ -57,10 +57,10 @@ metadata:
   name: myservice
 spec:
   ports:
-  - port: 3306
+- port: 3306
     name: database
     appProtocol: https
-  - port: 80
+- port: 80
     name: http-web
 {{< /text >}}
 

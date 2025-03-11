@@ -95,8 +95,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: localtrace
+- providers:
+  - name: localtrace
     customTags:
       foo:
         literal:
@@ -122,7 +122,7 @@ metadata:
   namespace: myapp
 spec:
   tracing:
-  - customTags:
+- customTags:
       userId:
         header:
           name: userId
@@ -159,7 +159,7 @@ spec:
     matchLabels:
       service.istio.io/canonical-name: frontend
   tracing:
-  - disableSpanReporting: true
+- disableSpanReporting: true
 {{< /text >}}
 
 In this case, tracing will be disabled for the `frontend` workload in the `myapp` namespace.

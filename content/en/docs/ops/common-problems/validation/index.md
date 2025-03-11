@@ -53,7 +53,7 @@ webhooks:
   clientConfig:
     # caBundle should be non-empty. This is periodically (re)patched
     # every second by the webhook service using the ca-cert
-    # from the mounted service account secret.
+    # from the mounted service account secret
     caBundle: LS0t...
     # service corresponds to the Kubernetes service that implements the webhook
     service:

@@ -80,17 +80,17 @@ a Stackdriver handler is described [here](https://istio.io/v1.6/docs/reference/c
       name: handler
       namespace: istio-system
     spec:
-      # We'll use the default value from the adapter, once per minute, so we don't need to supply a value.
+      # We'll use the default value from the adapter, once per minute, so we don't need to supply a value
       # pushInterval: 1m
       # Must be supplied for the Stackdriver adapter to work
       project_id: "<project_id>"
       # One of the following must be set; the preferred method is `appCredentials`, which corresponds to
-      # Google Application Default Credentials.
-      # If none is provided we default to app credentials.
-      # appCredentials:
-      # apiKey:
-      # serviceAccountPath:
-      # Describes how to map Istio logs into Stackdriver.
+      # Google Application Default Credentials
+      # If none is provided we default to app credentials
+      # appCredentials
+      # apiKey
+      # serviceAccountPath
+      # Describes how to map Istio logs into Stackdriver
       logInfo:
         accesslog.logentry.istio-system:
           payloadTemplate: '{{or (.sourceIp) "-"}} - {{or (.sourceUser) "-"}} [{{or (.timestamp.Format "02/Jan/2006:15:04:05 -0700") "-"}}] "{{or (.method) "-"}} {{or (.url) "-"}} {{or (.protocol) "-"}}" {{or (.responseCode) "-"}} {{or (.responseSize) "-"}}'

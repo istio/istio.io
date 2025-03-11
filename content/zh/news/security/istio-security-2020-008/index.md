@@ -17,7 +17,7 @@ Istio 容易受到新发现漏洞的攻击:
 
 * __[`CVE-2020-15104`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-15104)__:
 当验证 TLS 证书时，Envoy 错误地允许将通配符 DNS 使用者主机名称应用于多个子域。例如，在 SAN 为 `*.example.com` 通配的情况下，Envoy 错误地允许使用 `nested.subdomain.example.com`，而它只允许使用 `subdomain.example.com`。
-    * CVSS Score: 6.6 [AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C&version=3.1)
+  * CVSS Score: 6.6 [AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C&version=3.1)
 
 Istio 用户通过以下方式暴露此漏洞:
 

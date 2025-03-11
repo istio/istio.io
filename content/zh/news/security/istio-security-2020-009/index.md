@@ -15,7 +15,7 @@ skip_seealso: true
 Istio 容易受到新发现隐患的攻击：
 
 * __[`CVE-2020-16844`](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-16844)__：对于源 Principals 和名称空间字段使用通配符后缀（例如：`* -some-suffix` ）的具有 `DENY` 操作的已定义授权策略TCP服务调用者，将永远不会被拒绝访问。
-    * CVSS Score: 6.8 [AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N&version=3.1)
+  * CVSS Score: 6.8 [AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N](https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N&version=3.1)
 
 Istio 用户以下列方式容易受到此漏洞的影响：
 
@@ -30,10 +30,10 @@ metadata:
 spec:
  action: DENY
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals:
-       - */ns/ns1/sa/foo # indicating any trust domain, ns1 namespace, foo svc account
+    - */ns/ns1/sa/foo # indicating any trust domain, ns1 namespace, foo svc account
 {{< /text >}}
 
 Istio 将 Principal (和 `source.principal`)字段转换为 Envoy 级别的字符串匹配。

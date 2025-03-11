@@ -71,9 +71,9 @@ Istio 支持将日志导出到 Stackdriver，而 Stackdriver 又可以配置为�
       project_id: "<project_id>"
       # apiCredentials 和 apiKey 必须设置之一；首选方法是`appCredentials`，它对应于 Google 应用程序默认凭据。
       # 如果没有提供，我们使用默认应用凭据。
-      # appCredentials:
-      # apiKey:
-      # serviceAccountPath:
+      # appCredentials
+      # apiKey
+      # serviceAccountPath
       # 描述如何将 Istio 日志映射到 Stackdriver。
       logInfo:
         accesslog.logentry.istio-system:

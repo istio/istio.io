@@ -141,12 +141,12 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Reduced Overhead**. Added several performance and scale improvements
   including:
 
-    - Significant reduction in default collection of Envoy-generated
+  - Significant reduction in default collection of Envoy-generated
       statistics.
 
-    - Added load-shedding functionality to Mixer workloads.
+  - Added load-shedding functionality to Mixer workloads.
 
-    - Improved the protocol between Envoy and Mixer.
+  - Improved the protocol between Envoy and Mixer.
 
 - **Control Headers and Routing**. Added the option to create adapters to
   influence the headers and routing of an incoming request. See the [Control Headers and Routing](https://istio.io/v1.6/docs/tasks/policy-enforcement/control-headers)
@@ -160,13 +160,13 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Tracing Improvements**. Performed many improvements in our overall tracing
   story:
 
-    - Trace ids are now 128 bit wide.
+  - Trace ids are now 128 bit wide.
 
-    - Added support for sending trace data to Lightstep
+  - Added support for sending trace data to Lightstep
 
-    - Added the option to disable tracing for Mixer-backed services entirely.
+  - Added the option to disable tracing for Mixer-backed services entirely.
 
-    - Added policy decision-aware tracing.
+  - Added policy decision-aware tracing.
 
 - **Default TCP Metrics**. Added default metrics for tracking TCP connections.
 

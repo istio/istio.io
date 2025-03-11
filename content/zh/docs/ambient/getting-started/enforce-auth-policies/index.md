@@ -31,10 +31,10 @@ spec:
       app: productpage
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         principals:
-        - cluster.local/ns/default/sa/bookinfo-gateway-istio
+    - cluster.local/ns/default/sa/bookinfo-gateway-istio
 EOF
 {{< /text >}}
 
@@ -86,17 +86,17 @@ metadata:
   namespace: default
 spec:
   targetRefs:
-  - kind: Service
+- kind: Service
     group: ""
     name: productpage
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         principals:
-        - cluster.local/ns/default/sa/curl
+    - cluster.local/ns/default/sa/curl
     to:
-    - operation:
+  - operation:
         methods: ["GET"]
 EOF
 {{< /text >}}
@@ -120,11 +120,11 @@ spec:
       app: productpage
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         principals:
-        - cluster.local/ns/default/sa/bookinfo-gateway-istio
-        - cluster.local/ns/default/sa/waypoint
+    - cluster.local/ns/default/sa/bookinfo-gateway-istio
+    - cluster.local/ns/default/sa/waypoint
 EOF
 {{< /text >}}
 

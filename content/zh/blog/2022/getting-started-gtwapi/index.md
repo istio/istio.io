@@ -112,7 +112,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: http
+- name: http
     hostname: "*.sample.com"
     port: 80
     protocol: HTTP
@@ -159,16 +159,16 @@ metadata:
   name: helloworld
 spec:
   parentRefs:
-  - name: sample-gateway
+- name: sample-gateway
     namespace: sample-ingress
   hostnames: ["helloworld.sample.com"]
   rules:
-  - matches:
-    - path:
+- matches:
+  - path:
         type: Exact
         value: /hello
     backendRefs:
-    - name: helloworld
+  - name: helloworld
       port: 5000
 EOF
 {{< /text >}}
@@ -208,19 +208,19 @@ metadata:
   name: helloworld
 spec:
   parentRefs:
-  - name: sample-gateway
+- name: sample-gateway
     namespace: sample-ingress
   hostnames: ["helloworld.sample.com"]
   rules:
-  - matches:
-    - path:
+- matches:
+  - path:
         type: Exact
         value: /hello
     backendRefs:
-    - name: helloworld-v1
+  - name: helloworld-v1
       port: 5000
       weight: 90
-    - name: helloworld-v2
+  - name: helloworld-v2
       port: 5000
       weight: 10
 EOF

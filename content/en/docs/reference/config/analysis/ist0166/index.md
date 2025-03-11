@@ -34,7 +34,7 @@ metadata:
   namespace: default
 spec:
   containers:
-  - image: proxyv2:1.21.0
+- image: proxyv2:1.21.0
     name: istio-proxy
 {{< /text >}}
 
@@ -52,11 +52,11 @@ spec:
       gateway.networking.k8s.io/gateway-name: bookinfo-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
       namespaces: ["dev"]
     to:
-    - operation:
+  - operation:
       methods: ["POST"]
 {{< /text >}}
 
@@ -70,7 +70,7 @@ metadata:
   namespace: default
 spec:
   tracing:
-  - randomSamplingPercentage: 10.00
+- randomSamplingPercentage: 10.00
   selector:
     matchLabels:
       gateway.networking.k8s.io/gateway-name: bookinfo-gateway
@@ -95,7 +95,7 @@ metadata:
   namespace: default
 spec:
   tracing:
-  - randomSamplingPercentage: 10.00
+- randomSamplingPercentage: 10.00
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway

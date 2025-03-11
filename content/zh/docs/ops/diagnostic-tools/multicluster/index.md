@@ -163,8 +163,8 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 
 * 如果缺失 Secret，则创建一个。
 * 如果存在 Secret，则：
-    * 查看配置，确保使用集群名作为远程 `kubeconfig` 的数据键（data key）。
-    * 如果 Secret 看起来没问题，检查 `istiod` 的日志，以确定是连接还是权限问题导致无法连接远程
+  * 查看配置，确保使用集群名作为远程 `kubeconfig` 的数据键（data key）。
+  * 如果 Secret 看起来没问题，检查 `istiod` 的日志，以确定是连接还是权限问题导致无法连接远程
       Kubernetes API。该日志可能包括 `Failed to add remote cluster from secret` 信息和对应的错误原因。
 
 {{< /tab >}}
@@ -185,11 +185,11 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 
 * 如果缺失 Secret，则创建一个。
 * 如果存在 Secret，且 `endpoints` 是位于**主**集群中的 Pod，则：
-    * 查看配置，确保使用集群名作为远程 `kubeconfig` 的数据键（data key）。
-    * 如果 Secret 看起来没问题，检查 `istiod` 的日志，以确定是连接问题还是权限问题导致无法连接远程
+  * 查看配置，确保使用集群名作为远程 `kubeconfig` 的数据键（data key）。
+  * 如果 Secret 看起来没问题，检查 `istiod` 的日志，以确定是连接问题还是权限问题导致无法连接远程
       Kubernetes API。该日志可能包括 `Failed to add remote cluster from secret` 信息和对应的错误原因。
 * 如果存在 Secret，且 `endpoints` 是位于**从**集群中的 Pod，则：
-    * 代理正在从从集群 istiod 读取配置。当一个从集群有一个集群内的 istiod 时，它只作用于 Sidecar 注入和 CA 证书管理。
+  * 代理正在从从集群 istiod 读取配置。当一个从集群有一个集群内的 istiod 时，它只作用于 Sidecar 注入和 CA 证书管理。
       您可以通过在 `istio-system` 命名空间中查找名为 `istiod-remote` 的 Service 来确认此问题。
       如果缺失，请使用 `values.global.remotePilotAddress` 重新设置。
 

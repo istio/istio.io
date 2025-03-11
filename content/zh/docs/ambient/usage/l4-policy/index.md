@@ -34,10 +34,10 @@ spec:
      app: httpbin
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/curl
+    - cluster.local/ns/ambient-demo/sa/curl
 {{< /text >}}
 
 此策略既可用于 {{< gloss "sidecar" >}}Sidecar 模式{{< /gloss >}}，也能用于 Ambient 模式。
@@ -95,12 +95,12 @@ spec:
      app: httpbin
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals:
-       - cluster.local/ns/ambient-demo/sa/curl
+    - cluster.local/ns/ambient-demo/sa/curl
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
 EOF
 {{< /text >}}

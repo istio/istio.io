@@ -37,17 +37,17 @@ $ kubectl get virtualservice <service-name> -o yaml
 {{< text yaml >}}
 status:
   conditions:
-  - lastProbeTime: null
+- lastProbeTime: null
     lastTransitionTime: "2019-12-26T22:06:56Z"
     message: "1 Error and 1 Warning found. See validationMessages field for details"
     reason: "errorsFound"
     status: "False"
     type: PassedAnalysis
   validationMessages:
-  - code: IST0101
+- code: IST0101
     level: Error
     message: 'Referenced gateway not found: "bogus-gateway"'
-  - code: IST0102
+- code: IST0102
     level: Warn
     message: 'mTLS not enabled for virtual service'
 {{< /text >}}

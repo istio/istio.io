@@ -24,17 +24,17 @@ features should work, although this is not an exhaustive list and other features
 
 * Basic service discovery. Your gRPC service can reach other pods and virtual machines registered in the mesh.
 * [`DestinationRule`](/docs/reference/config/networking/destination-rule/):
-    * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances.
-    * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in
+  * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances.
+  * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in
       future versions of Istio (it is supported by gRPC).
-    * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
+  * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
 * [`VirtualService`](/docs/reference/config/networking/virtual-service/):
-    * Header match and URI match in the format `/ServiceName/RPCName`.
-    * Override destination host and subset.
-    * Weighted traffic shifting.
+  * Header match and URI match in the format `/ServiceName/RPCName`.
+  * Override destination host and subset.
+  * Weighted traffic shifting.
 * [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/):
-    * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DISABLE`.
-    * Support for auto-mTLS may exist in a future release.
+  * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DISABLE`.
+  * Support for auto-mTLS may exist in a future release.
 
 Other features including faults, retries, timeouts, mirroring and rewrite rules may be supported in a future release.
 Some of these features are awaiting implementation in gRPC, and others require work in Istio to support. The status
@@ -217,10 +217,10 @@ metadata:
 spec:
   host: echo.echo-grpc.svc.cluster.local
   subsets:
-  - name: v1
+- name: v1
     labels:
       version: v1
-  - name: v2
+- name: v2
     labels:
       version: v2
 EOF
@@ -239,14 +239,14 @@ metadata:
   namespace: echo-grpc
 spec:
   hosts:
-  - echo.echo-grpc.svc.cluster.local
+- echo.echo-grpc.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: echo.echo-grpc.svc.cluster.local
         subset: v1
       weight: 20
-    - destination:
+  - destination:
         host: echo.echo-grpc.svc.cluster.local
         subset: v2
       weight: 80
@@ -367,16 +367,16 @@ The initial release comes with several limitations that may be fixed in a future
 ### Experiment Setup
 
 * Using Fortio, a Go-based load testing app
-    * Slightly modified, to support gRPC’s XDS features (PR)
+  * Slightly modified, to support gRPC’s XDS features (PR)
 * Resources:
-    * GKE 1.20 cluster with 3 `e2-standard-16` nodes (16 CPUs + 64 GB memory each)
-    * Fortio client and server apps: 1.5 vCPU, 1000 MiB memory
-    * Sidecar (istio-agent and possibly Envoy proxy): 1 vCPU, 512 MiB memory
+  * GKE 1.20 cluster with 3 `e2-standard-16` nodes (16 CPUs + 64 GB memory each)
+  * Fortio client and server apps: 1.5 vCPU, 1000 MiB memory
+  * Sidecar (istio-agent and possibly Envoy proxy): 1 vCPU, 512 MiB memory
 * Workload types tested:
-    * Baseline: regular gRPC with no Envoy proxy or Proxyless xDS in use
-    * Envoy: standard istio-agent + Envoy proxy sidecar
-    * Proxyless: gRPC using the xDS gRPC server implementation and `xds:///` resolver on the client
-    * mTLS enabled/disabled via `PeerAuthentication` and `DestinationRule`
+  * Baseline: regular gRPC with no Envoy proxy or Proxyless xDS in use
+  * Envoy: standard istio-agent + Envoy proxy sidecar
+  * Proxyless: gRPC using the xDS gRPC server implementation and `xds:///` resolver on the client
+  * mTLS enabled/disabled via `PeerAuthentication` and `DestinationRule`
 
 ### Latency
 

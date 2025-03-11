@@ -58,7 +58,7 @@ metadata:
   name: productpage
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: productpage
     port: 9080

@@ -37,19 +37,19 @@ spec:
       istio: ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         # JWT 令牌的签名者必须有后缀 "@example.com"
         requestPrincipals: ["*@example.com"]
     to:
-    - operation:
+  - operation:
         hosts: ["example.com", "*.example.com"]
-  - from:
-    - source:
+- from:
+  - source:
         # JWT 令牌的签名者必须有后缀 "@another.org"
         requestPrincipals: ["*@another.org"]
     to:
-    - operation:
+  - operation:
         hosts: [".another.org", "*.another.org"]
 {{< /text >}}
 
@@ -76,8 +76,8 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["foo"]
 {{< /text >}}
 
@@ -104,10 +104,10 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["foo"]
-    - source:
+  - source:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}
 
@@ -129,8 +129,8 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notPrincipals: ["*"]
 {{< /text >}}
 
@@ -157,8 +157,8 @@ spec:
       istio: ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
@@ -178,8 +178,8 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notNamespaces: ["foo"]
         notPrincipals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}

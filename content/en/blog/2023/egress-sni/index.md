@@ -90,8 +90,8 @@ and its `Service`. We use the gateway injection method to create the gateway in 
 deploy it differently (for example, using an `IstioOperator` CR or using Helm).
 
 {{< text yaml >}}
-# New k8s cluster service to put egressgateway into the Service Registry,
-# so application sidecars can route traffic towards it within the mesh.
+# New k8s cluster service to put egressgateway into the Service Registry
+# so application sidecars can route traffic towards it within the mesh
 apiVersion: v1
 kind: Service
 metadata:
@@ -102,7 +102,7 @@ spec:
   selector:
     istio: egressgateway
   ports:
-  - port: 443
+- port: 443
     name: tls-egress
     targetPort: 8443
 
@@ -173,9 +173,9 @@ subjects:
 Verify the gateway pod is up and running in the `istio-egress` namespace and then apply the following YAML to configure the gateway routing:
 
 {{< text yaml >}}
-# Define a new listener that enforces Istio mTLS on inbound connections.
+# Define a new listener that enforces Istio mTLS on inbound connections
 # This is where sidecar will route the application traffic, wrapped into
-# Istio mTLS.
+# Istio mTLS
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -185,12 +185,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 8443
       name: tls-egress
       protocol: TLS
     hosts:
-      - "*"
+  - "*"
     tls:
       mode: ISTIO_MUTUAL
 
@@ -206,28 +206,28 @@ spec:
   hosts:
     - "*.wikipedia.org"
   gateways:
-  - mesh
-  - egressgateway
+- mesh
+- egressgateway
   tls:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 443
       sniHosts:
-        - "*.wikipedia.org"
+      - "*.wikipedia.org"
     route:
-    - destination:
+  - destination:
         host: egressgateway.istio-egress.svc.cluster.local
         subset: wildcard
 # Dummy routing instruction. If omitted, no reference will point to the Gateway
-# definition, and istiod will optimise the whole new listener out.
+# definition, and istiod will optimise the whole new listener out
   tcp:
-  - match:
-    - gateways:
-      - egressgateway
+- match:
+  - gateways:
+    - egressgateway
       port: 8443
     route:
-    - destination:
+  - destination:
         host: "dummy.local"
       weight: 100
 
@@ -241,7 +241,7 @@ metadata:
 spec:
   host: egressgateway.istio-egress.svc.cluster.local
   subsets:
-  - name: wildcard
+- name: wildcard
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -257,7 +257,7 @@ spec:
   hosts:
     - "*.wikipedia.org"
   ports:
-  - number: 443
+- number: 443
     name: tls
     protocol: TLS
 
@@ -274,9 +274,9 @@ spec:
       - name: envoy
 
 ---
-# And finally, the configuration of the SNI forwarder,
+# And finally, the configuration of the SNI forwarder
 # it's internal listener, and the patch to the original Gateway
-# listener to route everything into the SNI forwarder.
+# listener to route everything into the SNI forwarder
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -284,7 +284,7 @@ metadata:
   namespace: istio-system
 spec:
   configPatches:
-  - applyTo: CLUSTER
+- applyTo: CLUSTER
     match:
       context: GATEWAY
     patch:
@@ -299,7 +299,7 @@ spec:
                 address:
                   envoy_internal_address:
                     server_listener_name: sni_listener
-  - applyTo: CLUSTER
+- applyTo: CLUSTER
     match:
       context: GATEWAY
     patch:
@@ -315,7 +315,7 @@ spec:
               name: dynamic_forward_proxy_cache_config
               dns_lookup_family: V4_ONLY
 
-  - applyTo: LISTENER
+- applyTo: LISTENER
     match:
       context: GATEWAY
     patch:
@@ -361,7 +361,7 @@ spec:
                           %REQUESTED_SERVER_NAME% %ROUTE_NAME%
 
                           '
-  - applyTo: NETWORK_FILTER
+- applyTo: NETWORK_FILTER
     match:
       context: GATEWAY
       listener:

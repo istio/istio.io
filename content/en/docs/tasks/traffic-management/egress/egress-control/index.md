@@ -286,11 +286,11 @@ metadata:
   name: httpbin-ext
 spec:
   hosts:
-  - httpbin.org
+- httpbin.org
   http:
-  - timeout: 3s
+- timeout: 3s
     route:
-    - destination:
+  - destination:
         host: httpbin.org
       weight: 100
 EOF
@@ -308,16 +308,16 @@ metadata:
   name: httpbin-ext
 spec:
   parentRefs:
-  - kind: ServiceEntry
+- kind: ServiceEntry
     group: networking.istio.io
     name: httpbin-ext
   hostnames:
-  - httpbin.org
+- httpbin.org
   rules:
-  - timeouts:
+- timeouts:
       request: 3s
     backendRefs:
-    - kind: Hostname
+  - kind: Hostname
       group: networking.istio.io
       name: httpbin.org
       port: 80

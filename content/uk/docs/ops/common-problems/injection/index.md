@@ -185,11 +185,11 @@ $
 
 {{< text yaml >}}
 env:
-  - name: http_proxy
+- name: http_proxy
     value: http://proxy-wsa.esl.foo.com:80
-  - name: https_proxy
+- name: https_proxy
     value: http://proxy-wsa.esl.foo.com:80
-  - name: no_proxy
+- name: no_proxy
     value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 

@@ -96,16 +96,16 @@ metadata:
   namespace: default
 spec:
   targetRefs:
-  - kind: Gateway
+- kind: Gateway
     group: gateway.networking.k8s.io
     name: default
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["default", "istio-system"]
     to:
-    - operation:
+  - operation:
         methods: ["GET"]
 {{< /text >}}
 
@@ -124,16 +124,16 @@ metadata:
   namespace: default
 spec:
   parentRefs:
-  - group: ""
+- group: ""
     kind: Service
     name: reviews
     port: 9080
   rules:
-  - backendRefs:
-    - name: reviews-v1
+- backendRefs:
+  - name: reviews-v1
       port: 9080
       weight: 90
-    - name: reviews-v2
+  - name: reviews-v2
       port: 9080
       weight: 10
 {{< /text >}}

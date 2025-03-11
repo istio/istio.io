@@ -17,7 +17,7 @@ aliases:
 
 - __[CVE-2021-34824](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-34824)__：
 Istio 包含一个可远程利用的漏洞，在 `Gateway` 和 `DestinationRule` `credentialName` 字段中指定的凭证可以从不同的命名空间访问。有关更多详细信息，请参阅 [ISTIO-SECURITY-2021-007 bulletin](/zh/news/security/istio-security-2021-007)。
-    - __CVSS Score__： 9.1 [CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L)
+  - __CVSS Score__： 9.1 [CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:L/A:L)
 
 ## 变化{#changes}
 

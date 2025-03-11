@@ -75,9 +75,9 @@ Your cluster is **NOT impacted** by this vulnerability if:
 
 1. Update your cluster to the latest supported version.
    These versions support configuring the Envoy proxies in the system with more normalization options:
-  * Istio 1.8.6, if using 1.8.x
-  * Istio 1.9.5 or up
-  * The patch version specified by your cloud provider
+* Istio 1.8.6, if using 1.8.x
+* Istio 1.9.5 or up
+* The patch version specified by your cloud provider
 1. Follow the [security best practices](/docs/ops/best-practices/security/#authorization-policies)
    to configure your authorization policies.
 

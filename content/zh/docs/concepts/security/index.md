@@ -48,9 +48,9 @@ Istio 中的安全性涉及多个组件：
 - 用于密钥和证书管理的证书颁发机构（CA）
 - 配置 API 服务器分发给代理：
 
-    - [认证策略](/zh/docs/concepts/security/#authentication-policies)
-    - [授权策略](/zh/docs/concepts/security/#authorization-policies)
-    - [安全命名信息](/zh/docs/concepts/security/#secure-naming)
+  - [认证策略](/zh/docs/concepts/security/#authentication-policies)
+  - [授权策略](/zh/docs/concepts/security/#authorization-policies)
+  - [安全命名信息](/zh/docs/concepts/security/#secure-naming)
 
 - Sidecar 和边缘代理作为[策略执行点](https://csrc.nist.gov/glossary/term/policy_enforcement_point)（PEP）
   以保护客户端和服务器之间的通信安全。
@@ -123,18 +123,18 @@ Istio 提供两种类型的认证：
 - 对等认证：用于服务到服务的认证，以验证建立连接的客户端。
   Istio 提供[双向 TLS](https://en.wikipedia.org/wiki/Mutual_authentication)
   作为传输认证的全栈解决方案，无需更改服务代码就可以启用它。这个解决方案：
-    - 为每个服务提供代表其角色的强大身份，以实现跨集群和云的互操作性。
-    - 确保服务间通信的安全。
-    - 提供密钥管理系统，以自动进行密钥和证书的生成、分发和轮换。
+  - 为每个服务提供代表其角色的强大身份，以实现跨集群和云的互操作性。
+  - 确保服务间通信的安全。
+  - 提供密钥管理系统，以自动进行密钥和证书的生成、分发和轮换。
 
 - 请求认证：用于终端用户认证，以验证附加到请求的凭据。
   Istio 使用 JSON Web Token（JWT）验证启用请求级认证，
   并使用自定义认证实现或任何 OpenID Connect 的认证实现（例如下面列举的）来简化的开发人员体验。
-    - [ORY Hydra](https://www.ory.sh/)
-    - [Keycloak](https://www.keycloak.org/)
-    - [Auth0](https://auth0.com/)
-    - [Firebase Auth](https://firebase.google.com/docs/auth/)
-    - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
+  - [ORY Hydra](https://www.ory.sh/)
+  - [Keycloak](https://www.keycloak.org/)
+  - [Auth0](https://auth0.com/)
+  - [Firebase Auth](https://firebase.google.com/docs/auth/)
+  - [Google Auth](https://developers.google.com/identity/protocols/OpenIDConnect)
 
 在所有情况下，Istio 都通过自定义 Kubernetes API 将认证策略存储在 `Istio config store`。
 {{< gloss >}}Istiod{{< /gloss >}} 使每个代理保持最新状态，
@@ -373,7 +373,7 @@ metadata:
   namespace: foo
 spec:
   ports:
-  - name: http
+- name: http
     port: 8000
     protocol: TCP
     targetPort: 80
@@ -473,9 +473,9 @@ Istio 按以下顺序检查层中的匹配策略：`CUSTOM`、`DENY`，
 - `selector` 字段指定策略的目标
 - `action` 字段指定允许还是拒绝请求
 - `rules` 指定何时触发动作
-    - `rules` 下的 `from` 字段指定请求的来源
-    - `rules` 下的 `to` 字段指定请求的操作
-    - `rules` 下的 `when` 字段指定应用规则所需的条件
+  - `rules` 下的 `from` 字段指定请求的来源
+  - `rules` 下的 `to` 字段指定请求的操作
+  - `rules` 下的 `when` 字段指定应用规则所需的条件
 
 以下示例显示了一个授权策略，该策略允许两个源（服务帐户 `cluster.local/ns/default/sa/curl`
 和命名空间 `dev`），在使用有效的 JWT 令牌发送请求时，可以访问命名空间 `foo`
@@ -494,16 +494,16 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/curl"]
-   - source:
+  - source:
        namespaces: ["dev"]
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
    when:
-   - key: request.auth.claims[iss]
+  - key: request.auth.claims[iss]
      values: ["https://accounts.google.com"]
 {{< /text >}}
 
@@ -522,8 +522,8 @@ spec:
      version: v1
  action: DENY
  rules:
- - from:
-   - source:
+- from:
+  - source:
        notNamespaces: ["foo"]
 {{< /text >}}
 
@@ -556,8 +556,8 @@ spec:
       app: products
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
          methods: ["GET", "HEAD"]
 {{< /text >}}
 
@@ -594,8 +594,8 @@ spec:
       app: products
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/test/*", "*/info"]
 {{< /text >}}
 
@@ -620,11 +620,11 @@ spec:
       app: products
   action: ALLOW
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         notPaths: ["/healthz"]
     from:
-    - source:
+  - source:
         requestPrincipals: ["*"]
 {{< /text >}}
 
@@ -642,11 +642,11 @@ spec:
       app: products
   action: DENY
   rules:
-  - to:
-    - operation:
+- to:
+  - operation:
         paths: ["/admin"]
     from:
-    - source:
+  - source:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
@@ -686,7 +686,7 @@ spec:
   action: DENY
   # rules 字段有一个空白规则，策略将始终匹配。
   rules:
-  - {}
+- {}
 {{< /text >}}
 
 以下示例显示了允许完全访问工作负载的 `ALLOW` 策略。
@@ -703,7 +703,7 @@ spec:
   action: ALLOW
   # 这将匹配所有内容。
   rules:
-  - {}
+- {}
 {{< /text >}}
 
 #### 自定义条件 {#custom-conditions}
@@ -727,14 +727,14 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/curl"]
    to:
-   - operation:
+  - operation:
        methods: ["GET"]
    when:
-   - key: request.headers[version]
+  - key: request.headers[version]
      values: ["v1", "v2"]
 {{< /text >}}
 
@@ -758,8 +758,8 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - to:
-   - operation:
+- to:
+  - operation:
        methods: ["GET", "POST"]
 {{< /text >}}
 
@@ -778,11 +778,11 @@ spec:
      version: v1
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["*"]
    to:
-   - operation:
+  - operation:
        methods: ["GET", "POST"]
 {{< /text >}}
 
@@ -814,11 +814,11 @@ spec:
      app: mongodb
  action: ALLOW
  rules:
- - from:
-   - source:
+- from:
+  - source:
        principals: ["cluster.local/ns/default/sa/bookinfo-ratings-v2"]
    to:
-   - operation:
+  - operation:
        ports: ["27017"]
 {{< /text >}}
 

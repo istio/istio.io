@@ -25,12 +25,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: http2
       protocol: HTTP2
     hosts:
-    - "*"
+  - "*"
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -38,12 +38,12 @@ metadata:
   name: httpbin
 spec:
   hosts:
-  - "*"
+- "*"
   gateways:
-  - httpbin-gateway-bogus # 应该是 "httpbin-gateway"
+- httpbin-gateway-bogus # 应该是 "httpbin-gateway"
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: httpbin-gateway
 {{< /text >}}
 

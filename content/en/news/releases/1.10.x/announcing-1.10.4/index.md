@@ -18,11 +18,11 @@ well as a few minor bug fixes to improve robustness. This release note describes
 
 - __[CVE-2021-39155](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2021-39155])__ __([CVE-2021-32779](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32779))__:
   Istio authorization policies incorrectly compare the host header in a case-sensitive manner, whereas RFC 4343 states it should be case-insensitive. Envoy routes the request hostname in a case-insensitive way, which means the authorization policy could be bypassed.
-    - __CVSS Score__: 8.3 [CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L)
+  - __CVSS Score__: 8.3 [CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L)
 
 - __[CVE-2021-39156](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2CVE-2021-39156])__:
   Istio contains a remotely exploitable vulnerability where an HTTP request with a fragment (e.g. #Section) in the path may bypass Istio’s URI path based authorization policies.
-    - __CVSS Score__: 8.1 [CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N)
+  - __CVSS Score__: 8.1 [CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N](https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N)
 
 ### Envoy Security updates
 

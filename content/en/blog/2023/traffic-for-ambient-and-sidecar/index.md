@@ -28,9 +28,9 @@ The analysis is based on Istio 1.18.2, where ambient mode uses iptables for redi
 ### Deployment and configuration for the first scenario
 
 - `sleep` is deployed in namespace foo
-    - `sleep` pod is scheduled to Node A
+  - `sleep` pod is scheduled to Node A
 - `httpbin` is deployed in namespace bar
-    - `httpbin` is scheduled to Node B
+  - `httpbin` is scheduled to Node B
 - foo namespace enables ambient mode (foo namespace contains label: `istio.io/dataplane-mode=ambient`)
 - bar namespace enables sidecar injection (bar namespace contains label: `istio-injection: enabled`)
 
@@ -64,14 +64,14 @@ According to above diagram, the details of network traffic path is demonstrated 
 ### Deployment and configuration for the second scenario
 
 - `sleep` is deployed in namespace foo
-    - `sleep` pod is scheduled to Node A
+  - `sleep` pod is scheduled to Node A
 - `httpbin` deployed in namespace bar-1
-    - `httpbin` pod is scheduled to Node B
-    - the waypoint proxy of `httpbin` is disabled
+  - `httpbin` pod is scheduled to Node B
+  - the waypoint proxy of `httpbin` is disabled
 - `helloworld` is deployed in namespace bar-2
-    - `helloworld` pod is scheduled to Node D
-    - the waypoint proxy of `helloworld` is enabled
-    - the waypoint proxy is scheduled to Node C
+  - `helloworld` pod is scheduled to Node D
+  - the waypoint proxy of `helloworld` is enabled
+  - the waypoint proxy is scheduled to Node C
 - foo namespace enables sidecar injection (foo namespace contains label: `istio-injection: enabled`)
 - bar-1 namespace enables ambient mode (bar-1 namespace contains label: `istio.io/dataplane-mode=ambient`)
 

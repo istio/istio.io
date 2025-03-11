@@ -128,12 +128,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 80
       name: https-port-for-tls-origination
       protocol: HTTPS
     hosts:
-    - edition.cnn.com
+  - edition.cnn.com
     tls:
       mode: ISTIO_MUTUAL
 ---
@@ -144,12 +144,12 @@ metadata:
 spec:
   host: istio-egressgateway.istio-system.svc.cluster.local
   subsets:
-  - name: cnn
+- name: cnn
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
       portLevelSettings:
-      - port:
+  - port:
           number: 80
         tls:
           mode: ISTIO_MUTUAL
@@ -172,7 +172,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: https-listener-for-tls-origination
+- name: https-listener-for-tls-origination
     hostname: edition.cnn.com
     port: 80
     protocol: HTTPS
@@ -220,28 +220,28 @@ metadata:
   name: direct-cnn-through-egress-gateway
 spec:
   hosts:
-  - edition.cnn.com
+- edition.cnn.com
   gateways:
-  - istio-egressgateway
-  - mesh
+- istio-egressgateway
+- mesh
   http:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 80
     route:
-    - destination:
+  - destination:
         host: istio-egressgateway.istio-system.svc.cluster.local
         subset: cnn
         port:
           number: 80
       weight: 100
-  - match:
-    - gateways:
-      - istio-egressgateway
+- match:
+  - gateways:
+    - istio-egressgateway
       port: 80
     route:
-    - destination:
+  - destination:
         host: edition.cnn.com
         port:
           number: 443
@@ -261,12 +261,12 @@ metadata:
   name: direct-cnn-to-egress-gateway
 spec:
   parentRefs:
-  - kind: ServiceEntry
+- kind: ServiceEntry
     group: networking.istio.io
     name: cnn
   rules:
-  - backendRefs:
-    - name: cnn-egress-gateway-istio
+- backendRefs:
+  - name: cnn-egress-gateway-istio
       port: 80
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -275,12 +275,12 @@ metadata:
   name: forward-cnn-from-egress-gateway
 spec:
   parentRefs:
-  - name: cnn-egress-gateway
+- name: cnn-egress-gateway
   hostnames:
-  - edition.cnn.com
+- edition.cnn.com
   rules:
-  - backendRefs:
-    - kind: Hostname
+- backendRefs:
+  - kind: Hostname
       group: networking.istio.io
       name: edition.cnn.com
       port: 443
@@ -635,12 +635,12 @@ spec:
   selector:
     istio: egressgateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     hosts:
-    - my-nginx.mesh-external.svc.cluster.local
+  - my-nginx.mesh-external.svc.cluster.local
     tls:
       mode: ISTIO_MUTUAL
 ---
@@ -651,12 +651,12 @@ metadata:
 spec:
   host: istio-egressgateway.istio-system.svc.cluster.local
   subsets:
-  - name: nginx
+- name: nginx
     trafficPolicy:
       loadBalancer:
         simple: ROUND_ROBIN
       portLevelSettings:
-      - port:
+  - port:
           number: 443
         tls:
           mode: ISTIO_MUTUAL
@@ -679,7 +679,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: https
+- name: https
     hostname: my-nginx.mesh-external.svc.cluster.local
     port: 443
     protocol: HTTPS
@@ -753,28 +753,28 @@ metadata:
   name: direct-nginx-through-egress-gateway
 spec:
   hosts:
-  - my-nginx.mesh-external.svc.cluster.local
+- my-nginx.mesh-external.svc.cluster.local
   gateways:
-  - istio-egressgateway
-  - mesh
+- istio-egressgateway
+- mesh
   http:
-  - match:
-    - gateways:
-      - mesh
+- match:
+  - gateways:
+    - mesh
       port: 80
     route:
-    - destination:
+  - destination:
         host: istio-egressgateway.istio-system.svc.cluster.local
         subset: nginx
         port:
           number: 443
       weight: 100
-  - match:
-    - gateways:
-      - istio-egressgateway
+- match:
+  - gateways:
+    - istio-egressgateway
       port: 443
     route:
-    - destination:
+  - destination:
         host: my-nginx.mesh-external.svc.cluster.local
         port:
           number: 443
@@ -794,14 +794,14 @@ metadata:
   name: direct-nginx-to-egress-gateway
 spec:
   hosts:
-  - my-nginx.mesh-external.svc.cluster.local
+- my-nginx.mesh-external.svc.cluster.local
   gateways:
-  - mesh
+- mesh
   http:
-  - match:
-    - port: 80
+- match:
+  - port: 80
     route:
-    - destination:
+  - destination:
         host: nginx-egressgateway-istio.default.svc.cluster.local
         port:
           number: 443
@@ -812,12 +812,12 @@ metadata:
   name: forward-nginx-from-egress-gateway
 spec:
   parentRefs:
-  - name: nginx-egressgateway
+- name: nginx-egressgateway
   hostnames:
-  - my-nginx.mesh-external.svc.cluster.local
+- my-nginx.mesh-external.svc.cluster.local
   rules:
-  - backendRefs:
-    - name: my-nginx
+- backendRefs:
+  - name: my-nginx
       namespace: mesh-external
       port: 443
 ---

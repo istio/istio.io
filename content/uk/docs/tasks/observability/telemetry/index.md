@@ -86,8 +86,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: localtrace
+- providers:
+  - name: localtrace
     customTags:
       foo:
         literal:
@@ -109,7 +109,7 @@ metadata:
   namespace: myapp
 spec:
   tracing:
-  - customTags:
+- customTags:
       userId:
         header:
           name: userId
@@ -139,7 +139,7 @@ spec:
     matchLabels:
       service.istio.io/canonical-name: frontend
   tracing:
-  - disableSpanReporting: true
+- disableSpanReporting: true
 {{< /text >}}
 
 У цьому випадку трасування буде вимкнено для робочого навантаження `frontend` у просторі імен `myapp`. Istio все ще буде передавати заголовки трасування, але жодні відрізки трейсів не будуть надіслані до налаштованого провайдера трасування.

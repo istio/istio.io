@@ -99,7 +99,7 @@ apiVersion: networking.istio.io/v1
 kind: Gateway
 ...
   servers:
-  - port:
+- port:
       number: 80
       name: http
       protocol: HTTP

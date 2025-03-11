@@ -38,10 +38,10 @@ metadata:
   namespace: team-1
 spec:
   hosts:
-  - productpage.default.svc.cluster.local
+- productpage.default.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: productpage
 ---
 apiVersion: networking.istio.io/v1
@@ -51,10 +51,10 @@ metadata:
   namespace: team-2
 spec:
   hosts:
-  - productpage.default.svc.cluster.local
+- productpage.default.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: productpage.team-2.svc.cluster.local
 ---
 {{< /text >}}
@@ -70,12 +70,12 @@ metadata:
   namespace: team-1
 spec:
   exportTo:
-  - "."
+- "."
   hosts:
-  - productpage.default.svc.cluster.local
+- productpage.default.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: productpage
 ---
 apiVersion: networking.istio.io/v1
@@ -85,12 +85,12 @@ metadata:
   namespace: team-2
 spec:
   exportTo:
-  - "."
+- "."
   hosts:
-  - productpage.default.svc.cluster.local
+- productpage.default.svc.cluster.local
   http:
-  - route:
-    - destination:
+- route:
+  - destination:
         host: productpage.team-2.svc.cluster.local
 ---
 {{< /text >}}

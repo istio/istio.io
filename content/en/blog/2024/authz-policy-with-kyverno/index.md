@@ -141,12 +141,12 @@ metadata:
 spec:
   failurePolicy: Fail
   variables:
-  - name: force_authorized
+- name: force_authorized
     expression: object.attributes.request.http.?headers["x-force-authorized"].orValue("")
-  - name: allowed
+- name: allowed
     expression: variables.force_authorized in ["enabled", "true"]
   authorizations:
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : envoy.Denied(403).Response()
@@ -157,7 +157,7 @@ Notice that you can build the `CheckResponse` by hand or use [CEL helper functio
 
 {{< text yaml >}}
 [...]
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : envoy.Denied(403).Response()
@@ -232,12 +232,12 @@ metadata:
 spec:
   failurePolicy: Fail
   variables:
-  - name: force_authorized
+- name: force_authorized
     expression: object.attributes.request.http.?headers["x-force-authorized"].orValue("")
-  - name: allowed
+- name: allowed
     expression: variables.force_authorized in ["enabled", "true"]
   authorizations:
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : envoy.Denied(403).Response()
@@ -253,12 +253,12 @@ In this case, we combined allow and denied response handling in a single express
 [...]
   authorizations:
   # allow the request when the header value matches
-  - expression: >
+- expression: >
       variables.allowed
         ? envoy.Allowed().Response()
         : null
   # else deny the request
-  - expression: >
+- expression: >
       envoy.Denied(403).Response()
 [...]
 {{< /text >}}
@@ -289,15 +289,15 @@ metadata:
   name: demo-policy.example.com
 spec:
   variables:
-  - name: force_authorized
+- name: force_authorized
     expression: object.attributes.request.http.headers[?"x-force-authorized"].orValue("") in ["enabled", "true"]
-  - name: force_unauthenticated
+- name: force_unauthenticated
     expression: object.attributes.request.http.headers[?"x-force-unauthenticated"].orValue("") in ["enabled", "true"]
-  - name: metadata
+- name: metadata
     expression: '{"my-new-metadata": "my-new-value"}'
   authorizations:
     # if force_unauthenticated -> 401
-  - expression: >
+- expression: >
       variables.force_unauthenticated
         ? envoy
             .Denied(401)
@@ -305,7 +305,7 @@ spec:
             .Response()
         : null
     # if force_authorized -> 200
-  - expression: >
+- expression: >
       variables.force_authorized
         ? envoy
             .Allowed()
@@ -316,7 +316,7 @@ spec:
             .WithMetadata(variables.metadata)
         : null
     # else -> 403
-  - expression: >
+- expression: >
       envoy
         .Denied(403)
         .WithBody("Unauthorized Request")
