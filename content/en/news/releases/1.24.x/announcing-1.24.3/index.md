@@ -37,7 +37,7 @@ in a permissive policy due to incorrect evaluation logic (AND vs. OR).
   ([Issue #54458](https://github.com/istio/istio/issues/54458))
 
 - **Fixed** an issue where out-of-order ztunnel disconnects could put `istio-cni` in a state where it believes it has no connections.
-  ([Issue #54544](https://github.com/istio/istio/issues/54544)),([Issue #53843](https://github.com/istio/istio/issues/53843))
+  ([Issue #54544](https://github.com/istio/istio/issues/54544)), ([Issue #53843](https://github.com/istio/istio/issues/53843))
 
 - **Fixed** an issue where access log order caused instability during connection draining.
   ([Issue #54672](https://github.com/istio/istio/issues/54672))
