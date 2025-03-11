@@ -224,7 +224,7 @@ in these cases, istio-cni dynamically determines available destination ports for
   ([Issue #45825](https://github.com/istio/istio/issues/45825))
 
 - **Fixed** OpenShift profile setting `sidecarInjectorWebhook` causing `k8s.v1.cni.cncf.io/networks` to be overwritten when using multiple networks.
-  ([Issue #43632](https://github.com/istio/istio/issues/43632)),([Issue #45034](https://github.com/istio/istio/issues/45034))
+  ([Issue #43632](https://github.com/istio/istio/issues/43632)), ([Issue #45034](https://github.com/istio/istio/issues/45034))
 
 - **Fixed** a null traversal issue when using `datadog` or `stackdriver` with no tracing options.
   ([Issue #45855](https://github.com/istio/istio/issues/45855))
@@ -257,7 +257,7 @@ Usage of automatic sidecar injection is recommended instead.
 - **Added** support for namespace filtering for proxy statuses. Note: please ensure that both istioctl and istiod are upgraded for this feature to work.
 
 - **Added** support for validating JSON files to `istioctl validate`.
-  ([Issue #46136](https://github.com/istio/istio/issues/46136)),([Issue #46136](https://github.com/istio/istio/issues/46136))
+  ([Issue #46136](https://github.com/istio/istio/issues/46136)), ([Issue #46136](https://github.com/istio/istio/issues/46136))
 
 - **Added** warning if user specifies more than one Istio label in the same namespace. Including `istio-injection`, `istio.io/rev`, `istio.io/dataplane-mode`.
 

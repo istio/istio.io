@@ -137,7 +137,7 @@ the previous values.
 - **Removed** all Mixer-related features and functionality. This is a scheduled
 removal of a deprecated Istio services and deployments, as well as
 Mixer-focused CRDs and component and related functionality.
-  ([Issue #25333](https://github.com/istio/istio/issues/25333)),([Issue #24300](https://github.com/istio/istio/issues/24300))
+  ([Issue #25333](https://github.com/istio/istio/issues/25333)), ([Issue #24300](https://github.com/istio/istio/issues/24300))
 
 ## Installation
 
@@ -179,10 +179,10 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 
 - **Removed** support for installing third-party telemetry applications with `istioctl`. These applications (Prometheus, Grafana, Zipkin, Jaeger, and Kiali), often referred to as the Istio addons, must now be installed separately. This does not impact Istio's ability to produce telemetry for those use in the addons. See [Reworking our Addon Integrations](/blog/2020/addon-rework/) for more info.
-  ([Issue #23868](https://github.com/istio/istio/issues/23868)),([Issue #23583](https://github.com/istio/istio/issues/23583))
+  ([Issue #23868](https://github.com/istio/istio/issues/23868)), ([Issue #23583](https://github.com/istio/istio/issues/23583))
 
 - **Removed** `istio-telemetry` and `istio-policy` services and deployments from installation by `istioctl`.
-  ([Issue #23868](https://github.com/istio/istio/issues/23868)),([Issue #23583](https://github.com/istio/istio/issues/23583))
+  ([Issue #23868](https://github.com/istio/istio/issues/23868)), ([Issue #23583](https://github.com/istio/istio/issues/23583))
 
 - **Fixed** Istio Grafana Dashboards queries which have `reporter` field.
   ([Issue #27595](https://github.com/istio/istio/issues/27595))
@@ -213,7 +213,7 @@ A new option, `--plaintext`, has been created for testing without tokens.
 
 - **Added** new command `istioctl experimental istiod log` to enable managing logging levels
 of `istiod` components.
-  ([Issue #25276](https://github.com/istio/istio/issues/25276)),([Issue #27797](https://github.com/istio/istio/issues/27797))
+  ([Issue #25276](https://github.com/istio/istio/issues/25276)), ([Issue #27797](https://github.com/istio/istio/issues/27797))
 
 - **Deprecated** `centralIstiod` flag in favor of `externalIstiod` to better support external control plane model.
   ([Issue #24471](https://github.com/istio/istio/issues/24471))

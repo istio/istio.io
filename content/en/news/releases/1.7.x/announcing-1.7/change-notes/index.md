@@ -61,7 +61,7 @@ accurate.
 - **Improved** Kubernetes strategic merge is used to overlay IstioOperator user files, which improves how list items are handled.
  ([Issue #24432](https://github.com/istio/istio/issues/24432))
 - **Upgraded** the CRD and Webhook versions to `v1`.
- ([Issue #18771](https://github.com/istio/istio/issues/18771)),([Issue #18838](https://github.com/istio/istio/issues/18838))
+ ([Issue #18771](https://github.com/istio/istio/issues/18771)), ([Issue #18838](https://github.com/istio/istio/issues/18838))
 
 ## istioctl
 

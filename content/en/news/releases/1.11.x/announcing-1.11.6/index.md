@@ -21,7 +21,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Added** an option to disable a number of nonstandard kubeconfig authentication methods when using multicluster secret by configuring the
 `PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS` environment variable in Istiod. By default, this option is configured to allow all methods; future versions will restrict this by default.
 
-- **Fixed** an issue where enabling tracing with telemetry API would cause a malformed host header being used at the trace report request.  ([Issue #35750](https://github.com/istio/istio/issues/35750)),([Issue #36166](https://github.com/istio/istio/issues/36166)),([Issue #36521](https://github.com/istio/istio/issues/36521))
+- **Fixed** an issue where enabling tracing with telemetry API would cause a malformed host header being used at the trace report request.  ([Issue #35750](https://github.com/istio/istio/issues/35750)), ([Issue #36166](https://github.com/istio/istio/issues/36166)), ([Issue #36521](https://github.com/istio/istio/issues/36521))
 
 - **Fixed** error format after json marshal in virtual machine config.
   ([Issue #36358](https://github.com/istio/istio/issues/36358))

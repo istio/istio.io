@@ -21,4 +21,4 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** setting the `ISTIO_META_REQUESTED_NETWORK_VIEW` environment variable for a proxy will filter out endpoints that aren’t part of the comma-separated list of networks. This should be set to the local-network on the ingress-gateway used for cross-network traffic to prevent odd load balancing behavior. ([Issue #26293](https://github.com/istio/istio/issues/26293))
 
-- **Fixed** issues with `WorkloadEntry` when the Service or `WorkloadEntry` is updated after creation. ([Issue #27183](https://github.com/istio/istio/issues/27183)),([Issue #27151](https://github.com/istio/istio/issues/27151)),([Issue #27185](https://github.com/istio/istio/issues/27185))
+- **Fixed** issues with `WorkloadEntry` when the Service or `WorkloadEntry` is updated after creation. ([Issue #27183](https://github.com/istio/istio/issues/27183)), ([Issue #27151](https://github.com/istio/istio/issues/27151)), ([Issue #27185](https://github.com/istio/istio/issues/27185))

@@ -45,7 +45,7 @@ the following in the Istio Operator: `meshConfig.defaultConfig.proxyMetadata.PRO
 - **Added** support for overriding the locality of the `WorkloadGroup` template in
 an auto registered `WorkloadEntry`. Locality overrides can be passed in through
 Envoy bootstrap configuration.
-  ([Issue #33426](https://github.com/istio/istio/pull/33426)),([Issue #33426](https://github.com/istio/istio/issues/33426))
+  ([Issue #33426](https://github.com/istio/istio/pull/33426)), ([Issue #33426](https://github.com/istio/istio/issues/33426))
 
 - **Added** new metric for tracking distribution of configuration resource sizes being pushed by istiod.
   ([Issue #31772](https://github.com/istio/istio/issues/31772))
@@ -67,7 +67,7 @@ Istio will automatically create `ServiceExport` in all clusters for each service
   ([Issue #29384](https://github.com/istio/istio/issues/29384))
 
 - **Fixed** an issue to `enableCoreDump` using the sidecar annotation.
- ([reference]( https://istio.io/latest/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
+ ([reference](/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
 
 - **Fixed** where both inbound and outbound apps were unable to intercept traffic when using `podIP` in TPROXY interception mode.
   ([Issue #31095](https://github.com/istio/istio/issues/31095))
