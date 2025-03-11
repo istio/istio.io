@@ -49,7 +49,7 @@ Added support for listener filter patching which enables users to perform `ADD`,
 
 ### Added support for using `QuickAssist Technology` (QAT) `PrivateKeyProvider` in Istio
 
-Added support for using `QuickAssist Technology` (QAT) `PrivateKeyProvider` in SDS and added corresponding configuration for selecting QAT private key provider for gateways and sidecars. This builds on the fact that Envoy added [support for QAT](https://github.com/envoyproxy/envoy/issues/21531) as another private key provider in addition to [CryptoMB](https://istio.io/latest/blog/2022/cryptomb-privatekeyprovider/). For more information on QAT, you can refer [here](https://www.intel.com/content/www/us/en/developer/articles/technical/envoy-tls-acceleration-with-quickassist-technology.html).
+Added support for using `QuickAssist Technology` (QAT) `PrivateKeyProvider` in SDS and added corresponding configuration for selecting QAT private key provider for gateways and sidecars. This builds on the fact that Envoy added [support for QAT](https://github.com/envoyproxy/envoy/issues/21531) as another private key provider in addition to [CryptoMB](/blog/2022/cryptomb-privatekeyprovider/). For more information on QAT, you can refer [here](https://www.intel.com/content/www/us/en/developer/articles/technical/envoy-tls-acceleration-with-quickassist-technology.html).
 
 ### Enhancements to the `RequestAuth` API
 

@@ -83,7 +83,7 @@ aliases:
   ([Issue #48207](https://github.com/istio/istio/issues/48207))
 
 - **Fixed** a memory leak caused when a remote cluster is deleted or `kubeConfig` is rotated.
-([Issue #48224](https://github.com/istio/istio/issues/48224))
+  ([Issue #48224](https://github.com/istio/istio/issues/48224))
 
 - **Fixed** an issue where if a `DestinationRule`'s `exportTo` includes a workload's current namespace (not '.'), other namespaces are ignored from `exportTo`.
   ([Issue #48349](https://github.com/istio/istio/issues/48349))
@@ -184,18 +184,18 @@ aliases:
 
     These restrictions apply on the following data paths:
 
-    * mTLS communication between Envoy proxies.
-    * regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway)
-    * Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions).
-    * Istiod xDS server.
-    * Istiod injection and validation webhook servers.
+    - mTLS communication between Envoy proxies.
+    - regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway)
+    - Google gRPC side requests from Envoy proxies (e.g. Stackdriver extensions).
+    - Istiod xDS server.
+    - Istiod injection and validation webhook servers.
 
     The restrictions are not applied on the following data paths:
 
-    * Istiod to Kubernetes API server.
-    * JWK fetch from Istiod.
-    * Wasm image and URL fetch from Istio Proxy containers.
-    * ztunnel.
+    - Istiod to Kubernetes API server.
+    - JWK fetch from Istiod.
+    - Wasm image and URL fetch from Istio Proxy containers.
+    - ztunnel.
 
     Note that Istio injector will propagate the value of `COMPLIANCE_POLICY` to the injected proxy container,
     when set. ([Issue #49081](https://github.com/istio/istio/issues/49081))
