@@ -297,7 +297,7 @@ spec:
     matchLabels:
       istio: ingressgateway
   jwtRules:
-  - issuer: "testing@secure.istio.io"
+- issuer: "testing@secure.istio.io"
     jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
 EOF
 }
@@ -315,7 +315,7 @@ spec:
     group: gateway.networking.k8s.io
     name: httpbin-gateway
   jwtRules:
-  - issuer: "testing@secure.istio.io"
+- issuer: "testing@secure.istio.io"
     jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
 EOF
 }
@@ -384,8 +384,8 @@ spec:
       istio: ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notRequestPrincipals: ["*"]
 EOF
 }
@@ -404,8 +404,8 @@ spec:
     name: httpbin-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notRequestPrincipals: ["*"]
 EOF
 }
@@ -431,11 +431,11 @@ spec:
       istio: ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notRequestPrincipals: ["*"]
     to:
-    - operation:
+  - operation:
         paths: ["/headers"]
 EOF
 }
@@ -454,11 +454,11 @@ spec:
     name: httpbin-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notRequestPrincipals: ["*"]
     to:
-    - operation:
+  - operation:
         paths: ["/headers"]
 EOF
 }

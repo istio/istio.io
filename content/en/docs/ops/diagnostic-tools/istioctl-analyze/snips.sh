@@ -69,14 +69,14 @@ kind: VirtualService
 ...
 spec:
   gateways:
-  - bogus-gateway
+- bogus-gateway
   hosts:
-  - ratings
+- ratings
 ...
 status:
   observedGeneration: "1"
   validationMessages:
-  - documentationUrl: https://istio.io/v1.26/docs/reference/config/analysis/ist0101/
+- documentationUrl: https://istio.io/v1.26/docs/reference/config/analysis/ist0101/
     level: ERROR
     type:
       code: IST0101

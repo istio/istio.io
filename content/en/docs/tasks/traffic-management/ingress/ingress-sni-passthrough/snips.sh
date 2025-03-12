@@ -159,14 +159,14 @@ spec:
   selector:
     istio: ingressgateway # use istio default ingress gateway
   servers:
-  - port:
+- port:
       number: 443
       name: https
       protocol: HTTPS
     tls:
       mode: PASSTHROUGH
     hosts:
-    - nginx.example.com
+  - nginx.example.com
 EOF
 }
 
@@ -179,7 +179,7 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: https
+- name: https
     hostname: "nginx.example.com"
     port: 443
     protocol: TLS
@@ -199,16 +199,16 @@ metadata:
   name: nginx
 spec:
   hosts:
-  - nginx.example.com
+- nginx.example.com
   gateways:
-  - mygateway
+- mygateway
   tls:
-  - match:
-    - port: 443
+- match:
+  - port: 443
       sniHosts:
-      - nginx.example.com
+    - nginx.example.com
     route:
-    - destination:
+  - destination:
         host: my-nginx
         port:
           number: 443
@@ -223,12 +223,12 @@ metadata:
   name: nginx
 spec:
   parentRefs:
-  - name: mygateway
+- name: mygateway
   hostnames:
-  - "nginx.example.com"
+- "nginx.example.com"
   rules:
-  - backendRefs:
-    - name: my-nginx
+- backendRefs:
+  - name: my-nginx
       port: 443
 EOF
 }

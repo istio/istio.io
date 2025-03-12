@@ -48,8 +48,8 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-  - providers:
-    - name: zipkin
+- providers:
+  - name: zipkin
 EOF
 }
 

@@ -171,8 +171,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 }
@@ -190,8 +190,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 }
@@ -210,8 +210,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 }
@@ -230,8 +230,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24"]
 EOF
 }
@@ -289,8 +289,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 }
@@ -308,8 +308,8 @@ spec:
       app: istio-ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 }
@@ -328,8 +328,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 }
@@ -348,8 +348,8 @@ spec:
     name: httpbin-gateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["1.2.3.4", "5.6.7.0/24", "$CLIENT_IP"]
 EOF
 }
@@ -375,8 +375,8 @@ spec:
       app: istio-ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["$CLIENT_IP"]
 EOF
 }
@@ -394,8 +394,8 @@ spec:
       app: istio-ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["$CLIENT_IP"]
 EOF
 }
@@ -414,8 +414,8 @@ spec:
     name: httpbin-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         ipBlocks: ["$CLIENT_IP"]
 EOF
 }
@@ -434,8 +434,8 @@ spec:
     name: httpbin-gateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         remoteIpBlocks: ["$CLIENT_IP"]
 EOF
 }

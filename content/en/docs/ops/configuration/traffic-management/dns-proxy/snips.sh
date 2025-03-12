@@ -41,11 +41,11 @@ metadata:
   name: external-address
 spec:
   addresses:
-  - 198.51.100.1
+- 198.51.100.1
   hosts:
-  - address.internal
+- address.internal
   ports:
-  - name: http
+- name: http
     number: 80
     protocol: HTTP
 EOF
@@ -72,9 +72,9 @@ metadata:
   name: external-auto
 spec:
   hosts:
-  - auto.internal
+- auto.internal
   ports:
-  - name: http
+- name: http
     number: 80
     protocol: HTTP
   resolution: DNS
@@ -99,9 +99,9 @@ metadata:
     networking.istio.io/enable-autoallocate-ip: "false"
 spec:
   hosts:
-  - auto.internal
+- auto.internal
   ports:
-  - name: http
+- name: http
     number: 80
     protocol: HTTP
   resolution: DNS

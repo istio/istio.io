@@ -32,19 +32,19 @@ spec:
       istio: ingressgateway
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         # the JWT token must have issuer with suffix "@example.com"
         requestPrincipals: ["*@example.com"]
     to:
-    - operation:
+  - operation:
         hosts: ["example.com", "*.example.com"]
-  - from:
-    - source:
+- from:
+  - source:
         # the JWT token must have issuer with suffix "@another.org"
         requestPrincipals: ["*@another.org"]
     to:
-    - operation:
+  - operation:
         hosts: [".another.org", "*.another.org"]
 ENDSNIP
 
@@ -66,8 +66,8 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["foo"]
 ENDSNIP
 
@@ -89,10 +89,10 @@ metadata:
 spec:
   action: ALLOW
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         namespaces: ["foo"]
-    - source:
+  - source:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 ENDSNIP
 
@@ -105,8 +105,8 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notPrincipals: ["*"]
 ENDSNIP
 
@@ -122,8 +122,8 @@ spec:
       istio: ingressgateway
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notRequestPrincipals: ["*"]
 ENDSNIP
 
@@ -136,8 +136,8 @@ metadata:
 spec:
   action: DENY
   rules:
-  - from:
-    - source:
+- from:
+  - source:
         notNamespaces: ["foo"]
         notPrincipals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 ENDSNIP
