@@ -27,5 +27,8 @@ netns belonging to the newest PID, rather than the oldest PID.
 
 - **Fixed** an issue causing VirtualService header name validation to reject valid header names.
 
+- **Fixed** validation webhook rejecting an otherwise valid `connectionPool.tcp.IdleTimeout=0s`.
+  ([Issue #55409](https://github.com/istio/istio/issues/55409))
+
 - **Fixed** `IstioCertificateService` to ensure `IstioCertificateResponse.CertChain` contains only a single cert per element in the array.
   ([Issue #1061](https://github.com/istio/ztunnel/issues/1061))
