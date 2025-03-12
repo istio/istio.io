@@ -52,7 +52,7 @@ check_content() {
     # create a throwaway copy of the content
     cp -R "${DIR}" "${TMP}"
     cp .spelling "${TMP}"
-    cp mdl.rb "${TMP}"
+    cp .markdownlint.json "${TMP}"
 
     # replace the {{< text >}} shortcodes with ```plain
     find "${TMP}" -type f -name \*.md -exec sed -E -i "s/\\{\\{< text .*>\}\}/\`\`\`plain/g" {} ";"
@@ -83,9 +83,11 @@ check_content() {
         FAILED=1
     fi
 
-    if ! mdl --ignore-front-matter --style mdl.rb .; then
+    if ! markdownlint-cli2 --config .markdownlint.json "**/*.md"; then
         FAILED=1
     fi
+
+
 
     if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive/)" .; then
         error "Ensure markdown content uses relative references to istio.io"
