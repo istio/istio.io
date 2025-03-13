@@ -80,35 +80,35 @@ Istio will use the following default access log format if `accessLogFormat` is n
 {{< text plain >}}
 [%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS%
 \"%UPSTREAM_TRANSPORT_FAILURE_REASON%\" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\"
-\"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
+\"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER_RAW% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 {{< /text >}}
 
 The following table shows an example using the default access log format for a request sent from `curl` to `httpbin`:
 
-| Log operator | access log in curl | access log in httpbin |
-|--------------|--------------------|-----------------------|
-| `[%START_TIME%]` | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
+| Log operator                                                       | access log in curl | access log in httpbin |
+|--------------------------------------------------------------------|--------------------|-----------------------|
+| `[%START_TIME%]`                                                   | `[2020-11-25T21:26:18.409Z]` | `[2020-11-25T21:26:18.409Z]`
 | `\"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\"` | `"GET /status/418 HTTP/1.1"` | `"GET /status/418 HTTP/1.1"`
-| `%RESPONSE_CODE%` | `418` | `418`
-| `%RESPONSE_FLAGS%` | `-` | `-`
-| `%RESPONSE_CODE_DETAILS%` | `via_upstream` | `via_upstream`
-| `%CONNECTION_TERMINATION_DETAILS%` | `-` | `-`
-| `\"%UPSTREAM_TRANSPORT_FAILURE_REASON%\"` | `"-"` | `"-"`
-| `%BYTES_RECEIVED%` | `0` | `0`
-| `%BYTES_SENT%` | `135` | `135`
-| `%DURATION%` | `4` | `3`
-| `%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%` | `4` | `1`
-| `\"%REQ(X-FORWARDED-FOR)%\"` | `"-"` | `"-"`
-| `\"%REQ(USER-AGENT)%\"` | `"curl/7.73.0-DEV"` | `"curl/7.73.0-DEV"`
-| `\"%REQ(X-REQUEST-ID)%\"` | `"84961386-6d84-929d-98bd-c5aee93b5c88"` | `"84961386-6d84-929d-98bd-c5aee93b5c88"`
-| `\"%REQ(:AUTHORITY)%\"` | `"httpbin:8000"` | `"httpbin:8000"`
-| `\"%UPSTREAM_HOST%\"` | `"10.44.1.27:80"` | `"127.0.0.1:80"`
-| `%UPSTREAM_CLUSTER%` | <code>outbound&#124;8000&#124;&#124;httpbin.foo.svc.cluster.local</code> | <code>inbound&#124;8000&#124;&#124;</code>
-| `%UPSTREAM_LOCAL_ADDRESS%` | `10.44.1.23:37652` | `127.0.0.1:41854`
-| `%DOWNSTREAM_LOCAL_ADDRESS%` | `10.0.45.184:8000` | `10.44.1.27:80`
-| `%DOWNSTREAM_REMOTE_ADDRESS%` | `10.44.1.23:46520` | `10.44.1.23:37652`
-| `%REQUESTED_SERVER_NAME%` | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
-| `%ROUTE_NAME%` | `default` | `default`
+| `%RESPONSE_CODE%`                                                  | `418` | `418`
+| `%RESPONSE_FLAGS%`                                                 | `-` | `-`
+| `%RESPONSE_CODE_DETAILS%`                                          | `via_upstream` | `via_upstream`
+| `%CONNECTION_TERMINATION_DETAILS%`                                 | `-` | `-`
+| `\"%UPSTREAM_TRANSPORT_FAILURE_REASON%\"`                          | `"-"` | `"-"`
+| `%BYTES_RECEIVED%`                                                 | `0` | `0`
+| `%BYTES_SENT%`                                                     | `135` | `135`
+| `%DURATION%`                                                       | `4` | `3`
+| `%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%`                            | `4` | `1`
+| `\"%REQ(X-FORWARDED-FOR)%\"`                                       | `"-"` | `"-"`
+| `\"%REQ(USER-AGENT)%\"`                                            | `"curl/7.73.0-DEV"` | `"curl/7.73.0-DEV"`
+| `\"%REQ(X-REQUEST-ID)%\"`                                          | `"84961386-6d84-929d-98bd-c5aee93b5c88"` | `"84961386-6d84-929d-98bd-c5aee93b5c88"`
+| `\"%REQ(:AUTHORITY)%\"`                                            | `"httpbin:8000"` | `"httpbin:8000"`
+| `\"%UPSTREAM_HOST%\"`                                              | `"10.44.1.27:80"` | `"127.0.0.1:80"`
+| `%UPSTREAM_CLUSTER_RAW%`                                           | <code>outbound&#124;8000&#124;&#124;httpbin.foo.svc.cluster.local</code> | <code>inbound&#124;8000&#124;&#124;</code>
+| `%UPSTREAM_LOCAL_ADDRESS%`                                         | `10.44.1.23:37652` | `127.0.0.1:41854`
+| `%DOWNSTREAM_LOCAL_ADDRESS%`                                       | `10.0.45.184:8000` | `10.44.1.27:80`
+| `%DOWNSTREAM_REMOTE_ADDRESS%`                                      | `10.44.1.23:46520` | `10.44.1.23:37652`
+| `%REQUESTED_SERVER_NAME%`                                          | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
+| `%ROUTE_NAME%`                                                     | `default` | `default`
 
 ## Test the access log
 

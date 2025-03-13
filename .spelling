@@ -30,6 +30,7 @@
 1.23.x.
 1.24.0
 1.24.x
+1.24.x.
 1.25.x
 1.26.x
 1.27.3
@@ -138,6 +139,7 @@ Apigee
 APIs
 apiVersion
 Aporeto
+AppArmor
 AppDeveloperCon
 AppOptics
 AppSwitch
@@ -149,6 +151,7 @@ args.yaml
 Arielli
 arm64
 ArtifactHub
+Arunkumar
 AssemblyScript
 async
 Atlassian
@@ -694,6 +697,7 @@ iter8
 Izzy
 Jannot
 jason
+Jayaraman
 Jeet
 Jianpeng
 Jog
@@ -732,6 +736,7 @@ Khaliq
 Khushboo
 Kiali
 Kibana
+Kindnet
 Knative
 Kohavi
 Kool
@@ -754,6 +759,7 @@ Kubenet
 Kubernetes
 kubernetes.default
 KubeSphere
+KubeVirt
 Kumar
 Kustomization
 Kustomize
@@ -1083,7 +1089,7 @@ sandboxed
 sandboxing
 sanitization
 Sathish
-Savcı   
+Savcı
 sayin
 Schaaf
 Schade
@@ -1289,6 +1295,7 @@ v1.29
 v1.30
 v1.31
 v1.32
+v1.33
 v1.5
 v1.55
 v1.55.1

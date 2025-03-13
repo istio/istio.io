@@ -1698,6 +1698,17 @@ If unspecified, defaults to <code>/dev/stdout</code>.</p>
 
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-omit_empty_values">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-EnvoyFileAccessLogProvider-omit_empty_values">omitEmptyValues</a></code></div>
+<div class="type">bool</div>
+</div></td>
+<td>
+<p>If set to true, when command operators are evaluated to null,
+For text format, the output of the empty operator is changed from &ldquo;-&rdquo; to an empty string.
+For json format, the keys with null values are omitted in the output structure.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -4423,6 +4434,20 @@ inside a mesh and how to route to endpoints in each network. For example</p>
       port: 15443
       locality: us-east-1a
 </code></pre>
+<p>If <code>ENABLE_HCM_INTERNAL_NETWORKS</code> is set to true, MeshNetworks can be used to
+to explicitly define the networks in Envoy&rsquo;s internal address configuration.
+Envoy uses the IPs in the <code>internalAddressConfig</code> to decide whether or not to sanitize
+Envoy headers. If the IP address is listed an internal, the Envoy headers are not
+sanitized. As of Envoy 1.33, the default value for <code>internalAddressConfig</code> is set to
+an empty set. Previously, the default value was the set of all private IPs. Setting
+the <code>internalAddressConfig</code> to all private IPs (via Envoy&rsquo;s previous default behavior
+or via the MeshNetworks) will leave users with an Istio Ingress Gateway potentially
+vulnerable to <code>x-envoy</code> header manipulation by external sources. More information about
+this vulnerability can be found here:
+<a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-ffhv-fvxq-r6mf">https://github.com/envoyproxy/envoy/security/advisories/GHSA-ffhv-fvxq-r6mf</a>
+To preserve headers, you must explicitly configure MeshNetworks and set
+<code>ENABLE_HCM_INTERNAL_NETWORKS</code> to true. Envoy&rsquo;s <code>internalAddressConfig</code> will be set to
+the endpointed specified by <code>fromCidr</code>.</p>
 
 <table class="message-fields">
 <thead>

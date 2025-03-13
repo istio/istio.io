@@ -22,7 +22,7 @@ set -u
 set -o pipefail
 
 # install Istio with smart dns proxy enabled
-snip_getting_started_1
+snip_sidecar_mode_1
 
 # deploy test application
 snip_dns_capture_in_action_2
@@ -31,12 +31,12 @@ snip_dns_capture_in_action_2
 snip_dns_capture_in_action_1
 _verify_contains snip_dns_capture_in_action_3 "$snip_dns_capture_in_action_3_out"
 
-snip_address_auto_allocation_1
-_verify_contains snip_address_auto_allocation_2 "*   Trying 240.240."
+snip_address_autoallocation_1
+_verify_contains snip_address_autoallocation_2 "*   Trying 240.240."
 
 # verify opt-out
-snip_address_auto_allocation_3
-_verify_contains snip_address_auto_allocation_4  "$snip_address_auto_allocation_4_out"
+snip_address_autoallocation_3
+_verify_contains snip_address_autoallocation_4  "$snip_address_autoallocation_4_out"
 
 # verify external tcp services without vips
 snip_external_tcp_services_without_vips_1

@@ -7,6 +7,15 @@ other = "Join the Istio discussion board to participate in discussions and get h
 [twitter_desc]
 other = "Follow us on Twitter to get the latest news"
 
+[bluesky_desc]
+other = "Follow us on Bluesky to get the latest news"
+
+[mastodon_desc]
+other = "Follow us on Mastodon to get the latest news"
+
+[linkedin_desc]
+other = "Follow us on LinkedIn to get the latest news"
+
 [stackoverflow_desc]
 other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
 
