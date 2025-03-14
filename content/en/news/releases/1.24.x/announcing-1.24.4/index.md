@@ -4,7 +4,7 @@ linktitle: 1.24.4
 subtitle: Patch Release
 description: Istio 1.24.3 patch release.
 publishdate: 2025-03-17
-release: 1.24.3
+release: 1.24.4
 ---
 
 
