@@ -35,7 +35,7 @@ test: no
     {{< /tip >}}
 
     {{< warning >}}
-    Щоб використовувати функцію Istio CNI на GKE, будь ласка, перевірте [посібник з установки CNI](/docs/setup/additional-setup/cni/#prerequisites) для кроків з налаштування кластера.
+    Щоб використовувати функцію Istio CNI на GKE Standard, будь ласка, перевірте [посібник з установки CNI](/docs/setup/additional-setup/cni/#prerequisites) для кроків з налаштування кластера. Оскільки агент вузла CNI потребує можливості SYS_ADMIN, вона недоступна у GKE Autopilot. Замість цього використовуйте контейнер istio-init.
     {{< /warning >}}
 
     {{< warning >}}
