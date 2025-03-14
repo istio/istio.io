@@ -261,6 +261,7 @@ spec:
       name: www.wikipedia.org
       port: 443
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:

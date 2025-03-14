@@ -9,6 +9,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [Ingress 流量控制任务](/zh/docs/tasks/traffic-management/ingress/ingress-control)描述了如何配置入口网关以向外部公开
 HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服务。

@@ -10,6 +10,7 @@ publishdate: 2020-08-11
 keywords: [CVE]
 skip_seealso: true
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 {{< security_bulletin >}}
 

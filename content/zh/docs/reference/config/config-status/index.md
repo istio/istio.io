@@ -3,6 +3,7 @@ title: 状态字段配置
 description: 描述“状态”字段在配置工作流程中的作用。
 weight: 21
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 {{< warning >}}
 此功能处于 Alpha 阶段，请参见 [Istio 功能状态](/zh/about/feature-stages/)。

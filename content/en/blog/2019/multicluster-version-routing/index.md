@@ -308,6 +308,7 @@ spec:
     ports:
       http1: 15443 # Do not change this port value
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

@@ -5,6 +5,7 @@ weight: 2
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 在 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}中，工作负载可以分为 3 类：
 

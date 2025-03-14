@@ -334,6 +334,7 @@ spec:
   - name: https-dns
     port: 11111
 ---
+<!-- markdownlint-disable-file MD007 -->
 {{< /text >}}
 
 Note that the patches are applied in the given order. Each patch is applied over the output from the

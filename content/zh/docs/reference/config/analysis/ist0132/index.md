@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当一个 VirtualService 声明了 `host` 但无法找到相应的网关时，会出现此消息。
 

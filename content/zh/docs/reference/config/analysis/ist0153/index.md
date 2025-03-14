@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当 `EnvoyFilter` 使用 `ADD` 操作且 `ApplyTo` 设置为 `ROUTE_CONFIGURATION` 或 `HTTP_ROUTE` 时，会出现此消息。
 这将导致 `ADD` 操作被忽略。目前，只有 `MERGE` 操作可用于 `ROUTE_CONFIGURATION`。

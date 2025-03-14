@@ -7,6 +7,7 @@ attribution: Anil Attuluri (Intuit), Jason Webb (Intuit)
 keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,gateway,federated,globalidentifer]
 target_release: 1.5
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 在 Intuit 公司，我们看到了博客[用于隔离和边界保护的多网格部署](/zh/blog/2019/isolated-clusters/)，其中提到的某些问题与我们有关系。我们意识到，即使我们想要配置单网格多集群，而不是博客中描述的多个网格联邦，我们的环境中也会遇到相同的非统一命名问题。这篇博客介绍了我们如何使用 [Admiral](https://github.com/istio-ecosystem/admiral) 解决这些问题，该项目是 GitHub 组织 `istio-ecosystem` 下的一个开源项目。
 

@@ -35,6 +35,7 @@ spec:
     hosts:
     - "*"
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 # 默认的网关 Service
 

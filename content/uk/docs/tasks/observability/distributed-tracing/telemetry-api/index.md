@@ -6,6 +6,7 @@ keywords: [телеметрія,трейсинг,telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio надає можливість налаштувати розширені параметри трейсингу, такі як швидкість відбору і додавання власних теґів до звітів про відрізки (span). Це завдання показує, як налаштувати параметри трейсингу за допомогою Telemetry API.
 

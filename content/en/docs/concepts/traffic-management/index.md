@@ -15,7 +15,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable MD007 -->
 Istio’s traffic routing rules let you easily control the flow
 of traffic and API calls between services. Istio simplifies configuration of
 service-level properties like circuit breakers, timeouts, and retries, and makes

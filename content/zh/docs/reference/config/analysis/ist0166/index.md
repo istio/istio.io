@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当 `AuthorizationPolicy`、`RequestAuthentication`、`Telemetry` 或 `WasmPlugin`
 这类策略中的工作负载选择器没有有效指向任何 Kubernetes Gateway Pod 目标时，会出现此消息。

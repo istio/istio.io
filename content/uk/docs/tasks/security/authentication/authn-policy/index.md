@@ -9,6 +9,7 @@ aliases:
 owner: istio/wg-security-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Це завдання охоплює основні дії, які можуть знадобитися для увімкнення, налаштування та використання політик автентифікації Istio. Дізнайтеся більше про основні концепції у [огляді автентифікації](/docs/concepts/security/#authentication).
 

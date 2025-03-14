@@ -6,6 +6,7 @@ keywords: [scalability]
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Щоб налаштувати сервісну мережу, панель управління Istio (Istiod) читає різні конфігурації, включаючи основні типи Kubernetes, такі як `Service` і `Node`, а також власні типи Istio, такі як `Gateway`. Ці конфігурації потім надсилаються до панелі даних (див. [Архітектура](/docs/ops/deployment/architecture/) для отримання додаткової інформації).
 

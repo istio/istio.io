@@ -10,6 +10,7 @@ keywords: [platform-setup,huawei,huaweicloud,cce]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Follow these instructions to prepare a cluster for Istio using the
 [Huawei Cloud Container Engine](https://www.huaweicloud.com/intl/product/cce.html).

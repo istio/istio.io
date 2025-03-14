@@ -281,6 +281,7 @@ spec:
       - name: envoy
 
 ---
+<!-- markdownlint-disable-file MD007 -->
 # 最后，SNI 转发器的配置、它是内部侦听器以及原始网关侦听器的补丁，
 # 用于将所有内容路由到 SNI 转发器。
 apiVersion: networking.istio.io/v1alpha3

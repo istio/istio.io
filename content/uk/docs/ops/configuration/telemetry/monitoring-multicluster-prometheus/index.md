@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 ## Огляд {#overview}
 

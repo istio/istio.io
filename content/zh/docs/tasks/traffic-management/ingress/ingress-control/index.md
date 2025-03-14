@@ -404,6 +404,7 @@ spec:
       namespaces:
         from: Same
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

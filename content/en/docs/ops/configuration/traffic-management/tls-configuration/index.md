@@ -7,6 +7,7 @@ keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 One of Istio's most important features is the ability to lock down and secure network traffic to, from,
 and within the mesh. However, configuring TLS settings can be confusing and a common source of misconfiguration.

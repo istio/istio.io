@@ -5,6 +5,7 @@ weight: 5
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 现在您已经安装了 waypoint 代理，您将学习如何在服务之间分割流量。
 

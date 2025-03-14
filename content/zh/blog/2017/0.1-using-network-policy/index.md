@@ -8,6 +8,7 @@ aliases:
     - /zh/blog/using-network-policy-in-concert-with-istio.html
 target_release: 0.1
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 使用网络策略去保护运行在 Kubernetes 上的应用程序现在是一种广泛接受的行业最佳实践。鉴于 Istio 也支持策略，我们希望花一些时间来解释 Istio 策略和 Kubernetes 网络策略的相互作用和互相支持提供应用程序的安全。
 

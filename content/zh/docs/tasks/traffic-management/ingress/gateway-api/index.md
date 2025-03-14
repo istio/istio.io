@@ -274,6 +274,7 @@ spec:
         type: Utilization
         averageUtilization: 50
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:

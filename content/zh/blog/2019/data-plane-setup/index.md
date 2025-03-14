@@ -8,6 +8,7 @@ twitter: chugtum
 keywords: [kubernetes,sidecar-injection, traffic-management]
 target_release: 1.0
 ---
+<!-- markdownlint-disable-file MD007 -->
 Istio 服务网格体系结构的简单概述总是从控制平面和数据平面开始。
 
 从 [Istio 的文档](/zh/docs/ops/deployment/architecture/) :

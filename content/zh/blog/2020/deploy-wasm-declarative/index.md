@@ -6,6 +6,7 @@ publishdate: 2020-03-16
 attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 正如 [Istio 2020——为了商用](/zh/blog/2020/tradewinds-2020/)以及最近的 [Istio 1.5 发布公告](/zh/news/releases/1.5.x/announcing-1.5/)中指出的那样，WebAssembly (Wasm) 现在是用于扩展 Istio 服务代理（ Envoy 代理）功能的（alpha）选项。使用 Wasm，用户可以建立对新协议、自定义指标、日志和其他过滤器的支持。我们的社区（[Solo.io](https://solo.io)) 与 Google 紧密合作，专注于提升为 Istio 构建、交流和部署 Wasm 扩展的用户体验。我们发布了 [WebAssembly Hub](https://webassemblyhub.io) 和[相关工具](https://docs.solo.io/web-assembly-hub/latest/installation/)，以便在使用 Wasm 时可以获得“类似 docker ”的体验。
 

@@ -7,6 +7,7 @@ keywords: [platform-setup,kubesphere,kubernetes]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
 
 该文档最近更新于2021年3月9日。
 

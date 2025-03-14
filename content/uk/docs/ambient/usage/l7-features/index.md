@@ -5,6 +5,7 @@ weight: 50
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Додавши waypoint-проксі до потоку вашого трафіку, ви можете увімкнути більше [функцій Istio](/docs/concepts). Waypoints налаштовуються за допомогою {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
 

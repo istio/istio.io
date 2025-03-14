@@ -7,6 +7,7 @@ subtitle: 次要版本
 linktitle: 1.9 升级说明
 publishdate: 2021-02-09
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当您从 Istio 1.8 升级到 Istio 1.9.x 时，您需要考虑此页面上的更改。
 这些注释详细说明了故意破坏与 Istio 1.8 向后兼容性的更改。

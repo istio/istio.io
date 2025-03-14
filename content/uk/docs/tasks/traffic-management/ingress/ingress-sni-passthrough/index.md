@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Завдання [Захист Gateways з HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) описує, як налаштувати доступ до HTTP-сервісу через HTTPS шлюз входу. У цьому прикладі розглядається, як налаштувати доступ до HTTPS-сервісу через HTTPS шлюз входу, тобто налаштувати шлюз входу для пропуску SNI, замість термінації TLS на вхідних запитах.
 

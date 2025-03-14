@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当工作负载在监听 `localhost` 网络接口，但该端口在 Service 中已暴露时，会出现此消息。
 当出现这种情况时，其他 Pod 将无法访问该端口。

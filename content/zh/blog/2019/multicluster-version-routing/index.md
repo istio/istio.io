@@ -283,6 +283,7 @@ spec:
     ports:
       http1: 15443 # 不要修改端口值
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

@@ -40,6 +40,7 @@ webhooks:
   name: validation.istio.io
 
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:

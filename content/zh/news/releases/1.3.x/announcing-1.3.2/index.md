@@ -9,6 +9,7 @@ aliases:
     - /zh/news/2019/announcing-1.3.2
     - /zh/news/announcing-1.3.2
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 我们很高兴地宣布 Istio 1.3.2 发布，请查看下面的更改说明。
 

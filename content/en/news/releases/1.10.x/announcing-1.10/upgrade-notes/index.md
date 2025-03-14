@@ -5,6 +5,7 @@ publishdate: 2021-05-18
 linktitle: 1.10 Upgrade Notes
 weight: 20
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 When you upgrade from Istio 1.9 to Istio 1.10, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.9.

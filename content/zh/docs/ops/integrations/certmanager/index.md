@@ -9,6 +9,7 @@ aliases:
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [cert-manager](https://cert-manager.io/) 是一种自动执行证书管理的工具，
 它可以与 Istio Gateway 集成以管理 TLS 证书。

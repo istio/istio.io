@@ -5,6 +5,7 @@ publishdate: 2023-08-15
 attribution: "John Howard (Google)"
 keywords: [istio,sidecars,kubernetes]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 If you have heard anything about service meshes, it is that they work using the sidecar pattern: a proxy server is deployed alongside your application code.
 The sidecar pattern is just that: a pattern.

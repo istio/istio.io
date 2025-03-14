@@ -5,7 +5,7 @@ weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable MD007 -->
 Kubernetes [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) allows you to control how layer 4 traffic reaches your pods.
 
 `NetworkPolicy` is typically enforced by the {{< gloss >}}CNI{{< /gloss >}} installed in your cluster. Istio is not a CNI, and does not enforce or manage `NetworkPolicy`, and in all cases respects it - ambient does not and will never bypass Kubernetes `NetworkPolicy` enforcement.

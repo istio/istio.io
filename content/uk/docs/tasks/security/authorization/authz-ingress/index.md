@@ -216,6 +216,8 @@ spec:
   gatewayClassName: istio
   ...
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当端口不遵循 [Istio 服务端口命名约定](/zh/docs/ops/configuration/traffic-management/protocol-selection/)或端口未命名时，
 会出现此消息。

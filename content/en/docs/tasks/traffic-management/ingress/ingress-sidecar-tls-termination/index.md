@@ -6,7 +6,7 @@ keywords: [traffic-management,ingress,https]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 In a regular Istio mesh deployment, the TLS termination for downstream requests is performed at the Ingress Gateway.
 Although this satisfies most use cases, for some (like an API Gateway in the mesh) the Ingress Gateway is not necessarily needed. This task shows how to eliminate the additional hop introduced by the Istio Ingress Gateway and let the Envoy sidecar, running alongside the application, perform TLS termination for requests coming from outside of the service mesh.
 

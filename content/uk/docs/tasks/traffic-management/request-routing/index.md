@@ -8,6 +8,7 @@ keywords: [traffic-management,routing]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Це завдання показує, як налаштувати динамічну маршрутизацію запитів до декількох версій мікросервісу.
 

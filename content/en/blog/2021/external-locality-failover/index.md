@@ -5,6 +5,7 @@ publishdate: 2021-06-04
 attribution: "Ram Vennam (Solo.io)"
 keywords: [locality,region,failover,Istio,outlier,external]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio’s powerful APIs can be used to solve a variety of service mesh use cases. Many users know about its strong ingress and east-west capabilities but it also offers many features for egress (outgoing) traffic. This is especially useful when your application needs to talk to an external service - such as a database endpoint provided by a cloud provider. There are often multiple endpoints to chose from depending on where your workload is running. For example, Amazon's DynamoDB provides [several endpoints](https://docs.aws.amazon.com/general/latest/gr/ddb.html) across their regions. You typically want to choose the endpoint closest to your workload for latency reasons, but you may need to configure automatic failover to another endpoint in case things are not working as expected.
 

@@ -10,6 +10,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [OpenTelemetry](https://opentelemetry.io/) (OTel) is a vendor-neutral, open source observability framework for instrumenting, generating, collecting, and exporting telemetry data. [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otlp/) (OTLP) traces can be sent to [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), as well as many commercial services.
 

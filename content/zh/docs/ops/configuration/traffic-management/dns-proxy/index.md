@@ -6,7 +6,7 @@ keywords: [traffic-management,dns,virtual-machine]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 除了捕获应用流量，Istio 还可以捕获 DNS 请求，
 以提高网格的性能和可用性。当 Istio 代理 DNS 时，
 所有来自应用程序的 DNS 请求将会被重定向到 Sidecar 或 ztunnel 代理，

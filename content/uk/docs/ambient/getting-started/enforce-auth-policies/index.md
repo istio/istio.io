@@ -5,6 +5,7 @@ weight: 4
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Після того, як ви додали застосунок до ambient mesh, ви можете забезпечити доступ до нього, використовуючи політики авторизації Layer 4.
 

@@ -9,6 +9,7 @@ keywords: [traffic-management,egress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Because all outbound traffic from an Istio-enabled pod is redirected to its sidecar proxy by default,
 accessibility of URLs outside of the cluster depends on the configuration of the proxy.

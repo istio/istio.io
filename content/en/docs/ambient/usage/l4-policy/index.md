@@ -5,6 +5,7 @@ weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by {{< gloss >}}ztunnel{{< /gloss >}}, and are available in {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth.
 

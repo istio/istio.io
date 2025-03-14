@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 This message occurs when a virtual service contains a match rule that will never be used because a previous rule specifies the same match.  It also occurs when there is more
 than one rule without any match at all.

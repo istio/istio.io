@@ -5,6 +5,8 @@ publishdate: 2023-08-08
 attribution: "Loong Dai (Intel)"
 keywords: [Istio, DLB, gateways]
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
+<!-- markdownlint-disable-file MD007 -->
 
 ## What is connection load balancing?
 

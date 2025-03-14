@@ -261,6 +261,7 @@ spec:
     - destination:
         host: service2.default.svc.cluster.local
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:

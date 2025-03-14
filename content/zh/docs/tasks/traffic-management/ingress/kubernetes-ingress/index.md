@@ -107,6 +107,7 @@ metadata:
 spec:
   controller: istio.io/ingress-controller
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

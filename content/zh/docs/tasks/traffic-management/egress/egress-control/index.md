@@ -9,6 +9,7 @@ keywords: [traffic-management,egress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 由于默认情况下，来自 Istio-enable Pod 的所有出站流量都会重定向到其 Sidecar
 代理，集群外部 URL 的可访问性取决于代理的配置。默认情况下，Istio 将 Envoy

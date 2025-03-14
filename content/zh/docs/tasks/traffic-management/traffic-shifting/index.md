@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 本任务将向您展示如何将流量从微服务的一个版本逐步迁移到另一个版本。
 例如，您可以将流量从旧版本迁移到新版本。

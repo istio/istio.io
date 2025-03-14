@@ -6,6 +6,7 @@ keywords: [scalability]
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 为了对服务网格进行编程，Istio 控制平面（Istiod）会读取各种配置，
 包括如 `Service` 和 `Node` 之类的核心 Kubernetes 类型，

@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 This task shows you how to shift TCP traffic from one version of a microservice to another.
 
 A common use case is to migrate TCP traffic gradually from an older version of a microservice to a new one.

@@ -14,6 +14,7 @@ aliases:
 owner: istio/wg-environments-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 This example deploys the Bookinfo application across Kubernetes with one
 service running on a virtual machine (VM), and illustrates how to control

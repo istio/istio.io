@@ -68,6 +68,7 @@ spec:
     instance-id: vm-78ad2
     class: vm
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:

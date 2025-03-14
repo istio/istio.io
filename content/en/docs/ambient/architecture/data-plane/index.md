@@ -5,6 +5,7 @@ weight: 2
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Out of Mesh**: a standard pod without any mesh features enabled. Istio and the ambient {{< gloss >}}data plane{{< /gloss >}} are not enabled.

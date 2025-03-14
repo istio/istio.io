@@ -5,6 +5,7 @@ publishdate: 2022-12-14
 attribution: Frank Budinsky (IBM)
 keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 无论您使用 Istio 或其他服务网格运行 Kubernetes 应用程序服务，
 还是仅在 Kubernetes 集群中使用普通服务，

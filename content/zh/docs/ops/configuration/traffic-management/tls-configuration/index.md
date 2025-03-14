@@ -7,7 +7,7 @@ keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable MD007 -->
 Istio 非常重要的一个功能是能够锁定并且保护网格内的来往流量。然而配置 TLS 设置可能会令人困惑，并且是配置错误的一个常见来源。
 这篇文章尝试去说明在 Istio 内发送请求时，其涉及到的各种相关联系，以及怎样去配置其 TLS 的相关设置。
 参考 [TLS 配置错误](/zh/docs/ops/common-problems/network-issues/#tls-configuration-mistakes)，

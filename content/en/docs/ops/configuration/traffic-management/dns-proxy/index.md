@@ -6,6 +6,7 @@ keywords: [traffic-management,dns,virtual-machine]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
 When proxying DNS, all DNS requests from an application will be redirected to the sidecar or ztunnel proxy, which stores a local mapping of domain names to IP addresses. If the request can be handled by the proxy, it will directly return a response to the application, avoiding a roundtrip to the upstream DNS server. Otherwise, the request is forwarded upstream following the standard `/etc/resolv.conf` DNS configuration.

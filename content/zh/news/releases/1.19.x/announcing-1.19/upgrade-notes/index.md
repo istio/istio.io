@@ -4,6 +4,7 @@ description: 升级到 Istio 1.19 时要考虑的重要变更。
 weight: 20
 publishdate: 2023-09-05
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当您从 Istio 1.18.x 升级到 Istio 1.19.x 时，您需要考虑本页所述的变更。
 这些说明详述了故意打破 Istio `1.18.x` 向后兼容性的一些变更。

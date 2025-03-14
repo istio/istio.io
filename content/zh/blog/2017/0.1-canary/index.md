@@ -118,6 +118,8 @@ spec:
         subset: v2
         weight: 10
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

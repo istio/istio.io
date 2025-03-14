@@ -6,6 +6,7 @@ keywords: [debug,multicluster,multi-network,envoy]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Ця сторінка описує, як усувати проблеми з Istio, розгорнутим на кількох кластерах та/або мережах. Перед тим як читати це, слід виконати кроки, зазначені у [Встановлення мультикластера](/docs/setup/install/multicluster/) та ознайомитися з [Моделями розгортання](/docs/ops/deployment/deployment-models/).
 

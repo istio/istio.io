@@ -6,6 +6,7 @@ keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio 提供了配置链路追踪选项的功能，例如采样率和向报告的 Span 添加自定义标签。
 此任务向您展示如何使用 Telemetry API 自定义链路追踪选项。

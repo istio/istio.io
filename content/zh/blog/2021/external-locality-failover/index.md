@@ -5,6 +5,7 @@ publishdate: 2021-06-04
 attribution: "Ram Vennam (Solo.io)"
 keywords: [locality,region,failover,Istio,outlier,external]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio 强大的 API 可用于解决各种使用服务网格时遇到的问题。
 许多用户对其强大的入口和东西向流量能力都比较了解，但是除此之外它也为出口（向外）流量提供了诸多功能。

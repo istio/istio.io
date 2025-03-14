@@ -10,6 +10,7 @@ aliases:
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 ## 看似有效的配置不生效 {#valid-configuration-is-rejected}
 

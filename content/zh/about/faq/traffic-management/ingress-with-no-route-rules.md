@@ -2,6 +2,7 @@
 title: 我可以不配置任何路由规则，使用 Ingress 的标准配置吗？
 weight: 40
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 简单的 `Ingress` 规范开箱即用，通过 `Host`、`TLS` 以及基本 `Path`
 精确匹配就可以使用，无需配置路由规则。请注意 `Path` 在使用 `Ingress`

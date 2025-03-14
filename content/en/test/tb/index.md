@@ -3,7 +3,7 @@ title: Text Blocks
 description: Basic text blocks.
 skip_sitemap: true
 ---
-
+<!-- markdownlint-disable MD007 -->
 Plain text block with html tag
 
 {{< text plain >}}

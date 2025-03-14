@@ -4,6 +4,7 @@ description: Important changes to consider when upgrading to Istio 1.19.
 weight: 20
 publishdate: 2023-09-05
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 When you upgrade from Istio 1.18.x to Istio 1.19.x, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio `1.18.x.`

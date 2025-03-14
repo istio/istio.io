@@ -7,6 +7,7 @@ subtitle: Minor Release
 linktitle: 1.9 Upgrade Notes
 publishdate: 2021-02-09
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 When you upgrade from Istio 1.8 to Istio 1.9.x, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.8.

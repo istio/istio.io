@@ -2,6 +2,7 @@
 title: Як дізнатися, що сталося з запитом в Istio?
 weight: 80
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
 
 Ви можете включити [трейсинг](/docs/tasks/observability/distributed-tracing/), щоб визначити маршрут запиту в Istio.
 

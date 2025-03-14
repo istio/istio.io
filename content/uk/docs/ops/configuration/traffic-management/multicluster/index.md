@@ -6,6 +6,7 @@ keywords: [traffic-management,multicluster]
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 У межах мультикластерної mesh-мережі можуть бути бажаними правила трафіку, специфічні для топології кластерів. У цьому документі описані кілька способів керування трафіком у мультикластерній mesh-мережі. Перед тим, як прочитати цей посібник:
 

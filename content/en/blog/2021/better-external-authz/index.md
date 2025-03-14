@@ -288,6 +288,8 @@ spec:
   selector:
     app: opa
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
+<!-- markdownlint-disable-file MD007 -->
 kind: Deployment
 apiVersion: apps/v1
 metadata:

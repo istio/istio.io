@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Це завдання показує, як перенести трафік з одної версії мікросервісу на іншу.
 

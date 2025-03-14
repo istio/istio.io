@@ -6,7 +6,7 @@ keywords: [traffic-management,multicluster]
 owner: istio/wg-networking-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable MD007 -->
 在多集群网格中，可能需要特定于集群拓扑的流量规则。本文描述了在一个多集群网格中管理流量的几种方法。
 在阅读本指南之前，您需要：
 

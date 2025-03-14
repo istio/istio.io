@@ -9,7 +9,8 @@ keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
+<!-- markdownlint-disable MD026 -->
 In addition to its own traffic management API,
 {{< boilerplate gateway-api-future >}}
 This document describes the differences between the Istio and Kubernetes APIs and provides a simple example

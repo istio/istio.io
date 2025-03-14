@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 This message occurs when a workload is listening on a `localhost` network interface, but the port is exposed in the Service.
 When this occurs, the port will not be accessible to other pods.

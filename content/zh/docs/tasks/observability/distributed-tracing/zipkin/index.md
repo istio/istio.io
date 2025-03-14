@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 通过本任务，您将了解如何使应用程序可被 [Zipkin](https://zipkin.io/) 追踪，
 而无需考虑应用程序使用何种开发语言、框架或平台。

@@ -5,6 +5,7 @@ publishdate: 2024-11-25
 attribution: "Charles-Edouard Brétéché (Nirmata)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio підтримує інтеграцію з багатьма різними проєктами. Нещодавно в блозі Istio була опублікована стаття про [функціональність політик L7 з OpenPolicyAgent](../l7-policy-with-opa). Kyverno є подібним проєктом, і сьогодні ми розглянемо, як Istio та сервер авторизації Kyverno можуть використовуватися разом для забезпечення політик Layer 7 у вашій платформі.
 

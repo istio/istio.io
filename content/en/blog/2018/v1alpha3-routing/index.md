@@ -174,6 +174,7 @@ spec:
   - labels:
       version: v1
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:

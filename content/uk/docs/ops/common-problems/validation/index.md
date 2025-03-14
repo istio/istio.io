@@ -11,6 +11,8 @@ owner: istio/wg-user-experience-maintainers
 test: no
 
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
+<!-- markdownlint-disable-file MD007 -->
 
 ## Здається, що конфігурація є правильною, але вона відхиляєтсья {#seemingly-valid-configuration-is-rejected}
 

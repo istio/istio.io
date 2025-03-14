@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 本任务展示了如何将 TCP 流量从微服务的一个版本迁移到另一个版本。
 

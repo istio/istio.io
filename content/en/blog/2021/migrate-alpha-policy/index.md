@@ -321,6 +321,7 @@ spec:
   # An empty rule that allows nothing
   {}
 ---
+<!-- markdownlint-disable-file MD007 -->
 # An AuthorizationPolicy that enforces to authorization for the httpbin workload, migrated from the ServiceRole and ServiceRoleBinding
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

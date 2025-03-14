@@ -5,6 +5,7 @@ publishdate: 2023-03-31
 attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [istio,ambient,waypoint]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Ambient 将 Istio 的功能分为两个不同层级，一个是具备安全机制的 Overlay 层，另一个是 L7 处理层。
 Waypoint Proxy 是一个基于 Envoy 的可选组件，为其管理的工作负载进行 L7 处理。

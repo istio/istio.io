@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure HTTPS ingress access to an HTTPS service,
 i.e., configure an ingress gateway to perform SNI passthrough, instead of TLS termination on incoming requests.

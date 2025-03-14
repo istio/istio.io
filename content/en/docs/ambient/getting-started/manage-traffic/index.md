@@ -5,6 +5,7 @@ weight: 5
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Now you have a waypoint proxy installed, you will learn how to split traffic between services.
 

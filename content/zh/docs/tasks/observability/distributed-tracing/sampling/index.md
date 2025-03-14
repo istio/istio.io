@@ -6,6 +6,7 @@ keywords: [sampling,telemetry,tracing,opentelemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio 提供了多种配置链路采样的方法。
 在此页面中，您将学习并了解所有配置采样的不同方式。

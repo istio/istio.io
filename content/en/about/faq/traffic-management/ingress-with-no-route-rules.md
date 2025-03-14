@@ -2,7 +2,7 @@
 title: Can I use standard Ingress specification without any route rules?
 weight: 40
 ---
-
+<!-- markdownlint-disable MD007 -->
 Simple ingress specifications, with host, TLS, and exact path based
 matches will work out of the box without the need for route
 rules. However, note that the path used in the ingress resource should

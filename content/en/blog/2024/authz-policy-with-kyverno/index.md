@@ -5,6 +5,7 @@ publishdate: 2024-11-25
 attribution: "Charles-Edouard Brétéché (Nirmata)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio supports integration with many different projects.  The Istio blog recently featured a post on [L7 policy functionality with OpenPolicyAgent](../l7-policy-with-opa). Kyverno is a similar project, and today we will dive how Istio and the Kyverno Authz Server can be used together to enforce Layer 7 policies in your platform.
 

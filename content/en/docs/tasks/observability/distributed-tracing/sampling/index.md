@@ -6,6 +6,7 @@ keywords: [sampling,telemetry,tracing,opentelemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio provides multiple ways to configure trace sampling. In this page you will learn and understand
 all the different ways sampling can be configured.

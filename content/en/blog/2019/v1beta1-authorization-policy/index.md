@@ -398,6 +398,7 @@ spec:
   - services: ["httpbin.foo.svc.cluster.local"]
     methods: ["GET"]
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:

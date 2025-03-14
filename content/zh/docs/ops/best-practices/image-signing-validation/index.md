@@ -7,6 +7,7 @@ keywords: [install,signing]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 本页介绍如何使用 [Cosign](https://github.com/sigstore/cosign) 验证 Istio 镜像制品的来源。
 

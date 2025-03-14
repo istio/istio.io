@@ -6,6 +6,7 @@ keywords: [telemetry,metrics,customize]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Це завдання показує, як налаштувати метрики, які генерує Istio.
 

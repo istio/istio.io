@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 完成此任务后，您将了解如何让您的应用程序参与 [Jaeger](https://www.jaegertracing.io/)
 的追踪，无论您用什么语言、框架或平台来构建应用程序。

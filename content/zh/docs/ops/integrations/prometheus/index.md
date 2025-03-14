@@ -6,6 +6,7 @@ keywords: [integration,prometheus]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [Prometheus](https://prometheus.io/) 是一个开源的监控系统、
 时间序列数据库。您可以利用 Prometheus 与 Istio 集成来收集指标（Metrics），
