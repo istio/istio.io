@@ -5,6 +5,7 @@ weight: 4
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 将应用程序添加到 Ambient 网格后，您可以使用四层鉴权策略保护应用程序访问。
 

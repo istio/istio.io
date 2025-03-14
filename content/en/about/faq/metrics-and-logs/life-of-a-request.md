@@ -2,7 +2,7 @@
 title: How to figure out what happened to a request in Istio?
 weight: 80
 ---
-
+<!-- markdownlint-disable MD026 -->
 You can enable [tracing](/docs/tasks/observability/distributed-tracing/) to determine the flow of a request in Istio.
 
 Additionally, you can use the following commands to know more about the state of the mesh:

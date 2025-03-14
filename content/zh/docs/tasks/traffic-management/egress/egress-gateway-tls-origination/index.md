@@ -866,6 +866,7 @@ spec:
       namespace: mesh-external
       port: 443
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:

@@ -155,6 +155,7 @@ spec:
     hosts:
     - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

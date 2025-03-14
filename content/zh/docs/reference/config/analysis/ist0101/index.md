@@ -32,6 +32,7 @@ spec:
     hosts:
     - "*"
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:

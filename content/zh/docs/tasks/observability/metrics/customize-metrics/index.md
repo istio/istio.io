@@ -6,6 +6,7 @@ keywords: [telemetry,metrics,customize]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 此任务向您展示如何自定义 Istio 生成的指标。
 

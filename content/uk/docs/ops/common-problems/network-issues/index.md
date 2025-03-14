@@ -478,6 +478,7 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:

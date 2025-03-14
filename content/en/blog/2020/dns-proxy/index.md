@@ -86,6 +86,7 @@ spec:
     protocol: TCP
   resolution: DNS
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:

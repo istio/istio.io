@@ -126,6 +126,7 @@ spec:
   selector:
     app: httpbin
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: apps/v1
 kind: Deployment
 metadata:

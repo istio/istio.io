@@ -5,6 +5,7 @@ publishdate: 2025-03-06
 attribution: "John Howard (Solo.io); Translated by Wilson Wu (DaoCloud)"
 keywords: [istio,performance,ambient]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 传输过程中加密是当今几乎所有 Kubernetes 环境的基本要求，
 并构成了零信任安全态势的基础。

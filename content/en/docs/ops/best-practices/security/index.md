@@ -528,6 +528,7 @@ spec:
     tls:
       mode: SIMPLE
 ---
+<!-- markdownlint-disable-file MD007 -->
 kind: Gateway
 metadata:
   name: admingateway

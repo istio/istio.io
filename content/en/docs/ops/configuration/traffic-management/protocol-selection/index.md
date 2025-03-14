@@ -11,6 +11,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio supports proxying any TCP traffic. This includes HTTP, HTTPS, gRPC, as well as raw TCP protocols.
 In order to provide additional capabilities, such as routing and rich metrics, the protocol must be determined. This can be done automatically or explicitly specified.

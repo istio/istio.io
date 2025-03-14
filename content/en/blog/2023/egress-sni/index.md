@@ -274,6 +274,8 @@ spec:
       - name: envoy
 
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
+<!-- markdownlint-disable-file MD007 -->
 # And finally, the configuration of the SNI forwarder,
 # it's internal listener, and the patch to the original Gateway
 # listener to route everything into the SNI forwarder.

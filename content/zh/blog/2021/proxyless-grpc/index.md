@@ -4,6 +4,7 @@ description: 介绍 Istio 对 gRPC 无代理服务网格功能的支持。
 publishdate: 2021-10-28
 attribution: "Steven Landow (Google); Translated by Wilson Wu (DaoCloud)"
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 在 Istio 中，通过使用一组发现 API 对其 Envoy Sidecar 代理进行动态配置，
 这组 API 统称为 [xDS API](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration)。

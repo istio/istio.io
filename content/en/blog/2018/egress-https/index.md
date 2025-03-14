@@ -113,6 +113,7 @@ spec:
   location: MESH_EXTERNAL
   resolution: DNS
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

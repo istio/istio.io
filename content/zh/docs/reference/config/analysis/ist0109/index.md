@@ -86,4 +86,5 @@ spec:
     - destination:
         host: productpage.team-2.svc.cluster.local
 ---
+<!-- markdownlint-disable-file MD007 -->
 {{< /text >}}

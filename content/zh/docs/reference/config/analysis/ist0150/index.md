@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 对于 ExternalName 类型的服务，当端口不遵循 Istio 服务端口命名协议、端口未命名或端口命名为
 TCP 时，会出现此消息。

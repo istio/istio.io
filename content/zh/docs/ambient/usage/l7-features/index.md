@@ -5,6 +5,7 @@ weight: 50
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 通过向您的流量流添加 waypoint 代理，您可以启用更多 [Istio 的功能](/zh/docs/concepts)。
 waypoint 使用 {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}} 配置。

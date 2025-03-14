@@ -34,6 +34,7 @@ spec:
     hosts:
     - "*"
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 # Default Gateway Service
 

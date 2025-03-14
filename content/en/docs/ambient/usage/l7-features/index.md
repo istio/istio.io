@@ -5,7 +5,7 @@ weight: 50
 owner: istio/wg-networking-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable MD007 -->
 By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using the {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
 
 {{< warning >}}

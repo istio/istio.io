@@ -101,6 +101,7 @@ spec:
     - key: "destination.labels[visibility]”
       values: ["external"]
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:

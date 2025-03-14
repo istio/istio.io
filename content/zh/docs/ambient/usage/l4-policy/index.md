@@ -5,6 +5,7 @@ weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio [安全策略](/zh/docs/concepts/security)的四层（L4）特性由
 {{< gloss >}}ztunnel{{< /gloss >}} 提供支持，这些 L4 特性可用于

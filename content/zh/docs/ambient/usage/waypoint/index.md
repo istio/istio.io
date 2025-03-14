@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 **waypoint 代理**是基于 Envoy 代理的可选部署，用于将 Layer 7（L7）处理添加到一组定义的工作负载中。
 
