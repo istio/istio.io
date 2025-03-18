@@ -7,7 +7,7 @@ publishdate: 2024-12-21
 
 根据 Istio 的[支持政策](/zh/docs/releases/supported-releases#support-policy)，
 针对 1.22 这类次要版本的支持将持续到 N+2 次要版本（在本例中为 1.24）发布后的六周。
-[Istio 1.24 于 2024 年 11 月 7 日发布](/zh/news/releases/1.23.x/announcing-1.24/)，
+[Istio 1.24 于 2024 年 11 月 7 日发布](/zh/news/releases/1.24.x/announcing-1.24/)，
 所以对 1.22 的支持于 2025 年 1 月 21 日结束。
 
 届时，我们将停止向后修复 1.22 中的安全问题和严重错误，
