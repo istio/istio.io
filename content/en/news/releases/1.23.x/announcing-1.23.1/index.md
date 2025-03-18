@@ -34,4 +34,4 @@ This release note describes what is different between Istio 1.23.0 and 1.23.1.
 - **Removed** a change in Istio 1.23.0 causing regressions for `ServiceEntries` with multiple addresses defined.
   Note: the reverted change did fix an issue around missing addresses (#51747), but introduce a new set of issues.
   The original issue can be worked around by creating a sidecar resource.
-  ([Issue #52944](https://github.com/istio/istio/issues/52944)),([Issue #52847](https://github.com/istio/istio/issues/52847))
+  ([Issue #52944](https://github.com/istio/istio/issues/52944)), ([Issue #52847](https://github.com/istio/istio/issues/52847))

@@ -76,7 +76,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Fixed** an issue where an `HTTPRoute` in a `VirtualService` with a matcher specifying `sourceLabels` would be applied to a waypoint.
   ([Issue #51565](https://github.com/istio/istio/issues/51565))
 
-- **Fixed** an issue where if a WASM image fetch fails, an allow all RBAC filter is used. Now if `failStrategy` is set to `FAIL_CLOSE`, a DENY-ALL RBAC filter will be used.  ([Issue #53279](https://github.com/istio/istio/issues/53279)),([Issue #23624](https://github.com/istio/istio/issues/23624))
+- **Fixed** an issue where if a WASM image fetch fails, an allow all RBAC filter is used. Now if `failStrategy` is set to `FAIL_CLOSE`, a DENY-ALL RBAC filter will be used.  ([Issue #53279](https://github.com/istio/istio/issues/53279)), ([Issue #23624](https://github.com/istio/istio/issues/23624))
 
 - **Fixed** waypoint proxy to respect trust domain.
 
@@ -105,7 +105,7 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #54458](https://github.com/istio/istio/issues/54458))
 
 - **Fixed** an issue where out-of-order ztunnel disconnects could put `istio-cni` in a state where it believes it has no connections.
-  ([Issue #54544](https://github.com/istio/istio/issues/54544)),([Issue #53843](https://github.com/istio/istio/issues/53843))
+  ([Issue #54544](https://github.com/istio/istio/issues/54544)), ([Issue #53843](https://github.com/istio/istio/issues/53843))
 
 - **Fixed** excessive iptables info-level log entries for rule checks and deletions.
   Detailed logging can be re-enabled by switching to debug-level logs, if necessary.

@@ -60,7 +60,7 @@ aliases:
 - **Added** `sidecarInjectorWebhook.neverInjectSelector` and `sidecarInjectorWebhook.alwaysInjectSelector` to allow users to further refine whether workloads should have sidecar automatically injected or not, based on label selectors.
 - **Added** `global.logging.level` and `global.proxy.logLevel` to allow users to easily configure logs for control plane and data plane components globally.
 - **Added** support to configure the Datadog location via [`global.tracer.datadog.address`](https://archive.istio.io/v1.2/docs/reference/config/installation-options/#global-options).
-- **Removed** Previously [deprecated]( https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055) Adapter and Template CRDs are disabled by default. Use  `mixer.templates.useTemplateCRDs=true` and `mixer.adapters.useAdapterCRDs=true` install options to re-enable them.
+- **Removed** Previously [deprecated](https://discuss.istio.io/t/deprecation-notice-custom-mixer-adapter-crds/2055) Adapter and Template CRDs are disabled by default. Use  `mixer.templates.useTemplateCRDs=true` and `mixer.adapters.useAdapterCRDs=true` install options to re-enable them.
 
 Refer to the [installation option change page](/news/releases/1.2.x/announcing-1.2/helm-changes/) to view the complete list of changes.
 
