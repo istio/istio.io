@@ -7376,6 +7376,107 @@ istioctl ztunnel-config cert [flags]
   istioctl ztunnel-config certificates &lt;ztunnel-name[.namespace]&gt; -o json
 
 </code></pre>
+<h3 id="istioctl-ztunnel-config-connections">istioctl ztunnel-config connections</h3>
+<p>Retrieve information about connections for the Ztunnel instance.</p>
+<pre class="language-bash"><code>istioctl ztunnel-config connections [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl ztunnel-config cons [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--direction &lt;string&gt;</code></td>
+<td></td>
+<td>Filter workloads by direction (inbound or outbound)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Ztunnel config dump JSON file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--node &lt;string&gt;</code></td>
+<td></td>
+<td>Filter workloads by node field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Ztunnel proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--raw</code></td>
+<td></td>
+<td>If set, show IP addresses instead of names </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--workload-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>Filter workloads by namespace field  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="istioctl-ztunnel-config-connections Examples">Examples</h4>
+<pre class="language-bash"><code>  # Retrieve summary about connections for the ztunnel on a specific node.
+  istioctl ztunnel-config connections --node ambient-worker
+
+  # Retrieve summary of connections for a given Ztunnel instance.
+  istioctl ztunnel-config connections &lt;ztunnel-name[.namespace]&gt;
+
+</code></pre>
 <h3 id="istioctl-ztunnel-config-log">istioctl ztunnel-config log</h3>
 <p>Retrieve information about logging levels of the Ztunnel instance in the specified pod, and update optionally.</p>
 <pre class="language-bash"><code>istioctl ztunnel-config log [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
