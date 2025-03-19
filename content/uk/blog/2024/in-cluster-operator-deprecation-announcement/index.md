@@ -30,7 +30,11 @@ In-Cluster Operator Istio було визнано застарілим в Istio 
 
 ### Міграція на Helm {#migrating-to-helm}
 
-Міграція на Helm вимагає переведення вашого YAML файлу `IstioOperator` у Helm `values.yaml`. Інструменти для підтримки цієї міграції будуть надані разом з релізом Istio 1.24.
+Міграція на Helm вимагає переведення вашого YAML файлу `IstioOperator` у Helm `values.yaml`. Istio 1.24 і новіші версії містять команду `manifest translate` для виконання цієї операції. Результатом буде файл `values.yaml` і скрипт оболонки для встановлення еквівалентних чартів Helm.
+
+{{< text bash >}}
+$ istioctl manifest translate -f istio.yaml
+{{< /text >}}
 
 ### Міграція на istioctl {#migrating-to-istioctl}
 
@@ -43,7 +47,7 @@ $ kubectl get IstioOperator
 Використовуючи імʼя вашого ресурсу, завантажте конфігурацію вашого оператора у форматі YAML:
 
 {{< text bash >}}
-$ kubectl get IstioOperator <name> > istio.yaml
+$ kubectl get IstioOperator <name> -o yaml > istio.yaml
 {{< /text >}}
 
 Вимкніть In-Cluster Operator. Це не вимкне вашу панель управління або порушить ваш поточний трафік мережі.

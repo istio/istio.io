@@ -47,7 +47,7 @@ aliases:
   ([Issue #52752](https://github.com/istio/istio/issues/52752))
 
 - **Updated** the redirection method used in Ambient from `TPROXY` to `REDIRECT`.
-  For most users, this should have no impact, but fixes a few compatibility issues with `TPROXY`.  ([Issue #52260](https://github.com/istio/istio/issues/52260)),([Issue #52576](https://github.com/istio/istio/issues/52576))
+  For most users, this should have no impact, but fixes a few compatibility issues with `TPROXY`.  ([Issue #52260](https://github.com/istio/istio/issues/52260)), ([Issue #52576](https://github.com/istio/istio/issues/52576))
 
 ## Traffic Management
 
@@ -78,7 +78,7 @@ aliases:
 - **Added** `VirtualService` `sourceNamespaces` will now be taken into account when filtering unneeded configuration.
 
 - **Added** support for by passing overload manager for static listeners. This can be reverted by setting
-  `BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS` to false in agent Deployment.  ([Issue #41859](https://github.com/istio/istio/issues/41859)),([Issue #52663](https://github.com/istio/istio/issues/52663))
+  `BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS` to false in agent Deployment.  ([Issue #41859](https://github.com/istio/istio/issues/41859)), ([Issue #52663](https://github.com/istio/istio/issues/52663))
 
 - **Added** new istiod environment variable `ENVOY_DNS_JITTER_DURATION`, with a default value of `100ms` that sets jitter for periodic DNS resolution.
   See `dns_jitter` in `https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto`.
@@ -96,7 +96,7 @@ aliases:
   This can be disabled by setting `ENABLE_DEFERRED_STATS_CREATION` to false in agent Deployment.
 
 - **Fixed** matching multiple service VIPs in ServiceEntry. See upgrade notes for more information.
-  ([Issue #51747](https://github.com/istio/istio/issues/51747)),([Issue #30282](https://github.com/istio/istio/issues/30282))
+  ([Issue #51747](https://github.com/istio/istio/issues/51747)), ([Issue #30282](https://github.com/istio/istio/issues/30282))
 
 - **Fixed** `MeshConfig`'s `serviceSettings.settings.clusterLocal` to favor more precise hostnames, allowing host exclusions.
 
