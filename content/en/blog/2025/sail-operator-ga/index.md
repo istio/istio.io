@@ -6,13 +6,13 @@ attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,istiooperator]
 ---
 
-The Sail operator is GA with a clear mission: to simplify and streamline Istio management in your cluster. By using Kubernetes operator practices, Sail operator aims to add new value to istio by improving the upgrade process.
+The Sail operator is GA with a clear mission: to simplify and streamline Istio management in your cluster. By using the Kubernetes operator pattern, Sail operator aims to add new value to istio by improving the upgrade process.
 
 ## Simplified Deployment & Management
 
-The Sail operator is engineered to cut down the complexity of installing and running Istio with an operator. It automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio versions in your cluster. Besides this, the Sail operator APIs are built around Istio’s Helm chart APIs, which means that all the istio configurations are available through the Sail Operator CRDs’ values.
+The Sail operator is engineered to cut down the complexity of installing and running Istio. It automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio versions in your cluster. Besides this, the Sail operator APIs are built around Istio’s Helm chart APIs, which means that all the istio configurations are available through the Sail Operator CRDs’ values.
 
-We encourage users to go through our live [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs) to help you easily get deep into this new way to manage your istio control plane.
+We encourage users to go through our live [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs) to learn more about this new way to manage your istio control plane.
 
 The main resources that are part of the Sail operator are:
 * `Istio`: manages your istio control plane.
@@ -21,7 +21,7 @@ The main resources that are part of the Sail operator are:
 * `IstioCNI`: Istio's CNI plugin resource.
 * `ZTunnel`: ambient mode Ztunnel DaemonSet (alpha feature).
 
-Note that if you are migrating from the [deprecated and deleted] In-Cluster Istio operator, you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can try also our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to convert your  IstioOperator resource to an Istio resource easily.
+Note that if you are migrating from the (now deprecated and deleted) In-Cluster Istio operator, you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your IstioOperator resource to an Istio resource.
 
 ## Main Features and support
 
@@ -40,7 +40,7 @@ As cloud-native architectures continue to evolve, a robust and user-friendly ope
 ## Try it out
 
 Do you want to try our operator?
-Going over this example will show you how to safely do an update of your istio control plane by using the revision-based upgrade strategy, this means you will have two Istio control planes running at the same time,allowing you to migrate workloads easily, minimizing the risk of traffic disruptions.
+Going over this example will show you how to safely do an update of your istio control plane by using the revision-based upgrade strategy, this means you will have two Istio control planes running at the same time, allowing you to migrate workloads easily, minimizing the risk of traffic disruptions.
 
 Prerequisites:
 - Running cluster
@@ -68,7 +68,7 @@ REVISION: 1
 TEST SUITE: None
 {{< /text >}}
 
-### Check the operator pod running
+### Ensure the operator pod is running
 
 {{< text bash >}}
 $ kubectl get pods -n sail-operator
@@ -106,7 +106,7 @@ spec:
 EOF
 {{< /text >}}
 
-Note that `IstioRevisionTag` has target reference to `Istio` resources with name default.
+Note that the `IstioRevisionTag` has a target reference to the `Istio` resource with the name `default`.
 
 Check the state of the resources created:
 - `istiod` pods are running
@@ -142,7 +142,7 @@ NAME      STATUS                    IN USE   REVISION          AGE
 default   NotReferencedByAnything   False    default-v1-24-2   4m43s
 {{< /text >}}
 
-Note that the `IstioRevisionTag` status is `NotReferencedByAnything`, this is because there is no resource referenced using the revision `default-v1-24-2`.
+Note that the `IstioRevisionTag` status is `NotReferencedByAnything`, this is because there are currently no resources using the revision `default-v1-24-2`.
 
 ### Deploy sample application
 
@@ -153,7 +153,7 @@ $ kubectl create namespace sample
 $ kubectl label namespace sample istio-injection=enabled
 {{< /text >}}
 
-As a result of the label of the namespace you will see that the `IstioRevisionTag` resource status will change to In Use true, this is because there is already one resource making reference to the revision `default-v1-24-2`.
+After labeling the namespace you will see that the `IstioRevisionTag` resource status will change to In Use true, this is because there is now a resource using the revision `default-v1-24-2`.
 
 {{< text bash >}}
 $ kubectl get istiorevisiontag
@@ -268,7 +268,7 @@ NAME                              CLUSTER        CDS              LDS           
 sleep-6f87fcf556-k9nh9.sample     Kubernetes     SYNCED (29s)     SYNCED (29s)     SYNCED (29s)     SYNCED (29s)     IGNORED     istiod-default-v1-24-3-68df97dfbb-v7ndm     1.24.3
 {{< /text >}}
 
-- When an `IstioRevision` is no longer in use and is not the active revision of an `Istio` resource (for example not the version that is set in the `spec.version` field), the Sail Operator will delete it after a grace period, which defaults to 30 seconds. Confirm the deletion of the old control plane and `IstioRevision`:
+- When an `IstioRevision` is no longer in use and is not the active revision of an `Istio` resource (for example, when it is not the version that is set in the `spec.version` field), the Sail Operator will delete it after a grace period, which defaults to 30 seconds. Confirm the deletion of the old control plane and `IstioRevision`:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -299,4 +299,4 @@ default   1           1       1        default-v1-24-3   Healthy   v1.24.3   24m
 
 ## Conclusion
 
-The Sail Operator automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio versions in your cluster. The Sail Operator is a project part of the istio-ecosystem organization, and we encourage you to try it out and provide feedback to help us improve it, you can check our contribution guide [here](https://github.com/istio-ecosystem/sail-operator/blob/main/CONTRIBUTING.md) for more information about how to contribute to the project.
+The Sail Operator automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio in your cluster. The Sail Operator is an istio-ecosystem project, and we encourage you to try it out and provide feedback to help us improve it, you can check our contribution guide [here](https://github.com/istio-ecosystem/sail-operator/blob/main/CONTRIBUTING.md) for more information about how to contribute to the project.
