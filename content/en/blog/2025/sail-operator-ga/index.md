@@ -25,11 +25,10 @@ Note that if you are migrating from the (now deprecated and deleted) In-Cluster 
 
 ## Main Features and support
 
-- Support for multiple Istio versions.
+- Each component of the Istio control plane is managed independently by the Sail Operator through dedicated Kubernetes Custom Resources (CRs). The Sail Operator provides separate CRDs for components such as `Istio`, `IstioCNI`, and `ZTunnel`, allowing you to configure, manage, and upgrade them individually. Additionally, there are CRDs for `IstioRevision` and `IstioRevisionTag` to manage Istio control plane revisions.
+- Support for multiple Istio versions. Currently the 1.0.0 version supports: 1.24.3, 1.24.2, 1.24.1, 1.23.5, 1.23.4, 1.23.3, 1.23.0.
 - Two update strategies are supported: `InPlace` and `RevisionBased`. Check our documentation for more information about the update types supported.
 - Support for multicluster Istio [deployment models](/docs/setup/install/multicluster/): multi-primary, primary-remote, external control plane. More information and examples in our [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multi-cluster).
-- Support for [multiple mesh](/docs/ops/deployment/deployment-models/#multiple-meshes): The Sail Operator supports running multiple meshes on a single cluster and associating each workload with a specific mesh. Each mesh is managed by a separate control plane. More information and examples can be found [here](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multiple-meshes-on-a-single-cluster).
-- [Dual-Stack](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#dual-stack-support) support since istio `v1.23` version.
 - Ambient is alpha: check our specific [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/common/istio-ambient-mode.md).
 - Addons are managed separately from the Sail Operator. They can be easily integrated with the Sail operator, you can check this section for the [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#addons) for examples and more information.
 
