@@ -708,6 +708,29 @@ If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</l
     </tr>
   </tbody>
 </table>
+<h2 id="SidecarStatsCompression">sidecar.istio.io/statsCompression</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/statsCompression</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies the compression algorithm to use for stats emitted by the Envoy sidecar.
+Supported values are <code>brotli</code>, <code>gzip</code>, and <code>zstd</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="SidecarStatsHistogramBuckets">sidecar.istio.io/statsHistogramBuckets</h2>
 <table class="annotations">
   <tbody>
