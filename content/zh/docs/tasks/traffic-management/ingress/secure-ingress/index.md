@@ -616,6 +616,9 @@ EOF
 Istio 支持读取几种不同的 Secret 格式，以支持与各种工具的集成，例如 [cert-manager](/zh/docs/ops/integrations/certmanager/)：
 
 * 带有 `tls.key` 和 `tls.crt` 的 TLS Secret，如上所述。对于双向 TLS，`ca.crt` 可以作为密钥。
+* 如上所述，TLS Secret 具有密钥 `tls.key` 和 `tls.crt`。
+  对于双向 TLS，单独的通用 Secret 名为 `<secret>-cacert`，带有 `cacert` 密钥。
+  例如，`httpbin-credential` 具有 `tls.key` 和 `tls.crt`，而 `httpbin-credential-cacert` 具有 `cacert`。
 * 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，`cacert` 可以作为密钥。
 * 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，名为 `<secret>-cacert` 的带有 `cacert` 键的通用 Secret。
   例如，`httpbin-credential` 有 `key` 和 `cert`，`httpbin-credential-cacert` 有 `cacert`。
