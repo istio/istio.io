@@ -25,7 +25,7 @@ An amazing lineup of Istio activities awaits you in London at [KubeCon + CloudNa
     alt="IstioDay, April 1, 2025, London. #istioday"
     >}}
 - Attend the Istio Maintainers' Track session: [Istio: The Past, Present and Future of the Project and Community](https://sched.co/1tczp)
-- Drop by the Istio Contribfest session: [A Beginner’s Guide to Contributing to Istio - Hands-on Development and Contribution Workshop](https://sched.co/1hoyI)
+- Drop by the Istio Contribfest session: [A Beginner’s Guide to Contributing to Istio - Hands-on Development and Contribution Workshop](https://sched.co/1wau5)
 
 - Add the following KubeCon sessions to your schedule, all of which have an Istio flavor:
     - [Project Lightning Talk: What's New in Istio?](https://sched.co/1tcvB)
