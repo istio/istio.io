@@ -25,7 +25,7 @@ For the purposes of Istio, this CVE is only exploitable in circumstances where `
 - **Fixed** validation webhook rejecting an otherwise valid `connectionPool.tcp.IdleTimeout=0s` configuration.
   ([Issue #55409](https://github.com/istio/istio/issues/55409))
 
-- **Fixed** an issue where validation webhook incorrectly reported a warning when a `ServiceEntry` configured `workloadSelector`` with DNS resolution.
+- **Fixed** an issue where validation webhook incorrectly reported a warning when a `ServiceEntry` configured `workloadSelector` with DNS resolution.
   ([Issue #50164](https://github.com/istio/istio/issues/50164))
 
 - **Fixed** an issue where `HTTPRoute` status was not reporting a `parentRef` associated with a single result
