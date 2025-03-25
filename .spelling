@@ -109,6 +109,7 @@ addon
 addons
 Aeraki
 AES-NI
+Agentic
 Airbnb
 Aizhamal
 Akamai
@@ -254,6 +255,7 @@ ClusterSPIFFEID
 CNCF-hosted
 CNI
 CNIs
+CNmaintainersummit
 cnn.com
 codec
 codelab
@@ -721,6 +723,7 @@ k6
 K8gb
 k8s
 Kafka
+kagent
 Karim
 katacoda
 Katie
@@ -1235,6 +1238,7 @@ tradeoffs
 Traefik
 TrafficPolicy
 Trendyol
+Trino
 Trivedi
 Trulia
 trunked
