@@ -102,7 +102,6 @@ spec:
    to:
    - operation:
        methods: ["GET"]
-EOF
 {{< /text >}}
 
 即使客户端 Pod 的身份正确，如果存在 L7 属性，也会导致 ztunnel 拒绝连接：
