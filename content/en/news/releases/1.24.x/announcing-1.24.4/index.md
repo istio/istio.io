@@ -16,7 +16,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - [CVE-2025-30157](https://nvd.nist.gov/vuln/detail/CVE-2025-30157) (CVSS Score 6.5, Medium): Envoy crashes when HTTP `ext_proc` processes local replies.
 
-For the purposes of Istio, this CVE is only exploitable in circumstances where `ext_proc` is conflicted via `EnvoyFilter`.
+For the purposes of Istio, this CVE is only exploitable in circumstances where `ext_proc` is configured via `EnvoyFilter`.
 
 ## Changes
 
