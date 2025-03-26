@@ -111,10 +111,9 @@ We obtained these results using the [Istio benchmarks](https://github.com/istio/
 Note: This testing was performed on the [CNCF Community Infrastructure Lab](https://github.com/cncf/cluster).
 Different hardware will give different values.
 
-{{< figure src="istio-1.24.0-fortio-90.png" caption="P90 latency vs client connections" width="90%" >}}
+{{< image link="./istio-1.24.0-fortio-90.png" caption="P90 latency vs client connections" width="90%" >}}
 
-{{< figure src="istio-1.24.0-fortio-99.png" caption="P99 latency vs client connections" width="90%" >}}
-
+{{< image link="./istio-1.24.0-fortio-99.png" caption="P99 latency vs client connections" width="90%" >}}
 
 - `no mesh`: Client pod directly calls the server pod, no pods in Istio service mesh.
 - `ambient: L4`: Default ambient mode with the {{< gloss >}}secure L4 overlay{{< /gloss >}}
