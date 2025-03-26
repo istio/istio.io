@@ -17,11 +17,11 @@ We encourage users to go through our live [documentation](https://github.com/ist
 The main resources that are part of the Sail operator are:
 * `Istio`: manages your istio control plane.
 * `IstioRevision`: it represents a revision of the control plane.
-* `IstioRevisionTag`: resource represents a stable Revision Tag, which functions as an alias for Istio control plane revisions.
+* `IstioRevisionTag`: resource represents a stable revision tag, which functions as an alias for Istio control plane revisions.
 * `IstioCNI`: Istio's CNI plugin resource.
-* `ZTunnel`: ambient mode Ztunnel DaemonSet (alpha feature).
+* `ZTunnel`: ambient mode ztunnel `DaemonSet` (alpha feature).
 
-Note that if you are migrating from the (now deprecated and deleted) In-Cluster Istio operator, you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your IstioOperator resource to an Istio resource.
+Note that if you are migrating from the (now deprecated and deleted) In-Cluster Istio operator, you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your `IstioOperator` resource to an `Istio` resource.
 
 ## Main Features and support
 
@@ -223,7 +223,7 @@ default-v1-24-3          True    Healthy   True     v1.24.3   92s
 {{< /text >}}
 
 The Sail Operator automatically detects whether a given Istio control plane is being used and writes this information in the "In Use" status condition that you see above. Right now, all `IstioRevisions` and our `IstioRevisionTag` are considered "In Use":
-* The old revision `default-v1-24-2` is considered in use because it is referenced by the sample application’s sidecar
+* The old revision `default-v1-24-2` is considered in use because it is referenced by the sample application’s sidecar.
 * The new revision `default-v1-24-3` is considered in use because it is referenced by the tag.
 * The tag is considered in use because it is referenced by the sample namespace.
 
