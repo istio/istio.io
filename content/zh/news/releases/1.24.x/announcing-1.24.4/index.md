@@ -2,7 +2,7 @@
 title: 发布 Istio 1.24.4
 linktitle: 1.24.4
 subtitle: 补丁发布
-description: Istio 1.24.3 补丁发布。
+description: Istio 1.24.4 补丁发布。
 publishdate: 2025-03-25
 release: 1.24.4
 ---
