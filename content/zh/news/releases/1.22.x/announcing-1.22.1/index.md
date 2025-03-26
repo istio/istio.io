@@ -14,7 +14,7 @@ release: 1.22.1
 
 {{< relnote >}}
 
-## Changes
+## 变更 {#changes}
 
 - **新增** 添加了一个新的、可选的实验性准入策略，该策略仅允许在使用远程 Istiod 集群时在 Istio API 中使用稳定的功能/字段。
   ([Issue #173](https://github.com/istio/enhancements/issues/173))
