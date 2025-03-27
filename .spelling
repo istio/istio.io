@@ -109,6 +109,7 @@ addon
 addons
 Aeraki
 AES-NI
+Agentic
 Airbnb
 Aizhamal
 Akamai
@@ -254,6 +255,7 @@ ClusterSPIFFEID
 CNCF-hosted
 CNI
 CNIs
+CNmaintainersummit
 cnn.com
 codec
 codelab
@@ -405,6 +407,7 @@ CVE-2024-45810
 CVE-2024-53269
 CVE-2024-53270
 CVE-2024-53271
+CVE-2025-30157
 CVEs
 cves
 cvss
@@ -720,6 +723,7 @@ k6
 K8gb
 k8s
 Kafka
+kagent
 Karim
 katacoda
 Katie
@@ -1234,6 +1238,7 @@ tradeoffs
 Traefik
 TrafficPolicy
 Trendyol
+Trino
 Trivedi
 Trulia
 trunked
