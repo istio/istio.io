@@ -17,7 +17,7 @@ release: 1.25.1
 - [CVE-2025-30157](https://nvd.nist.gov/vuln/detail/CVE-2025-30157)
   (CVSS Score 6.5, Medium): 当 HTTP `ext_proc` 处理本地回复时，Envoy 崩溃。
 
-就 Istio 而言，此 CVE 仅在通过 `EnvoyFilter` 配置 `ext_proc`的情况下可用。
+就 Istio 而言，此 CVE 仅在通过 `EnvoyFilter` 配置 `ext_proc` 的情况下可用。
 
 ## 变更 {#changes}
 
