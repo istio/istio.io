@@ -81,6 +81,7 @@ spec:
   mtls:
     mode: STRICT
 ---
+<!-- markdownlint-disable-file MD007 -->
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
