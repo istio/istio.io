@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.Gateway
 aliases: [/zh/docs/reference/config/networking/v1alpha3/gateway]
-number_of_entries: 6
+number_of_entries: 7
 ---
 <p><code>Gateway</code> describes a load balancer operating at the edge of the mesh
 receiving incoming or outgoing HTTP/TCP connections. The specification
@@ -411,6 +411,7 @@ or to route traffic based on SNI header to the destination without terminating t
 </section>
 <h2 id="ServerTLSSettings">ServerTLSSettings</h2>
 <section>
+
 <table class="message-fields">
 <thead>
 <tr>
@@ -504,6 +505,27 @@ or credentialName can be specified.</p>
 
 </td>
 </tr>
+<tr id="ServerTLSSettings-credential_names">
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-credential_names">credentialNames</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+<p>Same as CredentialName but for multiple certificates. Mainly used for specifying
+RSA and ECDSA certificates for the same server.</p>
+
+</td>
+</tr>
+<tr id="ServerTLSSettings-tls_certificates">
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-tls_certificates">tlsCertificates</a></code></div>
+<div class="type"><a href="#ServerTLSSettings-TLSCertificate">TLSCertificate[]</a></div>
+</div></td>
+<td>
+<p>Only one of <code>server_certificate</code>, <code>private_key</code>, <code>ca_certificates</code> or <code>credential_name</code>
+or <code>credential_names</code> or <code>tls_certificates</code> should be specified.
+This is mainly used for specifying RSA and ECDSA certificates for the same server.</p>
+
+</td>
+</tr>
 <tr id="ServerTLSSettings-subject_alt_names">
 <td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-subject_alt_names">subjectAltNames</a></code></div>
 <div class="type">string[]</div>
@@ -511,7 +533,9 @@ or credentialName can be specified.</p>
 <td>
 <p>A list of alternate names to verify the subject identity in the
 certificate presented by the client.
-Requires TLS mode to be set to <code>MUTUAL</code>.</p>
+Requires TLS mode to be set to <code>MUTUAL</code>.
+When multiple certificates are provided via <code>credential_names</code> or <code>tls_certificates</code>,
+the subject alternate names are validated against the selected certificate.</p>
 
 </td>
 </tr>
@@ -589,6 +613,52 @@ The supported list of ciphers are:</p>
 <li><code>AES256-SHA</code></li>
 <li><code>DES-CBC3-SHA</code></li>
 </ul>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="ServerTLSSettings-TLSCertificate">TLSCertificate</h3>
+<section>
+<p>TLSCertificate describes the server&rsquo;s TLS certificate.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServerTLSSettings-TLSCertificate-server_certificate">
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-TLSCertificate-server_certificate">serverCertificate</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
+holding the server-side TLS certificate to use.</p>
+
+</td>
+</tr>
+<tr id="ServerTLSSettings-TLSCertificate-private_key">
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-TLSCertificate-private_key">privateKey</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
+holding the server&rsquo;s private key.</p>
+
+</td>
+</tr>
+<tr id="ServerTLSSettings-TLSCertificate-ca_certificates">
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-TLSCertificate-ca_certificates">caCertificates</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>REQUIRED if mode is <code>MUTUAL</code> or <code>OPTIONAL_MUTUAL</code>. The path to a file
+containing certificate authority certificates to use in verifying a presented
+client side certificate.</p>
 
 </td>
 </tr>
