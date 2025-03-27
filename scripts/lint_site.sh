@@ -52,6 +52,7 @@ check_content() {
     # create a throwaway copy of the content
     cp -R "${DIR}" "${TMP}"
     cp .spelling "${TMP}"
+    cp .cspell.json "${TMP}"
     cp mdl.rb "${TMP}"
 
     # replace the {{< text >}} shortcodes with ```plain
@@ -78,7 +79,7 @@ check_content() {
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
-    if ! find . -type f -name '*.md' -print0 | xargs -0 -r mdspell "${LANG}" --ignore-acronyms --ignore-numbers --no-suggestions --report; then
+    if ! find . -type f -name '*.md' -print0 | xargs -0 -r cspell --config .cspell.json; then
         error "To learn how to address spelling errors, please see https://istio.io/about/contribute/build/#test-your-changes"
         FAILED=1
     fi
