@@ -191,36 +191,105 @@ For advanced use cases, manual deployment is still allowed.
 
 ### Automated Deployment
 
-By default, each `Gateway` will automatically provision a `Service` and `Deployment` of the same name.
+By default, each `Gateway` will automatically provision a `Service` and `Deployment`.
+These will be named `<Gateway name>-<GatewayClass name>` (with the exception of the `istio-waypoint` `GatewayClass`, which does not append a suffix).
 These configurations will be updated automatically if the `Gateway` changes (for example, if a new port is added).
 
-These resources can be customized in a few ways:
 
-* Annotations and labels on the `Gateway` will be copied to the `Service` and `Deployment`.
-  This allows configuring things such as [Internal load balancers](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) that read from these fields.
-* Istio offers an additional annotation to configure the generated resources:
+These resources can be customized by using the `infrastructure` field:
 
-    |Annotation|Purpose|
-    |----------|-------|
-    |`networking.istio.io/service-type`|Controls the `Service.spec.type` field. For example, set to `ClusterIP` to not expose the service externally. The default is `LoadBalancer`.|
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  infrastructure:
+    annotations:
+      some-key: some-value
+    labels:
+      key: value
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: gw-options
+  gatewayClassName: istio
+{{< /text >}}
 
-* The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
+Key-value pairs under `labels` and `annotations` will be copied onto the generated resources.
+The `parametersRef` can be used to fully customize the generated resources.
+This must reference a `ConfigMap` in the same namespace as the `Gateway`.
 
-    {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: Gateway
-    metadata:
-      name: gateway
+An example configuration:
+
+{{< text yaml >}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gw-options
+data:
+  horizontalPodAutoscaler: |
     spec:
-      addresses:
-      - value: 192.0.2.0
-        type: IPAddress
-    ...
-    {{< /text >}}
+      minReplicas: 2
+      maxReplicas: 2
 
-Note: only one address may be specified.
+  deployment: |
+    metadata:
+      annotations:
+      additional-annotation: some-value
+    spec:
+      replicas: 4
+      template:
+        spec:
+          containers:
+          - name: istio-proxy
+            resources:
+              requests:
+                cpu: 1234m
 
-* (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental).
+  service: |
+    spec:
+      ports:
+      - "\$patch": delete
+        port: 15021
+{{< /text >}}
+
+These configurations will be overlayed on top of the generated resources using a [Strategic Merge Patch](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md) strategy.
+The following keys are valid:
+* `service`
+* `deployment`
+* `serviceAccount`
+* `horizontalPodAutoscaler`
+* `podDisruptionBudget`
+
+{{< tip >}}
+A `HorizontalPodAutoscaler` and `PodDisruptionBudget` are not created by default.
+However, if the corresponding field is present in the customization, they will be created.
+{{< /tip >}}
+
+#### GatewayClass Defaults
+
+Defaults for all `Gateway`s can be configured for each `GatewayClass`.
+This is done by a `ConfigMap` with the label `gateway.istio.io/defaults-for-class: <gateway class name>`.
+This `ConfigMap` must be in the [root namespace](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace) (typically, `istio-system`).
+Only one `ConfigMap` per `GatewayClass` is allowed.
+This `ConfigMap` takes the same format as the `ConfigMap` for a `Gateway`.
+
+Customization may be present on both a `GatewayClass` and a `Gateway`.
+If both are present, the `Gateway` customization applies after the `GatewayClass` customization.
+
+This `ConfigMap` can also be created at installation time. For example:
+
+{{< text yaml >}}
+kind: IstioOperator
+spec:
+  values:
+    gatewayClasses:
+      istio:
+        deployment:
+          spec:
+            replicas: 2
+{{< /text >}}
 
 #### Resource Attachment and Scaling
 
