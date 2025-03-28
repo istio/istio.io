@@ -79,7 +79,7 @@ check_content() {
     # switch to the temp dir
     pushd "${TMP}" >/dev/null
 
-    if ! find . -type f -name '*.md' -print0 | xargs -0 -r cspell --config .cspell.json; then
+    if ! find . -type f -name '*.md' -print0 | xargs -0 -r /usr/local/bin/cspell --config .cspell.json; then
         error "To learn how to address spelling errors, please see https://istio.io/about/contribute/build/#test-your-changes"
         FAILED=1
     fi
