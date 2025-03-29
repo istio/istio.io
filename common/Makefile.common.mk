@@ -50,7 +50,7 @@ lint-python:
 	@${FINDFILES} -name '*.py' \( ! \( -name '*_pb2.py' \) \) -print0 | ${XARGS} autopep8 --max-line-length 160 --exit-code -d
 
 lint-markdown:
-	@${FINDFILES} -name '*.md' -not -path './manifests/addons/dashboards/*' -print0 | ${XARGS} markdownlint-cli2 --config common/config/.markdownlint.json
+	@${FINDFILES} -name '*.md' -not -path './manifests/addons/dashboards/*' -print0 | ${XARGS} markdownlint-cli2 --config .markdownlint.json
 
 
 lint-links:
