@@ -1,7 +1,7 @@
 {
     "version": "0.2",
     "language": "en",
-    "files": ["**/*.md"],
+    "files": ["content/en/**/*.md"],
     "dictionaries": ["custom"],
     "dictionaryDefinitions": [
       {
