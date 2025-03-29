@@ -6,7 +6,7 @@ publishdate: 2021-02-09
 attribution: Yangmin Zhu (Google)
 keywords: [authorization,access control,opa,oauth2]
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 ## Background
 
 Istio's authorization policy provides access control for services in the mesh. It is fast, powerful and a widely used
@@ -288,8 +288,6 @@ spec:
   selector:
     app: opa
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 kind: Deployment
 apiVersion: apps/v1
 metadata:

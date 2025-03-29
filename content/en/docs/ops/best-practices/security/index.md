@@ -6,7 +6,7 @@ weight: 30
 owner: istio/wg-security-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect your services and data.
 However, to fully make use of these features securely, care must be taken to follow best practices. It is recommended to review the [Security overview](/docs/concepts/security/) before proceeding.
 
@@ -528,7 +528,6 @@ spec:
     tls:
       mode: SIMPLE
 ---
-<!-- markdownlint-disable-file MD007 -->
 kind: Gateway
 metadata:
   name: admingateway

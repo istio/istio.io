@@ -5,7 +5,7 @@ weight: 60
 owner: istio/wg-security-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## Передумови {#background}
 
 Ця сторінка демонструє поширені шаблони використання політик безпеки Istio. Ви можете знайти їх корисними для вашого розгортання або використовувати як швидкий довідник щодо прикладів політик.
@@ -89,7 +89,6 @@ spec:
   mtls:
     mode: STRICT
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:

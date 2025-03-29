@@ -8,7 +8,6 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 <!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 
 Ця сторінка була останній раз оновлена 9 березня 2021 року.
 

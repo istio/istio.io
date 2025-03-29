@@ -6,7 +6,7 @@ keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 If you use the Gateway API, you will not need to install and manage a gateway `Deployment` as described in this document.
@@ -185,7 +185,6 @@ rules:
   resources: ["secrets"]
   verbs: ["get", "watch", "list"]
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

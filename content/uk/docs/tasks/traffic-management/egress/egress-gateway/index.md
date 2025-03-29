@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 {{<warning>}}
 Цей приклад не працює в Minikube.
 {{</warning>}}
@@ -551,7 +551,6 @@ spec:
     - name: cnn-egress-gateway-istio
       port: 443
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TLSRoute
 metadata:

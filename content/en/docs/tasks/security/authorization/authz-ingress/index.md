@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denyl
 owner: istio/wg-security-maintainers
 test: yes
 ---
-<!-- markdownlint-disable MD007 -->
+<!-- markdownlint-disable-file MD007 MD026 -->
 This task shows you how to enforce IP-based access control on an Istio ingress gateway using an authorization policy.
 
 {{< boilerplate gateway-api-support >}}
@@ -231,7 +231,6 @@ spec:
   gatewayClassName: istio
   ...
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

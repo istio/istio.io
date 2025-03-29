@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Завдання [Доступ до зовнішніх сервісів](/docs/tasks/traffic-management/egress/egress-control) та приклад [Налаштування Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) описують, як налаштувати вихідний трафік для конкретних доменів, таких як `edition.cnn.com`. Цей приклад показує, як увімкнути вихідний трафік для набору хостів у спільному домені, наприклад `*.wikipedia.org`, замість того, щоб налаштовувати кожен хост окремо.
 
 ## Контекст {#background}
@@ -248,7 +248,6 @@ spec:
       name: www.wikipedia.org
       port: 443
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:

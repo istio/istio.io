@@ -6,7 +6,7 @@ keywords: [traffic-management,ingress,https]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 У звичайному розгортанні Istio mesh термінація TLS для запитів від клієнтів відбувається в Ingress Gateway. Хоча це задовольняє більшість випадків використання, для деяких сценаріїв (наприклад, API Gateway у mesh) шлюз входу може бути непотрібний. Це завдання показує, як усунути додатковий перехід, введений Ingress Gateway Istio, і дозволити Envoy sidecar, що працює поруч з застосунком, виконувати темінацію TLS для запитів, що надходять ззовні службової мережі.
 
 Приклад HTTPS-сервісу, що використовується для цього завдання, є простий сервіс [httpbin](https://httpbin.org). У наступних кроках ви розгорнете сервіс httpbin всередині вашої сервісної мережі і налаштуєте його.
@@ -126,7 +126,6 @@ spec:
   selector:
     app: httpbin
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: apps/v1
 kind: Deployment
 metadata:

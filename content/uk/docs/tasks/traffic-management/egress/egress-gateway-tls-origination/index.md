@@ -10,7 +10,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 [Приклад створення TLS для вихідного трафіку](/docs/tasks/traffic-management/egress/egress-tls-origination/) показує, як налаштувати Istio для виконання {{< gloss "Створення TLS" >}}створення TLS{{< /gloss >}} для трафіку до зовнішнього сервісу. [Приклад Налаштування Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) показує, як налаштувати Istio для направлення вихідного трафіку через спеціалізований сервіс _egress gateway_. Цей приклад поєднує два попередні, описуючи, як налаштувати вихідний шлюз для виконання створення TLS для трафіку до зовнішніх сервісів.
 {{< boilerplate gateway-api-support >}}
 
@@ -791,7 +791,6 @@ spec:
       namespace: mesh-external
       port: 443
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:

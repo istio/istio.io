@@ -8,7 +8,7 @@ attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,https]
 target_release: 1.1
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 In many cases, not all the parts of a microservices-based application reside in a _service mesh_. Sometimes, the
 microservices-based applications use functionality provided by legacy systems that reside outside the mesh. You may want
 to migrate these systems to the service mesh gradually. Until these systems are migrated, they must be accessed by the
@@ -113,7 +113,6 @@ spec:
   location: MESH_EXTERNAL
   resolution: DNS
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

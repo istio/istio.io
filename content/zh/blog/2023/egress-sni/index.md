@@ -5,7 +5,7 @@ publishdate: 2023-12-01
 attribution: "Gergő Huszty (IBM); Translated by Wilson Wu (DaoCloud)"
 keywords: [traffic-management,gateway,mesh,mtls,egress,remote]
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 如果您使用 Istio 处理应用程序发起的流向网格外部目标的流量，您可能熟悉出口网关的概念。
 出口网关可用于监控和转发来自网格内应用程序的流量至网格外部的位置。
 如果您的系统在受限环境中运行并且您想控制从您的网格访问公共互联网的内容，那么这是一个有用的功能。
@@ -281,7 +281,6 @@ spec:
       - name: envoy
 
 ---
-<!-- markdownlint-disable-file MD007 -->
 # 最后，SNI 转发器的配置、它是内部侦听器以及原始网关侦听器的补丁，
 # 用于将所有内容路由到 SNI 转发器。
 apiVersion: networking.istio.io/v1alpha3

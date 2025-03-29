@@ -6,7 +6,7 @@ keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 此任务描述如何使用 [Kubernetes Ingress](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/)
 为 Istio 配置入口网关以暴露服务网格集群内的服务。
 
@@ -107,7 +107,6 @@ metadata:
 spec:
   controller: istio.io/ingress-controller
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

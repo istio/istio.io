@@ -4,7 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 当 Istio 资源引用另一个不存在的资源时，会出现此消息。
 这会导致 Istio 尝试查找引用的资源但找不到这类的错误。
 
@@ -32,7 +32,6 @@ spec:
     hosts:
     - "*"
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:

@@ -6,7 +6,7 @@ publishdate: 2021-02-09
 attribution: Yangmin Zhu (Google); Translated by Wilson Wu (DaoCloud)
 keywords: [authorization,access control,opa,oauth2]
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 ## 背景  {#background}
 
 Istio 的授权策略为网格中的服务提供访问控制。它速度快、功能强大且使用广泛。
@@ -294,8 +294,6 @@ spec:
   selector:
     app: opa
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 kind: Deployment
 apiVersion: apps/v1
 metadata:

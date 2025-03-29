@@ -6,7 +6,7 @@ keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 Якщо ви використовуєте Gateway API, вам не потрібно буде встановлювати та керувати `Deployment` gateway, як це описано в цьому документі. Стандартно, `Deployment` шлюза та `Service` автоматично надаються на основі конфігурації `Gateway`. Зверніться до [завдання Gateway API](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) для отримання додаткових деталей.
@@ -166,7 +166,6 @@ rules:
   resources: ["secrets"]
   verbs: ["get", "watch", "list"]
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

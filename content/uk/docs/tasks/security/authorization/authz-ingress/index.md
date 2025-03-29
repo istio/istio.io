@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denyl
 owner: istio/wg-security-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 Це завдання показує, як застосувати контроль доступу на основі IP до вхідного шлюзу Istio за допомогою політики авторизації.
 
 {{< boilerplate gateway-api-support >}}
@@ -216,8 +216,6 @@ spec:
   gatewayClassName: istio
   ...
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

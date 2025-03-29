@@ -8,7 +8,7 @@ twitter: crcsmnky
 keywords: [traffic-management, gateway]
 target_release: 1.0
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 流量管理是 Istio 提供的重要优势之一。Istio 流量管理的核心是在将通信流量和基础设施的伸缩进行解耦。如果没有 Istio 这样的服务网格，这种流量控制方式是不可能实现的。
 
 例如，您希望执行一次[金丝雀发布](https://martinfowler.com/bliki/CanaryRelease.html)。当使用 Istio 时，您可以指定 service 的 **v1** 版本接收 90% 的传入流量，而该 service **v2** 版本仅接收 10%。如果使用标准的 Kubernetes deployment，实现此目的的唯一方法是手动控制每个版本的可用 Pod 数量，例如使 9 个 Pod 运行 v1 版本，使 1 个 Pod 运行 v2 版本。这种类型的手动控制难以实现，并且随着时间的推移可能无法扩展。有关更多信息，请查看[使用 Istio 进行金丝雀发布](/zh/blog/2017/0.1-canary/)。
@@ -126,7 +126,6 @@ spec:
         subset: v2
       weight: 50
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

@@ -7,7 +7,7 @@ attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 keywords: [traffic-management]
 target_release: 0.7
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Up until now, Istio has provided a simple API for traffic management using four configuration resources:
 `RouteRule`, `DestinationPolicy`, `EgressRule`, and (Kubernetes) `Ingress`.
 With this API, users have been able to easily manage the flow of traffic in an Istio service mesh.
@@ -174,7 +174,6 @@ spec:
   - labels:
       version: v1
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:

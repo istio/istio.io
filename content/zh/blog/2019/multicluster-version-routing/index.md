@@ -7,7 +7,7 @@ attribution: Frank Budinsky (IBM)
 keywords: [traffic-management,multicluster]
 target_release: 1.0
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 如果花一点时间对 Istio 进行了解，你可能会注意到，大量的功能都可以在单一的 Kubernetes 集群中，用简单的[任务](/zh/docs/tasks)和[示例](/zh/docs/examples/)所表达的方式来运行。但是真实世界中的云计算和基于微服务的应用往往不是这么简单的，会需要在不止一个地点分布运行，用户难免会产生怀疑，生产环境中是否还能这样运行？
 
 幸运的是，Istio 提供了多种服务网格的配置方式，应用能够用近乎透明的方式加入一个跨越多个集群运行的服务网格之中，也就是[多集群服务网格](/zh/docs/ops/deployment/deployment-models/#multiple-clusters) 。最简单的设置多集群网格的方式，就是使用[多控制平面拓扑](/zh/docs/ops/deployment/deployment-models/#control-plane-models) ，这种方式不需要特别的网络依赖。在这种条件下，每个 Kubernetes 集群都有自己的控制平面，但是每个控制平面都是同步的，并接受统一的管理。
@@ -283,7 +283,6 @@ spec:
     ports:
       http1: 15443 # 不要修改端口值
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

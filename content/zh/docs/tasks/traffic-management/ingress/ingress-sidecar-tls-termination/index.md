@@ -6,7 +6,7 @@ keywords: [traffic-management,ingress,https]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 在常规的 Istio 网格部署中，下游请求的 TLS 终止是在 Ingress Gateway 处执行的。
 虽然这可以满足大多数使用场景，但对于某些场景（如网格中的 API 网关），Ingress Gateway
 并不是必需的。此任务展示了如何消除 Istio Ingress Gateway 引入的额外跃点，
@@ -133,7 +133,6 @@ spec:
     selector:
     app: httpbin
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: apps/v1
 kind: Deployment
 metadata:

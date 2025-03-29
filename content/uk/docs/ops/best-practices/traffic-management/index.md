@@ -10,7 +10,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Цей розділ надає конкретні вказівки щодо розгортання або конфігурації для уникнення проблем з мережею або управлінням трафіком.
 
 ## Встановіть стандартні маршрути для сервісів {#set-default-routes-for-services}
@@ -210,7 +210,6 @@ spec:
     - destination:
         host: service2.default.svc.cluster.local
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:

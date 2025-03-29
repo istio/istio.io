@@ -8,7 +8,7 @@ twitter: crcsmnky
 keywords: [traffic-management,gateway]
 target_release: 1.0
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Traffic management is one of the critical benefits provided by Istio. At the heart of Istio’s traffic management is the ability to decouple traffic flow and infrastructure scaling. This lets you control your traffic in ways that aren’t possible without a service mesh like Istio.
 
 For example, let’s say you want to execute a [canary deployment](https://martinfowler.com/bliki/CanaryRelease.html). With Istio, you can specify that **v1** of a service receives 90% of incoming traffic, while **v2** of that service only receives 10%. With standard Kubernetes deployments, the only way to achieve this is to manually control the number of available Pods for each version, for example 9 Pods running v1 and 1 Pod running v2. This type of manual control is hard to implement, and over time may have trouble scaling. For more information, check out [Canary Deployments using Istio](/blog/2017/0.1-canary/).
@@ -126,7 +126,6 @@ spec:
         subset: v2
       weight: 50
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

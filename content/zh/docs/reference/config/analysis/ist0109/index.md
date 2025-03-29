@@ -4,7 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 当 Istio 检测到因 [VirtualService](/zh/docs/reference/config/networking/virtual-service)
 资源重复而导致冲突时，会出现此消息。比如，多个 VirtualService 使用相同的主机名且连接网格 Gateway 时，
 会出现一条错误消息。需要注意的是，Istio 支持合并挂接到入口网关的 VirtualService。
@@ -86,5 +86,4 @@ spec:
     - destination:
         host: productpage.team-2.svc.cluster.local
 ---
-<!-- markdownlint-disable-file MD007 -->
 {{< /text >}}

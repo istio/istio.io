@@ -5,7 +5,7 @@ publishdate: 2022-05-13
 attribution: "Ravi kumar Veeramally (Intel), Ismo Puustinen (Intel), Sakari Poussa (Intel)"
 keywords: [Istio, CryptoMB, gateways, sidecar]
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 就安全连接而言，加密操作是计算密集型和关键操作之一。Istio 使用 Envoy 作为“网关/边车”来处理安全连接和拦截流量。
 
 根据以往的经验，当入口网关必须处理大量传入的 TLS 和通过 sidecar 代理的安全服务到服务连接时，Envoy 上的负载会增加。潜在的性能取决于许多因素，例如运行 Envoy 中的 cpuset 的大小、传入的流量模式和密钥大小等因素。这些因素可能会影响 Envoy 服务许多新传入的 TLS 请求。为了实现性能的提升和加速握手，Envoy 1.20 和 Istio 1.14 中引入了一项新功能。它可以通过第三代英特尔® 至强® 可扩展处理器、英特尔® 集成性能基元（英特尔® IPP）加密库、Envoy 中 CryptoMB 私钥提供程序方法支持以及 Istio 中使用 `ProxyConfig` 的配置来实现。
@@ -139,7 +139,6 @@ spec:
   selector:
     app: httpbin
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: apps/v1
 kind: Deployment
 metadata:

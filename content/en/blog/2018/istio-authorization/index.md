@@ -7,7 +7,7 @@ attribution: Limin Wang
 keywords: [authorization,rbac,security]
 target_release: 0.8
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Micro-segmentation is a security technique that creates secure zones in cloud deployments and allows organizations to
 isolate workloads from one another and secure them individually.
 [Istio's authorization feature](/docs/concepts/security/#authorization), also known as Istio Role Based Access Control,
@@ -101,7 +101,6 @@ spec:
     - key: "destination.labels[visibility]”
       values: ["external"]
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:

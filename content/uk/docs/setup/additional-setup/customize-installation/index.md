@@ -6,7 +6,7 @@ keywords: [profiles,install,helm]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ### Передумови {#prerequisites}
 
 Перш ніж почати, перевірте наступні передумови:
@@ -297,7 +297,6 @@ spec:
   - name: https-dns
     port: 11111
 ---
-<!-- markdownlint-disable-file MD007 -->
 {{< /text >}}
 
 Зверніть увагу, що патчі застосовуються в зазначеному порядку. Кожен патч застосовується на вивід з попереднього патчу. Шляхи в патчах, які не існують у вихідному маніфесті, будуть створені.

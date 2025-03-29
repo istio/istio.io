@@ -6,7 +6,7 @@ keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 如果您使用 Gateway API，将不需要安装和管理本文所述的网关 `Deployment`。
@@ -188,7 +188,6 @@ rules:
   resources: ["secrets"]
   verbs: ["get", "watch", "list"]
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

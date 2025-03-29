@@ -7,7 +7,7 @@ attribution: Frank Budinsky (IBM) and Shriram Rajagopalan (VMware)
 keywords: [traffic-management]
 target_release: 0.7
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 到目前为止，Istio 提供了一个简单的 API 来进行流量管理，该 API 包括了四种资源：`RouteRule`，`DestinationPolicy`，`EgressRule` 和 （Kubernetes 的）`Ingress`。借助此 API，用户可以轻松管理 Istio 服务网格中的流量。该 API 允许用户将请求路由到特定版本的服务，为弹性测试注入延迟和失败，添加超时和断路器等，所有这些功能都不必更改应用程序本身的代码。
 
 虽然目前 API 的功能已被证明是 Istio 非常引人注目的一部分，但用户的反馈也表明，这个 API 确实有一些缺点，尤其是在使用它来管理包含数千个服务的非常大的应用程序，以及使用 HTTP 以外的协议时。此外，使用 Kubernetes Ingress 资源来配置外部流量的方式已被证明不能满足需求。
@@ -122,7 +122,6 @@ spec:
   - labels:
       version: v1
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: config.istio.io/v1alpha2
 kind: RouteRule
 metadata:

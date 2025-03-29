@@ -120,7 +120,6 @@ rules:
   resources: ["secrets"]
   verbs: ["get", "watch", "list"]
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:

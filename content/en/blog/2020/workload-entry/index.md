@@ -6,7 +6,7 @@ publishdate: 2020-05-21
 attribution: "Cynthia Coan (Tetrate), Shriram Rajagopalan (Tetrate), Tia Louden (Tetrate), John Howard (Google), Sven Mawson (Google)"
 keywords: [vm,workloadentry,migration,'1.6',baremetal,serviceentry,discovery]
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## Introducing Workload Entries: Bridging Kubernetes and VMs
 
 Historically, Istio has provided great experience to workloads that run on Kubernetes, but it has been less smooth for other types of workloads, such as Virtual Machines (VMs) and bare metal. The gaps included the inability to declaratively specify the properties of a sidecar on a VM, inability to properly respond to the lifecycle changes of the workload (e.g., booting to not ready to ready, or health checks), and cumbersome DNS workarounds as the workloads are migrated into Kubernetes to name a few.
@@ -68,7 +68,6 @@ spec:
     instance-id: vm-78ad2
     class: vm
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:

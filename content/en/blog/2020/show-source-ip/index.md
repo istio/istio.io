@@ -5,6 +5,7 @@ publishdate: 2020-12-11
 attribution: "Xinhui Li (Salesforce) "
 keywords: [trafficManagement,protocol extending]
 ---
+<!-- markdownlint-disable-file MD007 -->
 This blog presents my latest experience about how to configure and enable proxy protocol with stack of AWS NLB and Istio Ingress gateway. The [Proxy Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) was designed to chain proxies and reverse-proxies without losing the client information. The proxy protocol prevents the need for infrastructure changes or `NATing` firewalls, and offers the benefits of being protocol agnostic and providing good scalability. Additionally, we also enable the `X-Forwarded-For` HTTP header in the deployment to make the client IP address easy to read. In this blog, traffic management of Istio ingress is shown with an httpbin service on ports 80 and 443 to demonstrate the use of proxy protocol. Note that both v1 and v2 of the proxy protocol work for the purpose of this example, but because the AWS NLB currently only supports v2, proxy protocol v2 is used in the rest of this blog by default. The following image shows the use of proxy protocol v2 with an AWS NLB.
 
 {{< tip >}}
@@ -155,7 +156,6 @@ spec:
     hosts:
     - "a25fa0b4835b.elb.us-west-2.amazonaws.com"
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:

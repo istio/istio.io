@@ -6,7 +6,7 @@ publishdate: 2020-05-21
 attribution: Cynthia Coan (Tetrate), Shriram Rajagopalan (Tetrate), Tia Louden (Tetrate), John Howard (Google), Sven Mawson (Google)
 keywords: [vm, workloadentry, migration, '1.6', baremetal, serviceentry, discovery]
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## 工作负载条目简介：桥接 Kubernetes 和 VM{#introducing-workload-entries-bridging-Kubernetes-and-VMs}
 
 从历史上看，Istio 为在 Kubernetes 上运行的工作负载提供了很好的体验，但对于其他类型的工作负载，如虚拟机（VM）和裸机，则不太顺利。这些差距包括无法在 VM 上以声明方式指定 Sidecar 的属性，无法正确响应工作负载的生命周期变化（例如，从启动到未准备就绪，或健康检查），以及在工作负载迁移到 Kubernetes 时繁琐的 DNS 解决方法，仅此而已。
@@ -68,7 +68,6 @@ spec:
     instance-id: vm-78ad2
     class: vm
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:

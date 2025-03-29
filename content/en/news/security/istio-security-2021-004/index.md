@@ -11,7 +11,6 @@ keywords: [CVE]
 skip_seealso: true
 ---
 <!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 
 {{< security_bulletin >}}
 

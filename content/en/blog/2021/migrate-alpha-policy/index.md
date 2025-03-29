@@ -5,7 +5,7 @@ publishdate: 2021-03-03
 attribution: Yangmin Zhu (Google), Craig Box (Google)
 keywords: [security,policy,migrate,alpha,beta,deprecate,peer,jwt,authorization]
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 In versions of Istio prior to 1.4, security policy was configured using `v1alpha1` APIs (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`). After consulting with our early adopters, we made [major improvements to the policy system](/blog/2019/v1beta1-authorization-policy/) and released `v1beta1` APIs along with Istio 1.4. These refreshed APIs (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) helped standardize how we define policy targets in Istio, helped users understand where policies were applied, and cut the number of configuration objects required.
 
 The old APIs were deprecated in Istio 1.4. Two releases after the `v1beta1` APIs were introduced, Istio 1.6 removed support for the `v1alpha1` APIs.
@@ -321,7 +321,6 @@ spec:
   # An empty rule that allows nothing
   {}
 ---
-<!-- markdownlint-disable-file MD007 -->
 # An AuthorizationPolicy that enforces to authorization for the httpbin workload, migrated from the ServiceRole and ServiceRoleBinding
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

@@ -10,7 +10,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
 example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
 for traffic to an external service. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/)
@@ -821,7 +821,6 @@ spec:
       namespace: mesh-external
       port: 443
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:

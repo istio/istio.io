@@ -10,7 +10,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## Requests are rejected by Envoy
 
 Requests may be rejected for various reasons. The best way to understand why requests are being rejected is
@@ -523,7 +523,6 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:

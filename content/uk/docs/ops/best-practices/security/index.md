@@ -6,7 +6,7 @@ weight: 30
 owner: istio/wg-security-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Особливості безпеки Istio забезпечують надійну ідентифікацію, потужну політику, прозоре шифрування TLS і інструменти автентифікації, авторизації та аудиту (AAA) для захисту ваших сервісів та даних. Однак, щоб повною мірою використовувати ці функції безпечно, слід дотримуватися найкращих практик. Рекомендується переглянути розділ [Огляд безпеки](/docs/concepts/security/) перед тим, як продовжити.
 
 ## Взаємне TLS шифрування {#mutual-tls}
@@ -435,7 +435,6 @@ spec:
     tls:
       mode: SIMPLE
 ---
-<!-- markdownlint-disable-file MD007 -->
 kind: Gateway
 metadata:
   name: admingateway

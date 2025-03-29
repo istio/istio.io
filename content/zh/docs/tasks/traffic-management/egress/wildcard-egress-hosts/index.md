@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 [控制出口流量](/zh/docs/tasks/traffic-management/egress/)任务和
 [配置一个 Egress 网关](/zh/docs/tasks/traffic-management/egress/egress-gateway/)示例描述如何配置特定主机的出口流量，
 如：`edition.cnn.com`。本示例描述如何为通用域中的一组特定主机开启出口流量，
@@ -261,7 +261,6 @@ spec:
       name: www.wikipedia.org
       port: 443
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:

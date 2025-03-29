@@ -9,7 +9,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 除了支持 Kubernetes [Ingress](/zh/docs/tasks/traffic-management/ingress/kubernetes-ingress/)，
 Istio 还允许使用 [Istio Gateway](/zh-cn/docs/concepts/traffic-management/#gateways)
 或 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/)
@@ -404,7 +404,6 @@ spec:
       namespaces:
         from: Same
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

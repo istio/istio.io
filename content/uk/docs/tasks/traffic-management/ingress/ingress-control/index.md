@@ -9,7 +9,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 Разом із підтримкою ресурсів [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/) Kubernetes, Istio також дозволяє налаштувати вхідний трафік, використовуючи ресурс [Istio Gateway](/docs/concepts/traffic-management/#gateways) або [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/). `Gateway` забезпечує ширші налаштування та гнучкість, ніж `Ingress`, і дозволяє застосовувати функції Istio, такі як моніторинг та правила маршрутизації, до трафіку, що входить у кластер.
 
 Ця задача описує, як налаштувати Istio для експонування сервісу за межами сервісної мережі, використовуючи `Gateway`.
@@ -359,8 +359,6 @@ spec:
       namespaces:
         from: Same
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:

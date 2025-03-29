@@ -5,7 +5,7 @@ publishdate: 2022-06-15
 attribution: "Ravi kumar Veeramally (Intel), Ismo Puustinen (Intel), Sakari Poussa (Intel)"
 keywords: [Istio, CryptoMB, gateways, sidecar]
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Cryptographic operations are among the most compute-intensive and critical operations when it comes to secured connections. Istio uses Envoy as the "gateways/sidecar" to handle secure connections and intercept the traffic.
 
 Depending upon use cases, when an ingress gateway must handle a large number of incoming TLS and secured service-to-service connections through sidecar proxies, the load on Envoy increases. The potential performance depends on many factors, such as size of the cpuset on which Envoy is running, incoming traffic patterns, and key size. These factors can impact Envoy serving many new incoming TLS requests. To achieve performance improvements and accelerated handshakes, a new feature was introduced in Envoy 1.20 and Istio 1.14. It can be achieved with 3rd Gen Intel® Xeon® Scalable processors, the Intel® Integrated Performance Primitives (Intel® IPP) crypto library, CryptoMB Private Key Provider Method support in Envoy, and Private Key Provider configuration in Istio using `ProxyConfig`.
@@ -139,7 +139,6 @@ spec:
   selector:
     app: httpbin
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: apps/v1
 kind: Deployment
 metadata:

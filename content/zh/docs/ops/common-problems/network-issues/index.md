@@ -10,7 +10,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## 请求被 Envoy 拒绝 {#requests-are-rejected-by-envoy}
 
 请求被拒绝有许多原因。弄明白为什么请求被拒绝的最好方式是检查 Envoy 的访问日志。
@@ -523,7 +523,6 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:

@@ -6,7 +6,7 @@ keywords: [profiles,install,helm]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## 先决条件 {#prerequisites}
 
 开始之前，检查下列先决条件：
@@ -330,7 +330,6 @@ spec:
   - name: https-dns
     port: 11111
 ---
-<!-- markdownlint-disable-file MD007 -->
 {{< /text >}}
 
 注意：补丁按照给定的顺序执行。每个补丁基于前面补丁的输出来执行。

@@ -10,7 +10,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## Запити відхиляються Envoy {#requests-are-rejected-by-envoy}
 
 Запити можуть бути відхилені з різних причин. Найкращий спосіб зрозуміти, чому запити відхиляються — це перевірити журнали доступу Envoy. Стандартно журнали доступу виводяться на стандартний вихід контейнера. Виконайте наступну команду, щоб переглянути журнал:
@@ -478,7 +478,6 @@ spec:
     protocol: HTTPS
   resolution: DNS
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:

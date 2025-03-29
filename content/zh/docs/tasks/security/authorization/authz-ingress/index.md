@@ -6,7 +6,7 @@ keywords: [security,access-control,rbac,authorization,ingress,ip,allowlist,denyl
 owner: istio/wg-security-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 此任务向您展示如何使用授权策略在 Istio Ingress 网关上实施基于 IP 的访问控制。
 
 {{< boilerplate gateway-api-support >}}
@@ -231,8 +231,6 @@ spec:
   gatewayClassName: istio
   ...
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

@@ -7,7 +7,7 @@ attribution: Limin Wang
 keywords: [authorization,rbac,security]
 target_release: 0.8
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Micro-Segmentation 是一种安全技术，可在云部署中创建安全区域，并允许各组织将工作负载彼此隔离以单独保护它们。
  [Istio 的授权功能](/zh/docs/concepts/security/#authorization)也称为 Istio 基于角色的访问控制，为 Istio 网格中的服务提供
   Micro-Segmentation。它的特点是：
@@ -84,7 +84,6 @@ spec:
     - key: "destination.labels[visibility]”
       values: ["external"]
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: "rbac.istio.io/v1alpha1"
 kind: ServiceRoleBinding
 metadata:

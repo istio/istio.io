@@ -4,7 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 This message occurs when an Istio resource references another resource that does
 not exist. This will lead to errors when Istio tries to look up the referenced
 resource but cannot find it.
@@ -33,7 +33,6 @@ spec:
     hosts:
     - "*"
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:

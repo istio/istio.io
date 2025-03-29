@@ -8,7 +8,7 @@ keywords: [traffic-management,canary]
 aliases:
     - /zh/blog/canary-deployments-using-istio.html
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 {{< tip >}}
 本篇博客最后更新时间 2018 年 5 月 16 号，采用了最新版本的流量管理模型。
 {{< /tip >}}
@@ -118,8 +118,6 @@ spec:
         subset: v2
         weight: 10
 ---
-<!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:

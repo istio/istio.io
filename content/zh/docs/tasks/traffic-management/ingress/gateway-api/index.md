@@ -9,7 +9,7 @@ keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 除了它自己的流量管理 API 之外，
 {{< boilerplate gateway-api-future >}}
 本文描述 Istio 和 Kubernetes API 之间的差异，并提供了一个简单的例子，
@@ -274,7 +274,6 @@ spec:
         type: Utilization
         averageUtilization: 50
 ---
-<!-- markdownlint-disable-file MD007 -->
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:

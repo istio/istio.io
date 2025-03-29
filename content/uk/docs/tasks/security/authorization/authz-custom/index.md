@@ -7,7 +7,6 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 <!-- markdownlint-disable-file MD007 MD026 -->
-<!-- markdownlint-disable-file MD007 -->
 
 Це завдання показує, як налаштувати політику авторизації Istio, використовуючи нове значення для [поля action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`, для делегування контролю доступу зовнішній системі авторизації. Це можна використовувати для інтеграції з [OPA авторизацією](https://www.openpolicyagent.org/docs/latest/envoy-introduction/), [`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy), власним зовнішнім сервером авторизації nf іншим.
 
