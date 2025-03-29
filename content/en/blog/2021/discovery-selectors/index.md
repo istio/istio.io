@@ -5,6 +5,7 @@ publishdate: 2021-04-30
 attribution: "Lin Sun (Solo.io), Christian Posta (Solo.io), Harvey Xia (Solo.io)"
 keywords: [discoveryselectors,Istio,namespaces,sidecar]
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
 
 As users move their services to run in the Istio service mesh, they are often surprised that the control plane watches and processes all of the Kubernetes resources, from all namespaces in the cluster, by default. This can be an issue for very large clusters with lots of namespaces and deployments, or even for a moderately sized cluster with rapidly churning resources (for example, Spark jobs).
 

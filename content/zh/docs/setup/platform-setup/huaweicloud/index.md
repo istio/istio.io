@@ -10,6 +10,7 @@ keywords: [platform-setup,huawei,huaweicloud,cce]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 遵循以下说明配置[华为云容器引擎 CCE](https://www.huaweicloud.com/intl/zh-cn/product/cce.html) 集群以便安装运行 Istio。
 您可以在华为云的`云容器引擎控制台`中快速简单地部署一个完全支持 Istio 的 Kubernetes 集群。

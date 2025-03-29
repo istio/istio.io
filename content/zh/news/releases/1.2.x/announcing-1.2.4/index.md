@@ -11,6 +11,7 @@ aliases:
     - /zh/news/2019/announcing-1.2.4
     - /zh/news/announcing-1.2.4
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 我们很高兴地宣布 Istio 1.2.4 现在是可用的，详情请查看如下更改。
 

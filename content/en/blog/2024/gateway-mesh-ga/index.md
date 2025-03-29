@@ -6,6 +6,7 @@ attribution: John Howard - solo.io
 keywords: [istio, traffic, API]
 target_release: 1.22
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 We are thrilled to announce that Service Mesh support in the [Gateway API](https://gateway-api.sigs.k8s.io/) is now officially "Stable"!
 With this release (part of Gateway API v1.1 and Istio v1.22), users can make use of the next-generation traffic management APIs for both ingress ("north-south") and service mesh use cases ("east-west").

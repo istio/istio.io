@@ -6,6 +6,7 @@ keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio provides the ability to configure tracing options, such as sampling rate and adding custom tags to reported spans.
 This task shows you how to customize the tracing options with Telemetry API.

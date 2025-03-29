@@ -6,6 +6,7 @@ attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [client-go,tools,crd]
 target_release: 1.4
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 我们很高兴地宣布 [Istio client go](https://github.com/istio/client-go) 的第一个版本发布了，该存储库使开发人员能够在 `Kubernetes` 环境中访问 `Istio API` 。在此存储库中的 `Kubernetes` 程序和客户端使开发人员可以轻松地为所有 `Istio` 客户端自定义的资源 `(CRDs)` 创建，读取，更新和删除 `(CRUD)`。
 

@@ -5,7 +5,7 @@ weight: 60
 owner: istio/wg-security-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## Background
 
 This page shows common patterns of using Istio security policies. You may find them useful in your deployment or use this

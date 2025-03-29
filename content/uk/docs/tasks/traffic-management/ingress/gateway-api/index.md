@@ -9,7 +9,7 @@ keywords: [traffic-management,ingress, gateway-api]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 Окрім власного API для управління трафіком,
 {{< boilerplate gateway-api-future >}}
 Цей документ описує відмінності між API Istio та Kubernetes і надає простий приклад, який показує, як налаштувати Istio для експонування сервісу за межі кластера службової мережі, використовуючи Gateway API. Зверніть увагу, що ці API є активно еволюціями API Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/) та [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/), що активно розвиваються.

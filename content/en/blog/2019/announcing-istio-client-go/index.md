@@ -6,6 +6,7 @@ attribution: Neeraj Poddar (Aspen Mesh)
 keywords: [client-go,tools,crd]
 target_release: 1.4
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 We are pleased to announce the initial release of the Istio
 [client go](https://github.com/istio/client-go) repository which enables developers
