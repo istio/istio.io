@@ -49,7 +49,7 @@ Prerequisites:
 - Kubectl
 - Istioctl
 
-### Install the operator from the sail operator helm repository
+### Install the operator from the Sail Operator Helm repository
 
 {{< text bash >}}
 $ helm repo add sail-operator https://istio-ecosystem.github.io/sail-operator
@@ -80,7 +80,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 sail-operator-56bf994f49-j67ft   1/1     Running   0          87s
 {{< /text >}}
 
-#### Create an Istio resource with istio version 1.24.2 and a Istio revision tag
+#### Create an Istio resource with Istio v1.24.2 and a revision tag
 
 {{< text bash >}}
 $ kubectl create ns istio-system
@@ -112,66 +112,66 @@ Note that the `IstioRevisionTag` has a target reference to the `Istio` resource 
 Check the state of the resources created:
 - `istiod` pods are running
 
-{{< text bash >}}
-$ kubectl get pods -n istio-system
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get pods -n istio-system
+    {{< /text >}}
 
-{{< text plain >}}
-NAME                                    READY   STATUS    RESTARTS   AGE
-istiod-default-v1-24-2-bd8458c4-jl8zm   1/1     Running   0          3m45s
-{{< /text >}}
+    {{< text plain >}}
+    NAME                                    READY   STATUS    RESTARTS   AGE
+    istiod-default-v1-24-2-bd8458c4-jl8zm   1/1     Running   0          3m45s
+    {{< /text >}}
 
 - `Istio` resource created
 
-{{< text bash >}}
-$ kubectl get istio
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get istio
+    {{< /text >}}
 
-{{< text plain >}}
-NAME      REVISIONS   READY   IN USE   ACTIVE REVISION   STATUS    VERSION   AGE
-default   1           1       1        default-v1-24-2   Healthy   v1.24.2   4m27s
-{{< /text >}}
+    {{< text plain >}}
+    NAME      REVISIONS   READY   IN USE   ACTIVE REVISION   STATUS    VERSION   AGE
+    default   1           1       1        default-v1-24-2   Healthy   v1.24.2   4m27s
+    {{< /text >}}
 
 - `IstioRevisionTag` resource created
 
-{{< text bash >}}
-$ kubectl get istiorevisiontag
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get istiorevisiontag
+    {{< /text >}}
 
-{{< text plain >}}
-NAME      STATUS                    IN USE   REVISION          AGE
-default   NotReferencedByAnything   False    default-v1-24-2   4m43s
-{{< /text >}}
+    {{< text plain >}}
+    NAME      STATUS                    IN USE   REVISION          AGE
+    default   NotReferencedByAnything   False    default-v1-24-2   4m43s
+    {{< /text >}}
 
-Note that the `IstioRevisionTag` status is `NotReferencedByAnything`, this is because there are currently no resources using the revision `default-v1-24-2`.
+Note that the `IstioRevisionTag` status is `NotReferencedByAnything`. This is because there are currently no resources using the revision `default-v1-24-2`.
 
 ### Deploy sample application
 
-- Create a namespace and label it to enable istio injection
+- Create a namespace and label it to enable Istio injection:
 
 {{< text bash >}}
 $ kubectl create namespace sample
 $ kubectl label namespace sample istio-injection=enabled
 {{< /text >}}
 
-After labeling the namespace you will see that the `IstioRevisionTag` resource status will change to In Use true, this is because there is now a resource using the revision `default-v1-24-2`.
+After labeling the namespace you will see that the `IstioRevisionTag` resource status will change to 'In Use: True', because there is now a resource using the revision `default-v1-24-2`.
 
-{{< text bash >}}
-$ kubectl get istiorevisiontag
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl get istiorevisiontag
+    {{< /text >}}
 
-{{< text plain >}}
-NAME      STATUS    IN USE   REVISION          AGE
-default   Healthy   True     default-v1-24-2   6m24s
-{{< /text >}}
+    {{< text plain >}}
+    NAME      STATUS    IN USE   REVISION          AGE
+    default   Healthy   True     default-v1-24-2   6m24s
+    {{< /text >}}
 
-- Deploy the sample application
+Deploy the sample application:
 
 {{< text bash >}}
 $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml -n sample
 {{< /text >}}
 
-- Confirm istio proxy version of the sample app match the control plane version
+Confirm the proxy version of the sample app matches the control plane version:
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -184,13 +184,13 @@ sleep-5fcd8fd6c8-q4c9x.sample     Kubernetes     SYNCED (78s)     SYNCED (78s)  
 
 #### Upgrade the Istio control plane to version 1.24.3
 
-- Update the `Istio` resource with the new version
+Update the `Istio` resource with the new version:
 
 {{< text bash >}}
 $ kubectl patch istio default -n istio-system --type='merge' -p '{"spec":{"version":"v1.24.3"}}'
 {{< /text >}}
 
-- Check the `Istio` resource, you will see that there are two revisions and there are two `Istio` ready
+Check the `Istio` resource. You will see that there are two revisions and they are both 'ready':
 
 {{< text bash >}}
 $ kubectl get istio
@@ -201,7 +201,7 @@ NAME      REVISIONS   READY   IN USE   ACTIVE REVISION   STATUS    VERSION   AGE
 default   2           2       2        default-v1-24-3   Healthy   v1.24.3   10m
 {{< /text >}}
 
-- The `IstioRevisiontag` now references the new revision
+The `IstioRevisiontag` now references the new revision:
 
 {{< text bash >}}
 $ kubectl get istiorevisiontag
@@ -212,7 +212,7 @@ NAME      STATUS    IN USE   REVISION          AGE
 default   Healthy   True     default-v1-24-3   11m
 {{< /text >}}
 
-- There are two `IstioRevisions`, one for each istio version
+There are two `IstioRevisions`, one for each Istio version:
 
 {{< text bash >}}
 $ kubectl get istiorevision
@@ -229,7 +229,7 @@ The Sail Operator automatically detects whether a given Istio control plane is b
 * The new revision `default-v1-24-3` is considered in use because it is referenced by the tag.
 * The tag is considered in use because it is referenced by the sample namespace.
 
-- Confirm there are two control plane pods running, one for each revision
+Confirm there are two control plane pods running, one for each revision:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -241,7 +241,7 @@ istiod-default-v1-24-2-bd8458c4-jl8zm     1/1     Running   0          16m
 istiod-default-v1-24-3-68df97dfbb-v7ndm   1/1     Running   0          6m32s
 {{< /text >}}
 
-- Confirm the proxy sidecar version remains the same
+Confirm the proxy sidecar version remains the same:
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -252,13 +252,13 @@ NAME                              CLUSTER        CDS                LDS         
 sleep-5fcd8fd6c8-q4c9x.sample     Kubernetes     SYNCED (6m40s)     SYNCED (6m40s)     SYNCED (6m40s)     SYNCED (6m40s)     IGNORED     istiod-default-v1-24-2-bd8458c4-jl8zm     1.24.2
 {{< /text >}}
 
-- Restart the sample pod
+Restart the sample pod:
 
 {{< text bash >}}
 $ kubectl rollout restart deployment -n sample
 {{< /text >}}
 
-- Confirm the proxy sidecar version is updated
+Confirm the proxy sidecar version is updated:
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -269,7 +269,7 @@ NAME                              CLUSTER        CDS              LDS           
 sleep-6f87fcf556-k9nh9.sample     Kubernetes     SYNCED (29s)     SYNCED (29s)     SYNCED (29s)     SYNCED (29s)     IGNORED     istiod-default-v1-24-3-68df97dfbb-v7ndm     1.24.3
 {{< /text >}}
 
-- When an `IstioRevision` is no longer in use and is not the active revision of an `Istio` resource (for example, when it is not the version that is set in the `spec.version` field), the Sail Operator will delete it after a grace period, which defaults to 30 seconds. Confirm the deletion of the old control plane and `IstioRevision`:
+When an `IstioRevision` is no longer in use and is not the active revision of an `Istio` resource (for example, when it is not the version that is set in the `spec.version` field), the Sail Operator will delete it after a grace period, which defaults to 30 seconds. Confirm the deletion of the old control plane and `IstioRevision`:
 
 {{< text bash >}}
 $ kubectl get pods -n istio-system
@@ -300,4 +300,4 @@ default   1           1       1        default-v1-24-3   Healthy   v1.24.3   24m
 
 ## Conclusion
 
-The Sail Operator automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio in your cluster. The Sail Operator is an istio-ecosystem project, and we encourage you to try it out and provide feedback to help us improve it, you can check our contribution guide [here](https://github.com/istio-ecosystem/sail-operator/blob/main/CONTRIBUTING.md) for more information about how to contribute to the project.
+The Sail Operator automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio in your cluster. The Sail Operator is an [istio-ecosystem](https://github.com/istio-ecosystem) project, and we encourage you to try it out and provide feedback to help us improve it, you can check our [contribution guide](https://github.com/istio-ecosystem/sail-operator/blob/main/CONTRIBUTING.md) for more information about how to contribute to the project.
