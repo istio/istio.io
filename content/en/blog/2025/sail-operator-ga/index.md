@@ -62,6 +62,7 @@ TEST SUITE: None
 {{< /text >}}
 
 Check the operator pod is running:
+
 {{< text bash >}}
 $ kubectl get pods -n sail-operator
 {{< /text >}}
