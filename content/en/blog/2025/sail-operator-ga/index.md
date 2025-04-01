@@ -6,7 +6,7 @@ attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,istiooperator]
 ---
 
-The [Sail Operator](https://github.com/istio-ecosystem/sail-operator) is a community project launched by Red Hat to build a modern [operator](https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator) for Istio. [First announced in August 2024](https://github.com/istio-ecosystem/sail-operator) we are pleased to announce Sail Operator is now GA with a clear mission: to simplify and streamline Istio management in your cluster..
+The [Sail Operator](https://github.com/istio-ecosystem/sail-operator) is a community project launched by Red Hat to build a modern [operator](https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator) for Istio. [First announced in August 2024](/blog/2024/introducing-sail-operator/) we are pleased to announce Sail Operator is now GA with a clear mission: to simplify and streamline Istio management in your cluster.
 
 ## Simplified deployment & management
 
