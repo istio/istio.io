@@ -1,45 +1,47 @@
 ---
-title: "Sail operator 1.0.0 has been released: manage Istio with an operator"
-description: Sail Operator 1.0.0 released, a project part of the istio-ecosystem organization. Let's dive in into the basics of the Sail Operator and let's run an example to show how easy it is to manage Istio with it.
+title: "Sail Operator 1.0.0 released: manage Istio with an operator"
+description: Dive in into the basics of the Sail Operator and check out an example to see how easy it is to use it to manage Istio.
 publishdate: 2025-03-19
 attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,istiooperator]
 ---
 
-The Sail operator is GA with a clear mission: to simplify and streamline Istio management in your cluster. By using the Kubernetes operator pattern, Sail operator aims to add new value to istio by improving the upgrade process.
+The [Sail Operator](https://github.com/istio-ecosystem/sail-operator) is a community project launched by Red Hat to build a modern [operator](https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator) for Istio. [First announced in August 2024](https://github.com/istio-ecosystem/sail-operator) we are pleased to announce Sail Operator is now GA with a clear mission: to simplify and streamline Istio management in your cluster..
 
-## Simplified Deployment & Management
+## Simplified deployment & management
 
-The Sail operator is engineered to cut down the complexity of installing and running Istio. It automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio versions in your cluster. Besides this, the Sail operator APIs are built around Istio’s Helm chart APIs, which means that all the istio configurations are available through the Sail Operator CRDs’ values.
+The Sail Operator is engineered to cut down the complexity of installing and running Istio. It automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio versions in your cluster. The Sail Operator APIs are built around Istio’s Helm chart APIs, which means that all the istio configurations are available through the Sail Operator CRD’s values.
 
-We encourage users to go through our live [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs) to learn more about this new way to manage your istio control plane.
+We encourage users to go through our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs) to learn more about this new way to manage your Istio environment.
 
-The main resources that are part of the Sail operator are:
-* `Istio`: manages your istio control plane.
-* `IstioRevision`: it represents a revision of the control plane.
-* `IstioRevisionTag`: resource represents a stable revision tag, which functions as an alias for Istio control plane revisions.
-* `IstioCNI`: Istio's CNI plugin resource.
-* `ZTunnel`: ambient mode ztunnel `DaemonSet` (alpha feature).
+The main resources that are part of the Sail Operator are:
+* `Istio`: manages an Istio control plane.
+* `IstioRevision`: represents a revision of the control plane.
+* `IstioRevisionTag`: represents a stable revision tag, which functions as an alias for an Istio control plane revision.
+* `IstioCNI`: manages Istio's CNI node agent.
+* `ZTunnel`: manage the ambient mode ztunnel DaemonSet (Alpha feature).
 
-Note that if you are migrating from the (now deprecated and deleted) In-Cluster Istio operator, you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your `IstioOperator` resource to an `Istio` resource.
+{{< idea >}}
+If you are migrating from the [since-removed Istio in-cluster operator](https://istio.io/latest/blog/2024/in-cluster-operator-deprecation-announcement/), you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your `IstioOperator` resource to an `Istio` resource.
+{{< /idea >}}
 
-## Main Features and support
+## Main features and support
 
 - Each component of the Istio control plane is managed independently by the Sail Operator through dedicated Kubernetes Custom Resources (CRs). The Sail Operator provides separate CRDs for components such as `Istio`, `IstioCNI`, and `ZTunnel`, allowing you to configure, manage, and upgrade them individually. Additionally, there are CRDs for `IstioRevision` and `IstioRevisionTag` to manage Istio control plane revisions.
 - Support for multiple Istio versions. Currently the 1.0.0 version supports: 1.24.3, 1.24.2, 1.24.1, 1.23.5, 1.23.4, 1.23.3, 1.23.0.
 - Two update strategies are supported: `InPlace` and `RevisionBased`. Check our documentation for more information about the update types supported.
 - Support for multicluster Istio [deployment models](/docs/setup/install/multicluster/): multi-primary, primary-remote, external control plane. More information and examples in our [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multi-cluster).
-- Ambient is alpha: check our specific [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/common/istio-ambient-mode.md).
-- Addons are managed separately from the Sail Operator. They can be easily integrated with the Sail operator, you can check this section for the [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#addons) for examples and more information.
+- Ambient mode support is Alpha: check our specific [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/common/istio-ambient-mode.md).
+- Addons are managed separately from the Sail Operator. They can be easily integrated with the Sail Operator, check this section for the [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#addons) for examples and more information.
 
-## Why Now?
+## Why now?
 
-As cloud-native architectures continue to evolve, a robust and user-friendly operator for Istio is more essential than ever. The Sail Operator offers developers and operations teams a consistent, secure, and efficient solution that feels familiar to those used to working with operators. Its GA release signals a mature solution, ready to support even the most demanding production environments.
+As cloud native architectures continue to evolve, we feel a robust and user-friendly operator for Istio is more essential than ever. The Sail Operator offers developers and operations teams a consistent, secure, and efficient solution that feels familiar to those used to working with operators. Its GA release signals a mature solution, ready to support even the most demanding production environments.
 
 ## Try it out
 
-Do you want to try our operator?
-Going over this example will show you how to safely do an update of your istio control plane by using the revision-based upgrade strategy, this means you will have two Istio control planes running at the same time, allowing you to migrate workloads easily, minimizing the risk of traffic disruptions.
+Would you like to try out Sail Operator?
+This example will show you how to safely do an update of your Istio control plane by using the revision-based upgrade strategy. This means you will have two Istio control planes running at the same time, allowing you to migrate workloads easily, minimizing the risk of traffic disruptions.
 
 Prerequisites:
 - Running cluster
