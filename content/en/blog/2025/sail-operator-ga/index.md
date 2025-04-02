@@ -1,7 +1,7 @@
 ---
 title: "Sail Operator 1.0.0 released: manage Istio with an operator"
 description: Dive in into the basics of the Sail Operator and check out an example to see how easy it is to use it to manage Istio.
-publishdate: 2025-04-01
+publishdate: 2025-04-02
 attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,istiooperator]
 ---
@@ -41,7 +41,15 @@ As cloud native architectures continue to evolve, we feel a robust and user-frie
 ## Try it out
 
 Would you like to try out Sail Operator?
-Let's install the Sail Operator by using the helm repository.
+This example will show you how to safely do an update of your Istio control plane by using the revision-based upgrade strategy. This means you will have two Istio control planes running at the same time, allowing you to migrate workloads easily, minimizing the risk of traffic disruptions.
+
+Prerequisites:
+- Running cluster
+- Helm
+- Kubectl
+- Istioctl
+
+### Let's install the Sail Operator by using the helm repository
 
 {{< text bash >}}
 $ helm repo add sail-operator https://istio-ecosystem.github.io/sail-operator
@@ -72,10 +80,231 @@ NAME                             READY   STATUS    RESTARTS   AGE
 sail-operator-56bf994f49-j67ft   1/1     Running   0          87s
 {{< /text >}}
 
-Do you want to run an example to see how easy it is to manage Istio with the Sail Operator?
-Now that you have the operator installed, you can try out the example described in our [docs](https://github.com/istio-ecosystem/sail-operator/tree/release-1.0/docs#example-using-the-revisionbased-strategy-and-an-istiorevisiontag). This example demonstrates how to use the `IstioRevision` and `IstioRevisionTag` resources to manage the Istio control plane updates.
+### Let's create an Istio and a istio revision tag resources
 
-In this example, you'll see how Sail Operator enables two Istio control planes to run concurrently, making it possible to migrate workloads with minimal risk of service disruption using the `RevisionBased` update strategy and `IstioRevisionTag`.
+Create an `Istio` resource with the version `v1.24.2` and an `IstioRevisionTag`:
+
+{{< text bash >}}
+$ kubectl create ns istio-system
+$ cat <<EOF | kubectl apply -f-
+apiVersion: sailoperator.io/v1
+kind: Istio
+metadata:
+  name: default
+spec:
+  namespace: istio-system
+  updateStrategy:
+    type: RevisionBased
+    inactiveRevisionDeletionGracePeriodSeconds: 30
+  version: v1.24.2
+---
+apiVersion: sailoperator.io/v1
+kind: IstioRevisionTag
+metadata:
+  name: default
+spec:
+  targetRef:
+    kind: Istio
+    name: default
+EOF
+{{< /text >}}
+
+Note that the `IstioRevisionTag` has a target reference to the `Istio` resource with the name `default`
+
+Check the state of the resources created:
+- `istiod` pods are running
+
+    {{< text bash >}}
+    $ kubectl get pods -n istio-system
+    {{< /text >}}
+
+    {{< text plain >}}
+    NAME                                    READY   STATUS    RESTARTS   AGE
+    istiod-default-v1-24-2-bd8458c4-jl8zm   1/1     Running   0          3m45s
+    {{< /text >}}
+
+- `Istio` resource created
+
+    {{< text bash >}}
+    $ kubectl get istio
+    {{< /text >}}
+
+    {{< text plain >}}
+    NAME      REVISIONS   READY   IN USE   ACTIVE REVISION   STATUS    VERSION   AGE
+    default   1           1       1        default-v1-24-2   Healthy   v1.24.2   4m27s
+    {{< /text >}}
+
+- `IstioRevisionTag` resource created
+
+    {{< text bash >}}
+    $ kubectl get istiorevisiontag
+    {{< /text >}}
+
+    {{< text plain >}}
+    NAME      STATUS                    IN USE   REVISION          AGE
+    default   NotReferencedByAnything   False    default-v1-24-2   4m43s
+    {{< /text >}}
+
+Note that the `IstioRevisionTag` status is `NotReferencedByAnything`. This is because there are currently no resources using the revision `default-v1-24-2`.
+
+### Let's Deploy sample application
+
+Create a namespace and label it to enable Istio injection:
+
+{{< text bash >}}
+$ kubectl create namespace sample
+$ kubectl label namespace sample istio-injection=enabled
+{{< /text >}}
+
+After labeling the namespace you will see that the `IstioRevisionTag` resource status will change to 'In Use: True', because there is now a resource using the revision `default-v1-24-2`:
+
+{{< text bash >}}
+$ kubectl get istiorevisiontag
+{{< /text >}}
+
+{{< text plain >}}
+NAME      STATUS    IN USE   REVISION          AGE
+default   Healthy   True     default-v1-24-2   6m24s
+{{< /text >}}
+
+Deploy the sample application:
+
+{{< text bash >}}
+$ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml -n sample
+{{< /text >}}
+
+Confirm the proxy version of the sample app matches the control plane version:
+
+{{< text bash >}}
+$ istioctl proxy-status
+{{< /text >}}
+
+{{< text plain >}}
+NAME                              CLUSTER        CDS              LDS              EDS              RDS              ECDS        ISTIOD                                    VERSION
+sleep-5fcd8fd6c8-q4c9x.sample     Kubernetes     SYNCED (78s)     SYNCED (78s)     SYNCED (78s)     SYNCED (78s)     IGNORED     istiod-default-v1-24-2-bd8458c4-jl8zm     1.24.2
+{{< /text >}}
+
+### Let's upgrade the Istio control plane to version 1.24.3
+
+Update the `Istio` resource with the new version:
+
+{{< text bash >}}
+$ kubectl patch istio default -n istio-system --type='merge' -p '{"spec":{"version":"v1.24.3"}}'
+{{< /text >}}
+
+Check the `Istio` resource. You will see that there are two revisions and they are both 'ready':
+
+{{< text bash >}}
+$ kubectl get istio
+{{< /text >}}
+
+{{< text plain >}}
+NAME      REVISIONS   READY   IN USE   ACTIVE REVISION   STATUS    VERSION   AGE
+default   2           2       2        default-v1-24-3   Healthy   v1.24.3   10m
+{{< /text >}}
+
+The `IstioRevisiontag` now references the new revision:
+
+{{< text bash >}}
+$ kubectl get istiorevisiontag
+{{< /text >}}
+
+{{< text plain >}}
+NAME      STATUS    IN USE   REVISION          AGE
+default   Healthy   True     default-v1-24-3   11m
+{{< /text >}}
+
+There are two `IstioRevisions`, one for each Istio version:
+
+{{< text bash >}}
+$ kubectl get istiorevision
+{{< /text >}}
+
+{{< text plain >}}
+NAME              TYPE   READY   STATUS    IN USE   VERSION   AGE
+default-v1-24-2          True    Healthy   True     v1.24.2   11m
+default-v1-24-3          True    Healthy   True     v1.24.3   92s
+{{< /text >}}
+
+The Sail Operator automatically detects whether a given Istio control plane is being used and writes this information in the "In Use" status condition that you see above. Right now, all `IstioRevisions` and our `IstioRevisionTag` are considered "In Use":
+* The old revision `default-v1-24-2` is considered in use because it is referenced by the sample application’s sidecar.
+* The new revision `default-v1-24-3` is considered in use because it is referenced by the tag.
+* The tag is considered in use because it is referenced by the sample namespace.
+
+Confirm there are two control plane pods running, one for each revision:
+
+{{< text bash >}}
+$ kubectl get pods -n istio-system
+{{< /text >}}
+
+{{< text plain >}}
+NAME                                      READY   STATUS    RESTARTS   AGE
+istiod-default-v1-24-2-bd8458c4-jl8zm     1/1     Running   0          16m
+istiod-default-v1-24-3-68df97dfbb-v7ndm   1/1     Running   0          6m32s
+{{< /text >}}
+
+Confirm the proxy sidecar version remains the same:
+
+{{< text bash >}}
+$ istioctl proxy-status
+{{< /text >}}
+
+{{< text plain >}}
+NAME                              CLUSTER        CDS                LDS                EDS                RDS                ECDS        ISTIOD                                    VERSION
+sleep-5fcd8fd6c8-q4c9x.sample     Kubernetes     SYNCED (6m40s)     SYNCED (6m40s)     SYNCED (6m40s)     SYNCED (6m40s)     IGNORED     istiod-default-v1-24-2-bd8458c4-jl8zm     1.24.2
+{{< /text >}}
+
+Restart the sample pod:
+
+{{< text bash >}}
+$ kubectl rollout restart deployment -n sample
+{{< /text >}}
+
+Confirm the proxy sidecar version is updated:
+
+{{< text bash >}}
+$ istioctl proxy-status
+{{< /text >}}
+
+{{< text plain >}}
+NAME                              CLUSTER        CDS              LDS              EDS              RDS              ECDS        ISTIOD                                      VERSION
+sleep-6f87fcf556-k9nh9.sample     Kubernetes     SYNCED (29s)     SYNCED (29s)     SYNCED (29s)     SYNCED (29s)     IGNORED     istiod-default-v1-24-3-68df97dfbb-v7ndm     1.24.3
+{{< /text >}}
+
+When an `IstioRevision` is no longer in use and is not the active revision of an `Istio` resource (for example, when it is not the version that is set in the `spec.version` field), the Sail Operator will delete it after a grace period, which defaults to 30 seconds. Confirm the deletion of the old control plane and `IstioRevision`:
+
+- The old control plane pod is deleted
+
+    {{< text bash >}}
+    $ kubectl get pods -n istio-system
+    {{< /text >}}
+
+    {{< text plain >}}
+    NAME                                      READY   STATUS    RESTARTS   AGE
+    istiod-default-v1-24-3-68df97dfbb-v7ndm   1/1     Running   0          10m
+    {{< /text >}}
+
+- The old `IstioRevision` is deleted
+
+    {{< text bash >}}
+    $ kubectl get istiorevision
+    {{< /text >}}
+
+    {{< text plain >}}
+    NAME              TYPE   READY   STATUS    IN USE   VERSION   AGE
+    default-v1-24-3          True    Healthy   True     v1.24.3   13m
+    {{< /text >}}
+
+- The `Istio` resource now only has one revision
+
+    {{< text bash >}}
+    $ kubectl get istio
+    {{< /text >}}
+
+    {{< text plain >}}
+    NAME      REVISIONS   READY   IN USE   ACTIVE REVISION   STATUS    VERSION   AGE
+    default   1           1       1        default-v1-24-3   Healthy   v1.24.3   24m
+    {{< /text >}}
 
 ## Conclusion
 
