@@ -306,6 +306,10 @@ When an `IstioRevision` is no longer in use and is not the active revision of an
     default   1           1       1        default-v1-24-3   Healthy   v1.24.3   24m
     {{< /text >}}
 
+**Congratulations!** You have successfully updated your Istio control plane using the revision-based upgrade strategy.
+
+**Note:** To check the latest Sail Operator version, visit our [releases](https://github.com/istio-ecosystem/sail-operator/releases) page and check the latest version available.  Also, as the example may evolve over time, please refer to our [docs](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#example-using-the-revisionbased-strategy-and-an-istiorevisiontag) to ensure you’re using the most up-to-date version.
+
 ## Conclusion
 
 The Sail Operator automates manual tasks, ensuring a consistent, reliable, and uncomplicated experience from initial installation to ongoing maintenance and upgrades of Istio in your cluster. The Sail Operator is an [istio-ecosystem](https://github.com/istio-ecosystem) project, and we encourage you to try it out and provide feedback to help us improve it, you can check our [contribution guide](https://github.com/istio-ecosystem/sail-operator/blob/main/CONTRIBUTING.md) for more information about how to contribute to the project.
