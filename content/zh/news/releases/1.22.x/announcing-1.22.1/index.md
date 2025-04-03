@@ -19,7 +19,7 @@ release: 1.22.1
 - **新增** 添加了一个新的、可选的实验性准入策略，该策略仅允许在使用远程 Istiod 集群时在 Istio API 中使用稳定的功能/字段。
   ([Issue #173](https://github.com/istio/enhancements/issues/173))
 
--**修复** 修复了将 Pod IP 添加到主机的 `ipset` 时明确失败而不是静默覆盖的问题。
+- **修复** 修复了将 Pod IP 添加到主机的 `ipset` 时明确失败而不是静默覆盖的问题。
 
 - **修复** 修复了导致 MeshConfig 中的 `outboundstatname` 不适用于子集集群的问题。
 
