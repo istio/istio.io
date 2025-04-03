@@ -61,7 +61,7 @@ serviceSettings:
 
 {{< /tabset >}}
 
-You can also refine service access down by setting a global cluster-local rule and adding explicit exceptions, which can be specific or wildcard. In the following example, all services in the cluster will be kept cluster-local, except any service in the `myns` namespace.
+You can also refine service access down by setting a global cluster-local rule and adding explicit exceptions, which can be specific or wildcard. In the following example, all services in the cluster will be kept cluster-local, except any service in the `myns` namespace:
 
 {{< text yaml >}}
 serviceSettings:
