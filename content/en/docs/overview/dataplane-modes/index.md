@@ -65,7 +65,7 @@ Users often deploy a mesh to enable a zero-trust security posture as a first-ste
     <tr>
       <th>Extensibility</th>
       <td>Full Istio feature set</td>
-      <td>Full Istio feature set (requires using waypoint) <sup><a href="#supported-features">&alpha;</a></sup></td>
+      <td>Via <a href="/docs/ambient/usage/extend-waypoint-wasm">WebAssembly plugins</a> (requires using waypoint)<br>The EnvoyFilter API is not supported.</td>
     </tr>
     <tr>
       <th>Adding workloads to the mesh</th>
