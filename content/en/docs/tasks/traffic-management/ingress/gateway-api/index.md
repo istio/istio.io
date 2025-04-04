@@ -189,12 +189,11 @@ In the example above, you did not need to install an ingress gateway `Deployment
 In the default configuration, a gateway `Deployment` and `Service` is automatically provisioned based on the `Gateway` configuration.
 For advanced use cases, manual deployment is still allowed.
 
-### Automated Deployment
+### Automated deployment
 
 By default, each `Gateway` will automatically provision a `Service` and `Deployment`.
 These will be named `<Gateway name>-<GatewayClass name>` (with the exception of the `istio-waypoint` `GatewayClass`, which does not append a suffix).
 These configurations will be updated automatically if the `Gateway` changes (for example, if a new port is added).
-
 
 These resources can be customized by using the `infrastructure` field:
 
@@ -254,7 +253,7 @@ data:
         port: 15021
 {{< /text >}}
 
-These configurations will be overlayed on top of the generated resources using a [Strategic Merge Patch](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md) strategy.
+These configurations will be overlaid on top of the generated resources using a [Strategic Merge Patch](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md) strategy.
 The following keys are valid:
 * `service`
 * `deployment`
@@ -267,7 +266,7 @@ A `HorizontalPodAutoscaler` and `PodDisruptionBudget` are not created by default
 However, if the corresponding field is present in the customization, they will be created.
 {{< /tip >}}
 
-#### GatewayClass Defaults
+#### GatewayClass defaults
 
 Defaults for all `Gateway`s can be configured for each `GatewayClass`.
 This is done by a `ConfigMap` with the label `gateway.istio.io/defaults-for-class: <gateway class name>`.
@@ -291,7 +290,7 @@ spec:
             replicas: 2
 {{< /text >}}
 
-#### Resource Attachment and Scaling
+#### Resource attachment and scaling
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
@@ -351,7 +350,7 @@ spec:
       gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
-### Manual Deployment
+### Manual deployment
 
 If you do not want to have an automated deployment, a `Deployment` and `Service` can be [configured manually](/docs/setup/additional-setup/gateway/).
 
