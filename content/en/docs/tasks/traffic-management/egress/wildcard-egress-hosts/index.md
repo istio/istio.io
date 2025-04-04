@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task and
 the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example
 describe how to configure egress traffic for specific hostnames, like `edition.cnn.com`.

@@ -6,7 +6,7 @@ keywords: [profiles,install,helm]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ### Передумови {#prerequisites}
 
 Перш ніж почати, перевірте наступні передумови:

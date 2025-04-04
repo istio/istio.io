@@ -6,6 +6,7 @@ keywords: [integration,prometheus]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [Prometheus](https://prometheus.io/) — це система моніторингу з відкритим вихідним кодом і база даних часових рядів. Ви можете використовувати Prometheus з Istio для запису метрик, що відстежують стан Istio та застосунків у сервісній мережі. Ви можете візуалізувати метрики за допомогою таких інструментів, як [Grafana](/docs/ops/integrations/grafana/) та [Kiali](/docs/tasks/observability/kiali/).
 

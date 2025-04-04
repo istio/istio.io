@@ -3,6 +3,7 @@ title: 文本块
 description: 基础文本块。
 skip_sitemap: true
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 带 html 标记的普通文本块
 

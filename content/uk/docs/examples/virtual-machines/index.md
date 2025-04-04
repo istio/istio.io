@@ -13,6 +13,7 @@ aliases:
 owner: istio/wg-environments-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Цей приклад розгортає застосунок Bookinfo у Kubernetes з одним сервісом, що працює на віртуальній машині (VM), і ілюструє, як контролювати цю інфраструктуру як єдину мережу.
 

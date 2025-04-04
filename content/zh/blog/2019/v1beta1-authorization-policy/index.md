@@ -7,7 +7,7 @@ attribution: Yangmin Zhu (Google)
 keywords: [security, RBAC, access control, authorization]
 target_release: 1.4
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Istio 1.4 引入了 [`v1beta1` 授权策略](/zh/docs/reference/config/security/authorization-policy/)，这是对
 以前 `v1alpha1` 的基于角色的访问控制（RBAC）策略的重要更新。包括以下改进：
 

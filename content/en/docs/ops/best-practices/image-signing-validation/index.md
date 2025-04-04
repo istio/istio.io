@@ -7,6 +7,7 @@ keywords: [install,signing]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 This page describes how to use [Cosign](https://github.com/sigstore/cosign) to
 validate the provenance of Istio image artifacts.

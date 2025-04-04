@@ -5,6 +5,7 @@ publishdate: 2022-09-07T08:00:00-06:00
 attribution: "Lin Sun (Solo.io), John Howard (Google)"
 keywords: [ambient,demo,guide]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 {{< warning >}}
 请参阅最新的 [Ambient 网格入门文档](/zh/docs/ambient/getting-started/)以获取更新的说明。
