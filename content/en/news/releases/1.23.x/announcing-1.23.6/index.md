@@ -20,7 +20,7 @@ For the purposes of Istio, this CVE is only exploitable in circumstances where `
 
 ## Changes
 
-- **Fixed** an issue where customizing the workload identity SDS socketname
+- **Fixed** an issue where customizing the workload identity SDS socket name
   via `WORKLOAD_IDENTITY_SOCKET_FILE` did not work due to the Envoy bootstrap not being updated.
   ([Issue #51979](https://github.com/istio/istio/issues/51979))
 
