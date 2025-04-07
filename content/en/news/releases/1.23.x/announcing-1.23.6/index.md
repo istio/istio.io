@@ -20,7 +20,8 @@ For the purposes of Istio, this CVE is only exploitable in circumstances where `
 
 ## Changes
 
-- **Fixed** an issue where customizing the workload identity SDS socketname via `WORKLOAD_IDENTITY_SOCKET_FILE` did not work due to the Envoy bootstrap not being updated.
+- **Fixed** an issue where customizing the workload identity SDS socketname
+  via `WORKLOAD_IDENTITY_SOCKET_FILE` did not work due to the Envoy bootstrap not being updated.
   ([Issue #51979](https://github.com/istio/istio/issues/51979))
 
 - **Fixed** an issue where Istiod fails with an LDS error for proxies <1.23 when `meshConfig.accessLogEncoding` is set to `JSON`.
