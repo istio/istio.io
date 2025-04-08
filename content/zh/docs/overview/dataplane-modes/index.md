@@ -71,7 +71,7 @@ Ambient 网格允许这些用户在不需要 L7 功能时完全绕过 L7 处理�
     <tr>
       <th>可扩展性</th>
       <td>完整的 Istio 功能集</td>
-      <td>完整的 Istio 功能集（需要使用 waypoint）<sup><a href="#supported-features">&alpha;</a></sup></td>
+      <td>通过 <a href="/zh/docs/ambient/usage/extend-waypoint-wasm">WebAssembly 插件</a>（需要使用 waypoint）<br>不支持 EnvoyFilter API。</td>
     </tr>
     <tr>
       <th>向网格添加工作负载</th>

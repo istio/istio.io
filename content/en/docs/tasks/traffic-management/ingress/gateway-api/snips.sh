@@ -147,10 +147,59 @@ kind: Gateway
 metadata:
   name: gateway
 spec:
-  addresses:
-  - value: 192.0.2.0
-    type: IPAddress
-...
+  infrastructure:
+    annotations:
+      some-key: some-value
+    labels:
+      key: value
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: gw-options
+  gatewayClassName: istio
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_automated_deployment_2 <<\ENDSNIP
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gw-options
+data:
+  horizontalPodAutoscaler: |
+    spec:
+      minReplicas: 2
+      maxReplicas: 2
+
+  deployment: |
+    metadata:
+      annotations:
+      additional-annotation: some-value
+    spec:
+      replicas: 4
+      template:
+        spec:
+          containers:
+          - name: istio-proxy
+            resources:
+              requests:
+                cpu: 1234m
+
+  service: |
+    spec:
+      ports:
+      - "\$patch": delete
+        port: 15021
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_gatewayclass_defaults_1 <<\ENDSNIP
+kind: IstioOperator
+spec:
+  values:
+    gatewayClasses:
+      istio:
+        deployment:
+          spec:
+            replicas: 2
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
