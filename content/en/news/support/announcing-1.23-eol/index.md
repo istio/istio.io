@@ -2,7 +2,7 @@
 title: Support for Istio 1.23 ends on April 16, 2025
 subtitle: Support Announcement
 description: Upcoming Istio 1.23 end of life announcement.
-publishdate: 2024-03-17
+publishdate: 2025-03-17
 ---
 
 According to Istio's [support policy](/docs/releases/supported-releases#support-policy), minor releases like 1.23 are supported until six weeks after the N+2 minor release (1.25 in this case). [Istio 1.25 was released on March 3rd, 2025](/news/releases/1.25.x/announcing-1.25/), and support for 1.23 will end on April 16th, 2025.
