@@ -45,7 +45,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
       - host: httpbin.example.com
         http:
           paths:
-          - path: /
+          - path: /status
             pathType: Prefix
             backend:
               service:
