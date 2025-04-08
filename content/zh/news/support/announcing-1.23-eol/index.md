@@ -2,7 +2,7 @@
 title: 对 Istio 1.23 的支持于 2025 年 4 月 16 日结束
 subtitle: 支持公告
 description: Istio 1.23 生命周期即将结束的公告。
-publishdate: 2024-03-17
+publishdate: 2025-03-17
 ---
 
 根据 Istio 的[支持政策](/zh/docs/releases/supported-releases#support-policy)，
