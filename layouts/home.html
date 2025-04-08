@@ -25,6 +25,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@latest/dist/js/splide-extension-auto-scroll.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+    <!-- DocSearch CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3" />
+    <link rel="preconnect" href="https://95IG3UJ1LV-dsn.algolia.net" crossorigin />
+
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             new Splide('.case-studies', {
@@ -51,5 +55,17 @@
     {{ .Content }}
     
     <script type="module" src="/js/headerAnimation.min.js"></script>
+    <!-- DocSearch JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"></script>
+    <script>
+    docsearch({
+        container: '#docsearch',
+        appId: '95IG3UJ1LV',
+        indexName: 'istio',
+        apiKey: '23827432dd1f4c529eece856289a421c',
+        insights: true
+    });
+    </script>
+
 {{ end }}
 {{ end }}

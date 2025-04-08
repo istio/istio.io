@@ -112,11 +112,8 @@
         margin-left: 1rem;
     }
 
-    #search-show {
-        display: none;
-        @media (min-width: $bp-lg) {
-            display: inline-block;
-        }
+    #docsearch button {
+        background-color: var(--docsearch-searchbox-background);
     }
 
     #search-form {
@@ -493,9 +490,19 @@
     }
 }
 
-@media (min-width: $bp-xl) {
+@media (min-width: $bp-lg) {
     .main-navigation-footer {
-        #try-istio { margin-left: 2.75rem; }
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .main-navigation button {
+        margin: 0;
+    }
+
+    .main-navigation-links {
+        display: flex;
     }
 }
 
