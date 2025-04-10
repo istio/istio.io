@@ -1,20 +1,31 @@
-export default async (request: Request) => {
+export default async (request: Request, context) => {
   const url = new URL(request.url);
-  // Match paths that start with "/v" followed by a version number
-  const versionMatch = url.pathname.match(/^\/v\d+(\.\d+)*/);
+  const pathname = url.pathname;  
+  // Match version paths like /vX.XX/
+  const versionMatch = pathname.match(/^\/v\d+\.\d+/);
+  
   if (versionMatch) {
-    // Get the rest of the path after the version
-    const remainder = url.pathname.slice(versionMatch[0].length);
-    // These are the allowed subpaths under /latest/
-    const allowedSections = ['/', '/about', '/blog', '/get-involved', '/news', '/search'];
-    // Check if the remainder matches any of the allowed sections
-    const matchesSection = allowedSections.some(section =>
-      remainder === section || remainder.startsWith(section + '/')
+    // Define the main section paths that should be redirected
+    const redirectableSections = ['/', '/about', '/blog', '/get-involved', '/news', '/search'];
+    
+    const versionPath = versionMatch[0]; // ex /v1.15
+    const remainder = pathname.slice(versionPath.length) || '/';
+    // Check if the remainder starts with a redirectable section
+    const shouldRedirect = redirectableSections.some(section => 
+      remainder === section || 
+      remainder.startsWith(`${section}/`) || 
+      (section === '/' && remainder === '')
     );
-    if (matchesSection) {
-      const newPath = '/latest' + remainder;
+    
+    if (shouldRedirect) {
+      // Remove leading slash from remainder if it exists
+      const cleanRemainder = remainder.startsWith('/') ? remainder.substring(1) : remainder;
+      const newPath = `/latest/${cleanRemainder}`;
       return Response.redirect(new URL(newPath, url.origin), 301);
     }
+    // For version-specific paths we want to keep, tell Netlify to stop processing this function
+    return context.next();
   }
-  return fetch(request);
+  // For all non-version paths, pass through
+  return context.next();
 };
