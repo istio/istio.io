@@ -24,17 +24,23 @@ A [Kubernetes Ingress Resources](https://kubernetes.io/docs/concepts/services-ne
 
 Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
-1.  Create an `Ingress` resource:
+1.  Create an `Ingress` resource and an `IngressClass`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.k8s.io/v1
+    kind: IngressClass
+    metadata:
+      name: istio
+    spec:
+      controller: istio.io/ingress-controller
+    ---
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
-      annotations:
-        kubernetes.io/ingress.class: istio
       name: ingress
     spec:
+      ingressClassName: istio
       rules:
       - host: httpbin.example.com
         http:
@@ -49,7 +55,9 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
     EOF
     {{< /text >}}
 
-    The `kubernetes.io/ingress.class` annotation is required to tell the Istio gateway controller that it should handle this `Ingress`, otherwise it will be ignored.
+    The `IngressClass` resource identifies the Istio gateway controller to Kubernetes, and the `ingressClassName: istio` value instructs Kubernetes that the Istio gateway controller should handle the following `Ingress`.
+
+    Older versions of the Ingress API used the `kubernetes.io/ingress.class` annotation, and while it still works, [it has been deprecated in Kubernetes](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation) for some time.
 
 1.  Access the _httpbin_ service using _curl_:
 
@@ -86,42 +94,12 @@ By default, Istio will treat paths as exact matches, unless they end in `/*` or 
 
 In Kubernetes 1.18, a new field, `pathType`, was added. This allows explicitly declaring a path as `Exact` or `Prefix`.
 
-### Specifying `IngressClass`
-
-In Kubernetes 1.18, a new resource, `IngressClass`, was added, replacing the `kubernetes.io/ingress.class` annotation on the `Ingress` resource. If you are using this resource, you will need to set the `controller` field to `istio.io/ingress-controller`. For example:
-
-{{< text yaml >}}
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: istio
-spec:
-  controller: istio.io/ingress-controller
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress
-spec:
-  ingressClassName: istio
-  rules:
-  - host: httpbin.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: httpbin
-            port:
-              number: 8000
-{{< /text >}}
-
 ## Cleanup
 
-Delete the `Ingress` configuration, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
+Delete the `IngressClass` and `Ingress` configurations, and shutdown the [httpbin]({{< github_tree >}}/samples/httpbin) service:
 
 {{< text bash >}}
 $ kubectl delete ingress ingress
+$ kubectl delete ingressclass istio
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
