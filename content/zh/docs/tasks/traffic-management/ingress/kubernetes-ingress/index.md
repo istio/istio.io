@@ -28,17 +28,23 @@ test: yes
 
 让我们看看如何在端口 80 上配置 `Ingress` 以实现 HTTP 流量。
 
-1.  创建一个 `Ingress` 资源：
+1.  创建 `Ingress` 资源和 `IngressClass`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.k8s.io/v1
+    kind: IngressClass
+    metadata:
+      name: istio
+    spec:
+      controller: istio.io/ingress-controller
+    ---
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
-      annotations:
-        kubernetes.io/ingress.class: istio
       name: ingress
     spec:
+      ingressClassName: istio
       rules:
       - host: httpbin.example.com
         http:
@@ -53,8 +59,11 @@ test: yes
     EOF
     {{< /text >}}
 
-    需要使用 `kubernetes.io/ingress.class` 注解来告知 Istio 网关控制器它应该处理此 `Ingress`，
-    否则它将被忽略。
+    `IngressClass` 资源向 Kubernetes 标识 Istio 网关控制器，
+    `ingressClassName: istio` 值指示 Kubernetes Istio 网关控制器应该处理以下 `Ingress`。
+
+    旧版本的 Ingress API 使用 `kubernetes.io/ingress.class` 注解，
+    虽然它仍然有效，但[它在 Kubernetes 中已被弃用](https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress/#deprecated-annotation)一段时间了。
 
 1.  使用 **curl** 访问 **httpbin** 服务：
 
@@ -94,43 +103,12 @@ Istio 默认路径类型为精确匹配，除非路径以 `/*` 或 `.*` 结尾�
 
 在 Kubernetes 1.18 中，添加了一个新字段 `pathType`。这允许将路径明确声明为 `Exact` 或 `Prefix`。
 
-### 指定 `IngressClass` {#specifying-ingress-class}
-
-在 Kubernetes 1.18 中，添加了新资源 `IngressClass`，以替换 Ingress 资源上的 `kubernetes.io/ingress.class` 注解。
-如果使用此资源，则需要将 `controller` 字段设置为 `istio.io/ingress-controller`。例如：
-
-{{< text yaml >}}
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: istio
-spec:
-  controller: istio.io/ingress-controller
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress
-spec:
-  ingressClassName: istio
-  rules:
-  - host: httpbin.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: httpbin
-            port:
-              number: 8000
-{{< /text >}}
-
 ## 清除 {#cleanup}
 
-删除 `Ingress` 配置，然后关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
+删除 `IngressClass` 和 `Ingress` 配置，然后关闭 [httpbin]({{< github_tree >}}/samples/httpbin) 服务：
 
 {{< text bash >}}
 $ kubectl delete ingress ingress
+$ kubectl delete ingressclass istio
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}
