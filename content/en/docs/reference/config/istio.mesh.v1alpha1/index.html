@@ -2369,12 +2369,26 @@ to each HTTP request sent.</p>
 
 </td>
 </tr>
-<tr id="MeshConfig-ExtensionProvider-HttpHeader-value">
+<tr id="MeshConfig-ExtensionProvider-HttpHeader-value" class="oneof oneof-start">
 <td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-HttpHeader-value">value</a></code></div>
-<div class="type">string</div>
+<div class="type">string (oneof)</div>
 </div></td>
 <td>
-<p>REQUIRED. The HTTP header value.</p>
+<p>The HTTP header value.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-HttpHeader-env_name" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-HttpHeader-env_name">envName</a></code></div>
+<div class="type">string (oneof)</div>
+</div></td>
+<td>
+<p>The HTTP header value from the environment variable.</p>
+<p>Warning:</p>
+<ul>
+<li>The environment variable must be set in the istiod pod spec.</li>
+<li>This is not a end-to-end secure.</li>
+</ul>
 
 </td>
 </tr>

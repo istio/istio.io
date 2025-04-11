@@ -1155,6 +1155,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Create a secret with this service account&#39;s credentials. Default value is &#34;istio-reader-service-account&#34; if --type is &#34;remote&#34;, &#34;istiod&#34; if --type is &#34;config&#34;.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--tls-server-name &lt;string&gt;</code></td>
+<td></td>
+<td>The server name that should be validated by kube-client during establishing TLS connection with kube-apiserver.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--type &lt;SecretType&gt;</code></td>
 <td></td>
 <td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
@@ -6920,7 +6925,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h4 id="istioctl-waypoint-delete Examples">Examples</h4>
-<pre class="language-bash"><code># Delete a waypoint by name, which can obtain from istioctl waypoint list
+<pre class="language-bash"><code>  # Delete a waypoint by name, which can obtain from istioctl waypoint list
   istioctl waypoint delete waypoint-name --namespace default
 
   # Delete several waypoints by name
@@ -8762,6 +8767,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
+</tr>
+<tr>
+<td><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
 <tr>
 <td><code>PILOT_STATUS_BURST</code></td>

@@ -19,7 +19,7 @@ release: 1.23.1
 - **修复** 修复了 waypoint 需要启用 DNS 代理才能使用自动分配 IP 的问题。
   ([Issue #52746](https://github.com/istio/istio/issues/52746))
 
--**修复** 修复了使用  `pilot-agent istio-clean-iptables`  命令无法删除 `ISTIO_OUTPUT` `iptables` 链的问题。
+- **修复** 修复了使用  `pilot-agent istio-clean-iptables`  命令无法删除 `ISTIO_OUTPUT` `iptables` 链的问题。
   ([Issue #52835](https://github.com/istio/istio/issues/52835))
 
 - **修复** 修复了导致 waypoint 中 `DestinationRule` 的任何 `portLevelSettings` 被忽略的问题。
