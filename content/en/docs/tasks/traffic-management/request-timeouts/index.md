@@ -8,7 +8,7 @@ keywords: [traffic-management,timeouts]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 This task shows you how to set up request timeouts in Envoy using Istio.
 
 {{< boilerplate gateway-api-support >}}

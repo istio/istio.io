@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 **Waypoint-проксі** є необовʼязковим розгортанням проксі на основі Envoy, що додає обробку на рівні 7 (L7) для визначеного набору робочих навантажень.
 

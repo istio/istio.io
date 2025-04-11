@@ -6,6 +6,7 @@ keywords: [телеметрія,трейсинг,skywalking,спан,порт-ф
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Після завершення цього завдання ви зможете зрозуміти, як ваш застосунок може брати участь у трейсингу з [Apache SkyWalking](https://skywalking.apache.org), незалежно від мови, фреймворка або платформи, яку ви використовуєте для його створення.
 

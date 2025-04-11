@@ -7,6 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 status: Stable
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio надає [Telemetry API](/docs/reference/config/telemetry/), яке забезпечує гнучке налаштування [метрик](/docs/tasks/observability/metrics/), [доступ до логів](/docs/tasks/observability/logs/), та [трейси](/docs/tasks/observability/distributed-tracing/).
 

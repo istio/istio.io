@@ -5,6 +5,7 @@ weight: 3
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 В {{< gloss "ambient" >}}режимі ambient{{< /gloss >}} навантаження може потрапляти в 3 категорії:
 

@@ -4,7 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 This message occurs when the address provided for the ingress gateway on the external control plane is an IP address and not a hostname.
 
 ## Example
