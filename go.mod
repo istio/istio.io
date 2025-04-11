@@ -188,7 +188,7 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	helm.sh/helm/v3 v3.17.1 // indirect
+	helm.sh/helm/v3 v3.17.3 // indirect
 	istio.io/api v1.25.0-alpha.0.0.20250317161920-141038b5c1a3 // indirect
 	istio.io/client-go v1.25.0-alpha.0.0.20250317162716-a00da0a87646 // indirect
 	k8s.io/api v0.32.3 // indirect
