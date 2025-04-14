@@ -17,7 +17,8 @@ export default async (request: Request, context) => {
       sectionPath = remainder.slice(languageCodeMatch[0].length - 1) || '/'; // Keep the leading slash for matching
     }
     // Check if the base section (after removing language code) is redirectable
-    const shouldRedirect = redirectableSections.some(section => sectionPath === section || sectionPath.startsWith(`${section}/`) || (section === '/' && sectionPath === ''));
+    const shouldRedirect = redirectableSections.some(section =>
+      sectionPath === section || sectionPath.startsWith(`${section}/`) || (section === '/' && sectionPath === ''));
     if (shouldRedirect) {
       const cleanSectionPath = sectionPath.startsWith('/') ? sectionPath.substring(1) : sectionPath;
       const newPath = `/latest/${languageCode ? `${languageCode}/` : ''}${cleanSectionPath}`;
