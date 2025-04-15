@@ -23,12 +23,18 @@
 snip_configuring_ingress_using_an_ingress_resource_1() {
 kubectl apply -f - <<EOF
 apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: istio
+spec:
+  controller: istio.io/ingress-controller
+---
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    kubernetes.io/ingress.class: istio
   name: ingress
 spec:
+  ingressClassName: istio
   rules:
   - host: httpbin.example.com
     http:
@@ -64,34 +70,8 @@ HTTP/1.1 404 Not Found
 ...
 ENDSNIP
 
-! IFS=$'\n' read -r -d '' snip_specifying_ingressclass_1 <<\ENDSNIP
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: istio
-spec:
-  controller: istio.io/ingress-controller
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress
-spec:
-  ingressClassName: istio
-  rules:
-  - host: httpbin.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: httpbin
-            port:
-              number: 8000
-ENDSNIP
-
 snip_cleanup_1() {
 kubectl delete ingress ingress
+kubectl delete ingressclass istio
 kubectl delete --ignore-not-found=true -f samples/httpbin/httpbin.yaml
 }

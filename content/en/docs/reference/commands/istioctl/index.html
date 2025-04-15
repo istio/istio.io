@@ -1155,6 +1155,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Create a secret with this service account&#39;s credentials. Default value is &#34;istio-reader-service-account&#34; if --type is &#34;remote&#34;, &#34;istiod&#34; if --type is &#34;config&#34;.  (default ``)</td>
 </tr>
 <tr>
+<td><code>--tls-server-name &lt;string&gt;</code></td>
+<td></td>
+<td>The server name that should be validated by kube-client during establishing TLS connection with kube-apiserver.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--type &lt;SecretType&gt;</code></td>
 <td></td>
 <td>Type of the generated secret. supported values = [remote config]  (default `remote`)</td>
