@@ -183,5 +183,28 @@
                 {{ partial "icon.html" "top" }}
             </button>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@3"></script>
+        <script>
+            const pathParts = window.location.pathname.split('/');
+            let version = 'latest';
+
+            if (pathParts[1].startsWith('v')) {
+                version = pathParts[1];
+            } else if (pathParts[2] && pathParts[2].startsWith('v')) {
+                version = pathParts[2];
+            }
+
+            const docsearch = window.docsearch;
+
+            docsearch({
+                appId: '95IG3UJ1LV',
+                apiKey: '47895cd521f11169bb8a7743a85834f4',
+                indexName: 'istio',
+                container: '#docsearch',
+                searchParameters: {
+                facetFilters: [`lang:{{ .Site.Language.Lang | default "en" }}`, `version:${version}`],
+                },
+            });
+        </script>
     </body>
 </html>
