@@ -18,15 +18,15 @@ export default async (request: Request, context) => {
 
     if (languageCodeMatch) {
       languageCode = languageCodeMatch[1];
-      sectionPath = remainder.slice(languageCodeMatch[0].length - 1) || '/'; // Keep the leading slash for matching
+      sectionPath = remainder.slice(languageCodeMatch[0].length) || '/'; // slice to remove the leading slash of the language code
     }
     // Check if the base section (after removing language code) is redirectable
     const shouldRedirect = redirectableSections.some(section =>
       sectionPath === section || sectionPath.startsWith(`${section}/`) || (section === '/' && sectionPath === ''));
-    
+
     if (shouldRedirect) {
       const cleanSectionPath = sectionPath.startsWith('/') ? sectionPath.substring(1) : sectionPath;
-      const newPath = `/latest/${languageCode ? `${languageCode}/` : ''}${cleanSectionPath}`;
+      const newPath = `/latest/${cleanSectionPath}`; // English path doesn't include language code
       return Response.redirect(new URL(newPath, url.origin), 301);
     }
     // For version-specific paths we want to keep, tell Netlify to stop processing this function
