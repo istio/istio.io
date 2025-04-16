@@ -1,8 +1,11 @@
 export default async (request: Request, context) => {
   const url = new URL(request.url);
-  const pathname = url.pathname;
+  let pathname = url.pathname;
+  // Normalize pathname by removing consecutive slashes
+  pathname = pathname.replace(/\/\/+/g, '/');
   // Match version paths like /vX.XX/
   const versionMatch = pathname.match(/^\/v\d+\.\d+/);
+
   if (versionMatch) {
     // Define the main section paths that should be redirected
     const redirectableSections = ['/', '/about', '/blog', '/get-involved', '/news', '/search'];
@@ -12,6 +15,7 @@ export default async (request: Request, context) => {
     const languageCodeMatch = remainder.match(/^\/([a-z]{2})\//);
     let languageCode: string | null = null;
     let sectionPath: string = remainder;
+
     if (languageCodeMatch) {
       languageCode = languageCodeMatch[1];
       sectionPath = remainder.slice(languageCodeMatch[0].length - 1) || '/'; // Keep the leading slash for matching
@@ -19,6 +23,7 @@ export default async (request: Request, context) => {
     // Check if the base section (after removing language code) is redirectable
     const shouldRedirect = redirectableSections.some(section =>
       sectionPath === section || sectionPath.startsWith(`${section}/`) || (section === '/' && sectionPath === ''));
+    
     if (shouldRedirect) {
       const cleanSectionPath = sectionPath.startsWith('/') ? sectionPath.substring(1) : sectionPath;
       const newPath = `/latest/${languageCode ? `${languageCode}/` : ''}${cleanSectionPath}`;
