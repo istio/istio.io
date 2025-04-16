@@ -590,6 +590,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If this is set to false, will not create CA server in istiod.</td>
 </tr>
 <tr>
+<td><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
+</tr>
+<tr>
 <td><code>ENABLE_DEBUG_ON_HTTP</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -892,6 +898,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>warn</code></td>
 <td>Fallback value for log level in CNI config file, if not specified in helm template</td>
+</tr>
+<tr>
+<td><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
 </tr>
 <tr>
 <td><code>MCS_API_GROUP</code></td>
