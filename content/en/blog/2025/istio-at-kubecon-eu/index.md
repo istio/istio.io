@@ -91,7 +91,7 @@ Istio had a kiosk in the project pavilion, with the majority of questions asked 
 Many of our TOC members and maintainers also offered support at the booth, where a lot of interesting discussions happened around Istio ambient mesh as well.
 
 {{< image width="75%"
-    link="./istio-booth-2jpg"
+    link="./istio-booth-2.jpg"
     caption="KubeCon Europe 2025, More support at Istio Kiosk"
     >}}
 
