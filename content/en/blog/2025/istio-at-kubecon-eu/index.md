@@ -8,21 +8,21 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 
 The open source and cloud native community gathered from the 1st to 4th of April in London for the first KubeCon of 2025. The four-day conference, organized by the Cloud Native Computing Foundation, was "big" for Istio, as our presence was seen almost everywhere - from the keynotes to the project pavilion.
 
-We kick-started the activities in London with Istio Day - a KubeCon + CloudNativeCon co-located event on April 1st. The event was well-received showcasing lessons learned from running Istio in production, hands-on experiences, and featuring maintainers from across the Istio ecosystem.
+We kick-started the activities in London with Istio Day - a KubeCon + CloudNativeCon co-located event on April 1st. The event was well-received, showcasing lessons learned from running Istio in production, hands-on experiences, and featuring maintainers from across the Istio ecosystem.
 
 {{< image width="40%"
     link="./istioday-welcome.jpg"
     caption="Istio Day Europe 2025, Welcome"
     >}}
 
-Istio Day kicked off with an opening keynote from the Program Committee chairs, Keith Mattix and Denis Jannot. The keynote was followed by [the much awaited talk from Microsoft about Istio Ambient Mesh support on Windows](link to be added). We had a very interesting talk by Lior Lieberman from Google and Erik Parienty from Riskified [on architecting Istio for large scale deployments](link to be added), followed by a talk from Kiali maintainers Josune Cordoba and Hayk Hovsepyan, from RedHat, about [troubleshooting Istio ambient mesh with Kiali 2.0](link to be added).
+Istio Day kicked off with an opening keynote from the Program Committee chairs, Keith Mattix and Denis Jannot. The keynote was followed by [the much-awaited talk from Microsoft about Istio Ambient Mesh support on Windows](link to be added). We had a very interesting talk by Lior Lieberman from Google and Erik Parienty from Riskified [on architecting Istio for large scale deployments](link to be added), followed by a talk from Kiali maintainers Josune Cordoba and Hayk Hovsepyan, from RedHat, about [troubleshooting Istio ambient mesh with Kiali 2.0](link to be added).
 
 {{< image width="75%"
     link="./istioday-session-1.jpg"
     caption="Istio Day Europe 2025, Kiali session"
     >}}
 
-Istio multi-cluster is always a hot topic, and Pamela Hernandez from BlackRock nailed it in the talk on [navigating the maze of multi-cluster Istio](link to be added), diving into the complexities of implementing a multi-cluster Istio service mesh at scale, covering a hub-and-spoke model. The audience was excited when Denis Jannot from Solo.io [ran a live, representative benchmark at scale with Istio Ambient](link to be added) debunking all myths about Service Mesh overhead and complexity. The event witnessed how Istio played a pivotal role in managing traffic and ensuring data security, ultimately enabling a secure and efficient AI platform that meets enterprise standards when [SAP presented GenAI platform challenges in multi-tenant environments] (link to be added). Rounding out the talks was a lightning talk by Rob Salmond from SuperOrbit on [How to get help](link to slides to be added) which involved the best places to go, how to ask good questions, and avoid common missteps.
+Istio multi-cluster is always a hot topic, and Pamela Hernandez from BlackRock nailed it in the talk on [navigating the maze of multi-cluster Istio](link to be added), diving into the complexities of implementing a multi-cluster Istio service mesh at scale, covering a hub-and-spoke model. The audience was excited when Denis Jannot from Solo.io [ran a live, representative benchmark at scale with Istio Ambient](link to be added), debunking all myths about Service Mesh overhead and complexity. The event witnessed how Istio played a pivotal role in managing traffic and ensuring data security, ultimately enabling a secure and efficient AI platform that meets enterprise standards when [SAP presented GenAI platform challenges in multi-tenant environments](link to be added). Rounding out the talks was a lightning talk by Rob Salmond from SuperOrbit on [How to get help](link to slides to be added), which involved the best places to go, how to ask good questions, and avoid common missteps.
 
 {{< image width="75%"
     link="./istioday-session-2.jpg"
@@ -38,21 +38,21 @@ Our presence at the conference did not end with Istio Day. The first day keynote
     caption="Istio Day Europe 2025, Project lightning talk"
     >}}
 
-There were several keynotes on the main stage where Istio was mentioned. At the opening day keynotes, Vasu Chandrasekhara from SAP announced the NeoNephos Foundation under the Linux Foundation Europe - a major step forward for Digital Sovereignty in Europe.  
+There were several keynotes on the main stage where Istio was mentioned. At the opening day keynotes, Vasu Chandrasekhara, from SAP, announced the NeoNephos Foundation under the Linux Foundation Europe - a major step forward for Digital Sovereignty in Europe.  
 
 {{< image width="75%"
     link="./kubecon-keynote-1.jpg"
     caption="KubeCon Europe 2025, Announcing NeoNephos"
     >}}
 
-Stephen Connolly shared HSBC’s journey with Kubernetes and also discussed plans to adopt Istio Ambient Mesh to save on costs. Ant Group, who won the CNCF end user award, also highlighted their Istio usage. Idit Levine and Keith Babo from solo.io announced a free cost saving estimator and migration tool for Istio Ambient Mesh. Faseela K had a Telco end user panel keynote on “Cloud Native Evolution in Telecom” with Vodafone, Orange and Swisscom, which again highlighted Istio usage for Telco Network Functions.
+Stephen Connolly shared HSBC’s journey with Kubernetes and also discussed plans to adopt Istio ambient mesh to save on costs. Ant Group, who won the CNCF End User Award, also highlighted their Istio usage. Idit Levine and Keith Babo, from Solo.io, announced a free cost-saving estimator and migration tool for Istio ambient mesh. Faseela K had a Telco end user panel keynote on “Cloud Native Evolution in Telecom” with Vodafone, Orange, and Swisscom, which again highlighted Istio usage for Telco Network Functions.
 
 {{< image width="75%"
     link="./kubecon-keynote-2.jpg"
     caption="KubeCon Europe 2025, Cloud Native evolution in Telecom"
     >}}
 
-Istio’s maintainer track session was also well received, where Raymond Wong from Forbes joined our maintainers Louis Ryan and Lin Sun to discuss about Forbe’s journey to Istio Ambient in production. It was a packed room with a lot of questions afterwards.
+Istio’s maintainer track session was also well received, where Raymond Wong, from Forbes, joined maintainers Louis Ryan and Lin Sun to discuss about Forbe’s journey to Istio ambient in production. It was a packed room with a lot of questions afterwards.
 
 {{< image width="75%"
     link="./maintainer-track.jpg"
@@ -88,7 +88,7 @@ Istio had a kiosk in the project pavilion, with the majority of questions asked 
     caption="KubeCon Europe 2025, Istio Kiosk"
     >}}
 
-Many of our TOC members and maintainers also offered support at the booth, where a lot of interesting discussions happened around Istio Ambient Mesh as well.
+Many of our TOC members and maintainers also offered support at the booth, where a lot of interesting discussions happened around Istio ambient mesh as well.
 
 {{< image width="75%"
     link="./istio-booth-2jpg"
