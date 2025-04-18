@@ -51,4 +51,4 @@ supported_languages:
     code: "uk"
 
 # Kubernetes Gateway API
-k8s_gateway_api_version: "92efbedcc2b40dc097b7ea0eacb894a6033057e1"
+k8s_gateway_api_version: "GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Found -, GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Published -rcN, GATEWAY_VERSION=v1.3.0-rc.1 v1.3.0-rc.1"

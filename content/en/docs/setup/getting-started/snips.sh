@@ -50,7 +50,7 @@ ENDSNIP
 
 snip_install_the_kubernetes_gateway_api_crds_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-{ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=92efbedcc2b40dc097b7ea0eacb894a6033057e1" | kubectl apply -f -; }
+{ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Found -, GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Published -rcN, GATEWAY_VERSION=v1.3.0-rc.1 v1.3.0-rc.1" | kubectl apply -f -; }
 }
 
 snip_deploy_the_sample_application_1() {
@@ -159,9 +159,9 @@ kubectl label namespace default istio-injection-
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=92efbedcc2b40dc097b7ea0eacb894a6033057e1" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Found -, GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Published -rcN, GATEWAY_VERSION=v1.3.0-rc.1 v1.3.0-rc.1" | kubectl delete -f -
 }
 
 snip_uninstall_5() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=92efbedcc2b40dc097b7ea0eacb894a6033057e1" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Found -, GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Published -rcN, GATEWAY_VERSION=v1.3.0-rc.1 v1.3.0-rc.1" | kubectl delete -f -
 }
