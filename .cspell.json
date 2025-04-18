@@ -1,0 +1,13 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "files": ["content/en/**/*.md"],
+    "dictionaries": ["custom"],
+    "dictionaryDefinitions": [
+      {
+        "name": "custom",
+        "path": "./.spelling",
+        "type": "words"
+      }
+    ]
+  }
