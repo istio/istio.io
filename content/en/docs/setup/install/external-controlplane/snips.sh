@@ -416,7 +416,7 @@ ENDSNIP
 
 snip_install_crds() {
 kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Found -, GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Published -rcN, GATEWAY_VERSION=v1.3.0-rc.1 v1.3.0-rc.1" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0-rc.1" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
 }
 
 snip_configure_and_test_an_ingress_gateway_3() {

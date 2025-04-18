@@ -21,7 +21,7 @@
 ####################################################################################################
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
-GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Found -, GATEWAY_VERSION=v1.3.0-rc.1.0.20250404104637-92efbedcc2b4 Published -rcN, GATEWAY_VERSION=v1.3.0-rc.1 v1.3.0-rc.1
+v1.3.0-rc.1
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
