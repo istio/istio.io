@@ -53,12 +53,12 @@ command terminated with exit code 56
 ENDSNIP
 
 snip_deploy_waypoint() {
-istioctl waypoint apply --enroll-namespace --wait
 }
 
 ! IFS=$'\n' read -r -d '' snip_deploy_waypoint_out <<\ENDSNIP
-waypoint default/waypoint applied
-namespace default labeled with "istio.io/use-waypoint: waypoint"
+✅ waypoint default/waypoint applied
+✅ waypoint default/waypoint is ready!
+✅ namespace default labeled with "istio.io/use-waypoint: waypoint"
 ENDSNIP
 
 snip_enforce_layer_7_authorization_policy_2() {
