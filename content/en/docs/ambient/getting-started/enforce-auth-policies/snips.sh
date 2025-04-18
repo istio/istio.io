@@ -53,6 +53,7 @@ command terminated with exit code 56
 ENDSNIP
 
 snip_deploy_waypoint() {
+istioctl waypoint apply --enroll-namespace --wait
 }
 
 ! IFS=$'\n' read -r -d '' snip_deploy_waypoint_out <<\ENDSNIP
