@@ -29,6 +29,12 @@ linters:
           deny:
             - pkg: github.com/gogo/protobuf
               desc: gogo/protobuf is deprecated, use golang/protobuf
+        main:
+          files:
+            - $all
+          allow:
+            - ^istio.io/istio/pkg/test
+            - ^istio.io/istio.io/pkg/test
     errcheck:
       check-type-assertions: false
       check-blank: false
@@ -145,6 +151,10 @@ linters:
       - legacy
       - std-error-handling
     rules:
+      - linters:
+          - depguard
+          - lll
+        path: tests/|pkg/test/
       - linters:
           - errcheck
           - maligned

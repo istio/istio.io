@@ -36,7 +36,7 @@ func TestDocs(t *testing.T) {
 		Run(istioio.NewTestDocsFunc("dualstack"))
 }
 
-func setupConfig(ctx resource.Context, cfg *istio.Config) {
+func setupConfig(_ resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = `
 meshConfig:
   defaultConfig:
