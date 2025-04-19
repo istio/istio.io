@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 A **waypoint proxy** is an optional deployment of the Envoy-based proxy to add Layer 7 (L7) processing to a defined set of workloads.
 
 Waypoint proxies are installed, upgraded and scaled independently from applications; an application owner should be unaware of their existence. Compared to the sidecar {{< gloss >}}data plane{{< /gloss >}} mode, which runs an instance of the Envoy proxy alongside each workload, the number of proxies required can be substantially reduced.

@@ -9,6 +9,7 @@ aliases:
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [cert-manager](https://cert-manager.io/) — це інструмент для автоматизації управління сертифікатами. Його можна інтегрувати зі шлюзами Istio для управління TLS сертифікатами.
 

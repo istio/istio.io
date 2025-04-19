@@ -2,7 +2,7 @@
 title: Why is my CORS configuration not working?
 weight: 40
 ---
-
+<!-- markdownlint-disable MD007 -->
 After applying [CORS configuration](/docs/reference/config/networking/virtual-service/#CorsPolicy), you may find that seemingly nothing happened and wonder what went wrong.
 CORS is a commonly misunderstood HTTP concept that often leads to confusion when configuring.
 

@@ -4,7 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 This message occurs when a gateway (usually `istio-ingressgateway`) offers a
 port that the Kubernetes service workload selected by the gateway does not.
 

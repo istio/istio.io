@@ -5,6 +5,7 @@ publishdate: 2023-08-15
 attribution: "John Howard (Google); Translated by Wilson Wu (DaoCloud)"
 keywords: [istio,sidecars,kubernetes]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 如果您曾经听说过有关服务网格的些许信息，
 那就会知道它是以 Sidecar 模式工作的：与应用代码并列部署一个代理服务器。

@@ -8,7 +8,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 {{<warning>}}
 此例子对 Minikube 无效。
 {{</warning>}}
