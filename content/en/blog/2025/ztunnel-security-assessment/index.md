@@ -46,4 +46,4 @@ A third-party library was used for parsing the value of the HTTP [Forwarded](htt
 
 With strong performance and now validated security, ambient mode continues to advance the state of the art in service mesh design. We encourage you to try it out today.
 
-If you would like to get involved with Istio product security, or become a maintainer, we’d love to have you\! Join [our Slack workspace](https://slack.istio.io/) or [our public meetings](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) to raise issues or learn about what we are doing to keep Istio secure.
+If you would like to get involved with Istio product security, or become a maintainer, we’d love to have you! Join [our Slack workspace](https://slack.istio.io/) or [our public meetings](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) to raise issues or learn about what we are doing to keep Istio secure.
