@@ -59,7 +59,7 @@ function install_istio_on_cluster2_helm {
     _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
 }
 
-snip_delete_crds
+#snip_delete_crds
 time install_istio_on_cluster1_helm
 time install_istio_on_cluster2_helm
 
