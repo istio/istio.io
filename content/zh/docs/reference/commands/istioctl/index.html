@@ -7973,6 +7973,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If this is set to false, will not create CA server in istiod.</td>
 </tr>
 <tr>
+<td><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
+</tr>
+<tr>
 <td><code>ENABLE_DEBUG_ON_HTTP</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -8001,12 +8007,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
-</tr>
-<tr>
-<td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
 </tr>
 <tr>
 <td><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></td>
@@ -8091,12 +8091,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
-</tr>
-<tr>
-<td><code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, excludes unsafe retry on 503 from default retry policy.</td>
 </tr>
 <tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
@@ -8349,6 +8343,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
 </tr>
 <tr>
+<td><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
+</tr>
+<tr>
 <td><code>MCS_API_GROUP</code></td>
 <td>String</td>
 <td><code>multicluster.x-k8s.io</code></td>
@@ -8449,6 +8449,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio.io/draining</code></td>
 <td>If not empty, endpoints with the label value present will be sent with status DRAINING.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ABSOLUTE_FQDN_VHOST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set to false, Istio will not add the absolute FQDN variant (e.g., my-service.my-ns.svc.cluster.local.) to the domains list for VirtualHost entries.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></td>
