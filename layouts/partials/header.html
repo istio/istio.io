@@ -1,6 +1,8 @@
 {{ $home := .Site.GetPage "home" }}
-{{ $section := .Section }}
-{{ $current := . }}
+{{ $versionsData := site.Data.versions }}
+{{ $currentVersionID := .Site.Params.currentVersionId | default $versionsData.latest_version }}
+{{ $currentPathSegment := "" }}
+{{ range $versionsData.versions }}{{ if eq .id $currentVersionID }}{{ $currentPathSegment = .path_segment }}{{ end }}{{ end }}
 
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
@@ -49,10 +51,22 @@
             </ul>
 
             <div class="main-navigation-footer">
+                {{/* Only render the dropdown if version data exists AND we are in the 'docs' section */}}
+                {{ if and $versionsData (eq .Section "docs") }}
+                <div class="version-selector-simple" style="display: inline-block; margin-right: 1rem; vertical-align: middle;"> {{/* Basic inline style for layout */}}
+                  <label for="version-select-simple" style="position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Version:</label> {{/* Basic inline style */}}
+                  <select id="version-select-simple" onchange="navigateToVersionSimple(this.value)">
+                    {{ range $versionsData.versions }}
+                      <option value="{{ .path_segment }}" {{ if eq .id $currentVersionID }}selected{{ end }}>
+                        {{ .display_name }}
+                      </option>
+                    {{ end }}
+                  </select>
+                </div>
+                {{ end }} {{/* --- END OF if condition --- */}}
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
                 <a href='{{ "/docs/setup/getting-started" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
             </div>
-            
         </div>
 
         <form id="search-form" class="search" name="cse" role="search">
@@ -71,3 +85,38 @@
         </form>
     </nav>
 </header>
+
+<script>
+  function navigateToVersionSimple(selectedVersionPathSegment) {
+    const currentFullPath = window.location.pathname; // e.g., /docs/concepts/wasm/ OR /v1.24/docs/concepts/wasm/
+    const currentVersionPathSegment = {{ $currentPathSegment | jsonify }}; // e.g., "latest" or "v1.24"
+    const selectedTargetSegment = selectedVersionPathSegment; // Just for clarity
+
+    let contentPath = ''; // The path part we want to preserve (e.g., docs/concepts/wasm/)
+    let foundContent = false;
+    // Define known content root directories relative to version segment OR site root
+    const knownContentPrefixes = ['docs/', 'blog/', 'news/', 'about/']; // Add others if needed
+    // Check if the current path contains one of the known prefixes
+    for (const prefix of knownContentPrefixes) {
+        // Find the first occurrence of '/prefix' (e.g., finds index of '/docs/')
+        const index = currentFullPath.indexOf('/' + prefix);
+        if (index > -1) {
+            // Found a known prefix. Assume everything from the start of the prefix onwards is the content path.
+            contentPath = currentFullPath.substring(index + 1); // Gets 'docs/concepts/wasm/'
+            console.log("Found known prefix '" + prefix + "'. Determined Content Path:", contentPath);
+            foundContent = true;
+            break; // Stop after finding the first match
+        }
+    }
+
+    if (!foundContent) {
+        // If no known prefix found, maybe it's the root page of the current version or an unknown page type.
+        contentPath = ''; // Ensure we go to root
+    }
+    // Construct the new base URL for the target version
+    const newBase = selectedTargetSegment === 'latest' ? '/latest/' : ('/' + selectedTargetSegment + '/');
+    const newUrl = newBase + contentPath; // e.g., /v1.22/ + docs/concepts/wasm/
+
+    window.location.href = newUrl;
+    }
+</script>
