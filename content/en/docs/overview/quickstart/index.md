@@ -20,5 +20,5 @@ Most of the energy in the Istio community is going towards improvement of ambien
 In general, we recommend that new users start with ambient mode. It is faster, cheaper, and easier to manage. There are [advanced use cases](/docs/overview/dataplane-modes/#unsupported-features) that still require the use of sidecar mode, but closing these gaps is on our 2025 roadmap.
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
-<a href="/docs/ambient/getting-started" class="btn btn--secondary" id="get-started-ambient">Get started with ambient mode</a><span style="width:400px;"/><a href="/docs/setup/getting-started" class="btn btn--secondary" id="get-started-sidecar">Get started with sidecar mode</a>
+<a href="/docs/ambient/getting-started" class="btn btn--secondary" id="get-started-ambient">Get started with ambient mode</a><a href="/docs/setup/getting-started" class="btn btn--secondary" id="get-started-sidecar">Get started with sidecar mode</a>
 </div>
