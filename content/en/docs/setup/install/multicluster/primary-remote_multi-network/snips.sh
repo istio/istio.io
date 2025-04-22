@@ -174,6 +174,11 @@ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 }
 
 snip_delete_crds() {
+echo "====================================="
+kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io'
+echo "====================================="
+kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io'
+echo "====================================="
 kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
 kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
 }
