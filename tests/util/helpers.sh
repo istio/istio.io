@@ -115,6 +115,9 @@ _wait_for_istio() {
     if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
         echo "Failed distribution of $kind $name in namespace $namespace"
         istioctl ps
+        echo "---------------------"
+        kubectl get "$kind" -n "$namespace" "$name" -o yaml
+        echo "---------------------"
         echo "TEST: wait for failed, but continuing."
     fi
     echo "Duration: $(($(date +%s)-start)) seconds"
