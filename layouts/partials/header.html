@@ -1,6 +1,6 @@
 {{ $home := .Site.GetPage "home" }}
 {{ $versionsData := site.Data.versions }}
-{{ $currentVersionID := .Site.Params.currentVersionId | default $versionsData.latest_version }}
+{{ $currentVersionID := .Site.Params.currentVersionId | default $versionsData.main }}
 {{ $currentPathSegment := "" }}
 {{ range $versionsData.versions }}{{ if eq .id $currentVersionID }}{{ $currentPathSegment = .path_segment }}{{ end }}{{ end }}
 
