@@ -25,9 +25,9 @@ istioctl remote-clusters --context="${CTX_CLUSTER1}"
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_multicluster_1_out <<\ENDSNIP
-NAME        SECRET                              STATUS     ISTIOD
-cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
-cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+NAME         SECRET                                        STATUS      ISTIOD
+cluster1                                                   synced      istiod-7b74b769db-kb4kj
+cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
 ENDSNIP
 
 snip_deploy_the_helloworld_service_1() {

@@ -108,15 +108,18 @@ _wait_for_statefulset() {
 # Wait for Istio config to propagate
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
-    local kind="$1"
-    local namespace="$2"
-    local name="$3"
+    #local kind="$1"
+    #local namespace="$2"
+    #local name="$3"
     local start=$(date +%s)
-    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
-        echo "Failed distribution of $kind $name in namespace $namespace"
-        istioctl ps
-        echo "TEST: wait for failed, but continuing."
-    fi
+    sleep 1s
+    # @TODO: Rewrite this to *NOT* use istioctl experimental wait, since it was removed
+    # https://github.com/istio/istio.io/issues/16429
+    #if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
+        #echo "Failed distribution of $kind $name in namespace $namespace"
+        #istioctl ps
+        #echo "TEST: wait for failed, but continuing."
+    #fi
     echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
