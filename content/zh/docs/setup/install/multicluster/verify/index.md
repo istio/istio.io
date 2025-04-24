@@ -25,9 +25,9 @@ owner: istio/wg-environments-maintainers
 
 {{< text bash >}}
 $ istioctl remote-clusters --context="${CTX_CLUSTER1}"
-NAME        SECRET                              STATUS     ISTIOD
-cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
-cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+NAME         SECRET                                        STATUS      ISTIOD
+cluster1                                                   synced      istiod-7b74b769db-kb4kj
+cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
 {{< /text >}}
 
 所有集群都应将其状态指示为 `synced`。如果集群的 `STATUS` 为 `timeout`，
