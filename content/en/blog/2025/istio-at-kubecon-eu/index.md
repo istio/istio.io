@@ -22,14 +22,14 @@ Istio Day kicked off with an [opening keynote](https://youtu.be/v10UpNQIoT0?si=C
     caption="Istio Day Europe 2025, Kiali session"
     >}}
 
-Istio multi-cluster is always a hot topic, and Pamela Hernandez from BlackRock nailed it in the talk on [navigating the maze of multi-cluster Istio](https://youtu.be/WpEkfVGWmd8?si=amUJ2sbZVq_sDV3a), diving into the complexities of implementing a multi-cluster Istio service mesh at scale, covering a hub-and-spoke model. The audience was excited when Denis Jannot from Solo.io [ran a live, representative benchmark at scale with Istio Ambient](https://youtu.be/oi4TpxuIYXk?si=EBITga8tgsKvII9-), debunking all myths about Service Mesh overhead and complexity. The event witnessed how Istio played a pivotal role in managing traffic and ensuring data security, ultimately enabling a secure and efficient AI platform that meets enterprise standards when [SAP presented GenAI platform challenges in multi-tenant environments](https://youtu.be/j2jS_62N19I?si=Szz0ZFURpryD9H0H). Rounding out the talks was a lightning talk by Rob Salmond from SuperOrbit on [How to get Istio help](https://youtu.be/WNqEQrrQnMs?si=LJaDDVqRX_03kz4B), which involved the best places to go, how to ask good questions, and avoid common missteps.
+Istio multi-cluster is always a hot topic, and Pamela Hernandez from BlackRock nailed it in the talk on [navigating the maze of multi-cluster Istio](https://youtu.be/WpEkfVGWmd8?si=amUJ2sbZVq_sDV3a), diving into the complexities of implementing a multi-cluster Istio service mesh at scale, covering a hub-and-spoke model. The audience was excited when Denis Jannot from Solo.io [ran a live, representative benchmark at scale with Istio Ambient](https://youtu.be/oi4TpxuIYXk?si=EBITga8tgsKvII9-), debunking all myths about service mesh overhead and complexity. The event witnessed how Istio played a pivotal role in managing traffic and ensuring data security, ultimately enabling a secure and efficient AI platform that meets enterprise standards when [SAP presented GenAI platform challenges in multi-tenant environments](https://youtu.be/j2jS_62N19I?si=Szz0ZFURpryD9H0H). Rounding out the talks was a lightning talk by Rob Salmond from SuperOrbit on [How to get Istio help](https://youtu.be/WNqEQrrQnMs?si=LJaDDVqRX_03kz4B), which involved the best places to go, how to ask good questions, and avoid common missteps.
 
 {{< image width="75%"
     link="./istioday-session-2.jpg"
     caption="Istio Day Europe 2025, Jam packed sessions"
     >}}
 
-The slides for all the sessions can be found in the [Istio Day NA 2025 schedule](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/).
+The slides for all the sessions can be found in the [Istio Day EU 2025 schedule](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/istio-day/).
 
 Our presence at the conference did not end with Istio Day. The first day keynote of KubeCon + CloudNativeCon started with [an Istio project lightning talk](https://youtu.be/B7lpXPZPFoI?si=im1PIxsUdHyIXKKk) from Mitch Connors.
 
@@ -98,4 +98,4 @@ Many of our TOC members and maintainers also offered support at the booth, where
 
 We would like to express our heartfelt gratitude to our gold sponsor Microsoft Azure, for supporting Istio Day Europe! Last but not least, we would like to thank our Istio Day Program Committee members, for all their hard work and support!
 
-[See you soon in Atlanta in November 2025!](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
+[See you in Atlanta in November 2025!](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/)
