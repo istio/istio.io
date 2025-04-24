@@ -59,7 +59,7 @@ Istio’s [maintainer track session](https://youtu.be/poBOYc_EkpA?si=WtxYWvzU4ME
     caption="KubeCon Europe 2025, Istio maintainer track session"
     >}}
 
-A ContribFest session led by Mitch Connors (Microsoft), Daniel Hawton (Solo.io), and Jackie Maertens (Microsoft) walked through the structure of the Istio repositories, where each component’s code lives, finding issues to resolve, setting up and using integration tests, and making first contributions to the project as well as resources for getting development environments up and running and places to go to get assistance.
+A Contribfest session led by Mitch Connors (Microsoft), Daniel Hawton (Solo.io), and Jackie Maertens (Microsoft) walked through the structure of the Istio repositories, where each component’s code lives, finding issues to resolve, setting up and using integration tests, and making first contributions to the project as well as resources for getting development environments up and running and places to go to get assistance.
 
 {{< image width="75%"
     link="./contrib-fest.jpg"
