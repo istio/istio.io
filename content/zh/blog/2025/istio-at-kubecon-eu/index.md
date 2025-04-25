@@ -1,7 +1,8 @@
 ---
 title: "Istio 亮相 KubeCon 2025 欧洲站"
 description: 快速回顾在伦敦 Excel KubeCon 欧洲站大会上的  Istio。
-publishdate: 2025-04-17
+publishdate: 2025-04-25
+social_image: istioday-welcome.jpg
 attribution: "Faseela K，代表 Istio 指导委员会; Translated by Wilson Wu (DaoCloud)"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
@@ -14,7 +15,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 该活动由 KubeCon 和 CloudNativeCon 联合举办，获得了广泛好评。
 活动展示了 Istio 在生产环境中运行的经验教训、实践经验，并邀请了来自 Istio 生态系统的维护人员参与。
 
-{{< image width="40%"
+{{< image width="75%"
     link="./istioday-welcome.jpg"
     caption="Istio Day 2025 欧洲站，欢迎！"
     >}}
