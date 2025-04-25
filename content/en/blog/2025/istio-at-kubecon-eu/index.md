@@ -1,7 +1,8 @@
 ---
 title: "Istio at KubeCon Europe 2025"
 description: A quick recap of Istio at KubeCon Europe, at Excel London.
-publishdate: 2025-04-17
+publishdate: 2025-04-25
+social_image: istioday-welcome.jpg
 attribution: "Faseela K, for the Istio Steering Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
@@ -10,7 +11,7 @@ The open source and cloud native community gathered from the 1st to 4th of April
 
 We kick-started the activities in London with Istio Day - a KubeCon + CloudNativeCon co-located event on April 1st. The event was well-received, showcasing lessons learned from running Istio in production, hands-on experiences, and featuring maintainers from across the Istio ecosystem.
 
-{{< image width="40%"
+{{< image width="75%"
     link="./istioday-welcome.jpg"
     caption="Istio Day Europe 2025, Welcome"
     >}}
