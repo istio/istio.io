@@ -2,6 +2,7 @@
 title: "Istio at KubeCon Europe 2025"
 description: A quick recap of Istio at KubeCon Europe, at Excel London.
 publishdate: 2025-04-25
+social_image: istioday-welcome.jpg
 attribution: "Faseela K, for the Istio Steering Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
