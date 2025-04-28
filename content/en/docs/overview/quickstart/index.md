@@ -10,10 +10,10 @@ test: n/a
 
 Thanks for your interest in Istio!
 
-Istio has two primary modes: **sidecar mode** and **ambient mode**.
+Istio has two primary modes: **ambient mode** and **sidecar mode**.
 
-* [Sidecar mode](/docs/overview/dataplane-modes/#sidecar-mode) is the traditional model of service mesh pioneered by Istio in 2017. In sidecar mode, a proxy is deployed along with every Kubernetes pod or other workload.
 * [Ambient mode](/docs/overview/dataplane-modes/#ambient-mode) is the new and improved model, created to address the shortcomings of sidecar mode. In ambient mode, a secure tunnel is installed on each node, and you can opt in to the full feature set with proxies you install, (generally) per-namespace.
+* [Sidecar mode](/docs/overview/dataplane-modes/#sidecar-mode) is the traditional model of service mesh pioneered by Istio in 2017. In sidecar mode, a proxy is deployed along with every Kubernetes pod or other workload.
 
 Most of the energy in the Istio community is going towards improvement of ambient mode, although sidecar mode remains fully supported. Any major new feature contributed to the project is expected to work in both modes.
 
