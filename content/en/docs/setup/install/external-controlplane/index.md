@@ -269,7 +269,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     {{< /text >}}
 
     {{< tip >}}
-    If you are running in KinD, then you will need to pass `--server https://<api-server-node-ip>:6443` to the `istioctl create-remote-secret` command,
+    If you are running in `kind`, then you will need to pass `--server https://<api-server-node-ip>:6443` to the `istioctl create-remote-secret` command,
     where `<api-server-node-ip>` is the IP address of the node running the API server.
     {{< /tip >}}
 
