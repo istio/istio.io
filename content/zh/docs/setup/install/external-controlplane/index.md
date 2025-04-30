@@ -259,6 +259,12 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
+    {{< tip >}}
+    如果您在 `kind` 中运行，那么您需要将 `--server https://<api-server-node-ip>:6443`
+    传递给 `istioctl create-remote-secret` 命令，其中 `<api-server-node-ip>`
+    是运行 API 服务器的节点的 IP 地址。
+    {{< /tip >}}
+
 1. 创建 Istio 配置以在外部集群的 `external-istiod` 命名空间中安装控制平面。
     请注意，istiod 配置为使用本地安装的 `istio` ConfigMap，并且 `SHARED_MESH_CONFIG`
     环境变量设置为 `istio`。这指示 istiod 将网格管理员在配置集群的 ConfigMap
