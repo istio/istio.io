@@ -24,7 +24,7 @@ aliases:
 * **Added** initial support for the experimental Gateway API features `BackendTLSPolicy` and `XBackendTrafficPolicy`. These are disabled by default and require setting `PILOT_ENABLE_ALPHA_GATEWAY_API=true`.
   ([Issue #54131](https://github.com/istio/istio/issues/54131)), ([Issue #54132](https://github.com/istio/istio/issues/54132))
 
-* **Added** support for referencing ConfigMaps, in addition to Secrets, for `DestinationRule` TLS in `SIMPLE` mode — useful when only a CA certificate is required.
+* **Added** support for referencing `ConfigMap`s, in addition to `Secret`s, for `DestinationRule` TLS in `SIMPLE` mode — useful when only a CA certificate is required.
   ([Issue #54131](https://github.com/istio/istio/issues/54131)), ([Issue #54132](https://github.com/istio/istio/issues/54132))
 
 * **Added** customization support for [Gateway API automated deployments](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). This applies to both `istio` Gateway types (ingress and egress) and `istio-waypoint` Gateway types (ambient waypoints). Users can now customize generated resources such as `Service`, `Deployment`, `ServiceAccount`, `HorizontalPodAutoscaler`, and `PodDisruptionBudget`.
