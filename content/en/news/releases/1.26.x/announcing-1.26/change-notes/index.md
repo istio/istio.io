@@ -63,7 +63,7 @@ aliases:
 * **Added** support for the `omit_empty_values` field in the `EnvoyFileAccessLog` provider via the Telemetry API.
   ([Issue #54930](https://github.com/istio/istio/issues/54930))
 
-* **Introduced** an environment variable `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY`, which separates tracing spans for server and client gateways. This currently defaults to `false`, but will become the default in the future.
+* **Added** environment variable `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY`, which separates tracing spans for server and client gateways. This currently defaults to `false`, but will become the default in the future.
 
 * **Added** a warning message for use of deprecated telemetry providers Lightstep and OpenCensus.
   ([Issue #54002](https://github.com/istio/istio/issues/54002))
