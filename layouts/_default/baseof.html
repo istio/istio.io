@@ -156,6 +156,18 @@
 
         {{ partial "events.html" (dict "page" . "kind" "sticker") }}
         {{ partial "header.html" . }}
+
+        <!-- Archived Documentation Header -->
+        {{ $archiveVersion := "v1.24" }}
+        {{ if eq .Section "docs" }}
+        <div class="archive-warning-banner" role="alert" 
+        style="background-color: #fff3cd; color: #664d03; padding: 1rem; border-bottom: 1px solid #ffecb5; text-align: center;">
+        <p style="margin-bottom: 0;">⚠️ This documentation is for an older version (<strong>{{ $archiveVersion }}</strong>). 
+            We recommend using the <a href="/latest{{ .RelPermalink | safeURL }}" 
+            style="font-weight: bold; text-decoration: underline;">latest version</a>.</p>
+        </div>
+        {{ end }}
+
         {{ partial "events.html" (dict "page" . "kind" "banner") }}
 
         {{ block "main" . }}{{ end }}
