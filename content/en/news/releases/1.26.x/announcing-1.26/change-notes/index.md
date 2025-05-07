@@ -1,5 +1,5 @@
 ---
-title: Change Notes
+title: Istio 1.26.0 Change Notes
 linktitle: 1.26.0
 subtitle: Minor Release
 description: Istio 1.26.0 release notes.
@@ -11,141 +11,123 @@ aliases:
     - /news/announcing-1.26.x
 ---
 
-{{< warning >}}
-This is an automatically generated rough draft of the release notes and has not yet been reviewed.
-{{< /warning >}}
-
-## Deprecation Notices
-
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
-
 ## Traffic Management
 
-- **Improved** The CNI agent to no longer require `hostNetwork`, improving compatibility. Dynamic switching to the host network is now performed whenever necessary.
-The old behavior can temporarily be restored by setting the `ambient.shareHostNetworkNamespace` field in the `istio-cni` chart.  ([Issue #54726](https://github.com/istio/istio/issues/54726))
+* **Improved** the CNI agent to no longer require `hostNetwork`, enhancing compatibility. Dynamic switching to the host network is now performed as needed. The previous behavior can be temporarily restored by setting the `ambient.shareHostNetworkNamespace` field in the `istio-cni` chart. ([Issue #54726](https://github.com/istio/istio/issues/54726))
 
-- **Improved** iptables binary detection to verify a degree of baseline kernel support exists,
-and prefer `nft` in a `tie` situation where both legacy and `nft` are available, but neither has any rules.
+* **Improved** iptables binary detection to validate baseline kernel support and to prefer `nft` when both legacy and `nft` are available but neither has existing rules.
 
-- **Updated** the default value of maximum connections to accept per socket event to 1 as a performance improvement.
- To get the old behavior, you can set `MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP` to zero.
+* **Updated** the default value of maximum connections accepted per socket event to 1 to improve performance. To revert to the previous behavior, set `MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP` to zero.
 
-- **Added** support for `EnvoyFilter` to match a `VirtualHost` on domain name as well.
+* **Added** the ability for `EnvoyFilter` to match a `VirtualHost` by domain name.
 
-- **Added** initial support for the experimental Gateway API `BackendTLSPolicy` and `XBackendTrafficPolicy`.
-These are off-by-default and require `PILOT_ENABLE_ALPHA_GATEWAY_API=true` to be enabled.
-  ([Issue #54131](https://github.com/istio/istio/issues/54131)),([Issue #54132](https://github.com/istio/istio/issues/54132))
+* **Added** initial support for the experimental Gateway API features `BackendTLSPolicy` and `XBackendTrafficPolicy`. These are disabled by default and require setting `PILOT_ENABLE_ALPHA_GATEWAY_API=true`.
+  ([Issue #54131](https://github.com/istio/istio/issues/54131)), ([Issue #54132](https://github.com/istio/istio/issues/54132))
 
-- **Added** support for referencing `ConfigMap`s (rather than just `Secret`s) for `DestinationRule` TLS `SIMPLE` mode.
-This is useful when only referencing a CA certificate.
-  ([Issue #54131](https://github.com/istio/istio/issues/54131)),([Issue #54132](https://github.com/istio/istio/issues/54132))
+* **Added** support for referencing ConfigMaps, in addition to Secrets, for `DestinationRule` TLS in `SIMPLE` mode — useful when only a CA certificate is required.
+  ([Issue #54131](https://github.com/istio/istio/issues/54131)), ([Issue #54132](https://github.com/istio/istio/issues/54132))
 
-- **Added** support for customizations to [Gateway API Automated Deployments](/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
-This includes both `istio` Gateway types (used for ingress and egress) as well as `istio-waypoint` Gateway types used for ambient mode waypoints.
-Users can now customize arbitrary elements of the generated `Service`, `Deployment`, `ServiceAccount`, `HorizontalPodAutoscaler`, and `PodDisruptionBudget`.
+* **Added** customization support for [Gateway API automated deployments](/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). This applies to both `istio` Gateway types (ingress and egress) and `istio-waypoint` Gateway types (ambient waypoints). Users can now customize generated resources such as `Service`, `Deployment`, `ServiceAccount`, `HorizontalPodAutoscaler`, and `PodDisruptionBudget`.
 
-- **Added** an environment variable `ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT` to istiod that, if set to `false`, will disable the attachment of Gateway API resources to existing gateway deployments. The default setting is `true` to not change existing behavior.
+* **Added** a new environment variable `ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT` for istiod. When set to `false`, it disables automatic attachment of Gateway API resources to existing gateway deployments. By default, this is `true` to maintain current behavior.
 
-- **Added** support for configuring retry hosts predicate via Retry API (`retry_ignore_previous_hosts`).
+* **Added** the ability to configure retry host predicates using the Retry API (`retry_ignore_previous_hosts`).
 
-- **Added** support for specifying backoff interval during retries.
+* **Added** support for specifying a backoff interval during retries.
 
-- **Added** support for `TCPRoute` to waypoint proxies.
+* **Added** support for using `TCPRoute` in waypoint proxies.
 
-- **Fixed** an issue that validation webhook incorrectly report a warning when a ServiceEntry configures `workloadSelector` with DNS resolution.
+* **Fixed** a bug where the validation webhook incorrectly reported a warning when a `ServiceEntry` configured a `workloadSelector` with DNS resolution.
   ([Issue #50164](https://github.com/istio/istio/issues/50164))
 
-- **Fixed** an issue ServiceEntry with `WorkloadEntry` not working in Ambient.
+* **Fixed** an issue where FQDNs did not work in a `WorkloadEntry` using ambient mode.
 
-- **Fixed** an issue that `ReferenceGrants` don't work when mTLS is enabled for a Gateway Listener.
+* **Fixed** a case where `ReferenceGrants` did not function when mTLS was enabled on a Gateway listener.
   ([Issue #55623](https://github.com/istio/istio/issues/55623))
 
-- **Fixed** issue where Istio did not correctly get `allowedRoutes` for a sandboxed waypoint.   ([Issue #56010](https://github.com/istio/istio/issues/56010))
+* **Fixed** an issue where Istio failed to correctly retrieve `allowedRoutes` for a sandboxed waypoint.
+  ([Issue #56010](https://github.com/istio/istio/issues/56010))
 
-- **Fixed** an issue where ServiceEntry endpoints are leaked when a pod is evicted.  ([Issue #54997](https://github.com/istio/istio/issues/54997))
+* **Fixed** a bug where `ServiceEntry` endpoints were leaked when a pod was evicted.
+  ([Issue #54997](https://github.com/istio/istio/issues/54997))
 
 ## Security
 
-- **Added** experimental support for the v1alpha1 `ClusterTrustBundle` API. This can be enabled by setting `values.pilot.env.ENABLE_CLUSTER_TRUST_BUNDLE_API=true`. Note that you will have to make sure to also enable the respective feature gates in your cluster, see [KEP-3257](https://github.com/kubernetes/enhancements/tree/master/keps/sig-auth/3257-cluster-trust-bundles) for details.
+* **Added** experimental support for the v1alpha1 `ClusterTrustBundle` API. This can be enabled by setting `values.pilot.env.ENABLE_CLUSTER_TRUST_BUNDLE_API=true`. Ensure the corresponding feature gates are enabled in your cluster; see [KEP-3257](https://github.com/kubernetes/enhancements/tree/master/keps/sig-auth/3257-cluster-trust-bundles) for details.
   ([Issue #43986](https://github.com/istio/istio/issues/43986))
 
 ## Telemetry
 
-- **Added** support `omit_empty_values` for `EnvoyFileAccessLog` provider in Telemetry API.
+* **Added** support for the `omit_empty_values` field in the `EnvoyFileAccessLog` provider via the Telemetry API.
   ([Issue #54930](https://github.com/istio/istio/issues/54930))
 
-- - **Added** environment variable `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY`, which separates tracing span for both server and client gateways.
-This currently defaults to false but will become default in the future.
+* **Introduced** an environment variable `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY`, which separates tracing spans for server and client gateways. This currently defaults to `false`, but will become the default in the future.
 
-- **Added** warn message for deprecated telemetry providers(e.g. Lightstep, OpenCensus).
+* **Added** a warning message for use of deprecated telemetry providers Lightstep and OpenCensus.
   ([Issue #54002](https://github.com/istio/istio/issues/54002))
 
 ## Installation
 
-- **Improved** installation on GKE. When deploying with `global.platform=gke`, required `ResourceQuota` resources are deployed automatically.
-Additionally, when installing via `istioctl`, the `global.platform=gke` setting is automatically enabled when GKE is detected.
-In addition to the new `ResourceQuota` resources, this also automatically configures the required `cniBinDir`.
+* **Improved** the installation experience on GKE. When `global.platform=gke` is set, required `ResourceQuota` resources are deployed automatically. When installing via `istioctl`, this setting is also auto-enabled if GKE is detected. Additionally, the `cniBinDir` is now configured appropriately.
 
-- **Improved** the ztunnel Helm chart to no longer set resource names to `.Release.Name`, and instead default to `ztunnel`.
-This reverts a change in Istio 1.25.
+* **Improved** the `ztunnel` Helm chart to not assign resource names to `.Release.Name`, defaulting instead to `ztunnel`. This reverts a change introduced in Istio 1.25.
 
-- **Added** support to set `reinvocationPolicy` for the revision-tag webhook when installing Istio with istioctl or Helm.
+* **Added** support for setting the `reinvocationPolicy` in the revision-tag webhook when installing Istio via `istioctl` or Helm.
 
-- **Added** Support for configuring service `loadBalancerClass` on the Gateway Helm Chart.  ([Issue #39079](https://github.com/istio/istio/issues/39079))
+* **Added** the ability to configure the service `loadBalancerClass` in the Gateway Helm chart.
+  ([Issue #39079](https://github.com/istio/istio/issues/39079))
 
-- **Added** a `values` ConfigMap containing the user-provided Helm values for the `istiod` chart, along with the merged values after applying profiles.
+* **Added** a `values` ConfigMap that stores both the user-provided Helm values and the merged values after applying profiles for the `istiod` chart.
 
-- **Added** support for reading header values from Istiod environment variables.
+* **Added** support for reading header values from istiod environment variables.
   ([Issue #53408](https://github.com/istio/istio/issues/53408))
 
-- **Added** `updateStrategy` value to ztunnel and istio-cni helm charts
+* **Added** a configurable `updateStrategy` for the `ztunnel` and `istio-cni` Helm charts.
 
-- **Fixed** an issue in the sidecar injection template, which would remove any existing init container, if both traffic intercepting and native sidecar are disabled.
+* **Fixed** a bug in the sidecar injection template that incorrectly removed existing init containers when both traffic interception and native sidecar were disabled.
   ([Issue #54562](https://github.com/istio/istio/issues/54562))
 
-- **Fixed** missing `topology.istio.io/network` label on gateway pods when `--set networkGateway` is used.
+* **Corrected** missing `topology.istio.io/network` labels on gateway pods when `--set networkGateway` is used.
   ([Issue #54909](https://github.com/istio/istio/issues/54909))
 
-- **Fixed** an issue where setting `replicaCount=0` in the `istio/gateway` Helm chart incorrectly omitted the `replicas` field instead of explicitly setting it to `0`.
+* **Fixed** a problem where setting `replicaCount=0` in the `istio/gateway` Helm chart caused the `replicas` field to be omitted instead of explicitly set to `0`.
   ([Issue #55092](https://github.com/istio/istio/issues/55092))
 
-- **Fixed** an issue causing file-based certificate references (from `DestinationRule` or `Gateway`) to not work when using SPIRE as the CA.
+* **Fixed** an issue that caused file-based certificate references (e.g., from `DestinationRule` or `Gateway`) to fail when using SPIRE as the CA.
 
-- **Removed** deprecated `ENABLE_AUTO_SNI` flag and related code paths.
+* **Removed** the deprecated `ENABLE_AUTO_SNI` flag and associated code paths.
 
 ## istioctl
 
-- **Added** support `--locality` parameter for `istioctl experimental workload group create`.
+* **Added** a `--locality` parameter on `istioctl experimental workload group create`.
   ([Issue #54022](https://github.com/istio/istio/issues/54022))
 
-- **Added** support to run specific analyzer checks using the `istioctl analyze` command.
+* **Added** the ability to run specific analyzer checks using the `istioctl analyze` command.
 
-- **Added** parameter `--tls-server-name` to `istioctl create-remote-secret` that sets `tls-server-name` in the generated kubeconfig.
-This flag ensures successful TLS connection to the kube-apiserver when the `server` field is overridden
-with the hostname of a gateway proxy.
+* **Added** a `--tls-server-name` parameter to `istioctl create-remote-secret`, allowing the `tls-server-name` to be set in the generated kubeconfig. This ensures successful TLS connections when the `server` field is overridden with a gateway proxy hostname.
 
-- **Added** support for `envVarFrom` in `istiod` chart.
+* **Added** support for the `envVarFrom` field in the `istiod` chart.
 
-- **Fixed** an issue that istioctl analyze report unknown annotation `sidecar.istio.io/statsCompression`.
+* **Fixed** an issue where `istioctl analyze` reported an unknown annotation `sidecar.istio.io/statsCompression`.
   ([Issue #52082](https://github.com/istio/istio/issues/52082))
 
-- **Fixed** istioctl error preventing installation when `IstioOperator.components.gateways.ingressGateways.label` or `IstioOperator.components.gateways.ingressGateways.label` is omitted.
+* **Fixed** an error that blocked installation when `IstioOperator.components.gateways.ingressGateways.label` or `IstioOperator.components.gateways.ingressGateways.label` was omitted.
   ([Issue #54955](https://github.com/istio/istio/issues/54955))
 
-- **Fixed** istioctl not using `IstioOperator.components.gateways.ingressGateways.tag` and `IstioOperator.components.gateways.egressGateways.tag` when provided.
+* **Fixed** a bug where `istioctl` ignored the `tag` fields under `IstioOperator.components.gateways.ingressGateways` and `egressGateways`.
   ([Issue #54955](https://github.com/istio/istio/issues/54955))
 
-- **Fixed** `istioctl waypoint delete` will delete the Gateway resource that is not a waypoint when specifying a name.
+* **Fixed** an issue where `istioctl waypoint delete` could remove a non-waypoint Gateway resource when a name was specified.
   ([Issue #55235](https://github.com/istio/istio/issues/55235))
 
-- **Fixed** `istioctl experimental describe` ignores `--namespace` flag.
+* **Fixed** an issue where `istioctl experimental describe` did not respect the `--namespace` flag.
   ([Issue #55243](https://github.com/istio/istio/issues/55243))
 
-- **Fixed** `istio.io/waypoint-for` and `istio.io/rev` labels cannot be generated simultaneously when creating Waypoint Proxy with istioctl.
+* **Fixed** a bug that prevented simultaneous generation of `istio.io/waypoint-for` and `istio.io/rev` labels when creating a waypoint proxy using `istioctl`.
   ([Issue #55437](https://github.com/istio/istio/issues/55437))
 
-- **Fixed** `istioctl admin log` cannot modify the log level of `ingress status`.
+* **Fixed** an issue where `istioctl admin log` could not modify the log level for `ingress status`.
   ([Issue #55741](https://github.com/istio/istio/issues/55741))
 
-- **Fixed** an issue where setting `reconcileIptablesOnStartup: true` in the Istioctl YAML failed validation.
+* **Fixed** a validation failure when `reconcileIptablesOnStartup: true` was set in the istioctl YAML configuration.
   ([Issue #55374](https://github.com/istio/istio/issues/55374))
