@@ -27,7 +27,7 @@ aliases:
 * **Added** support for referencing `ConfigMap`s, in addition to `Secret`s, for `DestinationRule` TLS in `SIMPLE` mode — useful when only a CA certificate is required.
   ([Issue #54131](https://github.com/istio/istio/issues/54131)), ([Issue #54132](https://github.com/istio/istio/issues/54132))
 
-* **Added** customization support for [Gateway API automated deployments](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). This applies to both `istio` Gateway types (ingress and egress) and `istio-waypoint` Gateway types (ambient waypoints). Users can now customize generated resources such as `Service`, `Deployment`, `ServiceAccount`, `HorizontalPodAutoscaler`, and `PodDisruptionBudget`.
+* **Added** customization support for [Gateway API automated deployments](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). This applies to both Istio `Gateway` types (ingress and egress) and Istio Waypoint `Gateway` types (ambient waypoints). Users can now customize generated resources such as `Service`, `Deployment`, `ServiceAccount`, `HorizontalPodAutoscaler`, and `PodDisruptionBudget`.
 
 * **Added** a new environment variable `ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT` for istiod. When set to `false`, it disables automatic attachment of Gateway API resources to existing gateway deployments. By default, this is `true` to maintain current behavior.
 
