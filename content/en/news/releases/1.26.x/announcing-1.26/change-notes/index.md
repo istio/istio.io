@@ -29,7 +29,7 @@ aliases:
 
 * **Added** customization support for [Gateway API automated deployments](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). This applies to both Istio `Gateway` types (ingress and egress) and Istio Waypoint `Gateway` types (ambient waypoints). Users can now customize generated resources such as `Service`, `Deployment`, `ServiceAccount`, `HorizontalPodAutoscaler`, and `PodDisruptionBudget`.
 
-* **Added** a new environment variable `ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT` for istiod. When set to `false`, it disables automatic attachment of Gateway API resources to existing gateway deployments. By default, this is `true` to maintain current behavior.
+* **Added** a new environment variable `ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT` for `istiod`. When set to `false`, it disables automatic attachment of Gateway API resources to existing gateway deployments. By default, this is `true` to maintain the current behavior.
 
 * **Added** the ability to configure retry host predicates using the Retry API (`retry_ignore_previous_hosts`).
 
@@ -51,7 +51,7 @@ aliases:
 * **Fixed** a bug where `ServiceEntry` endpoints were leaked when a pod was evicted.
   ([Issue #54997](https://github.com/istio/istio/issues/54997))
 
-* **Fixed** an issue where the listener address was duplicated for dual stack services with IPv6 priority.  ([Issue #56151](https://github.com/istio/istio/issue/56151))
+* **Fixed** an issue where the listener address was duplicated for dual stack services with IPv6 priority.  ([Issue #56151](https://github.com/istio/istio/issues/56151))
 
 ## Security
 
@@ -81,7 +81,7 @@ aliases:
 
 * **Added** a values `ConfigMap` that stores both the user-provided Helm values and the merged values after applying profiles for the `istiod` chart.
 
-* **Added** support for reading header values from istiod environment variables.
+* **Added** support for reading header values from `istiod` environment variables.
   ([Issue #53408](https://github.com/istio/istio/issues/53408))
 
 * **Added** a configurable `updateStrategy` for the `ztunnel` and `istio-cni` Helm charts.
@@ -131,5 +131,5 @@ aliases:
 * **Fixed** an issue where `istioctl admin log` could not modify the log level for `ingress status`.
   ([Issue #55741](https://github.com/istio/istio/issues/55741))
 
-* **Fixed** a validation failure when `reconcileIptablesOnStartup: true` was set in the istioctl YAML configuration.
+* **Fixed** a validation failure when `reconcileIptablesOnStartup: true` was set in the `istioctl` YAML configuration.
   ([Issue #55374](https://github.com/istio/istio/issues/55374))
