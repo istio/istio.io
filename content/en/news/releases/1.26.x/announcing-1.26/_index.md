@@ -31,7 +31,7 @@ When you create a Gateway or a waypoint using the Gateway API, a `Service` and a
 
 We also added support for the experimental [`BackendTLSPolicy`](https://gateway-api.sigs.k8s.io/api-types/backendtlspolicy/) and started the implementation of [`BackendTrafficPolicy`](https://gateway-api.sigs.k8s.io/api-types/backendtrafficpolicy/) in Gateway API 1.3, which will eventually setting retry constraints.
 
-### Support for the new Kubernetes ClusterTrustBundle
+### Support for the new Kubernetes `ClusterTrustBundle`
 
 We've added experimental support for [the experimental `ClusterTrustBundle` resource in Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#cluster-trust-bundles), allowing support for the new method of bundling a certificate and its root of trust into a single object.
 
