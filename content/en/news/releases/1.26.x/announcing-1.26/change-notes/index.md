@@ -33,7 +33,7 @@ aliases:
 
 * **Added** the ability to configure retry host predicates using the Retry API (`retry_ignore_previous_hosts`).
 
-* **Added** support for specifying a backoff interval during retries.
+* **Added** support for specifying backoff intervals during retries.
 
 * **Added** support for using `TCPRoute` in waypoint proxies.
 
