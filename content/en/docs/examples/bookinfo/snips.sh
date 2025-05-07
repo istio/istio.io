@@ -101,6 +101,10 @@ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.liste
 }
 
 snip_determine_the_ingress_ip_and_port_6() {
+kubectl annotate svc/bookinfo-gateway-istio service.beta.kubernetes.io/port_80_health-probe_protocol=tcp
+}
+
+snip_determine_the_ingress_ip_and_port_7() {
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 }
 
