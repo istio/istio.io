@@ -27,7 +27,7 @@ When you create a Gateway or a waypoint using the Gateway API, a `Service` and a
 
 ### New Gateway API support
 
-[TCPRoute](https://gateway-api.sigs.k8s.io/guides/tcp/) is now available in waypoints, allowing TCP traffic shifting in ambient mode.
+[`TCPRoute`](https://gateway-api.sigs.k8s.io/guides/tcp/) is now available in waypoints, allowing TCP traffic shifting in ambient mode.
 
 We also added support for the experimental [BackendTLSPolicy](https://gateway-api.sigs.k8s.io/api-types/backendtlspolicy/) and started the implementation of [BackendTrafficPolicy](https://gateway-api.sigs.k8s.io/api-types/backendtrafficpolicy/) in Gateway API 1.3, which will eventually setting retry constraints.
 
