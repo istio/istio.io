@@ -17,7 +17,9 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 ### Google Kubernetes Engine (GKE)
 
-On GKE, Istio components with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. The Istio CNI node agent and `ztunnel` both require the `node-critical` class, and so in GKE, both components must either:
+#### Namespace restrictions
+
+On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. The Istio CNI node agent and `ztunnel` both require the `node-critical` class, and so in GKE, both components must either:
 
 - Be installed into `kube-system` (_not_ `istio-system`)
 - Be installed into another namespace (such as `istio-system`) in which a ResourceQuota has been manually created, for example:
@@ -37,6 +39,60 @@ spec:
       scopeName: PriorityClass
       values:
       - system-node-critical
+{{< /text >}}
+
+#### Platform profile
+
+When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
+
+{{< tabset category-name="install-method" >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.platform=gke
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+### Amazon Elastic Kubernetes Service (EKS)
+
+If you are using EKS:
+
+- with Amazon's VPC CNI
+- with Pod ENI trunking enabled
+- **and** you are using EKS pod-attached SecurityGroups via [SecurityGroupPolicy](https://aws.github.io/aws-eks-best-practices/networking/sgpp/#enforcing-mode-use-strict-mode-for-isolating-pod-and-node-traffic)
+
+[`POD_SECURITY_GROUP_ENFORCING_MODE` must be explicitly set to `standard`](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/README.md#pod_security_group_enforcing_mode-v1110), or pod health probes will fail. This is because Istio uses a link-local SNAT address to identify kubelet health probes, and VPC CNI currently misroutes link-local packets in Pod Security Group `strict` mode. Explicitly adding a CIDR exclusion for the link-local address to your SecurityGroup will not work, because VPC CNI's Pod Security Group mode works by silently routing traffic across links, looping them thru the trunked `pod ENI` for SecurityGroup policy enforcement. Since [link-local traffic is not routable across links](https://datatracker.ietf.org/doc/html/rfc3927#section-2.6.2), the Pod Security Group feature cannot enforce policy against them as a design constraint, and drops the packets in `strict` mode.
+
+There is an [open issue on the VPC CNI component](https://github.com/aws/amazon-vpc-cni-k8s/issues/2797) for this limitation. The current recommendation from the VPC CNI team is to disable `strict` mode to work around it, if you are using Pod Security Groups, or to use `exec`-based Kubernetes probes for your pods instead of kubelet-based ones.
+
+You can check if you have pod ENI trunking enabled by running the following command:
+
+{{< text syntax=bash >}}
+$ kubectl set env daemonset aws-node -n kube-system --list | grep ENABLE_POD_ENI
+{{< /text >}}
+
+You can check if you have any pod-attached security groups in your cluster by running the following command:
+
+{{< text syntax=bash >}}
+$ kubectl get securitygrouppolicies.vpcresources.k8s.aws
+{{< /text >}}
+
+You can set `POD_SECURITY_GROUP_ENFORCING_MODE=standard` by running the following command, and recycling affected pods:
+
+{{< text syntax=bash >}}
+$ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
 {{< /text >}}
 
 ### k3d
@@ -172,16 +228,21 @@ For example:
 
 OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts.
 
-If you use `helm`, you can set the target namespace and `global.platform` values directly.
-
-If you use `istioctl`, you must use a special profile named `openshift-ambient` to accomplish the same thing.
-
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
+    You must `--set global.platform=openshift` for **every** chart you install, for example with the `istiod` chart:
+
+    {{< text syntax=bash >}}
+    $ helm install istiod istio/istiod -n istio-system --set profile=ambient --set global.platform=openshift --wait
+    {{< /text >}}
+
+    In addition, you must install `istio-cni` and `ztunnel` in the `kube-system` namespace, for example:
+
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+    $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
 {{< /tab >}}
@@ -206,7 +267,7 @@ The following configurations apply to all platforms, when certain {{< gloss "CNI
 `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
 1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
 1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
-applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode, will cause `kubelet` health probes (which are by-default exempted from NetworkPolicy enforcement by Cilium) to be blocked.
+applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
     This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
 
@@ -217,10 +278,15 @@ applying default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio i
       name: "allow-ambient-hostprobes"
     spec:
       description: "Allows SNAT-ed kubelet health check probes into ambient pods"
+      enableDefaultDeny:
+        egress: false
+        ingress: false
       endpointSelector: {}
       ingress:
       - fromCIDR:
         - "169.254.7.127/32"
     {{< /text >}}
+
+    This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.

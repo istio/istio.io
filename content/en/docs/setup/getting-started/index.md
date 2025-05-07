@@ -110,7 +110,7 @@ You have configured Istio to inject sidecar containers into any application you 
 1.  Deploy the [`Bookinfo` sample application](/docs/examples/bookinfo/):
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/bookinfo/platform/kube/bookinfo.yaml
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     service/details created
     serviceaccount/bookinfo-details created
     deployment.apps/details-v1 created
@@ -217,7 +217,7 @@ Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kial
 1.  Install [Kiali and the other addons]({{< github_tree >}}/samples/addons) and wait for them to be deployed.
 
     {{< text bash >}}
-    $ kubectl apply -f samples/addons
+    $ kubectl apply -f @samples/addons@
     $ kubectl rollout status deployment/kiali -n istio-system
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out

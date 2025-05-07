@@ -18,10 +18,10 @@ One of the key advantages of Wasm extensibility is that extensions can be loaded
 1. Set up Istio by following the instructions in the [ambient mode Getting Started guide](/docs/ambient/getting-started).
 1. Deploy the [Bookinfo sample application](/docs/ambient/getting-started/deploy-sample-app).
 1. [Add the default namespace to the ambient mesh](/docs/ambient/getting-started/secure-and-visualize).
-1. Deploy the [sleep]({{< github_tree >}}/samples/sleep) sample app to use as a test source for sending requests.
+1. Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
 
     {{< text syntax=bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
 ## At a gateway
@@ -73,14 +73,14 @@ The Istio agent will interpret the WasmPlugin configuration, download remote Was
 1. Test `/productpage` without credentials:
 
     {{< text syntax=bash snip_id=test_gateway_productpage_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     401
     {{< /text >}}
 
 1. Test `/productpage` with the credentials configured in the WasmPlugin resource:
 
     {{< text syntax=bash snip_id=test_gateway_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
+    $ kubectl exec deploy/curl -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
     200
     {{< /text >}}
 
@@ -99,7 +99,7 @@ $ istioctl waypoint apply --enroll-namespace --wait
 Verify traffic reaches the service:
 
 {{< text syntax=bash snip_id=verify_traffic >}}
-$ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+$ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
 200
 {{< /text >}}
 
@@ -153,14 +153,14 @@ basic-auth-at-waypoint   14m
 1. Test internal `/productpage` without credentials:
 
     {{< text syntax=bash snip_id=test_waypoint_productpage_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://productpage:9080/productpage
     401
     {{< /text >}}
 
 1. Test internal `/productpage` with credentials:
 
     {{< text syntax=bash snip_id=test_waypoint_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
     200
     {{< /text >}}
 
@@ -200,21 +200,21 @@ EOF
 1. Test the internal `/productpage` with the credentials configured at the generic `waypoint` proxy:
 
     {{< text syntax=bash snip_id=test_waypoint_service_productpage_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" http://productpage:9080/productpage
     200
     {{< /text >}}
 
 1. Test the internal `/reviews` with credentials configured at the specific `reviews-svc-waypoint` proxy:
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_with_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
     200
     {{< /text >}}
 
 1. Test internal `/reviews` without credentials:
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_without_credentials >}}
-    $ kubectl exec deploy/sleep -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
+    $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://reviews:9080/reviews/1
     401
     {{< /text >}}
 

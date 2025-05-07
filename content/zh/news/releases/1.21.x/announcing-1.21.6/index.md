@@ -19,6 +19,5 @@ release: 1.21.6
   支持将内部地址设置为网格网络而不是本地主机，以防止在启用
   `envoy.reloadable_features.explicit_internal_address_config` 时进行标头清理。
 
-- **Fixed** `VirtualMachine` `WorkloadEntry` locality label missing during auto registration.
 - **修复** 修复了自动注册期间缺少 `VirtualMachine` `WorkloadEntry` 位置标签的问题。
   ([Issue #51800](https://github.com/istio/istio/issues/51800))

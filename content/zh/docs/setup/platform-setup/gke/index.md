@@ -35,8 +35,9 @@ test: no
     {{< /tip >}}
 
     {{< warning >}}
-    要在 GKE 上使用 Istio CNI 功能，请查看
-    [CNI 安装指南](/zh/docs/setup/additional-setup/cni/#prerequisites)了解集群配置步骤的先决条件。
+    要在 GKE Standard 上使用 Istio CNI 功能，请查看
+    [CNI 安装指南](/zh/docs/setup/additional-setup/cni/#prerequisites)了解先决条件集群配置步骤。
+    由于 CNI 节点代理需要 SYS_ADMIN 功能，因此它在 GKE Autopilot 上不可用。请改用 istio-init 容器。
     {{< /warning >}}
 
     {{< warning >}}

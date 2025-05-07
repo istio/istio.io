@@ -13,14 +13,37 @@ Before proceeding, be sure to complete the steps under
 [before you begin](/docs/setup/install/multicluster/before-you-begin) as well as
 choosing and following one of the multicluster installation guides.
 
-In this guide, we will deploy the `HelloWorld` application `V1` to `cluster1`
-and `V2` to `cluster2`. Upon receiving a request, `HelloWorld` will include
-its version in its response.
+In this guide, we will verify multicluster is functional, deploy the `HelloWorld`
+application `V1` to `cluster1` and `V2` to `cluster2`. Upon receiving a request,
+`HelloWorld` will include its version in its response.
 
-We will also deploy the `Sleep` container to both clusters. We will use these
+We will also deploy the `curl` container to both clusters. We will use these
 pods as the source of requests to the `HelloWorld` service,
 simulating in-mesh traffic. Finally, after generating traffic, we will observe
 which cluster received the requests.
+
+## Verify Multicluster
+
+To confirm that Istiod is now able to communicate with the Kubernetes control plane
+of the remote cluster.
+
+{{< text bash >}}
+$ istioctl remote-clusters --context="${CTX_CLUSTER1}"
+NAME         SECRET                                        STATUS      ISTIOD
+cluster1                                                   synced      istiod-7b74b769db-kb4kj
+cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
+{{< /text >}}
+
+All clusters should indicate their status as `synced`. If a cluster is listed with
+a `STATUS` of `timeout` that means that Istiod in the primary cluster is unable to
+communicate with the remote cluster. See the Istiod logs for detailed error
+messages.
+
+Note: if you do see `timeout` issues and there is an intermediary host (such as the [Rancher auth proxy](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters))
+sitting between Istiod in the primary cluster and the Kubernetes control plane in
+the remote cluster, you may need to update the `certificate-authority-data` field
+of the kubeconfig that `istioctl create-remote-secret` generates in order to
+match the certificate being used by the intermediate host.
 
 ## Deploy the `HelloWorld` Service
 
@@ -97,50 +120,50 @@ helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 
 Wait until the status of `helloworld-v2` is `Running`.
 
-## Deploy `Sleep`
+## Deploy `curl`
 
-Deploy the `Sleep` application to both clusters:
+Deploy the `curl` application to both clusters:
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
-    -f @samples/sleep/sleep.yaml@ -n sample
+    -f @samples/curl/curl.yaml@ -n sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
-    -f @samples/sleep/sleep.yaml@ -n sample
+    -f @samples/curl/curl.yaml@ -n sample
 {{< /text >}}
 
-Confirm the status `Sleep` pod on `cluster1`:
+Confirm the status `curl` pod on `cluster1`:
 
 {{< text bash >}}
-$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-n6bzf           2/2     Running   0          5s
+curl-754684654f-n6bzf            2/2     Running   0          5s
 {{< /text >}}
 
-Wait until the status of the `Sleep` pod is `Running`.
+Wait until the status of the `curl` pod is `Running`.
 
-Confirm the status of the `Sleep` pod on `cluster2`:
+Confirm the status of the `curl` pod on `cluster2`:
 
 {{< text bash >}}
-$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
+$ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-dzl9j           2/2     Running   0          5s
+curl-754684654f-dzl9j            2/2     Running   0          5s
 {{< /text >}}
 
-Wait until the status of the `Sleep` pod is `Running`.
+Wait until the status of the `curl` pod is `Running`.
 
 ## Verifying Cross-Cluster Traffic
 
 To verify that cross-cluster load balancing works as expected, call the
-`HelloWorld` service several times using the `Sleep` pod. To ensure load
+`HelloWorld` service several times using the `curl` pod. To ensure load
 balancing is working properly, call the `HelloWorld` service from all
 clusters in your deployment.
 
-Send one request from the `Sleep` pod on `cluster1` to the `HelloWorld` service:
+Send one request from the `curl` pod on `cluster1` to the `HelloWorld` service:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 
@@ -153,12 +176,12 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
 {{< /text >}}
 
-Now repeat this process from the `Sleep` pod on `cluster2`:
+Now repeat this process from the `curl` pod on `cluster2`:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 

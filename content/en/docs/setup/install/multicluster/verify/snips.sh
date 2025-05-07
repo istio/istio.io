@@ -20,6 +20,16 @@
 #          docs/setup/install/multicluster/verify/index.md
 ####################################################################################################
 
+snip_verify_multicluster_1() {
+istioctl remote-clusters --context="${CTX_CLUSTER1}"
+}
+
+! IFS=$'\n' read -r -d '' snip_verify_multicluster_1_out <<\ENDSNIP
+NAME         SECRET                                        STATUS      ISTIOD
+cluster1                                                   synced      istiod-7b74b769db-kb4kj
+cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
+ENDSNIP
+
 snip_deploy_the_helloworld_service_1() {
 kubectl create --context="${CTX_CLUSTER1}" namespace sample
 kubectl create --context="${CTX_CLUSTER2}" namespace sample
@@ -71,35 +81,35 @@ NAME                            READY     STATUS    RESTARTS   AGE
 helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
 ENDSNIP
 
-snip_deploy_sleep_1() {
+snip_deploy_curl_1() {
 kubectl apply --context="${CTX_CLUSTER1}" \
-    -f samples/sleep/sleep.yaml -n sample
+    -f samples/curl/curl.yaml -n sample
 kubectl apply --context="${CTX_CLUSTER2}" \
-    -f samples/sleep/sleep.yaml -n sample
+    -f samples/curl/curl.yaml -n sample
 }
 
-snip_deploy_sleep_2() {
-kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=sleep
+snip_deploy_curl_2() {
+kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 }
 
-! IFS=$'\n' read -r -d '' snip_deploy_sleep_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_curl_2_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-n6bzf           2/2     Running   0          5s
+curl-754684654f-n6bzf            2/2     Running   0          5s
 ENDSNIP
 
-snip_deploy_sleep_3() {
-kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=sleep
+snip_deploy_curl_3() {
+kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 }
 
-! IFS=$'\n' read -r -d '' snip_deploy_sleep_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_deploy_curl_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-sleep-754684654f-dzl9j           2/2     Running   0          5s
+curl-754684654f-dzl9j            2/2     Running   0          5s
 ENDSNIP
 
 snip_verifying_crosscluster_traffic_1() {
-kubectl exec --context="${CTX_CLUSTER1}" -n sample -c sleep \
+kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
 
@@ -110,9 +120,9 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ENDSNIP
 
 snip_verifying_crosscluster_traffic_3() {
-kubectl exec --context="${CTX_CLUSTER2}" -n sample -c sleep \
+kubectl exec --context="${CTX_CLUSTER2}" -n sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
 

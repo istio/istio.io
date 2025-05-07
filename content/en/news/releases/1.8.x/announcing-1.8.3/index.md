@@ -42,4 +42,4 @@ There is no currently planned date at this time. Be assured that this is a top p
   ([PR #30590](https://github.com/istio/istio/pull/30590))
 
 - **Fixed** issues resulting in missing routes when using `httpsRedirect` in a `Gateway`.
-  ([Issue #27315](https://github.com/istio/istio/issues/27315)),([Issue #27157](https://github.com/istio/istio/issues/27157))
+  ([Issue #27315](https://github.com/istio/istio/issues/27315)), ([Issue #27157](https://github.com/istio/istio/issues/27157))

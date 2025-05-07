@@ -259,7 +259,6 @@ and installing the sidecar injector webhook configuration on the remote cluster 
     it in the external cluster:
 
     {{< text bash >}}
-    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
@@ -268,6 +267,11 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       --create-service-account=false | \
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
+
+    {{< tip >}}
+    If you are running in `kind`, then you will need to pass `--server https://<api-server-node-ip>:6443` to the `istioctl create-remote-secret` command,
+    where `<api-server-node-ip>` is the IP address of the node running the API server.
+    {{< /tip >}}
 
 1. Create the Istio configuration to install the control plane in the `external-istiod` namespace of the external cluster.
    Notice that istiod is configured to use the locally mounted `istio` configmap and the `SHARED_MESH_CONFIG` environment
@@ -331,6 +335,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
               value: istio
       values:
         global:
+          externalIstiod: true
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
@@ -497,28 +502,28 @@ See the [Istioctl-proxy Ecosystem project](https://github.com/istio-ecosystem/is
     $ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `helloworld` (`v1`) and `sleep` samples:
+1. Deploy the `helloworld` (`v1`) and `curl` samples:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+1. Wait a few seconds for the `helloworld` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
+    curl-64d7d56698-wqjnm            2/2     Running   0          9s
     helloworld-v1-776f57d5f6-s7zfc   2/2     Running   0          10s
-    sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
-1. Send a request from the `sleep` pod to the `helloworld` service:
+1. Send a request from the `curl` pod to the `helloworld` service:
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
@@ -852,28 +857,28 @@ $ export SECOND_CLUSTER_NAME=<your second remote cluster name>
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `helloworld` (`v2`) and `sleep` samples:
+1. Deploy the `helloworld` (`v2`) and `curl` samples:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
-1. Wait a few seconds for the `helloworld` and `sleep` pods to be running with sidecars injected:
+1. Wait a few seconds for the `helloworld` and `curl` pods to be running with sidecars injected:
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
     NAME                            READY   STATUS    RESTARTS   AGE
+    curl-557747455f-wtdbr           2/2     Running   0          9s
     helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-    sleep-557747455f-wtdbr          2/2     Running   0          9s
     {{< /text >}}
 
-1. Send a request from the `sleep` pod to the `helloworld` service:
+1. Send a request from the `curl` pod to the `helloworld` service:
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     {{< /text >}}

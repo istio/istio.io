@@ -58,7 +58,8 @@ Pod 时通知 `istio-cni` 节点代理，并将新的 Pod 上下文传播到 `is
       来允许在一个网络命名空间中运行的进程在另一个网络命名空间中创建侦听套接字，
       假设目标网络命名空间在创建时已知。
 
-- 节点本地 ztunnel 在内部启动一个新的代理实例和侦听端口集，专用于被新添加的 Pod。
+- 节点本地 ztunnel 在内部启动一个新的逻辑代理实例和监听端口集，
+  专用于新添加的 Pod。请注意，这仍然在同一进程中运行，并且仅仅是 Pod 的专用任务。
 
 - 一旦 in-Pod 重定向规则到位并且 ztunnel 建立了侦听端口，
   Pod 就会被添加到网格中，并且流量开始流经节点本地 ztunnel。
@@ -107,7 +108,7 @@ inpod_mark: 1337
 按照以下步骤确认端口 15001、15006 和 15008 上的套接字已打开并处于侦听状态。
 
 {{< text bash >}}
-$ kubectl debug $(kubectl get pod -l app=sleep -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it -n ambient-demo  --image nicolaka/netshoot  -- ss -ntlp
+$ kubectl debug $(kubectl get pod -l app=curl -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it -n ambient-demo  --image nicolaka/netshoot  -- ss -ntlp
 Defaulting debug container name to debugger-nhd4d.
 State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess
 LISTEN 0      128        127.0.0.1:15080      0.0.0.0:*
@@ -121,7 +122,7 @@ LISTEN 0      128                *:15008            *:*
 要查看应用程序中一个 Pod 内的 iptables 规则设置，请执行以下命令：
 
 {{< text bash >}}
-$ kubectl debug $(kubectl get pod -l app=sleep -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it --image gcr.io/istio-release/base --profile=netadmin -n ambient-demo -- iptables-save
+$ kubectl debug $(kubectl get pod -l app=curl -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it --image gcr.io/istio-release/base --profile=netadmin -n ambient-demo -- iptables-save
 
 Defaulting debug container name to debugger-m44qc.
 # 由 iptables-save 生成

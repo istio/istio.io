@@ -77,9 +77,9 @@ spec:
     protocol: HBONE
 {{< /text >}}
 
-请注意，Gateway 资源具有设置为 `gatewayClassName` 的 `istio-waypoint` 标签，
-这表明它是 Istio 所提供的 waypoint。Gateway 资源标有 `istio.io/waypoint-for: service`，
-表示该 waypoint 默认可以处理这些服务的流量。
+请注意，Gateway 资源的 `gatewayClassName` 为 `istio-waypoint`，
+它实例化了一个 Istio 管理的 waypoint。Gateway 资源标有 `istio.io/waypoint-for: service`，
+表示 waypoint 可以处理服务的流量，这是默认设置。
 
 要直接部署 waypoint 代理，请使用 `apply` 代替 `generate`：
 

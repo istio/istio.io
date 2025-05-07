@@ -17,7 +17,7 @@ Test your microservice, in production!
 1.  Issue an HTTP request from the testing pod to one of your services:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -- curl -sS http://ratings:9080/ratings/7
+    $ kubectl exec $(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}') -- curl -sS http://ratings:9080/ratings/7
     {{< /text >}}
 
 ## Chaos testing
@@ -50,7 +50,7 @@ the pods' status with `kubectl get pods`.
     reviews-v1-77c65dc5c6-5wt8g     1/1     Running   0          47m
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          48m
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          47m
-    sleep-88ddbcfdd-l9zq4           1/1     Running   0          47m
+    curl-88ddbcfdd-l9zq4            1/1     Running   0          47m
     {{< /text >}}
 
     Note that the first pod was restarted once.
@@ -87,7 +87,7 @@ the pods' status with `kubectl get pods`.
     reviews-v1-77c65dc5c6-5wt8g     1/1     Running   0          48m
     reviews-v1-77c65dc5c6-kjvxs     1/1     Running   0          49m
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          48m
-    sleep-88ddbcfdd-l9zq4           1/1     Running   0          48m
+    curl-88ddbcfdd-l9zq4            1/1     Running   0          48m
     {{< /text >}}
 
     The first pod restarted twice and two other `details` pods

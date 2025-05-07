@@ -76,13 +76,13 @@ spec:
                 mode: CLIENT
               tagOverrides:
                 destination_x:
-                  value: upstream_peer.labels['app'].value
+                  value: filter_state.upstream_peer.app
             - match:
                 metric: REQUEST_COUNT
                 mode: SERVER
               tagOverrides:
                 source_x:
-                  value: downstream_peer.labels['app'].value
+                  value: filter_state.downstream_peer.app
           providers:
             - name: prometheus
     {{< /text >}}

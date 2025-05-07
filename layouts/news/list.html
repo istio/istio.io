@@ -7,7 +7,7 @@
       <p class="post-author">{{ (.Params.publishdate).Format "Jan 2, 2006" }}</p>
       {{ .Content }}
       {{ with .Content }}
-      <h2>See also</h2>
+      <h2>{{ i18n "see_also" }}</h2>
       {{ end }}
       <div class="posts-list news-list">
 

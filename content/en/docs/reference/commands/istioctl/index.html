@@ -4,7 +4,7 @@ source_repo: https://github.com/istio/istio
 title: istioctl
 description: Istio control interface.
 generator: pkg-collateral-docs
-number_of_entries: 90
+number_of_entries: 91
 max_toc_level: 2
 remove_toc_prefix: 'istioctl '
 ---
@@ -240,7 +240,9 @@ debug and diagnose their Istio mesh.
 
 </code></pre>
 <h3 id="istioctl-analyze">istioctl analyze</h3>
-<p>Analyze Istio configuration and print validation messages</p>
+<p>Analyze Istio configuration and print validation messages.
+For more information about message codes, refer to:
+https://istio.io/v1.26/docs/reference/config/analysis</p>
 <pre class="language-bash"><code>istioctl analyze &lt;file&gt;... [flags]
 </code></pre>
 <table class="command-flags">
@@ -256,6 +258,11 @@ debug and diagnose their Istio mesh.
 <td><code>--all-namespaces</code></td>
 <td><code>-A</code></td>
 <td>Analyze all namespaces </td>
+</tr>
+<tr>
+<td><code>--analyzer &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Select specific analyzers to run. Can be repeated. If not specified, all analyzers are run. (e.g. istioctl analyze --analyzer &#34;gateway.ConflictingGatewayAnalyzer&#34;)  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--as &lt;string&gt;</code></td>
@@ -330,11 +337,16 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--recursive</code></td>
 <td><code>-R</code></td>
-<td>Process directory arguments recursively. Useful when you want to analyze related manifests organized within the same directory. </td>
+<td>[Removed: The recursive flag has been removed and is hardcoded to true] Process directory arguments recursively. </td>
+</tr>
+<tr>
+<td><code>--remote-contexts &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration contexts for remote clusters to be used in multi-cluster analysis. Not to be confused with &#39;--context&#39;. If unspecified, contexts are read from the remote secrets in the cluster.  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
-<td></td>
+<td><code>-r</code></td>
 <td>analyze a specific revision deployed.  (default `default`)</td>
 </tr>
 <tr>
@@ -374,9 +386,6 @@ debug and diagnose their Istio mesh.
   # Analyze the current live cluster, simulating the effect of applying additional yaml files
   istioctl analyze a.yaml b.yaml my-app-config/
 
-  # Analyze the current live cluster, simulating the effect of applying a directory of config recursively
-  istioctl analyze --recursive my-istio-config/
-
   # Analyze yaml files without connecting to a live cluster
   istioctl analyze --use-kube=false a.yaml b.yaml my-app-config/
 
@@ -389,6 +398,9 @@ debug and diagnose their Istio mesh.
 
   # List available analyzers
   istioctl analyze -L
+  
+  # Run specific analyzer
+  istioctl analyze --analyzer &#34;gateway.ConflictingGatewayAnalyzer&#34;
 </code></pre>
 <h3 id="istioctl-authz">istioctl authz</h3>
 <p>(authz is experimental. Use `istioctl experimental authz`)</p>
@@ -1115,7 +1127,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.26.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--name &lt;string&gt;</code></td>
@@ -1141,6 +1153,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td><code>--service-account &lt;string&gt;</code></td>
 <td></td>
 <td>Create a secret with this service account&#39;s credentials. Default value is &#34;istio-reader-service-account&#34; if --type is &#34;remote&#34;, &#34;istiod&#34; if --type is &#34;config&#34;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tls-server-name &lt;string&gt;</code></td>
+<td></td>
+<td>The server name that should be validated by kube-client during establishing TLS connection with kube-apiserver.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--type &lt;SecretType&gt;</code></td>
@@ -3300,16 +3317,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td></td>
 <td>Istiod pod port  (default `15012`)</td>
 </tr>
-<tr>
-<td><code>--xds-via-agents</code></td>
-<td></td>
-<td>Access Istiod via the tap service of each agent </td>
-</tr>
-<tr>
-<td><code>--xds-via-agents-limit &lt;xds-via-agent&gt;</code></td>
-<td></td>
-<td>Maximum number of pods being visited by istioctl when xds-via-agent flag is true.To iterate all the agent pods without limit, set to 0  (default `100`)</td>
-</tr>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-proxy-status Examples">Examples</h4>
@@ -3825,6 +3832,11 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td>The labels to apply to the workload instances; e.g. -l env=prod,vers=2  (default `[]`)</td>
 </tr>
 <tr>
+<td><code>--locality &lt;string&gt;</code></td>
+<td></td>
+<td>The locality associated with the endpoint.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--name &lt;string&gt;</code></td>
 <td></td>
 <td>The name of the workload group  (default ``)</td>
@@ -3833,6 +3845,11 @@ The default output is serialized YAML, which can be piped into &#39;kubectl appl
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>The namespace that the workload instances will belong to  (default ``)</td>
+</tr>
+<tr>
+<td><code>--network &lt;string&gt;</code></td>
+<td></td>
+<td>Network enables Istio to group endpoints resident in the same L3 domain/network.  (default ``)</td>
 </tr>
 <tr>
 <td><code>--ports &lt;stringSlice&gt;</code></td>
@@ -3925,7 +3942,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -3948,7 +3965,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4282,7 +4299,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4300,7 +4317,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -4394,7 +4411,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -4417,7 +4434,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -4449,6 +4466,113 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
   istioctl install --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
+
+</code></pre>
+<h3 id="istioctl-manifest-translate">istioctl manifest translate</h3>
+<p>The translate subcommand translates an Istio install manifest and outputs to the console by default.</p>
+<pre class="language-bash"><code>istioctl manifest translate [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td></td>
+<td>Console/log output only, make no changes. </td>
+</tr>
+<tr>
+<td><code>--filename &lt;stringSlice&gt;</code></td>
+<td><code>-f</code></td>
+<td>Path to file containing IstioOperator custom resource
+This flag can be specified multiple times to overlay multiple files. Multiple files are overlaid in left to right order.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--manifests &lt;string&gt;</code></td>
+<td><code>-d</code></td>
+<td>Specify a path to a directory of charts and profiles
+(e.g. ~/Downloads/istio-1.26.0/manifests).
+  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>where to put translated outputs  (default ``)</td>
+</tr>
+<tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Target control plane revision for the command.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--set &lt;stringArray&gt;</code></td>
+<td><code>-s</code></td>
+<td>Override an IstioOperator value, e.g. to choose a profile
+(--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="istioctl-manifest-translate Examples">Examples</h4>
+<pre class="language-bash"><code>  # Translate an IstioOperator yaml file into helm values
+  istioctl manifest translate -f istio.yaml
+
+  # Translate a default Istio installation
+  istioctl manifest translate
+
+  # Enable Tracing
+  istioctl manifest translate --set meshConfig.enableTracing=true
+
+  # Translate the demo profile
+  istioctl manifest translate --set profile=demo
+
+  # To override a setting that includes dots, escape them with a backslash (\).  Your shell may require enclosing quotes.
+  istioctl manifest translate --set &#34;values.sidecarInjectorWebhook.injectedAnnotations.container\.apparmor\.security\.beta\.kubernetes\.io/istio-proxy=runtime/default&#34;
 
 </code></pre>
 <h3 id="istioctl-options">istioctl options</h3>
@@ -5888,7 +6012,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.26.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6130,7 +6254,7 @@ injection labels.</p>
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).  (default ``)</td>
+(e.g. ~/Downloads/istio-1.26.0/manifests).  (default ``)</td>
 </tr>
 <tr>
 <td><code>--namespace &lt;string&gt;</code></td>
@@ -6246,7 +6370,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6269,7 +6393,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6367,7 +6491,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>--manifests &lt;string&gt;</code></td>
 <td><code>-d</code></td>
 <td>Specify a path to a directory of charts and profiles
-(e.g. ~/Downloads/istio-1.24.0/manifests).
+(e.g. ~/Downloads/istio-1.26.0/manifests).
   (default ``)</td>
 </tr>
 <tr>
@@ -6390,7 +6514,7 @@ This flag can be specified multiple times to overlay multiple files. Multiple fi
 <td><code>-s</code></td>
 <td>Override an IstioOperator value, e.g. to choose a profile
 (--set profile=demo), enable or disable components (--set components.cni.enabled=true), or override Istio
-settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.24/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
+settings (--set meshConfig.enableTracing=true). See documentation for more info:https://istio.io/v1.26/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--skip-confirmation</code></td>
@@ -6789,6 +6913,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--revision &lt;string&gt;</code></td>
+<td><code>-r</code></td>
+<td>Delete the specified version of the waypoint in the namespace  (default ``)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -6796,10 +6925,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tbody>
 </table>
 <h4 id="istioctl-waypoint-delete Examples">Examples</h4>
-<pre class="language-bash"><code>  # Delete a waypoint from the default namespace
-  istioctl waypoint delete
-
-  # Delete a waypoint by name, which can obtain from istioctl waypoint list
+<pre class="language-bash"><code>  # Delete a waypoint by name, which can obtain from istioctl waypoint list
   istioctl waypoint delete waypoint-name --namespace default
 
   # Delete several waypoints by name
@@ -6807,6 +6933,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # Delete all waypoints in a specific namespace
   istioctl waypoint delete --all --namespace default
+
+  # Delete specific revision waypoints in a namespace
+  istioctl waypoint delete --revision v1 --namespace default
 </code></pre>
 <h3 id="istioctl-waypoint-generate">istioctl waypoint generate</h3>
 <p>Generate a waypoint configuration as YAML</p>
@@ -7016,10 +7145,10 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </table>
 <h4 id="istioctl-waypoint-status Examples">Examples</h4>
 <pre class="language-bash"><code>  # Show the status of the waypoint in the default namespace
-		 istioctl waypoint status
-		  
-		 # Show the status of the waypoint in a specific namespace
-  		 istioctl waypoint status --namespace default
+  istioctl waypoint status
+
+  # Show the status of the waypoint in a specific namespace
+  istioctl waypoint status --namespace default
 </code></pre>
 <h3 id="istioctl-ztunnel-config">istioctl ztunnel-config</h3>
 <p>A group of commands used to update or retrieve Ztunnel configuration from a Ztunnel instance.</p>
@@ -7250,6 +7379,107 @@ istioctl ztunnel-config cert [flags]
 
   # Retrieve full certificate dump of workloads for a given Ztunnel instance.
   istioctl ztunnel-config certificates &lt;ztunnel-name[.namespace]&gt; -o json
+
+</code></pre>
+<h3 id="istioctl-ztunnel-config-connections">istioctl ztunnel-config connections</h3>
+<p>Retrieve information about connections for the Ztunnel instance.</p>
+<pre class="language-bash"><code>istioctl ztunnel-config connections [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre>
+<div class="aliases">
+<pre class="language-bash"><code>istioctl ztunnel-config cons [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;] [flags]
+</code></pre></div>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--as &lt;string&gt;</code></td>
+<td></td>
+<td>Username to impersonate for the operation. User could be a regular user or a service account in a namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--as-group &lt;stringArray&gt;</code></td>
+<td></td>
+<td>Group to impersonate for the operation, this flag can be repeated to specify multiple groups.  (default `[]`)</td>
+</tr>
+<tr>
+<td><code>--as-uid &lt;string&gt;</code></td>
+<td></td>
+<td>UID to impersonate for the operation.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--context &lt;string&gt;</code></td>
+<td></td>
+<td>Kubernetes configuration context  (default ``)</td>
+</tr>
+<tr>
+<td><code>--direction &lt;string&gt;</code></td>
+<td></td>
+<td>Filter workloads by direction (inbound or outbound)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--file &lt;string&gt;</code></td>
+<td><code>-f</code></td>
+<td>Ztunnel config dump JSON file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--istioNamespace &lt;string&gt;</code></td>
+<td><code>-i</code></td>
+<td>Istio system namespace  (default `istio-system`)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig &lt;string&gt;</code></td>
+<td><code>-c</code></td>
+<td>Kubernetes configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--namespace &lt;string&gt;</code></td>
+<td><code>-n</code></td>
+<td>Kubernetes namespace  (default ``)</td>
+</tr>
+<tr>
+<td><code>--node &lt;string&gt;</code></td>
+<td></td>
+<td>Filter workloads by node field  (default ``)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: one of json|yaml|short  (default `short`)</td>
+</tr>
+<tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Ztunnel proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
+<td><code>--raw</code></td>
+<td></td>
+<td>If set, show IP addresses instead of names </td>
+</tr>
+<tr>
+<td><code>--vklog &lt;Level&gt;</code></td>
+<td></td>
+<td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--workload-namespace &lt;string&gt;</code></td>
+<td></td>
+<td>Filter workloads by namespace field  (default ``)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="istioctl-ztunnel-config-connections Examples">Examples</h4>
+<pre class="language-bash"><code>  # Retrieve summary about connections for the ztunnel on a specific node.
+  istioctl ztunnel-config connections --node ambient-worker
+
+  # Retrieve summary of connections for a given Ztunnel instance.
+  istioctl ztunnel-config connections &lt;ztunnel-name[.namespace]&gt;
 
 </code></pre>
 <h3 id="istioctl-ztunnel-config-log">istioctl ztunnel-config log</h3>
@@ -7665,10 +7895,22 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </thead>
 <tbody>
 <tr>
+<td><code>AMBIENT_ENABLE_MULTI_NETWORK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the multi-network functionality will be enabled.</td>
+</tr>
+<tr>
 <td><code>AMBIENT_ENABLE_STATUS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
+</tr>
+<tr>
+<td><code>AUTO_GKE_DETECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, GKE will be detected automatically.</td>
 </tr>
 <tr>
 <td><code>BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS</code></td>
@@ -7725,16 +7967,16 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, istiod will proxy 100-continue headers as is</td>
 </tr>
 <tr>
-<td><code>ENABLE_AUTO_SNI</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, automatically set SNI when `DestinationRules` do not specify the same</td>
-</tr>
-<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
+<td><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
 </tr>
 <tr>
 <td><code>ENABLE_DEBUG_ON_HTTP</code></td>
@@ -7743,22 +7985,10 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
 <tr>
-<td><code>ENABLE_DEFERRED_CLUSTER_CREATION</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, Istio will create clusters only when there are requests. This will save memory and CPU cycles in cases where there are lots of inactive clusters and &gt; 1 worker thread</td>
-</tr>
-<tr>
 <td><code>ENABLE_DEFERRED_STATS_CREATION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio will lazily initialize a subset of the stats</td>
-</tr>
-<tr>
-<td><code>ENABLE_DELIMITED_STATS_TAG_REGEX</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, pilot will use the new delimited stat tag regex to generate Envoy stats tags.</td>
 </tr>
 <tr>
 <td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
@@ -7767,10 +7997,10 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
 <tr>
-<td><code>ENABLE_ENHANCED_RESOURCE_SCOPING</code></td>
+<td><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, meshConfig.discoverySelectors will limit the CustomResource configurations(like Gateway,VirtualService,DestinationRule,Ingress, etc)that can be processed by pilot. This will also restrict the root-ca certificate distribution.</td>
+<td>If true, allows users to bind Gateway API resources to existing gateway deployments.</td>
 </tr>
 <tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
@@ -7783,6 +8013,18 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
+</tr>
+<tr>
+<td><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Gateways will call service waypoints if the &#39;istio.io/ingress-use-waypoint&#39; label set on the Service.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LAYERED_WAYPOINT_AUTHORIZATION_POLICIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, selector based authorization policies will be enforced as L4 policies in front of the waypoint.</td>
 </tr>
 <tr>
 <td><code>ENABLE_LEADER_ELECTION</code></td>
@@ -7839,12 +8081,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
-<td><code>ENABLE_RESOLUTION_NONE_TARGET_PORT</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, targetPort will be supported for resolution=NONE ServiceEntry</td>
-</tr>
-<tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -7885,6 +8121,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>String</td>
 <td><code></code></td>
 <td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
+</tr>
+<tr>
+<td><code>GCP_ZONE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>GCP Zone where the workload is running on.</td>
 </tr>
 <tr>
 <td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
@@ -7998,7 +8240,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>ISTIO_DELTA_XDS</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If enabled, pilot will only send the delta configs as opposed to the state of the world on a Resource Request. This feature uses the delta xds api, but does not currently send the actual deltas.</td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world configuration on a Resource Request. While this feature uses the delta xds api, it may still occasionally send unchanged configurations instead of just the actual deltas.</td>
 </tr>
 <tr>
 <td><code>ISTIO_DUAL_STACK</code></td>
@@ -8113,6 +8355,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
 </tr>
 <tr>
+<td><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
+</tr>
+<tr>
 <td><code>MCS_API_GROUP</code></td>
 <td>String</td>
 <td><code>multicluster.x-k8s.io</code></td>
@@ -8195,6 +8443,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></td>
+<td>String</td>
+<td><code>100</code></td>
+<td>Sets the `udp_max_queries` option in Envoy for the Cares DNS resolver. Defaults to 0, an unlimited number of queries. See `extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig` in https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto and `ARES_OPT_UDP_MAX_QUERIES` in https://c-ares.org/docs/ares_init.html</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_JITTER_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>Jitter added to periodic DNS resolution</td>
 </tr>
 <tr>
 <td><code>PILOT_DRAINING_LABEL</code></td>
@@ -8283,7 +8543,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr>
 <td><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If enabled, pilot will start a controller that assigns IP addresses to ServiceEntry which do not have a user-supplied IP. This, when combined with DNS capture allows for tcp routing of traffic sent to the ServiceEntry.</td>
 </tr>
 <tr>
@@ -8461,6 +8721,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
 </tr>
 <tr>
+<td><code>PILOT_MX_ADDITIONAL_LABELS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
+</tr>
+<tr>
 <td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
 <td>String</td>
 <td><code>istio.io/persistent-session-header</code></td>
@@ -8513,6 +8779,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
+</tr>
+<tr>
+<td><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
 <tr>
 <td><code>PILOT_STATUS_BURST</code></td>
@@ -8684,7 +8956,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
-<tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue.</td></tr>
+<tr><td><code>pilot_debounce_time</code></td><td><code>Distribution</code></td><td>Delay in seconds between the first config enters debouncing and the merged push request is pushed into the push queue (includes pushcontext_init_seconds).</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
 <tr><td><code>pilot_dns_cluster_without_endpoints</code></td><td><code>LastValue</code></td><td>DNS clusters without endpoints caused by the endpoint field in STRICT_DNS type cluster is not set or the corresponding subset cannot select any endpoint</td></tr>
 <tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
@@ -8719,7 +8991,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
 <tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
-<tr><td><code>pilot_xds_push_context_errors</code></td><td><code>Sum</code></td><td>Number of errors (timeouts) initiating push context.</td></tr>
 <tr><td><code>pilot_xds_push_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to push lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_pushes</code></td><td><code>Sum</code></td><td>Pilot build and send errors for lds, rds, cds and eds.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>

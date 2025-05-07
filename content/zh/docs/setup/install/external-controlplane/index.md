@@ -7,7 +7,7 @@ aliases:
     - /latest/zh/docs/setup/additional-setup/external-controlplane/
 keywords: [external,control,istiod,remote]
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 ---
 
 本指南将引导您完成安装{{< gloss "external control plane">}}外部控制平面{{< /gloss >}}，
@@ -250,7 +250,6 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
    Secret，以访问从集群的 `kube-apiserver` 并将其安装在外部集群中：
 
     {{< text bash >}}
-    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
@@ -259,6 +258,12 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
       --create-service-account=false | \
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
+
+    {{< tip >}}
+    如果您在 `kind` 中运行，那么您需要将 `--server https://<api-server-node-ip>:6443`
+    传递给 `istioctl create-remote-secret` 命令，其中 `<api-server-node-ip>`
+    是运行 API 服务器的节点的 IP 地址。
+    {{< /tip >}}
 
 1. 创建 Istio 配置以在外部集群的 `external-istiod` 命名空间中安装控制平面。
     请注意，istiod 配置为使用本地安装的 `istio` ConfigMap，并且 `SHARED_MESH_CONFIG`
@@ -481,28 +486,28 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     $ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. 部署示例 `helloworld`（`v1`）和 `sleep`：
+1. 部署示例 `helloworld`（`v1`）和 `curl`：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. 等几秒钟，Pod `helloworld` 和 `sleep` 将以 Sidecar 注入的方式运行：
+1. 等几秒钟，Pod `helloworld` 和 `curl` 将以 Sidecar 注入的方式运行：
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
+    curl-64d7d56698-wqjnm            2/2     Running   0          9s
     helloworld-v1-5b75657f75-ncpc5   2/2     Running   0          10s
-    sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
-1. 从 Pod `sleep` 向 Pod `helloworld` 服务发送请求：
+1. 从 Pod `curl` 向 Pod `helloworld` 服务发送请求：
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
@@ -830,28 +835,28 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. 部署 `helloworld`（`v2` 版本）和 `sleep` 的示例：
+1. 部署 `helloworld`（`v2` 版本）和 `curl` 的示例：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
-1. 等待几秒钟，让 `helloworld` 和 Pod `sleep` 在注入 Sidecar 的情况下运行：
+1. 等待几秒钟，让 `helloworld` 和 Pod `curl` 在注入 Sidecar 的情况下运行：
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
     NAME                            READY   STATUS    RESTARTS   AGE
+    curl-557747455f-wtdbr           2/2     Running   0          9s
     helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-    sleep-557747455f-wtdbr          2/2     Running   0          9s
     {{< /text >}}
 
-1. 从 Pod `sleep` 向 `helloworld` 服务发送请求：
+1. 从 Pod `curl` 向 `helloworld` 服务发送请求：
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     {{< /text >}}

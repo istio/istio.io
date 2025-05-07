@@ -121,7 +121,9 @@ In this example, we will deploy a simple application and expose it externally us
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -175,12 +177,9 @@ In this example, we will deploy a simple application and expose it externally us
 1.  Access `/headers` again and notice header `My-Added-Header` has been added to the request:
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    {
-      "headers": {
-        "Accept": "*/*",
-        "Host": "httpbin.example.com",
-        "My-Added-Header": "added-value",
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
+    ...
+    "added-value"
     ...
     {{< /text >}}
 
@@ -190,48 +189,115 @@ In the example above, you did not need to install an ingress gateway `Deployment
 In the default configuration, a gateway `Deployment` and `Service` is automatically provisioned based on the `Gateway` configuration.
 For advanced use cases, manual deployment is still allowed.
 
-### Automated Deployment
+### Automated deployment
 
-By default, each `Gateway` will automatically provision a `Service` and `Deployment` of the same name.
+By default, each `Gateway` will automatically provision a `Service` and `Deployment`.
+These will be named `<Gateway name>-<GatewayClass name>` (with the exception of the `istio-waypoint` `GatewayClass`, which does not append a suffix).
 These configurations will be updated automatically if the `Gateway` changes (for example, if a new port is added).
 
-These resources can be customized in a few ways:
+These resources can be customized by using the `infrastructure` field:
 
-* Annotations and labels on the `Gateway` will be copied to the `Service` and `Deployment`.
-  This allows configuring things such as [Internal load balancers](https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer) that read from these fields.
-* Istio offers an additional annotation to configure the generated resources:
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  infrastructure:
+    annotations:
+      some-key: some-value
+    labels:
+      key: value
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: gw-options
+  gatewayClassName: istio
+{{< /text >}}
 
-    |Annotation|Purpose|
-    |----------|-------|
-    |`networking.istio.io/service-type`|Controls the `Service.spec.type` field. For example, set to `ClusterIP` to not expose the service externally. The default is `LoadBalancer`.|
+Key-value pairs under `labels` and `annotations` will be copied onto the generated resources.
+The `parametersRef` can be used to fully customize the generated resources.
+This must reference a `ConfigMap` in the same namespace as the `Gateway`.
 
-* The `Service.spec.loadBalancerIP` field can be explicit set by configuring the `addresses` field:
+An example configuration:
 
-    {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: Gateway
-    metadata:
-      name: gateway
+{{< text yaml >}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gw-options
+data:
+  horizontalPodAutoscaler: |
     spec:
-      addresses:
-      - value: 192.0.2.0
-        type: IPAddress
-    ...
-    {{< /text >}}
+      minReplicas: 2
+      maxReplicas: 2
 
-Note: only one address may be specified.
+  deployment: |
+    metadata:
+      annotations:
+      additional-annotation: some-value
+    spec:
+      replicas: 4
+      template:
+        spec:
+          containers:
+          - name: istio-proxy
+            resources:
+              requests:
+                cpu: 1234m
 
-* (Advanced) The generated Pod configuration can be configured by [Custom Injection Templates](/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental).
+  service: |
+    spec:
+      ports:
+      - "\$patch": delete
+        port: 15021
+{{< /text >}}
 
-#### Resource Attachment and Scaling
+These configurations will be overlaid on top of the generated resources using a [Strategic Merge Patch](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md) strategy.
+The following keys are valid:
+* `service`
+* `deployment`
+* `serviceAccount`
+* `horizontalPodAutoscaler`
+* `podDisruptionBudget`
 
-{{< warning >}}
-Resource attachment is currently experimental.
-{{< /warning >}}
+{{< tip >}}
+A `HorizontalPodAutoscaler` and `PodDisruptionBudget` are not created by default.
+However, if the corresponding field is present in the customization, they will be created.
+{{< /tip >}}
+
+#### GatewayClass defaults
+
+Defaults for all `Gateway`s can be configured for each `GatewayClass`.
+This is done by a `ConfigMap` with the label `gateway.istio.io/defaults-for-class: <gateway class name>`.
+This `ConfigMap` must be in the [root namespace](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace) (typically, `istio-system`).
+Only one `ConfigMap` per `GatewayClass` is allowed.
+This `ConfigMap` takes the same format as the `ConfigMap` for a `Gateway`.
+
+Customization may be present on both a `GatewayClass` and a `Gateway`.
+If both are present, the `Gateway` customization applies after the `GatewayClass` customization.
+
+This `ConfigMap` can also be created at installation time. For example:
+
+{{< text yaml >}}
+kind: IstioOperator
+spec:
+  values:
+    gatewayClasses:
+      istio:
+        deployment:
+          spec:
+            replicas: 2
+{{< /text >}}
+
+#### Resource attachment and scaling
 
 Resources can be *attached* to a `Gateway` to customize it.
 However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because both of these resources are generated with name `<gateway name>-<gateway class name>` and with a label `gateway.networking.k8s.io/gateway-name: <gateway name>`.
+This is easily done because [the resources are generated with well-known labels](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment) (`gateway.networking.k8s.io/gateway-name: <gateway name>`) and names:
+
+* Gateway: `<gateway name>-<gateway class name>`
+* Waypoint: `<gateway name>`
 
 For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
 
@@ -284,11 +350,13 @@ spec:
       gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
-### Manual Deployment
+### Manual deployment
 
 If you do not want to have an automated deployment, a `Deployment` and `Service` can be [configured manually](/docs/setup/additional-setup/gateway/).
 
 When this option is done, you will need to manually link the `Gateway` to the `Service`, as well as keep their port configuration in sync.
+
+In order to support Policy Attachment, e.g. when you're using the [`targetRef`](/docs/reference/config/type/workload-selector/#PolicyTargetReference) field on an AuthorizationPolicy, you will also need to reference the name of your `Gateway` by adding the following label to your gateway pod: `gateway.networking.k8s.io/gateway-name: <gateway name>`.
 
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 

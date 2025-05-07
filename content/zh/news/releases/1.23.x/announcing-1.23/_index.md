@@ -31,7 +31,7 @@ Istio 1.23 进行了一系列重大改进。我们与众多采用 Ambient 模式
 以下是一些亮点：
 
 * 在 waypoint 代理中支持 `DestinationRule`。
-* 在 waypoint 和 ztunnel 的 DNS 中支持 `ServiceEntries`。
+* 在 waypoint 和 ztunnel 的 DNS 中支持 `ServiceEntry`。
 * 支持跨命名空间共享 waypoint。
 * 支持新的 `Service` 中的 `trafficDistribution` 字段，允许将流量保持在本地区域/地区。
 * 支持双栈和 IPv6 集群。
@@ -55,19 +55,23 @@ Istio 1.23 进行了一系列重大改进。我们与众多采用 Ambient 模式
 ### 重试功能的改进预览 {#retry-improvements-preview}
 
 在此版本中，我们实现了一项新功能预览，以增强默认重试策略。
-从历史上看，重试仅针对**出站**流量进行。在许多情况下，这就是您想要的：
-可以将请求重试到其他 Pod，这更有可能成功。然而，这留下了一个漏洞：通常，
-请求会失败，仅仅是因为应用程序关闭了我们保持活动状态并尝试重新使用的连接。
+从历史上看，重试仅针对**出站**流量进行。在许多情况下，
+这就是您想要的：可以将请求重试到其他 Pod，这更有可能成功。
+然而，这留下了一个漏洞：通常，请求会失败，
+仅仅是因为应用程序关闭了我们保持活动状态并尝试重新使用的连接。
 
 我们添加了检测这种情况的功能，并重试。这有望减少网格中常见的 503 错误源。
 
-可以使用 `ENABLE_INBOUND_RETRY_POLICY=true` 启用此功能。预计在未来版本中它将默认启用。
+可以使用 `ENABLE_INBOUND_RETRY_POLICY=true`
+启用此功能。预计在未来版本中它将默认启用。
 
 ### 粉饰一新的 Bookinfo {#a-coat-of-paint-for-bookinfo}
 
-1.23 中的改进不仅限于 Istio 本身：在此版本中，大家最喜欢的示例应用程序 Bookinfo 也得到了改版！
+1.23 中的改进不仅限于 Istio 本身：在此版本中，
+大家最喜欢的示例应用程序 Bookinfo 也得到了改版！
 
-新的应用程序具有更现代化的设计和性能改进，解决了 `productpage` 和 `details` 服务中一些意外的缓慢问题。
+新的应用程序具有更现代化的设计和性能改进，
+解决了 `productpage` 和 `details` 服务中一些意外的缓慢问题。
 
 {{< image width="80%" link="/zh/docs/setup/getting-started/bookinfo-browser.png" caption="改进后的 Bookinfo 应用程序" >}}
 
@@ -79,8 +83,9 @@ Istio 1.23 进行了一系列重大改进。我们与众多采用 Ambient 模式
 ## 弃用集群内 Operator {#deprecating-the-in-cluster-operator}
 
 三年前，我们[更新了我们的文档](https://archive.istio.io/v1.23/zh/docs/setup/install/operator/)，
-以阻止在新的 Istio 安装中使用集群内运算符。现在，我们准备在 Istio 1.23 中正式将其标记为弃用。
-利用该运算符的用户（我们估计不到我们用户群的 10%）将需要迁移到其他安装和升级机制才能升级到
+以阻止在新的 Istio 安装中使用集群内运算符。现在，
+我们准备在 Istio 1.23 中正式将其标记为弃用。利用该运算符的用户
+（我们估计不到我们用户群的 10%）将需要迁移到其他安装和升级机制才能升级到
 Istio 1.24 或更高版本。1.24 的预计发布日期是 2024 年 11 月。
 
 我们建议用户迁移到 Helm 和 istioctl，它们仍受 Istio 项目支持。

@@ -86,6 +86,11 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 - [在不同的网络上，主从架构的安装](/zh/docs/setup/install/multicluster/primary-remote_multi-network)
 
 {{< tip >}}
+如果您计划使用 Helm 安装 Istio 多集群，请首先遵循 Helm 安装指南中的
+[Helm 先决条件](/zh/docs/setup/install/helm/#prerequisites)。
+{{< /tip >}}
+
+{{< tip >}}
 对于跨越两个以上集群的网格，您可能需要使用一个以上的选项。
 例如，每个 region 一个主集群（即：多主）。每个 zone 一个从集群，并使用 region 主集群（即：主从）的控制平面。
 

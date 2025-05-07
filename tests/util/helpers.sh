@@ -108,15 +108,18 @@ _wait_for_statefulset() {
 # Wait for Istio config to propagate
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
-    local kind="$1"
-    local namespace="$2"
-    local name="$3"
+    #local kind="$1"
+    #local namespace="$2"
+    #local name="$3"
     local start=$(date +%s)
-    if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
-        echo "Failed distribution of $kind $name in namespace $namespace"
-        istioctl ps
-        echo "TEST: wait for failed, but continuing."
-    fi
+    sleep 1s
+    # @TODO: Rewrite this to *NOT* use istioctl experimental wait, since it was removed
+    # https://github.com/istio/istio.io/issues/16429
+    #if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
+        #echo "Failed distribution of $kind $name in namespace $namespace"
+        #istioctl ps
+        #echo "TEST: wait for failed, but continuing."
+    #fi
     echo "Duration: $(($(date +%s)-start)) seconds"
 }
 
@@ -149,6 +152,14 @@ _rewrite_helm_repo() {
   cmd="$(echo "${cmd}" | sed 's|istio/cni|manifests/charts/istio-cni|')"
   cmd="$(echo "${cmd}" | sed 's|istio/ztunnel|manifests/charts/ztunnel|')"
   cmd="$(echo "${cmd}" | sed 's|istio/gateway|manifests/charts/gateway|')"
+  cmd="$(echo "${cmd}" | sed 's|istio/ambient|manifests/sample-charts/ambient|')"
   cmd="$(echo "${cmd}" | sed -E "s|(helm[[:space:]]+[^[:space:]]+)|\1 --set global.tag=${ISTIO_IMAGE_VERSION=SHOULD_BE_SET}.${ISTIO_LONG_SHA=latest}|g")"
+  # Since we are using local charts here, we may need to manually rebundle the updates
+  # This is not required if installing directly from a real Helm repo
+  if [[ $cmd =~ "manifests/sample-charts/ambient" ]]; then
+    pushd manifests/sample-charts/ambient && helm dep update
+    popd || exit
+  fi
+
   eval "${cmd}"
 }

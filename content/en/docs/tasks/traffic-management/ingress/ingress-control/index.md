@@ -213,7 +213,7 @@ in some environments (e.g., test) you may need to do the following:
     $ minikube tunnel
     {{< /text >}}
 
-* `kind` - follow the [guide for setting up MetalLB](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` type services to work.
+* `kind` - follow the [guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) to get `LoadBalancer` type services to work.
 
 * other platforms - you may be able to use [MetalLB](https://metallb.universe.tf/installation/) to get an `EXTERNAL-IP` for `LoadBalancer` services.
 
@@ -253,7 +253,7 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 
 If your environment does not support external load balancers, you can try
-[accessing the ingress gateway using node ports](#using-node-ports-of-the-ingress-gateway-service).
+[accessing the ingress gateway using node ports](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 Otherwise, set the ingress IP and ports using the following commands:
 
 {{< text bash >}}
@@ -307,7 +307,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw my-gateway -o jsonpath='{.spec.li
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -513,7 +515,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to
-    [access the gateway using its node port](#using-node-ports-of-the-ingress-gateway-service).
+    [access the gateway using its node port](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 
 ## Cleanup
 

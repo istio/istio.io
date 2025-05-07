@@ -23,14 +23,10 @@ These notices describe functionality that will be removed in a future release ac
   This is particularly useful when doing TLS origination, allowing to set `port:80, targetPort: 443`.
   If undesired, set `--compatibilityVersion=1.21` to revert to the old behavior or remove the `targetPort` specification.
 
-- **Improved** XDS generation to do utilize fewer resources when possible, sometimes omitting a response entirely.
-  This can be disabled by the `PILOT_PARTIAL_FULL_PUSHES=false` environment variable, if necessary.
-  ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
-
 - **Added** support for skipping the initial installation of the CNI entirely.
 
 - **Added** a node taint controller to istiod which removes the `cni.istio.io/not-ready` taint from a node once the Istio CNI pod is ready on that node.
-  ([Issue #48818](https://github.com/istio/istio/issues/48818)),([Issue #48286](https://github.com/istio/istio/issues/48286))
+  ([Issue #48818](https://github.com/istio/istio/issues/48818)), ([Issue #48286](https://github.com/istio/istio/issues/48286))
 
 - **Added** endpoints acked generation to the proxy distribution report available through the pilot debug API `/debug/config_distribution`.
   ([Issue #48985](https://github.com/istio/istio/issues/48985))
@@ -161,7 +157,8 @@ These notices describe functionality that will be removed in a future release ac
 - **Improved** JSON access logs to emit keys in a consistent order.
 
 - **Added** option to export OpenTelemetry traces via HTTP.
-  ([reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider)) ([Issue #47835](https://github.com/istio/istio/issues/47835))
+  ([reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider))
+  ([Issue #47835](https://github.com/istio/istio/issues/47835))
 
 - **Enabled** configuring Dynatrace Sampler as the `OpenTelemetryTracingProvider` in `MeshConfig`.
   ([Issue #50001](https://github.com/istio/istio/issues/50001))
@@ -252,7 +249,7 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #50790](https://github.com/istio/istio/issues/50790))
 
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
-  See [OpenShift Platform Setup]( https://istio.io/docs/setup/platform-setup/openshift/) and [Install OpenShift using `istioctl`]( https://istio.io/docs/setup/install/istioctl/#install-a-different-profile) documents for more information.
+  See [OpenShift Platform Setup](/docs/setup/platform-setup/openshift/) and [Install OpenShift using `istioctl`](/docs/setup/install/istioctl/#install-a-different-profile) documents for more information.
 
 - **Added** the flag `--proxy-admin-port` to the command `istioctl experimental envoy-stats` to set a custom proxy admin port.
 

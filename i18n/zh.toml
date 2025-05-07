@@ -7,6 +7,15 @@ other = "加入 Istio discussion board 参与讨论获取帮助"
 [twitter_desc]
 other = "关注我们的 Twitter 来获取最新信息"
 
+[bluesky_desc]
+other = "关注我们的 Bluesky 来获取最新信息"
+
+[mastodon_desc]
+other = "关注我们的 Mastodon 来获取最新信息"
+
+[linkedin_desc]
+other = "关注我们的 LinkedIn 来获取最新信息"
+
 [stackoverflow_desc]
 other = "Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答"
 

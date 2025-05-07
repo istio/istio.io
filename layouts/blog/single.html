@@ -5,7 +5,7 @@
     <p>{{ .Params.description }}</p>
   </div>
   <p class="post-author">
-    {{ (.Params.publishdate).Format "Jan 2, 2006" }} <span> | </span> By {{
+    {{ (.Params.publishdate).Format "Jan 2, 2006" }} <span> | </span> {{ i18n "page_attribution" }} {{
     replace (replace .Params.attribution "(" "- ") ")" "" }}
   </p>
    {{ if .Page.Params.target_release }}

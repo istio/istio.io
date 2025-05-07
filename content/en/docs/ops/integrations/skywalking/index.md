@@ -52,4 +52,4 @@ See [`ProxyConfig.Tracing`](/docs/reference/config/istio.mesh.v1alpha1/#Tracing)
 
 ## Usage
 
-For more information on using SkyWalking, please refer to the [SkyWalking task](/docs/tasks/observability/distributed-tracing/skywalking/).
+For information on using SkyWalking, please refer to the [SkyWalking task](/docs/tasks/observability/distributed-tracing/skywalking/).

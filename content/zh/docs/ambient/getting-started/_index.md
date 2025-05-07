@@ -6,8 +6,9 @@ aliases:
   - /zh/docs/ops/ambient/getting-started
   - /zh/latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
-skip_list: true
 test: yes
+skip_list: true
+next: /docs/ambient/getting-started/deploy-sample-app
 ---
 
 本指南可让您快速评估 Istio 的 {{< gloss "ambient" >}}Ambient 模式{{< /gloss >}}。
@@ -34,8 +35,8 @@ $ export PATH=$PWD/bin:$PATH
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl version
-no ready Istio pods in "istio-system"
-{{< istio_full_version >}}
+Istio is not present in the cluster: no running Istio pods in namespace "istio-system"
+client version: {{< istio_full_version >}}
 {{< /text >}}
 
 ## 将 Istio 安装到你的集群上 {#install-istio-on-to-your-cluster}
@@ -48,7 +49,7 @@ no ready Istio pods in "istio-system"
 $ istioctl install --set profile=ambient --skip-confirmation
 {{< /text >}}
 
-安装 Istio 组件可能需要一分钟。安装完成后，您将看到以下输出，表明所有组件已成功安装。
+安装完成后，您将看到以下输出，表明所有组件已成功安装。
 
 {{< text syntax=plain snip_id=none >}}
 ✔ Istio core installed
@@ -58,17 +59,13 @@ $ istioctl install --set profile=ambient --skip-confirmation
 ✔ Installation complete
 {{< /text >}}
 
-{{< tip >}}
-您可以使用命令 `istioctl verify-install` 验证已安装的组件。
-{{< /tip >}}
-
 ## 安装 Kubernetes Gateway API CRD {#install-the-kubernetes-gateway-api-crds}
-
-{{< boilerplate gateway-api-install-crds >}}
 
 您将使用 Kubernetes Gateway API 来配置流量路由。
 
+{{< boilerplate gateway-api-install-crds >}}
+
 ## 下一步 {#next-steps}
 
-恭喜！您已成功安装支持 Ambient 模式的 Istio。
-继续下一步以[安装演示应用程序并将其添加到 Ambient 网格](/zh/docs/ambient/getting-started/deploy-sample-app/)。
+恭喜！您已经成功安装支持 Ambient 模式的 Istio。
+继续下一步以[安装示例应用程序](/zh/docs/ambient/getting-started/deploy-sample-app/)。

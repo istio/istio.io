@@ -115,11 +115,11 @@ of injected sidecar when it was.
     to force the sidecar to be injected:
 
     {{< text bash yaml >}}
-    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -B4
+    $ kubectl get deployment curl -o yaml | grep "sidecar.istio.io/inject:" -B4
     template:
       metadata:
         labels:
-          app: sleep
+          app: curl
           sidecar.istio.io/inject: "true"
     {{< /text >}}
 
@@ -169,10 +169,10 @@ will also appear in the events of the namespace associated with the deployment.
 For example, if the `istiod` control plane pod was not running when you tried to deploy your pod, the events would show the following error:
 
 {{< text bash >}}
-$ kubectl get events -n sleep
+$ kubectl get events -n curl
 ...
-23m Normal   SuccessfulCreate replicaset/sleep-9454cc476  Created pod: sleep-9454cc476-khp45
-22m Warning  FailedCreate     replicaset/sleep-9454cc476  Error creating: Internal error occurred: failed calling webhook "namespace.sidecar-injector.istio.io": failed to call webhook: Post "https://istiod.istio-system.svc:443/inject?timeout=10s": dial tcp 10.96.44.51:443: connect: connection refused
+23m Normal   SuccessfulCreate replicaset/curl-9454cc476   Created pod: curl-9454cc476-khp45
+22m Warning  FailedCreate     replicaset/curl-9454cc476   Error creating: Internal error occurred: failed calling webhook "namespace.sidecar-injector.istio.io": failed to call webhook: Post "https://istiod.istio-system.svc:443/inject?timeout=10s": dial tcp 10.96.44.51:443: connect: connection refused
 {{< /text >}}
 
 {{< text bash >}}

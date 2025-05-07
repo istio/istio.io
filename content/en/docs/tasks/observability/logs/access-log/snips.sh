@@ -43,31 +43,25 @@ ENDSNIP
 ! IFS=$'\n' read -r -d '' snip_default_access_log_format_1 <<\ENDSNIP
 [%START_TIME%] \"%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%\" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS%
 \"%UPSTREAM_TRANSPORT_FAILURE_REASON%\" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% \"%REQ(X-FORWARDED-FOR)%\" \"%REQ(USER-AGENT)%\" \"%REQ(X-REQUEST-ID)%\"
-\"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
+\"%REQ(:AUTHORITY)%\" \"%UPSTREAM_HOST%\" %UPSTREAM_CLUSTER_RAW% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME%\n
 ENDSNIP
 
 snip_test_the_access_log_1() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -v httpbin:8000/status/418
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v httpbin:8000/status/418
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_1_out <<\ENDSNIP
 ...
 < HTTP/1.1 418 Unknown
+...
 < server: envoy
 ...
-    -=[ teapot ]=-
-
-       _...._
-     .'  _ _ `.
-    | ."` ^ `". _,
-    \_;`"---"`|//
-      |       ;/
-      \_     _/
-        `"""`
+I'm a teapot!
+...
 ENDSNIP
 
 snip_test_the_access_log_2() {
-kubectl logs -l app=sleep -c istio-proxy
+kubectl logs -l app=curl -c istio-proxy
 }
 
 ! IFS=$'\n' read -r -d '' snip_test_the_access_log_2_out <<\ENDSNIP
@@ -83,7 +77,7 @@ kubectl logs -l app=httpbin -c istio-proxy
 ENDSNIP
 
 snip_cleanup_1() {
-kubectl delete -f samples/sleep/sleep.yaml
+kubectl delete -f samples/curl/curl.yaml
 kubectl delete -f samples/httpbin/httpbin.yaml
 }
 

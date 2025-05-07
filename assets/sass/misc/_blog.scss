@@ -1,0 +1,253 @@
+#subscribe {
+    padding: 1em;
+    font-size: 1.2em;
+    background-color: $backgroundColor;
+    //text-align: center;
+
+    svg {
+        margin-right: .5em;
+    }
+}
+
+.blog-content {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 1.25em;
+
+    h1 {
+        text-align: center;
+    }
+
+    .blog-description {
+        font-size: $font-size--l;
+        line-height: 1.36;
+        letter-spacing: normal;
+        text-align: center;
+        @media (max-width: $bp-md) {
+            font-size: $font-size--s;
+        }
+    }
+
+    .year-buttons {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .year-button {
+            background-color: #fff;
+            border: solid 2px $inputBorderColor;
+            border-radius: 28px;
+            color: $linkActiveColor;
+            font-weight: $boldTextWeight;
+            letter-spacing: normal;
+            line-height: 1.5;
+            margin: 1em .5em;
+            min-width: 5rem;
+            padding: .5em 1.5em;
+
+            @media (min-width: $bp-md) {
+                min-width: 10rem;
+                padding: .5em 3.5em;
+
+                &:hover {
+                    box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    -webkit-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    -moz-box-shadow: 2px 2px 15px 0 rgba(101, 126, 186, 1);
+                    outline: 0;
+                }
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .active {
+            background-color: $linkActiveColor;
+            color: #fff;
+        }
+    }
+
+    .posts-list {
+        border-top: 2px solid $inputBorderColor;
+
+        .post-card {
+            display: flex;
+            border-bottom: 2px solid $inputBorderColor;
+            margin-top: 1.25em;
+            max-width: 100%;
+            padding-bottom: .75em;
+            @media (max-width: $bp-md) {
+                flex-direction: column;
+                padding-left: 2.25em;
+                padding-right: 2.25em;
+                padding-bottom: 1.5em;
+            }
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            .post-date {
+                p {
+                    width: 170px;
+                    margin-right: 1.25em;
+                    color: $linkActiveColor;
+                    @media (min-width: $bp-md) {
+                        text-align: center;
+                    }
+                }
+            }
+
+            .post-title {
+                font-size: $font-size--l;
+                font-weight: $boldTextWeight;
+                line-height: 1.36;
+                letter-spacing: normal;
+                color: $primaryColor;
+                margin-top: .5em;
+            }
+
+            .post-summary {
+                line-height: 1.44;
+                letter-spacing: normal;
+                color: $primaryColor;
+                height: 110px;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 8;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                @media (min-width: $bp-md) {
+                    -webkit-line-clamp: 3;
+                    height: 79px;
+                    font-size: $font-size--s;
+                }
+            }
+
+            .post-author {
+                font-weight: $regularWeight;
+                line-height: 1.5;
+                letter-spacing: normal;
+                color: $textGray;
+            }
+        }
+
+        .tf-filter-item {
+            display: none;
+        }
+
+        .show-item {
+            display: flex;
+        }
+    }
+
+    .news-list {
+        .post-card {
+            .post-summary {
+                height: auto;
+                -webkit-line-clamp: unset;
+            }
+        }
+    }
+}
+
+.post {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1.25em;
+
+    @media (min-width: $bp-md) {
+        max-width: 754px;
+        padding: 0;
+    }
+
+    @media (min-width: $bp-lg) {
+        max-width: 994px;
+        padding: 0;
+    }
+
+    @media (min-width: $bp-xxl) {
+        max-width: 1354px;
+        padding: 0;
+    }
+
+    @media (min-width: $bp-xl) {
+        max-width: 1174px;
+        padding: 0;
+    }
+
+    // TODO : consider changing font size back to 1rem
+
+    p, li {
+        font-size: $font-size--s;
+    }
+
+    .post-author {
+        color: $textGray;
+        margin-bottom: 2.15em;
+
+        span {
+            margin-left: .3em;
+            margin-right: .3em;
+        }
+    }
+
+    .header-content {
+        background-color: inherit;
+        text-align: center;
+        margin-top: 6.5em;
+
+        h1 {
+            font-size: 2.25em;
+            color: $primaryColor;
+            margin-bottom: 2.5em;
+            @media (min-width: $bp-md) {
+                font-size: 3em;
+                margin-bottom: 1em;
+                padding-top: 1.5em;
+            }
+        }
+
+        p {
+            color: $primaryColor;
+            font-size: $font-size--l;
+        }
+    }
+
+    .share-social {
+        margin: auto;
+        margin-top: 3em;
+        width: 200px;
+
+        .heading {
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: var(--boldTextWeight);
+        }
+
+        .share-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-buttons a {
+            margin-right: 1em;
+        }
+
+        .share-buttons a:last-child {
+            margin-right: 0;
+        }
+
+        .share-icon {
+            width: 3em;
+        }
+    }
+
+    .next-link {
+        font-weight: $boldTextWeight;
+    }
+}

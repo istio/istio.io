@@ -16,21 +16,23 @@ An implication of this is that it is possible to create a Kubernetes `NetworkPol
 
 Once you have added applications to the ambient mesh, ambient's secure L4 overlay will tunnel traffic between your pods over port 15008. Once secured traffic enters the target pod with a destination port of 15008, the traffic will be proxied back to the original destination port.
 
-However, `NetworkPolicy` is enforced on the host, outside the pod. This means that if you have preexisting `NetworkPolicy` in place that, for example, will deny list inbound traffic to an ambient pod on every port but 443, you will have to add an exception to that `NetworkPolicy` for port 15008.
+However, `NetworkPolicy` is enforced on the host, outside the pod. This means that if you have preexisting `NetworkPolicy` in place that, for example, will deny list inbound traffic to an ambient pod on every port but 443, you will have to add an exception to that `NetworkPolicy` for port 15008. Sidecar workloads receiving traffic will also need to allow inbound traffic on port 15008 to allow ambient workloads to communicate with them.
 
 For example, the following `NetworkPolicy` will block incoming {{< gloss >}}HBONE{{< /gloss >}} traffic to `my-app` on port 15008:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
-  ingress:
-  - ports:
-    - port: 9090
-      protocol: TCP
   podSelector:
     matchLabels:
       app.kubernetes.io/name: my-app
+  ingress:
+  - ports:
+    - port: 8080
+      protocol: TCP
 {{< /text >}}
 
 and should be changed to
@@ -38,19 +40,21 @@ and should be changed to
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+metadata:
+  name: my-app-allow-ingress-web
 spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: my-app
   ingress:
   - ports:
     - port: 8080
       protocol: TCP
     - port: 15008
       protocol: TCP
-  podSelector:
-    matchLabels:
-      app.kubernetes.io/name: my-app
 {{< /text >}}
 
-if `my-app` is added to the ambient mesh.
+if `my-app` is added to the mesh.
 
 ## Ambient, health probes, and Kubernetes NetworkPolicy
 

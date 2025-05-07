@@ -570,7 +570,7 @@ An authorization policy includes a selector, an action, and a list of rules:
     - The `when` field specifies the conditions needed to apply the rule
 
 The following example shows an authorization policy that allows two sources, the
-`cluster.local/ns/default/sa/sleep` service account and the `dev` namespace, to
+`cluster.local/ns/default/sa/curl` service account and the `dev` namespace, to
 access the workloads with the `app: httpbin` and `version: v1` labels in the
 `foo` namespace when requests sent have a valid JWT token.
 
@@ -589,7 +589,7 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep"]
+       principals: ["cluster.local/ns/default/sa/curl"]
    - source:
        namespaces: ["dev"]
    to:
@@ -832,7 +832,7 @@ spec:
  rules:
  - from:
    - source:
-       principals: ["cluster.local/ns/default/sa/sleep"]
+       principals: ["cluster.local/ns/default/sa/curl"]
    to:
    - operation:
        methods: ["GET"]

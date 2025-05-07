@@ -37,8 +37,8 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< /tip >}}
 
     {{< warning >}}
-    To use the Istio CNI feature on GKE, please check the [CNI installation guide](/docs/setup/additional-setup/cni/#prerequisites)
-    for prerequisite cluster configuration steps.
+    To use the Istio CNI feature on GKE Standard, please check the [CNI installation guide](/docs/setup/additional-setup/cni/#prerequisites)
+    for prerequisite cluster configuration steps. Since the CNI node agent requires the SYS_ADMIN capability, it is not available on GKE Autopilot. Instead, use the istio-init container.
     {{< /warning >}}
 
     {{< warning >}}
