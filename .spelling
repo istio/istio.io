@@ -257,7 +257,6 @@ cluster.local
 cluster1
 cluster2
 ClusterSPIFFEID
-ClusterTrustBundle
 CNCF-hosted
 CNI
 CNIs
