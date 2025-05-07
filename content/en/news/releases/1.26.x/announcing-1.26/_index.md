@@ -2,7 +2,7 @@
 title: Announcing Istio 1.26.0
 linktitle: 1.26.0
 subtitle: Major Release
-description: Istio 1.25 Release Announcement.
+description: Istio 1.26 Release Announcement.
 publishdate: 2025-05-08
 release: 1.26.0
 aliases:
@@ -10,7 +10,7 @@ aliases:
     - /news/announcing-1.26.0
 ---
 
-We are pleased to announce the release of Istio 1.25. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.25.0 release published!
+We are pleased to announce the release of Istio 1.26. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.26.0 release published!
 We would like to thank the Release Managers for this release, **Daniel Hawton** from Solo.io, **Faseela K** from Ericsson Software Technology, and **Gustavo Meira** from Microsoft.
 
 {{< relnote >}}
