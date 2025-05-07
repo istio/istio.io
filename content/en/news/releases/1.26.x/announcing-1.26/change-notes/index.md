@@ -51,6 +51,8 @@ aliases:
 * **Fixed** a bug where `ServiceEntry` endpoints were leaked when a pod was evicted.
   ([Issue #54997](https://github.com/istio/istio/issues/54997))
 
+* **Fixed** an issue where the listener address was duplicated for dual stack services with IPv6 priority.  ([Issue #56151](https://github.com/istio/istio/issue/56151))
+
 ## Security
 
 * **Added** experimental support for the v1alpha1 `ClusterTrustBundle` API. This can be enabled by setting `values.pilot.env.ENABLE_CLUSTER_TRUST_BUNDLE_API=true`. Ensure the corresponding feature gates are enabled in your cluster; see [KEP-3257](https://github.com/kubernetes/enhancements/tree/master/keps/sig-auth/3257-cluster-trust-bundles) for details.
