@@ -38,7 +38,7 @@ We've added experimental support for [the experimental `ClusterTrustBundle` reso
 ### Plus much, much more
 
 * `istioctl analyze` can now run specific checks!
-* The CNI node agent no longer runs in the hostNetwork namespace by default, reducing the chance of port conflicts with other services running on a host!
+* The CNI node agent no longer runs in the `hostNetwork` namespace by default, reducing the chance of port conflicts with other services running on a host!
 * Required `ResourceQuota` resources and `cniBinDir` values are set automatically when installing on GKE!
 * An `EnvoyFilter` can now match a `VirtualHost` on a domain name!
 
