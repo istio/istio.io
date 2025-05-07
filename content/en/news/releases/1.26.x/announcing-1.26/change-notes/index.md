@@ -79,7 +79,7 @@ aliases:
 * **Added** the ability to configure the service `loadBalancerClass` in the Gateway Helm chart.
   ([Issue #39079](https://github.com/istio/istio/issues/39079))
 
-* **Added** a `values` ConfigMap that stores both the user-provided Helm values and the merged values after applying profiles for the `istiod` chart.
+* **Added** a values `ConfigMap` that stores both the user-provided Helm values and the merged values after applying profiles for the `istiod` chart.
 
 * **Added** support for reading header values from istiod environment variables.
   ([Issue #53408](https://github.com/istio/istio/issues/53408))
