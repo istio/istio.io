@@ -181,6 +181,8 @@ az
 Babo
 backend
 backends
+BackendTLSPolicy
+BackendTrafficPolicy
 backoff
 backport
 Bartosz
@@ -257,6 +259,7 @@ cluster.local
 cluster1
 cluster2
 ClusterSPIFFEID
+ClusterTrustBundle
 CNCF-hosted
 CNI
 CNIs
@@ -595,6 +598,7 @@ Herness
 hoc
 hostname
 hostnames
+hostNetwork
 hotspots
 Hovsepyan
 HP
@@ -834,6 +838,7 @@ MB
 Meetup
 meetup
 meetups
+Meira
 memcached
 memcached-2's
 Mengxue
@@ -1229,6 +1234,7 @@ TCP
 tcp
 TCP-level
 Tcpdump
+TCPRoute
 team1
 team1-ns
 team2
