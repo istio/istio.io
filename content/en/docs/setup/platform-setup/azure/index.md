@@ -58,3 +58,12 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
+
+### Using Gateway API with Azure
+
+If you are using Gateway API with AKS, you might also need apply the following configuration
+{{< text bash >}}
+$ kubectl annotate svc/<load balancer service name> service.beta.kubernetes.io/port_<http port>_health-probe_protocol=tcp
+{{< /text >}}
+where `<load balancer service name>` is the name of the load balancer service created by Istio and `<http port>` is the port number of the HTTP listener.
+This annotation is required for Azure Load Balancer health checks to work when the `/` path responds with a non 200 code.
