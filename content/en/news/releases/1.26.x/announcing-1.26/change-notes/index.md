@@ -89,7 +89,7 @@ aliases:
 * **Fixed** a bug in the sidecar injection template that incorrectly removed existing init containers when both traffic interception and native sidecar were disabled.
   ([Issue #54562](https://github.com/istio/istio/issues/54562))
 
-* **Corrected** missing `topology.istio.io/network` labels on gateway pods when `--set networkGateway` is used.
+* **Fixed** missing `topology.istio.io/network` labels on gateway pods when `--set networkGateway` is used.
   ([Issue #54909](https://github.com/istio/istio/issues/54909))
 
 * **Fixed** a problem where setting `replicaCount=0` in the `istio/gateway` Helm chart caused the `replicas` field to be omitted instead of explicitly set to `0`.
