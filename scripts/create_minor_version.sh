@@ -237,11 +237,15 @@ step2() {
     if [[ "${DRY_RUN}" != '1' ]]; then
         # Flip this to istio/istio.io so our PR will be created in the correct repo
         gh repo set-default "istio/istio.io"
-        gh pr create \
+        cat <<EOF
+This PR was created by make release-${CURR_MINOR}.
+
+Adds archive for v${PREV_MINOR} and bumps to next minor version.
+EOF | gh pr create \
             --base "master" \
             --head "${ORG_FORK}:${branch}" \
             --title "[master] release-${CURR_MINOR} work" \
-            --body "This PR was created by make release-${CURR_MINOR}.\n\nAdds archive for v${PREV_MINOR} and bumps to next minor version."
+            --body-file -
     fi
     popd || exit 1
 }
