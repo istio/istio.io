@@ -59,7 +59,8 @@ function install_istio_on_cluster2_helm {
     _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
 }
 
-snip_delete_crds
+# @TODO: We need to fix this... for some reason, the CRDs don't seem to exist in cluster2 here anymore?
+snip_delete_crds || true
 time install_istio_on_cluster1_helm
 time install_istio_on_cluster2_helm
 

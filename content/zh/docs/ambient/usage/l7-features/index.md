@@ -23,7 +23,6 @@ Gateway API 根据**附件**来定义对象（例如路由和网关）之间的�
 * 策略对象被视为 [**metaresources**](https://gateway-api.sigs.k8s.io/geps/gep-713/)：
   以标准方式增强**目标**对象行为的对象。
 
-The tables below show the type of attachment that is configured for each object.
 下表展示了为每个对象配置的附件类型。
 
 ## 流量路由 {#traffic-routing}

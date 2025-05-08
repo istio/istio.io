@@ -56,8 +56,9 @@ To enforce Layer 7 policies, you first need a {{< gloss "waypoint" >}}waypoint p
 
 {{< text syntax=bash snip_id=deploy_waypoint >}}
 $ istioctl waypoint apply --enroll-namespace --wait
-waypoint default/waypoint applied
-namespace default labeled with "istio.io/use-waypoint: waypoint"
+✅ waypoint default/waypoint applied
+✅ waypoint default/waypoint is ready!
+✅ namespace default labeled with "istio.io/use-waypoint: waypoint"
 {{< /text >}}
 
 You can view the waypoint proxy and make sure it has the `Programmed=True` status:

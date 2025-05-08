@@ -268,6 +268,11 @@ and installing the sidecar injector webhook configuration on the remote cluster 
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
+    {{< tip >}}
+    If you are running in `kind`, then you will need to pass `--server https://<api-server-node-ip>:6443` to the `istioctl create-remote-secret` command,
+    where `<api-server-node-ip>` is the IP address of the node running the API server.
+    {{< /tip >}}
+
 1. Create the Istio configuration to install the control plane in the `external-istiod` namespace of the external cluster.
    Notice that istiod is configured to use the locally mounted `istio` configmap and the `SHARED_MESH_CONFIG` environment
    variable is set to `istio`. This instructs istiod to merge the values set by the mesh admin in the config cluster's

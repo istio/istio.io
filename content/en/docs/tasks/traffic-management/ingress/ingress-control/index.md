@@ -253,7 +253,7 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 
 If your environment does not support external load balancers, you can try
-[accessing the ingress gateway using node ports](#using-node-ports-of-the-ingress-gateway-service).
+[accessing the ingress gateway using node ports](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 Otherwise, set the ingress IP and ports using the following commands:
 
 {{< text bash >}}
@@ -515,7 +515,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to
-    [access the gateway using its node port](#using-node-ports-of-the-ingress-gateway-service).
+    [access the gateway using its node port](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 
 ## Cleanup
 

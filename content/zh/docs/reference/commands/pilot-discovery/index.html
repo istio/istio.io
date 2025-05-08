@@ -178,7 +178,7 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <tr>
 <td><code>--clusterAliases &lt;stringToString&gt;</code></td>
 <td></td>
-<td>Alias names for clusters  (default `[]`)</td>
+<td>Alias names for clusters. Example: alias1=cluster1,alias2=cluster2  (default `[]`)</td>
 </tr>
 <tr>
 <td><code>--clusterID &lt;string&gt;</code></td>
@@ -940,6 +940,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
+</tr>
+<tr>
+<td><code>PILOT_CA_CERT_CONFIGMAP</code></td>
+<td>String</td>
+<td><code>istio-ca-root-cert</code></td>
+<td>The name of the ConfigMap that stores the Root CA Certificate that is used by istiod</td>
 </tr>
 <tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>

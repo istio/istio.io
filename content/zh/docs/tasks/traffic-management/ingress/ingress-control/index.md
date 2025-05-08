@@ -253,7 +253,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...     
 提供外部负载均衡器。
 
 如果您的环境不支持外部负载均衡器，
-您可以尝试[使用 Node Port 访问 Ingress Gateway](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#type-nodeport)。
+您可以尝试[使用 Node Port 访问 Ingress Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service)。
 否则，使用以下命令设置 Ingress IP 和端口：
 
 {{< text bash >}}
@@ -511,7 +511,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NA
     {{< /text >}}
 
 1. 如果您使用了外部负载均衡器，但其无法正常工作，
-   可尝试[通过其 Node Port 访问 Gateway](#using-node-ports-of-the-ingress-gateway-service)。
+   可尝试[通过其 Node Port 访问 Gateway](/zh/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service)。
 
 ## 清理 {#cleanup}
 

@@ -36,7 +36,7 @@ func TestDocs(t *testing.T) {
 		Run(istioio.NewTestDocsFunc("profile=minimal"))
 }
 
-func setupConfig(ctx resource.Context, cfg *istio.Config) {
+func setupConfig(_ resource.Context, cfg *istio.Config) {
 	// FIXME: test framework does not honor profile=minimal config at present,
 	// hence we have to explicitly disable the gateways.
 	cfg.ControlPlaneValues = `

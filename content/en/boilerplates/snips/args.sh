@@ -21,13 +21,13 @@
 ####################################################################################################
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_gateway_api_version <<\ENDSNIP
-v1.2.1
+v1.3.0-rc.1
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
-1.25
+1.26
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
-1.26.0
+1.27.0
 ENDSNIP
