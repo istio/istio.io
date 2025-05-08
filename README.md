@@ -96,7 +96,7 @@ repository must be created by a user and not an organization. See [this issue](h
 1. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
     `FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
 
-1. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://staging.istio.io and
+1. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://istio-staging.netlify.app and
    verify that the new release branch is being used and the documentation looks correct
 
 1. The release managers should, at this time, merge the publish trigger PR in the release-builder repository
