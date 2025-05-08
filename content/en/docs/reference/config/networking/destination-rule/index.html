@@ -400,7 +400,7 @@ Target host must be an FQDN or IP address.</p>
 <div class="type"><a href="#TrafficPolicy-ProxyProtocol-VERSION">VERSION</a></div>
 </div></td>
 <td>
-<p>The PROXY protocol version to use. See <a href="https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt">https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt</a> for details.
+<p>The PROXY protocol version to use. See <a href="https://www.haproxy.org/download/2.1/doc/proxy-protocol.txt">the protocol spec</a> for details.
 By default it is <code>V1</code>.</p>
 
 </td>
@@ -1104,9 +1104,9 @@ Default is to use the OS level configuration
 <td>
 <p>Maximum number of requests that will be queued while waiting for
 a ready connection pool connection. Default 2^32-1.
-Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking</a>
-under which conditions a new connection is created for HTTP2.
-Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
+Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">Envoy Circuit Breaking</a>
+under which conditions a new connection is created for HTTP/2.
+Please note that this is applicable to both HTTP/1.1 and HTTP/2.</p>
 
 </td>
 </tr>
@@ -1116,7 +1116,7 @@ Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
 </div></td>
 <td>
 <p>Maximum number of active requests to a destination. Default 2^32-1.
-Please note that this is applicable to both HTTP/1.1 and HTTP2.</p>
+Please note that this is applicable to both HTTP/1.1 and HTTP/2.</p>
 
 </td>
 </tr>
@@ -1152,7 +1152,7 @@ If not set, the default is 1 hour. When the idle timeout is reached,
 the connection will be closed. If the connection is an HTTP/2
 connection a drain sequence will occur prior to closing the connection.
 Note that request based timeouts mean that HTTP/2 PINGs will not
-keep the connection alive. Applies to both HTTP1.1 and HTTP2 connections.</p>
+keep the connection alive. Applies to both HTTP/1.1 and HTTP/2 connections.</p>
 
 </td>
 </tr>
@@ -1240,7 +1240,7 @@ detection</a>
 for more details.</p>
 <p>The following rule sets a connection pool size of 100 HTTP1 connections
 with no more than 10 req/connection to the &ldquo;reviews&rdquo; service. In addition,
-it sets a limit of 1000 concurrent HTTP2 requests and configures upstream
+it sets a limit of 1000 concurrent HTTP/2 requests and configures upstream
 hosts to be scanned every 5 mins so that any host that fails 7 consecutive
 times with a 502, 503, or 504 error code will be ejected for 15 minutes.</p>
 <pre><code class="language-yaml">apiVersion: networking.istio.io/v1

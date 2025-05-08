@@ -44,7 +44,7 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_show_components_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-istio-ambient      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ambient-1.26.0     1.26.0
+istio-ambient      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ambient-1.27.0     1.27.0
 ENDSNIP
 
 snip_check_pods() {
