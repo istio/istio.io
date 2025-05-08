@@ -7,6 +7,12 @@
   eolDate:
   k8sVersions: ["1.29", "1.30", "1.31", "1.32"]
   testedK8sVersions: ["1.23", "1.24", "1.25", "1.26", "1.27", "1.28"]
+- version: "1.26"
+  supported: "Yes"
+  releaseDate: "May 08, 2025"
+  eolDate: "~Sept 2025 (Expected)"
+  k8sVersions: ["1.29", "1.30", "1.31", "1.32"]
+  testedK8sVersions: ["1.24", "1.25", "1.26", "1.27", "1.28"]
 - version: "1.25"
   supported: "Yes"
   releaseDate: "March 03, 2025"
@@ -20,7 +26,7 @@
   k8sVersions: ["1.28", "1.29", "1.30", "1.31"]
   testedK8sVersions: ["1.23", "1.24", "1.25", "1.26", "1.27"]
 - version: "1.23"
-  supported: "Yes"
+  supported: "No"
   releaseDate: "Aug 14, 2024"
   eolDate: "Apr 16, 2025"
   k8sVersions: ["1.27", "1.28", "1.29", "1.30"]

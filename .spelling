@@ -32,7 +32,9 @@
 1.24.x
 1.24.x.
 1.25.x
+1.25.x.
 1.26.x
+1.26.x.
 1.27.3
 1.27.x
 1.3.x
@@ -743,6 +745,7 @@ Kebe
 keepalive
 Keepalived
 Kenan
+KEP-3257
 Ketama
 key.pem
 Keycloak
@@ -761,6 +764,7 @@ Kristián
 KServe
 Kuat
 Kube
+kube-apiserver
 kube-proxy
 kubebuilder
 KubeCon
@@ -830,6 +834,7 @@ MB
 Meetup
 meetup
 meetups
+Meira
 memcached
 memcached-2's
 Mengxue
@@ -1321,6 +1326,7 @@ v1.30
 v1.31
 v1.32
 v1.33
+v1.34
 v1.5
 v1.55
 v1.55.1
