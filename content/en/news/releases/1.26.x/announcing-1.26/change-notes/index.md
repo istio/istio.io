@@ -132,4 +132,4 @@ aliases:
   ([Issue #55741](https://github.com/istio/istio/issues/55741))
 
 * **Fixed** a validation failure when `reconcileIptablesOnStartup: true` was set in the `istioctl` YAML configuration.
-  ([Issue #55374](https://github.com/istio/istio/issues/55374))
+  ([Issue #55347](https://github.com/istio/istio/issues/55347))
