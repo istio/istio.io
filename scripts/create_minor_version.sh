@@ -179,6 +179,11 @@ step1() {
     build_archive
     mv "${TMP_DIR}/istio.io-fork/archive/v${PREV_MINOR}" archive
 
+    sed -i "
+        s/^preliminary: .*$/preliminary: false/;
+        s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
+    " data/versions.yml
+
     if [[ $(git status --porcelain) ]]; then
         git add -A
         git status
@@ -237,15 +242,15 @@ step2() {
     if [[ "${DRY_RUN}" != '1' ]]; then
         # Flip this to istio/istio.io so our PR will be created in the correct repo
         gh repo set-default "istio/istio.io"
-        cat <<EOF
-This PR was created by make release-${CURR_MINOR}.
-
-Adds archive for v${PREV_MINOR} and bumps to next minor version.
-EOF | gh pr create \
+        cat <<EOF | gh pr create \
             --base "master" \
             --head "${ORG_FORK}:${branch}" \
             --title "[master] release-${CURR_MINOR} work" \
             --body-file -
+This PR was created by make release-${CURR_MINOR}.
+
+Adds archive for v${PREV_MINOR} and bumps to next minor version.
+EOF
     fi
     popd || exit 1
 }
