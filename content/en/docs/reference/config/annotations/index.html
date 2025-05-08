@@ -118,7 +118,8 @@ User should not manually modify this annotation.</p>
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.</p>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.
+Note: When using docker-in-docker container, the default bridge interface name is typically <code>docker0</code>. However, custom networks (often used with docker compose) are assigned a randomized interface name. To have a predictable name, you can configure the Docker option <code>com.docker.network.bridge.name</code> with a fixed value and use that name in the annotation.</p>
 </td>
     </tr>
   </tbody>

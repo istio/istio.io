@@ -520,7 +520,7 @@ RSA and ECDSA certificates for the same server.</p>
 <div class="type"><a href="#ServerTLSSettings-TLSCertificate">TLSCertificate[]</a></div>
 </div></td>
 <td>
-<p>Only one of <code>server_certificate</code>, <code>private_key</code>, <code>ca_certificates</code> or <code>credential_name</code>
+<p>Only one of <code>server_certificate</code>, <code>private_key</code> or <code>credential_name</code>
 or <code>credential_names</code> or <code>tls_certificates</code> should be specified.
 This is mainly used for specifying RSA and ECDSA certificates for the same server.</p>
 
@@ -648,17 +648,6 @@ holding the server-side TLS certificate to use.</p>
 <td>
 <p>REQUIRED if mode is <code>SIMPLE</code> or <code>MUTUAL</code>. The path to the file
 holding the server&rsquo;s private key.</p>
-
-</td>
-</tr>
-<tr id="ServerTLSSettings-TLSCertificate-ca_certificates">
-<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-TLSCertificate-ca_certificates">caCertificates</a></code></div>
-<div class="type">string</div>
-</div></td>
-<td>
-<p>REQUIRED if mode is <code>MUTUAL</code> or <code>OPTIONAL_MUTUAL</code>. The path to a file
-containing certificate authority certificates to use in verifying a presented
-client side certificate.</p>
 
 </td>
 </tr>
