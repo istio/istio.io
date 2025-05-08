@@ -66,12 +66,12 @@ prepare_env() {
 
     echo "Current working directory: $(pwd)"
     echo "Cloning istio.io and the forked repo..."
-    git clone ${ISTIOIO_GIT_SOURCE} istio.io --branch=master
-    git clone ${FORKED_GIT_SOURCE} istio.io-fork
+    git clone "${ISTIOIO_GIT_SOURCE}" istio.io --branch=master
+    git clone "${FORKED_GIT_SOURCE}" istio.io-fork
 
     echo "Checking out the master branch and prepping fork..."
-    pushd ${TMP_DIR}/istio.io-fork || exit 1
-    git remote add upstream ${ISTIOIO_GIT_SOURCE}
+    pushd "${TMP_DIR}"/istio.io-fork || exit 1
+    git remote add upstream "${ISTIOIO_GIT_SOURCE}"
     git fetch upstream
     git checkout master
     git pull --ff-only upstream master
@@ -94,7 +94,7 @@ build_archive() {
     # Always tell it to DRY_RUN, we don't want it pushing, we'll take care of it in
     # our fork.
     DRY_RUN=1 ISTIOIO_GIT_SOURCE=https://github.com/istio/istio.io.git "${SCRIPT_DIR}"/build_old_archive.sh "build-old-archive-${PREV_MINOR}.0"
-    mv archive/v${PREV_MINOR} "${TMP_DIR}/istio.io-fork/archive"
+    mv archive/v"${PREV_MINOR}" "${TMP_DIR}/istio.io-fork/archive"
     popd || exit 1
 
     echo "Updating archive index page and versions..."
