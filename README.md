@@ -90,7 +90,7 @@ repository must be created by a user and not an organization. See [this issue](h
     to do the work and to create PRs from
 
 1. Do a dry run before the official release to ensure everything is working as expected. This is done by specifying DRY_RUN=1 in the command line. For example:
-    `DRY_RUN=1 FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory and will not
+    `DRY_RUN=1 FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
     push any changes to the repos
 
 1. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
