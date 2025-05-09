@@ -5,6 +5,7 @@ publishdate: 2024-01-29
 attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io); Translated by Wilson Wu (DaoCloud)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio 项目于 2022 年[宣布推出一种全新的无 Sidecar 数据平面模式：Ambient 网格](/zh/blog/2022/introducing-ambient-mesh/)，
 并于 2023 年初[发布了 Alpha 版实现](/zh/news/releases/1.18.x/announcing-1.18/#ambient-mesh)。

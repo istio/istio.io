@@ -6,6 +6,7 @@ subtitle:
 attribution: Nupur Garg and Douglas Reid
 target_release: 0.8
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
 
 This post shows how to direct Istio logs to [Stackdriver](https://cloud.google.com/stackdriver/)
 and export those logs to various configured sinks such as such as

@@ -8,7 +8,7 @@ keywords: [traffic-management,canary]
 aliases:
     - /blog/canary-deployments-using-istio.html
 ---
-
+<!-- markdownlint-disable MD007 MD026-->
 {{< tip >}}
 This post was updated on May 16, 2018 to use the latest version of the traffic management model.
 {{< /tip >}}
