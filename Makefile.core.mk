@@ -189,12 +189,6 @@ export MASTER := master
 prepare-%:
 	@scripts/prepare_release.sh $@
 
-release-%-dry-run:
-	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
-
-release-%:
-	@scripts/create_version.sh $@
-
 build-old-archive-%:
 	@scripts/build_old_archive.sh $@
 
