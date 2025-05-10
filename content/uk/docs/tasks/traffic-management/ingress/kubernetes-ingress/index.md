@@ -23,17 +23,23 @@ test: yes
 
 Подивімось, як можна налаштувати `Ingress` на порту 80 для HTTP-трафіку.
 
-1.  Створіть ресурс `Ingress`:
+1.  Створіть ресурс `Ingress` та `IngressClass`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.k8s.io/v1
+    kind: IngressClass
+    metadata:
+      name: istio
+    spec:
+      controller: istio.io/ingress-controller
+    ---
+    apiVersion: networking.k8s.io/v1
     kind: Ingress
     metadata:
-      annotations:
-        kubernetes.io/ingress.class: istio
       name: ingress
     spec:
+      ingressClassName: istio
       rules:
       - host: httpbin.example.com
         http:
@@ -48,7 +54,9 @@ test: yes
     EOF
     {{< /text >}}
 
-    Анотація `kubernetes.io/ingress.class` необхідна для того, щоб вказати контролеру шлюзу Istio, що він повинен обробляти цей `Ingress`, інакше він буде проігнорований.
+    Ресурс `IngressClass` ідентифікує контролер шлюзу Istio для Kubernetes, а значення `ingressClassName: istio` вказує Kubernetes, що контролер шлюзу Istio повинен обробляти наступний `Ingress`.
+
+    У старих версіях Ingress API використовувалася анотація `kubernetes.io/ingress.class`, і хоча вона все ще працює, [вона була визнана застарілою в Kubernetes](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation) протягом деякого часу.
 
 1.  Зверніться до сервісу _httpbin_ за допомогою _url_:
 
@@ -83,42 +91,12 @@ test: yes
 
 У Kubernetes 1.18 було додане нове поле `pathType`. Це дозволяє явно вказувати шлях як `Exact` або `Prefix`.
 
-### Налаштування `IngressClass` {#specifying-ingressclass}
-
-У Kubernetes 1.18 був доданий новий ресурс `IngressClass`, який замінює анотацію `kubernetes.io/ingress.class` на ресурсі `Ingress`. Якщо ви використовуєте цей ресурс, вам потрібно встановити поле `controller` в `istio.io/ingress-controller`. Наприклад:
-
-{{< text yaml >}}
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: istio
-spec:
-  controller: istio.io/ingress-controller
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress
-spec:
-  ingressClassName: istio
-  rules:
-  - host: httpbin.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: httpbin
-            port:
-              number: 8000
-{{< /text >}}
-
 ## Очищення {#cleanup}
 
-Видаліть конфігурацію `Ingress` і вимкніть службу [httpbin]({{< github_tree >}}/samples/httpbin):
+Видаліть конфігурацію `IngressClass` та `Ingress` і вимкніть службу [httpbin]({{< github_tree >}}/samples/httpbin):
 
 {{< text bash >}}
 $ kubectl delete ingress ingress
+$ kubectl delete ingressclass istio
 $ kubectl delete --ignore-not-found=true -f @samples/httpbin/httpbin.yaml@
 {{< /text >}}

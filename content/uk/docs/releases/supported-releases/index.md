@@ -61,9 +61,9 @@ Istio не гарантує, що мінорні релізи, які виход
 
 | Мінорні релізи | Виправлені версії без відомих CVE |
 |----------------|-----------------------------------|
+| 1.26.x         | 1.26.0+                           |
 | 1.25.x         | 1.25.0+                           |
 | 1.24.x         | 1.24.0+                           |
-| 1.23.x         | 1.23.2+                           |
 
 ## Підтримувані версії Envoy {#supported-envoy-versions}
 
@@ -73,8 +73,8 @@ Data plane Istio базується на [Envoy](https://github.com/envoyproxy/e
 
 | Версія Istio | Гілка релізу Envoy |
 |--------------|--------------------|
-| 1.25.x       | release/v1.33      |
-| 1.24.x       | release/v1.32      |
-| 1.23.x       | release/v1.31      |
+| 1.26.x        | release/v1.34     |
+| 1.25.x        | release/v1.33     |
+| 1.24.x        | release/v1.32     |
 
 Ви можете знайти точний коміт Envoy, який використовується Istio [в репозиторії `istio/proxy`](https://github.com/istio/proxy/blob/{{< source_branch_name >}}/WORKSPACE#L26): шукайте змінну `ENVOY_SHA`.

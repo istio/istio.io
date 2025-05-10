@@ -605,9 +605,10 @@ EOF
 
 Istio підтримує кілька різних форматів секретів для інтеграції з різними інструментами, такими як [cert-manager](/docs/ops/integrations/certmanager/):
 
-* TLS секрет з ключами `tls.key` та `tls.crt`, як описано вище. Для взаємного TLS можна використовувати ключ `ca.crt`.
-* Загальний секрет з ключами `key` та `cert`. Для взаємного TLS можна використовувати ключ `cacert`.
-* Загальний секрет з ключами `key` та `cert`. Для взаємного TLS можна використовувати окремий загальний секрет з назвою `<secret>-cacert`, який містить ключ `cacert`. Наприклад, `httpbin-credential` має `key` та `cert`, а `httpbin-credential-cacert` має `cacert`.
+* TLS Secret з ключами `tls.key` та `tls.crt`, як описано вище. Для взаємного TLS можна використовувати ключ `ca.crt`.
+* TLS Secret з ключами `tls.key` і `tls.crt`, як описано вище. Для взаємного TLS, окремий загальний Secret з назвою `<secret>-cacert`, з ключем `cacert`. Наприклад, `httpbin-credential` має `tls.key` і `tls.crt`, а `httpbin-credential-cacert` має `cacert`.
+* Загальний Secret з ключами `key` та `cert`. Для взаємного TLS можна використовувати ключ `cacert`.
+* Загальний Secret з ключами `key` та `cert`. Для взаємного TLS можна використовувати окремий загальний секрет з назвою `<secret>-cacert`, який містить ключ `cacert`. Наприклад, `httpbin-credential` має `key` та `cert`, а `httpbin-credential-cacert` має `cacert`.
 * Значення ключа `cacert` може бути зв'язкою сертифікатів CA, яка складається з окремих об'єднаних сертифікатів CA.
 
 ### SNI маршрутизація {#sni-routing}
