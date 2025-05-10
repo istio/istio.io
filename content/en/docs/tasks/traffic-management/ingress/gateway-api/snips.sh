@@ -22,7 +22,7 @@
 
 snip_setup_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.1" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0-rc.1" | kubectl apply -f -; }
 }
 
 snip_setup_2() {
@@ -147,10 +147,59 @@ kind: Gateway
 metadata:
   name: gateway
 spec:
-  addresses:
-  - value: 192.0.2.0
-    type: IPAddress
-...
+  infrastructure:
+    annotations:
+      some-key: some-value
+    labels:
+      key: value
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: gw-options
+  gatewayClassName: istio
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_automated_deployment_2 <<\ENDSNIP
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gw-options
+data:
+  horizontalPodAutoscaler: |
+    spec:
+      minReplicas: 2
+      maxReplicas: 2
+
+  deployment: |
+    metadata:
+      annotations:
+      additional-annotation: some-value
+    spec:
+      replicas: 4
+      template:
+        spec:
+          containers:
+          - name: istio-proxy
+            resources:
+              requests:
+                cpu: 1234m
+
+  service: |
+    spec:
+      ports:
+      - "\$patch": delete
+        port: 15021
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_gatewayclass_defaults_1 <<\ENDSNIP
+kind: IstioOperator
+spec:
+  values:
+    gatewayClasses:
+      istio:
+        deployment:
+          spec:
+            replicas: 2
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_resource_attachment_and_scaling_1 <<\ENDSNIP
@@ -249,5 +298,5 @@ kubectl delete ns istio-system
 }
 
 snip_cleanup_3() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.1" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0-rc.1" | kubectl delete -f -
 }

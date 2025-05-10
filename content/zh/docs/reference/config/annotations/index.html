@@ -118,7 +118,8 @@ User should not manually modify this annotation.</p>
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.</p>
+      <td><p>A comma separated list of virtual interfaces whose inbound traffic will be unconditionally treated as outbound. This allows workloads using virtualized networking (kubeVirt, VMs, docker-in-docker, etc) to function correctly with mesh traffic capture.
+Note: When using docker-in-docker container, the default bridge interface name is typically <code>docker0</code>. However, custom networks (often used with docker compose) are assigned a randomized interface name. To have a predictable name, you can configure the Docker option <code>com.docker.network.bridge.name</code> with a fixed value and use that name in the annotation.</p>
 </td>
     </tr>
   </tbody>
@@ -704,6 +705,29 @@ If that backend becomes unhealthy, traffic will sent to <code>us-east</code>.</l
     <tr>
       <th>Description</th>
       <td><p>Rewrite HTTP readiness and liveness probes to be redirected to the Envoy sidecar.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsCompression">sidecar.istio.io/statsCompression</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/statsCompression</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies the compression algorithm to use for stats emitted by the Envoy sidecar.
+Supported values are <code>brotli</code>, <code>gzip</code>, and <code>zstd</code>.</p>
 </td>
     </tr>
   </tbody>

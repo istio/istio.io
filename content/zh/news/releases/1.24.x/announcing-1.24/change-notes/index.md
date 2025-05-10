@@ -15,23 +15,25 @@ aliases:
 - **新增** 添加了对将策略附加到 waypoint 的 `ServiceEntry` 的支持。
 
 - **新增** 添加了新的注解 `ambient.istio.io/bypass-inbound-capture`，
-  可应用于使 ztunnel 仅捕获出站流量。
-  这对于仅接受来自网格外客户端（例如面向互联网的 Pod）的流量的工作负载跳过不必要的跳跃非常有用。
+  可应用于使 ztunnel 仅捕获出站流量。这对于仅接受来自网格外客户端
+  （例如面向互联网的 Pod）的流量的工作负载跳过不必要的跳跃非常有用。
 
 - **新增** 添加了新的注解 `networking.istio.io/traffic-distribution`，
-  可应用于使 ztunnel 优先将流量发送到本地 Pod。
-  其行为与 `Service` 上的 [`spec.trafficDistribution`](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#traffic-distribution)
+  可应用于使 ztunnel 优先将流量发送到本地 Pod。其行为与 `Service` 上的
+  [`spec.trafficDistribution`](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#traffic-distribution)
   字段相同，但允许在较旧的 Kubernetes 版本上使用（因为该字段是在 Kubernetes 1.31 中作为测试版添加的）。
   请注意，航点会自动设置此项。
 
-- **修复** 修复了阻止[服务器优先协议](/zh/docs/ops/deployment/application-requirements/#server-first-protocols)与 waypoint 协同工作的问题。
+- **修复** 修复了阻止[服务器优先协议](/zh/docs/ops/deployment/application-requirements/#server-first-protocols)与
+  waypoint 协同工作的问题。
 
 - **改进** 当 Ambient 模式下发生连接失败时，改进来自 Envoy 的日志以显示更多错误详细信息。
 
 - **新增** 添加了对 waypoint 代理中的 `Telemetry` 定制的支持。
 
-- **新增** 添加了编写状态条件，用于将 AuthorizationPolicy 绑定到 waypoint 代理。
-  条件的格式是**实验性的**，将会发生变化。具有多个 `targetRefs` 的策略目前接收单个条件。
+- **新增** 添加了编写状态条件，用于将 AuthorizationPolicy
+  绑定到 waypoint 代理。条件的格式是**实验性的**，将会发生变化。
+  具有多个 `targetRefs` 的策略目前接收单个条件。
   一旦上游 Kubernetes Gateway API 采用具有多个引用的条件模式，
   Istio 将采用该惯例，在使用多个 `targetRefs` 时提供更详细的信息。
   ([Issue #52699](https://github.com/istio/istio/issues/52699))
@@ -41,7 +43,8 @@ aliases:
 - **改进** 改进了 ztunnel 如何确定其代表哪个 Pod 的逻辑。
   之前，这依赖于 IP 地址，但在某些情况下并不可靠。
 
-- **修复** 修复了导致 waypoint 中的 `DestinationRule` 中的任何 `portLevelSettings` 被忽略的问题。
+- **修复** 修复了导致 waypoint 中的 `DestinationRule`
+  中的任何 `portLevelSettings` 被忽略的问题。
   ([Issue #52532](https://github.com/istio/istio/issues/52532))
 
 - **修复** 修复了使用带有 waypoint 的镜像策略时出现的问题。
@@ -60,8 +63,7 @@ aliases:
   ([Issue #47998](https://github.com/istio/istio/issues/47998))
 
 - **新增** 添加了向 `DestinationRule` 添加 `warmup.aggression`、
-  `warmup.duration`、`warmup.minimumPercent` 参数，
-  以对预热行为提供更多控制。
+  `warmup.duration`、`warmup.minimumPercent` 参数，以对预热行为提供更多控制。
   ([Issue #3215](https://github.com/istio/api/issues/3215))
 
 - **新增** 添加了入站请求重试策略，可自动重置服务未看到/处理的请求。
@@ -78,7 +80,8 @@ aliases:
 - **改进** 改进了 Istiod 的验证 webhook，以接受它不知道的版本。
   这确保较旧的 Istio 可以验证较新的 CRD 创建的资源。
 
-- **改进** 通过将多个 IP 与一个端点关联起来，而不是将它们视为两个不同的端点，改进对双栈服务的支持。
+- **改进** 通过将多个 IP 与一个端点关联起来，
+  而不是将它们视为两个不同的端点，改进对双栈服务的支持。
   ([Issue #40394](https://github.com/istio/istio/issues/40394))
 
 - **新增** 添加了对 HTTP 路由中匹配多个 IP（用于双栈服务）的支持。
@@ -87,7 +90,8 @@ aliases:
 
 - **新增** 添加了通过传递静态侦听器的过载管理器来支持。
   可以通过在代理 Deployment 中将 `BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS` 设置为 false 来恢复。
-  ([Issue #41859](https://github.com/istio/istio/issues/41859)),([Issue #52663](https://github.com/istio/istio/issues/52663))
+  ([Issue #41859](https://github.com/istio/istio/issues/41859)),
+  ([Issue #52663](https://github.com/istio/istio/issues/52663))
 
 - **新增** 添加了新的 istiod 环境变量 `ENVOY_DNS_JITTER_DURATION`，
   默认值为 `100ms`，用于设置定期 DNS 解析的抖动。
@@ -165,7 +169,8 @@ aliases:
 
 - **修复** 修复了当加载新证书时，
   `citadel_server_root_cert_expiry_timestamp`、`citadel_server_root_cert_expiry_seconds`、
-  `citadel_server_cert_chain_expiry_timestamp` 和 `citadel_server_cert_chain_expiry_seconds` 会更新的问题。
+  `citadel_server_cert_chain_expiry_timestamp` 和
+  `citadel_server_cert_chain_expiry_seconds` 会更新的问题。
 
 - **新增** 添加了 `SECRET_GRACE_PERIOD_RATIO_JITTER`，
   默认值为 `0.01`，以在 `SECRET_GRACE_PERIOD_RATIO` 中引入随机偏移量。
@@ -175,8 +180,8 @@ aliases:
 
 ## 安装 {#installation}
 
-- **更新** 更新了 istio-cni 的 `securityContext.privileged` 为 false，
-  以支持特定于功能的权限。istio-cni 仍然是[根据 Kubernetes Pod 安全标准的“特权”容器](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-standards/#privileged)，
+- **更新** 更新了 istio-cni 的 `securityContext.privileged` 为 false，以支持特定于功能的权限。
+  istio-cni 仍然是[根据 Kubernetes Pod 安全标准的“特权”容器](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-standards/#privileged)，
   因为即使没有此标志，它也具有特权功能，即 `CAP_SYS_ADMIN`。
   ([Issue #52558](https://github.com/istio/istio/issues/52558))
 

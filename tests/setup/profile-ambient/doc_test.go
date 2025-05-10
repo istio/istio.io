@@ -36,7 +36,7 @@ func TestDocs(t *testing.T) {
 		Run(istioio.NewTestDocsFunc("profile=ambient"))
 }
 
-func setupConfig(ctx resource.Context, cfg *istio.Config) {
+func setupConfig(_ resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = `
 profile: ambient
 values:

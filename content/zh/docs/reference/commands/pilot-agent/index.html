@@ -23,15 +23,15 @@ remove_toc_prefix: 'pilot-agent '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -61,15 +61,15 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -109,15 +109,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -156,15 +156,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -201,15 +201,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -253,15 +253,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -346,11 +346,6 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Set listen port for failure detection.  (default `15002`)</td>
 </tr>
 <tr>
-<td><code>--iptables-trace-logging</code></td>
-<td></td>
-<td>Insert tracing logs for each iptables rules, using the LOG chain. </td>
-</tr>
-<tr>
 <td><code>--istio-exclude-interfaces &lt;string&gt;</code></td>
 <td><code>-c</code></td>
 <td>Comma separated list of NIC (optional). Neither inbound nor outbound traffic will be captured.  (default ``)</td>
@@ -413,17 +408,17 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -503,15 +498,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -581,15 +576,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -622,17 +617,17 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -674,15 +669,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, iptables, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cache, citadelclient, default, dns, gcecred, grpc, healthcheck, klog, mockcred, monitoring, probes, sds, security, spiffe, validation, wasm, xdsproxy] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -855,16 +850,16 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, istiod will proxy 100-continue headers as is</td>
 </tr>
 <tr>
-<td><code>ENABLE_AUTO_SNI</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, automatically set SNI when `DestinationRules` do not specify the same</td>
-</tr>
-<tr>
 <td><code>ENABLE_CA_SERVER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
+<td><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
 </tr>
 <tr>
 <td><code>ENABLE_DEBUG_ON_HTTP</code></td>
@@ -885,16 +880,16 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
 <tr>
+<td><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, allows users to bind Gateway API resources to existing gateway deployments.</td>
+</tr>
+<tr>
 <td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
-</tr>
-<tr>
-<td><code>ENABLE_INBOUND_RETRY_POLICY</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, enables retry policy for inbound routes which automatically retries requests that were reset before it reaches the service.</td>
 </tr>
 <tr>
 <td><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></td>
@@ -1005,12 +1000,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Envoy proxy username</td>
 </tr>
 <tr>
-<td><code>EXCLUDE_UNSAFE_503_FROM_DEFAULT_RETRY</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, excludes unsafe retry on 503 from default retry policy.</td>
-</tr>
-<tr>
 <td><code>EXIT_ON_ZERO_ACTIVE_CONNECTIONS</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
@@ -1099,12 +1088,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>String</td>
 <td><code></code></td>
 <td></td>
-</tr>
-<tr>
-<td><code>IPTABLES_TRACE_LOGGING</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>When enable, all iptables actions will be logged. This requires NET_ADMIN privilege and has noisy logs; as a result, this is intended for debugging only</td>
 </tr>
 <tr>
 <td><code>ISTIOD_CUSTOM_HOST</code></td>
@@ -1303,6 +1286,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
 </tr>
 <tr>
+<td><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
+</tr>
+<tr>
 <td><code>MCS_API_GROUP</code></td>
 <td>String</td>
 <td><code>multicluster.x-k8s.io</code></td>
@@ -1375,6 +1364,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
 </tr>
 <tr>
+<td><code>PILOT_CA_CERT_CONFIGMAP</code></td>
+<td>String</td>
+<td><code>istio-ca-root-cert</code></td>
+<td>The name of the ConfigMap that stores the Root CA Certificate that is used by istiod</td>
+</tr>
+<tr>
 <td><code>PILOT_CERT_PROVIDER</code></td>
 <td>String</td>
 <td><code>istiod</code></td>
@@ -1421,6 +1416,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio.io/draining</code></td>
 <td>If not empty, endpoints with the label value present will be sent with status DRAINING.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ABSOLUTE_FQDN_VHOST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set to false, Istio will not add the absolute FQDN variant (e.g., my-service.my-ns.svc.cluster.local.) to the domains list for VirtualHost entries.</td>
 </tr>
 <tr>
 <td><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></td>
@@ -1739,6 +1740,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
+</tr>
+<tr>
+<td><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
 <tr>
 <td><code>PILOT_STATUS_BURST</code></td>

@@ -70,9 +70,9 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases | Patched versions with no known CVEs |
 |----------------|-------------------------------------|
+| 1.26.x         | 1.26.0+                             |
 | 1.25.x         | 1.25.0+                             |
 | 1.24.x         | 1.24.0+                             |
-| 1.23.x         | 1.23.2+                             |
 
 ## Supported Envoy Versions
 
@@ -82,8 +82,8 @@ The relationship between the two project's versions:
 
 | Istio version | Envoy release branch |
 |---------------|----------------------|
+| 1.26.x        | release/v1.34        |
 | 1.25.x        | release/v1.33        |
 | 1.24.x        | release/v1.32        |
-| 1.23.x        | release/v1.31        |
 
 You can find the precise Envoy commit used by Istio [in the `istio/proxy` repository](https://github.com/istio/proxy/blob/{{< source_branch_name >}}/WORKSPACE#L26): look for the `ENVOY_SHA` variable.

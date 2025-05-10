@@ -494,6 +494,17 @@ messages:
     - name: minimumVersion
       type: string
 
+  - name: "FutureUnsupportedGatewayAPIVersion"
+    code: IST0172
+    level: Warning
+    description: "The Gateway API CRD version will not be supported in the future"
+    template: "The Gateway API CRD version %v is lower than the minimum version: %v"
+    args:
+    - name: version
+      type: string
+    - name: minimumVersion
+      type: string
+
   - name: "InvalidTelemetryProvider"
     code: IST0157
     level: Warning
@@ -670,3 +681,21 @@ messages:
         type: string
       - name: message
         type: string
+
+  - name: "DestinationRuleSubsetNotSelectPods"
+    code: IST0173
+    level: Error
+    description: "Subsets defined in destination does not select any pods."
+    template: "The Subset %s defined in the DestinationRule does not select any pods. Which may lead to 503 UH (NoHealthyUpstream)."
+    args:
+    - name: subset
+      type: string
+
+  - name: "UnknownDestinationRuleHost"
+    code: IST0174
+    level: Warning
+    description: "Host defined in destination rule does not match any services in the mesh."
+    template: "The host %s defined in the DestinationRule does not match any services in the mesh."
+    args:
+    - name: host
+      type: string

@@ -37,7 +37,7 @@ keywords: [istio,performance,ambient]
 
 {{< image width="60%"
     link="./ztunnel-performance.svg"
-    alt="ztunnel 的性能（按版本划分）。"
+    alt="ztunnel 各版本性能对比。"
     >}}
 
 Istio 的性能由 [ztunnel](https://github.com/istio/ztunnel) 驱动，
@@ -101,6 +101,7 @@ Istio 的性能由 [ztunnel](https://github.com/istio/ztunnel) 驱动，
   ([#1466](https://github.com/istio/ztunnel/pull/1466))。
 
 其他一些因素包括：
+
 * WireGuard 和 Linkerd 使用 `ChaCha20-Poly1305` 加密算法，
   而 Istio 使用 `AES-GCM`。后者在现代硬件上进行了高度优化。
 * WireGuard 和 IPsec 对单个数据包进行操作（通常最多 1500 字节，受网络 MTU 限制），
@@ -115,4 +116,4 @@ Istio 的性能由 [ztunnel](https://github.com/istio/ztunnel) 驱动，
 
 您可以在 [Istio Slack](https://slack.istio.io)
 上的 #ambient 频道与开发人员进行交流，或使用
-[GitHub 上的讨论论坛](https://github.com/istio/istio/discussions)来咨询您可能遇到的任何问题。
+[GitHub 上的 Discussions 论坛](https://github.com/istio/istio/discussions)来讨论您可能遇到的任何问题。

@@ -1971,6 +1971,19 @@ Defaults to true.</p>
 
 </td>
 </tr>
+<tr id="HTTPRetry-backoff">
+<td><div class="field"><div class="name"><code><a href="#HTTPRetry-backoff">backoff</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>Specifies the minimum duration between retry attempts.
+If unset, default minimum duration of 25ms is used as base interval for exponetial backoff.
+This has an impact on the total number of retries that will be attempted based on the <code>attempts</code> field
+and route timeout. For example, with attempts is set to 3, backoff to 2s and timeout to 3s, the request will
+be retried only once.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>

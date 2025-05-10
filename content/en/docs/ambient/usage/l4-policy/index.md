@@ -85,7 +85,6 @@ spec:
    to:
    - operation:
        methods: ["GET"]
-EOF
 {{< /text >}}
 
 Even if the identity of the client pod is correct, the presence of a L7 attribute causes the ztunnel to deny the connection:

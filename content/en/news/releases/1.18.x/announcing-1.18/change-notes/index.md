@@ -35,7 +35,7 @@ only if the specified label is `istio.io/gateway-name`. Other labels are ignored
   ([Issue #42749](https://github.com/istio/istio/issues/42749))
 
 - **Fixed** fixed bug of Istio cannot be deployed on IPv6-first DS clusters for Dual Stack support in Istio.
- ([Optimized Design]( https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/))([Original Design]( https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/)) ([Issue #40394](https://github.com/istio/istio/issues/40394))([Issue #41462](https://github.com/istio/istio/issues/41462))
+ ([Optimized Design](https://docs.google.com/document/d/15LP2XHpQ71ODkjCVItGacPgzcn19fsVhyE7ruMGXDyU/))([Original Design](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/)) ([Issue #40394](https://github.com/istio/istio/issues/40394))([Issue #41462](https://github.com/istio/istio/issues/41462))
 
 - **Fixed** an issue where `EnvoyFilter` for `Cluster.ConnectTimeout` was affecting unrelated `Clusters`.
   ([Issue #43435](https://github.com/istio/istio/issues/43435))
@@ -163,7 +163,7 @@ This change only impacts users explicitly enabling `PILOT_USE_ENDPOINT_SLICE` on
 - **Fixed** pilot has an additional invalid gateway metric that was not created by the user.
 
 - **Fixed** an issue where grpc stats are absent.
-  ([Issue #43908](https://github.com/istio/istio/issues/43908)),([Issue #44144](https://github.com/istio/istio/issues/44144))
+  ([Issue #43908](https://github.com/istio/istio/issues/43908)), ([Issue #44144](https://github.com/istio/istio/issues/44144))
 
 ## Installation
 
@@ -193,7 +193,7 @@ when advanced customizations are not used, improving performance.
   ([Issue #40676](https://github.com/istio/istio/issues/40676))
 
 - **Added** support for labels to be added to the Gateway pod template via `.Values.labels`.
-  ([Issue #41057](https://github.com/istio/istio/issues/41057)),([Issue #43585](https://github.com/istio/istio/issues/43585))
+  ([Issue #41057](https://github.com/istio/istio/issues/41057)), ([Issue #43585](https://github.com/istio/istio/issues/43585))
 
 - **Added** check to limit the `clusterrole` for k8s CSR permissions for
 external CA `usecases` by verifying `.Values.pilot.env.EXTERNAL_CA` and `.Values.global.pilotCertProvider` parameters.

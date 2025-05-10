@@ -106,18 +106,9 @@ http/1.1 请求的 P90 和 P99 延迟。为了运行测试，
 注意：此测试是在 [CNCF 社区基础设施实验室](https://github.com/cncf/cluster)中进行的。
 不同的硬件会给出不同的值。
 
-<img width="90%" style="display: block; margin: auto;"
-    src="istio-1.24.0-fortio-90.png"
-    alt="P90 延迟 vs 客户端连接"
-    caption="P90 延迟 vs 客户端连接"
-/>
-<br><br>
-<img width="90%" style="display: block; margin: auto;"
-    src="istio-1.24.0-fortio-99.png"
-    alt="P99 延迟 vs 客户端连接"
-    caption="P99 延迟 vs 客户端连接"
-/>
-<br>
+{{< image link="./istio-1.24.0-fortio-90.png" caption="P90 延迟 vs 客户端连接" width="90%" >}}
+
+{{< image link="./istio-1.24.0-fortio-99.png" caption="P99 延迟 vs 客户端连接" width="90%" >}}
 
 - `no mesh`：客户端 Pod 直接调用服务器 Pod，Pod 不在 Istio 服务网格中。
 - `ambient: L4`：带有{{{{< gloss "Secure L4 Overlay" >}}安全 L4 覆盖{{< /gloss >}}的默认 Ambient 模式。

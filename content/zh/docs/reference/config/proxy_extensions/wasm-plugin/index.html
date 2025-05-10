@@ -667,6 +667,15 @@ for the authentication or the authorization plugins.</p>
 
 </td>
 </tr>
+<tr id="FailStrategy-FAIL_RELOAD">
+<td><code><a href="#FailStrategy-FAIL_RELOAD">FAIL_RELOAD</a></code></td>
+<td>
+<p>New plugin instance will be created for the new request if the Wasm plugin
+has failed. This only applies for <code>proxy_wasm::FailState::RuntimeError</code>.
+For all other error types this will fallback to <code>FAIL_CLOSED</code>.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>

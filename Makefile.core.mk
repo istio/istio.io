@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.26-alpha
+ISTIO_IMAGE_VERSION ?= 1.27-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -188,12 +188,6 @@ export MASTER := master
 
 prepare-%:
 	@scripts/prepare_release.sh $@
-
-release-%-dry-run:
-	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
-
-release-%:
-	@scripts/create_version.sh $@
 
 build-old-archive-%:
 	@scripts/build_old_archive.sh $@

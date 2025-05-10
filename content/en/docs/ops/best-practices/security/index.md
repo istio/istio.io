@@ -44,6 +44,20 @@ For example, in the [authorization for HTTP traffic task](/docs/tasks/security/a
 the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
 From there, other authorization policies allow traffic based on specific conditions.
 
+#### Default-deny pattern with waypoints
+
+Istio's new ambient data plane mode introduced a new split dataplane architecture.
+In this architecture, the waypoint proxy is configured using Kubernetes Gateway API which uses more explicit binding to gateways using `parentRef` and `targetRef`.
+Because waypoints adhere more closely to the principles of Kubernetes Gateway API, the default-deny pattern is enabled in a slightly different way when policy is applied waypoints.
+Beginning with Istio 1.25, you may bind `AuthorizationPolicy` resources to the `istio-waypoint` `GatewayClass`.
+By binding `AuthorizationPolicy` to the `GatewayClass`, you can configure all gateways which implement that `GatewayClass` with a default policy.
+It is important to note that `GatewayClass` is a cluster-scoped resource, and binding namespace-scoped policies to it requires special care.
+Istio requires that policies which are bound to a `GatewayClass` reside in the root namespace, typically `istio-system`.
+
+{{< tip >}}
+When using the default-deny pattern with waypoints, the policy bound to the `istio-waypoint` `GatewayClass` should be used in addition to the "classic" default-deny policy. The "classic" default-deny policy will be enforced by ztunnel against the workloads in your mesh and still provides meaningful value.
+{{< /tip >}}
+
 #### Use `ALLOW-with-positive-matching` and `DENY-with-negative-match` patterns
 
 Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy

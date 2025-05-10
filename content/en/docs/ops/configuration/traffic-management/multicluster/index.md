@@ -61,6 +61,20 @@ serviceSettings:
 
 {{< /tabset >}}
 
+You can also refine service access down by setting a global cluster-local rule and adding explicit exceptions, which can be specific or wildcard. In the following example, all services in the cluster will be kept cluster-local, except any service in the `myns` namespace:
+
+{{< text yaml >}}
+serviceSettings:
+- settings:
+    clusterLocal: true
+  hosts:
+  - "*"
+- settings:
+    clusterLocal: false
+  hosts:
+  - "*.myns.svc.cluster.local"
+{{< /text >}}
+
 ## Partitioning Services {#partitioning-services}
 
 [`DestinationRule.subsets`](/docs/reference/config/networking/destination-rule/#Subset) allows partitioning a service
