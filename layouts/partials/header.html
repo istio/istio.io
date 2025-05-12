@@ -4,8 +4,6 @@
 {{ $versionsData := site.Data.versions }}
 {{ $currentVersionIDFromParams := .Site.Params.currentVersionId | default ($versionsData.latest_version | default "") }}
 {{ $latestVersionID := $versionsData.latest_version | default "" }}
-{{ $isLatestBuild := eq $currentVersionIDFromParams $latestVersionID }}
-{{ $isDocsPage := eq .Section "docs" }}
 
 {{/* Calculate currentPathSegment - needed by navigateToVersionSimple JS function */}}
 {{ $currentPathSegment := "" }}
@@ -111,15 +109,8 @@
     const currentVersionPathSegment = {{ $currentPathSegment | jsonify }};
     const selectedTargetSegment = selectedVersionPathSegment;
 
-    console.log("--- Version Navigation (Menu) ---");
-    console.log("Current Full Path:", currentFullPath);
-    console.log("Current Version Segment (from Hugo):", currentVersionPathSegment);
-    console.log("Selected Target Segment:", selectedTargetSegment);
-
     if (!currentVersionPathSegment && currentVersionPathSegment !== "" ) {
-        console.error("CRITICAL: Could not determine current version path segment. Aborting reliable navigation.");
         const fallbackBase = selectedTargetSegment === 'latest' ? '/latest/' : ('/' + selectedTargetSegment + '/');
-        console.warn("Attempting fallback navigation to:", fallbackBase);
         window.location.href = fallbackBase;
         return;
     }
@@ -132,7 +123,6 @@
         const index = currentFullPath.indexOf('/' + prefix);
         if (index > -1) {
             contentPath = currentFullPath.substring(index + 1);
-            console.log("Found known prefix '" + prefix + "'. Determined Content Path:", contentPath);
             foundContent = true;
             break;
         }
@@ -142,9 +132,7 @@
         const currentBaseForCheck = currentVersionPathSegment === 'latest' ? '/latest/' : '/' + currentVersionPathSegment + '/';
         if (currentFullPath === '/' || currentFullPath === currentBaseForCheck || currentFullPath === currentBaseForCheck.slice(0,-1)) {
              contentPath = '';
-             console.log("Current path is a version root. Navigating to target version root/docs root.");
         } else {
-            console.warn("WARN: Could not find known content prefix in path '" + currentFullPath + "'. Navigating to target version's docs root.");
             contentPath = 'docs/'; // Default to docs root of target version
         }
     }
@@ -161,8 +149,6 @@
     let finalUrl = newBase + contentPath;
     finalUrl = finalUrl.replace(/\/\//g, '/'); // Replace double slashes
 
-    console.log("Attempting navigation to:", finalUrl);
     window.location.href = finalUrl;
-    console.log("--- End Version Navigation (Menu) ---");
   }
 </script>
