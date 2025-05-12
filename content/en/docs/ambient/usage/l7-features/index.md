@@ -13,7 +13,7 @@ Usage of VirtualService with the ambient data plane mode is considered Alpha. Mi
 {{< /warning >}}
 
 {{< warning >}}
-`EnvoyFilter` is Istio's break glass API for advanced configuration of Envoy proxies. Please note that `EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies. While it may be possible to use EnvoyFilter in limited use-cases, its use in waypoint proxies is not supported, is discouraged, and may break in future releases as the API evolves. We expect official support will be provided at a later date.
+`EnvoyFilter` is Istio's break glass API for advanced configuration of Envoy proxies. Please note that `EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies. While it may be possible to use `EnvoyFilter` in limited use-cases, its use in waypoint proxies is not supported, is discouraged, and may break in future releases as the API evolves. We expect official support will be provided at a later date.
 {{< /warning >}}
 
 ## Route and policy attachment
