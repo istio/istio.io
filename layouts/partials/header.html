@@ -1,6 +1,16 @@
 {{ $home := .Site.GetPage "home" }}
-{{ $section := .Section }}
-{{ $current := . }}
+
+{{/* --- Version Logic (needed for JS and conditional dropdown) --- */}}
+{{ $versionsData := site.Data.versions }}
+{{ $currentVersionIDFromParams := .Site.Params.currentVersionId | default ($versionsData.latest_version | default "") }}
+{{ $latestVersionID := $versionsData.latest_version | default "" }}
+{{ $isLatestBuild := eq $currentVersionIDFromParams $latestVersionID }}
+{{ $isDocsPage := eq .Section "docs" }}
+
+{{/* Calculate currentPathSegment - needed by navigateToVersionSimple JS function */}}
+{{ $currentPathSegment := "" }}
+{{ range $versionsData.versions }}{{ if eq .id $currentVersionIDFromParams }}{{ $currentPathSegment = .path_segment }}{{ end }}{{ end }}
+
 
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
@@ -23,7 +33,30 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if .HasChildren }}
+
+                    {{ if eq .Name "Documentation" }}
+                        <li class="main-navigation-links-item">
+                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link {{ if and $versionsData }}has-dropdown{{ end }} {{ if $active }}active{{ end }}">
+                                <span>{{ .Name }}</span>
+                                {{ partial "icon.html" "dropdown-arrow" }}
+                            </a>
+
+                            {{ if and $versionsData }}
+                                <ul class="main-navigation-links-dropdown">
+                                    {{ range $versionsData.versions }}
+                                        <li class="main-navigation-links-dropdown-item">
+                                            <a href="javascript:void(0);"
+                                               data-pathsegment="{{ .path_segment }}"
+                                               onclick="navigateToVersionSimple(this.dataset.pathsegment); return false;"
+                                               class="main-navigation-links-link {{ if eq .id $currentVersionIDFromParams }}active-version-link{{ end }}">
+                                                {{ .display_name }}
+                                            </a>
+                                        </li>
+                                    {{ end }}
+                                </ul>
+                            {{ end }}
+                        </li>
+                    {{ else if .HasChildren }}
                         <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
@@ -71,3 +104,65 @@
         </form>
     </nav>
 </header>
+
+<script>
+  function navigateToVersionSimple(selectedVersionPathSegment) {
+    const currentFullPath = window.location.pathname;
+    const currentVersionPathSegment = {{ $currentPathSegment | jsonify }};
+    const selectedTargetSegment = selectedVersionPathSegment;
+
+    console.log("--- Version Navigation (Menu) ---");
+    console.log("Current Full Path:", currentFullPath);
+    console.log("Current Version Segment (from Hugo):", currentVersionPathSegment);
+    console.log("Selected Target Segment:", selectedTargetSegment);
+
+    if (!currentVersionPathSegment && currentVersionPathSegment !== "" ) {
+        console.error("CRITICAL: Could not determine current version path segment. Aborting reliable navigation.");
+        const fallbackBase = selectedTargetSegment === 'latest' ? '/latest/' : ('/' + selectedTargetSegment + '/');
+        console.warn("Attempting fallback navigation to:", fallbackBase);
+        window.location.href = fallbackBase;
+        return;
+    }
+
+    let contentPath = '';
+    let foundContent = false;
+    const knownContentPrefixes = ['docs/', 'blog/', 'news/', 'about/', 'faq/', 'operations/', 'tasks/', 'reference/', 'concepts/', 'samples/', 'download/', 'search/'];
+
+    for (const prefix of knownContentPrefixes) {
+        const index = currentFullPath.indexOf('/' + prefix);
+        if (index > -1) {
+            contentPath = currentFullPath.substring(index + 1);
+            console.log("Found known prefix '" + prefix + "'. Determined Content Path:", contentPath);
+            foundContent = true;
+            break;
+        }
+    }
+
+    if (!foundContent) {
+        const currentBaseForCheck = currentVersionPathSegment === 'latest' ? '/latest/' : '/' + currentVersionPathSegment + '/';
+        if (currentFullPath === '/' || currentFullPath === currentBaseForCheck || currentFullPath === currentBaseForCheck.slice(0,-1)) {
+             contentPath = '';
+             console.log("Current path is a version root. Navigating to target version root/docs root.");
+        } else {
+            console.warn("WARN: Could not find known content prefix in path '" + currentFullPath + "'. Navigating to target version's docs root.");
+            contentPath = 'docs/'; // Default to docs root of target version
+        }
+    }
+    
+    let newBase = selectedTargetSegment === 'latest' ? '/latest/' : ('/' + selectedTargetSegment + '/');
+    // Ensure newBase ends with a slash if contentPath is not empty or already starts with one
+    if (contentPath !== "" && !newBase.endsWith('/')) {
+        newBase += '/';
+    }
+    if (contentPath.startsWith('/')) { // Avoid double slash if contentPath accidentally starts with /
+        contentPath = contentPath.substring(1);
+    }
+    
+    let finalUrl = newBase + contentPath;
+    finalUrl = finalUrl.replace(/\/\//g, '/'); // Replace double slashes
+
+    console.log("Attempting navigation to:", finalUrl);
+    window.location.href = finalUrl;
+    console.log("--- End Version Navigation (Menu) ---");
+  }
+</script>

@@ -1,5 +1,26 @@
-# The version of Istio currently documented in istio.io
 main: "1.26"
 
-# The version of Istio currently documented in preliminary.istio.io
 preliminary: "1.27"
+
+# List of all versions to be included in the dropdown selector and for archive logic
+versions:
+  - id: "1.26"            # Version number
+    path_segment: latest  # URL path for this version on istio.io
+    display_name: "v1.26 (Latest)" # Text in dropdown
+    status: latest        # Status identifier
+  - id: "1.25"
+    path_segment: v1.25   # URL path for this archived version
+    display_name: "v1.25"
+    status: archive
+  - id: "1.24"
+    path_segment: v1.24
+    display_name: "v1.24"
+    status: archive
+  - id: "1.23"
+    path_segment: v1.23
+    display_name: "v1.23"
+    status: archive
+  - id: "1.22"
+    path_segment: v1.22
+    display_name: "v1.22"
+    status: archive
