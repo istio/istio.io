@@ -21,5 +21,5 @@
 ####################################################################################################
 
 bpsnip_gateway_api_remove_crds_remove_crds() {
-kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0-rc.1/standard-install.yaml
+kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml
 }
