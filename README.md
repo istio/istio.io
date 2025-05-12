@@ -72,17 +72,36 @@ Run `make prepare-1.7.0`, and that's it. This will grab the latest reference doc
 
 #### Approaching the day of the release
 
-1. For a dry run before official release, run `make release-1.7.0-dry-run`, which will only create a new branch `release-1.7-dry-run` and not touch any other branches.
+The script `scripts/create_minor_version.sh` is used to automate the branch cutting process of the istio.io documentation. The script will:
+- Archive the previous minor version of the documentation (e.g. `archive/v1.25`)
+- Create a new branch for the new minor version (e.g. `release-1.26`)
+- Create a PR for master to add the archived documentation and to bump to the next minor version (e.g. `1.27`)
+- Create a PR for the release branch to add the archived documentation
 
-1. On the day of release, run `make release-1.7.0`. This make target will change some variables in `master` and `release-1.6`, and create a new branch `release-1.7` for the new version.
+This script replaces the old process where an admin needed to run to commit directly to branches. The runner of this script *must* have enough permissions to create
+a release branch, but this should be doable for anyone on the docs team and parallels the process of branch cutting done by the release managers for minor versions in
+the other repositories.
 
-1. Go to the istio.io project on [Netlify](https://netlify.com) and do the following:
+This script requires the `gh` command line tool to be installed and authenticated. Please note that due to a limitation in the gh tool's PR creation ability, the forked
+repository must be created by a user and not an organization. See [this issue](https://github.com/cli/cli/issues/10093) for more details.
 
-    - Change the branch that is built from the previous release's branch to the new release branch, in this case `release-1.7` (or `release-1.7-dry-run` as appropriate).
+1. The script takes a single argument, the new minor version. For example, if the new minor version is `1.26`, run
+   `./scripts/create_minor_version.sh 1.26`. The script *requires* the `FORKED_REPO_SOURCE` environment variable to be set to the source of the forked repo. This is used
+    to do the work and to create PRs from
 
-    - Select the option to trigger an immediate rebuild and redeployment.
+1. Do a dry run before the official release to ensure everything is working as expected. This is done by specifying DRY_RUN=1 in the command line. For example:
+    `DRY_RUN=1 FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
+    push any changes to the repos
 
-    - Once deployment is done, browse istio.io and make sure everything looks good.
+1. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
+    `FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
+
+1. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://istio-staging.netlify.app and
+   verify that the new release branch is being used and the documentation looks correct
+
+1. The release managers should, at this time, merge the publish trigger PR in the release-builder repository
+
+1. Once the release is published, or very close to being completed, the docs WG should migrate the https://istio.io Netlify deployment to use this new release branch
 
 1. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 

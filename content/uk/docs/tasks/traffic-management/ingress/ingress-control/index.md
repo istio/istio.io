@@ -219,7 +219,7 @@ istio-ingressgateway   LoadBalancer   172.21.109.129   130.211.10.121   ...     
 
 Якщо встановлено значення `EXTERNAL-IP`, ваше середовище має зовнішнього балансувальника навантаження, який ви можете використовувати для вхідного шлюзу. Якщо значення `EXTERNAL-IP` дорівнює `<none>` (або постійно `<pending>`), у вашому середовищі не передбачено зовнішнього балансувальника навантаження для вхідного шлюзу.
 
-Якщо ваше середовище не підтримує зовнішні балансувальники навантаження, ви можете спробувати [доступ до вхідного шлюзу за допомогою портів вузла](#using-node-ports-of-the-ingress-gateway-service). В іншому випадку, встановіть IP-адресу і порти вхідного шлюзу за допомогою наступних команд:
+Якщо ваше середовище не підтримує зовнішні балансувальники навантаження, ви можете спробувати [доступ до вхідного шлюзу за допомогою портів вузла](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service). В іншому випадку, встановіть IP-адресу і порти вхідного шлюзу за допомогою наступних команд:
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -460,7 +460,7 @@ $ export TCP_INGRESS_PORT=$(kubectl -n "${INGRESS_NS}" get service "${INGRESS_NA
     $ kubectl get ingress --all-namespaces
     {{< /text >}}
 
-1.  Якщо у вас є зовнішній навантажувач, і він не працює, спробуйте [отримати доступ до шлюзу, використовуючи його NodePort](#using-node-ports-of-the-ingress-gateway-service).
+1.  Якщо у вас є зовнішній навантажувач, і він не працює, спробуйте [отримати доступ до шлюзу, використовуючи його NodePort](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 
 ## Очищення {#cleanup}
 

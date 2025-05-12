@@ -58,6 +58,20 @@ serviceSettings:
 
 {{< /tabset >}}
 
+Ви також можете обмежити доступ до сервісів, встановивши глобальне правило cluster-local і додавши явні винятки, які можуть бути конкретними або шаблонними. У наведеному нижче прикладі всі сервіси у кластері будуть локальними для кластера, окрім сервісів у просторі назв `myns`:
+
+{{< text yaml >}}
+serviceSettings:
+- settings:
+    clusterLocal: true
+  hosts:
+  - "*"
+- settings:
+    clusterLocal: false
+  hosts:
+  - "*.myns.svc.cluster.local"
+{{< /text >}}
+
 ## Розділення сервісів {#partitioning-services}
 
 [`DestinationRule.subsets`](/docs/reference/config/networking/destination-rule/#Subset) дозволяє розділяти сервіс, вибираючи мітки. Ці мітки можуть бути взяті з метаданих Kubernetes або з [вбудованих міток](/docs/reference/config/labels/). Одна з таких вбудованих міток, `topology.istio.io/cluster`, у селекторі підмножин для `DestinationRule` дозволяє створювати підмножини для кожного кластера.
