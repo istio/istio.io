@@ -21,7 +21,7 @@ Istio 1.26.0 is officially supported on Kubernetes versions 1.29 to 1.32. We exp
 
 ## A note on `EnvoyFilter` support in ambient mode
 
-`EnvoyFilter` is Istio's break glass API for advanced configuration of Envoy proxies. Please note that `EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies. While it may be possible to use EnvoyFilter in limited use-cases, its use in waypoint proxies is not supported, is discouraged, and may break in future releases as the API evolves. We expect official support will be provided at a later date.
+`EnvoyFilter` is Istio's break-glass API for advanced configuration of Envoy proxies. Please note that *`EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies*. While it may be possible to use `EnvoyFilter` with waypoints in limited scenarios, its use is not supported, and is actively discouraged by the maintainers. The alpha API may break in future releases as it evolves. We expect official support will be provided at a later date.
 
 ## What’s new?
 
