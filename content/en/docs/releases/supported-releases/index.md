@@ -71,8 +71,8 @@ Please keep up-to-date and use a supported version.
 | Minor Releases | Patched versions with no known CVEs |
 |----------------|-------------------------------------|
 | 1.26.x         | 1.26.0+                             |
-| 1.25.x         | 1.25.0+                             |
-| 1.24.x         | 1.24.0+                             |
+| 1.25.x         | 1.25.3+                             |
+| 1.24.x         | 1.24.6+                             |
 
 ## Supported Envoy Versions
 
