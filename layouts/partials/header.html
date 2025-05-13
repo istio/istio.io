@@ -1,14 +1,16 @@
 {{ $home := .Site.GetPage "home" }}
 
-{{/* --- Version Logic (needed for JS and conditional dropdown) --- */}}
-{{ $versionsData := site.Data.versions }}
-{{ $currentVersionIDFromParams := .Site.Params.currentVersionId | default ($versionsData.latest_version | default "") }}
-{{ $latestVersionID := $versionsData.latest_version | default "" }}
+{{/* --- Version Logic --- */}}
+{{ $mainVersionFromYaml := site.Data.versions.main }}
+{{ $currentBuildVersionId := .Site.Params.currentVersionId | default $mainVersionFromYaml }}
+{{ $isLatestBuild := eq $currentBuildVersionId $mainVersionFromYaml }}
 
-{{/* Calculate currentPathSegment - needed by navigateToVersionSimple JS function */}}
-{{ $currentPathSegment := "" }}
-{{ range $versionsData.versions }}{{ if eq .id $currentVersionIDFromParams }}{{ $currentPathSegment = .path_segment }}{{ end }}{{ end }}
-
+{{ $currentPathSegmentForJS := "" }}
+{{ if $isLatestBuild }}
+    {{ $currentPathSegmentForJS = "latest" }}
+{{ else }}
+    {{ $currentPathSegmentForJS = printf "v%s" $currentBuildVersionId }}
+{{ end }}
 
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
@@ -34,25 +36,62 @@
 
                     {{ if eq .Name "Documentation" }}
                         <li class="main-navigation-links-item">
-                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link {{ if and $versionsData }}has-dropdown{{ end }} {{ if $active }}active{{ end }}">
+                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link {{ if and $isLatestBuild }}has-dropdown{{ end }} {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
                                 {{ partial "icon.html" "dropdown-arrow" }}
                             </a>
 
-                            {{ if and $versionsData }}
+                            {{ if and $isLatestBuild }}
                                 <ul class="main-navigation-links-dropdown">
-                                    {{ range $versionsData.versions }}
-                                        <li class="main-navigation-links-dropdown-item">
-                                            <a href="javascript:void(0);"
-                                               data-pathsegment="{{ .path_segment }}"
-                                               onclick="navigateToVersionSimple(this.dataset.pathsegment); return false;"
-                                               class="main-navigation-links-link {{ if eq .id $currentVersionIDFromParams }}active-version-link{{ end }}">
-                                                {{ .display_name }}
-                                            </a>
-                                        </li>
-                                    {{ end }}
+                                    {{/* --- START DYNAMIC VERSION GENERATION (Always 5 items) --- */}}
+                                    {{ $startVersionString := site.Data.versions.main }}
+                                    {{ $parts := split $startVersionString "." }}
+
+                                    {{ if eq (len $parts) 2 }}
+                                        {{ $startMajor := index $parts 0 | int }}
+                                        {{ $startMinor := index $parts 1 | int }}
+                                        {{ $numberOfVersionsToList := 5 }}
+
+                                        {{ range $i, $e := seq $numberOfVersionsToList }}
+                                            {{ $minorOffset := sub $i 1 }} {{/* $i is 1-based from seq, offset is 0, 1, 2, 3, 4 */}}
+                                            {{ $genMinor := sub $startMinor $minorOffset }}
+                                            {{ $genMajor := $startMajor }} {{/* Assumes we stay within the same major for these 5 versions */}}
+
+                                            {{/* Only generate if the minor version is valid (e.g., >= 0) */}}
+                                            {{/* And we are still on the same major as the start version */}}
+                                            {{ if and (eq $genMajor $startMajor) (ge $genMinor 0) }}
+                                                {{ $currentGenVersionString := printf "%d.%d" $genMajor $genMinor }}
+                                                {{ $displayName := "" }}
+                                                {{ $pathSegment := "" }}
+                                                {{ $isActiveLink := false }}
+
+                                                {{ if eq $minorOffset 0 }} {{/* First item is the "main" version from YAML */}}
+                                                    {{ $displayName = printf "v%s (Latest)" $currentGenVersionString }}
+                                                    {{ $pathSegment = "latest" }}
+                                                    {{/* This item is active because we are on the latest build */}}
+                                                    {{ $isActiveLink = true }}
+                                                {{ else }}
+                                                    {{ $displayName = printf "v%s" $currentGenVersionString }}
+                                                    {{ $pathSegment = printf "v%s" $currentGenVersionString }}
+                                                    {{/* Older versions cannot be "active" in this dropdown */}}
+                                                {{ end }}
+
+                                                <li class="main-navigation-links-dropdown-item">
+                                                    <a href="javascript:void(0);"
+                                                       data-pathsegment="{{ $pathSegment }}"
+                                                       onclick="navigateToVersionSimple(this.dataset.pathsegment); return false;"
+                                                       class="main-navigation-links-link {{ if $isActiveLink }}active-version-link{{ end }}">
+                                                        {{ $displayName }}
+                                                    </a>
+                                                </li>
+                                            {{ end }} {{/* end if valid generated version */}}
+                                        {{ end }} {{/* End range seq iterations */}}
+                                    {{ else }}
+                                        <li class="main-navigation-links-dropdown-item"><span style="padding: .5rem 1.4rem; color: #ccc;">Error: Invalid 'main' version format in versions.yaml.</span></li>
+                                    {{ end }} {{/* end if valid parts for startVersionString */}}
+                                    {{/* --- END DYNAMIC VERSION GENERATION --- */}}
                                 </ul>
-                            {{ end }}
+                            {{ end }} {{/* end if $isLatestBuild */}}
                         </li>
                     {{ else if .HasChildren }}
                         <li class="main-navigation-links-item">
@@ -106,7 +145,7 @@
 <script>
   function navigateToVersionSimple(selectedVersionPathSegment) {
     const currentFullPath = window.location.pathname;
-    const currentVersionPathSegment = {{ $currentPathSegment | jsonify }};
+    const currentVersionPathSegment = {{ $currentPathSegmentForJS | jsonify }};
     const selectedTargetSegment = selectedVersionPathSegment;
 
     if (!currentVersionPathSegment && currentVersionPathSegment !== "" ) {
