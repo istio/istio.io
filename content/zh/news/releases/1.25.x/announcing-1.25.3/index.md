@@ -1,8 +1,8 @@
 ---
-title: Announcing Istio 1.25.3
+title: 发布 Istio 1.25.3
 linktitle: 1.25.3
-subtitle: Patch Release
-description: Istio 1.25.3 patch release.
+subtitle: 补丁发布
+description: Istio 1.25.3 补丁发布。
 publishdate: 2025-05-13
 release: 1.25.3
 ---
@@ -14,7 +14,7 @@ release: 1.25.3
 ## 安全更新 {#security-updates}
 
 - [CVE-2025-46821](https://nvd.nist.gov/vuln/detail/CVE-2025-46821)
-  (CVSS 评分 5.3，中): 绕过 RBAC `uri_template` 权限。
+  (CVSS 评分 5.3，中)：绕过 RBAC `uri_template` 权限。
 
 如果您在 `AuthorizationPolicy` 的路径字段中使用 `**`，建议您升级到 Istio 1.24.6。
 
