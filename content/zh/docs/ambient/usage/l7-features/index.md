@@ -15,7 +15,7 @@ VirtualService 与 Ambient 数据平面模式的结合使用仍处于 Alpha 阶�
 {{< /warning >}}
 
 {{< warning >}}
-`EnvoyFilter` 是 Istio 提供的用于 Envoy 代理高级配置的 Break-glass API。
+`EnvoyFilter` 是 Istio 的应急 API，用于对 Envoy 代理进行高级配置。
 请注意，**`EnvoyFilter` 目前不支持任何带有 waypoint 代理的现有 Istio 版本**。
 虽然在有限的场景下可以使用带有 waypoint 的 `EnvoyFilter`，
 但目前尚不支持该 API，并且维护人员也极力劝阻。随着 Alpha API 的不断发展，
