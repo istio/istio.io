@@ -53,7 +53,7 @@
                                         {{ $numberOfVersionsToList := 5 }}
 
                                         {{ range $i, $e := seq $numberOfVersionsToList }}
-                                            {{ $minorOffset := sub $i 1 }} {{/* $i is 1-based from seq, offset is 0, 1, 2, 3, 4 */}}
+                                            {{ $minorOffset :=  $i }} {{/* can subtract from i to show preliminary */}}
                                             {{ $genMinor := sub $startMinor $minorOffset }}
                                             {{ $genMajor := $startMajor }} {{/* Assumes we stay within the same major for these 5 versions */}}
 
@@ -156,7 +156,7 @@
 
     let contentPath = '';
     let foundContent = false;
-    const knownContentPrefixes = ['docs/', 'blog/', 'news/', 'about/', 'faq/', 'operations/', 'tasks/', 'reference/', 'concepts/', 'samples/', 'download/', 'search/'];
+    const knownContentPrefixes = ['docs/', 'blog/', 'news/', 'about/', 'search/', 'get-involved/'];
 
     for (const prefix of knownContentPrefixes) {
         const index = currentFullPath.indexOf('/' + prefix);
