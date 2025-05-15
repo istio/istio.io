@@ -23,7 +23,7 @@
     {{ end }}
 {{ end }}
 
-<ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby}}aria-labelledby="{{ $labelledby }}"{{ end }}>
+<ul role="{{ if $top }}tree{{ else }}group{{ end }}" aria-expanded="{{ if $collapse }}false{{ else }}true{{ end }}"{{ if $leafSection }} class="leaf-section"{{ end }} {{ if $labelledby }}aria-labelledby="{{ $labelledby }}"{{ end }}>
     {{ range $pages }}
         {{ $pageLocation := (path.Dir (path.Dir .File.Dir)) }}
         {{ if and (eq $parentDir $pageLocation) (not .Params.draft) }}
@@ -42,22 +42,28 @@
             {{ end }}
 
             {{ if not .IsPage }}
-                <li role="treeitem" aria-label="{{ $linktitle}}">
+                <li role="treeitem" aria-label="{{ $linktitle }}">
                     {{ $collapse := not (.IsAncestor $current) }}
                     {{ if eq . $current }}
                         {{ $collapse = true }}
                     {{ end }}
 
-                    {{if lt (len $pageLocation) 6 -}}
-                        <a class='main' title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle}}</a>
-                        {{ partial "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" false "top" false "labelledby" "" ) .CurrentSection }}
-                    {{ else if (.CurrentSection.IsAncestor $current) }}
-                        <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true" tabindex="-1" ></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle}}</a>
-                        {{ partial "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
-                    {{- else -}}
-                        <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true" tabindex="-1" ></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle}}</a>
-                        {{ partialCached "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) .CurrentSection }}
-                    {{- end -}}
+                    {{ if lt (len $pageLocation) 6 }}
+                        <a class='main' title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle }}</a>
+                        {{ if and .CurrentSection (ne .CurrentSection .) (ne .CurrentSection $parent) (ne .CurrentSection $current) .CurrentSection.Pages }}
+                            {{ partial "navigation_level.html" (dict "pages" .CurrentSection.Pages "parent" . "current" $current "collapse" false "top" false "labelledby" "") }}
+                        {{ end }}
+                    {{ else if .CurrentSection.IsAncestor $current }}
+                        <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true" tabindex="-1"></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle }}</a>
+                        {{ if and .CurrentSection (ne .CurrentSection .) (ne .CurrentSection $parent) (ne .CurrentSection $current) .CurrentSection.Pages }}
+                            {{ partial "navigation_level.html" (dict "pages" .CurrentSection.Pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "") }}
+                        {{ end }}
+                    {{ else }}
+                        <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true" tabindex="-1"></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle }}</a>
+                        {{ if and .CurrentSection (ne .CurrentSection .) (ne .CurrentSection $parent) (ne .CurrentSection $current) .CurrentSection.Pages }}
+                            {{ partial "navigation_level.html" (dict "pages" .CurrentSection.Pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "") }}
+                        {{ end }}
+                    {{ end }}
                 </li>
             {{ else }}
                 <li role="none">
