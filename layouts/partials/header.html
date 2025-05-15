@@ -4,6 +4,7 @@
 {{ $mainVersionFromYaml := site.Data.versions.main }}
 {{ $currentBuildVersionId := .Site.Params.currentVersionId | default $mainVersionFromYaml }}
 {{ $isLatestBuild := eq $currentBuildVersionId $mainVersionFromYaml }}
+{{ $isDocsPage := eq .Section "docs" }}
 
 {{ $currentPathSegmentForJS := "" }}
 {{ if $isLatestBuild }}
@@ -41,7 +42,7 @@
                                 {{ partial "icon.html" "dropdown-arrow" }}
                             </a>
 
-                            {{ if and $isLatestBuild }}
+                            {{ if and $isLatestBuild $isDocsPage }}
                                 <ul class="main-navigation-links-dropdown">
                                     {{/* --- START DYNAMIC VERSION GENERATION (Always 5 items) --- */}}
                                     {{ $startVersionString := site.Data.versions.main }}
