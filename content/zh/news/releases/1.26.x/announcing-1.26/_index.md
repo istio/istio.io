@@ -22,6 +22,14 @@ Istio 1.26.0 已正式支持 Kubernetes 1.29 至 1.32 版本。
 我们预计 1.33 版本也能支持，并计划在 Istio 1.26.1 版本发布之前进行测试和支持。
 {{< /tip >}}
 
+## 关于 Ambient 模式下 `EnvoyFilter` 支持的说明 {#a-note-on-envoyfilter-support-in-ambient-mode}
+
+`EnvoyFilter` 是 Istio 的应急 API，用于对 Envoy 代理进行高级配置。
+请注意，**`EnvoyFilter` 目前不支持任何带有 waypoint 代理的现有 Istio 版本**。
+虽然在有限的场景下可以使用带有 waypoint 的 `EnvoyFilter`，
+但目前尚不支持该 API，并且维护人员也极力劝阻。随着 Alpha API 的不断发展，
+未来版本中可能会出现问题。我们预计官方支持将在稍后提供。
+
 ## 新特性 {#whats-new}
 
 ### 定制 Gateway API 提供的资源 {#customization-of-resources-provisioned-by-the-gateway-api}
