@@ -1,0 +1,18 @@
+.archive-warning-banner {
+    background-color: #fff3cd;
+    color: #664d03;
+    padding: 1rem;
+    border-bottom: 1px solid #ffecb5;
+    text-align: center;
+
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    a {
+        font-weight: bold;
+        text-decoration: underline;
+        color: #413002; // Making link slightly darker than banner text for better contrast/visibility
+    }
+}

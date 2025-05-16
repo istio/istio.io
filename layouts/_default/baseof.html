@@ -158,13 +158,10 @@
         {{ partial "header.html" . }}
 
         <!-- Archived Documentation Header -->
-        {{ $archiveVersion := "v1.24" }}
-        {{ if eq .Section "docs" }}
-        <div class="archive-warning-banner" role="alert" 
-        style="background-color: #fff3cd; color: #664d03; padding: 1rem; border-bottom: 1px solid #ffecb5; text-align: center;">
-        <p style="margin-bottom: 0; margin-top: 0;">⚠️ This documentation is for an older version (<strong>{{ .Site.Data.args.version }}</strong>) and is no longer updated. 
-            <a href="/latest{{ .RelPermalink | safeURL }}" 
-            style="font-weight: bold; text-decoration: underline;">Read the latest version</a>.</p>
+        {{ if and (eq .Section "docs") .Site.Data.args.archive}}
+        <div class="archive-warning-banner" role="alert">
+            <p>⚠️ This documentation is for an older version (<strong>{{ .Site.Data.args.version }}</strong>) and is no longer updated.
+                <a href="/latest{{ .RelPermalink | safeURL }}">Read the latest version</a>.</p>
         </div>
         {{ end }}
 
