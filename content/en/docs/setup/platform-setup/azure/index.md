@@ -72,7 +72,7 @@ infrastructure:
 
 where `<http[s] port>` is the port number of your HTTP(S) listener.
 If you have multiple HTTP(S) listeners, you need to add an annotation for each listener.
-This annotation is required for Azure Load Balancer health checks to work when the `/` path responds with a non 200-code.
+This annotation is required for Azure Load Balancer health checks to work when the `/` path does not respond with a 200.
 
 For example, if you are following the [Ingress Gateways](docs/setup/getting-started) example using Gateway API, you will need deploy the following `Gateway` instead:
 
