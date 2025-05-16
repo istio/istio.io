@@ -41,7 +41,3 @@ kubectl get gateway
 NAME               CLASS   ADDRESS                                            PROGRAMMED   AGE
 bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         42s
 ENDSNIP
-
-snip_deploy_and_configure_the_ingress_gateway_4() {
-kubectl annotate svc/bookinfo-gateway-istio service.beta.kubernetes.io/port_80_health-probe_protocol=tcp
-}

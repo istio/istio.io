@@ -187,14 +187,6 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
     $ export INGRESS_PORT=$(kubectl get gtw bookinfo-gateway -o jsonpath='{.spec.listeners[?(@.name=="http")].port}')
     {{< /text >}}
 
-    {{< tip >}}
-    If you use Azure Kubernetes Service (AKS), you also need to run
-    {{< text bash >}}
-    $ kubectl annotate svc/bookinfo-gateway-istio service.beta.kubernetes.io/port_80_health-probe_protocol=tcp
-    {{< /text >}}
-    for Azure Load Balancer health probes to work correctly.
-    {{< /tip >}}
-
     {{< /tab >}}
 
     {{< /tabset >}}

@@ -61,14 +61,6 @@ bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   Tr
 
 Wait for the gateway to show as programmed before continuing.
 
-{{< tip >}}
-If you use Azure Kubernetes Service (AKS), and want to keep the service type as `LoadBalancer` to access it without a tunnel, you also need to run
-{{< text bash >}}
-$ kubectl annotate svc/bookinfo-gateway-istio service.beta.kubernetes.io/port_80_health-probe_protocol=tcp
-{{< /text >}}
-for Azure Load Balancer health probes to work correctly.
-{{< /tip >}}
-
 ## Access the application
 
 You will connect to the Bookinfo `productpage` service through the gateway you just provisioned. To access the gateway, you need to use the `kubectl port-forward` command:
