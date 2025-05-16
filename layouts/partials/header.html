@@ -39,7 +39,9 @@
                         <li class="main-navigation-links-item">
                             <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link {{ if and $isLatestBuild }}has-dropdown{{ end }} {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
-                                {{ partial "icon.html" "dropdown-arrow" }}
+                                {{ if and $isDocsPage}}
+                                    {{ partial "icon.html" "dropdown-arrow" }}
+                                {{ end }}
                             </a>
 
                             {{ if and $isLatestBuild $isDocsPage }}
