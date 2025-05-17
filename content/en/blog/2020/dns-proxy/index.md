@@ -6,7 +6,7 @@ publishdate: 2020-11-12
 attribution: "Shriram Rajagopalan (Tetrate.io) on behalf of Istio Networking WG"
 keywords: [dns,sidecar,multicluster,vm,external services]
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 DNS resolution is a vital component of any application infrastructure
 on Kubernetes. When your application code attempts to access another
 service in the Kubernetes cluster or even a service on the internet,

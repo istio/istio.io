@@ -7,6 +7,7 @@ attribution: Antonio Berben (Deutsche Telekom - PAN-NET)
 keywords: [configuration,egress,gateway,external,service]
 target_release: 1.8.0
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 At [Deutsche Telekom Pan-Net](https://pan-net.cloud/aboutus), we have embraced Istio as the umbrella to cover our services. Unfortunately, there are services which have not yet been migrated to Kubernetes, or cannot be.
 

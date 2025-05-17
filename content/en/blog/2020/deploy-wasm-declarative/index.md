@@ -6,6 +6,7 @@ publishdate: 2020-03-16
 attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 As outlined in the [Istio 2020 trade winds blog](/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm.
 

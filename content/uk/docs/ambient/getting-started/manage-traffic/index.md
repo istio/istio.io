@@ -5,6 +5,7 @@ weight: 5
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Тепер, коли у нас встановлено проксі waypoint, ми дізнаємось як розподіляти трафік між сервісами.
 
