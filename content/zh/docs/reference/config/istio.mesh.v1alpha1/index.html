@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 78
+number_of_entries: 80
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -437,6 +437,15 @@ For example <code>outbound|8080|v2|reviews.prod.svc.cluster.local</code>. This c
 
 </td>
 </tr>
+<tr id="MeshConfig-service_scope_configs">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-service_scope_configs">serviceScopeConfigs</a></code></div>
+<div class="type"><a href="#MeshConfig-ServiceScopeConfigs">ServiceScopeConfigs[]</a></div>
+</div></td>
+<td>
+<p>Scope to be applied to select services.</p>
+
+</td>
+</tr>
 <tr id="MeshConfig-enable_prometheus_merge">
 <td><div class="field"><div class="name"><code><a href="#MeshConfig-enable_prometheus_merge">enablePrometheusMerge</a></code></div>
 <div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
@@ -734,6 +743,97 @@ If only trustDomains is set, this trustAnchor is used for these trustDomains and
 If only certSigners is set, this trustAnchor is used for these certSigners and all trust domains.
 If both certSigners and trustDomains is set, this trustAnchor is only used for these signers and trust domains.</p>
 
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="MeshConfig-ServiceScopeConfigs">ServiceScopeConfigs</h3>
+<section>
+<p>Configuration for ambient mode multicluster service scope. This setting allows mesh administrators
+to define the criteria by which the cluster&rsquo;s control plane determines which services in other
+clusters in the mesh are treated as global (accessible across multiple clusters) versus local
+(restricted to a single cluster). The configuration can be applied to services based on namespace
+and/or other matching criteria. This is particularly  useful in multicluster service mesh deployments
+to control service visibility and access across clusters. This API is not intended to enforce
+security policies. Resources like DestinationRules should be used to enforce authorization policies.
+If a service matches a global service scope selector, the service&rsquo;s endpoints will be globally
+exposed. If a service is locally scoped, its endpoints will only be exposed to local cluster
+services.</p>
+<p>For example, the following configures the scope of all services with the &ldquo;istio.io/global&rdquo; label
+in matching namespaces to be available globally:</p>
+<pre><code class="language-yaml">serviceScopeConfigs:
+ - namespacesSelector:
+     matchExpressions:
+       - key: istio.io/global
+         operator: In
+         values: [true]
+   servicesSelector:
+     matchExpressions:
+       - key: istio.io/global
+         operator: Exists
+   scope: GLOBAL
+</code></pre>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ServiceScopeConfigs-namespace_selector">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ServiceScopeConfigs-namespace_selector">namespaceSelector</a></code></div>
+<div class="type"><a href="#LabelSelector">LabelSelector</a></div>
+</div></td>
+<td>
+<p>Match expression for namespaces.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ServiceScopeConfigs-services_selector">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ServiceScopeConfigs-services_selector">servicesSelector</a></code></div>
+<div class="type"><a href="#LabelSelector">LabelSelector</a></div>
+</div></td>
+<td>
+<p>Match expression for serivces.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ServiceScopeConfigs-scope">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ServiceScopeConfigs-scope">scope</a></code></div>
+<div class="type"><a href="#MeshConfig-ServiceScopeConfigs-Scope">Scope</a></div>
+</div></td>
+<td>
+<p>Specifics the available scope for matching services.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="MeshConfig-ServiceScopeConfigs-Scope">Scope</h4>
+<section>
+<p>The scope of the matching service. Used to determine if the service is available locally
+(cluster local) or globally (mesh-wide).</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ServiceScopeConfigs-Scope-LOCAL">
+<td><code><a href="#MeshConfig-ServiceScopeConfigs-Scope-LOCAL">LOCAL</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="MeshConfig-ServiceScopeConfigs-Scope-GLOBAL">
+<td><code><a href="#MeshConfig-ServiceScopeConfigs-Scope-GLOBAL">GLOBAL</a></code></td>
+<td>
 </td>
 </tr>
 </tbody>
