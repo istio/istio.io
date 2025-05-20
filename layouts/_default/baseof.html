@@ -160,8 +160,8 @@
         <!-- Archived Documentation Header -->
         {{ if and (eq .Section "docs") .Site.Data.args.archive}}
         <div class="archive-warning-banner" role="alert">
-            <p>⚠️ This documentation is for an older version (<strong>{{ .Site.Data.args.version }}</strong>) and is no longer updated.
-                <a href="/latest{{ .RelPermalink | safeURL }}">Read the latest version</a>.</p>
+            {{ (printf (i18n "archive_banner_text") .Site.Data.args.version) | safeHTML }}
+            <a href="/latest{{ .RelPermalink | safeURL }}">{{ i18n "archive_banner_link" }}</a>
         </div>
         {{ end }}
 
