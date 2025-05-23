@@ -113,7 +113,7 @@ _wait_for_istio() {
     local name="$3"
     local max_attempts=30
     local attempt=1
-    local sleep_time=2
+    local sleep_time=1
     local found=0
     while (( attempt <= max_attempts )); do
         # Check if the resource exists
