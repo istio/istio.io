@@ -916,8 +916,7 @@ the speed of traffic ramp-up increases non-linearly.</p>
 <h2 id="ConnectionPoolSettings">ConnectionPoolSettings</h2>
 <section>
 <p>Connection pool settings for an upstream host. The settings apply to
-each individual host in the upstream service.  See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">circuit
-breaker</a>
+each individual host in the upstream service.  See [Envoy's circuit breaker](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking)
 for more details. Connection pool settings can be applied at the TCP
 level as well as at HTTP level.</p>
 <p>For example, the following rule sets a limit of 100 connections to redis
@@ -1104,7 +1103,7 @@ Default is to use the OS level configuration
 <td>
 <p>Maximum number of requests that will be queued while waiting for
 a ready connection pool connection. Default 2^32-1.
-Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking">Envoy Circuit Breaking</a>
+Refer to [Envoy Circuit Breaking](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking)
 under which conditions a new connection is created for HTTP/2.
 Please note that this is applicable to both HTTP/1.1 and HTTP/2.</p>
 
@@ -1389,8 +1388,7 @@ applicable in k8s environments with few pods per service.</p>
 </section>
 <h2 id="ClientTLSSettings">ClientTLSSettings</h2>
 <section>
-<p>SSL/TLS related settings for upstream connections. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto.html#common-tls-configuration">TLS
-context</a>
+<p>SSL/TLS related settings for upstream connections. See Envoy’s [TLS context](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto.html#common-tls-configuration)
 for more details. These settings are common to both HTTP and TCP upstreams.</p>
 <p>For example, the following rule configures a client to use mutual TLS
 for connections to upstream database cluster.</p>
