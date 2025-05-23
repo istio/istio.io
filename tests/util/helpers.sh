@@ -108,19 +108,31 @@ _wait_for_statefulset() {
 # Wait for Istio config to propagate
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
-    #local kind="$1"
-    #local namespace="$2"
-    #local name="$3"
-    local start=$(date +%s)
-    sleep 1s
-    # @TODO: Rewrite this to *NOT* use istioctl experimental wait, since it was removed
-    # https://github.com/istio/istio.io/issues/16429
-    #if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
-        #echo "Failed distribution of $kind $name in namespace $namespace"
-        #istioctl ps
-        #echo "TEST: wait for failed, but continuing."
-    #fi
-    echo "Duration: $(($(date +%s)-start)) seconds"
+    local kind="$1"
+    local namespace="$2"
+    local name="$3"
+    local max_attempts=30
+    local attempt=1
+    local sleep_time=2
+    local found=0
+    while (( attempt <= max_attempts )); do
+        # Check if the resource exists
+        if kubectl get "$kind" "$name" -n "$namespace" >/dev/null 2>&1; then
+            found=1
+            # Optionally, check status.conditions if available (for Gateway API, etc.)
+            # For most Istio CRDs, just existence is the best we can do
+            break
+        fi
+        sleep "$sleep_time"
+        ((attempt++))
+    done
+    if [[ $found -eq 0 ]]; then
+        echo "Timed out waiting for $kind $name in namespace $namespace to be created."
+        kubectl get "$kind" -n "$namespace"
+        return 1
+    fi
+    # Optionally, add more advanced checks for config distribution if needed
+    echo "$kind $name in namespace $namespace is present."
 }
 
 # Wait for named Gateway API gateway to be ready
