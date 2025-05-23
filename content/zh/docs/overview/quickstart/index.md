@@ -3,7 +3,7 @@ title: "快速入门"
 description: 了解如何通过简单的示例安装开始。
 weight: 50
 keywords: [introduction]
-owner: istio/wg-docs-maintainers-english
+owner: istio/wg-docs-maintainers-chinese
 skip_seealso: true
 test: n/a
 ---
