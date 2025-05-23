@@ -384,3 +384,9 @@ other = "转到解决方案"
 
 [case_study_slogan]
 other = "阅读因实施 Istio 而受益的公司案例"
+
+[archive_banner_text]
+other = "⚠️ 此文档针对过时的版本 (<strong>%s</strong>)，将不在维护和更新。"
+
+[archive_banner_link]
+other = "查看最新文档。"
