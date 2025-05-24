@@ -115,26 +115,27 @@ _wait_for_istio() {
     local attempt=1
     local sleep_time=1
     local found=0
-    local start=$(date +%s)
+    local start
+    start="$(date +%s)"
+
     while (( attempt <= max_attempts )); do
         # Check if the resource exists
         if kubectl get "$kind" "$name" -n "$namespace" >/dev/null 2>&1; then
             found=1
-            # Optionally, check status.conditions if available (for Gateway API, etc.)
-            # For most Istio CRDs, just existence is the best we can do
+            # Optionally, check status.conditions if needed
             break
         fi
         sleep "$sleep_time"
         ((attempt++))
     done
+
     if [[ $found -eq 0 ]]; then
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
         kubectl get "$kind" -n "$namespace"
-        # istioctl ps
-        echo "Duration: $(($(date +%s) - $start)) seconds"
+        echo "Duration: $(( $(date +%s) - start )) seconds"
         return 1
     fi
-    # Optionally, add more advanced checks for config distribution if needed
+
     echo "$kind $name in namespace $namespace is present."
 }
 
