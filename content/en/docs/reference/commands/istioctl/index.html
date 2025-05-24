@@ -8373,12 +8373,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>If true, GKE will be detected automatically.</td>
 </tr>
 <tr>
-<td><code>BYPASS_OVERLOAD_MANAGER_FOR_STATIC_LISTENERS</code></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If enabled, overload manager will not be applied to static listeners</td>
-</tr>
-<tr>
 <td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
 <td>String</td>
 <td><code></code></td>
@@ -9398,6 +9392,8 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>ambient_istiod_managed_clusters</code></td><td><code>LastValue</code></td><td>Number of clusters managed by istiod</td></tr>
+<tr><td><code>ambient_remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>auto_registration_deletes_total</code></td><td><code>Sum</code></td><td>Total number of auto registration cleaned up by periodic timer.</td></tr>
 <tr><td><code>auto_registration_errors_total</code></td><td><code>Sum</code></td><td>Total number of auto registration errors.</td></tr>
 <tr><td><code>auto_registration_success_total</code></td><td><code>Sum</code></td><td>Total number of successful auto registrations.</td></tr>
