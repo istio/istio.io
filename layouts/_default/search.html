@@ -3,56 +3,137 @@
 {{ partial "primary_top.html" . }}
 
 <div class="search-results">
-    <script>
-        (function() {
-            let cx;
-            {{ if .Site.Data.args.preliminary }}
-                cx = '{{ .Site.Data.args.preliminary_search_engine_id }}';
-            {{ else if .Site.Data.args.archive }}
-                cx = '{{ .Site.Data.args.archive_search_engine_id }}';
-            {{ else }}
-                cx = '{{ .Site.Data.args.main_search_engine_id }}';
-            {{ end }}
-            if(window.location.href.includes('&site=')){
-                cx = '{{ .Site.Data.args.docs_search_engine_id }}';
-            }
-                const gcse = document.createElement('script');
-                gcse.type = 'text/javascript';
-                gcse.async = true;
-                gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-                const s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(gcse, s);
-            })();
-    </script>
-
-    {{ if .Site.Data.args.archive }}
-        <gcse:searchresults-only defaultToRefinement="{{ .Site.Data.args.archive_search_refinement }}"></gcse:searchresults-only>
-    {{ else }}
-        <gcse:searchresults-only></gcse:searchresults-only>
-    {{ end }}
+    <div id="search-query-header"></div>
+    <div id="search-results">Loading results...</div>
+    <div id="pagination-controls">
+        <div>
+            <button id="prev-page" class="btn" onclick="applyFilter(this)" disabled>Previous</button>
+        </div>
+        <span id="page-info"></span>
+        <div>
+            <button id="next-page" class="btn" onclick="applyFilter(this)" disabled>Next</button>
+        </div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
 <script>
-    function getParameterByName(name, url) {
-        if (!url) {
-            url = window.location.href;
-        }
+    const appId = '95IG3UJ1LV';
+    const apiKey = '23827432dd1f4c529eece856289a421c';
+    const indexName = 'istio';
+
+    const searchClient = algoliasearch(appId, apiKey);
+    const index = searchClient.initIndex(indexName);
+
+    function getParameterByName(name, url = window.location.href) {
         name = name.replace(/[\[\]]/g, "\\$&");
-        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-        if (!results) {
-            return null;
-        }
-        if (!results[2]) {
-            return '';
-        }
+        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+        const results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-    const q = getParameterByName('q', window.location.href);
-    document.getElementsByName('q')[0].value = q;
+
+    function updateURLParam(param, value) {
+        const url = new URL(window.location.href);
+        url.searchParams.set(param, value);
+        window.history.pushState({}, '', url);
+    }
+
+    const query = getParameterByName('q') || '';
+    let page = parseInt(getParameterByName('page')) || 0;
+    const hitsPerPage = 10;
+
+    document.getElementById('search-query-header').innerHTML = `
+        <h3>Search results for "<strong>${query}</strong>"</h3>
+    `;
+
+    function runSearch() {
+        index.search(query, {
+            hitsPerPage,
+            page
+        }).then(({ hits, nbPages }) => {
+            const container = document.getElementById('search-results');
+            if (hits.length === 0) {
+                container.innerHTML = `<p>No results found for "<strong>${query}</strong>".</p>`;
+                document.getElementById('pagination-controls').style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = hits.map(hit => {
+                const title = hit.hierarchy?.lvl1 || '(No Title)';
+                const subtitle = hit.hierarchy?.lvl2 ? ` > ${hit.hierarchy.lvl2}` : '';
+                const fullUrl = hit.anchor ? `${hit.url_without_anchor}#${hit.anchor}` : hit.url;
+
+                return `
+                    <div class="search-hit">
+                        <a href="${fullUrl}">
+                            <h2>${title}${subtitle}</h2>
+                            <p>${hit.content?.substring(0, 160) || ''}</p>
+                        </a>
+                        <div class="hit-meta">
+                            <span><strong>URL:</strong> <a href="${fullUrl}">${fullUrl}</a></span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('pagination-controls').style.display = 'flex';
+            document.getElementById('page-info').textContent = `Page ${page + 1} of ${nbPages}`;
+            document.getElementById('prev-page').disabled = page <= 0;
+            document.getElementById('next-page').disabled = page + 1 >= nbPages;
+        }).catch(err => {
+            document.getElementById('search-results').innerHTML = `<p>Error fetching results: ${err.message}</p>`;
+        });
+    }
+
+    document.getElementById('prev-page').addEventListener('click', () => {
+        if (page > 0) {
+            page--;
+            updateURLParam('page', page);
+            runSearch();
+        }
+    });
+
+    document.getElementById('next-page').addEventListener('click', () => {
+        page++;
+        updateURLParam('page', page);
+        runSearch();
+    });
+
+    runSearch();
 </script>
 
-{{ .Content }}
+<style>
+    .search-results {
+        padding: 1rem;
+    }
+    .search-hit {
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 1rem;
+    }
+    .search-hit a {
+        text-decoration: none;
+        color: inherit;
+    }
+    .search-hit h2 {
+        margin-bottom: 0.5rem;
+        color: #0052cc;
+    }
+    .hit-meta {
+        font-size: 0.9rem;
+        color: #555;
+        margin-top: 0.5rem;
+        word-break: break-word;
+    }
+    .hit-meta a {
+        color: #0366d6;
+        text-decoration: none;
+    }
+    .hit-meta a:hover {
+        text-decoration: underline;
+    }
+</style>
 
 {{ partial "primary_bottom.html" . }}
 
