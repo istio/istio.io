@@ -18,3 +18,7 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-XSS-Protection = "1; mode=block"
+
+[[edge_functions]]
+  path = "/v*"
+  function = "redirect-to-latest"
