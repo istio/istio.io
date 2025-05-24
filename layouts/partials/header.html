@@ -49,10 +49,39 @@
             </ul>
 
             <div class="main-navigation-footer">
-                <div id="docsearch" class="search-show"></div>
-                <a href='{{ "/docs/setup/getting-started" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
+                <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
+                <a href='{{ "/docs/overview/quickstart" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
             </div>
             
         </div>
+
+        <form id="search-form" class="search" name="cse" role="search" onsubmit="return redirectToSearch(event)">
+        <input id="search-textbox" class="search-textbox form-control" name="q" type="search" placeholder="Search..." />
+        <button id="search-close" type="reset">{{ partial "icon.html" "menu-close" }}</button>
+        </form>
+
+        <script>
+        function redirectToSearch(event) {
+            event.preventDefault();
+
+            const query = document.getElementById('search-textbox').value.trim();
+            if (!query) return false;
+
+            const pathParts = window.location.pathname.split('/');
+            let version = 'latest'; 
+            
+            for (const part of pathParts) {
+                if (/^v[0-9.]+$/.test(part)) {
+                    version = part;
+                    break;
+                }
+            }
+            const searchUrl = `/${version}/search?q=${encodeURIComponent(query)}`;
+            window.location.href = searchUrl;
+            return false;
+        }
+        </script>
+
+
     </nav>
 </header>
