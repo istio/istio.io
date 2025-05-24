@@ -5,6 +5,7 @@ weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Kubernetes [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) дозволяє контролювати, як трафік рівня 4 досягає ваших podʼів.
 

@@ -6,6 +6,7 @@ attribution: John Howard - solo.io; Translated by Wilson Wu (DaoCloud)
 keywords: [istio, traffic, API]
 target_release: 1.22
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 我们很高兴地宣布 [Gateway API](https://gateway-api.sigs.k8s.io/)
 中的服务网格支持现已正式“稳定”！在此版本中（Gateway API v1.1 和 Istio v1.22 的一部分），

@@ -8,6 +8,7 @@ attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
 target_release: 1.1
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
 
 In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services
 can be consumed by in-mesh Istio applications via TCP. In this post, I demonstrate consuming external MongoDB services.

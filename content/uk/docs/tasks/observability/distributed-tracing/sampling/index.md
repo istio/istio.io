@@ -6,6 +6,7 @@ keywords: [sampling, telemetry, tracing, opentelemetry]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio надає кілька способів налаштування вибірки трейсів. На цій сторінці ви дізнаєтеся і зрозумієте всі різні способи налаштування вибірки.
 

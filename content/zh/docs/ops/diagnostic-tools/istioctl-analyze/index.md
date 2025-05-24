@@ -6,6 +6,7 @@ keywords: [istioctl, debugging, kubernetes]
 owner: istio/wg-user-experience-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 `istioctl analyze` 是一个诊断工具，可以检测 Istio 配置的潜在问题。
 它检测的目标可以是一个正在运行的集群，也可以是一组本地配置文件。

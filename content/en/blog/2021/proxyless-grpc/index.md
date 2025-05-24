@@ -4,6 +4,7 @@ description: Introduction to Istio support for gRPC's proxyless service mesh fea
 publishdate: 2021-10-28
 attribution: "Steven Landow (Google)"
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio dynamically configures its Envoy sidecar proxies using a set of discovery APIs, collectively known as the
 [xDS APIs](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration).

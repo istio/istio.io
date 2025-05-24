@@ -8,6 +8,7 @@ keywords: [traffic-management,timeouts]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 У цьому завданні показано, як налаштувати таймаути запитів в Envoy за допомогою Istio.
 
