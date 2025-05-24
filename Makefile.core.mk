@@ -149,7 +149,7 @@ netlify_install:
 	@npm install --omit=dev --save-dev \
 		babel-preset-minify@v0.5.2
 	@npm install --save \
-		core-js@3.31.1
+		core-js@3.42.0
 
 netlify: netlify_install
 	@scripts/gen_site.sh
