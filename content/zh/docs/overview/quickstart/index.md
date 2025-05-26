@@ -22,7 +22,6 @@ Istio 有两种主要模式：**Ambient 模式**和 **Sidecar 模式**。
 Istio 社区的大部分精力都投入到了 Ambient 模式的改进上，
 尽管 Sidecar 模式仍然得到全面支持。任何贡献给项目的主要新功能都有望在两种模式下运行。
 
-In general, **we recommend that new users start with ambient mode**. It is faster, cheaper, and easier to manage. There are [advanced use cases](/docs/overview/dataplane-modes/#unsupported-features) that still require the use of sidecar mode, but closing these gaps is on our 2025 roadmap.
 一般来说，**我们建议新用户从 Ambient 模式开始**。它速度更快、
 成本更低，而且更易于管理。有些[高级用例](/zh/docs/overview/dataplane-modes/#unsupported-features)仍然需要使用 Sidecar 模式，
 但弥补这些不足是我们 2025 年路线图上的目标。
