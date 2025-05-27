@@ -385,3 +385,9 @@ other = "Go to solutions"
 
 [case_study_slogan]
 other = "Read case studies of companies that benefited from implementing Istio"
+
+[archive_banner_text]
+other = "⚠️ This documentation is for an older version (<strong>%s</strong>) and is no longer updated."
+
+[archive_banner_link]
+other = "Read the latest version."
