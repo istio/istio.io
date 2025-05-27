@@ -52,9 +52,9 @@ else
     snip_apply_weightbased_tcp_routing_1
 
     # wait for rules to propagate
-    _wait_for_istio gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
-    _wait_for_istio destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
-    _wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+    _wait_for_resource gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
+    _wait_for_resource destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
+    _wait_for_resource virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
     # export the INGRESS_ environment variables
     _set_ingress_environment_variables
@@ -72,7 +72,7 @@ else
     snip_apply_weightbased_tcp_routing_5
 
     # wait for rules to propagate
-    _wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+    _wait_for_resource virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
     _verify_elided snip_apply_weightbased_tcp_routing_7 "$snip_apply_weightbased_tcp_routing_7_out"
 fi

@@ -50,10 +50,10 @@ else
     snip_route_to_version_1_1
 
     # wait for rules to propagate
-    _wait_for_istio virtualservice default productpage
-    _wait_for_istio virtualservice default reviews
-    _wait_for_istio virtualservice default ratings
-    _wait_for_istio virtualservice default details
+    _wait_for_resource virtualservice default productpage
+    _wait_for_resource virtualservice default reviews
+    _wait_for_resource virtualservice default ratings
+    _wait_for_resource virtualservice default details
 
     # confirm route rules are set
     _verify_elided snip_route_to_version_1_3 "$snip_route_to_version_1_3_out"
@@ -77,7 +77,7 @@ else
     snip_route_based_on_user_identity_1
 
     # wait for rules to propagate
-    _wait_for_istio virtualservice default reviews
+    _wait_for_resource virtualservice default reviews
 
     # confirm route rules are set
     _verify_elided snip_route_based_on_user_identity_2 "$snip_route_based_on_user_identity_2_out"

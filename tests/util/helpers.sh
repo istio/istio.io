@@ -105,38 +105,24 @@ _wait_for_statefulset() {
     fi
 }
 
-# Wait for Istio config to propagate
-# usage: _wait_for_istio <kind> <namespace> <name>
-_wait_for_istio() {
+# Wait for resource to be created
+# usage: _wait_for_resource <kind> <namespace> <name>
+_wait_for_resource() {
     local kind="$1"
     local namespace="$2"
     local name="$3"
-    local max_attempts=30
-    local attempt=1
-    local sleep_time=1
-    local found=0
-    local start
-    start="$(date +%s)"
+    local start_time
+    start_time="$(date +%s)"
 
-    while (( attempt <= max_attempts )); do
-        # Check if the resource exists
-        if kubectl get "$kind" "$name" -n "$namespace" >/dev/null 2>&1; then
-            found=1
-            # Optionally, check status.conditions if needed
-            break
-        fi
-        sleep "$sleep_time"
-        ((attempt++))
-    done
-
-    if [[ $found -eq 0 ]]; then
+    if ! kubectl wait --for=create -n "$namespace" "$kind/$name" --timeout 5m; then
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
         kubectl get "$kind" -n "$namespace"
-        echo "Duration: $(( $(date +%s) - start )) seconds"
+        echo "Duration: $(( $(date +%s) - start_time )) seconds"
         return 1
     fi
-
     echo "$kind $name in namespace $namespace is present."
+    echo "Duration: $(( $(date +%s) - start_time )) seconds"
+    return 0
 }
 
 # Wait for named Gateway API gateway to be ready

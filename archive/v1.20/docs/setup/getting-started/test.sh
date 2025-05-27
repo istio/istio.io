@@ -57,7 +57,7 @@ _verify_like snip_deploy_the_sample_application_4 "$snip_deploy_the_sample_appli
 
 # Open to outside traffic
 _verify_contains snip_open_the_application_to_outside_traffic_1 "$snip_open_the_application_to_outside_traffic_1_out"
-_wait_for_istio gateway default bookinfo-gateway
+_wait_for_resource gateway default bookinfo-gateway
 
 # Ensure no issues with configuration - istioctl analyze
 _verify_contains snip_open_the_application_to_outside_traffic_2 "$snip_open_the_application_to_outside_traffic_2_out"

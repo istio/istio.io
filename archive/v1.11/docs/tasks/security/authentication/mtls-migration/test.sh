@@ -44,7 +44,7 @@ _verify_same snip_set_up_the_cluster_4 "$snip_set_up_the_cluster_4_out"
 
 # configure_mtls_foo_peerauthentication
 snip_lock_down_to_mutual_tls_by_namespace_1
-_wait_for_istio peerauthentication foo default
+_wait_for_resource peerauthentication foo default
 
 # Disable errors, since the next command is expected to return an error.
 set +e
@@ -59,7 +59,7 @@ set -o pipefail
 
 # configure_mtls_entire_mesh
 snip_lock_down_mutual_tls_for_the_entire_mesh_1
-_wait_for_istio peerauthentication istio-system default
+_wait_for_resource peerauthentication istio-system default
 
 # Disable errors, since the next command is expected to return an error.
 set +e
