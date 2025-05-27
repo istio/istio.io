@@ -39,17 +39,17 @@ _verify_like snip_before_you_begin_4 "$snip_before_you_begin_4_out"
 CLIENT_IP=$(curl "$INGRESS_HOST":"$INGRESS_PORT"/ip -s | grep "origin" | cut -d'"' -f 4)
 
 snip_ipbased_allow_list_and_deny_list_1
-_wait_for_resource authorizationpolicy istio-system ingress-policy
+_wait_for_istio authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_2 "$snip_ipbased_allow_list_and_deny_list_2_out"
 
 snip_ipbased_allow_list_and_deny_list_3
-_wait_for_resource authorizationpolicy istio-system ingress-policy
+_wait_for_istio authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_4 "$snip_ipbased_allow_list_and_deny_list_4_out"
 
 snip_ipbased_allow_list_and_deny_list_5
-_wait_for_resource authorizationpolicy istio-system ingress-policy
+_wait_for_istio authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_6 "$snip_ipbased_allow_list_and_deny_list_6_out"
 

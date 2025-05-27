@@ -50,17 +50,17 @@ _wait_for_deployment mesh-external my-nginx
 # Open Gateway Listener
 snip_configure_mutual_tls_origination_for_egress_traffic_1
 snip_configure_mutual_tls_origination_for_egress_traffic_2
-_wait_for_resource gateway default istio-egressgateway
-_wait_for_resource destinationrule default egressgateway-for-nginx
+_wait_for_istio gateway default istio-egressgateway
+_wait_for_istio destinationrule default egressgateway-for-nginx
 
 # Configure routing from sleep to egress gateway to nginx
 snip_configure_mutual_tls_origination_for_egress_traffic_3
-_wait_for_resource virtualservice default direct-nginx-through-egress-gateway
+_wait_for_istio virtualservice default direct-nginx-through-egress-gateway
 
 # Originate TLS with destination rule
 snip_configure_mutual_tls_origination_for_egress_traffic_4
 
-_wait_for_resource destinationrule istio-system originate-mtls-for-nginx
+_wait_for_istio destinationrule istio-system originate-mtls-for-nginx
 
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_5 "kubernetes://client-credential            Cert Chain     ACTIVE"
 

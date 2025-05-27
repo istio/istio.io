@@ -49,8 +49,8 @@ _verify_not_contains snip_verify_the_results_2 "request_host"
 echo "$snip_enable_custom_metrics_2" | istioctl install --set tag="$TAG" --set hub="$HUB" -y -f -
 
 kubectl get istiooperator installed-state -n istio-system -o yaml
-_wait_for_resource envoyfilter istio-system stats-filter-1.6
-_wait_for_resource envoyfilter istio-system stats-filter-1.7
+_wait_for_istio envoyfilter istio-system stats-filter-1.6
+_wait_for_istio envoyfilter istio-system stats-filter-1.7
 
 ## Verify if patching works correctly
 send_productpage_requests
