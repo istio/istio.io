@@ -70,8 +70,8 @@ URLS=(
 for path in "${URLS[@]}"; do
   full_url="${BASE_URL}${path}"
   response=$(curl -s -o /dev/null -w "%{http_code} %{redirect_url}" "$full_url")
-  http_code=$(echo $response | cut -d' ' -f1)
-  redirect_url=$(echo $response | cut -d' ' -f2-)
+  http_code=$(echo "$response" | cut -d' ' -f1)
+  redirect_url=$(echo "$response" | cut -d' ' -f2-)
 
   if [[ "$http_code" == "301" || "$http_code" == "302" ]]; then
     echo "[REDIRECT] $path → $redirect_url"
