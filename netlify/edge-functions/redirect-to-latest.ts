@@ -9,7 +9,7 @@ export default async (request: Request, context) => {
   if (!versionMatch) return context.next();
 
   const versionPath = versionMatch[0];
-  let remainder = pathname.slice(versionPath.length) || '/';
+  const remainder = pathname.slice(versionPath.length) || '/';
 
   const languageCodeMatch = remainder.match(/^\/?([a-z]{2})(\/|$)/);
   let languageCode: string | null = null;
@@ -22,10 +22,12 @@ export default async (request: Request, context) => {
 
   const normalizedPath = remainingPath.replace(/^\/+/, '');
 
-  const redirectableSections = ['about', 'blog', 'get-involved', 'news', 'search', ''];
+  const redirectableSections = ['about', 'blog', 'get-involved', 'news', 'search'];
 
-  const shouldRedirect = redirectableSections.some(section =>
-    normalizedPath === section || normalizedPath.startsWith(`${section}/`)
+  const shouldRedirect =
+    normalizedPath === '' ||  // redirect to /latest/
+    redirectableSections.some(section =>
+      normalizedPath === section || normalizedPath.startsWith(`${section}/`)
   );
 
   if (shouldRedirect) {
