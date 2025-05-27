@@ -114,7 +114,7 @@ _wait_for_istio() {
     local start_time
     start_time="$(date +%s)"
 
-    if ! kubectl wait --for=create -n "$namespace" "$kind/$name" --timeout 5m; then
+    if ! kubectl wait --for=create -n "$namespace" "$kind/$name" --timeout 30s; then
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
         kubectl get "$kind" -n "$namespace"
         echo "Duration: $(( $(date +%s) - start_time )) seconds"
