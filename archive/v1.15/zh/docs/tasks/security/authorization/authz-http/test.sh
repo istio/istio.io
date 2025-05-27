@@ -91,30 +91,30 @@ startup_bookinfo_sample
 # TODO: Using reviews-v3 in this test. Should update the doc to do so as well, to make sure ratings request
 #       are configured when it demonstrates denial of access to the ratings service.
 kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
-_wait_for_istio virtualservice default reviews
+_wait_for_resource virtualservice default reviews
 
 snip_configure_access_control_for_workloads_using_http_traffic_1
-_wait_for_istio authorizationpolicy default allow-nothing
+_wait_for_resource authorizationpolicy default allow-nothing
 
 # Verify we don't have access.
 verify 403 "RBAC: access denied"
 
 snip_configure_access_control_for_workloads_using_http_traffic_2
-_wait_for_istio authorizationpolicy default productpage-viewer
+_wait_for_resource authorizationpolicy default productpage-viewer
 
 # Verify we have access to the productpage, but not to details and reviews.
 verify 200 "William Shakespeare" "Error fetching product details" "Error fetching product reviews"
 
 snip_configure_access_control_for_workloads_using_http_traffic_3
 snip_configure_access_control_for_workloads_using_http_traffic_4
-_wait_for_istio authorizationpolicy default details-viewer
-_wait_for_istio authorizationpolicy default reviews-viewer
+_wait_for_resource authorizationpolicy default details-viewer
+_wait_for_resource authorizationpolicy default reviews-viewer
 
 # Verify we have access to the productpage, but ratings are still not available.
 verify 200 "William Shakespeare" "Ratings service is currently unavailable"
 
 snip_configure_access_control_for_workloads_using_http_traffic_5
-_wait_for_istio authorizationpolicy default ratings-viewer
+_wait_for_resource authorizationpolicy default ratings-viewer
 
 # Verify we now have access.
 verify 200 "William Shakespeare" "Book Details" "Book Reviews"

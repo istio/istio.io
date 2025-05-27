@@ -34,7 +34,7 @@ snip_configuring_the_circuit_breaker_1
 # Confirm destination rule set
 _verify_elided snip_configuring_the_circuit_breaker_2 "$snip_configuring_the_circuit_breaker_2_out"
 
-_wait_for_istio destinationrule default httpbin
+_wait_for_resource destinationrule default httpbin
 
 # Deploy fortio client
 snip_adding_a_client_1

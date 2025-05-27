@@ -45,8 +45,8 @@ snip_configure_a_tls_ingress_gateway_for_a_single_host_2
 snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 
 # wait for config to propagate
-_wait_for_istio gateway default mygateway
-_wait_for_istio virtualservice default httpbin
+_wait_for_resource gateway default mygateway
+_wait_for_resource virtualservice default httpbin
 
 # verifying httpbin deployment
 _verify_lines snip_configure_a_tls_ingress_gateway_for_a_single_host_4 "
@@ -83,8 +83,8 @@ snip_configure_a_tls_ingress_gateway_for_multiple_hosts_5
 snip_configure_a_tls_ingress_gateway_for_multiple_hosts_6
 
 # waiting for configuration to propagate
-_wait_for_istio gateway default mygateway
-_wait_for_istio virtualservice default helloworld-v1
+_wait_for_resource gateway default mygateway
+_wait_for_resource virtualservice default helloworld-v1
 
 _verify_contains snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_7_out"
 
@@ -95,8 +95,8 @@ snip_configure_a_mutual_tls_ingress_gateway_1
 snip_configure_a_mutual_tls_ingress_gateway_2
 
 # wait for the change to propagate
-_wait_for_istio gateway default mygateway
-#TODO Temoporary: Remove sleep once _wait_for_istio is enabled again
+_wait_for_resource gateway default mygateway
+#TODO Temoporary: Remove sleep once _wait_for_resource is enabled again
 sleep 1
 
 _verify_failure snip_configure_a_mutual_tls_ingress_gateway_3

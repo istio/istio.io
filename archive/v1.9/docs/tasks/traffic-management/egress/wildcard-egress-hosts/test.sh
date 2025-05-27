@@ -36,19 +36,19 @@ kubectl exec "$SOURCE_POD" -c sleep -sS -I https://www.google.com | grep  "HTTP/
 _verify_contains confirm_blocking "command terminated with exit code 35"
 
 snip_configure_direct_traffic_to_a_wildcard_host_1
-_wait_for_istio serviceentry default wikipedia
+_wait_for_resource serviceentry default wikipedia
 
 _verify_same snip_configure_direct_traffic_to_a_wildcard_host_2 "$snip_configure_direct_traffic_to_a_wildcard_host_2_out"
 
 snip_cleanup_direct_traffic_to_a_wildcard_host_1
 
 snip_wildcard_configuration_for_a_single_hosting_server_1
-_wait_for_istio gateway default istio-egressgateway
-_wait_for_istio destinationrule default egressgateway-for-wikipedia
-_wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
+_wait_for_resource gateway default istio-egressgateway
+_wait_for_resource destinationrule default egressgateway-for-wikipedia
+_wait_for_resource virtualservice default direct-wikipedia-through-egress-gateway
 
 snip_wildcard_configuration_for_a_single_hosting_server_2
-_wait_for_istio serviceentry default www-wikipedia
+_wait_for_resource serviceentry default www-wikipedia
 
 _verify_same snip_wildcard_configuration_for_a_single_hosting_server_3 "$snip_wildcard_configuration_for_a_single_hosting_server_3_out"
 
@@ -68,20 +68,20 @@ _wait_for_deployment istio-system istio-egressgateway-with-sni-proxy
 _verify_like snip_setup_egress_gateway_with_sni_proxy_5 "$snip_setup_egress_gateway_with_sni_proxy_5_out"
 
 snip_setup_egress_gateway_with_sni_proxy_6
-_wait_for_istio serviceentry default sni-proxy
-_wait_for_istio destinationrule default disable-mtls-for-sni-proxy
+_wait_for_resource serviceentry default sni-proxy
+_wait_for_resource destinationrule default disable-mtls-for-sni-proxy
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_1
-_wait_for_istio serviceentry default wikipedia
+_wait_for_resource serviceentry default wikipedia
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_2
-_wait_for_istio gateway default istio-egressgateway-with-sni-proxy
-_wait_for_istio destinationrule default egressgateway-for-wikipedia
-_wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
-_wait_for_istio envoyfilter default forward-downstream-sni
+_wait_for_resource gateway default istio-egressgateway-with-sni-proxy
+_wait_for_resource destinationrule default egressgateway-for-wikipedia
+_wait_for_resource virtualservice default direct-wikipedia-through-egress-gateway
+_wait_for_resource envoyfilter default forward-downstream-sni
 
 snip_configure_traffic_through_egress_gateway_with_sni_proxy_3
-_wait_for_istio envoyfilter istio-system egress-gateway-sni-verifier
+_wait_for_resource envoyfilter istio-system egress-gateway-sni-verifier
 
 _verify_same snip_configure_traffic_through_egress_gateway_with_sni_proxy_4 "$snip_configure_traffic_through_egress_gateway_with_sni_proxy_4_out"
 

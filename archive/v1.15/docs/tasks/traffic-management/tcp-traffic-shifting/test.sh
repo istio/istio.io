@@ -44,9 +44,9 @@ _set_ingress_environment_variables
 snip_apply_weightbased_tcp_routing_1
 
 # wait for rules to propagate
-_wait_for_istio gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
-_wait_for_istio destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
-_wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+_wait_for_resource gateway istio-io-tcp-traffic-shifting tcp-echo-gateway
+_wait_for_resource destinationrule istio-io-tcp-traffic-shifting tcp-echo-destination
+_wait_for_resource virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
 _verify_lines snip_apply_weightbased_tcp_routing_2 "
 + one
@@ -56,7 +56,7 @@ _verify_lines snip_apply_weightbased_tcp_routing_2 "
 snip_apply_weightbased_tcp_routing_3
 
 # wait for rules to propagate
-_wait_for_istio virtualservice istio-io-tcp-traffic-shifting tcp-echo
+_wait_for_resource virtualservice istio-io-tcp-traffic-shifting tcp-echo
 
 _verify_elided snip_apply_weightbased_tcp_routing_4 "$snip_apply_weightbased_tcp_routing_4_out"
 

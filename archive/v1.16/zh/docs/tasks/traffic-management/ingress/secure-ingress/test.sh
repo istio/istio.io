@@ -52,8 +52,8 @@ else
     snip_configure_a_tls_ingress_gateway_for_a_single_host_3
 
     # wait for config to propagate
-    _wait_for_istio gateway default mygateway
-    _wait_for_istio virtualservice default httpbin
+    _wait_for_resource gateway default mygateway
+    _wait_for_resource virtualservice default httpbin
 
     # export the INGRESS_ environment variables
     _set_ingress_environment_variables
@@ -91,8 +91,8 @@ else
     snip_configure_a_tls_ingress_gateway_for_multiple_hosts_5
 
     # waiting for configuration to propagate
-    _wait_for_istio gateway default mygateway
-    _wait_for_istio virtualservice default helloworld-v1
+    _wait_for_resource gateway default mygateway
+    _wait_for_resource virtualservice default helloworld-v1
 fi
 
 _verify_elided snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8 "$snip_configure_a_tls_ingress_gateway_for_multiple_hosts_8_out"
@@ -107,7 +107,7 @@ else
     snip_configure_a_mutual_tls_ingress_gateway_2
 
     # wait for the change to propagate
-    _wait_for_istio gateway default mygateway
+    _wait_for_resource gateway default mygateway
 fi
 
 _verify_failure snip_configure_a_mutual_tls_ingress_gateway_4

@@ -40,7 +40,7 @@ export TOKEN_GROUP
 _verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out"
  
 snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
-_wait_for_istio requestauthentication foo jwt-example
+_wait_for_resource requestauthentication foo jwt-example
  
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out"
  

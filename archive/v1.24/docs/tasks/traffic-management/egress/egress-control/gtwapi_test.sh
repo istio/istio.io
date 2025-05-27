@@ -27,7 +27,7 @@ _wait_for_deployment default curl
 snip_before_you_begin_3
 
 snip_access_an_external_http_service_1
-_wait_for_istio serviceentry default httpbin-ext
+_wait_for_resource serviceentry default httpbin-ext
 
 _verify_first_line snip_manage_traffic_to_external_services_1 "$snip_manage_traffic_to_external_services_1_out"
 snip_manage_traffic_to_external_services_3

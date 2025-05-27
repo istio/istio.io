@@ -44,7 +44,7 @@ _verify_same snip_before_you_begin_3 "$snip_before_you_begin_3_out"
 _verify_same snip_before_you_begin_4 "$snip_before_you_begin_4_out"
 
 snip_configure_access_control_for_a_tcp_workload_1
-_wait_for_istio authorizationpolicy foo tcp-policy
+_wait_for_resource authorizationpolicy foo tcp-policy
 
 _verify_same snip_configure_access_control_for_a_tcp_workload_2 "$snip_configure_access_control_for_a_tcp_workload_2_out"
 
@@ -53,14 +53,14 @@ _verify_same snip_configure_access_control_for_a_tcp_workload_3 "$snip_configure
 _verify_same snip_configure_access_control_for_a_tcp_workload_4 "$snip_configure_access_control_for_a_tcp_workload_4_out"
 
 snip_configure_access_control_for_a_tcp_workload_5
-_wait_for_istio authorizationpolicy foo tcp-policy
+_wait_for_resource authorizationpolicy foo tcp-policy
 
 _verify_same snip_configure_access_control_for_a_tcp_workload_6 "$snip_configure_access_control_for_a_tcp_workload_6_out"
 
 _verify_same snip_configure_access_control_for_a_tcp_workload_7 "$snip_configure_access_control_for_a_tcp_workload_7_out"
 
 snip_configure_access_control_for_a_tcp_workload_8
-_wait_for_istio authorizationpolicy foo tcp-policy
+_wait_for_resource authorizationpolicy foo tcp-policy
 
 _verify_same snip_configure_access_control_for_a_tcp_workload_9 "$snip_configure_access_control_for_a_tcp_workload_9_out"
 

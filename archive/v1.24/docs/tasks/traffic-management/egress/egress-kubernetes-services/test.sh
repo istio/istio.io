@@ -46,7 +46,7 @@ _verify_contains snip_kubernetes_externalname_service_to_access_an_external_serv
 
 # apply dr
 snip_kubernetes_externalname_service_to_access_an_external_service_4
-_wait_for_istio destinationrule default my-httpbin
+_wait_for_resource destinationrule default my-httpbin
 
 _verify_contains snip_kubernetes_externalname_service_to_access_an_external_service_5 "\"X-Envoy-Peer-Metadata\":"
 
@@ -58,7 +58,7 @@ _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_exter
 
 # apply dr
 snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_5
-_wait_for_istio destinationrule default my-wikipedia
+_wait_for_resource destinationrule default my-wikipedia
 
 _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6 "<title>Wikipedia, the free encyclopedia</title>"
 

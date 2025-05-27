@@ -88,12 +88,12 @@ This will run the function `snip_set_up_the_cluster_3` and confirm that the outp
 the same as specified in the variable `snip_set_up_the_cluster_3_out`.
 
 Snip functions often update Istio configuration (e.g., virtual services, destination rules, etc.).
-Use the `_wait_for_istio` function to allow the change to propogate to the Istio sidecars
+Use the `_wait_for_resource` function to allow the change to propogate to the Istio sidecars
 before proceeding with the next step of the test:
 
 ```sh
 snip_config_50_v3 # Step 3: switch 50% traffic to v3
-_wait_for_istio virtualservice default reviews # wait for routing change to propagate
+_wait_for_resource virtualservice default reviews # wait for routing change to propagate
 ```
 
 For snips that deploy Kubernetes services (e.g., `kubectl apply -f samples/httpbin/httpbin.yaml`),

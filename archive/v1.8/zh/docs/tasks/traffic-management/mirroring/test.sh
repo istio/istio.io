@@ -41,8 +41,8 @@ _wait_for_deployment default sleep
 snip_creating_a_default_routing_policy_1
 
 # wait for config
-_wait_for_istio virtualservice default httpbin
-_wait_for_istio destinationrule default httpbin
+_wait_for_resource virtualservice default httpbin
+_wait_for_resource destinationrule default httpbin
 
 _verify_contains snip_creating_a_default_routing_policy_2 "headers"
 
@@ -53,7 +53,7 @@ _verify_not_contains snip_creating_a_default_routing_policy_4 "GET /headers HTTP
 snip_mirroring_traffic_to_v2_1
 
 # wait for config
-_wait_for_istio virtualservice default httpbin
+_wait_for_resource virtualservice default httpbin
 
 # Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_2/3/4 take?
 export SLEEP_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})

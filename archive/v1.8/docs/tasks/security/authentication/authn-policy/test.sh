@@ -40,21 +40,21 @@ _verify_like  snip_auto_mutual_tls_1 "$snip_auto_mutual_tls_1_out"
 _verify_same  snip_auto_mutual_tls_2 "$snip_auto_mutual_tls_2_out"
 
 snip_globally_enabling_istio_mutual_tls_in_strict_mode_1
-_wait_for_istio peerauthentication istio-system default
+_wait_for_resource peerauthentication istio-system default
 
 _verify_same  snip_globally_enabling_istio_mutual_tls_in_strict_mode_2 "$snip_globally_enabling_istio_mutual_tls_in_strict_mode_2_out"
 
 snip_cleanup_part_1_1
 
 snip_namespacewide_policy_1
-_wait_for_istio peerauthentication foo default
+_wait_for_resource peerauthentication foo default
 
 _verify_same  snip_namespacewide_policy_2 "$snip_namespacewide_policy_2_out"
 
 snip_enable_mutual_tls_per_workload_1
 snip_enable_mutual_tls_per_workload_2
-_wait_for_istio peerauthentication bar httpbin
-_wait_for_istio destinationrule  bar httpbin
+_wait_for_resource peerauthentication bar httpbin
+_wait_for_resource destinationrule  bar httpbin
 
 _verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per_workload_3_out"
 
@@ -62,15 +62,15 @@ _verify_same  snip_enable_mutual_tls_per_workload_3 "$snip_enable_mutual_tls_per
 
 snip_enable_mutual_tls_per_workload_5
 snip_enable_mutual_tls_per_workload_6
-_wait_for_istio peerauthentication bar httpbin
-_wait_for_istio destinationrule  bar httpbin
+_wait_for_resource peerauthentication bar httpbin
+_wait_for_resource destinationrule  bar httpbin
 
 _verify_same  snip_enable_mutual_tls_per_workload_7 "$snip_enable_mutual_tls_per_workload_7_out"
 
 snip_policy_precedence_1
 snip_policy_precedence_2
-_wait_for_istio peerauthentication foo overwrite-example
-_wait_for_istio destinationrule  foo overwrite-example
+_wait_for_resource peerauthentication foo overwrite-example
+_wait_for_resource destinationrule  foo overwrite-example
 
 _verify_same  snip_policy_precedence_3 "$snip_policy_precedence_3_out"
 
@@ -78,8 +78,8 @@ snip_cleanup_part_2_1
 
 snip_enduser_authentication_1
 snip_enduser_authentication_2
-_wait_for_istio gateway foo httpbin-gateway
-_wait_for_istio virtualservice  foo httpbin
+_wait_for_resource gateway foo httpbin-gateway
+_wait_for_resource virtualservice  foo httpbin
 
 # Export the INGRESS_ environment variables
 _set_ingress_environment_variables
@@ -87,7 +87,7 @@ _set_ingress_environment_variables
 _verify_same  snip_enduser_authentication_3 "$snip_enduser_authentication_3_out"
 
 snip_enduser_authentication_4
-_wait_for_istio requestauthentication istio-system jwt-example
+_wait_for_resource requestauthentication istio-system jwt-example
 
 _verify_same  snip_enduser_authentication_5 "$snip_enduser_authentication_5_out"
 _verify_same  snip_enduser_authentication_6 "$snip_enduser_authentication_6_out"
@@ -103,12 +103,12 @@ expected="200
 _verify_contains  snip_enduser_authentication_10 "$expected"
 
 snip_require_a_valid_token_1
-_wait_for_istio authorizationpolicy istio-system frontend-ingress
+_wait_for_resource authorizationpolicy istio-system frontend-ingress
 
 _verify_same  snip_require_a_valid_token_2 "$snip_require_a_valid_token_2_out"
 
 snip_require_valid_tokens_perpath_1
-_wait_for_istio authorizationpolicy istio-system frontend-ingress
+_wait_for_resource authorizationpolicy istio-system frontend-ingress
 
 _verify_same  snip_require_valid_tokens_perpath_2 "$snip_require_valid_tokens_perpath_2_out"
 _verify_same  snip_require_valid_tokens_perpath_3 "$snip_require_valid_tokens_perpath_3_out"

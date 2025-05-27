@@ -43,8 +43,8 @@ else
     snip_request_timeouts_3
 
     # wait for rules to propagate
-    _wait_for_istio virtualservice default reviews
-    _wait_for_istio virtualservice default ratings
+    _wait_for_resource virtualservice default reviews
+    _wait_for_resource virtualservice default ratings
 fi
 
 get_productpage() {
@@ -62,7 +62,7 @@ if [ "$GATEWAY_API" == "true" ]; then
 else
     snip_request_timeouts_5
 
-    _wait_for_istio virtualservice default reviews
+    _wait_for_resource virtualservice default reviews
 fi
 
 # verify product reviews are unavailable

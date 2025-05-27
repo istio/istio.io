@@ -49,8 +49,8 @@ _verify_not_contains snip_verify_the_results_2 "request_host"
 echo "$snip_enable_custom_metrics_2" | istioctl install --set tag="$TAG" --set hub="$HUB" -y -f -
 
 kubectl get istiooperator installed-state -n istio-system -o yaml
-_wait_for_istio envoyfilter istio-system stats-filter-1.8
-_wait_for_istio envoyfilter istio-system stats-filter-1.9
+_wait_for_resource envoyfilter istio-system stats-filter-1.8
+_wait_for_resource envoyfilter istio-system stats-filter-1.9
 
 # TODO: remove this delay once we can reliably detect the stats extension configuration update
 # has been applied.

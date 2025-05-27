@@ -53,7 +53,7 @@ _verify_contains snip_deploy_an_https_proxy_9 "CONNECT en.wikipedia.org:443"
 
 # create service entry
 snip_configure_traffic_to_external_https_proxy_1
-_wait_for_istio serviceentry default proxy
+_wait_for_resource serviceentry default proxy
 
 _verify_contains snip_configure_traffic_to_external_https_proxy_2 "<title>Wikipedia, the free encyclopedia</title>"
 _verify_contains snip_configure_traffic_to_external_https_proxy_3 "outbound|3128||my-company-proxy.com"

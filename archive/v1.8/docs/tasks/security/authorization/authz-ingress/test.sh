@@ -40,12 +40,12 @@ _verify_same snip_before_you_begin_3 "$snip_before_you_begin_3_out"
 snip_source_ip_address_of_the_original_client_3
 
 snip_ipbased_allow_list_and_deny_list_1
-_wait_for_istio authorizationpolicy istio-system ingress-policy
+_wait_for_resource authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_3 "$snip_ipbased_allow_list_and_deny_list_3_out"
 
 snip_ipbased_allow_list_and_deny_list_2
-_wait_for_istio authorizationpolicy istio-system ingress-policy
+_wait_for_resource authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_3 "$snip_ipbased_allow_list_and_deny_list_3_out"
 
@@ -54,7 +54,7 @@ _verify_like snip_ipbased_allow_list_and_deny_list_4 "$snip_ipbased_allow_list_a
 CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 
 snip_ipbased_allow_list_and_deny_list_5
-_wait_for_istio authorizationpolicy istio-system ingress-policy
+_wait_for_resource authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_8 "$snip_ipbased_allow_list_and_deny_list_8_out"
 
@@ -63,19 +63,19 @@ _verify_like snip_ipbased_allow_list_and_deny_list_6 "$snip_ipbased_allow_list_a
 CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 
 snip_ipbased_allow_list_and_deny_list_7
-_wait_for_istio authorizationpolicy istio-system ingress-policy
+_wait_for_resource authorizationpolicy istio-system ingress-policy
 
 _verify_same snip_ipbased_allow_list_and_deny_list_8 "$snip_ipbased_allow_list_and_deny_list_8_out"
 
 snip_ipbased_allow_list_and_deny_list_9
-_wait_for_istio authorizationpolicy istio-system ingress-policy
+_wait_for_resource authorizationpolicy istio-system ingress-policy
 
 CLIENT_IP=$(curl "$INGRESS_HOST":"$INGRESS_PORT"/ip -s | grep "origin" | cut -d'"' -f 4)
 
 _verify_same snip_ipbased_allow_list_and_deny_list_11 "$snip_ipbased_allow_list_and_deny_list_11_out"
 
 snip_ipbased_allow_list_and_deny_list_10
-_wait_for_istio authorizationpolicy istio-system ingress-policy
+_wait_for_resource authorizationpolicy istio-system ingress-policy
 
 CLIENT_IP=$(kubectl get pods -n istio-system | grep ingress | awk '{print $1}' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | head -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
 
