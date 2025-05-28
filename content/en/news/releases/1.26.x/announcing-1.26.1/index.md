@@ -27,4 +27,3 @@ This release contains bug fixes to improve robustness. This release note describ
 ## istioctl
 
 - **Fixed** false positives when `istioctl analyze` raised error `IST0134` even when `PILOT_ENABLE_IP_AUTOALLOCATE` was set to `true`. ([Issue #56083](https://github.com/istio/istio/issues/56083))
-
