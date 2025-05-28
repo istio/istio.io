@@ -22,7 +22,7 @@ ARCHIVE=0
 # If the archive flag is set, we allow links to `/latest/` that won't exist
 # at the time of linting, but will exist when the archive is copied to the
 # current serving branch.
-if grep -q "^archive: true" data/args.yaml 2>/dev/null; then
+if grep -q "^archive: true" data/args.yml 2>/dev/null; then
     ARCHIVE=1
 fi
 
@@ -213,6 +213,7 @@ if [ -d ./public ]; then
         fi
         echo "Running linkinator..."
         if [[ ${ARCHIVE:-} -eq 1 ]]; then
+            echo "Linting archive"
             if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$ /latest/' --silent --concurrency 25; then
                 FAILED=1
             fi
