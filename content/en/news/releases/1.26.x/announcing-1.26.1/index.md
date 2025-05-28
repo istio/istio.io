@@ -12,7 +12,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Traffic Management
 
-- **Updated** Gateway API version to 1.3.0 from 1.3.0-rc.1. ([Issue #56310](https://github.com/istio/istio/issues/56310))
+- **Updated** Gateway API version to `1.3.0` from `1.3.0-rc.1`. ([Issue #56310](https://github.com/istio/istio/issues/56310))
 
 - **Fixed** a regression in Istio 1.26.0 that caused a panic in istiod when processing Gateway API hostnames. ([Issue #56300](https://github.com/istio/istio/issues/56300))
 
