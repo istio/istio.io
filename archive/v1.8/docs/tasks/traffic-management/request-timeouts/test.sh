@@ -39,10 +39,10 @@ snip_request_timeouts_1
 snip_request_timeouts_2
 
 # wait for rules to propagate
-_wait_for_resource virtualservice default productpage
-_wait_for_resource virtualservice default reviews
-_wait_for_resource virtualservice default ratings
-_wait_for_resource virtualservice default details
+_wait_for_istio virtualservice default productpage
+_wait_for_istio virtualservice default reviews
+_wait_for_istio virtualservice default ratings
+_wait_for_istio virtualservice default details
 
 get_productpage() {
     out=$(sample_http_request "/productpage")
@@ -56,7 +56,7 @@ _verify_contains get_productpage "glyphicon glyphicon-star"
 # config a half second request timeout for calls to the reviews service
 snip_request_timeouts_3
 
-_wait_for_resource virtualservice default reviews
+_wait_for_istio virtualservice default reviews
 
 # verify product reviews are unavailable
 _verify_contains get_productpage "Sorry, product reviews are currently unavailable for this book."
