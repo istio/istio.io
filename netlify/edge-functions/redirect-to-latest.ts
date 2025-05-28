@@ -2,6 +2,10 @@ export default async (request: Request, context) => {
   const url = new URL(request.url);
   let pathname = url.pathname;
 
+  if (url.searchParams.get('redirect') === 'false') {
+    return context.next();
+  }
+
   // Normalize consecutive slashes
   pathname = pathname.replace(/\/\/+/g, '/');
 
