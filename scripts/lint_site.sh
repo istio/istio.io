@@ -213,7 +213,7 @@ if [ -d ./public ]; then
         fi
         echo "Running linkinator..."
         if [[ ${ARCHIVE:-} -eq 1 ]]; then
-            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io /latest/' --silent --concurrency 25; then
+            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$ /latest/' --silent --concurrency 25; then
                 FAILED=1
             fi
         elif [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
@@ -222,7 +222,7 @@ if [ -d ./public ]; then
             fi
         else
             #TODO: Remove .../workload-selector/ from ignored links. PRs take a long time to get through istio/api, and a link is broken from there. Once this PR is complete, remove it: https://github.com/istio/api/pull/1405
-            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$ /docs/reference/config/type/v1beta1/workload-selector/' --silent --concurrency 25; then
+            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$' --silent --concurrency 25; then
                 FAILED=1
             fi
         fi
