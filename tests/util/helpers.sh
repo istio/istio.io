@@ -105,24 +105,18 @@ _wait_for_statefulset() {
     fi
 }
 
-# Wait for istio to be created
+# Wait for resource to be created
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
     local kind="$1"
     local namespace="$2"
     local name="$3"
-    local start_time
-    start_time="$(date +%s)"
+    local start_time="$(date +%s)"
 
     if ! kubectl wait --for=create -n "$namespace" "$kind/$name" --timeout 30s; then
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
-        kubectl get "$kind" -n "$namespace"
-        echo "Duration: $(( $(date +%s) - start_time )) seconds"
-        return 1
+        exit 1
     fi
-    echo "$kind $name in namespace $namespace is present."
-    echo "Duration: $(( $(date +%s) - start_time )) seconds"
-    return 0
 }
 
 # Wait for named Gateway API gateway to be ready
