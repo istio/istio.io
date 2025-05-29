@@ -8971,6 +8971,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
 </tr>
 <tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_COPY_LABELS_ANNOTATIONS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, istiod will not copy any attributes from the Gateway resource onto its related Deployment resources.</td>
+</tr>
+<tr>
 <td><code>PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
