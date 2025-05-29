@@ -17,6 +17,14 @@
 set -e
 
 FAILED=0
+ARCHIVE=0
+
+# If the archive flag is set, we allow links to `/latest/` that won't exist
+# at the time of linting, but will exist when the archive is copied to the
+# current serving branch.
+if grep -q "^archive: true" data/args.yml 2>/dev/null; then
+    ARCHIVE=1
+fi
 
 if [[ "$#" -ne 0 ]]; then
     LANGS="$*"
@@ -204,13 +212,16 @@ if [ -d ./public ]; then
             printf -v ignore_files "/^.\/public\/%s/," "${SKIP_LANGS[@]}"; ignore_files="${ignore_files%,}"
         fi
         echo "Running linkinator..."
-        if [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
+        if [[ ${ARCHIVE:-} -eq 1 ]]; then
+            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$ /latest/' --silent --concurrency 25; then
+                FAILED=1
+            fi
+        elif [[ ${CHECK_EXTERNAL_LINKS:-} == "true" ]]; then
             if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io' --silent --concurrency 25; then
                 FAILED=1
             fi
         else
-            #TODO: Remove .../workload-selector/ from ignored links. PRs take a long time to get through istio/api, and a link is broken from there. Once this PR is complete, remove it: https://github.com/istio/api/pull/1405
-            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$ /docs/reference/config/type/v1beta1/workload-selector/' --silent --concurrency 25; then
+            if ! linkinator public/ -r -s 'github.com localhost:3000 localhost:5601 localhost:8001 localhost:9080 localhost:9081 en.wikipedia.org my-istio-logs-database.io ^((?!localhost).)*$' --silent --concurrency 25; then
                 FAILED=1
             fi
         fi
