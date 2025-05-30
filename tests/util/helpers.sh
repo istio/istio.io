@@ -127,6 +127,7 @@ _wait_for_gateway() {
         echo "Failed to deploy gateway $name in namespace $namespace"
         exit 1
     fi
+    sleep 2
 }
 
 # Encode the string to a URL
