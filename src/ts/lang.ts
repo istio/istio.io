@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // The set of languages supported by the site, add new ones at the end
-const languages = ["en", "zh", "pt-br", "uk"];
+const languages = ["en", "es", "zh", "pt-br", "uk"];
 
 function handleLanguageSwitch(): void {
 
