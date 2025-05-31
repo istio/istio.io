@@ -5,7 +5,7 @@ weight: 60
 owner: istio/wg-security-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 ## 背景 {#background}
 
 本页展示了使用 Istio 安全策略的通用模式。

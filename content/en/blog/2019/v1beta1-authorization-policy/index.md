@@ -7,7 +7,7 @@ attribution: Yangmin Zhu (Google)
 keywords: [security, RBAC, access control, authorization]
 target_release: 1.4
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Istio 1.4 introduces the
 [`v1beta1` authorization policy](/docs/reference/config/security/authorization-policy/),
 which is a major update to the previous `v1alpha1` role-based access control

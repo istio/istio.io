@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 如果因为之前的规则中指定了相同的匹配规则，在 VirtualService 包含永远不会使用的匹配规则时，
 会出现此消息。当多个规则不存在任何匹配时，此消息也会出现。

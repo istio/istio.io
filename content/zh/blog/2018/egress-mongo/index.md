@@ -8,6 +8,7 @@ attribution: Vadim Eisenberg
 keywords: [traffic-management,egress,tcp,mongo]
 target_release: 1.1
 ---
+<!-- markdownlint-disable-file MD007 MD026 -->
 
 在[使用外部 TCP 服务](/zh/blog/2018/egress-tcp/)博文中，我描述了网格内的 Istio 应用程序如何通过 TCP 使用外部服务。在本文中，我将演示如何使用外部 MongoDB
 服务。您将使用 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)，它的书籍评级数据保存在 MongoDB 数据库中。您会将此数据库部署在集群外部，并配置 `ratings`

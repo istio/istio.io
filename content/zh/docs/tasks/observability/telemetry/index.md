@@ -7,6 +7,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 status: Stable
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 能够灵活地配置[指标](/zh/docs/tasks/observability/metrics/)、

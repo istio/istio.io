@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当 `EnvoyFilter` 没有优先级且使用相对补丁操作（`INVALID`、`MERGE`、`REMOVE`、`INSERT_BEFORE`、`INSERT_AFTER`、`REPLACE`）时，
 会出现此消息。使用相对补丁操作意味着当评估当前的 `EnvoyFilter` 过滤器时该操作依赖于另一个过滤器。

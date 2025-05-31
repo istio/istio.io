@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 This message occurs for services of type ExternalName when the port doesn't follow Istio service port naming convention, the port is unnamed or the port is named tcp.
 
