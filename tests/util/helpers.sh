@@ -105,22 +105,16 @@ _wait_for_statefulset() {
     fi
 }
 
-# Wait for Istio config to propagate
+# Wait for resource to be created
 # usage: _wait_for_istio <kind> <namespace> <name>
 _wait_for_istio() {
-    #local kind="$1"
-    #local namespace="$2"
-    #local name="$3"
-    local start=$(date +%s)
-    sleep 1s
-    # @TODO: Rewrite this to *NOT* use istioctl experimental wait, since it was removed
-    # https://github.com/istio/istio.io/issues/16429
-    #if ! istioctl experimental wait --for=distribution --timeout=10s "$kind" "$name.$namespace"; then
-        #echo "Failed distribution of $kind $name in namespace $namespace"
-        #istioctl ps
-        #echo "TEST: wait for failed, but continuing."
-    #fi
-    echo "Duration: $(($(date +%s)-start)) seconds"
+    local kind="$1"
+    local namespace="$2"
+    local name="$3"
+    if ! kubectl wait --for=create -n "$namespace" "$kind/$name" --timeout 30s; then
+        echo "Timed out waiting for $kind $name in namespace $namespace to be created."
+        exit 1
+    fi
 }
 
 # Wait for named Gateway API gateway to be ready
@@ -133,6 +127,7 @@ _wait_for_gateway() {
         echo "Failed to deploy gateway $name in namespace $namespace"
         exit 1
     fi
+    sleep 2
 }
 
 # Encode the string to a URL
