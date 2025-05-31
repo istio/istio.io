@@ -7245,6 +7245,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>-w</code></td>
 <td>Wait for the waypoint to be ready </td>
 </tr>
+<tr>
+<td><code>--waypoint-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout for waiting for waypoint ready  (default `1m30s`)</td>
+</tr>
 </tbody>
 </table>
 <h4 id="istioctl-waypoint-apply Examples">Examples</h4>
@@ -7560,6 +7565,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
+</tr>
+<tr>
+<td><code>--waypoint-timeout &lt;duration&gt;</code></td>
+<td></td>
+<td>Timeout for retrieving status for waypoint  (default `1m30s`)</td>
 </tr>
 </tbody>
 </table>
