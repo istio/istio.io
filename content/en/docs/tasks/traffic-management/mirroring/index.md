@@ -224,35 +224,36 @@ EOF
 {{< /tabset >}}
 
 1. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
-{{< text bash json >}}
-$ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
-{
-  "headers": {
-    "Accept": "*/*",
-    "Content-Length": "0",
-    "Host": "httpbin:8000",
-    "User-Agent": "curl/7.35.0",
-    "X-B3-Parentspanid": "57784f8bff90ae0b",
-    "X-B3-Sampled": "1",
-    "X-B3-Spanid": "3289ae7257c3f159",
-    "X-B3-Traceid": "b56eebd279a76f0b57784f8bff90ae0b",
-    "X-Envoy-Attempt-Count": "1",
-    "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/default/sa/default;Hash=20afebed6da091c850264cc751b8c9306abac02993f80bdb76282237422bd098;Subject=\"\";URI=spiffe://cluster.local/ns/default/sa/default"
-  }
-}
-{{< /text >}}
+
+    {{< text bash json >}}
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
+    {
+      "headers": {
+        "Accept": "*/*",
+        "Content-Length": "0",
+        "Host": "httpbin:8000",
+        "User-Agent": "curl/7.35.0",
+        "X-B3-Parentspanid": "57784f8bff90ae0b",
+        "X-B3-Sampled": "1",
+        "X-B3-Spanid": "3289ae7257c3f159",
+        "X-B3-Traceid": "b56eebd279a76f0b57784f8bff90ae0b",
+        "X-Envoy-Attempt-Count": "1",
+        "X-Forwarded-Client-Cert": "By=spiffe://cluster.local/ns/default/sa/default;Hash=20afebed6da091c850264cc751b8c9306abac02993f80bdb76282237422bd098;Subject=\"\";URI=spiffe://cluster.local/ns/default/sa/default"
+      }
+    }
+    {{< /text >}}
 
 1. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
 
-{{< text bash >}}
-$ kubectl logs deploy/httpbin-v1 -c httpbin
-127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl logs deploy/httpbin-v1 -c httpbin
+    127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl logs deploy/httpbin-v2 -c httpbin
-<none>
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl logs deploy/httpbin-v2 -c httpbin
+    <none>
+    {{< /text >}}
 
 ## Mirroring traffic to `httpbin-v2`
 
@@ -340,51 +341,53 @@ forget", which means that the responses are discarded.
 
 1. Send the traffic:
 
-{{< text bash >}}
-$ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
+    {{< /text >}}
 
-Now, you should see access logging for both `v1` and `v2`. The access logs
-created in `v2` are the mirrored requests that are actually going to `v1`.
+    Now, you should see access logging for both `v1` and `v2`. The access logs
+    created in `v2` are the mirrored requests that are actually going to `v1`.
 
-{{< text bash >}}
-$ kubectl logs deploy/httpbin-v1 -c httpbin
-127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
-127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl logs deploy/httpbin-v1 -c httpbin
+    127.0.0.1 - - [07/Mar/2018:19:02:43 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
+    127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 321 "-" "curl/7.35.0"
+    {{< /text >}}
 
-{{< text bash >}}
-$ kubectl logs deploy/httpbin-v2 -c httpbin
-127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
-{{< /text >}}
+    {{< text bash >}}
+    $ kubectl logs deploy/httpbin-v2 -c httpbin
+    127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
+    {{< /text >}}
 
 ## Cleaning up
 
 1. Remove the rules:
-{{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+    {{< tabset category-name="config-api" >}}
 
-{{< text bash >}}
-$ kubectl delete virtualservice httpbin
-$ kubectl delete destinationrule httpbin
-{{< /text >}}
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-{{< /tab >}}
+    {{< text bash >}}
+    $ kubectl delete virtualservice httpbin
+    $ kubectl delete destinationrule httpbin
+    {{< /text >}}
 
-{{< tab name="Gateway API" category-value="gateway-api" >}}
+    {{< /tab >}}
 
-{{< text bash >}}
-$ kubectl delete httproute httpbin
-$ kubectl delete svc httpbin-v1 httpbin-v2
-{{< /text >}}
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-{{< /tab >}}
+    {{< text bash >}}
+    $ kubectl delete httproute httpbin
+    $ kubectl delete svc httpbin-v1 httpbin-v2
+    {{< /text >}}
 
-{{< /tabset >}}
+    {{< /tab >}}
 
-1. Delete `httpbin` and `curl` deployments and `httpbin` service:
-{{< text bash >}}
-$ kubectl delete deploy httpbin-v1 httpbin-v2 curl
-$ kubectl delete svc httpbin
-{{< /text >}}
+    {{< /tabset >}}
+
+2. Delete `httpbin` and `curl` deployments and `httpbin` service:
+
+    {{< text bash >}}
+    $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
+    $ kubectl delete svc httpbin
+    {{< /text >}}
