@@ -115,7 +115,7 @@ _wait_for_istio() {
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
         exit 1
     fi
-    sleep 2
+    sleep 2s
 }
 
 # Wait for named Gateway API gateway to be ready
