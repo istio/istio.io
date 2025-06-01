@@ -115,6 +115,7 @@ _wait_for_istio() {
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
         exit 1
     fi
+    sleep 2
 }
 
 # Wait for named Gateway API gateway to be ready
@@ -127,7 +128,6 @@ _wait_for_gateway() {
         echo "Failed to deploy gateway $name in namespace $namespace"
         exit 1
     fi
-    sleep 2
 }
 
 # Encode the string to a URL
