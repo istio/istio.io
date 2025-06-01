@@ -115,6 +115,10 @@ _wait_for_istio() {
         echo "Timed out waiting for $kind $name in namespace $namespace to be created."
         exit 1
     fi
+    if ! kubectl wait --for=condition=Ready pod --all -n "$namespace" --timeout 60s; then
+        echo "Timed out waiting for pods in namespace $namespace to be ready after applying $kind $name."
+        exit 1
+    fi
     sleep 2
 }
 
