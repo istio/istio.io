@@ -385,7 +385,7 @@ forget", which means that the responses are discarded.
 
     {{< /tabset >}}
 
-2. Delete `httpbin` and `curl` deployments and `httpbin` service:
+1. Delete `httpbin` and `curl` deployments and `httpbin` service:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
