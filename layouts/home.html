@@ -15,8 +15,15 @@
         </div>
     </main>
 {{ else }}
-    <script src="/js/three.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "/js/three.module.js"
+      }
+    }
+    </script>
     <script src="/js/splide.min.js"></script>
+    <script src="/js/splide-extension-auto-scroll.min.js"></script>
     <link rel="stylesheet" href="/css/splide.min.css">
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -37,7 +44,7 @@
                     },
                 },
                 pagination: false,
-            }).mount( window.splide.Extensions );
+            }).mount( window.Splide.Extensions );
         });
     </script>
 
