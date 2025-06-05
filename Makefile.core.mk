@@ -139,13 +139,13 @@ archive-version:
 netlify_install:
 	@npm init -y
 	@npm install --omit=dev --global \
-	    sass@v1.52.1 \
-	    typescript@v4.7.2 \
-	    svgstore-cli@v1.3.2 \
-		@babel/core@v7.18.2 \
-		@babel/cli@v7.17.10 \
+	    sass@v1.89.1 \
+	    typescript@v5.8.3 \
+	    svgstore-cli@v2.0.1 \
+		@babel/core@v7.27.4 \
+		@babel/cli@v7.27.2 \
 		@babel/traverse@7.25.9 \
-		@babel/preset-env@v7.18.2
+		@babel/preset-env@v7.27.2
 	@npm install --omit=dev --save-dev \
 		babel-preset-minify@v0.5.2
 	@npm install --save \
