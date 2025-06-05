@@ -15,16 +15,9 @@
         </div>
     </main>
 {{ else }}
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@v0.162.0/build/three.module.js"
-        }
-    }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@latest/dist/js/splide-extension-auto-scroll.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+    <script src="/js/three.min.js"></script>
+    <script src="/js/splide.min.js"></script>
+    <link rel="stylesheet" href="/css/splide.min.css">
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             new Splide('.case-studies', {
