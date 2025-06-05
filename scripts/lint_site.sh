@@ -181,7 +181,7 @@ for lang in $LANGS; do
             fi
         done < <(find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0)
     elif [[ "$lang" == "uk" ]]; then
-        # only check English words in Ukranian docs
+        # only check English words in Ukrainian docs
         check_content "content/$lang" --en-us
     fi
 done
