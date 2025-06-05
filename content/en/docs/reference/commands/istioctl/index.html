@@ -9251,28 +9251,10 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
 <tr>
-<td><code>PILOT_STATUS_BURST</code></td>
-<td>Integer</td>
-<td><code>500</code></td>
-<td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
-</tr>
-<tr>
 <td><code>PILOT_STATUS_MAX_WORKERS</code></td>
 <td>Integer</td>
 <td><code>100</code></td>
 <td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
-</tr>
-<tr>
-<td><code>PILOT_STATUS_QPS</code></td>
-<td>Integer</td>
-<td><code>100</code></td>
-<td>If status is enabled, controls the QPS with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config QPS</td>
-</tr>
-<tr>
-<td><code>PILOT_STATUS_UPDATE_INTERVAL</code></td>
-<td>Time Duration</td>
-<td><code>500ms</code></td>
-<td>Interval to update the XDS distribution status.</td>
 </tr>
 <tr>
 <td><code>PILOT_TRACE_SAMPLING</code></td>
