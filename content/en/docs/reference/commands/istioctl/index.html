@@ -8533,6 +8533,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
 <tr>
+<td><code>ENABLE_PROXY_FIND_POD_BY_IP</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the pod controller will allow findig pods matching proxies by IP if it fails to find them by name.</td>
+</tr>
+<tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
