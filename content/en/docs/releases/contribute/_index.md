@@ -26,6 +26,6 @@ find the following folders for the available languages:
 
 - The English original content is in the `en` folder.
 - The Mandarin translation is in the `zh` folder.
-- The Portuguese translation is in the `pt-br` folder.
+- The Ukrainian translation is in the `uk` folder.
 
 Learn more in the following guides:
