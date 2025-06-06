@@ -127,7 +127,7 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-SKIP_LANGS=( en zh pt-br )
+SKIP_LANGS=( en zh uk )
 for lang in $LANGS; do
     for i in "${!SKIP_LANGS[@]}"; do
        if [[ "${SKIP_LANGS[$i]}" = "${lang}" ]]; then
@@ -180,8 +180,8 @@ for lang in $LANGS; do
                 FAILED=1
             fi
         done < <(find ./content/zh -type f \( -name '*.html' -o -name '*.md' \) -print0)
-    elif [[ "$lang" == "pt-br" ]]; then
-        # only check English words in Portuguese Brazil docs
+    elif [[ "$lang" == "uk" ]]; then
+        # only check English words in Ukrainian docs
         check_content "content/$lang" --en-us
     fi
 done
