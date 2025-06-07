@@ -112,6 +112,12 @@
         margin-left: 1rem;
     }
 
+    svg.language-outline {
+        width: 1.6em;
+        height: 1.6em;
+        stroke-width: 0;
+    }
+
     #search-show {
         display: none;
         @media (min-width: $bp-lg) {
@@ -417,7 +423,7 @@
         }
 
         &-links {
-            display: inline-block;
+            display: inline-flex;
 
             &-item {
                 display: inline-block;
@@ -472,7 +478,7 @@
         }
 
         &-footer {
-            display: inline-block;
+            display: inline-flex;
             margin: 0;
 
             #try-istio { margin-left: 1rem; }
