@@ -13,6 +13,7 @@ aliases:
 owner: istio/wg-environments-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 本示例通过在虚拟机（VM）上运行一项服务来跨 Kubernetes 部署 Bookinfo 应用程序，
 并说明了如何以单个网格的形式控制此基础架构。

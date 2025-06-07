@@ -5,6 +5,7 @@ publishdate: 2022-12-14
 attribution: Frank Budinsky (IBM)
 keywords: [traffic-management,gateway,gateway-api,api,gamma,sig-network]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Whether you're running your Kubernetes application services using Istio, or any service mesh for that matter,
 or simply using ordinary services in a Kubernetes cluster, you need to provide access to your application services

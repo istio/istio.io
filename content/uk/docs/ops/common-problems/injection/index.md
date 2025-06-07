@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 ## Результат інʼєкції sidecar не відповідає очікуванням {#the-result-of-sidecar-injection-was-not-what-i-expected}
 

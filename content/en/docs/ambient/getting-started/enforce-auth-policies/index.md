@@ -5,6 +5,7 @@ weight: 4
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 After you have added your application to the ambient mesh, you can secure application access using Layer 4 authorization policies.
 

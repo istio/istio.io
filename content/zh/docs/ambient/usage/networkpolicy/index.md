@@ -5,6 +5,7 @@ weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Kubernetes [NetworkPolicy](https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/)
 允许您控制 L4 流量如何到达 Pod。

@@ -5,6 +5,7 @@ weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Функції рівня 4 (L4) в політиках безпеки Istio [підтримуються](/docs/concepts/security) {{< gloss >}}ztunnel{{< /gloss >}}, і доступні в {{< gloss "ambient" >}}ambient режимі{{< /gloss >}}. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) також продовжують працювати, якщо у вашому кластері є {{< gloss >}}CNI{{< /gloss >}} втулок, що їх підтримує, і можуть використовуватися для забезпечення глибокого захисту.
 

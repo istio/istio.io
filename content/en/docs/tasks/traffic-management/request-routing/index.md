@@ -8,7 +8,7 @@ keywords: [traffic-management,routing]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
 This task shows you how to route requests dynamically to multiple versions of a
 microservice.
 

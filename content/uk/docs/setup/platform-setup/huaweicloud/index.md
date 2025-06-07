@@ -10,6 +10,7 @@ keywords: [platform-setup,huawei,huaweicloud,cce]
 owner: istio/wg-environments-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Дотримуйтесь цих інструкцій, щоб підготувати кластер для Istio за допомогою [Huawei Cloud Container Engine](https://www.huaweicloud.com/intl/product/cce.html). Ви можете швидко і легко розгорнути кластер Kubernetes на Huawei Cloud у `Cloud Container Engine Console`, який повністю підтримує Istio.
 

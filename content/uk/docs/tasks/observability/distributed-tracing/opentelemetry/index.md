@@ -10,6 +10,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [OpenTelemetry](https://opentelemetry.io/) (OTel) — це незалежна від постачальника платформа з відкритим вихідним кодом для вимірювання, генерації, збору та експорту телеметричних даних. Трейси [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otlp/) (OTLP) можна надсилати до [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), а також до багатьох комерційних сервісів.
 

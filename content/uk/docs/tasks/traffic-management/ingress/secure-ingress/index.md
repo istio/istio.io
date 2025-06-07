@@ -9,6 +9,7 @@ keywords: [traffic-management,ingress,sds-credentials]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Завдання [Контроль вхідного трафіку](/docs/tasks/traffic-management/ingress/ingress-control) описує, як налаштувати ingress gateway, щоб відкрити HTTP-сервіс для зовнішнього трафіку. Це завдання показує, як експонувати захищений HTTPS-сервіс за допомогою простого або взаємного TLS.
 
