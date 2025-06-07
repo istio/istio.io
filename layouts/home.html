@@ -22,9 +22,9 @@
         }
     }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@latest/dist/js/splide-extension-auto-scroll.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+    <script src="/js/splide.min.js"></script>
+    <script src="/js/splide-extension-auto-scroll.min.js"></script>
+    <link rel="stylesheet" href="/css/splide.min.css">
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             new Splide('.case-studies', {
@@ -44,7 +44,7 @@
                     },
                 },
                 pagination: false,
-            }).mount( window.splide.Extensions );
+            }).mount( window.Splide.Extensions );
         });
     </script>
 
