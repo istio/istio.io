@@ -8479,6 +8479,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>If enabled, selector based authorization policies will be enforced as L4 policies in front of the waypoint.</td>
 </tr>
 <tr>
+<td><code>ENABLE_LAZY_SIDECAR_EVALUATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will only compute sidecar resources when actually used</td>
+</tr>
+<tr>
 <td><code>ENABLE_LEADER_ELECTION</code></td>
 <td>Boolean</td>
 <td><code>true</code></td>
@@ -8536,7 +8542,7 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>ENABLE_PROXY_FIND_POD_BY_IP</code></td>
 <td>Boolean</td>
 <td><code>false</code></td>
-<td>If enabled, the pod controller will allow findig pods matching proxies by IP if it fails to find them by name.</td>
+<td>If enabled, the pod controller will allow finding pods matching proxies by IP if it fails to find them by name.</td>
 </tr>
 <tr>
 <td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
@@ -8555,6 +8561,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr>
+<td><code>ENVOY_STATUS_PORT_ENABLE_PROXY_PROTOCOL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Envoy will support requests with proxy protocol on its status port</td>
 </tr>
 <tr>
 <td><code>EXTERNAL_ISTIOD</code></td>
@@ -8882,7 +8894,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></td>
 <td>Integer</td>
 <td><code>1</code></td>
-<td>Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
+<td>Deprecated, superseded by ENABLE_LAZY_SIDECAR_EVALUATION. Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
 </tr>
 <tr>
 <td><code>PILOT_DEBOUNCE_AFTER</code></td>
