@@ -506,7 +506,7 @@ Redirect primitive. Rewrite will be performed before forwarding.</p>
 <p>Retry policy for HTTP requests.</p>
 <p>Note: the default cluster-wide retry policy, if not specified, is:</p>
 <pre><code class="language-yaml">attempts: 2
-retryOn: &quot;connect-failure,refused-stream,unavailable,cancelled,503&quot;
+retryOn: &quot;connect-failure,refused-stream,unavailable,cancelled&quot;
 </code></pre>
 <p>This can be customized in <a href="/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig"><code>Mesh Config</code> <code>defaultHttpRetryPolicy</code></a>.</p>
 
