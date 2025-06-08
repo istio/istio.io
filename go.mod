@@ -10,7 +10,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.14.0
-	istio.io/istio v0.0.0-20250531162537-0227bde7428a
+	istio.io/istio v0.0.0-20250607010753-ebe60fc2d88e
 	k8s.io/apimachinery v0.33.0
 	k8s.io/client-go v0.33.0
 )
@@ -44,8 +44,8 @@ require (
 	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.9.3 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.2 // indirect
-	github.com/envoyproxy/go-control-plane/contrib v1.32.5-0.20250522035732-2abf4a44739f // indirect
-	github.com/envoyproxy/go-control-plane/envoy v1.32.5-0.20250522035732-2abf4a44739f // indirect
+	github.com/envoyproxy/go-control-plane/contrib v1.32.5-0.20250529131204-17588c61bef7 // indirect
+	github.com/envoyproxy/go-control-plane/envoy v1.32.5-0.20250529131204-17588c61bef7 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.2.1 // indirect
 	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
@@ -180,7 +180,7 @@ require (
 	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250505200425-f936aa4a68b2 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250505200425-f936aa4a68b2 // indirect
-	google.golang.org/grpc v1.72.1 // indirect
+	google.golang.org/grpc v1.72.2 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
