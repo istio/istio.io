@@ -33,21 +33,21 @@ _wait_for_deployment foo curl
 _verify_same snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
 snip_explicitly_deny_a_request_1
-_wait_for_istio authorizationpolicy foo deny-method-get
+_wait_for_resource authorizationpolicy foo deny-method-get
 
 _verify_same snip_explicitly_deny_a_request_2 "$snip_explicitly_deny_a_request_2_out"
 
 _verify_same snip_explicitly_deny_a_request_3 "$snip_explicitly_deny_a_request_3_out"
 
 snip_explicitly_deny_a_request_4
-_wait_for_istio authorizationpolicy foo deny-method-get
+_wait_for_resource authorizationpolicy foo deny-method-get
 
 _verify_same snip_explicitly_deny_a_request_5 "$snip_explicitly_deny_a_request_5_out"
 
 _verify_same snip_explicitly_deny_a_request_6 "$snip_explicitly_deny_a_request_6_out"
 
 snip_explicitly_deny_a_request_7
-_wait_for_istio authorizationpolicy foo allow-path-ip
+_wait_for_resource authorizationpolicy foo allow-path-ip
 
 _verify_same snip_explicitly_deny_a_request_8 "$snip_explicitly_deny_a_request_8_out"
 

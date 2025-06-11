@@ -106,8 +106,8 @@ _wait_for_statefulset() {
 }
 
 # Wait for resource to be created
-# usage: _wait_for_istio <kind> <namespace> <name>
-_wait_for_istio() {
+# usage: _wait_for_resource <kind> <namespace> <name>
+_wait_for_resource() {
     local kind="$1"
     local namespace="$2"
     local name="$3"
