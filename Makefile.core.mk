@@ -75,7 +75,7 @@ export ISTIO_SERVE_DOMAIN
 #Define the baseurl for production context
 URL ?= https://istio.io
 ifeq ($(CONTEXT),production)
-baseurl := $(URL)
+baseurl := "$(URL)"
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
