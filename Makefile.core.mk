@@ -72,8 +72,10 @@ JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
+#Define the baseurl for production context
+URL ?= https://istio.io
 ifeq ($(CONTEXT),production)
-baseurl := "$(URL)"
+baseurl := $(URL)
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
@@ -153,7 +155,8 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "/latest"
+#If the context is production call the baseurl and build the site otherwise leave it blank
+	@scripts/build_site.sh "$(URL)/latest"   
 	@scripts/include_archive_site.sh
 
 # ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
