@@ -38,7 +38,7 @@ snip_liveness_and_readiness_probes_using_the_command_approach_1
 
 snip_liveness_and_readiness_probes_using_the_command_approach_2
 
-_wait_for_istio peerauthentication istio-io-health default
+_wait_for_resource peerauthentication istio-io-health default
 
 snip_liveness_and_readiness_probes_using_the_command_approach_3
 
