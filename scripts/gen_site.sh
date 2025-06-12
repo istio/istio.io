@@ -43,7 +43,7 @@ npx esbuild \
   --minify \
   --sourcemap \
   --target=es2015 \
-  --outdir=generated/js \
+  --outdir=generated/js/all.min.js \
 
 npx esbuild tmp/js/headerAnimation.js \
   --minify \
