@@ -20,7 +20,7 @@ mkdir -p generated/js generated/img tmp/js
 
 tsc
 
-babel --source-maps --minified --no-comments --presets minify \
+npx esbuild \
   tmp/js/constants.js \
   tmp/js/utils.js \
   tmp/js/feedback.js \
@@ -40,14 +40,21 @@ babel --source-maps --minified --no-comments --presets minify \
   tmp/js/callToAction.js \
   tmp/js/events.js \
   tmp/js/faq.js \
-  --out-file generated/js/all.min.js
+  --minify \
+  --sourcemap \
+  --target=es2015 \
+  --outdir=generated/js \
 
-babel --source-maps --minified --no-comments --presets minify \
-  tmp/js/headerAnimation.js \
-  --out-file generated/js/headerAnimation.min.js
+npx esbuild tmp/js/headerAnimation.js \
+  --minify \
+  --sourcemap \
+  --target=es2015 \
+  --outdir=generated/js/headerAnimation.min.js \
 
-babel --source-maps --minified --no-comments \
-  tmp/js/themes_init.js \
-  --out-file generated/js/themes_init.min.js
+npx esbuild tmp/js/themes_init.js \
+  --minify \
+  --sourcemap \
+  --target=es2015 \
+  --outdir=generated/js/themes_init.min.js \
 
 svgstore -o generated/img/icons.svg src/icons/**/*.svg
