@@ -6,6 +6,7 @@ weight: 50
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 ## Використання Prometheus для моніторингу у промисловому масштабі {#using-prometheus-for-production-scale-monitoring}
 

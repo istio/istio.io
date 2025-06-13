@@ -13,7 +13,7 @@ aliases:
 owner: istio/wg-security-maintainers
 test: n/a
 ---
-
+<!-- markdownlint-disable-file MD007 MD026 -->
 Breaking down a monolithic application into atomic services offers various
 benefits, including better agility, better scalability and better ability to
 reuse services. However, microservices also have particular security needs:

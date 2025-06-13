@@ -9,6 +9,7 @@ aliases:
     - /zh/news/2019/announcing-1.1.16
     - /zh/news/announcing-1.1.16
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 我们很高兴地宣布 Istio 1.1.16 现在是可用的，详情请查看如下更改。
 

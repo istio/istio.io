@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 After completing this task, you understand how to have your application participate in tracing with [Jaeger](https://www.jaegertracing.io/),
 regardless of the language, framework, or platform you use to build your application.

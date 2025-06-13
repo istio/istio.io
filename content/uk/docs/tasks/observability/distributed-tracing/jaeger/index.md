@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Після завершення цього завдання ви зможете зрозуміти, як ваш застосунок може брати участь у трейсингу з [Jaeger](https://www.jaegertracing.io/), незалежно від мови, фреймворка або платформи, який ви використовуєте для створення застосунку.
 

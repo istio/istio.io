@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 This message occurs when the port doesn't follow the [Istio service port naming convention](/docs/ops/configuration/traffic-management/protocol-selection/)
 or the port is unnamed.

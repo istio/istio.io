@@ -9,7 +9,8 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable MD007 -->
+<!-- markdownlint-disable MD026 -->
 Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/) resources, Istio also allows you to configure ingress traffic
 using either an [Istio Gateway](/docs/concepts/traffic-management/#gateways) or [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource.
 A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.

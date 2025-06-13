@@ -4,6 +4,7 @@ layout: analysis-message
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当集群的某些资源与 Istio 相关（名称归属 `istio.io`）但注解（annotation）包含以下情况时：
 

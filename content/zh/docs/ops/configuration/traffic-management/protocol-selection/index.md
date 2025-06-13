@@ -12,7 +12,7 @@ aliases:
 owner: istio/wg-networking-maintainers
 test: no
 ---
-
+<!-- markdownlint-disable MD007 -->
 Istio 默认支持代理所有 TCP 流量。包括 HTTP、HTTPS、gRPC 以及原始 TCP 协议。但为了提供额外的能力，
 比如路由和丰富的指标，必须确定协议。协议可以被自动检测或者手动声明。
 

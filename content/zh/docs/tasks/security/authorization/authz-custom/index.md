@@ -6,6 +6,7 @@ keywords: [security,access-control,rbac,authorization,custom, opa, oauth, oauth2
 owner: istio/wg-security-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 此任务介绍如何使用新的 [action](/zh/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
 字段 - `CUSTOM`，设置 Istio 授权策略将访问控制委派给外部授权系统。这可以用来与
