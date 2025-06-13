@@ -138,9 +138,11 @@ archive-version:
 # to what is included in the tools repo in docker/build-tools/Dockerfile.
 netlify_install:
 	@npm init -y
+	@jq '. + {overrides: {"glob": "^10.0.0", "inflight": false}}' package.json > tmp.$$ && mv tmp.$$ package.json
 	@npm install --omit=dev --global \
 	    sass@v1.89.1 \
-	    typescript@v5.8.3 \
+	    typescript@v5.8.3 
+	@npm install --omit=dev \
 	    svgstore-cli@v2.0.1 \
 		@babel/core@v7.27.4 \
 		@babel/cli@v7.27.2 \
