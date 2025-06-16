@@ -18,36 +18,27 @@ set -ex
 
 mkdir -p generated/js generated/img tmp/js
 
-tsc
 
-babel --source-maps --minified --no-comments --presets minify \
-  tmp/js/constants.js \
-  tmp/js/utils.js \
-  tmp/js/feedback.js \
-  tmp/js/kbdnav.js \
-  tmp/js/themes.js \
-  tmp/js/menu.js \
-  tmp/js/header.js \
-  tmp/js/sidebar.js \
-  tmp/js/tabset.js \
-  tmp/js/prism.js \
-  tmp/js/codeBlocks.js \
-  tmp/js/links.js \
-  tmp/js/resizeObserver.js \
-  tmp/js/scroll.js \
-  tmp/js/overlays.js \
-  tmp/js/lang.js \
-  tmp/js/callToAction.js \
-  tmp/js/events.js \
-  tmp/js/faq.js \
-  --out-file generated/js/all.min.js
 
-babel --source-maps --minified --no-comments --presets minify \
-  tmp/js/headerAnimation.js \
-  --out-file generated/js/headerAnimation.min.js
+# Bundle + minify with sourcemap
+esbuild ./src/ts/entrypoint.ts \
+  --bundle \
+  --minify \
+  --sourcemap \
+  --target=es6 \
+  --outfile=generated/js/all.min.js
 
-babel --source-maps --minified --no-comments \
-  tmp/js/themes_init.js \
-  --out-file generated/js/themes_init.min.js
+esbuild ./src/ts/headerAnimation.js \
+  --minify \
+  --sourcemap \
+  --target=es6 \
+  --outfile=generated/js/headerAnimation.min.js
+
+esbuild ./src/ts/themes_init.js \
+  --bundle \
+  --minify \
+  --sourcemap \
+  --target=es6 \
+  --outfile=generated/js/themes_init.min.js
 
 svg-symbol-sprite -i src/icons -o generated/img/icons.svg --prefix ""
