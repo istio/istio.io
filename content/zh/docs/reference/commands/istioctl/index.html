@@ -2722,10 +2722,10 @@ Checks associated resources of the given resource, and running webhooks to exami
 <p>Analyzes pod, its Services, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that pod.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental describe pod &lt;pod&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental describe pod &lt;pod-name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental describe po &lt;pod&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental describe po &lt;pod-name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -2789,16 +2789,22 @@ the configuration objects that affect that pod.</p>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-describe-pod Examples">Examples</h4>
-<pre class="language-bash"><code>  istioctl experimental describe pod productpage-v1-c7765c886-7zzd4
+<pre class="language-bash"><code>  #Pod query with inferred namespace (current context&#39;s namespace)
+  istioctl experimental describe pod helloworld-v1-676yyy3y5r-d8hdl
+
+  # Pod query with explicit namespace 
+  istioctl experimental describe pod istio-eastwestgateway-7f4b4f44b-6zd95.istio-system
+  or
+  istioctl experimental describe pod istio-eastwestgateway-7f4b4f44b-6zd95 -n istio-system
 </code></pre>
 <h3 id="istioctl-experimental-describe-service">istioctl experimental describe service</h3>
 <p>Analyzes service, pods, DestinationRules, and VirtualServices and reports
 the configuration objects that affect that service.</p>
 <p>THIS COMMAND IS UNDER ACTIVE DEVELOPMENT AND NOT READY FOR PRODUCTION USE.</p>
-<pre class="language-bash"><code>istioctl experimental describe service &lt;svc&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental describe service &lt;svc-name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre>
 <div class="aliases">
-<pre class="language-bash"><code>istioctl experimental describe svc &lt;svc&gt; [flags]
+<pre class="language-bash"><code>istioctl experimental describe svc &lt;svc-name&gt;[.&lt;namespace&gt;] [flags]
 </code></pre></div>
 <table class="command-flags">
 <thead>
@@ -2862,7 +2868,13 @@ the configuration objects that affect that service.</p>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-describe-service Examples">Examples</h4>
-<pre class="language-bash"><code>  istioctl experimental describe service productpage
+<pre class="language-bash"><code>  #Service query with inferred namespace (current context&#39;s namespace)
+  istioctl experimental describe service productpage
+
+  # Service query with explicit namespace
+  istioctl experimental describe service istio-ingressgateway.istio-system
+  or
+  istioctl experimental describe service istio-ingressgateway -n istio-system
 </code></pre>
 <h3 id="istioctl-experimental-envoy-stats">istioctl experimental envoy-stats</h3>
 <p>Retrieve Envoy emitted metrics for the specified pod.</p>
