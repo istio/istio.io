@@ -2,6 +2,7 @@
 title: 为什么我的 CORS（跨源资源共享）配置不起作用？
 weight: 40
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 当应用了 [CORS（跨源资源共享）配置](/zh/docs/reference/config/networking/virtual-service/#CorsPolicy)后，
 您可能会发现看似什么也没发生，并想知道哪里出了问题。

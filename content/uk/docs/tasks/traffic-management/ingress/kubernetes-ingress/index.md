@@ -6,7 +6,7 @@ keywords: [traffic-management,ingress]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
-
+<!-- markdownlint-disable-file MD007 -->
 Це завдання описує, як налаштувати Istio для експонування сервісу за межі кластера сервісної мережі, використовуючи [Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
 {{< tip >}}

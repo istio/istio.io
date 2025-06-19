@@ -10,6 +10,7 @@ aliases:
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 [OpenTelemetry](https://opentelemetry.io/) (OTel) 是一个与供应商无关的开源可观测性框架，
 用于检测、生成、收集和导出遥测数据。

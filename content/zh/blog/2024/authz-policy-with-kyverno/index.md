@@ -5,6 +5,7 @@ publishdate: 2024-11-25
 attribution: "Charles-Edouard Brétéché (Nirmata); Translated by Wilson Wu (DaoCloud)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
+<!-- markdownlint-disable-file MD007 -->
 
 Istio 支持与许多不同项目的集成。Istio 博客最近发表了一篇关于[使用 OpenPolicyAgent 实现 L7 策略功能](../l7-policy-with-opa)的文章。
 Kyverno 是一个类似的项目，今天我们将深入探讨如何将 Istio 和 Kyverno Authz 服务器结合使用，
