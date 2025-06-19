@@ -141,16 +141,6 @@ netlify_install:
 	@npm install --omit=dev --global \
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 
-	@npm install --omit=dev \
-	    svgstore-cli@v2.0.1 \
-		@babel/core@v7.27.4 \
-		@babel/cli@v7.27.2 \
-		@babel/traverse@7.25.9 \
-		@babel/preset-env@v7.27.2
-	@npm install --omit=dev --save-dev \
-		babel-preset-minify@v0.5.2
-	@npm install --save \
-		core-js@3.42.0
 
 netlify: netlify_install
 	@scripts/gen_site.sh
