@@ -717,62 +717,62 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>AMBIENT_ENABLE_MULTI_NETWORK</code></td>
+<tr id='ambient-enable-multi-network'>
+<td><a href='#ambient-enable-multi-network'><code>AMBIENT_ENABLE_MULTI_NETWORK</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, the multi-network functionality will be enabled.</td>
 </tr>
-<tr>
-<td><code>AMBIENT_ENABLE_STATUS</code></td>
+<tr id='ambient-enable-status'>
+<td><a href='#ambient-enable-status'><code>AMBIENT_ENABLE_STATUS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
 </tr>
-<tr>
-<td><code>CA_ADDR</code></td>
+<tr id='ca-addr'>
+<td><a href='#ca-addr'><code>CA_ADDR</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Address of the spiffe certificate provider. Defaults to discoveryAddress</td>
 </tr>
-<tr>
-<td><code>CA_PROVIDER</code></td>
+<tr id='ca-provider'>
+<td><a href='#ca-provider'><code>CA_PROVIDER</code></a></td>
 <td>String</td>
 <td><code>Citadel</code></td>
 <td>name of authentication provider</td>
 </tr>
-<tr>
-<td><code>CA_ROOT_CA</code></td>
+<tr id='ca-root-ca'>
+<td><a href='#ca-root-ca'><code>CA_ROOT_CA</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Explicitly set the root CA to expect for the CA connection.</td>
 </tr>
-<tr>
-<td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
+<tr id='ca-trusted-node-accounts'>
+<td><a href='#ca-trusted-node-accounts'><code>CA_TRUSTED_NODE_ACCOUNTS</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>If set, the list of service accounts that are allowed to use node authentication for CSRs. Node authentication allows an identity to create CSRs on behalf of other identities, but only if there is a pod running on the same node with that identity. This is intended for use with node proxies.</td>
 </tr>
-<tr>
-<td><code>CERT_SIGNER_DOMAIN</code></td>
+<tr id='cert-signer-domain'>
+<td><a href='#cert-signer-domain'><code>CERT_SIGNER_DOMAIN</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>The cert signer domain info</td>
 </tr>
-<tr>
-<td><code>CLOUD_PLATFORM</code></td>
+<tr id='cloud-platform'>
+<td><a href='#cloud-platform'><code>CLOUD_PLATFORM</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Cloud Platform on which proxy is running, if not specified, Istio will try to discover the platform. Valid platform values are aws, azure, gcp, none</td>
 </tr>
-<tr>
-<td><code>CLUSTER_ID</code></td>
+<tr id='cluster-id'>
+<td><a href='#cluster-id'><code>CLUSTER_ID</code></a></td>
 <td>String</td>
 <td><code>Kubernetes</code></td>
 <td>Defines the cluster and service registry that this Istiod instance belongs to</td>
 </tr>
-<tr>
-<td><code>COMPLIANCE_POLICY</code></td>
+<tr id='compliance-policy'>
+<td><a href='#compliance-policy'><code>COMPLIANCE_POLICY</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>If set, applies policy-specific restrictions over all existing TLS
@@ -789,1218 +789,1218 @@ steps necessary to claim compliance, including using the validated
 cryptograhic modules (please consult
 https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
 </tr>
-<tr>
-<td><code>CREDENTIAL_FETCHER_TYPE</code></td>
+<tr id='credential-fetcher-type'>
+<td><a href='#credential-fetcher-type'><code>CREDENTIAL_FETCHER_TYPE</code></a></td>
 <td>String</td>
 <td><code>JWT</code></td>
 <td>The type of the credential fetcher. Currently supported types include GoogleComputeEngine</td>
 </tr>
-<tr>
-<td><code>CREDENTIAL_IDENTITY_PROVIDER</code></td>
+<tr id='credential-identity-provider'>
+<td><a href='#credential-identity-provider'><code>CREDENTIAL_IDENTITY_PROVIDER</code></a></td>
 <td>String</td>
 <td><code>GoogleComputeEngine</code></td>
 <td>The identity provider for credential. Currently default supported identity provider is GoogleComputeEngine</td>
 </tr>
-<tr>
-<td><code>DISABLE_ENVOY</code></td>
+<tr id='disable-envoy'>
+<td><a href='#disable-envoy'><code>DISABLE_ENVOY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Disables all Envoy agent features.</td>
 </tr>
-<tr>
-<td><code>DNS_FORWARD_PARALLEL</code></td>
+<tr id='dns-forward-parallel'>
+<td><a href='#dns-forward-parallel'><code>DNS_FORWARD_PARALLEL</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, agent will send parallel DNS queries to all upstream nameservers</td>
 </tr>
-<tr>
-<td><code>DNS_PROXY_ADDR</code></td>
+<tr id='dns-proxy-addr'>
+<td><a href='#dns-proxy-addr'><code>DNS_PROXY_ADDR</code></a></td>
 <td>String</td>
 <td><code>localhost:15053</code></td>
 <td>Custom address for the DNS proxy. If it ends with :53 and running as root allows running without iptable DNS capture</td>
 </tr>
-<tr>
-<td><code>DRY_RUN_FILE_PATH</code></td>
+<tr id='dry-run-file-path'>
+<td><a href='#dry-run-file-path'><code>DRY_RUN_FILE_PATH</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>If provided, StdoutStubDependencies will write the input from stdin to the given file.</td>
 </tr>
-<tr>
-<td><code>ECC_CURVE</code></td>
+<tr id='ecc-curve'>
+<td><a href='#ecc-curve'><code>ECC_CURVE</code></a></td>
 <td>String</td>
 <td><code>P256</code></td>
 <td>The elliptic curve to use when ECC_SIGNATURE_ALGORITHM is set to ECDSA</td>
 </tr>
-<tr>
-<td><code>ECC_SIGNATURE_ALGORITHM</code></td>
+<tr id='ecc-signature-algorithm'>
+<td><a href='#ecc-signature-algorithm'><code>ECC_SIGNATURE_ALGORITHM</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>The type of ECC signature algorithm to use when generating private keys</td>
 </tr>
-<tr>
-<td><code>ENABLE_100_CONTINUE_HEADERS</code></td>
+<tr id='enable-100-continue-headers'>
+<td><a href='#enable-100-continue-headers'><code>ENABLE_100_CONTINUE_HEADERS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, istiod will proxy 100-continue headers as is</td>
 </tr>
-<tr>
-<td><code>ENABLE_CA_SERVER</code></td>
+<tr id='enable-ca-server'>
+<td><a href='#enable-ca-server'><code>ENABLE_CA_SERVER</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, will not create CA server in istiod.</td>
 </tr>
-<tr>
-<td><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></td>
+<tr id='enable-cluster-trust-bundle-api'>
+<td><a href='#enable-cluster-trust-bundle-api'><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
 </tr>
-<tr>
-<td><code>ENABLE_DEBUG_ON_HTTP</code></td>
+<tr id='enable-debug-on-http'>
+<td><a href='#enable-debug-on-http'><code>ENABLE_DEBUG_ON_HTTP</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
 </tr>
-<tr>
-<td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
+<tr id='enable-enhanced-destinationrule-merge'>
+<td><a href='#enable-enhanced-destinationrule-merge'><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
-<tr>
-<td><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></td>
+<tr id='enable-gateway-api-manual-deployment'>
+<td><a href='#enable-gateway-api-manual-deployment'><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, allows users to bind Gateway API resources to existing gateway deployments.</td>
 </tr>
-<tr>
-<td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
+<tr id='enable-hcm-internal-networks'>
+<td><a href='#enable-hcm-internal-networks'><code>ENABLE_HCM_INTERNAL_NETWORKS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
 </tr>
-<tr>
-<td><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></td>
+<tr id='enable-ingress-waypoint-routing'>
+<td><a href='#enable-ingress-waypoint-routing'><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Gateways will call service waypoints if the &#39;istio.io/ingress-use-waypoint&#39; label set on the Service.</td>
 </tr>
-<tr>
-<td><code>ENABLE_LAYERED_WAYPOINT_AUTHORIZATION_POLICIES</code></td>
+<tr id='enable-layered-waypoint-authorization-policies'>
+<td><a href='#enable-layered-waypoint-authorization-policies'><code>ENABLE_LAYERED_WAYPOINT_AUTHORIZATION_POLICIES</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, selector based authorization policies will be enforced as L4 policies in front of the waypoint.</td>
 </tr>
-<tr>
-<td><code>ENABLE_LAZY_SIDECAR_EVALUATION</code></td>
+<tr id='enable-lazy-sidecar-evaluation'>
+<td><a href='#enable-lazy-sidecar-evaluation'><code>ENABLE_LAZY_SIDECAR_EVALUATION</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will only compute sidecar resources when actually used</td>
 </tr>
-<tr>
-<td><code>ENABLE_LEADER_ELECTION</code></td>
+<tr id='enable-leader-election'>
+<td><a href='#enable-leader-election'><code>ENABLE_LEADER_ELECTION</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
 </tr>
-<tr>
-<td><code>ENABLE_LOCALITY_WEIGHTED_LB_CONFIG</code></td>
+<tr id='enable-locality-weighted-lb-config'>
+<td><a href='#enable-locality-weighted-lb-config'><code>ENABLE_LOCALITY_WEIGHTED_LB_CONFIG</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, always set LocalityWeightedLbConfig for a cluster,  otherwise only apply it when locality lb is specified by DestinationRule for a service</td>
 </tr>
-<tr>
-<td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
+<tr id='enable-mcs-auto-export'>
+<td><a href='#enable-mcs-auto-export'><code>ENABLE_MCS_AUTO_EXPORT</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, istiod will automatically generate Kubernetes Multi-Cluster Services (MCS) ServiceExport resources for every service in the mesh. Services defined to be cluster-local in MeshConfig are excluded.</td>
 </tr>
-<tr>
-<td><code>ENABLE_MCS_CLUSTER_LOCAL</code></td>
+<tr id='enable-mcs-cluster-local'>
+<td><a href='#enable-mcs-cluster-local'><code>ENABLE_MCS_CLUSTER_LOCAL</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, istiod will treat the host `&lt;svc&gt;.&lt;namespace&gt;.svc.cluster.local` as defined by the Kubernetes Multi-Cluster Services (MCS) spec. In this mode, requests to `cluster.local` will be routed to only those endpoints residing within the same cluster as the client. Requires that both ENABLE_MCS_SERVICE_DISCOVERY and ENABLE_MCS_HOST also be enabled.</td>
 </tr>
-<tr>
-<td><code>ENABLE_MCS_HOST</code></td>
+<tr id='enable-mcs-host'>
+<td><a href='#enable-mcs-host'><code>ENABLE_MCS_HOST</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, istiod will configure a Kubernetes Multi-Cluster Services (MCS) host (&lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local) for each service exported (via ServiceExport) in at least one cluster. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used. Requires that ENABLE_MCS_SERVICE_DISCOVERY also be enabled.</td>
 </tr>
-<tr>
-<td><code>ENABLE_MCS_SERVICE_DISCOVERY</code></td>
+<tr id='enable-mcs-service-discovery'>
+<td><a href='#enable-mcs-service-discovery'><code>ENABLE_MCS_SERVICE_DISCOVERY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, istiod will enable Kubernetes Multi-Cluster Services (MCS) service discovery mode. In this mode, service endpoints in a cluster will only be discoverable within the same cluster unless explicitly exported via ServiceExport.</td>
 </tr>
-<tr>
-<td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
+<tr id='enable-multicluster-headless'>
+<td><a href='#enable-multicluster-headless'><code>ENABLE_MULTICLUSTER_HEADLESS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
 </tr>
-<tr>
-<td><code>ENABLE_NATIVE_SIDECARS</code></td>
+<tr id='enable-native-sidecars'>
+<td><a href='#enable-native-sidecars'><code>ENABLE_NATIVE_SIDECARS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
 </tr>
-<tr>
-<td><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></td>
+<tr id='enable-probe-keepalive-connections'>
+<td><a href='#enable-probe-keepalive-connections'><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will keep the connection from pilot-agent to the application alive. This mirrors older Istio versions&#39; behaviors, but not kubelet&#39;s.</td>
 </tr>
-<tr>
-<td><code>ENABLE_PROXY_FIND_POD_BY_IP</code></td>
+<tr id='enable-proxy-find-pod-by-ip'>
+<td><a href='#enable-proxy-find-pod-by-ip'><code>ENABLE_PROXY_FIND_POD_BY_IP</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, the pod controller will allow finding pods matching proxies by IP if it fails to find them by name.</td>
 </tr>
-<tr>
-<td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
+<tr id='enable-selector-based-k8s-gateway-policy'>
+<td><a href='#enable-selector-based-k8s-gateway-policy'><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If disabled, Gateway API gateways will ignore workloadSelector policies, onlyapplying policies that select the gateway with a targetRef.</td>
 </tr>
-<tr>
-<td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
+<tr id='enable-tls-on-sidecar-ingress'>
+<td><a href='#enable-tls-on-sidecar-ingress'><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
 </tr>
-<tr>
-<td><code>ENABLE_VTPROTOBUF</code></td>
+<tr id='enable-vtprotobuf'>
+<td><a href='#enable-vtprotobuf'><code>ENABLE_VTPROTOBUF</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
 </tr>
-<tr>
-<td><code>ENVOY_PROMETHEUS_PORT</code></td>
+<tr id='envoy-prometheus-port'>
+<td><a href='#envoy-prometheus-port'><code>ENVOY_PROMETHEUS_PORT</code></a></td>
 <td>Integer</td>
 <td><code>15090</code></td>
 <td>Envoy prometheus redirection port value</td>
 </tr>
-<tr>
-<td><code>ENVOY_SKIP_DEPRECATED_LOGS</code></td>
+<tr id='envoy-skip-deprecated-logs'>
+<td><a href='#envoy-skip-deprecated-logs'><code>ENVOY_SKIP_DEPRECATED_LOGS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>By default, deprecated log messages are skipped, Set to &#39;false&#39; to display all deprecated log messages.</td>
 </tr>
-<tr>
-<td><code>ENVOY_STATUS_PORT</code></td>
+<tr id='envoy-status-port'>
+<td><a href='#envoy-status-port'><code>ENVOY_STATUS_PORT</code></a></td>
 <td>Integer</td>
 <td><code>15021</code></td>
 <td>Envoy health status port value</td>
 </tr>
-<tr>
-<td><code>ENVOY_STATUS_PORT_ENABLE_PROXY_PROTOCOL</code></td>
+<tr id='envoy-status-port-enable-proxy-protocol'>
+<td><a href='#envoy-status-port-enable-proxy-protocol'><code>ENVOY_STATUS_PORT_ENABLE_PROXY_PROTOCOL</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Envoy will support requests with proxy protocol on its status port</td>
 </tr>
-<tr>
-<td><code>ENVOY_USER</code></td>
+<tr id='envoy-user'>
+<td><a href='#envoy-user'><code>ENVOY_USER</code></a></td>
 <td>String</td>
 <td><code>istio-proxy</code></td>
 <td>Envoy proxy username</td>
 </tr>
-<tr>
-<td><code>EXIT_ON_ZERO_ACTIVE_CONNECTIONS</code></td>
+<tr id='exit-on-zero-active-connections'>
+<td><a href='#exit-on-zero-active-connections'><code>EXIT_ON_ZERO_ACTIVE_CONNECTIONS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>When set to true, terminates proxy when number of active connections become zero during draining</td>
 </tr>
-<tr>
-<td><code>EXTERNAL_ISTIOD</code></td>
+<tr id='external-istiod'>
+<td><a href='#external-istiod'><code>EXTERNAL_ISTIOD</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
-<tr>
-<td><code>FILE_DEBOUNCE_DURATION</code></td>
+<tr id='file-debounce-duration'>
+<td><a href='#file-debounce-duration'><code>FILE_DEBOUNCE_DURATION</code></a></td>
 <td>Time Duration</td>
 <td><code>100ms</code></td>
 <td>The duration for which the file read operation is delayed once file update is detected</td>
 </tr>
-<tr>
-<td><code>FILE_MOUNTED_CERTS</code></td>
+<tr id='file-mounted-certs'>
+<td><a href='#file-mounted-certs'><code>FILE_MOUNTED_CERTS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>GCP_METADATA</code></td>
+<tr id='gcp-metadata'>
+<td><a href='#gcp-metadata'><code>GCP_METADATA</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
 </tr>
-<tr>
-<td><code>GCP_QUOTA_PROJECT</code></td>
+<tr id='gcp-quota-project'>
+<td><a href='#gcp-quota-project'><code>GCP_QUOTA_PROJECT</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
 </tr>
-<tr>
-<td><code>GCP_ZONE</code></td>
+<tr id='gcp-zone'>
+<td><a href='#gcp-zone'><code>GCP_ZONE</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>GCP Zone where the workload is running on.</td>
 </tr>
-<tr>
-<td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
+<tr id='grpc-keepalive-interval'>
+<td><a href='#grpc-keepalive-interval'><code>GRPC_KEEPALIVE_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>30s</code></td>
 <td>gRPC Keepalive Interval</td>
 </tr>
-<tr>
-<td><code>GRPC_KEEPALIVE_TIMEOUT</code></td>
+<tr id='grpc-keepalive-timeout'>
+<td><a href='#grpc-keepalive-timeout'><code>GRPC_KEEPALIVE_TIMEOUT</code></a></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>gRPC Keepalive Timeout</td>
 </tr>
-<tr>
-<td><code>GRPC_XDS_BOOTSTRAP</code></td>
+<tr id='grpc-xds-bootstrap'>
+<td><a href='#grpc-xds-bootstrap'><code>GRPC_XDS_BOOTSTRAP</code></a></td>
 <td>String</td>
 <td><code>etc/istio/proxy/grpc-bootstrap.json</code></td>
 <td>Path where gRPC expects to read a bootstrap file. Agent will generate one if set.</td>
 </tr>
-<tr>
-<td><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></td>
+<tr id='http-strip-fragment-from-path-unsafe-if-disabled'>
+<td><a href='#http-strip-fragment-from-path-unsafe-if-disabled'><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>INBOUND_INTERCEPTION_MODE</code></td>
+<tr id='inbound-interception-mode'>
+<td><a href='#inbound-interception-mode'><code>INBOUND_INTERCEPTION_MODE</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;</td>
 </tr>
-<tr>
-<td><code>INBOUND_TPROXY_MARK</code></td>
+<tr id='inbound-tproxy-mark'>
+<td><a href='#inbound-tproxy-mark'><code>INBOUND_TPROXY_MARK</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
+<tr id='injection-webhook-config-name'>
+<td><a href='#injection-webhook-config-name'><code>INJECTION_WEBHOOK_CONFIG_NAME</code></a></td>
 <td>String</td>
 <td><code>istio-sidecar-injector</code></td>
 <td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
 </tr>
-<tr>
-<td><code>INSTANCE_IP</code></td>
+<tr id='instance-ip'>
+<td><a href='#instance-ip'><code>INSTANCE_IP</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIOD_CUSTOM_HOST</code></td>
+<tr id='istiod-custom-host'>
+<td><a href='#istiod-custom-host'><code>ISTIOD_CUSTOM_HOST</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Custom host name of istiod that istiod signs the server cert. Multiple custom host names are supported, and multiple values are separated by commas.</td>
 </tr>
-<tr>
-<td><code>ISTIOD_SAN</code></td>
+<tr id='istiod-san'>
+<td><a href='#istiod-san'><code>ISTIOD_SAN</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Override the ServerName used to validate Istiod certificate. Can be used as an alternative to setting /etc/hosts for VMs - discovery address will be an IP:port</td>
 </tr>
-<tr>
-<td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
+<tr id='istio-agent-enable-wasm-remote-load-conversion'>
+<td><a href='#istio-agent-enable-wasm-remote-load-conversion'><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
 </tr>
-<tr>
-<td><code>ISTIO_BOOTSTRAP</code></td>
+<tr id='istio-bootstrap'>
+<td><a href='#istio-bootstrap'><code>ISTIO_BOOTSTRAP</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIO_BOOTSTRAP_OVERRIDE</code></td>
+<tr id='istio-bootstrap-override'>
+<td><a href='#istio-bootstrap-override'><code>ISTIO_BOOTSTRAP_OVERRIDE</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIO_CPU_LIMIT</code></td>
+<tr id='istio-cpu-limit'>
+<td><a href='#istio-cpu-limit'><code>ISTIO_CPU_LIMIT</code></a></td>
 <td>Integer</td>
 <td><code>0</code></td>
 <td>CPU limit for the current process. Expressed as an integer value, rounded up.</td>
 </tr>
-<tr>
-<td><code>ISTIO_DELTA_XDS</code></td>
+<tr id='istio-delta-xds'>
+<td><a href='#istio-delta-xds'><code>ISTIO_DELTA_XDS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will only send the delta configs as opposed to the state of the world configuration on a Resource Request. While this feature uses the delta xds api, it may still occasionally send unchanged configurations instead of just the actual deltas.</td>
 </tr>
-<tr>
-<td><code>ISTIO_DUAL_STACK</code></td>
+<tr id='istio-dual-stack'>
+<td><a href='#istio-dual-stack'><code>ISTIO_DUAL_STACK</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Istio will enable the Dual Stack feature.</td>
 </tr>
-<tr>
-<td><code>ISTIO_ENABLE_CONTROLLER_QUEUE_METRICS</code></td>
+<tr id='istio-enable-controller-queue-metrics'>
+<td><a href='#istio-enable-controller-queue-metrics'><code>ISTIO_ENABLE_CONTROLLER_QUEUE_METRICS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, publishes metrics for queue depth, latency and processing times.</td>
 </tr>
-<tr>
-<td><code>ISTIO_ENABLE_HTTP2_PROBING</code></td>
+<tr id='istio-enable-http2-probing'>
+<td><a href='#istio-enable-http2-probing'><code>ISTIO_ENABLE_HTTP2_PROBING</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, HTTP2 probes will be enabled for HTTPS probes, following Kubernetes</td>
 </tr>
-<tr>
-<td><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></td>
+<tr id='istio-enable-ipv4-outbound-listener-for-ipv6-clusters'>
+<td><a href='#istio-enable-ipv4-outbound-listener-for-ipv6-clusters'><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
 </tr>
-<tr>
-<td><code>ISTIO_ENVOY_ENABLE_CORE_DUMP</code></td>
+<tr id='istio-envoy-enable-core-dump'>
+<td><a href='#istio-envoy-enable-core-dump'><code>ISTIO_ENVOY_ENABLE_CORE_DUMP</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
+<tr id='istio-gprc-maxrecvmsgsize'>
+<td><a href='#istio-gprc-maxrecvmsgsize'><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></a></td>
 <td>Integer</td>
 <td><code>4194304</code></td>
 <td>Sets the max receive buffer size of gRPC stream in bytes.</td>
 </tr>
-<tr>
-<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<tr id='istio-gprc-maxstreams'>
+<td><a href='#istio-gprc-maxstreams'><code>ISTIO_GPRC_MAXSTREAMS</code></a></td>
 <td>Integer</td>
 <td><code>100000</code></td>
 <td>Sets the maximum number of concurrent grpc streams.</td>
 </tr>
-<tr>
-<td><code>ISTIO_KUBE_APP_PROBERS</code></td>
+<tr id='istio-kube-app-probers'>
+<td><a href='#istio-kube-app-probers'><code>ISTIO_KUBE_APP_PROBERS</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIO_KUBE_CLIENT_CONTENT_TYPE</code></td>
+<tr id='istio-kube-client-content-type'>
+<td><a href='#istio-kube-client-content-type'><code>ISTIO_KUBE_CLIENT_CONTENT_TYPE</code></a></td>
 <td>String</td>
 <td><code>protobuf</code></td>
 <td>The content type to use for Kubernetes clients. Defaults to protobuf. Valid options: [protobuf, json]</td>
 </tr>
-<tr>
-<td><code>ISTIO_META_CERT_SIGNER</code></td>
+<tr id='istio-meta-cert-signer'>
+<td><a href='#istio-meta-cert-signer'><code>ISTIO_META_CERT_SIGNER</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>The cert signer info for workload cert</td>
 </tr>
-<tr>
-<td><code>ISTIO_META_CLUSTER_ID</code></td>
+<tr id='istio-meta-cluster-id'>
+<td><a href='#istio-meta-cluster-id'><code>ISTIO_META_CLUSTER_ID</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIO_META_DNS_CAPTURE</code></td>
+<tr id='istio-meta-dns-capture'>
+<td><a href='#istio-meta-dns-capture'><code>ISTIO_META_DNS_CAPTURE</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, enable the capture of outgoing DNS packets on port 53, redirecting to istio-agent on :15053</td>
 </tr>
-<tr>
-<td><code>ISTIO_META_ENABLE_DNS_SERVER</code></td>
+<tr id='istio-meta-enable-dns-server'>
+<td><a href='#istio-meta-enable-dns-server'><code>ISTIO_META_ENABLE_DNS_SERVER</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, starts the DNS server on :15053. This won&#39;t automatically capture the DNS traffic and can be used when we want Gateways to resolve DNS using this as Resolver for use cases like Dynamic Forward Proxy</td>
 </tr>
-<tr>
-<td><code>ISTIO_MULTIROOT_MESH</code></td>
+<tr id='istio-multiroot-mesh'>
+<td><a href='#istio-multiroot-mesh'><code>ISTIO_MULTIROOT_MESH</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
 </tr>
-<tr>
-<td><code>ISTIO_OUTBOUND_IPV4_LOOPBACK_CIDR</code></td>
+<tr id='istio-outbound-ipv4-loopback-cidr'>
+<td><a href='#istio-outbound-ipv4-loopback-cidr'><code>ISTIO_OUTBOUND_IPV4_LOOPBACK_CIDR</code></a></td>
 <td>String</td>
 <td><code>127.0.0.1/32</code></td>
 <td>IPv4 CIDR range used to identify outbound traffic on loopback interface intended for application container</td>
 </tr>
-<tr>
-<td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
+<tr id='istio-outbound-owner-groups'>
+<td><a href='#istio-outbound-owner-groups'><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></a></td>
 <td>String</td>
 <td><code>*</code></td>
 <td>Comma separated list of groups whose outgoing traffic is to be redirected to Envoy.
 A group can be specified either by name or by a numeric GID.
 The wildcard character &#34;*&#34; can be used to configure redirection of traffic from all groups.</td>
 </tr>
-<tr>
-<td><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></td>
+<tr id='istio-outbound-owner-groups-exclude'>
+<td><a href='#istio-outbound-owner-groups-exclude'><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
 A group can be specified either by name or by a numeric GID.
 Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
 </tr>
-<tr>
-<td><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></td>
+<tr id='istio-prometheus-annotations'>
+<td><a href='#istio-prometheus-annotations'><code>ISTIO_PROMETHEUS_ANNOTATIONS</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>ISTIO_WATCH_NAMESPACE</code></td>
+<tr id='istio-watch-namespace'>
+<td><a href='#istio-watch-namespace'><code>ISTIO_WATCH_NAMESPACE</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
 </tr>
-<tr>
-<td><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></td>
+<tr id='istio-workload-entry-validate-identity'>
+<td><a href='#istio-workload-entry-validate-identity'><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, will validate the identity of a workload matches the identity of the WorkloadEntry it is associating with for health checks and auto registration. This flag is added for backwards compatibility only and will be removed in future releases</td>
 </tr>
-<tr>
-<td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
+<tr id='jwks-resolver-insecure-skip-verify'>
+<td><a href='#jwks-resolver-insecure-skip-verify'><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
 </tr>
-<tr>
-<td><code>JWT_POLICY</code></td>
+<tr id='jwt-policy'>
+<td><a href='#jwt-policy'><code>JWT_POLICY</code></a></td>
 <td>String</td>
 <td><code>third-party-jwt</code></td>
 <td>The JWT validation policy.</td>
 </tr>
-<tr>
-<td><code>KUBERNETES_SERVICE_HOST</code></td>
+<tr id='kubernetes-service-host'>
+<td><a href='#kubernetes-service-host'><code>KUBERNETES_SERVICE_HOST</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Kubernetes service host, set automatically when running in-cluster</td>
 </tr>
-<tr>
-<td><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></td>
+<tr id='label-canonical-services-for-mesh-external-service-entries'>
+<td><a href='#label-canonical-services-for-mesh-external-service-entries'><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
 </tr>
-<tr>
-<td><code>LOCAL_CLUSTER_SECRET_WATCHER</code></td>
+<tr id='local-cluster-secret-watcher'>
+<td><a href='#local-cluster-secret-watcher'><code>LOCAL_CLUSTER_SECRET_WATCHER</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
 </tr>
-<tr>
-<td><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></td>
+<tr id='max-connections-per-socket-event-loop'>
+<td><a href='#max-connections-per-socket-event-loop'><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></a></td>
 <td>Integer</td>
 <td><code>1</code></td>
 <td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
 </tr>
-<tr>
-<td><code>MCS_API_GROUP</code></td>
+<tr id='mcs-api-group'>
+<td><a href='#mcs-api-group'><code>MCS_API_GROUP</code></a></td>
 <td>String</td>
 <td><code>multicluster.x-k8s.io</code></td>
 <td>The group to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
 </tr>
-<tr>
-<td><code>MCS_API_VERSION</code></td>
+<tr id='mcs-api-version'>
+<td><a href='#mcs-api-version'><code>MCS_API_VERSION</code></a></td>
 <td>String</td>
 <td><code>v1alpha1</code></td>
 <td>The version to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
 </tr>
-<tr>
-<td><code>METRICS_LOCALHOST_ACCESS_ONLY</code></td>
+<tr id='metrics-localhost-access-only'>
+<td><a href='#metrics-localhost-access-only'><code>METRICS_LOCALHOST_ACCESS_ONLY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>This will disable metrics endpoint from outside of the pod, allowing only localhost access.</td>
 </tr>
-<tr>
-<td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
+<tr id='metric-graceful-deletion-interval'>
+<td><a href='#metric-graceful-deletion-interval'><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>5m0s</code></td>
 <td>Metric expiry graceful deletion interval. No-op if METRIC_ROTATION_INTERVAL is disabled.</td>
 </tr>
-<tr>
-<td><code>METRIC_ROTATION_INTERVAL</code></td>
+<tr id='metric-rotation-interval'>
+<td><a href='#metric-rotation-interval'><code>METRIC_ROTATION_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>0s</code></td>
 <td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
 </tr>
-<tr>
-<td><code>MINIMUM_DRAIN_DURATION</code></td>
+<tr id='minimum-drain-duration'>
+<td><a href='#minimum-drain-duration'><code>MINIMUM_DRAIN_DURATION</code></a></td>
 <td>Time Duration</td>
 <td><code>5s</code></td>
 <td>The minimum duration for which agent waits before it checks for active connections and terminates proxy when number of active connections become zero</td>
 </tr>
-<tr>
-<td><code>MUTEX_PROFILE_FRACTION</code></td>
+<tr id='mutex-profile-fraction'>
+<td><a href='#mutex-profile-fraction'><code>MUTEX_PROFILE_FRACTION</code></a></td>
 <td>Integer</td>
 <td><code>1000</code></td>
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
 </tr>
-<tr>
-<td><code>OUTPUT_CERTS</code></td>
+<tr id='output-certs'>
+<td><a href='#output-certs'><code>OUTPUT_CERTS</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>The output directory for the key and certificate. If empty, key and certificate will not be saved. Must be set for VMs using provisioning certificates.</td>
 </tr>
-<tr>
-<td><code>PEER_METADATA_DISCOVERY</code></td>
+<tr id='peer-metadata-discovery'>
+<td><a href='#peer-metadata-discovery'><code>PEER_METADATA_DISCOVERY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, enable the peer metadata discovery extension in Envoy</td>
 </tr>
-<tr>
-<td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
+<tr id='pilot-allow-sidecar-service-inbound-listener-merge'>
+<td><a href='#pilot-allow-sidecar-service-inbound-listener-merge'><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set, it allows creating inbound listeners for service ports and sidecar ingress listeners </td>
 </tr>
-<tr>
-<td><code>PILOT_ANALYSIS_INTERVAL</code></td>
+<tr id='pilot-analysis-interval'>
+<td><a href='#pilot-analysis-interval'><code>PILOT_ANALYSIS_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>If analysis is enabled, pilot will run istio analyzers using this value as interval in seconds Istio Resources</td>
 </tr>
-<tr>
-<td><code>PILOT_AUTO_ALLOW_WAYPOINT_POLICY</code></td>
+<tr id='pilot-auto-allow-waypoint-policy'>
+<td><a href='#pilot-auto-allow-waypoint-policy'><code>PILOT_AUTO_ALLOW_WAYPOINT_POLICY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
 </tr>
-<tr>
-<td><code>PILOT_CA_CERT_CONFIGMAP</code></td>
+<tr id='pilot-ca-cert-configmap'>
+<td><a href='#pilot-ca-cert-configmap'><code>PILOT_CA_CERT_CONFIGMAP</code></a></td>
 <td>String</td>
 <td><code>istio-ca-root-cert</code></td>
 <td>The name of the ConfigMap that stores the Root CA Certificate that is used by istiod</td>
 </tr>
-<tr>
-<td><code>PILOT_CERT_PROVIDER</code></td>
+<tr id='pilot-cert-provider'>
+<td><a href='#pilot-cert-provider'><code>PILOT_CERT_PROVIDER</code></a></td>
 <td>String</td>
 <td><code>istiod</code></td>
 <td>The provider of Pilot DNS certificate. K8S RA will be used for k8s.io/NAME. &#39;istiod&#39; value will sign using Istio build in CA. Other values will not not generate TLS certs, but still  distribute ./etc/certs/root-cert.pem. Only used if custom certificates are not mounted.</td>
 </tr>
-<tr>
-<td><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></td>
+<tr id='pilot-convert-sidecar-scope-concurrency'>
+<td><a href='#pilot-convert-sidecar-scope-concurrency'><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></a></td>
 <td>Integer</td>
 <td><code>1</code></td>
 <td>Deprecated, superseded by ENABLE_LAZY_SIDECAR_EVALUATION. Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
 </tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<tr id='pilot-debounce-after'>
+<td><a href='#pilot-debounce-after'><code>PILOT_DEBOUNCE_AFTER</code></a></td>
 <td>Time Duration</td>
 <td><code>100ms</code></td>
 <td>The delay added to config/registry events for debouncing. This will delay the push by at least this interval. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
 </tr>
-<tr>
-<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<tr id='pilot-debounce-max'>
+<td><a href='#pilot-debounce-max'><code>PILOT_DEBOUNCE_MAX</code></a></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
 </tr>
-<tr>
-<td><code>PILOT_DISABLE_MX_ALPN</code></td>
+<tr id='pilot-disable-mx-alpn'>
+<td><a href='#pilot-disable-mx-alpn'><code>PILOT_DISABLE_MX_ALPN</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
 </tr>
-<tr>
-<td><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></td>
+<tr id='pilot-dns-cares-udp-max-queries'>
+<td><a href='#pilot-dns-cares-udp-max-queries'><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></a></td>
 <td>String</td>
 <td><code>100</code></td>
 <td>Sets the `udp_max_queries` option in Envoy for the Cares DNS resolver. Defaults to 0, an unlimited number of queries. See `extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig` in https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto and `ARES_OPT_UDP_MAX_QUERIES` in https://c-ares.org/docs/ares_init.html</td>
 </tr>
-<tr>
-<td><code>PILOT_DNS_JITTER_DURATION</code></td>
+<tr id='pilot-dns-jitter-duration'>
+<td><a href='#pilot-dns-jitter-duration'><code>PILOT_DNS_JITTER_DURATION</code></a></td>
 <td>Time Duration</td>
 <td><code>100ms</code></td>
 <td>Jitter added to periodic DNS resolution</td>
 </tr>
-<tr>
-<td><code>PILOT_DRAINING_LABEL</code></td>
+<tr id='pilot-draining-label'>
+<td><a href='#pilot-draining-label'><code>PILOT_DRAINING_LABEL</code></a></td>
 <td>String</td>
 <td><code>istio.io/draining</code></td>
 <td>If not empty, endpoints with the label value present will be sent with status DRAINING.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_ABSOLUTE_FQDN_VHOST_DOMAIN</code></td>
+<tr id='pilot-enable-absolute-fqdn-vhost-domain'>
+<td><a href='#pilot-enable-absolute-fqdn-vhost-domain'><code>PILOT_ENABLE_ABSOLUTE_FQDN_VHOST_DOMAIN</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If set to false, Istio will not add the absolute FQDN variant (e.g., my-service.my-ns.svc.cluster.local.) to the domains list for VirtualHost entries.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></td>
+<tr id='pilot-enable-alpha-gateway-api'>
+<td><a href='#pilot-enable-alpha-gateway-api'><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, support for alpha APIs in the Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_ALPN_FILTER</code></td>
+<tr id='pilot-enable-alpn-filter'>
+<td><a href='#pilot-enable-alpn-filter'><code>PILOT_ENABLE_ALPN_FILTER</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, pilot will add Istio ALPN filters, required for proper protocol sniffing.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_AMBIENT</code></td>
+<tr id='pilot-enable-ambient'>
+<td><a href='#pilot-enable-ambient'><code>PILOT_ENABLE_AMBIENT</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, ambient mode can be used. Individual flags configure fine grained enablement; this must be enabled for any ambient functionality.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></td>
+<tr id='pilot-enable-ambient-waypoints'>
+<td><a href='#pilot-enable-ambient-waypoints'><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_ANALYSIS</code></td>
+<tr id='pilot-enable-analysis'>
+<td><a href='#pilot-enable-analysis'><code>PILOT_ENABLE_ANALYSIS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, pilot will run istio analyzers and write analysis errors to the Status field of any Istio Resources</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_CA_CRL</code></td>
+<tr id='pilot-enable-ca-crl'>
+<td><a href='#pilot-enable-ca-crl'><code>PILOT_ENABLE_CA_CRL</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, Istio will watch for ca-crl.pem file in /etc/cacerts directory and will distribute crl data in each namespace in the cluster for proxies to consume. </td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_CDS_CACHE</code></td>
+<tr id='pilot-enable-cds-cache'>
+<td><a href='#pilot-enable-cds-cache'><code>PILOT_ENABLE_CDS_CACHE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
+<tr id='pilot-enable-cross-cluster-workload-entry'>
+<td><a href='#pilot-enable-cross-cluster-workload-entry'><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<tr id='pilot-enable-eds-debounce'>
+<td><a href='#pilot-enable-eds-debounce'><code>PILOT_ENABLE_EDS_DEBOUNCE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_EDS_FOR_HEADLESS_SERVICES</code></td>
+<tr id='pilot-enable-eds-for-headless-services'>
+<td><a href='#pilot-enable-eds-for-headless-services'><code>PILOT_ENABLE_EDS_FOR_HEADLESS_SERVICES</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_GATEWAY_API</code></td>
+<tr id='pilot-enable-gateway-api'>
+<td><a href='#pilot-enable-gateway-api'><code>PILOT_ENABLE_GATEWAY_API</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_GATEWAY_API_COPY_LABELS_ANNOTATIONS</code></td>
+<tr id='pilot-enable-gateway-api-copy-labels-annotations'>
+<td><a href='#pilot-enable-gateway-api-copy-labels-annotations'><code>PILOT_ENABLE_GATEWAY_API_COPY_LABELS_ANNOTATIONS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to false, istiod will not copy any attributes from the Gateway resource onto its related Deployment resources.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER</code></td>
+<tr id='pilot-enable-gateway-api-deployment-controller'>
+<td><a href='#pilot-enable-gateway-api-deployment-controller'><code>PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></td>
+<tr id='pilot-enable-gateway-api-gatewayclass-controller'>
+<td><a href='#pilot-enable-gateway-api-gatewayclass-controller'><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, istiod will create and manage its default GatewayClasses</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
+<tr id='pilot-enable-gateway-api-status'>
+<td><a href='#pilot-enable-gateway-api-status'><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></td>
+<tr id='pilot-enable-ip-autoallocate'>
+<td><a href='#pilot-enable-ip-autoallocate'><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will start a controller that assigns IP addresses to ServiceEntry which do not have a user-supplied IP. This, when combined with DNS capture allows for tcp routing of traffic sent to the ServiceEntry.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
+<tr id='pilot-enable-k8s-select-workload-entries'>
+<td><a href='#pilot-enable-k8s-select-workload-entries'><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
+<tr id='pilot-enable-metadata-exchange'>
+<td><a href='#pilot-enable-metadata-exchange'><code>PILOT_ENABLE_METADATA_EXCHANGE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, pilot will add metadata exchange filters, which will be consumed by telemetry filter.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_MONGO_FILTER</code></td>
+<tr id='pilot-enable-mongo-filter'>
+<td><a href='#pilot-enable-mongo-filter'><code>PILOT_ENABLE_MONGO_FILTER</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>EnableMongoFilter enables injection of `envoy.filters.network.mongo_proxy` in the filter chain.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<tr id='pilot-enable-mysql-filter'>
+<td><a href='#pilot-enable-mysql-filter'><code>PILOT_ENABLE_MYSQL_FILTER</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></td>
+<tr id='pilot-enable-node-untaint-controllers'>
+<td><a href='#pilot-enable-node-untaint-controllers'><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, controller that untaints nodes with cni pods ready will run. This should be enabled if you disabled ambient init containers.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></td>
+<tr id='pilot-enable-persistent-session-filter'>
+<td><a href='#pilot-enable-persistent-session-filter'><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Istiod sets up persistent session filter for listeners, if services have &#39;PILOT_PERSISTENT_SESSION_LABEL&#39; set.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_QUIC_LISTENERS</code></td>
+<tr id='pilot-enable-quic-listeners'>
+<td><a href='#pilot-enable-quic-listeners'><code>PILOT_ENABLE_QUIC_LISTENERS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, QUIC listeners will be generated wherever there are listeners terminating TLS on gateways if the gateway service exposes a UDP port with the same number (for example 443/TCP and 443/UDP)</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_RDS_CACHE</code></td>
+<tr id='pilot-enable-rds-cache'>
+<td><a href='#pilot-enable-rds-cache'><code>PILOT_ENABLE_RDS_CACHE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will cache RDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<tr id='pilot-enable-redis-filter'>
+<td><a href='#pilot-enable-redis-filter'><code>PILOT_ENABLE_REDIS_FILTER</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_ROUTE_COLLAPSE_OPTIMIZATION</code></td>
+<tr id='pilot-enable-route-collapse-optimization'>
+<td><a href='#pilot-enable-route-collapse-optimization'><code>PILOT_ENABLE_ROUTE_COLLAPSE_OPTIMIZATION</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_SENDING_HBONE</code></td>
+<tr id='pilot-enable-sending-hbone'>
+<td><a href='#pilot-enable-sending-hbone'><code>PILOT_ENABLE_SENDING_HBONE</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, HBONE will be allowed when sending to destinations.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
+<tr id='pilot-enable-serviceentry-select-pods'>
+<td><a href='#pilot-enable-serviceentry-select-pods'><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_SIDECAR_LISTENING_HBONE</code></td>
+<tr id='pilot-enable-sidecar-listening-hbone'>
+<td><a href='#pilot-enable-sidecar-listening-hbone'><code>PILOT_ENABLE_SIDECAR_LISTENING_HBONE</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, HBONE support can be configured for proxies.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
+<tr id='pilot-enable-telemetry-label'>
+<td><a href='#pilot-enable-telemetry-label'><code>PILOT_ENABLE_TELEMETRY_LABEL</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, pilot will add telemetry related metadata to cluster and endpoint resources, which will be consumed by telemetry filter.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
+<tr id='pilot-enable-workload-entry-autoregistration'>
+<td><a href='#pilot-enable-workload-entry-autoregistration'><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>Enables auto-registering WorkloadEntries based on associated WorkloadGroups upon XDS connection by the workload.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS</code></td>
+<tr id='pilot-enable-workload-entry-healthchecks'>
+<td><a href='#pilot-enable-workload-entry-healthchecks'><code>PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>Enables automatic health checks of WorkloadEntries based on the config provided in the associated WorkloadGroup</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_XDS_CACHE</code></td>
+<tr id='pilot-enable-xds-cache'>
+<td><a href='#pilot-enable-xds-cache'><code>PILOT_ENABLE_XDS_CACHE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will cache XDS responses.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENABLE_XDS_IDENTITY_CHECK</code></td>
+<tr id='pilot-enable-xds-identity-check'>
+<td><a href='#pilot-enable-xds-identity-check'><code>PILOT_ENABLE_XDS_IDENTITY_CHECK</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will authorize XDS clients, to ensure they are acting only as namespaces they have permissions for.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENDPOINT_TELEMETRY_LABEL</code></td>
+<tr id='pilot-endpoint-telemetry-label'>
+<td><a href='#pilot-endpoint-telemetry-label'><code>PILOT_ENDPOINT_TELEMETRY_LABEL</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
 </tr>
-<tr>
-<td><code>PILOT_ENVOY_FILTER_STATS</code></td>
+<tr id='pilot-envoy-filter-stats'>
+<td><a href='#pilot-envoy-filter-stats'><code>PILOT_ENVOY_FILTER_STATS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Pilot will collect metrics for envoy filter operations.</td>
 </tr>
-<tr>
-<td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
+<tr id='pilot-filter-gateway-cluster-config'>
+<td><a href='#pilot-filter-gateway-cluster-config'><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
 </tr>
-<tr>
-<td><code>PILOT_GATEWAY_API_CONTROLLER_NAME</code></td>
+<tr id='pilot-gateway-api-controller-name'>
+<td><a href='#pilot-gateway-api-controller-name'><code>PILOT_GATEWAY_API_CONTROLLER_NAME</code></a></td>
 <td>String</td>
 <td><code>istio.io/gateway-controller</code></td>
 <td>Gateway API controller name. istiod will only reconcile Gateway API resources referencing a GatewayClass with this controller name</td>
 </tr>
-<tr>
-<td><code>PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME</code></td>
+<tr id='pilot-gateway-api-default-gatewayclass-name'>
+<td><a href='#pilot-gateway-api-default-gatewayclass-name'><code>PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME</code></a></td>
 <td>String</td>
 <td><code>istio</code></td>
 <td>Name of the default GatewayClass</td>
 </tr>
-<tr>
-<td><code>PILOT_HTTP10</code></td>
+<tr id='pilot-http10'>
+<td><a href='#pilot-http10'><code>PILOT_HTTP10</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
 </tr>
-<tr>
-<td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
+<tr id='pilot-insecure-multicluster-kubeconfig-options'>
+<td><a href='#pilot-insecure-multicluster-kubeconfig-options'><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
 </tr>
-<tr>
-<td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
+<tr id='pilot-jwt-enable-remote-jwks'>
+<td><a href='#pilot-jwt-enable-remote-jwks'><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></a></td>
 <td>String</td>
 <td><code>false</code></td>
 <td>Mode of fetching JWKs from JwksUri in RequestAuthentication. Supported value: istiod, false, hybrid, true, envoy. The client fetching JWKs is as following: istiod/false - Istiod; hybrid/true - Envoy and fallback to Istiod if JWKs server is external; envoy - Envoy.</td>
 </tr>
-<tr>
-<td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
+<tr id='pilot-jwt-pub-key-refresh-interval'>
+<td><a href='#pilot-jwt-pub-key-refresh-interval'><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>20m0s</code></td>
 <td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
 </tr>
-<tr>
-<td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
+<tr id='pilot-max-requests-per-second'>
+<td><a href='#pilot-max-requests-per-second'><code>PILOT_MAX_REQUESTS_PER_SECOND</code></a></td>
 <td>Floating-Point</td>
 <td><code>0</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
-<tr>
-<td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
+<tr id='pilot-multi-network-discover-gateway-api'>
+<td><a href='#pilot-multi-network-discover-gateway-api'><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
 </tr>
-<tr>
-<td><code>PILOT_MX_ADDITIONAL_LABELS</code></td>
+<tr id='pilot-mx-additional-labels'>
+<td><a href='#pilot-mx-additional-labels'><code>PILOT_MX_ADDITIONAL_LABELS</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
 </tr>
-<tr>
-<td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
+<tr id='pilot-persistent-session-header-label'>
+<td><a href='#pilot-persistent-session-header-label'><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></a></td>
 <td>String</td>
 <td><code>istio.io/persistent-session-header</code></td>
 <td>If not empty, services with this label will use header based persistent sessions</td>
 </tr>
-<tr>
-<td><code>PILOT_PERSISTENT_SESSION_LABEL</code></td>
+<tr id='pilot-persistent-session-label'>
+<td><a href='#pilot-persistent-session-label'><code>PILOT_PERSISTENT_SESSION_LABEL</code></a></td>
 <td>String</td>
 <td><code>istio.io/persistent-session</code></td>
 <td>If not empty, services with this label will use cookie based persistent sessions</td>
 </tr>
-<tr>
-<td><code>PILOT_PREFER_SENDING_HBONE</code></td>
+<tr id='pilot-prefer-sending-hbone'>
+<td><a href='#pilot-prefer-sending-hbone'><code>PILOT_PREFER_SENDING_HBONE</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, HBONE will be preferred when sending to destinations. </td>
 </tr>
-<tr>
-<td><code>PILOT_PUSH_THROTTLE</code></td>
+<tr id='pilot-push-throttle'>
+<td><a href='#pilot-push-throttle'><code>PILOT_PUSH_THROTTLE</code></a></td>
 <td>Integer</td>
 <td><code>0</code></td>
 <td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
-<tr>
-<td><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></td>
+<tr id='pilot-remote-cluster-timeout'>
+<td><a href='#pilot-remote-cluster-timeout'><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></a></td>
 <td>Time Duration</td>
 <td><code>30s</code></td>
 <td>After this timeout expires, pilot can become ready without syncing data from clusters added via remote-secrets. Setting the timeout to 0 disables this behavior.</td>
 </tr>
-<tr>
-<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<tr id='pilot-scope-gateway-to-namespace'>
+<td><a href='#pilot-scope-gateway-to-namespace'><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
 </tr>
-<tr>
-<td><code>PILOT_SEND_UNHEALTHY_ENDPOINTS</code></td>
+<tr id='pilot-send-unhealthy-endpoints'>
+<td><a href='#pilot-send-unhealthy-endpoints'><code>PILOT_SEND_UNHEALTHY_ENDPOINTS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will include unhealthy endpoints in EDS pushes and even if they are sent Envoy does not use them for load balancing.  To avoid, sending traffic to non ready endpoints, enabling this flag, disables panic threshold in Envoy i.e. Envoy does not load balance requests to unhealthy/non-ready hosts even if the percentage of healthy hosts fall below minimum health percentage(panic threshold).</td>
 </tr>
-<tr>
-<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<tr id='pilot-sidecar-use-remote-address'>
+<td><a href='#pilot-sidecar-use-remote-address'><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>UseRemoteAddress sets useRemoteAddress to true for sidecar outbound listeners.</td>
 </tr>
-<tr>
-<td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
+<tr id='pilot-skip-validate-trust-domain'>
+<td><a href='#pilot-skip-validate-trust-domain'><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
 </tr>
-<tr>
-<td><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></td>
+<tr id='pilot-spawn-upstream-span-for-gateway'>
+<td><a href='#pilot-spawn-upstream-span-for-gateway'><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
-<tr>
-<td><code>PILOT_STATUS_MAX_WORKERS</code></td>
+<tr id='pilot-status-max-workers'>
+<td><a href='#pilot-status-max-workers'><code>PILOT_STATUS_MAX_WORKERS</code></a></td>
 <td>Integer</td>
 <td><code>100</code></td>
 <td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
 </tr>
-<tr>
-<td><code>PILOT_TRACE_SAMPLING</code></td>
+<tr id='pilot-trace-sampling'>
+<td><a href='#pilot-trace-sampling'><code>PILOT_TRACE_SAMPLING</code></a></td>
 <td>Floating-Point</td>
 <td><code>1</code></td>
 <td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 1.0.</td>
 </tr>
-<tr>
-<td><code>PILOT_UNIFIED_SIDECAR_SCOPE</code></td>
+<tr id='pilot-unified-sidecar-scope'>
+<td><a href='#pilot-unified-sidecar-scope'><code>PILOT_UNIFIED_SIDECAR_SCOPE</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, unified SidecarScope creation will be used. This is only intended as a temporary feature flag for backwards compatibility.</td>
 </tr>
-<tr>
-<td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
+<tr id='pilot-workload-entry-grace-period'>
+<td><a href='#pilot-workload-entry-grace-period'><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></a></td>
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
 </tr>
-<tr>
-<td><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></td>
+<tr id='pilot-xds-cache-index-clear-interval'>
+<td><a href='#pilot-xds-cache-index-clear-interval'><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>5s</code></td>
 <td>The interval for xds cache index clearing.</td>
 </tr>
-<tr>
-<td><code>PILOT_XDS_CACHE_SIZE</code></td>
+<tr id='pilot-xds-cache-size'>
+<td><a href='#pilot-xds-cache-size'><code>PILOT_XDS_CACHE_SIZE</code></a></td>
 <td>Integer</td>
 <td><code>60000</code></td>
 <td>The maximum number of cache entries for the XDS cache.</td>
 </tr>
-<tr>
-<td><code>PILOT_XDS_CACHE_STATS</code></td>
+<tr id='pilot-xds-cache-stats'>
+<td><a href='#pilot-xds-cache-stats'><code>PILOT_XDS_CACHE_STATS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
 </tr>
-<tr>
-<td><code>PKCS8_KEY</code></td>
+<tr id='pkcs8-key'>
+<td><a href='#pkcs8-key'><code>PKCS8_KEY</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Whether to generate PKCS#8 private keys</td>
 </tr>
-<tr>
-<td><code>POD_NAME</code></td>
+<tr id='pod-name'>
+<td><a href='#pod-name'><code>POD_NAME</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>POD_NAMESPACE</code></td>
+<tr id='pod-namespace'>
+<td><a href='#pod-namespace'><code>POD_NAMESPACE</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td></td>
 </tr>
-<tr>
-<td><code>PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES</code></td>
+<tr id='prefer-destinationrule-tls-for-external-services'>
+<td><a href='#prefer-destinationrule-tls-for-external-services'><code>PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
 </tr>
-<tr>
-<td><code>PROV_CERT</code></td>
+<tr id='prov-cert'>
+<td><a href='#prov-cert'><code>PROV_CERT</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Set to a directory containing provisioned certs, for VMs</td>
 </tr>
-<tr>
-<td><code>PROXY_CONFIG</code></td>
+<tr id='proxy-config'>
+<td><a href='#proxy-config'><code>PROXY_CONFIG</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>The proxy configuration. This will be set by the injection - gateways will use file mounts.</td>
 </tr>
-<tr>
-<td><code>PROXY_CONFIG_XDS_AGENT</code></td>
+<tr id='proxy-config-xds-agent'>
+<td><a href='#proxy-config-xds-agent'><code>PROXY_CONFIG_XDS_AGENT</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If set to true, agent retrieves dynamic proxy-config updates via xds channel</td>
 </tr>
-<tr>
-<td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
+<tr id='resolve-hostname-gateways'>
+<td><a href='#resolve-hostname-gateways'><code>RESOLVE_HOSTNAME_GATEWAYS</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, hostnames in the LoadBalancer addresses of a Service will be resolved at the control plane for use in cross-network gateways.</td>
 </tr>
-<tr>
-<td><code>REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION</code></td>
+<tr id='rewrite-probe-legacy-localhost-destination'>
+<td><a href='#rewrite-probe-legacy-localhost-destination'><code>REWRITE_PROBE_LEGACY_LOCALHOST_DESTINATION</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, readiness probes will be sent to &#39;localhost&#39;. Otherwise, they will be sent to the Pod&#39;s IP, matching Kubernetes&#39; behavior.</td>
 </tr>
-<tr>
-<td><code>SECRET_GRACE_PERIOD_RATIO</code></td>
+<tr id='secret-grace-period-ratio'>
+<td><a href='#secret-grace-period-ratio'><code>SECRET_GRACE_PERIOD_RATIO</code></a></td>
 <td>Floating-Point</td>
 <td><code>0.5</code></td>
 <td>The grace period ratio for the cert rotation, by default 0.5.</td>
 </tr>
-<tr>
-<td><code>SECRET_GRACE_PERIOD_RATIO_JITTER</code></td>
+<tr id='secret-grace-period-ratio-jitter'>
+<td><a href='#secret-grace-period-ratio-jitter'><code>SECRET_GRACE_PERIOD_RATIO_JITTER</code></a></td>
 <td>Floating-Point</td>
 <td><code>0.01</code></td>
 <td>Randomize the grace period ratio up or down by this amount to stagger cert renewals, by default .01 (~15 minutes over 24 hours).</td>
 </tr>
-<tr>
-<td><code>SECRET_TTL</code></td>
+<tr id='secret-ttl'>
+<td><a href='#secret-ttl'><code>SECRET_TTL</code></a></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
 <td>The cert lifetime requested by istio agent</td>
 </tr>
-<tr>
-<td><code>SERVICE_ACCOUNT</code></td>
+<tr id='service-account'>
+<td><a href='#service-account'><code>SERVICE_ACCOUNT</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Name of service account</td>
 </tr>
-<tr>
-<td><code>SHARED_MESH_CONFIG</code></td>
+<tr id='shared-mesh-config'>
+<td><a href='#shared-mesh-config'><code>SHARED_MESH_CONFIG</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
 </tr>
-<tr>
-<td><code>TOKEN_AUDIENCES</code></td>
+<tr id='token-audiences'>
+<td><a href='#token-audiences'><code>TOKEN_AUDIENCES</code></a></td>
 <td>String</td>
 <td><code>istio-ca</code></td>
 <td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
 </tr>
-<tr>
-<td><code>TRUSTED_GATEWAY_CIDR</code></td>
+<tr id='trusted-gateway-cidr'>
+<td><a href='#trusted-gateway-cidr'><code>TRUSTED_GATEWAY_CIDR</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>If set, any connections from gateway to Istiod with this CIDR range are treated as trusted for using authentication mechanisms like XFCC. This can only be used when the network where Istiod and the authenticating gateways are running in a trusted/secure network</td>
 </tr>
-<tr>
-<td><code>TRUST_DOMAIN</code></td>
+<tr id='trust-domain'>
+<td><a href='#trust-domain'><code>TRUST_DOMAIN</code></a></td>
 <td>String</td>
 <td><code>cluster.local</code></td>
 <td>The trust domain for spiffe certificates</td>
 </tr>
-<tr>
-<td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
+<tr id='unsafe-enable-admin-endpoints'>
+<td><a href='#unsafe-enable-admin-endpoints'><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If this is set to true, dangerous admin endpoints will be exposed on the debug interface. Not recommended for production.</td>
 </tr>
-<tr>
-<td><code>UNSAFE_PILOT_ENABLE_DELTA_TEST</code></td>
+<tr id='unsafe-pilot-enable-delta-test'>
+<td><a href='#unsafe-pilot-enable-delta-test'><code>UNSAFE_PILOT_ENABLE_DELTA_TEST</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, addition runtime tests for Delta XDS efficiency are added. These checks are extremely expensive, so this should be used only for testing, not production.</td>
 </tr>
-<tr>
-<td><code>UNSAFE_PILOT_ENABLE_RUNTIME_ASSERTIONS</code></td>
+<tr id='unsafe-pilot-enable-runtime-assertions'>
+<td><a href='#unsafe-pilot-enable-runtime-assertions'><code>UNSAFE_PILOT_ENABLE_RUNTIME_ASSERTIONS</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
 </tr>
-<tr>
-<td><code>USE_CACERTS_FOR_SELF_SIGNED_CA</code></td>
+<tr id='use-cacerts-for-self-signed-ca'>
+<td><a href='#use-cacerts-for-self-signed-ca'><code>USE_CACERTS_FOR_SELF_SIGNED_CA</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, istiod will use a secret named cacerts to store its self-signed istio-generated root certificate.</td>
 </tr>
-<tr>
-<td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
+<tr id='validation-webhook-config-name'>
+<td><a href='#validation-webhook-config-name'><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></a></td>
 <td>String</td>
 <td><code>istio-istio-system</code></td>
 <td>If not empty, the controller will automatically patch validatingwebhookconfiguration when the CA certificate changes. Only works in kubernetes environment.</td>
 </tr>
-<tr>
-<td><code>WASM_HTTP_REQUEST_MAX_RETRIES</code></td>
+<tr id='wasm-http-request-max-retries'>
+<td><a href='#wasm-http-request-max-retries'><code>WASM_HTTP_REQUEST_MAX_RETRIES</code></a></td>
 <td>Integer</td>
 <td><code>5</code></td>
 <td>maximum number of HTTP/HTTPS request retries for pulling a Wasm module via http/https</td>
 </tr>
-<tr>
-<td><code>WASM_HTTP_REQUEST_TIMEOUT</code></td>
+<tr id='wasm-http-request-timeout'>
+<td><a href='#wasm-http-request-timeout'><code>WASM_HTTP_REQUEST_TIMEOUT</code></a></td>
 <td>Time Duration</td>
 <td><code>15s</code></td>
 <td>timeout per a HTTP request for pulling a Wasm module via http/https</td>
 </tr>
-<tr>
-<td><code>WASM_INSECURE_REGISTRIES</code></td>
+<tr id='wasm-insecure-registries'>
+<td><a href='#wasm-insecure-registries'><code>WASM_INSECURE_REGISTRIES</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>allow agent pull wasm plugin from insecure registries or https server, for example: &#39;localhost:5000,docker-registry:5000&#39;</td>
 </tr>
-<tr>
-<td><code>WASM_MODULE_EXPIRY</code></td>
+<tr id='wasm-module-expiry'>
+<td><a href='#wasm-module-expiry'><code>WASM_MODULE_EXPIRY</code></a></td>
 <td>Time Duration</td>
 <td><code>24h0m0s</code></td>
 <td>cache expiration duration for a wasm module.</td>
 </tr>
-<tr>
-<td><code>WASM_PURGE_INTERVAL</code></td>
+<tr id='wasm-purge-interval'>
+<td><a href='#wasm-purge-interval'><code>WASM_PURGE_INTERVAL</code></a></td>
 <td>Time Duration</td>
 <td><code>1h0m0s</code></td>
 <td>interval between checking the expiration of wasm modules</td>
 </tr>
-<tr>
-<td><code>WORKLOAD_IDENTITY_SOCKET_FILE</code></td>
+<tr id='workload-identity-socket-file'>
+<td><a href='#workload-identity-socket-file'><code>WORKLOAD_IDENTITY_SOCKET_FILE</code></a></td>
 <td>String</td>
 <td><code>socket</code></td>
 <td>SPIRE workload identity SDS socket filename. If set, an SDS socket with this name must exist at ./var/run/secrets/workload-spiffe-uds</td>
 </tr>
-<tr>
-<td><code>WORKLOAD_RSA_KEY_SIZE</code></td>
+<tr id='workload-rsa-key-size'>
+<td><a href='#workload-rsa-key-size'><code>WORKLOAD_RSA_KEY_SIZE</code></a></td>
 <td>Integer</td>
 <td><code>2048</code></td>
 <td>Specify the RSA key size to use for workload certificates.</td>
 </tr>
-<tr>
-<td><code>XDS_AUTH</code></td>
+<tr id='xds-auth'>
+<td><a href='#xds-auth'><code>XDS_AUTH</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will authenticate XDS clients.</td>
 </tr>
-<tr>
-<td><code>XDS_AUTH_PLAINTEXT</code></td>
+<tr id='xds-auth-plaintext'>
+<td><a href='#xds-auth-plaintext'><code>XDS_AUTH_PLAINTEXT</code></a></td>
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
 </tr>
-<tr>
-<td><code>XDS_AUTH_PROVIDER</code></td>
+<tr id='xds-auth-provider'>
+<td><a href='#xds-auth-provider'><code>XDS_AUTH_PROVIDER</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Provider for XDS auth</td>
 </tr>
-<tr>
-<td><code>XDS_ROOT_CA</code></td>
+<tr id='xds-root-ca'>
+<td><a href='#xds-root-ca'><code>XDS_ROOT_CA</code></a></td>
 <td>String</td>
 <td><code></code></td>
 <td>Explicitly set the root CA to expect for the XDS connection.</td>
