@@ -13,6 +13,9 @@
 // limitations under the License.
 
 // Attach the event handlers to support menus
+import { listen , toggleAttribute , keyCodes , isPrintableCharacter } from "./utils"
+import { click, ariaExpanded, keydown } from "./constants";
+import { toggleOverlay , showOverlay , closeActiveOverlay } from "./overlays";
 function handleMenu(): void {
     document.querySelectorAll<HTMLElement>(".menu").forEach(menu => {
         const trigger = menu.querySelector<HTMLElement>(".menu-trigger");

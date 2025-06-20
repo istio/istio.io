@@ -13,6 +13,9 @@
 // limitations under the License.
 
 // Handles banners and stickers
+import { listen , getByClass } from "./utils"
+import { readLocalStorage } from "./themes_init";
+import { click } from "./constants";
 function handleEvents(): void {
     const now = new Date().valueOf();
     let remainingEventImpressions: any = {};

@@ -128,7 +128,7 @@ lint-fast: clean_public build_nominify lint-copyright-banner lint-python lint-ya
 lint-md: clean_public build_nominify
 	@SKIP_LINK_CHECK=true scripts/lint_site.sh en
 
-serve: site
+serve: clean site
 	@hugo serve --baseURL "http://${ISTIO_SERVE_DOMAIN}:1313/latest/" --bind 0.0.0.0 --watch --disableFastRender
 
 archive-version:
@@ -142,14 +142,7 @@ netlify_install:
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 \
 	    svgstore-cli@v2.0.1 \
-		@babel/core@v7.27.4 \
-		@babel/cli@v7.27.2 \
-		@babel/traverse@7.25.9 \
-		@babel/preset-env@v7.27.2
-	@npm install --omit=dev --save-dev \
-		babel-preset-minify@v0.5.2
-	@npm install --save \
-		core-js@3.42.0
+	    esbuild@v0.25.5
 
 netlify: netlify_install
 	@scripts/gen_site.sh

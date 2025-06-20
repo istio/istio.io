@@ -13,6 +13,9 @@
 // limitations under the License.
 
 // Attach the event handlers to support the search box and hamburger
+import { getById ,getByTag , listen ,getByClass } from "./utils";
+import { click, keyup } from "./constants";
+import { closeActiveOverlay } from "./overlays";
 function handleHeader(): void {
     const searchForm = "search-form";
     const headerLinks = "header-links";

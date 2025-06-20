@@ -13,6 +13,8 @@
 // limitations under the License.
 
 // The set of languages supported by the site, add new ones at the end
+import { createCookie , navigateToUrlOrRoot , listen ,getById } from "./utils";
+import { click } from "./constants";
 const languages = ["en", "zh", "uk"];
 
 function handleLanguageSwitch(): void {

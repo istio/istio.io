@@ -11,14 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { listen , copyToClipboard , getById} from "./utils";
+import { button , ariaLabel , mouseenter , mouseleave , click , active} from "./constants";
+import { readLocalStorage } from "./themes_init";
 declare const buttonCopy: string;
 declare const buttonDownload: string;
 declare const buttonPrint: string;
 declare const docTitle: string;
 declare const branchName: string;
 declare const Prism: any;
-
+declare var iconFile: string;
 let syntaxColoring = true;
 
 // All the voodoo needed to support our fancy code blocks
