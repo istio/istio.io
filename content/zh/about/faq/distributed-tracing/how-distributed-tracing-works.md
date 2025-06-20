@@ -3,7 +3,7 @@ title: 如何使用 Istio 实现分布式追踪？
 weight: 0
 ---
 
-Istio 使用 [Envoy](#how-envoy-based-tracing-works)的分布式追踪系统集成。
+Istio 使用 [Envoy](#how-envoy-based-tracing-works) 的分布式追踪系统集成。
 由[应用程序负责为后续传出请求转发追踪的 header 信息](#istio-copy-headers)。
 
 您可以在[分布式链路追踪概述](/zh/docs/tasks/observability/distributed-tracing/overview/)和
