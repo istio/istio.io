@@ -360,6 +360,10 @@ In order to support Policy Attachment, e.g. when you're using the [`targetRef`](
 
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
+{{< tip >}}
+Istio's controller does not configure the service if it's in a different namespace than the Gateway was created.
+{{< /tip >}}
+
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
