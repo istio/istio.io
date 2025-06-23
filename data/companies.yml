@@ -294,7 +294,7 @@ integrations:
     details:
       - "CSFMesh is a dashboard based on Istio, which provides functions including cluster management, namespace management, and traffic management. Users can easily configure their own traffic management policies and apply the configuration to the Kubernetes cluster. CSFMesh also provides interface-level service governance and strategies for intercepting traffic on demand."
   - name: "Signadot"
-    logo: "/logos/signadot.png"
+    logo: "/logos/signadot.svg"
     url: "https://www.signadot.com/"
     description: "Signadot is a microservices testing platform providing ephemeral test environments using request based isolation."
     details:
