@@ -361,7 +361,7 @@ In order to support Policy Attachment, e.g. when you're using the [`targetRef`](
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
 {{< tip >}}
-Istio's controller does not configure the service if it's in a different namespace than the Gateway was created.
+Istio's controller will not configure the `Service` if it is in a different namespace to the `Gateway`.
 {{< /tip >}}
 
 {{< text yaml >}}
