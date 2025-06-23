@@ -50,4 +50,4 @@ babel --source-maps --minified --no-comments \
   tmp/js/themes_init.js \
   --out-file generated/js/themes_init.min.js
 
-svg-symbol-sprite src/icons -o generated/img/icons.svg
+svg-symbol-sprite -i src/icons -o generated/img/icons.svg
