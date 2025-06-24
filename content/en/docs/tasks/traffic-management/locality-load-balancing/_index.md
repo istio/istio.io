@@ -46,9 +46,9 @@ Localities are hierarchical, in the matching order:
 
 1. Region
 
-1. Zone
+2. Zone
 
-1. Sub-zone
+3. Sub-zone
 
 That means that a pod running in zone `bar` of region `foo`
 is **not** considered to be local to a pod running in zone `bar` of region

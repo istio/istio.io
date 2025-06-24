@@ -30,7 +30,7 @@ doc_type: get-involved
 {{% involve_block title="Приєднуйтесь до спільноти" subtitle="Є багато тем для обговорення навколо Istio. Ми раді вашому голосу!" icon="events" %}}
 
 1. **Відвідайте подію!** [Слідкуйте за нашим календарем](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com), щоб дізнатися про майбутні події!
-1. Слідкуйте за нами у [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
+2. Слідкуйте за нами у [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
 {{% /involve_block %}}
 
 {{% involve_block title="Баги та безпека" subtitle="Дякуємо за допомогу у вдосконаленні Istio за допомогою звітів про помилки або вразливості." icon="security" %}}
@@ -42,9 +42,9 @@ doc_type: get-involved
 {{% involve_block title="Станьте учасником" subtitle="Код, документація, спільнота: Istio вітає ваш внесок! Використовуйте ці посилання як точку входу." icon="contribution" %}}
 
 1. Ознайомтеся з [кодексом поведінки](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) та [інструкціями з участі](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
-1. [README спільноти Istio](https://github.com/istio/community/blob/master/README.md) є **відправною точкою для учасників**, які хочуть працювати над кодом, документацією чи іншими частинами Istio.
-1. Ви можете отримати доступ до нашого [**скарбу технічного контенту та робочих документів**](https://drive.google.com/drive/folders/1l_zqgBq_yfc1PfbJiWsFubXBtAz22sau), приєднавшись до [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
-1. Ви можете взяти участь у [**робочих групах**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md), які зосереджені на конкретних сферах інтересів, таких як документація, безпека та мережі.
+2. [README спільноти Istio](https://github.com/istio/community/blob/master/README.md) є **відправною точкою для учасників**, які хочуть працювати над кодом, документацією чи іншими частинами Istio.
+3. Ви можете отримати доступ до нашого [**скарбу технічного контенту та робочих документів**](https://drive.google.com/drive/folders/1l_zqgBq_yfc1PfbJiWsFubXBtAz22sau), приєднавшись до [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
+4. Ви можете взяти участь у [**робочих групах**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md), які зосереджені на конкретних сферах інтересів, таких як документація, безпека та мережі.
 <!-- 1. Зацікавлені в допомозі з **документацією китайською мовою**? Приєднуйтесь до [Cloud Native Community (China)](https://cloudnative.to). -->
 {{% /involve_block %}}
 

@@ -13,11 +13,11 @@ The use of Network Policy to secure applications running on Kubernetes is a now 
 
 Let’s start with the basics: why might you want to use both Istio and Kubernetes Network Policy? The short answer is that they are good at different things. Consider the main differences between Istio and Network Policy (we will describe "typical” implementations, e.g. Calico, but implementation details can vary with different network providers):
 
-|                       | Istio Policy      | Network Policy     |
-| --------------------- | ----------------- | ------------------ |
-| **Layer**             | "Service" --- L7  | "Network" --- L3-4 |
-| **Implementation**    | User space        | Kernel             |
-| **Enforcement Point** | Pod               | Node               |
+|                       | Istio Policy     | Network Policy     |
+|-----------------------|------------------|--------------------|
+| **Layer**             | "Service" --- L7 | "Network" --- L3-4 |
+| **Implementation**    | User space       | Kernel             |
+| **Enforcement Point** | Pod              | Node               |
 
 ## Layer
 
