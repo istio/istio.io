@@ -235,7 +235,7 @@ data:
   deployment: |
     metadata:
       annotations:
-      additional-annotation: some-value
+        additional-annotation: some-value
     spec:
       replicas: 4
       template:
