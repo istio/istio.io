@@ -27,7 +27,7 @@ To write an `istio.io` test, follow these steps:
    `test: yes`. This field is used to indicate that the markdown file will be tested and therefore
    requires a generated bash script containing the commands described in the document.
 
-1. Run `make snips` to generate the bash script. After the command completes, you should see
+2. Run `make snips` to generate the bash script. After the command completes, you should see
    a new file, `snips.sh`, next to the `index.md` file that you modified in the previous step.
 
    Each bash command in `index.md` (i.e., `{{< text bash >}}` code block) will produce a bash
@@ -49,7 +49,7 @@ To write an `istio.io` test, follow these steps:
    both a bash function and a variable containing the expected output. The name of the variable
    will be the same as the function, only with `_out` appended.
 
-1. Run `make lint-fast` to check for script errors.
+3. Run `make lint-fast` to check for script errors.
 
    If there are any lint errors in the generated `snips.sh` file,
    it means that a command in the `index.md` file is not following `bash` best practices.
@@ -59,7 +59,7 @@ To write an `istio.io` test, follow these steps:
    Fix the errors, if any, by updating the corresponding command (or set `snip_id=none`) in the `index.md`
    file and then regenerate the snips.
 
-1. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
+4. Create a test bash script named `test.sh` next to the `snips.sh` you have just generated.
 
    If your document is very large and you want to break it into multiple tests, create multiple scripts with
    the suffix `test.sh` (e.g., `part1_test.sh`, `part2_test.sh`), instead.

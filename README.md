@@ -1,8 +1,8 @@
-| Site | Status
-|------|-------
-| istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/c98435af-5464-4ac3-93c2-9c98faeec9b6/deploy-status)](https://app.netlify.com/sites/istio/deploys)
-| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys)
-| archive.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)
+| Site                 | Status                                                                                                                                                                 
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| istio.io             | [![Netlify Status](https://api.netlify.com/api/v1/badges/c98435af-5464-4ac3-93c2-9c98faeec9b6/deploy-status)](https://app.netlify.com/sites/istio/deploys)             
+| preliminary.istio.io | [![Netlify Status](https://api.netlify.com/api/v1/badges/a1cfd435-23d5-4a43-ac6d-8ec9230d9eb3/deploy-status)](https://app.netlify.com/sites/preliminary-istio/deploys) 
+| archive.istio.io     | [![Netlify Status](https://api.netlify.com/api/v1/badges/f8c3eecb-3c5c-48d9-b952-54c7ed0ece8f/deploy-status)](https://app.netlify.com/sites/archive-istio/deploys)     
 
 ## istio.io
 
@@ -89,21 +89,21 @@ repository must be created by a user and not an organization. See [this issue](h
    `./scripts/create_minor_version.sh 1.26`. The script *requires* the `FORKED_REPO_SOURCE` environment variable to be set to the source of the forked repo. This is used
     to do the work and to create PRs from
 
-1. Do a dry run before the official release to ensure everything is working as expected. This is done by specifying DRY_RUN=1 in the command line. For example:
+2. Do a dry run before the official release to ensure everything is working as expected. This is done by specifying DRY_RUN=1 in the command line. For example:
     `DRY_RUN=1 FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
     push any changes to the repos
 
-1. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
+3. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
     `FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
 
-1. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://istio-staging.netlify.app and
+4. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://istio-staging.netlify.app and
    verify that the new release branch is being used and the documentation looks correct
 
-1. The release managers should, at this time, merge the publish trigger PR in the release-builder repository
+5. The release managers should, at this time, merge the publish trigger PR in the release-builder repository
 
-1. Once the release is published, or very close to being completed, the docs WG should migrate the https://istio.io Netlify deployment to use this new release branch
+6. Once the release is published, or very close to being completed, the docs WG should migrate the https://istio.io Netlify deployment to use this new release branch
 
-1. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
+7. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
 
     - Download the istio.io CSE context file from the Advanced tab.
 
