@@ -46,7 +46,6 @@ else
     _wait_for_resource virtualservice default reviews
     _wait_for_resource virtualservice default ratings
     _wait_for_resource virtualservice default productpage
-    _wait_for_resource virtualservice default details
 fi
 
 get_productpage() {
