@@ -3476,7 +3476,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
-<td><code>-f</code></td>
+<td></td>
 <td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
@@ -3505,6 +3505,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: table or json  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--plaintext</code></td>
 <td></td>
 <td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
@@ -3518,6 +3523,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--verbosity &lt;int&gt;</code></td>
+<td><code>-v</code></td>
+<td>Verbosity level for proxy status output. 0=default, 1=show all xDS types (max verbosity)  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -3569,6 +3579,8 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   # (Select a specific control plane in an in-cluster canary Istio configuration.)
   istioctl ps --xds-label istio.io/rev=default
 
+  # Show the status of a specific proxy in JSON format
+  istioctl proxy-status --output json
 </code></pre>
 <h3 id="istioctl-experimental-version">istioctl experimental version</h3>
 <p>Prints out build version information</p>
@@ -6094,7 +6106,7 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 </tr>
 <tr>
 <td><code>--file &lt;string&gt;</code></td>
-<td><code>-f</code></td>
+<td></td>
 <td>Envoy config dump JSON file  (default ``)</td>
 </tr>
 <tr>
@@ -6123,6 +6135,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>Output format: table or json  (default `table`)</td>
+</tr>
+<tr>
 <td><code>--plaintext</code></td>
 <td></td>
 <td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
@@ -6136,6 +6153,11 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>The duration to wait before failing  (default `30s`)</td>
+</tr>
+<tr>
+<td><code>--verbosity &lt;int&gt;</code></td>
+<td><code>-v</code></td>
+<td>Verbosity level for proxy status output. 0=default, 1=show all xDS types (max verbosity)  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -6187,6 +6209,8 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
   # (Select a specific control plane in an in-cluster canary Istio configuration.)
   istioctl ps --xds-label istio.io/rev=default
 
+  # Show the status of a specific proxy in JSON format
+  istioctl proxy-status --output json
 </code></pre>
 <h3 id="istioctl-remote-clusters">istioctl remote-clusters</h3>
 <p>Lists the remote clusters each istiod instance is connected to.</p>
