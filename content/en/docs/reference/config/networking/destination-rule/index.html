@@ -1710,32 +1710,30 @@ and similarly us-west should failover to us-east.</p>
 </tr>
 </thead>
 <tbody>
-<tr id="LocalityLoadBalancerSetting-distribute">
+<tr id="LocalityLoadBalancerSetting-distribute" class="oneof oneof-start">
 <td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-distribute">distribute</a></code></div>
-<div class="type"><a href="#LocalityLoadBalancerSetting-Distribute">Distribute[]</a></div>
+<div class="type"><a href="#LocalityLoadBalancerSetting-Distribute">Distribute[] (oneof)</a></div>
 </div></td>
 <td>
-<p>only one of distribute, failover or failoverPriority can be set.
-Explicitly specify loadbalancing weight across different zones and geographical locations.
+<p>Explicitly specify loadbalancing weight across different zones and geographical locations.
 Refer to <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/locality_weight">Locality weighted load balancing</a>
 If empty, the locality weight is set according to the endpoints number within it.</p>
 
 </td>
 </tr>
-<tr id="LocalityLoadBalancerSetting-failover">
+<tr id="LocalityLoadBalancerSetting-failover" class="oneof">
 <td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-failover">failover</a></code></div>
-<div class="type"><a href="#LocalityLoadBalancerSetting-Failover">Failover[]</a></div>
+<div class="type"><a href="#LocalityLoadBalancerSetting-Failover">Failover[] (oneof)</a></div>
 </div></td>
 <td>
-<p>only one of distribute, failover or failoverPriority can be set.
-Explicitly specify the region traffic will land on when endpoints in local region becomes unhealthy.
+<p>Explicitly specify the region traffic will land on when endpoints in local region becomes unhealthy.
 Should be used together with OutlierDetection to detect unhealthy endpoints.
 Note: if no OutlierDetection specified, this will not take effect.</p>
 
 </td>
 </tr>
-<tr id="LocalityLoadBalancerSetting-failover_priority">
-<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-failover_priority">failoverPriority</a></code></div>
+<tr id="LocalityLoadBalancerSetting-failover_priority" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#LocalityLoadBalancerSetting-failover_priority">failoverPriority (oneof)</a></code></div>
 <div class="type">string[]</div>
 </div></td>
 <td>
@@ -1799,8 +1797,7 @@ The following labels which have special semantic meaning are also supported:</p>
 - &quot;version=v1&quot;
 - &quot;topology.istio.io/cluster=clusterA&quot;
 </code></pre>
-<p>only one of distribute, failover or failoverPriority can be set.
-And it should be used together with <code>OutlierDetection</code> to detect unhealthy endpoints, otherwise has no effect.</p>
+<p>If used, <code>failoverPriority</code> should be used together with <code>OutlierDetection</code> to detect unhealthy endpoints, otherwise has no effect.</p>
 
 </td>
 </tr>
