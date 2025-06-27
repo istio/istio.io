@@ -72,8 +72,6 @@ JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
-#Define the baseurl for production context
-URL ?= https://istio.io
 ifeq ($(CONTEXT),production)
 baseurl := "$(URL)"
 endif
@@ -109,7 +107,7 @@ build_nominify: site
 
 build_with_archive: site
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "/latest"
+	@scripts/build_site.sh "https://istio.io/latest"
 	@scripts/include_archive_site.sh
 
 opt:
