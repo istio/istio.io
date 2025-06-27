@@ -13,7 +13,7 @@ owner: istio/wg-networking-maintainers
 在继续之前，请确保完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)这一节所包含的步骤。
 
 在这个任务中，您将使用 `region1` `zone1` 中的 `curl` Pod 作为 `HelloWorld` 服务的请求源。
-您将使用以下分布在不同的地域配置Istio：
+您将使用以下分布在不同的地域配置 Istio：
 
 地区 | 区域 | 流量(%)
 ------ | ---- | ------------
