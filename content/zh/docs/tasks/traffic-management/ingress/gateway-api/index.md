@@ -237,7 +237,7 @@ data:
   deployment: |
     metadata:
       annotations:
-      additional-annotation: some-value
+        additional-annotation: some-value
     spec:
       replicas: 4
       template:
@@ -368,6 +368,10 @@ spec:
 `gateway.networking.k8s.io/gateway-name: <gateway name>`。
 
 要将 `Gateway` 链接到 `Service`，需要将 `addresses` 字段配置为指向**单个** `Hostname`。
+
+{{< tip >}}
+如果 `Service` 与 `Gateway` 位于不同的命名空间中，Istio 的控制器将不会配置 `Service`。
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1

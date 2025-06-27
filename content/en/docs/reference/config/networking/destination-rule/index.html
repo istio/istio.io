@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 26
+number_of_entries: 27
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -271,6 +271,15 @@ Tunnel settings can be applied to TCP or TLS routes and can&rsquo;t be applied t
 
 </td>
 </tr>
+<tr id="TrafficPolicy-retry_budget">
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-retry_budget">retryBudget</a></code></div>
+<div class="type"><a href="#TrafficPolicy-RetryBudget">RetryBudget</a></div>
+</div></td>
+<td>
+<p>Specifies a limit on concurrent retries in relation to the number of active requests.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -429,6 +438,44 @@ By default it is <code>V1</code>.</p>
 <td><code><a href="#TrafficPolicy-ProxyProtocol-VERSION-V2">V2</a></code></td>
 <td>
 <p>⁣PROXY protocol version 2. Binary format.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="TrafficPolicy-RetryBudget">RetryBudget</h3>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficPolicy-RetryBudget-percent">
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-RetryBudget-percent">percent</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#doublevalue">DoubleValue</a></div>
+</div></td>
+<td>
+<p>Specifies the limit on concurrent retries as a percentage of
+the sum of active requests and active pending requests.
+Defaults to 20%.</p>
+
+</td>
+</tr>
+<tr id="TrafficPolicy-RetryBudget-min_retry_concurrency">
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-RetryBudget-min_retry_concurrency">minRetryConcurrency</a></code></div>
+<div class="type">uint32</div>
+</div></td>
+<td>
+<p>Specifies the minimum retry concurrency allowed for the retry budget.
+For example, a budget of 20% with a minimum retry concurrency of 3
+will allow 5 active retries while there are 25 active requests.
+If there are 2 active requests, there are still 3 active retries
+allowed because of the minimum retry concurrency.</p>
+<p>Defaults to 3.</p>
 
 </td>
 </tr>

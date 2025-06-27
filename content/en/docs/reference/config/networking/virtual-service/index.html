@@ -1088,6 +1088,8 @@ in these cases it is not required to explicitly select the port.</p>
 with the given labels. If the VirtualService has a list of gateways specified
 in the top-level <code>gateways</code> field, it must include the reserved gateway
 <code>mesh</code> for this field to be applicable.</p>
+<p><strong>Note:</strong> This is not a runtime match, but is a selector; it filters which workloads the
+VirtualService applies to.</p>
 
 </td>
 </tr>
@@ -1160,6 +1162,8 @@ If a header is matched with a matching rule among withoutHeader, the traffic bec
 <p>Source namespace constraining the applicability of a rule to workloads in that namespace.
 If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
 it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+<p><strong>Note:</strong> This is not a runtime match, but is a selector; it filters which workloads the
+VirtualService applies to.</p>
 
 </td>
 </tr>
@@ -1363,6 +1367,8 @@ in these cases it is not required to explicitly select the port.</p>
 workloads with the given labels. If the VirtualService has a list of
 gateways specified in the top-level <code>gateways</code> field, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
+<p><strong>Note:</strong> This is not a runtime match, but is a selector; it filters which workloads the
+VirtualService applies to.</p>
 
 </td>
 </tr>
@@ -1385,6 +1391,8 @@ match is independent of sourceLabels.</p>
 <p>Source namespace constraining the applicability of a rule to workloads in that namespace.
 If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
 it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+<p><strong>Note:</strong> This is not a runtime match, but is a selector; it filters which workloads the
+VirtualService applies to.</p>
 
 </td>
 </tr>
@@ -1447,6 +1455,8 @@ port.</p>
 workloads with the given labels. If the VirtualService has a list of
 gateways specified in the top-level <code>gateways</code> field, it should include the reserved gateway
 <code>mesh</code> in order for this field to be applicable.</p>
+<p><strong>Note:</strong> This is not a runtime match, but is a selector; it filters which workloads the
+VirtualService applies to.</p>
 
 </td>
 </tr>
@@ -1469,6 +1479,8 @@ match is independent of sourceLabels.</p>
 <p>Source namespace constraining the applicability of a rule to workloads in that namespace.
 If the VirtualService has a list of gateways specified in the top-level <code>gateways</code> field,
 it must include the reserved gateway <code>mesh</code> for this field to be applicable.</p>
+<p><strong>Note:</strong> This is not a runtime match, but is a selector; it filters which workloads the
+VirtualService applies to.</p>
 
 </td>
 </tr>

@@ -3,7 +3,7 @@ title: 基于 Envoy 的跟踪如何工作？
 weight: 11
 ---
 
-对于基于 Envoy 的跟踪集成，Envoy（Sidecar 代理）代表所代理的应用程序将跟踪信息直接发送到跟踪后端。
+在基于 Envoy 的跟踪集成中，Envoy（Sidecar 代理）代表所代理的应用程序将跟踪信息直接发送到后端服务。
 
 Envoy：
 

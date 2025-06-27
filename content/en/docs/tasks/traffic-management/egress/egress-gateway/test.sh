@@ -46,11 +46,11 @@ if [ "$GATEWAY_API" == "true" ]; then
     sleep 30 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_http_traffic_3
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-cnn
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-cnn
 
     snip_egress_gateway_for_http_traffic_5
-    _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
+    _wait_for_resource virtualservice default direct-cnn-through-egress-gateway
 fi
 
 # Verify successful curl
@@ -85,9 +85,9 @@ if [ "$GATEWAY_API" == "true" ]; then
     sleep 30 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_https_traffic_3
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-cnn
-    _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-cnn
+    _wait_for_resource virtualservice default direct-cnn-through-egress-gateway
 fi
 
 # Verify successful curl
@@ -154,7 +154,7 @@ else
 
     # configure DR
     snip_apply_kubernetes_network_policies_14
-    _wait_for_istio destinationrule test-egress egressgateway-for-cnn
+    _wait_for_resource destinationrule test-egress egressgateway-for-cnn
 fi
 
 # Verify 200 response

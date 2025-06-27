@@ -52,8 +52,8 @@ else
     _verify_like snip_determine_the_ingress_ip_and_port_2 "$snip_determine_the_ingress_ip_and_port_2_out"
 
     # give config some time to propagate
-    _wait_for_istio gateway default bookinfo-gateway
-    _wait_for_istio virtualservice default bookinfo
+    _wait_for_resource gateway default bookinfo-gateway
+    _wait_for_resource virtualservice default bookinfo
 
     # export the INGRESS_ environment variables
     _set_ingress_environment_variables

@@ -40,8 +40,8 @@ else
     snip_creating_a_default_routing_policy_1
 
     # wait for config
-    _wait_for_istio virtualservice default httpbin
-    _wait_for_istio destinationrule default httpbin
+    _wait_for_resource virtualservice default httpbin
+    _wait_for_resource destinationrule default httpbin
 fi
 
 # deploy the services
@@ -72,7 +72,7 @@ else
     snip_mirroring_traffic_to_httpbinv2_1
 
     # wait for config
-    _wait_for_istio virtualservice default httpbin
+    _wait_for_resource virtualservice default httpbin
 fi
 
 # Set environment variables. TODO: why didn't the exports from snip_creating_a_default_routing_policy_3/4/5 take?

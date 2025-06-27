@@ -293,6 +293,14 @@ integrations:
     description: "CSFMesh is a service mesh product developed by AsiaInfo Technologies. It features a graphical configuration interface, which enhances operational efficiency."
     details:
       - "CSFMesh is a dashboard based on Istio, which provides functions including cluster management, namespace management, and traffic management. Users can easily configure their own traffic management policies and apply the configuration to the Kubernetes cluster. CSFMesh also provides interface-level service governance and strategies for intercepting traffic on demand."
+  - name: "Signadot"
+    logo: "/logos/signadot.svg"
+    url: "https://www.signadot.com/"
+    description: "Signadot is a microservices testing platform providing ephemeral test environments using request based isolation."
+    details:
+      - "Creates lightweight 'Sandboxes' without duplicating infrastructure by leveraging Istio's traffic routing capabilities for request-level isolation, including support for Istio ambient mode."
+      - "Enables teams to test microservices changes in isolated environments while sharing the underlying cluster infrastructure."
+      - "Runs existing test suites directly on customer Kubernetes clusters for improved parallelism, security, and cost effectiveness."
 
 pro_services:
   - name: "CloudZone"

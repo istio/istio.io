@@ -58,8 +58,8 @@ else
     snip_configure_an_ingress_gateway_3
 
     # wait for configuration to propagate
-    _wait_for_istio gateway default mygateway
-    _wait_for_istio virtualservice default nginx
+    _wait_for_resource gateway default mygateway
+    _wait_for_resource virtualservice default nginx
 
     _set_ingress_environment_variables
 fi

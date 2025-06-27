@@ -42,13 +42,13 @@ _verify_same snip_collecting_new_telemetry_data_2 "$snip_collecting_new_telemetr
 
 # Apply the destination rules
 snip_collecting_new_telemetry_data_3
-_wait_for_istio destinationrule default ratings
-_wait_for_istio destinationrule default reviews
+_wait_for_resource destinationrule default ratings
+_wait_for_resource destinationrule default reviews
 
 # Create the virtual services
 _verify_same snip_collecting_new_telemetry_data_6 "$snip_collecting_new_telemetry_data_6_out"
-_wait_for_istio virtualservice default reviews
-_wait_for_istio virtualservice default ratings
+_wait_for_resource virtualservice default reviews
+_wait_for_resource virtualservice default ratings
 
 # Get GATEWAY_URL
 # export the INGRESS_ environment variables

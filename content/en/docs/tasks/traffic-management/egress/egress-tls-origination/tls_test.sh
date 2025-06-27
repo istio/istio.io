@@ -33,15 +33,15 @@ snip_before_you_begin_3
 # Confirm we can access plain HTTP
 snip_apply_simple
 
-_wait_for_istio serviceentry default edition-cnn-com
+_wait_for_resource serviceentry default edition-cnn-com
 
 _verify_elided snip_curl_simple "$snip_curl_simple_out"
 
 # Apply TLS origination config, check http and https content is correct
 snip_apply_origination
 
-_wait_for_istio serviceentry default edition-cnn-com
-_wait_for_istio destinationrule default edition-cnn-com
+_wait_for_resource serviceentry default edition-cnn-com
+_wait_for_resource destinationrule default edition-cnn-com
 
 _verify_elided snip_curl_origination_http "$snip_curl_origination_http_out"
 _verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"

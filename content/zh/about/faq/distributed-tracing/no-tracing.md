@@ -9,7 +9,7 @@ weight: 30
 请参阅[本节](/zh/docs/tasks/observability/distributed-tracing/telemetry-api/#customizing-trace-sampling)。
 
 如果您仍然没有看到任何追踪数据，请确认您的端口是否符合 Istio [端口命名规范](/zh/faq/traffic-management/#naming-port-convention)，
-并公开适当的容器端口（例如，通过 pod spec）来启用 sidecar 代理（Envoy）能够对流量进行捕获。
+并公开适当的容器端口（例如：通过 pod spec）来启用 sidecar 代理（Envoy）能够对流量进行捕获。
 
 如果您只看到与出口代理相关的链路数据，而没有看到入口代理，
 则可能仍与 Istio [端口命名约定](/zh/about/faq/#naming-port-convention)有关。

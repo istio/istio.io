@@ -38,18 +38,18 @@ _wait_for_deployment istio-system istiod
 _verify_same snip_change_to_the_blockingbydefault_policy_3 "$snip_change_to_the_blockingbydefault_policy_3_out"
 
 snip_access_an_external_http_service_1
-_wait_for_istio serviceentry default httpbin-ext
+_wait_for_resource serviceentry default httpbin-ext
 _verify_elided snip_access_an_external_http_service_2 "$snip_access_an_external_http_service_2_out"
 _verify_contains snip_access_an_external_http_service_3 "outbound|80||httpbin.org"
 
 snip_access_an_external_https_service_1
-_wait_for_istio serviceentry default google
+_wait_for_resource serviceentry default google
 _verify_same snip_access_an_external_https_service_2 "$snip_access_an_external_https_service_2_out"
 _verify_contains snip_access_an_external_https_service_3 "outbound|443||www.google.com"
 
 _verify_first_line snip_manage_traffic_to_external_services_1 "$snip_manage_traffic_to_external_services_1_out"
 snip_manage_traffic_to_external_services_2
-_wait_for_istio virtualservice default httpbin-ext
+_wait_for_resource virtualservice default httpbin-ext
 _verify_first_line snip_manage_traffic_to_external_services_4 "$snip_manage_traffic_to_external_services_4_out"
 
 IP_RANGE=$(snip_minikube_docker_for_desktop_bare_metal_1 | sed -e 's/^[[:space:]]*--service-cluster-ip-range=//')

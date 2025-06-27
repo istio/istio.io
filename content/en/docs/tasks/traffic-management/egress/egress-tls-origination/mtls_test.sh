@@ -57,7 +57,7 @@ snip_configure_the_client_curl_pod_2
 # Configure mTLS for egress traffic from sidecar to external service
 snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_1
 
-_wait_for_istio destinationrule default originate-mtls-for-nginx
+_wait_for_resource destinationrule default originate-mtls-for-nginx
 
 _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_at_sidecar_2 "kubernetes://client-credential            Cert Chain     ACTIVE"
 

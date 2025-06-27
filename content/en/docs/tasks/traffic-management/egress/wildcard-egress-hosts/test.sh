@@ -42,7 +42,7 @@ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -I https://www.google.com | grep 
 _verify_contains confirm_blocking "command terminated with exit code 35"
 
 snip_configure_direct_traffic_to_a_wildcard_host_1
-_wait_for_istio serviceentry default wikipedia
+_wait_for_resource serviceentry default wikipedia
 
 _verify_same snip_configure_direct_traffic_to_a_wildcard_host_2 "$snip_configure_direct_traffic_to_a_wildcard_host_2_out"
 
@@ -53,13 +53,13 @@ if [ "$GATEWAY_API" == "true" ]; then
     kubectl wait --for=condition=programmed gtw wikipedia-egress-gateway
 else
     snip_configure_egress_gateway_traffic_to_a_wildcard_host_1
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-wikipedia
-    _wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-wikipedia
+    _wait_for_resource virtualservice default direct-wikipedia-through-egress-gateway
 fi
 
 snip_configure_egress_gateway_traffic_to_a_wildcard_host_3
-_wait_for_istio serviceentry default www-wikipedia
+_wait_for_resource serviceentry default www-wikipedia
 
 _verify_same snip_configure_egress_gateway_traffic_to_a_wildcard_host_4 "$snip_configure_egress_gateway_traffic_to_a_wildcard_host_4_out"
 

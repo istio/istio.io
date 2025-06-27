@@ -76,10 +76,10 @@ virtualservice.networking.istio.io/ratings created
 virtualservice.networking.istio.io/details created"
     _verify_same snip_config_all_v1 "$expected"
 
-    _wait_for_istio virtualservice default productpage
-    _wait_for_istio virtualservice default reviews
-    _wait_for_istio virtualservice default ratings
-    _wait_for_istio virtualservice default details
+    _wait_for_resource virtualservice default productpage
+    _wait_for_resource virtualservice default reviews
+    _wait_for_resource virtualservice default ratings
+    _wait_for_resource virtualservice default details
 fi
 
 # Step 2: verify no rating stars visible, (reviews-v3 traffic=0%)
@@ -93,7 +93,7 @@ if [ "$GATEWAY_API" == "true" ]; then
 else
     _verify_same snip_config_50_v3 "virtualservice.networking.istio.io/reviews configured"
 
-    _wait_for_istio virtualservice default reviews
+    _wait_for_resource virtualservice default reviews
 fi
 
 # Step 4: Confirm the rule was replaced
@@ -118,7 +118,7 @@ if [ "$GATEWAY_API" == "true" ]; then
 else
     snip_config_100_v3
 
-    _wait_for_istio virtualservice default reviews
+    _wait_for_resource virtualservice default reviews
 fi
 
 _verify_same reviews_v3_traffic_percentage 100

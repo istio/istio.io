@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 80
+number_of_entries: 81
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1015,6 +1015,18 @@ Default: true</p>
 </div></td>
 <td>
 <p>Configures an Envoy Open Telemetry Access Logging Service provider.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-sds" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-sds">sds</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-SDSProvider">SDSProvider (oneof)</a></div>
+</div></td>
+<td>
+<p>Configures an Extension Provider for SDS. This can be used to
+configure an external SDS service to supply secrets for certain Gateways for example.
+This is useful for scenarios where the secrets are stored in an external secret store like Vault.
+The secret should be configured with sds://provider-name format.</p>
 
 </td>
 </tr>
@@ -2399,6 +2411,52 @@ host name defined in the ServiceEntry.</p>
 </div></td>
 <td>
 <p>REQUIRED. Specifies sampling configuration URI.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="MeshConfig-ExtensionProvider-SDSProvider">SDSProvider</h4>
+<section>
+<p>Defines configuration for an Gateway SDS provider.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-SDSProvider-name">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-SDSProvider-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>REQUIRED. Specifies the name of the provider. This should be used to configure the Gateway SDS.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-SDSProvider-service">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-SDSProvider-service">service</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>REQUIRED. Specifies the service that implements the  SDS service.
+The format is <code>[&lt;Namespace&gt;/]&lt;Hostname&gt;</code>. The specification of <code>&lt;Namespace&gt;</code> is required only when it is insufficient
+to unambiguously resolve a service in the service registry. The <code>&lt;Hostname&gt;</code> is a fully qualified host name of a
+service defined by the Kubernetes service or ServiceEntry.</p>
+<p>Example: &ldquo;gateway-sds.foo.svc.cluster.local&rdquo; or &ldquo;bar/gateway-sds.example.com&rdquo;.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-SDSProvider-port">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-SDSProvider-port">port</a></code></div>
+<div class="type">uint32</div>
+</div></td>
+<td>
+<p>REQUIRED. Specifies the port of the service.</p>
 
 </td>
 </tr>

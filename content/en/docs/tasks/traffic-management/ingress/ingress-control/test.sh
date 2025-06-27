@@ -45,8 +45,8 @@ else
     snip_configuring_ingress_using_a_gateway_2
 
     # wait for rules to propagate
-    _wait_for_istio gateway default httpbin-gateway
-    _wait_for_istio virtualservice default httpbin
+    _wait_for_resource gateway default httpbin-gateway
+    _wait_for_resource virtualservice default httpbin
 
     # check for external load balancer
     snip_determining_the_ingress_ip_and_ports_2
@@ -70,8 +70,8 @@ else
     snip_accessing_ingress_services_using_a_browser_1
 
     # wait for rules to propagate
-    _wait_for_istio gateway default httpbin-gateway
-    _wait_for_istio virtualservice default httpbin
+    _wait_for_resource gateway default httpbin-gateway
+    _wait_for_resource virtualservice default httpbin
 fi
 
 # helper function
