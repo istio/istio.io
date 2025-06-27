@@ -107,7 +107,7 @@ build_nominify: site
 
 build_with_archive: site
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "https://istio.io/latest"
+	@scripts/build_site.sh "/latest"
 	@scripts/include_archive_site.sh
 
 opt:
@@ -153,8 +153,7 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-#If the context is production call the baseurl and build the site otherwise leave it blank
-	@scripts/build_site.sh "$(URL)/latest"   
+	@scripts/build_site.sh "https://istio.io/latest"   
 	@scripts/include_archive_site.sh
 
 # ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
