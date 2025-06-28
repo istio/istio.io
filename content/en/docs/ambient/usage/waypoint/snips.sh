@@ -128,6 +128,7 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' snip_configure_a_waypoint_for_crossnamespace_use_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: egress-gateway
