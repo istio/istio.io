@@ -12,6 +12,10 @@ By adding a waypoint proxy to your traffic flow you can enable more of [Istio's 
 Usage of VirtualService with the ambient data plane mode is considered Alpha. Mixing with Gateway API configuration is not supported, and will lead to undefined behavior.
 {{< /warning >}}
 
+{{< warning >}}
+`EnvoyFilter` is Istio's break-glass API for advanced configuration of Envoy proxies. Please note that *`EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies*. While it may be possible to use `EnvoyFilter` with waypoints in limited scenarios, its use is not supported, and is actively discouraged by the maintainers. The alpha API may break in future releases as it evolves. We expect official support will be provided at a later date.
+{{< /warning >}}
+
 ## Route and policy attachment
 
 The Gateway API defines the relationship between objects (such as routes and gateways) in terms of *attachment*.

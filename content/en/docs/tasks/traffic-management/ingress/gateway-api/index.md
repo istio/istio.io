@@ -236,7 +236,7 @@ data:
   deployment: |
     metadata:
       annotations:
-      additional-annotation: some-value
+        additional-annotation: some-value
     spec:
       replicas: 4
       template:
@@ -360,6 +360,10 @@ When this option is done, you will need to manually link the `Gateway` to the `S
 In order to support Policy Attachment, e.g. when you're using the [`targetRef`](/docs/reference/config/type/workload-selector/#PolicyTargetReference) field on an AuthorizationPolicy, you will also need to reference the name of your `Gateway` by adding the following label to your gateway pod: `gateway.networking.k8s.io/gateway-name: <gateway name>`.
 
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
+
+{{< tip >}}
+Istio's controller will not configure the `Service` if it is in a different namespace to the `Gateway`.
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1

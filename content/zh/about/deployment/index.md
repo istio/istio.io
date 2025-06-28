@@ -1,7 +1,7 @@
 ---
 title: 部署
 description: 部署。
-subtitle: 阅读有关在第 1 天、第 2 天和第 1000 天快速有效实施的良好实践。
+subtitle: 阅读有关在第 1 天、第 2 天和第 1000 天快速有效实施的最佳实践。
 weight: 34
 skip_toc: true
 skip_byline: true
@@ -83,7 +83,7 @@ Istio 将配置网格中的服务，使其在相互交谈时尽可能使用 mTLS
 Istio 默认以"允许的 mTLS" 模式运行，这意味着服务将同时接受加密和未加密的流量，以允许来自非网格服务的流量保持正常流通。
 在所有的服务都进入网格后，您可以改变认证策略，只允许加密的流量，然后您可以确定所有的流量都是加密的。
 
-### Istio 的两类 API {#istio's-two-types-of-apis}
+### Istio 的两类 API {#istios-two-types-of-apis}
 
 Istio 为平台所有者和服务所有者提供 API。根据您扮演的角色，您只需要考虑一个子集。
 例如，平台所有者将拥有安装、认证和授权资源。流量管理资源将由服务所有者处理。[了解哪些 API 对您有用](/zh/docs/reference/config/)。

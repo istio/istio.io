@@ -15,6 +15,14 @@ VirtualService 与 Ambient 数据平面模式的结合使用仍处于 Alpha 阶�
 不支持与 Gateway API 配置混合使用，否则会导致未定义的行为。
 {{< /warning >}}
 
+{{< warning >}}
+`EnvoyFilter` 是 Istio 的应急 API，用于对 Envoy 代理进行高级配置。
+请注意，**`EnvoyFilter` 目前不支持任何带有 waypoint 代理的现有 Istio 版本**。
+虽然在有限的场景下可以使用带有 waypoint 的 `EnvoyFilter`，
+但目前尚不支持该 API，并且维护人员也极力劝阻。随着 Alpha API 的不断发展，
+未来版本中可能会出现问题。我们预计官方支持将在稍后提供。
+{{< /warning >}}
+
 ## 路由和策略附件 {#route-and-policy-attachment}
 
 Gateway API 根据**附件**来定义对象（例如路由和网关）之间的关系。
@@ -24,7 +32,6 @@ Gateway API 根据**附件**来定义对象（例如路由和网关）之间的�
 * 策略对象被视为 [**metaresources**](https://gateway-api.sigs.k8s.io/geps/gep-713/)：
   以标准方式增强**目标**对象行为的对象。
 
-The tables below show the type of attachment that is configured for each object.
 下表展示了为每个对象配置的附件类型。
 
 ## 流量路由 {#traffic-routing}

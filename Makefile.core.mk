@@ -27,7 +27,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.26-alpha
+ISTIO_IMAGE_VERSION ?= 1.27-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -139,17 +139,17 @@ archive-version:
 netlify_install:
 	@npm init -y
 	@npm install --omit=dev --global \
-	    sass@v1.52.1 \
-	    typescript@v4.7.2 \
-	    svgstore-cli@v1.3.2 \
-		@babel/core@v7.18.2 \
-		@babel/cli@v7.17.10 \
+	    sass@v1.89.1 \
+	    typescript@v5.8.3 \
+	    svgstore-cli@v2.0.1 \
+		@babel/core@v7.27.4 \
+		@babel/cli@v7.27.2 \
 		@babel/traverse@7.25.9 \
-		@babel/preset-env@v7.18.2
+		@babel/preset-env@v7.27.2
 	@npm install --omit=dev --save-dev \
 		babel-preset-minify@v0.5.2
 	@npm install --save \
-		core-js@3.31.1
+		core-js@3.42.0
 
 netlify: netlify_install
 	@scripts/gen_site.sh
@@ -188,12 +188,6 @@ export MASTER := master
 
 prepare-%:
 	@scripts/prepare_release.sh $@
-
-release-%-dry-run:
-	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
-
-release-%:
-	@scripts/create_version.sh $@
 
 build-old-archive-%:
 	@scripts/build_old_archive.sh $@

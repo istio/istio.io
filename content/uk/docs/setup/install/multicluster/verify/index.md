@@ -20,9 +20,9 @@ owner: istio/wg-environments-maintainers
 
 {{< text bash >}}
 $ istioctl remote-clusters --context="${CTX_CLUSTER1}"
-NAME        SECRET                              STATUS     ISTIOD
-cluster1                                        synced     istiod-a5jg5df5bd-2dfa9
-cluster2    istio-system/istio-remote-secret    synced     istiod-a5jg5df5bd-2dfa9
+NAME         SECRET                                        STATUS      ISTIOD
+cluster1                                                   synced      istiod-7b74b769db-kb4kj
+cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
 {{< /text >}}
 
 Всі кластери повинні мати статус `synced`. Якщо кластер вказано зі статусом `STATUS` `timeout`, це означає, що Istiod на головному кластері не може звʼязатися з віддаленим кластером. Докладні повідомлення про помилки дивіться у журналах Istiod.

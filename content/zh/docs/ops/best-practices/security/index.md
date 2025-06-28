@@ -48,6 +48,25 @@ default-deny 授权策略意味着您的系统在默认情况下拒绝所有请�
 `allow-nothing` 的授权策略确保了所有流量在默认情况下被拒绝。在此之上，
 其他的授权策略可以基于特定需求允许流量通过。
 
+#### waypoint 的默认拒绝模式 {#default-deny-pattern-with-waypoints}
+
+Istio 新的 Ambient 数据平面模式引入了一种新的拆分数据平面架构。
+在此架构中，waypoint 代理使用 Kubernetes Gateway API 配置，
+该 API 使用 `parentRef` 和 `targetRef` 更显式地绑定到 Gateway。
+由于 waypoint 更严格地遵循 Kubernetes Gateway API 的原则，
+因此在将策略应用于 waypoint 时，默认拒绝模式的启用方式略有不同。
+从 Istio 1.25 开始，您可以将 `AuthorizationPolicy` 资源绑定到
+`istio-waypoint` 的 `GatewayClass`。通过将 `AuthorizationPolicy`
+绑定到 `GatewayClass`，您可以使用默认策略配置所有实现该 `GatewayClass` 的 Gateway。
+需要注意的是，`GatewayClass` 是集群范围的资源，将命名空间范围的策略绑定到它需要特别小心。
+Istio 要求绑定到 `GatewayClass` 的策略位于根命名空间中，通常是 `istio-system`。
+
+{{< tip >}}
+当在 waypoint 中使用默认拒绝模式时，除了“经典”默认拒绝策略外，
+还应使用绑定到 `istio-waypoint` `GatewayClass` 的策略。
+ztunnel 将针对网格中的工作负载强制执行“经典”默认拒绝策略，并且仍然提供有意义的值。
+{{< /tip >}}
+
 #### 使用 `ALLOW-with-positive-matching` 和 `DENY-with-negative-match` 模式 {#use-allow-with-positive-matching-and-deny-with-negative-match-patterns}
 
 尽可能使用 `ALLOW-with-positive-matching` 或 `DENY-with-negative-matching` 授权策略模式。

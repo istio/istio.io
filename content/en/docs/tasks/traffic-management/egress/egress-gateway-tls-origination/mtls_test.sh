@@ -56,8 +56,8 @@ if [ "$GATEWAY_API" == "true" ]; then
 else
     snip_configure_mutual_tls_origination_for_egress_traffic_1
     snip_configure_mutual_tls_origination_for_egress_traffic_3
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-nginx
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-nginx
 fi
 
 # Configure routing from curl to egress gateway to nginx
@@ -65,7 +65,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_configure_mutual_tls_origination_for_egress_traffic_6
 else
     snip_configure_mutual_tls_origination_for_egress_traffic_5
-    _wait_for_istio virtualservice default direct-nginx-through-egress-gateway
+    _wait_for_resource virtualservice default direct-nginx-through-egress-gateway
 fi
 
 # Originate TLS with destination rule
@@ -74,7 +74,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_10 "kubernetes://client-credential            Cert Chain     ACTIVE"
 else
     snip_configure_mutual_tls_origination_for_egress_traffic_7
-    _wait_for_istio destinationrule istio-system originate-mtls-for-nginx
+    _wait_for_resource destinationrule istio-system originate-mtls-for-nginx
 
     _verify_contains snip_configure_mutual_tls_origination_for_egress_traffic_9 "kubernetes://client-credential            Cert Chain     ACTIVE"
 fi

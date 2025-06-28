@@ -156,6 +156,15 @@
 
         {{ partial "events.html" (dict "page" . "kind" "sticker") }}
         {{ partial "header.html" . }}
+
+        <!-- Archived Documentation Header -->
+        {{ if and (eq .Section "docs") .Site.Data.args.archive}}
+        <div class="archive-warning-banner" role="alert">
+            {{ (printf (i18n "archive_banner_text") .Site.Data.args.version) | safeHTML }}
+            <a href="/latest{{ .RelPermalink | safeURL }}">{{ i18n "archive_banner_link" }}</a>
+        </div>
+        {{ end }}
+
         {{ partial "events.html" (dict "page" . "kind" "banner") }}
 
         {{ block "main" . }}{{ end }}

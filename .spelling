@@ -32,7 +32,9 @@
 1.24.x
 1.24.x.
 1.25.x
+1.25.x.
 1.26.x
+1.26.x.
 1.27.3
 1.27.x
 1.3.x
@@ -176,6 +178,7 @@ AutoTrader
 Avelar
 AVX-512
 az
+Babo
 backend
 backends
 backoff
@@ -195,6 +198,7 @@ bitpipe
 BlablaCar
 BlackHole
 BlackHoleCluster
+BlackRock
 Blatt
 Blip.pt
 Bloomberg
@@ -230,6 +234,7 @@ CDNs
 CentOS
 Cernich
 CFP
+Chandrasekhara
 Chaomeng
 Chavali
 CheckRequest
@@ -257,6 +262,7 @@ CNI
 CNIs
 CNmaintainersummit
 cnn.com
+codebase
 codec
 codelab
 codelabs
@@ -408,6 +414,7 @@ CVE-2024-53269
 CVE-2024-53270
 CVE-2024-53271
 CVE-2025-30157
+CVE-2025-46821
 CVEs
 cves
 cvss
@@ -436,6 +443,7 @@ decompressors
 Delayering
 Delucca
 Demailly
+Dependabot
 deployment
 dereference
 dereferenced
@@ -530,6 +538,7 @@ Firebase
 FitStation
 Fluentd
 foo.yaml
+Forbe
 fortio
 FQDN
 FQDNs
@@ -551,6 +560,7 @@ GCP-IAM
 GCP_OPTS
 gcr.io
 gdb
+GenAI
 Geneve
 GHSA-8mq4-c2v5-3h39
 GiB
@@ -579,6 +589,7 @@ Harri
 Harvey
 Hashicorp
 Hawton
+Hayk
 HBONE
 helloworld
 Herness
@@ -586,6 +597,7 @@ hoc
 hostname
 hostnames
 hotspots
+Hovsepyan
 HP
 html
 HTTP
@@ -706,6 +718,7 @@ Jianpeng
 Jog
 Joglekar
 Jonh
+Josune
 jQuery
 json
 JSON-formatted
@@ -733,6 +746,7 @@ Kebe
 keepalive
 Keepalived
 Kenan
+KEP-3257
 Ketama
 key.pem
 Keycloak
@@ -751,6 +765,7 @@ Kristián
 KServe
 Kuat
 Kube
+kube-apiserver
 kube-proxy
 kubebuilder
 KubeCon
@@ -788,6 +803,7 @@ Linkerd
 linktitle
 linter
 linters
+Lior
 list_by_publishdate
 Liu
 liveness
@@ -807,6 +823,7 @@ Lukonde
 Luyao
 Lyft
 macOS
+Maertens
 Maglev
 maintainership
 Mandar
@@ -818,6 +835,7 @@ MB
 Meetup
 meetup
 meetups
+Meira
 memcached
 memcached-2's
 Mengxue
@@ -877,6 +895,7 @@ Naser
 Nassi
 natively
 Neeraj
+NeoNephos
 netfilter
 netlink
 netmask
@@ -955,6 +974,7 @@ PaaS
 Padmanabhan
 Papertrail
 parenthesization
+Parienty
 Passthrough
 passthrough
 PassthroughCluster
@@ -1044,6 +1064,7 @@ rebalance
 rebalances
 recomposition
 redeployments
+RedHat
 Redis
 redis
 Redis-based
@@ -1074,6 +1095,7 @@ reusability
 Reviewer1
 Reviewer2
 revisioned
+Riskified
 roadmap
 roadmaps
 RocketChat
@@ -1193,6 +1215,7 @@ substring
 Sudheendra
 Sumit
 Superfeet
+SuperOrbit
 Superset
 superset
 supersets
@@ -1200,6 +1223,7 @@ Suri
 svc
 svc.com
 svg
+Swisscom
 Sysdig
 Taillefer
 Tanzu
@@ -1212,7 +1236,9 @@ team1-ns
 team2
 team2-ns
 Techstrong
+telco
 telcos
+Telecom
 Telekom
 telemetry.istio.io
 telemetryv2_
@@ -1301,6 +1327,7 @@ v1.30
 v1.31
 v1.32
 v1.33
+v1.34
 v1.5
 v1.55
 v1.55.1
@@ -1322,6 +1349,7 @@ v3
 validatable
 validator
 ValueType
+Vasu
 vCPU
 vCPUs
 Vennam
@@ -1340,6 +1368,7 @@ VM
 vm-1
 VMs
 VMware
+Vodafone
 VPC
 VPCs
 VPN
