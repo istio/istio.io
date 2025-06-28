@@ -14,6 +14,7 @@
 import { getById , listen , keyCodes , isPrintableCharacter} from "./utils";
 import { ariaControls, ariaSelected, button, keydown, tabIndex } from "./constants";
 import { readLocalStorage } from "./themes_init";
+import { KbdNav } from "./kbdnav";
 function selectTabsets(categoryName: string, categoryValue: string): void {
     document.querySelectorAll(".tabset").forEach(tabset => {
         tabset.querySelectorAll(".tab-strip").forEach(o => {

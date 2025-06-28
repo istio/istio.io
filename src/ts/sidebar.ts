@@ -13,6 +13,7 @@
 // limitations under the License.
 import { getById , toggleAttribute , isPrintableCharacter ,keyCodes, getByClass ,listen } from "./utils";
 import { button , click , ariaExpanded , keydown , active} from "./constants";
+import { KbdNav } from "./kbdnav";
 declare type Callback = (element: HTMLElement) => void;
 
 /* tslint:disable */
