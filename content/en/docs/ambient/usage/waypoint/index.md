@@ -210,6 +210,7 @@ The keyword `All` may be specified as the value for `allowedRoutes.namespaces.fr
 The following `Gateway` would allow resources in a namespace called "cross-namespace-waypoint-consumer" to use this `egress-gateway`:
 
 {{< text syntax=yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: egress-gateway
