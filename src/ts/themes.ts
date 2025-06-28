@@ -11,7 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { listen , getById} from "./utils";
+import { click } from "./constants";
+import { applyStyleSheet , lightThemeItem , currentTheme , lightTheme , themeStorageItem , darkThemeItem , darkTheme}  from "./themes_init";
 function handleThemes(): void {
     // reapply this in case the first call didn't 'stick' due to timing
     applyStyleSheet(currentTheme);

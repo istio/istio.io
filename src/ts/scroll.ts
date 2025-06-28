@@ -13,9 +13,11 @@
 // limitations under the License.
 
 // initialized after the DOM has been loaded
+import { getById , listen } from "./utils";
+import { click } from "./constants";
 let scrollToTopButton: HTMLElement | null;
 let tocLinks: HTMLCollectionOf<HTMLAnchorElement>;
-let tocHeadings: HTMLElement[] = [];
+const tocHeadings: HTMLElement[] = [];
 let pageHeader: HTMLElement | null;
 
 function handleScroll(): void {
