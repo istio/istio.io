@@ -141,7 +141,7 @@ netlify_install:
 	@npm install --omit=dev --global \
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 \
-	    svgstore-cli@v2.0.1 \
+	    svg-symbol-sprite@v1.5.2 \
 		@babel/core@v7.27.4 \
 		@babel/cli@v7.27.2 \
 		@babel/traverse@7.25.9 \
