@@ -3,54 +3,36 @@
 {{ partial "primary_top.html" . }}
 
 <div class="search-results">
-    <script>
-        (function() {
-            let cx;
-            {{ if .Site.Data.args.preliminary }}
-                cx = '{{ .Site.Data.args.preliminary_search_engine_id }}';
-            {{ else if .Site.Data.args.archive }}
-                cx = '{{ .Site.Data.args.archive_search_engine_id }}';
-            {{ else }}
-                cx = '{{ .Site.Data.args.main_search_engine_id }}';
-            {{ end }}
-            if(window.location.href.includes('&site=')){
-                cx = '{{ .Site.Data.args.docs_search_engine_id }}';
-            }
-                const gcse = document.createElement('script');
-                gcse.type = 'text/javascript';
-                gcse.async = true;
-                gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-                const s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(gcse, s);
-            })();
-    </script>
+    <div id="search-controls">
+        {{ $languages := .Site.Data.args.supported_languages }}
+        {{ $versions := .Site.Data.versions.supported_versions }}
 
-    {{ if .Site.Data.args.archive }}
-        <gcse:searchresults-only defaultToRefinement="{{ .Site.Data.args.archive_search_refinement }}"></gcse:searchresults-only>
-    {{ else }}
-        <gcse:searchresults-only></gcse:searchresults-only>
-    {{ end }}
+        <label for="lang-filter">Language:</label>
+        <select id="lang-filter">
+            {{ range $languages }}
+                <option value="{{ .code }}">{{ .name }}</option>
+            {{ end }}
+        </select>
+
+        <label for="version-filter">Version:</label>
+        <select id="version-filter">
+            {{ range $versions }}
+                <option value="{{ .version }}">{{ .version }}</option>
+            {{ end }}
+        </select>
+    </div>
+
+
+    <div id="search-query-header"></div>
+    <div id="search-results">Loading results...</div>
+    <div id="pagination-controls">
+        <div><button id="prev-page" class="btn" disabled>Previous</button></div>
+        <span id="page-info"></span>
+        <div><button id="next-page" class="btn" disabled>Next</button></div>
+    </div>
 </div>
 
-<script>
-    function getParameterByName(name, url) {
-        if (!url) {
-            url = window.location.href;
-        }
-        name = name.replace(/[\[\]]/g, "\\$&");
-        const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-        if (!results) {
-            return null;
-        }
-        if (!results[2]) {
-            return '';
-        }
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-    const q = getParameterByName('q', window.location.href);
-    document.getElementsByName('q')[0].value = q;
-</script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
 
 {{ .Content }}
 
