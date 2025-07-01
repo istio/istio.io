@@ -22,7 +22,7 @@ Istio 可以生成各种仪表盘所使用的遥测数据，帮助您直观地�
 
 ## 开始之前  {#before-you-begin}
 
-在集群中[安装 Istio](/zh/docs/setup/)并部署应用程序。
+在集群中[安装 Istio](/zh/docs/setup/) 并部署应用程序。
 或者，您可以设置自定义统计作为 Istio 安装的一部分。
 
 [Bookinfo 示例](/zh/docs/examples/bookinfo/)应用程序在此任务中用作示例应用程序。
@@ -83,10 +83,9 @@ $ kubectl exec "$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].met
 
 ## 对值使用表达式  {#use-expressions-for-values}
 
-指标配置中的值是常用表达式，这意味着您
-JSON 中的字符必须双引号（例如："'string value'"）。
-与 Mixer 表达式语言不同，不支持 pipe（`|`）运算符，但您
-可以使用 `has` 或 `in` 操作符来模拟它，例如：
+指标配置中的值是常用表达式，这意味着 JSON 中的字符必须双引号（例如："'string value'"）。
+与 Mixer 表达式语言不同，不支持 pipe（`|`）运算符，
+但您可以使用 `has` 或 `in` 操作符来模拟它，例如：
 
 {{< text plain >}}
 has(request.host) ? request.host : "unknown"
