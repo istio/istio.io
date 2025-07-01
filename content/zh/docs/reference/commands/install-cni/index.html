@@ -52,6 +52,14 @@ remove_toc_prefix: 'install-cni '
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
+<td><code>--istio-owned-cni-config</code></td>
+<td>Whether an Istio owned CNI configuration is enabled </td>
+</tr>
+<tr>
+<td><code>--istio-owned-cni-config-filename &lt;string&gt;</code></td>
+<td>Filename for Istio owned CNI configuration  (default ``)</td>
+</tr>
+<tr>
 <td><code>--kube-ca-file &lt;string&gt;</code></td>
 <td>CA file for kubeconfig. Defaults to the same as install-cni pod  (default ``)</td>
 </tr>
@@ -848,6 +856,18 @@ The wildcard character &#34;*&#34; can be used to configure redirection of traff
 <td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
 A group can be specified either by name or by a numeric GID.
 Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
+</tr>
+<tr id='istio-owned-cni-config'>
+<td><a href='#istio-owned-cni-config'><code>ISTIO_OWNED_CNI_CONFIG</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether an Istio owned CNI configuration is enabled</td>
+</tr>
+<tr id='istio-owned-cni-config-filename'>
+<td><a href='#istio-owned-cni-config-filename'><code>ISTIO_OWNED_CNI_CONFIG_FILENAME</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>Filename for Istio owned CNI configuration</td>
 </tr>
 <tr id='istio-watch-namespace'>
 <td><a href='#istio-watch-namespace'><code>ISTIO_WATCH_NAMESPACE</code></a></td>
