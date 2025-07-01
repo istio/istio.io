@@ -206,6 +206,12 @@ integrations:
     logo: "/logos/keyfactor.svg"
     url: "https://blog.keyfactor.com/secure-istio-mtls"
     description: "Keyfactor Command can fit within Istio-native workflows, acting as a control plane between your enterprise-operated PKI and your Istio deployment."
+  - name: "Kmesh"
+    logo: "/logos/kmesh.png"
+    url: "https://kmesh.net/docs/setup/quick-start"
+    description: "Kmesh is a service mesh for Kubernetes that provides a unified control plane for managing microservices."
+    details:
+      - "Kmesh integrates with Istio to provide advanced traffic management, security, and observability features for microservices running on Kubernetes."
   - name: "Knative"
     logo: "/logos/knative.svg"
     url: "https://knative.dev/"
