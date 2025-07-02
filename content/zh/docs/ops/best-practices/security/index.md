@@ -61,6 +61,21 @@ Istio 新的 Ambient 数据平面模式引入了一种新的拆分数据平面�
 需要注意的是，`GatewayClass` 是集群范围的资源，将命名空间范围的策略绑定到它需要特别小心。
 Istio 要求绑定到 `GatewayClass` 的策略位于根命名空间中，通常是 `istio-system`。
 
+对于 waypoint，标准的不允许任何行为的策略是：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing-istio-waypoint
+  namespace: istio-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: GatewayClass
+    name: istio-waypoint
+{{< /text >}}
+
 {{< tip >}}
 当在 waypoint 中使用默认拒绝模式时，除了“经典”默认拒绝策略外，
 还应使用绑定到 `istio-waypoint` `GatewayClass` 的策略。
