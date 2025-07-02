@@ -1466,8 +1466,8 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr id='pilot-enable-ca-crl'>
 <td><a href='#pilot-enable-ca-crl'><code>PILOT_ENABLE_CA_CRL</code></a></td>
 <td>Boolean</td>
-<td><code>false</code></td>
-<td>If set to true, Istio will watch for ca-crl.pem file in /etc/cacerts directory and will distribute crl data in each namespace in the cluster for proxies to consume. </td>
+<td><code>true</code></td>
+<td>If set to false, Istio will not watch for the ca-crl.pem file in the /etc/cacerts directory and will not distribute CRL data to namespaces for proxies to consume.</td>
 </tr>
 <tr id='pilot-enable-cds-cache'>
 <td><a href='#pilot-enable-cds-cache'><code>PILOT_ENABLE_CDS_CACHE</code></a></td>
