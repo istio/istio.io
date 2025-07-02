@@ -38,3 +38,6 @@ go/**
 
 # archived site version
 archived_version
+
+# Local Netlify folder
+.netlify
