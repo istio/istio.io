@@ -21,8 +21,8 @@ export {}; // Make this a module
 
 declare global {
   interface Window {
-    observeResize(el: HTMLElement, callback: Callback): void;
     handleSidebar: () => void;
+    observeResize: (element: HTMLElement, callback: (element: HTMLElement) => void) => void;
   }
 }
 /* tslint:enable */
@@ -204,5 +204,4 @@ function handleSidebar(): void {
     });
 }
 window.handleSidebar = handleSidebar;
-window.observeResize = observeResize;
 handleSidebar();

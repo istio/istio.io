@@ -13,7 +13,7 @@
 // limitations under the License.
 import { listen } from "./utils"
 const faqBlockCollapsed = "faq-block--collapsed";
-export{};
+export { };
 declare global {
     interface Window {
         handleFaqBlocks: () => void;
