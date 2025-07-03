@@ -3,3 +3,11 @@ main: "1.26"
 
 # The version of Istio currently documented in preliminary.istio.io
 preliminary: "1.27"
+
+supported_versions:
+  - version: "latest"
+  - version: "v1.25"
+  - version: "v1.24"
+  - version: "v1.23"
+  - version: "v1.22"
+  - version: "v1.21"
