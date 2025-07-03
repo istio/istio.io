@@ -141,10 +141,8 @@ netlify_install:
 	@npm install --omit=dev --global \
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 \
-<<<<<<< HEAD
 	    svg-symbol-sprite@v1.5.2 \
 	    esbuild@v0.25.5
->>>>>>> 0de329e3e (Refactor code to ES6 standard and add esbuild as a bundler and transpiler)
 
 netlify: netlify_install
 	@scripts/gen_site.sh
