@@ -11,8 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { getById } from "./utils";
 declare var iconFile: string;
+
+export{};
+
+declare global {
+    interface Window {
+        handleLinks: () => void;
+    }
+}
 
 function handleLinks(): void {
 
@@ -114,5 +122,5 @@ function handleLinks(): void {
     makeOutsideLinksOpenInTabs();
     createEndnotes();
 }
-
+window.handleLinks = handleLinks;
 handleLinks();
