@@ -8,8 +8,8 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-k3d 是在 Docker 中运行 [k3s](https://github.com/rancher/k3s)（Rancher Lab 的最小 Kubernetes 分布）的轻量级包装器。
-k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易，例如用于 Kubernetes 的本地开发。
+k3d 是在 Docker 中运行 [k3s](https://github.com/rancher/k3s)（Rancher Lab 推出的 Kubernetes 最小发行版）的轻量级包装器。
+k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易，例如特别适用于 Kubernetes 本地开发。
 
 ## 先决条件 {#prerequisites}
 
@@ -20,20 +20,20 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
 
 ## 安装 {#installation}
 
-1. 创建集群并使用以下命令禁用 `Traefik`：
+1. 使用以下命令创建集群并禁用 `Traefik`：
 
     {{< text bash >}}
     $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
     {{< /text >}}
 
-1. 查看 k3d 集群列表，请使用以下命令：
+1. 使用以下命令查看 k3d 集群列表：
 
     {{< text bash >}}
     $ k3d cluster list
     k3s-default
     {{< /text >}}
 
-1. 列出本地 Kubernetes 上下文，请使用以下命令。
+1. 使用以下命令列举本地 Kubernetes 上下文：
 
     {{< text bash >}}
     $ kubectl config get-contexts
@@ -42,7 +42,7 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
     {{< /text >}}
 
     {{< tip >}}
-    `k3d-` is prefixed to the context and cluster names, for example: `k3d-k3s-default`
+    `k3d-` 是上下文和集群名称的前缀，例如 `k3d-k3s-default`
     {{< /tip >}}
 
 1. 如果运行多个集群，则需要选择 `kubectl` 与哪个集群进行对话。您可以设置默认集群通过在
@@ -70,21 +70,20 @@ k3d 使得在 Docker 中创建单节点和多节点 k3s 集群变得非常容易
     $ helm install istio-ingressgateway istio/gateway -n istio-system --wait
     {{< /text >}}
 
-## 为 k3d 设置仪表板用户界面 {#set-up-dashboard-UI-for-k3d}
+## 为 k3d 设置 Dashboard 用户界面 {#set-up-dashboard-UI-for-k3d}
 
-k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置 Dashboard
- (基于 Web 的 Kubernetes UI) 来查看您的集群。
-按照以下说明为 k3d 设置仪表板。
+k3d 没有像 minikube 这样的内置 Dashboard UI。但是您仍然可以设置 Dashboard
+（基于 Web 的 Kubernetes UI）来查看您的集群。
+按照以下说明为 k3d 设置 Dashboard。
 
-1. 要部署仪表板，请运行以下命令：
+1. 要部署 Dashboard，请运行以下命令：
 
     {{< text bash >}}
-    $ GITHUB_URL=https://github.com/kubernetes/dashboard/releases
-    $ VERSION_KUBE_DASHBOARD=$(curl -w '%{url_effective}' -I -L -s -S ${GITHUB_URL}/latest -o /dev/null | sed -e 's|.*/||')
-    $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/${VERSION_KUBE_DASHBOARD}/aio/deploy/recommended.yaml
+    $ helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+    $ helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
     {{< /text >}}
 
-1. 验证仪表板已部署并正在运行。
+1. 验证 Dashboard 已部署并正在运行。
 
     {{< text bash >}}
     $ kubectl get pod -n kubernetes-dashboard
@@ -100,29 +99,30 @@ k3d 没有像 minikube 这样的内置仪表板 UI。但是您仍然可以设置
     $ kubectl create clusterrolebinding -n kubernetes-dashboard admin-user --clusterrole cluster-admin --serviceaccount=kubernetes-dashboard:admin-user
     {{< /text >}}
 
-1. 要登录到您的仪表板，您需要一个承载令牌。使用以下命令将令牌存储在变量中。
+1. 要登录到您的 Dashboard，您需要一个承载令牌。使用以下命令将令牌存储在变量中。
 
     {{< text bash >}}
     $ token=$(kubectl -n kubernetes-dashboard create token admin-user)
     {{< /text >}}
 
-    使用 `echo` 命令显示令牌，并将其复制以用于登录到仪表板。
+    使用 `echo` 命令显示令牌，并将其复制以用于登录到 Dashboard。
 
     {{< text bash >}}
     $ echo $token
     {{< /text >}}
 
-1. 您可以通过运行以下命令使用 kubectl 命令行工具访问仪表板：
+1. 您可以通过运行以下命令使用 kubectl 命令行工具访问 Dashboard：
 
     {{< text bash >}}
     $ kubectl proxy
     Starting to serve on 127.0.0.1:8001
     {{< /text >}}
 
-    单击 [Kubernetes 仪表板](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)来查看您的部署和服务。
+    单击 [Kubernetes Dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
+    来查看您的部署和服务。
 
     {{< warning >}}
-    您必须将令牌保存在某个地方，否则每次需要令牌登录仪表板时都必须运行第 4 步。
+    您必须保存好令牌，否则每次都需要运行第 4 步获取令牌后才能登录到 Dashboard。
     {{< /warning >}}
 
 ## 卸载 {#uninstall}
