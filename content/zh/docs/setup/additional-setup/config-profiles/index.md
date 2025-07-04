@@ -124,19 +124,19 @@ Istio 的[部署配置文件值集合在此定义]({{< github_tree >}}/manifests
 这些配置文件本质上只是 Helm 值的预设集合，虽然在这些环境中安装 Istio
 并不强制使用它们，但它们提供了方便的基础设置，推荐新用户使用：
 
-1. **gke**：为在 Google Kubernetes Engine（GKE）环境中安装 Istio 设置了必要或推荐的图表选项。
+1. **gke**：为在 Google Kubernetes Engine（GKE）环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
-1. **eks**：为在 Amazon Elastic Kubernetes Service（EKS）环境中安装 Istio 设置了必要或推荐的图表选项。
+1. **eks**：为在 Amazon Elastic Kubernetes Service（EKS）环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
-1. **openshift**：为在 OpenShift 环境中安装 Istio 设置了必要或推荐的图表选项。
+1. **openshift**：为在 OpenShift 环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
-1. **k3d**：为在 [k3d](https://k3d.io/) 环境中安装 Istio 设置了必要或推荐的图表选项。
+1. **k3d**：为在 [k3d](https://k3d.io/) 环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
-1. **k3s**：为在 [K3s](https://k3s.io/) 环境中安装 Istio 设置了必要或推荐的图表选项。
+1. **k3s**：为在 [K3s](https://k3s.io/) 环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
-1. **microk8s**：为在 [MicroK8s](https://microk8s.io/) 环境中安装 Istio 设置了必要或推荐的图表选项。
+1. **microk8s**：为在 [MicroK8s](https://microk8s.io/) 环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
 1. **minikube**：为在 [minikube](https://kubernetes.io/zh-cn/docs/tasks/tools/install-minikube/)
-   环境中安装 Istio 设置了必要或推荐的图表选项。
+   环境中安装 Istio 设置了必要或推荐的 Chart 选项。
 
 Istio 的[平台配置文件在此定义]({{< github_tree >}}/manifests/helm-profiles)，适用于 `istioctl` 和 `helm`。
