@@ -30,3 +30,4 @@ function observeResize(el, callback) {
         });
     }
 }
+window.observeResize = observeResize;

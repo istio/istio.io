@@ -131,7 +131,7 @@ Users often deploy a mesh to enable a zero-trust security posture as a first-ste
     <tr>
       <th>Support</th>
       <td>Stable, including multi-cluster</td>
-      <td>Beta, single-cluster</td>
+      <td>Stable, only single-cluster</td>
     </tr>
     <tr>
       <th>Platforms supported</th>

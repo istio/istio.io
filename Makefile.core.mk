@@ -139,17 +139,10 @@ archive-version:
 netlify_install:
 	@npm init -y
 	@npm install --omit=dev --global \
-	    sass@v1.52.1 \
-	    typescript@v4.7.2 \
-	    svgstore-cli@v1.3.2 \
-		@babel/core@v7.18.2 \
-		@babel/cli@v7.17.10 \
-		@babel/traverse@7.25.9 \
-		@babel/preset-env@v7.18.2
-	@npm install --omit=dev --save-dev \
-		babel-preset-minify@v0.5.2
-	@npm install --save \
-		core-js@3.31.1
+	    sass@v1.89.1 \
+	    typescript@v5.8.3 \
+	    svg-symbol-sprite@v1.5.2 \
+	    esbuild@v0.25.5
 
 netlify: netlify_install
 	@scripts/gen_site.sh

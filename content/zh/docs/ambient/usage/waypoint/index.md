@@ -249,6 +249,7 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 的命名空间中的资源使用此 `egress-gateway`：
 
 {{< text syntax=yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: egress-gateway
