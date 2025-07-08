@@ -13,9 +13,6 @@
     PYTHON_VERSION = "3.12.3"
     RUBY_VERSION = "3.2.3"
 
-[context.deploy-preview]
-  command = "hugo  --minify  -b ${DEPLOY_PRIME_URL}/latest"
-
 [[headers]]
   for = "/*"
   [headers.values]
