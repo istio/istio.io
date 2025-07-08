@@ -8568,9 +8568,9 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 </tr>
 <tr id='enable-native-sidecars'>
 <td><a href='#enable-native-sidecars'><code>ENABLE_NATIVE_SIDECARS</code></a></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
+<td>String</td>
+<td><code>auto</code></td>
+<td>If set to true, use Kubernetes native sidecar container support. Requires SidecarContainer feature flag. Set to true to unconditionally enable, false to unconditionally disable. Set to auto to automatically enable for supported scenarios</td>
 </tr>
 <tr id='enable-probe-keepalive-connections'>
 <td><a href='#enable-probe-keepalive-connections'><code>ENABLE_PROBE_KEEPALIVE_CONNECTIONS</code></a></td>
@@ -9385,6 +9385,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr id='support-gateway-api-inference-extension'>
+<td><a href='#support-gateway-api-inference-extension'><code>SUPPORT_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='term'>
 <td><a href='#term'><code>TERM</code></a></td>
