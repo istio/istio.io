@@ -72,8 +72,21 @@ JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
-ifeq ($(CONTEXT),production)
-baseurl := "$(URL)"
+# Determine current Git branch
+CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+
+# If the current branch is master, we use preliminary.istio.io/latest as the base URL
+ifeq ($(CURRENT_BRANCH),master)
+  baseurl := https://preliminary.istio.io/latest
+
+# If the current branch is release branch, we use the istio.io/latest as the base URL
+else ifneq ($(filter release-%, $(CURRENT_BRANCH)),)
+  baseurl := https://istio.io/latest
+
+# If the current branch is not master or release branch, we use /latest as the base URL
+# This is useful for feature branches or pull requests and deploy-preview
+else
+  baseurl := /latest
 endif
 
 # Which branch of the Istio source code do we fetch stuff from
@@ -142,11 +155,12 @@ netlify_install:
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 \
 	    svg-symbol-sprite@v1.5.2 \
-	    esbuild@v0.25.5
+	    esbuild@v0.25.5 
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "/latest"
+# Dynamically set the baseurl based on the current branch.
+	@scripts/build_site.sh "${baseurl}"   
 	@scripts/include_archive_site.sh
 
 # ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
