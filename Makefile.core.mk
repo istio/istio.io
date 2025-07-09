@@ -79,17 +79,19 @@ CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 ifeq ($(CURRENT_BRANCH),master)
   baseurl := https://preliminary.istio.io/latest
 
-# If the current branch is release branch, we use the istio.io/latest as the base URL
+# If the current branch is a release branch, use istio.io/latest
 else ifneq ($(filter release-%, $(CURRENT_BRANCH)),)
   baseurl := https://istio.io/latest
 
-# For deploy-preview we will use $DEPLOY_PRIME_URL as the base URL
-else ifneq($(CONTEXT),deploy-preview)
-  baseurl :- $(DEPLOY_PRIME_URL)/latest
-  
+# For deploy-preview, use DEPLOY_PRIME_URL
+else ifeq ($(CONTEXT),deploy-preview)
+  baseurl := $(DEPLOY_PRIME_URL)/latest
+
+# Default base URL
 else
   baseurl := /latest
 endif
+
 
 # Which branch of the Istio source code do we fetch stuff from
 export SOURCE_BRANCH_NAME ?= master
