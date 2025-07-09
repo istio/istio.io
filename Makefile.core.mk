@@ -72,16 +72,9 @@ JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
-# Determine current Git branch
-CURRENT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-
-# If the current branch is master, we use preliminary.istio.io/latest as the base URL
-ifeq ($(CURRENT_BRANCH),master)
-  baseurl := https://preliminary.istio.io/latest
-
-# If the current branch is a release branch, use istio.io/latest
-else ifneq ($(filter release-%, $(CURRENT_BRANCH)),)
-  baseurl := https://istio.io/latest
+# Determine the baseURL for the site depending on the context
+ifeq ($(CONTEXT),production)
+  baseurl := $(URL)/latest
 
 # For deploy-preview, use DEPLOY_PRIME_URL
 else ifeq ($(CONTEXT),deploy-preview)
