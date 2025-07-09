@@ -35,6 +35,21 @@ Istio [автоматично](/docs/ops/configuration/traffic-management/tls-co
 
 Новий режим панелі даних режиму Ambient представив нову архітектуру розділеної панелі даних у Istio. У цій архітектурі проксі waypoint налаштовується за допомогою Kubernetes Gateway API, який використовує більш явне привʼязування до шлюзів за допомогою `parentRef` і `targetRef`. Оскільки waypoints ближче відповідають принципам Kubernetes Gateway API, шаблон default-deny вмикається дещо по-іншому, коли політика застосовується для waypoints. Починаючи з Istio 1.25, ви можете привʼязати ресурси `AuthorizationPolicy` до `istio-waypoint` `GatewayClass`. Прив'язавши `AuthorizationPolicy` до `GatewayClass`, ви можете налаштувати всі шлюзи, які реалізують цей `GatewayClass`, за стандартною політикою. Важливо зазначити, що `GatewayClass` є кластерним ресурсом, і привʼязка до нього політик, що масштабуються у просторі імен, вимагає особливої обережності. Istio вимагає, щоб політики, привʼязані до `GatewayClass`, знаходилися у кореневому просторі імен, зазвичай `istio-system`.
 
+Для waypoints стандартна політика заборони доступу буде такою:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing-istio-waypoint
+  namespace: istio-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: GatewayClass
+    name: istio-waypoint
+{{< /text >}}
+
 {{< tip >}}
 При використанні шаблону default-deny з waypoints, політика, привʼязана до `istio-waypoint` `GatewayClass`, повинна використовуватися на додаток до «класичної» політики default-deny. «Класична» політика default-deny буде застосована ztunnel до робочих навантажень у вашій мережі, і вона все ще має цінність.
 {{< /tip >}}
