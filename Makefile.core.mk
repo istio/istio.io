@@ -83,8 +83,10 @@ ifeq ($(CURRENT_BRANCH),master)
 else ifneq ($(filter release-%, $(CURRENT_BRANCH)),)
   baseurl := https://istio.io/latest
 
-# If the current branch is not master or release branch, we use /latest as the base URL
-# This is useful for feature branches or pull requests and deploy-preview
+# For deploy-preview we will use $DEPLOY_PRIME_URL as the base URL
+else ifneq($(CONTEXT),deploy-preview)
+  baseurl :- $(DEPLOY_PRIME_URL)/latest
+  
 else
   baseurl := /latest
 endif
