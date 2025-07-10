@@ -156,7 +156,7 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-# Dynamically set the baseurl based on the current branch.
+# Dynamically set the baseurl based on the Netlify Context
 	@scripts/build_site.sh "${baseurl}"   
 	@scripts/include_archive_site.sh
 
