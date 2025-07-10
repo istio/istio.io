@@ -75,8 +75,8 @@ function _undeploy_addons() {
 # configuration to sidecar proxies
 function _wait_for_addon_config_distribution() {
   for addon in "$@"; do
-    _wait_for_istio Gateway istio-system "$addon-gateway"
-    _wait_for_istio VirtualService istio-system "$addon-vs"
-    _wait_for_istio DestinationRule istio-system "$addon"
+    _wait_for_resource Gateway istio-system "$addon-gateway"
+    _wait_for_resource VirtualService istio-system "$addon-vs"
+    _wait_for_resource DestinationRule istio-system "$addon"
   done
 }

@@ -162,4 +162,4 @@ Hello version: region3.zone4, instance: helloworld-region3.zone4-86f77cd7b-cpxhv
 
 ## 下一步 {#next-steps}
 
-[清除](/zh/docs/tasks/traffic-management/locality-load-balancing/cleanup)此任务中的资源和文件。
+[清理](/zh/docs/tasks/traffic-management/locality-load-balancing/cleanup)此任务中的资源和文件。

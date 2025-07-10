@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const click = "click";
-const mouseenter = "mouseenter";
-const mouseleave = "mouseleave";
-const active = "active";
-const keyup = "keyup";
-const keydown = "keydown";
-const button = "button";
-const ariaLabel = "aria-label";
-const ariaExpanded = "aria-expanded";
-const ariaSelected = "aria-selected";
-const ariaControls = "aria-controls";
-const tabIndex = "tabindex";
+export const click = "click";
+export const mouseenter = "mouseenter";
+export const mouseleave = "mouseleave";
+export const active = "active";
+export const keyup = "keyup";
+export const keydown = "keydown";
+export const button = "button";
+export const ariaLabel = "aria-label";
+export const ariaExpanded = "aria-expanded";
+export const ariaSelected = "aria-selected";
+export const ariaControls = "aria-controls";
+export const tabIndex = "tabindex";

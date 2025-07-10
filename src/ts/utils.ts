@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const keyCodes = Object.freeze({
+export  const keyCodes = Object.freeze({
     DOWN: 40,
     END: 35,
     ESC: 27,
@@ -28,7 +28,7 @@ const keyCodes = Object.freeze({
 });
 
 // copy the given text to the system clipboard
-function copyToClipboard(str: string): void {
+export function copyToClipboard(str: string): void {
     const sel = document.getSelection();
     if (!sel) {
         return;
@@ -59,7 +59,7 @@ function copyToClipboard(str: string): void {
 }
 
 // Saves a string to a particular client-side file
-function saveFile(filename: string, text: string): void {
+export function saveFile(filename: string, text: string): void {
     const element = document.createElement("a");
     element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
     element.setAttribute("download", filename);
@@ -71,7 +71,7 @@ function saveFile(filename: string, text: string): void {
 }
 
 // Sends a string to the printer
-function printText(text: string): void {
+export function printText(text: string): void {
     const html = "<html><body><pre><code>" + text + "</code></pre></html>";
 
     const printWin = window.open("", "", "left=0,top=0,width=100,height=100,toolbar=0,scrollbars=0,status=0,location=0,menubar=0");
@@ -86,7 +86,7 @@ function printText(text: string): void {
 
 // Navigate to the given URL if possible. If the page doesn't exist then navigate to the
 // root of the target site instead.
-function navigateToUrlOrRoot(url: string): void {
+export function navigateToUrlOrRoot(url: string): void {
     const request = new XMLHttpRequest();
     request.open("GET", url, true);
     request.onreadystatechange = () => {
@@ -103,29 +103,29 @@ function navigateToUrlOrRoot(url: string): void {
     request.send();
 }
 
-function createCookie(name: string, value: string): void {
+export function createCookie(name: string, value: string): void {
     document.cookie = name + "=" + value + "; path=/";
 }
 
-function getById(id: string): HTMLElement | null {
+export function getById(id: string): HTMLElement | null {
     return document.getElementById(id);
 }
 
-function getByTag(tag: string): Element | null {
+export function getByTag(tag: string): Element | null {
     return document.getElementsByTagName(tag)[0];
 }
 
-function getByClass(className: string): HTMLCollectionOf<Element> | null {
+export function getByClass(className: string): HTMLCollectionOf<Element> | null {
     return document.getElementsByClassName(className);
 }
 
-function listen(o: HTMLElement | Element | Window | null, e: string, f: EventListenerOrEventListenerObject): void {
+export function listen(o: HTMLElement | Element | Window | null, e: string, f: EventListenerOrEventListenerObject): void {
     if (o) {
         o.addEventListener(e, f);
     }
 }
 
-function toggleAttribute(el: HTMLElement, name: string): void {
+export function toggleAttribute(el: HTMLElement, name: string): void {
     if (el.getAttribute(name) === "true") {
         el.setAttribute(name, "false");
     } else {
@@ -133,6 +133,6 @@ function toggleAttribute(el: HTMLElement, name: string): void {
     }
 }
 
-function isPrintableCharacter(str: string): boolean {
+export function isPrintableCharacter(str: string): boolean {
     return str.length === 1 && (str.match(/\S/) != null);
 }

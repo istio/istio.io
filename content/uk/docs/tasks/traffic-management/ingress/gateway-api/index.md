@@ -332,6 +332,10 @@ spec:
 
 Щоб зв’язати `Gateway` з `Service`, налаштуйте поле `addresses`, щоб воно вказувало на **один** `Hostname`.
 
+{{< tip >}}
+Контролер Istio не буде конфігурувати `Service`, якщо він знаходиться в іншому просторі імен, ніж `Gateway`.
+{{< /tip >}}
+
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway

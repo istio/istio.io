@@ -54,6 +54,21 @@ By binding `AuthorizationPolicy` to the `GatewayClass`, you can configure all ga
 It is important to note that `GatewayClass` is a cluster-scoped resource, and binding namespace-scoped policies to it requires special care.
 Istio requires that policies which are bound to a `GatewayClass` reside in the root namespace, typically `istio-system`.
 
+For waypoints, standard allow-nothing policy would be:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing-istio-waypoint
+  namespace: istio-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: GatewayClass
+    name: istio-waypoint
+{{< /text >}}
+
 {{< tip >}}
 When using the default-deny pattern with waypoints, the policy bound to the `istio-waypoint` `GatewayClass` should be used in addition to the "classic" default-deny policy. The "classic" default-deny policy will be enforced by ztunnel against the workloads in your mesh and still provides meaningful value.
 {{< /tip >}}

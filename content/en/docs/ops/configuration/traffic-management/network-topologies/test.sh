@@ -44,8 +44,8 @@ else
     snip_deploy_httpbin_gateway
 
     # wait for for the rules to propagate
-    _wait_for_istio gateway httpbin httpbin-gateway
-    _wait_for_istio virtualservice httpbin httpbin
+    _wait_for_resource gateway httpbin httpbin-gateway
+    _wait_for_resource virtualservice httpbin httpbin
 
     snip_export_gateway_url
 fi

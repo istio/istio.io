@@ -207,6 +207,7 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 Наступний `Gateway` дозволить ресурсам у просторі імен з назвою "cross-namespace-waypoint-consumer" використовувати цей `egress-gateway`:
 
 {{< text syntax=yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: egress-gateway
