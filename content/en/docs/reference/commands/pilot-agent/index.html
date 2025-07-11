@@ -1679,6 +1679,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code></code></td>
 <td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
 </tr>
+<tr id='pilot-ip-autoallocate-ipv4-prefix'>
+<td><a href='#pilot-ip-autoallocate-ipv4-prefix'><code>PILOT_IP_AUTOALLOCATE_IPV4_PREFIX</code></a></td>
+<td>String</td>
+<td><code>240.240.0.0/16</code></td>
+<td>The CIDR range/prefix to use for auto-allocated IPv4 addresses. This should be a private range, and not conflict with any other IPs in the cluster.</td>
+</tr>
+<tr id='pilot-ip-autoallocate-ipv6-prefix'>
+<td><a href='#pilot-ip-autoallocate-ipv6-prefix'><code>PILOT_IP_AUTOALLOCATE_IPV6_PREFIX</code></a></td>
+<td>String</td>
+<td><code>2001:2::/48</code></td>
+<td>The CIDR range/prefix to use for auto-allocated IPv6 addresses. This should be a private range, and not conflict with any other IPs in the cluster.</td>
+</tr>
 <tr id='pilot-jwt-enable-remote-jwks'>
 <td><a href='#pilot-jwt-enable-remote-jwks'><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></a></td>
 <td>String</td>
