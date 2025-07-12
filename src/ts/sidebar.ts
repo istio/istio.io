@@ -14,6 +14,7 @@
 import { getById , toggleAttribute , isPrintableCharacter ,keyCodes, getByClass ,listen } from "./utils";
 import { button , click , ariaExpanded , keydown , active} from "./constants";
 import { KbdNav } from "./kbdnav";
+import { observeResize } from "./resizeObserver";
 declare type Callback = (element: HTMLElement) => void;
 
 /* tslint:disable */
@@ -22,7 +23,6 @@ export {}; // Make this a module
 declare global {
   interface Window {
     handleSidebar: () => void;
-    observeResize: (element: HTMLElement, callback: (element: HTMLElement) => void) => void;
   }
 }
 /* tslint:enable */
@@ -62,7 +62,7 @@ function handleSidebar(): void {
             });
         });
 
-        window.observeResize(body, el => {
+        observeResize(body, (el:HTMLElement) => {
             if ((el.style.maxHeight !== null) && (el.style.maxHeight !== "")) {
                 el.style.maxHeight = el.scrollHeight + "px";
             }
