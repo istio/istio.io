@@ -40,7 +40,7 @@ doc_type: get-involved
 2. 无论谁想要通过代码、文档还是其他部分进行贡献，[Istio 社区自述](https://github.com/istio/community/blob/master/README.md)都是 **贡献者的起点** 。
 3. 您可以加入 [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access) 来 [**访问我们的技术内容和工作文档**](https://drive.google.com/drive/folders/1l_zqgBq_yfc1PfbJiWsFubXBtAz22sau)。
 4. 您可以加入 [**工作组**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md)，这些工作组专注于您感兴趣的特定领域，如文档、安全和网络。
-5. 有兴趣帮忙翻译 **中文文档** 吗？欢迎加入[云原生社区](https://cloudnative.to)。
+5. 有兴趣帮忙翻译 **中文文档** 吗？欢迎加入[云原生社区](https://cloudnativecn.com)。
 {{% /involve_block %}}
 
 {{% involve_block title="了解监督和规划" subtitle="Istio 有两个关键委员会负责监督项目：指导委员会和技术监督委员会。" icon="magnifier" %}}

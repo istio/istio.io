@@ -45,7 +45,7 @@ doc_type: get-involved
 1. [README спільноти Istio](https://github.com/istio/community/blob/master/README.md) є **відправною точкою для учасників**, які хочуть працювати над кодом, документацією чи іншими частинами Istio.
 1. Ви можете отримати доступ до нашого [**скарбу технічного контенту та робочих документів**](https://drive.google.com/drive/folders/1l_zqgBq_yfc1PfbJiWsFubXBtAz22sau), приєднавшись до [istio-team-drive-access@ Google Group](https://groups.google.com/forum/#!forum/istio-team-drive-access).
 1. Ви можете взяти участь у [**робочих групах**](https://github.com/istio/community/blob/master/WORKING-GROUPS.md), які зосереджені на конкретних сферах інтересів, таких як документація, безпека та мережі.
-<!-- 1. Зацікавлені в допомозі з **документацією китайською мовою**? Приєднуйтесь до [Cloud Native Community (China)](https://cloudnative.to). -->
+<!-- 1. Зацікавлені в допомозі з **документацією китайською мовою**? Приєднуйтесь до [Cloud Native Community (China)](https://cloudnativecn.com). -->
 {{% /involve_block %}}
 
 {{% involve_block title="Зрозуміти нагляд і планування" subtitle="Istio має два ключові комітети, які здійснюють нагляд за проєктом: Steering та Technical Oversight." icon="magnifier" %}}
