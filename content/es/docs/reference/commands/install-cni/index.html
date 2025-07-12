@@ -1,0 +1,1621 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/istio' REPO
+source_repo: https://github.com/istio/istio
+title: install-cni
+description: Install and configure Istio CNI plugin on a node, detect and repair pod which is broken by race condition.
+generator: pkg-collateral-docs
+number_of_entries: 8
+max_toc_level: 2
+remove_toc_prefix: 'install-cni '
+---
+<p>Install and configure Istio CNI plugin on a node, detect and repair pod which is broken by race condition.</p>
+<pre class="language-bash"><code>install-cni [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ambient-enabled</code></td>
+<td>Whether ambient controller is enabled </td>
+</tr>
+<tr>
+<td><code>--chained-cni-plugin</code></td>
+<td>Whether to install CNI plugin as a chained or standalone </td>
+</tr>
+<tr>
+<td><code>--cni-agent-run-dir &lt;string&gt;</code></td>
+<td>Location of the node agent writable path on the node (used for sockets, etc)  (default `/var/run/istio-cni`)</td>
+</tr>
+<tr>
+<td><code>--cni-conf-name &lt;string&gt;</code></td>
+<td>Name of the CNI configuration file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cni-network-config &lt;string&gt;</code></td>
+<td>CNI configuration template as a string  (default ``)</td>
+</tr>
+<tr>
+<td><code>--cni-network-config-file &lt;string&gt;</code></td>
+<td>CNI config template as a file  (default ``)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--kube-ca-file &lt;string&gt;</code></td>
+<td>CA file for kubeconfig. Defaults to the same as install-cni pod  (default ``)</td>
+</tr>
+<tr>
+<td><code>--kubeconfig-mode &lt;int&gt;</code></td>
+<td>File mode of the kubeconfig file  (default `384`)</td>
+</tr>
+<tr>
+<td><code>--log-level &lt;string&gt;</code></td>
+<td>Fallback value for log level in CNI config file, if not specified in helm template  (default `warn`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--monitoring-port &lt;int&gt;</code></td>
+<td>HTTP port to serve prometheus metrics  (default `15014`)</td>
+</tr>
+<tr>
+<td><code>--mounted-cni-net-dir &lt;string&gt;</code></td>
+<td>Directory on the container where CNI networks are installed  (default `/host/etc/cni/net.d`)</td>
+</tr>
+<tr>
+<td><code>--repair-broken-pod-label-key &lt;string&gt;</code></td>
+<td>The key portion of the label which will be set by the race repair if label pods is true  (default `cni.istio.io/uninitialized`)</td>
+</tr>
+<tr>
+<td><code>--repair-broken-pod-label-value &lt;string&gt;</code></td>
+<td>The value portion of the label which will be set by the race repair if label pods is true  (default `true`)</td>
+</tr>
+<tr>
+<td><code>--repair-delete-pods</code></td>
+<td>Controller will delete pods when detecting pod broken by race condition </td>
+</tr>
+<tr>
+<td><code>--repair-enabled</code></td>
+<td>Whether to enable race condition repair or not </td>
+</tr>
+<tr>
+<td><code>--repair-field-selectors &lt;string&gt;</code></td>
+<td>A set of field selectors in label=value format that will be added to the pod list filters  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-init-container-exit-code &lt;int&gt;</code></td>
+<td>Expected exit code for the init container when crash-looping because of CNI misconfiguration  (default `126`)</td>
+</tr>
+<tr>
+<td><code>--repair-init-container-name &lt;string&gt;</code></td>
+<td>The name of the istio init container (will crash-loop if CNI is not configured for the pod)  (default `istio-validation`)</td>
+</tr>
+<tr>
+<td><code>--repair-init-container-termination-message &lt;string&gt;</code></td>
+<td>The expected termination message for the init container when crash-looping because of CNI misconfiguration  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-label-pods</code></td>
+<td>Controller will label pods when detecting pod broken by race condition </td>
+</tr>
+<tr>
+<td><code>--repair-label-selectors &lt;string&gt;</code></td>
+<td>A set of label selectors in label=value format that will be added to the pod list filters  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-node-name &lt;string&gt;</code></td>
+<td>The name of the managed node (will manage all nodes if unset)  (default ``)</td>
+</tr>
+<tr>
+<td><code>--repair-sidecar-annotation &lt;string&gt;</code></td>
+<td>An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored.The value of the annotation is ignored.  (default `sidecar.istio.io/status`)</td>
+</tr>
+<tr>
+<td><code>--skip-tls-verify</code></td>
+<td>Whether to use insecure TLS in kubeconfig file </td>
+</tr>
+<tr>
+<td><code>--ztunnel-uds-address &lt;string&gt;</code></td>
+<td>The UDS server address which ztunnel will connect to  (default `/var/run/ztunnel/ztunnel.sock`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-cni-completion">install-cni completion</h3>
+<p>Generate the autocompletion script for install-cni for the specified shell.
+See each sub-command&#39;s help for details on how to use the generated script.
+</p>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-cni-completion-bash">install-cni completion bash</h3>
+<p>Generate the autocompletion script for the bash shell.</p>
+<p>This script depends on the &#39;bash-completion&#39; package.
+If it is not installed already, you can install it via your OS&#39;s package manager.</p>
+<p>To load completions in your current shell session:</p>
+<pre class="language-bash"><code>source &lt;(install-cni completion bash)</code></pre>
+<p>To load completions for every new session, execute once:</p>
+<h4>Linux:</h4>
+<pre class="language-bash"><code>install-cni completion bash &gt; /etc/bash_completion.d/install-cni</code></pre>
+<h4>macOS:</h4>
+<pre class="language-bash"><code>install-cni completion bash &gt; /usr/local/etc/bash_completion.d/install-cni</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
+<pre class="language-bash"><code>install-cni completion bash
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-cni-completion-fish">install-cni completion fish</h3>
+<p>Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:</p>
+<pre class="language-bash"><code>install-cni completion fish | source</code></pre>
+<p>To load completions for every new session, execute once:</p>
+<pre class="language-bash"><code>install-cni completion bash &gt; ~/.config/fish/completions/install-cni.fish</code></pre>
+<p>You will need to start a new shell for this setup to take effect.</p>
+<pre class="language-bash"><code>install-cni completion fish [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-cni-completion-powershell">install-cni completion powershell</h3>
+<p>Generate the autocompletion script for PowerShell.</p>
+<p>To load completions in your current shell session:</p>
+<pre class="language-bash"><code>install-cni completion powershell | Out-String | Invoke-Expression</code></pre>
+<p>To load completions for every new session, add the output of the above command to your powershell profile.</p>
+<pre class="language-bash"><code>install-cni completion powershell [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-cni-completion-zsh">install-cni completion zsh</h3>
+<p>Generate the autocompletion script for the zsh shell.</p>
+	<p>If shell completion is not already enabled in your environment you will need to enable it. You can execute the following once:</p>
+	<pre class="language-bash"><code>echo &#34;autoload -U compinit; compinit&#34; &gt;&gt; ~/.zshrc</code></pre>
+	<p>To load completions in your current shell session:</p>
+	<pre class="language-bash"><code>source &lt;(install-cni completion zsh)</code></pre>
+	<p>To load completions for every new session, execute once:</p>
+	<h4>Linux:</h4>
+	<pre class="language-bash"><code>install-cni completion zsh &gt; &#34;${fpath[1]}/_install-cni&#34;</code></pre>
+	<h4>macOS:</h4>
+	<pre class="language-bash"><code>install-cni completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_install-cni</code></pre>
+	<p>You will need to start a new shell for this setup to take effect.</p>
+<pre class="language-bash"><code>install-cni completion zsh [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--no-descriptions</code></td>
+<td>disable completion descriptions </td>
+</tr>
+</tbody>
+</table>
+<h3 id="install-cni-version">install-cni version</h3>
+<p>Prints out build version information</p>
+<pre class="language-bash"><code>install-cni version [flags]
+</code></pre>
+<table class="command-flags">
+<thead>
+<tr>
+<th>Flags</th>
+<th>Shorthand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--ctrlz_address &lt;string&gt;</code></td>
+<td></td>
+<td>The IP Address to listen on for the ControlZ introspection facility. Use &#39;*&#39; to indicate all addresses.  (default `localhost`)</td>
+</tr>
+<tr>
+<td><code>--ctrlz_port &lt;uint16&gt;</code></td>
+<td></td>
+<td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
+</tr>
+<tr>
+<td><code>--log_as_json</code></td>
+<td></td>
+<td>Whether to format output as JSON or in plain console-friendly format </td>
+</tr>
+<tr>
+<td><code>--log_caller &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_output_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+</tr>
+<tr>
+<td><code>--log_stacktrace_level &lt;string&gt;</code></td>
+<td></td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+</tr>
+<tr>
+<td><code>--log_target &lt;stringArray&gt;</code></td>
+<td></td>
+<td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
+</tr>
+<tr>
+<td><code>--output &lt;string&gt;</code></td>
+<td><code>-o</code></td>
+<td>One of &#39;yaml&#39; or &#39;json&#39;.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--short</code></td>
+<td><code>-s</code></td>
+<td>Use --short=false to generate full version information </td>
+</tr>
+</tbody>
+</table>
+<h2 id="envvars">Environment variables</h2>
+These environment variables affect the behavior of the <code>install-cni</code> command. 
+<table class="envvars">
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AMBIENT_ENABLED</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether ambient controller is enabled</td>
+</tr>
+<tr>
+<td><code>AMBIENT_ENABLE_MULTI_NETWORK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, the multi-network functionality will be enabled.</td>
+</tr>
+<tr>
+<td><code>AMBIENT_ENABLE_STATUS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
+</tr>
+<tr>
+<td><code>AMBIENT_USE_SCOPED_XTABLES_LOCKING</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>CA_TRUSTED_NODE_ACCOUNTS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, the list of service accounts that are allowed to use node authentication for CSRs. Node authentication allows an identity to create CSRs on behalf of other identities, but only if there is a pod running on the same node with that identity. This is intended for use with node proxies.</td>
+</tr>
+<tr>
+<td><code>CERT_SIGNER_DOMAIN</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The cert signer domain info</td>
+</tr>
+<tr>
+<td><code>CHAINED_CNI_PLUGIN</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to install CNI plugin as a chained or standalone</td>
+</tr>
+<tr>
+<td><code>CLUSTER_ID</code></td>
+<td>String</td>
+<td><code>Kubernetes</code></td>
+<td>Defines the cluster and service registry that this Istiod instance belongs to</td>
+</tr>
+<tr>
+<td><code>CNI_AGENT_RUN_DIR</code></td>
+<td>String</td>
+<td><code>/var/run/istio-cni</code></td>
+<td>Location of the node agent writable path on the node (used for sockets, etc)</td>
+</tr>
+<tr>
+<td><code>CNI_CONF_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Name of the CNI configuration file</td>
+</tr>
+<tr>
+<td><code>CNI_NETWORK_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>CNI configuration template as a string</td>
+</tr>
+<tr>
+<td><code>CNI_NETWORK_CONFIG_FILE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>CNI config template as a file</td>
+</tr>
+<tr>
+<td><code>COMPLIANCE_POLICY</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, applies policy-specific restrictions over all existing TLS
+settings, including in-mesh mTLS and external TLS. Valid values are:
+
+* &#39;&#39; or unset places no additional restrictions.
+* &#39;fips-140-2&#39; which enforces a version of the TLS protocol and a subset
+of cipher suites overriding any user preferences or defaults for all runtime
+components, including Envoy, gRPC Go SDK, and gRPC C++ SDK.
+
+WARNING: Setting compliance policy in the control plane is a necessary but
+not a sufficient requirement to achieve compliance. There are additional
+steps necessary to claim compliance, including using the validated
+cryptograhic modules (please consult
+https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
+</tr>
+<tr>
+<td><code>DRY_RUN_FILE_PATH</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If provided, StdoutStubDependencies will write the input from stdin to the given file.</td>
+</tr>
+<tr>
+<td><code>ENABLE_100_CONTINUE_HEADERS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, istiod will proxy 100-continue headers as is</td>
+</tr>
+<tr>
+<td><code>ENABLE_CA_SERVER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, will not create CA server in istiod.</td>
+</tr>
+<tr>
+<td><code>ENABLE_CLUSTER_TRUST_BUNDLE_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
+</tr>
+<tr>
+<td><code>ENABLE_DEBUG_ON_HTTP</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, the debug interface will not be enabled, recommended for production</td>
+</tr>
+<tr>
+<td><code>ENABLE_ENHANCED_DESTINATIONRULE_MERGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
+</tr>
+<tr>
+<td><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, allows users to bind Gateway API resources to existing gateway deployments.</td>
+</tr>
+<tr>
+<td><code>ENABLE_HCM_INTERNAL_NETWORKS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enable, endpoints defined in mesh networks will be configured as internal addresses in Http Connection Manager</td>
+</tr>
+<tr>
+<td><code>ENABLE_INGRESS_WAYPOINT_ROUTING</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Gateways will call service waypoints if the &#39;istio.io/ingress-use-waypoint&#39; label set on the Service.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LAYERED_WAYPOINT_AUTHORIZATION_POLICIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, selector based authorization policies will be enforced as L4 policies in front of the waypoint.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LEADER_ELECTION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled (default), starts a leader election client and gains leadership before executing controllers. If false, it assumes that only one instance of istiod is running and skips leader election.</td>
+</tr>
+<tr>
+<td><code>ENABLE_LOCALITY_WEIGHTED_LB_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, always set LocalityWeightedLbConfig for a cluster,  otherwise only apply it when locality lb is specified by DestinationRule for a service</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_AUTO_EXPORT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will automatically generate Kubernetes Multi-Cluster Services (MCS) ServiceExport resources for every service in the mesh. Services defined to be cluster-local in MeshConfig are excluded.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_CLUSTER_LOCAL</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will treat the host `&lt;svc&gt;.&lt;namespace&gt;.svc.cluster.local` as defined by the Kubernetes Multi-Cluster Services (MCS) spec. In this mode, requests to `cluster.local` will be routed to only those endpoints residing within the same cluster as the client. Requires that both ENABLE_MCS_SERVICE_DISCOVERY and ENABLE_MCS_HOST also be enabled.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_HOST</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will configure a Kubernetes Multi-Cluster Services (MCS) host (&lt;svc&gt;.&lt;namespace&gt;.svc.clusterset.local) for each service exported (via ServiceExport) in at least one cluster. Clients must, however, be able to successfully lookup these DNS hosts. That means that either Istio DNS interception must be enabled or an MCS controller must be used. Requires that ENABLE_MCS_SERVICE_DISCOVERY also be enabled.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MCS_SERVICE_DISCOVERY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will enable Kubernetes Multi-Cluster Services (MCS) service discovery mode. In this mode, service endpoints in a cluster will only be discoverable within the same cluster unless explicitly exported via ServiceExport.</td>
+</tr>
+<tr>
+<td><code>ENABLE_MULTICLUSTER_HEADLESS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, the DNS name table for a headless service will resolve to same-network endpoints in any cluster.</td>
+</tr>
+<tr>
+<td><code>ENABLE_NATIVE_SIDECARS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, used Kubernetes native Sidecar container support. Requires SidecarContainer feature flag.</td>
+</tr>
+<tr>
+<td><code>ENABLE_SELECTOR_BASED_K8S_GATEWAY_POLICY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, Gateway API gateways will ignore workloadSelector policies, onlyapplying policies that select the gateway with a targetRef.</td>
+</tr>
+<tr>
+<td><code>ENABLE_TLS_ON_SIDECAR_INGRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the TLS configuration on Sidecar.ingress will take effect</td>
+</tr>
+<tr>
+<td><code>ENABLE_VTPROTOBUF</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr>
+<td><code>ENVOY_USER</code></td>
+<td>String</td>
+<td><code>istio-proxy</code></td>
+<td>Envoy proxy username</td>
+</tr>
+<tr>
+<td><code>EXTERNAL_ISTIOD</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, one Istiod will control remote clusters including CA.</td>
+</tr>
+<tr>
+<td><code>GRPC_KEEPALIVE_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>30s</code></td>
+<td>gRPC Keepalive Interval</td>
+</tr>
+<tr>
+<td><code>GRPC_KEEPALIVE_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>gRPC Keepalive Timeout</td>
+</tr>
+<tr>
+<td><code>HOST_PROBE_SNAT_IP</code></td>
+<td>String</td>
+<td><code>169.254.7.127</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>HOST_PROBE_SNAT_IPV6</code></td>
+<td>String</td>
+<td><code>fd16:9254:7127:1337:ffff:ffff:ffff:ffff</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>INBOUND_INTERCEPTION_MODE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The mode used to redirect inbound connections to Envoy, either &#34;REDIRECT&#34; or &#34;TPROXY&#34;</td>
+</tr>
+<tr>
+<td><code>INBOUND_TPROXY_MARK</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>INJECTION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-sidecar-injector</code></td>
+<td>Name of the mutatingwebhookconfiguration to patch, if istioctl is not used.</td>
+</tr>
+<tr>
+<td><code>ISTIOD_CUSTOM_HOST</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Custom host name of istiod that istiod signs the server cert. Multiple custom host names are supported, and multiple values are separated by commas.</td>
+</tr>
+<tr>
+<td><code>ISTIO_AGENT_ENABLE_WASM_REMOTE_LOAD_CONVERSION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
+</tr>
+<tr>
+<td><code>ISTIO_DELTA_XDS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will only send the delta configs as opposed to the state of the world configuration on a Resource Request. While this feature uses the delta xds api, it may still occasionally send unchanged configurations instead of just the actual deltas.</td>
+</tr>
+<tr>
+<td><code>ISTIO_DUAL_STACK</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Istio will enable the Dual Stack feature.</td>
+</tr>
+<tr>
+<td><code>ISTIO_ENABLE_CONTROLLER_QUEUE_METRICS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, publishes metrics for queue depth, latency and processing times.</td>
+</tr>
+<tr>
+<td><code>ISTIO_ENABLE_IPV4_OUTBOUND_LISTENER_FOR_IPV6_CLUSTERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will configure an additional IPv4 listener for outbound traffic in IPv6 only clusters, e.g. AWS EKS IPv6 only clusters.</td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXRECVMSGSIZE</code></td>
+<td>Integer</td>
+<td><code>4194304</code></td>
+<td>Sets the max receive buffer size of gRPC stream in bytes.</td>
+</tr>
+<tr>
+<td><code>ISTIO_GPRC_MAXSTREAMS</code></td>
+<td>Integer</td>
+<td><code>100000</code></td>
+<td>Sets the maximum number of concurrent grpc streams.</td>
+</tr>
+<tr>
+<td><code>ISTIO_KUBE_CLIENT_CONTENT_TYPE</code></td>
+<td>String</td>
+<td><code>protobuf</code></td>
+<td>The content type to use for Kubernetes clients. Defaults to protobuf. Valid options: [protobuf, json]</td>
+</tr>
+<tr>
+<td><code>ISTIO_MULTIROOT_MESH</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, mesh will support certificates signed by more than one trustAnchor for ISTIO_MUTUAL mTLS</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_IPV4_LOOPBACK_CIDR</code></td>
+<td>String</td>
+<td><code>127.0.0.1/32</code></td>
+<td>IPv4 CIDR range used to identify outbound traffic on loopback interface intended for application container</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS</code></td>
+<td>String</td>
+<td><code>*</code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be redirected to Envoy.
+A group can be specified either by name or by a numeric GID.
+The wildcard character &#34;*&#34; can be used to configure redirection of traffic from all groups.</td>
+</tr>
+<tr>
+<td><code>ISTIO_OUTBOUND_OWNER_GROUPS_EXCLUDE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of groups whose outgoing traffic is to be excluded from redirection to Envoy.
+A group can be specified either by name or by a numeric GID.
+Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected to Envoy.</td>
+</tr>
+<tr>
+<td><code>ISTIO_WATCH_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, limit Kubernetes watches to a single namespace. Warning: only a single namespace can be set.</td>
+</tr>
+<tr>
+<td><code>ISTIO_WORKLOAD_ENTRY_VALIDATE_IDENTITY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, will validate the identity of a workload matches the identity of the WorkloadEntry it is associating with for health checks and auto registration. This flag is added for backwards compatibility only and will be removed in future releases</td>
+</tr>
+<tr>
+<td><code>JWKS_RESOLVER_INSECURE_SKIP_VERIFY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will skip verifying the certificate of the JWKS server.</td>
+</tr>
+<tr>
+<td><code>KUBECONFIG_MODE</code></td>
+<td>Integer</td>
+<td><code>384</code></td>
+<td>File mode of the kubeconfig file</td>
+</tr>
+<tr>
+<td><code>KUBE_CA_FILE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>CA file for kubeconfig. Defaults to the same as install-cni pod</td>
+</tr>
+<tr>
+<td><code>LABEL_CANONICAL_SERVICES_FOR_MESH_EXTERNAL_SERVICE_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, metadata representing canonical services for ServiceEntry resources with a location of mesh_external will be populatedin the cluster metadata for those endpoints.</td>
+</tr>
+<tr>
+<td><code>LOCAL_CLUSTER_SECRET_WATCHER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the cluster secret watcher will watch the namespace of the external cluster instead of config cluster</td>
+</tr>
+<tr>
+<td><code>LOG_LEVEL</code></td>
+<td>String</td>
+<td><code>warn</code></td>
+<td>Fallback value for log level in CNI config file, if not specified in helm template</td>
+</tr>
+<tr>
+<td><code>MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
+</tr>
+<tr>
+<td><code>MCS_API_GROUP</code></td>
+<td>String</td>
+<td><code>multicluster.x-k8s.io</code></td>
+<td>The group to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
+<td><code>MCS_API_VERSION</code></td>
+<td>String</td>
+<td><code>v1alpha1</code></td>
+<td>The version to be used for the Kubernetes Multi-Cluster Services (MCS) API.</td>
+</tr>
+<tr>
+<td><code>METRICS_LOCALHOST_ACCESS_ONLY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>This will disable metrics endpoint from outside of the pod, allowing only localhost access.</td>
+</tr>
+<tr>
+<td><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5m0s</code></td>
+<td>Metric expiry graceful deletion interval. No-op if METRIC_ROTATION_INTERVAL is disabled.</td>
+</tr>
+<tr>
+<td><code>METRIC_ROTATION_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
+</tr>
+<tr>
+<td><code>MONITORING_PORT</code></td>
+<td>Integer</td>
+<td><code>15014</code></td>
+<td>HTTP port to serve prometheus metrics</td>
+</tr>
+<tr>
+<td><code>MOUNTED_CNI_NET_DIR</code></td>
+<td>String</td>
+<td><code>/host/etc/cni/net.d</code></td>
+<td>Directory on the container where CNI networks are installed</td>
+</tr>
+<tr>
+<td><code>MUTEX_PROFILE_FRACTION</code></td>
+<td>Integer</td>
+<td><code>1000</code></td>
+<td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
+</tr>
+<tr>
+<td><code>NODE_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If set, it allows creating inbound listeners for service ports and sidecar ingress listeners </td>
+</tr>
+<tr>
+<td><code>PILOT_ANALYSIS_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>If analysis is enabled, pilot will run istio analyzers using this value as interval in seconds Istio Resources</td>
+</tr>
+<tr>
+<td><code>PILOT_AUTO_ALLOW_WAYPOINT_POLICY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
+</tr>
+<tr>
+<td><code>PILOT_CA_CERT_CONFIGMAP</code></td>
+<td>String</td>
+<td><code>istio-ca-root-cert</code></td>
+<td>The name of the ConfigMap that stores the Root CA Certificate that is used by istiod</td>
+</tr>
+<tr>
+<td><code>PILOT_CERT_PROVIDER</code></td>
+<td>String</td>
+<td><code>istiod</code></td>
+<td>The provider of Pilot DNS certificate. K8S RA will be used for k8s.io/NAME. &#39;istiod&#39; value will sign using Istio build in CA. Other values will not not generate TLS certs, but still  distribute ./etc/certs/root-cert.pem. Only used if custom certificates are not mounted.</td>
+</tr>
+<tr>
+<td><code>PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY</code></td>
+<td>Integer</td>
+<td><code>1</code></td>
+<td>Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_AFTER</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>The delay added to config/registry events for debouncing. This will delay the push by at least this interval. If no change is detected within this period, the push will happen,  otherwise we&#39;ll keep delaying until things settle, up to a max of PILOT_DEBOUNCE_MAX.</td>
+</tr>
+<tr>
+<td><code>PILOT_DEBOUNCE_MAX</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The maximum amount of time to wait for events while debouncing. If events keep showing up with no breaks for this time, we&#39;ll trigger a push.</td>
+</tr>
+<tr>
+<td><code>PILOT_DISABLE_MX_ALPN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, pilot will not put istio-peer-exchange ALPN into TLS handshake configuration.</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_CARES_UDP_MAX_QUERIES</code></td>
+<td>String</td>
+<td><code>100</code></td>
+<td>Sets the `udp_max_queries` option in Envoy for the Cares DNS resolver. Defaults to 0, an unlimited number of queries. See `extensions.network.dns_resolver.cares.v3.CaresDnsResolverConfig` in https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/network/dns_resolver/cares/v3/cares_dns_resolver.proto and `ARES_OPT_UDP_MAX_QUERIES` in https://c-ares.org/docs/ares_init.html</td>
+</tr>
+<tr>
+<td><code>PILOT_DNS_JITTER_DURATION</code></td>
+<td>Time Duration</td>
+<td><code>100ms</code></td>
+<td>Jitter added to periodic DNS resolution</td>
+</tr>
+<tr>
+<td><code>PILOT_DRAINING_LABEL</code></td>
+<td>String</td>
+<td><code>istio.io/draining</code></td>
+<td>If not empty, endpoints with the label value present will be sent with status DRAINING.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ABSOLUTE_FQDN_VHOST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If set to false, Istio will not add the absolute FQDN variant (e.g., my-service.my-ns.svc.cluster.local.) to the domains list for VirtualHost entries.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, support for alpha APIs in the Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ALPN_FILTER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add Istio ALPN filters, required for proper protocol sniffing.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_AMBIENT</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ambient mode can be used. Individual flags configure fine grained enablement; this must be enabled for any ambient functionality.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_AMBIENT_WAYPOINTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controllers required for ambient will run. This is required to run ambient mesh.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ANALYSIS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, pilot will run istio analyzers and write analysis errors to the Status field of any Istio Resources</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache CDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_CROSS_CLUSTER_WORKLOAD_ENTRY</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_DEBOUNCE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include EDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. EDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_EDS_FOR_HEADLESS_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, for headless service in Kubernetes, pilot will send endpoints over EDS, allowing the sidecar to load balance among pods in the headless service. This feature should be enabled if applications access all services explicitly via a HTTP proxy port in the sidecar.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, support for Kubernetes gateway-api (github.com/kubernetes-sigs/gateway-api) will  be enabled. In addition to this being enabled, the gateway-api CRDs need to be installed.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_COPY_LABELS_ANNOTATIONS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to false, istiod will not copy any attributes from the Gateway resource onto its related Deployment resources.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_DEPLOYMENT_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, gateway-api resources will automatically provision in cluster deployment, services, etc</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_GATEWAYCLASS_CONTROLLER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, istiod will create and manage its default GatewayClasses</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_GATEWAY_API_STATUS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If this is set to true, gateway-api resources will have status written to them</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will start a controller that assigns IP addresses to ServiceEntry which do not have a user-supplied IP. This, when combined with DNS capture allows for tcp routing of traffic sent to the ServiceEntry.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_K8S_SELECT_WORKLOAD_ENTRIES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Kubernetes services with selectors will select workload entries with matching labels. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_METADATA_EXCHANGE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add metadata exchange filters, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MONGO_FILTER</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>EnableMongoFilter enables injection of `envoy.filters.network.mongo_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_MYSQL_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableMysqlFilter enables injection of `envoy.filters.network.mysql_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, controller that untaints nodes with cni pods ready will run. This should be enabled if you disabled ambient init containers.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_PERSISTENT_SESSION_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Istiod sets up persistent session filter for listeners, if services have &#39;PILOT_PERSISTENT_SESSION_LABEL&#39; set.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_QUIC_LISTENERS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, QUIC listeners will be generated wherever there are listeners terminating TLS on gateways if the gateway service exposes a UDP port with the same number (for example 443/TCP and 443/UDP)</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_RDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache RDS responses. Note: this depends on PILOT_ENABLE_XDS_CACHE.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_REDIS_FILTER</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_ROUTE_COLLAPSE_OPTIMIZATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will merge virtual hosts with the same routes into a single virtual host, as an optimization.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be allowed when sending to destinations.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SERVICEENTRY_SELECT_PODS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, service entries with selectors will select pods from the cluster. It is safe to disable it if you are quite sure you don&#39;t need this feature</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_SIDECAR_LISTENING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE support can be configured for proxies.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add telemetry related metadata to cluster and endpoint resources, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enables auto-registering WorkloadEntries based on associated WorkloadGroups upon XDS connection by the workload.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enables automatic health checks of WorkloadEntries based on the config provided in the associated WorkloadGroup</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_XDS_CACHE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will cache XDS responses.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENABLE_XDS_IDENTITY_CHECK</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will authorize XDS clients, to ensure they are acting only as namespaces they have permissions for.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENDPOINT_TELEMETRY_LABEL</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, pilot will add telemetry related metadata to Endpoint resource, which will be consumed by telemetry filter.</td>
+</tr>
+<tr>
+<td><code>PILOT_ENVOY_FILTER_STATS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will collect metrics for envoy filter operations.</td>
+</tr>
+<tr>
+<td><code>PILOT_FILTER_GATEWAY_CLUSTER_CONFIG</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will send only clusters that referenced in gateway virtual services attached to gateway</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_CONTROLLER_NAME</code></td>
+<td>String</td>
+<td><code>istio.io/gateway-controller</code></td>
+<td>Gateway API controller name. istiod will only reconcile Gateway API resources referencing a GatewayClass with this controller name</td>
+</tr>
+<tr>
+<td><code>PILOT_GATEWAY_API_DEFAULT_GATEWAYCLASS_NAME</code></td>
+<td>String</td>
+<td><code>istio</code></td>
+<td>Name of the default GatewayClass</td>
+</tr>
+<tr>
+<td><code>PILOT_HTTP10</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr>
+<td><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
+</tr>
+<tr>
+<td><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></td>
+<td>String</td>
+<td><code>false</code></td>
+<td>Mode of fetching JWKs from JwksUri in RequestAuthentication. Supported value: istiod, false, hybrid, true, envoy. The client fetching JWKs is as following: istiod/false - Istiod; hybrid/true - Envoy and fallback to Istiod if JWKs server is external; envoy - Envoy.</td>
+</tr>
+<tr>
+<td><code>PILOT_JWT_PUB_KEY_REFRESH_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>20m0s</code></td>
+<td>The interval for istiod to fetch the jwks_uri for the jwks public key.</td>
+</tr>
+<tr>
+<td><code>PILOT_MAX_REQUESTS_PER_SECOND</code></td>
+<td>Floating-Point</td>
+<td><code>0</code></td>
+<td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
+</tr>
+<tr>
+<td><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, Pilot will discover labeled Kubernetes gateway objects as multi-network gateways.</td>
+</tr>
+<tr>
+<td><code>PILOT_MX_ADDITIONAL_LABELS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
+</tr>
+<tr>
+<td><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></td>
+<td>String</td>
+<td><code>istio.io/persistent-session-header</code></td>
+<td>If not empty, services with this label will use header based persistent sessions</td>
+</tr>
+<tr>
+<td><code>PILOT_PERSISTENT_SESSION_LABEL</code></td>
+<td>String</td>
+<td><code>istio.io/persistent-session</code></td>
+<td>If not empty, services with this label will use cookie based persistent sessions</td>
+</tr>
+<tr>
+<td><code>PILOT_PREFER_SENDING_HBONE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, HBONE will be preferred when sending to destinations. </td>
+</tr>
+<tr>
+<td><code>PILOT_PUSH_THROTTLE</code></td>
+<td>Integer</td>
+<td><code>0</code></td>
+<td>Limits the number of concurrent pushes allowed. On larger machines this can be increased for faster pushes. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
+</tr>
+<tr>
+<td><code>PILOT_REMOTE_CLUSTER_TIMEOUT</code></td>
+<td>Time Duration</td>
+<td><code>30s</code></td>
+<td>After this timeout expires, pilot can become ready without syncing data from clusters added via remote-secrets. Setting the timeout to 0 disables this behavior.</td>
+</tr>
+<tr>
+<td><code>PILOT_SCOPE_GATEWAY_TO_NAMESPACE</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, a gateway workload can only select gateway resources in the same namespace. Gateways with same selectors in different namespaces will not be applicable.</td>
+</tr>
+<tr>
+<td><code>PILOT_SEND_UNHEALTHY_ENDPOINTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, Pilot will include unhealthy endpoints in EDS pushes and even if they are sent Envoy does not use them for load balancing.  To avoid, sending traffic to non ready endpoints, enabling this flag, disables panic threshold in Envoy i.e. Envoy does not load balance requests to unhealthy/non-ready hosts even if the percentage of healthy hosts fall below minimum health percentage(panic threshold).</td>
+</tr>
+<tr>
+<td><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>UseRemoteAddress sets useRemoteAddress to true for sidecar outbound listeners.</td>
+</tr>
+<tr>
+<td><code>PILOT_SKIP_VALIDATE_TRUST_DOMAIN</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
+</tr>
+<tr>
+<td><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, separate tracing span for each upstream request for gateway.</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_BURST</code></td>
+<td>Integer</td>
+<td><code>500</code></td>
+<td>If status is enabled, controls the Burst rate with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config Burst</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_MAX_WORKERS</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>The maximum number of workers Pilot will use to keep configuration status up to date.  Smaller numbers will result in higher status latency, but larger numbers may impact CPU in high scale environments.</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_QPS</code></td>
+<td>Integer</td>
+<td><code>100</code></td>
+<td>If status is enabled, controls the QPS with which status will be updated.  See https://godoc.org/k8s.io/client-go/rest#Config QPS</td>
+</tr>
+<tr>
+<td><code>PILOT_STATUS_UPDATE_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>500ms</code></td>
+<td>Interval to update the XDS distribution status.</td>
+</tr>
+<tr>
+<td><code>PILOT_TRACE_SAMPLING</code></td>
+<td>Floating-Point</td>
+<td><code>1</code></td>
+<td>Sets the mesh-wide trace sampling percentage. Should be 0.0 - 100.0. Precision to 0.01. Default is 1.0.</td>
+</tr>
+<tr>
+<td><code>PILOT_UNIFIED_SIDECAR_SCOPE</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, unified SidecarScope creation will be used. This is only intended as a temporary feature flag for backwards compatibility.</td>
+</tr>
+<tr>
+<td><code>PILOT_WORKLOAD_ENTRY_GRACE_PERIOD</code></td>
+<td>Time Duration</td>
+<td><code>10s</code></td>
+<td>The amount of time an auto-registered workload can remain disconnected from all Pilot instances before the associated WorkloadEntry is cleaned up.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_INDEX_CLEAR_INTERVAL</code></td>
+<td>Time Duration</td>
+<td><code>5s</code></td>
+<td>The interval for xds cache index clearing.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_SIZE</code></td>
+<td>Integer</td>
+<td><code>60000</code></td>
+<td>The maximum number of cache entries for the XDS cache.</td>
+</tr>
+<tr>
+<td><code>PILOT_XDS_CACHE_STATS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, Pilot will collect metrics for XDS cache efficiency.</td>
+</tr>
+<tr>
+<td><code>POD_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>POD_NAMESPACE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>pod&#39;s namespace</td>
+</tr>
+<tr>
+<td><code>PREFER_DESTINATIONRULE_TLS_FOR_EXTERNAL_SERVICES</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
+</tr>
+<tr>
+<td><code>REPAIR_BROKEN_POD_LABEL_KEY</code></td>
+<td>String</td>
+<td><code>cni.istio.io/uninitialized</code></td>
+<td>The key portion of the label which will be set by the race repair if label pods is true</td>
+</tr>
+<tr>
+<td><code>REPAIR_BROKEN_POD_LABEL_VALUE</code></td>
+<td>String</td>
+<td><code>true</code></td>
+<td>The value portion of the label which will be set by the race repair if label pods is true</td>
+</tr>
+<tr>
+<td><code>REPAIR_DELETE_PODS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Controller will delete pods when detecting pod broken by race condition</td>
+</tr>
+<tr>
+<td><code>REPAIR_ENABLED</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Whether to enable race condition repair or not</td>
+</tr>
+<tr>
+<td><code>REPAIR_FIELD_SELECTORS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>A set of field selectors in label=value format that will be added to the pod list filters</td>
+</tr>
+<tr>
+<td><code>REPAIR_INIT_CONTAINER_EXIT_CODE</code></td>
+<td>Integer</td>
+<td><code>126</code></td>
+<td>Expected exit code for the init container when crash-looping because of CNI misconfiguration</td>
+</tr>
+<tr>
+<td><code>REPAIR_INIT_CONTAINER_NAME</code></td>
+<td>String</td>
+<td><code>istio-validation</code></td>
+<td>The name of the istio init container (will crash-loop if CNI is not configured for the pod)</td>
+</tr>
+<tr>
+<td><code>REPAIR_INIT_CONTAINER_TERMINATION_MESSAGE</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The expected termination message for the init container when crash-looping because of CNI misconfiguration</td>
+</tr>
+<tr>
+<td><code>REPAIR_LABEL_PODS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Controller will label pods when detecting pod broken by race condition</td>
+</tr>
+<tr>
+<td><code>REPAIR_LABEL_SELECTORS</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>A set of label selectors in label=value format that will be added to the pod list filters</td>
+</tr>
+<tr>
+<td><code>REPAIR_NODE_NAME</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>The name of the managed node (will manage all nodes if unset)</td>
+</tr>
+<tr>
+<td><code>REPAIR_SIDECAR_ANNOTATION</code></td>
+<td>String</td>
+<td><code>sidecar.istio.io/status</code></td>
+<td>An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored.The value of the annotation is ignored.</td>
+</tr>
+<tr>
+<td><code>RESOLVE_HOSTNAME_GATEWAYS</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, hostnames in the LoadBalancer addresses of a Service will be resolved at the control plane for use in cross-network gateways.</td>
+</tr>
+<tr>
+<td><code>REVISION</code></td>
+<td>String</td>
+<td><code></code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SHARED_MESH_CONFIG</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr>
+<td><code>SKIP_TLS_VERIFY</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether to use insecure TLS in kubeconfig file</td>
+</tr>
+<tr>
+<td><code>SYSTEM_NAMESPACE</code></td>
+<td>String</td>
+<td><code>istio-system</code></td>
+<td>istio system namespace</td>
+</tr>
+<tr>
+<td><code>TRUSTED_GATEWAY_CIDR</code></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, any connections from gateway to Istiod with this CIDR range are treated as trusted for using authentication mechanisms like XFCC. This can only be used when the network where Istiod and the authenticating gateways are running in a trusted/secure network</td>
+</tr>
+<tr>
+<td><code>UNSAFE_ENABLE_ADMIN_ENDPOINTS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If this is set to true, dangerous admin endpoints will be exposed on the debug interface. Not recommended for production.</td>
+</tr>
+<tr>
+<td><code>UNSAFE_PILOT_ENABLE_DELTA_TEST</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, addition runtime tests for Delta XDS efficiency are added. These checks are extremely expensive, so this should be used only for testing, not production.</td>
+</tr>
+<tr>
+<td><code>UNSAFE_PILOT_ENABLE_RUNTIME_ASSERTIONS</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, addition runtime asserts will be performed. These checks are both expensive and panic on failure. As a result, this should be used only for testing.</td>
+</tr>
+<tr>
+<td><code>USE_CACERTS_FOR_SELF_SIGNED_CA</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, istiod will use a secret named cacerts to store its self-signed istio-generated root certificate.</td>
+</tr>
+<tr>
+<td><code>VALIDATION_WEBHOOK_CONFIG_NAME</code></td>
+<td>String</td>
+<td><code>istio-istio-system</code></td>
+<td>If not empty, the controller will automatically patch validatingwebhookconfiguration when the CA certificate changes. Only works in kubernetes environment.</td>
+</tr>
+<tr>
+<td><code>XDS_AUTH</code></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, will authenticate XDS clients.</td>
+</tr>
+<tr>
+<td><code>ZTUNNEL_UDS_ADDRESS</code></td>
+<td>String</td>
+<td><code>/var/run/ztunnel/ztunnel.sock</code></td>
+<td>The UDS server address which ztunnel will connect to</td>
+</tr>
+</tbody>
+</table>
+<h2 id="metrics">Exported metrics</h2>
+<table class="metrics">
+<thead>
+<tr><th>Metric Name</th><th>Type</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>controller_sync_errors_total</code></td><td><code>Sum</code></td><td>Total number of errorMetric syncing controllers.</td></tr>
+<tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
+<tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
+<tr><td><code>istio_cni_install_ready</code></td><td><code>LastValue</code></td><td>Whether the CNI plugin installation is ready or not</td></tr>
+<tr><td><code>istio_cni_installs_total</code></td><td><code>Sum</code></td><td>Total number of CNI plugins installed by the Istio CNI installer</td></tr>
+<tr><td><code>istio_cni_repair_pods_repaired_total</code></td><td><code>Sum</code></td><td>Total number of pods repaired by repair controller</td></tr>
+<tr><td><code>nodeagent_reconcile_events_total</code></td><td><code>Sum</code></td><td>The total number of node agent reconcile events.</td></tr>
+<tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
+<tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
+<tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>
+<tr><td><code>pilot_dns_cluster_without_endpoints</code></td><td><code>LastValue</code></td><td>DNS clusters without endpoints caused by the endpoint field in STRICT_DNS type cluster is not set or the corresponding subset cannot select any endpoint</td></tr>
+<tr><td><code>pilot_duplicate_envoy_clusters</code></td><td><code>LastValue</code></td><td>Duplicate envoy clusters caused by service entries with same hostname</td></tr>
+<tr><td><code>pilot_eds_no_instances</code></td><td><code>LastValue</code></td><td>Number of clusters without instances.</td></tr>
+<tr><td><code>pilot_endpoint_not_ready</code></td><td><code>LastValue</code></td><td>Endpoint found in unready state.</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_fail_total</code></td><td><code>Sum</code></td><td>Total number of failed network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_jwks_resolver_network_fetch_success_total</code></td><td><code>Sum</code></td><td>Total number of successfully network fetch by pilot jwks resolver</td></tr>
+<tr><td><code>pilot_no_ip</code></td><td><code>LastValue</code></td><td>Pods not found in the endpoint table, possibly invalid.</td></tr>
+<tr><td><code>pilot_total_rejected_configs</code></td><td><code>Sum</code></td><td>Total number of configs that Pilot had to reject or ignore.</td></tr>
+<tr><td><code>pilot_total_xds_internal_errors</code></td><td><code>Sum</code></td><td>Total number of internal XDS errors in pilot.</td></tr>
+<tr><td><code>pilot_total_xds_rejects</code></td><td><code>Sum</code></td><td>Total number of XDS responses from pilot rejected by proxy.</td></tr>
+<tr><td><code>pilot_virt_services</code></td><td><code>LastValue</code></td><td>Total virtual services known to pilot.</td></tr>
+<tr><td><code>pilot_vservice_dup_domain</code></td><td><code>LastValue</code></td><td>Virtual services with dup domains.</td></tr>
+<tr><td><code>pilot_worker_queue_depth</code></td><td><code>LastValue</code></td><td>Depth of the controller queues</td></tr>
+<tr><td><code>pilot_worker_queue_duration</code></td><td><code>Distribution</code></td><td>Time taken to process an item</td></tr>
+<tr><td><code>pilot_worker_queue_latency</code></td><td><code>Distribution</code></td><td>Latency before the item is processed</td></tr>
+<tr><td><code>pilot_xds_cds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected CDS configs.</td></tr>
+<tr><td><code>pilot_xds_eds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected EDS.</td></tr>
+<tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
+<tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
+<tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
+<tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
+<tr><td><code>provider_lookup_cluster_failures</code></td><td><code>Sum</code></td><td>Number of times a cluster lookup failed</td></tr>
+<tr><td><code>xds_cache_dependent_config_size</code></td><td><code>LastValue</code></td><td>Current size of dependent configs</td></tr>
+<tr><td><code>xds_cache_evictions</code></td><td><code>Sum</code></td><td>Total number of xds cache evictions.</td></tr>
+<tr><td><code>xds_cache_reads</code></td><td><code>Sum</code></td><td>Total number of xds cache xdsCacheReads.</td></tr>
+<tr><td><code>xds_cache_size</code></td><td><code>LastValue</code></td><td>Current size of xds cache</td></tr>
+<tr><td><code>ztunnel_connected</code></td><td><code>LastValue</code></td><td>number of connections to ztunnel</td></tr>
+</tbody>
+</table>

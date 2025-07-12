@@ -15,7 +15,7 @@
 // The set of languages supported by the site, add new ones at the end
 import { createCookie , navigateToUrlOrRoot , listen ,getById } from "./utils";
 import { click } from "./constants";
-const languages = ["en", "zh", "uk"];
+const languages = ["en", "es", "zh", "uk"];
 
 export{};
 declare global {

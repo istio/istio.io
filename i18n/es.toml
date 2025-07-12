@@ -1,0 +1,392 @@
+[download_desc]
+other = "Ve y descarga Istio %s ahora"
+
+[discuss_istio_io_desc]
+other = "Únete al foro de discusión de Istio para participar en discusiones y obtener ayuda para resolver problemas"
+
+[twitter_desc]
+other = "Síguenos en Twitter para obtener las últimas noticias"
+
+[bluesky_desc]
+other = "Síguenos en Bluesky para obtener las últimas noticias"
+
+[mastodon_desc]
+other = "Síguenos en Mastodon para obtener las últimas noticias"
+
+[linkedin_desc]
+other = "Síguenos en LinkedIn para obtener las últimas noticias"
+
+[stackoverflow_desc]
+other = "Stack Overflow es donde puedes hacer preguntas y encontrar respuestas seleccionadas sobre cómo implementar, configurar y usar Istio"
+
+[for_everyone]
+other = "para todos"
+
+[for_developers]
+other = "para desarrolladores"
+
+[github_desc]
+other = "GitHub es donde se lleva a cabo el desarrollo del código de Istio"
+
+[team_drive_desc]
+other = "Accede a nuestro drive del equipo si deseas echar un vistazo a los documentos técnicos de diseño de Istio"
+
+[working_group_desc]
+other = "Si deseas contribuir al proyecto Istio, considera participar en nuestros grupos de trabajo"
+
+[slack_desc]
+other = "Discute interactivamente problemas con la comunidad de Istio en Slack"
+
+[report_site_bugs]
+other = "Reportar errores del sitio"
+
+[edit_on_github]
+other = "Editar esta página en GitHub"
+
+[light_theme]
+other = "Tema claro"
+
+[dark_theme]
+other = "Tema oscuro"
+
+[other_versions_of_site]
+other = "Otras versiones de este sitio"
+
+[current_release]
+other = "versión actual"
+
+[next_release]
+other = "próxima versión"
+
+[archived_releases]
+other = "versiones anteriores"
+
+[options_menu]
+other = "Opciones y configuraciones"
+
+[search]
+other = "Buscar en este sitio"
+
+[search_label]
+other = "Buscar"
+
+[search_cancel]
+other = "Cancelar búsqueda"
+
+[footer_istio]
+other = "Istio"
+
+[footer_version]
+other = "Versión"
+
+[footer_istio_preliminary]
+other = "Preliminar"
+
+[footer_istio_archive]
+other = "Archivo"
+
+[footer_archived_on]
+other = "Archivado el %s"
+
+[footer_last_modified]
+other = "Última modificación de la página: %s"
+
+[footer_date_format]
+other = "2 de enero de 2006"
+
+[footer_privacy_policy]
+other = "Política de privacidad"
+
+[footer_terms_and_conditions]
+other = "Términos y condiciones"
+
+[footer_trademarks]
+other = "Marcas registradas"
+
+[page_publish_date_format]
+other = "2 de enero de 2006"
+
+[page_last_update_format]
+other = "(actualizado el %s)"
+
+[page_word_count]
+other = "%d palabras"
+
+[page_reading_time]
+other = "lectura de %v minutos"
+
+[relnote_update_advice]
+other = "Antes de descargar %s, debes saber que hay una nueva versión de parche con las últimas correcciones de errores y mejoras de rendimiento."
+
+[relnote_update_button]
+other = "CONOCE ISTIO %s"
+
+[relnote_update_notice]
+other = "Aviso de actualización"
+
+[relnote_change_notes_title]
+other = "NOTAS DE CAMBIO"
+
+[relnote_change_notes_detail]
+other = "Obtén una lista detallada de lo que ha cambiado."
+
+[relnote_before_you_upgrade_title]
+other = "ANTES DE ACTUALIZAR"
+
+[relnote_before_you_upgrade_detail]
+other = "Cosas que debes saber y preparar antes de actualizar."
+
+[relnote_download_title]
+other = "DESCARGAR"
+
+[relnote_download_detail]
+other = "Descarga e instala esta versión."
+
+[relnote_docs_title]
+other = "DOCUMENTACIÓN"
+
+[relnote_docs_detail]
+other = "Visita la documentación de esta versión."
+
+[relnote_helm_changes_title]
+other = "CAMBIOS EN HELM"
+
+[relnote_helm_changes_detail]
+other = "Conoce los cambios en nuestras opciones de instalación de Helm."
+
+[relnote_source_changes_title]
+other = "CAMBIOS EN EL CÓDIGO FUENTE"
+
+[relnote_source_changes_detail]
+other = "Inspecciona el conjunto completo de cambios en el código fuente."
+
+[page_attribution]
+other = "Por "
+
+[button_copy]
+other = "Copiar al portapapeles"
+
+[button_print]
+other = "Imprimir"
+
+[button_download]
+other = "Descargar"
+
+[button_top]
+other = "Volver arriba"
+
+[button_sidenav]
+other = "Alternar la barra de navegación"
+
+[partner_component_notice]
+other = "Este componente fue creado y es mantenido por un socio de Istio. Por favor, dirija las preguntas de soporte directamente al socio."
+
+[partner_component_partner]
+other = "Socio"
+
+[partner_component_contact]
+other = "Contacto"
+
+[partner_component_support_site]
+other = "Sitio de soporte"
+
+[partner_component_source_code]
+other = "Código fuente"
+
+[partner_component_latest_release]
+other = "Última versión"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Probado por %s con estas versiones de Istio"
+
+[partner_component_supported_templates]
+other = "Plantillas compatibles"
+
+[adapter]
+other = "Adaptador"
+
+[supported_templates]
+other = "Plantillas compatibles"
+
+[adapters]
+other = "Adaptadores"
+
+[template]
+other = "Plantilla"
+
+[subscribe]
+other = "Suscribirse"
+
+[see_also]
+other = "Ver también"
+
+[links]
+other = "Enlaces"
+
+[generated_file]
+other = "Este es un archivo generado automáticamente, por favor edita la fuente en el repositorio %s."
+
+[switch_lang]
+other = "Cambiar idioma"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "Ejemplos de color"
+
+[analysis_name]
+other = "Nombre del mensaje"
+
+[analysis_code]
+other = "Código del mensaje"
+
+[analysis_description]
+other = "Descripción"
+
+[analysis_level]
+other = "Nivel"
+
+[target_release]
+other = "Esta publicación del blog fue escrita suponiendo Istio %v, por lo que parte de este contenido puede estar desactualizado."
+
+[security_disclosure]
+other = "Divulgación"
+
+[security_related]
+other = "Relacionado"
+
+[security_date]
+other = "Fecha"
+
+[security_affected_releases]
+other = "Versiones afectadas"
+
+[security_impact_score]
+other = "Puntuación de impacto"
+
+[mark_all_as_read]
+other = "Marcar todo como leído"
+
+[security_bulletin_title]
+other = "Detalles de la divulgación"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "Puntuación de impacto CVSS"
+
+[security_bulletin_affected_releases]
+other = "Versiones afectadas"
+
+[feedback_title]
+other = "¿Fue útil esta información?"
+
+[feedback_yes]
+other = "Sí"
+
+[feedback_no]
+other = "No"
+
+[feedback_ask_for_comment]
+other = "¿Tienes alguna sugerencia para mejorar?"
+
+[feedback_thankyou]
+other = "¡Gracias por tus comentarios!"
+
+[feedback_comment_placeholder]
+other = "Ayúdanos a mejorar..."
+
+[log_month_format]
+other = "Enero 2006"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "Cuándo"
+
+[log_doc]
+other = "Documento"
+
+[log_change]
+other = "Cambio"
+
+[tested]
+other = "prueba de página"
+
+[has_test]
+other = "Hay una prueba automatizada disponible para esta página. Haz clic para más detalles."
+
+[needs_test]
+other = "No hay una prueba automatizada disponible para esta página. Haz clic para más detalles o para ayudar a crear una."
+
+[try_istio]
+other = "Prueba Istio"
+
+[service_mesh]
+other = "Malla de servicios"
+
+[what_is_istio]
+other = "¿Qué es Istio?"
+
+[join_the_community]
+other = "Únete a la comunidad"
+
+[get_started]
+other = "Comienza ahora"
+
+[latest_news]
+other = "Últimas noticias"
+
+[solutions]
+other = "Soluciones"
+
+[deployment]
+other = "Despliegue"
+
+[learn_more]
+other = "Aprende más"
+
+[read_more]
+other = "Leer más"
+
+[connect_with_us]
+other = "Conéctate con nosotros"
+
+[traffic_management]
+other = "Confiabilidad"
+
+[observability]
+other = "Observabilidad"
+
+[security]
+other = "Seguridad"
+
+[sidebar-toggle]
+other = "Contenido"
+
+[add_your_logo]
+other = "Agrega tu logo"
+
+[share_your_story]
+other = "Comparte tu historia"
+
+[more_case_studies]
+other = "También usado por"
+
+[go_to_solutions]
+other = "Ir a soluciones"
+
+[case_study_slogan]
+other = "Lee estudios de caso de empresas que se beneficiaron al implementar Istio"
+
+[archive_banner_text]
+other = "⚠️ Esta documentación es para una versión anterior (<strong>%s</strong>) y ya no se actualiza."
+
+[archive_banner_link]
+other = "Lee la última versión."
