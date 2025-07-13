@@ -201,6 +201,11 @@ debug and diagnose their Istio mesh.
 <td>Comma-separated list of output logging level for scopes in the format of &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]. Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
 </tr>
 <tr>
+<td><code>--log-reset</code></td>
+<td></td>
+<td>Reset log levels to default value. (info) </td>
+</tr>
+<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -213,7 +218,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--reset</code></td>
 <td></td>
-<td>Reset levels to default value. (info) </td>
+<td>Reset all levels to default value. (info) </td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -229,6 +234,11 @@ debug and diagnose their Istio mesh.
 <td><code>--stack-trace-level &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of stack trace level for scopes in the format of &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...]. Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
+</tr>
+<tr>
+<td><code>--stack-trace-reset</code></td>
+<td></td>
+<td>Reset stack stace levels to default value. (none) </td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -2782,6 +2792,11 @@ the configuration objects that affect that pod.</p>
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2789,7 +2804,7 @@ the configuration objects that affect that pod.</p>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-describe-pod Examples">Examples</h4>
-<pre class="language-bash"><code>  #Pod query with inferred namespace (current context&#39;s namespace)
+<pre class="language-bash"><code>  # Pod query with inferred namespace (current context&#39;s namespace)
   istioctl experimental describe pod helloworld-v1-676yyy3y5r-d8hdl
 
   # Pod query with explicit namespace 
@@ -2861,6 +2876,11 @@ the configuration objects that affect that service.</p>
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
+<td><code>--proxy-admin-port &lt;int&gt;</code></td>
+<td></td>
+<td>Envoy proxy admin port  (default `15000`)</td>
+</tr>
+<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2868,7 +2888,7 @@ the configuration objects that affect that service.</p>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-describe-service Examples">Examples</h4>
-<pre class="language-bash"><code>  #Service query with inferred namespace (current context&#39;s namespace)
+<pre class="language-bash"><code>  # Service query with inferred namespace (current context&#39;s namespace)
   istioctl experimental describe service productpage
 
   # Service query with explicit namespace
