@@ -19,10 +19,14 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 #### Namespace restrictions
 
-On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. The Istio CNI node agent and `ztunnel` both require the `node-critical` class, and so in GKE, both components must either:
+On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class.
 
-- Be installed into `kube-system` (_not_ `istio-system`)
-- Be installed into another namespace (such as `istio-system`) in which a ResourceQuota has been manually created, for example:
+The Istio CNI node agent and `ztunnel` both require the `node-critical` class. Starting with **Istio 1.26**, the installer (`istioctl install --set profile=ambient`) automatically creates the required ResourceQuota in the `istio-system` namespace. No manual steps are needed.
+
+---
+
+⚠️ **For Istio versions earlier than 1.26:**  
+You must manually create a ResourceQuota in the namespace (such as `istio-system`), for example:
 
 {{< text syntax=yaml >}}
 apiVersion: v1
