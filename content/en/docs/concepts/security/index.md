@@ -159,7 +159,7 @@ Here's how:
 
 ### Creating and Using ClusterTrustBundles
 
-You create `ClusterTrustBundles` as a Kubernetes resource, like this example:
+You create `ClusterTrustBundles` as Kubernetes resources, for example:
 
 {{< text yaml >}}
 apiVersion: certificates.k8s.io/v1alpha1
@@ -173,7 +173,7 @@ spec:
    -----END CERTIFICATE-----
 {{< /text >}}
 
-Once created, istio's control plane will use these for validating certificates in secure communications, like mutual TLS (mTLS).
+Once created, the Istio control plane will use these for validating certificates in secure communications, like mutual TLS (mTLS).
 
 ### Important notes
 
