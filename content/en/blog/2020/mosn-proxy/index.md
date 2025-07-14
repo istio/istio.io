@@ -122,3 +122,6 @@ MOSN is an open source project that anyone in the community can use, improve, an
 - [MOSN website](https://mosn.io/en)
 - [MOSN community](https://mosn.io/en/docs/community/)
 - [MOSN tutorials](https://katacoda.com/mosn)
+---
+
+> _Reviewed and improved by [jisjoe22](https://github.com/jisjoe22)_
