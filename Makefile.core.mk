@@ -72,9 +72,19 @@ JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
+# Determine the base URL for the Netlify-hosted site depending on the Hugo context.
+# 'production' context: Use site URL (istio.io, preliminary.istio.io or istio-staging.netlify.app)
+# 'deploy-preview' context: Use per-build URL (deploy-preview-16568--preliminary-istio.netlify.app)
+# any other context: use relative URLs
 ifeq ($(CONTEXT),production)
-baseurl := "$(URL)"
+  NETLIFY_URL := $(URL)/latest
+else ifeq ($(CONTEXT),deploy-preview)
+  NETLIFY_URL := $(DEPLOY_PRIME_URL)/latest
+else
+  NETLIFY_URL := /latest
 endif
+export NETLIFY_URL
+
 
 # Which branch of the Istio source code do we fetch stuff from
 export SOURCE_BRANCH_NAME ?= master
@@ -146,7 +156,7 @@ netlify_install:
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "/latest"
+	@scripts/build_site.sh "${NETLIFY_URL}"
 	@scripts/include_archive_site.sh
 
 # ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
