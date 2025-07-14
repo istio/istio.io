@@ -146,17 +146,16 @@ Istio provisions keys and certificates through the following flow:
 To use `ClusterTrustBundle` in Istio, you must enable it by setting a flag during installation.
 Here's how:
 
-- Add this to your istio configuration
+1. Ensure your Kubernetes cluster is version 1.27 or later and that [`ClusterTrustBundles` are enabled](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#cluster-trust-bundles).
 
-{{< text yaml >}}
-values:
-  pilot:
-    env:
-      ENABLE_CLUSTER_TRUST_BUNDLE_API: "true"
+1. Add this to your istio configuration
+
+    {{< text yaml >}}
+    values:
+      pilot:
+        env:
+          ENABLE_CLUSTER_TRUST_BUNDLE_API: "true"
 {{< /text >}}
-
-- Ensure your Kubernetes cluster is version 1.27 or later, as ClusterTrustBundle was introduced then.
-- ClusterTrustBundles must be activated through a feature flag, even in current k8s versions.
 
 ### Creating and Using ClusterTrustBundles
 
