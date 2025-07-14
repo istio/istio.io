@@ -178,7 +178,7 @@ Once created, the Istio control plane will use these for validating certificates
 ### Important notes
 
 - This is experimental, so expect changes in future versions.
-- Make sure the istio service account has the right permissions to access ClusterTrustBundles, or you might face errors.
+- Make sure the Istio service account has the right permissions to access `ClusterTrustBundles`, or you may encounter errors.
 
 ## Authentication
 
