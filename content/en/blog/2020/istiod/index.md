@@ -70,3 +70,6 @@ At its heart, istiod is just a packaging and optimization change.  It's built on
 While the move to istiod may seem like a big change, and is a huge improvement for the people who _administer_ and _maintain_ the mesh, it won’t make the day-to-day life of _using_ Istio any different. istiod is not changing any of the APIs used to configure your mesh, so your existing processes will all stay the same.
 
 Does this change imply that microservice are a mistake for _all_ workloads and architectures? Of course not. They are a tool in a toolbelt, and they work best when they are reflected in your organizational reality. Instead, this change shows a willingness in the project to change based on user feedback, and a continued focus on simplification for all users. Microservices have to be right sized, and we believe we have found the right size for Istio.
+---
+
+> _Minor improvement by [jisjoe22](https://github.com/jisjoe22) as part of open source contribution practice._
