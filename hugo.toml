@@ -2,6 +2,7 @@ defaultContentLanguage = "en"
 languageCode = "en-us"
 metaDataFormat = "yaml"
 title = "Istio"
+baseurl = "https://istio.io/latest"
 uglyURLs = false
 enableRobotsTXT = true
 pluralizeListTitles = false
