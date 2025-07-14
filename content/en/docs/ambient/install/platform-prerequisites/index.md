@@ -21,36 +21,31 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
 
-{{< tabset category-name="install-method" >}}
+{{< tabset category="Ambient install" >}}
 
-{{< tab name="Helm" category-value="helm" >}}
-
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
-    {{< /text >}}
-
+{{< tab name="istioctl ambient" >}}
+```bash
+istioctl install --set profile=ambient --set values.cni.platform=gke
+```
 {{< /tab >}}
 
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=gke
-    {{< /text >}}
-
+{{< tab name="Helm ambient" >}}
+```bash
+helm install istio-cni charts/cni --set profile=ambient --set values.cni.platform=gke
+```
 {{< /tab >}}
 
 {{< /tabset >}}
 
 #### Namespace restrictions
 
-On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class.
+On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. The Istio CNI node agent and `ztunnel` both require the `node-critical` class.
 
-The Istio CNI node agent and `ztunnel` both require the `node-critical` class. Starting with **Istio 1.26**, the installer (`istioctl install --set profile=ambient`) automatically creates the required ResourceQuota in the `istio-system` namespace. No manual steps are needed.
----
-⚠️ **For Istio versions earlier than 1.26:**  
-You must manually create a ResourceQuota in the namespace (such as `istio-system`), for example:
+By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. Installing Istio with the `ambient` profile creates a ResourceQuota in the `istio-system` namespace.
 
-{{< text syntax=yaml >}}
+To install Istio in any other namespace, you must manually create a ResourceQuota:
+
+{{< text syntax="yaml" >}}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
