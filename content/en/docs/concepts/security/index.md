@@ -155,7 +155,7 @@ Here's how:
       pilot:
         env:
           ENABLE_CLUSTER_TRUST_BUNDLE_API: "true"
-{{< /text >}}
+    {{< /text >}}
 
 ### Creating and Using ClusterTrustBundles
 
