@@ -137,6 +137,49 @@ Istio provisions keys and certificates through the following flow:
 1. Istio agent monitors the expiration of the workload certificate.
    The above process repeats periodically for certificate and key rotation.
 
+## ClusterTrustBundle
+
+`ClusterTrustBundle` is a Kubernetes Custom Resource Definition (CRD) introduced to help manage trusted Certificate Authority (CA) bundles cluster-wide. It is primarily used to distribute and trust public X.509 certificates across the entire cluster. This concept is especially useful in environments where components and workloads need to validate TLS certificates signed by non-standard or private CAs. Istio has added experimental support for this in recent versions, making it easier to manage trust for services.
+
+### Enabling the feature
+
+To use `ClusterTrustBundle` in Istio, you must enable it by setting a flag during installation.
+Here's how:
+
+1. Ensure your Kubernetes cluster is version 1.27 or later and that [`ClusterTrustBundles` are enabled](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#cluster-trust-bundles).
+
+1. Add this to your istio configuration
+
+    {{< text yaml >}}
+    values:
+      pilot:
+        env:
+          ENABLE_CLUSTER_TRUST_BUNDLE_API: "true"
+    {{< /text >}}
+
+### Creating and Using ClusterTrustBundles
+
+You create `ClusterTrustBundles` as Kubernetes resources, for example:
+
+{{< text yaml >}}
+apiVersion: certificates.k8s.io/v1alpha1
+kind: ClusterTrustBundle
+metadata:
+ name: my-trust-bundle
+spec:
+ trustBundle |
+   -----BEGIN CERTIFICATE-----
+   <your-root-certificate-here>
+   -----END CERTIFICATE-----
+{{< /text >}}
+
+Once created, the Istio control plane will use these for validating certificates in secure communications, like mutual TLS (mTLS).
+
+### Important notes
+
+- This is experimental, so expect changes in future versions.
+- Make sure the Istio service account has the right permissions to access `ClusterTrustBundles`, or you may encounter errors.
+
 ## Authentication
 
 Istio provides two types of authentication:
