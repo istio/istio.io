@@ -137,6 +137,55 @@ Istio provisions keys and certificates through the following flow:
 1. Istio agent monitors the expiration of the workload certificate.
    The above process repeats periodically for certificate and key rotation.
 
+## ClusterTrustBundle 
+
+ClusterTrustBundle is a Kubernetes Custom Resource Definition(CRD) introduced to help manage trusted Certificate Authority (CA) bundles cluster-wide.It`s primarily used to distribute and trust public  X.509 certificates across the entire cluster.This concept is especifically useful in environments where components and workloads need to validate TLS certificates signed by non-standard or private CAs.Istio has added experimental support for this in recent version, making it easier to manage trust for services.
+
+#### Enabling the feature 
+
+To use ClusterTrustBundle in Istio, you must enable it by setting a flag during installation.
+Here`s how:
+<ul>
+   <li> Add this to your istio configuration</li>
+</ul>
+
+{{< text yaml >}}
+values:
+  pilot:
+    env:
+      ENABLE_CLUSTER_BUNDLE_API: "true"
+{{< /text >}}
+
+<ul>
+   <li>Ensure your Kubernetes cluster is version 1.27 or later, as ClusterTrustBundle was introduced then.
+   </li>
+</ul>
+
+#### Creating and Using ClusterTrustBundles
+
+You create ClusterTrustBundles as Kubernetes resource, like this example:
+
+{{< text yaml >}}
+apiVersion: certificates.k8s.io/v1alpha1
+kind: ClusterTrustBundle
+metadata:
+ name: my-trust-bundle
+spec:
+ trustBundle |
+ -----BEGIN CERTIFICATE-----
+ <your-root-certificate-here>
+ -----END CERTIFICATE-----
+{{< /text >}}
+
+Once created, istio`s control plane will use these for validating certificates in secure communications, like mutual TLS (mTLS).
+
+#### Important notes
+
+<ul>
+   <li>This is experimental, so expect changes in future releases.</li>
+   <li>Make sure the istio service account has the right permissions to access ClusterTrustBundles, or you might face errors.</li>
+</ul>
+
 ## Authentication
 
 Istio provides two types of authentication:
