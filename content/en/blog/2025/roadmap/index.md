@@ -1,12 +1,10 @@
 ---
-title: "Istio Roadmap 2026"
+title: "Istio Roadmap for 2025-2026"
 description: Looking ahead to what's next for Istio.
 publishdate: 2025-07-20
 attribution: "Mitch Connors, for the Istio TOC"
 keywords: [Istio,roadmap,ambient]
 ---
-
-## Overview
 
 In 2025, we will focus on improving parity between sidecar mode and ambient mode, providing a supported path for sidecar users to migrate to the ambient data plane when they are ready.  We will also revamp our contributor experience, simplifying the process for proposing and implementing new features, and giving recognition to our most valuable contributors. We plan to grow our ecosystem by adding or updating Istio’s integration to various popular cloud native projects and build more case studies for Istio.
 
@@ -30,7 +28,7 @@ Multi-cluster traffic management has long been one of the most valued enterprise
 
 ### The future of extensibility
 
-The Istio project has offered several APIs for extensibility since launch, and none of them has been able to mature to Stable. Of those in use today, EnvoyFilters are a powerful tool for tweaking internal proxy configuration, and modifying traffic flow, but are very difficult to use, and pose significant risk during upgrades, which can change the filter integrations in ways that cannot always be predicted.  WebAssembly emerged in 2019 as a powerful tool for Turing-complete modification of traffic, but community support for Wasm compilers and libraries outside the Istio ecosystem has waned substantially since that time, making it difficult for users to safely and securely use WebAssembly with Istio.
+The Istio project has offered several APIs for extensibility since launch, and none of them has been able to mature to Stable. Of those in use today, Envoy Filters are a powerful tool for tweaking internal proxy configuration, and modifying traffic flow, but are very difficult to use, and pose significant risk during upgrades, which can change the filter integrations in ways that cannot always be predicted.  WebAssembly emerged in 2019 as a powerful tool for Turing-complete modification of traffic, but community support for Wasm compilers and libraries outside the Istio ecosystem has waned substantially since that time, making it difficult for users to safely and securely use WebAssembly with Istio.
 
 As we plan for 2025 and beyond, it is clear that we need a path to a mature extensibility model for users of sidecars and ambient mode alike.  We plan to address the most common use cases for extensibility, such as local rate limiting, with first class APIs, reducing the frequency with which users require extensibility. However, we recognize that networks are complex, and there will always be cases our APIs don’t cover, when users need a "break glass" option.  The architecture of ambient mode provides some options, such as leveraging the waypoint pattern to accomplish service insertion, adding arbitrary proxies to the network chain, which can then perform arbitrary modifications.  Another similar development is Envoy’s ext-proc filter, which sends requests to an arbitrary service for modification before forwarding them to their destination.
 
