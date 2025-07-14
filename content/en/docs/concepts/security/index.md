@@ -169,9 +169,9 @@ metadata:
  name: my-trust-bundle
 spec:
  trustBundle |
- -----BEGIN CERTIFICATE-----
- <your-root-certificate-here>
- -----END CERTIFICATE-----
+   -----BEGIN CERTIFICATE-----
+   <your-root-certificate-here>
+   -----END CERTIFICATE-----
 {{< /text >}}
 
 Once created, istio's control plane will use these for validating certificates in secure communications, like mutual TLS (mTLS).
