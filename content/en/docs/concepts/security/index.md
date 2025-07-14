@@ -143,7 +143,7 @@ ClusterTrustBundle is a Kubernetes Custom Resource Definition (CRD) introduced t
 
 ### Enabling the feature
 
-To use ClusterTrustBundle in Istio, you must enable it by setting a flag during installation.
+To use `ClusterTrustBundle` in Istio, you must enable it by setting a flag during installation.
 Here's how:
 
 - Add this to your istio configuration
