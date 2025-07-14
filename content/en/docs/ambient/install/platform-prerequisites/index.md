@@ -25,7 +25,6 @@ By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-
 
 To install Istio in any other namespace, you must manually create a ResourceQuota:
 
-
 {{< text syntax=yaml >}}
 apiVersion: v1
 kind: ResourceQuota
