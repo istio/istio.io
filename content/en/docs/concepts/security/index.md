@@ -139,7 +139,7 @@ Istio provisions keys and certificates through the following flow:
 
 ## ClusterTrustBundle
 
-ClusterTrustBundle is a Kubernetes Custom Resource Definition (CRD) introduced to help manage trusted Certificate Authority (CA) bundles cluster-wide. It's primarily used to distribute and trust public X.509 certificates across the entire cluster. This concept is especially useful in environments where components and workloads need to validate TLS certificates signed by non-standard or private CAs.    Istio has added experimental support for this in recent versions, making it easier to manage trust for services.
+`ClusterTrustBundle` is a Kubernetes Custom Resource Definition (CRD) introduced to help manage trusted Certificate Authority (CA) bundles cluster-wide. It is primarily used to distribute and trust public X.509 certificates across the entire cluster. This concept is especially useful in environments where components and workloads need to validate TLS certificates signed by non-standard or private CAs. Istio has added experimental support for this in recent versions, making it easier to manage trust for services.
 
 ### Enabling the feature
 
