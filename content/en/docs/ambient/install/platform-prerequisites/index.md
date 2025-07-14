@@ -21,21 +21,17 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
 
-{{< tabset category="Ambient install" >}}
+#### istioctl ambient
 
-{{< tab name="istioctl ambient" >}}
 ```bash
 istioctl install --set profile=ambient --set values.cni.platform=gke
 ```
-{{< /tab >}}
 
-{{< tab name="Helm ambient" >}}
+#### Helm ambient
+
 ```bash
 helm install istio-cni charts/cni --set profile=ambient --set values.cni.platform=gke
 ```
-{{< /tab >}}
-
-{{< /tabset >}}
 
 #### Namespace restrictions
 
@@ -45,7 +41,7 @@ By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-
 
 To install Istio in any other namespace, you must manually create a ResourceQuota:
 
-{{< text syntax="yaml" >}}
+```yaml
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -60,7 +56,7 @@ spec:
       scopeName: PriorityClass
       values:
       - system-node-critical
-{{< /text >}}
+```
 
 ### Amazon Elastic Kubernetes Service (EKS)
 
@@ -76,21 +72,21 @@ There is an [open issue on the VPC CNI component](https://github.com/aws/amazon-
 
 You can check if you have pod ENI trunking enabled by running the following command:
 
-{{< text syntax=bash >}}
-$ kubectl set env daemonset aws-node -n kube-system --list | grep ENABLE_POD_ENI
-{{< /text >}}
+```bash
+kubectl set env daemonset aws-node -n kube-system --list | grep ENABLE_POD_ENI
+```
 
 You can check if you have any pod-attached security groups in your cluster by running the following command:
 
-{{< text syntax=bash >}}
-$ kubectl get securitygrouppolicies.vpcresources.k8s.aws
-{{< /text >}}
+```bash
+kubectl get securitygrouppolicies.vpcresources.k8s.aws
+```
 
 You can set `POD_SECURITY_GROUP_ENFORCING_MODE=standard` by running the following command, and recycling affected pods:
 
-{{< text syntax=bash >}}
-$ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
-{{< /text >}}
+```bash
+kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING_MODE=standard
+```
 
 ### k3d
 
@@ -98,102 +94,69 @@ When using [k3d](https://k3d.io/) with the default Flannel CNI, you must append 
 
 1. Create a cluster with Traefik disabled so it doesn't conflict with Istio's ingress gateways:
 
-    {{< text bash >}}
-    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
-    {{< /text >}}
+    ```bash
+    k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
+    ```
 
-1.  Set `global.platform=k3d` when installing Istio charts. For example:
+2. Set `global.platform=k3d` when installing Istio charts. For example:
 
-    {{< tabset category-name="install-method" >}}
+    #### Helm
 
-    {{< tab name="Helm" category-value="helm" >}}
+    ```bash
+    helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3d --wait
+    ```
 
-        {{< text syntax=bash >}}
-        $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3d --wait
-        {{< /text >}}
+    #### istioctl
 
-    {{< /tab >}}
-
-    {{< tab name="istioctl" category-value="istioctl" >}}
-
-        {{< text syntax=bash >}}
-        $ istioctl install --set profile=ambient --set values.global.platform=k3d
-        {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
+    ```bash
+    istioctl install --set profile=ambient --set values.global.platform=k3d
+    ```
 
 ### K3s
 
 When using [K3s](https://k3s.io/) and one of its bundled CNIs, you must append the correct `platform` value to your installation commands, as K3s uses nonstandard locations for CNI configuration and binaries which requires some Helm overrides. For the default K3s paths, Istio provides built-in overrides based on the `global.platform` value.
 
-{{< tabset category-name="install-method" >}}
+#### Helm
 
-{{< tab name="Helm" category-value="helm" >}}
+```bash
+helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3s --wait
+```
 
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=k3s --wait
-    {{< /text >}}
+#### istioctl
 
-{{< /tab >}}
-
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=k3s
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+```bash
+istioctl install --set profile=ambient --set values.global.platform=k3s
+```
 
 However, these locations may be overridden in K3s, [according to K3s documentation](https://docs.k3s.io/cli/server#k3s-server-cli-help). If you are using K3s with a custom, non-bundled CNI, you must manually specify the correct paths for those CNIs, e.g. `/etc/cni/net.d` - [see the K3s docs for details](https://docs.k3s.io/networking/basic-network-options#custom-cni). For example:
 
-{{< tabset category-name="install-method" >}}
+#### Helm
 
-{{< tab name="Helm" category-value="helm" >}}
+```bash
+helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+```
 
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
-    {{< /text >}}
+#### istioctl
 
-{{< /tab >}}
-
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+```bash
+istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+```
 
 ### MicroK8s
 
 If you are installing Istio on [MicroK8s](https://microk8s.io/), you must append the correct `platform` value to your installation commands, as MicroK8s [uses non-standard locations for CNI configuration and binaries](https://microk8s.io/docs/change-cidr). For example:
 
-{{< tabset category-name="install-method" >}}
+#### Helm
 
-{{< tab name="Helm" category-value="helm" >}}
+```bash
+helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=microk8s --wait
+```
 
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=microk8s --wait
+#### istioctl
 
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=microk8s
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+```bash
+istioctl install --set profile=ambient --set values.global.platform=microk8s
+```
 
 ### minikube
 
@@ -201,74 +164,58 @@ If you are using [minikube](https://kubernetes.io/docs/tasks/tools/install-minik
 you must append the correct `platform` value to your installation commands, as minikube with Docker uses a nonstandard bind mount path for containers.
 For example:
 
-{{< tabset category-name="install-method" >}}
+#### Helm
 
-{{< tab name="Helm" category-value="helm" >}}
+```bash
+helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=minikube --wait
+```
 
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=minikube --wait"
-    {{< /text >}}
+#### istioctl
 
-{{< /tab >}}
-
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=minikube"
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+```bash
+istioctl install --set profile=ambient --set values.global.platform=minikube
+```
 
 ### Red Hat OpenShift
 
 OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts.
 
-{{< tabset category-name="install-method" >}}
+#### Helm
 
-{{< tab name="Helm" category-value="helm" >}}
+You must `--set global.platform=openshift` for **every** chart you install, for example with the `istiod` chart:
 
-    You must `--set global.platform=openshift` for **every** chart you install, for example with the `istiod` chart:
+```bash
+helm install istiod istio/istiod -n istio-system --set profile=ambient --set global.platform=openshift --wait
+```
 
-    {{< text syntax=bash >}}
-    $ helm install istiod istio/istiod -n istio-system --set profile=ambient --set global.platform=openshift --wait
-    {{< /text >}}
+In addition, you must install `istio-cni` and `ztunnel` in the `kube-system` namespace, for example:
 
-    In addition, you must install `istio-cni` and `ztunnel` in the `kube-system` namespace, for example:
+```bash
+helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
+helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
+```
 
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait
-    $ helm install ztunnel istio/ztunnel -n kube-system --set profile=ambient --set global.platform=openshift --wait
-    {{< /text >}}
+#### istioctl
 
-{{< /tab >}}
-
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=openshift-ambient --skip-confirmation
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
+```bash
+istioctl install --set profile=openshift-ambient --skip-confirmation
+```
 
 ## CNI plugins
 
-The following configurations apply to all platforms, when certain {{< gloss "CNI" >}}CNI plugins{{< /gloss >}} are used:
+The following configurations apply to all platforms, when certain CNI plugins are used:
 
 ### Cilium
 
 1. Cilium currently defaults to proactively deleting other CNI plugins and their config, and must be configured with
-`cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
-1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
-1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
-applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
+   `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
+2. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
+3. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
+   applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
     This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
 
-    {{< text syntax=yaml >}}
+    ```yaml
     apiVersion: "cilium.io/v2"
     kind: CiliumClusterwideNetworkPolicy
     metadata:
@@ -282,7 +229,7 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
       ingress:
       - fromCIDR:
         - "169.254.7.127/32"
-    {{< /text >}}
+    ```
 
     This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
