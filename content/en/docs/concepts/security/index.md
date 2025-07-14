@@ -160,7 +160,7 @@ values:
 
 ### Creating and Using ClusterTrustBundles
 
-You create ClusterTrustBundles as Kubernetes resource, like this example:
+You create `ClusterTrustBundles` as a Kubernetes resource, like this example:
 
 {{< text yaml >}}
 apiVersion: certificates.k8s.io/v1alpha1
