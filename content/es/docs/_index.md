@@ -1,7 +1,7 @@
 ---
 title: Documentación
 linktitle: Documentation
-description: Aprende cómo desplegar, usar y operar Istio
+description: Aprende cómo desplegar, usar y operar Istio.
 weight: 1
 skip_toc: true
 skip_sidebar: true
