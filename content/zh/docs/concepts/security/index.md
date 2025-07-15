@@ -38,7 +38,8 @@ Istio 安全功能提供了强大的身份、强大的策略、透明的 TLS 加
 - 零信任网络：在不受信任的网络上构建安全解决方案
 
 请访问我们的[双向 TLS 迁移](/zh/docs/tasks/security/authentication/mtls-migration/)相关文章，
-开始在已部署的服务中使用 Istio 安全功能。请访问我们的[安全任务](/zh/docs/tasks/security/)，
+开始在已部署的服务中使用 Istio 安全功能。
+请访问我们的[安全任务](/zh/docs/tasks/security/)，
 以获取有关使用安全功能的详细说明。
 
 ## 高层架构 {#high-level-architecture}
@@ -200,8 +201,10 @@ PEP 被实现为 [Envoy 代理](https://www.envoyproxy.io/)。
 1. 客户端 Envoy 与服务器端 Envoy 开始双向 TLS 握手。在握手期间，
    客户端 Envoy 还做了[安全命名](/zh/docs/concepts/security/#secure-naming)检查，
    以验证服务器证书中显示的服务帐户是否被授权运行目标服务。
-1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
-1. 服务器端 Envoy 授权请求。如果获得授权，它将流量转发到通过本地 TCP 连接的后端服务。
+1. 客户端 Envoy 和服务器端 Envoy 建立了一个双向的 TLS 连接，
+   Istio 将流量从客户端 Envoy 转发到服务器端 Envoy。
+1. 服务器端 Envoy 授权请求。如果获得授权，
+   它将流量转发到通过本地 TCP 连接的后端服务。
 
 Istio 将 `TLSv1_2` 作为最低支持的 TLS 版本为客户端和服务器配置了如下的加密套件：
 
@@ -238,7 +241,7 @@ Istio 双向 TLS 具有一个宽容模式（Permissive Mode），
 #### 安全命名 {#secure-naming}
 
 服务器身份（Server Identity）被编码在证书里，
-但服务名称（service name）通过服务发现或 DNS 被检索。
+但服务名称（Service Name）通过服务发现或 DNS 被检索。
 安全命名信息将服务器身份映射到服务名称。身份 `A` 到服务名称 `B`
 的映射表示"授权 `A` 运行服务 `B`"。控制平面监视 `apiserver`，
 生成安全命名映射，并将其安全地分发到 PEP。
@@ -321,7 +324,7 @@ Istio 将网格范围的策略存储在根命名空间。这些策略使用一�
 它们仅适用于其命名空间内的工作负载。如果您配置了 `selector` 字段，
 则认证策略仅适用于与您配置的条件匹配的工作负载。
 
-对等认证策略和请求认证策略用 kind 字段区分，
+对等认证策略和请求认证策略用 'kind' 字段区分，
 分别是 `PeerAuthentication` 和 `RequestAuthentication`。
 
 #### Selector 字段 {#selector-field}
@@ -678,7 +681,7 @@ spec:
         requestPrincipals: ["*"]
 {{< /text >}}
 
-下面的示例拒绝到 `/admin` 路径且不带请求主体的请求：
+下面的示例拒绝发送到 `/admin` 路径且不带请求体的请求：
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -703,9 +706,9 @@ spec:
 #### `allow-nothing`、`deny-all` 和 `allow-all` 策略 {#allow-nothing-deny-all-and-allow-all-policy}
 
 以下示例显示了不匹配任何内容的 `ALLOW` 策略。如果没有其他 `ALLOW` 策略，
-请求将因"默认拒绝"行为被始终拒绝。
+请求将因“默认拒绝”行为被始终拒绝。
 
-请注意，"默认拒绝"行为仅适用于工作负载随着 `ALLOW`
+请注意，“默认拒绝”行为仅适用于工作负载随着 `ALLOW`
 操作至少有一个授权策略的情况。
 
 {{< tip >}}
@@ -724,7 +727,8 @@ spec:
 {{< /text >}}
 
 以下示例显示了显式拒绝所有访问的 `DENY` 策略。
-即使有另一个 `ALLOW` 策略允许请求，但由于 `DENY` 策略优先于 `ALLOW` 策略，所以将始终拒绝请求。
+即使有另一个 `ALLOW` 策略允许请求，但由于 `DENY`
+策略优先于 `ALLOW` 策略，所以将始终拒绝请求。
 如果您要临时禁用对工作负载的所有访问，可以使用此策略。
 
 {{< text yaml >}}
@@ -761,7 +765,7 @@ spec:
 您还可以使用 `when` 部分指定其他条件。
 例如，下面的 `AuthorizationPolicy` 定义包括以下条件：
 `request.headers [version]` 是 `v1` 或 `v2`。
-在这种情况下，key 是 `request.headers [version]`，
+在这种情况下，`key` 是 `request.headers [version]`，
 它是 Istio 属性 `request.headers`（这是个字典）中的一项。
 
 {{< text yaml >}}
@@ -840,8 +844,7 @@ spec:
 
 Istio 授权支持工作负载使用任意普通 TCP 协议，如 MongoDB。
 在这种情况下，您可以按照与 HTTP 工作负载相同的方式配置授权策略。
-不同之处在于某些字段和条件仅适用于 HTTP 工作负载。
-这些字段包括：
+不同之处在于某些字段和条件仅适用于 HTTP 工作负载。这些字段包括：
 
 - 授权策略对象 `source` 部分中的 `request_principals` 字段
 - 授权策略对象 `operation` 部分中的 `hosts`、`methods` 和 `paths` 字段
