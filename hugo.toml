@@ -98,6 +98,8 @@ disableAliases = true
         contentDir = "content/zh"
     [languages.en]
         contentDir = "content/en"
+    [languages.es]
+        contentDir = "content/es"
     [languages.uk]
         contentDir = "content/uk"
 
@@ -190,6 +192,89 @@ disableAliases = true
     name = "Documentation"
     title = "Documentation"
     url = "/docs/"
+    weight = 5
+
+  # i18n for Spanish
+   [[languages.es.menu.main]]
+    identifier = "about"
+    name = "About"
+    title = "Acerca de la sección"
+    weight = 1
+
+    [[languages.es.menu.main]]
+      identifier = "service-mesh"
+      name = "Service mesh"
+      title = "Service mesh"
+      url = "/es/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[languages.es.menu.main]]
+      identifier = "solutions"
+      name = "Soluciones"
+      title = "Soluciones"
+      url = "/es/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[languages.es.menu.main]]
+      identifier = "case-studies"
+      name = "Casos de Estudio"
+      title = "Casos de Estudio"
+      url = "/es/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[languages.es.menu.main]]
+      identifier = "ecosystem"
+      name = "Ecosistema"
+      title = "Ecosistema"
+      url = "/es/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[languages.es.menu.main]]
+      identifier = "deployment"
+      name = "Despliegue"
+      title = "Despliegue"
+      url = "/es/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[languages.es.menu.main]]
+      identifier = "faq"
+      name = "Preguntas frecuentes"
+      title = "Preguntas frecuentes"
+      url = "/es/about/faq"
+      parent = "about"
+      weight = 6
+
+    [[languages.es.menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    title = "Blog de Istio"
+    url = "/es/blog/"
+    weight = 2
+
+    [[languages.es.menu.main]]
+    identifier = "news"
+    name = "Noticias"
+    title = "Noticias"
+    url = "/es/news/"
+    weight = 3
+
+    [[languages.es.menu.main]]
+    identifier = "get-involved"
+    name = "Participa"
+    title = "Participa"
+    url = "/es/get-involved/"
+    weight = 4
+
+    [[languages.es.menu.main]]
+    identifier = "docs"
+    name = "Documentación"
+    title = "Documentación"
+    url = "/es/docs/"
     weight = 5
 
   # i18n for Chinese

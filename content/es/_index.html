@@ -1,0 +1,114 @@
+---
+title: Istio
+description: Una service mesh para observabilidad, seguridad en profundidad y gestión que acelera los ciclos de despliegue.
+---
+<!-- estos bloques de script son solo para la página de inicio principal en inglés -->
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh",
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+
+<main class="landing">
+    <section id="hero">
+        <h1 id="title">
+            Service Mesh. Simplificado.
+        </h1>
+        <p class="subtitle">Construye fácilmente workloads nativas de la nube de forma segura y fiable con Istio, con o sin sidecars.</p>
+    </section>
+
+    <section id="landing-panels" class="container">
+        <div class="panels">
+            {{< content_panel type="dark" title="latest_news" text="Rápido, seguro y simple: el modo ambient de Istio ya está Disponible de forma General." button="read_more" url="/blog/2024/ambient-reaches-ga/" >}}
+            {{< content_panel type="dark" title="join_the_community" text="Conecta con más de 10.000 de tus compañeros que usan, prueban e innovan con Istio." button="connect_with_us" url="/get-involved" >}}
+            {{< content_panel type="dark" title="get_started" text="Prueba Istio hoy. Evalúa rápidamente el proyecto en cuatro pasos." button="learn_more" url="/es/docs/overview/quickstart" >}}
+        </div>
+    </section>
+
+    <section id="service-mesh" class="container">
+        <h1>¿Qué es Istio?</h1>
+
+        <p>
+            Istio extiende Kubernetes para establecer una red programable y consciente de la aplicación. Trabajando tanto con Kubernetes como con workloads tradicionales, Istio aporta gestión de tráfico, telemetría y seguridad estándar y universal a despliegues complejos.
+            <br/><br/>
+            Selecciona las características que desees e Istio despliega la infraestructura de proxy según sea necesario. Utiliza el túnel de zero-trust para el rendimiento y la seguridad de capa 4, o añade el potente proxy de servicio Envoy para las características de capa 7.
+        </p>
+
+        <div class="cta-container">
+            <a class="btn" href="/about/service-mesh">Aprende más</a>
+        </div>
+    </section>
+
+    <section id="case-studies" class="container">
+        <h1>Con la confianza de</h1>
+
+        {{< logo_carousel >}}
+
+        <div class="cta-container">
+            <a class="btn" href="/about/case-studies">Lee nuestros casos de estudio</a>
+        </div>
+    </section>
+    
+    <section id="features" class="container">
+        <h1>Características</h1>
+
+        <div class="panels">
+            {{< content_panel type="transparent" title="security" text="Implementación simple de seguridad de servicio a servicio, incluyendo autenticación mTLS, autorización y cifrado." button="learn_more" image="security.svg" url="/es/docs/concepts/security/" >}}
+            {{< content_panel type="transparent" title="observability" text="Optimiza las mejores prácticas con una visibilidad profunda de las aplicaciones e identifica dónde centrarse para mejorar el rendimiento." button="learn_more" image="observability.svg" url="/es/docs/concepts/observability/" >}}
+            {{< content_panel type="transparent" title="traffic_management" text="Gestiona la red para los servicios de forma consistente, sin ninguna sobrecarga adicional para los desarrolladores." button="learn_more" image="management.svg" url="/es/docs/concepts/traffic-management/" >}}
+        </div>
+
+    </section>
+
+    <section id="providers" class="container">
+        <h1>Proveedores de Istio</h1>
+
+        <p>
+            Istio es soportado e implementado por un ecosistema de proveedores y consultores líderes. Puedes instalar y gestionar Istio tú mismo o utilizar una función de instalación con un solo clic de tu proveedor de Kubernetes o de la nube. Otra opción es recurrir a un proveedor para obtener una service mesh totalmente gestionada basada en Istio. Elige la forma que más te convenga.
+        </p>
+
+        <div class="companies-grid">
+            {{< company_logo link="https://cloud.google.com/service-mesh" logo="/logos/google-cloud.png" alt="Google Cloud" >}}
+            {{< company_logo link="https://www.ibm.com/products/istio" logo="/logos/ibm-cloud.svg" alt="IBM Cloud" >}}
+            {{< company_logo link="https://www.redhat.com/en/technologies/cloud-computing/openshift/what-is-openshift-service-mesh" logo="/logos/redhat.svg" alt="Red Hat" >}}
+            {{< company_logo link="https://learn.microsoft.com/en-us/azure/aks/istio-about" logo="/logos/microsoft-azure.svg" alt="Microsoft Azure" >}}        
+            {{< company_logo link="https://www.solo.io/products/gloo-mesh/" logo="/logos/solo.svg" alt="Solo.io" >}}
+            {{< company_logo link="https://support.huaweicloud.com/asm/index.html/" logo="/logos/huawei.png" alt="Huawei" >}}
+            {{< company_logo link="https://tetrate.io/tetrate-service-bridge/" logo="/logos/tetrate.svg" alt="Tetrate" >}}
+            {{< company_logo link="https://tanzu.vmware.com/service-mesh" logo="/logos/vmware.svg" alt="VMware" >}}
+        </div>
+
+        <div class="cta-container">
+            <a class="btn" href="/about/ecosystem#providers">Ver todos los proveedores</a>
+        </div>
+    </section>
+
+    <section id="cncf" class="container">
+        <div class="cncf-logo">
+            <figure>
+                <img src="/img/cncf-color.svg" alt="Logo de la Cloud Native Computing Foundation"/>
+                <figcaption>
+                    <p>Somos un proyecto graduado de la Cloud Native Computing Foundation.</p>
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+</main>

@@ -30,6 +30,10 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /zh /latest/zh
 /zh/* /latest/zh/:splat
 
+/  /latest/es   302  Language=es
+/es /latest/es
+/es/* /latest/es/:splat
+
 /  /latest/uk   302  Language=uk
 /uk /latest/uk
 /uk/* /latest/uk/:splat
