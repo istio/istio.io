@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-En el **modo ambient**, Istio implementa sus [características](/es/docs/concepts) utilizando un proxy de Layer 4 (L4) por nodo y, opcionalmente, un proxy de Layer 7 (L7) por namespaces.
+En el **modo ambient**, Istio implementa sus [características](/es/docs/concepts) utilizando un proxy de capa 4 (L4) por nodo y, opcionalmente, un proxy de capa 7 (L7) por namespaces.
 
 Este enfoque por capas te permite adoptar Istio de una manera más incremental, pasando sin problemas de ninguna malla, a una superposición L4 segura, a un procesamiento y políticas L7 completos, por namespaces, según sea necesario. Además, los workloads que se ejecutan en diferentes modos de {{< gloss >}}data plane{{< /gloss >}} de Istio interoperan sin problemas, lo que permite a los usuarios mezclar y combinar capacidades en función de sus necesidades particulares a medida que cambian con el tiempo.
 
@@ -20,7 +20,7 @@ El modo ambient divide la funcionalidad de Istio en dos capas distintas. En la b
 Los pods y los workloads que usan el modo sidecar pueden coexistir dentro de la misma malla que los pods que usan el modo ambient. El término "malla ambient" se refiere a una malla de Istio que se instaló con soporte para el modo ambient y, por lo tanto, puede admitir pods de malla que usan cualquier tipo de data plane.
 {{< /tip >}}
 
-Para obtener detalles sobre el diseño del modo ambient y cómo interactúa con el {{< gloss >}}control plane{{< /gloss >}} de Istio, consulta la documentación de arquitectura del [data plane](/es/docs/ambient/architecture/data-plane) y del [plano de control](/es/docs/ambient/architecture/control-plane).
+Para obtener detalles sobre el diseño del modo ambient y cómo interactúa con el {{< gloss >}}control plane{{< /gloss >}} de Istio, consulta la documentación de arquitectura del [data plane](/es/docs/ambient/architecture/data-plane) y del [control plane](/es/docs/ambient/architecture/control-plane).
 
 ## ztunnel
 

@@ -45,7 +45,7 @@ archive_analytics_id: "G-5XBWY4YJ1E"
 supported_languages:
   - name: "English"
     code: "en"
-  - name: "Spanish"
+  - name: "Español"
     code: "es"
   - name: "中文"
     code: "zh"

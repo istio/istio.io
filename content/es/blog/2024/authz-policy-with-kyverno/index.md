@@ -1,12 +1,12 @@
 ---
 title: Autorización basada en políticas usando Kyverno
-description: Delega la lógica de decisión de autorización de Layer 7 usando el Authz Server de Kyverno, aprovechando las políticas basadas en CEL.
+description: Delega la lógica de decisión de autorización de capa 7 usando el Authz Server de Kyverno, aprovechando las políticas basadas en CEL.
 publishdate: 2024-11-25
 attribution: "Charles-Edouard Brétéché (Nirmata)"
 keywords: [istio,kyverno,policy,platform,authorization]
 ---
 
-Istio admite la integración con muchos proyectos diferentes. El blog de Istio presentó recientemente una publicación sobre la [funcionalidad de políticas L7 con OpenPolicyAgent](../l7-policy-with-opa). Kyverno es un proyecto similar, y hoy profundizaremos en cómo Istio y el Kyverno Authz Server pueden usarse juntos para hacer cumplir las políticas de Layer 7 en tu plataforma.
+Istio admite la integración con muchos proyectos diferentes. El blog de Istio presentó recientemente una publicación sobre la [funcionalidad de políticas L7 con OpenPolicyAgent](../l7-policy-with-opa). Kyverno es un proyecto similar, y hoy profundizaremos en cómo Istio y el Kyverno Authz Server pueden usarse juntos para hacer cumplir las políticas de capa 7 en tu plataforma.
 
 Te mostraremos cómo empezar con un ejemplo simple.
 Verás cómo esta combinación es una opción sólida para entregar políticas de forma rápida y transparente al equipo de aplicaciones en todas partes del negocio, al mismo tiempo que proporciona los datos que los equipos de seguridad necesitan para la auditoría y el cumplimiento.

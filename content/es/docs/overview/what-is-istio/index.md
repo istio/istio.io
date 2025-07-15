@@ -30,6 +30,6 @@ The data plane is the communication between services. Without a service mesh, th
 Istio supports two data plane modes:
 
 * **sidecar mode**, which deploys an Envoy proxy along with each pod that you start in your cluster, or running alongside services running on VMs.
-* **ambient mode**, which uses a per-node Layer 4 proxy, and optionally a per-namespace Envoy proxy for Layer 7 features.
+* **ambient mode**, which uses a per-node capa 4 proxy, and optionally a per-namespace Envoy proxy for capa 7 features.
 
 [Learn how to choose which mode is right for you](/es/docs/overview/data plane-modes/).

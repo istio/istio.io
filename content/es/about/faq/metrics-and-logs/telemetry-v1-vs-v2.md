@@ -48,4 +48,4 @@ v2 que se enumeran a continuación:
   las métricas evita la notificación de métricas que ya no cambiarían en el
   futuro, lo que reduce el tráfico de red y el almacenamiento en Prometheus.
   Este mecanismo de vencimiento no está disponible en la telemetría en el proxy.
-  La solución alternativa para esto se puede encontrar [aquí](/about/faq/#metric-expiry).
+  La solución alternativa para esto se puede encontrar [aquí](/es/about/faq/#metric-expiry).

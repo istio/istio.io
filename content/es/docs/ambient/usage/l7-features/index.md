@@ -1,5 +1,5 @@
 ---
-title: Usar características de Layer 7
+title: Usar características de capa 7
 description: Características compatibles al usar un proxy de waypoint L7.
 weight: 50
 owner: istio/wg-networking-maintainers
@@ -27,7 +27,7 @@ Las tablas a continuación muestran el tipo de adjunto que se configura para cad
 
 ## Enrutamiento de tráfico
 
-Con un proxy de waypoint desplegado, puedes usar los siguientes tipos de ruta de tráfico:
+Con un proxy de waypoint desplegado, puedes usar los siguientes tipos de enrutamiento de tráfico:
 
 |  Nombre  | Estado de la característica | Adjunto |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ Consulta la documentación de [gestión del tráfico](/es/docs/tasks/traffic-man
 
 ## Seguridad
 
-Sin un waypoint instalado, solo puedes usar [políticas de seguridad de Layer 4](/es/docs/ambient/usage/l4-policy/). Al agregar un waypoint, obtienes acceso a las siguientes políticas:
+Sin un waypoint instalado, solo puedes usar [políticas de seguridad de capa 4](/es/docs/ambient/usage/l4-policy/). Al agregar un waypoint, obtienes acceso a las siguientes políticas:
 
 |  Nombre  | Estado de la característica | Adjunto |
 | --- | --- | --- |

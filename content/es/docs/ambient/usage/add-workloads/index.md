@@ -14,7 +14,7 @@ Para agregar aplicaciones o namespaces a la malla en modo ambient, agrega la eti
 
 El modo ambient se puede habilitar (o deshabilitar) de forma completamente transparente en lo que respecta a los pods de la aplicación. A diferencia del modo de data plane de {{< gloss >}}sidecar{{< /gloss >}}, no es necesario reiniciar las aplicaciones para agregarlas a la malla, y no se mostrarán con un contenedor adicional desplegado en su pod.
 
-### Funcionalidad de Layer 4 y Layer 7
+### Funcionalidad de capa 4 y capa 7
 
 La superposición segura L4 admite políticas de autenticación y autorización. [Aprende sobre el soporte de políticas L4 en modo ambient](/es/docs/ambient/usage/l4-policy/). Para optar por usar la funcionalidad L7 de Istio, como el enrutamiento de tráfico, deberás [desplegar un proxy de waypoint e inscribir tus workloads para usarlo](/es/docs/ambient/usage/waypoint/).
 
@@ -50,14 +50,14 @@ Una gateway de entrada puede ejecutarse en un namespace no ambient y exponer los
 
 Los dos modos de data plane de Istio, sidecar y ambient, pueden coexistir en el mismo cluster. Es importante asegurarse de que el mismo pod o namespaces no se configure para usar ambos modos al mismo tiempo. Sin embargo, si esto ocurre, el modo sidecar actualmente tiene prioridad para dicho pod o namespaces.
 
-Ten en cuenta que dos pods dentro del mismo namespaces podrían, en teoría, configurarse para usar diferentes modos etiquetando los pods individuales por separado de la etiqueta del namespaces; sin embargo, esto no se recomienda. Para la mayoría de los casos de uso comunes, se debe usar un solo modo para todos los pods dentro de un solo namespaces.
+Ten en cuenta que dos pods dentro del mismo namespaces podrían, en teoría, configurarse para usar diferentes modos etiquetando los pods individuales por separado de la etiqueta del namespace; sin embargo, esto no se recomienda. Para la mayoría de los casos de uso comunes, se debe usar un solo modo para todos los pods dentro de un solo namespaces.
 
 La lógica exacta para determinar si un pod está configurado para usar el modo ambient es la siguiente:
 
 1. La lista de exclusión de la configuración del complemento `istio-cni` configurada en `cni.values.excludeNamespaces` se utiliza para omitir los namespaces en la lista de exclusión.
 1. El modo `ambient` se utiliza para un pod si
 
-    * El namespaces o el pod tiene la etiqueta `istio.io/data plane-mode=ambient`
+    *el namespace o el pod tiene la etiqueta `istio.io/data plane-mode=ambient`
     * El pod no tiene la etiqueta de exclusión `istio.io/data plane-mode=none`
     * La anotación `sidecar.istio.io/status` no está presente en el pod
 

@@ -15,4 +15,4 @@ list_below: yes
 {{< /tip >}}
 
 Hay dos opciones diferentes para instalar Istio. Cuál debes elegir dependerá de tus requisitos de producción y de cómo instales otro software. Si necesitas ayuda para elegir, consulta nuestra
-página de preguntas frecuentes [¿qué método de instalación de Istio debo usar?](/about/faq/#install-method-selection).
+página de preguntas frecuentes [¿qué método de instalación de Istio debo usar?](/es/about/faq/#install-method-selection).

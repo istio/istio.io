@@ -14,7 +14,7 @@ El proxy ztunnel obtiene la configuración y la información de descubrimiento d
 
 El comando `istioctl ztunnel-config` te permite ver las cargas de trabajo descubiertas tal como las ve un proxy ztunnel.
 
-En el primer ejemplo, ves todas las cargas de trabajo y los componentes del plano de control que ztunnel está rastreando actualmente, incluida la información sobre la dirección IP y el protocolo que se debe usar al conectarse a ese componente y si hay un proxy de waypoint asociado con esa carga de trabajo.
+En el primer ejemplo, ves todas las cargas de trabajo y los componentes del control plane que ztunnel está rastreando actualmente, incluida la información sobre la dirección IP y el protocolo que se debe usar al conectarse a ese componente y si hay un proxy de waypoint asociado con esa carga de trabajo.
 
 {{< text bash >}}
 $ istioctl ztunnel-config workloads
@@ -37,7 +37,7 @@ local-path-storage local-path-provisioner-7577fdbbfb-pslg6 10.244.0.4  ambient-c
 
 {{< /text >}}
 
-El comando `ztunnel-config` se puede usar para ver los secretos que contienen los certificados TLS que el proxy ztunnel ha recibido del plano de control de istiod para usar en mTLS.
+El comando `ztunnel-config` se puede usar para ver los secretos que contienen los certificados TLS que el proxy ztunnel ha recibido del control plane de istiod para usar en mTLS.
 
 {{< text bash >}}
 $ istioctl ztunnel-config certificates "$ZTUNNEL".istio-system
@@ -70,7 +70,7 @@ $ kubectl debug -it $ZTUNNEL -n istio-system --image=curlimages/curl -- curl loc
 
 ## Ver el estado de Istiod para los recursos xDS de ztunnel
 
-A veces, es posible que desees ver el estado de los recursos de configuración del proxy ztunnel tal como se mantienen en el plano de control de istiod, en el formato de los recursos de la API de xDS definidos especialmente para los proxies ztunnel. Esto se puede hacer ejecutando un comando dentro del pod de istiod y obteniendo esta información desde el puerto 15014 para un proxy ztunnel determinado, como se muestra en el siguiente ejemplo. Esta salida también se puede guardar y ver con una utilidad de formateo de impresión bonita de JSON para facilitar la navegación (no se muestra en el ejemplo).
+A veces, es posible que desees ver el estado de los recursos de configuración del proxy ztunnel tal como se mantienen en el control plane de istiod, en el formato de los recursos de la API de xDS definidos especialmente para los proxies ztunnel. Esto se puede hacer ejecutando un comando dentro del pod de istiod y obteniendo esta información desde el puerto 15014 para un proxy ztunnel determinado, como se muestra en el siguiente ejemplo. Esta salida también se puede guardar y ver con una utilidad de formateo de impresión bonita de JSON para facilitar la navegación (no se muestra en el ejemplo).
 
 {{< text bash >}}
 $ export ISTIOD=$(kubectl get pods -n istio-system -l app=istiod -o=jsonpath='{.items[0].metadata.name}')

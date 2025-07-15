@@ -11,7 +11,7 @@ This guide lets you quickly evaluate Istio, using only its legacy APIs. If you w
 If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/es/docs/ops/deployment/deployment-models/), refer to our
-[which Istio installation method should I use?](/about/faq/#install-method-selection)
+[which Istio installation method should I use?](/es/about/faq/#install-method-selection)
 FAQ page.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a

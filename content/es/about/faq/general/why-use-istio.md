@@ -3,7 +3,7 @@ title: ¿Por qué querría usar Istio?
 weight: 20
 ---
 
-Tradicionalmente, gran parte de la lógica manejada by Istio se ha integrado directamente en las aplicaciones. En una flota de servicios, la gestión de las actualizaciones de esta lógica de comunicaciones puede ser una gran carga. Istio proporciona una solución a nivel de infraestructura para gestionar las comunicaciones de servicio.
+Tradicionalmente, gran parte de la lógica gestionada por Istio se ha integrado directamente en las aplicaciones. En una flota de servicios, la gestión de las actualizaciones de esta lógica de comunicaciones puede ser una gran carga. Istio proporciona una solución a nivel de infraestructura para gestionar las comunicaciones de servicio.
 
 *Desarrolladores de aplicaciones*: Con Istio gestionando cómo fluye el tráfico a través de sus servicios, los desarrolladores pueden centrarse exclusivamente en la lógica empresarial e iterar rápidamente en nuevas funciones.
 

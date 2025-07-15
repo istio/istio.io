@@ -5,7 +5,7 @@ weight: 40
 
 Las especificaciones de ingress simples, con coincidencias basadas en host, TLS y ruta exacta
 funcionarán de fábrica sin necesidad de reglas de ruta
-. Sin embargo, tenga en cuenta que la ruta utilizada en el recurso de ingreso no debe
+. Sin embargo, tenga en cuenta que la ruta utilizada en el recurso de ingress no debe
 tener ningún carácter `.`.
 
 Por ejemplo, el siguiente recurso de ingress coincide con las solicitudes para el

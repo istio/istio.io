@@ -65,7 +65,7 @@ wherever possible, and only send plaintext to workloads that are not part of the
 
 Istio makes this easy with a feature called "Auto mTLS". Auto mTLS works by doing exactly that. If TLS settings are
 not explicitly configured in a `DestinationRule`, the sidecar will automatically determine if
-[Istio mutual TLS](/about/faq/#difference-between-mutual-and-istio-mutual) should be sent.
+[Istio mutual TLS](/es/about/faq/#difference-between-mutual-and-istio-mutual) should be sent.
 This means that without any configuration, all inter-mesh traffic will be mTLS encrypted.
 
 ## Gateways

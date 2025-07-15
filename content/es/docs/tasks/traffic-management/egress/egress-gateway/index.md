@@ -742,7 +742,7 @@ protegido por gateway.
     200
     {{< /text >}}
 
-6.	Etiquete los namespaces donde se ejecutan el plano de control de Istio y el egress gateway.
+6.	Etiquete los namespaces donde se ejecutan el control plane de Istio y el egress gateway.
     Si desplegó Istio en el namespace `istio-system`, el comando es:
 
 {{< tabset category-name="config-api" >}}
@@ -773,7 +773,7 @@ $ kubectl label namespace default gateway=true
     {{< /text >}}
 
 8.	Defina una `NetworkPolicy` para limitar el tráfico de salida del namespace `test-egress` al tráfico destinado a
-    el plano de control, el gateway y el service DNS de `kube-system` (puerto 53).
+    el control plane, el gateway y el service DNS de `kube-system` (puerto 53).
 
     {{< warning >}}
     Las [políticas de red](https://kubernetes.io/docs/concepts/services-networking/network-policies/)

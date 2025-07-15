@@ -226,7 +226,7 @@ Por ejemplo:
 
 ### Red Hat OpenShift
 
-OpenShift requiere que los componentes `ztunnel` e `istio-cni` se instalen en el namespaces `kube-system`, y que establezcas `global.platform=openshift` para todos los charts.
+OpenShift requiere que los componentes `ztunnel` e `istio-cni` se instalen enel namespace `kube-system`, y que establezcas `global.platform=openshift` para todos los charts.
 
 {{< tabset category-name="install-method" >}}
 
@@ -238,7 +238,7 @@ OpenShift requiere que los componentes `ztunnel` e `istio-cni` se instalen en el
     $ helm install istiod istio/istiod -n istio-system --set profile=ambient --set global.platform=openshift --wait
     {{< /text >}}
 
-    Además, debes instalar `istio-cni` y `ztunnel` en el namespaces `kube-system`, por ejemplo:
+    Además, debes instalar `istio-cni` y `ztunnel` enel namespace `kube-system`, por ejemplo:
 
     {{< text syntax=bash >}}
     $ helm install istio-cni istio/cni -n kube-system --set profile=ambient --set global.platform=openshift --wait

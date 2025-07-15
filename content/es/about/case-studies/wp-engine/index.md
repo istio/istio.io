@@ -18,7 +18,7 @@ type: case-studies
 weight: 53
 ---
 
-WP Engine ha adoptado Istio como una tecnología central para su plataforma de microservicios internos durante los últimos 2 años, lo que permite a los ingenieros internos enviar productos y características de forma rápida y confiable. La plataforma tiene una arquitectura multiinquilino y utiliza diversas tecnologías, como compilaciones en contenedores, implementaciones de GitOps y aplicación automatizada de políticas, todo junto con Istio para cumplir con sus objetivos comerciales y técnicos.
+WP Engine ha adoptado Istio como una tecnología central para su plataforma de microservicios internos durante los últimos 2 años, lo que permite a los ingenieros internos enviar productos y características de forma rápida y confiable. La plataforma tiene una arquitectura multi-tenant y utiliza diversas tecnologías, como compilaciones en contenedores, implementaciones de GitOps y aplicación automatizada de políticas, todo junto con Istio para cumplir con sus objetivos comerciales y técnicos.
 
 La decisión de implementar una plataforma interna con Istio ha revolucionado la forma en que WP Engine envía software al minimizar las preocupaciones transversales comunes que los ingenieros deben considerar al crear sus aplicaciones. La implementación de esta plataforma ha mejorado la coherencia entre los servicios, ha reducido la sobrecarga operativa en toda la organización y ha mejorado la seguridad y la observabilidad de estos entornos de tiempo de ejecución.
 

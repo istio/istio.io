@@ -15,7 +15,7 @@ Como ztunnel tiene como objetivo cifrar y enrutar de forma transparente el tráf
 
 ## Modelo de redirección de tráfico en el pod de Istio
 
-El principio de diseño central que subyace a la redirección de tráfico en el pod del modo ambient es que el proxy ztunnel tiene la capacidad de realizar la captura de la ruta de datos dentro del namespaces de red de Linux del pod de el workload. Esto se logra mediante una cooperación de funcionalidades entre el agente de nodo [`istio-cni`](/es/docs/setup/additional-setup/cni/) y el proxy de nodo ztunnel. Un beneficio clave de este modelo es que permite que el modo ambient de Istio funcione junto con cualquier complemento CNI de Kubernetes, de forma transparente y sin afectar las características de red de Kubernetes.
+El principio de diseño central que subyace a la redirección de tráfico en el pod del modo ambient es que el proxy ztunnel tiene la capacidad de realizar la captura de la ruta de datos dentro del namespace de red de Linux del pod de el workload. Esto se logra mediante una cooperación de funcionalidades entre el agente de nodo [`istio-cni`](/es/docs/setup/additional-setup/cni/) y el proxy de nodo ztunnel. Un beneficio clave de este modelo es que permite que el modo ambient de Istio funcione junto con cualquier complemento CNI de Kubernetes, de forma transparente y sin afectar las características de red de Kubernetes.
 
 La siguiente figura ilustra la secuencia de eventos cuando se inicia un nuevo pod de workload en (o se agrega a) un namespaces habilitado para ambient.
 
@@ -32,8 +32,8 @@ Una vez que se notifica al agente de nodo `istio-cni` que se debe agregar un pod
 
 - `istio-cni` ingresa al namespaces de red del pod y establece reglas de redirección de red, de modo que los paquetes que entran y salen del pod se interceptan y se redirigen de forma transparente a la instancia de proxy ztunnel local del nodo que escucha en los [puertos conocidos](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 
-- El agente de nodo `istio-cni` luego informa al proxy ztunnel, a través de un socket de dominio Unix, que debe establecer puertos de escucha de proxy locales dentro del namespaces de red del pod (en los puertos 15008, 15006 y 15001), y proporciona a ztunnel un [descriptor de archivo](https://en.wikipedia.org/wiki/File_descriptor) de Linux de bajo nivel que representa el namespaces de red del pod.
-    - Si bien normalmente los sockets se crean dentro de un namespaces de red de Linux por el proceso que se ejecuta realmente dentro de ese namespaces de red, es perfectamente posible aprovechar la API de sockets de bajo nivel de Linux para permitir que un proceso que se ejecuta en un namespaces de red cree sockets de escucha en otro namespaces de red, asumiendo que el namespaces de red de destino se conoce en el momento de la creación.
+- El agente de nodo `istio-cni` luego informa al proxy ztunnel, a través de un socket de dominio Unix, que debe establecer puertos de escucha de proxy locales dentro del namespace de red del pod (en los puertos 15008, 15006 y 15001), y proporciona a ztunnel un [descriptor de archivo](https://en.wikipedia.org/wiki/File_descriptor) de Linux de bajo nivel que representael namespace de red del pod.
+    - Si bien normalmente los sockets se crean dentro de un namespaces de red de Linux por el proceso que se ejecuta realmente dentro de ese namespaces de red, es perfectamente posible aprovechar la API de sockets de bajo nivel de Linux para permitir que un proceso que se ejecuta en un namespaces de red cree sockets de escucha en otro namespaces de red, asumiendo queel namespace de red de destino se conoce en el momento de la creación.
 
 - El ztunnel local del nodo internamente crea una nueva instancia de proxy lógico y un conjunto de puertos de escucha, dedicados al pod recién agregado. Ten en cuenta que esto todavía se está ejecutando dentro del mismo proceso y es simplemente una tarea dedicada para el pod.
 
@@ -41,7 +41,7 @@ Una vez que se notifica al agente de nodo `istio-cni` que se debe agregar un pod
 
 El tráfico hacia y desde los pods en la malla se cifrará completamente con mTLS de forma predeterminada.
 
-Los datos ahora entrarán y saldrán del namespaces de red del pod cifrados. Cada pod en la malla tiene la capacidad de hacer cumplir la política de la malla y cifrar el tráfico de forma segura, aunque la aplicación de usuario que se ejecuta en el pod no tiene conocimiento de ninguna de las dos cosas.
+Los datos ahora entrarán y saldrán del namespace de red del pod cifrados. Cada pod en la malla tiene la capacidad de hacer cumplir la política de la malla y cifrar el tráfico de forma segura, aunque la aplicación de usuario que se ejecuta en el pod no tiene conocimiento de ninguna de las dos cosas.
 
 Este diagrama ilustra cómo fluye el tráfico cifrado entre los pods en la malla ambient en el nuevo modelo:
 
@@ -56,7 +56,7 @@ Si la redirección de tráfico no funciona correctamente en el modo ambient, se 
 
 ### Comprobar los registros del proxy ztunnel
 
-Cuando un pod de aplicación forma parte de una malla ambient, puedes comprobar los registros del proxy ztunnel para confirmar que la malla está redirigiendo el tráfico. Como se muestra en el siguiente ejemplo, los registros de ztunnel relacionados con `inpod` indican que el modo de redirección en el pod está habilitado, que el proxy ha recibido la información del namespaces de red (netns) sobre un pod de aplicación ambient y que ha comenzado a actuar como proxy para él.
+Cuando un pod de aplicación forma parte de una malla ambient, puedes comprobar los registros del proxy ztunnel para confirmar que la malla está redirigiendo el tráfico. Como se muestra en el siguiente ejemplo, los registros de ztunnel relacionados con `inpod` indican que el modo de redirección en el pod está habilitado, que el proxy ha recibido la información del namespace de red (netns) sobre un pod de aplicación ambient y que ha comenzado a actuar como proxy para él.
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system  | grep inpod
@@ -129,4 +129,4 @@ COMMIT
 COMMIT
 {{< /text >}}
 
-La salida del comando muestra que se agregan cadenas adicionales específicas de Istio a las tablas NAT y Mangle en netfilter/iptables dentro del namespaces de red del pod de la aplicación. Todo el tráfico TCP que llega al pod se redirige al proxy ztunnel para el procesamiento de entrada. Si el tráfico es de texto sin formato (puerto de destino != 15008), se redirigirá al puerto de escucha de texto sin formato 15006 de ztunnel en el pod. Si el tráfico es HBONE (puerto de destino == 15008), se redirigirá al puerto de escucha HBONE 15008 de ztunnel en el pod. Cualquier tráfico TCP que salga del pod se redirige al puerto 15001 de ztunnel para el procesamiento de salida, antes de ser enviado por ztunnel mediante la encapsulación HBONE.
+La salida del comando muestra que se agregan cadenas adicionales específicas de Istio a las tablas NAT y Mangle en netfilter/iptables dentro del namespace de red del pod de la aplicación. Todo el tráfico TCP que llega al pod se redirige al proxy ztunnel para el procesamiento de entrada. Si el tráfico es de texto sin formato (puerto de destino != 15008), se redirigirá al puerto de escucha de texto sin formato 15006 de ztunnel en el pod. Si el tráfico es HBONE (puerto de destino == 15008), se redirigirá al puerto de escucha HBONE 15008 de ztunnel en el pod. Cualquier tráfico TCP que salga del pod se redirige al puerto 15001 de ztunnel para el procesamiento de salida, antes de ser enviado por ztunnel mediante la encapsulación HBONE.

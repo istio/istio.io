@@ -11,4 +11,4 @@ que muestran el enrutamiento inteligente, la aplicación de políticas, la segur
 
 Para comenzar a usar Istio con implementaciones de producción de Kubernetes, consulte nuestra
 documentación de [modelos de implementación](/es/docs/ops/deployment/deployment-models/) y la
-página de preguntas frecuentes [¿qué método de instalación de Istio debo usar?](/about/faq/#install-method-selection).
+página de preguntas frecuentes [¿qué método de instalación de Istio debo usar?](/es/about/faq/#install-method-selection).

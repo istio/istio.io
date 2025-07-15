@@ -3,7 +3,7 @@
 {{< warning >}}
 La configuración predeterminada del chart utiliza los tokens seguros de terceros para las
 proyecciones de tokens de la cuenta de servicio que utilizan los proxies de Istio para autenticarse con el
-plano de control de Istio. Antes de proceder a instalar cualquiera de los charts a continuación, debes
+control plane de Istio. Antes de proceder a instalar cualquiera de los charts a continuación, debes
 verificar si los tokens de terceros están habilitados en tu cluster siguiendo los pasos
 descritos [aquí](/es/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
 Si los tokens de terceros no están habilitados, debes agregar la opción

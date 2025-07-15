@@ -21,7 +21,7 @@ Istio, los operadores obtienen una comprensión profunda de cómo interactúan l
 Istio genera los siguientes tipos de telemetría para proporcionar observabilidad general de la service mesh:
 
 - [**Métricas**](#metrics). Istio genera un conjunto de métricas de servicio basadas en las cuatro "señales doradas" de monitoreo (latencia, tráfico, errores y
-  saturación). Istio también proporciona métricas detalladas para el [plano de control de la malla](/es/docs/ops/deployment/architecture/).
+  saturación). Istio también proporciona métricas detalladas para el [control plane de la malla](/es/docs/ops/deployment/architecture/).
   También se proporciona un conjunto predeterminado de paneles de monitoreo de malla creados sobre estas métricas.
 - [**Trazas distribuidas**](#distributed-traces). Istio genera tramos de traza distribuidos para cada servicio, lo que proporciona a los operadores una comprensión detallada
   de los flujos de llamadas y las dependencias de los servicios dentro de una malla.
@@ -37,7 +37,7 @@ Para monitorear el comportamiento del servicio, Istio genera métricas para todo
 comportamientos como el volumen general de tráfico, las tasas de error dentro del tráfico y los tiempos de respuesta para las solicitudes.
 
 Además de monitorear el comportamiento de los services dentro de una malla, también es importante monitorear el comportamiento de la malla misma. Los componentes de Istio exportan
-métricas sobre sus propios comportamientos internos para proporcionar información sobre la salud y el funcionamiento del plano de control de la malla.
+métricas sobre sus propios comportamientos internos para proporcionar información sobre la salud y el funcionamiento del control plane de la malla.
 
 ### Métricas a nivel de proxy
 
@@ -110,9 +110,9 @@ istio_requests_total{
 } 214
 {{< /text >}}
 
-### Métricas del plano de control
+### Métricas del control plane
 
-El plano de control de Istio también proporciona una colección de métricas de autocontrol. Estas métricas permiten monitorear el comportamiento
+El control plane de Istio también proporciona una colección de métricas de autocontrol. Estas métricas permiten monitorear el comportamiento
 de Istio mismo (a diferencia del de los services dentro de la malla).
 
 Para obtener más información sobre qué métricas se mantienen, consulte la [documentación de referencia](/es/docs/reference/commands/pilot-discovery/#metrics).
@@ -129,7 +129,7 @@ Istio admite una serie de backends de rastreo, incluidos [Zipkin](/es/docs/tasks
 [Jaeger](/es/docs/tasks/observability/distributed-tracing/jaeger/) y muchas herramientas y servicios que admiten [OpenTelemetry](/es/docs/tasks/observability/distributed-tracing/opentelemetry/). Los operadores controlan la frecuencia de muestreo para la generación de trazas (es decir, la frecuencia con la
 que se generan los datos de rastreo por solicitud). Esto permite a los operadores controlar la cantidad y la velocidad de los datos de rastreo que se producen para su malla.
 
-Se puede encontrar más información sobre el rastreo distribuido con Istio en nuestras [Preguntas frecuentes sobre el rastreo distribuido](/about/faq/#distributed-tracing).
+Se puede encontrar más información sobre el rastreo distribuido con Istio en nuestras [Preguntas frecuentes sobre el rastreo distribuido](/es/about/faq/#distributed-tracing).
 
 Traza distribuida generada por Istio de ejemplo para una sola solicitud:
 

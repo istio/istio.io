@@ -99,7 +99,7 @@ Antes de comenzar esta tarea, haga lo siguiente:
 
     La malla de Istio ahora se está ejecutando con un nuevo trust domain, `new-td`.
 
-1. Vuelva a desplegar las applications `httpbin` y `curl` para que recojan los cambios del nuevo plano de control de Istio.
+1. Vuelva a desplegar las applications `httpbin` y `curl` para que recojan los cambios del nuevo control plane de Istio.
 
     {{< text bash >}}
     $ kubectl delete pod --all

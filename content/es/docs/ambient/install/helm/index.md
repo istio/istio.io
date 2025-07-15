@@ -17,7 +17,7 @@ Si eres nuevo en Istio y solo quieres probarlo, sigue las
 [instrucciones de inicio rápido](/es/docs/ambient/getting-started) en su lugar.
 {{< /tip >}}
 
-Recomendamos el uso de Helm para instalar Istio para uso en producción en modo ambient. Para permitir actualizaciones controladas, los componentes del plano de control y del data plane se empaquetan e instalan por separado. (Debido a que el data plane ambient se divide en [dos componentes](/es/docs/ambient/architecture/data-plane), el ztunnel y los waypoints, las actualizaciones implican pasos separados para estos componentes).
+Recomendamos el uso de Helm para instalar Istio para uso en producción en modo ambient. Para permitir actualizaciones controladas, los componentes del control plane y del data plane se empaquetan e instalan por separado. (Debido a que el data plane ambient se divide en [dos componentes](/es/docs/ambient/architecture/data-plane), el ztunnel y los waypoints, las actualizaciones implican pasos separados para estos componentes).
 
 ## Prerrequisitos
 
@@ -32,7 +32,7 @@ Recomendamos el uso de Helm para instalar Istio para uso en producción en modo 
     $ helm repo update
     {{< /text >}}
 
-## Instalar el plano de control
+## Instalar el control plane
 
 Los valores de configuración predeterminados se pueden cambiar usando uno o más argumentos `--set <parameter>=<value>`. Alternativamente, puedes especificar varios parámetros en un archivo de valores personalizado usando el argumento `--values <file>`.
 
@@ -57,9 +57,9 @@ $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 
 {{< boilerplate gateway-api-install-crds >}}
 
-### plano de control istiod
+### control plane istiod
 
-El chart `istiod` instala una revisión de Istiod. Istiod es el componente del plano de control que gestiona y
+El chart `istiod` instala una revisión de Istiod. Istiod es el componente del control plane que gestiona y
 configura los proxies para enrutar el tráfico dentro de la malla.
 
 {{< text syntax=bash snip_id=install_istiod >}}
@@ -143,7 +143,7 @@ Después de instalar el modo ambient con Helm, puedes seguir la guía [Desplegar
 Puedes desinstalar Istio y sus componentes desinstalando los charts
 instalados anteriormente.
 
-1. Listar todos los charts de Istio instalados en el namespaces `istio-system`:
+1. Listar todos los charts de Istio instalados enel namespace `istio-system`:
 
     {{< text syntax=bash >}}
     $ helm ls -n istio-system
@@ -173,7 +173,7 @@ instalados anteriormente.
     $ helm delete istio-cni -n istio-system
     {{< /text >}}
 
-1. Eliminar el chart del plano de control de istiod:
+1. Eliminar el chart del control plane de istiod:
 
     {{< text syntax=bash snip_id=delete_istiod >}}
     $ helm delete istiod -n istio-system
@@ -200,7 +200,7 @@ instalados anteriormente.
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
 
-1. Eliminar el namespaces `istio-system`:
+1. Eliminarel namespace `istio-system`:
 
     {{< text syntax=bash snip_id=delete_system_namespace >}}
     $ kubectl delete namespace istio-system
@@ -233,7 +233,7 @@ $ kubectl apply -f istiod.yaml
 {{< warning >}}
 Si intentas instalar y administrar Istio usando `helm template`, ten en cuenta las siguientes advertencias:
 
-1. El namespaces de Istio (`istio-system` por defecto) debe crearse manualmente.
+1.el namespace de Istio (`istio-system` por defecto) debe crearse manualmente.
 
 1. Es posible que los recursos no se instalen con la misma secuencia de dependencias que
 `helm install`

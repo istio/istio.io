@@ -20,7 +20,7 @@ Consulta el [blog Introducing Ambient Mesh](/blog/2022/introducing-ambient-mesh/
 
 ## ¿Cómo facilita la adopción el modo ambient?
 
-La innovación principal detrás de ambient mesh es que divide el procesamiento de Layer 4 (L4) y Layer 7 (L7) en dos capas distintas. El modo ambient de Istio está impulsado por proxies de nodo L4 ligeros y compartidos y proxies L7 opcionales, lo que elimina la necesidad de proxies sidecar tradicionales del data plane. Este enfoque por capas te permite adoptar Istio de forma incremental, lo que permite una transición suave de ninguna malla, a una superposición segura (L4), a un procesamiento L7 completo opcional, por namespace, según sea necesario, en toda tu flota.
+La innovación principal detrás de ambient mesh es que divide el procesamiento de capa 4 (L4) y capa 7 (L7) en dos capas distintas. El modo ambient de Istio está impulsado por proxies de nodo L4 ligeros y compartidos y proxies L7 opcionales, lo que elimina la necesidad de proxies sidecar tradicionales del data plane. Este enfoque por capas te permite adoptar Istio de forma incremental, lo que permite una transición suave de ninguna malla, a una superposición segura (L4), a un procesamiento L7 completo opcional, por namespace, según sea necesario, en toda tu flota.
 
 Al utilizar ambient mesh, los usuarios evitan algunos de los elementos previamente restrictivos del modelo de sidecar. Los protocolos de envío primero del servidor ahora funcionan, la mayoría de los puertos reservados ahora están disponibles y se elimina la capacidad de los contenedores para omitir el sidecar, ya sea maliciosamente o no.
 
@@ -110,7 +110,7 @@ La disponibilidad general del modo ambient significa que las siguientes cosas ah
 - [Agregar tus workloads a la malla](/es/docs/ambient/usage/add-workloads/) para obtener TLS mutuo con identidad criptográfica, [políticas de autorización L4](/es/docs/ambient/usage/l4-policy/) y telemetría.
 - [Configuración de waypoints](/es/docs/ambient/usage/waypoint/) para [usar funciones L7](/es/docs/ambient/usage/l7-features/) como el desvío de tráfico, el enrutamiento de solicitudes y la aplicación de políticas de autorización enriquecidas.
 - Conexión del ingress gateway de Istio a los workloads en modo ambient, compatible con las API de Kubernetes Gateway y todas las API de Istio existentes.
-- Uso de waypoints para el egreso controlado de la malla
+- Uso de waypoints para el egress controlado de la malla
 - Uso de `istioctl` para operar waypoints y solucionar problemas de ztunnel y waypoints.
 
 Consulta la [página de estado de las características](/es/docs/releases/feature-stages/#ambient-mode) para obtener más información.

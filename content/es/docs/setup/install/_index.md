@@ -10,7 +10,7 @@ test: table-of-contents
 ---
 
 If you need help choosing, refer to our
-[which Istio installation method should I use?](/about/faq/#install-method-selection) FAQ page.
+[which Istio installation method should I use?](/es/about/faq/#install-method-selection) FAQ page.
 
 To install gateways in a mesh, refer to [Installing Gateways](/es/docs/setup/additional-setup/gateway) for details.
 

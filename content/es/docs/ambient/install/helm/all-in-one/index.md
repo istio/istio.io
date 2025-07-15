@@ -13,7 +13,7 @@ Si eres nuevo en Istio y solo quieres probarlo, sigue las
 [instrucciones de inicio rápido](/es/docs/ambient/getting-started) en su lugar.
 {{< /tip >}}
 
-Recomendamos el uso de Helm para instalar Istio para uso en producción en modo ambient. Para permitir actualizaciones controladas, los componentes del plano de control y del data plane se empaquetan e instalan por separado. (Debido a que el data plane ambient se divide en [dos componentes](/es/docs/ambient/architecture/data-plane), el ztunnel y los waypoints, las actualizaciones implican pasos separados para estos componentes).
+Recomendamos el uso de Helm para instalar Istio para uso en producción en modo ambient. Para permitir actualizaciones controladas, los componentes del control plane y del data plane se empaquetan e instalan por separado. (Debido a que el data plane ambient se divide en [dos componentes](/es/docs/ambient/architecture/data-plane), el ztunnel y los waypoints, las actualizaciones implican pasos separados para estos componentes).
 
 ## Prerrequisitos
 
@@ -41,9 +41,9 @@ Recomendamos el uso de Helm para instalar Istio para uso en producción en modo 
 
 {{< boilerplate gateway-api-install-crds >}}
 
-### Instalar el plano de control y el data plane ambient de Istio
+### Instalar el control plane y el data plane ambient de Istio
 
-El chart `ambient` instala todos los componentes del data plane y del plano de control de Istio necesarios para
+El chart `ambient` instala todos los componentes del data plane y del control plane de Istio necesarios para
 ambient, utilizando un chart contenedor de Helm que compone los charts de los componentes individuales.
 
 {{< warning >}}
@@ -164,7 +164,7 @@ instalado anteriormente.
     $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
     {{< /text >}}
 
-1. Eliminar el namespaces `istio-system`:
+1. Eliminarel namespace `istio-system`:
 
     {{< text syntax=bash snip_id=delete_system_namespace >}}
     $ kubectl delete namespace istio-system

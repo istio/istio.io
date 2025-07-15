@@ -139,7 +139,7 @@ relevantes (15008, 15006 o 15001).
 
 Esto significa que para un paquete creado por un pod en la malla ambient, ese paquete saldría de ese pod de origen, entraría en el namespace de red del host
 del nodo y luego, idealmente, sería interceptado y redirigido al ztunnel de ese nodo (que se ejecuta en su propio namespace de red
-) para el proxy al pod de destino, con un viaje de regreso similar.
+) para el proxy al pod de destino, con un viaje de regress similar.
 
 Este modelo funcionó lo suficientemente bien como un marcador de posición para la implementación alfa inicial de la malla ambient, pero como se mencionó, tiene un problema fundamental
 : hay muchas implementaciones de CNI, y en Linux hay muchas formas fundamentalmente diferentes e incompatibles

@@ -40,7 +40,7 @@ Ahora, actualiza el repositorio de Helm:
 $ helm repo update istio
 {{< /text >}}
 
-### Actualizar el plano de control y el data plane ambient de Istio
+### Actualizar el control plane y el data plane ambient de Istio
 
 {{< warning >}}
 La actualización mediante el chart contenedor in-place interrumpirá brevemente todo el tráfico de la malla ambient en el nodo, **incluso con el uso de revisiones**. En la práctica, el período de interrupción es una ventana muy pequeña, que afecta principalmente a las conexiones de larga duración.
@@ -48,7 +48,7 @@ La actualización mediante el chart contenedor in-place interrumpirá brevemente
 Se recomienda el acordonamiento de nodos y los grupos de nodos azul/verde para mitigar el riesgo del radio de explosión durante las actualizaciones de producción. Consulta la documentación de tu proveedor de Kubernetes para obtener más detalles.
 {{< /warning >}}
 
-El chart `ambient` actualiza todos los componentes del data plane y del plano de control de Istio necesarios para
+El chart `ambient` actualiza todos los componentes del data plane y del control plane de Istio necesarios para
 ambient, utilizando un chart contenedor de Helm que compone los charts de los componentes individuales.
 
 Si has personalizado tu instalación de istiod, puedes reutilizar el archivo `values.yaml` de actualizaciones o instalaciones anteriores para mantener la configuración coherente.

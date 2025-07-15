@@ -1,6 +1,6 @@
 ---
 title: "Dile adiós a tus sidecars: el modo ambient de Istio alcanza la Beta en la v1.22"
-description: "Las características de Layer 4 y Layer 7 ya están listas para producción."
+description: "Las características de capa 4 y capa 7 ya están listas para producción."
 publishdate: 2024-05-13
 attribution: "Lin Sun (Solo.io), para los Comités Directivo y de Supervisión Técnica de Istio"
 keywords: [ambient,sidecars]
@@ -15,7 +15,7 @@ El modo ambient [se anunció en septiembre de 2022](/blog/2022/introducing-ambie
 Desde entonces, nuestra comunidad ha dedicado 20 meses de arduo trabajo y colaboración, con
 contribuciones de Solo.io, Google, Microsoft, Intel, Aviatrix, Huawei, IBM, Red Hat y muchos otros.
 El estado Beta en la 1.22 indica que las características del modo ambient ya están listas para los workloads de producción, con las precauciones adecuadas.
-Este es un hito enorme para Istio, que lleva las características de la malla de Layer 4 y Layer 7 a la
+Este es un hito enorme para Istio, que lleva las características de la malla de capa 4 y capa 7 a la
 preparación para producción sin sidecars.
 
 ## ¿Por qué el modo ambient?
@@ -39,7 +39,7 @@ para obtener más información sobre por qué creamos el modo ambient.
 
 ## ¿Cómo facilita la adopción el modo ambient?
 
-El modo ambient de Istio introduce proxies de nodo de Layer 4 (L4) ligeros y compartidos y proxies opcionales de Layer 7 (L7), eliminando la necesidad de
+El modo ambient de Istio introduce proxies de nodo de capa 4 (L4) ligeros y compartidos y proxies opcionales de capa 7 (L7), eliminando la necesidad de
 proxies sidecar tradicionales del data plane. La innovación principal detrás del modo ambient es que divide el procesamiento de L4 y L7
 en dos capas distintas. Este enfoque por capas te permite adoptar Istio de forma incremental, permitiendo una transición
 suave de ninguna malla, a una superposición segura (L4), a un procesamiento completo opcional de L7, por namespace, según sea necesario, en toda
@@ -94,7 +94,7 @@ a probarlas, para que puedan ser promovidas a Beta en la 1.23 o posterior:
 
 Tenemos una serie de características que aún no están implementadas en el modo ambient, pero que están planificadas para las próximas versiones:
 
-- Tráfico de egreso controlado
+- Tráfico de egress controlado
 - Soporte multi-red
 - Mejorar los mensajes de `status` en los recursos para ayudar a solucionar problemas y comprender la malla
 - Soporte de VM

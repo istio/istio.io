@@ -22,9 +22,9 @@ Se recomienda el acordonamiento de nodos y los grupos de nodos azul/verde para l
 
 ## Entendiendo las actualizaciones del modo ambient
 
-Todas las actualizaciones de Istio implican la actualización del plano de control, el data plane y las CRD de Istio. Debido a que el data plane ambient se divide en [dos componentes](/es/docs/ambient/architecture/data-plane), el ztunnel y las gateways (que incluyen waypoints), las actualizaciones implican pasos separados para estos componentes. La actualización del plano de control y las CRD se trata aquí brevemente, pero es esencialmente idéntica al [proceso para actualizar estos componentes en modo sidecar](/es/docs/setup/upgrade/canary/).
+Todas las actualizaciones de Istio implican la actualización del control plane, el data plane y las CRD de Istio. Debido a que el data plane ambient se divide en [dos componentes](/es/docs/ambient/architecture/data-plane), el ztunnel y las gateways (que incluyen waypoints), las actualizaciones implican pasos separados para estos componentes. La actualización del control plane y las CRD se trata aquí brevemente, pero es esencialmente idéntica al [proceso para actualizar estos componentes en modo sidecar](/es/docs/setup/upgrade/canary/).
 
-Al igual que el modo sidecar, las gateways pueden hacer uso de [etiquetas de revisión](/es/docs/setup/upgrade/canary/#stable-revision-labels) para permitir un control detallado sobre las actualizaciones (de la {{< gloss >}}gateway{{< /gloss >}}), incluidos los waypoints, con controles simples para revertir a una versión anterior del plano de control de Istio en cualquier momento. Sin embargo, a diferencia del modo sidecar, el ztunnel se ejecuta como un DaemonSet, un proxy por nodo, lo que significa que las actualizaciones de ztunnel afectan, como mínimo, a un nodo completo a la vez. Si bien esto puede ser aceptable en muchos casos, las aplicaciones with conexiones TCP de larga duración pueden verse interrumpidas. En tales casos, recomendamos usar el acordonamiento y el drenaje de nodos antes de actualizar el ztunnel para un nodo determinado. En aras de la simplicidad, este documento demostrará las actualizaciones in-place del ztunnel, que pueden implicar un breve tiempo de inactividad.
+Al igual que el modo sidecar, las gateways pueden hacer uso de [etiquetas de revisión](/es/docs/setup/upgrade/canary/#stable-revision-labels) para permitir un control detallado sobre las actualizaciones (de la {{< gloss >}}gateway{{< /gloss >}}), incluidos los waypoints, con controles simples para revertir a una versión anterior del control plane de Istio en cualquier momento. Sin embargo, a diferencia del modo sidecar, el ztunnel se ejecuta como un DaemonSet, un proxy por nodo, lo que significa que las actualizaciones de ztunnel afectan, como mínimo, a un nodo completo a la vez. Si bien esto puede ser aceptable en muchos casos, las aplicaciones with conexiones TCP de larga duración pueden verse interrumpidas. En tales casos, recomendamos usar el acordonamiento y el drenaje de nodos antes de actualizar el ztunnel para un nodo determinado. En aras de la simplicidad, este documento demostrará las actualizaciones in-place del ztunnel, que pueden implicar un breve tiempo de inactividad.
 
 ## Prerrequisitos
 
@@ -56,13 +56,13 @@ No se necesitan preparaciones adicionales para las actualizaciones in-place, pro
 
 ### Organiza tus etiquetas y revisiones
 
-Para actualizar una malla en modo ambient de manera controlada, recomendamos que tus gateways y namespaces usen la etiqueta `istio.io/rev` para especificar una etiqueta de revisión para controlar qué versiones de gateway y plano de control se usarán para administrar el tráfico de tus workloads. Recomendamos dividir tu cluster de producción en múltiples etiquetas para organizar tu actualización. Todos los miembros de una etiqueta determinada se actualizarán simultáneamente, por lo que es aconsejable comenzar la actualización con tus aplicaciones de menor riesgo. No recomendamos hacer referencia a las revisiones directamente a través de etiquetas para las actualizaciones, ya que este proceso puede resultar fácilmente en la actualización accidental de una gran cantidad de proxies y es difícil de segmentar. Para ver qué etiquetas y revisiones estás usando en tu cluster, consulta la sección sobre la actualización de etiquetas.
+Para actualizar una malla en modo ambient de manera controlada, recomendamos que tus gateways y namespaces usen la etiqueta `istio.io/rev` para especificar una etiqueta de revisión para controlar qué versiones de gateway y control plane se usarán para administrar el tráfico de tus workloads. Recomendamos dividir tu cluster de producción en múltiples etiquetas para organizar tu actualización. Todos los miembros de una etiqueta determinada se actualizarán simultáneamente, por lo que es aconsejable comenzar la actualización con tus aplicaciones de menor riesgo. No recomendamos hacer referencia a las revisiones directamente a través de etiquetas para las actualizaciones, ya que este proceso puede resultar fácilmente en la actualización accidental de una gran cantidad de proxies y es difícil de segmentar. Para ver qué etiquetas y revisiones estás usando en tu cluster, consulta la sección sobre la actualización de etiquetas.
 
 ### Elige un nombre de revisión
 
-Las revisiones identifican instancias únicas del plano de control de Istio, lo que te permite ejecutar múltiples versiones distintas del plano de control simultáneamente en una sola malla.
+Las revisiones identifican instancias únicas del control plane de Istio, lo que te permite ejecutar múltiples versiones distintas del control plane simultáneamente en una sola malla.
 
-Se recomienda que las revisiones permanezcan inmutables, es decir, una vez que se instala un plano de control con un nombre de revisión en particular, la instalación no debe modificarse y el nombre de la revisión no debe reutilizarse. Las etiquetas, por otro lado, son punteros mutables a las revisiones. Esto permite que un operador de cluster realice actualizaciones del data plane sin la necesidad de ajustar ninguna etiqueta de workload, simplemente moviendo una etiqueta de una revisión a la siguiente. Todos los planos de datos se conectarán solo a un plano de control, especificado por la etiqueta `istio.io/rev` (que apunta a una revisión o una etiqueta), o por la revisión predeterminada si no hay ninguna etiqueta `istio.io/rev` presente. La actualización de un data plane consiste simplemente en cambiar el plano de control al que apunta modificando las etiquetas o editando las etiquetas.
+Se recomienda que las revisiones permanezcan inmutables, es decir, una vez que se instala un control plane con un nombre de revisión en particular, la instalación no debe modificarse y el nombre de la revisión no debe reutilizarse. Las etiquetas, por otro lado, son punteros mutables a las revisiones. Esto permite que un operador de cluster realice actualizaciones del data plane sin la necesidad de ajustar ninguna etiqueta de workload, simplemente moviendo una etiqueta de una revisión a la siguiente. Todos los planos de datos se conectarán solo a un control plane, especificado por la etiqueta `istio.io/rev` (que apunta a una revisión o una etiqueta), o por la revisión predeterminada si no hay ninguna etiqueta `istio.io/rev` presente. La actualización de un data plane consiste simplemente en cambiar el control plane al que apunta modificando las etiquetas o editando las etiquetas.
 
 Debido a que las revisiones están destinadas a ser inmutables, recomendamos elegir un nombre de revisión que se corresponda con la versión de Istio que estás instalando, como `1-22-1`. Además de elegir un nuevo nombre de revisión, debes anotar tu nombre de revisión actual. Puedes encontrarlo ejecutando:
 
@@ -77,21 +77,21 @@ $ export OLD_REVISION=istio-1-21-2
 
 {{< /tabset >}}
 
-## Actualizar el plano de control
+## Actualizar el control plane
 
 ### Componentes base
 
 {{< boilerplate crd-upgrade-123 >}}
 
-Las Definiciones de Recursos Personalizados (CRD) de todo el cluster deben actualizarse antes del despliegue de una nueva versión del plano de control:
+Las Definiciones de Recursos Personalizados (CRD) de todo el cluster deben actualizarse antes del despliegue de una nueva versión del control plane:
 
 {{< text syntax=bash snip_id=upgrade_crds >}}
 $ helm upgrade istio-base istio/base -n istio-system
 {{< /text >}}
 
-### plano de control istiod
+### control plane istiod
 
-El plano de control [Istiod](/es/docs/ops/deployment/architecture/#istiod) gestiona y configura los proxies que enrutan el tráfico dentro de la malla. El siguiente comando instalará una nueva instancia del plano de control junto con la actual, pero no introducirá nuevos proxies de gateway o waypoints, ni tomará el control de los existentes.
+El control plane [Istiod](/es/docs/ops/deployment/architecture/#istiod) gestiona y configura los proxies que enrutan el tráfico dentro de la malla. El siguiente comando instalará una nueva instancia del control plane junto con la actual, pero no introducirá nuevos proxies de gateway o waypoints, ni tomará el control de los existentes.
 
 Si has personalizado tu instalación de istiod, puedes reutilizar el archivo `values.yaml` de actualizaciones o instalaciones anteriores para mantener la coherencia de tus planos de control.
 
@@ -117,9 +117,9 @@ $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$
 
 ### Agente de nodo CNI
 
-El agente de nodo CNI de Istio es responsable de detectar los pods agregados a la malla ambient, informar a ztunnel que se deben establecer los puertos de proxy dentro de los pods agregados y configurar la redirección del tráfico dentro del namespaces de red del pod. No forma parte del data plane ni del plano de control.
+El agente de nodo CNI de Istio es responsable de detectar los pods agregados a la malla ambient, informar a ztunnel que se deben establecer los puertos de proxy dentro de los pods agregados y configurar la redirección del tráfico dentro del namespace de red del pod. No forma parte del data plane ni del control plane.
 
-El CNI en la versión 1.x es compatible con el plano de control en la versión 1.x+1 y 1.x. Esto significa que el plano de control debe actualizarse antes que el CNI de Istio, siempre que la diferencia de versión sea de una versión menor.
+El CNI en la versión 1.x es compatible con el control plane en la versión 1.x+1 y 1.x. Esto significa que el control plane debe actualizarse antes que el CNI de Istio, siempre que la diferencia de versión sea de una versión menor.
 
 {{< warning >}}
 Istio actualmente no admite actualizaciones canary de istio-cni, **incluso con el uso de revisiones**. Si esto es una preocupación de interrupción significativa para tu entorno, o si se desean controles de radio de explosión más estrictos para las actualizaciones de CNI, se recomienda posponer las actualizaciones de `istio-cni` hasta que los propios nodos se drenen y actualicen, o aprovechar los taints de los nodos y orquestar manualmente la actualización para este componente.
@@ -135,7 +135,7 @@ $ helm upgrade istio-cni istio/cni -n istio-system
 
 ### DaemonSet de ztunnel
 
-El DaemonSet de {{< gloss >}}ztunnel{{< /gloss >}} es el componente de proxy de nodo. El ztunnel en la versión 1.x es compatible con el plano de control en la versión 1.x+1 y 1.x. Esto significa que el plano de control debe actualizarse antes que ztunnel, siempre que la diferencia de versión sea de una versión menor. Si has personalizado previamente tu instalación de ztunnel, puedes reutilizar el archivo `values.yaml` de actualizaciones o instalaciones anteriores para mantener la coherencia de tu {{< gloss >}}data plane{{< /gloss >}}.
+El DaemonSet de {{< gloss >}}ztunnel{{< /gloss >}} es el componente de proxy de nodo. El ztunnel en la versión 1.x es compatible con el control plane en la versión 1.x+1 y 1.x. Esto significa que el control plane debe actualizarse antes que ztunnel, siempre que la diferencia de versión sea de una versión menor. Si has personalizado previamente tu instalación de ztunnel, puedes reutilizar el archivo `values.yaml` de actualizaciones o instalaciones anteriores para mantener la coherencia de tu {{< gloss >}}data plane{{< /gloss >}}.
 
 {{< warning >}}
 La actualización de ztunnel in-place interrumpirá brevemente todo el tráfico de la malla ambient en el nodo, **incluso con el uso de revisiones**. En la práctica, el período de interrupción es una ventana muy pequeña, que afecta principalmente a las conexiones de larga duración.
@@ -209,9 +209,9 @@ Las `Gateway` que se [desplegaron manualmente](/es/docs/tasks/traffic-management
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
 {{< /text >}}
 
-## Desinstalar el plano de control anterior
+## Desinstalar el control plane anterior
 
-Si has actualizado todos los componentes del data plane para usar la nueva revisión del plano de control de Istio y estás satisfecho de que no necesitas revertir, puedes eliminar la revisión anterior del plano de control ejecutando:
+Si has actualizado todos los componentes del data plane para usar la nueva revisión del control plane de Istio y estás satisfecho de que no necesitas revertir, puedes eliminar la revisión anterior del control plane ejecutando:
 
 {{< text syntax=bash snip_id=delete_old_revision >}}
 $ helm delete istiod-"$OLD_REVISION" -n istio-system

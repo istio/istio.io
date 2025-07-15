@@ -1,14 +1,14 @@
 ---
-title: Usar la política de seguridad de Layer 4
+title: Usar la política de seguridad de capa 4
 description: Características de seguridad compatibles cuando solo se utiliza la superposición segura L4.
 weight: 20
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Las características de Layer 4 (L4) de las [políticas de seguridad](/es/docs/concepts/security) de Istio son compatibles con {{< gloss >}}ztunnel{{< /gloss >}}, y están disponibles en el {{< gloss "ambient" >}}modo ambient{{< /gloss >}}. Las [Políticas de Red de Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/) también continúan funcionando si tu cluster tiene un complemento {{< gloss >}}CNI{{< /gloss >}} que las admita, y se pueden usar para proporcionar defensa en profundidad.
+Las características de capa 4 (L4) de las [políticas de seguridad](/es/docs/concepts/security) de Istio son compatibles con {{< gloss >}}ztunnel{{< /gloss >}}, y están disponibles en el {{< gloss "ambient" >}}modo ambient{{< /gloss >}}. Las [Políticas de Red de Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/) también continúan funcionando si tu cluster tiene un complemento {{< gloss >}}CNI{{< /gloss >}} que las admita, y se pueden usar para proporcionar defensa en profundidad.
 
-La superposición de ztunnel y los {{< gloss "waypoint" >}}waypoint proxies{{< /gloss >}} te da la opción de habilitar o no el procesamiento de Layer 7 (L7) para una carga de trabajo determinada. Para usar las políticas L7 y las características de enrutamiento de tráfico de Istio, puedes [desplegar un waypoint](/es/docs/ambient/usage/waypoint) para tus cargas de trabajo. Debido a que la política ahora se puede aplicar en dos lugares, hay [consideraciones](#considerations) que deben entenderse.
+La superposición de ztunnel y los {{< gloss "waypoint" >}}waypoint proxies{{< /gloss >}} te da la opción de habilitar o no el procesamiento de capa 7 (L7) para una carga de trabajo determinada. Para usar las políticas L7 y las características de enrutamiento de tráfico de Istio, puedes [desplegar un waypoint](/es/docs/ambient/usage/waypoint) para tus cargas de trabajo. Debido a que la política ahora se puede aplicar en dos lugares, hay [consideraciones](#considerations) que deben entenderse.
 
 ## Aplicación de políticas usando ztunnel
 
@@ -61,7 +61,7 @@ Esta lista de atributos determina si una política se considera solo L4:
 | Condición | IP remota | `destination.ip` | n/a |
 | Condición | Puerto remoto | `destination.port` | n/a |
 
-### Políticas con condiciones de Layer 7
+### Políticas con condiciones de capa 7
 
 El ztunnel no puede aplicar políticas L7. Si una política con reglas que coinciden con los atributos L7 (es decir, los que no se enumeran en la tabla anterior) se dirige de tal manera que será aplicada por un ztunnel receptor, fallará de forma segura al convertirse en una política de `DENEGACIÓN`.
 

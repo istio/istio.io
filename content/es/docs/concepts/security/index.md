@@ -65,7 +65,7 @@ La seguridad en Istio involucra múltiples componentes:
     (PEPs) para asegurar la comunicación entre clientes y servidores.
 - Un conjunto de extensiones de proxy Envoy para gestionar la telemetría y la auditoría
 
-El plano de control maneja la configuración del servidor API y
+El control plane maneja la configuración del servidor API y
 configura los PEP en el data plane. Los PEP se implementan usando Envoy. El
 siguiente diagrama muestra la arquitectura.
 
@@ -224,7 +224,7 @@ configurar el servidor en modo solo mTLS. Para obtener más información, visite
 Las identidades del servidor se codifican en certificados, pero los nombres de service se recuperan
 a través del service de descubrimiento o DNS. La información de nombres seguros mapea las
 identidades del servidor a los nombres de service. Un mapeo de identidad `A` a nombre de service
-`B` significa "`A` está autorizado para ejecutar el service `B`". El plano de control observa
+`B` significa "`A` está autorizado para ejecutar el service `B`". El control plane observa
 el `apiserver`, genera los mapeos de nombres seguros y los distribuye
 de forma segura a los PEP. El siguiente ejemplo explica por qué los nombres seguros son
 críticos en la autenticación.
@@ -261,7 +261,7 @@ almacén de configuración.
 
 Ante cualquier cambio de política, la nueva política se traduce a la configuración
 apropiada que le indica al PEP cómo realizar los mecanismos de autenticación
-requeridos. El plano de control puede obtener la clave pública y adjuntarla a la
+requeridos. El control plane puede obtener la clave pública y adjuntarla a la
 configuración para la validación de JWT. Alternativamente, Istiod proporciona la ruta a las
 claves y certificados que el sistema Istio gestiona y los instala en el
 pod de la aplicación para mTLS. Puede encontrar más información en la sección [Gestión de identidad y certificados](#pki).

@@ -16,7 +16,7 @@ The {{< gloss >}}control plane{{< /gloss >}} manages and configures the proxies 
 Istio supports two main {{< gloss "data plane mode">}}data plane modes{{< /gloss >}}:
 
 * **sidecar mode**, which deploys an Envoy proxy along with each pod that you start in your cluster, or running alongside services running on VMs.
-* **ambient mode**, which uses a per-node Layer 4 proxy, and optionally a per-namespace Envoy proxy for Layer 7 features.
+* **ambient mode**, which uses a per-node capa 4 proxy, and optionally a per-namespace Envoy proxy for capa 7 features.
 
 You can opt certain namespaces or workloads into each mode.
 
@@ -25,14 +25,14 @@ You can opt certain namespaces or workloads into each mode.
 Istio has been built on the sidecar pattern from its first release in 2017. Sidecar mode is well understood and thoroughly battle-tested, but comes with a resource cost and operational overhead.
 
 * Each application you deploy has an Envoy proxy {{< gloss "injection" >}}injected{{< /gloss >}} as a sidecar
-* All proxies can process both Layer 4 and Layer 7
+* All proxies can process both capa 4 and capa 7
 
 ## Ambient mode
 
 Launched in 2022, ambient mode was built to address the shortcomings reported by users of sidecar mode. As of Istio 1.22, it is production-ready for single cluster use cases.
 
-* All traffic is proxied through a Layer 4-only node proxy
-* Applications can opt in to routing through an Envoy proxy to get Layer 7 features
+* All traffic is proxied through a capa 4-only node proxy
+* Applications can opt in to routing through an Envoy proxy to get capa 7 features
 
 ## Choosing between sidecar and ambient
 
@@ -141,9 +141,9 @@ Users often deploy a mesh to enable a zero-trust security posture as a first-ste
   </tbody>
 </table>
 
-## Layer 4 vs Layer 7 features
+## capa 4 vs capa 7 features
 
-The overhead for processing protocols at Layer 7 is substantially higher than processing network packets at Layer 4. For a given service, if your requirements can be met at L4, service mesh can be delivered at substantially lower cost.
+The overhead for processing protocols at capa 7 is substantially higher than processing network packets at capa 4. For a given service, if your requirements can be met at L4, service mesh can be delivered at substantially lower cost.
 
 ### Security
 

@@ -1,7 +1,7 @@
 ---
-title: Documentation
+title: Documentación
 linktitle: Documentation
-description: Learn how to deploy, use, and operate Istio.
+description: Aprende cómo desplegar, usar y operar Istio
 weight: 1
 skip_toc: true
 skip_sidebar: true
@@ -9,8 +9,7 @@ test: table-of-contents
 doc_type: docs
 ---
 
-In addition to the above documentation links, please consider the following resources:
-
-- [Frequently Asked Questions](/about/faq)
-- [Glossary](/es/docs/reference/glossary)
-- [Documentation Archive](https://istio.io/archive/), which contains snapshots of the documentation for prior releases.
+Además de los enlaces de documentación anteriores, ten en cuenta los siguientes recursos:
+- [Preguntas Frecuentes](/es/about/faq)
+- [Glosario](/es/docs/reference/glossary)
+- [Archivo de Documentación](https://istio.io/archive/), que contiene capturas de la documentación de versiones anteriores.

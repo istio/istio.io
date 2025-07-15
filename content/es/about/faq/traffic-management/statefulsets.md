@@ -1,5 +1,5 @@
 ---
-title: ¿Se puede usar Istio con StatefulSets y servicios sin cabeza?
+title: ¿Se puede usar Istio con StatefulSets y servicios headless?
 weight: 35
 ---
 

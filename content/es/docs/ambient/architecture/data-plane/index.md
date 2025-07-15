@@ -8,7 +8,7 @@ test: no
 
 En el {{< gloss "ambient" >}}modo ambient{{< /gloss >}}, los workloads pueden clasificarse en 3 categorías:
 1. **Fuera de la malla**: un pod estándar sin ninguna característica de malla habilitada. Istio y el {{< gloss >}}data plane{{< /gloss >}} ambient no están habilitados.
-1. **En la malla**: un pod que está incluido en el {{< gloss >}}data plane{{< /gloss >}} ambient, y tiene el tráfico interceptado en el nivel de Layer 4 por {{< gloss >}}ztunnel{{< /gloss >}}. En este modo, se pueden aplicar políticas L4 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/data plane-mode=ambient`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
+1. **En la malla**: un pod que está incluido en el {{< gloss >}}data plane{{< /gloss >}} ambient, y tiene el tráfico interceptado en el nivel de capa 4 por {{< gloss >}}ztunnel{{< /gloss >}}. En este modo, se pueden aplicar políticas L4 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/data plane-mode=ambient`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
 1. **En la malla, con waypoint habilitado**: un pod que está _en la malla_ *y* tiene un {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} desplegado. En este modo, se pueden aplicar políticas L7 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/use-waypoint`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
 
 Dependiendo de la categoría en la que se encuentre una workload, la ruta del tráfico será diferente.
@@ -68,7 +68,7 @@ Ztunnel además se encargará de la rotación de estos certificados a medida que
 
 Ztunnel emite el conjunto completo de [Métricas TCP estándar de Istio](/es/docs/reference/config/metrics/).
 
-##### Ejemplo de data plane para tráfico de Layer 4
+##### Ejemplo de data plane para tráfico de capa 4
 
 El data plane L4 ambient se representa en la siguiente figura.
 
@@ -84,7 +84,7 @@ La figura muestra que los pods C1 y C2, que se ejecutan en el nodo W1, se conect
 El tráfico TCP para C1 y C2 se tuneliza de forma segura a través de conexiones {{< gloss >}}HBONE{{< /gloss >}} creadas por ztunnel. Se utiliza {{< gloss "mutual tls authentication" >}}TLS mutuo (mTLS){{< /gloss >}} para el cifrado, así como para la autenticación mutua del tráfico que se tuneliza. Se utilizan identidades [SPIFFE](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE.md) para identificar los workloads en cada lado de la conexión. Para obtener más detalles sobre el protocolo de tunelización y el mecanismo de redirección de tráfico, consulta las guías sobre [HBONE](/es/docs/ambient/architecture/hbone) y [redirección de tráfico de ztunnel](/es/docs/ambient/architecture/traffic-redirection).
 
 {{< tip >}}
-Nota: Aunque la figura muestra que los túneles HBONE se encuentran entre los dos proxies ztunnel, los túneles se encuentran de hecho entre los pods de origen y destino. El tráfico se encapsula y cifra con HBONE en el namespaces de red del propio pod de origen, y finalmente se desencapsula y descifra en el namespaces de red del pod de destino en el nodo de trabajo de destino. El proxy ztunnel todavía maneja lógicamente tanto el plano de control como el data plane necesarios para el transporte HBONE; sin embargo, puede hacerlo desde dentro de los namespaces de red de los pods de origen y destino.
+Nota: Aunque la figura muestra que los túneles HBONE se encuentran entre los dos proxies ztunnel, los túneles se encuentran de hecho entre los pods de origen y destino. El tráfico se encapsula y cifra con HBONE enel namespace de red del propio pod de origen, y finalmente se desencapsula y descifra enel namespace de red del pod de destino en el nodo de trabajo de destino. El proxy ztunnel todavía maneja lógicamente tanto el control plane como el data plane necesarios para el transporte HBONE; sin embargo, puede hacerlo desde dentro de los namespaces de red de los pods de origen y destino.
 {{< /tip >}}
 
 Ten en cuenta que el tráfico local, que se muestra en la figura desde el pod C3 hasta el pod de destino S1 en el nodo de trabajo W2, también atraviesa la instancia de proxy ztunnel local, de modo que las funciones de gestión de tráfico L4, como la Autorización L4 y la Telemetría L4, se aplicarán de forma idéntica en el tráfico, ya sea que cruce o no un límite de nodo.

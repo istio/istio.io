@@ -264,7 +264,7 @@ Cuando una `IstioRevision` ya no está en uso y no es la revisión activa de un 
 **¡Felicidades!** Has actualizado correctamente tu control plane de Istio utilizando la estrategia de actualización basada en revisiones.
 
 {{< idea >}}
-Para comprobar la última versión del Operador Sail, visita nuestra [página de lanzamientos](https://github.com/istio-ecosystem/sail-operator/releases). Como este ejemplo puede evolucionar con el tiempo, consulta nuestra [documentación](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#example-using-the-revisionbased-strategy-and-an-istiorevisiontag) para asegurarte de que estás leyendo la versión más actualizada.
+Para comprobar la última versión del Operador Sail, visita nuestra [página de releases](https://github.com/istio-ecosystem/sail-operator/releases). Como este ejemplo puede evolucionar con el tiempo, consulta nuestra [documentación](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#example-using-the-revisionbased-strategy-and-an-istiorevisiontag) para asegurarte de que estás leyendo la versión más actualizada.
 {{< /idea >}}
 
 ## Conclusión

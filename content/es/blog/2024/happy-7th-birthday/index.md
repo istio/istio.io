@@ -167,7 +167,7 @@ espero celebrar muchos más con mis amigos y colegas de todo el mundo en la comu
 **Ha sido un privilegio y una experiencia gratificante ser parte del equipo de la service mesh más popular del mundo durante
 los últimos dos años. Feliz de
 ver a Istio crecer de un proyecto de incubación de la CNCF a un proyecto graduado, y aún más feliz de ver el impulso y la pasión con
-los que se realizó la última y mejor versión 1.22. Deseando muchos más lanzamientos exitosos en los próximos años.**
+los que se realizó la última y mejor versión 1.22. Deseando muchos más versiones exitosas en los próximos años.**
 
 — Faseela K, miembro del Comité Directivo de Istio y Desarrolladora Nativa de la Nube en Ericsson
 {{< /quote >}}
@@ -204,7 +204,7 @@ ambient sin sidecar, hasta hacer que Istio sea fácil de usar y lo más transpar
 
 El modo ambient de Istio se introdujo en septiembre de 2022, diseñado para operaciones simplificadas,
 mayor compatibilidad de aplicaciones y menor costo de infraestructura. El modo ambient introduce
-proxies de nodo de Layer 4 (L4) ligeros y compartidos y proxies opcionales de Layer 7 (L7), eliminando la necesidad de proxies
+proxies de nodo de capa 4 (L4) ligeros y compartidos y proxies opcionales de capa 7 (L7), eliminando la necesidad de proxies
 sidecar tradicionales del data plane. La innovación principal detrás del modo ambient es que divide el procesamiento de L4 y L7
 en dos capas distintas. Este enfoque por capas te permite adoptar Istio de forma incremental, lo que permite una
 transición suave de ninguna malla, a una superposición segura (L4), a un procesamiento L7 completo opcional, por namespace,

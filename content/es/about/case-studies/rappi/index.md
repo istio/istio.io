@@ -55,7 +55,7 @@ El equipo de desarrollo creó una implementación de cluster de Kubernetes e Ist
 
 "Nuestra configuración ha permitido que nuestro uso e infraestructura de Kubernetes continúen creciendo", dice Arielli. "Ahora administramos más de 50 clusteres de Kubernetes, el más grande contiene más de 20 000 contenedores. Nuestro entorno cambia constantemente, e Istio ayuda a garantizar una comunicación eficiente, escalable y segura en todo él".
 
-Istio gestiona el tráfico entre más de 1500 aplicaciones en los clusteres más críticos y, gracias a su potente conjunto de características, pueden elegir diferentes estrategias de implementación cuando sea necesario. El plano de control de Istio reequilibra las conexiones fácilmente, incluso a medida que el tráfico continúa aumentando.
+Istio gestiona el tráfico entre más de 1500 aplicaciones en los clusteres más críticos y, gracias a su potente conjunto de características, pueden elegir diferentes estrategias de implementación cuando sea necesario. El control plane de Istio reequilibra las conexiones fácilmente, incluso a medida que el tráfico continúa aumentando.
 
 ## ¿Qué sigue para Rappi?
 

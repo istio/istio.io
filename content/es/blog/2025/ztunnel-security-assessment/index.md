@@ -6,7 +6,7 @@ attribution: "Craig Box - Solo.io, para el Grupo de Trabajo de Seguridad de Prod
 keywords: [istio,security,audit,ztunnel,ambient]
 ---
 
-El modo ambient de Istio divide el service mesh en dos capas distintas: el procesamiento de Layer 7 (el "[waypoint proxy](/es/docs/ambient/usage/waypoint/)"), que sigue siendo impulsado por el proxy Envoy tradicional; y una superposición segura (el "túnel de zero-trust" o "[ztunnel](https://github.com/istio/ztunnel)"), que es [una nueva base de código](/blog/2023/rust-based-ztunnel/), escrita desde cero en Rust.
+El modo ambient de Istio divide el service mesh en dos capas distintas: el procesamiento de capa 7 (el "[waypoint proxy](/es/docs/ambient/usage/waypoint/)"), que sigue siendo impulsado por el proxy Envoy tradicional; y una superposición segura (el "túnel de zero-trust" o "[ztunnel](https://github.com/istio/ztunnel)"), que es [una nueva base de código](/blog/2023/rust-based-ztunnel/), escrita desde cero en Rust.
 
 Nuestra intención es que el proyecto ztunnel sea seguro para instalarlo por defecto en todos los clusteres de Kubernetes y, para ello, debe ser seguro y tener un buen rendimiento.
 

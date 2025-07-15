@@ -17,7 +17,7 @@ Want to explore Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}? Visit
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
 advanced [deployment models](/es/docs/ops/deployment/deployment-models/), refer to our
-[which Istio installation method should I use?](/about/faq/#install-method-selection)
+[which Istio installation method should I use?](/es/about/faq/#install-method-selection)
 FAQ page.
 
 You will need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/es/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/es/docs/setup/platform-setup).

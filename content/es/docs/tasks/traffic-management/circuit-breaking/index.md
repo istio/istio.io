@@ -1,19 +1,19 @@
 ---
 title: Circuit Breaking
-description: Esta tarea muestra cómo configurar la ruptura de circuito para conexiones, solicitudes y detección de valores atípicos.
+description: Esta tarea muestra cómo configurar el interruptor de circuito para conexiones, solicitudes y detección de valores atípicos.
 weight: 50
 keywords: [traffic-management,circuit-breaking]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Esta tarea muestra cómo configurar la ruptura de circuito para conexiones, solicitudes
+Esta tarea muestra cómo configurar el interruptor de circuito para conexiones, solicitudes
 y detección de valores atípicos.
 
-La ruptura de circuito es un patrón importante para crear applications de microservices resilientes.
-La ruptura de circuito le permite escribir applications que limitan el impacto de fallos, picos de latencia y otros efectos indeseables de las peculiaridades de la red.
+el interruptor de circuito es un patrón importante para crear applications de microservices resilientes.
+el interruptor de circuito le permite escribir applications que limitan el impacto de fallos, picos de latencia y otros efectos indeseables de las peculiaridades de la red.
 
-En esta tarea, configurará las reglas de ruptura de circuito y luego probará la
+En esta tarea, configurará las reglas de interruptor de circuito y luego probará la
 configuración "disparando" intencionalmente el disyuntor.
 
 ## Antes de empezar
@@ -27,7 +27,7 @@ La application `httpbin` sirve como service de backend para esta tarea.
 
 ## Configuración del disyuntor
 
-1.  Cree una [regla de destino](/es/docs/reference/config/networking/destination-rule/) para aplicar la configuración de ruptura de circuito
+1.  Cree una [regla de destino](/es/docs/reference/config/networking/destination-rule/) para aplicar la configuración de interruptor de circuito
 al llamar al service `httpbin`:
 
     {{< warning >}}
@@ -86,7 +86,7 @@ al llamar al service `httpbin`:
 Cree un cliente para enviar tráfico al service `httpbin`. El cliente es
 un cliente de prueba de carga simple llamado [fortio](https://github.com/istio/fortio).
 Fortio le permite controlar el número de conexiones, la concurrencia y
-los retrasos para las llamadas HTTP salientes. Utilizará este cliente para "disparar" las políticas de ruptura de circuito
+los retrasos para las llamadas HTTP salientes. Utilizará este cliente para "disparar" las políticas de interruptor de circuito
 que estableció en la `DestinationRule`. 
 
 1. Inyecte el cliente con el proxy sidecar de Istio para que las interacciones de red estén
@@ -244,8 +244,8 @@ permite cierto margen de maniobra.
     All done 30 calls (plus 0 warmup) 4.000 ms avg, 577.0 qps
     {{< /text >}}
 
-Ahora comienza a ver el comportamiento esperado de ruptura de circuito. Solo el 36.7% de las
-solicitudes tuvieron éxito y el resto fueron atrapadas por la ruptura de circuito:
+Ahora comienza a ver el comportamiento esperado de interruptor de circuito. Solo el 36.7% de las
+solicitudes tuvieron éxito y el resto fueron atrapadas por el interruptor de circuito:
 
     {{< text plain >}}
     Code 200 : 11 (36.7 %)
@@ -266,7 +266,7 @@ solicitudes tuvieron éxito y el resto fueron atrapadas por la ruptura de circui
     {{< /text >}}
 
     Puede ver `21` para el valor `upstream_rq_pending_overflow`, lo que significa que `21`
-    llamadas hasta ahora han sido marcadas para ruptura de circuito.
+    llamadas hasta ahora han sido marcadas para interruptor de circuito.
 
 ## Limpieza
 

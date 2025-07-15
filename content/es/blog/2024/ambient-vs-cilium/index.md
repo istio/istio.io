@@ -47,7 +47,7 @@ La clave para comprender estas diferencias de rendimiento radica en la arquitect
 
 Si bien el objetivo de este proyecto es comparar la escalabilidad de Istio y Cilium, varias limitaciones dificultan una comparación directa.
 
-### Layer 4 no siempre es Layer 4
+### capa 4 no siempre es capa 4
 
 Si bien tanto Istio como Cilium ofrecen la aplicación de políticas L4, sus API e implementación difieren sustancialmente. Cilium implementa la NetworkPolicy de Kubernetes, que utiliza etiquetas y namespaces para bloquear o permitir el acceso desde y hacia direcciones IP. Istio ofrece una API de AuthorizationPolicy y toma decisiones de permitir y denegar basadas en la identidad TLS utilizada para firmar cada solicitud. La mayoría de las estrategias de defensa en profundidad deberán hacer uso tanto de la NetworkPolicy como de la política basada en TLS para una seguridad integral.
 

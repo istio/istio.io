@@ -70,13 +70,13 @@ $ istioctl uninstall --purge -y
 La bandera opcional `--purge` eliminará todos los recursos de Istio, incluidos los recursos con ámbito de cluster que pueden compartirse con otros planos de control de Istio.
 {{< /warning >}}
 
-Alternativamente, para eliminar solo un plano de control de Istio específico, ejecuta el siguiente comando:
+Alternativamente, para eliminar solo un control plane de Istio específico, ejecuta el siguiente comando:
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl uninstall <tus opciones de instalación originales>
 {{< /text >}}
 
-El namespaces del plano de control (por ejemplo, `istio-system`) no se elimina de forma predeterminada.
+El namespaces del control plane (por ejemplo, `istio-system`) no se elimina de forma predeterminada.
 Si ya no es necesario, usa el siguiente comando para eliminarlo:
 
 {{< text syntax=bash snip_id=remove_namespace >}}
@@ -106,7 +106,7 @@ proporcionarse al comando `istioctl manifest generate`.
 {{< warning >}}
 Si intentas instalar y administrar Istio usando `istioctl manifest generate`, ten en cuenta las siguientes advertencias:
 
-1. Crea manualmente el namespaces de Istio (`istio-system` por defecto).
+1. Crea manualmenteel namespace de Istio (`istio-system` por defecto).
 
 1. La validación de Istio no se habilitará de forma predeterminada. A diferencia de `istioctl install`, el comando `manifest generate` no
    creará la configuración del webhook de validación `istiod-default-validator` a menos que se establezca `values.defaultRevision`:

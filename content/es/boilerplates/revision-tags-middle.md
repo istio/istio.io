@@ -17,6 +17,6 @@ prod-canary {{< istio_full_version_revision >}}   ...
 prod-stable {{< istio_previous_version_revision >}}-1   ...
 {{< /text >}}
 
-Después de que el operador del cluster esté satisfecho con la estabilidad del plano de control etiquetado con `prod-canary`, los namespaces etiquetados
+Después de que el operador del cluster esté satisfecho con la estabilidad del control plane etiquetado con `prod-canary`, los namespaces etiquetados
 `istio.io/rev=prod-stable` se pueden actualizar con una acción modificando la etiqueta de revisión `prod-stable` para que apunte a la revisión
 `{{< istio_full_version_revision >}}` más nueva.

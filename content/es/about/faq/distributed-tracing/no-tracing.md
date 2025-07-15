@@ -9,6 +9,6 @@ La tasa de muestreo en el perfil `demo` se establece en 100%. Consulte
 [esta sección](/es/docs/tasks/observability/distributed-tracing/telemetry-api/#customizing-trace-sampling)
 para obtener información sobre cómo establecer la tasa de muestreo.
 
-Si aún no ve ningún dato de seguimiento, confirme que sus puertos cumplen con las [convenciones de nomenclatura de puertos](/about/faq/#naming-port-convention) de Istio y que el puerto de contenedor apropiado está expuesto (a través de la especificación del pod, por ejemplo) para permitir la captura de tráfico por el proxy sidecar (Envoy).
+Si aún no ve ningún dato de seguimiento, confirme que sus puertos cumplen con las [convenciones de nomenclatura de puertos](/es/about/faq/#naming-port-convention) de Istio y que el puerto de contenedor apropiado está expuesto (a través de la especificación del pod, por ejemplo) para permitir la captura de tráfico por el proxy sidecar (Envoy).
 
-Si solo ve datos de seguimiento asociados con el proxy de salida, pero no con el proxy de entrada, aún puede estar relacionado con las [convenciones de nomenclatura de puertos](/about/faq/#naming-port-convention) de Istio.
+Si solo ve datos de seguimiento asociados con el proxy de salida, pero no con el proxy de entrada, aún puede estar relacionado con las [convenciones de nomenclatura de puertos](/es/about/faq/#naming-port-convention) de Istio.

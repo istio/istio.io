@@ -1,6 +1,6 @@
 ---
 title: Configurar proxies de waypoint
-description: Obtén el conjunto completo de características de Istio con proxies opcionales de Layer 7.
+description: Obtén el conjunto completo de características de Istio con proxies opcionales de capa 7.
 weight: 30
 aliases:
   - /docs/ops/ambient/usage/waypoint
@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Un **proxy de waypoint** es un despliegue opcional del proxy basado en Envoy para agregar procesamiento de Layer 7 (L7) a un conjunto definido de cargas de trabajo.
+Un **proxy de waypoint** es un despliegue opcional del proxy basado en Envoy para agregar procesamiento de capa 7 (L7) a un conjunto definido de cargas de trabajo.
 
 Los proxies de waypoint se instalan, actualizan y escalan independientemente de las aplicaciones; el propietario de una aplicación no debería ser consciente de su existencia. En comparación con el modo de {{< gloss >}}data plane{{< /gloss >}} de sidecar, que ejecuta una instancia del proxy de Envoy junto con cada carga de trabajo, el número de proxies necesarios se puede reducir sustancialmente.
 
@@ -21,7 +21,7 @@ A diferencia del modo {{< gloss >}}sidecar{{< /gloss >}}, en el modo ambient las
 
 El enfoque por capas de ambient permite a los usuarios adoptar Istio de una manera más incremental, pasando sin problemas de ninguna malla, a la superposición segura L4, al procesamiento L7 completo.
 
-La mayoría de las características del modo ambient son proporcionadas por el proxy de nodo ztunnel. Ztunnel está diseñado para procesar solo el tráfico en la Layer 4 (L4), de modo que pueda operar de forma segura como un componente compartido.
+La mayoría de las características del modo ambient son proporcionadas por el proxy de nodo ztunnel. Ztunnel está diseñado para procesar solo el tráfico en la capa 4 (L4), de modo que pueda operar de forma segura como un componente compartido.
 
 Cuando configuras la redirección a un waypoint, el tráfico será reenviado por ztunnel a ese waypoint. Si tus aplicaciones requieren alguna de las siguientes funciones de malla L7, deberás usar un proxy de waypoint:
 
@@ -143,7 +143,7 @@ namespace/default labeled
 Después de que un namespace se inscriba para usar un waypoint, cualquier solicitud de cualquier pod que use el modo de data plane ambient, a cualquier servicio que se ejecute en ese namespace, se enrutará a través del waypoint para el procesamiento L7 y la aplicación de políticas.
 
 Si prefieres más granularidad que usar un waypoint para todo un namespace, puedes inscribir solo un servicio o pod específico para que use un waypoint. Esto puede ser útil si solo necesitas características L7 para algunos servicios en un namespace, si solo quieres que una extensión como un `WasmPlugin` se aplique a un servicio específico, o si estás llamando a un
-servicio [sin cabeza](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) de Kubernetes por su dirección IP de pod.
+servicio [headless](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) de Kubernetes por su dirección IP de pod.
 
 {{< tip >}}
 Si la etiqueta `istio.io/use-waypoint` existe tanto en un namespace como en un servicio, el waypoint del servicio tiene prioridad sobre el waypoint del namespace siempre que el waypoint del servicio pueda manejar el tráfico de `service` o `all`. Del mismo modo, una etiqueta en un pod tendrá prioridad sobre una etiqueta de namespace.
@@ -230,7 +230,7 @@ spec:
 
 ### Configurar recursos para usar un proxy de waypoint entre namespaces
 
-De forma predeterminada, el plano de control de Istio buscará un waypoint especificado usando la etiqueta `istio.io/use-waypoint` en el mismo namespace que el recurso al que se aplica la etiqueta. Es posible usar
+De forma predeterminada, el control plane de Istio buscará un waypoint especificado usando la etiqueta `istio.io/use-waypoint` en el mismo namespace que el recurso al que se aplica la etiqueta. Es posible usar
 un waypoint en otro namespace agregando una nueva etiqueta, `istio.io/use-waypoint-namespace`. `istio.io/use-waypoint-namespace` funciona para todos los recursos que admiten la etiqueta `istio.io/use-waypoint`.
 Juntas, las dos etiquetas especifican el nombre y el namespace de tu waypoint, respectivamente. Por ejemplo, para configurar un `ServiceEntry` llamado `istio-site` para que use un waypoint llamado `egress-gateway` en el namespace
 llamado `common-infrastructure`, podrías usar los siguientes comandos:

@@ -18,7 +18,7 @@ This functionality is also available for services running outside of Kubernetes.
 
 Istio will generally route traffic based on HTTP headers. If routing based on a HTTP header is not possible - in ambient mode, or with TCP traffic in sidecar mode - DNS proxy can be enabled.
 
-In ambient mode, the ztunnel only sees traffic at Layer 4, and does not have access to HTTP headers. Therefore, DNS proxying is required to enable resolution of `ServiceEntry` addresses, especially in the case of [sending egress traffic to waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
+In ambient mode, the ztunnel only sees traffic at capa 4, and does not have access to HTTP headers. Therefore, DNS proxying is required to enable resolution of `ServiceEntry` addresses, especially in the case of [sending egress traffic to waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
 
 ### Ambient mode
 

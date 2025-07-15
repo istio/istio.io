@@ -589,7 +589,7 @@ Puede especificar que desea que una configuración de sidecar se aplique a todos
 en un namespace particular, o elegir workloads específicos usando un
 `workloadSelector`. Por ejemplo, la siguiente configuración de sidecar configura
 todos los services en el namespace `bookinfo` para que solo lleguen a los services que se ejecutan en el
-mismo namespace y al plano de control de Istio (necesario para las features de
+mismo namespace y al control plane de Istio (necesario para las features de
 salida y telemetría de Istio):
 
 {{< text yaml >}}
@@ -697,7 +697,7 @@ o cuántas veces han fallado las llamadas a este host. Una vez que se alcanza es
 el disyuntor se "dispara" y detiene más conexiones a ese host. El uso de un patrón de disyuntor
 permite un fallo rápido en lugar de que los clientes intenten conectarse a un host sobrecargado o fallido.
 
-Como la ruptura de circuito se aplica a destinos de malla "reales" en un pool de balanceo de carga,
+Como el interruptor de circuito se aplica a destinos de malla "reales" en un pool de balanceo de carga,
 se configuran umbrales de disyuntor en
 [reglas de destino](#destination-rules), con la configuración aplicándose a cada
 host individual en el service. El siguiente ejemplo limita el número de
@@ -722,7 +722,7 @@ spec:
 {{< /text >}}
 
 Puede encontrar más información sobre la creación de disyuntores en
-[Ruptura de Circuito](/es/docs/tasks/traffic-management/circuit-breaking/).
+[interruptor de circuito](/es/docs/tasks/traffic-management/circuit-breaking/).
 
 ### Inyección de fallos {#fault-injection}
 

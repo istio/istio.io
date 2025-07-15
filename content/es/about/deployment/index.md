@@ -51,7 +51,7 @@ Ahora también es momento de pensar en qué integraciones desea utilizar: recome
 
 ## Añadir servicios a la service mesh en el día 1
 
-Su service mesh ya está configurada y lista para aceptar servicios. Para ello, simplemente etiquete sus namespaces en Kubernetes; cuando estos servicios se vuelvan a implementar, incluirán automáticamente el proxy Envoy configurado para comunicarse con el plano de control de Istio.
+Su service mesh ya está configurada y lista para aceptar servicios. Para ello, simplemente etiquete sus namespaces en Kubernetes; cuando estos servicios se vuelvan a implementar, incluirán automáticamente el proxy Envoy configurado para comunicarse con el control plane de Istio.
 
 ### Configurar servicios
 
@@ -85,17 +85,17 @@ Como propietario de la plataforma, usted es responsable de instalar y mantener l
 
 ### Instalación
 
-Con istioctl, puede instalar Istio fácilmente utilizando uno de los perfiles incorporados. A medida que personaliza su instalación para satisfacer sus requisitos, se recomienda definir su configuración utilizando el recurso personalizado IstioOperator (CR). Esto le brinda la opción de delegar completamente la gestión de la instalación a un operador de Istio, en lugar de hacerlo manualmente con istioctl. Utilice un CR de IstioOperator solo para el plano de control y CR de IstioOperator adicionales para las gateways para una mayor flexibilidad en las actualizaciones.
+Con istioctl, puede instalar Istio fácilmente utilizando uno de los perfiles incorporados. A medida que personaliza su instalación para satisfacer sus requisitos, se recomienda definir su configuración utilizando el recurso personalizado IstioOperator (CR). Esto le brinda la opción de delegar completamente la gestión de la instalación a un operador de Istio, en lugar de hacerlo manualmente con istioctl. Utilice un CR de IstioOperator solo para el control plane y CR de IstioOperator adicionales para las gateways para una mayor flexibilidad en las actualizaciones.
 
 ### Actualizar de forma segura
 
-Cuando se lanza una nueva versión, Istio permite tanto actualizaciones in-place como canary. Elegir entre ambos implica una compensación entre la simplicidad y el posible tiempo de inactividad. Para entornos de producción, se recomienda utilizar el [método de actualización canary](/es/docs/setup/upgrade/canary/). Después de verificar que las nuevas versiones del plano de control y del data plane funcionan correctamente, puede actualizar sus gateways.
+Cuando se lanza una nueva versión, Istio permite tanto actualizaciones in-place como canary. Elegir entre ambos implica una compensación entre la simplicidad y el posible tiempo de inactividad. Para entornos de producción, se recomienda utilizar el [método de actualización canary](/es/docs/setup/upgrade/canary/). Después de verificar que las nuevas versiones del control plane y del data plane funcionan correctamente, puede actualizar sus gateways.
 
 ### Supervisar la malla
 
 Istio genera telemetría detallada de todas las comunicaciones de servicios dentro de una malla. Estas métricas, trazas y registros de acceso son vitales para comprender cómo interactúan sus aplicaciones entre sí e identificar posibles cuellos de botella en el rendimiento. Utilice esta información para ayudarle a configurar interruptores de circuito, tiempos de espera y reintentos, y fortalecer sus aplicaciones.
 
-Al igual que sus aplicaciones que se ejecutan en la malla, los componentes del plano de control de Istio también exportan métricas. Aproveche estas métricas y los paneles preconfigurados de Grafana para ajustar sus solicitudes de recursos, límites y escalado.
+Al igual que sus aplicaciones que se ejecutan en la malla, los componentes del control plane de Istio también exportan métricas. Aproveche estas métricas y los paneles preconfigurados de Grafana para ajustar sus solicitudes de recursos, límites y escalado.
 
 ## Únase a la comunidad de Istio
 

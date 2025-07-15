@@ -57,7 +57,7 @@ Istio genera telemetría dentro de la service mesh, lo que permite la observabil
 {{< /feature_block>}}
 
 {{< feature_block header="Gestionar el tráfico" image="management.svg" >}}
-Istio simplifica el enrutamiento del tráfico y la configuración a nivel de servicio, lo que permite un fácil control sobre el flujo entre los servicios y la configuración de tareas como las pruebas A/B, las implementaciones canarias y los lanzamientos por etapas con divisiones de tráfico basadas en porcentajes.
+Istio simplifica el enrutamiento del tráfico y la configuración a nivel de servicio, lo que permite un fácil control sobre el flujo entre los servicios y la configuración de tareas como las pruebas A/B, las implementaciones canarias y los despliegues por etapas con divisiones de tráfico basadas en porcentajes.
 
 <a class="btn" href="/es/docs/concepts/traffic-management/">Más información sobre la gestión del tráfico</a>
 {{< /feature_block>}}
@@ -67,7 +67,7 @@ Istio simplifica el enrutamiento del tráfico y la configuración a nivel de ser
 # ¿Por qué Istio?
 
 {{< feature_block header="Múltiples modos de implementación" image="deployment-modes.svg" >}}
-Istio ofrece dos modos de data plane para que los usuarios elijan. Implemente con el nuevo modo ambiente para un ciclo de vida operativo de la aplicación simplificado o con sidecars tradicionales para configuraciones complejas.
+Istio ofrece dos modos de data plane para que los usuarios elijan. Implemente con el nuevo modo ambient para un ciclo de vida operativo de la aplicación simplificado o con sidecars tradicionales para configuraciones complejas.
 
 <a class="btn" href="/es/docs/overview/data plane-modes/">Más información sobre los modos del data plane</a>
 {{< /feature_block>}}
@@ -84,8 +84,8 @@ Istio ha sido diseñado para workloads modernas y diseñado por una vasta comuni
 <a class="btn" href="/es/docs/overview/why-choose-istio/#community">Más información sobre los contribuyentes de Istio</a>
 {{< /feature_block>}}
 
-{{< feature_block header="Lanzamientos binarios estables" image="stable-releases.svg" >}}
-Implemente Istio con confianza en los workloads de producción. Todos los lanzamientos son totalmente accesibles sin costo alguno.
+{{< feature_block header="Despliegue binarios estables" image="stable-releases.svg" >}}
+Implemente Istio con confianza en los workloads de producción. Todas las versiones son totalmente accesibles sin costo alguno.
 
 <a class="btn" href="/es/docs/overview/why-choose-istio/#packages">Más información sobre cómo se empaqueta Istio</a>
 {{< /feature_block>}}
