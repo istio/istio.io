@@ -132,16 +132,16 @@ spec:
 
 Some legacy Istio APIs are deliberately not supported by waypoints in ambient mode.  These APIs can still be used with [Istio Gateways](/docs/tasks/traffic-management/ingress/ingress-control/).
 
-### VirtualService 
+### VirtualService
 
-Istio's legacy traffic routing API is not supported for configuring waypoint traffic routing, though it works in some circumstances. 
+Istio's legacy traffic routing API is not supported for configuring waypoint traffic routing, though it works in some circumstances.
 
 Any use of VirtualService with waypoints is considered Alpha, and may be subject to change in future releases.
 Istio's maintainers do not intend to remove this support, but will not be progressing it to [any further feature phase](/docs/releases/feature-stages).
 
 #### Migrating from VirtualService to Gateway API routes
 
-[Only a single VirtualService](https://istio.io/latest/docs/reference/config/analysis/ist0109/) can be used for mesh traffic matching a certain hostname. However, multiple Gateway API routes can refer to the same host.
+[Only a single VirtualService](/docs/reference/config/analysis/ist0109/) can be used for mesh traffic matching a certain hostname. However, multiple Gateway API routes can refer to the same host.
 
 This is especially relevant when you are migrating from VirtualService to Gateway API routes. If you create one or more HTTPRoutes which specify a Service that is also in use with a VirtualService, the HTTPRoute/s will apply and the VirtualService will not.
 
@@ -149,7 +149,7 @@ To avoid this situation, users migrating from sidecars should look to convert th
 
 #### Using features that are not in Gateway API
 
-A small number of Istio's features cannot currently be expressed in Gateway API: for example, [fault injection](/docs/tasks/traffic-management/fault-injection/) and [direct response](/docs/reference/config/networking/virtual-service/#HTTPDirectResponse). It is technically possible to use VirtualService for these use cases, as long as the configured `hosts` do not conflict with the `parentRefs` of any Gateway API route as mentioned above. 
+A small number of Istio's features cannot currently be expressed in Gateway API: for example, [fault injection](/docs/tasks/traffic-management/fault-injection/) and [direct response](/docs/reference/config/networking/virtual-service/#HTTPDirectResponse). It is technically possible to use VirtualService for these use cases, as long as the configured `hosts` do not conflict with the `parentRefs` of any Gateway API route as mentioned above.
 
 #### DestinationRule subsets
 
