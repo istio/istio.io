@@ -6,19 +6,15 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using the {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
+By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using {{< gloss "gateway api" >}}Gateway API{{< /gloss >}}.
 
 {{< warning >}}
-Usage of VirtualService with the ambient data plane mode is considered Alpha. Mixing with Gateway API configuration is not supported, and will lead to undefined behavior.
-{{< /warning >}}
-
-{{< warning >}}
-`EnvoyFilter` is Istio's break-glass API for advanced configuration of Envoy proxies. Please note that *`EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies*. While it may be possible to use `EnvoyFilter` with waypoints in limited scenarios, its use is not supported, and is actively discouraged by the maintainers. The alpha API may break in future releases as it evolves. We expect official support will be provided at a later date.
+The VirtualService and EnvoyFilter APIs are not supported in waypoints. [Read more below](#unsupported-apis).
 {{< /warning >}}
 
 ## Route and policy attachment
 
-The Gateway API defines the relationship between objects (such as routes and gateways) in terms of *attachment*.
+Gateway API defines the relationship between objects (such as routes and gateways) in terms of *attachment*.
 
 * Route objects (such as [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/)) include a way to reference the **parent** resources it wants to attach to.
 * Policy objects are considered [*metaresources*](https://gateway-api.sigs.k8s.io/geps/gep-713/): objects that augments the behavior of a **target** object in a standard way.
@@ -31,9 +27,12 @@ With a waypoint proxy deployed, you can use the following traffic route types:
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
-| [`HTTPRoute`](https://gateway-api.sigs.k8s.io/guides/http-routing/) | Beta | `parentRefs` |
+| [`HTTPRoute`](https://gateway-api.sigs.k8s.io/guides/http-routing/) | Stable | `parentRefs` |
+| [`GRPCRoute`](https://gateway-api.sigs.k8s.io/guides/grpc-routing/) | Stable | `parentRefs` |
 | [`TLSRoute`](https://gateway-api.sigs.k8s.io/guides/tls) | Alpha | `parentRefs` |
 | [`TCPRoute`](https://gateway-api.sigs.k8s.io/guides/tcp/) | Alpha | `parentRefs` |
+
+(TLS and TCP routing are stable features in Istio, but support for these objects remains at Alpha because the Gateway API objects are still in the experimental channel.)
 
 Refer to the [traffic management](/docs/tasks/traffic-management/) documentation to see the range of features that can be implemented using these routes.
 
@@ -43,7 +42,7 @@ Without a waypoint installed, you can only use [Layer 4 security policies](/docs
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
-| [`AuthorizationPolicy`](/docs/reference/config/security/authorization-policy/) (including L7 features) | Beta | `targetRefs` |
+| [`AuthorizationPolicy`](/docs/reference/config/security/authorization-policy/) (including L7 features) | Stable | `targetRefs` |
 | [`RequestAuthentication`](/docs/reference/config/security/request_authentication/) | Beta | `targetRefs` |
 
 ### Considerations for authorization policies {#considerations}
@@ -128,3 +127,40 @@ spec:
       port: 9080
       weight: 10
 {{< /text >}}
+
+## Unsupported APIs with waypoints
+
+Some legacy Istio APIs are deliberately not supported by waypoints in ambient mode.  These APIs can still be used with [Istio Gateways](/docs/tasks/traffic-management/ingress/ingress-control/).
+
+### VirtualService 
+
+Istio's legacy traffic routing API is not supported for configuring waypoint traffic routing, though it works in some circumstances. 
+
+Any use of VirtualService with waypoints is considered Alpha, and may be subject to change in future releases.
+Istio's maintainers do not intend to remove this support, but will not be progressing it to [any further feature phase](/docs/releases/feature-stages).
+
+#### Migrating from VirtualService to Gateway API routes
+
+[Only a single VirtualService](https://istio.io/latest/docs/reference/config/analysis/ist0109/) can be used for mesh traffic matching a certain hostname. However, multiple Gateway API routes can refer to the same host.
+
+This is especially relevant when you are migrating from VirtualService to Gateway API routes. If you create one or more HTTPRoutes which specify a Service that is also in use with a VirtualService, the HTTPRoute/s will apply and the VirtualService will not.
+
+To avoid this situation, users migrating from sidecars should look to convert their VirtualService configuration to Gateway API routes. The [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway/) project has limited support for this use case. Caution is advised, especially for users who use [subset routing](/docs/concepts/traffic-management/#destination-rules)
+
+#### Using features that are not in Gateway API
+
+A small number of Istio's features cannot currently be expressed in Gateway API: for example, [fault injection](/docs/tasks/traffic-management/fault-injection/) and [direct response](/docs/reference/config/networking/virtual-service/#HTTPDirectResponse). It is technically possible to use VirtualService for these use cases, as long as the configured `hosts` do not conflict with the `parentRefs` of any Gateway API route as mentioned above. 
+
+#### DestinationRule subsets
+
+Gateway API has no ability to address [subsets](/docs/reference/config/networking/destination-rule/#Subset). Instead, you must define additional Services which have a more granular selector than the original.
+
+The other features of DestinationRule are supported.
+
+#### Legacy Istio gateways
+
+Istio Gateways configured with VirtualService (i.e. where the `gateways` field refers to a named ingress gateway) can safely be mixed with waypoints which are configured with Gateway API routes.
+
+### EnvoyFilter
+
+EnvoyFilter is Istio's break-glass API for advanced configuration of Envoy proxies. Please note that **EnvoyFilter is not currently supported for any existing Istio version with waypoint proxies**. While it may be possible to use EnvoyFilter with waypoints in limited scenarios, its use is not supported, and is actively discouraged by the maintainers. The alpha API may break in future releases as it evolves. We expect official support will be provided at a later date.
