@@ -18,6 +18,21 @@
             </button>
         </div>
 
+        <form id="search-form" class="search" name="cse" role="search">
+            {{ if .Site.Data.args.preliminary }}
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
+            {{ else if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.archive_search_engine_id }}" />
+            {{ else }}
+                <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
+            {{ end }}
+            <input type="hidden" name="ie" value="utf-8" />
+            <input type="hidden" name="hl" value="{{ .Page.Lang }}" />
+            <input type="hidden" id="search-page-url" value="{{ "/search" | relLangURL }}" />
+            <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
+            <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
+        </form>
+
         <div id="header-links" class="main-navigation-links-wrapper">
             <ul class="main-navigation-links">
                 {{ $currentPage := .}}
@@ -54,20 +69,6 @@
             </div>
             
         </div>
-
-        <form id="search-form" class="search" name="cse" role="search">
-            {{ if .Site.Data.args.preliminary }}
-                <input type="hidden" name="cx" value="{{ .Site.Data.args.preliminary_search_engine_id }}" />
-            {{ else if or .Site.Data.args.archive .Site.Data.args.archive_landing }}
-                <input type="hidden" name="cx" value="{{ .Site.Data.args.archive_search_engine_id }}" />
-            {{ else }}
-                <input type="hidden" name="cx" value="{{ .Site.Data.args.main_search_engine_id }}" />
-            {{ end }}
-            <input type="hidden" name="ie" value="utf-8" />
-            <input type="hidden" name="hl" value="{{ .Page.Lang }}" />
-            <input type="hidden" id="search-page-url" value="{{ "/search" | relLangURL }}" />
-            <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
-            <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
-        </form>
+        
     </nav>
 </header>
