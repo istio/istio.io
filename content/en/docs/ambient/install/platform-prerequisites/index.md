@@ -23,15 +23,15 @@ When using GKE you must append the correct `platform` value to your installation
 
 #### istioctl ambient
 
-```bash
+{{< text syntax=bash >}}
 istioctl install --set profile=ambient --set values.cni.platform=gke
-```
+{{< /text >}}
 
 #### Helm ambient
 
-```bash
+{{< text syntax=bash >}}
 helm install istio-cni charts/cni --set profile=ambient --set values.cni.platform=gke
-```
+{{< /text >}}
 
 #### Namespace restrictions
 
