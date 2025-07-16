@@ -23,7 +23,7 @@ Istio 支持两种主要的{{< gloss "data plane mode">}}数据平面模式{{< /
 
 您可以选择将某些命名空间或工作负载纳入任一模式。
 
-## Sidecar 模式 {#sidecar=mode}
+## Sidecar 模式 {#sidecar-mode}
 
 Istio 自 2017 年首次发布以来就基于 Sidecar 模式构建。
 Sidecar 模式易于理解且经过彻底的实战测试，但需要花费资源成本和运营开销。
