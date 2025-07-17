@@ -96,9 +96,9 @@ you will apply a rule to mirror a portion of traffic to `v2`.
             app: httpbin
         spec:
           ports:
-          - name: http
-            port: 8000
-            targetPort: 80
+            - name: http
+              port: 8000
+              targetPort: 80
           selector:
             app: httpbin
         EOF
@@ -123,10 +123,10 @@ you will apply a rule to mirror a portion of traffic to `v2`.
             app: curl
         spec:
           containers:
-          - name: curl
-            image: curlimages/curl
-            command: ["/bin/sleep","3650d"]
-            imagePullPolicy: IfNotPresent
+            - name: curl
+              image: curlimages/curl
+              command: ["/bin/sleep", "3650d"]
+              imagePullPolicy: IfNotPresent
     EOF
     {{< /text >}}
 
@@ -151,12 +151,12 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
       hosts:
         - httpbin
       http:
-      - route:
-        - destination:
-            host: httpbin
-            subset: v1
-          weight: 100
-    ---
+        - route:
+            - destination:
+                host: httpbin
+                subset: v1
+              weight: 100
+---
     apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
@@ -164,12 +164,12 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     spec:
       host: httpbin
       subsets:
-      - name: v1
-        labels:
-          version: v1
-      - name: v2
-        labels:
-          version: v2
+        - name: v1
+          labels:
+            version: v1
+        - name: v2
+          labels:
+            version: v2
     EOF
     {{< /text >}}
 
@@ -185,38 +185,38 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
       name: httpbin-v1
     spec:
       ports:
-      - port: 80
-        name: http
+        - port: 80
+          name: http
       selector:
         app: httpbin
         version: v1
-    ---
+---
     apiVersion: v1
     kind: Service
     metadata:
       name: httpbin-v2
     spec:
       ports:
-      - port: 80
-        name: http
+        - port: 80
+          name: http
       selector:
         app: httpbin
         version: v2
-    ---
+---
     apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
       name: httpbin
     spec:
       parentRefs:
-      - group: ""
-        kind: Service
-        name: httpbin
-        port: 8000
+        - group: ""
+          kind: Service
+          name: httpbin
+          port: 8000
       rules:
-      - backendRefs:
-        - name: httpbin-v1
-          port: 80
+        - backendRefs:
+            - name: httpbin-v1
+              port: 80
     EOF
     {{< /text >}}
 
@@ -274,16 +274,16 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
       hosts:
         - httpbin
       http:
-      - route:
-        - destination:
+        - route:
+            - destination:
+                host: httpbin
+                subset: v1
+              weight: 100
+          mirror:
             host: httpbin
-            subset: v1
-          weight: 100
-        mirror:
-          host: httpbin
-          subset: v2
-        mirrorPercentage:
-          value: 100.0
+            subset: v2
+          mirrorPercentage:
+            value: 100.0
     EOF
     {{< /text >}}
 
@@ -311,20 +311,20 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
       name: httpbin
     spec:
       parentRefs:
-      - group: ""
-        kind: Service
-        name: httpbin
-        port: 8000
+        - group: ""
+          kind: Service
+          name: httpbin
+          port: 8000
       rules:
-      - filters:
-        - type: RequestMirror
-          requestMirror:
-            backendRef:
-              name: httpbin-v2
+        - backendRefs:
+            - name: httpbin-v1
               port: 80
-        backendRefs:
-        - name: httpbin-v1
-          port: 80
+          filters:
+            - type: RequestMirror
+              requestMirror:
+                backendRef:
+                  name: httpbin-v2
+                  port: 80
     EOF
     {{< /text >}}
 
