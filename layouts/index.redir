@@ -60,11 +60,14 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /favicon.ico /latest/favicons/favicon.ico 200
 /logos/* /latest/logos/:splat
 
-# navigating to a page without /latest on front, add /latest
-{{ range $p := .Site.Pages }}
-{{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}
-{{ strings.TrimPrefix "/latest" (printf "%s.html" (substr $p.Permalink 0 -1)) }} {{ $p.Permalink}}
-{{- end }}
+# Redirect root paths without /latest
+/about/* /latest/about/:splat
+/blog/* /latest/blog/:splat
+/docs/* /latest/docs/:splat
+/get-involved/* /latest/get-involved/:splat
+/news/* /latest/news/:splat
+/search/* /latest/search/:splat
+/test/* /latest/test/:splat
 
 # redirect current version to /latest
 /v{{ .Site.Data.args.version }}/* /latest/:splat
@@ -75,15 +78,11 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 # migration from old design to new
 /about / 301!
 /latest/about /latest 301!
-# /faq/ /about/faq
-/faq/* /about/faq/
-# /latest/faq/ /about/faq
-/latest/faq/* /about/faq/
-/about/faq/* /about/faq/
-/latest/about/faq/* /about/faq/
+/faq/* /latest/about/faq/
+/latest/faq/* /latest/about/faq/
+/about/faq/* /latest/about/faq/
 
 # media-resources page
-
 /about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
 /latest/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
 /about/zh/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
