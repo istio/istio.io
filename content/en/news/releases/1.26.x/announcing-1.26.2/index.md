@@ -22,4 +22,3 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** a race condition where status updates for Kubernetes objects could be missed by `istiod`.
   ([Issue #56401](https://github.com/istio/istio/issues/56401))
-  
