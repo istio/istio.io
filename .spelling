@@ -1,3 +1,4 @@
+#extensibility
 0-RTT
 0.1.x
 0.2.x
@@ -268,6 +269,7 @@ codebase
 codec
 codelab
 codelabs
+Codespaces
 Cognito
 Coinbase
 colocate
@@ -944,6 +946,7 @@ onboard
 Onboarding
 onboarding
 OneCloud
+onramp
 onsite
 onwards
 OpenAPI
