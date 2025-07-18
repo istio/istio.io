@@ -611,6 +611,7 @@ httpbin
 httpbin.foo.svc.cluster.local
 httpbin.org
 HTTPRoute
+HTTPRoutes
 HTTPS
 https
 Hu
@@ -630,6 +631,7 @@ impactful
 incentivized
 Incrementality
 Indo-Pacific
+ingress2gateway
 initContainer
 initializer
 initializers
