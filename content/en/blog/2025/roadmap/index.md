@@ -32,7 +32,7 @@ The Istio project has offered several APIs for extensibility since launch, and n
 
 As we plan for 2025 and beyond, it is clear that we need a path to a mature extensibility model for users of sidecars and ambient mode alike.  We plan to address the most common use cases for extensibility, such as local rate limiting, with first class APIs, reducing the frequency with which users require extensibility. However, we recognize that networks are complex, and there will always be cases our APIs don’t cover, when users need a "break glass" option.  The architecture of ambient mode provides some options, such as leveraging the waypoint pattern to accomplish service insertion, adding arbitrary proxies to the network chain, which can then perform arbitrary modifications.  Another similar development is [Envoy’s ext-proc filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_proc/v3/ext_proc.proto), which sends requests to an arbitrary service for modification before forwarding them to their destination.
 
-With several options on the table for extensibility, who will decide which is best? As always, the final decision lies with you, our users. Please share your thoughts with us about the future of the project in the #extensibility channel at [slack.istio.io](https://slack.istio.io/).
+With several options on the table for extensibility, who will decide which is best? As always, the final decision lies with you, our users. Please share your thoughts with us about the future of the project in the extensibility channel at [slack.istio.io](https://slack.istio.io/).
 
 ## New and Improved Contributor Experience
 
