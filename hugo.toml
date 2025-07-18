@@ -189,7 +189,7 @@ disableAliases = true
 
   [[menu.main]]
     identifier = "docs"
-    name = "Documentation"
+    name = "Docs"
     title = "Documentation"
     url = "/docs/"
     weight = 5
