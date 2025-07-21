@@ -1173,6 +1173,7 @@ SignalFX
 sigstore
 sinkInfo
 SkyWalking
+slack.istio.io
 SLOs
 SMEs
 SNAT
@@ -1467,4 +1468,3 @@ _data
 _V2_
 _v2_
 _v3_
-slack.istio.io
