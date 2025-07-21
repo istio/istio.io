@@ -142,7 +142,7 @@ netlify_install:
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 \
 	    svg-symbol-sprite@v1.5.2 \
-	    esbuild@v0.25.5
+	    esbuild@v0.25.5 \
         three@0.178.0
 		
 netlify: netlify_install
