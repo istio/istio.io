@@ -390,3 +390,10 @@ other = "⚠️ Esta documentación es para una versión anterior (<strong>%s</s
 
 [archive_banner_link]
 other = "Lee la última versión."
+
+[not_found_message]
+other = "Lo sentimos, la página que solicitaste no se puede encontrar"
+
+[not_found_explanation]
+other = "La URL puede estar mal escrita o la página que buscas ya no está disponible"
+
