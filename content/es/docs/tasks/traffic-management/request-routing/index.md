@@ -25,7 +25,7 @@ microservice.
 
 ## Acerca de esta tarea
 
-La muestra de [Bookinfo](/es/docs/examples/bookinfo/) de Istio consiste en cuatro microservices separados, cada uno con múltiples versiones.
+La muestra de [Bookinfo](/es/docs/examples/bookinfo/) de Istio consiste en cuatro microservicios separados, cada uno con múltiples versiones.
 Tres versiones diferentes de uno de los microservices, `reviews`, han sido desplegadas y están ejecutándose concurrentemente.
 Para ilustrar el problema que esto causa, accede a la `/productpage` de la aplicación Bookinfo en un navegador y actualiza varias veces.
 La URL es `http://$GATEWAY_URL/productpage`, donde `$GATEWAY_URL` es la dirección IP externa del ingress, como se explica en
@@ -202,7 +202,7 @@ En el estado del recurso, asegúrate de que la condición `Accepted` sea `True` 
 
 {{< /tabset >}}
 
-Has configurado Istio para enrutar a la versión `v1` de los microservices del Bookinfo,
+Has configurado Istio para enrutar a la versión `v1` de los microservicios del Bookinfo,
 especialmente la versión del servicio `reviews` 1.
 
 ## Prueba la nueva configuración de enrutamiento
@@ -315,7 +315,7 @@ Has configurado correctamente Istio para enrutar tráfico basado en la identidad
 ## Entendiendo lo que sucedió
 
 En esta tarea, usaste Istio para enviar el 100% del tráfico a la versión
-`v1` de cada uno de los microservices del Bookinfo. Luego, estableciste una regla para enviar tráfico
+`v1` de cada uno de los microservicios del Bookinfo. Luego, estableciste una regla para enviar tráfico
 selectivamente a la versión `v2` del servicio `reviews` basado en un encabezado personalizado `end-user` añadido
 a la solicitud por el servicio `productpage`.
 

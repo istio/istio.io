@@ -8,8 +8,8 @@ test: no
 
 El monitoreo es crucial para apoyar la transición al estilo de arquitectura de microservices.
 
-Con Istio, obtienes monitoreo del tráfico entre microservices por defecto.
-Puedes usar el Dashboard de Istio para monitorear tus microservices en tiempo real.
+Con Istio, obtienes monitoreo del tráfico entre microservicios por defecto.
+Puedes usar el Dashboard de Istio para monitorear tus microservicios en tiempo real.
 
 Istio está integrado de forma nativa con
 [Prometheus time series database and monitoring system](https://prometheus.io). Prometheus recopila varias

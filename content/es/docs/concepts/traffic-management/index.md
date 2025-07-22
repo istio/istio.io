@@ -44,7 +44,7 @@ descubrimiento de services. Por ejemplo, si ha instalado Istio en un cluster de 
 entonces Istio detecta automáticamente los services y endpoints en ese cluster.
 
 Utilizando este service registry, los proxies Envoy pueden dirigir el tráfico a los
-services relevantes. La mayoría de las applications basadas en microservices tienen múltiples instancias
+services relevantes. La mayoría de las applications basadas en microservicios tienen múltiples instancias
 de cada workload de service para manejar el tráfico de service, a veces denominado
 pool de balanceo de carga. Por defecto, los proxies Envoy distribuyen el tráfico entre
 el pool de balanceo de carga de cada service utilizando un modelo de menos solicitudes, donde cada
@@ -131,7 +131,7 @@ Los virtual services también le permiten:
     para manejar todos los services en un namespace específico. Mapear un único
     virtual service a múltiples services "reales" es particularmente útil para
     facilitar la transformación de una aplicación monolítica en un service compuesto
-    por microservices distintos sin requerir que los consumidores del service
+    por microservicios distintos sin requerir que los consumidores del service
     se adapten a la transición. Sus reglas de enrutamiento pueden especificar "las llamadas a estas URIs de
     `monolith.com` van al `microservice A`", y así sucesivamente. Puede ver cómo funciona esto
     en [uno de nuestros ejemplos a continuación](#more-about-routing-rules).
@@ -691,7 +691,7 @@ spec:
 ### Disyuntores {#circuit-breakers}
 
 Los disyuntores son otro mecanismo útil que Istio proporciona para crear
-applications basadas en microservices resilientes. En un disyuntor, se establecen límites
+applications basadas en microservicios resilientes. En un disyuntor, se establecen límites
 para las llamadas a hosts individuales dentro de un service, como el número de conexiones concurrentes
 o cuántas veces han fallado las llamadas a este host. Una vez que se alcanza ese límite,
 el disyuntor se "dispara" y detiene más conexiones a ese host. El uso de un patrón de disyuntor

@@ -1,6 +1,6 @@
 ---
 title: Aplicación Bookinfo
-description: Despliega una aplicación de ejemplo compuesta por cuatro microservices separados usados para demostrar varias características de Istio.
+description: Despliega una aplicación de ejemplo compuesta por cuatro microservicios separados usados para demostrar varias características de Istio.
 weight: 10
 aliases:
     - /docs/samples/bookinfo.html
@@ -10,7 +10,7 @@ owner: istio/wg-docs-maintainers
 test: yes
 ---
 
-Este ejemplo despliega una aplicación de ejemplo compuesta por cuatro microservices separados usados
+Este ejemplo despliega una aplicación de ejemplo compuesta por cuatro microservicios separados usados
 para demostrar varias características de Istio.
 
 {{< tip >}}
@@ -24,9 +24,9 @@ libro, similar a una sola entrada de catálogo de una librería en línea. Mostr
 en la página está una descripción del libro, detalles del libro (ISBN, número de
 páginas, etc.), y algunas reseñas del libro.
 
-La aplicación Bookinfo está dividida en cuatro microservices separados:
+La aplicación Bookinfo está dividida en cuatro microservicios separados:
 
-* `productpage`. El microservice `productpage` llama a los microservices `details` y `reviews` para poblar la página.
+* `productpage`. El microservice `productpage` llama a los microservicios `details` y `reviews` para poblar la página.
 * `details`. El microservice `details` contiene información del libro.
 * `reviews`. El microservice `reviews` contiene reseñas del libro. También llama al microservice `ratings`.
 * `ratings`. El microservice `ratings` contiene información de clasificación del libro que acompaña a una reseña del libro.
@@ -41,7 +41,7 @@ La arquitectura de extremo a extremo de la aplicación se muestra a continuació
 
 {{< image width="80%" link="./noistio.svg" caption="Aplicación Bookinfo sin Istio" >}}
 
-Esta aplicación es políglota, es decir, los microservices están escritos en diferentes lenguajes.
+Esta aplicación es políglota, es decir, los microservicios están escritos en diferentes lenguajes.
 Vale la pena señalar que estos servicios no tienen dependencias en Istio, pero hacen un ejemplo
 interesante de service mesh, particularmente debido a la multitud de servicios, lenguajes y versiones
 para el servicio `reviews`.
@@ -62,7 +62,7 @@ El resultado del despliegue será así:
 
 {{< image width="80%" link="./withistio.svg" caption="Aplicación Bookinfo" >}}
 
-Todos los microservices estarán empaquetados con un sidecar de Envoy que intercepta
+Todos los microservicios estarán empaquetados con un sidecar de Envoy que intercepta
 llamadas entrantes y salientes para los servicios, proporcionando los ganchos necesarios para controlar externamente,
 a través del plano de control de Istio, la enrutamiento, la recopilación de métricas, y la aplicación de políticas.
 

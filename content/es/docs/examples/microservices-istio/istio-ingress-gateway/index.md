@@ -12,7 +12,7 @@ exterior. En este módulo, configuras el tráfico para que ingrese a través de 
 ingress gateway, para aplicar control de Istio en el tráfico hacia tus microservices.
 
 1.  Almacena el nombre de tu namespace en la variable de entorno `NAMESPACE`.
-    La necesitarás para reconocer tus microservices en los logs:
+    La necesitarás para reconocer tus microservicios en los logs:
 
     {{< text bash >}}
     $ export NAMESPACE=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"$(kubectl config current-context)\")].context.namespace}")

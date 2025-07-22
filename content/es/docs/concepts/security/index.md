@@ -16,7 +16,7 @@ test: n/a
 
 Descomponer una aplicación monolítica en services atómicos ofrece varios
 beneficios, incluyendo mayor agilidad, mejor escalabilidad y mayor capacidad de
-reutilizar services. Sin embargo, los microservices también tienen necesidades de seguridad particulares:
+reutilizar services. Sin embargo, los microservicios también tienen necesidades de seguridad particulares:
 
 - Para defenderse de ataques de intermediario, necesitan cifrado de tráfico.
 - Para proporcionar un control de acceso flexible a los services, necesitan mTLS y

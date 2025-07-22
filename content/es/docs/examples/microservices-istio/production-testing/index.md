@@ -12,7 +12,7 @@ test: no
 
 ¡Prueba tu microservice, en producción!
 
-## Probar microservices individuales
+## Probar microservicios individuales
 
 1.  Emite una solicitud HTTP desde el Pod de prueba a uno de tus servicios:
 
@@ -97,7 +97,7 @@ el estado de los pods con `kubectl get pods`.
 1. Usa Ctrl-C en la terminal para detener el bucle infinito que se está ejecutando para simular tráfico.
 
 En ambos casos, la aplicación no falló. El fallo en el
-microservice `details` no causó que otros microservices fallaran. Este comportamiento significa que
+microservice `details` no causó que otros microservicios fallaran. Este comportamiento significa que
 no tuviste una **falla en cascada** en esta situación. En su lugar, tuviste
 **degradación gradual del servicio**: a pesar de que un microservice falló, la
 aplicación aún pudo proporcionar funcionalidad útil. Mostró las reseñas
