@@ -259,7 +259,7 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 
 Ahora puedes usar este ejemplo para experimentar con las características de Istio
 para el enrutamiento de tráfico, inyección de fallos, límites de velocidad, etc.
-Para proceder, refiere a uno o más de las [Tareas de Istio](/es/docs/tasks),
+Para proceder, visita una o más de las [Tareas de Istio](/es/docs/tasks),
 dependiendo de tu interés. [Configurar el enrutamiento de solicitudes](/es/docs/tasks/traffic-management/request-routing/)
 es un buen lugar para empezar para los principiantes.
 
