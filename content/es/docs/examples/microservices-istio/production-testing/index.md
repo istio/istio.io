@@ -55,7 +55,7 @@ el estado de los pods con `kubectl get pods`.
 
     Nota que el primer Pod se reinició una vez.
 
-1.  Termina el Service `details` en todos sus pods:
+1.  Termina el servicio `details` en todos sus pods:
 
     {{< text bash >}}
     $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating "$pod"; kubectl exec "$pod" -- pkill ruby; done

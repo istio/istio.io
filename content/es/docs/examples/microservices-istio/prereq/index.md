@@ -16,7 +16,7 @@ Si estás en un taller y los instructores proporcionan un cluster, deja que
 ellos manejen los prerrequisitos del cluster, mientras tú avanzas para configurar tu computadora
 local.
 
-## Cluster de Kubernetes
+## Clúster de Kubernetes
 
 Asegúrate de que se cumplan las siguientes condiciones:
 

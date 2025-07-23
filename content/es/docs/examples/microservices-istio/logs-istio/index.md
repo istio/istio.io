@@ -14,7 +14,7 @@ Puedes usar el Dashboard de Istio para monitorear tus microservicios en tiempo r
 Istio está integrado de forma nativa con
 [Prometheus time series database and monitoring system](https://prometheus.io). Prometheus recopila varias
 métricas relacionadas con el tráfico y proporciona
-[un lenguaje de consulta rico](https://prometheus.io/docs/prometheus/latest/querying/basics/) para ellas.
+[un lenguaje de consulta enriquecido](https://prometheus.io/docs/prometheus/latest/querying/basics/) para ellas.
 
 Ve a continuación varios ejemplos de consultas de Prometheus relacionadas con Istio.
 
