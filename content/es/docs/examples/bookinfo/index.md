@@ -87,7 +87,7 @@ Si usas GKE, asegúrate de que tu clúster tenga al menos 4 nodos estándar de G
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
     {{< /text >}}
 
-    El comando lanza todos los cuatro servicios mostrados en el diagrama de arquitectura de la aplicación Bookinfo.
+    El comando instala todos los cuatro servicios mostrados en el diagrama de arquitectura de la aplicación Bookinfo.
     Todas las 3 versiones del servicio `reviews`, v1, v2 y v3, se inician.
 
     {{< tip >}}
