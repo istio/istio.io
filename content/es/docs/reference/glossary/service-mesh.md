@@ -7,8 +7,8 @@ Un *service mesh* o simplemente *malla* es una capa de infraestructura que permi
 comunicación gestionada, observable y segura entre
 [instancias de workload](/es/docs/reference/glossary/#workload-instance).
 
-Los nombres de servicios combinados con un Namespace son únicos dentro de una malla.
-En una malla [multicluster](/es/docs/reference/glossary/#multicluster), por ejemplo,
+Los nombres de servicios combinados con un Namespace son únicos dentro de un mesh.
+En un mesh [multicluster](/es/docs/reference/glossary/#multicluster), por ejemplo,
 el servicio `bar` en el Namespace `foo` en `cluster-1` se considera el mismo
 servicio que el servicio `bar` en el Namespace `foo` en `cluster-2`.
 

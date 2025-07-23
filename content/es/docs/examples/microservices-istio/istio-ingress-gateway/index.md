@@ -9,7 +9,7 @@ test: no
 
 Hasta ahora, has usado un Kubernetes Ingress para acceder a tu aplicación desde el
 exterior. En este módulo, configuras el tráfico para que ingrese a través de un Istio
-ingress gateway, para aplicar control de Istio en el tráfico hacia tus microservices.
+ingress gateway, para aplicar control de Istio en el tráfico hacia tus microservicios.
 
 1.  Almacena el nombre de tu namespace en la variable de entorno `NAMESPACE`.
     La necesitarás para reconocer tus microservicios en los logs:

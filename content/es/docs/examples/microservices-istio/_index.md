@@ -1,6 +1,6 @@
 ---
 title: Aprender microservicios usando Kubernetes e Istio
-description: Este tutorial modular proporciona a nuevos usuarios experiencia práctica usando Istio para escenarios comunes de microservices, paso a paso.
+description: Este tutorial modular proporciona a nuevos usuarios experiencia práctica usando Istio para escenarios comunes de microservicios, paso a paso.
 weight: 100
 simple_list: true
 content_above: true

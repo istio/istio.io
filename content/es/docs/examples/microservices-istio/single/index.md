@@ -1,5 +1,5 @@
 ---
-title: Ejecutar un Microservice Localmente
+title: Ejecutar un microservicio Localmente
 overview: Aprende cómo trabajar en un solo servicio en tu máquina local.
 weight: 10
 owner: istio/wg-docs-maintainers
@@ -8,7 +8,7 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-Antes del advenimiento de la arquitectura de microservices, los equipos de desarrollo construían,
+Antes del advenimiento de la arquitectura de microservicios, los equipos de desarrollo construían,
 desplegaban y ejecutaban toda la aplicación como un gran bloque de software. Para probar un
 pequeño cambio en su módulo no solo mediante pruebas unitarias, los desarrolladores tenían que
 construir toda la aplicación. Por lo tanto, las construcciones tomaban una gran cantidad de tiempo.
@@ -17,7 +17,7 @@ servidor de prueba. Los desarrolladores ejecutaban el servidor ya sea en una má
 computadora local. En el último caso, los desarrolladores tenían que instalar y operar un
 entorno bastante complejo en su computadora local.
 
-En la era de la arquitectura de microservices, los desarrolladores escriben, construyen, prueban y
+En la era de la arquitectura de microservicios, los desarrolladores escriben, construyen, prueban y
 ejecutan pequeños servicios de software. Las construcciones son rápidas. Con frameworks modernos como
 [Node.js](https://nodejs.org/en/) no hay necesidad de instalar y operar
 entornos de servidor complejos para probar un solo servicio, ya que el servicio se ejecuta como

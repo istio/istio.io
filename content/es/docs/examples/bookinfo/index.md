@@ -26,12 +26,12 @@ páginas, etc.), y algunas reseñas del libro.
 
 La aplicación Bookinfo está dividida en cuatro microservicios separados:
 
-* `productpage`. El microservice `productpage` llama a los microservicios `details` y `reviews` para poblar la página.
-* `details`. El microservice `details` contiene información del libro.
-* `reviews`. El microservice `reviews` contiene reseñas del libro. También llama al microservice `ratings`.
-* `ratings`. El microservice `ratings` contiene información de clasificación del libro que acompaña a una reseña del libro.
+* `productpage`. El microservicio `productpage` llama a los microservicios `details` y `reviews` para poblar la página.
+* `details`. El microservicio `details` contiene información del libro.
+* `reviews`. El microservicio `reviews` contiene reseñas del libro. También llama al microservicio `ratings`.
+* `ratings`. El microservicio `ratings` contiene información de clasificación del libro que acompaña a una reseña del libro.
 
-Hay 3 versiones del microservice `reviews`:
+Hay 3 versiones del microservicio `reviews`:
 
 * La versión v1 no llama al servicio `ratings`.
 * La versión v2 llama al servicio `ratings`, y muestra cada calificación como 1 a 5 estrellas negras.
@@ -127,7 +127,7 @@ Si usas GKE, asegúrate de que tu clúster tenga al menos 4 nodos estándar de G
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-### Determinar el IP de entrada y el puerto
+### Determinar la IP de entrada y el puerto
 
 Ahora que los servicios de Bookinfo están en funcionamiento, necesitas hacer que la aplicación sea accesible desde fuera de tu
 clúster de Kubernetes, por ejemplo, desde un navegador. Se usa un gateway para este propósito.

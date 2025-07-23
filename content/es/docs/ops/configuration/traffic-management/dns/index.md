@@ -61,7 +61,7 @@ Cuando se configura un `ServiceEntry` de tipo `resolution: DNS`, el proxy resolv
 Este intervalo está fijado en 30 segundos y no puede cambiarse en este momento.
 Esto sucede incluso si el proxy nunca envía ninguna solicitud a estas aplicaciones.
 
-Para mallas con muchos proxies o muchos `ServiceEntries` de tipo `resolution: DNS`, especialmente cuando se usan `TTL`s bajos, esto puede causar una alta carga en los servidores DNS.
+Paramesh con muchos proxies o muchos `ServiceEntries` de tipo `resolution: DNS`, especialmente cuando se usan `TTL`s bajos, esto puede causar una alta carga en los servidores DNS.
 En estos casos, lo siguiente puede ayudar a reducir la carga:
 
 * Cambiar a `resolution: NONE` para evitar lookups DNS del proxy completamente. Esto es adecuado para muchos casos de uso.

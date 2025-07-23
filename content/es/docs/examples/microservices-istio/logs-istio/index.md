@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers
 test: no
 ---
 
-El monitoreo es crucial para apoyar la transición al estilo de arquitectura de microservices.
+El monitoreo es crucial para apoyar la transición al estilo de arquitectura de microservicios.
 
 Con Istio, obtienes monitoreo del tráfico entre microservicios por defecto.
 Puedes usar el Dashboard de Istio para monitorear tus microservicios en tiempo real.
@@ -40,13 +40,13 @@ tu namespace. Para mejores resultados, ejecuta el simulador de tráfico en tiemp
         sum(istio_requests_total{destination_service_namespace="tutorial", reporter="destination"})
         {{< /text >}}
 
-    1.  Obtener las solicitudes al microservice `reviews`:
+    1.  Obtener las solicitudes al microservicio `reviews`:
 
         {{< text plain >}}
         istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}
         {{< /text >}}
 
-    1.  [Tasa](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate) de solicitudes durante los últimos 5 minutos a todas las instancias del microservice `reviews`:
+    1.  [Tasa](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate) de solicitudes durante los últimos 5 minutos a todas las instancias del microservicio `reviews`:
 
         {{< text plain >}}
         rate(istio_requests_total{destination_service_namespace="tutorial", reporter="destination",destination_service_name="reviews"}[5m])

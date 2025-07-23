@@ -8,7 +8,7 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-Sigue esta guía para instalar y configurar una malla de Istio usando
+Sigue esta guía para instalar y configurar un mesh de Istio usando
 [Helm](https://helm.sh/docs/).
 
 {{< boilerplate helm-preamble >}}
@@ -135,7 +135,7 @@ el post-renderer de Helm para personalizar los charts.
 ## Actualizar tu configuración de Istio
 
 Puedes proporcionar configuraciones de sobrescritura específicas para cualquier chart de Helm de Istio usado anteriormente
-y sigue el flujo de actualización de Helm para personalizar tu instalación de malla de Istio. Las opciones configurables pueden ser encontradas usando `helm show values istio/<chart>`;
+y sigue el flujo de actualización de Helm para personalizar tu instalación de meshde Istio. Las opciones configurables pueden ser encontradas usando `helm show values istio/<chart>`;
 por ejemplo `helm show values istio/gateway`.
 
 ### Migrar de instalaciones no-Helm

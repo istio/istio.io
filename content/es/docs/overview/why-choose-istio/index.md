@@ -9,7 +9,7 @@ test: n/a
 
 Istio fue pionero en el concepto de service mesh basado en sidecar cuando se lanzó en 2017. Desde el inicio, el proyecto incluyó las características que llegarían a definir un service mesh, incluyendo mutual TLS basado en estándares para redes zero-trust, enrutamiento inteligente de tráfico y observabilidad a través de métricas, logs y trazas.
 
-Desde entonces, el proyecto ha impulsado avances en el espacio mesh incluyendo [topologías multi-cluster y multi-red](/es/docs/ops/deployment/deployment-models/), [extensibilidad vía WebAssembly](/es/docs/concepts/wasm/), el [desarrollo del API Gateway de Kubernetes](/blog/2022/gateway-api-beta/), y alejando la infraestructura de malla de los desarrolladores de aplicaciones con el [modo ambient](/es/docs/ambient/overview/).
+Desde entonces, el proyecto ha impulsado avances en el espacio mesh incluyendo [topologías multi-cluster y multi-red](/es/docs/ops/deployment/deployment-models/), [extensibilidad vía WebAssembly](/es/docs/concepts/wasm/), el [desarrollo del API Gateway de Kubernetes](/blog/2022/gateway-api-beta/), y alejando la infraestructura de meshde los desarrolladores de aplicaciones con el [modo ambient](/es/docs/ambient/overview/).
 
 Aquí hay algunas razones por las que creemos que deberías usar Istio como tu service mesh.
 
@@ -47,7 +47,7 @@ Un buen documento de diseño incluye una sección sobre alternativas que fueron 
 
 eBPF es una máquina virtual que se ejecuta dentro del kernel de Linux. Fue diseñado para funciones garantizadas para completarse en un entorno de computación limitado para evitar desestabilizar el comportamiento del kernel, como aquellas que realizan enrutamiento de tráfico L3 simple u observabilidad de aplicaciones. No fue diseñado para funciones de larga duración o complejas como las que se encuentran en Envoy: ¡por eso los sistemas operativos tienen [espacio de usuario](https://en.wikipedia.org/wiki/User_space_and_kernel_space)! Los mantenedores de eBPF han teorizado que eventualmente podría ser extendido para soportar ejecutar un programa tan complejo como Envoy, pero esto es un proyecto científico y es improbable que tenga practicidad en el mundo real.
 
-Otras mallas que afirman "usar eBPF" en realidad usan un proxy Envoy por nodo, u otras herramientas de espacio de usuario, para mucha de su funcionalidad.
+Otrasmesh que afirman "usar eBPF" en realidad usan un proxy Envoy por nodo, u otras herramientas de espacio de usuario, para mucha de su funcionalidad.
 
 ### ¿Por qué no usar un proxy por nodo?
 

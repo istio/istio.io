@@ -7,7 +7,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Sigue esta guía para instalar y configurar una malla de Istio para evaluación detallada o uso en producción.
+Sigue esta guía para instalar y configurar un mesh de Istio para evaluación detallada o uso en producción.
 Si eres nuevo en Istio, y solo quieres probarlo, sigue las
 [instrucciones de inicio rápido](/es/docs/setup/getting-started) en su lugar.
 

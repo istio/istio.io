@@ -1,6 +1,6 @@
 ---
 title: Operaciones
-description: Conceptos, herramientas y técnicas para desplegar y gestionar una malla de Istio.
+description: Conceptos, herramientas y técnicas para desplegar y gestionar un mesh de Istio.
 weight: 32
 aliases:
     - /troubleshooting.html

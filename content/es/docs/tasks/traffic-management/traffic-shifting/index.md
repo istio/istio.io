@@ -9,9 +9,9 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Esta tarea te muestra cómo desplazar tráfico de una versión de un microservice a otra.
+Esta tarea te muestra cómo desplazar tráfico de una versión de un microservicio a otra.
 
-Un caso de uso común es migrar tráfico gradualmente de una versión antigua de un microservice a una nueva.
+Un caso de uso común es migrar tráfico gradualmente de una versión antigua de un microservicio a una nueva.
 En Istio, logras este objetivo configurando una secuencia de reglas de enrutamiento que redirigen un porcentaje de tráfico
 de un destino a otro.
 

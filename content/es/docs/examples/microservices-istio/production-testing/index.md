@@ -1,6 +1,6 @@
 ---
 title: Pruebas en producción
-overview: Probar una nueva versión de un microservice en producción.
+overview: Probar una nueva versión de un microservicio en producción.
 
 weight: 40
 
@@ -10,7 +10,7 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-¡Prueba tu microservice, en producción!
+¡Prueba tu microservicio, en producción!
 
 ## Probar microservicios individuales
 
@@ -97,9 +97,9 @@ el estado de los pods con `kubectl get pods`.
 1. Usa Ctrl-C en la terminal para detener el bucle infinito que se está ejecutando para simular tráfico.
 
 En ambos casos, la aplicación no falló. El fallo en el
-microservice `details` no causó que otros microservicios fallaran. Este comportamiento significa que
+microservicio `details` no causó que otros microservicios fallaran. Este comportamiento significa que
 no tuviste una **falla en cascada** en esta situación. En su lugar, tuviste
-**degradación gradual del servicio**: a pesar de que un microservice falló, la
+**degradación gradual del servicio**: a pesar de que un microservicio falló, la
 aplicación aún pudo proporcionar funcionalidad útil. Mostró las reseñas
 y la información básica sobre el libro.
 

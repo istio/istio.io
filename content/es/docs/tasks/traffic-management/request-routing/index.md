@@ -1,6 +1,6 @@
 ---
 title: Enrutamiento de Solicitudes
-description: Esta tarea te muestra cómo configurar el enrutamiento dinámico de solicitudes a múltiples versiones de un microservice.
+description: Esta tarea te muestra cómo configurar el enrutamiento dinámico de solicitudes a múltiples versiones de un microservicio.
 weight: 10
 aliases:
     - /docs/tasks/request-routing.html
@@ -10,7 +10,7 @@ test: yes
 ---
 
 Esta tarea te muestra cómo enrutar solicitudes dinámicamente a múltiples versiones de un
-microservice.
+microservicio.
 
 {{< boilerplate gateway-api-support >}}
 
@@ -26,7 +26,7 @@ microservice.
 ## Acerca de esta tarea
 
 La muestra de [Bookinfo](/es/docs/examples/bookinfo/) de Istio consiste en cuatro microservicios separados, cada uno con múltiples versiones.
-Tres versiones diferentes de uno de los microservices, `reviews`, han sido desplegadas y están ejecutándose concurrentemente.
+Tres versiones diferentes de uno de los microservicios, `reviews`, han sido desplegadas y están ejecutándose concurrentemente.
 Para ilustrar el problema que esto causa, accede a la `/productpage` de la aplicación Bookinfo en un navegador y actualiza varias veces.
 La URL es `http://$GATEWAY_URL/productpage`, donde `$GATEWAY_URL` es la dirección IP externa del ingress, como se explica en
 la documentación de [Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
@@ -35,12 +35,12 @@ Notarás que a veces la salida de reseñas del libro contiene calificaciones con
 Esto es porque sin una versión de servicio predeterminada explícita a la que enrutar, Istio enruta solicitudes a todas las versiones disponibles
 de manera round robin.
 
-El objetivo inicial de esta tarea es aplicar reglas que enruten todo el tráfico a `v1` (versión 1) de los microservices. Más tarde,
+El objetivo inicial de esta tarea es aplicar reglas que enruten todo el tráfico a `v1` (versión 1) de los microservicios. Más tarde,
 aplicarás una regla para enrutar tráfico basado en el valor de una cabecera de solicitud HTTP.
 
 ## Enrutar a la versión 1
 
-Para enrutar a solo una versión, configuras reglas de enrutamiento que envían tráfico a versiones predeterminadas para los microservices.
+Para enrutar a solo una versión, configuras reglas de enrutamiento que envían tráfico a versiones predeterminadas para los microservicios.
 
 {{< warning >}}
 Si no lo has hecho ya, sigue las instrucciones en [definir las versiones del servicio](/es/docs/examples/bookinfo/#define-the-service-versions).
@@ -53,7 +53,7 @@ Si no lo has hecho ya, sigue las instrucciones en [definir las versiones del ser
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Istio usa virtual services para definir reglas de enrutamiento.
-Ejecuta el siguiente comando para aplicar virtual services que enrutarán todo el tráfico a `v1` de cada microservice:
+Ejecuta el siguiente comando para aplicar virtual services que enrutarán todo el tráfico a `v1` de cada microservicio:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@

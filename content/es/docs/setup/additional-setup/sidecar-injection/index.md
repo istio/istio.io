@@ -13,7 +13,7 @@ test: no
 
 ## Inyección
 
-Para aprovechar todas las características de Istio, los Pods en la malla deben estar ejecutando un proxy sidecar de Istio.
+Para aprovechar todas las características de Istio, los Pods en el mesh deben estar ejecutando un proxy sidecar de Istio.
 
 Las siguientes secciones describen dos
 formas de inyectar el sidecar de Istio en un Pod: habilitando la inyección automática de sidecar de Istio en el Namespace del Pod,

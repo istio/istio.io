@@ -55,7 +55,7 @@ Es importante notar que `GatewayClass` es un recurso de alcance de cluster, y vi
 Istio requiere que las políticas que están vinculadas a un `GatewayClass` residan en el namespace raíz, típicamente `istio-system`.
 
 {{< tip >}}
-Al usar el patrón de denegación por defecto con waypoints, la política vinculada al `GatewayClass` `istio-waypoint` debería usarse además de la política "clásica" de denegación por defecto. La política "clásica" de denegación por defecto será aplicada por ztunnel contra los workloads en tu malla y aún proporciona valor significativo.
+Al usar el patrón de denegación por defecto con waypoints, la política vinculada al `GatewayClass` `istio-waypoint` debería usarse además de la política "clásica" de denegación por defecto. La política "clásica" de denegación por defecto será aplicada por ztunnel contra los workloads en tu meshy aún proporciona valor significativo.
 {{< /tip >}}
 
 #### Usar patrones `ALLOW-with-positive-matching` y `DENY-with-negative-match`
@@ -255,7 +255,7 @@ $ istioctl install -f iop.yaml
 Alternativamente, si quieres editar directamente la configuración de malla,
 puedes agregar el [`pathNormalization`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
 a la [configuración de malla](/es/docs/reference/config/istio.mesh.v1alpha1/), que es el configmap `istio-<REVISION_ID>` en el namespace `istio-system`.
-Por ejemplo, si eliges la opción `DECODE_AND_MERGE_SLASHES`, modificas la configuración de malla como lo siguiente:
+Por ejemplo, si eliges la opción `DECODE_AND_MERGE_SLASHES`, modificas la configuración de meshcomo lo siguiente:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -344,8 +344,8 @@ spec:
         hosts: ["example.com", "example.com:*"]
 {{< /text >}}
 
-Adicionalmente, los campos `host` y `notHosts` generalmente solo deben usarse en gateway para tráfico externo entrando a la malla
-y no en sidecars para tráfico dentro de la malla. Esto es porque el sidecar en el lado del servidor (donde se aplica la política de autorización)
+Adicionalmente, los campos `host` y `notHosts` generalmente solo deben usarse en gateway para tráfico externo entrando a el mesh
+y no en sidecars para tráfico dentro de el mesh. Esto es porque el sidecar en el lado del servidor (donde se aplica la política de autorización)
 no usa el header `Host` al redirigir la solicitud a la aplicación. Esto hace que `host` y `notHost` no tengan sentido
 en sidecar porque un cliente podría alcanzar la aplicación usando dirección IP explícita y header `Host` arbitrario en lugar de
 el nombre del servicio.
@@ -356,7 +356,7 @@ que rechazarían la solicitud si el cliente usa un header `Host` arbitrario.
 #### Web Application Firewall (WAF) Especializado
 
 Muchos productos especializados de Web Application Firewall (WAF) proporcionan opciones de normalización adicionales. Pueden desplegarse en
-frente del Istio ingress gateway para normalizar solicitudes entrando a la malla. La política de autorización será entonces aplicada
+frente del Istio ingress gateway para normalizar solicitudes entrando a el mesh. La política de autorización será entonces aplicada
 en las solicitudes normalizadas. Por favor consulta tu producto WAF específico para configurar las opciones de normalización.
 
 #### Solicitud de característica a Istio
@@ -617,7 +617,7 @@ Para asegurar que tu cluster tenga los últimos parches de seguridad para vulner
 
 ## Detectar configuraciones inválidas
 
-Aunque Istio proporciona validación de recursos cuando se crean, estas verificaciones no pueden detectar todos los problemas que previenen que la configuración sea distribuida en la malla.
+Aunque Istio proporciona validación de recursos cuando se crean, estas verificaciones no pueden detectar todos los problemas que previenen que la configuración sea distribuida en el mesh.
 Esto podría resultar en aplicar una política que es inesperadamente ignorada, llevando a resultados inesperados.
 
 * Ejecuta `istioctl analyze` antes o después de aplicar configuración para asegurar que sea válida.

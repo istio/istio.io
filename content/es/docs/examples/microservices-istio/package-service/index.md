@@ -1,6 +1,6 @@
 ---
 title: Ejecutar ratings en Docker
-overview: Ejecutar un solo microservice en un contenedor Docker.
+overview: Ejecutar un solo microservicio en un contenedor Docker.
 
 weight: 20
 
@@ -12,7 +12,7 @@ test: no
 
 Este módulo muestra cómo crear una imagen [Docker](https://www.docker.com) y ejecutarla localmente.
 
-1.  Descarga el [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) para el microservice `ratings`.
+1.  Descarga el [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) para el microservicio `ratings`.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/Dockerfile -o Dockerfile
@@ -49,7 +49,7 @@ Este módulo muestra cómo crear una imagen [Docker](https://www.docker.com) y e
 
 1.  Ejecuta ratings en Docker. El siguiente comando [docker run](https://docs.docker.com/engine/reference/commandline/run/)
     instruye a Docker para exponer el puerto `9080` del contenedor al puerto `9081` de tu computadora, permitiéndote acceder al
-    microservice `ratings` en el puerto `9081`.
+    microservicio `ratings` en el puerto `9081`.
 
     {{< text bash >}}
     $ docker run --name my-ratings  --rm -d -p 9081:9080 $USER/ratings

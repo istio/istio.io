@@ -127,7 +127,7 @@ Observe que la prueba de inyección de fallos se restringe a cuando el usuario c
 Normalmente, solucionaría el problema de la siguiente manera:
 
 1. Aumentando el tiempo de espera del service `productpage` a `reviews` o disminuyendo el tiempo de espera de `reviews` a `ratings`
-1. Deteniendo y reiniciando el microservice corregido
+1. Deteniendo y reiniciando el microservicio corregido
 1. Confirmando que la página web `/productpage` devuelve su respuesta sin errores.
 
 Sin embargo, ya tiene una solución ejecutándose en la v3 del service `reviews`.

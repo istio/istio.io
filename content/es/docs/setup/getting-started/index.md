@@ -207,7 +207,7 @@ Si refrescas la página, deberías ver que las reseñas y las calificaciones cam
 ## Ver el panel de control {#dashboard}
 
 Istio integra con [varias aplicaciones de telemetría](/es/docs/ops/integrations). Estas pueden ayudarte a
-entender la estructura de tu malla de servicios, mostrar la topología de la malla y analizar la salud de tu malla.
+entender la estructura de tu meshde servicios, mostrar la topología de el mesh y analizar la salud de tu malla.
 
 Usa las siguientes instrucciones para desplegar el [Kiali](/es/docs/ops/integrations/kiali/), junto con [Prometheus](/es/docs/ops/integrations/prometheus/), [Grafana](/es/docs/ops/integrations/grafana), y [Jaeger](/es/docs/ops/integrations/jaeger/).
 
@@ -232,7 +232,7 @@ Usa las siguientes instrucciones para desplegar el [Kiali](/es/docs/ops/integrat
     {{< boilerplate trace-generation >}}
     {{< /tip >}}
 
-    El dashboard de Kiali muestra una vista general de tu malla con las relaciones
+    El dashboard de Kiali muestra una vista general de tu meshcon las relaciones
     entre los servicios en la aplicación de ejemplo `Bookinfo`. También proporciona
     filtros para visualizar el flujo de tráfico.
 

@@ -11,15 +11,15 @@ test: no
 
 ## Visión general
 
-Esta guía está destinada a proporcionar orientación operacional sobre cómo configurar el monitoreo de mallas de Istio compuestas por dos
+Esta guía está destinada a proporcionar orientación operacional sobre cómo configurar el monitoreo demesh de Istio compuestas por dos
 o más clusters individuales de Kubernetes. No está destinada a establecer el *único* camino posible hacia adelante, sino más bien
 para demostrar un enfoque viable al telemetría multicluster con Prometheus.
 
 Nuestra recomendación para el monitoreo multicluster de Istio con Prometheus está construida sobre la base de la
 [federación jerárquica](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation) de Prometheus.
 Las instancias de Prometheus que se despliegan localmente a cada cluster por Istio actúan como recolectores iniciales que luego se federan hasta
-una instancia de Prometheus de producción de toda la malla. Ese Prometheus de toda la malla puede vivir fuera de la malla (externo), o en uno
-de los clusters dentro de la malla.
+una instancia de Prometheus de producción de toda el mesh. Ese Prometheus de toda el mesh puede vivir fuera de el mesh (externo), o en uno
+de los clusters dentro de el mesh.
 
 ## Configuración de Istio multicluster
 
@@ -102,15 +102,15 @@ deseable.
 ### Prometheus de producción en un cluster en malla
 
 Si prefieres ejecutar el Prometheus de producción en uno de los clusters, necesitas establecer conectividad desde él hacia
-las otras instancias locales de Prometheus del cluster en la malla.
+las otras instancias locales de Prometheus del cluster en el mesh.
 
 Esto es realmente solo una variación de la configuración para federación externa. En este caso, la configuración en el
 cluster que ejecuta el Prometheus de producción es diferente de la configuración para el scraping remoto de Prometheus del cluster.
 
 {{< image width="80%"
     link="./in-mesh-production-prometheus.svg"
-    alt="Arquitectura de Prometheus de Producción en malla para monitorear Istio multicluster."
-    caption="Prometheus de Producción en malla para monitorear Istio multicluster"
+    alt="Arquitectura de Prometheus de Producción en meshpara monitorear Istio multicluster."
+    caption="Prometheus de Producción en meshpara monitorear Istio multicluster"
     >}}
 
 Configura tu Prometheus de producción para acceder tanto a las instancias *locales* como *remotas* de Prometheus.
