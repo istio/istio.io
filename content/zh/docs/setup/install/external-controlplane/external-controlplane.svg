@@ -27,8 +27,8 @@
      inkscape:zoom="0.97906776"
      inkscape:cx="518.35023"
      inkscape:cy="384.03879"
-     inkscape:window-width="1440"
-     inkscape:window-height="789"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
@@ -565,7 +565,7 @@
          id="tspan88"
          x="512.06769"
          y="52.67947"
-         style="fill:#000000">集群: external_cluster</tspan></text>
+         style="fill:#000000">外部集群: external_cluster</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#1c53b8;fill-opacity:0.741176;stroke:#000000;stroke-opacity:0"
@@ -598,7 +598,7 @@
          id="tspan88-6"
          x="340.41068"
          y="353.41098"
-         style="fill:#000000">集群: remote_cluster</tspan></text>
+         style="fill:#000000">从集群: remote_cluster</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"
@@ -609,7 +609,7 @@
          id="tspan88-6-2"
          x="727.12604"
          y="468.88937"
-         style="fill:#000000">API Server</tspan></text>
+         style="fill:#000000">API 服务器</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"

@@ -25,10 +25,10 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.97553981"
-     inkscape:cx="311.1098"
-     inkscape:cy="426.43057"
-     inkscape:window-width="1440"
-     inkscape:window-height="789"
+     inkscape:cx="489.47259"
+     inkscape:cy="270.6194"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="1"
@@ -774,7 +774,7 @@
        id="tspan88"
        x="530.3645"
        y="48.945904"
-       style="fill:#000000">集群: external_cluster</tspan></text>
+       style="fill:#000000">外部集群: external_cluster</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"
@@ -807,7 +807,7 @@
        id="tspan88-1"
        x="293.38834"
        y="366.9263"
-       style="fill:#000000">集群: remote_cluster1</tspan></text>
+       style="fill:#000000">从集群: remote_cluster1</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"
@@ -818,7 +818,7 @@
        id="tspan88-1-1"
        x="207.89371"
        y="484.40015"
-       style="fill:#000000">API Server</tspan></text>
+       style="fill:#000000">API 服务器</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"
@@ -829,7 +829,7 @@
        id="tspan88-1-1-9"
        x="878.02881"
        y="486.8056"
-       style="fill:#000000">API Server</tspan></text>
+       style="fill:#000000">API 服务器</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"
@@ -840,7 +840,7 @@
        id="tspan88-1-5"
        x="746.17438"
        y="369.14264"
-       style="fill:#000000">集群: remote_cluster2</tspan></text>
+       style="fill:#000000">从集群: remote_cluster2</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6667px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';text-align:center;text-anchor:middle;fill:#0000ff;stroke:#000000;stroke-opacity:0"
