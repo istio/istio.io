@@ -20,7 +20,7 @@ preparación para producción sin sidecars.
 
 ## ¿Por qué el modo ambient?
 
-Al escuchar los comentarios de los usuarios de Istio, observamos una creciente demanda de capacidades de meshpara las aplicaciones, pero
+Al escuchar los comentarios de los usuarios de Istio, observamos una creciente demanda de capacidades de mesh para las aplicaciones, pero
 escuchamos que a muchos de ustedes les resultaba difícil superar la sobrecarga de recursos y la complejidad operativa de los sidecars. Los desafíos que los usuarios de sidecar
 compartieron con nosotros incluyen cómo Istio puede romper las aplicaciones después de agregar los sidecars, el gran consumo de CPU y memoria por parte de los
 sidecars, y la inconveniencia del requisito de reiniciar los pods de las aplicaciones con cada nueva versión del proxy.
@@ -46,7 +46,7 @@ suave de ninguna malla, a una superposición segura (L4), a un procesamiento com
 tu flota.
 
 El modo ambient funciona sin necesidad de ninguna modificación en tus implementaciones de Kubernetes existentes. Puedes etiquetar un namespace para
-agregar todas sus workloads a el mesh, o incluir ciertas implementaciones según sea necesario. Al utilizar el modo ambient, los usuarios
+agregar todas sus workloads al mesh, o incluir ciertas implementaciones según sea necesario. Al utilizar el modo ambient, los usuarios
 evitan algunos de los elementos previamente restrictivos del modelo de sidecar. Los protocolos de envío primero del servidor ahora
 funcionan, la mayoría de los puertos reservados ahora están disponibles y se elimina la capacidad de los contenedores para omitir el sidecar, ya sea
 maliciosamente o no.

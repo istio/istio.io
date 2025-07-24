@@ -9,7 +9,7 @@ y es el mecanismo preferido para mostrar la telemetría en Istio.
 Sin embargo, existen algunas diferencias en la telemetría informada entre v1 y
 v2 que se enumeran a continuación:
 
-* **Faltan labels para el tráfico fuera de el mesh**
+* **Faltan etiquetas para el tráfico fuera de el mesh**
   La telemetría en el proxy se basa en el intercambio de metadatos entre los proxies de Envoy para recopilar
   información como el nombre de el workload del par, el namespace y las labels. En la telemetría basada en Mixer
   , esta funcionalidad la realizaba Mixer como parte de la combinación de los atributos de la solicitud

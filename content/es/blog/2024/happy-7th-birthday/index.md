@@ -93,7 +93,7 @@ y no tener que implementar eso en nuestra base de código de aplicación.**
 {{< /quote >}}
 
 {{< quote >}}
-**Usamos Istio en Predibase ampliamente para simplificar la comunicación entre nuestra meshmulti-cluster que ayuda a implementar
+**Usamos Istio en Predibase ampliamente para simplificar la comunicación entre nuestra mesh multi-cluster que ayuda a implementar
 y entrenar modelos LLM de código abierto ajustados con baja latencia y conmutación por error. Con Istio, obtenemos una gran cantidad de funcionalidades listas para usar que de otro modo
 nos llevaría semanas implementar.**
 
