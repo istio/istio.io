@@ -15,7 +15,7 @@ El modo ambient [se anunció en septiembre de 2022](/blog/2022/introducing-ambie
 Desde entonces, nuestra comunidad ha dedicado 20 meses de arduo trabajo y colaboración, con
 contribuciones de Solo.io, Google, Microsoft, Intel, Aviatrix, Huawei, IBM, Red Hat y muchos otros.
 El estado Beta en la 1.22 indica que las características del modo ambient ya están listas para los workloads de producción, con las precauciones adecuadas.
-Este es un hito enorme para Istio, que lleva las características de el mesh de capa 4 y capa 7 a la
+Este es un hito enorme para Istio, que lleva las características de la mesh de capa 4 y capa 7 a la
 preparación para producción sin sidecars.
 
 ## ¿Por qué el modo ambient?
@@ -30,8 +30,8 @@ de complejidad que enfrentaban los usuarios que buscaban implementar una service
 se denominó 'modo ambient' ya que fue diseñado para ser transparente para tu aplicación, asegurando que no se requiriera ninguna configuración adicional
 para adoptarlo, y no requería que los usuarios reiniciaran las aplicaciones.
 
-En el modo ambient es trivial agregar o eliminar aplicaciones de el mesh. Ahora puedes simplemente [etiquetar un namespace](/es/docs/ambient/usage/add-workloads/), y todas las aplicaciones
-en ese namespace se agregan a el mesh. Esto asegura inmediatamente todo el tráfico con mTLS, todo sin sidecars o la necesidad de
+En el modo ambient es trivial agregar o eliminar aplicaciones de la mesh. Ahora puedes simplemente [etiquetar un namespace](/es/docs/ambient/usage/add-workloads/), y todas las aplicaciones
+en ese namespace se agregan a la mesh. Esto asegura inmediatamente todo el tráfico con mTLS, todo sin sidecars o la necesidad de
 reiniciar las aplicaciones.
 
 Consulta el [blog Introducing Ambient Mesh](/blog/2022/introducing-ambient-mesh/)
@@ -73,7 +73,7 @@ Te recomendamos que explores las siguientes funciones Beta del modo ambient en p
 en entornos de prueba:
 
 - [Instalación de Istio con soporte para el modo ambient](/es/docs/ambient/install/).
-- [Agregar tus workloads a el mesh](/es/docs/ambient/usage/add-workloads/) para obtener TLS mutuo con identidad criptográfica, [políticas de autorización L4](/es/docs/ambient/usage/l4-policy/) y telemetría.
+- [Agregar tus workloads a la mesh](/es/docs/ambient/usage/add-workloads/) para obtener TLS mutuo con identidad criptográfica, [políticas de autorización L4](/es/docs/ambient/usage/l4-policy/) y telemetría.
 - [Configuración de waypoints](/es/docs/ambient/usage/waypoint/) para [usar funciones L7](/es/docs/ambient/usage/l7-features/) como el desvío de tráfico, el enrutamiento de solicitudes y la aplicación de políticas de autorización enriquecidas.
 - Conexión del ingress gateway de Istio a los workloads en modo ambient, compatible con todas las API de Istio existentes.
 - Uso de `istioctl` para operar waypoints y solucionar problemas de ztunnel y waypoints.
@@ -96,7 +96,7 @@ Tenemos una serie de características que aún no están implementadas en el mod
 
 - Tráfico de egress controlado
 - Soporte multi-red
-- Mejorar los mensajes de `status` en los recursos para ayudar a solucionar problemas y comprender el mesh
+- Mejorar los mensajes de `status` en los recursos para ayudar a solucionar problemas y comprender la mesh
 - Soporte de VM
 
 ## ¿Y qué hay de los sidecars?

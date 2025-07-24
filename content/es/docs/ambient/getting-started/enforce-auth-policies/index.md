@@ -6,9 +6,9 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Después de haber agregado tu aplicación a el mesh ambient, puedes proteger el acceso a la aplicación utilizando políticas de autorización de capa 4.
+Después de haber agregado tu aplicación a la mesh ambient, puedes proteger el acceso a la aplicación utilizando políticas de autorización de capa 4.
 
-Esta característica te permite controlar el acceso hacia y desde un servicio en función de las identidades de los workloads del cliente que se emiten automáticamente a todas los workloads en el mesh.
+Esta característica te permite controlar el acceso hacia y desde un servicio en función de las identidades de los workloads del cliente que se emiten automáticamente a todas los workloads en la mesh.
 
 ## Aplicar la política de autorización de capa 4
 

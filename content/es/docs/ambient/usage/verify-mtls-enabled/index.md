@@ -67,7 +67,7 @@ Valida que los valores de `src.identity` y `dst.identity` sean correctos. Son la
 
 ## Validar con el panel de control de Kiali
 
-Si tienes Kiali y Prometheus instalados, puedes visualizar la comunicación de tu carga de trabajo en el mesh ambient usando el panel de control de Kiali. Puedes ver si la conexión entre dos cargas de trabajo tiene el icono del candado para validar que mTLS está habilitado, junto con la información de identidad del par:
+Si tienes Kiali y Prometheus instalados, puedes visualizar la comunicación de tu carga de trabajo en la mesh ambient usando el panel de control de Kiali. Puedes ver si la conexión entre dos cargas de trabajo tiene el icono del candado para validar que mTLS está habilitado, junto con la información de identidad del par:
 
 {{< image link="./kiali-mtls.png" caption="Panel de control de Kiali" >}}
 

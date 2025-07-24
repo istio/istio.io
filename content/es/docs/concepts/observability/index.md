@@ -21,7 +21,7 @@ Istio, los operadores obtienen una comprensión profunda de cómo interactúan l
 Istio genera los siguientes tipos de telemetría para proporcionar observabilidad general de la service mesh:
 
 - [**Métricas**](#metrics). Istio genera un conjunto de métricas de servicio basadas en las cuatro "señales doradas" de monitoreo (latencia, tráfico, errores y
-  saturación). Istio también proporciona métricas detalladas para el [control plane de el mesh](/es/docs/ops/deployment/architecture/).
+  saturación). Istio también proporciona métricas detalladas para el [control plane de la mesh](/es/docs/ops/deployment/architecture/).
   También se proporciona un conjunto predeterminado de paneles de monitoreo de meshcreados sobre estas métricas.
 - [**Trazas distribuidas**](#distributed-traces). Istio genera tramos de traza distribuidos para cada servicio, lo que proporciona a los operadores una comprensión detallada
   de los flujos de llamadas y las dependencias de los servicios dentro de un mesh.
@@ -36,21 +36,21 @@ Las métricas proporcionan una forma de monitorear y comprender el comportamient
 Para monitorear el comportamiento del servicio, Istio genera métricas para todo el tráfico del servicio dentro, fuera y dentro de una service mesh de Istio. Estas métricas proporcionan información sobre
 comportamientos como el volumen general de tráfico, las tasas de error dentro del tráfico y los tiempos de respuesta para las solicitudes.
 
-Además de monitorear el comportamiento de los services dentro de un mesh, también es importante monitorear el comportamiento de el mesh misma. Los componentes de Istio exportan
-métricas sobre sus propios comportamientos internos para proporcionar información sobre la salud y el funcionamiento del control plane de el mesh.
+Además de monitorear el comportamiento de los services dentro de un mesh, también es importante monitorear el comportamiento de la mesh misma. Los componentes de Istio exportan
+métricas sobre sus propios comportamientos internos para proporcionar información sobre la salud y el funcionamiento del control plane de la mesh.
 
 ### Métricas a nivel de proxy
 
 La recopilación de métricas de Istio comienza con los proxies sidecar (Envoy). Cada proxy genera un amplio conjunto de métricas sobre todo el tráfico que pasa a través del proxy (tanto
 de entrada como de salida). Los proxies también proporcionan estadísticas detalladas sobre las funciones administrativas del propio proxy, incluida la información de configuración y salud.
 
-Las métricas generadas por Envoy proporcionan un monitoreo de el mesh con la granularidad de los recursos de Envoy (como listeners y clusters). Como resultado, se requiere comprender la
-conexión entre los services de el mesh y los recursos de Envoy para monitorear las métricas de Envoy.
+Las métricas generadas por Envoy proporcionan un monitoreo de la mesh con la granularidad de los recursos de Envoy (como listeners y clusters). Como resultado, se requiere comprender la
+conexión entre los services de la mesh y los recursos de Envoy para monitorear las métricas de Envoy.
 
 Istio permite a los operadores seleccionar cuáles de las métricas de Envoy se generan y recopilan en cada workload instance. De forma predeterminada, Istio habilita solo un pequeño
 subconjunto de las estadísticas generadas por Envoy para evitar sobrecargar los backends de métricas y reducir la sobrecarga de CPU asociada con la recopilación de métricas. Sin embargo,
 los operadores pueden ampliar fácilmente el conjunto de métricas de proxy recopiladas cuando sea necesario. Esto permite la depuración dirigida del comportamiento de la red, al tiempo que reduce el
-costo general del monitoreo en toda el mesh.
+costo general del monitoreo en toda la mesh.
 
 El [sitio de documentación de Envoy](httpshttps://www.envoyproxy.io/docs/envoy/latest/) incluye una descripción detallada de la [recopilación de estadísticas de Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/statistics.html?highlight=statistics).
 La guía de operaciones sobre [Estadísticas de Envoy](/es/docs/ops/configuration/telemetry/envoy-stats/) proporciona más información sobre cómo controlar la generación de métricas a nivel de proxy.
@@ -113,14 +113,14 @@ istio_requests_total{
 ### Métricas del control plane
 
 El control plane de Istio también proporciona una colección de métricas de autocontrol. Estas métricas permiten monitorear el comportamiento
-de Istio mismo (a diferencia del de los services dentro de el mesh).
+de Istio mismo (a diferencia del de los services dentro de la mesh).
 
 Para obtener más información sobre qué métricas se mantienen, consulte la [documentación de referencia](/es/docs/reference/commands/pilot-discovery/#metrics).
 
 ## Trazas distribuidas
 
 El rastreo distribuido proporciona una forma de monitorear y comprender el comportamiento al monitorear solicitudes individuales a medida que fluyen a través de un mesh.
-Las trazas permiten a los operadores de el mesh comprender las dependencias del servicio y las fuentes de latencia dentro de su service mesh.
+Las trazas permiten a los operadores de la mesh comprender las dependencias del servicio y las fuentes de latencia dentro de su service mesh.
 
 Istio admite el rastreo distribuido a través de los proxies de Envoy. Los proxies generan automáticamente tramos de traza en nombre de las aplicaciones que representan,
 requiriendo solo que las aplicaciones reenvíen el contexto de solicitud apropiado.

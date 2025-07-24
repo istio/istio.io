@@ -69,7 +69,7 @@ y luego otorgue más acceso al workload de forma gradual e incremental.
     Apunte su navegador a la `productpage` de Bookinfo (`http://$GATEWAY_URL/productpage`).
     Debería ver `"RBAC: acceso denegado"`. El error muestra que la política `deny-all` configurada
     está funcionando como se esperaba, y Istio no tiene ninguna regla que permita ningún acceso a
-    los workloads en el mesh.
+    los workloads en la mesh.
 
 1. Ejecute el siguiente comando para crear una política `productpage-viewer` para permitir el acceso
    con el método `GET` al workload `productpage`. La política no establece el campo `from`

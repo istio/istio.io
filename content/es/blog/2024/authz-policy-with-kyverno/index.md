@@ -85,7 +85,7 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: my-kyverno-authz
-  namespace: istio-system # Esto aplica la política en toda el mesh, siendo istio-system el namespace raíz de el mesh
+  namespace: istio-system # Esto aplica la política en toda la mesh, siendo istio-system el namespace raíz de la mesh
 spec:
   selector:
     matchLabels:

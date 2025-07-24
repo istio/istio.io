@@ -8,7 +8,7 @@ test: yes
 ---
 
 En un despliegue de meshde Istio regular, la terminación TLS para las solicitudes descendentes se realiza en el Ingress Gateway.
-Aunque esto satisface la mayoría de los casos de uso, para algunos (como un API Gateway en el mesh) el Ingress Gateway no es necesariamente necesario. Esta tarea muestra cómo eliminar el salto adicional introducido por el Ingress Gateway de Istio y permitir que el sidecar de Envoy, que se ejecuta junto con la aplicación, realice la terminación TLS para las solicitudes que provienen de fuera de la service mesh.
+Aunque esto satisface la mayoría de los casos de uso, para algunos (como un API Gateway en la mesh) el Ingress Gateway no es necesariamente necesario. Esta tarea muestra cómo eliminar el salto adicional introducido por el Ingress Gateway de Istio y permitir que el sidecar de Envoy, que se ejecuta junto con la aplicación, realice la terminación TLS para las solicitudes que provienen de fuera de la service mesh.
 
 El service HTTPS de ejemplo utilizado para esta tarea es un service [httpbin](https://httpbin.org) simple.
 En los siguientes pasos, desplegará el service httpbin dentro de su service mesh y lo configurará.
@@ -34,7 +34,7 @@ En los siguientes pasos, desplegará el service httpbin dentro de su service mes
 
 ## Habilitar mTLS global
 
-Aplique la siguiente política `PeerAuthentication` para requerir tráfico mTLS para todos los workloads en el mesh.
+Aplique la siguiente política `PeerAuthentication` para requerir tráfico mTLS para todos los workloads en la mesh.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -198,7 +198,7 @@ EOF
 
 ## Verificación
 
-Ahora que el servidor httpbin está desplegado y configurado, levante dos clientes para probar la conectividad de extremo a extremo tanto desde dentro como desde fuera de el mesh:
+Ahora que el servidor httpbin está desplegado y configurado, levante dos clientes para probar la conectividad de extremo a extremo tanto desde dentro como desde fuera de la mesh:
 1. Un cliente interno (curl) en el mismo namespace (test) que el service httpbin, con sidecar inyectado.
 1. Un cliente externo (curl) en el namespace predeterminado (es decir, fuera de la service mesh).
 

@@ -12,7 +12,7 @@ Esta tarea muestra cómo migrar de un trust domain a otro sin cambiar la políti
 En Istio 1.4, introducimos una feature alfa para soportar la {{< gloss >}}trust domain migration{{</ gloss >}} para la política de autorización. Esto significa que si una
 meshde Istio necesita cambiar su {{< gloss >}}trust domain{{</ gloss >}}, la política de autorización no necesita ser cambiada manualmente.
 En Istio, si un {{< gloss >}}workload{{</ gloss >}} se está ejecutando en el namespace `foo` con la cuenta de service `bar`, y el trust domain del sistema es `my-td`,
-la identidad de dicho workload es `spiffe://my-td/ns/foo/sa/bar`. Por defecto, el trust domain de el mesh de Istio es `cluster.local`,
+la identidad de dicho workload es `spiffe://my-td/ns/foo/sa/bar`. Por defecto, el trust domain de la mesh de Istio es `cluster.local`,
 a menos que lo especifique durante la instalación.
 
 ## Antes de empezar
@@ -97,7 +97,7 @@ Antes de comenzar esta tarea, haga lo siguiente:
     $ kubectl rollout restart deployment -n istio-system istiod
     {{< /text >}}
 
-    el mesh de Istio ahora se está ejecutando con un nuevo trust domain, `new-td`.
+    la mesh de Istio ahora se está ejecutando con un nuevo trust domain, `new-td`.
 
 1. Vuelva a desplegar las applications `httpbin` y `curl` para que recojan los cambios del nuevo control plane de Istio.
 
@@ -165,7 +165,7 @@ Antes de comenzar esta tarea, haga lo siguiente:
 
 A partir de Istio 1.4, al escribir la política de autorización, debe considerar usar el valor `cluster.local` como la
 parte del trust domain en la política. Por ejemplo, en lugar de `old-td/ns/curl-allow/sa/curl`, debería ser `cluster.local/ns/curl-allow/sa/curl`.
-Tenga en cuenta que en este caso, `cluster.local` no es el trust domain de el mesh de Istio (el trust domain sigue siendo `old-td`). Sin embargo,
+Tenga en cuenta que en este caso, `cluster.local` no es el trust domain de la mesh de Istio (el trust domain sigue siendo `old-td`). Sin embargo,
 en la política de autorización, `cluster.local` es un puntero que apunta al trust domain actual, es decir, `old-td` (y más tarde `new-td`), así como a sus alias.
 Al usar `cluster.local` en la política de autorización, cuando migre a un nuevo trust domain, Istio detectará esto y tratará el nuevo trust domain
 como el antiguo trust domain sin que tenga que incluir los alias.

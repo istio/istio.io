@@ -15,7 +15,7 @@ Consulta la [tarea del API Gateway](/es/docs/tasks/traffic-management/ingress/ga
 {{< /tip >}}
 
 Junto con crear un service mesh, Istio te permite gestionar [gateways](/es/docs/concepts/traffic-management/#gateways),
-que son proxies Envoy ejecutándose en el borde de el mesh, proporcionando control granular sobre el tráfico que entra y sale de el mesh.
+que son proxies Envoy ejecutándose en el borde de la mesh, proporcionando control granular sobre el tráfico que entra y sale de la mesh.
 
 Algunos de los [perfiles de configuración](/es/docs/setup/additional-setup/config-profiles/) incorporados de Istio despliegan gateways durante la instalación.
 Por ejemplo, una llamada a `istioctl install` con [configuración por defecto](/es/docs/setup/install/istioctl/#install-istio-using-the-default-profile)
@@ -320,7 +320,7 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 
 {{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade en progreso" >}}
 
-A diferencia de los servicios de aplicaciones desplegados dentro de el mesh, no puedes usar [redirección de tráfico de Istio](/es/docs/tasks/traffic-management/traffic-shifting/) para distribuir el tráfico entre las versiones del gateway porque su tráfico proviene directamente de clientes externos que Istio no controla. 
+A diferencia de los servicios de aplicaciones desplegados dentro de la mesh, no puedes usar [redirección de tráfico de Istio](/es/docs/tasks/traffic-management/traffic-shifting/) para distribuir el tráfico entre las versiones del gateway porque su tráfico proviene directamente de clientes externos que Istio no controla. 
 En su lugar, puedes controlar la distribución del tráfico mediante el número de réplicas de cada despliegue. 
 Si utilizas otro balanceador de carga frente a Istio, también puedes usarlo para controlar la distribución del tráfico.
 

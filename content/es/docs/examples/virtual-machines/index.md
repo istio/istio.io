@@ -98,9 +98,9 @@ $ mysql -u root -ppassword test -e  "update ratings set rating=1 where reviewid=
 +----------+--------+
  {{< /text >}}
 
-## Exponer el Service mysql a el mesh
+## Exponer el Service mysql a la mesh
 
-Cuando la Virtual Machine se inicia, se registrará automáticamente en el mesh.
+Cuando la Virtual Machine se inicia, se registrará automáticamente en la mesh.
 Sin embargo, al igual que cuando se crea un Pod, aún necesitamos crear un Service antes de poder acceder a él fácilmente.
 
 {{< text bash >}}

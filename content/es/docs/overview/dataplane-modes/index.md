@@ -9,7 +9,7 @@ test: n/a
 
 Un service mesh de Istio está dividido lógicamente en un data plane y un control plane.
 
-El {{< gloss >}}data plane{{< /gloss >}} es el conjunto de proxies que median y controlan toda la comunicación de red entre microservicios. También recopilan y reportan telemetría sobre todo el tráfico de el mesh.
+El {{< gloss >}}data plane{{< /gloss >}} es el conjunto de proxies que median y controlan toda la comunicación de red entre microservicios. También recopilan y reportan telemetría sobre todo el tráfico de la mesh.
 
 El {{< gloss >}}control plane{{< /gloss >}} gestiona y configura los proxies en el data plane.
 
@@ -36,7 +36,7 @@ Lanzado en 2022, el modo ambient fue construido para abordar las deficiencias re
 
 ## Elegir entre sidecar y ambient
 
-Los usuarios a menudo despliegan un mesh para habilitar una postura de seguridad zero-trust como primer paso y luego habilitan selectivamente capacidades L7 según sea necesario. el mesh ambient permite a esos usuarios evitar completamente el costo del procesamiento L7 cuando no es necesario.
+Los usuarios a menudo despliegan un mesh para habilitar una postura de seguridad zero-trust como primer paso y luego habilitan selectivamente capacidades L7 según sea necesario. la mesh ambient permite a esos usuarios evitar completamente el costo del procesamiento L7 cuando no es necesario.
 
 <table>
   <thead>
@@ -68,7 +68,7 @@ Los usuarios a menudo despliegan un mesh para habilitar una postura de seguridad
       <td>A través de <a href="/es/docs/ambient/usage/extend-waypoint-wasm">plugins WebAssembly</a> (requiere usar waypoint)<br>La API EnvoyFilter no es compatible.</td>
     </tr>
     <tr>
-      <th>Agregar workloads a el mesh</th>
+      <th>Agregar workloads a la mesh</th>
       <td>Etiqueta un namespace y reinicia todos los pods para que se agreguen sidecars</td>
       <td>Etiqueta un namespace - no se requiere reinicio de pods</td>
     </tr>
@@ -123,7 +123,7 @@ Los usuarios a menudo despliegan un mesh para habilitar una postura de seguridad
       <td>Fuerte: cada agente de nodo tiene solo las claves para los workloads en ese nodo</td>
     </tr>
     <tr>
-      <th>Pod de aplicación comprometido<br>da acceso a claves de el mesh</th>
+      <th>Pod de aplicación comprometido<br>da acceso a claves de la mesh</th>
       <td>Sí</td>
       <td>No</td>
     </tr>
@@ -142,7 +142,7 @@ Los usuarios a menudo despliegan un mesh para habilitar una postura de seguridad
 
 ## capa 4 vs capa 7 features
 
-El sobrecosto para procesar protocolos en capa 7 es significativamente mayor que el procesamiento de paquetes en capa 4. Para un servicio dado, si tus requisitos pueden ser satisfechos en L4, el mesh de servicio puede ser entregada a un costo sustancialmente menor.
+El sobrecosto para procesar protocolos en capa 7 es significativamente mayor que el procesamiento de paquetes en capa 4. Para un servicio dado, si tus requisitos pueden ser satisfechos en L4, la mesh de servicio puede ser entregada a un costo sustancialmente menor.
 
 ### Security
 

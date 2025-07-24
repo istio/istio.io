@@ -254,7 +254,7 @@ antes de que el Envoy del lado del cliente reciba el tráfico.
 ### Arquitectura de autenticación
 
 Puede especificar los requisitos de autenticación para los workloads que reciben solicitudes en
-una meshde Istio utilizando políticas de autenticación de pares y de solicitudes. El operador de el mesh
+una meshde Istio utilizando políticas de autenticación de pares y de solicitudes. El operador de la mesh
 utiliza ficheros `.yaml` para especificar las políticas. Las políticas se guardan en el
 almacén de configuración de Istio una vez desplegadas. El controlador de Istio observa el
 almacén de configuración.
@@ -323,7 +323,7 @@ EOF
 #### Almacenamiento de políticas
 
 Istio almacena las políticas con alcance de meshen el namespace raíz. Estas políticas tienen un
-selector vacío que se aplica a todos los workloads de el mesh. Las políticas que tienen un
+selector vacío que se aplica a todos los workloads de la mesh. Las políticas que tienen un
 alcance de namespace se almacenan en el namespace correspondiente. Solo se aplican a
 los workloads dentro de su namespace. Si configura un campo `selector`, la
 política de autenticación solo se aplica a los workloads que coinciden con las condiciones que
@@ -500,7 +500,7 @@ recomendaciones ayudan a evitar interrupciones al actualizar sus políticas de a
 ## Autorización
 
 Las features de autorización de Istio proporcionan control de acceso a nivel de malla, namespace y workload
-para sus workloads en el mesh. Este nivel de control proporciona
+para sus workloads en la mesh. Este nivel de control proporciona
 los siguientes beneficios:
 
 - Autorización de workload a workload y de usuario final a workload.
@@ -893,7 +893,7 @@ en la política de autorización.
 
 Suponiendo que tiene un service MongoDB en el puerto `27017`, el siguiente ejemplo
 configura una política de autorización para permitir que solo el service `bookinfo-ratings-v2`
-en el mesh de Istio acceda al workload MongoDB.
+en la mesh de Istio acceda al workload MongoDB.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1

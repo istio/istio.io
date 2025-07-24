@@ -15,7 +15,7 @@ Ambient mesh — y su implementación de referencia con el modo ambient de Istio
 Desde el lanzamiento de Istio en 2017, hemos observado una demanda clara y creciente de capacidades de mesh para aplicaciones, pero escuchamos que a muchos usuarios les resultaba difícil superar la sobrecarga de recursos y la complejidad operativa de los sidecars. Los desafíos que los usuarios de Istio compartieron con nosotros incluyen cómo los sidecars pueden romper las aplicaciones después de que se agregan, el gran requisito de CPU y memoria para un proxy con cada workload, y la inconveniencia de necesitar reiniciar los pods de la aplicación con cada nueva versión de Istio.
 
 Como comunidad, diseñamos ambient mesh desde cero para abordar estos problemas, aliviando las barreras anteriores de complejidad que enfrentaban los usuarios que buscaban implementar una service mesh. El nuevo concepto se denominó 'ambient mesh' ya que fue diseñado para ser transparente para tu aplicación, sin infraestructura de proxy ubicada junto con los workloads del usuario, sin cambios sutiles en la configuración necesarios para la incorporación y sin necesidad de reiniciar la aplicación.
-En el modo ambient es trivial agregar o eliminar aplicaciones de el mesh. Todo lo que necesitas hacer es [etiquetar un namespace](/es/docs/ambient/usage/add-workloads/), y todas las aplicaciones en ese namespace se agregan instantáneamente a el mesh. Esto asegura inmediatamente todo el tráfico dentro de ese namespace con cifrado TLS mutuo estándar de la industria, ¡sin necesidad de otra configuración o reinicios!
+En el modo ambient es trivial agregar o eliminar aplicaciones de la mesh. Todo lo que necesitas hacer es [etiquetar un namespace](/es/docs/ambient/usage/add-workloads/), y todas las aplicaciones en ese namespace se agregan instantáneamente a la mesh. Esto asegura inmediatamente todo el tráfico dentro de ese namespace con cifrado TLS mutuo estándar de la industria, ¡sin necesidad de otra configuración o reinicios!
 Consulta el [blog Introducing Ambient Mesh](/blog/2022/introducing-ambient-mesh/) para obtener más información sobre por qué creamos el modo ambient de Istio.
 
 ## ¿Cómo facilita la adopción el modo ambient?
@@ -42,7 +42,7 @@ La imagen de ztunnel en Docker Hub ha alcanzado más de [1 millón de descargas]
 Les pedimos a algunos de nuestros usuarios su opinión sobre la GA del modo ambient:
 
 {{< quote >}}
-**La implementación de Istio de una service mesh con su diseño de ambient mesh ha sido una gran adición a nuestros clusteres de Kubernetes para simplificar las responsabilidades del equipo y la arquitectura de red general de el mesh. Junto con el proyecto Gateway API, me ha dado una excelente manera de permitir que los desarrolladores satisfagan sus necesidades de red al mismo tiempo que solo delegan el control necesario. Si bien es un proyecto en rápida evolución, ha sido sólido y confiable en producción y será nuestra opción predeterminada para implementar controles de red en una implementación de Kubernetes en el futuro.**
+**La implementación de Istio de una service mesh con su diseño de ambient mesh ha sido una gran adición a nuestros clusteres de Kubernetes para simplificar las responsabilidades del equipo y la arquitectura de red general de la mesh. Junto con el proyecto Gateway API, me ha dado una excelente manera de permitir que los desarrolladores satisfagan sus necesidades de red al mismo tiempo que solo delegan el control necesario. Si bien es un proyecto en rápida evolución, ha sido sólido y confiable en producción y será nuestra opción predeterminada para implementar controles de red en una implementación de Kubernetes en el futuro.**
 
 — [Daniel Loader](https://uk.linkedin.com/in/danielloader), Ingeniero de Plataforma Principal en Quotech
 
@@ -91,7 +91,7 @@ Les pedimos a algunos de nuestros usuarios su opinión sobre la GA del modo ambi
 {{< /quote >}}
 
 {{< quote >}}
-**Nuestro equipo eligió Istio por sus características de service mesh y su fuerte alineación con la Gateway API para crear una solución de alojamiento robusta basada en Kubernetes. A medida que integramos aplicaciones en el mesh, enfrentamos desafíos de recursos con los proxies sidecar, lo que nos llevó a hacer la transición al modo ambient en Beta para mejorar la escalabilidad y la seguridad. Comenzamos con la seguridad y observabilidad de L4 a través de ztunnel, obteniendo cifrado automático del tráfico dentro del cluster y monitoreo transparente del flujo de tráfico. Al habilitar selectivamente las características de L7 y desacoplar el proxy de las aplicaciones, logramos una escalabilidad perfecta y una utilización y latencia de recursos reducidas. Este enfoque permitió a los desarrolladores centrarse en el desarrollo de aplicaciones, lo que resultó en una plataforma más resistente, segura y escalable impulsada por el modo ambient.**
+**Nuestro equipo eligió Istio por sus características de service mesh y su fuerte alineación con la Gateway API para crear una solución de alojamiento robusta basada en Kubernetes. A medida que integramos aplicaciones en la mesh, enfrentamos desafíos de recursos con los proxies sidecar, lo que nos llevó a hacer la transición al modo ambient en Beta para mejorar la escalabilidad y la seguridad. Comenzamos con la seguridad y observabilidad de L4 a través de ztunnel, obteniendo cifrado automático del tráfico dentro del cluster y monitoreo transparente del flujo de tráfico. Al habilitar selectivamente las características de L7 y desacoplar el proxy de las aplicaciones, logramos una escalabilidad perfecta y una utilización y latencia de recursos reducidas. Este enfoque permitió a los desarrolladores centrarse en el desarrollo de aplicaciones, lo que resultó en una plataforma más resistente, segura y escalable impulsada por el modo ambient.**
 
 — [Jose Marques](https://www.linkedin.com/in/jdcmarques/), DevOps Senior en Blip.pt
 {{< /quote >}}
@@ -107,10 +107,10 @@ Les pedimos a algunos de nuestros usuarios su opinión sobre la GA del modo ambi
 La disponibilidad general del modo ambient significa que las siguientes cosas ahora se consideran estables:
 
 - [Instalación de Istio con soporte para el modo ambient](/es/docs/ambient/install/), con Helm o `istioctl`.
-- [Agregar tus workloads a el mesh](/es/docs/ambient/usage/add-workloads/) para obtener TLS mutuo con identidad criptográfica, [políticas de autorización L4](/es/docs/ambient/usage/l4-policy/) y telemetría.
+- [Agregar tus workloads a la mesh](/es/docs/ambient/usage/add-workloads/) para obtener TLS mutuo con identidad criptográfica, [políticas de autorización L4](/es/docs/ambient/usage/l4-policy/) y telemetría.
 - [Configuración de waypoints](/es/docs/ambient/usage/waypoint/) para [usar funciones L7](/es/docs/ambient/usage/l7-features/) como el desvío de tráfico, el enrutamiento de solicitudes y la aplicación de políticas de autorización enriquecidas.
 - Conexión del ingress gateway de Istio a los workloads en modo ambient, compatible con las API de Kubernetes Gateway y todas las API de Istio existentes.
-- Uso de waypoints para el egress controlado de el mesh
+- Uso de waypoints para el egress controlado de la mesh
 - Uso de `istioctl` para operar waypoints y solucionar problemas de ztunnel y waypoints.
 
 Consulta la [página de estado de las características](/es/docs/releases/feature-stages/#ambient-mode) para obtener más información.

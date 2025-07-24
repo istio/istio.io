@@ -38,7 +38,7 @@ Siga la documentación de [instalación de Kiali](/es/docs/ops/integrations/kial
 
 1.  Para determinar la URL de Bookinfo, siga las instrucciones para determinar la [IP de ingress y el puerto de Bookinfo `GATEWAY_URL`](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-1.  Para enviar tráfico a el mesh, tiene tres opciones
+1.  Para enviar tráfico a la mesh, tiene tres opciones
 
     *   Visite `http://$GATEWAY_URL/productpage` en su navegador web
 

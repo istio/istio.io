@@ -10,7 +10,7 @@ En el **modo ambient**, Istio implementa sus [características](/es/docs/concept
 
 Este enfoque por capas te permite adoptar Istio de una manera más incremental, pasando sin problemas de ninguna malla, a una superposición L4 segura, a un procesamiento y políticas L7 completos, por namespaces, según sea necesario. Además, los workloads que se ejecutan en diferentes modos de {{< gloss >}}data plane{{< /gloss >}} de Istio interoperan sin problemas, lo que permite a los usuarios mezclar y combinar capacidades en función de sus necesidades particulares a medida que cambian con el tiempo.
 
-Dado que los pods de workload ya no requieren que los proxies se ejecuten en sidecars para participar en el mesh, el modo ambient a menudo se conoce informalmente como "sidecarless mesh".
+Dado que los pods de workload ya no requieren que los proxies se ejecuten en sidecars para participar en la mesh, el modo ambient a menudo se conoce informalmente como "sidecarless mesh".
 
 ## Cómo funciona
 
@@ -26,7 +26,7 @@ Para obtener detalles sobre el diseño del modo ambient y cómo interactúa con 
 
 El componente ztunnel (túnel de Zero Trust) es un proxy por nodo especialmente diseñado que impulsa el modo de data plane ambient de Istio.
 
-Ztunnel es responsable de conectar y autenticar de forma segura los workloads dentro de el mesh. El proxy ztunnel está escrito en Rust y tiene un alcance intencional para manejar funciones L3 y L4 como mTLS, autenticación, autorización L4 y telemetría. Ztunnel no termina el tráfico HTTP de el workload ni analiza los encabezados HTTP de el workload. El ztunnel garantiza que el tráfico L3 y L4 se transporte de manera eficiente y segura directamente a los workloads, a otros proxies ztunnel o a los proxies de waypoint.
+Ztunnel es responsable de conectar y autenticar de forma segura los workloads dentro de la mesh. El proxy ztunnel está escrito en Rust y tiene un alcance intencional para manejar funciones L3 y L4 como mTLS, autenticación, autorización L4 y telemetría. Ztunnel no termina el tráfico HTTP de el workload ni analiza los encabezados HTTP de el workload. El ztunnel garantiza que el tráfico L3 y L4 se transporte de manera eficiente y segura directamente a los workloads, a otros proxies ztunnel o a los proxies de waypoint.
 
 El término "superposición segura" se utiliza para describir colectivamente el conjunto de funciones de red L4 implementadas en un ambient mesh a través del proxy ztunnel. En la capa de transporte, esto se implementa a través de un protocolo de tunelización de tráfico basado en HTTP CONNECT llamado [HBONE](/es/docs/ambient/architecture/hbone).
 

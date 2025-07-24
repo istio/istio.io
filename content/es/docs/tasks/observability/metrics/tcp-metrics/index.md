@@ -123,7 +123,7 @@ configuración y los comandos de ejemplo.
 
 En esta tarea, utilizó la configuración de Istio para
 generar y reportar automáticamente métricas para todo el tráfico a un service TCP
-dentro de el mesh.
+dentro de la mesh.
 Las métricas TCP para todas las conexiones activas se registran cada `15s` por defecto y este temporizador es configurable
 a través de `tcpReportingDuration`.
 Las métricas para una conexión también se registran al final de la conexión.
@@ -134,7 +134,7 @@ Varios atributos específicos de TCP permiten la política y el control de TCP d
 Estos atributos son generados por los proxies de Envoy y obtenidos de Istio usando los metadatos de nodo de Envoy.
 Envoy reenvía los metadatos de nodo a los Envoy de pares usando tunelización basada en ALPN y un protocolo basado en prefijos.
 Definimos un nuevo protocolo `istio-peer-exchange`, que es anunciado y priorizado por el cliente y los sidecars del servidor
-en el mesh. La negociación ALPN resuelve el protocolo a `istio-peer-exchange` para conexiones entre proxies habilitados para Istio,
+en la mesh. La negociación ALPN resuelve el protocolo a `istio-peer-exchange` para conexiones entre proxies habilitados para Istio,
 pero no entre un proxy habilitado para Istio y cualquier otro proxy.
 Este protocolo extiende TCP de la siguiente manera:
 

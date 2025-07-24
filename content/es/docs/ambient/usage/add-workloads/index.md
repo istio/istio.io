@@ -1,18 +1,18 @@
 ---
-title: Agregar workloads a el mesh
+title: Agregar workloads a la mesh
 description: Comprende cómo agregar workloads a un ambient mesh.
 weight: 10
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-En la mayoría de los casos, un administrador de cluster desplegará la infraestructura de el mesh de Istio. Una vez que Istio se despliegue con éxito con soporte para el modo de {{< gloss >}}data plane{{< /gloss >}} ambient, estará disponible de forma transparente para las aplicaciones desplegadas por todos los usuarios en los namespaces que se hayan configurado para usarlo.
+En la mayoría de los casos, un administrador de cluster desplegará la infraestructura de la mesh de Istio. Una vez que Istio se despliegue con éxito con soporte para el modo de {{< gloss >}}data plane{{< /gloss >}} ambient, estará disponible de forma transparente para las aplicaciones desplegadas por todos los usuarios en los namespaces que se hayan configurado para usarlo.
 
-## Habilitar el modo ambient para aplicaciones en el mesh
+## Habilitar el modo ambient para aplicaciones en la mesh
 
-Para agregar aplicaciones o namespaces a el mesh en modo ambient, agrega la etiqueta `istio.io/data plane-mode=ambient` al recurso correspondiente. Puedes aplicar esta etiqueta a un namespaces o a un pod individual.
+Para agregar aplicaciones o namespaces a la mesh en modo ambient, agrega la etiqueta `istio.io/data plane-mode=ambient` al recurso correspondiente. Puedes aplicar esta etiqueta a un namespaces o a un pod individual.
 
-El modo ambient se puede habilitar (o deshabilitar) de forma completamente transparente en lo que respecta a los pods de la aplicación. A diferencia del modo de data plane de {{< gloss >}}sidecar{{< /gloss >}}, no es necesario reiniciar las aplicaciones para agregarlas a el mesh, y no se mostrarán con un contenedor adicional desplegado en su pod.
+El modo ambient se puede habilitar (o deshabilitar) de forma completamente transparente en lo que respecta a los pods de la aplicación. A diferencia del modo de data plane de {{< gloss >}}sidecar{{< /gloss >}}, no es necesario reiniciar las aplicaciones para agregarlas a la mesh, y no se mostrarán con un contenedor adicional desplegado en su pod.
 
 ### Funcionalidad de capa 4 y capa 7
 
@@ -26,13 +26,13 @@ Consulta [ambient y NetworkPolicy de Kubernetes](/es/docs/ambient/usage/networkp
 
 Existen múltiples opciones para la interoperabilidad entre los pods de la aplicación que utilizan el modo de data plane ambient y los puntos finales no ambient (incluidos los pods de la aplicación de Kubernetes, las gateways de Istio o las instancias de la API de Gateway de Kubernetes). Esta interoperabilidad proporciona múltiples opciones para integrar sin problemas los workloads ambient y no ambient dentro de la misma meshde Istio, lo que permite una introducción por fases de la capacidad ambient según las necesidades de despliegue y operación de tu malla.
 
-### Pods fuera de el mesh
+### Pods fuera de la mesh
 
-Puede que tengas namespaces que no forman parte de el mesh en absoluto, ni en modo sidecar ni en modo ambient. En este caso, los pods que no están en el mesh inician el tráfico directamente a los pods de destino sin pasar por el ztunnel del nodo de origen, mientras que el ztunnel del pod de destino aplica cualquier política L4 para controlar si se debe permitir o denegar el tráfico.
+Puede que tengas namespaces que no forman parte de la mesh en absoluto, ni en modo sidecar ni en modo ambient. En este caso, los pods que no están en la mesh inician el tráfico directamente a los pods de destino sin pasar por el ztunnel del nodo de origen, mientras que el ztunnel del pod de destino aplica cualquier política L4 para controlar si se debe permitir o denegar el tráfico.
 
-Por ejemplo, establecer una política `PeerAuthentication` con el modo mTLS establecido en `STRICT`, en un namespaces con el modo ambient habilitado, hará que se deniegue el tráfico desde fuera de el mesh.
+Por ejemplo, establecer una política `PeerAuthentication` con el modo mTLS establecido en `STRICT`, en un namespaces con el modo ambient habilitado, hará que se deniegue el tráfico desde fuera de la mesh.
 
-### Pods dentro de el mesh usando el modo sidecar
+### Pods dentro de la mesh usando el modo sidecar
 
 Istio admite la interoperabilidad Este-Oeste entre un pod con un sidecar y un pod que usa el modo ambient, dentro de la misma malla. El proxy sidecar sabe que debe usar el protocolo HBONE, ya que se ha descubierto que el destino es un destino HBONE.
 
@@ -44,7 +44,7 @@ Una política `PeerAuthentication` con el modo mTLS establecido en `STRICT` perm
 
 ### gateways de entrada y salida y pods en modo ambient
 
-Una gateway de entrada puede ejecutarse en un namespace no ambient y exponer los servicios proporcionados por los pods en modo ambient, modo sidecar o que no están en el mesh. También se admite la interoperabilidad entre los pods en modo ambient y las gateways de Istio.
+Una gateway de entrada puede ejecutarse en un namespace no ambient y exponer los servicios proporcionados por los pods en modo ambient, modo sidecar o que no están en la mesh. También se admite la interoperabilidad entre los pods en modo ambient y las gateways de Istio.
 
 ## Lógica de selección de pods para los modos ambient y sidecar
 

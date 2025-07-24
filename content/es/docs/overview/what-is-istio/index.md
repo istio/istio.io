@@ -15,7 +15,7 @@ Istio es un service mesh de código abierto que se superpone de forma transparen
 * Una capa de política conectiva y API de configuración que soporta controles de acceso, límites de velocidad y cuotas
 * Métricas, logs y trazas automáticas para todo el tráfico dentro de un cluster, incluyendo ingreso y egreso del cluster
 
-Istio está diseñado para la extensibilidad y puede manejar una amplia gama de necesidades de deployment. El {{< gloss >}}control plane{{< /gloss >}} de Istio se ejecuta en Kubernetes, y puedes agregar aplicaciones desplegadas en ese cluster a tu malla, [extender el mesh a otros clusters](/es/docs/ops/deployment/deployment-models/), o incluso [conectar VMs u otros endpoints](/es/docs/ops/deployment/vm-architecture/) ejecutándose fuera de Kubernetes.
+Istio está diseñado para la extensibilidad y puede manejar una amplia gama de necesidades de deployment. El {{< gloss >}}control plane{{< /gloss >}} de Istio se ejecuta en Kubernetes, y puedes agregar aplicaciones desplegadas en ese cluster a tu malla, [extender la mesh a otros clusters](/es/docs/ops/deployment/deployment-models/), o incluso [conectar VMs u otros endpoints](/es/docs/ops/deployment/vm-architecture/) ejecutándose fuera de Kubernetes.
 
 Un gran ecosistema de contribuyentes, socios, integraciones y distribuidores extiende y aprovecha Istio para una amplia variedad de escenarios. Puedes instalar Istio tú mismo, o un [gran número de proveedores](/about/ecosystem) tienen productos que integran Istio y lo gestionan por ti.
 

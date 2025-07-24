@@ -1,6 +1,6 @@
 ---
 title: Seguridad
-description: Demuestra cómo asegurar el mesh.
+description: Demuestra cómo asegurar la mesh.
 weight: 19
 aliases:
     - /docs/tasks/istio-auth.html

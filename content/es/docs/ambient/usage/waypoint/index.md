@@ -165,7 +165,7 @@ $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
 
-Cualquier solicitud de los pods en el mesh al servicio `reviews` ahora se enrutará a través del waypoint `reviews-svc-waypoint`.
+Cualquier solicitud de los pods en la mesh al servicio `reviews` ahora se enrutará a través del waypoint `reviews-svc-waypoint`.
 
 ### Configurar un pod para que use un waypoint específico
 
@@ -187,11 +187,11 @@ $ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-p
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
-Cualquier solicitud de los pods en el mesh ambient a la IP del pod `reviews-v2` ahora se enrutará a través del waypoint `reviews-v2-pod-waypoint` para el procesamiento L7 y la aplicación de políticas.
+Cualquier solicitud de los pods en la mesh ambient a la IP del pod `reviews-v2` ahora se enrutará a través del waypoint `reviews-v2-pod-waypoint` para el procesamiento L7 y la aplicación de políticas.
 
 {{< tip >}}
-El tipo de destino original del tráfico se utiliza para determinar si se utilizará un waypoint de servicio o de carga de trabajo. Al usar el tipo de destino original, el mesh ambient evita que el tráfico transite dos veces por el waypoint, incluso si tanto el servicio como la carga de trabajo tienen waypoints adjuntos.
-Por ejemplo, el tráfico que se dirige a un servicio, aunque finalmente se resuelva en una IP de pod, siempre es tratado por el mesh ambient como para el servicio y usaría un waypoint adjunto al servicio.
+El tipo de destino original del tráfico se utiliza para determinar si se utilizará un waypoint de servicio o de carga de trabajo. Al usar el tipo de destino original, la mesh ambient evita que el tráfico transite dos veces por el waypoint, incluso si tanto el servicio como la carga de trabajo tienen waypoints adjuntos.
+Por ejemplo, el tráfico que se dirige a un servicio, aunque finalmente se resuelva en una IP de pod, siempre es tratado por la mesh ambient como para el servicio y usaría un waypoint adjunto al servicio.
 {{< /tip >}}
 
 ## Uso de waypoint entre namespaces {#usewaypointnamespace}
