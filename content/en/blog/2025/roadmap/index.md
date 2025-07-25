@@ -1,7 +1,7 @@
 ---
 title: "Istio Roadmap for 2025-2026"
 description: Looking ahead to what's next for Istio.
-publishdate: 2025-07-20
+publishdate: 2025-07-25
 attribution: "Mitch Connors, for the Istio TOC"
 keywords: [Istio,roadmap,ambient]
 ---
