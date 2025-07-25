@@ -1,6 +1,6 @@
 ---
 title: "Bringing AI-Aware Traffic Management to Istio: Gateway API Inference Extension Support"
-description: Introducing Gateway API Inference Extension support in Istio for optimizing traffic to AI Inference workloads.
+description: Optimized routing for AI workloads in Istio, powered by the latest Gateway API Inference Extension.
 publishdate: 2025-07-22
 attribution: "Lior Lieberman (Google), Keith Mattix (Microsoft), Aslak Knutsen (Red Hat)"
 keywords: [istio,AI,inference,gateway-api-inference-extension]
@@ -10,11 +10,11 @@ The world of AI inference on Kubernetes presents unique challenges that traditio
 
 That's why we're excited to announce Istio's support for the Gateway API Inference Extension, bringing intelligent, model-aware and LoRA-aware routing to Istio.
 
-## Why AI Workloads Need Special Treatment**
+## Why AI Workloads Need Special Treatment
 
 Traditional web services typically handle quick, stateless requests measured in milliseconds. AI inference workloads operate in a completely different paradigm that challenges conventional load balancing approaches in several fundamental ways.
 
-### The Scale and Duration Challenge**
+### The Scale and Duration Challenge
 
 Unlike typical API responses that complete in milliseconds, AI inference requests often take significantly longer to process - sometimes several seconds or even minutes. This dramatic difference in processing time means that routing decisions have far more impact than in traditional web services. A single poorly-routed request can tie up expensive GPU resources for extended periods, creating cascading effects across the entire system.
 
@@ -124,15 +124,15 @@ This intelligent routing operates transparently within Istio's existing architec
 
 The future roadmap includes istio-related features such as:
 
-**Support for Waypoints** - As Istio continues to evolve toward ambient mesh architecture, inference-aware routing will be integrated into waypoint proxies to provide centralized, scalable policy enforcement for AI workloads.
+* **Support for Waypoints** - As Istio continues to evolve toward ambient mesh architecture, inference-aware routing will be integrated into waypoint proxies to provide centralized, scalable policy enforcement for AI workloads.
 
 Beyond Istio-specific innovations, the Gateway API Inference Extension community is also actively developing several advanced capabilities that will further enhance routing for for AI inference workloads on Kubernetes:
 
-**HPA Integration for AI Metrics**: Horizontal Pod Autoscaling based on model-specific metrics rather than just CPU and memory.
+* **HPA Integration for AI Metrics**: Horizontal Pod Autoscaling based on model-specific metrics rather than just CPU and memory.
 
-**Multi-Modal Input Support**: Optimized routing for large multi-modal inputs and outputs (images, audio, video) with intelligent buffering and streaming capabilities.
+* **Multi-Modal Input Support**: Optimized routing for large multi-modal inputs and outputs (images, audio, video) with intelligent buffering and streaming capabilities.
 
-**Heterogeneous Accelerator Support**: Intelligent routing across different accelerator types (GPUs, TPUs, specialized AI chips) with latency and cost-aware load balancing.
+* **Heterogeneous Accelerator Support**: Intelligent routing across different accelerator types (GPUs, TPUs, specialized AI chips) with latency and cost-aware load balancing.
 
 ## Getting Started with Istio Inference Extension
 
