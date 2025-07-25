@@ -197,7 +197,7 @@ disableAliases = true
   # i18n for Spanish
    [[languages.es.menu.main]]
     identifier = "about"
-    name = "About"
+    name = "Acerca de"
     title = "Acerca de la sección"
     weight = 1
 
