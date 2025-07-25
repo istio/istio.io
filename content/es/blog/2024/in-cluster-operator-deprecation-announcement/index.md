@@ -50,7 +50,7 @@ Usando el nombre de tu recurso, descarga la configuración de tu operador en for
 $ kubectl get IstioOperator <name> -o yaml > istio.yaml
 {{< /text >}}
 
-Deshabilita el Operador In-Cluster. Esto no deshabilitará tu control plane ni interrumpirá el tráfico de tu malla actual.
+Deshabilita el Operador In-Cluster. Esto no deshabilitará tu control plane ni interrumpirá el tráfico de tu mesh actual.
 
 {{< text bash >}}
 $ kubectl scale deployment -n istio-system istio-operator –replicas 0

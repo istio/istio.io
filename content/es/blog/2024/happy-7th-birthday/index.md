@@ -93,7 +93,7 @@ y no tener que implementar eso en nuestra base de código de aplicación.**
 {{< /quote >}}
 
 {{< quote >}}
-**Usamos Istio en Predibase ampliamente para simplificar la comunicación entre nuestra malla multi-cluster que ayuda a implementar
+**Usamos Istio en Predibase ampliamente para simplificar la comunicación entre nuestra mesh multi-cluster que ayuda a implementar
 y entrenar modelos LLM de código abierto ajustados con baja latencia y conmutación por error. Con Istio, obtenemos una gran cantidad de funcionalidades listas para usar que de otro modo
 nos llevaría semanas implementar.**
 
@@ -191,7 +191,7 @@ asombrado por lo que hace la comunidad y espero ver qué éxitos tendremos en el
 {{< /quote >}}
 
 {{< quote >}}
-**Istio es la columna vertebral de la infraestructura de la service mesh de Salesforce, que hoy en día impulsa unos pocos billones de solicitudes por día en todos nuestros servicios. Resolvemos muchos problemas complicados con la malla. Es genial ser parte de este viaje y contribuir a la comunidad. Istio ha madurado hasta convertirse en una service mesh confiable a lo largo de los años y, al mismo tiempo, continúa innovando. ¡Estamos entusiasmados con lo que vendrá en el futuro!**
+**Istio es la columna vertebral de la infraestructura de la service mesh de Salesforce, que hoy en día impulsa unos pocos billones de solicitudes por día en todos nuestros servicios. Resolvemos muchos problemas complicados con la mesh. Es genial ser parte de este viaje y contribuir a la comunidad. Istio ha madurado hasta convertirse en una service mesh confiable a lo largo de los años y, al mismo tiempo, continúa innovando. ¡Estamos entusiasmados con lo que vendrá en el futuro!**
 
 — Rama Chavali, líder del Grupo de Trabajo de Redes de Istio y Arquitecto de Ingeniería de Software en Salesforce
 {{< /quote >}}

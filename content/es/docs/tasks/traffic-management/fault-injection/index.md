@@ -36,8 +36,8 @@ Esta tarea muestra cómo inyectar fallos para probar la resiliencia de su applic
 
 ## Inyectar un fallo de retardo HTTP
 
-Para probar la resiliencia de los microservices de la application Bookinfo, inyecte un retardo de 7s
-entre los microservices `reviews:v2` y `ratings` para el usuario `jason`. Esta prueba
+Para probar la resiliencia de los microservicios de la application Bookinfo, inyecte un retardo de 7s
+entre los microservicios `reviews:v2` y `ratings` para el usuario `jason`. Esta prueba
 descubrirá un bug que se introdujo intencionalmente en la aplicación Bookinfo.
 
 Tenga en cuenta que el service `reviews:v2` tiene un tiempo de espera de conexión codificado de 10s para
@@ -104,7 +104,7 @@ espera que el flujo de extremo a extremo continúe sin errores.
 
 ## Comprender lo que sucedió
 
-Ha encontrado un bug. Hay tiempos de espera codificados en los microservices que han
+Ha encontrado un bug. Hay tiempos de espera codificados en los microservicios que han
 causado que el service `reviews` falle.
 
 Como se esperaba, el retardo de 7s que introdujo no afecta al service `reviews`
@@ -114,7 +114,7 @@ codificado como 3s + 1 reintento para un total de 6s.
 Como resultado, la llamada de `productpage` a `reviews` agota el tiempo de espera prematuramente y lanza un error después de 6s.
 
 Errores como este pueden ocurrir en applications empresariales típicas donde diferentes equipos
-desarrollan diferentes microservices de forma independiente. Las reglas de inyección de fallos de Istio le ayudan a identificar tales anomalías
+desarrollan diferentes microservicios de forma independiente. Las reglas de inyección de fallos de Istio le ayudan a identificar tales anomalías
 sin afectar a los usuarios finales.
 
 {{< tip >}}
@@ -127,7 +127,7 @@ Observe que la prueba de inyección de fallos se restringe a cuando el usuario c
 Normalmente, solucionaría el problema de la siguiente manera:
 
 1. Aumentando el tiempo de espera del service `productpage` a `reviews` o disminuyendo el tiempo de espera de `reviews` a `ratings`
-1. Deteniendo y reiniciando el microservice corregido
+1. Deteniendo y reiniciando el microservicio corregido
 1. Confirmando que la página web `/productpage` devuelve su respuesta sin errores.
 
 Sin embargo, ya tiene una solución ejecutándose en la v3 del service `reviews`.
@@ -141,8 +141,8 @@ que el flujo de extremo a extremo continúa sin errores.
 
 ## Inyectar un fallo de aborto HTTP
 
-Otra forma de probar la resiliencia de los microservices es introducir un fallo de aborto HTTP.
-En esta tarea, introducirá un aborto HTTP en los microservices `ratings` para
+Otra forma de probar la resiliencia de los microservicios es introducir un fallo de aborto HTTP.
+En esta tarea, introducirá un aborto HTTP en los microservicios `ratings` para
 el usuario de prueba `jason`.
 
 En este caso, espera que la página se cargue inmediatamente y muestre el mensaje `El service de calificaciones no está disponible actualmente`.

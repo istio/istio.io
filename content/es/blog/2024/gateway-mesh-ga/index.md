@@ -1,5 +1,5 @@
 ---
-title: "El soporte de malla de la API de Gateway es promovido a Estable"
+title: "El soporte de mesh de la API de Gateway es promovido a Estable"
 description: Las API de enrutamiento de tráfico de Kubernetes de próxima generación ya están disponibles de forma general para casos de uso de service mesh.
 publishdate: 2024-05-13
 attribution: John Howard - solo.io

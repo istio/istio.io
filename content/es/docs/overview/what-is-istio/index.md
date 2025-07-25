@@ -1,35 +1,35 @@
 ---
-title: What is Istio?
-description: Find out what Istio can do for you.
+title: ¿Qué es Istio?
+description: Descubre qué puede hacer Istio por ti.
 weight: 10
 keywords: [introduction]
 owner: istio/wg-docs-maintainers-english
 test: n/a
 ---
 
-Istio is an open source service mesh that layers transparently onto existing distributed applications. Istio’s powerful features provide a uniform and more efficient way to secure, connect, and monitor services. Istio is the path to load balancing, service-to-service authentication, and monitoring – with few or no service code changes. It gives you:
+Istio es un service mesh de código abierto que se superpone de forma transparente sobre las aplicaciones distribuidas existentes. Las potentes características de Istio proporcionan una forma uniforme y más eficiente de asegurar, conectar y monitorear servicios. Istio es el camino hacia el balanceo de carga, la autenticación service-to-service y el monitoreo, con pocos o ningún cambio en el código del servicio. Te proporciona:
 
-* Secure service-to-service communication in a cluster with mutual TLS encryption, strong identity-based authentication and authorization
-* Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic
-* Fine-grained control of traffic behavior with rich routing rules, retries, failovers, and fault injection
-* A pluggable policy layer and configuration API supporting access controls, rate limits and quotas
-* Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
+* Comunicación segura service-to-service en un cluster con cifrado mutual TLS, autenticación y autorización basada en identidad fuerte
+* Balanceo de carga automático para tráfico HTTP, gRPC, WebSocket y TCP
+* Control granular del comportamiento del tráfico con reglas de enrutamiento ricas, reintentos, failovers e inyección de fallos
+* Una capa de política conectiva y API de configuración que soporta controles de acceso, límites de velocidad y cuotas
+* Métricas, logs y trazas automáticas para todo el tráfico dentro de un cluster, incluyendo ingreso y egreso del cluster
 
-Istio is designed for extensibility and can handle a diverse range of deployment needs. Istio’s {{< gloss >}}control plane{{< /gloss >}} runs on Kubernetes, and you can add applications deployed in that cluster to your mesh, [extend the mesh to other clusters](/es/docs/ops/deployment/deployment-models/), or even [connect VMs or other endpoints](/es/docs/ops/deployment/vm-architecture/) running outside of Kubernetes.
+Istio está diseñado para la extensibilidad y puede manejar una amplia gama de necesidades de deployment. El {{< gloss >}}control plane{{< /gloss >}} de Istio se ejecuta en Kubernetes, y puedes agregar aplicaciones desplegadas en ese cluster a tu malla, [extender la mesh a otros clusters](/es/docs/ops/deployment/deployment-models/), o incluso [conectar VMs u otros endpoints](/es/docs/ops/deployment/vm-architecture/) ejecutándose fuera de Kubernetes.
 
-A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. You can install Istio yourself, or a [large number of vendors](/about/ecosystem) have products that integrate Istio and manage it for you.
+Un gran ecosistema de contribuyentes, socios, integraciones y distribuidores extiende y aprovecha Istio para una amplia variedad de escenarios. Puedes instalar Istio tú mismo, o un [gran número de proveedores](/about/ecosystem) tienen productos que integran Istio y lo gestionan por ti.
 
-## How it works
+## Cómo funciona
 
-Istio uses a proxy to intercept all your network traffic, allowing a broad set of application-aware features based on configuration you set.
+Istio usa un proxy para interceptar todo tu tráfico de red, permitiendo un amplio conjunto de características conscientes de aplicación basadas en la configuración que estableces.
 
-The control plane takes your desired configuration, and its view of the services, and dynamically programs the proxy servers, updating them as the rules or the environment changes.
+El control plane toma tu configuración deseada, y su vista de los servicios, y programa dinámicamente los servidores proxy, actualizándolos a medida que las reglas o el entorno cambian.
 
-The data plane is the communication between services. Without a service mesh, the network doesn’t understand the traffic being sent over, and can’t make any decisions based on what type of traffic it is, or who it is from or to.
+El data plane es la comunicación entre servicios. Sin un service mesh, la red no entiende el tráfico que se envía, y no puede tomar decisiones basadas en qué tipo de tráfico es, o de quién es o hacia quién va.
 
-Istio supports two data plane modes:
+Istio soporta dos modos de data plane:
 
-* **sidecar mode**, which deploys an Envoy proxy along with each pod that you start in your cluster, or running alongside services running on VMs.
-* **ambient mode**, which uses a per-node capa 4 proxy, and optionally a per-namespace Envoy proxy for capa 7 features.
+* **modo sidecar**, que despliega un proxy Envoy junto con cada Pod que inicias en tu cluster, o ejecutándose junto a servicios ejecutándose en VMs.
+* **modo ambient**, que usa un proxy capa 4 por nodo, y opcionalmente un proxy Envoy por Namespace para características de capa 7.
 
-[Learn how to choose which mode is right for you](/es/docs/overview/data plane-modes/).
+[Aprende cómo elegir qué modo es el correcto para ti](/es/docs/overview/dataplane-modes/).

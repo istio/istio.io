@@ -77,4 +77,4 @@ Si actualizas la página, deberías ver que la visualización de las calificacio
 
 ## Próximos pasos
 
-[Continúa con la siguiente sección](../secure-and-visualize/) para agregar la aplicación a la malla y aprender a proteger y visualizar la comunicación entre las aplicaciones.
+[Continúa con la siguiente sección](../secure-and-visualize/) para agregar la aplicación a la mesh y aprender a proteger y visualizar la comunicación entre las aplicaciones.

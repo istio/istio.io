@@ -17,7 +17,7 @@ Una de las ventajas clave de la extensibilidad de Wasm es que las extensiones se
 
 1. Configura Istio siguiendo las instrucciones de la [guía de introducción al modo ambient](/es/docs/ambient/getting-started).
 1. Despliega la [aplicación de ejemplo Bookinfo](/es/docs/ambient/getting-started/deploy-sample-app).
-1. [Agrega el namespace predeterminado a la malla ambient](/es/docs/ambient/getting-started/secure-and-visualize).
+1. [Agrega el namespace predeterminado a la mesh ambient](/es/docs/ambient/getting-started/secure-and-visualize).
 1. Despliega la aplicación de ejemplo [curl]({{< github_tree >}}/samples/curl) para usarla como fuente de prueba para enviar solicitudes.
 
     {{< text syntax=bash >}}

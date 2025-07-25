@@ -3,15 +3,15 @@ title: Service Mesh
 test: n/a
 ---
 
-A *service mesh* or simply *mesh* is an infrastructure layer that enables
-managed, observable and secure communication between
-[workload instances](/es/docs/reference/glossary/#workload-instance).
+Un *service mesh* o simplemente *malla* es una capa de infraestructura que permite
+comunicación gestionada, observable y segura entre
+[instancias de workload](/es/docs/reference/glossary/#workload-instance).
 
-Service names combined with a namespace are unique within a mesh.
-In a [multicluster](/es/docs/reference/glossary/#multicluster) mesh, for example,
-the `bar` service in the `foo` namespace in `cluster-1` is considered the same
-service as the `bar` service in the `foo` namespace in `cluster-2`.
+Los nombres de servicios combinados con un Namespace son únicos dentro de un mesh.
+En un mesh [multicluster](/es/docs/reference/glossary/#multicluster), por ejemplo,
+el servicio `bar` en el Namespace `foo` en `cluster-1` se considera el mismo
+servicio que el servicio `bar` en el Namespace `foo` en `cluster-2`.
 
-Since [identities](/es/docs/reference/glossary/#identity) are shared within the service
-mesh, [workload instances](/es/docs/reference/glossary/#workload-instance) can authenticate communication with any other [workload
-instance](/es/docs/reference/glossary/#workload-instance) within the same service mesh.
+Dado que las [identidades](/es/docs/reference/glossary/#identity) se comparten dentro del service
+mesh, las [instancias de workload](/es/docs/reference/glossary/#workload-instance) pueden autenticar comunicación con cualquier otra [instancia de
+workload](/es/docs/reference/glossary/#workload-instance) dentro del mismo service mesh.
