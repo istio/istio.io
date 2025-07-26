@@ -235,6 +235,7 @@ CentOS
 Cernich
 CFP
 Chandrasekhara
+channel
 Chaomeng
 Chavali
 CheckRequest
@@ -266,6 +267,7 @@ codebase
 codec
 codelab
 codelabs
+Codespaces
 Cognito
 Coinbase
 colocate
@@ -516,6 +518,7 @@ Exfiltrating
 exfiltration
 Expedia
 ext-authz
+extensibility
 extensionProviders
 ExternalName
 Ezequiel
@@ -942,6 +945,7 @@ onboard
 Onboarding
 onboarding
 OneCloud
+onramp
 onsite
 onwards
 OpenAPI
@@ -1167,6 +1171,7 @@ SignalFX
 sigstore
 sinkInfo
 SkyWalking
+slack.istio.io
 SLOs
 SMEs
 SNAT
