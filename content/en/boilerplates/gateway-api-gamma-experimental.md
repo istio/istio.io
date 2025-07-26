@@ -7,7 +7,7 @@
 
 {{< warning >}}
 This document configures Istio using Gateway API features that are
-[experimental](https://gateway-api.sigs.k8s.io/geps/overview/#status)
+[experimental](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels)
 Before using the Gateway API instructions, make sure to:
 
 1) Install the **experimental version** of the Gateway API CRDs:
