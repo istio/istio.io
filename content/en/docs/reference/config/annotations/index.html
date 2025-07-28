@@ -11,6 +11,29 @@ weight: 60
 This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">annotations</a> that
 Istio supports to control its behavior.
 </p>
+<h2 id="AmbientBypassInboundCapture">ambient.istio.io/bypass-inbound-capture</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>ambient.istio.io/bypass-inbound-capture</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When specified on a <code>Pod</code> enrolled in ambient mesh, only outbound traffic will be captured.
+This is intended to be used when enrolling a workload that only receives traffic from out-of-the-mesh clients, such as third party ingress controllers.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="AmbientRedirection">ambient.istio.io/redirection</h2>
 <table class="annotations">
   <tbody>
