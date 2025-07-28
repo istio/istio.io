@@ -25,7 +25,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue where access logs were not updated when the referenced service was created later than the Telemetry resource.  ([Issue #56825](https://github.com/istio/istio/issues/56825))
 
-- **Fixed** issues that `ClusterTrustBundle` was not working when `ENABLE_CLUSTER_TRUST_BUNDLE_API` is enabled.
+- **Fixed** an issue where `ClusterTrustBundle` was not configured properly when `ENABLE_CLUSTER_TRUST_BUNDLE_API` was enabled.
 
 - **Fixed** an issue where Istio access logs were never sent to the OTLP endpoint.  ([Issue 56825](https://github.com/istio/istio/issues/56825))
 
