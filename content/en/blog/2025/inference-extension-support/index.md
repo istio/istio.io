@@ -1,7 +1,7 @@
 ---
 title: "Bringing AI-Aware Traffic Management to Istio: Gateway API Inference Extension Support"
 description: A smarter, dynamic way to optimize AI traffic routing based on real-time metrics and the unique characteristics of inference workloads.
-publishdate: 2025-07-22
+publishdate: 2025-07-28
 attribution: "Lior Lieberman (Google), Keith Mattix (Microsoft), Aslak Knutsen (Red Hat)"
 keywords: [istio,AI,inference,gateway-api-inference-extension]
 ---
