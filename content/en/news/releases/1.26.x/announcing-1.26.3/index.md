@@ -27,7 +27,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** issues that `ClusterTrustBundle` was not working when `ENABLE_CLUSTER_TRUST_BUNDLE_API` is enabled.
 
-- **Fixed** issue where Istio access logs are never sent to OTLP endpoint.  ([Issue 56825](https://github.com/istio/istio/issues/56825))
+- **Fixed** an issue where Istio access logs were never sent to the OTLP endpoint.  ([Issue 56825](https://github.com/istio/istio/issues/56825))
 
 - **Fixed** issue with `istiod` causing high CPU usage.  ([PR 56798](https://github.com/istio/istio/pull/56798))
 
