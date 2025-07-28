@@ -9,7 +9,7 @@ test: no
 By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using {{< gloss "gateway api" >}}Gateway API{{< /gloss >}}.
 
 {{< warning >}}
-The VirtualService and EnvoyFilter APIs are not supported in waypoints. [Read more below](#unsupported-apis).
+The VirtualService and EnvoyFilter APIs are not supported in waypoints. [Read more below](/docs/ambient/usage/l7-features/#unsupported-apis).
 {{< /warning >}}
 
 ## Route and policy attachment
