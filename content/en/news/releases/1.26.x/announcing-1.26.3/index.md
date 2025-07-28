@@ -29,6 +29,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue where Istio access logs were never sent to the OTLP endpoint.  ([Issue 56825](https://github.com/istio/istio/issues/56825))
 
-- **Fixed** issue with `istiod` causing high CPU usage.  ([PR 56798](https://github.com/istio/istio/pull/56798))
+- **Fixed** an issue where high CPU usage could occur if an item was actively being worked on by a different worker until that worker was done with that item.
 
 - **Added** test flag which allows the use of the `AllowCRDsMismatch` parameter defined in the Gateway API Conformance suite. ([PR #56945](https://github.com/istio/istio/pull/56945))
