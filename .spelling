@@ -237,6 +237,7 @@ CFP
 Chandrasekhara
 channel
 Chaomeng
+chatbots
 Chavali
 CheckRequest
 CheckResponse
@@ -553,6 +554,7 @@ fuzzers
 gamified
 gapped
 gateway-api
+gateway-api-inference-extension
 GatewayClass
 Gather.town
 Gaudet
@@ -579,6 +581,7 @@ Gmail
 googleapis.com
 googlegroups.com
 GoTo
+GPUs
 Grafana
 grafana-istio-dashboard
 Graphviz
@@ -631,6 +634,8 @@ impactful
 incentivized
 Incrementality
 Indo-Pacific
+InferenceModel
+InferencePool
 initContainer
 initializer
 initializers
@@ -820,6 +825,8 @@ Loki
 Longmuir
 lookups
 loopback
+LoRA
+LoRA-aware
 Lua
 lucavall.in
 Lukonde
@@ -973,6 +980,7 @@ outsized
 overridden
 Ovidiu
 p50
+p90
 p99
 PaaS
 Padmanabhan
@@ -1152,6 +1160,7 @@ sharded
 Sharding
 sharding
 Shaughnessy
+Sheddable
 Shi
 Shilin
 Shivanshu
@@ -1264,6 +1273,7 @@ toolbelt
 toolchain
 topologySpreadConstraints
 touchpoints
+TPUs
 tradeoff
 tradeoffs
 Traefik
@@ -1369,6 +1379,7 @@ Virtualization
 virtualization
 VirtualService
 virtualservices-destrules
+vLLM
 VM
 vm-1
 VMs
