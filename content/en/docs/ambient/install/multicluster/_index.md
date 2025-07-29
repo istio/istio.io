@@ -17,7 +17,7 @@ owner: istio/wg-environments-maintainers
 
 {{< boilerplate alpha >}}
 
-Follow this guide to install an Istio {{< gloss >}} ambient service mesh{{< /gloss >}}
+Follow this guide to install an Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}
 that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
 
 ## Current Status and Limitations
