@@ -30,4 +30,3 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue where Istio access logs were never sent to the OTLP endpoint.  ([Issue 56825](https://github.com/istio/istio/issues/56825))
 
 - **Fixed** an issue where high CPU usage could occur if an item was actively being worked on by a different worker until that worker was done with that item.
-
