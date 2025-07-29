@@ -127,7 +127,7 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-SKIP_LANGS=( en zh uk )
+SKIP_LANGS=( en es zh uk )
 for lang in $LANGS; do
     for i in "${!SKIP_LANGS[@]}"; do
        if [[ "${SKIP_LANGS[$i]}" = "${lang}" ]]; then

@@ -1,0 +1,431 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
+source_repo: https://github.com/istio/api
+title: Resource Labels
+description: Resource labels used by Istio.
+location: https://istio.io/docs/reference/config/labels/
+weight: 60
+---
+
+<p>
+This page presents the various resource <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">labels</a> that
+Istio supports to control its behavior.
+</p>
+<h2 id="GatewayManaged">gateway.istio.io/managed</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>gateway.istio.io/managed</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[ServiceAccount Deployment Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Automatically added to all resources <a href="/es/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment">automatically created</a> by Istio Gateway controller, to indicate which controller created the resource. Users should not set this label themselves.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoK8sNetworkingGatewayGatewayName">gateway.networking.k8s.io/gateway-name</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>gateway.networking.k8s.io/gateway-name</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[ServiceAccount Deployment Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Automatically added to all resources <a href="/es/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment">automatically created</a> by Istio Gateway controller to indicate which <code>Gateway</code> resulted in the object creation. Users should not set this label themselves.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstiodata planeMode">istio.io/data plane-mode</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/data plane-mode</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the <a href="/es/docs/overview/data plane-modes/">data plane mode</a> to use.
+Possible values: <code>ambient</code>, <code>none</code>.
+Note: users wishing to use sidecar mode should see the <code>istio-injection</code> label; there is no value on this label to configure sidecars.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioRev">istio.io/rev</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/rev</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Istio control plane revision associated with the resource; e.g. <code>canary</code></p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioTag">istio.io/tag</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/tag</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Istio control plane tag name associated with the resource; e.g. <code>canary</code></p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioUseWaypoint">istio.io/use-waypoint</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod WorkloadEntry Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the resource has an associated waypoint with the given name.
+The waypoint is assumed to be in the same namespace; for cross-namespace, see <code>istio.io/use-waypoint-namespace</code>.</p>
+
+<p>When set or a <code>Pod</code> or a <code>Service</code>, this binds that specific resource to the waypoint.
+When set on a <code>Namespace</code>, this applies to all <code>Pod</code>/<code>Service</code> in the namespace.</p>
+
+<p>Note: the waypoint must allow the type, see <code>istio.io/waypoint-for</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioUseWaypointNamespace">istio.io/use-waypoint-namespace</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint-namespace</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod WorkloadEntry Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the resource has an associated waypoint in the provided namespace.
+This must be set in addition to <code>istio.io/use-waypoint</code>, when a cross-namespace reference is desired.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioWaypointFor">istio.io/waypoint-for</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/waypoint-for</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Stable</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[GatewayClass Gateway]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a waypoint (either by its specific <code>Gateway</code>, or for the entire collection on the <code>GatewayClass</code>),
+indicates the type of traffic this waypoint can handle.</p>
+
+<p>Valid options: <code>service</code>, <code>workload</code>, <code>all</code>, and <code>none</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="NetworkingEnableAutoallocateIp">networking.istio.io/enable-autoallocate-ip</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>networking.istio.io/enable-autoallocate-ip</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[ServiceEntry]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Configures whether a <code>ServiceEntry</code> without any <code>spec.addresses</code> set should get an IP address automatically allocated for it.</p>
+
+<p>Valid options: <code>true</code>, <code>false</code></p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="NetworkingGatewayPort">networking.istio.io/gatewayPort</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>networking.istio.io/gatewayPort</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>IstioGatewayPortLabel overrides the default 15443 value to use for a multi-network gateway&rsquo;s port</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="ServiceCanonicalName">service.istio.io/canonical-name</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>service.istio.io/canonical-name</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>The name of the canonical service a workload belongs to</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="ServiceCanonicalRevision">service.istio.io/canonical-revision</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>service.istio.io/canonical-revision</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>The name of a revision within a canonical service that the workload belongs to</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="ServiceWorkloadName">service.istio.io/workload-name</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>service.istio.io/workload-name</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod WorkloadEntry]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>The workload name of the application a workload belongs to. If unset, defaults to the detect parent resource.
+For example, a <code>Pod</code> resource may default to the <code>Deployment</code> name.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="SidecarInject">sidecar.istio.io/inject</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/inject</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies whether or not an Envoy sidecar should be automatically injected into the workload.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="TopologyCluster">topology.istio.io/cluster</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>topology.istio.io/cluster</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>This label is applied to a workload internally that identifies the Kubernetes cluster containing the workload. The cluster ID is specified during Istio installation for each cluster via <code>values.global.multiCluster.clusterName</code>. It should be noted that this is only used internally within Istio and is not an actual label on workload pods. If a pod contains this label, it will be overridden by Istio internally with the cluster ID specified during Istio installation. This label provides a way to select workloads by cluster when using DestinationRules. For example, a service owner could create a DestinationRule containing a subset per cluster and then use these subsets to control traffic flow to each cluster independently.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="TopologyNetwork">topology.istio.io/network</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>topology.istio.io/network</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Namespace Pod Service]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>A label used to identify the network for one or more pods. This is used
+internally by Istio to group pods resident in the same L3 domain/network.
+Istio assumes that pods in the same network are directly reachable from
+one another. When pods are in different networks, an Istio Gateway
+(e.g. east-west gateway) is typically used to establish connectivity
+(with AUTO_PASSTHROUGH mode). This label can be applied to the following
+resources to help automate Istio&rsquo;s multi-network configuration.</p>
+
+<ul>
+<li><p>Istio System Namespace: Applying this label to the system namespace
+establishes a default network for pods managed by the control plane.
+This is typically configured during control plane installation using an
+admin-specified value.</p></li>
+
+<li><p>Pod: Applying this label to a pod allows overriding the default network
+on a per-pod basis. This is typically applied to the pod via webhook
+injection, but can also be manually specified on the pod by the service
+owner. The Istio installation in each cluster configures webhook injection
+using an admin-specified value.</p></li>
+
+<li><p>Gateway Service: Applying this label to the Service for an Istio Gateway,
+indicates that Istio should use this service as the gateway for the
+network, when configuring cross-network traffic. Istio will configure
+pods residing outside of the network to access the Gateway service
+via <code>spec.externalIPs</code>, <code>status.loadBalancer.ingress[].ip</code>, or in the case
+of a NodePort service, the Node&rsquo;s address. The label is configured when
+installing the gateway (e.g. east-west gateway) and should match either
+the default network for the control plane (as specified by the Istio System
+Namespace label) or the network of the targeted pods.</p></li>
+</ul>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="TopologySubzone">topology.istio.io/subzone</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>topology.istio.io/subzone</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Beta</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Node]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>User-provided node label for identifying the locality subzone of a workload. This allows admins to specify a more granular level of locality than what is offered by default with Kubernetes regions and zones.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
