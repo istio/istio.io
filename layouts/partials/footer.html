@@ -80,6 +80,8 @@
                     {{ end }}
                     {{ if eq $home.Lang "zh" }}
                         <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/zh/{{ $file }}">{{ i18n "edit_on_github" }}</a>
+                    {{ else if eq $home.Lang "es" }}
+                        <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/es/{{ $file }}">{{ i18n "edit_on_github" }}</a>
                     {{ else }}
                         <a class="footer-policies-link" href="https://github.com/istio/istio.io/edit/{{ .Site.Data.args.doc_branch_name }}/content/en/{{ $file }}">{{ i18n "edit_on_github" }}</a>
                     {{ end }}
