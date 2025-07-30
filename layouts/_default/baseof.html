@@ -163,7 +163,6 @@
             {{ (printf (i18n "archive_banner_text") .Site.Data.args.version) | safeHTML }}
             {{ $rel := .RelPermalink }}
             {{ $path := replaceRE `^/v[0-9]+\.[0-9]+/` "" $rel }}
-            // Build the new path for the latest documentation. Ex:- https://istio.io/latest/docs/security/
             {{ $latestURL := printf "https://istio.io/latest/%s" $path }}
             <a href="{{ $latestURL | safeURL }}">{{ i18n "archive_banner_link" }}</a>
         </div>
