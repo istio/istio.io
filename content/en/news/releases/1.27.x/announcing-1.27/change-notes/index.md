@@ -37,7 +37,7 @@ aliases:
   ([Issue #56651](https://github.com/istio/istio/issues/56651))
 
 - **Added** support for [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/).
-This feature is off by default and can be turned on with the `SUPPORT_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
+  This feature is off by default and can be turned on with the `SUPPORT_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
   ([Issue #55768](https://github.com/istio/istio/issues/55768))
 
 - **Added** support for merge operation when applying to `LISTENER_FILTER` in EnvoyFilter.
