@@ -40,7 +40,7 @@ aliases:
   This feature is off by default and can be turned on with the `SUPPORT_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
   ([Issue #55768](https://github.com/istio/istio/issues/55768))
 
-- **Added** support for merge operation when applying to `LISTENER_FILTER` in EnvoyFilter.
+- **Added** support for merge operations when applying to `LISTENER_FILTER` in EnvoyFilter.
 
 - **Added** feature `ENABLE_LAZY_SIDECAR_EVALUATION` that allows to enable lazy initialization of sidecar resources,
 Only computing internal indexes when `SidecarScopes` are actually used by a Proxy. This feature supersedes the
