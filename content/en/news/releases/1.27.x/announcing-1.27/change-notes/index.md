@@ -84,7 +84,7 @@ aliases:
 
 - **Fixed** an issue where the CNI plugin incorrectly handled pod deletion when the pod was not yet marked as enrolled in the mesh. In some cases, this could cause a pod, which had been deleted, to be included in the ZDS snapshot and never cleaned up. If this occurred, ztunnel would not be able to become ready.  ([Issue #56738](https://github.com/istio/istio/issues/56738))
 
-- **Fixed** an issue where Istio's outbound route configuration did not include the absolute/fully qualified domain name (FQDN) variant (with trailing dot) in the domains list for `VirtualHost` entries. This ensures that requests using absolute FQDNs (ending with a dot, e.g., `my-service.my-ns.svc.cluster.local.`) are properly routed to the intended service instead of falling back to PassthroughCluster.
+- **Fixed** an issue where Istio's outbound route configuration did not include the absolute domain name  (fully-qualified domain name with trailing dot) in the domains list for `VirtualHost` entries. This change ensures that requests using absolute domain names (ending with a dot, e.g., `my-service.my-ns.svc.cluster.local.`) are properly routed to the intended service instead of falling back to `PassthroughCluster`.
   ([Issue #56007](https://github.com/istio/istio/issues/56007))
 
 ## Security
