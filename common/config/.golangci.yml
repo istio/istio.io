@@ -29,6 +29,12 @@ linters:
           deny:
             - pkg: github.com/gogo/protobuf
               desc: gogo/protobuf is deprecated, use golang/protobuf
+        main:
+          files:
+            - $all
+          allow:
+            - ^istio.io/istio/pkg/test
+            - ^istio.io/istio.io/pkg/test
     errcheck:
       check-type-assertions: false
       check-blank: false
@@ -146,47 +152,51 @@ linters:
       - std-error-handling
     rules:
       - linters:
+          - depguard
+          - lll
+        path: tests/|pkg/test/
+      - linters:
           - errcheck
           - maligned
         path: _test\.go$|tests/|samples/
       - path: _test\.go$
-        text: 'dot-imports: should not use dot imports'
+        text: "dot-imports: should not use dot imports"
       - linters:
           - staticcheck
-        text: 'SA1019: package github.com/golang/protobuf/jsonpb'
+        text: "SA1019: package github.com/golang/protobuf/jsonpb"
       - linters:
           - staticcheck
         text: 'SA1019: "github.com/golang/protobuf/jsonpb"'
       - linters:
           - staticcheck
-        text: 'SA1019: grpc.Dial is deprecated: use NewClient instead'
+        text: "SA1019: grpc.Dial is deprecated: use NewClient instead"
       - linters:
           - staticcheck
-        text: 'SA1019: grpc.DialContext is deprecated: use NewClient instead'
+        text: "SA1019: grpc.DialContext is deprecated: use NewClient instead"
       - linters:
           - staticcheck
-        text: 'SA1019: grpc.WithBlock is deprecated'
+        text: "SA1019: grpc.WithBlock is deprecated"
       - linters:
           - staticcheck
-        text: 'SA1019: grpc.FailOnNonTempDialError'
+        text: "SA1019: grpc.FailOnNonTempDialError"
       - linters:
           - staticcheck
-        text: 'SA1019: grpc.WithReturnConnectionError'
+        text: "SA1019: grpc.WithReturnConnectionError"
       - path: (.+)\.go$
         text: composite literal uses unkeyed fields
       # TODO: remove following rule in the future
       - linters:
           - staticcheck
-        text: 'QF'
+        text: "QF"
       - linters:
           - staticcheck
-        text: 'ST1005'
+        text: "ST1005"
       - linters:
           - staticcheck
-        text: 'S1007'
+        text: "S1007"
       # TODO: remove once we have updated package names
       - linters:
-        - revive
+          - revive
         text: "var-naming: avoid meaningless package names"
     paths:
       - .*\.pb\.go
