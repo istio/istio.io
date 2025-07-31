@@ -48,8 +48,8 @@ aliases:
   instead `ENABLE_LAZY_SIDECAR_EVALUATION` will use the same concurrency as `PILOT_PUSH_THROTTLE`.
 
 - **Added** support for native `nftables` when using Istio sidecar mode. This update makes it possible to use `nftables`
-instead of iptables to manage network rules, offering more efficient approach to traffic redirection for pods and
-services. To enable the `nftables` mode, use `--set values.global.nativeNftables=true` at the time of installation.  ([Issue #56487](https://github.com/istio/istio/issues/56487))
+  instead of iptables to manage network rules, offering more efficient approach to traffic redirection for pods and
+  services. To enable the `nftables` mode, use `--set values.global.nativeNftables=true` at the time of installation.  ([Issue #56487](https://github.com/istio/istio/issues/56487))
 
 - **Added** support to specify traffic distribution mode for services. ([Issue #53354](https://github.com/istio/istio/issues/53354))
 
