@@ -25,9 +25,9 @@ aliases:
   and workloads are shared with the data plane and which clusters and listeners are configured for the waypoints
   (including e/w gateways) in the mesh.
 
-- **Added** a feature flag `EnableGatewayAPICopyLabelsAnnotations` to allow
-users to choose whether the deployment resources will inherit attributes from
-the parent Gateway API resource. This feature is enabled by default.
+- **Added** feature flag `EnableGatewayAPICopyLabelsAnnotations` to allow
+  users to choose whether the deployment resources will inherit attributes from
+  the parent Gateway API resource. This feature is enabled by default.
 
 - **Added** support for `PreferSameNode` and `PreferSameZone` on the Kubernetes Service `trafficDistribution` field.  ([Issue #55848](https://github.com/istio/istio/issues/55848))
 
