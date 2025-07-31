@@ -90,8 +90,8 @@ aliases:
 ## Security
 
 - **Added** support for omitting the issuer claim in JWT tokens. Either the issuer claim or a `JWKSUri` is required,
-but not both. This allows for more flexible configurations when using JWT tokens for authentication, particularly
-in scenarios where the issuer claim may be dynamic.  ([Issue #14400](https://github.com/istio/istio/issues/14400))
+  but not both. This allows for more flexible configurations when using JWT tokens for authentication, particularly
+  in scenarios where the issuer claim may be dynamic. ([Issue #14400](https://github.com/istio/istio/issues/14400))
 
 - **Added** an opt-in feature when using istio-cni in ambient mode to create a Istio owned CNI config
 file which contains the contents of the primary CNI config file and the Istio CNI plugin. This
