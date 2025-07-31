@@ -57,7 +57,9 @@ services. To enable the `nftables` mode, use `--set values.global.nativeNftables
 
 - **Added** support of retry budget in the `DestinationRule`.
 
-- **Fixed**  Gateway status controller leader election was not running per revision, which could lead to issues in multi-revision setups. The leader election is now correctly scoped to each revision, ensuring that the gateway status controller operates independently for each revision. ([Issue #55717](https://github.com/istio/istio/issues/55717))
+- **Fixed** an issue where the gateway status controller leader election was not running per revision, which could lead to issues in multi-revision setups.
+  The leader election is now correctly scoped to each revision, ensuring that the gateway status controller operates independently for each revision.
+  ([Issue #55717](https://github.com/istio/istio/issues/55717))
 
 - **Fixed** an issue where virtual service routes were ignored when virtual service was configured with hosts containing mixed case letters.
   ([Issue #55767](https://github.com/istio/istio/issues/55767))
