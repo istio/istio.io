@@ -268,17 +268,17 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, fullpush, gateway, grpc, grpcgen, ip-autoallocate, klog, krt, kube, model, monitoring, pkica, pkira, probes, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, tag-watcher, trustBundle, untaint, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, fullpush, gateway, grpc, grpcgen, ip-autoallocate, klog, krt, kube, model, monitoring, pkica, pkira, probes, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, fullpush, gateway, grpc, grpcgen, ip-autoallocate, klog, krt, kube, model, monitoring, pkica, pkira, probes, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, tag-watcher, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, fullpush, gateway, grpc, grpcgen, ip-autoallocate, klog, krt, kube, model, monitoring, pkica, pkira, probes, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, fullpush, gateway, grpc, grpcgen, ip-autoallocate, klog, krt, kube, model, monitoring, pkica, pkira, probes, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, tag-watcher, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, adsc, all, analysis, authn, authorization, ca, controllers, default, delta, deltaadsc, file, fullpush, gateway, grpc, grpcgen, ip-autoallocate, klog, krt, kube, model, monitoring, pkica, pkira, probes, processing, retry, rootcertrotator, secretcontroller, security, serverca, serviceentry, spiffe, status, trustBundle, untaint, validation, validationController, validationServer, wasm, wle] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -538,12 +538,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
-</tr>
-<tr id='enable-gateway-api-inference-extension'>
-<td><a href='#enable-gateway-api-inference-extension'><code>ENABLE_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='enable-gateway-api-manual-deployment'>
 <td><a href='#enable-gateway-api-manual-deployment'><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></a></td>
@@ -1460,6 +1454,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr id='support-gateway-api-inference-extension'>
+<td><a href='#support-gateway-api-inference-extension'><code>SUPPORT_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='token-audiences'>
 <td><a href='#token-audiences'><code>TOKEN_AUDIENCES</code></a></td>

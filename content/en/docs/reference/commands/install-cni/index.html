@@ -613,12 +613,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>true</code></td>
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
-<tr id='enable-gateway-api-inference-extension'>
-<td><a href='#enable-gateway-api-inference-extension'><code>ENABLE_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, support gateway inference extension routing apis</td>
-</tr>
 <tr id='enable-gateway-api-manual-deployment'>
 <td><a href='#enable-gateway-api-manual-deployment'><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></a></td>
 <td>Boolean</td>
@@ -1564,6 +1558,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Whether to use insecure TLS in kubeconfig file</td>
+</tr>
+<tr id='support-gateway-api-inference-extension'>
+<td><a href='#support-gateway-api-inference-extension'><code>SUPPORT_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='system-namespace'>
 <td><a href='#system-namespace'><code>SYSTEM_NAMESPACE</code></a></td>
