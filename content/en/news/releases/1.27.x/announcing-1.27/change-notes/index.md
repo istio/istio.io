@@ -64,7 +64,8 @@ services. To enable the `nftables` mode, use `--set values.global.nativeNftables
 - **Fixed** an issue where virtual service routes were ignored when the virtual service was configured with hosts containing mixed-case letters.
   ([Issue #55767](https://github.com/istio/istio/issues/55767))
 
-- **Fixed** Regression in Istio 1.26.0 that caused a panic in istiod when processing Gateway API hostnames.   ([Issue #56300](https://github.com/istio/istio/issues/56300))
+- **Fixed** a regression in Istio 1.26.0 that caused a panic in istiod when processing Gateway API hostnames.
+  ([Issue #56300](https://github.com/istio/istio/issues/56300))
 
 - **Fixed** an issue where mTLS was disabled unexpectedly when `PILOT_ENABLE_TELEMETRY_LABEL` or `PILOT_ENDPOINT_TELEMETRY_LABEL` was set to `false`
   ([Issue #56352](https://github.com/istio/istio/issues/56352))
