@@ -93,15 +93,15 @@ aliases:
   but not both. This allows for more flexible configurations when using JWT tokens for authentication, particularly
   in scenarios where the issuer claim may be dynamic. ([Issue #14400](https://github.com/istio/istio/issues/14400))
 
-- **Added** an opt-in feature when using istio-cni in ambient mode to create a Istio owned CNI config
-file which contains the contents of the primary CNI config file and the Istio CNI plugin. This
-opt-in feature is a solution to the issue of traffic bypassing the mesh on node restart when the
-istio CNI DaemonSet is not ready, the Istio CNI plugin is not installed, or the plugin is not
-invoked to configure traffic redirection from pods their node ztunnels. This feature is enabled by
-setting `cni.istioOwnedCNIConfig` to true in the istio-cni Helm chart values. If no value is set for
-`cni.istioOwnedCNIConfigFilename`, the Istio owned CNI config file will be named `02-istio-cni.conflist`.
-The `istioOwnedCNIConfigFilename` must have a higher lexicographical priority than the primary CNI.
-Ambient and chained CNI plugins must be enabled for this feature to work.
+- **Added** an opt-in feature when using istio-cni in ambient mode, to create an Istio-owned CNI config
+  file which contains the contents of the primary CNI config file and the Istio CNI plugin. This
+  opt-in feature is a solution to the issue of traffic bypassing the mesh on node restart when the
+  Istio CNI `DaemonSet` is not ready, the Istio CNI plugin is not installed, or the plugin is not
+  invoked to configure traffic redirection from pods their node ztunnels. This feature is enabled by
+  setting `cni.istioOwnedCNIConfig` to true in the istio-cni Helm chart values. If no value is set for
+  `cni.istioOwnedCNIConfigFilename`, the Istio-owned CNI config file will be named `02-istio-cni.conflist`.
+  The `istioOwnedCNIConfigFilename` value must have a higher lexicographical priority than the primary CNI.
+  Ambient and chained CNI plugins must be enabled for this feature to work.
 
 - **Added** validation for `--clusterAliases` command argument, that it shouldn't have more than one alias per cluster.  ([Issue #56022](https://github.com/istio/istio/issues/56022))
 
