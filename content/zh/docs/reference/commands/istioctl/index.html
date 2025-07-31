@@ -201,11 +201,6 @@ debug and diagnose their Istio mesh.
 <td>Comma-separated list of output logging level for scopes in the format of &lt;scope&gt;:&lt;level&gt;[,&lt;scope&gt;:&lt;level&gt;,...]. Possible values for &lt;level&gt;: none, error, warn, info, debug  (default ``)</td>
 </tr>
 <tr>
-<td><code>--log-reset</code></td>
-<td></td>
-<td>Reset log levels to default value. (info) </td>
-</tr>
-<tr>
 <td><code>--namespace &lt;string&gt;</code></td>
 <td><code>-n</code></td>
 <td>Kubernetes namespace  (default ``)</td>
@@ -218,7 +213,7 @@ debug and diagnose their Istio mesh.
 <tr>
 <td><code>--reset</code></td>
 <td></td>
-<td>Reset all levels to default value. (info) </td>
+<td>Reset levels to default value. (info) </td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -234,11 +229,6 @@ debug and diagnose their Istio mesh.
 <td><code>--stack-trace-level &lt;string&gt;</code></td>
 <td></td>
 <td>Comma-separated list of stack trace level for scopes in the format of &lt;scope&gt;:&lt;stack-trace-level&gt;[,&lt;scope&gt;:&lt;stack-trace-level&gt;,...]. Possible values for &lt;stack-trace-level&gt;: none, error, warn, info, debug  (default ``)</td>
-</tr>
-<tr>
-<td><code>--stack-trace-reset</code></td>
-<td></td>
-<td>Reset stack stace levels to default value. (none) </td>
 </tr>
 <tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
@@ -616,11 +606,6 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Set a specific directory for output archive file.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
 <td><code>--rq-concurrency &lt;int&gt;</code></td>
 <td></td>
 <td>Set the concurrency limit of requests to the Kubernetes API server, defaults to 32.  (default `0`)</td>
@@ -759,11 +744,6 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td><code>--output-dir &lt;string&gt;</code></td>
 <td></td>
 <td>Set a specific directory for output archive file.  (default ``)</td>
-</tr>
-<tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--rq-concurrency &lt;int&gt;</code></td>
@@ -2457,11 +2437,6 @@ from multiple sources (mesh-level, namespace-level and workload-level).</p>
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2807,11 +2782,6 @@ the configuration objects that affect that pod.</p>
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2819,7 +2789,7 @@ the configuration objects that affect that pod.</p>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-describe-pod Examples">Examples</h4>
-<pre class="language-bash"><code>  # Pod query with inferred namespace (current context&#39;s namespace)
+<pre class="language-bash"><code>  #Pod query with inferred namespace (current context&#39;s namespace)
   istioctl experimental describe pod helloworld-v1-676yyy3y5r-d8hdl
 
   # Pod query with explicit namespace 
@@ -2891,11 +2861,6 @@ the configuration objects that affect that service.</p>
 <td>Kubernetes namespace  (default ``)</td>
 </tr>
 <tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
 <td><code>--vklog &lt;Level&gt;</code></td>
 <td></td>
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
@@ -2903,7 +2868,7 @@ the configuration objects that affect that service.</p>
 </tbody>
 </table>
 <h4 id="istioctl-experimental-describe-service Examples">Examples</h4>
-<pre class="language-bash"><code>  # Service query with inferred namespace (current context&#39;s namespace)
+<pre class="language-bash"><code>  #Service query with inferred namespace (current context&#39;s namespace)
   istioctl experimental describe service productpage
 
   # Service query with explicit namespace
@@ -3548,11 +3513,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td><code>--plaintext</code></td>
 <td></td>
 <td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
-</tr>
-<tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
 </tr>
 <tr>
 <td><code>--revision &lt;string&gt;</code></td>
@@ -6185,11 +6145,6 @@ Retrieves last sent and last acknowledged xDS sync from Istiod to each Envoy in 
 <td>Use plain-text HTTP/2 when connecting to server (no TLS). </td>
 </tr>
 <tr>
-<td><code>--proxy-admin-port &lt;int&gt;</code></td>
-<td></td>
-<td>Envoy proxy admin port  (default `15000`)</td>
-</tr>
-<tr>
 <td><code>--revision &lt;string&gt;</code></td>
 <td><code>-r</code></td>
 <td>Control plane revision  (default ``)</td>
@@ -8539,12 +8494,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>true</code></td>
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
 </tr>
-<tr id='enable-gateway-api-inference-extension'>
-<td><a href='#enable-gateway-api-inference-extension'><code>ENABLE_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, support gateway inference extension routing apis</td>
-</tr>
 <tr id='enable-gateway-api-manual-deployment'>
 <td><a href='#enable-gateway-api-manual-deployment'><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></a></td>
 <td>Boolean</td>
@@ -9448,6 +9397,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
+</tr>
+<tr id='support-gateway-api-inference-extension'>
+<td><a href='#support-gateway-api-inference-extension'><code>SUPPORT_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='term'>
 <td><a href='#term'><code>TERM</code></a></td>
