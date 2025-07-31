@@ -130,11 +130,11 @@ spec:
 
 ## Unsupported APIs with waypoints
 
-Some legacy Istio APIs are deliberately not supported by waypoints in ambient mode.  These APIs can still be used with [Istio Gateways](/docs/tasks/traffic-management/ingress/ingress-control/).
+Some Istio APIs are deliberately not supported by waypoints in ambient mode.  These APIs can still be used with [classic Istio Gateways](/docs/tasks/traffic-management/ingress/ingress-control/) in an ambient mesh.
 
 ### VirtualService
 
-Istio's legacy traffic routing API is not supported for configuring waypoint traffic routing, though it works in some circumstances.
+Istio's classic traffic routing API is not supported for configuring waypoint traffic routing, though it works in some circumstances.
 
 Any use of VirtualService with waypoints is considered Alpha, and may be subject to change in future releases.
 Istio's maintainers do not intend to remove this support, but will not be progressing it to [any further feature phase](/docs/releases/feature-stages).
@@ -157,9 +157,9 @@ Gateway API has no ability to address [subsets](/docs/reference/config/networkin
 
 The other features of DestinationRule are supported.
 
-#### Legacy Istio gateways
+#### Classic Istio Gateways
 
-Istio Gateways configured with VirtualService (i.e. where the `gateways` field refers to a named ingress gateway) can safely be mixed with waypoints which are configured with Gateway API routes.
+[Classic Istio Gateways](/docs/reference/config/networking/gateway/) can be used to route traffic into an ambient mesh. These can still be configured with VirtualService (i.e. where the `gateways` field refers to a named ingress gateway), alongside waypoints which are configured with Gateway API routes.
 
 ### EnvoyFilter
 
