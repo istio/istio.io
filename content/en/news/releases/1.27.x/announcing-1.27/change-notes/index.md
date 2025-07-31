@@ -70,7 +70,7 @@ services. To enable the `nftables` mode, use `--set values.global.nativeNftables
 - **Fixed** an issue where mTLS was disabled unexpectedly when `PILOT_ENABLE_TELEMETRY_LABEL` or `PILOT_ENDPOINT_TELEMETRY_LABEL` was set to `false`
   ([Issue #56352](https://github.com/istio/istio/issues/56352))
 
-- **Fixed**  Ambient host network iptables rules were being skipped due to higher-priority CNI rules in some deployments.
+- **Fixed** an issue where ambient host network iptables rules were being skipped due to higher-priority CNI rules in some deployments.
   ([Issue #56414](https://github.com/istio/istio/issues/56414))
 
 - **Fixed** an issue where `EnvoyFilter` with `targetRefs` matched incorrect resources.
