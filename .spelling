@@ -37,6 +37,7 @@
 1.26.x.
 1.27.3
 1.27.x
+1.27.x.
 1.3.x
 1.3.x.
 1.4.x
@@ -656,6 +657,7 @@ intranode
 Invasiveness
 IOPs
 ip
+ipallocate
 ipBlocks
 IPs
 IPsec
@@ -959,6 +961,7 @@ onsite
 onwards
 OpenAPI
 OpenCensus
+Opencensus
 OpenID
 OpenID_Connect
 OpenMetrics
@@ -1228,6 +1231,7 @@ subnetworks
 subresource
 subresources
 substring
+subzone
 Sudheendra
 Sumit
 Superfeet
@@ -1263,6 +1267,7 @@ templating
 Tencent
 test-api
 Tetrate
+Tetrate.io
 Tigera
 timeframe
 timestamp
@@ -1271,6 +1276,7 @@ TLS
 TLS-secured
 ToC
 Tokio
+tolerations
 toolbelt
 toolchain
 topologySpreadConstraints
@@ -1338,6 +1344,7 @@ v1.21.0
 v1.22
 v1.26
 v1.27
+v1.27.
 v1.28
 v1.29
 v1.30
@@ -1345,6 +1352,7 @@ v1.31
 v1.32
 v1.33
 v1.34
+v1.35
 v1.5
 v1.55
 v1.55.1
@@ -1395,6 +1403,7 @@ W3C
 Walle
 Warman
 Wasm
+wasm
 wasme
 WasmPlugin
 waypoint
@@ -1454,6 +1463,7 @@ Yossi
 Yuval
 Yuxing
 Zack
+zds
 Zehuan
 Zeng
 Zhang
