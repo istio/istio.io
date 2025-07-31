@@ -55,7 +55,7 @@ aliases:
 
 - **Added** feature `ENABLE_PROXY_FIND_POD_BY_IP` that allows enabling association of Pods to Proxies by IP address, if the association by name and namespace fails.
 
-- **Added** support of retry budget in the `DestinationRule`.
+- **Added** support of retry budget in `DestinationRule` resources.
 
 - **Fixed** an issue where the gateway status controller leader election was not running per revision, which could lead to issues in multi-revision setups.
   The leader election is now correctly scoped to each revision, ensuring that the gateway status controller operates independently for each revision.
