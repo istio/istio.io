@@ -76,7 +76,7 @@ services. To enable the `nftables` mode, use `--set values.global.nativeNftables
 - **Fixed** an issue where `EnvoyFilter` with `targetRefs` matched incorrect resources.
   ([Issue #56417](https://github.com/istio/istio/issues/56417))
 
-- **Fixed** Fixed ambient index to filter configs by revision
+- **Fixed** ambient index to filter configurations by their revision.
   ([Issue #56477](https://github.com/istio/istio/issues/56477))
 
 - **Fixed** ignoring the `topology.istio.io/network` label on the system namespace when `discoverySelectors` are in use.
