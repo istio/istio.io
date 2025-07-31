@@ -61,7 +61,7 @@ services. To enable the `nftables` mode, use `--set values.global.nativeNftables
   The leader election is now correctly scoped to each revision, ensuring that the gateway status controller operates independently for each revision.
   ([Issue #55717](https://github.com/istio/istio/issues/55717))
 
-- **Fixed** an issue where virtual service routes were ignored when virtual service was configured with hosts containing mixed case letters.
+- **Fixed** an issue where virtual service routes were ignored when the virtual service was configured with hosts containing mixed-case letters.
   ([Issue #55767](https://github.com/istio/istio/issues/55767))
 
 - **Fixed** Regression in Istio 1.26.0 that caused a panic in istiod when processing Gateway API hostnames.   ([Issue #56300](https://github.com/istio/istio/issues/56300))
