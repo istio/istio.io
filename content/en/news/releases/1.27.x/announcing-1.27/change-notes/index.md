@@ -18,12 +18,12 @@ aliases:
 - **Added** support for multiple server certificates in gateway (istio & Gateway API). ([Issue #36181](https://github.com/istio/istio/issues/36181))
 
 - **Added** alpha support for specifying `ServiceScope` in the MeshConfig in ambient multicluster configurations.
-`ServiceScope` enables the selection of individual services or services in a namespace to be global or local.
-A locally scoped service is only discoverable by the data plane in the same cluster as the service. A local
-service is not discoverable by the data planes in other clusters. A globally scoped service is discoverable
-by the data planes in all clusters. Defining selectors for the `serviceScopeConfigs` determines which services
-and workloads are shared with the data plane and which clusters and listeners are configured for the waypoints
-(including e/w gateways) in the mesh.
+  `ServiceScope` enables the selection of individual services or services in a namespace to be global or local.
+  A locally scoped service is only discoverable by the data plane in the same cluster as the service. A local
+  service is not discoverable by the data planes in other clusters. A globally-scoped service is discoverable
+  by the data planes in all clusters. Defining selectors for the `serviceScopeConfigs` determines which services
+  and workloads are shared with the data plane and which clusters and listeners are configured for the waypoints
+  (including e/w gateways) in the mesh.
 
 - **Added** a feature flag `EnableGatewayAPICopyLabelsAnnotations` to allow
 users to choose whether the deployment resources will inherit attributes from
