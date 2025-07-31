@@ -82,7 +82,7 @@ aliases:
 - **Fixed** ignoring the `topology.istio.io/network` label on the system namespace when `discoverySelectors` are in use.
   ([Issue #56687](https://github.com/istio/istio/issues/56687))
 
-- **Fixed** CNI incorrectly handled pod deletion when the pod was not yet marked as enrolled in the mesh. In some cases, this could cause a pod which has been deleted to be included in the zds snapshot and never cleaned up. If this occurs ztunnel will not be able to become ready.  ([Issue #56738](https://github.com/istio/istio/issues/56738))
+- **Fixed** CNI incorrectly handled pod deletion when the pod was not yet marked as enrolled in the mesh. In some cases, this could cause a pod which has been deleted to be included in the Zds snapshot and never cleaned up. If this occurs ztunnel will not be able to become ready.  ([Issue #56738](https://github.com/istio/istio/issues/56738))
 
 - **Fixed** an issue where Istio's outbound route configuration did not include the absolute/fully qualified domain name (FQDN) variant (with trailing dot) in the domains list for `VirtualHost` entries. This ensures that requests using absolute FQDNs (ending with a dot, e.g., `my-service.my-ns.svc.cluster.local.`) are properly routed to the intended service instead of falling back to PassthroughCluster.
   ([Issue #56007](https://github.com/istio/istio/issues/56007))
@@ -144,7 +144,7 @@ The system now properly validates the presence of all required CA files and fail
 
 ## Extensibility
 
-- **Added** an option to reload the wasm VM on new requests if the VM has failed.
+- **Added** an option to reload the Wasm VM on new requests if the VM has failed.
 
 ## Installation
 

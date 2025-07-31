@@ -22,7 +22,7 @@ between dashboards.
 
 ## Deprecation of telemetry providers
 
-The telemetry providers Lightstep and Opencensus are removed in v1.27. Please use the OpenTelemetry provider instead.
+The telemetry providers Lightstep and OpenCensus are removed in v1.27. Please use the OpenTelemetry provider instead.
 
 ## Native sidecar enabled by default
 
