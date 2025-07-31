@@ -15,7 +15,7 @@ aliases:
 
 - **Updated** traffic distribution to disregard subzone when the Kubernetes Service `trafficDistribution` field is set to `PreferClose`. ([Issue #55848](https://github.com/istio/istio/issues/55848))
 
-- **Added** Add support for multiple server certificates in gateway (istio & Gateway API). ([Issue #36181](https://github.com/istio/istio/issues/36181))
+- **Added** support for multiple server certificates in gateway (istio & Gateway API). ([Issue #36181](https://github.com/istio/istio/issues/36181))
 
 - **Added** alpha support for specifying `ServiceScope` in the MeshConfig in ambient multicluster configurations.
 `ServiceScope` enables the selection of individual services or services in a namespace to be global or local.
