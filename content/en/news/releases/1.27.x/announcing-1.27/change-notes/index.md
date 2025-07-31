@@ -43,9 +43,9 @@ aliases:
 - **Added** support for merge operations when applying to `LISTENER_FILTER` in EnvoyFilter.
 
 - **Added** feature `ENABLE_LAZY_SIDECAR_EVALUATION` that allows to enable lazy initialization of sidecar resources,
-Only computing internal indexes when `SidecarScopes` are actually used by a Proxy. This feature supersedes the
-previous `PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY` which would allow concurrent conversion with specific given concurrency,
-instead `ENABLE_LAZY_SIDECAR_EVALUATION` will use the same concurrency as `PILOT_PUSH_THROTTLE`.
+  Only computing internal indexes when `SidecarScopes` are actually used by a Proxy. This feature supersedes the
+  previous `PILOT_CONVERT_SIDECAR_SCOPE_CONCURRENCY` which would allow concurrent conversion with specific given concurrency,
+  instead `ENABLE_LAZY_SIDECAR_EVALUATION` will use the same concurrency as `PILOT_PUSH_THROTTLE`.
 
 - **Added** support for native `nftables` when using Istio sidecar mode. This update makes it possible to use `nftables`
 instead of iptables to manage network rules, offering more efficient approach to traffic redirection for pods and
