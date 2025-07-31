@@ -79,7 +79,7 @@ aliases:
 - **Fixed** ambient index to filter configurations by their revision.
   ([Issue #56477](https://github.com/istio/istio/issues/56477))
 
-- **Fixed** ignoring the `topology.istio.io/network` label on the system namespace when `discoverySelectors` are in use.
+- **Fixed** an issue where the `topology.istio.io/network` label was not properly skipped on the system namespace when `discoverySelectors` were in use.
   ([Issue #56687](https://github.com/istio/istio/issues/56687))
 
 - **Fixed** CNI incorrectly handled pod deletion when the pod was not yet marked as enrolled in the mesh. In some cases, this could cause a pod which has been deleted to be included in the Zds snapshot and never cleaned up. If this occurs ztunnel will not be able to become ready.  ([Issue #56738](https://github.com/istio/istio/issues/56738))
