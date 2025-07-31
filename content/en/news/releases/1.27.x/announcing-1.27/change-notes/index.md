@@ -33,7 +33,7 @@ aliases:
 
 - **Added** Pilot environment variables `PILOT_IP_AUTOALLOCATE_IPV4_PREFIX` and `PILOT_IP_AUTOALLOCATE_IPV6_PREFIX` to configure the IP CIDR prefix(es) for auto-allocated IPs. This allows users to set a specific range of IPs for auto-allocation, providing more control over the IP address space used for VIPs by the ipallocate controller.
 
-- **Added** recording secret's namespace and name when certificate is invalid.
+- **Added** logging of a secret's namespace and name when a certificate is invalid.
   ([Issue #56651](https://github.com/istio/istio/issues/56651))
 
 - **Added** support for [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/).
