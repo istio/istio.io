@@ -53,7 +53,7 @@ aliases:
 
 - **Added** support for specifying traffic distribution mode for services. ([Issue #53354](https://github.com/istio/istio/issues/53354))
 
-- **Added** feature `ENABLE_PROXY_FIND_POD_BY_IP` that allows to enable association of Pods to Proxies by IP address if association by name and namespace fails.
+- **Added** feature `ENABLE_PROXY_FIND_POD_BY_IP` that allows enabling association of Pods to Proxies by IP address, if the association by name and namespace fails.
 
 - **Added** support of retry budget in the `DestinationRule`.
 
