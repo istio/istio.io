@@ -226,7 +226,7 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 
 - **Added** support displaying `traffic type` for `istioctl waypoint list`.
 
-- **Added** support `--weight` parameter for `istioctl experimental workload group create`.
+- **Added** support for the `--weight` parameter in the command `istioctl experimental workload group create`.
 
 - **Added** support for configuring the log level of `ip-autoallocate` in `istioctl admin log`.
   ([Issue #55741](https://github.com/istio/istio/issues/55741))
