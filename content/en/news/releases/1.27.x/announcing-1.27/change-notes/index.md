@@ -199,32 +199,32 @@ which overrides `workload-socket`, resulted in Kubernetes not creating other vol
 - **Fixed** a panic in `istioctl manifest translate` when the `IstioOperator` config contained multiple gateways.
   ([Issue #56223](https://github.com/istio/istio/issues/56223))
 
-- **Fixed** incorrect UID and GID assignment for `istio-proxy` and `istio-validation` containers on OpenShift when TPROXY mode is enabled.
+- **Fixed** assignment of incorrect UIDs and GIDs for `istio-proxy` and `istio-validation` containers on OpenShift clusters when TPROXY mode was enabled.
 
-- **Fixed** issues that ClusterTrustBundle was not working when `ENABLE_CLUSTER_TRUST_BUNDLE_API` is enabled.
+- **Fixed** an issue where `ClusterTrustBundle` was not properly configured when `ENABLE_CLUSTER_TRUST_BUNDLE_API` was enabled.
 
 - **Removed** unused multicluster-related Helm values.
 
 ## istioctl
 
-- **Added** `--kubeclient-timeout` flag to `istioctl` root flags. May be unset, or set to a valid `time.Duration` string.
-When specified, this will override the default `15s` timeout for all `istioctl` commands that use the Kubernetes client.
-This is useful for environments with slow Kubernetes API servers, such as those with high latency or low bandwidth.
-Note that this flag is just used for the Kubernetes client, and does not affect other timeouts in `istioctl`, such as
-installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/54962))
+- **Added** the `--kubeclient-timeout` flag to `istioctl` root flags. May be unset, or set to a valid `time.Duration` string.
+  When specified, this will override the default `15s` timeout for all `istioctl` commands that use the Kubernetes client.
+  This is useful for environments with slow Kubernetes API servers, such as those with high latency or low bandwidth.
+  Note that this flag is just used for the Kubernetes client, and does not affect other timeouts in `istioctl`, such as
+  installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/54962))
 
 - **Added** `--revision` flags for `istioctl dashboard controlz` and `istioctl dashboard istiod-debug`.
 
-- **Added** support in `istioctl proxy-status` to dynamically display all xDS/CRD types as columns in the output table.
+- **Added** support in the `istioctl proxy-status` command to dynamically display all xDS/CRD types as columns in the output table.
   ([Issue #56005](https://github.com/istio/istio/issues/56005))
 
 - **Added** support for customizing the timeout of `istioctl waypoint status` and `istioctl waypoint apply`.
   ([Issue #56453](https://github.com/istio/istio/issues/56453))
 
-- **Added** support displaying `stack-trace-level` for `istioctl admin log`.
+- **Added** support for displaying `stack-trace-level` in the command `istioctl admin log`.
   ([Issue #56465](https://github.com/istio/istio/issues/56465))
 
-- **Added** support displaying `traffic type` for `istioctl waypoint list`.
+- **Added** support for displaying `traffic type` in the command `istioctl waypoint list`.
 
 - **Added** support for the `--weight` parameter in the command `istioctl experimental workload group create`.
 
