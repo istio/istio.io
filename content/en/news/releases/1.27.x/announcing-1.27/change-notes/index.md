@@ -196,7 +196,7 @@ aliases:
 - **Fixed** an injection failure that occurred when the `gateway` template was combined with another template, like `spire`,
 which overrides `workload-socket`, resulted in Kubernetes not creating other volumes, like those with `emptyDir` and `csi` settings.
 
-- **Fixed** a panic in `istioctl manifest translate` when the IstioOperator config contains multiple gateways.
+- **Fixed** a panic in `istioctl manifest translate` when the `IstioOperator` config contained multiple gateways.
   ([Issue #56223](https://github.com/istio/istio/issues/56223))
 
 - **Fixed** incorrect UID and GID assignment for `istio-proxy` and `istio-validation` containers on OpenShift when TPROXY mode is enabled.
