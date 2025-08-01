@@ -112,10 +112,10 @@ aliases:
   improved integration with external SDS providers for TLS certificate management at the Gateway.
   ([Issue #56522](https://github.com/istio/istio/issues/56522))
 
-- **Added** CRL support for plugged-in CA, enabling Istio to watch for `ca-crl.pem` files and
-automatically distribute Certificate Revocation Lists across all namespaces in the cluster. This enhancement allows
-proxies to validate and reject revoked certificates, strengthening the security posture of service mesh deployments
-using plugged-in CAs.  ([Issue #56529](https://github.com/istio/istio/issues/56529))
+- **Added** certificate revocation list (CRL) support for plugged-in CAs, enabling Istio to watch for `ca-crl.pem` files and
+  automatically distribute CRLs across all namespaces in the cluster. This enhancement allows
+  proxies to validate and reject revoked certificates, strengthening the security posture of service mesh deployments
+  using plugged-in CAs.  ([Issue #56529](https://github.com/istio/istio/issues/56529))
 
 - **Added** `pqc` (post-quantum cryptography) option to `COMPLIANCE_POLICY`.
 This policy enforces TLS `v1.3`, cipher suites `TLS_AES_128_GCM_SHA256` and `TLS_AES_256_GCM_SHA384`,
