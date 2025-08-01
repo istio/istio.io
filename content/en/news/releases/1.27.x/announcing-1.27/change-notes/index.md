@@ -243,11 +243,6 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 - **Fixed** `create-remote-secret` no longer creates redundant rbac resources.
   ([Issue #56558](https://github.com/istio/istio/issues/56558))
 
-- **Added** `--kubeclient-timeout` flag to `istioctl` root flags. May be unset, or set to a valid `time.Duration` string.
-When specified, this will override the default `15s` timeout for all `istioctl` commands that use the Kubernetes client.
-This is useful for environments with slow Kubernetes API servers, such as those with high latency or low bandwidth.
-Note that this flag is just used for the Kubernetes client, and does not affect other timeouts in `istioctl`, such as
-installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/54962))
 
 
 
