@@ -234,7 +234,7 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 - **Fixed** during installation, `istio-revision-tag-default` `MutatingWebhookConfiguration` is never created when the revision is not default.
   ([Issue #55980](https://github.com/istio/istio/issues/55980))
 
-- **Fixed** false positive with `istioctl analyze` raising IST0134 even when `PILOT_ENABLE_IP_AUTOALLOCATE` is set to `true`.
+- **Fixed** an issue where falses positive of IST0134 were raised in `istioctl analyze` when `PILOT_ENABLE_IP_AUTOALLOCATE` was set to `true`.
   ([Issue #56083](https://github.com/istio/istio/issues/56083))
 
 - **Fixed** an issue where analysis included Kubernetes system namespaces (e.g., `kube-system`, `kube-node-lease`).
