@@ -190,7 +190,7 @@ aliases:
 - **Fixed** an issue where the `ISTIO_KUBE_APP_PROBERS` environment variable was not set for probe rewrites when the Istio webhook was re-invoked.
   ([Issue #56102](https://github.com/istio/istio/issues/56102))
 
-- **Fixed** an issue where secrets references in the env of `istio/gateway` Helm chart incorrectly rendered as a string, instead of injected correctly.
+- **Fixed** an issue where secrets references in the env of `istio/gateway` Helm chart were incorrectly rendered as a string.
   ([Issue #55141](https://github.com/istio/istio/issues/55141))
 
 - **Fixed** an injection failure that occurred when the `gateway` template was combined with another template, like `spire`,
