@@ -167,7 +167,7 @@ aliases:
 - **Added** support for configuring istio-cni tolerations via Helm chart values.
   ([Issue #56087](https://github.com/istio/istio/issues/56087))
 
-- **Added** Define default GOMEMLIMIT and GOMAXPROCS divisor to fix Argo perpetual out-of-sync issue
+- **Added** defined defaults for `GOMEMLIMIT` and `GOMAXPROCS` divisors to fix an Argo perpetual out-of-sync issue.
 
 - **Added** bootstrap override config for gateway-injection-template.
   ([Issue #28302](https://github.com/istio/istio/issues/28302))
