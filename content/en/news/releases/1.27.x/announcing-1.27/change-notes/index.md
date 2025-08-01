@@ -117,14 +117,14 @@ aliases:
   proxies to validate and reject revoked certificates, strengthening the security posture of service mesh deployments
   using plugged-in CAs.  ([Issue #56529](https://github.com/istio/istio/issues/56529))
 
-- **Added** `pqc` (post-quantum cryptography) option to `COMPLIANCE_POLICY`.
-This policy enforces TLS `v1.3`, cipher suites `TLS_AES_128_GCM_SHA256` and `TLS_AES_256_GCM_SHA384`,
-and post-quantum-safe key exchange `X25519MLKEM768`.
-To enable this compliance policy in ambient mode, it must be set in pilot and ztunnel containers.
-This policy applies to the following data paths:
-- mTLS communication between Envoy proxies and ztunnels;
-- regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
-- Istiod xDS server.
+- **Added** the Post-Quantum Cryptography (PQC) option to `COMPLIANCE_POLICY`.
+  This policy enforces TLS `v1.3`, cipher suites `TLS_AES_128_GCM_SHA256` and `TLS_AES_256_GCM_SHA384`,
+  and post-quantum-safe key exchange `X25519MLKEM768`.
+  To enable this compliance policy in ambient mode, it must be set in the pilot and ztunnel containers.
+  This policy applies to the following data paths:
+    - mTLS communication between Envoy proxies and ztunnels;
+    - regular TLS on the downstream and the upstream of Envoy proxies (e.g. gateway);
+    - Istio xDS server.
   ([Issue #56330](https://github.com/istio/istio/issues/56330))
 
 - **Fixed** sidecar with old `CLUSTER_ID` is now able to connect to istiod with new `CLUSTER_ID` when `--clusterAliases` command argument is being used.  ([Issue #56022](https://github.com/istio/istio/issues/56022))
