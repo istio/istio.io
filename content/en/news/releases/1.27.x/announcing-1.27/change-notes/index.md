@@ -193,9 +193,8 @@ aliases:
 - **Fixed** an issue where secrets references in the env of `istio/gateway` Helm chart incorrectly rendered as a string, instead of injected correctly.
   ([Issue #55141](https://github.com/istio/istio/issues/55141))
 
-- **Fixed** injection failure that occurred when `gateway` template was combined with another template, like `spire`,
-which overrides `workload-socket`, and as a result Kubernetes could not create a volume,
-which has `emptyDir` and `csi` settings.
+- **Fixed** an injection failure that occurred when the `gateway` template was combined with another template, like `spire`,
+which overrides `workload-socket`, resulted in Kubernetes not creating other volumes, like those with `emptyDir` and `csi` settings.
 
 - **Fixed** a panic in `istioctl manifest translate` when the IstioOperator config contains multiple gateways.
   ([Issue #56223](https://github.com/istio/istio/issues/56223))
