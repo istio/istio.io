@@ -129,7 +129,7 @@ Si no puede migrar todos sus services a Istio (es decir, inyectar el sidecar de 
 Sin embargo, cuando se configura con el modo `PERMISSIVE`, no se realizarán comprobaciones de autenticación o autorización para el tráfico de texto plano por defecto.
 Le recomendamos que utilice la [Autorización de Istio](/es/docs/tasks/security/authorization/authz-http/) para configurar diferentes rutas con diferentes políticas de autorización.
 
-## Bloquear mTLS para toda la malla
+## Bloquear mTLS para toda la mesh
 
 Puede bloquear los workloads en todos los namespaces para que solo acepten tráfico mTLS colocando la política en el namespace del sistema de su instalación de Istio.
 

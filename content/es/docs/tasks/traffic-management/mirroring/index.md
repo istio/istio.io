@@ -1,28 +1,28 @@
 ---
 title: Mirroring
-description: This task demonstrates the traffic mirroring/shadowing capabilities of Istio.
+description: Esta tarea demuestra las capacidades de mirroring/shadowing de tráfico de Istio.
 weight: 60
 keywords: [traffic-management,mirroring]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task demonstrates the traffic mirroring capabilities of Istio.
+Esta tarea demuestra las capacidades de mirroring de tráfico de Istio.
 
-Traffic mirroring, also called shadowing, is a powerful concept that allows
-feature teams to bring changes to production with as little risk as possible.
-Mirroring sends a copy of live traffic to a mirrored service. The mirrored
-traffic happens out of band of the critical request path for the primary service.
+El mirroring de tráfico, también llamado shadowing, es un concepto poderoso que permite
+a los equipos de características llevar cambios a producción con el menor riesgo posible.
+El mirroring envía una copia del tráfico en vivo a un servicio espejo. El tráfico
+espejo ocurre fuera de banda del camino de solicitud crítico para el servicio primario.
 
-In this task, you will first force all traffic to `v1` of a test service. Then,
-you will apply a rule to mirror a portion of traffic to `v2`.
+En esta tarea, primero forzarás todo el tráfico a `v1` de un servicio de prueba. Luego,
+aplicarás una regla para hacer espejo de una porción del tráfico a `v2`.
 
 {{< boilerplate gateway-api-support >}}
 
-## Before you begin
+## Antes de comenzar
 
-1. Set up Istio by following the [Installation guide](/es/docs/setup/).
-1. Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
+1. Configura Istio siguiendo la [Guía de instalación](/es/docs/setup/).
+1. Comienza desplegando dos versiones del servicio [httpbin]({{< github_tree >}}/samples/httpbin) que tienen el registro de acceso habilitado:
 
     1. Deploy `httpbin-v1`:
 
@@ -84,7 +84,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         EOF
         {{< /text >}}
 
-    1. Deploy the `httpbin` Kubernetes service:
+    1. Deploy el servicio Kubernetes `httpbin`:
 
         {{< text bash >}}
         $ kubectl create -f - <<EOF
@@ -104,7 +104,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         EOF
         {{< /text >}}
 
-1. Deploy the `curl` workload you'll use to send requests to the `httpbin` service:
+1. Despliega el `curl` workload que usarás para enviar solicitudes al servicio `httpbin`:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
@@ -130,12 +130,12 @@ you will apply a rule to mirror a portion of traffic to `v2`.
     EOF
     {{< /text >}}
 
-## Creating a default routing policy
+## Creando una política de enrutamiento por defecto
 
-By default Kubernetes load balances across both versions of the `httpbin` service.
-In this step, you will change that behavior so that all traffic goes to `v1`.
+Por defecto, Kubernetes balancea el tráfico entre ambas versiones del servicio `httpbin`.
+En este paso, cambiarás este comportamiento para que todo el tráfico vaya a `v1`.
 
-1. Create a default route rule to route all traffic to `v1` of the service:
+1. Crea una regla de enrutamiento por defecto para enrutar todo el tráfico a `v1` del servicio:
 
     {{< tabset category-name="config-api" >}}
 
@@ -224,7 +224,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< /tabset >}}
 
-1. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
+1. Ahora, con todo el tráfico dirigido a `httpbin:v1`, envía una solicitud al servicio:
 
     {{< text bash json >}}
     $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
@@ -244,7 +244,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     }
     {{< /text >}}
 
-1. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
+1. Verifica los registros de los pods `httpbin-v1` y `httpbin-v2`. Deberías ver entradas de registro para `v1` y ninguna para `v2`:
 
     {{< text bash >}}
     $ kubectl logs deploy/httpbin-v1 -c httpbin
@@ -256,9 +256,9 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     <none>
     {{< /text >}}
 
-## Mirroring traffic to `httpbin-v2`
+## Mirando tráfico a `httpbin-v2`
 
-1. Change the route rule to mirror traffic to `httpbin-v2`:
+1. Cambia la regla de enrutamiento para hacer espejo del tráfico a `httpbin-v2`:
 
     {{< tabset category-name="config-api" >}}
 
@@ -287,17 +287,17 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     EOF
     {{< /text >}}
 
-    This route rule sends 100% of the traffic to `v1`. The last stanza specifies
-    that you want to mirror (i.e., also send) 100% of the same traffic to the
-    `httpbin:v2` service. When traffic gets mirrored,
-    the requests are sent to the mirrored service with their Host/Authority headers
-    appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
+    Esta regla de enrutamiento envía el 100% del tráfico a `v1`. La última estrofa especifica
+    que quieres hacer espejo (es decir, también enviar) el 100% del mismo tráfico al
+    servicio `httpbin:v2`. Cuando el tráfico se espeja,
+    las solicitudes se envían al servicio espejo con sus encabezados Host/Authority
+    añadidos con `-shadow`. Por ejemplo, `cluster-1` se convierte en `cluster-1-shadow`.
 
-    Also, it is important to note that these requests are mirrored as "fire and
-    forget", which means that the responses are discarded.
+    También es importante tener en cuenta que estas solicitudes se espejan como "fire and
+    forget", lo que significa que las respuestas se descartan.
 
-    You can use the `value` field under the `mirrorPercentage` field to mirror a fraction of the traffic,
-    instead of mirroring all requests. If this field is absent, all traffic will be mirrored.
+    Puedes usar el campo `value` bajo el campo `mirrorPercentage` para hacer espejo de una fracción del tráfico,
+    en lugar de espejar todas las solicitudes. Si este campo está ausente, todo el tráfico se espejará.
 
     {{< /tab >}}
 
@@ -328,27 +328,27 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     EOF
     {{< /text >}}
 
-    This route rule sends 100% of the traffic to `v1`. The `RequestMirror` filter
-    specifies that you want to mirror (i.e., also send) 100% of the same traffic to the
-    `httpbin:v2` service. When traffic gets mirrored,
-    the requests are sent to the mirrored service with their Host/Authority headers
-    appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
+    Esta regla de enrutamiento envía el 100% del tráfico a `v1`. El filtro `RequestMirror`
+    especifica que quieres hacer espejo (es decir, también enviar) el 100% del mismo tráfico al
+    servicio `httpbin:v2`. Cuando el tráfico se espeja,
+    las solicitudes se envían al servicio espejo con sus encabezados Host/Authority
+    añadidos con `-shadow`. Por ejemplo, `cluster-1` se convierte en `cluster-1-shadow`.
 
-    Also, it is important to note that these requests are mirrored as "fire and
-    forget", which means that the responses are discarded.
+    También es importante tener en cuenta que estas solicitudes se espejan como "fire and
+    forget", lo que significa que las respuestas se descartan.
 
     {{< /tab >}}
 
     {{< /tabset >}}
 
-1. Send the traffic:
+1. Envía el tráfico:
 
     {{< text bash >}}
     $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
-    Now, you should see access logging for both `v1` and `v2`. The access logs
-    created in `v2` are the mirrored requests that are actually going to `v1`.
+    Ahora, deberías ver registros de acceso para ambos `v1` y `v2`. Los registros de acceso
+    creados en `v2` son las solicitudes espejadas que realmente van a `v1`.
 
     {{< text bash >}}
     $ kubectl logs deploy/httpbin-v1 -c httpbin
@@ -361,9 +361,9 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     127.0.0.1 - - [07/Mar/2018:19:26:44 +0000] "GET /headers HTTP/1.1" 200 361 "-" "curl/7.35.0"
     {{< /text >}}
 
-## Cleaning up
+## Limpieza
 
-1. Remove the rules:
+1. Elimina las reglas:
 
     {{< tabset category-name="config-api" >}}
 
@@ -387,7 +387,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< /tabset >}}
 
-1. Delete `httpbin` and `curl` deployments and `httpbin` service:
+1. Elimina los despliegues `httpbin` y `curl` y el servicio `httpbin`:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 curl

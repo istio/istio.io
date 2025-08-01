@@ -1,6 +1,6 @@
 ---
-title: Request Routing
-description: This task shows you how to configure dynamic request routing to multiple versions of a microservice.
+title: Enrutamiento de Solicitudes
+description: Esta tarea te muestra cómo configurar el enrutamiento dinámico de solicitudes a múltiples versiones de un microservicio.
 weight: 10
 aliases:
     - /docs/tasks/request-routing.html
@@ -9,58 +9,58 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task shows you how to route requests dynamically to multiple versions of a
-microservice.
+Esta tarea te muestra cómo enrutar solicitudes dinámicamente a múltiples versiones de un
+microservicio.
 
 {{< boilerplate gateway-api-support >}}
 
-## Before you begin
+## Antes de comenzar
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/es/docs/setup/).
+* Configura Istio siguiendo las instrucciones en la
+  [Guía de instalación](/es/docs/setup/).
 
-* Deploy the [Bookinfo](/es/docs/examples/bookinfo/) sample application.
+* Despliega la aplicación de ejemplo [Bookinfo](/es/docs/examples/bookinfo/).
 
-* Review the [Traffic Management](/es/docs/concepts/traffic-management) concepts doc.
+* Revisa el documento de conceptos de [Gestión de Tráfico](/es/docs/concepts/traffic-management).
 
-## About this task
+## Acerca de esta tarea
 
-The Istio [Bookinfo](/es/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
-Three different versions of one of the microservices, `reviews`, have been deployed and are running concurrently.
-To illustrate the problem this causes, access the Bookinfo app's `/productpage` in a browser and refresh several times.
-The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+La muestra de [Bookinfo](/es/docs/examples/bookinfo/) de Istio consiste en cuatro microservicios separados, cada uno con múltiples versiones.
+Tres versiones diferentes de uno de los microservicios, `reviews`, han sido desplegadas y están ejecutándose concurrentemente.
+Para ilustrar el problema que esto causa, accede a la `/productpage` de la aplicación Bookinfo en un navegador y actualiza varias veces.
+La URL es `http://$GATEWAY_URL/productpage`, donde `$GATEWAY_URL` es la dirección IP externa del ingress, como se explica en
+la documentación de [Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-You’ll notice that sometimes the book review output contains star ratings and other times it does not.
-This is because without an explicit default service version to route to, Istio routes requests to all available versions
-in a round robin fashion.
+Notarás que a veces la salida de reseñas del libro contiene calificaciones con estrellas y otras veces no.
+Esto es porque sin una versión de servicio predeterminada explícita a la que enrutar, Istio enruta solicitudes a todas las versiones disponibles
+de manera round robin.
 
-The initial goal of this task is to apply rules that route all traffic to `v1` (version 1) of the microservices. Later, you
-will apply a rule to route traffic based on the value of an HTTP request header.
+El objetivo inicial de esta tarea es aplicar reglas que enruten todo el tráfico a `v1` (versión 1) de los microservicios. Más tarde,
+aplicarás una regla para enrutar tráfico basado en el valor de una cabecera de solicitud HTTP.
 
-## Route to version 1
+## Enrutar a la versión 1
 
-To route to one version only, you configure route rules that send traffic to default versions for the microservices.
+Para enrutar a solo una versión, configuras reglas de enrutamiento que envían tráfico a versiones predeterminadas para los microservicios.
 
 {{< warning >}}
-If you haven't already, follow the instructions in [define the service versions](/es/docs/examples/bookinfo/#define-the-service-versions).
+Si no lo has hecho ya, sigue las instrucciones en [definir las versiones del servicio](/es/docs/examples/bookinfo/#define-the-service-versions).
 {{< /warning >}}
 
-1. Run the following command to create the route rules:
+1. Ejecuta el siguiente comando para crear las reglas de enrutamiento:
 
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-Istio uses virtual services to define route rules.
-Run the following command to apply virtual services that will route all traffic to `v1` of each microservice:
+Istio usa virtual services para definir reglas de enrutamiento.
+Ejecuta el siguiente comando para aplicar virtual services que enrutarán todo el tráfico a `v1` de cada microservicio:
 
 {{< text bash >}}
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-all-v1.yaml@
 {{< /text >}}
 
-Because configuration propagation is eventually consistent, wait a few seconds
-for the virtual services to take effect.
+Debido a la consistencia eventual de la configuración, espera unos segundos
+para que los virtual services surtan efecto.
 
 {{< /tab >}}
 
@@ -89,7 +89,7 @@ EOF
 
 {{< /tabset >}}
 
-2) Display the defined routes with the following command:
+2) Muestra las rutas definidas con el siguiente comando:
 
 {{< tabset category-name="config-api" >}}
 
@@ -143,7 +143,7 @@ $ kubectl get virtualservices -o yaml
           subset: v1
 {{< /text >}}
 
-You can also display the corresponding `subset` definitions with the following command:
+También puedes mostrar las definiciones de `subset` correspondientes con el siguiente comando:
 
 {{< text bash >}}
 $ kubectl get destinationrules -o yaml
@@ -196,43 +196,42 @@ status:
       port: 9080
 {{< /text >}}
 
-In the resource status, make sure that the `Accepted` condition is `True` for the `reviews` parent.
+En el estado del recurso, asegúrate de que la condición `Accepted` sea `True` para el padre `reviews`.
 
 {{< /tab >}}
 
 {{< /tabset >}}
 
-You have configured Istio to route to the `v1` version of the Bookinfo microservices,
-most importantly the `reviews` service version 1.
+Has configurado Istio para enrutar a la versión `v1` de los microservicios del Bookinfo,
+especialmente la versión del servicio `reviews` 1.
 
-## Test the new routing configuration
+## Prueba la nueva configuración de enrutamiento
 
-You can easily test the new configuration by once again refreshing the `/productpage`
-of the Bookinfo app in your browser.
-Notice that the reviews part of the page displays with no rating stars, no
-matter how many times you refresh. This is because you configured Istio to route
-all traffic for the reviews service to the version `reviews:v1` and this
-version of the service does not access the star ratings service.
+Puedes probar fácilmente la nueva configuración refrescando la `/productpage`
+de la aplicación Bookinfo en tu navegador.
+Observa que la parte de reseñas de la página se muestra sin estrellas,
+independientemente de cuántas veces la actualices. Esto es porque configuraste Istio para enrutar
+todo el tráfico para el servicio `reviews` a la versión `reviews:v1` y esta
+versión del servicio no accede al servicio de calificaciones de estrellas.
 
-You have successfully accomplished the first part of this task: route traffic to one
-version of a service.
+Has cumplido con la primera parte de esta tarea: enrutar tráfico a una
+versión de un servicio.
 
-## Route based on user identity
+## Enrutar basado en la identidad del usuario
 
-Next, you will change the route configuration so that all traffic from a specific user
-is routed to a specific service version. In this case, all traffic from a user
-named Jason will be routed to the service `reviews:v2`.
+A continuación, cambiarás la configuración de enrutamiento para que todo el tráfico de un usuario
+específico se enrute a una versión de servicio específica. En este caso, todo el tráfico de un usuario
+llamado Jason se enrutará al servicio `reviews:v2`.
 
-This example is enabled by the fact that the `productpage` service
-adds a custom `end-user` header to all outbound HTTP requests to the reviews
-service.
+Este ejemplo está habilitado por el hecho de que el servicio `productpage`
+añade un encabezado personalizado `end-user` a todas las solicitudes HTTP salientes al servicio `reviews`.
 
-Istio also supports routing based on strongly authenticated JWT on ingress gateway, refer to the
-[JWT claim based routing](/es/docs/tasks/security/authentication/jwt-route) for more details.
+Istio también admite enrutamiento basado en JWT fuertemente autenticado en el gateway de entrada, consulta la
+[Enrutamiento basado en reclamo de JWT](/es/docs/tasks/security/authentication/jwt-route) para más detalles.
 
-Remember, `reviews:v2` is the version that includes the star ratings feature.
+Recuerda, `reviews:v2` es la versión que incluye la característica de calificaciones de estrellas.
 
-1. Run the following command to enable user-based routing:
+1. Ejecuta el siguiente comando para habilitar el enrutamiento basado en el usuario:
 
 {{< tabset category-name="config-api" >}}
 
@@ -242,7 +241,7 @@ Remember, `reviews:v2` is the version that includes the star ratings feature.
 $ kubectl apply -f @samples/bookinfo/networking/virtual-service-reviews-test-v2.yaml@
 {{< /text >}}
 
-You can confirm the rule is created using the following command:
+Puedes confirmar que la regla se ha creado usando el siguiente comando:
 
 {{< text bash yaml >}}
 $ kubectl get virtualservice reviews -o yaml
@@ -301,36 +300,36 @@ EOF
 
 {{< /tabset >}}
 
-2) On the `/productpage` of the Bookinfo app, log in as user `jason`.
+2) En la `/productpage` de la aplicación Bookinfo, inicia sesión como usuario `jason`.
 
-    Refresh the browser. What do you see? The star ratings appear next to each
-    review.
+    Refresca el navegador. ¿Qué ves? Las calificaciones de estrellas aparecen junto a cada
+    reseña.
 
-3) Log in as another user (pick any name you wish).
+3) Inicia sesión como otro usuario (elige cualquier nombre que desees).
 
-    Refresh the browser. Now the stars are gone. This is because traffic is routed
-    to `reviews:v1` for all users except Jason.
+    Refresca el navegador. Ahora las estrellas se han ido. Esto es porque el tráfico se enruta
+    a `reviews:v1` para todos los usuarios excepto Jason.
 
-You have successfully configured Istio to route traffic based on user identity.
+Has configurado correctamente Istio para enrutar tráfico basado en la identidad del usuario.
 
-## Understanding what happened
+## Entendiendo lo que sucedió
 
-In this task, you used Istio to send 100% of the traffic to the `v1` version
-of each of the Bookinfo services. You then set a rule to selectively send traffic
-to version `v2` of the `reviews` service based on a custom `end-user` header added
-to the request by the `productpage` service.
+En esta tarea, usaste Istio para enviar el 100% del tráfico a la versión
+`v1` de cada uno de los microservicios del Bookinfo. Luego, estableciste una regla para enviar tráfico
+selectivamente a la versión `v2` del servicio `reviews` basado en un encabezado personalizado `end-user` añadido
+a la solicitud por el servicio `productpage`.
 
-Note that Kubernetes services, like the Bookinfo ones used in this task, must
-adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/es/docs/ops/deployment/application-requirements/) for details.
+Ten en cuenta que los servicios de Kubernetes, como los del Bookinfo utilizados en esta tarea, deben
+cumplir ciertas restricciones para aprovechar las características de enrutamiento L7 de Istio. Consulta la
+[Requisitos para Pods y Servicios](/es/docs/ops/deployment/application-requirements/) para más detalles.
 
-In the [traffic shifting](/es/docs/tasks/traffic-management/traffic-shifting) task, you
-will follow the same basic pattern you learned here to configure route rules to
-gradually send traffic from one version of a service to another.
+En la tarea de [desplazamiento de tráfico](/es/docs/tasks/traffic-management/traffic-shifting), seguirás
+el mismo patrón básico que aprendiste aquí para configurar reglas de enrutamiento para
+enviar gradualmente el tráfico de una versión de un servicio a otra.
 
-## Cleanup
+## Limpieza
 
-1. Remove the application route rules:
+1. Elimina las reglas de enrutamiento de la aplicación:
 
 {{< tabset category-name="config-api" >}}
 
@@ -352,6 +351,6 @@ $ kubectl delete httproute reviews
 
 {{< /tabset >}}
 
-2) If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/es/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+2) Si no planeas explorar ninguna tarea posterior, consulta las
+  [Instrucciones de limpieza de Bookinfo](/es/docs/examples/bookinfo/#cleanup)
+  para apagar la aplicación.
