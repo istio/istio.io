@@ -103,7 +103,7 @@ aliases:
   The `istioOwnedCNIConfigFilename` value must have a higher lexicographical priority than the primary CNI.
   Ambient and chained CNI plugins must be enabled for this feature to work.
 
-- **Added** validation for `--clusterAliases` command argument, that it shouldn't have more than one alias per cluster.  ([Issue #56022](https://github.com/istio/istio/issues/56022))
+- **Added** validation for the istioctl `--clusterAliases` command argument. It should not have more than one alias per cluster.  ([Issue #56022](https://github.com/istio/istio/issues/56022))
 
 - **Added** support for ClusterTrustBundle by migrating from `certificates.k8s.io/v1alpha1` to the stable `v1beta1` API in Kubernetes 1.33+. This improves compatibility and future-proofs Istio’s certificate distribution mechanism.
   ([Issue #56306](https://github.com/istio/istio/issues/56306))
