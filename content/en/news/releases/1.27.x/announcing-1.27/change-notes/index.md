@@ -164,7 +164,7 @@ aliases:
 - **Added** support for configuring ztunnel tolerations via Helm chart values.
   ([Issue #56086](https://github.com/istio/istio/issues/56086))
 
-- **Added** istio-cni tolerations are now configurable via helm
+- **Added** support for configuring istio-cni tolerations via Helm chart values.
   ([Issue #56087](https://github.com/istio/istio/issues/56087))
 
 - **Added** Define default GOMEMLIMIT and GOMAXPROCS divisor to fix Argo perpetual out-of-sync issue
