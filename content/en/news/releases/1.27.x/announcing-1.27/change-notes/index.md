@@ -127,7 +127,8 @@ aliases:
     - Istio xDS server.
   ([Issue #56330](https://github.com/istio/istio/issues/56330))
 
-- **Fixed** sidecar with old `CLUSTER_ID` is now able to connect to istiod with new `CLUSTER_ID` when `--clusterAliases` command argument is being used.  ([Issue #56022](https://github.com/istio/istio/issues/56022))
+- **Fixed** an issue where sidecars with the old `CLUSTER_ID` setting were not able to connect to istiod with the new `CLUSTER_ID` settings when `--clusterAliases` command argument was being used.
+  ([Issue #56022](https://github.com/istio/istio/issues/56022))
 
 - **Fixed** an issue in the `pluginca` feature where `istiod` would silently fallback to the self-signed CA if the provided `cacerts` bundle was incomplete.
 The system now properly validates the presence of all required CA files and fails with an error if the bundle is incomplete.
