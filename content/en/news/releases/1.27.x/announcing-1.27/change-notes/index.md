@@ -131,7 +131,7 @@ aliases:
   ([Issue #56022](https://github.com/istio/istio/issues/56022))
 
 - **Fixed** an issue in the `pluginca` feature where `istiod` would silently fallback to the self-signed CA if the provided `cacerts` bundle was incomplete.
-The system now properly validates the presence of all required CA files and fails with an error if the bundle is incomplete.
+  The system now properly validates the presence of all required CA files and fails with an error if the bundle is incomplete.
 
 ## Telemetry
 
