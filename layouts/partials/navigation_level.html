@@ -56,7 +56,7 @@
                         {{ partial "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) }}
                     {{- else -}}
                         <button {{ if not $collapse }} class="show" {{ end }} aria-hidden="true" tabindex="-1" ></button><a title="{{ $desc }}" href="{{ .Permalink }}">{{ $linktitle}}</a>
-                        {{ partialCached "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) .CurrentSection }}
+                        {{ partial "navigation_level.html" (dict "pages" $pages "parent" . "current" $current "collapse" $collapse "top" false "labelledby" "" ) .CurrentSection }}
                     {{- end -}}
                 </li>
             {{ else }}
