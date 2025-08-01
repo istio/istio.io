@@ -133,7 +133,7 @@ Se puede encontrar más información sobre el rastreo distribuido con Istio en n
 
 Traza distribuida generada por Istio de ejemplo para una sola solicitud:
 
-{{< image link="/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Traza distribuida para una sola solicitud" >}}
+{{< image link="/es/docs/tasks/observability/distributed-tracing/zipkin/istio-tracing-details-zipkin.png" caption="Traza distribuida para una sola solicitud" >}}
 
 ## Registros de acceso
 
