@@ -1,6 +1,6 @@
 ---
-title: Health Checking of Istio Services
-description: Shows how to do health checking for Istio services.
+title: Verificación de Salud de Services de Istio
+description: Muestra cómo hacer verificación de salud para Services de Istio.
 weight: 50
 aliases:
   - /docs/tasks/traffic-management/app-health-check/
@@ -14,37 +14,37 @@ owner: istio/wg-user-experience-maintainers
 test: yes
 ---
 
-[Kubernetes liveness and readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-describes several ways to configure liveness and readiness probes:
+[Las sondas de liveness y readiness de Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+describe varias maneras de configurar sondas de liveness y readiness:
 
-1. [Command](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
-1. [HTTP request](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
-1. [TCP probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
-1. [gRPC probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
+1. [Comando](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-command)
+1. [Solicitud HTTP](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-liveness-http-request)
+1. [Sonda TCP](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-tcp-liveness-probe)
+1. [Sonda gRPC](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#define-a-grpc-liveness-probe)
 
-The command approach works with no changes required, but HTTP requests, TCP probes, and gRPC probes require Istio to make changes to the pod configuration.
+El enfoque de comando funciona sin cambios requeridos, pero las solicitudes HTTP, sondas TCP, y sondas gRPC requieren que Istio haga cambios a la configuración del pod.
 
-The health check requests to the `liveness-http` service are sent by Kubelet.
-This becomes a problem when mutual TLS is enabled, because the Kubelet does not have an Istio issued certificate.
-Therefore the health check requests will fail.
+Las solicitudes de verificación de salud al Service `liveness-http` son enviadas por Kubelet.
+Esto se convierte en un problema cuando mutual TLS está habilitado, porque el Kubelet no tiene un certificado emitido por Istio.
+Por lo tanto, las solicitudes de verificación de salud fallarán.
 
-TCP probe checks need special handling, because Istio redirects all incoming traffic into the sidecar, and so all TCP ports appear open. The Kubelet simply checks if some process is listening on the specified port, and so the probe will always succeed as long as the sidecar is running.
+Las verificaciones de sonda TCP necesitan manejo especial, porque Istio redirige todo el tráfico entrante hacia el sidecar, y así todos los puertos TCP aparecen abiertos. El Kubelet simplemente verifica si algún proceso está escuchando en el puerto especificado, y así la sonda siempre tendrá éxito mientras el sidecar esté ejecutándose.
 
-Istio solves both these problems by rewriting the application `PodSpec` readiness/liveness probe,
-so that the probe request is sent to the [sidecar agent](/es/docs/reference/commands/pilot-agent/).
+Istio resuelve ambos problemas reescribiendo la sonda readiness/liveness de la aplicación `PodSpec`,
+para que la solicitud de sonda sea enviada al [sidecar agent](/es/docs/reference/commands/pilot-agent/).
 
-## Liveness probe rewrite example
+## Ejemplo de reescritura de sonda liveness
 
-To demonstrate how the readiness/liveness probe is rewritten at the application `PodSpec` level, let us use the [liveness-http-same-port sample]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml).
+Para demostrar cómo la sonda readiness/liveness es reescrita a nivel de `PodSpec` de la aplicación, usemos el [ejemplo liveness-http-same-port]({{< github_file >}}/samples/health-check/liveness-http-same-port.yaml).
 
-First create and label a namespace for the example:
+Primero crea y etiqueta un namespace para el ejemplo:
 
 {{< text bash >}}
 $ kubectl create namespace istio-io-health-rewrite
 $ kubectl label namespace istio-io-health-rewrite istio-injection=enabled
 {{< /text >}}
 
-And deploy the sample application:
+Y despliega la aplicación de ejemplo:
 
 {{< text bash yaml >}}
 $ kubectl apply -f - <<EOF
@@ -78,7 +78,7 @@ spec:
 EOF
 {{< /text >}}
 
-Once deployed, you can inspect the pod's application container to see the changed path:
+Una vez desplegado, puedes inspeccionar el contenedor de aplicación del pod para ver la ruta cambiada:
 
 {{< text bash json >}}
 $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec.containers[0].livenessProbe.httpGet'
@@ -89,7 +89,7 @@ $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o json | jq '.spec
 }
 {{< /text >}}
 
-The original `livenessProbe` path is now mapped against the new path in the sidecar container environment variable `ISTIO_KUBE_APP_PROBERS`:
+La ruta `livenessProbe` original ahora está mapeada contra la nueva ruta en la variable de entorno del contenedor sidecar `ISTIO_KUBE_APP_PROBERS`:
 
 {{< text bash json >}}
 $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec.containers[1].env[?(@.name=='ISTIO_KUBE_APP_PROBERS')]}"
@@ -99,22 +99,22 @@ $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec
 }
 {{< /text >}}
 
-For HTTP and gRPC requests, the sidecar agent redirects the request to the application and strips the response body, only returning the response code. For TCP probes, the sidecar agent will then do the port check while avoiding the traffic redirection.
+Para solicitudes HTTP y gRPC, el sidecar agent redirige la solicitud a la aplicación y quita el cuerpo de respuesta, retornando solo el código de respuesta. Para sondas TCP, el sidecar agent hará entonces la verificación del puerto mientras evita la redirección de tráfico.
 
-The rewriting of problematic probes is enabled by default in all built-in Istio
-[configuration profiles](/es/docs/setup/additional-setup/config-profiles/) but can be disabled as described below.
+La reescritura de sondas problemáticas está habilitada por defecto en todos los
+[perfiles de configuración](/es/docs/setup/additional-setup/config-profiles/) integrados de Istio pero puede deshabilitarse como se describe a continuación.
 
-## Liveness and readiness probes using the command approach
+## Sondas de liveness y readiness usando el enfoque de comando
 
-Istio provides a [liveness sample]({{< github_file >}}/samples/health-check/liveness-command.yaml) that
-implements this approach. To demonstrate it working with mutual TLS enabled,
-first create a namespace for the example:
+Istio proporciona un [ejemplo de liveness]({{< github_file >}}/samples/health-check/liveness-command.yaml) que
+implementa este enfoque. Para demostrar que funciona con mutual TLS habilitado,
+primero crea un namespace para el ejemplo:
 
 {{< text bash >}}
 $ kubectl create ns istio-io-health
 {{< /text >}}
 
-To configure strict mutual TLS, run:
+Para configurar mutual TLS estricto, ejecuta:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -129,13 +129,13 @@ spec:
 EOF
 {{< /text >}}
 
-Next, change directory to the root of the Istio installation and run the following command to deploy the sample service:
+Después, cambia el directorio a la raíz de la instalación de Istio y ejecuta el siguiente comando para desplegar el Service de ejemplo:
 
 {{< text bash >}}
 $ kubectl -n istio-io-health apply -f <(istioctl kube-inject -f @samples/health-check/liveness-command.yaml@)
 {{< /text >}}
 
-To confirm that the liveness probes are working, check the status of the sample pod to verify that it is running.
+Para confirmar que las sondas de liveness están funcionando, verifica el estado del pod de ejemplo para verificar que esté ejecutándose.
 
 {{< text bash >}}
 $ kubectl -n istio-io-health get pod
@@ -143,21 +143,21 @@ NAME                             READY     STATUS    RESTARTS   AGE
 liveness-6857c8775f-zdv9r        2/2       Running   0           4m
 {{< /text >}}
 
-## Liveness and readiness probes using the HTTP, TCP, and gRPC approach {#liveness-and-readiness-probes-using-the-http-request-approach}
+## Sondas de liveness y readiness usando el enfoque HTTP, TCP, y gRPC {#liveness-and-readiness-probes-using-the-http-request-approach}
 
-As stated previously, Istio uses probe rewrite to implement HTTP, TCP, and gRPC probes by default. You can disable this
-feature either for specific pods, or globally.
+Como se mencionó anteriormente, Istio usa reescritura de sonda para implementar sondas HTTP, TCP, y gRPC por defecto. Puedes deshabilitar esta
+característica ya sea para pods específicos, o globalmente.
 
-### Disable the probe rewrite for a pod {#disable-the-http-probe-rewrite-for-a-pod}
+### Deshabilitar la reescritura de sonda para un pod {#disable-the-http-probe-rewrite-for-a-pod}
 
-You can [annotate the pod](/es/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "false"`
-to disable the probe rewrite option. Make sure you add the annotation to the
-[pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored
-anywhere else (for example, on an enclosing deployment resource).
+Puedes [anotar el pod](/es/docs/reference/config/annotations/) con `sidecar.istio.io/rewriteAppHTTPProbers: "false"`
+para deshabilitar la opción de reescritura de sonda. Asegúrate de agregar la anotación al
+[recurso pod](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) porque será ignorada
+en cualquier otro lugar (por ejemplo, en un recurso deployment envolvente).
 
 {{< tabset category-name="disable-probe-rewrite" >}}
 
-{{< tab name="HTTP Probe" category-value="http-probe" >}}
+{{< tab name="Sonda HTTP" category-value="http-probe" >}}
 
 {{< text yaml >}}
 kubectl apply -f - <<EOF
@@ -194,7 +194,7 @@ EOF
 
 {{< /tab >}}
 
-{{< tab name="gRPC Probe" category-value="grpc-probe" >}}
+{{< tab name="Sonda gRPC" category-value="grpc-probe" >}}
 
 {{< text yaml >}}
 kubectl apply -f - <<EOF
@@ -233,21 +233,21 @@ EOF
 
 {{< /tabset >}}
 
-This approach allows you to disable the health check probe rewrite gradually on individual deployments,
-without reinstalling Istio.
+Este enfoque te permite deshabilitar la reescritura de verificación de salud gradualmente en deployments individuales,
+sin reinstalar Istio.
 
-### Disable the probe rewrite globally
+### Deshabilitar la reescritura de sonda globalmente
 
-[Install Istio](/es/docs/setup/install/istioctl/) using `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false`
-to disable the probe rewrite globally. **Alternatively**, update the configuration map for the Istio sidecar injector:
+[Instala Istio](/es/docs/setup/install/istioctl/) usando `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false`
+para deshabilitar la reescritura de sonda globalmente. **Alternativamente**, actualiza el mapa de configuración para el inyector de sidecar de Istio:
 
 {{< text bash >}}
 $ kubectl get cm istio-sidecar-injector -n istio-system -o yaml | sed -e 's/"rewriteAppHTTPProbe": true/"rewriteAppHTTPProbe": false/' | kubectl apply -f -
 {{< /text >}}
 
-## Cleanup
+## Limpieza
 
-Remove the namespaces used for the examples:
+Remueve los namespaces usados para los ejemplos:
 
 {{< text bash >}}
 $ kubectl delete ns istio-io-health istio-io-health-rewrite

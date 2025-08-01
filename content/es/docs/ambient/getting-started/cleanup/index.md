@@ -20,7 +20,7 @@ $ istioctl waypoint delete --all
 
 ## Eliminar el namespace del data plane ambient
 
-La etiqueta que indica a Istio que incluya automáticamente las aplicaciones enel namespace `default` en la malla ambient no se elimina al desinstalar Istio. Utiliza el siguiente comando para eliminarla:
+La etiqueta que indica a Istio que incluya automáticamente las aplicaciones enel namespace `default` en la mesh ambient no se elimina al desinstalar Istio. Utiliza el siguiente comando para eliminarla:
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/data plane-mode-

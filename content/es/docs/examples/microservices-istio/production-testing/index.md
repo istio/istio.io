@@ -1,6 +1,6 @@
 ---
-title: Test in production
-overview: Testing a new version of a microservice in production.
+title: Pruebas en producción
+overview: Probar una nueva versión de un microservicio en producción.
 
 weight: 40
 
@@ -10,30 +10,30 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-Test your microservice, in production!
+¡Prueba tu microservicio, en producción!
 
-## Testing individual microservices
+## Probar microservicios individuales
 
-1.  Issue an HTTP request from the testing pod to one of your services:
+1.  Emite una solicitud HTTP desde el Pod de prueba a uno de tus servicios:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}') -- curl -sS http://ratings:9080/ratings/7
     {{< /text >}}
 
-## Chaos testing
+## Pruebas de caos
 
-Perform some [chaos testing](http://www.boyter.org/2016/07/chaos-testing-engineering/)
-in production and see how your application reacts. After each chaos operation,
-access the application's webpage and see if anything changed. Check
-the pods' status with `kubectl get pods`.
+Realiza algunas [pruebas de caos](http://www.boyter.org/2016/07/chaos-testing-engineering/)
+en producción y ve cómo reacciona tu aplicación. Después de cada operación de caos,
+accede a la página web de la aplicación y ve si algo cambió. Verifica
+el estado de los pods con `kubectl get pods`.
 
-1.  Terminate the `details` service in one pod.
+1.  Termina el Service `details` en un Pod.
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pods -l app=details -o jsonpath='{.items[0].metadata.name}') -- pkill ruby
     {{< /text >}}
 
-1.  Check the pods status:
+1.  Verifica el estado de los pods:
 
     {{< text bash >}}
     $ kubectl get pods
@@ -53,24 +53,24 @@ the pods' status with `kubectl get pods`.
     curl-88ddbcfdd-l9zq4            1/1     Running   0          47m
     {{< /text >}}
 
-    Note that the first pod was restarted once.
+    Nota que el primer Pod se reinició una vez.
 
-1.  Terminate the `details` service in all its pods:
+1.  Termina el servicio `details` en todos sus pods:
 
     {{< text bash >}}
     $ for pod in $(kubectl get pods -l app=details -o jsonpath='{.items[*].metadata.name}'); do echo terminating "$pod"; kubectl exec "$pod" -- pkill ruby; done
     {{< /text >}}
 
-1.  Check the webpage of the application:
+1.  Verifica la página web de la aplicación:
 
     {{< image width="80%"
         link="bookinfo-details-unavailable.png"
-        caption="Bookinfo Web Application, details unavailable"
+        caption="Aplicación Web Bookinfo, detalles no disponibles"
         >}}
 
-    Note that the details section contains error messages instead of book details.
+    Nota que la sección de detalles contiene mensajes de error en lugar de detalles del libro.
 
-1.  Check the pods status:
+1.  Verifica el estado de los pods:
 
     {{< text bash >}}
     $ kubectl get pods
@@ -90,18 +90,18 @@ the pods' status with `kubectl get pods`.
     curl-88ddbcfdd-l9zq4            1/1     Running   0          48m
     {{< /text >}}
 
-    The first pod restarted twice and two other `details` pods
-    restarted once. You may experience the `Error` and the
-    `CrashLoopBackOff` statuses until the pods reach `Running` status.
+    El primer Pod se reinició dos veces y otros dos pods `details`
+    se reiniciaron una vez. Puedes experimentar el estado `Error` y el
+    estado `CrashLoopBackOff` hasta que los pods alcancen el estado `Running`.
 
-1. Use Ctrl-C in the terminal to stop the infinite loop that is running to simulate traffic.
+1. Usa Ctrl-C en la terminal para detener el bucle infinito que se está ejecutando para simular tráfico.
 
-In both cases, the application did not crash. The crash in the `details`
-microservice did not cause other microservices to fail. This behavior means you
-did not have a **cascading failure** in this situation. Instead, you had
-**gradual service degradation**: despite one microservice crashing, the
-application could still provide useful functionality. It displayed the reviews
-and the basic information about the book.
+En ambos casos, la aplicación no falló. El fallo en el
+microservicio `details` no causó que otros microservicios fallaran. Este comportamiento significa que
+no tuviste una **falla en cascada** en esta situación. En su lugar, tuviste
+**degradación gradual del servicio**: a pesar de que un microservicio falló, la
+aplicación aún pudo proporcionar funcionalidad útil. Mostró las reseñas
+y la información básica sobre el libro.
 
-You are ready to
-[add a new version of the reviews application](/es/docs/examples/microservices-istio/add-new-microservice-version).
+Estás listo para
+[agregar una nueva versión de la aplicación reviews](/es/docs/examples/microservices-istio/add-new-microservice-version).

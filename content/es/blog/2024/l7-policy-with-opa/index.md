@@ -141,7 +141,7 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: my-opa-authz
-  namespace: istio-system # Esto aplica la política en toda la malla, siendo istio-system el namespace de configuración de la malla
+  namespace: istio-system # Esto aplica la política en toda la mesh, siendo istio-system el namespace de configuración de la mesh
 spec:
   selector:
     matchLabels:
