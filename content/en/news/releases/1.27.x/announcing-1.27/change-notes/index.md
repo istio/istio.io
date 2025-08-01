@@ -141,7 +141,7 @@ aliases:
 - **Fixed** an issue where access logs were not being updated when the referenced service was created later than the Telemetry resource.
   ([Issue #56825](https://github.com/istio/istio/issues/56825))
 
-- **Removed** support of `Lightstep` tracing provider.
+- **Removed** support of the `Lightstep` tracing provider.
   ([Issue #54002](https://github.com/istio/istio/issues/54002))
 
 ## Extensibility
