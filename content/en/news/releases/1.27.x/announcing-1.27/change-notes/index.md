@@ -251,8 +251,6 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 
 - **Added** `--revision` flags for `istioctl dashboard controlz` and `istioctl dashboard istiod-debug`.
 
-- **Added** support in `istioctl proxy-status` to dynamically display all xDS/CRD types as columns in the output table.
-  ([Issue #56005](https://github.com/istio/istio/issues/56005))
 
 
 
