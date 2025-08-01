@@ -229,7 +229,7 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 
 - **Added** support `--weight` parameter for `istioctl experimental workload group create`.
 
-- **Fixed** `istioctl admin log` now supports configuring the log level of `ip-autoallocate`.
+- **Added** support for configuring the log level of `ip-autoallocate` in `istioctl admin log`.
   ([Issue #55741](https://github.com/istio/istio/issues/55741))
 
 - **Fixed** during installation, `istio-revision-tag-default` `MutatingWebhookConfiguration` is never created when the revision is not default.
