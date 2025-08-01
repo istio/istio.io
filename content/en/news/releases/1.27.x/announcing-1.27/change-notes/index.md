@@ -187,7 +187,7 @@ aliases:
 
 - **Added** support for `deploymentAnnotations` in the istiod Helm chart. Users can now specify custom annotations to be applied to the istiod Deployment object, in addition to the existing `podAnnotations` support. This is useful for integration with monitoring tools, GitOps workflows, and policy enforcement systems that operate at the deployment level.
 
-- **Fixed** an issue when the `ISTIO_KUBE_APP_PROBERS` environment variable was not set for probe rewrites when the Istio webhook re-invoked.
+- **Fixed** an issue where the `ISTIO_KUBE_APP_PROBERS` environment variable was not set for probe rewrites when the Istio webhook was re-invoked.
   ([Issue #56102](https://github.com/istio/istio/issues/56102))
 
 - **Fixed** an issue where secrets references in the env of `istio/gateway` Helm chart incorrectly rendered as a string, instead of injected correctly.
