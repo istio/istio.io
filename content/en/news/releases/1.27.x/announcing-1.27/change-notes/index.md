@@ -240,7 +240,7 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 - **Fixed** an issue where analysis included Kubernetes system namespaces (e.g., `kube-system`, `kube-node-lease`).
   ([Issue #55022](https://github.com/istio/istio/issues/55022))
 
-- **Fixed** `create-remote-secret` no longer creates redundant rbac resources.
+- **Fixed** an issue where `create-remote-secret` created redundant RBAC resources.
   ([Issue #56558](https://github.com/istio/istio/issues/56558))
 
 
