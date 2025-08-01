@@ -249,7 +249,6 @@ This is useful for environments with slow Kubernetes API servers, such as those 
 Note that this flag is just used for the Kubernetes client, and does not affect other timeouts in `istioctl`, such as
 installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/54962))
 
-- **Added** `--revision` flags for `istioctl dashboard controlz` and `istioctl dashboard istiod-debug`.
 
 
 
