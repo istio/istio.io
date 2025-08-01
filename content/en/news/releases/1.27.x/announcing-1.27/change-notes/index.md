@@ -159,7 +159,7 @@ aliases:
 - **Added** support customizing Ambient Enablement Labels.
   ([Issue #53578](https://github.com/istio/istio/issues/53578))
 
-- **Added** Support for configuring `additionalContainers` and `initContainers` on the Gateway Helm Chart.
+- **Added** support for configuring `additionalContainers` and `initContainers` on the Gateway Helm Chart.
 
 - **Added** ztunnel tolerations are now configurable via helm
   ([Issue #56086](https://github.com/istio/istio/issues/56086))
