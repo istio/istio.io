@@ -3,5 +3,5 @@ title: Envoy
 test: n/a
 ---
 
-The high-performance proxy that Istio uses to mediate inbound and outbound traffic for all [services](/es/docs/reference/glossary/#service) in the
-[service mesh](/es/docs/reference/glossary/#service-mesh). [Learn more about Envoy](https://www.envoyproxy.io/).
+El proxy de alto rendimiento que Istio usa para mediar el tráfico entrante y saliente para todos los [servicios](/es/docs/reference/glossary/#service) en el
+[service mesh](/es/docs/reference/glossary/#service-mesh). [Aprende más sobre Envoy](https://www.envoyproxy.io/).
