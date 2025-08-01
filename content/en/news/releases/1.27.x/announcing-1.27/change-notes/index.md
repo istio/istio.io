@@ -256,8 +256,6 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 - **Added** support for customizing the timeout of `istioctl waypoint status` and `istioctl waypoint apply`.
   ([Issue #56453](https://github.com/istio/istio/issues/56453))
 
-- **Added** support displaying `stack-trace-level` for `istioctl admin log`.
-  ([Issue #56465](https://github.com/istio/istio/issues/56465))
 
 - **Added** support displaying `traffic type` for `istioctl waypoint list`.
 
