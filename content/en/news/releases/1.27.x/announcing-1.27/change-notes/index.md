@@ -156,7 +156,7 @@ aliases:
 
 - **Added** a setting `values.global.trustBundleName` that allows configuring the name of the ConfigMap that istiod uses to propagate its root CA certificate in the cluster. This allows running multiple control planes with overlapping namespaces in the same cluster.
 
-- **Added** support customizing Ambient Enablement Labels.
+- **Added** support for customizing ambient enablement Labels.
   ([Issue #53578](https://github.com/istio/istio/issues/53578))
 
 - **Added** support for configuring `additionalContainers` and `initContainers` on the Gateway Helm Chart.
