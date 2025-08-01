@@ -257,7 +257,6 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
   ([Issue #56453](https://github.com/istio/istio/issues/56453))
 
 
-- **Added** support displaying `traffic type` for `istioctl waypoint list`.
 
 - **Added** support `--weight` parameter for `istioctl experimental workload group create`.
 
