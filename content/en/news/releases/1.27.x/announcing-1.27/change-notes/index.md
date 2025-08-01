@@ -263,14 +263,3 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 
 - **Added** support `--weight` parameter for `istioctl experimental workload group create`.
 
-- **Fixed** `istioctl admin log` now supports configuring the log level of `ip-autoallocate`.
-  ([Issue #55741](https://github.com/istio/istio/issues/55741))
-
-- **Fixed** during installation, `istio-revision-tag-default` `MutatingWebhookConfiguration` is never created when the revision is not default.
-  ([Issue #55980](https://github.com/istio/istio/issues/55980))
-
-- **Fixed** false positive with `istioctl analyze` raising IST0134 even when `PILOT_ENABLE_IP_AUTOALLOCATE` is set to `true`. ([Issue #56083](https://github.com/istio/istio/issues/56083))
-
-- **Fixed** an issue where analysis included Kubernetes system namespaces (e.g., `kube-system`, `kube-node-lease`). ([Issue #55022](https://github.com/istio/istio/issues/55022))
-
-- **Fixed** `create-remote-secret` no longer creates redundant rbac resources. ([Issue #56558](https://github.com/istio/istio/issues/56558))
