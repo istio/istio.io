@@ -234,7 +234,7 @@ which overrides `workload-socket`, resulted in Kubernetes not creating other vol
 - **Fixed** an issue where, during installation, `istio-revision-tag-default` and `MutatingWebhookConfiguration` were not created when the revision was not the default.
   ([Issue #55980](https://github.com/istio/istio/issues/55980))
 
-- **Fixed** an issue where falses positive of IST0134 were raised in `istioctl analyze` when `PILOT_ENABLE_IP_AUTOALLOCATE` was set to `true`.
+- **Fixed** an issue where false positive of IST0134 were raised in `istioctl analyze` when `PILOT_ENABLE_IP_AUTOALLOCATE` was set to `true`.
   ([Issue #56083](https://github.com/istio/istio/issues/56083))
 
 - **Fixed** an issue where analysis included Kubernetes system namespaces (e.g., `kube-system`, `kube-node-lease`).
@@ -242,11 +242,3 @@ which overrides `workload-socket`, resulted in Kubernetes not creating other vol
 
 - **Fixed** an issue where `create-remote-secret` created redundant RBAC resources.
   ([Issue #56558](https://github.com/istio/istio/issues/56558))
-
-
-
-
-
-
-
-

@@ -303,6 +303,7 @@ cpuset
 CR
 CRD
 CRDs
+CRLs
 CRs
 crypto
 CryptoMB
@@ -572,6 +573,7 @@ GenAI
 Geneve
 GHSA-8mq4-c2v5-3h39
 GiB
+GIDs
 git
 GitHub
 GitOps
