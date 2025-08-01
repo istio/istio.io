@@ -253,8 +253,6 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 - **Added** support in `istioctl proxy-status` to dynamically display all xDS/CRD types as columns in the output table.
   ([Issue #56005](https://github.com/istio/istio/issues/56005))
 
-- **Added** support for customizing the timeout of `istioctl waypoint status` and `istioctl waypoint apply`.
-  ([Issue #56453](https://github.com/istio/istio/issues/56453))
 
 
 
