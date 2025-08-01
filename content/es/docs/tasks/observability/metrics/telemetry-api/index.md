@@ -170,7 +170,7 @@ Puede modificar las definiciones de métricas estándar usando `tags_to_remove` 
 
 ## Verificar los resultados
 
-Envíe tráfico a la malla. Para la muestra de Bookinfo, visite `http://$GATEWAY_URL/productpage` en su navegador web
+Envíe tráfico a la mesh. Para la muestra de Bookinfo, visite `http://$GATEWAY_URL/productpage` en su navegador web
 o emita el siguiente comando:
 
 {{< text bash >}}
