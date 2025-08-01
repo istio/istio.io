@@ -6,18 +6,18 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Agregar aplicaciones a una malla ambient es tan simple como etiquetarel namespace donde reside la aplicación. Al agregar las aplicaciones a la malla, proteges automáticamente la comunicación entre ellas e Istio comienza a recopilar telemetría TCP. Y no, ¡no necesitas reiniciar ni volver a desplegar las aplicaciones!
+Agregar aplicaciones a un ambient mesh es tan simple como etiquetarel namespace donde reside la aplicación. Al agregar las aplicaciones a la mesh, proteges automáticamente la comunicación entre ellas e Istio comienza a recopilar telemetría TCP. Y no, ¡no necesitas reiniciar ni volver a desplegar las aplicaciones!
 
-## Agregar Bookinfo a la malla
+## Agregar Bookinfo a la mesh
 
-Puedes habilitar que todos los pods en un namespaces determinado formen parte de una malla ambient simplemente etiquetandoel namespace:
+Puedes habilitar que todos los pods en un namespaces determinado formen parte de un ambient mesh simplemente etiquetandoel namespace:
 
 {{< text bash >}}
 $ kubectl label namespace default istio.io/data plane-mode=ambient
 namespace/default labeled
 {{< /text >}}
 
-¡Felicidades! Has agregado correctamente todos los pods enel namespace predeterminado a la malla ambient. 🎉
+¡Felicidades! Has agregado correctamente todos los pods enel namespace predeterminado a la mesh ambient. 🎉
 
 Si abres la aplicación Bookinfo en tu navegador, verás la página del producto, como antes. La diferencia esta vez es que la comunicación entre los pods de la aplicación Bookinfo está cifrada mediante mTLS. Además, Istio está recopilando telemetría TCP para todo el tráfico entre los pods.
 

@@ -1,6 +1,6 @@
 ---
-title: Examples
-description: A variety of fully working example uses for Istio that you can experiment with.
+title: Ejemplos
+description: Una variedad de ejemplos de uso completamente funcionales para Istio con los que puedes experimentar.
 weight: 30
 aliases:
     - /docs/samples/index.html

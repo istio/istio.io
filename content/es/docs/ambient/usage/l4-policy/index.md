@@ -101,12 +101,12 @@ Con solo la superposición segura, el tráfico aparece en el ztunnel de destino 
 
 Los proxies de waypoint no se hacen pasar por la identidad de la carga de trabajo de origen. Una vez que has introducido un waypoint en la ruta del tráfico, el ztunnel de destino verá el tráfico con la identidad del *waypoint*, no con la identidad de origen.
 
-Esto significa que cuando tienes un waypoint instalado, **el lugar ideal para aplicar la política cambia**. Incluso si solo deseas aplicar la política contra los atributos L4, si dependes de la identidad de origen, debes adjuntar tu política a tu proxy de waypoint. Se puede dirigir una segunda política a tu carga de trabajo para que su ztunnel aplique políticas como "el tráfico dentro de la malla debe provenir de mi waypoint para llegar a mi aplicación".
+Esto significa que cuando tienes un waypoint instalado, **el lugar ideal para aplicar la política cambia**. Incluso si solo deseas aplicar la política contra los atributos L4, si dependes de la identidad de origen, debes adjuntar tu política a tu proxy de waypoint. Se puede dirigir una segunda política a tu carga de trabajo para que su ztunnel aplique políticas como "el tráfico dentro de la mesh debe provenir de mi waypoint para llegar a mi aplicación".
 
 ## Autenticación de pares
 
 Las [políticas de autenticación de pares](/es/docs/concepts/security/#peer-authentication) de Istio, que configuran los modos de TLS mutuo (mTLS), son compatibles con ztunnel.
 
-La política predeterminada para el modo ambient es `PERMISSIVE`, que permite que los pods acepten tanto el tráfico cifrado con mTLS (desde dentro de la malla) como el tráfico de texto sin formato (desde fuera). Habilitar el modo `STRICT` significa que los pods solo aceptarán tráfico cifrado con mTLS.
+La política predeterminada para el modo ambient es `PERMISSIVE`, que permite que los pods acepten tanto el tráfico cifrado con mTLS (desde dentro de la mesh) como el tráfico de texto sin formato (desde fuera). Habilitar el modo `STRICT` significa que los pods solo aceptarán tráfico cifrado con mTLS.
 
 Como ztunnel y {{< gloss >}}HBONE{{< /gloss >}} implican el uso de mTLS, no es posible usar el modo `DISABLE` en una política. Dichas políticas serán ignoradas.
