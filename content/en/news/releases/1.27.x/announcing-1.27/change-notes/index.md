@@ -169,7 +169,7 @@ aliases:
 
 - **Added** defined defaults for `GOMEMLIMIT` and `GOMAXPROCS` divisors to fix an Argo perpetual out-of-sync issue.
 
-- **Added** bootstrap override config for gateway-injection-template.
+- **Added** bootstrap override config for the `gateway-injection-template`.
   ([Issue #28302](https://github.com/istio/istio/issues/28302))
 
 - **Added** `ENABLE_NATIVE_SIDECARS` Helm value in the compatibility profiles of Istio 1.24, 1.25, and 1.26, allowing users to disable the default enabling of native sidecars.
