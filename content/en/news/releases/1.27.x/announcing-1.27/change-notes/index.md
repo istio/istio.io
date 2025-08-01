@@ -176,9 +176,9 @@ This can be disabled explicitly or for specific workloads by adding the annotati
 - **Added** support for proxy protocol on status port
  ([reference]( https://istio.io/latest/docs/reference/commands/pilot-agent/#envvars)) ([Issue #39868](https://github.com/istio/istio/issues/39868))
 
-- **Added** `.Values.istiodRemote.enabledLocalInjectorIstiod` to support sidecar injection in remote clusters.
-When `profile=remote` & `.Values.istiodRemote.enabledLocalInjectorIstiod=true` & `.Values.global.remotePilotAddress="${DISCOVERY_ADDRESS}"`,
-the remote worker cluster installs `istiod` for local sidecar injection, while XDS is still served by the remote primary cluster.
+- **Added** Helm value `.Values.istiodRemote.enabledLocalInjectorIstiod` to support sidecar injection in remote clusters.
+  When `profile=remote`, `.Values.istiodRemote.enabledLocalInjectorIstiod=true`, and `.Values.global.remotePilotAddress="${DISCOVERY_ADDRESS}"`,
+  the remote worker cluster installs `istiod` for local sidecar injection, while XDS is still served by the remote primary cluster.
   ([Issue #56328](https://github.com/istio/istio/issues/56328))
 
 - **Added** the `istio.io/rev` label to the istio remote service when `istiodRemote` is enabled
