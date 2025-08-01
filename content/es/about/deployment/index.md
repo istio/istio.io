@@ -75,7 +75,7 @@ Istio no es solo para Kubernetes; también puede [añadir servicios en máquinas
 
 ## Monitorizar sus servicios
 
-Explore el tráfico que fluye por su mesh usando [Kiali](/es/docs/ops/integrations/kiali/) o haga un seguimiento de las solicitudes con [Zipkin](/es/docs/tasks/observability/distributed-tracing/zipkin/) o [Jaeger](/es/docs/tasks/observability/distributed-tracing/jaeger/).
+Explore el tráfico que fluye por su mesh usando [Kiali](/docs/ops/integrations/kiali/) o haga un seguimiento de las solicitudes con [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) o [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).
 
 Use los paneles predeterminados de [Grafana](/es/docs/ops/integrations/grafana/) para Istio y obtenga informes automáticos de señales doradas para los servicios que se ejecutan en un mesh.
 
