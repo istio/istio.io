@@ -108,9 +108,9 @@ aliases:
 - **Added** support for `ClusterTrustBundle` by migrating from `certificates.k8s.io/v1alpha1` to the stable `v1beta1` API in Kubernetes 1.33+. This improves compatibility and future-proofs Istio’s certificate distribution mechanism.
   ([Issue #56306](https://github.com/istio/istio/issues/56306))
 
-- **Added** Support for external SDS providers in Gateway TLS configuration
-Istio now provides improved integration with external Secret Discovery Service (SDS) providers
-for TLS certificate management at Gateway.  ([Issue #56522](https://github.com/istio/istio/issues/56522))
+- **Added** support for external Secret Discovery Service (SDS) providers in the Gateway TLS configuration. Istio now provides
+  improved integration with external SDS providers for TLS certificate management at the Gateway.
+  ([Issue #56522](https://github.com/istio/istio/issues/56522))
 
 - **Added** CRL support for plugged-in CA, enabling Istio to watch for `ca-crl.pem` files and
 automatically distribute Certificate Revocation Lists across all namespaces in the cluster. This enhancement allows
