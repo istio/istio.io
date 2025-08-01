@@ -258,5 +258,4 @@ installation timeouts. ([Issue #54962](https://github.com/istio/istio/issues/549
 
 
 
-- **Added** support `--weight` parameter for `istioctl experimental workload group create`.
 
