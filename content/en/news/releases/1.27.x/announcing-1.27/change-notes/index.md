@@ -161,7 +161,7 @@ aliases:
 
 - **Added** support for configuring `additionalContainers` and `initContainers` on the Gateway Helm Chart.
 
-- **Added** ztunnel tolerations are now configurable via helm
+- **Added** support for configuring ztunnel tolerations via Helm chart values.
   ([Issue #56086](https://github.com/istio/istio/issues/56086))
 
 - **Added** istio-cni tolerations are now configurable via helm
