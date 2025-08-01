@@ -135,7 +135,7 @@ aliases:
 
 ## Telemetry
 
-- **Fixed** Grafana dashboard linking in the Istio Mesh Dashboard. Workload and Service links now use dashboard UIDs instead of deprecated path-based linking, which stopped working in newer Grafana versions.
+- **Fixed** an issue where Grafana dashboard was linking to the Istio Mesh Dashboard using path-based links that no longer work. Workload and Service links now use dashboard UIDs.
   ([Issue #50124](https://github.com/istio/istio/issues/50124))
 
 - **Fixed** an issue where access log not being updated when referenced service created later than the Telemetry resource.  ([Issue #56825](https://github.com/istio/istio/issues/56825))
