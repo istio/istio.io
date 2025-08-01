@@ -151,7 +151,7 @@ aliases:
 ## Installation
 
 - **Promoted** the environment variable `ENABLE_NATIVE_SIDECARS` to default to `true`. This means native sidecars will be injected into all eligible pods unless explicitly disabled.
-This can be disabled explicitly or for specific workloads by adding the annotation `sidecar.istio.io/native-side: "false"` to individual pods or pod templates.
+  This can be disabled explicitly or for specific workloads by adding the annotation `sidecar.istio.io/native-side: "false"` to individual pods or pod templates.
   ([Issue #48794](https://github.com/istio/istio/issues/48794))
 
 - **Added** a setting `values.global.trustBundleName` that allows configuring the name of the ConfigMap that istiod uses to propagate its root CA certificate in the cluster. This allows running multiple control planes with overlapping namespaces in the same cluster.
