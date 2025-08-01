@@ -138,7 +138,8 @@ aliases:
 - **Fixed** an issue where Grafana dashboard was linking to the Istio Mesh Dashboard using path-based links that no longer work. Workload and Service links now use dashboard UIDs.
   ([Issue #50124](https://github.com/istio/istio/issues/50124))
 
-- **Fixed** an issue where access log not being updated when referenced service created later than the Telemetry resource.  ([Issue #56825](https://github.com/istio/istio/issues/56825))
+- **Fixed** an issue where access logs were not being updated when the referenced service was created later than the Telemetry resource.
+  ([Issue #56825](https://github.com/istio/istio/issues/56825))
 
 - **Removed** support of `Lightstep` tracing provider.
   ([Issue #54002](https://github.com/istio/istio/issues/54002))
