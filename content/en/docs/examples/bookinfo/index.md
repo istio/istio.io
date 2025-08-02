@@ -57,8 +57,12 @@ in the [installation guide](/docs/setup/).
 
 To run the sample with Istio requires no changes to the
 application itself. Instead, you simply need to configure and run the services in an
-Istio-enabled environment, with Envoy sidecars injected along side each service.
-The resulting deployment will look like this:
+Istio-enabled environment.
+{{< tabset category-name="dataplane-mode" >}}
+
+{{< tab name="Sidecar Mode" category-value="sidecar-mode" >}}
+
+In Sidecar mode, Envoy sidecars are injected along side each workload, and the resulting deployment will look like this:
 
 {{< image width="80%" link="./withistio.svg" caption="Bookinfo Application" >}}
 
@@ -67,22 +71,68 @@ and outgoing calls for the services, providing the hooks needed to externally co
 via the Istio control plane, routing, telemetry collection, and policy enforcement
 for the application as a whole.
 
+{{< /tab >}}
+
+{{< tab name="Ambient Mode" category-value="ambient-mode" >}}
+
+In Ambient mode, ztunnel proxies are deployed on each node.
+We can also put Waypoint proxies in front of each service
+The resulting deployment will look like this:
+
+FIXMEFIXMEFIXME ADD IMAGE
+
+All of the microservices incoming and outgoing traffic will be intercepted by the ztunnel proxies,
+providing the hooks needed to externally control, L4 routing, telemetry collection, and policy enforcement
+
+Further, the ztunnel proxy will forward the traffic to a Waypoint proxy,
+which provide the hooks needed to externally control, L7 routing, telemetry collection, and policy enforcement.
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ### Start the application services
 
 {{< tip >}}
-If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If you use Minikube, please ensure you have at least 4GB RAM.
+If you using a cloud provider, please ensure your cluster has at least 4 nodes, each with 4GB of memory and 4 CPUS.
+If you use Minikube, please ensure you have at least 4GB RAM.
 {{< /tip >}}
 
 1.  Change directory to the root of the Istio installation.
 
-1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+1.  Label your default namespace to enable Istio.
+
+    {{< tabset category-name="dataplane-mode" >}}
+
+    {{< tab name="Sidecar Mode" category-value="sidecar-mode" >}}
+
+    The default Istio installation uses [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
     Label the namespace that will host the application with `istio-injection=enabled`:
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
     {{< /text >}}
 
+    {{< /tab >}}
+
+    {{< tab name="Ambient Mode" category-value="ambient-mode" >}}
+
+    Label the namespace that will host the application with `istio.io/dataplane-mode=ambient` to automatically redirect traffic from your applications to ztunnel proxies:
+
+    {{< text bash >}}
+    $ kubectl label namespace default istio.io/dataplane-mode=ambient
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1.  Deploy your application using the `kubectl` command:
+
+    
+    {{< tabset category-name="dataplane-mode" >}}
+
+    {{< tab name="Sidecar Mode" category-value="sidecar-mode" >}}
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -90,6 +140,19 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
     The command launches all four services shown in the `bookinfo` application architecture diagram.
     All 3 versions of the reviews service, v1, v2, and v3, are started.
+    {{< /tab >}}
+
+    {{< tab name="Ambient Mode" category-value="ambient-mode" >}}
+
+    {{< text bash >}}
+    $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-waypoints.yaml@
+    {{< /text >}}
+
+    The command launches all four services shown in the `bookinfo` application architecture diagram, as well as a Waypoint proxy for each service.
+    All 3 versions of the reviews service, v1, v2, and v3, are started.
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
     {{< tip >}}
     In a realistic deployment, new versions of a microservice are deployed
@@ -98,6 +161,9 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
 1.  Confirm all services and pods are correctly defined and running:
 
+    {{< tabset category-name="dataplane-mode" >}}
+
+    {{< tab name="Sidecar Mode" category-value="sidecar-mode" >}}
     {{< text bash >}}
     $ kubectl get services
     NAME          TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
@@ -120,6 +186,43 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
     reviews-v2-1343845940-b34q5      2/2       Running   0          6m
     reviews-v3-1813607990-8ch52      2/2       Running   0          6m
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Ambient Mode" category-value="ambient-mode" >}}
+    {{< text bash >}}
+    $ kubectl get services
+    NAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)               AGE
+    details                    ClusterIP   10.96.30.105    <none>        9080/TCP              61m
+    details-svc-waypoint       ClusterIP   10.96.250.18    <none>        15021/TCP,15008/TCP   43m
+    kubernetes                 ClusterIP   10.96.0.1       <none>        443/TCP               63m
+    productpage                ClusterIP   10.96.66.208    <none>        9080/TCP              61m
+    productpage-svc-waypoint   ClusterIP   10.96.249.175   <none>        15021/TCP,15008/TCP   43m
+    ratings                    ClusterIP   10.96.141.216   <none>        9080/TCP              61m
+    ratings-svc-waypoint       ClusterIP   10.96.233.85    <none>        15021/TCP,15008/TCP   43m
+    reviews                    ClusterIP   10.96.113.136   <none>        9080/TCP              61m
+    reviews-svc-waypoint       ClusterIP   10.96.50.232    <none>        15021/TCP,15008/TCP   43m
+    {{< /text >}}
+
+    and
+
+    {{< text bash >}}
+    $ kubectl get pods
+    NAME                                        READY   STATUS    RESTARTS   AGE
+    details-svc-waypoint-766c4b6b86-qlt7j       1/1     Running   0          44m
+    details-v1-766844796b-bwbzt                 1/1     Running   0          61m
+    productpage-svc-waypoint-84c9c55bb8-6pgbz   1/1     Running   0          44m
+    productpage-v1-54bb874995-54b2b             1/1     Running   0          61m
+    ratings-svc-waypoint-6f9559f994-x6w94       1/1     Running   0          44m
+    ratings-v1-5dc79b6bcd-qhdld                 1/1     Running   0          61m
+    reviews-svc-waypoint-788d467dcf-qhm7v       1/1     Running   0          44m
+    reviews-v1-598b896c9d-lrf6v                 1/1     Running   0          61m
+    reviews-v2-556d6457d-t2qtq                  1/1     Running   0          61m
+    reviews-v3-564544b4d6-6dn2m                 1/1     Running   0          61m
+    {{< /text >}}
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1.  To confirm that the Bookinfo application is running, send a request to it by a `curl` command from some pod, for
     example from `ratings`:
