@@ -1,6 +1,17 @@
 {{ $home := .Site.GetPage "home" }}
-{{ $section := .Section }}
-{{ $current := . }}
+
+{{/* --- Version Logic --- */}}
+{{ $mainVersionFromYaml := site.Data.versions.main }}
+{{ $currentBuildVersionId := .Site.Params.currentVersionId | default $mainVersionFromYaml }}
+{{ $isLatestBuild := eq $currentBuildVersionId $mainVersionFromYaml }}
+{{ $isDocsPage := eq .Section "docs" }}
+
+{{ $currentPathSegmentForJS := "" }}
+{{ if $isLatestBuild }}
+    {{ $currentPathSegmentForJS = "latest" }}
+{{ else }}
+    {{ $currentPathSegmentForJS = printf "v%s" $currentBuildVersionId }}
+{{ end }}
 
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
@@ -23,7 +34,81 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if .HasChildren }}
+
+                    {{ if eq .Name "Documentation" }}
+                        <li class="main-navigation-links-item">
+                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link {{ if and $isLatestBuild }}has-dropdown{{ end }} {{ if $active }}active{{ end }}">
+                                <span>{{ .Name }}</span>
+                                {{ if and $isDocsPage}}
+                                    {{ partial "icon.html" "dropdown-arrow" }}
+                                {{ end }}
+                            </a>
+
+                            {{ if and $isLatestBuild $isDocsPage }}
+                                <ul class="main-navigation-links-dropdown">
+                                    {{/* --- START DYNAMIC VERSION GENERATION (Always 5 items) --- */}}
+                                    {{ $startVersionString := site.Data.versions.main }}
+                                    {{ $parts := split $startVersionString "." }}
+
+                                    {{ if eq (len $parts) 2 }}
+                                        {{ $startMajor := index $parts 0 | int }}
+                                        {{ $startMinor := index $parts 1 | int }}
+                                        {{ $numberOfVersionsToList := 5 }}
+
+                                        {{ range $i, $e := seq $numberOfVersionsToList }}
+                                            {{ $minorOffset :=  sub $i 1}} {{/* can subtract from i to show preliminary */}}
+                                            {{ $genMinor := sub $startMinor $minorOffset }}
+                                            {{ $genMajor := $startMajor }} {{/* Assumes we stay within the same major for these 5 versions */}}
+
+                                            {{/* Only generate if the minor version is valid (e.g., >= 0) */}}
+                                            {{/* And we are still on the same major as the start version */}}
+                                            {{ if and (eq $genMajor $startMajor) (ge $genMinor 0) }}
+                                                {{ $currentGenVersionString := printf "%d.%d" $genMajor $genMinor }}
+                                                {{ $displayName := "" }}
+                                                {{ $pathSegment := "" }}
+                                                {{ $isActiveLink := false }}
+
+                                                {{ if eq $minorOffset -1 }}
+                                                    {{ $displayName = printf "v%s (Preliminary)" $currentGenVersionString }}
+                                                    {{ $pathSegment = "prelim"}}
+                                                {{ else if eq $minorOffset 0 }} {{/* First item is the "main" version from YAML */}}
+                                                    {{ $displayName = printf "v%s (Latest)" $currentGenVersionString }}
+                                                    {{ $pathSegment = "latest" }}
+                                                    {{/* This item is active because we are on the latest build */}}
+                                                    {{ $isActiveLink = true }}
+                                                {{ else }}
+                                                    {{ $displayName = printf "v%s" $currentGenVersionString }}
+                                                    {{ $pathSegment = printf "v%s" $currentGenVersionString }}
+                                                    {{/* Older versions cannot be "active" in this dropdown */}}
+                                                {{ end }}
+
+                                                <li class="main-navigation-links-dropdown-item">
+                                                    {{ if eq $minorOffset -1 }}
+                                                        <a href="javascript:void(0);"
+                                                        data-pathsegment="{{ $pathSegment }}"
+                                                        onclick="navigateToVersionSimple(this.dataset.pathsegment); return false;"
+                                                        class="main-navigation-links-link {{ if $isActiveLink }}active-version-link{{ end }}">
+                                                            {{ $displayName }}
+                                                        </a>
+                                                    {{ else }}
+                                                        <a href="javascript:void(0);"
+                                                        data-pathsegment="{{ $pathSegment }}"
+                                                        onclick="navigateToVersionSimple(this.dataset.pathsegment); return false;"
+                                                        class="main-navigation-links-link {{ if $isActiveLink }}active-version-link{{ end }}">
+                                                            {{ $displayName }}
+                                                        </a>
+                                                    {{ end }}
+                                                </li>
+                                            {{ end }} {{/* end if valid generated version */}}
+                                        {{ end }} {{/* End range seq iterations */}}
+                                    {{ else }}
+                                        <li class="main-navigation-links-dropdown-item"><span style="padding: .5rem 1.4rem; color: #ccc;">Error: Invalid 'main' version format in versions.yaml.</span></li>
+                                    {{ end }} {{/* end if valid parts for startVersionString */}}
+                                    {{/* --- END DYNAMIC VERSION GENERATION --- */}}
+                                </ul>
+                            {{ end }} {{/* end if $isLatestBuild */}}
+                        </li>
+                    {{ else if .HasChildren }}
                         <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
@@ -71,3 +156,59 @@
         </form>
     </nav>
 </header>
+
+<script>
+  function navigateToVersionSimple(selectedVersionPathSegment) {
+    const currentFullPath = window.location.pathname;
+    const currentVersionPathSegment = {{ $currentPathSegmentForJS | jsonify }};
+    const selectedTargetSegment = selectedVersionPathSegment;
+    
+    //prelim -- change from istio.io to preliminary.istio.io
+    if (selectedVersionPathSegment === 'prelim') {
+        window.location.hostname = 'preliminary.istio.io';
+        return;
+    }
+
+    if (!currentVersionPathSegment && currentVersionPathSegment !== "" ) {
+        const fallbackBase = selectedTargetSegment === 'latest' ? '/latest/' : ('/' + selectedTargetSegment + '/');
+        window.location.href = fallbackBase;
+        return;
+    }
+
+    let contentPath = '';
+    let foundContent = false;
+    const knownContentPrefixes = ['docs/', 'blog/', 'news/', 'about/', 'search/', 'get-involved/'];
+
+    for (const prefix of knownContentPrefixes) {
+        const index = currentFullPath.indexOf('/' + prefix);
+        if (index > -1) {
+            contentPath = currentFullPath.substring(index + 1);
+            foundContent = true;
+            break;
+        }
+    }
+
+    if (!foundContent) {
+        const currentBaseForCheck = currentVersionPathSegment === 'latest' ? '/latest/' : '/' + currentVersionPathSegment + '/';
+        if (currentFullPath === '/' || currentFullPath === currentBaseForCheck || currentFullPath === currentBaseForCheck.slice(0,-1)) {
+             contentPath = '';
+        } else {
+            contentPath = 'docs/'; // Default to docs root of target version
+        }
+    }
+    
+    let newBase = selectedTargetSegment === 'latest' ? '/latest/' : ('/' + selectedTargetSegment + '/');
+    // Ensure newBase ends with a slash if contentPath is not empty or already starts with one
+    if (contentPath !== "" && !newBase.endsWith('/')) {
+        newBase += '/';
+    }
+    if (contentPath.startsWith('/')) { // Avoid double slash if contentPath accidentally starts with /
+        contentPath = contentPath.substring(1);
+    }
+    
+    let finalUrl = newBase + contentPath;
+    finalUrl = finalUrl.replace(/\/\//g, '/'); // Replace double slashes
+
+    window.location.href = finalUrl;
+  }
+</script>
