@@ -8,7 +8,7 @@ draft: true
 ---
 
 {{< tip >}}
-Sigue esta guía para instalar y configurar una malla de Istio con soporte para el modo ambient.
+Sigue esta guía para instalar y configurar un mesh de Istio con soporte para el modo ambient.
 Si eres nuevo en Istio y solo quieres probarlo, sigue las
 [instrucciones de inicio rápido](/es/docs/ambient/getting-started) en su lugar.
 {{< /tip >}}
@@ -134,7 +134,7 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 ### Verificar con la aplicación de ejemplo
 
 Después de instalar el modo ambient con Helm, puedes seguir la guía [Desplegar la aplicación de ejemplo](/es/docs/ambient/getting-started/deploy-sample-app/) para desplegar la aplicación de ejemplo y las gateways de entrada, y luego puedes
-[agregar tu aplicación a la malla ambient](/es/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
+[agregar tu aplicación a la mesh ambient](/es/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
 
 ## Desinstalar
 

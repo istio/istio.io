@@ -12,7 +12,7 @@ test: yes
 ---
 
 {{< tip >}}
-Sigue esta guía para instalar y configurar una malla de Istio con soporte para el modo ambient.
+Sigue esta guía para instalar y configurar un mesh de Istio con soporte para el modo ambient.
 Si eres nuevo en Istio y solo quieres probarlo, sigue las
 [instrucciones de inicio rápido](/es/docs/ambient/getting-started) en su lugar.
 {{< /tip >}}
@@ -60,7 +60,7 @@ $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 ### control plane istiod
 
 El chart `istiod` instala una revisión de Istiod. Istiod es el componente del control plane que gestiona y
-configura los proxies para enrutar el tráfico dentro de la malla.
+configura los proxies para enrutar el tráfico dentro de la mesh.
 
 {{< text syntax=bash snip_id=install_istiod >}}
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
@@ -68,7 +68,7 @@ $ helm install istiod istio/istiod --namespace istio-system --set profile=ambien
 
 ### Agente de nodo CNI
 
-El chart `cni` instala el agente de nodo CNI de Istio. Es responsable de detectar los pods que pertenecen a la malla ambient y de configurar la redirección del tráfico entre los pods y el proxy de nodo ztunnel (que se instalará más adelante).
+El chart `cni` instala el agente de nodo CNI de Istio. Es responsable de detectar los pods que pertenecen a la mesh ambient y de configurar la redirección del tráfico entre los pods y el proxy de nodo ztunnel (que se instalará más adelante).
 
 {{< text syntax=bash snip_id=install_cni >}}
 $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait
@@ -136,7 +136,7 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 ### Verificar con la aplicación de ejemplo
 
 Después de instalar el modo ambient con Helm, puedes seguir la guía [Desplegar la aplicación de ejemplo](/es/docs/ambient/getting-started/deploy-sample-app/) para desplegar la aplicación de ejemplo y las gateways de entrada, y luego puedes
-[agregar tu aplicación a la malla ambient](/es/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
+[agregar tu aplicación a la mesh ambient](/es/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
 
 ## Desinstalar
 

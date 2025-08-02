@@ -5,7 +5,7 @@ weight: 80
 
 Puede habilitar el [seguimiento](/es/docs/tasks/observability/distributed-tracing/) para determinar el flujo de una solicitud en Istio.
 
-Además, puede usar los siguientes comandos para saber más sobre el estado de la malla:
+Además, puede usar los siguientes comandos para saber más sobre el estado de la mesh:
 
 * [`istioctl proxy-config`](/es/docs/reference/commands/istioctl/#istioctl-proxy-config): recupera información sobre la configuración del proxy cuando se ejecuta en Kubernetes:
 
@@ -29,7 +29,7 @@ Además, puede usar los siguientes comandos para saber más sobre el estado de l
     $ istioctl proxy-config --help
     {{< /text >}}
 
-* `kubectl get`: obtiene información sobre diferentes recursos en la malla junto con la configuración de enrutamiento:
+* `kubectl get`: obtiene información sobre diferentes recursos en la mesh junto con la configuración de enrutamiento:
 
     {{< text plain >}}
     # Listar todos los virtual services

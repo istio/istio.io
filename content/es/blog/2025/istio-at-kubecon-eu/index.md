@@ -16,7 +16,7 @@ Dimos el pistoletazo de salida a las actividades en Londres con el Istio Day, un
     caption="Istio Day Europe 2025, Bienvenida"
     >}}
 
-El Istio Day comenzó con una [ponencia de apertura](https://youtu.be/v10UpNQIoT0?si=CEOwz3nMMPVP7XWE) de los presidentes del Comité del Programa, Keith Mattix y Denis Jannot. La ponencia fue seguida por [la tan esperada charla de Microsoft sobre el soporte de Istio Ambient Mesh en Windows](https://youtu.be/sULnWlj8sR8?si=ewQ2hgdEZ5ZSRGuK). Tuvimos una charla muy interesante de Lior Lieberman de Google y Erik Parienty de Riskified [sobre la arquitectura de Istio para implementaciones a gran escala](https://youtu.be/GNi9ZJFuups?si=7gjH_tW6dURyJOLZ), seguida de una charla de los mantenedores de Kiali, Josune Cordoba y Hayk Hovsepyan, de RedHat, sobre [la solución de problemas de la malla ambient de Istio con Kiali 2.0](https://youtu.be/kodNy436ND0?si=Qyh4ebtfnYV2H6Ap).
+El Istio Day comenzó con una [ponencia de apertura](https://youtu.be/v10UpNQIoT0?si=CEOwz3nMMPVP7XWE) de los presidentes del Comité del Programa, Keith Mattix y Denis Jannot. La ponencia fue seguida por [la tan esperada charla de Microsoft sobre el soporte de Istio Ambient Mesh en Windows](https://youtu.be/sULnWlj8sR8?si=ewQ2hgdEZ5ZSRGuK). Tuvimos una charla muy interesante de Lior Lieberman de Google y Erik Parienty de Riskified [sobre la arquitectura de Istio para implementaciones a gran escala](https://youtu.be/GNi9ZJFuups?si=7gjH_tW6dURyJOLZ), seguida de una charla de los mantenedores de Kiali, Josune Cordoba y Hayk Hovsepyan, de RedHat, sobre [la solución de problemas de la mesh ambient de Istio con Kiali 2.0](https://youtu.be/kodNy436ND0?si=Qyh4ebtfnYV2H6Ap).
 
 {{< image width="75%"
     link="./istioday-session-1.jpg"
@@ -46,7 +46,7 @@ Hubo varias ponencias principales en el escenario principal donde se mencionó a
     caption="KubeCon Europe 2025, Anunciando NeoNephos"
     >}}
 
-Stephen Connolly compartió el viaje de HSBC con Kubernetes y también discutió [los planes para adoptar la malla ambient de Istio](https://youtu.be/6D8EZ1fZyh4?si=GvcSG28Lnuy5eTLD) para ahorrar en costos. Ant Group, que ganó el Premio de Usuario Final de la CNCF, también [destacó su uso de Istio](https://youtu.be/bjCT7-mFYEo?si=AUMoTzN713_qUVhh). Idit Levine y Keith Babo, de Solo.io, anunciaron [un estimador de ahorro de costos y una herramienta de migración gratuitos](https://youtu.be/-k1CdrRAGMM?si=sDKdfJG5GDn7FWfw) para la malla ambient de Istio. Faseela K tuvo una ponencia principal en un panel de usuarios finales de telecomunicaciones sobre [la evolución nativa de la nube en las telecomunicaciones](https://youtu.be/qj9q_-S91L8?si=8r3f1d396DSzp1Mg) con Vodafone, Orange y Swisscom, que nuevamente destacó el uso de Istio para las funciones de red de telecomunicaciones.
+Stephen Connolly compartió el viaje de HSBC con Kubernetes y también discutió [los planes para adoptar la mesh ambient de Istio](https://youtu.be/6D8EZ1fZyh4?si=GvcSG28Lnuy5eTLD) para ahorrar en costos. Ant Group, que ganó el Premio de Usuario Final de la CNCF, también [destacó su uso de Istio](https://youtu.be/bjCT7-mFYEo?si=AUMoTzN713_qUVhh). Idit Levine y Keith Babo, de Solo.io, anunciaron [un estimador de ahorro de costos y una herramienta de migración gratuitos](https://youtu.be/-k1CdrRAGMM?si=sDKdfJG5GDn7FWfw) para la mesh ambient de Istio. Faseela K tuvo una ponencia principal en un panel de usuarios finales de telecomunicaciones sobre [la evolución nativa de la nube en las telecomunicaciones](https://youtu.be/qj9q_-S91L8?si=8r3f1d396DSzp1Mg) con Vodafone, Orange y Swisscom, que nuevamente destacó el uso de Istio para las funciones de red de telecomunicaciones.
 
 {{< image width="75%"
     link="./kubecon-keynote-2.jpg"
@@ -90,7 +90,7 @@ Istio tenía un quiosco en el pabellón de proyectos, y la mayoría de las pregu
     caption="KubeCon Europe 2025, Quiosco de Istio"
     >}}
 
-Muchos de nuestros miembros del TOC y mantenedores también ofrecieron apoyo en el stand, donde también tuvieron lugar muchas discusiones interesantes sobre la malla ambient de Istio.
+Muchos de nuestros miembros del TOC y mantenedores también ofrecieron apoyo en el stand, donde también tuvieron lugar muchas discusiones interesantes sobre la mesh ambient de Istio.
 
 {{< image width="75%"
     link="./istio-booth-2.jpg"

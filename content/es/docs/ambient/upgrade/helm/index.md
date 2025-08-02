@@ -56,7 +56,7 @@ No se necesitan preparaciones adicionales para las actualizaciones in-place, pro
 
 ### Organiza tus etiquetas y revisiones
 
-Para actualizar una malla en modo ambient de manera controlada, recomendamos que tus gateways y namespaces usen la etiqueta `istio.io/rev` para especificar una etiqueta de revisión para controlar qué versiones de gateway y control plane se usarán para administrar el tráfico de tus workloads. Recomendamos dividir tu cluster de producción en múltiples etiquetas para organizar tu actualización. Todos los miembros de una etiqueta determinada se actualizarán simultáneamente, por lo que es aconsejable comenzar la actualización con tus aplicaciones de menor riesgo. No recomendamos hacer referencia a las revisiones directamente a través de etiquetas para las actualizaciones, ya que este proceso puede resultar fácilmente en la actualización accidental de una gran cantidad de proxies y es difícil de segmentar. Para ver qué etiquetas y revisiones estás usando en tu cluster, consulta la sección sobre la actualización de etiquetas.
+Para actualizar un mesh en modo ambient de manera controlada, recomendamos que tus gateways y namespaces usen la etiqueta `istio.io/rev` para especificar una etiqueta de revisión para controlar qué versiones de gateway y control plane se usarán para administrar el tráfico de tus workloads. Recomendamos dividir tu cluster de producción en múltiples etiquetas para organizar tu actualización. Todos los miembros de una etiqueta determinada se actualizarán simultáneamente, por lo que es aconsejable comenzar la actualización con tus aplicaciones de menor riesgo. No recomendamos hacer referencia a las revisiones directamente a través de etiquetas para las actualizaciones, ya que este proceso puede resultar fácilmente en la actualización accidental de una gran cantidad de proxies y es difícil de segmentar. Para ver qué etiquetas y revisiones estás usando en tu cluster, consulta la sección sobre la actualización de etiquetas.
 
 ### Elige un nombre de revisión
 
@@ -91,7 +91,7 @@ $ helm upgrade istio-base istio/base -n istio-system
 
 ### control plane istiod
 
-El control plane [Istiod](/es/docs/ops/deployment/architecture/#istiod) gestiona y configura los proxies que enrutan el tráfico dentro de la malla. El siguiente comando instalará una nueva instancia del control plane junto con la actual, pero no introducirá nuevos proxies de gateway o waypoints, ni tomará el control de los existentes.
+El control plane [Istiod](/es/docs/ops/deployment/architecture/#istiod) gestiona y configura los proxies que enrutan el tráfico dentro de la mesh. El siguiente comando instalará una nueva instancia del control plane junto con la actual, pero no introducirá nuevos proxies de gateway o waypoints, ni tomará el control de los existentes.
 
 Si has personalizado tu instalación de istiod, puedes reutilizar el archivo `values.yaml` de actualizaciones o instalaciones anteriores para mantener la coherencia de tus planos de control.
 
@@ -117,14 +117,14 @@ $ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$
 
 ### Agente de nodo CNI
 
-El agente de nodo CNI de Istio es responsable de detectar los pods agregados a la malla ambient, informar a ztunnel que se deben establecer los puertos de proxy dentro de los pods agregados y configurar la redirección del tráfico dentro del namespace de red del pod. No forma parte del data plane ni del control plane.
+El agente de nodo CNI de Istio es responsable de detectar los pods agregados a la mesh ambient, informar a ztunnel que se deben establecer los puertos de proxy dentro de los pods agregados y configurar la redirección del tráfico dentro del namespace de red del pod. No forma parte del data plane ni del control plane.
 
 El CNI en la versión 1.x es compatible con el control plane en la versión 1.x+1 y 1.x. Esto significa que el control plane debe actualizarse antes que el CNI de Istio, siempre que la diferencia de versión sea de una versión menor.
 
 {{< warning >}}
 Istio actualmente no admite actualizaciones canary de istio-cni, **incluso con el uso de revisiones**. Si esto es una preocupación de interrupción significativa para tu entorno, o si se desean controles de radio de explosión más estrictos para las actualizaciones de CNI, se recomienda posponer las actualizaciones de `istio-cni` hasta que los propios nodos se drenen y actualicen, o aprovechar los taints de los nodos y orquestar manualmente la actualización para este componente.
 
-El agente de nodo CNI de Istio es un DaemonSet [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/). **Debe** estar ejecutándose en cada nodo para que se mantengan las garantías de seguridad y operativas del tráfico ambient de Istio en ese nodo. De forma predeterminada, el DaemonSet del agente de nodo CNI de Istio admite actualizaciones seguras in-place y, mientras se actualiza o reinicia, evitará que se inicien nuevos pods en ese nodo hasta que haya una instancia del agente disponible en el nodo para manejarlos, con el fin de evitar fugas de tráfico no seguras. Los pods existentes que ya se hayan agregado con éxito a la malla ambient antes de la actualización continuarán operando bajo los requisitos de seguridad de tráfico de Istio durante la actualización.
+El agente de nodo CNI de Istio es un DaemonSet [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/). **Debe** estar ejecutándose en cada nodo para que se mantengan las garantías de seguridad y operativas del tráfico ambient de Istio en ese nodo. De forma predeterminada, el DaemonSet del agente de nodo CNI de Istio admite actualizaciones seguras in-place y, mientras se actualiza o reinicia, evitará que se inicien nuevos pods en ese nodo hasta que haya una instancia del agente disponible en el nodo para manejarlos, con el fin de evitar fugas de tráfico no seguras. Los pods existentes que ya se hayan agregado con éxito a la mesh ambient antes de la actualización continuarán operando bajo los requisitos de seguridad de tráfico de Istio durante la actualización.
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
@@ -138,7 +138,7 @@ $ helm upgrade istio-cni istio/cni -n istio-system
 El DaemonSet de {{< gloss >}}ztunnel{{< /gloss >}} es el componente de proxy de nodo. El ztunnel en la versión 1.x es compatible con el control plane en la versión 1.x+1 y 1.x. Esto significa que el control plane debe actualizarse antes que ztunnel, siempre que la diferencia de versión sea de una versión menor. Si has personalizado previamente tu instalación de ztunnel, puedes reutilizar el archivo `values.yaml` de actualizaciones o instalaciones anteriores para mantener la coherencia de tu {{< gloss >}}data plane{{< /gloss >}}.
 
 {{< warning >}}
-La actualización de ztunnel in-place interrumpirá brevemente todo el tráfico de la malla ambient en el nodo, **incluso con el uso de revisiones**. En la práctica, el período de interrupción es una ventana muy pequeña, que afecta principalmente a las conexiones de larga duración.
+La actualización de ztunnel in-place interrumpirá brevemente todo el tráfico de la mesh ambient en el nodo, **incluso con el uso de revisiones**. En la práctica, el período de interrupción es una ventana muy pequeña, que afecta principalmente a las conexiones de larga duración.
 
 Se recomienda el acordonamiento de nodos y los grupos de nodos azul/verde para mitigar el riesgo del radio de explosión durante las actualizaciones de producción. Consulta la documentación de tu proveedor de Kubernetes para obtener más detalles.
 {{< /warning >}}
