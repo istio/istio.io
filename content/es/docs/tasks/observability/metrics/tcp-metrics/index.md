@@ -11,7 +11,7 @@ test: yes
 ---
 
 Esta tarea muestra cómo configurar Istio para recopilar automáticamente telemetría para services TCP
-en una malla. Al final de esta tarea, puede consultar las métricas TCP predeterminadas para su malla.
+en un mesh. Al final de esta tarea, puede consultar las métricas TCP predeterminadas para su malla.
 
 La application de ejemplo [Bookinfo](/es/docs/examples/bookinfo/) se utiliza
 como ejemplo a lo largo de esta tarea.
@@ -45,7 +45,7 @@ configuración y los comandos de ejemplo.
         deployment.apps/mongodb-v1 created
         {{< /text >}}
 
-    1.  La muestra de Bookinfo despliega múltiples versiones de cada microservice, así que comience creando reglas de destino
+    1.  La muestra de Bookinfo despliega múltiples versiones de cada microservicio, así que comience creando reglas de destino
         que definan los subconjuntos de service correspondientes a cada versión, y la política de balanceo de carga para cada subconjunto.
 
         {{< text bash >}}
@@ -123,7 +123,7 @@ configuración y los comandos de ejemplo.
 
 En esta tarea, utilizó la configuración de Istio para
 generar y reportar automáticamente métricas para todo el tráfico a un service TCP
-dentro de la malla.
+dentro de la mesh.
 Las métricas TCP para todas las conexiones activas se registran cada `15s` por defecto y este temporizador es configurable
 a través de `tcpReportingDuration`.
 Las métricas para una conexión también se registran al final de la conexión.
@@ -134,7 +134,7 @@ Varios atributos específicos de TCP permiten la política y el control de TCP d
 Estos atributos son generados por los proxies de Envoy y obtenidos de Istio usando los metadatos de nodo de Envoy.
 Envoy reenvía los metadatos de nodo a los Envoy de pares usando tunelización basada en ALPN y un protocolo basado en prefijos.
 Definimos un nuevo protocolo `istio-peer-exchange`, que es anunciado y priorizado por el cliente y los sidecars del servidor
-en la malla. La negociación ALPN resuelve el protocolo a `istio-peer-exchange` para conexiones entre proxies habilitados para Istio,
+en la mesh. La negociación ALPN resuelve el protocolo a `istio-peer-exchange` para conexiones entre proxies habilitados para Istio,
 pero no entre un proxy habilitado para Istio y cualquier otro proxy.
 Este protocolo extiende TCP de la siguiente manera:
 
@@ -145,7 +145,7 @@ Este protocolo extiende TCP de la siguiente manera:
  en el flujo descendente y ascendente hasta que la secuencia de bytes mágicos no coincide o se lee toda la carga útil.
 
 {{< image link="./alpn-based-tunneling-protocol.svg"
-    alt="Flujo de Generación de Atributos para Services TCP en una Malla de Istio."
+    alt="Flujo de Generación de Atributos para Services TCP en un mesh de Istio."
     caption="Flujo de Atributos TCP"
     >}}
 
