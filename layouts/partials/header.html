@@ -52,7 +52,7 @@
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
                 <a href='{{ "/docs/overview/quickstart" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
             </div>
-            
+
         </div>
 
         <form id="search-form" class="search" name="cse" role="search">
@@ -69,5 +69,28 @@
             <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
         </form>
+        {{ $versions := site.Data.versions }}
+        {{ $mainVerStr := $versions.main }}
+        {{ $mainVerParts := split $mainVerStr "." }}
+        {{ $major := index $mainVerParts 0 | int }}
+        {{ $minor := index $mainVerParts 1 | int }}
+        {{ $versionCount := 5 }}
+
+        <li class="main-navigation-links-item">
+        <select id="docs-version"
+                class="main-navigation-links-link"
+                onchange="location = this.value;">
+            {{ range $i := seq 0 (sub $versionCount 1) }}
+            {{ $currentMinor := sub $minor $i }}
+            {{ $ver := printf "v%d.%d" $major $currentMinor }}
+            {{ $url := printf "https://istio.io/%s/docs" $ver }}
+            <option value="{{ $url }}" {{ if in $.Permalink (print "/" $ver) }}selected{{ end }}>
+                {{ $ver }}
+            </option>
+            {{ end }}
+        </select>
+        </li>
+
+
     </nav>
 </header>
