@@ -26,6 +26,7 @@ If you are testing multicluster setup on `kind`, you can use the script `samples
 $ samples/kind-lb/setupkind.sh --cluster-name cluster-1 --ip-space 254
 $ samples/kind-lb/setupkind.sh --cluster-name cluster-2 --ip-space 255
 {{< /text >}}
+
 {{< /tip >}}
 
 ### API Server Access
@@ -62,8 +63,8 @@ If you're using `kind`, set the following contexts:
 $ export CTX_CLUSTER1=$(kubectl config get-contexts -o name | grep kind-cluster-1)
 $ export CTX_CLUSTER2=$(kubectl config get-contexts -o name | grep kind-cluster-2)
 {{< /text >}}
-{{< /tip >}}
 
+{{< /tip >}}
 
 ## Configure Trust
 
@@ -99,7 +100,8 @@ below may have to be altered based on your choice of CA.
 {{< /tip >}}
 
 {{< tip >}}
-If you're using `kind`, you can quickly generate self-signed CA certificates for your clusters using the provided Makefile:
+If you're using `kind`, you can quickly generate self-signed CA certificates
+for your clusters using the provided Makefile:
 
 {{< text bash >}}
 $ make -f tools/certs/Makefile.selfsigned.mk \
@@ -127,7 +129,6 @@ $ kubectl --context="${CTX_CLUSTER1}" create secret generic cacerts -n istio-sys
     --from-file=ca-key.pem=cluster1/ca-key.pem \
     --from-file=root-cert.pem=cluster1/root-cert.pem \
     --from-file=cert-chain.pem=cluster1/cert-chain.pem
-
 $ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
 $ kubectl --context="${CTX_CLUSTER2}" create secret generic cacerts -n istio-system \
     --from-file=ca-cert.pem=cluster2/ca-cert.pem \
@@ -139,7 +140,6 @@ $ kubectl --context="${CTX_CLUSTER2}" create secret generic cacerts -n istio-sys
 This will create the `cacerts` secret in the `istio-system` namespace of each cluster, allowing Istio to use your custom CA certificates.
 
 {{< /tip >}}
-
 
 ## Next steps
 
