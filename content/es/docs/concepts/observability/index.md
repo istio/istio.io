@@ -22,7 +22,7 @@ Istio genera los siguientes tipos de telemetría para proporcionar observabilida
 
 - [**Métricas**](#metrics). Istio genera un conjunto de métricas de servicio basadas en las cuatro "señales doradas" de monitoreo (latencia, tráfico, errores y
   saturación). Istio también proporciona métricas detalladas para el [control plane de la mesh](/es/docs/ops/deployment/architecture/).
-  También se proporciona un conjunto predeterminado de paneles de monitoreo de meshcreados sobre estas métricas.
+  También se proporciona un conjunto predeterminado de paneles de monitoreo de mesh creados sobre estas métricas.
 - [**Trazas distribuidas**](#distributed-traces). Istio genera tramos de traza distribuidos para cada servicio, lo que proporciona a los operadores una comprensión detallada
   de los flujos de llamadas y las dependencias de los servicios dentro de un mesh.
 - [**Registros de acceso**](#access-logs). A medida que el tráfico fluye hacia un servicio dentro de un mesh, Istio puede generar un registro completo de cada solicitud, incluidos los metadatos de origen y

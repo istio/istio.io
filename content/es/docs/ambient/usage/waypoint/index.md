@@ -23,7 +23,7 @@ El enfoque por capas de ambient permite a los usuarios adoptar Istio de una mane
 
 La mayoría de las características del modo ambient son proporcionadas por el proxy de nodo ztunnel. Ztunnel está diseñado para procesar solo el tráfico en la capa 4 (L4), de modo que pueda operar de forma segura como un componente compartido.
 
-Cuando configuras la redirección a un waypoint, el tráfico será reenviado por ztunnel a ese waypoint. Si tus aplicaciones requieren alguna de las siguientes funciones de meshL7, deberás usar un proxy de waypoint:
+Cuando configuras la redirección a un waypoint, el tráfico será reenviado por ztunnel a ese waypoint. Si tus aplicaciones requieren alguna de las siguientes funciones de mesh L7, deberás usar un proxy de waypoint:
 
 * **Gestión del tráfico**: enrutamiento y balanceo de carga HTTP, interrupción de circuito, limitación de velocidad, inyección de fallas, reintentos, tiempos de espera
 * **Seguridad**: políticas de autorización enriquecidas basadas en primitivas L7 como el tipo de solicitud o el encabezado HTTP

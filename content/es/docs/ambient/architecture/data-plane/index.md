@@ -7,7 +7,7 @@ test: no
 ---
 
 En el {{< gloss "ambient" >}}modo ambient{{< /gloss >}}, los workloads pueden clasificarse en 3 categorías:
-1. **Fuera de la mesh**: un pod estándar sin ninguna característica de meshhabilitada. Istio y el {{< gloss >}}data plane{{< /gloss >}} ambient no están habilitados.
+1. **Fuera de la mesh**: un pod estándar sin ninguna característica de mesh habilitada. Istio y el {{< gloss >}}data plane{{< /gloss >}} ambient no están habilitados.
 1. **En la mesh**: un pod que está incluido en el {{< gloss >}}data plane{{< /gloss >}} ambient, y tiene el tráfico interceptado en el nivel de capa 4 por {{< gloss >}}ztunnel{{< /gloss >}}. En este modo, se pueden aplicar políticas L4 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/data plane-mode=ambient`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
 1. **En la mesh, con waypoint habilitado**: un pod que está _en la mesh_ *y* tiene un {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} desplegado. En este modo, se pueden aplicar políticas L7 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/use-waypoint`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
 
@@ -89,7 +89,7 @@ Nota: Aunque la figura muestra que los túneles HBONE se encuentran entre los do
 
 Ten en cuenta que el tráfico local, que se muestra en la figura desde el pod C3 hasta el pod de destino S1 en el nodo de trabajo W2, también atraviesa la instancia de proxy ztunnel local, de modo que las funciones de gestión de tráfico L4, como la Autorización L4 y la Telemetría L4, se aplicarán de forma idéntica en el tráfico, ya sea que cruce o no un límite de nodo.
 
-## Enrutamiento en meshcon waypoint habilitado
+## Enrutamiento en mesh con waypoint habilitado
 
 Los waypoints de Istio reciben exclusivamente tráfico HBONE.
 Al recibir una solicitud, el waypoint se asegurará de que el tráfico sea para un `Pod` o `Service` que lo utilice.
