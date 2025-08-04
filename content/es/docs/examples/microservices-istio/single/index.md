@@ -1,5 +1,5 @@
 ---
-title: Ejecutar un microservicio Localmente
+title: Ejecutar un Microservicio Localmente
 overview: Aprende cómo trabajar en un solo servicio en tu máquina local.
 weight: 10
 owner: istio/wg-docs-maintainers

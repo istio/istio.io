@@ -254,7 +254,7 @@ antes de que el Envoy del lado del cliente reciba el tráfico.
 ### Arquitectura de autenticación
 
 Puede especificar los requisitos de autenticación para los workloads que reciben solicitudes en
-una meshde Istio utilizando políticas de autenticación de pares y de solicitudes. El operador de la mesh
+una mesh de Istio utilizando políticas de autenticación de pares y de solicitudes. El operador de la mesh
 utiliza ficheros `.yaml` para especificar las políticas. Las políticas se guardan en el
 almacén de configuración de Istio una vez desplegadas. El controlador de Istio observa el
 almacén de configuración.
@@ -322,7 +322,7 @@ EOF
 
 #### Almacenamiento de políticas
 
-Istio almacena las políticas con alcance de meshen el namespace raíz. Estas políticas tienen un
+Istio almacena las políticas con alcance de mesh en el namespace raíz. Estas políticas tienen un
 selector vacío que se aplica a todos los workloads de la mesh. Las políticas que tienen un
 alcance de namespace se almacenan en el namespace correspondiente. Solo se aplican a
 los workloads dentro de su namespace. Si configura un campo `selector`, la
@@ -360,9 +360,9 @@ Las políticas de autenticación de pares y de solicitudes siguen los mismos pri
 para los campos `selector`, pero Istio los combina y aplica de formas ligeramente
 diferentes.
 
-Solo puede haber una política de autenticación de pares a nivel de meshy solo una
+Solo puede haber una política de autenticación de pares a nivel de mesh y solo una
 política de autenticación de pares a nivel de namespace por namespace. Cuando configura
-múltiples políticas de autenticación de pares a nivel de mesho de namespace para la misma malla
+múltiples políticas de autenticación de pares a nivel de mesh o de namespace para la misma malla
 o namespace, Istio ignora las políticas más nuevas. Cuando más de una
 política de autenticación de pares específica del workload coincide, Istio elige la más antigua.
 
@@ -375,8 +375,8 @@ siguiente orden:
 
 Istio puede combinar todas las políticas de autenticación de solicitudes coincidentes para que funcionen como si
 provinieran de una única política de autenticación de solicitudes. Por lo tanto, puede tener
-múltiples políticas de autenticación de solicitudes a nivel de mesho de namespace en un mesh o namespace. Sin embargo,
-sigue siendo una buena práctica evitar tener múltiples políticas de autenticación de solicitudes a nivel de mesho de namespace.
+múltiples políticas de autenticación de solicitudes a nivel de mesh o de namespace en un mesh o namespace. Sin embargo,
+sigue siendo una buena práctica evitar tener múltiples políticas de autenticación de solicitudes a nivel de mesh o de namespace.
 
 #### Autenticación de pares
 
@@ -392,7 +392,7 @@ los workloads de destino. Se admiten los siguientes modos:
     no debe usar este modo a menos que proporcione su propia solución de seguridad.
 
 Cuando el modo no está establecido, se hereda el modo del ámbito padre. Las políticas de autenticación de pares
-a nivel de meshcon un modo no establecido usan el modo `PERMISIVO` por
+a nivel de mesh con un modo no establecido usan el modo `PERMISIVO` por
 defecto.
 
 La siguiente política de autenticación de pares requiere que todos los workloads en el namespace

@@ -41,7 +41,7 @@ Existen muchas buenas razones para adoptar Istio: desde agregar seguridad a sus 
 
 Introduzca gradualmente sus servicios en la service mesh labeling un namespace a la vez. Por defecto, los servicios en múltiples namespaces pueden comunicarse entre sí, pero puede aumentar el aislamiento seleccionando cuáles exponer a otros namespaces. El uso de namespaces también mejora el rendimiento ya que las configuraciones están limitadas.
 
-Istio es flexible para adaptarse a la configuración de su clúster de Kubernetes y a la arquitectura de red. Puede optar por ejecutar múltiplesmesh con planos de control independientes o tener uno solo.
+Istio es flexible para adaptarse a la configuración de su clúster de Kubernetes y a la arquitectura de red. Puede optar por ejecutar múltiples mesh con planos de control independientes o tener uno solo.
 
 Mientras los pods puedan conectarse a la red, Istio funcionará; incluso puede configurar gateways de Istio para que actúen como un host bastión entre diferentes redes.
 

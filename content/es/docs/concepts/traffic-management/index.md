@@ -27,7 +27,7 @@ sea más resiliente contra fallos de services dependientes o de la red.
 El modelo de gestión de tráfico de Istio se basa en los proxies {{< gloss >}}Envoy{{</ gloss >}}
 que se despliegan junto con sus services. Todo el tráfico que sus services de malla
 envían y reciben (tráfico del {{< gloss >}}data plane{{</ gloss >}}) se proxy a través de Envoy, lo que facilita
-dirigir y controlar el tráfico alrededor de su meshsin realizar ningún
+dirigir y controlar el tráfico alrededor de su mesh sin realizar ningún
 cambio en sus services.
 
 Si está interesado en los detalles de cómo funcionan las features descritas en esta guía,
@@ -59,7 +59,7 @@ Es posible que desee dirigir un porcentaje particular de tráfico a una nueva ve
 un service como parte de las pruebas A/B, o aplicar una política de balanceo de carga diferente al
 tráfico para un subconjunto particular de instancias de service. También es posible que desee
 aplicar reglas especiales al tráfico que entra o sale de su malla, o agregar una
-dependencia externa de su meshal service registry. Puede hacer todo esto
+dependencia externa de su mesh al service registry. Puede hacer todo esto
 y más agregando su propia configuración de tráfico a Istio utilizando la API de gestión de tráfico de Istio.
 
 Al igual que otras configuraciones de Istio, la API se especifica utilizando definiciones de recursos personalizados de Kubernetes
@@ -87,7 +87,7 @@ Un virtual service le permite configurar cómo se enrutan las solicitudes a un s
 basándose en la conectividad y el descubrimiento básicos proporcionados por Istio y su plataforma. Cada virtual
 service consta de un conjunto de reglas de enrutamiento que se evalúan en orden, lo que permite
 a Istio hacer coincidir cada solicitud dada al virtual service con un destino real específico dentro de la mesh.
-Su meshpuede requerir múltiples virtual services o ninguno, dependiendo de su caso de uso.
+Su mesh puede requerir múltiples virtual services o ninguno, dependiendo de su caso de uso.
 
 ### ¿Por qué usar virtual services? {#why-use-virtual-services}
 
@@ -127,7 +127,7 @@ los virtual services ayudan con los despliegues canary en [Despliegues Canary us
 Los virtual services también le permiten:
 
 -   Dirigir múltiples applications de services a través de un único virtual service. Si
-    su meshutiliza Kubernetes, por ejemplo, puede configurar un virtual service
+    su mesh utiliza Kubernetes, por ejemplo, puede configurar un virtual service
     para manejar todos los services en un namespace específico. Mapear un único
     virtual service a múltiples services "reales" es particularmente útil para
     facilitar la transformación de una aplicación monolítica en un service compuesto
@@ -223,7 +223,7 @@ El campo `destination` de la sección de ruta especifica el destino real para
 el tráfico que coincide con esta condición. A diferencia de los hosts del virtual service,
 el host de destino debe ser un destino real que exista en el service registry de Istio
 o Envoy no sabrá a dónde enviar el tráfico. Puede ser un service de malla
-con proxies o un service no de meshagregado mediante una entrada de service. En este
+con proxies o un service no de mesh agregado mediante una entrada de service. En este
 caso, nos estamos ejecutando en Kubernetes y el nombre de host es un nombre de service de Kubernetes:
 
 {{< text yaml >}}
@@ -518,7 +518,7 @@ el tráfico para services que se ejecutan fuera de la mesh, incluyendo las sigui
     consumidas de la web, o tráfico a services en infraestructura heredada.
 -   Definir políticas de [reintentos](#retries), [tiempos de espera](#timeouts) e
     [inyección de fallos](#fault-injection) para destinos externos.
--   Ejecutar un service de meshen una Máquina Virtual (VM) [agregando VMs a su malla](/es/docs/examples/virtual-machines/).
+-   Ejecutar un service de mesh en una Máquina Virtual (VM) [agregando VMs a su malla](/es/docs/examples/virtual-machines/).
 
 No necesita agregar una entrada de service para cada service externo que desee
 que utilicen sus services de malla. Por defecto, Istio configura los proxies Envoy para
@@ -697,7 +697,7 @@ o cuántas veces han fallado las llamadas a este host. Una vez que se alcanza es
 el disyuntor se "dispara" y detiene más conexiones a ese host. El uso de un patrón de disyuntor
 permite un fallo rápido en lugar de que los clientes intenten conectarse a un host sobrecargado o fallido.
 
-Como el interruptor de circuito se aplica a destinos de mesh"reales" en un pool de balanceo de carga,
+Como el interruptor de circuito se aplica a destinos de mesh "reales" en un pool de balanceo de carga,
 se configuran umbrales de disyuntor en
 [reglas de destino](#destination-rules), con la configuración aplicándose a cada
 host individual en el service. El siguiente ejemplo limita el número de

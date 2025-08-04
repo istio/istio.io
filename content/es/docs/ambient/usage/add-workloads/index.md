@@ -24,7 +24,7 @@ Consulta [ambient y NetworkPolicy de Kubernetes](/es/docs/ambient/usage/networkp
 
 ## Comunicación entre pods en diferentes modos de data plane
 
-Existen múltiples opciones para la interoperabilidad entre los pods de la aplicación que utilizan el modo de data plane ambient y los puntos finales no ambient (incluidos los pods de la aplicación de Kubernetes, las gateways de Istio o las instancias de la API de Gateway de Kubernetes). Esta interoperabilidad proporciona múltiples opciones para integrar sin problemas los workloads ambient y no ambient dentro de la misma meshde Istio, lo que permite una introducción por fases de la capacidad ambient según las necesidades de despliegue y operación de tu malla.
+Existen múltiples opciones para la interoperabilidad entre los pods de la aplicación que utilizan el modo de data plane ambient y los puntos finales no ambient (incluidos los pods de la aplicación de Kubernetes, las gateways de Istio o las instancias de la API de Gateway de Kubernetes). Esta interoperabilidad proporciona múltiples opciones para integrar sin problemas los workloads ambient y no ambient dentro de la misma mesh de Istio, lo que permite una introducción por fases de la capacidad ambient según las necesidades de despliegue y operación de tu malla.
 
 ### Pods fuera de la mesh
 

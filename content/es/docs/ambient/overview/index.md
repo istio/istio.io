@@ -17,7 +17,7 @@ Dado que los pods de workload ya no requieren que los proxies se ejecuten en sid
 El modo ambient divide la funcionalidad de Istio en dos capas distintas. En la base, la superposición segura **ztunnel** se encarga del enrutamiento y la seguridad de zero-trust para el tráfico. Por encima de eso, cuando sea necesario, los usuarios pueden habilitar los **waypoint proxies** L7 para obtener acceso a la gama completa de características de Istio. Los proxies de waypoint, aunque más pesados que la superposición de ztunnel sola, todavía se ejecutan como un componente ambient de la infraestructura, sin requerir modificaciones en los pods de la aplicación.
 
 {{< tip >}}
-Los pods y los workloads que usan el modo sidecar pueden coexistir dentro de la misma meshque los pods que usan el modo ambient. El término "ambient mesh" se refiere a un mesh de Istio que se instaló con soporte para el modo ambient y, por lo tanto, puede admitir pods de meshque usan cualquier tipo de data plane.
+Los pods y los workloads que usan el modo sidecar pueden coexistir dentro de la misma mesh que los pods que usan el modo ambient. El término "ambient mesh" se refiere a un mesh de Istio que se instaló con soporte para el modo ambient y, por lo tanto, puede admitir pods de mesh que usan cualquier tipo de data plane.
 {{< /tip >}}
 
 Para obtener detalles sobre el diseño del modo ambient y cómo interactúa con el {{< gloss >}}control plane{{< /gloss >}} de Istio, consulta la documentación de arquitectura del [data plane](/es/docs/ambient/architecture/data-plane) y del [control plane](/es/docs/ambient/architecture/control-plane).
