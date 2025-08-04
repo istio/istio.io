@@ -40,6 +40,10 @@ The implications of this are discussed [below](#node-compromise).
 Because this consolidates the elevated privileges required to setup networking into a single pod, rather than *every* pod,
 this option is generally recommended.
 
+##### Ambient Mode
+
+In ambient mode, the Istio CNI plugin (and the associated node agent) manages mesh enrollment for pods living on its node. Due to limitations in the Kubernetes API, it is not currently possible for the CNI plugin or its node agent to prevent pods from being scheduled on the node before the CNI plugin is installed and configured. In these rare cases (e.g. on node restart or new node scale out), it is possible that a pod that is labeled for mesh enrollment may come up before the CNI's traffic redirection rules are applied, meaning that policies won't be enforced until after the CNI comes up and that pod is restarted. The Istio community is working with the upstream Kubernetes community to address this limitation, but in the meantime, you can [configure an initcontainer](TODO) enabled [owned CNI mode](TODO) to mitigate these race conditions.
+
 ### Sidecar Proxies
 
 Istio may [optionally](/docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
