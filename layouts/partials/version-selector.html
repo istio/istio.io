@@ -1,0 +1,26 @@
+{{ $versions := site.Data.versions }}
+{{ $mainVerStr := $versions.main }}
+{{ $mainVerParts := split $mainVerStr "." }}
+{{ $major := index $mainVerParts 0 | int }}
+{{ $minor := index $mainVerParts 1 | int }}
+{{ $versionCount := 5 }}
+
+<li class="main-navigation-links-item">
+    <a href="#" class="main-navigation-links-link has-dropdown" aria-haspopup="true" aria-expanded="false">
+        <span>Versions</span>
+        {{ partial "icon.html" "dropdown-arrow" }}
+    </a>
+    <ul class="main-navigation-links-dropdown">
+        {{ range $i := seq 0 (sub $versionCount 1) }}
+        {{ $currentMinor := sub $minor $i }}
+        {{ $ver := printf "v%d.%d" $major $currentMinor }}
+        {{ $url := printf "https://istio.io/%s/docs" $ver }}
+        <li class="main-navigation-links-dropdown-item">
+            <a href="{{ $url }}" class="main-navigation-links-link {{ if in $.Permalink (print " /" $ver) }}active{{ end
+                }}">
+                {{ $ver }}
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</li>
