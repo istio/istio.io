@@ -41,7 +41,7 @@ Existen muchas buenas razones para adoptar Istio: desde agregar seguridad a sus 
 
 Introduzca gradualmente sus servicios en la service mesh labeling un namespace a la vez. Por defecto, los servicios en múltiples namespaces pueden comunicarse entre sí, pero puede aumentar el aislamiento seleccionando cuáles exponer a otros namespaces. El uso de namespaces también mejora el rendimiento ya que las configuraciones están limitadas.
 
-Istio es flexible para adaptarse a la configuración de su cluster de Kubernetes y a la arquitectura de red. Puede optar por ejecutar múltiples mallas con planos de control independientes o tener uno solo.
+Istio es flexible para adaptarse a la configuración de su clúster de Kubernetes y a la arquitectura de red. Puede optar por ejecutar múltiples mesh con planos de control independientes o tener uno solo.
 
 Mientras los pods puedan conectarse a la red, Istio funcionará; incluso puede configurar gateways de Istio para que actúen como un host bastión entre diferentes redes.
 
@@ -63,7 +63,7 @@ Lea más sobre [cómo habilitar aplicaciones para que las utilice Istio](/es/doc
 
 ### Habilitar seguridad
 
-Istio configurará los servicios en su malla para usar mTLS cuando sea posible. Por defecto, Istio se ejecutará en modo "mTLS permisivo", lo que significa que los servicios aceptarán tanto tráfico cifrado como no cifrado; esto permite mantener la funcionalidad del tráfico entre servicios fuera de la malla temporalmente. Una vez que todos sus servicios estén integrados en la malla, podrá [cambiar la política de autenticación](/es/docs/tasks/security/authentication/mtls-migration/) para permitir solo tráfico seguro (TLS).
+Istio configurará los servicios en su mesh para usar mTLS cuando sea posible. Por defecto, Istio se ejecutará en modo "mTLS permisivo", lo que significa que los servicios aceptarán tanto tráfico cifrado como no cifrado; esto permite mantener la funcionalidad del tráfico entre servicios fuera de la mesh temporalmente. Una vez que todos sus servicios estén integrados en la mesh, podrá [cambiar la política de autenticación](/es/docs/tasks/security/authentication/mtls-migration/) para permitir solo tráfico seguro (TLS).
 
 ### Las dos API de Istio
 
@@ -75,13 +75,13 @@ Istio no es solo para Kubernetes; también puede [añadir servicios en máquinas
 
 ## Monitorizar sus servicios
 
-Explore el tráfico que fluye por su malla usando [Kiali](/es/docs/ops/integrations/kiali/) o haga un seguimiento de las solicitudes con [Zipkin](/es/docs/tasks/observability/distributed-tracing/zipkin/) o [Jaeger](/es/docs/tasks/observability/distributed-tracing/jaeger/).
+Explore el tráfico que fluye por su mesh usando [Kiali](/docs/ops/integrations/kiali/) o haga un seguimiento de las solicitudes con [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) o [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).
 
-Use los paneles predeterminados de [Grafana](/es/docs/ops/integrations/grafana/) para Istio y obtenga informes automáticos de señales doradas para los servicios que se ejecutan en una malla.
+Use los paneles predeterminados de [Grafana](/es/docs/ops/integrations/grafana/) para Istio y obtenga informes automáticos de señales doradas para los servicios que se ejecutan en un mesh.
 
 ## Consideraciones operativas y Día 2
 
-Como propietario de la plataforma, usted es responsable de instalar y mantener la malla actualizada con poco impacto en los equipos de servicios.
+Como propietario de la plataforma, usted es responsable de instalar y mantener la mesh actualizado con poco impacto en los equipos de servicios.
 
 ### Instalación
 
@@ -91,11 +91,11 @@ Con istioctl, puede instalar Istio fácilmente utilizando uno de los perfiles in
 
 Cuando se lanza una nueva versión, Istio permite tanto actualizaciones in-place como canary. Elegir entre ambos implica una compensación entre la simplicidad y el posible tiempo de inactividad. Para entornos de producción, se recomienda utilizar el [método de actualización canary](/es/docs/setup/upgrade/canary/). Después de verificar que las nuevas versiones del control plane y del data plane funcionan correctamente, puede actualizar sus gateways.
 
-### Supervisar la malla
+### Supervisar la mesh
 
-Istio genera telemetría detallada de todas las comunicaciones de servicios dentro de una malla. Estas métricas, trazas y registros de acceso son vitales para comprender cómo interactúan sus aplicaciones entre sí e identificar posibles cuellos de botella en el rendimiento. Utilice esta información para ayudarle a configurar interruptores de circuito, tiempos de espera y reintentos, y fortalecer sus aplicaciones.
+Istio genera telemetría detallada de todas las comunicaciones de servicios dentro de un mesh. Estas métricas, trazas y registros de acceso son vitales para comprender cómo interactúan sus aplicaciones entre sí e identificar posibles cuellos de botella en el rendimiento. Utilice esta información para ayudarle a configurar interruptores de circuito, tiempos de espera y reintentos, y fortalecer sus aplicaciones.
 
-Al igual que sus aplicaciones que se ejecutan en la malla, los componentes del control plane de Istio también exportan métricas. Aproveche estas métricas y los paneles preconfigurados de Grafana para ajustar sus solicitudes de recursos, límites y escalado.
+Al igual que sus aplicaciones que se ejecutan en la mesh, los componentes del control plane de Istio también exportan métricas. Aproveche estas métricas y los paneles preconfigurados de Grafana para ajustar sus solicitudes de recursos, límites y escalado.
 
 ## Únase a la comunidad de Istio
 

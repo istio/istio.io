@@ -23,7 +23,7 @@ El enfoque por capas de ambient permite a los usuarios adoptar Istio de una mane
 
 La mayoría de las características del modo ambient son proporcionadas por el proxy de nodo ztunnel. Ztunnel está diseñado para procesar solo el tráfico en la capa 4 (L4), de modo que pueda operar de forma segura como un componente compartido.
 
-Cuando configuras la redirección a un waypoint, el tráfico será reenviado por ztunnel a ese waypoint. Si tus aplicaciones requieren alguna de las siguientes funciones de malla L7, deberás usar un proxy de waypoint:
+Cuando configuras la redirección a un waypoint, el tráfico será reenviado por ztunnel a ese waypoint. Si tus aplicaciones requieren alguna de las siguientes funciones de mesh L7, deberás usar un proxy de waypoint:
 
 * **Gestión del tráfico**: enrutamiento y balanceo de carga HTTP, interrupción de circuito, limitación de velocidad, inyección de fallas, reintentos, tiempos de espera
 * **Seguridad**: políticas de autorización enriquecidas basadas en primitivas L7 como el tipo de solicitud o el encabezado HTTP
@@ -165,7 +165,7 @@ $ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint
 service/reviews labeled
 {{< /text >}}
 
-Cualquier solicitud de los pods en la malla al servicio `reviews` ahora se enrutará a través del waypoint `reviews-svc-waypoint`.
+Cualquier solicitud de los pods en la mesh al servicio `reviews` ahora se enrutará a través del waypoint `reviews-svc-waypoint`.
 
 ### Configurar un pod para que use un waypoint específico
 
@@ -187,11 +187,11 @@ $ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-p
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 {{< /text >}}
 
-Cualquier solicitud de los pods en la malla ambient a la IP del pod `reviews-v2` ahora se enrutará a través del waypoint `reviews-v2-pod-waypoint` para el procesamiento L7 y la aplicación de políticas.
+Cualquier solicitud de los pods en la mesh ambient a la IP del pod `reviews-v2` ahora se enrutará a través del waypoint `reviews-v2-pod-waypoint` para el procesamiento L7 y la aplicación de políticas.
 
 {{< tip >}}
-El tipo de destino original del tráfico se utiliza para determinar si se utilizará un waypoint de servicio o de carga de trabajo. Al usar el tipo de destino original, la malla ambient evita que el tráfico transite dos veces por el waypoint, incluso si tanto el servicio como la carga de trabajo tienen waypoints adjuntos.
-Por ejemplo, el tráfico que se dirige a un servicio, aunque finalmente se resuelva en una IP de pod, siempre es tratado por la malla ambient como para el servicio y usaría un waypoint adjunto al servicio.
+El tipo de destino original del tráfico se utiliza para determinar si se utilizará un waypoint de servicio o de carga de trabajo. Al usar el tipo de destino original, la mesh ambient evita que el tráfico transite dos veces por el waypoint, incluso si tanto el servicio como la carga de trabajo tienen waypoints adjuntos.
+Por ejemplo, el tráfico que se dirige a un servicio, aunque finalmente se resuelva en una IP de pod, siempre es tratado por la mesh ambient como para el servicio y usaría un waypoint adjunto al servicio.
 {{< /tip >}}
 
 ## Uso de waypoint entre namespaces {#usewaypointnamespace}

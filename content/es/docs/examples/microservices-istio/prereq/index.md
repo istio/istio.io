@@ -1,6 +1,6 @@
 ---
-title: Prerequisites
-overview: Check the prerequisites for this tutorial.
+title: Prerrequisitos
+overview: Verificar los prerrequisitos para este tutorial.
 weight: 1
 owner: istio/wg-docs-maintainers
 test: n/a
@@ -8,26 +8,26 @@ test: n/a
 
 {{< boilerplate work-in-progress >}}
 
-For this tutorial you need a Kubernetes cluster with a namespace for the
-tutorial's modules and a local computer to run the commands. If you have your
-own cluster, ensure your cluster satisfies the prerequisites.
+Para este tutorial necesitas un Cluster de Kubernetes con un namespace para los
+módulos del tutorial y una computadora local para ejecutar los comandos. Si tienes tu
+propio cluster, asegúrate de que tu cluster satisfaga los prerrequisitos.
 
-If you are in a workshop and the instructors provide a cluster, let
-them handle the cluster prerequisites, while you skip ahead to set up your local
-computer.
+Si estás en un taller y los instructores proporcionan un cluster, deja que
+ellos manejen los prerrequisitos del cluster, mientras tú avanzas para configurar tu computadora
+local.
 
-## Kubernetes cluster
+## Clúster de Kubernetes
 
-Ensure the following conditions are met:
+Asegúrate de que se cumplan las siguientes condiciones:
 
-- You have administrator privileges to the virtual machine running a Kubernetes cluster named
-  `tutorial-cluster` and administrator privileges to the virtual machine it runs on.
-- You can create a namespace in the cluster for each participant.
+- Tienes privilegios de administrador en la máquina virtual que ejecuta un Cluster de Kubernetes llamado
+  `tutorial-cluster` y privilegios de administrador en la máquina virtual donde se ejecuta.
+- Puedes crear un namespace en el cluster para cada participante.
 
-## Local computer
+## Computadora local
 
-Ensure the following conditions are met:
+Asegúrate de que se cumplan las siguientes condiciones:
 
-- You have write access to the local computer's `/etc/hosts` file.
-- You have the ability and permission to download, install and run command line tools on the local computer.
-- You have Internet connectivity for the duration of the tutorial.
+- Tienes acceso de escritura al archivo `/etc/hosts` de la computadora local.
+- Tienes la capacidad y permisos para descargar, instalar y ejecutar herramientas de línea de comandos en la computadora local.
+- Tienes conectividad a Internet durante la duración del tutorial.

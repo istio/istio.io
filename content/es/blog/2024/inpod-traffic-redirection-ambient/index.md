@@ -21,7 +21,7 @@ funcione en cualquier plataforma de Kubernetes y con cualquier implementación d
 
 En Solo, hemos estado integrando el modo ambient en nuestro producto Gloo Mesh, y se nos ocurrió una solución innovadora a este problema.
 Decidimos [hacer upstream](https://github.com/istio/istio/issues/48212) de nuestros cambios a finales de 2023 para ayudar a que ambient llegue a beta más rápido,
-para que más usuarios puedan operar ambient en Istio 1.21 o más reciente, y disfrutar de los beneficios de la malla sin sidecar ambient en sus plataformas
+para que más usuarios puedan operar ambient en Istio 1.21 o más reciente, y disfrutar de los beneficios de la mesh sin sidecar ambient en sus plataformas
 independientemente de su implementación de CNI existente o preferida.
 
 ## ¿Cómo llegamos aquí?
@@ -52,10 +52,10 @@ compatibilidad con las ofertas gestionadas, el soporte entre proveedores y la co
 
 El componente [istio-cni](/es/docs/setup/additional-setup/cni/) es un componente opcional en el modo de data plane de sidecar,
 comúnmente utilizado para eliminar el [requisito de las capacidades `NET_ADMIN` y `NET_RAW`](/es/docs/ops/deployment/application-requirements/) para
-los usuarios que implementan pods en la malla. `istio-cni` es un componente obligatorio en el modo de data plane
+los usuarios que implementan pods en la mesh. `istio-cni` es un componente obligatorio en el modo de data plane
 ambient. El componente `istio-cni` _no_ es una implementación de CNI primaria, es un agente de nodo que extiende cualquier implementación de CNI primaria que ya esté presente en el cluster.
 
-Cada vez que se agregan pods a una malla ambient, el componente `istio-cni` configura la redirección de tráfico para todo
+Cada vez que se agregan pods a un ambient mesh, el componente `istio-cni` configura la redirección de tráfico para todo
 el tráfico entrante y saliente entre los pods y el [ztunnel](/blog/2023/rust-based-ztunnel/) que se ejecuta en
 el nodo del pod, a través del namespace de red a nivel de nodo. La diferencia clave entre el mecanismo de sidecar y el mecanismo alfa de ambient
 es que en este último, el tráfico del pod se redirigía fuera del namespace de red del pod y hacia el namespace de red del pod ztunnel coubicado, pasando necesariamente por el namespace de red del host en el camino, que es donde se implementó la mayor parte de las reglas de redirección de tráfico para lograr esto.
@@ -114,7 +114,7 @@ Cuando un proceso que se ejecuta dentro de un namespace de red crea un paquete T
 procesado primero por cualquier regla local dentro del namespace de red local, luego abandonar el namespace de red local, pasando
 a otro.
 
-Por ejemplo, en un Kubernetes simple sin ninguna malla instalada, un pod podría crear un paquete y enviarlo a otro pod, y
+Por ejemplo, en un Kubernetes simple sin ninguna meshinstalada, un pod podría crear un paquete y enviarlo a otro pod, y
 el paquete podría (dependiendo de cómo se configuró la red):
 - Ser procesado por cualquier regla dentro del namespace de red del pod de origen.
 - Abandonar el namespace de red del pod de origen y subir al namespace de red del nodo, donde es procesado por cualquier regla en ese namespace.
@@ -127,21 +127,21 @@ entran al nuevo pod puedan llegar a donde se supone que deben ir. A Kubernetes o
 
 ### ¿Por qué abandonamos el modelo anterior?
 
-En la malla ambient de Istio, cada nodo tiene un mínimo de dos contenedores que se ejecutan como DaemonSets de Kubernetes:
-- Un ztunnel eficiente que se encarga de las tareas de proxy de tráfico de la malla y la aplicación de políticas L4.
-- Un agente de nodo `istio-cni` que se encarga de agregar pods nuevos y existentes a la malla ambient.
+En la mesh ambient de Istio, cada nodo tiene un mínimo de dos contenedores que se ejecutan como DaemonSets de Kubernetes:
+- Un ztunnel eficiente que se encarga de las tareas de proxy de tráfico de la mesh y la aplicación de políticas L4.
+- Un agente de nodo `istio-cni` que se encarga de agregar pods nuevos y existentes a la mesh ambient.
 
-En la implementación anterior de la malla ambient, así es como se agrega un pod de aplicación a la malla ambient:
-- El agente de nodo `istio-cni` detecta un pod de Kubernetes existente o recién iniciado con su namespace etiquetado con `istio.io/data plane-mode=ambient`, lo que indica que debe incluirse en la malla ambient.
+En la implementación anterior de la mesh ambient, así es como se agrega un pod de aplicación a la mesh ambient:
+- El agente de nodo `istio-cni` detecta un pod de Kubernetes existente o recién iniciado con su namespace etiquetado con `istio.io/data plane-mode=ambient`, lo que indica que debe incluirse en la mesh ambient.
 - El agente de nodo `istio-cni` luego establece reglas de redirección de red en el namespace de red del host, de modo que
 los paquetes que entran o salen del pod de la aplicación serían interceptados y redirigidos al ztunnel de ese nodo en los [puertos](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) de proxy
 relevantes (15008, 15006 o 15001).
 
-Esto significa que para un paquete creado por un pod en la malla ambient, ese paquete saldría de ese pod de origen, entraría en el namespace de red del host
+Esto significa que para un paquete creado por un pod en la mesh ambient, ese paquete saldría de ese pod de origen, entraría en el namespace de red del host
 del nodo y luego, idealmente, sería interceptado y redirigido al ztunnel de ese nodo (que se ejecuta en su propio namespace de red
 ) para el proxy al pod de destino, con un viaje de regress similar.
 
-Este modelo funcionó lo suficientemente bien como un marcador de posición para la implementación alfa inicial de la malla ambient, pero como se mencionó, tiene un problema fundamental
+Este modelo funcionó lo suficientemente bien como un marcador de posición para la implementación alfa inicial de la mesh ambient, pero como se mencionó, tiene un problema fundamental
 : hay muchas implementaciones de CNI, y en Linux hay muchas formas fundamentalmente diferentes e incompatibles
 en las que puedes configurar cómo los paquetes van de un namespace de red a otro. Puedes usar túneles, redes superpuestas,
 pasar por el namespace de red del host o evitarlo. Puedes pasar por la pila de red del espacio de usuario de Linux,
@@ -158,13 +158,13 @@ de cada CNI popular?
 
 ### Redirección de tráfico ambient de Istio: el nuevo modelo
 
-En el nuevo modelo ambient, así es como se agrega un pod de aplicación a la malla ambient:
-- El agente de nodo `istio-cni` detecta un pod de Kubernetes (existente o recién iniciado) con su namespace etiquetado con `istio.io/data plane-mode=ambient`, lo que indica que debe incluirse en la malla ambient.
-  - Si se inicia un pod *nuevo* que debe agregarse a la malla ambient, un complemento CNI (instalado y administrado por el agente `istio-cni`) es activado por la CRI.
+En el nuevo modelo ambient, así es como se agrega un pod de aplicación a la mesh ambient:
+- El agente de nodo `istio-cni` detecta un pod de Kubernetes (existente o recién iniciado) con su namespace etiquetado con `istio.io/data plane-mode=ambient`, lo que indica que debe incluirse en la mesh ambient.
+  - Si se inicia un pod *nuevo* que debe agregarse a la mesh ambient, un complemento CNI (instalado y administrado por el agente `istio-cni`) es activado por la CRI.
   Este complemento se utiliza para enviar un nuevo evento de pod al agente `istio-cni` del nodo y bloquear el inicio del pod hasta que el agente configure correctamente la
   redirección. Dado que los complementos CNI son invocados por la CRI lo antes posible en el proceso de creación de pods de Kubernetes, esto garantiza que podamos
   establecer la redirección de tráfico lo suficientemente temprano como para evitar que el tráfico se escape durante el inicio, sin depender de cosas como los contenedores de inicialización.
-  - Si un pod *ya en ejecución* se agrega a la malla ambient, se activa un nuevo evento de pod. El observador de la API de Kubernetes
+  - Si un pod *ya en ejecución* se agrega a la mesh ambient, se activa un nuevo evento de pod. El observador de la API de Kubernetes
   del agente de nodo `istio-cni` detecta esto y la redirección se configura de la misma manera.
 - El agente de nodo `istio-cni` ingresa al namespace de red del pod y establece reglas de redirección de red dentro del namespace de red del pod, de modo que los paquetes que entran y salen del pod se interceptan y se redirigen de forma transparente a la instancia de proxy ztunnel local del nodo que escucha en los [puertos conocidos](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 - El agente de nodo `istio-cni` luego informa al ztunnel del nodo a través de un socket de dominio Unix que debe establecer puertos de escucha de proxy
@@ -176,28 +176,28 @@ namespace de red cree sockets de escucha en otro namespace de red, asumiendo que
 en el momento de la creación.
 - El ztunnel local del nodo internamente crea una nueva instancia de proxy y un conjunto de puertos de escucha, dedicados al pod recién agregado.
 - Una vez que las reglas de redirección in-Pod están en su lugar y el ztunnel ha establecido los puertos de escucha, el pod se agrega a la
-malla y el tráfico comienza a fluir a través del ztunnel local del nodo, como antes.
+meshy el tráfico comienza a fluir a través del ztunnel local del nodo, como antes.
 
-Aquí hay un diagrama básico que muestra el flujo de un pod de aplicación que se agrega a la malla ambient:
+Aquí hay un diagrama básico que muestra el flujo de un pod de aplicación que se agrega a la mesh ambient:
 
 {{< image width="100%"
     link="./pod-added-to-ambient.svg"
-    alt="flujo de pod agregado a la malla ambient"
+    alt="flujo de pod agregado a la mesh ambient"
     >}}
 
-Una vez que el pod se agrega con éxito a la malla ambient, el tráfico hacia y desde los pods en la malla se cifrará completamente con mTLS de forma predeterminada, como siempre con Istio.
+Una vez que el pod se agrega con éxito a la mesh ambient, el tráfico hacia y desde los pods en la mesh se cifrará completamente con mTLS de forma predeterminada, como siempre con Istio.
 
-El tráfico ahora entrará y saldrá del namespace de red del pod como tráfico cifrado; parecerá que cada pod en la malla ambient tiene la capacidad de hacer cumplir la política de la malla y cifrar el tráfico de forma segura, aunque la aplicación de usuario que se ejecuta en el pod
+El tráfico ahora entrará y saldrá del namespace de red del pod como tráfico cifrado; parecerá que cada pod en la mesh ambient tiene la capacidad de hacer cumplir la política de la mesh y cifrar el tráfico de forma segura, aunque la aplicación de usuario que se ejecuta en el pod
 no tiene conocimiento de ninguna de las dos cosas.
 
-Aquí hay un diagrama para ilustrar cómo fluye el tráfico cifrado entre los pods en la malla ambient en el nuevo modelo:
+Aquí hay un diagrama para ilustrar cómo fluye el tráfico cifrado entre los pods en la mesh ambient en el nuevo modelo:
 
 {{< image width="100%"
     link="./traffic-flows-between-pods-in-ambient.svg"
-    alt="El tráfico HBONE fluye entre los pods en la malla ambient"
+    alt="El tráfico HBONE fluye entre los pods en la mesh ambient"
     >}}
 
-Y, como antes, el tráfico de texto sin cifrar no cifrado desde fuera de la malla todavía se puede manejar y la política se puede aplicar, para los casos de uso
+Y, como antes, el tráfico de texto sin cifrar no cifrado desde fuera de la mesh todavía se puede manejar y la política se puede aplicar, para los casos de uso
 en los que sea necesario:
 
 {{< image width="100%"
@@ -213,17 +213,17 @@ en absoluto. Recuerda que el trabajo de las implementaciones de CNI es llevar pa
 no les importa lo que suceda con los paquetes después de ese punto.
 
 Este enfoque elimina automáticamente los conflictos con una amplia gama de implementaciones de CNI y NetworkPolicy, y mejora drásticamente
-la compatibilidad de la malla ambient de Istio con todas las principales ofertas de Kubernetes gestionadas en todas las principales CNI.
+la compatibilidad de la mesh ambient de Istio con todas las principales ofertas de Kubernetes gestionadas en todas las principales CNI.
 
 ## Conclusión
 
-Gracias a la cantidad significativa de esfuerzo de nuestra encantadora comunidad en probar el cambio con una gran variedad de plataformas de Kubernetes y CNI, y muchas rondas de revisiones de los mantenedores de Istio, nos complace anunciar que los PR de [ztunnel](https://github.com/istio/ztunnel/pull/747) e [istio-cni](https://github.com/istio/istio/pull/48253) que implementan esta característica se fusionaron en Istio 1.21 y están habilitados de forma predeterminada para ambient, por lo que los usuarios de Istio pueden comenzar a ejecutar la malla ambient en cualquier plataforma de Kubernetes con cualquier CNI en Istio 1.21 o más reciente. Hemos probado esto con GKE,
+Gracias a la cantidad significativa de esfuerzo de nuestra encantadora comunidad en probar el cambio con una gran variedad de plataformas de Kubernetes y CNI, y muchas rondas de revisiones de los mantenedores de Istio, nos complace anunciar que los PR de [ztunnel](https://github.com/istio/ztunnel/pull/747) e [istio-cni](https://github.com/istio/istio/pull/48253) que implementan esta característica se fusionaron en Istio 1.21 y están habilitados de forma predeterminada para ambient, por lo que los usuarios de Istio pueden comenzar a ejecutar la mesh ambient en cualquier plataforma de Kubernetes con cualquier CNI en Istio 1.21 o más reciente. Hemos probado esto con GKE,
 AKS y EKS y todas las implementaciones de CNI que ofrecen, así como con CNI de terceros como
 Calico y Cilium, así como plataformas como OpenShift, con resultados sólidos.
 
 Estamos extremadamente emocionados de poder
-hacer avanzar la malla ambient de Istio para que se ejecute en todas partes con este innovador enfoque de redirección de tráfico in-Pod entre ztunnel
+hacer avanzar la mesh ambient de Istio para que se ejecute en todas partes con este innovador enfoque de redirección de tráfico in-Pod entre ztunnel
 y los pods de aplicación de los usuarios. Con este principal obstáculo técnico para la beta de ambient resuelto, ¡estamos ansiosos por trabajar con el
-resto de la comunidad de Istio para llevar la malla ambient a beta pronto! Para obtener más información sobre el progreso de la beta de la malla ambient, únete a nosotros en
+resto de la comunidad de Istio para llevar la mesh ambient a beta pronto! Para obtener más información sobre el progreso de la beta de la mesh ambient, únete a nosotros en
 el canal #ambient y #ambient-dev en el [slack](https://slack.istio.io) de Istio, o asiste a la [reunión semanal de contribuyentes de ambient](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) los miércoles,
-o echa un vistazo al [tablero del proyecto](https://github.com/orgs/istio/projects/9/views/3?filterQuery=beta) beta de la malla ambient y ¡ayúdanos a arreglar algo!
+o echa un vistazo al [tablero del proyecto](https://github.com/orgs/istio/projects/9/views/3?filterQuery=beta) beta de la mesh ambient y ¡ayúdanos a arreglar algo!

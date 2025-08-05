@@ -8,7 +8,7 @@ test: yes
 ---
 
 {{< tip >}}
-Sigue esta guía para instalar y configurar una malla de Istio con soporte para el modo ambient.
+Sigue esta guía para instalar y configurar un mesh de Istio con soporte para el modo ambient.
 Si eres nuevo en Istio y solo quieres probarlo, sigue las
 [instrucciones de inicio rápido](/es/docs/ambient/getting-started) en su lugar.
 {{< /tip >}}

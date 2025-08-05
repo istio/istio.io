@@ -7,4 +7,4 @@ Tradicionalmente, gran parte de la lógica gestionada por Istio se ha integrado 
 
 *Desarrolladores de aplicaciones*: Con Istio gestionando cómo fluye el tráfico a través de sus servicios, los desarrolladores pueden centrarse exclusivamente en la lógica empresarial e iterar rápidamente en nuevas funciones.
 
-*Operadores de servicios*: Istio permite la aplicación de políticas y la supervisión de la malla desde un único punto de control centralizado, independientemente de la evolución de la aplicación. Como resultado, los operadores pueden garantizar el cumplimiento continuo de las políticas a través de un plano de gestión simplificado.
+*Operadores de servicios*: Istio permite la aplicación de políticas y la supervisión de la mesh desde un único punto de control centralizado, independientemente de la evolución de la aplicación. Como resultado, los operadores pueden garantizar el cumplimiento continuo de las políticas a través de un plano de gestión simplificado.
