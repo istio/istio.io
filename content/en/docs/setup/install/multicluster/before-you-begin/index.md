@@ -23,8 +23,8 @@ This guide requires that you have two Kubernetes clusters with any of the
 If you are testing multicluster setup on `kind`, you can use the script `samples/kind-lb/setupkind.sh` to quickly set up clusters with load balancer support:
 
 {{< text bash >}}
-$ samples/kind-lb/setupkind.sh --cluster-name cluster-1 --ip-space 254
-$ samples/kind-lb/setupkind.sh --cluster-name cluster-2 --ip-space 255
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
 {{< /text >}}
 
 {{< /tip >}}
@@ -104,15 +104,15 @@ If you're using `kind`, you can quickly generate self-signed CA certificates
 for your clusters using the provided Makefile:
 
 {{< text bash >}}
-$ make -f tools/certs/Makefile.selfsigned.mk \
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
     ROOTCA_CN="Root CA" \
     ROOTCA_ORG=istio.io \
     root-ca
-$ make -f tools/certs/Makefile.selfsigned.mk \
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
     INTERMEDIATE_CN="Cluster 1 Intermediate CA" \
     INTERMEDIATE_ORG=istio.io \
     cluster1-cacerts
-$ make -f tools/certs/Makefile.selfsigned.mk \
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
     INTERMEDIATE_CN="Cluster 2 Intermediate CA" \
     INTERMEDIATE_ORG=istio.io \
     cluster2-cacerts
