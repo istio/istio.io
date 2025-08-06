@@ -42,6 +42,13 @@ Certificate Revocation Lists (CRLs) is now available for plugged-in CA, allowing
 
 [ListenerSets](https://gateway-api.sigs.k8s.io/geps/gep-1713) is now available, allowing a shared list of listeners to be attached to a single `Gateway`.
 
+### Native Nftables Support in Sidecar Mode
+
+Includes support for the [native nftables](https://github.com/kubernetes-sigs/knftables) backend in Sidecar mode.
+As the successor to iptables, nftables offers a modern, high-performance alternative for transparently redirecting
+traffic to and from the Envoy sidecar proxy. Many major Linux distributions are moving toward native nftables adoption.
+Ambient mode support is currently under development.
+
 ###
 
 ## Upgrading to 1.27

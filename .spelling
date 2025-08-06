@@ -922,6 +922,8 @@ network1
 network2
 networking.istio.io
 NetworkPolicy
+Nftables
+nftables
 nginx
 NICs
 NiFi
