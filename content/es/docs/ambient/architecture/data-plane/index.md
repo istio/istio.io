@@ -1,28 +1,28 @@
 ---
 title: data plane Ambient
-description: Comprende cómo el data plane ambient enruta el tráfico entre los workloads en una malla ambient.
+description: Comprende cómo el data plane ambient enruta el tráfico entre los workloads en un ambient mesh.
 weight: 2
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
 En el {{< gloss "ambient" >}}modo ambient{{< /gloss >}}, los workloads pueden clasificarse en 3 categorías:
-1. **Fuera de la malla**: un pod estándar sin ninguna característica de malla habilitada. Istio y el {{< gloss >}}data plane{{< /gloss >}} ambient no están habilitados.
-1. **En la malla**: un pod que está incluido en el {{< gloss >}}data plane{{< /gloss >}} ambient, y tiene el tráfico interceptado en el nivel de capa 4 por {{< gloss >}}ztunnel{{< /gloss >}}. En este modo, se pueden aplicar políticas L4 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/data plane-mode=ambient`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
-1. **En la malla, con waypoint habilitado**: un pod que está _en la malla_ *y* tiene un {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} desplegado. En este modo, se pueden aplicar políticas L7 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/use-waypoint`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
+1. **Fuera de la mesh**: un pod estándar sin ninguna característica de mesh habilitada. Istio y el {{< gloss >}}data plane{{< /gloss >}} ambient no están habilitados.
+1. **En la mesh**: un pod que está incluido en el {{< gloss >}}data plane{{< /gloss >}} ambient, y tiene el tráfico interceptado en el nivel de capa 4 por {{< gloss >}}ztunnel{{< /gloss >}}. En este modo, se pueden aplicar políticas L4 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/data plane-mode=ambient`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
+1. **En la mesh, con waypoint habilitado**: un pod que está _en la mesh_ *y* tiene un {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} desplegado. En este modo, se pueden aplicar políticas L7 para el tráfico del pod. Este modo se puede habilitar estableciendo la etiqueta `istio.io/use-waypoint`. Consulta [etiquetas](/es/docs/ambient/usage/add-workloads/#ambient-labels) para obtener más detalles.
 
 Dependiendo de la categoría en la que se encuentre una workload, la ruta del tráfico será diferente.
 
-## Enrutamiento en la malla
+## Enrutamiento en la mesh
 
 ### Saliente
 
-Cuando un pod en una malla ambient realiza una solicitud saliente, será [redirigido de forma transparente](/es/docs/ambient/architecture/traffic-redirection) al ztunnel local del nodo, que determinará dónde y cómo reenviar la solicitud.
+Cuando un pod en un ambient mesh realiza una solicitud saliente, será [redirigido de forma transparente](/es/docs/ambient/architecture/traffic-redirection) al ztunnel local del nodo, que determinará dónde y cómo reenviar la solicitud.
 En general, el enrutamiento del tráfico se comporta igual que el enrutamiento de tráfico predeterminado de Kubernetes;
 las solicitudes a un `Service` se enviarán a un endpoint dentro del `Service`, mientras que las solicitudes directas a una IP de `Pod` irán directamente a esa IP.
 
 Sin embargo, dependiendo de las capacidades del destino, se producirá un comportamiento diferente.
-Si el destino también está agregado en la malla, o si tiene capacidades de proxy de Istio (como un sidecar), la solicitud se actualizará a un túnel {{< gloss "HBONE" >}}HBONE{{< /gloss >}} cifrado.
+Si el destino también está agregado en la mesh, o si tiene capacidades de proxy de Istio (como un sidecar), la solicitud se actualizará a un túnel {{< gloss "HBONE" >}}HBONE{{< /gloss >}} cifrado.
 Si el destino tiene un waypoint proxy, además de actualizarse a HBONE, la solicitud se reenviará a ese waypoint para la aplicación de la política L7.
 
 Ten en cuenta que en el caso de una solicitud a un `Service`, si el servicio *tiene* un waypoint, la solicitud se enviará a su waypoint para aplicar las políticas L7 al tráfico.
@@ -32,16 +32,16 @@ algunos pods usen un waypoint mientras que otros no. Generalmente se recomienda 
 
 ### Entrante
 
-Cuando un pod en una malla ambient recibe una solicitud entrante, será [redirigido de forma transparente](/es/docs/ambient/architecture/traffic-redirection) al ztunnel local del nodo.
+Cuando un pod en un ambient mesh recibe una solicitud entrante, será [redirigido de forma transparente](/es/docs/ambient/architecture/traffic-redirection) al ztunnel local del nodo.
 Cuando ztunnel recibe la solicitud, aplicará las Políticas de Autorización y reenviará la solicitud solo si la solicitud pasa estas comprobaciones.
 
 Un pod puede recibir tráfico HBONE o tráfico de texto sin formato.
 De forma predeterminada, ztunnel aceptará ambos.
-Las solicitudes de fuentes fuera de la malla no tendrán identidad de par cuando se evalúen las Políticas de Autorización,
+Las solicitudes de fuentes fuera de la mesh no tendrán identidad de par cuando se evalúen las Políticas de Autorización,
 un usuario puede establecer una política que requiera una identidad (ya sea *cualquier* identidad o una específica) para bloquear todo el tráfico de texto sin formato.
 
-Cuando el destino está habilitado para waypoint, si el origen está en la malla ambient, el ztunnel del origen garantiza que la solicitud **pasará** a través
-del waypoint donde se aplica la política. Sin embargo, una workload fuera de la malla no sabe nada sobre los proxies de waypoint, por lo que envía
+Cuando el destino está habilitado para waypoint, si el origen está en la mesh ambient, el ztunnel del origen garantiza que la solicitud **pasará** a través
+del waypoint donde se aplica la política. Sin embargo, una workload fuera de la mesh no sabe nada sobre los proxies de waypoint, por lo que envía
 solicitudes directamente al destino sin pasar por ningún proxy de waypoint, incluso si el destino está habilitado para waypoint.
 Actualmente, el tráfico de los sidecars y las gateways tampoco pasará por ningún proxy de waypoint y se les informará sobre los proxies de waypoint
 en una versión futura.
@@ -50,13 +50,13 @@ en una versión futura.
 
 ##### Identidad
 
-Todo el tráfico TCP L4 entrante y saliente entre los workloads en la malla ambient está protegido por el data plane, utilizando mTLS a través de {{< gloss >}}HBONE{{< /gloss >}}, ztunnel y certificados x509.
+Todo el tráfico TCP L4 entrante y saliente entre los workloads en la mesh ambient está protegido por el data plane, utilizando mTLS a través de {{< gloss >}}HBONE{{< /gloss >}}, ztunnel y certificados x509.
 
 Según lo exige {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}}, el origen y el destino deben tener identidades x509 únicas, y esas identidades deben usarse para establecer el canal cifrado para esa conexión.
 
 Esto requiere que ztunnel gestione múltiples certificados de workload distintos, en nombre de los workloads proxiadas, uno para cada identidad única (cuenta de servicio) para cada pod local del nodo. La propia identidad de Ztunnel nunca se utiliza para las conexiones mTLS entre los workloads.
 
-Al obtener certificados, ztunnel se autenticará en la CA con su propia identidad, pero solicitará la identidad de otra workload. Críticamente, la CA debe hacer cumplir que el ztunnel tiene permiso para solicitar esa identidad. Las solicitudes de identidades que no se ejecutan en el nodo se rechazan. Esto es fundamental para garantizar que un nodo comprometido no comprometa toda la malla.
+Al obtener certificados, ztunnel se autenticará en la CA con su propia identidad, pero solicitará la identidad de otra workload. Críticamente, la CA debe hacer cumplir que el ztunnel tiene permiso para solicitar esa identidad. Las solicitudes de identidades que no se ejecutan en el nodo se rechazan. Esto es fundamental para garantizar que un nodo comprometido no comprometa toda la mesh.
 
 Esta aplicación de la CA la realiza la CA de Istio utilizando un token JWT de la Cuenta de Servicio de Kubernetes, que codifica la información del pod. Esta aplicación también es un requisito para cualquier CA alternativa que se integre con ztunnel.
 
@@ -77,7 +77,7 @@ link="ztunnel-datapath-1.png"
 caption="Ruta de datos básica de solo L4 de ztunnel"
 >}}
 
-La figura muestra varios workloads agregadas a la malla ambient, que se ejecutan en los nodos W1 y W2 de un cluster de Kubernetes. Hay una única instancia del proxy ztunnel en cada nodo. En este escenario, los pods de cliente de la aplicación C1, C2 y C3 necesitan acceder a un servicio proporcionado por el pod S1. No hay ningún requisito para las características avanzadas de L7, como el enrutamiento de tráfico L7 o la gestión de tráfico L7, por lo que un data plane L4 es suficiente para obtener {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}} y la aplicación de políticas L4; no se requiere ningún proxy de waypoint.
+La figura muestra varios workloads agregadas a la mesh ambient, que se ejecutan en los nodos W1 y W2 de un cluster de Kubernetes. Hay una única instancia del proxy ztunnel en cada nodo. En este escenario, los pods de cliente de la aplicación C1, C2 y C3 necesitan acceder a un servicio proporcionado por el pod S1. No hay ningún requisito para las características avanzadas de L7, como el enrutamiento de tráfico L7 o la gestión de tráfico L7, por lo que un data plane L4 es suficiente para obtener {{< gloss "mutual tls authentication" >}}mTLS{{< /gloss >}} y la aplicación de políticas L4; no se requiere ningún proxy de waypoint.
 
 La figura muestra que los pods C1 y C2, que se ejecutan en el nodo W1, se conectan con el pod S1 que se ejecuta en el nodo W2.
 
@@ -89,7 +89,7 @@ Nota: Aunque la figura muestra que los túneles HBONE se encuentran entre los do
 
 Ten en cuenta que el tráfico local, que se muestra en la figura desde el pod C3 hasta el pod de destino S1 en el nodo de trabajo W2, también atraviesa la instancia de proxy ztunnel local, de modo que las funciones de gestión de tráfico L4, como la Autorización L4 y la Telemetría L4, se aplicarán de forma idéntica en el tráfico, ya sea que cruce o no un límite de nodo.
 
-## Enrutamiento en malla con waypoint habilitado
+## Enrutamiento en mesh con waypoint habilitado
 
 Los waypoints de Istio reciben exclusivamente tráfico HBONE.
 Al recibir una solicitud, el waypoint se asegurará de que el tráfico sea para un `Pod` o `Service` que lo utilice.

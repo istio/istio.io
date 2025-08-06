@@ -4,7 +4,7 @@ weight: 30
 ---
 
 Mixer fue [eliminado en la versión 1.8 de Istio](/news/releases/1.8.x/announcing-1.8/#deprecations).
-La migración es necesaria si todavía depende de los adaptadores integrados de Mixer o de cualquier adaptador fuera de proceso para la extensión de la malla.
+La migración es necesaria si todavía depende de los adaptadores integrados de Mixer o de cualquier adaptador fuera de proceso para la extensión de la mesh.
 
 Para los adaptadores integrados, se proporcionan varias alternativas:
 

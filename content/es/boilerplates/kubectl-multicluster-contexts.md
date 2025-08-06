@@ -21,6 +21,6 @@
     {{< /text >}}
 
     {{< tip >}}
-    Si tienes más de dos clusteres en la lista de contextos y quieres configurar tu malla usando clusteres que no sean
+    Si tienes más de dos clusteres en la lista de contextos y quieres configurar tu mesh usando clusteres que no sean
     los dos primeros, deberás establecer manualmente las variables de entorno a los nombres de contexto apropiados.
     {{< /tip >}}

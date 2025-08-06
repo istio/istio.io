@@ -1,6 +1,6 @@
 ---
-title: Run a Microservice Locally
-overview: Learn how to work on a single service on your local machine.
+title: Ejecutar un Microservicio Localmente
+overview: Aprende cómo trabajar en un solo servicio en tu máquina local.
 weight: 10
 owner: istio/wg-docs-maintainers
 test: no
@@ -8,45 +8,45 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-Before the advent of microservice architecture, development teams built,
-deployed and ran the whole application as one large chunk of software. To test a
-small change in their module not merely by unit testing, the developers had to
-build the whole application. Therefore the builds took large amount of time.
-After the build, the developers deployed their version of the application into a
-test server. The developers ran the server either on a remote machine, or on their
-local computer. In the latter case, the developers had to install and operate a
-rather complex environment on their local computer.
+Antes del advenimiento de la arquitectura de microservicios, los equipos de desarrollo construían,
+desplegaban y ejecutaban toda la aplicación como un gran bloque de software. Para probar un
+pequeño cambio en su módulo no solo mediante pruebas unitarias, los desarrolladores tenían que
+construir toda la aplicación. Por lo tanto, las construcciones tomaban una gran cantidad de tiempo.
+Después de la construcción, los desarrolladores desplegaban su versión de la aplicación en un
+servidor de prueba. Los desarrolladores ejecutaban el servidor ya sea en una máquina remota, o en su
+computadora local. En el último caso, los desarrolladores tenían que instalar y operar un
+entorno bastante complejo en su computadora local.
 
-In the era of microservice architecture, the developers write, build, test and
-run small software services. Builds are fast. With modern frameworks like
-[Node.js](https://nodejs.org/en/) there is no need to install and operate
-complex server environments to test a single service, since the service runs as
-a regular process. You do not have to deploy your service to some environment to
-merely test it, so you just build your service and run it immediately on your
-local computer.
+En la era de la arquitectura de microservicios, los desarrolladores escriben, construyen, prueban y
+ejecutan pequeños servicios de software. Las construcciones son rápidas. Con frameworks modernos como
+[Node.js](https://nodejs.org/en/) no hay necesidad de instalar y operar
+entornos de servidor complejos para probar un solo servicio, ya que el servicio se ejecuta como
+un proceso regular. No tienes que desplegar tu servicio a algún entorno para
+simplemente probarlo, así que solo construyes tu servicio y lo ejecutas inmediatamente en tu
+computadora local.
 
-This module covers the different aspects involved in developing a single service
-on a local machine. You don't need to write code though. Instead, you build,
-run, and test an existing service: `ratings`.
+Este módulo cubre los diferentes aspectos involucrados en desarrollar un solo servicio
+en una máquina local. Sin embargo, no necesitas escribir código. En su lugar, construyes,
+ejecutas y pruebas un servicio existente: `ratings`.
 
-The `ratings` service is a small web app written in
-[Node.js](https://nodejs.org/en/) that can run on its own. It performs similar
-actions to those of other web apps:
+El servicio `ratings` es una pequeña aplicación web escrita en
+[Node.js](https://nodejs.org/en/) que puede ejecutarse por sí sola. Realiza acciones similares
+a las de otras aplicaciones web:
 
-- Listen to the port it receives as a parameter.
-- Expect `HTTP GET` requests on the `/ratings/{productID}` path and return the
-  ratings of the product matching the value the client specifies for `productID`.
-- Expect `HTTP POST` requests on the `/ratings/{productID}` path and update the
-  ratings of the product matching the value you specify for `productID`.
+- Escucha en el puerto que recibe como parámetro.
+- Espera solicitudes `HTTP GET` en la ruta `/ratings/{productID}` y retorna las
+  calificaciones del producto que coincide con el valor que el cliente especifica para `productID`.
+- Espera solicitudes `HTTP POST` en la ruta `/ratings/{productID}` y actualiza las
+  calificaciones del producto que coincide con el valor que especificas para `productID`.
 
-Follow these steps to download the code of the app, install its dependencies,
-and run it locally:
+Sigue estos pasos para descargar el código de la aplicación, instalar sus dependencias,
+y ejecutarla localmente:
 
-1. Download
-    [the service's code]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
-    and
-    [the package file]({{< github_blob >}}/samples/bookinfo/src/ratings/package.json)
-    into a separate directory:
+1. Descarga
+    [el código del servicio]({{< github_blob >}}/samples/bookinfo/src/ratings/ratings.js)
+    y
+    [el archivo de paquete]({{< github_blob >}}/samples/bookinfo/src/ratings/package.json)
+    en un directorio separado:
 
     {{< text bash >}}
     $ mkdir ratings
@@ -55,24 +55,24 @@ and run it locally:
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/package.json -o package.json
     {{< /text >}}
 
-1. Skim the service's code and note the following elements:
-    - The web server's features:
-        - listening to a port
-        - handling requests and responses
-    - The aspects related to HTTP:
+1. Examina superficialmente el código del servicio y nota los siguientes elementos:
+    - Las características del servidor web:
+        - escuchar en un puerto
+        - manejar solicitudes y respuestas
+    - Los aspectos relacionados con HTTP:
         - headers
         - path
-        - status code
+        - código de estado
 
     {{< tip >}}
-    In Node.js, the web server's functionality is embedded in the code of the application. A Node.js
-    web application runs as a standalone process.
+    En Node.js, la funcionalidad del servidor web está embebida en el código de la aplicación. Una aplicación
+    web de Node.js se ejecuta como un proceso independiente.
     {{< /tip >}}
 
-1. Node.js applications are written in JavaScript, which means that there is no
-    explicit compilation step. Instead, they use [just-in-time compilation](https://en.wikipedia.org/wiki/Just-in-time_compilation). To build a Node.js application, then means to install its dependencies. Install
-    the dependencies of the `ratings` service in the same folder where you
-    stored the service code and the package file:
+1. Las aplicaciones de Node.js están escritas en JavaScript, lo que significa que no hay
+    paso de compilación explícito. En su lugar, usan [compilación just-in-time](https://en.wikipedia.org/wiki/Just-in-time_compilation). Construir una aplicación de Node.js, entonces significa instalar sus dependencias. Instala
+    las dependencias del servicio `ratings` en la misma carpeta donde almacenaste
+    el código del servicio y el archivo de paquete:
 
     {{< text bash >}}
     $ npm install
@@ -84,7 +84,7 @@ and run it locally:
     added 24 packages in 2.094s
     {{< /text >}}
 
-1. Run the service, passing `9080` as a parameter. The application then listens on port 9080.
+1. Ejecuta el servicio, pasando `9080` como parámetro. La aplicación entonces escucha en el puerto 9080.
 
     {{< text bash >}}
     $ npm start 9080
@@ -94,38 +94,38 @@ and run it locally:
     {{< /text >}}
 
 {{< tip >}}
-The `ratings` service is a web app and you can communicate with it as you would
-with any other web app. You can use a browser or a command line web client like
-[`curl`](https://curl.haxx.se) or [`Wget`](https://www.gnu.org/software/wget/).
-Since you run the `ratings` service locally, you can also access it via the
-`localhost` hostname.
+El servicio `ratings` es una aplicación web y puedes comunicarte con ella como lo harías
+con cualquier otra aplicación web. Puedes usar un navegador o un cliente web de línea de comandos como
+[`curl`](https://curl.haxx.se) o [`Wget`](https://www.gnu.org/software/wget/).
+Ya que ejecutas el servicio `ratings` localmente, también puedes acceder a él a través del
+hostname `localhost`.
 {{< /tip >}}
 
-1. Open [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) in
-    your browser or access `ratings` using the `curl` command from a different terminal window:
+1. Abre [http://localhost:9080/ratings/7](http://localhost:9080/ratings/7) en
+    tu navegador o accede a `ratings` usando el comando `curl` desde una ventana de terminal diferente:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1. Use the `POST` method of the `curl` command to set the ratings for the
-    product to `1`:
+1. Usa el método `POST` del comando `curl` para establecer las calificaciones para el
+    producto a `1`:
 
     {{< text bash >}}
     $ curl -X POST localhost:9080/ratings/7 -d '{"Reviewer1":1,"Reviewer2":1}'
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
-1. Check the updated ratings:
+1. Verifica las calificaciones actualizadas:
 
     {{< text bash >}}
     $ curl localhost:9080/ratings/7
     {"id":7,"ratings":{"Reviewer1":1,"Reviewer2":1}}
     {{< /text >}}
 
-1. Use `Ctrl-C` in the terminal running the service to stop it.
+1. Usa `Ctrl-C` en la terminal que ejecuta el servicio para detenerlo.
 
-Congratulations, you can now build, test, and run a service on your local computer!
+¡Felicidades, ahora puedes construir, probar y ejecutar un servicio en tu computadora local!
 
-You are ready to [package the service](/es/docs/examples/microservices-istio/package-service) into a container.
+Estás listo para [empaquetar el servicio](/es/docs/examples/microservices-istio/package-service) en un contenedor.
