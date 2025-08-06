@@ -62,13 +62,14 @@ A global service is one has endpoints in all clusters and can be accessed from a
 The default `ServiceScope` is
 
 {{< text yaml >}}
-    serviceScopeConfigs:
-      - servicesSelector:
-          matchExpressions:
-            - key: istio.io/global
-              operator: In
-              values: ["true"]
-        scope: GLOBAL
+=======
+serviceScopeConfigs:
+  - servicesSelector:
+      matchExpressions:
+        - key: istio.io/global
+          operator: In
+          values: ["true"]
+    scope: GLOBAL
 {{< /text >}}
 
 meaning that any service with the `istio.io/global=true` label is global.
