@@ -1,7 +1,0 @@
-linters:
-  exclusions:
-    rules:
-    - linters:
-        - depguard
-        - lll
-      path: tests/|pkg/test/

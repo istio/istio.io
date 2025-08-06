@@ -120,8 +120,8 @@ available.
 ### Deploy Gateway API CRDs
 
 {{< text syntax=bash snip_id=install_crds >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_CLUSTER1}" &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_CLUSTER1}"; }
 {{< /text >}}
 
 ### Install the east-west gateway
@@ -134,7 +134,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLU
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network1 \
     --ambient | \
-    istioctl --context="${CTX_CLUSTER1}" install -y -f -
+    kubectl --context="${CTX_CLUSTER1}" apply -f -
 {{< /text >}}
 
 {{< warning >}}
@@ -147,7 +147,7 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
 Install the east-west gateway in `cluster1` using the following Gateway definition:
 
 {{< text bash >}}
-$ cat <<EOF > cluster1-ewgateway.yaml 
+$ cat <<EOF > cluster1-ewgateway.yaml
 kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
@@ -164,7 +164,7 @@ spec:
     tls:
       mode: Terminate # represents double-HBONE
       options:
-        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL 
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
@@ -230,7 +230,7 @@ spec:
     pilot:
       env:
         AMBIENT_ENABLE_MULTI_NETWORK: "true"
-    
+
 EOF
 {{< /text >}}
 
@@ -295,7 +295,7 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 Install the east-west gateway in `cluster2` using the following Gateway definition:
 
 {{< text bash >}}
-$ cat <<EOF > cluster2-ewgateway.yaml 
+$ cat <<EOF > cluster2-ewgateway.yaml
 kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
@@ -312,7 +312,7 @@ spec:
     tls:
       mode: Terminate # represents double-HBONE
       options:
-        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL 
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
