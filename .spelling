@@ -704,6 +704,7 @@ ISTIO-SECURITY-2024-007
 istio-system
 istio.io
 istio.io.
+istio.io/rev
 IstioBirthday
 IstioCon
 istioctl

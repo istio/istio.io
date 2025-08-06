@@ -26,7 +26,7 @@ This guide requires that you have two Kubernetes clusters with any of the
 
 The API Server in each cluster must be accessible to the other clusters in the
 mesh. Many cloud providers make API Servers publicly accessible via network
-load balancers (NLB). The ambient east-west gateway cannot be used to expose 
+load balancers (NLB). The ambient east-west gateway cannot be used to expose
 the API server as it only supports double HBONE traffic. A non-ambient
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway could be
 used to enable access to the API Server.
@@ -75,11 +75,7 @@ below may have to be altered based on your choice of CA.
 
 ## Next steps
 
-You're now ready to install an Istio ambient mesh across multiple clusters. The
-particular steps will depend on your requirements for network and
-control plane topology.
-
-Choose the installation that best fits your needs:
+You're now ready to install an Istio ambient mesh across multiple clusters.
 
 - [Install Multi-Primary on Different Networks](/docs/ambient/install/multicluster/multi-primary_multi-network)
 

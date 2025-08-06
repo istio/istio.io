@@ -21,38 +21,52 @@ set -e
 set -u
 set -o pipefail
 
-source content/en/docs/setup/install/multicluster/common.sh
+source content/en/docs/ambient/install/multicluster/common.sh
+source "tests/util/gateway-api.sh"
+
 set_multi_network_vars
 setup_helm_repo
 
 function install_istio_on_cluster1_helm {
+    echo "Installing Gateway API CRDs on Primary cluster: ${CTX_CLUSTER1}"
+    install_gateway_api_crds "${CTX_CLUSTER1}"
+
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER1}"
 
     snip_set_the_default_network_for_cluster1_1
 
-    snip_configure_cluster1_as_a_primary_3
-    snip_configure_cluster1_as_a_primary_4
+    _rewrite_helm_repo snip_configure_cluster1_as_a_primary_3
+    _rewrite_helm_repo snip_configure_cluster1_as_a_primary_4
+    _rewrite_helm_repo snip_install_cni_cluster1
+    _rewrite_helm_repo snip_install_ztunnel_cluster1
 
     echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_in_cluster1_2
+    snip_install_the_eastwest_gateway_2
+    snip_install_the_eastwest_gateway_3
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster1_3 "$snip_install_the_eastwest_gateway_in_cluster1_3_out"
+    _verify_like snip_install_the_eastwest_gateway_4 "$snip_install_the_eastwest_gateway_4_out"
 }
 
 function install_istio_on_cluster2_helm {
+    echo "Installing Gateway API CRDs on Primary cluster: ${CTX_CLUSTER2}"
+    install_gateway_api_crds "${CTX_CLUSTER2}"
+
     echo "Installing Istio on Primary cluster: ${CTX_CLUSTER2}"
 
     snip_set_the_default_network_for_cluster2_1
 
-    snip_configure_cluster2_as_a_primary_3
-    snip_configure_cluster2_as_a_primary_4
+    _rewrite_helm_repo snip_configure_cluster2_as_a_primary_3
+    _rewrite_helm_repo snip_configure_cluster2_as_a_primary_4
+    _rewrite_helm_repo snip_install_cni_cluster2
+    _rewrite_helm_repo snip_install_ztunnel_cluster2
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster2_2
+    snip_install_the_eastwest_gateway_in_cluster2_3
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster2_3 "$snip_install_the_eastwest_gateway_in_cluster2_3_out"
+    _verify_like snip_install_the_eastwest_gateway_in_cluster2_4 "$snip_install_the_eastwest_gateway_in_cluster2_4_out"
 }
 
 function install_istio_helm {
@@ -68,11 +82,7 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
-function delete_crds_cluster_1() {
-kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
-}
 
-time delete_crds_cluster_1
 time configure_trust
 time install_istio_helm
 time enable_endpoint_discovery
@@ -98,6 +108,7 @@ function cleanup_helm {
   cleanup_cluster1_helm
   cleanup_cluster2_helm
   snip_delete_crds
+  snip_delete_gateway_crds
 }
 
 time cleanup_helm

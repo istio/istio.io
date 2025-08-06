@@ -10,7 +10,7 @@ owner: istio/wg-environments-maintainers
 {{< boilerplate alpha >}}
 
 Follow this guide to install the Istio control plane on both `cluster1` and
-`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. Cluster
+`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}} (this is currently the only supported configuration in ambient mode). Cluster
 `cluster1` is on the `network1` network, while `cluster2` is on the
 `network2` network. This means there is no direct connectivity between pods
 across cluster boundaries.
@@ -53,19 +53,22 @@ Install Istio as primary in `cluster1` using istioctl and the `IstioOperator` AP
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
-apiVersion: install.istio.io/v1alpha1
+apiVersion: insall.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: ambient
+  components:
+    pilot:
+      k8s:
+        env:
+          - name: AMBIENT_ENABLE_MULTI_NETWORK
+            value: "true"
   values:
     global:
       meshID: mesh1
       multiCluster:
         clusterName: cluster1
       network: network1
-    profile: ambient
-    pilot:
-      env:
-        AMBIENT_ENABLE_MULTI_NETWORK: "true"
 EOF
 {{< /text >}}
 
@@ -89,7 +92,19 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+{{< /text >}}
+
+Next, install the CNI node agent in ambient mode:
+
+{{< text syntax=bash snip_id=install_cni_cluster1 >}}
+$ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}" --set profile=ambient
+{{< /text >}}
+
+Finally, install the ztunnel data plane:
+
+{{< text syntax=bash snip_id=install_ztunnel_cluster1 >}}
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}" --set multiCluster.clusterName=cluster1 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
@@ -108,8 +123,8 @@ available.
 ### Deploy Gateway API CRDs
 
 {{< text syntax=bash snip_id=install_crds >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLUSTER}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_REMOTE_CLUSTER}"; }
+$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_CLUSTER1}" &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_CLUSTER1}"; }
 {{< /text >}}
 
 ### Install the east-west gateway
@@ -122,7 +137,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLU
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network1 \
     --ambient | \
-    istioctl --context="${CTX_CLUSTER1}" install -y -f -
+    kubectl --context="${CTX_CLUSTER1}" apply -f -
 {{< /text >}}
 
 {{< warning >}}
@@ -135,7 +150,7 @@ If the control-plane was installed with a revision, add the `--revision rev` fla
 Install the east-west gateway in `cluster1` using the following Gateway definition:
 
 {{< text bash >}}
-$ cat <<EOF > cluster1-ewgateway.yaml 
+$ cat <<EOF > cluster1-ewgateway.yaml
 kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
@@ -152,18 +167,18 @@ spec:
     tls:
       mode: Terminate # represents double-HBONE
       options:
-        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL 
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
 {{< warning >}}
-TODO: Handle revisions
+If you are running a revisioned instance of istiod and you don't have a default revision or tag set, you may need to add the `istio.io/rev` label to this `Gateway` manifest.
 {{< /warning >}}
 
 Apply the configuration to `cluster1`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1-ewgateway.yaml
+$ kubectl apply --context="${CTX_CLUSTER1}" -f cluster1-ewgateway.yaml
 {{< /text >}}
 
 {{< /tab >}}
@@ -180,7 +195,9 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 
 ## Expose services in `cluster1`
 
-TODO: change to explanation about service/namespace scope
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER1}" label svc helloworld -n sample istio.io/global="true"
+{{< /text >}}
 
 ## Set the default network for `cluster2`
 
@@ -203,20 +220,22 @@ Install Istio as primary in `cluster2` using istioctl and the `IstioOperator` AP
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
-apiVersion: install.istio.io/v1alpha1
+apiVersion: insall.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: ambient
+  components:
+    pilot:
+      k8s:
+        env:
+          - name: AMBIENT_ENABLE_MULTI_NETWORK
+            value: "true"
   values:
     global:
       meshID: mesh1
       multiCluster:
         clusterName: cluster2
       network: network2
-    profile: ambient
-    pilot:
-      env:
-        AMBIENT_ENABLE_MULTI_NETWORK: "true"
-    
 EOF
 {{< /text >}}
 
@@ -240,7 +259,19 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+{{< /text >}}
+
+Next, install the CNI node agent in ambient mode:
+
+{{< text syntax=bash snip_id=install_cni_cluster2 >}}
+$ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}" --set profile=ambient
+{{< /text >}}
+
+Finally, install the ztunnel data plane:
+
+{{< text syntax=bash snip_id=install_ztunnel_cluster2 >}}
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"  --set multiCluster.clusterName=cluster2 --set global.network=network2
 {{< /text >}}
 
 {{< /tab >}}
@@ -260,7 +291,7 @@ to east-west traffic.
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network2 \
     --ambient | \
-    istioctl --context="${CTX_CLUSTER2}" install -y -f -
+    kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
 
 {{< /tab >}}
@@ -269,7 +300,7 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 Install the east-west gateway in `cluster2` using the following Gateway definition:
 
 {{< text bash >}}
-$ cat <<EOF > cluster2-ewgateway.yaml 
+$ cat <<EOF > cluster2-ewgateway.yaml
 kind: Gateway
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
@@ -286,18 +317,18 @@ spec:
     tls:
       mode: Terminate # represents double-HBONE
       options:
-        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL 
+        gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
 {{< /text >}}
 
 {{< warning >}}
-TODO: Handle revisions
+If you are running a revisioned instance of istiod and you don't have a default revision or tag set, you may need to add the `istio.io/rev` label to this `Gateway` manifest.
 {{< /warning >}}
 
 Apply the configuration to `cluster2`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2-ewgateway.yaml
+$ kubectl apply --context="${CTX_CLUSTER2}" -f cluster2-ewgateway.yaml
 {{< /text >}}
 
 {{< /tab >}}
@@ -314,7 +345,9 @@ istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51
 
 ## Expose services in `cluster2`
 
-TODO: change to explanation about service/namespace scope
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" label svc helloworld -n sample istio.io/global="true"
+{{< /text >}}
 
 ## Enable Endpoint Discovery
 
@@ -372,6 +405,8 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 Delete Istio Helm installation from `cluster1`:
 
 {{< text syntax=bash >}}
+$ helm delete ztunnel -n istio-system "${CTX_CLUSTER1}"
+$ helm delete istio-cni -n istio-system "${CTX_CLUSTER1}"
 $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
 $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
@@ -385,6 +420,8 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 Delete Istio Helm installation from `cluster2`:
 
 {{< text syntax=bash >}}
+$ helm delete ztunnel -n istio-system "${CTX_CLUSTER2}"
+$ helm delete istio-cni -n istio-system "${CTX_CLUSTER2}"
 $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
 $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
@@ -405,7 +442,12 @@ $ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio
 $ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
 {{< /text >}}
 
-TODO: Cleanup Gateway API CRDs
+And finally, clean up the Gateway API CRDs:
+
+{{< text syntax=bash snip_id=delete_gateway_crds >}}
+$ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+$ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+{{< /text >}}
 
 {{< /tab >}}
 
