@@ -55,11 +55,11 @@ snip_configure_cluster1_as_a_primary_4() {
 helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 }
 
-snip_install_cni() {
+snip_install_cni_cluster1() {
 helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}"--set profile=ambient
 }
 
-snip_install_ztunnel() {
+snip_install_ztunnel_cluster1() {
 helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}"
 }
 
@@ -150,11 +150,11 @@ snip_configure_cluster2_as_a_primary_4() {
 helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 }
 
-snip_install_cni() {
-helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}" --set profile=ambient
+snip_install_cni_cluster2() {
+helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}"--set profile=ambient
 }
 
-snip_install_ztunnel() {
+snip_install_ztunnel_cluster2() {
 helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"
 }
 

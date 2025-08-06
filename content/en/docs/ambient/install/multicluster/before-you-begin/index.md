@@ -26,7 +26,7 @@ This guide requires that you have two Kubernetes clusters with any of the
 
 The API Server in each cluster must be accessible to the other clusters in the
 mesh. Many cloud providers make API Servers publicly accessible via network
-load balancers (NLB). The ambient east-west gateway cannot be used to expose 
+load balancers (NLB). The ambient east-west gateway cannot be used to expose
 the API server as it only supports double HBONE traffic. A non-ambient
 [east-west](https://en.wikipedia.org/wiki/East-west_traffic) gateway could be
 used to enable access to the API Server.
