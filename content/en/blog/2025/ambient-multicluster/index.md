@@ -1,6 +1,6 @@
 ---
 title: Introducing multicluster support for ambient mode
-description: Introducing multicluster support for ambient mode
+description: Introducing multicluster support for ambient mode.
 date: 2025-08-04
 attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krinkin (Microsoft), Steven Jin (Microsoft)
 keywords: [ambient,multicluster]
