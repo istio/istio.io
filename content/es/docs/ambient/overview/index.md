@@ -10,14 +10,14 @@ En el **modo ambient**, Istio implementa sus [características](/es/docs/concept
 
 Este enfoque por capas te permite adoptar Istio de una manera más incremental, pasando sin problemas de ninguna malla, a una superposición L4 segura, a un procesamiento y políticas L7 completos, por namespaces, según sea necesario. Además, los workloads que se ejecutan en diferentes modos de {{< gloss >}}data plane{{< /gloss >}} de Istio interoperan sin problemas, lo que permite a los usuarios mezclar y combinar capacidades en función de sus necesidades particulares a medida que cambian con el tiempo.
 
-Dado que los pods de workload ya no requieren que los proxies se ejecuten en sidecars para participar en la malla, el modo ambient a menudo se conoce informalmente como "malla sin sidecar".
+Dado que los pods de workload ya no requieren que los proxies se ejecuten en sidecars para participar en la mesh, el modo ambient a menudo se conoce informalmente como "sidecarless mesh".
 
 ## Cómo funciona
 
 El modo ambient divide la funcionalidad de Istio en dos capas distintas. En la base, la superposición segura **ztunnel** se encarga del enrutamiento y la seguridad de zero-trust para el tráfico. Por encima de eso, cuando sea necesario, los usuarios pueden habilitar los **waypoint proxies** L7 para obtener acceso a la gama completa de características de Istio. Los proxies de waypoint, aunque más pesados que la superposición de ztunnel sola, todavía se ejecutan como un componente ambient de la infraestructura, sin requerir modificaciones en los pods de la aplicación.
 
 {{< tip >}}
-Los pods y los workloads que usan el modo sidecar pueden coexistir dentro de la misma malla que los pods que usan el modo ambient. El término "malla ambient" se refiere a una malla de Istio que se instaló con soporte para el modo ambient y, por lo tanto, puede admitir pods de malla que usan cualquier tipo de data plane.
+Los pods y los workloads que usan el modo sidecar pueden coexistir dentro de la misma mesh que los pods que usan el modo ambient. El término "ambient mesh" se refiere a un mesh de Istio que se instaló con soporte para el modo ambient y, por lo tanto, puede admitir pods de mesh que usan cualquier tipo de data plane.
 {{< /tip >}}
 
 Para obtener detalles sobre el diseño del modo ambient y cómo interactúa con el {{< gloss >}}control plane{{< /gloss >}} de Istio, consulta la documentación de arquitectura del [data plane](/es/docs/ambient/architecture/data-plane) y del [control plane](/es/docs/ambient/architecture/control-plane).
@@ -26,9 +26,9 @@ Para obtener detalles sobre el diseño del modo ambient y cómo interactúa con 
 
 El componente ztunnel (túnel de Zero Trust) es un proxy por nodo especialmente diseñado que impulsa el modo de data plane ambient de Istio.
 
-Ztunnel es responsable de conectar y autenticar de forma segura los workloads dentro de la malla. El proxy ztunnel está escrito en Rust y tiene un alcance intencional para manejar funciones L3 y L4 como mTLS, autenticación, autorización L4 y telemetría. Ztunnel no termina el tráfico HTTP de el workload ni analiza los encabezados HTTP de el workload. El ztunnel garantiza que el tráfico L3 y L4 se transporte de manera eficiente y segura directamente a los workloads, a otros proxies ztunnel o a los proxies de waypoint.
+Ztunnel es responsable de conectar y autenticar de forma segura los workloads dentro de la mesh. El proxy ztunnel está escrito en Rust y tiene un alcance intencional para manejar funciones L3 y L4 como mTLS, autenticación, autorización L4 y telemetría. Ztunnel no termina el tráfico HTTP de el workload ni analiza los encabezados HTTP de el workload. El ztunnel garantiza que el tráfico L3 y L4 se transporte de manera eficiente y segura directamente a los workloads, a otros proxies ztunnel o a los proxies de waypoint.
 
-El término "superposición segura" se utiliza para describir colectivamente el conjunto de funciones de red L4 implementadas en una malla ambient a través del proxy ztunnel. En la capa de transporte, esto se implementa a través de un protocolo de tunelización de tráfico basado en HTTP CONNECT llamado [HBONE](/es/docs/ambient/architecture/hbone).
+El término "superposición segura" se utiliza para describir colectivamente el conjunto de funciones de red L4 implementadas en un ambient mesh a través del proxy ztunnel. En la capa de transporte, esto se implementa a través de un protocolo de tunelización de tráfico basado en HTTP CONNECT llamado [HBONE](/es/docs/ambient/architecture/hbone).
 
 ## Waypoint proxies
 

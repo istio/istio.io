@@ -21,14 +21,14 @@ La siguiente figura ilustra la secuencia de eventos cuando se inicia un nuevo po
 
 {{< image width="100%"
 link="./pod-added-to-ambient.svg"
-alt="flujo de pod agregado a la malla ambient"
+alt="flujo de pod agregado a la mesh ambient"
 >}}
 
 El agente de nodo `istio-cni` responde a los eventos de CNI, como la creación y eliminación de pods, y también observa el servidor de la API de Kubernetes subyacente en busca de eventos como la adición de la etiqueta ambient a un pod o namespaces.
 
 El agente de nodo `istio-cni` además instala un complemento CNI encadenado que es ejecutado por el tiempo de ejecución del contenedor después de que se ejecuta el complemento CNI principal dentro de ese cluster de Kubernetes. Su único propósito es notificar al agente de nodo `istio-cni` cuando el tiempo de ejecución del contenedor crea un nuevo pod en un namespaces que ya está inscrito en el modo ambient, y propagar el contexto del nuevo pod a `istio-cni`.
 
-Una vez que se notifica al agente de nodo `istio-cni` que se debe agregar un pod a la malla (ya sea desde el complemento CNI, si el pod es nuevo, o desde el servidor de la API de Kubernetes, si el pod ya se está ejecutando pero necesita ser agregado), se realiza la siguiente secuencia de operaciones:
+Una vez que se notifica al agente de nodo `istio-cni` que se debe agregar un pod a la mesh (ya sea desde el complemento CNI, si el pod es nuevo, o desde el servidor de la API de Kubernetes, si el pod ya se está ejecutando pero necesita ser agregado), se realiza la siguiente secuencia de operaciones:
 
 - `istio-cni` ingresa al namespaces de red del pod y establece reglas de redirección de red, de modo que los paquetes que entran y salen del pod se interceptan y se redirigen de forma transparente a la instancia de proxy ztunnel local del nodo que escucha en los [puertos conocidos](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 
@@ -37,17 +37,17 @@ Una vez que se notifica al agente de nodo `istio-cni` que se debe agregar un pod
 
 - El ztunnel local del nodo internamente crea una nueva instancia de proxy lógico y un conjunto de puertos de escucha, dedicados al pod recién agregado. Ten en cuenta que esto todavía se está ejecutando dentro del mismo proceso y es simplemente una tarea dedicada para el pod.
 
-- Una vez que las reglas de redirección en el pod están en su lugar y el ztunnel ha establecido los puertos de escucha, el pod se agrega a la malla y el tráfico comienza a fluir a través del ztunnel local del nodo.
+- Una vez que las reglas de redirección en el pod están en su lugar y el ztunnel ha establecido los puertos de escucha, el pod se agrega a la mesh y el tráfico comienza a fluir a través del ztunnel local del nodo.
 
-El tráfico hacia y desde los pods en la malla se cifrará completamente con mTLS de forma predeterminada.
+El tráfico hacia y desde los pods en la mesh se cifrará completamente con mTLS de forma predeterminada.
 
-Los datos ahora entrarán y saldrán del namespace de red del pod cifrados. Cada pod en la malla tiene la capacidad de hacer cumplir la política de la malla y cifrar el tráfico de forma segura, aunque la aplicación de usuario que se ejecuta en el pod no tiene conocimiento de ninguna de las dos cosas.
+Los datos ahora entrarán y saldrán del namespace de red del pod cifrados. Cada pod en la mesh tiene la capacidad de hacer cumplir la política de la mesh y cifrar el tráfico de forma segura, aunque la aplicación de usuario que se ejecuta en el pod no tiene conocimiento de ninguna de las dos cosas.
 
-Este diagrama ilustra cómo fluye el tráfico cifrado entre los pods en la malla ambient en el nuevo modelo:
+Este diagrama ilustra cómo fluye el tráfico cifrado entre los pods en la mesh ambient en el nuevo modelo:
 
 {{< image width="100%"
     link="./traffic-flows-between-pods-in-ambient.svg"
-    alt="El tráfico HBONE fluye entre los pods en la malla ambient"
+    alt="El tráfico HBONE fluye entre los pods en la mesh ambient"
     >}}
 
 ## Observación y depuración de la redirección de tráfico en modo ambient
@@ -56,7 +56,7 @@ Si la redirección de tráfico no funciona correctamente en el modo ambient, se 
 
 ### Comprobar los registros del proxy ztunnel
 
-Cuando un pod de aplicación forma parte de una malla ambient, puedes comprobar los registros del proxy ztunnel para confirmar que la malla está redirigiendo el tráfico. Como se muestra en el siguiente ejemplo, los registros de ztunnel relacionados con `inpod` indican que el modo de redirección en el pod está habilitado, que el proxy ha recibido la información del namespace de red (netns) sobre un pod de aplicación ambient y que ha comenzado a actuar como proxy para él.
+Cuando un pod de aplicación forma parte de un ambient mesh, puedes comprobar los registros del proxy ztunnel para confirmar que la mesh está redirigiendo el tráfico. Como se muestra en el siguiente ejemplo, los registros de ztunnel relacionados con `inpod` indican que el modo de redirección en el pod está habilitado, que el proxy ha recibido la información del namespace de red (netns) sobre un pod de aplicación ambient y que ha comenzado a actuar como proxy para él.
 
 {{< text bash >}}
 $ kubectl logs ds/ztunnel -n istio-system  | grep inpod
