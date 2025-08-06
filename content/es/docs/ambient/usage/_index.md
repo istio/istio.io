@@ -1,6 +1,6 @@
 ---
 title: Guías de usuario
-description: Cómo configurar tu malla para aprovechar el modo ambient.
+description: Cómo configurar tu mesh para aprovechar el modo ambient.
 weight: 15
 aliases:
   - /docs/ops/ambient/usage

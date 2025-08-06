@@ -4,7 +4,7 @@ description: Upgrade Istio by first running a canary deployment of a new control
 weight: 10
 keywords: [kubernetes,upgrading,canary]
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 ---
 
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you

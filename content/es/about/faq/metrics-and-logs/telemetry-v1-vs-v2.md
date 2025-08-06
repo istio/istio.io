@@ -9,7 +9,7 @@ y es el mecanismo preferido para mostrar la telemetría en Istio.
 Sin embargo, existen algunas diferencias en la telemetría informada entre v1 y
 v2 que se enumeran a continuación:
 
-* **Faltan labels para el tráfico fuera de la malla**
+* **Faltan etiquetas para el tráfico fuera de la mesh**
   La telemetría en el proxy se basa en el intercambio de metadatos entre los proxies de Envoy para recopilar
   información como el nombre de el workload del par, el namespace y las labels. En la telemetría basada en Mixer
   , esta funcionalidad la realizaba Mixer como parte de la combinación de los atributos de la solicitud
@@ -18,11 +18,11 @@ v2 que se enumeran a continuación:
   el protocolo ALPN para el protocolo TCP como se describe
   [aquí](/es/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection).
   Esto requiere que los proxies de Envoy se inyecten tanto en los workloads del cliente como del servidor,
-  lo que implica que a la telemetría informada cuando un par no está en la malla le faltarán
+  lo que implica que a la telemetría informada cuando un par no está en la mesh le faltarán
   atributos del par como el nombre de el workload, el namespace y las labels.
   Sin embargo, si ambos pares tienen proxies inyectados, todas las labels mencionadas
   [aquí](/es/docs/reference/config/metrics/) están disponibles en las métricas generadas.
-  Cuando el workload del servidor está fuera de la malla, los metadatos de el workload del servidor todavía
+  Cuando el workload del servidor está fuera de la mesh, los metadatos de el workload del servidor todavía
   se distribuyen al sidecar del cliente, lo que hace que las métricas del lado del cliente tengan los metadatos de el workload del servidor
   labels completadas.
 

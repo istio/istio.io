@@ -16,7 +16,9 @@
 
 set -e
 
-GATEWAY_VERSION=$(grep gateway-api go.mod | awk '{ print $2 }')
+# Grepping with space is needed as there is now also a gateway-api-inference
+# import that would also get added.
+GATEWAY_VERSION=$(grep "gateway-api " go.mod | awk '{ print $2 }')
 #echo "GATEWAY_VERSION=${GATEWAY_VERSION}"
 if [[ $GATEWAY_VERSION == *"-"* ]]; then
   #echo "Found -, GATEWAY_VERSION=${GATEWAY_VERSION}"

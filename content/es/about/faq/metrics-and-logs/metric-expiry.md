@@ -10,7 +10,7 @@ Hay varias formas de reducir la cardinalidad de las métricas de Istio:
   La label `destination_service` es una fuente potencial de alta cardinalidad.
   Los valores para `destination_service` se establecen de forma predeterminada en el encabezado del host si el proxy de Istio no puede determinar el servicio de destino a partir de otros metadatos de la solicitud.
   Si los clientes utilizan una variedad de encabezados de host, esto podría dar como resultado una gran cantidad de valores para `destination_service`.
-  En este caso, siga la guía de [personalización de métricas](/es/docs/tasks/observability/metrics/customize-metrics/) para deshabilitar la reserva del encabezado del host en toda la malla.
+  En este caso, siga la guía de [personalización de métricas](/es/docs/tasks/observability/metrics/customize-metrics/) para deshabilitar la reserva del encabezado del host en toda la mesh.
   Para deshabilitar la reserva del encabezado del host para una workload o un namespace en particular, debe copiar la configuración de `EnvoyFilter` de estadísticas, actualizarla para que la reserva del encabezado del host esté deshabilitada y aplicarla con un selector más específico.
   [Este problema](https://github.com/istio/istio/issues/25963#issuecomment-666037411) tiene más detalles sobre cómo lograrlo.
 * Eliminar labels innecesarias de la colección. Si no se necesita la label con alta cardinalidad, puede eliminarla de la colección de métricas a través de la [personalización de métricas](/es/docs/tasks/observability/metrics/customize-metrics/) usando `tags_to_remove`.

@@ -27,7 +27,7 @@ sea más resiliente contra fallos de services dependientes o de la red.
 El modelo de gestión de tráfico de Istio se basa en los proxies {{< gloss >}}Envoy{{</ gloss >}}
 que se despliegan junto con sus services. Todo el tráfico que sus services de malla
 envían y reciben (tráfico del {{< gloss >}}data plane{{</ gloss >}}) se proxy a través de Envoy, lo que facilita
-dirigir y controlar el tráfico alrededor de su malla sin realizar ningún
+dirigir y controlar el tráfico alrededor de su mesh sin realizar ningún
 cambio en sus services.
 
 Si está interesado en los detalles de cómo funcionan las features descritas en esta guía,
@@ -44,7 +44,7 @@ descubrimiento de services. Por ejemplo, si ha instalado Istio en un cluster de 
 entonces Istio detecta automáticamente los services y endpoints en ese cluster.
 
 Utilizando este service registry, los proxies Envoy pueden dirigir el tráfico a los
-services relevantes. La mayoría de las applications basadas en microservices tienen múltiples instancias
+services relevantes. La mayoría de las applications basadas en microservicios tienen múltiples instancias
 de cada workload de service para manejar el tráfico de service, a veces denominado
 pool de balanceo de carga. Por defecto, los proxies Envoy distribuyen el tráfico entre
 el pool de balanceo de carga de cada service utilizando un modelo de menos solicitudes, donde cada
@@ -59,7 +59,7 @@ Es posible que desee dirigir un porcentaje particular de tráfico a una nueva ve
 un service como parte de las pruebas A/B, o aplicar una política de balanceo de carga diferente al
 tráfico para un subconjunto particular de instancias de service. También es posible que desee
 aplicar reglas especiales al tráfico que entra o sale de su malla, o agregar una
-dependencia externa de su malla al service registry. Puede hacer todo esto
+dependencia externa de su mesh al service registry. Puede hacer todo esto
 y más agregando su propia configuración de tráfico a Istio utilizando la API de gestión de tráfico de Istio.
 
 Al igual que otras configuraciones de Istio, la API se especifica utilizando definiciones de recursos personalizados de Kubernetes
@@ -86,8 +86,8 @@ junto con las [reglas de destino](#destination-rules), son los bloques de constr
 Un virtual service le permite configurar cómo se enrutan las solicitudes a un service dentro de una service mesh de Istio,
 basándose en la conectividad y el descubrimiento básicos proporcionados por Istio y su plataforma. Cada virtual
 service consta de un conjunto de reglas de enrutamiento que se evalúan en orden, lo que permite
-a Istio hacer coincidir cada solicitud dada al virtual service con un destino real específico dentro de la malla.
-Su malla puede requerir múltiples virtual services o ninguno, dependiendo de su caso de uso.
+a Istio hacer coincidir cada solicitud dada al virtual service con un destino real específico dentro de la mesh.
+Su mesh puede requerir múltiples virtual services o ninguno, dependiendo de su caso de uso.
 
 ### ¿Por qué usar virtual services? {#why-use-virtual-services}
 
@@ -127,13 +127,13 @@ los virtual services ayudan con los despliegues canary en [Despliegues Canary us
 Los virtual services también le permiten:
 
 -   Dirigir múltiples applications de services a través de un único virtual service. Si
-    su malla utiliza Kubernetes, por ejemplo, puede configurar un virtual service
+    su mesh utiliza Kubernetes, por ejemplo, puede configurar un virtual service
     para manejar todos los services en un namespace específico. Mapear un único
     virtual service a múltiples services "reales" es particularmente útil para
     facilitar la transformación de una aplicación monolítica en un service compuesto
-    por microservices distintos sin requerir que los consumidores del service
+    por microservicios distintos sin requerir que los consumidores del service
     se adapten a la transición. Sus reglas de enrutamiento pueden especificar "las llamadas a estas URIs de
-    `monolith.com` van al `microservice A`", y así sucesivamente. Puede ver cómo funciona esto
+    `monolith.com` van al `microservicio A`", y así sucesivamente. Puede ver cómo funciona esto
     en [uno de nuestros ejemplos a continuación](#more-about-routing-rules).
 -   Configurar reglas de tráfico en combinación con
     [gateways](/es/docs/concepts/traffic-management/#gateways) para controlar el tráfico de entrada
@@ -191,7 +191,7 @@ implícita o explícitamente, en un nombre de dominio completamente calificado (
 utilizar prefijos comodín ("*"), lo que le permite crear un único conjunto de reglas de enrutamiento para
 todos los services coincidentes. Los hosts del virtual service no tienen que formar parte del
 service registry de Istio, son simplemente destinos virtuales. Esto le permite modelar
-el tráfico para hosts virtuales que no tienen entradas enrutables dentro de la malla.
+el tráfico para hosts virtuales que no tienen entradas enrutables dentro de la mesh.
 
 #### Reglas de enrutamiento {#routing-rules}
 
@@ -223,7 +223,7 @@ El campo `destination` de la sección de ruta especifica el destino real para
 el tráfico que coincide con esta condición. A diferencia de los hosts del virtual service,
 el host de destino debe ser un destino real que exista en el service registry de Istio
 o Envoy no sabrá a dónde enviar el tráfico. Puede ser un service de malla
-con proxies o un service no de malla agregado mediante una entrada de service. En este
+con proxies o un service no de mesh agregado mediante una entrada de service. En este
 caso, nos estamos ejecutando en Kubernetes y el nombre de host es un nombre de service de Kubernetes:
 
 {{< text yaml >}}
@@ -430,8 +430,8 @@ del subconjunto.
 
 Utiliza un [gateway](/es/docs/reference/config/networking/gateway/#Gateway) para
 gestionar el tráfico de entrada y salida de su malla, lo que le permite especificar qué
-tráfico desea que entre o salga de la malla. Las configuraciones de gateway se aplican
-a proxies Envoy independientes que se ejecutan en el borde de la malla, en lugar
+tráfico desea que entre o salga de la mesh. Las configuraciones de gateway se aplican
+a proxies Envoy independientes que se ejecutan en el borde de la mesh, en lugar
 de proxies Envoy sidecar que se ejecutan junto a sus workloads de service.
 
 A diferencia de otros mecanismos para controlar el tráfico que ingresa a sus sistemas, como
@@ -441,11 +441,11 @@ simplemente le permite configurar propiedades de balanceo de carga de capa 4-6, 
 puertos a exponer, configuraciones TLS, etc. Luego, en lugar de agregar
 enrutamiento de tráfico a nivel de aplicación (L7) al mismo recurso de API, vincula un
 virtual service de Istio regular al gateway. Esto le permite
-básicamente gestionar el tráfico del gateway como cualquier otro tráfico del data plane en una malla de Istio.
+básicamente gestionar el tráfico del gateway como cualquier otro tráfico del data plane en un mesh de Istio.
 
 Los gateways se utilizan principalmente para gestionar el tráfico de entrada, pero también puede
 configurar egress gateways. Un egress gateway le permite configurar un nodo de salida dedicado
-para el tráfico que sale de la malla, lo que le permite limitar qué services pueden o
+para el tráfico que sale de la mesh, lo que le permite limitar qué services pueden o
 deben acceder a redes externas, o para habilitar
 el [control seguro del tráfico de salida](/blog/2019/egress-traffic-control-in-istio-part-1/)
 para agregar seguridad a su malla, por ejemplo. También puede usar un gateway para
@@ -484,7 +484,7 @@ spec:
       credentialName: ext-host-cert
 {{< /text >}}
 
-Esta configuración de gateway permite el tráfico HTTPS de `ext-host.example.com` en la malla en
+Esta configuración de gateway permite el tráfico HTTPS de `ext-host.example.com` en la mesh en
 el puerto 443, pero no especifica ningún enrutamiento para el tráfico.
 
 Para especificar el enrutamiento y para que el gateway funcione según lo previsto, también debe vincular
@@ -512,22 +512,22 @@ Utiliza una
 una entrada al service registry que Istio mantiene internamente. Después de agregar
 la entrada de service, los proxies Envoy pueden enviar tráfico al service como si
 fuera un service en su malla. La configuración de entradas de service le permite gestionar
-el tráfico para services que se ejecutan fuera de la malla, incluyendo las siguientes tareas:
+el tráfico para services que se ejecutan fuera de la mesh, incluyendo las siguientes tareas:
 
 -   Redirigir y reenviar tráfico para destinos externos, como API
     consumidas de la web, o tráfico a services en infraestructura heredada.
 -   Definir políticas de [reintentos](#retries), [tiempos de espera](#timeouts) e
     [inyección de fallos](#fault-injection) para destinos externos.
--   Ejecutar un service de malla en una Máquina Virtual (VM) [agregando VMs a su malla](/es/docs/examples/virtual-machines/).
+-   Ejecutar un service de mesh en una Máquina Virtual (VM) [agregando VMs a su malla](/es/docs/examples/virtual-machines/).
 
 No necesita agregar una entrada de service para cada service externo que desee
 que utilicen sus services de malla. Por defecto, Istio configura los proxies Envoy para
 pasar las solicitudes a services desconocidos. Sin embargo, no puede usar las features de Istio
-para controlar el tráfico a destinos que no están registrados en la malla.
+para controlar el tráfico a destinos que no están registrados en la mesh.
 
 ### Ejemplo de entrada de service {#service-entry-example}
 
-El siguiente ejemplo de entrada de service externa a la malla agrega la dependencia externa
+El siguiente ejemplo de entrada de service externa a la mesh agrega la dependencia externa
 `ext-svc.example.com` al service registry de Istio:
 
 {{< text yaml >}}
@@ -551,7 +551,7 @@ completamente o usar un nombre de dominio con prefijo comodín.
 
 Puede configurar virtual services y reglas de destino para controlar el tráfico a una
 entrada de service de una manera más granular, de la misma manera que configura el tráfico para
-cualquier otro service en la malla. Por ejemplo, la siguiente regla de destino
+cualquier otro service en la mesh. Por ejemplo, la siguiente regla de destino
 ajusta el tiempo de espera de conexión TCP para las solicitudes al service externo
 `ext-svc.example.com` que configuramos utilizando la entrada de service:
 
@@ -575,15 +575,15 @@ para obtener más opciones de configuración posibles.
 ## Sidecars {#sidecars}
 
 Por defecto, Istio configura cada proxy Envoy para aceptar tráfico en todos los
-puertos de su workload asociado, y para alcanzar cada workload en la malla al
+puertos de su workload asociado, y para alcanzar cada workload en la mesh al
 reenviar tráfico. Puede usar una configuración de [sidecar](/es/docs/reference/config/networking/sidecar/#Sidecar) para hacer lo siguiente:
 
 -   Ajustar el conjunto de puertos y protocolos que acepta un proxy Envoy.
 -   Limitar el conjunto de services a los que puede llegar el proxy Envoy.
 
 Es posible que desee limitar la accesibilidad del sidecar de esta manera en applications más grandes,
-donde tener cada proxy configurado para alcanzar cada otro service en la malla puede
-potencialmente afectar el rendimiento de la malla debido al alto uso de memoria.
+donde tener cada proxy configurado para alcanzar cada otro service en la mesh puede
+potencialmente afectar el rendimiento de la mesh debido al alto uso de memoria.
 
 Puede especificar que desea que una configuración de sidecar se aplique a todos los workloads
 en un namespace particular, o elegir workloads específicos usando un
@@ -691,13 +691,13 @@ spec:
 ### Disyuntores {#circuit-breakers}
 
 Los disyuntores son otro mecanismo útil que Istio proporciona para crear
-applications basadas en microservices resilientes. En un disyuntor, se establecen límites
+applications basadas en microservicios resilientes. En un disyuntor, se establecen límites
 para las llamadas a hosts individuales dentro de un service, como el número de conexiones concurrentes
 o cuántas veces han fallado las llamadas a este host. Una vez que se alcanza ese límite,
 el disyuntor se "dispara" y detiene más conexiones a ese host. El uso de un patrón de disyuntor
 permite un fallo rápido en lugar de que los clientes intenten conectarse a un host sobrecargado o fallido.
 
-Como el interruptor de circuito se aplica a destinos de malla "reales" en un pool de balanceo de carga,
+Como el interruptor de circuito se aplica a destinos de mesh "reales" en un pool de balanceo de carga,
 se configuran umbrales de disyuntor en
 [reglas de destino](#destination-rules), con la configuración aplicándose a cada
 host individual en el service. El siguiente ejemplo limita el número de
@@ -794,7 +794,7 @@ aplicación se activa primero, por lo que el tiempo de espera y el intento de re
 no tienen ningún efecto.
 
 Si bien las features de recuperación de fallos de Istio mejoran la fiabilidad y
-disponibilidad de los services en la malla, las applications deben manejar el fallo
+disponibilidad de los services en la mesh, las applications deben manejar el fallo
 o los errores y tomar las acciones de respaldo apropiadas. Por ejemplo, cuando todas
 las instancias en un pool de balanceo de carga han fallado, Envoy devuelve un código `HTTP 503`.
 La aplicación debe implementar cualquier lógica de respaldo necesaria para manejar el

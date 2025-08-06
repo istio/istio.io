@@ -1,6 +1,6 @@
 ---
-title: Set up a Kubernetes Cluster
-overview: Set up your Kubernetes cluster for the tutorial.
+title: Configurar un Cluster de Kubernetes
+overview: Configurar tu Cluster de Kubernetes para el tutorial.
 weight: 2
 owner: istio/wg-docs-maintainers
 test: no
@@ -8,65 +8,65 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-In this module, you set up a Kubernetes cluster that has Istio installed and a
-namespace to use throughout the tutorial.
+En este módulo, configuras un Cluster de Kubernetes que tiene Istio instalado y un
+namespace para usar durante todo el tutorial.
 
 {{< warning >}}
-If you are in a workshop and the instructors provide a cluster for you,
-proceed to [setting up your local computer](/es/docs/examples/microservices-istio/setup-local-computer).
+Si estás en un taller y los instructores proporcionan un cluster para ti,
+procede a [configurar tu computadora local](/es/docs/examples/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
-1.  Ensure you have access to a
-    [Kubernetes cluster](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
-    You can use the
+1.  Asegúrate de tener acceso a un
+    [Cluster de Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/).
+    Puedes usar el
     [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/quickstart)
-    or the
+    o el
     [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
-1.  Create an environment variable to store the name
-    of a namespace that you will use when you run the tutorial commands.
-    You can use any name, for example `tutorial`.
+1.  Crea una variable de entorno para almacenar el nombre
+    de un namespace que usarás cuando ejecutes los comandos del tutorial.
+    Puedes usar cualquier nombre, por ejemplo `tutorial`.
 
     {{< text bash >}}
     $ export NAMESPACE=tutorial
     {{< /text >}}
 
-1.  Create the namespace:
+1.  Crea el namespace:
 
     {{< text bash >}}
     $ kubectl create namespace $NAMESPACE
     {{< /text >}}
 
     {{< tip >}}
-    If you are an instructor, you should allocate a separate namespace per each
-    participant. The tutorial supports work in multiple namespaces
-    simultaneously by multiple participants.
+    Si eres instructor, deberías asignar un namespace separado por cada
+    participante. El tutorial soporta trabajo en múltiples namespaces
+    simultáneamente por múltiples participantes.
     {{< /tip >}}
 
-1.  [Install Istio](/es/docs/setup/getting-started/) using the `demo` profile.
+1.  [Instala Istio](/es/docs/setup/getting-started/) usando el perfil `demo`.
 
-1.  The [Kiali](/es/docs/ops/integrations/kiali/) and [Prometheus](/es/docs/ops/integrations/prometheus/) addons are used in this example and need to be installed. All addons are installed using:
+1.  Los addons [Kiali](/es/docs/ops/integrations/kiali/) y [Prometheus](/es/docs/ops/integrations/prometheus/) se usan en este ejemplo y necesitan ser instalados. Todos los addons se instalan usando:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
     {{< /text >}}
 
     {{< tip >}}
-    If there are errors trying to install the addons, try running the command again. There may
-    be some timing issues which will be resolved when the command is run again.
+    Si hay errores tratando de instalar los addons, intenta ejecutar el comando nuevamente. Puede que
+    haya algunos problemas de temporización que se resolverán cuando el comando se ejecute nuevamente.
     {{< /tip >}}
 
-1.  Create a Kubernetes Ingress resource for these common Istio services using
-    the `kubectl` command shown. It is not necessary to be familiar with each of
-    these services at this point in the tutorial.
+1.  Crea un recurso Kubernetes Ingress para estos servicios comunes de Istio usando
+    el comando `kubectl` mostrado. No es necesario estar familiarizado con cada uno de
+    estos servicios en este punto del tutorial.
 
     - [Grafana](https://grafana.com/docs/guides/getting_started/)
     - [Jaeger](https://www.jaegertracing.io/docs/1.13/getting-started/)
     - [Prometheus](https://prometheus.io/docs/prometheus/latest/getting_started/)
     - [Kiali](https://kiali.io/docs/installation/quick-start/)
 
-    The `kubectl` command can accept an in-line configuration to create the
-    Ingress resources for each service:
+    El comando `kubectl` puede aceptar una configuración en línea para crear los
+    recursos Ingress para cada servicio:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -122,9 +122,9 @@ proceed to [setting up your local computer](/es/docs/examples/microservices-isti
     EOF
     {{< /text >}}
 
-1.  Create a role to provide read access to the `istio-system` namespace. This
-    role is required to limit permissions of the participants in the steps
-    below.
+1.  Crea un rol para proporcionar acceso de lectura al namespace `istio-system`. Este
+    rol es requerido para limitar los permisos de los participantes en los pasos
+    a continuación.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -140,7 +140,7 @@ proceed to [setting up your local computer](/es/docs/examples/microservices-isti
     EOF
     {{< /text >}}
 
-1.  Create a service account for each participant:
+1.  Crea una service account para cada participante:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -152,15 +152,15 @@ proceed to [setting up your local computer](/es/docs/examples/microservices-isti
     EOF
     {{< /text >}}
 
-1.  Limit each participant's permissions. During the tutorial, participants only
-    need to create resources in their namespace and to read resources from
-    `istio-system` namespace. It is a good practice, even if using your own
-    cluster, to avoid interfering with other namespaces in
-    your cluster.
+1.  Limita los permisos de cada participante. Durante el tutorial, los participantes solo
+    necesitan crear recursos en su namespace y leer recursos del
+    namespace `istio-system`. Es una buena práctica, incluso si usas tu propio
+    cluster, evitar interferir con otros namespaces en
+    tu cluster.
 
-    Create a role to allow read-write access to each participant's namespace.
-    Bind the participant's service account to this role and to the role for
-    reading resources from `istio-system`:
+    Crea un rol para permitir acceso de lectura-escritura al namespace de cada participante.
+    Vincula la cuenta de servicio del participante a este rol y al rol para
+    leer recursos desde `istio-system`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -205,14 +205,14 @@ proceed to [setting up your local computer](/es/docs/examples/microservices-isti
     EOF
     {{< /text >}}
 
-1.  Each participant needs to use their own Kubernetes configuration file. This configuration file specifies
-    the cluster details, the service account, the credentials and the namespace of the participant.
-    The `kubectl` command uses the configuration file to operate on the cluster.
+1.  Cada participante necesita usar su propio archivo de configuración de Kubernetes. Este archivo de configuración especifica
+    los detalles del cluster, la service account, las credenciales y el namespace del participante.
+    El comando `kubectl` usa el archivo de configuración para operar en el cluster.
 
-    Generate a Kubernetes configuration file for each participant:
+    Genera un archivo de configuración de Kubernetes para cada participante:
 
     {{< tip >}}
-    This command assumes your cluster is named `tutorial-cluster`. If your cluster is named differently, replace all references with the name of your cluster.
+    Este comando asume que tu cluster se llama `tutorial-cluster`. Si tu cluster tiene un nombre diferente, reemplaza todas las referencias con el nombre de tu cluster.
     {{</ tip >}}
 
     {{< text bash >}}
@@ -245,31 +245,31 @@ proceed to [setting up your local computer](/es/docs/examples/microservices-isti
     EOF
     {{< /text >}}
 
-1.  Set the `KUBECONFIG` environment variable for the `${NAMESPACE}-user-config.yaml`
-    configuration file:
+1.  Establece la variable de entorno `KUBECONFIG` para el archivo de configuración
+    `${NAMESPACE}-user-config.yaml`:
 
     {{< text bash >}}
     $ export KUBECONFIG=$PWD/${NAMESPACE}-user-config.yaml
     {{< /text >}}
 
-1.  Verify that the configuration took effect by printing the current namespace:
+1.  Verifica que la configuración surtió efecto imprimiendo el namespace actual:
 
     {{< text bash >}}
     $ kubectl config view -o jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}"
     tutorial
     {{< /text >}}
 
-    You should see the name of your namespace in the output.
+    Deberías ver el nombre de tu namespace en la salida.
 
-1.  If you are setting up the cluster for yourself, copy the
-    `${NAMESPACE}-user-config.yaml` file mentioned in the previous steps to your
-    local computer, where `${NAMESPACE}` is the name of the namespace you
-    provided in the previous steps. For example, `tutorial-user-config.yaml`.
-    You will need this file later in the tutorial.
+1.  Si estás configurando el cluster para ti mismo, copia el
+    archivo `${NAMESPACE}-user-config.yaml` mencionado en los pasos anteriores a tu
+    computadora local, donde `${NAMESPACE}` es el nombre del namespace que
+    proporcionaste en los pasos anteriores. Por ejemplo, `tutorial-user-config.yaml`.
+    Necesitarás este archivo más tarde en el tutorial.
 
-    If you are an instructor, send the generated configuration files to each
-    participant. The participants must copy their configuration file to their local computer.
+    Si eres instructor, envía los archivos de configuración generados a cada
+    participante. Los participantes deben copiar su archivo de configuración a su computadora local.
 
-Congratulations, you configured your cluster for the tutorial!
+¡Felicidades, configuraste tu cluster para el tutorial!
 
-You are ready to [set up a local computer](/es/docs/examples/microservices-istio/setup-local-computer).
+Estás listo para [configurar una computadora local](/es/docs/examples/microservices-istio/setup-local-computer).

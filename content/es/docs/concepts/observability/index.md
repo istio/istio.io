@@ -14,18 +14,18 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-Istio genera telemetría detallada para todas las comunicaciones de servicios dentro de una malla. Esta telemetría proporciona *observabilidad* del comportamiento del servicio,
+Istio genera telemetría detallada para todas las comunicaciones de servicios dentro de un mesh. Esta telemetría proporciona *observabilidad* del comportamiento del servicio,
 lo que permite a los operadores solucionar problemas, mantener y optimizar sus aplicaciones, sin imponer ninguna carga adicional a los desarrolladores de servicios. A través de
 Istio, los operadores obtienen una comprensión profunda de cómo interactúan los servicios monitoreados, tanto con otros servicios como con los propios componentes de Istio.
 
 Istio genera los siguientes tipos de telemetría para proporcionar observabilidad general de la service mesh:
 
 - [**Métricas**](#metrics). Istio genera un conjunto de métricas de servicio basadas en las cuatro "señales doradas" de monitoreo (latencia, tráfico, errores y
-  saturación). Istio también proporciona métricas detalladas para el [control plane de la malla](/es/docs/ops/deployment/architecture/).
-  También se proporciona un conjunto predeterminado de paneles de monitoreo de malla creados sobre estas métricas.
+  saturación). Istio también proporciona métricas detalladas para el [control plane de la mesh](/es/docs/ops/deployment/architecture/).
+  También se proporciona un conjunto predeterminado de paneles de monitoreo de mesh creados sobre estas métricas.
 - [**Trazas distribuidas**](#distributed-traces). Istio genera tramos de traza distribuidos para cada servicio, lo que proporciona a los operadores una comprensión detallada
-  de los flujos de llamadas y las dependencias de los servicios dentro de una malla.
-- [**Registros de acceso**](#access-logs). A medida que el tráfico fluye hacia un servicio dentro de una malla, Istio puede generar un registro completo de cada solicitud, incluidos los metadatos de origen y
+  de los flujos de llamadas y las dependencias de los servicios dentro de un mesh.
+- [**Registros de acceso**](#access-logs). A medida que el tráfico fluye hacia un servicio dentro de un mesh, Istio puede generar un registro completo de cada solicitud, incluidos los metadatos de origen y
   destino. Esta información permite a los operadores auditar el comportamiento del servicio hasta el nivel de
   [workload instance](/es/docs/reference/glossary/#workload-instance) individual.
 
@@ -36,21 +36,21 @@ Las métricas proporcionan una forma de monitorear y comprender el comportamient
 Para monitorear el comportamiento del servicio, Istio genera métricas para todo el tráfico del servicio dentro, fuera y dentro de una service mesh de Istio. Estas métricas proporcionan información sobre
 comportamientos como el volumen general de tráfico, las tasas de error dentro del tráfico y los tiempos de respuesta para las solicitudes.
 
-Además de monitorear el comportamiento de los services dentro de una malla, también es importante monitorear el comportamiento de la malla misma. Los componentes de Istio exportan
-métricas sobre sus propios comportamientos internos para proporcionar información sobre la salud y el funcionamiento del control plane de la malla.
+Además de monitorear el comportamiento de los services dentro de un mesh, también es importante monitorear el comportamiento de la mesh misma. Los componentes de Istio exportan
+métricas sobre sus propios comportamientos internos para proporcionar información sobre la salud y el funcionamiento del control plane de la mesh.
 
 ### Métricas a nivel de proxy
 
 La recopilación de métricas de Istio comienza con los proxies sidecar (Envoy). Cada proxy genera un amplio conjunto de métricas sobre todo el tráfico que pasa a través del proxy (tanto
 de entrada como de salida). Los proxies también proporcionan estadísticas detalladas sobre las funciones administrativas del propio proxy, incluida la información de configuración y salud.
 
-Las métricas generadas por Envoy proporcionan un monitoreo de la malla con la granularidad de los recursos de Envoy (como listeners y clusters). Como resultado, se requiere comprender la
-conexión entre los services de la malla y los recursos de Envoy para monitorear las métricas de Envoy.
+Las métricas generadas por Envoy proporcionan un monitoreo de la mesh con la granularidad de los recursos de Envoy (como listeners y clusters). Como resultado, se requiere comprender la
+conexión entre los services de la mesh y los recursos de Envoy para monitorear las métricas de Envoy.
 
 Istio permite a los operadores seleccionar cuáles de las métricas de Envoy se generan y recopilan en cada workload instance. De forma predeterminada, Istio habilita solo un pequeño
 subconjunto de las estadísticas generadas por Envoy para evitar sobrecargar los backends de métricas y reducir la sobrecarga de CPU asociada con la recopilación de métricas. Sin embargo,
 los operadores pueden ampliar fácilmente el conjunto de métricas de proxy recopiladas cuando sea necesario. Esto permite la depuración dirigida del comportamiento de la red, al tiempo que reduce el
-costo general del monitoreo en toda la malla.
+costo general del monitoreo en toda la mesh.
 
 El [sitio de documentación de Envoy](httpshttps://www.envoyproxy.io/docs/envoy/latest/) incluye una descripción detallada de la [recopilación de estadísticas de Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/statistics.html?highlight=statistics).
 La guía de operaciones sobre [Estadísticas de Envoy](/es/docs/ops/configuration/telemetry/envoy-stats/) proporciona más información sobre cómo controlar la generación de métricas a nivel de proxy.
@@ -113,20 +113,20 @@ istio_requests_total{
 ### Métricas del control plane
 
 El control plane de Istio también proporciona una colección de métricas de autocontrol. Estas métricas permiten monitorear el comportamiento
-de Istio mismo (a diferencia del de los services dentro de la malla).
+de Istio mismo (a diferencia del de los services dentro de la mesh).
 
 Para obtener más información sobre qué métricas se mantienen, consulte la [documentación de referencia](/es/docs/reference/commands/pilot-discovery/#metrics).
 
 ## Trazas distribuidas
 
-El rastreo distribuido proporciona una forma de monitorear y comprender el comportamiento al monitorear solicitudes individuales a medida que fluyen a través de una malla.
-Las trazas permiten a los operadores de la malla comprender las dependencias del servicio y las fuentes de latencia dentro de su service mesh.
+El rastreo distribuido proporciona una forma de monitorear y comprender el comportamiento al monitorear solicitudes individuales a medida que fluyen a través de un mesh.
+Las trazas permiten a los operadores de la mesh comprender las dependencias del servicio y las fuentes de latencia dentro de su service mesh.
 
 Istio admite el rastreo distribuido a través de los proxies de Envoy. Los proxies generan automáticamente tramos de traza en nombre de las aplicaciones que representan,
 requiriendo solo que las aplicaciones reenvíen el contexto de solicitud apropiado.
 
-Istio admite una serie de backends de rastreo, incluidos [Zipkin](/es/docs/tasks/observability/distributed-tracing/zipkin/),
-[Jaeger](/es/docs/tasks/observability/distributed-tracing/jaeger/) y muchas herramientas y servicios que admiten [OpenTelemetry](/es/docs/tasks/observability/distributed-tracing/opentelemetry/). Los operadores controlan la frecuencia de muestreo para la generación de trazas (es decir, la frecuencia con la
+Istio admite una serie de backends de rastreo, incluidos [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/),
+[Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/) y muchas herramientas y servicios que admiten [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/). Los operadores controlan la frecuencia de muestreo para la generación de trazas (es decir, la frecuencia con la
 que se generan los datos de rastreo por solicitud). Esto permite a los operadores controlar la cantidad y la velocidad de los datos de rastreo que se producen para su malla.
 
 Se puede encontrar más información sobre el rastreo distribuido con Istio en nuestras [Preguntas frecuentes sobre el rastreo distribuido](/es/about/faq/#distributed-tracing).

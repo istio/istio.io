@@ -12,4 +12,4 @@ Envoy:
 - envía los tramos de seguimiento generados a los backends de seguimiento
 - reenvía las cabeceras de seguimiento a la aplicación representada
 
-Istio admite [OpenTelemetry](/es/docs/tasks/observability/distributed-tracing/opentelemetry/) y backends compatibles, incluidos [Jaeger](/es/docs/tasks/observability/distributed-tracing/jaeger/). Otras plataformas compatibles incluyen [Zipkin](/es/docs/tasks/observability/distributed-tracing/zipkin/) y [Apache SkyWalking](/es/docs/tasks/observability/distributed-tracing/skywalking/).
+Istio admite [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) y backends compatibles, incluidos [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/). Otras plataformas compatibles incluyen [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) y [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).

@@ -16,7 +16,7 @@ test: n/a
 
 Descomponer una aplicación monolítica en services atómicos ofrece varios
 beneficios, incluyendo mayor agilidad, mejor escalabilidad y mayor capacidad de
-reutilizar services. Sin embargo, los microservices también tienen necesidades de seguridad particulares:
+reutilizar services. Sin embargo, los microservicios también tienen necesidades de seguridad particulares:
 
 - Para defenderse de ataques de intermediario, necesitan cifrado de tráfico.
 - Para proporcionar un control de acceso flexible a los services, necesitan mTLS y
@@ -254,7 +254,7 @@ antes de que el Envoy del lado del cliente reciba el tráfico.
 ### Arquitectura de autenticación
 
 Puede especificar los requisitos de autenticación para los workloads que reciben solicitudes en
-una malla de Istio utilizando políticas de autenticación de pares y de solicitudes. El operador de la malla
+una mesh de Istio utilizando políticas de autenticación de pares y de solicitudes. El operador de la mesh
 utiliza ficheros `.yaml` para especificar las políticas. Las políticas se guardan en el
 almacén de configuración de Istio una vez desplegadas. El controlador de Istio observa el
 almacén de configuración.
@@ -322,8 +322,8 @@ EOF
 
 #### Almacenamiento de políticas
 
-Istio almacena las políticas con alcance de malla en el namespace raíz. Estas políticas tienen un
-selector vacío que se aplica a todos los workloads de la malla. Las políticas que tienen un
+Istio almacena las políticas con alcance de mesh en el namespace raíz. Estas políticas tienen un
+selector vacío que se aplica a todos los workloads de la mesh. Las políticas que tienen un
 alcance de namespace se almacenan en el namespace correspondiente. Solo se aplican a
 los workloads dentro de su namespace. Si configura un campo `selector`, la
 política de autenticación solo se aplica a los workloads que coinciden con las condiciones que
@@ -360,9 +360,9 @@ Las políticas de autenticación de pares y de solicitudes siguen los mismos pri
 para los campos `selector`, pero Istio los combina y aplica de formas ligeramente
 diferentes.
 
-Solo puede haber una política de autenticación de pares a nivel de malla y solo una
+Solo puede haber una política de autenticación de pares a nivel de mesh y solo una
 política de autenticación de pares a nivel de namespace por namespace. Cuando configura
-múltiples políticas de autenticación de pares a nivel de malla o de namespace para la misma malla
+múltiples políticas de autenticación de pares a nivel de mesh o de namespace para la misma malla
 o namespace, Istio ignora las políticas más nuevas. Cuando más de una
 política de autenticación de pares específica del workload coincide, Istio elige la más antigua.
 
@@ -375,15 +375,15 @@ siguiente orden:
 
 Istio puede combinar todas las políticas de autenticación de solicitudes coincidentes para que funcionen como si
 provinieran de una única política de autenticación de solicitudes. Por lo tanto, puede tener
-múltiples políticas de autenticación de solicitudes a nivel de malla o de namespace en una malla o namespace. Sin embargo,
-sigue siendo una buena práctica evitar tener múltiples políticas de autenticación de solicitudes a nivel de malla o de namespace.
+múltiples políticas de autenticación de solicitudes a nivel de mesh o de namespace en un mesh o namespace. Sin embargo,
+sigue siendo una buena práctica evitar tener múltiples políticas de autenticación de solicitudes a nivel de mesh o de namespace.
 
 #### Autenticación de pares
 
 Las políticas de autenticación de pares especifican el modo mTLS que Istio aplica a
 los workloads de destino. Se admiten los siguientes modos:
 
-- PERMISIVO: Los workloads aceptan tanto tráfico mTLS como tráfico de texto plano. Este
+- PERMISSIVE: Los workloads aceptan tanto tráfico mTLS como tráfico de texto plano. Este
     modo es más útil durante las migraciones cuando los workloads sin sidecar no pueden
     usar mTLS. Una vez que los workloads se migran con inyección de sidecar, debe
     cambiar el modo a ESTRICTO.
@@ -392,7 +392,7 @@ los workloads de destino. Se admiten los siguientes modos:
     no debe usar este modo a menos que proporcione su propia solución de seguridad.
 
 Cuando el modo no está establecido, se hereda el modo del ámbito padre. Las políticas de autenticación de pares
-a nivel de malla con un modo no establecido usan el modo `PERMISIVO` por
+a nivel de mesh con un modo no establecido usan el modo `PERMISSIVE` por
 defecto.
 
 La siguiente política de autenticación de pares requiere que todos los workloads en el namespace
@@ -486,7 +486,7 @@ políticas a los workloads casi en tiempo real. Sin embargo, Istio no puede gara
 que todos los workloads reciban la nueva política al mismo tiempo. Las siguientes
 recomendaciones ayudan a evitar interrupciones al actualizar sus políticas de autenticación:
 
-- Utilice políticas de autenticación de pares intermedias utilizando el modo `PERMISIVO`
+- Utilice políticas de autenticación de pares intermedias utilizando el modo `PERMISSIVE`
   al cambiar el modo de `DISABLE` a `STRICT` y viceversa. Cuando todos
   los workloads cambien con éxito al modo deseado, puede aplicar la política
   con el modo final. Puede usar la telemetría de Istio para verificar que los workloads
@@ -500,7 +500,7 @@ recomendaciones ayudan a evitar interrupciones al actualizar sus políticas de a
 ## Autorización
 
 Las features de autorización de Istio proporcionan control de acceso a nivel de malla, namespace y workload
-para sus workloads en la malla. Este nivel de control proporciona
+para sus workloads en la mesh. Este nivel de control proporciona
 los siguientes beneficios:
 
 - Autorización de workload a workload y de usuario final a workload.
@@ -893,7 +893,7 @@ en la política de autorización.
 
 Suponiendo que tiene un service MongoDB en el puerto `27017`, el siguiente ejemplo
 configura una política de autorización para permitir que solo el service `bookinfo-ratings-v2`
-en la malla de Istio acceda al workload MongoDB.
+en la mesh de Istio acceda al workload MongoDB.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
