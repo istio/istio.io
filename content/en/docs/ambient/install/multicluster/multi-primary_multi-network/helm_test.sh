@@ -32,6 +32,8 @@ function install_istio_on_cluster1_helm {
 
     snip_configure_cluster1_as_a_primary_3
     snip_configure_cluster1_as_a_primary_4
+    snip_install_cni_cluster1
+    snip_install_ztunnel_cluster1
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster1_2
@@ -47,6 +49,8 @@ function install_istio_on_cluster2_helm {
 
     snip_configure_cluster2_as_a_primary_3
     snip_configure_cluster2_as_a_primary_4
+    snip_install_cni_cluster2
+    snip_install_ztunnel_cluster2
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster2_2
@@ -69,6 +73,11 @@ function enable_endpoint_discovery {
 }
 
 function delete_crds_cluster_1() {
+count=$(kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep -c --color=never 'istio.io')
+if [[ "$count" -eq 0 ]]; then
+  echo "No Istio CRDs found in cluster 1, nothing to delete."
+  return
+fi
 kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
 }
 

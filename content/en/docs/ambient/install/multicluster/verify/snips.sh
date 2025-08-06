@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/setup/install/multicluster/verify/index.md
+#          docs/ambient/install/multicluster/verify/index.md
 ####################################################################################################
 
 snip_verify_multicluster_1() {

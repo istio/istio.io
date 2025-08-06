@@ -94,13 +94,13 @@ $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER
 
 Next, install the CNI node agent in ambient mode:
 
-{{< text syntax=bash snip_id=install_cni >}}
+{{< text syntax=bash snip_id=install_cni_cluster1 >}}
 $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}"--set profile=ambient
 {{< /text >}}
 
 Finally, install the ztunnel data plane:
 
-{{< text syntax=bash snip_id=install_ztunnel >}}
+{{< text syntax=bash snip_id=install_ztunnel_cluster1 >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}
 {{< /text >}}
 
@@ -259,13 +259,13 @@ $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER
 
 Next, install the CNI node agent in ambient mode:
 
-{{< text syntax=bash snip_id=install_cni >}}
+{{< text syntax=bash snip_id=install_cni_cluster2 >}}
 $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}"--set profile=ambient
 {{< /text >}}
 
 Finally, install the ztunnel data plane:
 
-{{< text syntax=bash snip_id=install_ztunnel >}}
+{{< text syntax=bash snip_id=install_ztunnel_cluster2 >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}
 {{< /text >}}
 
