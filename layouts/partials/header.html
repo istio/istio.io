@@ -23,7 +23,26 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if .HasChildren }}
+                    {{ if eq .Identifier "docs" }}
+                    <li class="main-navigation-links-item">
+                    <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
+                        <span>{{ .Name }}</span>
+                        {{ partial "icon.html" "dropdown-arrow" }}
+                    </a>
+
+                    <ul class="main-navigation-links-dropdown">
+                        {{ range .Children }}
+                        <li class="main-navigation-links-dropdown-item">
+                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                        </li>
+                        {{ end }}
+
+
+                        {{ partial "version-selector.html" $ }}
+
+                    </ul>
+                    </li>
+                    {{else if .HasChildren }}
                         <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
@@ -48,7 +67,7 @@
                 {{ end }}
             </ul>
 
-            {{ partial "version-selector.html" . }}
+
 
             <div class="main-navigation-footer">
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>

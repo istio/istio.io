@@ -6,47 +6,35 @@
 {{ $minor := index $mainVerParts 1 | int }}
 {{ $versionCount := 5 }}
 
-{{ if eq .Section "docs" }}
-<li class="main-navigation-links-item">
-    <a href="#" class="main-navigation-links-link has-dropdown" aria-haspopup="true" aria-expanded="false">
-        <span>Versions</span>
-        {{ partial "icon.html" "dropdown-arrow" }}
-    </a>
-    <ul class="main-navigation-links-dropdown">
-
-        <!-- Preliminary version -->
-        {{ $preUrl := printf "https://preliminary.istio.io/v%s/docs" $preliminaryVerStr }}
-        <li class="main-navigation-links-dropdown-item">
-            <a href="{{ $preUrl }}"
-               class="main-navigation-links-link {{ if in $.Permalink "/preliminary/" }}active{{ end }}">
-                v{{ $preliminaryVerStr }} (Preliminary)
-            </a>
-        </li>
-
-        <!-- Main version -->
-        {{ $mainUrl := printf "https://istio.io/v%s/docs" $mainVerStr }}
-        <li class="main-navigation-links-dropdown-item">
-            <a href="{{ $mainUrl }}"
-               class="main-navigation-links-link {{ if in $.Permalink (print "/v" $mainVerStr "/") }}active{{ end }}">
-                v{{ $mainVerStr }} (Latest)
-            </a>
-        </li>
-
-        <!-- Previous versions -->
-        {{ range $i := seq 1 (sub $versionCount 1) }} <!-- start from 1 to skip main -->
-        {{ $currentMinor := sub $minor $i }}
-        {{ if ge $currentMinor 0 }}
-        {{ $ver := printf "v%d.%d" $major $currentMinor }}
-        {{ $url := printf "https://istio.io/%s/docs" $ver }}
-        <li class="main-navigation-links-dropdown-item">
-            <a href="{{ $url }}"
-               class="main-navigation-links-link {{ if in $.Permalink (print "/" $ver "/") }}active{{ end }}">
-                {{ $ver }}
-            </a>
-        </li>
-        {{ end }}
-        {{ end }}
-
-    </ul>
+<!-- Preliminary version -->
+{{ $preUrl := printf "https://preliminary.istio.io/v%s/docs" $preliminaryVerStr }}
+<li class="main-navigation-links-dropdown-item">
+  <a href="{{ $preUrl }}"
+     class="main-navigation-links-link {{ if in $.Permalink "/preliminary/" }}active{{ end }}">
+    v{{ $preliminaryVerStr }} (Preliminary)
+  </a>
 </li>
+
+<!-- Main version -->
+{{ $mainUrl := printf "https://istio.io/v%s/docs" $mainVerStr }}
+<li class="main-navigation-links-dropdown-item">
+  <a href="{{ $mainUrl }}"
+     class="main-navigation-links-link {{ if in $.Permalink (print "/v" $mainVerStr "/") }}active{{ end }}">
+    v{{ $mainVerStr }} (Latest)
+  </a>
+</li>
+
+<!-- Previous versions -->
+{{ range $i := seq 1 (sub $versionCount 1) }}
+  {{ $currentMinor := sub $minor $i }}
+  {{ if ge $currentMinor 0 }}
+    {{ $ver := printf "v%d.%d" $major $currentMinor }}
+    {{ $url := printf "https://istio.io/%s/docs" $ver }}
+    <li class="main-navigation-links-dropdown-item">
+      <a href="{{ $url }}"
+         class="main-navigation-links-link {{ if in $.Permalink (print "/" $ver "/") }}active{{ end }}">
+        {{ $ver }}
+      </a>
+    </li>
+  {{ end }}
 {{ end }}
