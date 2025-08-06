@@ -1,3 +1,4 @@
+{{ if and (eq .Section "docs") (eq hugo.Environment "production") }}
 {{ $versions := site.Data.versions }}
 {{ $mainVerStr := $versions.main }}
 {{ $preliminaryVerStr := $versions.preliminary }}
@@ -37,4 +38,5 @@
       </a>
     </li>
   {{ end }}
+{{ end }}
 {{ end }}
