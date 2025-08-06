@@ -10,7 +10,7 @@ owner: istio/wg-environments-maintainers
 {{< boilerplate alpha >}}
 
 Follow this guide to install the Istio control plane on both `cluster1` and
-`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}}. Cluster
+`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}} (this is currently the only supported configuration in ambient mode). Cluster
 `cluster1` is on the `network1` network, while `cluster2` is on the
 `network2` network. This means there is no direct connectivity between pods
 across cluster boundaries.
@@ -92,6 +92,18 @@ Then, install the `istiod` chart in `cluster1` with the following multi-cluster 
 $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 {{< /text >}}
 
+Next, install the CNI node agent in ambient mode:
+
+{{< text syntax=bash snip_id=install_cni >}}
+$ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}"--set profile=ambient
+{{< /text >}}
+
+Finally, install the ztunnel data plane:
+
+{{< text syntax=bash snip_id=install_ztunnel >}}
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}
+{{< /text >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}
@@ -163,7 +175,7 @@ TODO: Handle revisions
 Apply the configuration to `cluster1`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER1}" -f cluster1-ewgateway.yaml
+$ kubectl apply --context="${CTX_CLUSTER1}" -f cluster1-ewgateway.yaml
 {{< /text >}}
 
 {{< /tab >}}
@@ -180,7 +192,9 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 
 ## Expose services in `cluster1`
 
-TODO: change to explanation about service/namespace scope
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER1}" label svc helloworld -n sample istio.io/global="true"
+{{< /text >}}
 
 ## Set the default network for `cluster2`
 
@@ -243,6 +257,18 @@ Then, install the `istiod` chart in `cluster2` with the following multi-cluster 
 $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 {{< /text >}}
 
+Next, install the CNI node agent in ambient mode:
+
+{{< text syntax=bash snip_id=install_cni >}}
+$ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}"--set profile=ambient
+{{< /text >}}
+
+Finally, install the ztunnel data plane:
+
+{{< text syntax=bash snip_id=install_ztunnel >}}
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}
+{{< /text >}}
+
 {{< /tab >}}
 
 {{< /tabset >}}
@@ -297,7 +323,7 @@ TODO: Handle revisions
 Apply the configuration to `cluster2`:
 
 {{< text bash >}}
-$ istioctl install --context="${CTX_CLUSTER2}" -f cluster2-ewgateway.yaml
+$ kubectl apply --context="${CTX_CLUSTER2}" -f cluster2-ewgateway.yaml
 {{< /text >}}
 
 {{< /tab >}}
@@ -314,7 +340,9 @@ istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51
 
 ## Expose services in `cluster2`
 
-TODO: change to explanation about service/namespace scope
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER2}" label svc helloworld -n sample istio.io/global="true"
+{{< /text >}}
 
 ## Enable Endpoint Discovery
 

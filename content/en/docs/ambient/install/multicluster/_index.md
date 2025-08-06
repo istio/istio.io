@@ -32,19 +32,18 @@ the current state and limitations of this feature:
 
 ### Supported Configurations
 
-Currently, ambient multicluster **only supports**:
-- **Multi-network topologies** with multiple primary clusters
-- **Double HBONE encapsulation** for cross-cluster traffic
+Currently, ambient multicluster only supports:
+- **Multi-network topologies** with each cluster acting as a primary cluster.
 - **Universal waypoint deployments** across all clusters with identical names
 
 ### Critical Limitations
 
 #### Network Topology Restrictions
-- **Multi-cluster single-network configurations are untested, broken, and pre-experimental**
-  - Do not attempt to deploy ambient across clusters that share the same network
+- **Multi-cluster single-network configurations are untested, and may be broken**
+  - Use caution when deploying ambient across clusters that share the same network
   - Only multi-network configurations are supported
 
-#### Control Plane Limitations  
+#### Control Plane Limitations
 - **Primary remote configuration is not currently supported**
   - You can only have multiple primary clusters
   - Configurations with one or more remote clusters will not work correctly
@@ -58,7 +57,7 @@ Currently, ambient multicluster **only supports**:
 #### Service Visibility and Scoping
 - **Service scope configurations are not read from across clusters**
   - Only the local cluster's service scope configuration is used as the source of truth
-  - Remote cluster service scopes are ignored, which can lead to unexpected traffic behavior
+  - Remote cluster service scopes are not respected, which can lead to unexpected traffic behavior
   - Cross-cluster service discovery may not respect intended service boundaries
 
 #### Gateway Limitations

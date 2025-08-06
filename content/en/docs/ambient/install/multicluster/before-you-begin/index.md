@@ -75,11 +75,7 @@ below may have to be altered based on your choice of CA.
 
 ## Next steps
 
-You're now ready to install an Istio ambient mesh across multiple clusters. The
-particular steps will depend on your requirements for network and
-control plane topology.
-
-Choose the installation that best fits your needs:
+You're now ready to install an Istio ambient mesh across multiple clusters.
 
 - [Install Multi-Primary on Different Networks](/docs/ambient/install/multicluster/multi-primary_multi-network)
 
