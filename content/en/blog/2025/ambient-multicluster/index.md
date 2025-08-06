@@ -1,93 +1,97 @@
 ---
-title: Introducint Ambient Multicluster
-description: How Ambient Multicluster lets you connect multiple clusters in a single ambient mesh.
-publishdate: 08-04-2025
-attribution: Steven Jin Xuan (Microsoft)
+title: Introducing multicluster support for ambient mode
+description: Introducing multicluster support for ambient mode
+date: 2025-08-04
+attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krinkin (Microsoft), Steven Jin (Microsoft)
 keywords: [ambient,multicluster]
 ---
 
-Multicluster has been one of the most requested Ambient features — and as of Istio 1.27, it’s now available in alpha.
-Ambient Multicluster enables secure, transparent communication between clusters using the same lightweight, modular architecture users already rely on.
-While still in alpha, this release delivers the core functionality of a multicluster mesh and lays the groundwork for a complete feature set in upcoming releases.
+Multicluster has been one of the most requested Ambient features — and as of Istio 1.27, it's now available.
+We sought to capture the benefits and avoid the complications of multicluster architectures using the same modular design that ambient users love.
+While still in alpha, this release delivers the core functionality of a multicluster mesh and lays the groundwork for a full feature set in upcoming releases.
 
-## Connectivity
+## Multicluster's Many Benefits (and Challenges)
 
-In a single Kubernetes cluster, every pod can directly connect to another pod via a pod or service through a unique IP address as per the [Kubernetes Network Model](https://kubernetes.io/docs/concepts/services-networking/).
-However, in a multicluster mesh, there is no guarantee that the IP address spaces of different clusters are disjoint.
-Even if it was, there is no guarantee that routing tables are set up to route from one cluster to another.
-In Ambient Multicluster, we connect clusters by deploying east-west gateways with globally routable IP addresses and by marking services as global.
+Multicluster architectures increase outage resilience, shrink the blast radiuses,
+ease adoption of data residence policies, and simplify cost tracking.
+That said, integrating multiple clusters poses connectivity, security, and operation hurdles.
 
-The `ServiceScope` API allows mesh administrators to mark which combinations of labels make a service global,
-and app developers can label their services accordingly.
-By default, services labeled `istio.io/global=true` are marked global.
-Then, `istiod` informs each ztunnel how many endpoints there are for each global service.
-If ztunnel decides to send traffic to a remote cluster, then it will direct the traffic to the remote cluster's east-west gateway
-and the east-west gateway will pick the destination pod.
-This architecture obviates the need for ztunnel to know about every pod in the mesh, while still providing enough information for ztunnel to load balance across clusters.
+In a single Kubernetes cluster, every pod can directly connect to another pod via a pod IP or service VIP.
+However, in a multicluster deployment, there is no guarantee that the IP address spaces of different clusters are disjoint.
+Even if the spaces were disjoint, users would need to configure routing tables to route traffic from one cluster to another.
+Cross-cluster connectivity means that pod-to-pod traffic can leave cluster boundaries -- and that pods may accept connections from outside the cluster.
+Without care, an attacker could connect to a vulnerable pod, or sniff unencrypted traffic.
+All of this must be orchestrated through APIs that are both secure and simple enough to keep pace with ever-changing environments.
 
-By default ztunnel will load balance traffic uniformly across all clusters,
-but you can control the load balancing behavior of a service with its [`trafficDistribution`](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution).
+## Key Components.
 
-## Security
+Ambient multicluster extends ambient with new components and minimal APIs to
+securely connect clusters using the same lightweight, modular architecture of ambient.
 
-In both Sidecar and Ambient Multicluster, proxies send traffic to east-west gateways indicating the destination service, and the east-west gateway picks the destination pod.
-Sidecar mode indicates the destination service using TLS SNI.
-Not only does this communicate the destination service with no encryption,
-there is no way for the east-west gateway to apply identity-based policy at the edge of your cluster.
+### East-West Gateways
 
-Rather than relying on SNI tricks, Ambient Multicluster uses nested [HBONE](https://istio.io/latest/docs/ambient/architecture/hbone/) connections to enable cross-cluster connectivity.
-We first establish an outer HBONE connection to the east-west gateway.
-Then, within the outer HBONE connection we create an inner HBONE connection that the east-west gateway forwards opaquely to the destination ztunnel of its choosing.
+Each cluster deploys an East-West gateway with a globally routable IP that acts as an entrypoint for cross cluster communication.
+A ztunnel communicates across clusters by connecting to the east-west gateway and sending the destination service FQDN.
+The east-west gateway will then forward the connection to a cluster-local pod of its choosing.
+As such, we do not need to worry about overlapping IP spaces because we never directly address a pod in a remote cluster.
+Ambient multicluster achieves cross-cluster connectivity without changes to cluster connectivity.
 
-Since the client ztunnel participates in two mTLS (once with the east-west gateway, and once with the destination ztunnel), identity is enforced both at the edge of the cluster and the destination.
-As such, non-mesh traffic cannot enter clusters through east-west gateways.
-Also, since ztunnel communicates the destination service in HBONE, it is invisible to outside observers.
-Further, HBONE allows us to reuse TLS connections between ztunnel proxies and east-west gateways (already implemented) as well as between ztunnel proxies in different clusters (to be implemented), thus reducing the total number of TCP/TLS handshakes and identity verification steps.
+The east-west gateways are configured using GatewayAPI and controlled by istiod.
+By using these ambient and declarative APIs, there is no need to restart workloads, manage IP address spaces, or configure routing tables.
+
+### Double HBONE
+
+Ambient Multicluster uses nested [HBONE](https://istio.io/latest/docs/ambient/architecture/hbone/) connections to secure traffic traversing cluster boundaries to extend ambient's strong security.
+An outer HBONE connects the source ztunnel to its the east-west gateway while an inner HBONE tunnel extends the outer the connection to the destination.
+The outer HBONE connection encrypts cross cluster traffic, encrypts the destination service FQDN, and allows the east-west gateway to verify the source's identity.
+The inner HBONE connection encrypts traffic end-to-end, allowing for identity verification of the destination pod.
+Put together, the two HBONE layers stop unauthenticated access, protect against data sniffing, and still allow ztunnel to verify the destination’s identity.
+At the same time, it allows ztunnel to effectively reuse cross cluster connections, minimizing TLS handshakes.
+
 The one drawback is that we encrypt application data twice (once for the outer HBONE and once for the inner HBONE).
-We found this to be an acceptable drawback because it allows us to stick with open standards, and we expect the extra encryption to be negligible compared to the cost of sending data across clusters. 
+We found this to be an acceptable drawback because it allows us to stick with open standards, and we expect the extra encryption to be negligible compared to the cost of sending data across clusters.
 
-## Sameness
+{{< image link="./mc-ambient-traffic-flow.png" caption="Istio Ambient Multicluster traffic Flow" >}}
 
-Even though clusters in a multicluster mesh need not be identical, we do require some uniformity across clusters.
-Some requirements are necessary for two clusters to function in the same mesh,
-while others only exist because of Ambient Multicluster's alpha state.
+### ServiceScope API
 
-### Identity
+Once clusters are securely connected, marking services as global to allow cross cluster communication,
+the `ServiceScope` API allows mesh administrators to mark which combinations of labels make a service global,
+and app developers can label their services accordingly.
+A global service is one has endpoints in all clusters and can be accessed from any cluster.
+The default `ServiceScope` is
 
-Since a core feature of double HBONE is allowing identity verification at the east-west gateway, we must define how identities change across cluster boundaries.
-Ambient Multicluster adopts {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}} just like the rest of Istio.
-This means that the same identity is indistinguishable across clusters.
-Cluster boundaries have no effect on identity.
-We have no plans on departing from namespace sameness in any future releases.
+{{< text yaml >}}
+  serviceScopeConfigs:
+    - servicesSelector:
+        matchExpressions:
+          - key: istio.io/global
+            operator: In
+            values: ["true"]
+      scope: GLOBAL
+{{< /text >}}
 
-### Service configuration
+meaning that any service with the `istio.io/global=true` label is global.
+Although the default value is straightforward, the API is flexible and can express complex conditions using a mix of ANDs and ORs.
 
-For our alpha release, we require all services and service entries to have the exact same configuration across clusters.
-Notably, waypoint configuration also has to be uniform.
+By default, ztunnel will load balance traffic uniformly across clusters, but this can be configured using the service's `trafficDistribution` field to only reach across clusters when there are no local endpoints.
+Thus users have control over whether and when traffic crosses cluster boundaries.
 
-One question we struggled with was that of where cross cluster traffic should traverse a waypoint.
-When sending cross cluster traffic to a service with a waypoint, should traffic traverse a waypoint in the client's cluster or the destination's cluster?
-Traversing waypoints in the client's cluster allows us to apply policies such as L7 cross-cluster failover.
-On the other hand, traversing waypoints in the destination cluster allows enforcing the destination cluster's L7 policy.
-Ultimately, we decided on the latter for our alpha release to avoid any authorization policy-related surprises.
+## Limitations and Roadmap
 
-There are many other nuances on how we apply L7 policy and how to handle cross-cluster configuration skew.
-That said, we are actively looking for ways to loosen these requirements and support L7 policy to be applied in the client cluster.
-This should ease the setup process of Ambient and allow for gradual configuration rollouts without the risk of undefined behavior.
+Although the current implementation of ambient multicluster has strong security and the basic feature set of a multicluster product,
+there is still a lot of work to be done.
 
-### Meshconfig
+For example, currently, we require that global services, attached waypoints, and serviceScope configuration have uniform configuration across all clusters.
+Although this greatly simplified our alpha implementation, we are looking to increase flexibility by allowing for more configuration skew.
 
-Given that we have multiple clusters in a single mesh, we assume that MeshConfig is uniform across clusters.
-Crucially, this assumption means that `ServiceScope` must be uniform across clusters, since `ServiceScope` is part of MeshConfig.
-In other words, the criteria for a service to be marked as global must be the same in all clusters.
-If we also consider the fact that all services must share the same configuration, services are marked global in every cluster, or no cluster.
-As with service configuration, we are exploring ways to loosen Meshconfig sameness requirements and more fine-grained ways of marking services global.
+Similarly, waypoints and L7 policy enforcement have proven difficult since different clusters might have different policy.
+In our alpha implementation, if a service has a waypoint, it will go through said waypoint in the destination cluster.
+This reduces unexpected surprises by enforcing the destination cluster's L7 authorization policy, but does take away the ability to perform L7 cross-cluster failover.
+Eventually, we would like to also apply L7 policy in the source cluster, but this is not yet implemented.
 
-## Looking ahead
+We are also looking to improve our reference documentation, guides, testing, and performance as well as thinking about deployment models other than multi-primary.
 
-Other than allowing configuration skew across clusters, there is a lot of work to do to promote Ambient Multicluster to beta.
-We are looking to improve our reference documentation, guides, testing, and performance.
-We are also thinking about deployment models other than multi-primary.
 If you would like to try out Ambient Multicluster, please follow [this guide](TODO).
 Since many details are in discussion, we would love to hear any of your thoughts, comments, and use cases.
-You can contact us through [Slack](TODO) or [GitHub](TODO).
+You can find ways to reach us on the [Istio community page](https://istio.io/latest/about/community/).
