@@ -11,7 +11,7 @@ aliases:
 ---
 
 We are pleased to announce the release of Istio 1.27. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.27.0 release published!
-We would like to thank the Release Managers for this release, **Jianpeng He** from Tetrate.io, **Faseela K** from Ericsson Software Technology, and **Gustavo Meira** from Microsoft.
+We would like to thank the Release Managers for this release, **Jianpeng He** from Tetrate, **Faseela K** from Ericsson Software Technology, and **Gustavo Meira** from Microsoft.
 
 {{< relnote >}}
 

@@ -29,7 +29,3 @@ The telemetry providers Lightstep and OpenCensus are removed in v1.27. Please us
 Native sidecars are now enabled by default for eligible pods. This changes `istio-proxy`from a container to an init container.
 This can cause compatibility issues with other mutating webhooks or controllers in your cluster that expect to modify the `istio-proxy` as a regular container.
 Please test your workloads and controllers to ensure they are compatible with this change.
-
-## Traffic Distribution Mode
-
-**Added** support to specify traffic distribution mode for services.
