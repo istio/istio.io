@@ -17,7 +17,7 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/setup/install/multicluster/verify/index.md
+#          docs/ambient/install/multicluster/verify/index.md
 ####################################################################################################
 
 snip_verify_multicluster_1() {
@@ -37,9 +37,9 @@ kubectl create --context="${CTX_CLUSTER2}" namespace sample
 
 snip_deploy_the_helloworld_service_2() {
 kubectl label --context="${CTX_CLUSTER1}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 kubectl label --context="${CTX_CLUSTER2}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 }
 
 snip_deploy_the_helloworld_service_3() {
@@ -63,8 +63,13 @@ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=helloworld
 
 ! IFS=$'\n' read -r -d '' snip_deploy_helloworld_v1_2_out <<\ENDSNIP
 NAME                            READY     STATUS    RESTARTS   AGE
-helloworld-v1-86f77cd7bd-cpxhv  2/2       Running   0          40s
+helloworld-v1-86f77cd7bd-cpxhv  1/1       Running   0          40s
 ENDSNIP
+
+snip_deploy_helloworld_v1_3() {
+kubectl label --context="${CTX_CLUSTER1}" svc helloworld -n sample \
+    istio.io/global="true"
+}
 
 snip_deploy_helloworld_v2_1() {
 kubectl apply --context="${CTX_CLUSTER2}" \
@@ -78,8 +83,13 @@ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=helloworld
 
 ! IFS=$'\n' read -r -d '' snip_deploy_helloworld_v2_2_out <<\ENDSNIP
 NAME                            READY     STATUS    RESTARTS   AGE
-helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
+helloworld-v2-758dd55874-6x4t8  1/1       Running   0          40s
 ENDSNIP
+
+snip_deploy_helloworld_v2_3() {
+kubectl label --context="${CTX_CLUSTER2}" svc helloworld -n sample \
+    istio.io/global="true"
+}
 
 snip_deploy_curl_1() {
 kubectl apply --context="${CTX_CLUSTER1}" \
@@ -94,7 +104,7 @@ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 
 ! IFS=$'\n' read -r -d '' snip_deploy_curl_2_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-curl-754684654f-n6bzf            2/2     Running   0          5s
+curl-754684654f-n6bzf            1/1     Running   0          5s
 ENDSNIP
 
 snip_deploy_curl_3() {
@@ -103,7 +113,7 @@ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 
 ! IFS=$'\n' read -r -d '' snip_deploy_curl_3_out <<\ENDSNIP
 NAME                             READY   STATUS    RESTARTS   AGE
-curl-754684654f-dzl9j            2/2     Running   0          5s
+curl-754684654f-dzl9j            1/1     Running   0          5s
 ENDSNIP
 
 snip_verifying_crosscluster_traffic_1() {

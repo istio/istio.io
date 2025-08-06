@@ -14,8 +14,8 @@ Before proceeding, be sure to complete the steps under
 choosing and following one of the multicluster installation guides.
 
 In this guide, we will verify multicluster is functional, deploy the `HelloWorld`
-application `V1` to `cluster1` and `V2` to `cluster2`. Upon receiving a request,
-`HelloWorld` will include its version in its response.
+application `v1` to `cluster1` and `v2` to `cluster2`. Upon receiving a request,
+`HelloWorld` will include its version in its response when we call the `/hello` path.
 
 We will also deploy the `curl` container to both clusters. We will use these
 pods as the source of requests to the `HelloWorld` service,
@@ -53,6 +53,10 @@ lookup must succeed in each cluster (see
 for details). We will address this by deploying the `HelloWorld` Service to
 each cluster in the mesh.
 
+{{< tip >}}
+Before proceeding, ensure that the istio-system namespaces in both clusters have the `istio.io/topology-network` set to the appropriate value (e.g., `network1` for `cluster1` and `network2` for `cluster2`).
+{{< /tip >}}
+
 To begin, create the `sample` namespace in each cluster:
 
 {{< text bash >}}
@@ -64,9 +68,9 @@ Enable automatic sidecar injection for the `sample` namespace:
 
 {{< text bash >}}
 $ kubectl label --context="${CTX_CLUSTER1}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 $ kubectl label --context="${CTX_CLUSTER2}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 {{< /text >}}
 
 Create the `HelloWorld` service in both clusters:
@@ -95,10 +99,17 @@ Confirm the `helloworld-v1` pod status:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=helloworld
 NAME                            READY     STATUS    RESTARTS   AGE
-helloworld-v1-86f77cd7bd-cpxhv  2/2       Running   0          40s
+helloworld-v1-86f77cd7bd-cpxhv  1/1       Running   0          40s
 {{< /text >}}
 
 Wait until the status of `helloworld-v1` is `Running`.
+
+Now, mark the helloworld service in `cluster1` as global so that it can be accessed from other clusters in the mesh:
+
+{{< text bash >}}
+$ kubectl label --context="${CTX_CLUSTER1}" svc helloworld -n sample \
+    istio.io/global="true"
+{{< /text >}}
 
 ## Deploy `HelloWorld` `V2`
 
@@ -115,10 +126,17 @@ Confirm the status the `helloworld-v2` pod status:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=helloworld
 NAME                            READY     STATUS    RESTARTS   AGE
-helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
+helloworld-v2-758dd55874-6x4t8  1/1       Running   0          40s
 {{< /text >}}
 
 Wait until the status of `helloworld-v2` is `Running`.
+
+Now, mark the helloworld service in `cluster2` as global so that it can be accessed from other clusters in the mesh:
+
+{{< text bash >}}
+$ kubectl label --context="${CTX_CLUSTER2}" svc helloworld -n sample \
+    istio.io/global="true"
+{{< /text >}}
 
 ## Deploy `curl`
 
@@ -136,7 +154,7 @@ Confirm the status `curl` pod on `cluster1`:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-curl-754684654f-n6bzf            2/2     Running   0          5s
+curl-754684654f-n6bzf            1/1     Running   0          5s
 {{< /text >}}
 
 Wait until the status of the `curl` pod is `Running`.
@@ -146,7 +164,7 @@ Confirm the status of the `curl` pod on `cluster2`:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-curl-754684654f-dzl9j            2/2     Running   0          5s
+curl-754684654f-dzl9j            1/1     Running   0          5s
 {{< /text >}}
 
 Wait until the status of the `curl` pod is `Running`.
@@ -201,5 +219,3 @@ clusters!
 
 Check out the [locality load balancing tasks](/docs/tasks/traffic-management/locality-load-balancing)
 to learn how to control the traffic across a multicluster mesh.
-
-TODO: set global scope

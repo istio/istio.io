@@ -81,6 +81,7 @@ function cleanup_istioctl
   cleanup_cluster1_istioctl &
   cleanup_cluster2_istioctl &
   wait
+  snip_delete_crds
 }
 
 # cleanup_cluster1_istioctl removes the istio-system and sample namespaces on CLUSTER1 with istioctl.
@@ -122,6 +123,12 @@ function verify_load_balancing
   _wait_for_deployment sample curl "${CTX_CLUSTER1}"
   _wait_for_deployment sample helloworld-v2 "${CTX_CLUSTER2}"
   _wait_for_deployment sample curl "${CTX_CLUSTER2}"
+
+  # Expose the helloworld service in both clusters.
+  echo "Exposing helloworld in cluster1"
+  kubectl --context="${CTX_CLUSTER1}" label svc helloworld -n sample istio.io/global="true"
+  echo "Exposing helloworld in cluster2"
+  kubectl --context="${CTX_CLUSTER2}" label svc helloworld -n sample istio.io/global="true"
 
   # Verify everything is deployed as expected.
   VERIFY_TIMEOUT=0 # Don't retry.
