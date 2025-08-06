@@ -25,20 +25,20 @@ Istio 1.27.0 is officially supported on Kubernetes versions 1.29 to 1.33.
 
 [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/) is an official Kubernetes project that optimizes self-hosting Generative Models on Kubernetes.
 Istio provides a fully compliant [implementation](https://gateway-api-inference-extension.sigs.k8s.io/implementations/gateways/#istio) of the Kubernetes Gateway API for cluster ingress traffic control.
-   
+
 ### Ambient Multicluster
 
 TODO
-   
+
 ### Lightstep Support Removal
 
 In 2022, Istio deprecated its built-in Lightstep integration as part of a broader move toward OpenTelemetry (OTel) and the OTLP protocol. By 1.27, Istio completely removed Lightstep support, making OTel/OTLP the standard for tracing.
-   
+
 ### CRL Support for Plugged-in CAs?
 
 Certificate Revocation Lists (CRLs) is now available for plugged-in CA, allowing operators to revoke trust in root or intermediate certificates.
 
-### ListenerSet Support
+### ListenerSets Support
 
 [ListenerSets](https://gateway-api.sigs.k8s.io/geps/gep-1713) is now available, allowing a shared list of listeners to be attached to a single `Gateway`.
 
