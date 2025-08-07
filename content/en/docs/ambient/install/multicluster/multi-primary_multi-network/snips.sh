@@ -56,7 +56,7 @@ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}
 }
 
 snip_install_cni_cluster1() {
-helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}"--set profile=ambient
+helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}" --set profile=ambient
 }
 
 snip_install_ztunnel_cluster1() {
@@ -151,7 +151,7 @@ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}
 }
 
 snip_install_cni_cluster2() {
-helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}"--set profile=ambient
+helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}" --set profile=ambient
 }
 
 snip_install_ztunnel_cluster2() {
