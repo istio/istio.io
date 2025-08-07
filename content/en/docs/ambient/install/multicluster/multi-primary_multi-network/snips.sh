@@ -162,7 +162,7 @@ snip_install_the_eastwest_gateway_in_cluster2_1() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network network2 \
     --ambient | \
-    istioctl --context="${CTX_CLUSTER2}" install -y -f -
+    kubectl apply --context="${CTX_CLUSTER2}" install -f -
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_2() {

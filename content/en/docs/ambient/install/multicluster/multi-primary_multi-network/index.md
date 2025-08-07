@@ -286,7 +286,7 @@ to east-west traffic.
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network2 \
     --ambient | \
-    istioctl --context="${CTX_CLUSTER2}" install -y -f -
+    kubectl apply --context="${CTX_CLUSTER2}" install -f -
 {{< /text >}}
 
 {{< /tab >}}
