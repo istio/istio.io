@@ -37,9 +37,9 @@ kubectl create --context="${CTX_CLUSTER2}" namespace sample
 
 snip_deploy_the_helloworld_service_2() {
 kubectl label --context="${CTX_CLUSTER1}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 kubectl label --context="${CTX_CLUSTER2}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 }
 
 snip_deploy_the_helloworld_service_3() {
