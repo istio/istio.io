@@ -172,7 +172,7 @@ EOF
 {{< /text >}}
 
 {{< warning >}}
-If you are running a revisioned instance of istiod and you don't have a default revision set, you may naed to add the istio.io/rev label to this `Gateway` manifest.
+If you are running a revisioned instance of istiod and you don't have a default revision set, you may naed to add the `istio.io/rev` label to this `Gateway` manifest.
 {{< /warning >}}
 
 Apply the configuration to `cluster1`:
