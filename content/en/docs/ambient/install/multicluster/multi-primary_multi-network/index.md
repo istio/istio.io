@@ -271,10 +271,7 @@ $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER
 Finally, install the ztunnel data plane:
 
 {{< text syntax=bash snip_id=install_ztunnel_cluster2 >}}
-$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"  --set multiCluster.clusterName=cluster2 --set global.network=network1
-{{< /text >}}
-
-{{< warning >}}
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"  --set multiCluster.clusterName=cluster2 --set global.network=network2
 {{< /text >}}
 
 {{< /tab >}}
