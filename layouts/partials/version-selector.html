@@ -12,7 +12,7 @@
 <li class="main-navigation-links-dropdown-item">
   <a href="{{ $preUrl }}"
      class="main-navigation-links-link {{ if in $.Permalink "/preliminary/" }}active{{ end }}">
-    v{{ $preliminaryVerStr }} (Preliminary)
+     Preliminary
   </a>
 </li>
 
@@ -21,7 +21,7 @@
 <li class="main-navigation-links-dropdown-item">
   <a href="{{ $mainUrl }}"
      class="main-navigation-links-link {{ if in $.Permalink (print "/v" $mainVerStr "/") }}active{{ end }}">
-    v{{ $mainVerStr }} (Latest)
+    <strong>v{{ $mainVerStr }} (Current)</strong>
   </a>
 </li>
 
