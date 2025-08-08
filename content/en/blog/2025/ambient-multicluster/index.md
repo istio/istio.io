@@ -95,5 +95,5 @@ We are looking to improve the following areas
 We are also looking to improve our reference documentation, guides, testing, and performance.
 
 If you would like to try out ambient multicluster, please follow [this guide](TODO).
-We would love to hear any of your thoughts, comments, and use cases.
-You can find ways to reach us on [Github](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
+Remember, this feature is in alpha status and not ready for production use.
+We welcome your bug reports, thoughts, comments, and use cases -- you can reach us on [Github](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
