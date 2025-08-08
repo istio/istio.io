@@ -53,19 +53,22 @@ Install Istio as primary in `cluster1` using istioctl and the `IstioOperator` AP
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
-apiVersion: install.istio.io/v1alpha1
+apiVersion: insall.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: ambient
+  components:
+    pilot:
+      k8s:
+        env:
+          - name: AMBIENT_ENABLE_MULTI_NETWORK
+            value: "true"
   values:
     global:
       meshID: mesh1
       multiCluster:
         clusterName: cluster1
       network: network1
-    profile: ambient
-    pilot:
-      env:
-        AMBIENT_ENABLE_MULTI_NETWORK: "true"
 EOF
 {{< /text >}}
 
@@ -89,7 +92,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 {{< /text >}}
 
 Next, install the CNI node agent in ambient mode:
@@ -217,20 +220,22 @@ Install Istio as primary in `cluster2` using istioctl and the `IstioOperator` AP
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
-apiVersion: install.istio.io/v1alpha1
+apiVersion: insall.istio.io/v1alpha1
 kind: IstioOperator
 spec:
+  profile: ambient
+  components:
+    pilot:
+      k8s:
+        env:
+          - name: AMBIENT_ENABLE_MULTI_NETWORK
+            value: "true"
   values:
     global:
       meshID: mesh1
       multiCluster:
         clusterName: cluster2
       network: network2
-    profile: ambient
-    pilot:
-      env:
-        AMBIENT_ENABLE_MULTI_NETWORK: "true"
-
 EOF
 {{< /text >}}
 
@@ -254,7 +259,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set pilot.env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 {{< /text >}}
 
 Next, install the CNI node agent in ambient mode:
