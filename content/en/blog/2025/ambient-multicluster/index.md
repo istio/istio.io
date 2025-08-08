@@ -1,6 +1,6 @@
 ---
-title: Introducing Alpha Support for Ambient Multicluster.
-description: Introducing Alpha Support for Ambient Multicluster.
+title: Introducing multicluster support for ambient mode (alpha)
+description: Introducing multicluster support for ambient mode (alpha)
 date: 2025-08-04
 attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krinkin (Microsoft), Steven Jin (Microsoft)
 keywords: [ambient,multicluster]
