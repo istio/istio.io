@@ -14,7 +14,7 @@ This release contains bug fixes to improve robustness. This release note describ
 ## Changes
 
 - **Fixed** an issue where Istio upgrade from 1.24 to 1.25 caused service disruption due to pre-existing iptables rules.
-The iptables binary detection logic has been improved to verify a degree of baseline kernel support exists, and prefer `nft` in a `tie` situation.
+    The iptables binary detection logic has been improved to verify a degree of baseline kernel support exists, and prefer `nft` in a `tie` situation.
   
 - **Fixed** false positive with `istioctl analyze` raising IST0134 even when `PILOT_ENABLE_IP_AUTOALLOCATE` is set to `true`.
   ([Issue #56083](https://github.com/istio/istio/issues/56083))
