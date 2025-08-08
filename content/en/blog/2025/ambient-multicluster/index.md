@@ -1,6 +1,6 @@
 ---
-title: Introducing multicluster support for ambient mode
-description: Introducing multicluster support for ambient mode.
+title: Introducing Alpha Support for Ambient Multicluster.
+description: Introducing Alpha Support for Ambient Multicluster.
 date: 2025-08-04
 attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krinkin (Microsoft), Steven Jin (Microsoft)
 keywords: [ambient,multicluster]
@@ -21,20 +21,21 @@ IP address spaces of different clusters might overlap,
 and even without overlap, the underlying infrastructure would need configuration to route cross-cluster traffic.
 
 Cross-cluster connectivity also presents security challenges.
-Pod-to-pod traffic will leave cluster boundaries and pods need to accept connections from outside the cluster.
-Without strong controls, an attacker could exploit a vulnerable pod, or intercept unencrypted traffic.
+Pod-to-pod traffic will traverse cluster boundaries and pods will accept connections from outside the cluster.
+Without identity verification at the edge of the cluster and strong encryption,
+an outside attacker could exploit a vulnerable pod or intercept unencrypted traffic.
 
 A multicluster solution must securely connect clusters and do so
 through simple, declarative APIs that keep pace with dynamic environments.
 
-## Key components
+## Key Components
 
 Ambient multicluster extends ambient with new components and minimal APIs to
 securely connect clusters using ambient's lightweight, modular architecture.
 It builds on the namespace sameness model -- a service in namespace `foo` in one cluster is treated as the same logical service as `foo` in another --
 so services keep their existing DNS names across clusters, allowing you to control cross-cluster communication without changing application code.
 
-### East-west gateways
+### East-West Gateways
 
 Each cluster has an east-west gateway with a globally routable IP acting as an entry point for cross-cluster communication.
 A ztunnel connects to the remote cluster's east-west gateway, identifying the destination service by its namespaced name.
@@ -53,7 +54,7 @@ At the same time, the HBONE layers allow ztunnel to effectively reuse cross-clus
 
 {{< image link="./mc-ambient-traffic-flow.png" caption="Istio ambient multicluster traffic flow" >}}
 
-### Service discovery and scope
+### Service Discovery and Scope
 
 Marking a service global enables cross-cluster communication.
 Istiod configures east-west gateways to accept and route global service traffic to local pods and
@@ -80,7 +81,7 @@ By default, ztunnel load balances traffic uniformly across all endpoints --even 
 but is configurable through the service's `trafficDistribution` field to only cross cluster boundaries when there are no local endpoints.
 Thus, users have control over whether and when traffic crosses cluster boundaries with no changes to application code.
 
-## Limitations and roadmap
+## Limitations and Roadmap
 
 Although the current implementation of ambient multicluster has the foundational features for a multicluster solution,
 there is still a lot of work to be done.
@@ -96,4 +97,4 @@ We are also looking to improve our reference documentation, guides, testing, and
 
 If you would like to try out ambient multicluster, please follow [this guide](TODO).
 Remember, this feature is in alpha status and not ready for production use.
-We welcome your bug reports, thoughts, comments, and use cases -- you can reach us on [Github](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
+We welcome your bug reports, thoughts, comments, and use cases -- you can reach us on [GitHub](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
