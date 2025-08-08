@@ -50,7 +50,7 @@ Users often deploy a mesh to enable a zero-trust security posture as a first-ste
     <tr>
       <th>Traffic management</th>
       <td>Full Istio feature set</td>
-      <td>Most of Istio feature set when using waypoints (see [Traffic management](#traffic-management) below).</td>
+      <td>Full Istio feature set (requires using waypoint)</td>
     </tr>
     <tr>
       <th>Security</th>
@@ -223,9 +223,6 @@ The overhead for processing protocols at Layer 7 is substantially higher than pr
 </table>
 
 ### Traffic management
-
-Most of these features are exposed with the [VirtualService](https://istio.io/docs/reference/config/networking/virtual-service/) API,
-which only has alpha support in ambient mode. For a stable API, use [Gateway API](/docs/ambient/usage/waypoint).
 
 <table>
   <thead>
