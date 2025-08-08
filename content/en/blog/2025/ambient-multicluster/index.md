@@ -6,20 +6,20 @@ attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krin
 keywords: [ambient,multicluster]
 ---
 
-Multicluster has been one of the most requested ambient features — and as of Istio 1.27, it's now available.
+Multicluster has been one of the most requested ambient features — and as of Istio 1.27, it is available in alpha status!
 We sought to capture the benefits and avoid the complications of multicluster architectures using the same modular design that ambient users love.
 While still in alpha, this release delivers the core functionality of a multicluster mesh and lays the groundwork for a full feature set in upcoming releases.
 
-## Multicluster's Many Benefits (and Challenges)
+## The Power & Complexity of Multicluster
 
-Multicluster architectures increase outage resilience, shrink the blast radii,
+Multicluster architectures increase outage resilience, shrink your blast radius,
 ease adoption of data residence policies, and simplify cost tracking.
-That said, integrating multiple clusters poses connectivity, security, and operation hurdles.
+That said, connecting multiple clusters poses connectivity, security, and operational challenges.
 
 In a single Kubernetes cluster, every pod can directly connect to another pod via a unique pod IP or service VIP.
 We lose these guarantees when we start thinking of multicluster architectures.
 IP address spaces of different clusters might overlap.
-Even if they didn't, nodes in one cluster would not know how to route traffic from one cluster to another.
+Even if they didn't, nodes in one cluster may not know how to route traffic from one cluster to another (depending on how the underlying infrastructure is configured)
 
 Establishing cross-cluster connectivity also presents security challenges.
 Cross-cluster connectivity means that pod-to-pod traffic can leave cluster boundaries -- and that pods may accept connections from outside the cluster.
@@ -36,7 +36,7 @@ securely connect clusters using the same lightweight, modular architecture.
 ### East-West Gateways
 
 Each cluster deploys an east-west gateway with a globally routable IP that acts as an entrypoint for cross-cluster communication.
-The east-west gateways are configured using GatewayAPI and controlled by istiod.
+The east-west gateways are configured using Gateway API and controlled by istiod.
 A ztunnel communicates across clusters by connecting to the remote cluster's east-west gateway and sending the destination service FQDN.
 The east-west gateway will then forward the connection to a cluster-local pod of its choosing.
 As such, overlapping IP spaces are of no concern because we never directly address a pod in a remote cluster.
