@@ -27,7 +27,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** incorrect UID and GID assignment for `istio-proxy` and `istio-validation` containers on OpenShift when TPROXY mode is enabled.
   
-- **Fixed** ignoring the `topology.istio.io/network` label on the system namespace when `discoverySelectors` are in use.
+- **Fixed** logic to properly ignore the `topology.istio.io/network` label on the system namespace when `discoverySelectors` are in use.
   ([Issue #56687](https://github.com/istio/istio/issues/56687))
 
 - **Fixed** an issue where access log not being updated when referenced service created later than the Telemetry resource.  ([Issue #56825](https://github.com/istio/istio/issues/56825))
