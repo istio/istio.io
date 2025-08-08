@@ -28,7 +28,7 @@ Istio provides a fully compliant [implementation](https://gateway-api-inference-
 
 ### Ambient Multicluster
 
-TODO
+Multicluster support for ambient mode is now available in alpha, providing a way to connect more than one ambient cluster together in the same mesh. Note that only multi-network, multi-primary topologies are tested.
 
 ### Lightstep Support Removal
 
