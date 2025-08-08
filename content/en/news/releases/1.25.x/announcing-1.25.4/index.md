@@ -19,7 +19,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue causing false positives with `istioctl analyze` raising IST0134 even when `PILOT_ENABLE_IP_AUTOALLOCATE` was set to `true`.
   ([Issue #56083](https://github.com/istio/istio/issues/56083))
 
-- **Fixed** a panic in `istioctl manifest translate` when the IstioOperator config contains multiple gateways.
+- **Fixed** a panic in `istioctl manifest translate` when the IstioOperator config contained multiple gateways.
   ([Issue #56223](https://github.com/istio/istio/issues/56223))
 
 - **Fixed** ambient index to filter configs by revision.
