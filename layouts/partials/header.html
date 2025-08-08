@@ -23,10 +23,11 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if eq .Identifier "docs" }}
+                    {{ if and (eq .Identifier "docs") (eq $.Section "docs") (eq hugo.Environment "production") }}
                     <li class="main-navigation-links-item">
                     <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                         <span>{{ .Name }}</span>
+                        {{ partial "icon.html" "dropdown-arrow" }}
                     </a>
 
                     <ul class="main-navigation-links-dropdown">
