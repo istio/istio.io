@@ -25,7 +25,8 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** ambient index to filter configs by revision.
   ([Issue #56477](https://github.com/istio/istio/issues/56477))
 
-- **Fixed** incorrect UID and GID assignment for `istio-proxy` and `istio-validation` containers on OpenShift when TPROXY mode is enabled.
+- **Fixed** incorrect UID and GID assignment for `istio-proxy` and `istio-validation` containers on OpenShift when TPROXY mode was enabled.
+
 - **Fixed** logic to properly ignore the `topology.istio.io/network` label on the system namespace when `discoverySelectors` are in use.
   ([Issue #56687](https://github.com/istio/istio/issues/56687))
 
