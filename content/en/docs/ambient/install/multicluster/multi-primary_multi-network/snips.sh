@@ -63,7 +63,7 @@ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}
 }
 
 snip_install_ztunnel_cluster1() {
-helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}"
+helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}" --set multiCluster.clusterName=cluster1 --set global.network=network1
 }
 
 snip_install_crds() {
@@ -160,7 +160,7 @@ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}
 }
 
 snip_install_ztunnel_cluster2() {
-helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"
+helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"  --set multiCluster.clusterName=cluster2 --set global.network=network1
 }
 
 snip_install_the_eastwest_gateway_in_cluster2_1() {

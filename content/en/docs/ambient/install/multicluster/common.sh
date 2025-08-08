@@ -123,6 +123,9 @@ function verify_load_balancing
   _wait_for_deployment sample helloworld-v2 "${CTX_CLUSTER2}"
   _wait_for_deployment sample curl "${CTX_CLUSTER2}"
 
+  # run custom expose commands if we need to (e.g. for multi-networke)
+  [[ $(type -t _expose_cmds) == function ]] && _expose_cmds
+
   # Verify everything is deployed as expected.
   VERIFY_TIMEOUT=0 # Don't retry.
   echo "Verifying helloworld v1 deployment"

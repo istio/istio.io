@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-source content/en/docs/setup/install/multicluster/common.sh
+source content/en/docs/ambient/install/multicluster/common.sh
 source "tests/util/gateway-api.sh"
 
 set_multi_network_vars
@@ -35,10 +35,10 @@ function install_istio_on_cluster1_helm {
 
     snip_set_the_default_network_for_cluster1_1
 
-    snip_configure_cluster1_as_a_primary_3
-    snip_configure_cluster1_as_a_primary_4
-    snip_install_cni_cluster1
-    snip_install_ztunnel_cluster1
+    _rewrite_helm_repo snip_configure_cluster1_as_a_primary_3
+    _rewrite_helm_repo snip_configure_cluster1_as_a_primary_4
+    _rewrite_helm_repo snip_install_cni_cluster1
+    _rewrite_helm_repo snip_install_ztunnel_cluster1
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_2
@@ -56,10 +56,10 @@ function install_istio_on_cluster2_helm {
 
     snip_set_the_default_network_for_cluster2_1
 
-    snip_configure_cluster2_as_a_primary_3
-    snip_configure_cluster2_as_a_primary_4
-    snip_install_cni_cluster2
-    snip_install_ztunnel_cluster2
+    _rewrite_helm_repo snip_configure_cluster2_as_a_primary_3
+    _rewrite_helm_repo snip_configure_cluster2_as_a_primary_4
+    _rewrite_helm_repo snip_install_cni_cluster2
+    _rewrite_helm_repo snip_install_ztunnel_cluster2
 
     echo "Creating the east-west gateway"
     snip_install_the_eastwest_gateway_in_cluster2_2
@@ -81,6 +81,14 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_1
   snip_enable_endpoint_discovery_2
 }
+
+function _expose_cmds {
+  echo "Exposing helloworld in cluster1"
+  snip_expose_services_in_cluster1_1
+  echo "Exposing helloworld in cluster2"
+  snip_expose_services_in_cluster2_1
+}
+
 
 time configure_trust
 time install_istio_helm

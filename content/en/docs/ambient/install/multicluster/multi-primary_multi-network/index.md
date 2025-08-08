@@ -104,7 +104,7 @@ $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER
 Finally, install the ztunnel data plane:
 
 {{< text syntax=bash snip_id=install_ztunnel_cluster1 >}}
-$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}"
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}" --set multiCluster.clusterName=cluster1 --set global.network=network1
 {{< /text >}}
 
 {{< /tab >}}
@@ -172,7 +172,7 @@ EOF
 {{< /text >}}
 
 {{< warning >}}
-TODO: Handle revisions
+If you are running a revisioned instance of istiod and you don't have a default revision set, you may naed to add the istio.io/rev label to this `Gateway` manifest.
 {{< /warning >}}
 
 Apply the configuration to `cluster1`:
@@ -271,7 +271,10 @@ $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER
 Finally, install the ztunnel data plane:
 
 {{< text syntax=bash snip_id=install_ztunnel_cluster2 >}}
-$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"
+$ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"  --set multiCluster.clusterName=cluster2 --set global.network=network1
+{{< /text >}}
+
+{{< warning >}}
 {{< /text >}}
 
 {{< /tab >}}
@@ -291,7 +294,7 @@ to east-west traffic.
 $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network network2 \
     --ambient | \
-    kubectl apply --context="${CTX_CLUSTER2}" install -f -
+    kubectl apply --context="${CTX_CLUSTER2}" -f -
 {{< /text >}}
 
 {{< /tab >}}

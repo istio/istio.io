@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-source content/en/docs/setup/install/multicluster/common.sh
+source content/en/docs/ambient/install/multicluster/common.sh
 source "tests/util/gateway-api.sh"
 set_multi_network_vars
 
@@ -72,6 +72,13 @@ function install_istio_istioctl {
 function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_1
   snip_enable_endpoint_discovery_2
+}
+
+function _expose_cmds {
+  echo "Exposing helloworld in cluster1"
+  snip_expose_services_in_cluster1_1
+  echo "Exposing helloworld in cluster2"
+  snip_expose_services_in_cluster2_1
 }
 
 time configure_trust

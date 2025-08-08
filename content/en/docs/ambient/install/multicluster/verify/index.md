@@ -64,9 +64,9 @@ Enable automatic sidecar injection for the `sample` namespace:
 
 {{< text bash >}}
 $ kubectl label --context="${CTX_CLUSTER1}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 $ kubectl label --context="${CTX_CLUSTER2}" namespace sample \
-    istio-injection=enabled
+    istio.io/dataplane-mode=ambient
 {{< /text >}}
 
 Create the `HelloWorld` service in both clusters:
@@ -79,6 +79,8 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f @samples/helloworld/helloworld.yaml@ \
     -l service=helloworld -n sample
 {{< /text >}}
+
+TODO: Label istio-system ns with the network
 
 ## Deploy `HelloWorld` `V1`
 
@@ -95,7 +97,7 @@ Confirm the `helloworld-v1` pod status:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=helloworld
 NAME                            READY     STATUS    RESTARTS   AGE
-helloworld-v1-86f77cd7bd-cpxhv  2/2       Running   0          40s
+helloworld-v1-86f77cd7bd-cpxhv  1/1       Running   0          40s
 {{< /text >}}
 
 Wait until the status of `helloworld-v1` is `Running`.
@@ -115,7 +117,7 @@ Confirm the status the `helloworld-v2` pod status:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=helloworld
 NAME                            READY     STATUS    RESTARTS   AGE
-helloworld-v2-758dd55874-6x4t8  2/2       Running   0          40s
+helloworld-v2-758dd55874-6x4t8  1/1       Running   0          40s
 {{< /text >}}
 
 Wait until the status of `helloworld-v2` is `Running`.
@@ -136,7 +138,7 @@ Confirm the status `curl` pod on `cluster1`:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER1}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-curl-754684654f-n6bzf            2/2     Running   0          5s
+curl-754684654f-n6bzf            1/1     Running   0          5s
 {{< /text >}}
 
 Wait until the status of the `curl` pod is `Running`.
@@ -146,10 +148,12 @@ Confirm the status of the `curl` pod on `cluster2`:
 {{< text bash >}}
 $ kubectl get pod --context="${CTX_CLUSTER2}" -n sample -l app=curl
 NAME                             READY   STATUS    RESTARTS   AGE
-curl-754684654f-dzl9j            2/2     Running   0          5s
+curl-754684654f-dzl9j            1/1     Running   0          5s
 {{< /text >}}
 
 Wait until the status of the `curl` pod is `Running`.
+
+TODO: Mark services as global
 
 ## Verifying Cross-Cluster Traffic
 
@@ -201,5 +205,3 @@ clusters!
 
 Check out the [locality load balancing tasks](/docs/tasks/traffic-management/locality-load-balancing)
 to learn how to control the traffic across a multicluster mesh.
-
-TODO: set global scope
