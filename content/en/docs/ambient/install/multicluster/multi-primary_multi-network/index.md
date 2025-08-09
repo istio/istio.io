@@ -405,6 +405,8 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 Delete Istio Helm installation from `cluster1`:
 
 {{< text syntax=bash >}}
+$ helm delete ztunnel -n istio-system "${CTX_CLUSTER1}"
+$ helm delete istio-cni -n istio-system "${CTX_CLUSTER1}"
 $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
 $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
@@ -418,6 +420,8 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 Delete Istio Helm installation from `cluster2`:
 
 {{< text syntax=bash >}}
+$ helm delete ztunnel -n istio-system "${CTX_CLUSTER2}"
+$ helm delete istio-cni -n istio-system "${CTX_CLUSTER2}"
 $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
 $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
@@ -438,7 +442,12 @@ $ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio
 $ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
 {{< /text >}}
 
-TODO: Cleanup Gateway API CRDs
+And finally, clean up the Gateway API CRDs:
+
+{{< text syntax=bash snip_id=delete_gateway_crds >}}
+$ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep ---color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+$ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep ---color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+{{< /text >}}
 
 {{< /tab >}}
 

@@ -44,3 +44,6 @@ archived_version
 
 # Local artifacts when running tests
 artifacts
+
+# Certs generated during tests
+certs

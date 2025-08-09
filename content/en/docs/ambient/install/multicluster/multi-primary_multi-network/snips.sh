@@ -224,6 +224,8 @@ istioctl create-remote-secret \
 }
 
 snip_cleanup_3() {
+helm delete ztunnel -n istio-system "${CTX_CLUSTER1}"
+helm delete istio-cni -n istio-system "${CTX_CLUSTER1}"
 helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
 helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
 }
@@ -233,6 +235,8 @@ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 }
 
 snip_cleanup_5() {
+helm delete ztunnel -n istio-system "${CTX_CLUSTER2}"
+helm delete istio-cni -n istio-system "${CTX_CLUSTER2}"
 helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
 helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 }
@@ -244,4 +248,9 @@ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 snip_delete_crds() {
 kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
 kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
+}
+
+snip_delete_gateway_crds() {
+kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep ---color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
+kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep ---color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
 }

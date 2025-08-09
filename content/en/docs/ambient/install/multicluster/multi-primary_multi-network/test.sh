@@ -90,6 +90,7 @@ time verify_load_balancing
 source content/en/docs/setup/install/multicluster/common.sh
 set_multi_network_vars
 time cleanup_istioctl
+time snip_delete_gateway_crds
 
 # Everything should be removed once cleanup completes. Use a small
 # timeout for comparing cluster snapshots before/after the test.
