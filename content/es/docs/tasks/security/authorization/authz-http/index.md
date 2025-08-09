@@ -10,7 +10,7 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-Esta tarea muestra cómo configurar la política de autorización de Istio de acción `ALLOW` para el tráfico HTTP en una malla de Istio.
+Esta tarea muestra cómo configurar la política de autorización de Istio de acción `ALLOW` para el tráfico HTTP en un mesh de Istio.
 
 ## Antes de empezar
 
@@ -69,7 +69,7 @@ y luego otorgue más acceso al workload de forma gradual e incremental.
     Apunte su navegador a la `productpage` de Bookinfo (`http://$GATEWAY_URL/productpage`).
     Debería ver `"RBAC: acceso denegado"`. El error muestra que la política `deny-all` configurada
     está funcionando como se esperaba, y Istio no tiene ninguna regla que permita ningún acceso a
-    los workloads en la malla.
+    los workloads en la mesh.
 
 1. Ejecute el siguiente comando para crear una política `productpage-viewer` para permitir el acceso
    con el método `GET` al workload `productpage`. La política no establece el campo `from`
