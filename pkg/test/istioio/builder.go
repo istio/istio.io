@@ -46,6 +46,13 @@ func (b *Builder) Defer(steps ...Step) *Builder {
 	return b
 }
 
+func (b *Builder) DeferIf(condition bool, steps ...Step) *Builder {
+	if condition {
+		b.Defer(steps...)
+	}
+	return b
+}
+
 // Build a run function for the test
 func (b *Builder) Build() func(ctx framework.TestContext) {
 	return func(ctx framework.TestContext) {

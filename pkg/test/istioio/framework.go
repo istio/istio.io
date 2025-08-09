@@ -215,6 +215,7 @@ func NewTestDocsFunc(config string) func(framework.TestContext) {
 				KubeConfig: kubeConfig,
 			}
 
+			noCleanup := ctx.Settings().NoCleanup
 			ctx.NewSubTest(path).
 				Run(NewBuilder().
 					Add(beforeSnapshotter).
@@ -224,13 +225,13 @@ func NewTestDocsFunc(config string) func(framework.TestContext) {
 							Value:    testCase.testScript,
 						},
 					}).
-					Defer(Script{
+					DeferIf(!noCleanup, Script{
 						Input: Inline{
 							FileName: cleanupScriptName,
 							Value:    testCase.cleanupScript,
 						},
 					}).
-					Defer(SnapshotValidator{
+					DeferIf(!noCleanup, SnapshotValidator{
 						Before: beforeSnapshotter,
 						After:  afterSnapshotter,
 					}).

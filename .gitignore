@@ -41,3 +41,9 @@ archived_version
 
 # Local Netlify folder
 .netlify
+
+# Local artifacts when running tests
+artifacts
+
+# Certs generated during tests
+certs
