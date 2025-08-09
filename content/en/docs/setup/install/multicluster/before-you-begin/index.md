@@ -19,6 +19,16 @@ In addition, review the requirements and perform the initial steps below.
 This guide requires that you have two Kubernetes clusters with any of the
 [supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
+{{< tip >}}
+If you are testing multicluster setup on `kind`, you can use the script `samples/kind-lb/setupkind.sh` to quickly set up clusters with load balancer support:
+
+{{< text bash >}}
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
+{{< /text >}}
+
+{{< /tip >}}
+
 ### API Server Access
 
 The API Server in each cluster must be accessible to the other clusters in the
@@ -45,6 +55,16 @@ Set the two variables before proceeding:
 $ export CTX_CLUSTER1=<your cluster1 context>
 $ export CTX_CLUSTER2=<your cluster2 context>
 {{< /text >}}
+
+{{< tip >}}
+If you're using `kind`, set the following contexts:
+
+{{< text bash >}}
+$ export CTX_CLUSTER1=$(kubectl config get-contexts -o name | grep kind-cluster-1)
+$ export CTX_CLUSTER2=$(kubectl config get-contexts -o name | grep kind-cluster-2)
+{{< /text >}}
+
+{{< /tip >}}
 
 ## Configure Trust
 
@@ -77,6 +97,48 @@ change the CA using one of the methods described in
 [certificate management](/docs/tasks/security/cert-management/). Changing the
 CA typically requires reinstalling Istio. The installation instructions
 below may have to be altered based on your choice of CA.
+{{< /tip >}}
+
+{{< tip >}}
+If you're using `kind`, you can quickly generate self-signed CA certificates
+for your clusters using the provided Makefile:
+
+{{< text bash >}}
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    ROOTCA_CN="Root CA" \
+    ROOTCA_ORG=istio.io \
+    root-ca
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    INTERMEDIATE_CN="Cluster 1 Intermediate CA" \
+    INTERMEDIATE_ORG=istio.io \
+    cluster1-cacerts
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    INTERMEDIATE_CN="Cluster 2 Intermediate CA" \
+    INTERMEDIATE_ORG=istio.io \
+    cluster2-cacerts
+{{< /text >}}
+
+This will create a root CA and intermediate CA certificates for each cluster, which you can then use to set up trust between your clusters.
+
+To create the `cacerts` secret in each cluster, use the following command after generating the certificates:
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER1}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER1}" create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem=cluster1/ca-cert.pem \
+    --from-file=ca-key.pem=cluster1/ca-key.pem \
+    --from-file=root-cert.pem=cluster1/root-cert.pem \
+    --from-file=cert-chain.pem=cluster1/cert-chain.pem
+$ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER2}" create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem=cluster2/ca-cert.pem \
+    --from-file=ca-key.pem=cluster2/ca-key.pem \
+    --from-file=root-cert.pem=cluster2/root-cert.pem \
+    --from-file=cert-chain.pem=cluster2/cert-chain.pem
+{{< /text >}}
+
+This will create the `cacerts` secret in the `istio-system` namespace of each cluster, allowing Istio to use your custom CA certificates.
+
 {{< /tip >}}
 
 ## Next steps
