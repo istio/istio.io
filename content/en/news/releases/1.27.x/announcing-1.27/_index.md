@@ -44,7 +44,7 @@ Certificate Revocation Lists (CRLs) is now available for plugged-in CA, allowing
 
 ### Native Nftables Support in Sidecar Mode
 
-Includes support for the [native nftables](https://github.com/kubernetes-sigs/knftables) backend in Sidecar mode.
+Includes support for the [native nftables](https://github.com/istio/istio/issues/47821) backend in Sidecar mode.
 As the successor to iptables, nftables offers a modern, high-performance alternative for transparently redirecting
 traffic to and from the Envoy sidecar proxy. Many major Linux distributions are moving toward native nftables adoption.
 Ambient mode support is currently under development.
