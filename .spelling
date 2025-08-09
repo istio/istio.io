@@ -37,6 +37,7 @@
 1.26.x.
 1.27.3
 1.27.x
+1.27.x.
 1.3.x
 1.3.x.
 1.4.x
@@ -302,6 +303,7 @@ cpuset
 CR
 CRD
 CRDs
+CRLs
 CRs
 crypto
 CryptoMB
@@ -571,6 +573,7 @@ GenAI
 Geneve
 GHSA-8mq4-c2v5-3h39
 GiB
+GIDs
 git
 GitHub
 GitOps
@@ -656,6 +659,7 @@ intranode
 Invasiveness
 IOPs
 ip
+ipallocate
 ipBlocks
 IPs
 IPsec
@@ -814,6 +818,7 @@ linktitle
 linter
 linters
 Lior
+ListenerSets
 list_by_publishdate
 Liu
 liveness
@@ -917,6 +922,8 @@ network1
 network2
 networking.istio.io
 NetworkPolicy
+Nftables
+nftables
 nginx
 NICs
 NiFi
@@ -1228,6 +1235,7 @@ subnetworks
 subresource
 subresources
 substring
+subzone
 Sudheendra
 Sumit
 Superfeet
@@ -1271,6 +1279,7 @@ TLS
 TLS-secured
 ToC
 Tokio
+tolerations
 toolbelt
 toolchain
 topologySpreadConstraints
@@ -1338,6 +1347,7 @@ v1.21.0
 v1.22
 v1.26
 v1.27
+v1.27.
 v1.28
 v1.29
 v1.30
@@ -1345,6 +1355,7 @@ v1.31
 v1.32
 v1.33
 v1.34
+v1.35
 v1.5
 v1.55
 v1.55.1
@@ -1454,6 +1465,7 @@ Yossi
 Yuval
 Yuxing
 Zack
+Zds
 Zehuan
 Zeng
 Zhang
