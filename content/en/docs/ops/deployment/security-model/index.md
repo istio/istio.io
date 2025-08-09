@@ -40,7 +40,7 @@ The implications of this are discussed [below](#node-compromise).
 Because this consolidates the elevated privileges required to setup networking into a single pod, rather than *every* pod,
 this option is generally recommended.
 
-##### Ambient Mode
+#### Ambient Mode
 
 In ambient mode, the Istio CNI plugin (and the associated node agent) manages mesh enrollment for pods living on its node. Due to limitations in the Kubernetes API, it is not currently possible for the CNI plugin or its node agent to prevent pods from being scheduled on the node before the CNI plugin is installed and configured. This can occur even if using node cordons + taints as described [in our upgrade documentation](/docs/ambient/upgrade/helm#cni-node-agent). In these rare cases (e.g. on node restart or new node scale out), it is possible that a pod that is labeled for mesh enrollment may come up before the CNI's traffic redirection rules are applied, meaning that policies won't be enforced until after the CNI comes up and that pod is restarted. The Istio community is working with [various](https://github.com/containernetworking/cni/pull/1052) [upstream](https://github.com/kubernetes/kubernetes/issues/130594) communities to address this limitation, but in the meantime, you can enable [owned CNI mode](https://github.com/jaellio/istio/blob/master/releasenotes/notes/55968.yaml) to mitigate these race conditions.
 
