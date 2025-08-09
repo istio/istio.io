@@ -137,94 +137,94 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
 1. Create a default route rule to route all traffic to `v1` of the service:
 
-    {{< tabset category-name="config-api" >}}
+{{< tabset category-name="config-api" >}}
 
-    {{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-        - httpbin
-      http:
-      - route:
-        - destination:
-            host: httpbin
-            subset: v1
-          weight: 100
-    ---
-    apiVersion: networking.istio.io/v1
-    kind: DestinationRule
-    metadata:
-      name: httpbin
-    spec:
-      host: httpbin
-      subsets:
-      - name: v1
-        labels:
-          version: v1
-      - name: v2
-        labels:
-          version: v2
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+    - httpbin
+  http:
+  - route:
+    - destination:
+        host: httpbin
+        subset: v1
+      weight: 100
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: httpbin
+spec:
+  host: httpbin
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+EOF
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< tab name="Gateway API" category-value="gateway-api" >}}
+{{< tab name="Gateway API" category-value="gateway-api" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: v1
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin-v1
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: httpbin
+    version: v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin-v2
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: httpbin
+    version: v2
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin
+spec:
+  parentRefs:
+  - group: ""
     kind: Service
-    metadata:
-      name: httpbin-v1
-    spec:
-      ports:
-      - port: 80
-        name: http
-      selector:
-        app: httpbin
-        version: v1
-    ---
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: httpbin-v2
-    spec:
-      ports:
-      - port: 80
-        name: http
-      selector:
-        app: httpbin
-        version: v2
-    ---
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: HTTPRoute
-    metadata:
-      name: httpbin
-    spec:
-      parentRefs:
-      - group: ""
-        kind: Service
-        name: httpbin
-        port: 8000
-      rules:
-      - backendRefs:
-        - name: httpbin-v1
-          port: 80
-    EOF
-    {{< /text >}}
+    name: httpbin
+    port: 8000
+  rules:
+  - backendRefs:
+    - name: httpbin-v1
+      port: 80
+EOF
+{{< /text >}}
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< /tabset >}}
+{{< /tabset >}}
 
-1. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
+2. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
 
     {{< text bash json >}}
     $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
@@ -244,7 +244,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
     }
     {{< /text >}}
 
-1. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
+3. Check the logs from `httpbin-v1` and `httpbin-v2` pods. You should see access log entries for `v1` and none for `v2`:
 
     {{< text bash >}}
     $ kubectl logs deploy/httpbin-v1 -c httpbin
@@ -260,88 +260,88 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
 1. Change the route rule to mirror traffic to `httpbin-v2`:
 
-    {{< tabset category-name="config-api" >}}
+{{< tabset category-name="config-api" >}}
 
-    {{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-        - httpbin
-      http:
-      - route:
-        - destination:
-            host: httpbin
-            subset: v1
-          weight: 100
-        mirror:
-          host: httpbin
-          subset: v2
-        mirrorPercentage:
-          value: 100.0
-    EOF
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: httpbin
+spec:
+  hosts:
+    - httpbin
+  http:
+  - route:
+    - destination:
+        host: httpbin
+        subset: v1
+      weight: 100
+    mirror:
+      host: httpbin
+      subset: v2
+    mirrorPercentage:
+      value: 100.0
+EOF
+{{< /text >}}
 
-    This route rule sends 100% of the traffic to `v1`. The last stanza specifies
-    that you want to mirror (i.e., also send) 100% of the same traffic to the
-    `httpbin:v2` service. When traffic gets mirrored,
-    the requests are sent to the mirrored service with their Host/Authority headers
-    appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
+This route rule sends 100% of the traffic to `v1`. The last stanza specifies
+that you want to mirror (i.e., also send) 100% of the same traffic to the
+`httpbin:v2` service. When traffic gets mirrored,
+the requests are sent to the mirrored service with their Host/Authority headers
+appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
 
-    Also, it is important to note that these requests are mirrored as "fire and
-    forget", which means that the responses are discarded.
+Also, it is important to note that these requests are mirrored as "fire and
+forget", which means that the responses are discarded.
 
-    You can use the `value` field under the `mirrorPercentage` field to mirror a fraction of the traffic,
-    instead of mirroring all requests. If this field is absent, all traffic will be mirrored.
+You can use the `value` field under the `mirrorPercentage` field to mirror a fraction of the traffic,
+instead of mirroring all requests. If this field is absent, all traffic will be mirrored.
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< tab name="Gateway API" category-value="gateway-api" >}}
+{{< tab name="Gateway API" category-value="gateway-api" >}}
 
-    {{< text bash >}}
-    $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: HTTPRoute
-    metadata:
-      name: httpbin
-    spec:
-      parentRefs:
-      - group: ""
-        kind: Service
-        name: httpbin
-        port: 8000
-      rules:
-      - filters:
-        - type: RequestMirror
-          requestMirror:
-            backendRef:
-              name: httpbin-v2
-              port: 80
-        backendRefs:
-        - name: httpbin-v1
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: httpbin
+spec:
+  parentRefs:
+  - group: ""
+    kind: Service
+    name: httpbin
+    port: 8000
+  rules:
+  - filters:
+    - type: RequestMirror
+      requestMirror:
+        backendRef:
+          name: httpbin-v2
           port: 80
-    EOF
-    {{< /text >}}
+    backendRefs:
+    - name: httpbin-v1
+      port: 80
+EOF
+{{< /text >}}
 
-    This route rule sends 100% of the traffic to `v1`. The `RequestMirror` filter
-    specifies that you want to mirror (i.e., also send) 100% of the same traffic to the
-    `httpbin:v2` service. When traffic gets mirrored,
-    the requests are sent to the mirrored service with their Host/Authority headers
-    appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
+This route rule sends 100% of the traffic to `v1`. The `RequestMirror` filter
+specifies that you want to mirror (i.e., also send) 100% of the same traffic to the
+`httpbin:v2` service. When traffic gets mirrored,
+the requests are sent to the mirrored service with their Host/Authority headers
+appended with `-shadow`. For example, `cluster-1` becomes `cluster-1-shadow`.
 
-    Also, it is important to note that these requests are mirrored as "fire and
-    forget", which means that the responses are discarded.
+Also, it is important to note that these requests are mirrored as "fire and
+forget", which means that the responses are discarded.
 
-    {{< /tab >}}
+{{< /tab >}}
 
-    {{< /tabset >}}
+{{< /tabset >}}
 
-1. Send the traffic:
+2. Send the traffic:
 
     {{< text bash >}}
     $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
