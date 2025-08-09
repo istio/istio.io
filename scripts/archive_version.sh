@@ -23,6 +23,8 @@ NUMBER=$(grep -w 'version:' data/args.yml | grep -oE '[^ ]+$' | tr -d '"')
 VERSION+="${NUMBER}"
 
 rm -rf public/
+#set the Hugo environment to development for preventing production code in local builds
+export HUGO_ENVIRONMENT=development
 ./scripts/gen_site.sh
 ./scripts/build_site.sh /"${VERSION}"
 
