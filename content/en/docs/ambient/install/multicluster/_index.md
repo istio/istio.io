@@ -9,8 +9,6 @@ test: table-of-contents
 owner: istio/wg-environments-maintainers
 ---
 
-{{< boilerplate alpha >}}
-
 Follow this guide to install an Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}
 that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
 
