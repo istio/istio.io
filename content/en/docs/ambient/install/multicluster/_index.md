@@ -2,12 +2,6 @@
 title: Install Multicluster
 description: Install an Istio mesh in ambient mode across multiple Kubernetes clusters.
 weight: 40
-aliases:
-    - /docs/ambient/kubernetes/multicluster-install/
-    - /docs/ambient/kubernetes/multicluster/
-    - /docs/ambient/kubernetes/install/multicluster/
-    - /docs/ambient/install/multicluster/gateways/
-    - /docs/ambient/install/multicluster/shared/
 keywords: [kubernetes,multicluster]
 simple_list: true
 content_above: true
@@ -33,8 +27,8 @@ the current state and limitations of this feature:
 ### Supported Configurations
 
 Currently, ambient multicluster only supports:
-- **Multi-network topologies** with each cluster acting as a primary cluster.
-- **Universal waypoint deployments** across all clusters with identical names
+Before proceeding with an ambient multicluster installation, it is critical to understand
+the current state and limitations of this feature.
 
 ### Critical Limitations
 
@@ -64,10 +58,13 @@ Currently, ambient multicluster only supports:
   - Remote cluster service scopes are not respected, which can lead to unexpected traffic behavior
   - Cross-cluster service discovery may not respect intended service boundaries
 
+**If a service's waypoint is marked as global, that service will also be global**
+  - This can lead to unintended cross-cluster traffic if not managed carefully
+
 #### Gateway Limitations
 
-**Ambient east-west gateways only support double HBONE**
-  - Cannot expose `istiod` across networks using ambient east-west gateways
+**Ambient east-west gateways currently only support meshed mTLS traffic**
+  - Cannot currently expose `istiod` across networks using ambient east-west gateways. You can still use a classic e/w gateway for this.
 
 {{< tip >}}
 As ambient multicluster matures, many of these limitations will be addressed.
