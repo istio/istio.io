@@ -19,6 +19,7 @@
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
 #          docs/ambient/install/multicluster/multi-primary_multi-network/index.md
 ####################################################################################################
+source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_set_the_default_network_for_cluster1_1() {
 kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
