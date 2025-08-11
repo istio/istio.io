@@ -14,16 +14,20 @@ file to learn about the overall Istio project and how to get in touch with us. T
 contribute to any of the Istio components, please
 see the Istio [contribution guidelines](https://github.com/istio/community/blob/master/CONTRIBUTING.md).
 
+- [istio.io](#istioio)
 - [Editing and building](#editing-and-building)
 - [Versions and releases](#versions-and-releases)
-    - [How versioning works](#how-versioning-works)
-    - [Publishing content immediately](#publishing-content-immediately)
-    - [Creating a major/minor release](#creating-a-majorminor-release)
-    - [Creating a patch release](#creating-a-patch-release)
+  - [How versioning works](#how-versioning-works)
+  - [Publishing content immediately](#publishing-content-immediately)
+  - [Creating a major/minor release](#creating-a-majorminor-release)
+    - [When Istio source code is branched](#when-istio-source-code-is-branched)
+    - [Approaching the day of the release](#approaching-the-day-of-the-release)
+  - [Creating a patch release](#creating-a-patch-release)
+  - [Updating an archive](#updating-an-archive)
+  - [Updating the test reference for a given release stream](#updating-the-test-reference-for-a-given-release-stream)
 - [Testing document content](#testing-document-content)
 - [Multi-language support](#multi-language-support)
 - [Regular maintenance](#regular-maintenance)
-- [Custom Pages](./CUSTOM_PAGES.md)
 
 ## Editing and building
 
@@ -85,16 +89,18 @@ the other repositories.
 This script requires the `gh` command line tool to be installed and authenticated. Please note that due to a limitation in the gh tool's PR creation ability, the forked
 repository must be created by a user and not an organization. See [this issue](https://github.com/cli/cli/issues/10093) for more details.
 
+This script requires the `gnu-sed` command line tool to be installed and used. Make sure that when you're running it on macos.
+
 1. The script takes a single argument, the new minor version. For example, if the new minor version is `1.26`, run
-   `./scripts/create_minor_version.sh 1.26`. The script *requires* the `FORKED_REPO_SOURCE` environment variable to be set to the source of the forked repo. This is used
+   `./scripts/create_minor_version.sh 1.26`. The script *requires* the `FORKED_GIT_SOURCE` environment variable to be set to the source of the forked repo. This is used
     to do the work and to create PRs from
 
 1. Do a dry run before the official release to ensure everything is working as expected. This is done by specifying DRY_RUN=1 in the command line. For example:
-    `DRY_RUN=1 FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
+    `DRY_RUN=1 FORKED_GIT_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
     push any changes to the repos
 
 1. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
-    `FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
+    `FORKED_GIT_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://istio-staging.netlify.app and
    verify that the new release branch is being used and the documentation looks correct
