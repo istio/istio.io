@@ -66,6 +66,6 @@ the current state and limitations of this feature.
 
 {{< tip >}}
 As ambient multicluster matures, many of these limitations will be addressed.
-Check the [Istio release notes](https://istio.io/news/) for updates on
+Check the [Istio release notes](https://istio.io/latest/news/) for updates on
 ambient multicluster capabilities.
 {{< /tip >}}
