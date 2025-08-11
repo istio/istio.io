@@ -10,7 +10,8 @@ owner: istio/wg-environments-maintainers
 {{< boilerplate alpha >}}
 
 {{< tip >}}
-{{< boilerplate gateway-api-future >}}
+This guide requires installation of the Gateway API CRDs.
+{{< boilerplate gateway-api-install-crds >}}
 {{< /tip >}}
 
 Follow this guide to install the Istio control plane on both `cluster1` and
