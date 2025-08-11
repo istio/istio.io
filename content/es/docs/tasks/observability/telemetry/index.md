@@ -82,7 +82,7 @@ Los proveedores no admiten `$(HOST_IP)`. Si está ejecutando el colector en modo
 
 ### Configuración del comportamiento de toda la mesh
 
-Los recursos de la API de Telemetría heredan del namespace de configuración raíz para un mesh, típicamente `istio-system`. Para configurar
+Los recursos de la API de Telemetría heredan del namespace de configuración raíz para una mesh, típicamente `istio-system`. Para configurar
 el comportamiento de toda la mesh, agregue un nuevo (o edite el existente) recurso `Telemetry` en el namespace de configuración raíz.
 
 Aquí hay un ejemplo de configuración que utiliza la configuración del proveedor de la sección anterior:

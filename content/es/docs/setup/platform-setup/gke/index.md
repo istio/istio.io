@@ -33,7 +33,7 @@ Sigue estas instrucciones para preparar un cluster de GKE para Istio.
     La instalación predeterminada de Istio requiere nodos con >1 vCPU. Si estás
     instalando con el
     [perfil de configuración demo](/es/docs/setup/additional-setup/config-profiles/),
-    puedes remover el argumento `--machine-type` para usar el tamaño de máquina más pequeño `n1-standard-1` en su lugar.
+    puedes eliminar el argumento `--machine-type` para usar el tamaño de máquina más pequeño `n1-standard-1` en su lugar.
     {{< /tip >}}
 
     {{< warning >}}

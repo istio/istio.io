@@ -8,4 +8,4 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-Sigue las instrucciones de [Istio on EKS](https://github.com/aws-samples/istio-on-eks) para provisionar un cluster EKS con configuración de Istio en la nube de AWS.
+Sigue las instrucciones de [Istio en EKS](https://github.com/aws-samples/istio-on-eks) para provisionar un cluster EKS con configuración de Istio en la nube de AWS.

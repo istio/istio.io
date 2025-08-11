@@ -9,11 +9,10 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-Esta tarea muestra cómo visualizar diferentes aspectos de su meshde Istio.
-
+Esta tarea muestra cómo visualizar diferentes aspectos de su mesh de Istio.
 Como parte de esta tarea, instalará el addon [Kiali](https://www.kiali.io)
 y utilizará la interfaz gráfica de usuario basada en web para ver los gráficos de service de
-la meshy sus objetos de configuración de Istio.
+la mesh y sus objetos de configuración de Istio.
 
 {{< idea >}}
 Esta tarea no cubre todas las features proporcionadas por Kiali.
@@ -60,7 +59,7 @@ Siga la documentación de [instalación de Kiali](/es/docs/ops/integrations/kial
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  Vea la descripción general de su meshen la página **Overview** que aparece inmediatamente después de iniciar sesión.
+1.  Vea la descripción general de su mesh en la página **Overview** que aparece inmediatamente después de iniciar sesión.
     La página **Overview** muestra todos los namespaces que tienen services en su malla.
     La siguiente captura de pantalla muestra una página similar:
 

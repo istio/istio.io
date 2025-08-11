@@ -14,13 +14,13 @@ test: no
 Sigue estas instrucciones para preparar un cluster de Azure para Istio.
 
 {{< tip >}}
-Azure ofrece un complemento {{< gloss >}}managed control plane{{< /gloss >}} para Azure Kubernetes Service (AKS),
+Azure ofrece una extensión del {{< gloss >}}control plane gestionado{{< /gloss >}} para Azure Kubernetes Service (AKS),
 que puedes usar en lugar de instalar Istio manualmente.
-Por favor consulta [Deploy Istio-based service mesh add-on for Azure Kubernetes Service](https://learn.microsoft.com/azure/aks/istio-deploy-addon)
+Por favor consulta [Implementar el complemento de mesh de servicios basada en Istio para el servicio de Kubernetes de Azure](https://learn.microsoft.com/azure/aks/istio-deploy-addon)
 para detalles e instrucciones.
 {{< /tip >}}
 
-Puedes desplegar un cluster de Kubernetes en Azure a través de [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) o [Cluster API provider for Azure (CAPZ) for self-managed Kubernetes or AKS](https://capz.sigs.k8s.io/) que soporta completamente Istio.
+Puedes desplegar un cluster de Kubernetes en Azure a través de [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) o [Cluster API provider for Azure (CAPZ) para Kubernetes autogestionado o AKS](https://capz.sigs.k8s.io/) que soporta completamente Istio.
 
 ## AKS
 
