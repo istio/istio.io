@@ -1,4 +1,4 @@
-{{ if and (eq .Section "docs") (eq hugo.Environment "production") }}
+{{ if and (eq .Section "docs") (not .Site.Params.archive) }}
 {{ $versions := site.Data.versions }}
 {{ $mainVerStr := $versions.main }}
 {{ $preliminaryVerStr := $versions.preliminary }}
@@ -8,10 +8,10 @@
 {{ $versionCount := 5 }}
 
 <!-- Preliminary version -->
-{{ $preUrl := printf "https://preliminary.istio.io/v%s/docs" $preliminaryVerStr }}
+{{ $preUrl := printf "https://preliminary.istio.io/docs" $preliminaryVerStr }}
 <li class="main-navigation-links-dropdown-item">
   <a href="{{ $preUrl }}"
-     class="main-navigation-links-link {{ if in $.Permalink "/preliminary/" }}active{{ end }}">
+     class="main-navigation-links-link">
      Preliminary
   </a>
 </li>
@@ -20,7 +20,7 @@
 {{ $mainUrl := printf "https://istio.io/v%s/docs" $mainVerStr }}
 <li class="main-navigation-links-dropdown-item">
   <a href="{{ $mainUrl }}"
-     class="main-navigation-links-link {{ if in $.Permalink (print "/v" $mainVerStr "/") }}active{{ end }}">
+     class="main-navigation-links-link">
     <strong>v{{ $mainVerStr }} (Current)</strong>
   </a>
 </li>
@@ -33,7 +33,7 @@
     {{ $url := printf "https://istio.io/%s/docs" $ver }}
     <li class="main-navigation-links-dropdown-item">
       <a href="{{ $url }}"
-         class="main-navigation-links-link {{ if in $.Permalink (print "/" $ver "/") }}active{{ end }}">
+         class="main-navigation-links-link">
         {{ $ver }}
       </a>
     </li>
