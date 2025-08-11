@@ -1,8 +1,8 @@
 ---
 title: Verify the ambient installation
-description: Verify that Istio ambient mode has been installed properly on multiple clusters.
+description: Verify that Istio ambient mesh has been installed properly on multiple clusters.
 weight: 50
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,multicluster,ambient]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
@@ -10,10 +10,10 @@ Follow this guide to verify that your ambient multicluster Istio installation is
 properly.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/setup/install/multicluster/before-you-begin) as well as
-choosing and following one of the multicluster installation guides.
+[before you begin](/docs/ambient/install/multicluster/before-you-begin) as well as
+choosing and following one of the [multicluster installation guides](/docs/ambient/install/multicluster).
 
-In this guide, we will verify multicluster is functional, deploy the `HelloWorld`
+In this guide, we will verify multicluster is fuenctional, deploy the `HelloWorld`
 application `v1` to `cluster1` and `v2` to `cluster2`. Upon receiving a request,
 `HelloWorld` will include its version in its response when we call the `/hello` path.
 
@@ -64,7 +64,7 @@ $ kubectl create --context="${CTX_CLUSTER1}" namespace sample
 $ kubectl create --context="${CTX_CLUSTER2}" namespace sample
 {{< /text >}}
 
-Enable automatic sidecar injection for the `sample` namespace:
+Enroll the `sample` namespace in the mesh:
 
 {{< text bash >}}
 $ kubectl label --context="${CTX_CLUSTER1}" namespace sample \
@@ -186,7 +186,8 @@ $ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
 {{< /text >}}
 
 Repeat this request several times and verify that the `HelloWorld` version
-should toggle between `v1` and `v2`:
+should change between `v1` and `v2`, signifying that endpoints in both
+clusters are being used:
 
 {{< text plain >}}
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8
@@ -215,7 +216,4 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 **Congratulations!** You successfully installed and verified Istio on multiple
 clusters!
 
-## Next Steps
-
-Check out the [locality load balancing tasks](/docs/tasks/traffic-management/locality-load-balancing)
-to learn how to control the traffic across a multicluster mesh.
+<!-- TODO: Link to guide for locality load balancing once we add waypoint instructions -->

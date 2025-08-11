@@ -2,7 +2,7 @@
 title: Install Multicluster
 description: Install an Istio mesh in ambient mode across multiple Kubernetes clusters.
 weight: 40
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,multicluster,ambient]
 simple_list: true
 content_above: true
 test: table-of-contents
