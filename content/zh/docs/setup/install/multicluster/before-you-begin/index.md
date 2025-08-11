@@ -7,6 +7,7 @@ keywords: [kubernetes,multicluster]
 test: n/a
 owner: istio/wg-environments-maintainers
 ---
+
 在开始多集群安装之前，回顾[部署模型指南](/zh/docs/ops/deployment/deployment-models)，
 了解本指南中使用的基本概念。
 
@@ -16,7 +17,8 @@ owner: istio/wg-environments-maintainers
 
 ### 集群 {#cluster}
 
-本指南需要您具备两个 Kubernetes 集群，且版本需为[Kubernetes 支持的版本：](/zh/docs/releases/supported-releases#support-status-of-istio-releases){{< supported_kubernetes_versions >}}。
+本指南需要您具备两个 Kubernetes 集群，且版本需为
+[Kubernetes 支持的版本：](/zh/docs/releases/supported-releases#support-status-of-istio-releases){{< supported_kubernetes_versions >}}。
 
 {{< tip >}}
 如果您正在 `kind` 测试多集群设置，则可以使用脚本
@@ -34,19 +36,18 @@ $ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
 每个集群中的 API 服务器必须能被网格中其他集群访问。
 很多云服务商通过网络负载均衡器（NLB）开放 API 服务器的公网访问。
 如果 API 服务器不能被直接访问，则需要调整安装流程以放开访问。
-例如，用于多网络、主从架构配置的
-[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关
-就可以用来开启 API 服务器的访问。
+例如，用于多网络、主从架构配置的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)网关就可以用来开启
+API 服务器的访问。
 
 ## 环境变量 {#environment-variables}
 
 本指南将引用 `cluster1` 和 `cluster2` 两个集群。
-以下环境变量将在整个过程中使用，以简化说明：
+以下环境变量将在整个过程中被使用，以简化说明：
 
-变量 | 描述
--------- | -----------
-`CTX_CLUSTER1` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster1`。
-`CTX_CLUSTER2` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster2`。
+| 变量           | 描述                                                                                                                                                   |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `CTX_CLUSTER1` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster1`。 |
+| `CTX_CLUSTER2` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster2`。 |
 
 继续之前，设置这两个变量：
 
@@ -56,6 +57,7 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 {{< /text >}}
 
 {{< tip >}}
+
 如果您使用 `kind`，请设置以下上下文：
 
 {{< text bash >}}
@@ -69,12 +71,13 @@ $ export CTX_CLUSTER2=$(kubectl config get-contexts -o name | grep kind-cluster-
 
 多集群服务网格部署要求您在网格中的所有集群之间建立信任关系。
 基于您的系统需求，可以有多个建立信任关系的选择。
-参阅[证书管理](/zh/docs/tasks/security/cert-management/)，以了解所有可用选项的详细描述和说明。
-根据您选择的方式，Istio 的安装说明可能略有变化。
+参阅[证书管理](/zh/docs/tasks/security/cert-management/)，
+以了解所有可用选项的详细描述和说明。根据您选择的方式，
+Istio 的安装说明可能略有变化。
 
 {{< tip >}}
-如果您计划仅部署一个主集群（即采用本地——远程部署的方式），您将只有一个 CA
-（即使用 `cluster1` 上的 `istiod` ）为两个集群颁发证书。
+如果您计划仅部署一个主集群（即采用本地——远程部署的方式），
+您将只有一个 CA（即使用 `cluster1` 上的 `istiod`）为两个集群颁发证书。
 在这种情况下，您可以跳过以下 CA 证书生成步骤，
 并且只需使用默认自签名的 CA 进行安装。
 {{< /tip >}}
@@ -110,7 +113,6 @@ $ make -f @tools/certs/Makefile.selfsigned.mk@ \
     cluster2-cacerts
 {{< /text >}}
 
-This will create a root CA and intermediate CA certificates for each cluster, which you can then use to set up trust between your clusters.
 这将为每个集群创建一个根 CA 和中间 CA 证书，
 然后您可以使用它们在集群之间建立信任。
 
@@ -158,7 +160,7 @@ $ kubectl --context="${CTX_CLUSTER2}" create secret generic cacerts -n istio-sys
 
 {{< tip >}}
 对于跨越两个以上集群的网格，您可能需要使用一个以上的选项。
-例如，每个 region 一个主集群（即：多主）。每个 zone 一个从集群，并使用 region 主集群（即：主从）的控制平面。
+例如，每个 Region 一个主集群（即：多主）。每个 Zone 一个从集群，并使用 Region 主集群（即：主从）的控制平面。
 
 更多信息，参阅[部署模型](/zh/docs/ops/deployment/deployment-models)。
 {{< /tip >}}
