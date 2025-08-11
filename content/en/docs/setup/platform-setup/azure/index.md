@@ -58,3 +58,42 @@ For the `az` cli option, complete `az login` authentication OR use cloud shell, 
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
+
+### Using Gateway API with Azure
+
+If you are using Gateway API with AKS, you might also need add the following configuration to
+the `Gateway` resource:
+
+{{< text yaml >}}
+infrastructure:
+  annotations:
+    service.beta.kubernetes.io/port_<http[s] port>_health-probe_protocol: tcp
+{{< /text >}}
+
+where `<http[s] port>` is the port number of your HTTP(S) listener.
+If you have multiple HTTP(S) listeners, you need to add an annotation for each listener.
+This annotation is required for Azure Load Balancer health checks to work when the `/` path does not respond with a 200.
+
+For example, if you are following the [Ingress Gateways](docs/setup/getting-started) example using Gateway API, you will need deploy the following `Gateway` instead:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/port_80_health-probe_protocol: tcp
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    hostname: "httpbin.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+EOF
+{{< /text >}}
