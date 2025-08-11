@@ -627,8 +627,6 @@ Istio supports reading a few different Secret formats, to support integration wi
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `tls.key` and `tls.crt`, and `httpbin-credential-cacert` has `cacert`.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
-* For mutual TLS, a separate generic Secret can be referenced in `tls.credentialNames` in the form of `<secret>-cacert`, with a `cacert` key. For example, `my-httpbin-mtls-trustbundle` has `cacert` and `tls.credentialNames` has `my-httpbin-mtls-trustbundle-cacert`.
-* For mutual TLS, a separate ConfigMap can be referenced in `tls.credentialNames` in the form of `configmap://<namespace>/<configmap>-cacert`, with a `cacert` key. For example, `my-httpbin-mtls-trustbundle` ConfigMap in `httpbin` namespace has `cacert` and `tls.credentialNames` has `configmap://httpbin/my-httpbin-mtls-trustbundle-cacert`.
 * The `cacert` key value can be a CA bundle consisting of concatenated individual CA certificates.
 
 ### SNI Routing
