@@ -13,7 +13,7 @@ Before proceeding, be sure to complete the steps under
 [before you begin](/docs/ambient/install/multicluster/before-you-begin) as well as
 choosing and following one of the [multicluster installation guides](/docs/ambient/install/multicluster).
 
-In this guide, we will verify multicluster is fuenctional, deploy the `HelloWorld`
+In this guide, we will verify multicluster is functional, deploy the `HelloWorld`
 application `v1` to `cluster1` and `v2` to `cluster2`. Upon receiving a request,
 `HelloWorld` will include its version in its response when we call the `/hello` path.
 
