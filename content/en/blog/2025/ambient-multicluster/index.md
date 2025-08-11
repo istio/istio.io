@@ -1,6 +1,6 @@
 ---
 title: Introducing multicluster support for ambient mode (alpha)
-description: Introducing multicluster support for ambient mode (alpha).
+description: Istio 1.27 adds alpha ambient multicluster support, extending ambient's familiar lightweight, modular architecture to deliver secure connectivity, discovery and load balancing across clusters.
 date: 2025-08-04
 attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krinkin (Microsoft), Steven Jin (Microsoft)
 keywords: [ambient,multicluster]
@@ -21,26 +21,26 @@ IP address spaces of different clusters might overlap,
 and even without overlap, the underlying infrastructure would need configuration to route cross-cluster traffic.
 
 Cross-cluster connectivity also presents security challenges.
-Pod-to-pod traffic will traverse cluster boundaries and pods will accept connections from outside the cluster.
+Pod-to-pod traffic will leave cluster boundaries and pods will accept connections from outside their cluster.
 Without identity verification at the edge of the cluster and strong encryption,
 an outside attacker could exploit a vulnerable pod or intercept unencrypted traffic.
 
 A multicluster solution must securely connect clusters and do so
-through simple, declarative APIs that keep pace with dynamic environments.
+through simple, declarative APIs that keep pace with dynamic environments where clusters are frequently added and removed.
 
 ## Key Components
 
 Ambient multicluster extends ambient with new components and minimal APIs to
 securely connect clusters using ambient's lightweight, modular architecture.
-It builds on the namespace sameness model -- a service in namespace `foo` in one cluster is treated as the same logical service as `foo` in another --
+It builds on the {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}} model
 so services keep their existing DNS names across clusters, allowing you to control cross-cluster communication without changing application code.
 
 ### East-West Gateways
 
 Each cluster has an east-west gateway with a globally routable IP acting as an entry point for cross-cluster communication.
 A ztunnel connects to the remote cluster's east-west gateway, identifying the destination service by its namespaced name.
-The gateway then load balances the connection to a local pod.
-Using the gateway’s routable IP removes the need for inter-cluster routing configuration,
+The east-west gateway then load balances the connection to a local pod.
+Using the east-west gateway's routable IP removes the need for inter-cluster routing configuration,
 and addressing pods by namespaced name rather than IP eliminates issues with overlapping IP spaces.
 Together, these design choices enable cross-cluster connectivity without changing cluster networking or restarting workloads,
 even as clusters are added or removed.
@@ -75,10 +75,10 @@ serviceScopeConfigs:
 {{< /text >}}
 
 meaning that any service with the `istio.io/global=true` label is global.
-Although the default value is straightforward, the API is flexible and can express complex conditions using a mix of ANDs and ORs.
+Although the default value is straightforward, the `ServiceScope` API can express complex conditions using a mix of ANDs and ORs.
 
 By default, ztunnel load balances traffic uniformly across all endpoints --even remote ones--,
-but is configurable through the service's `trafficDistribution` field to only cross cluster boundaries when there are no local endpoints.
+but this is configurable through the service's `trafficDistribution` field to only cross cluster boundaries when there are no local endpoints.
 Thus, users have control over whether and when traffic crosses cluster boundaries with no changes to application code.
 
 ## Limitations and Roadmap
