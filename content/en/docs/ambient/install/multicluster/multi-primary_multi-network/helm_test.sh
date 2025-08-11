@@ -41,11 +41,11 @@ function install_istio_on_cluster1_helm {
     _rewrite_helm_repo snip_install_ztunnel_cluster1
 
     echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_2
-    snip_install_the_eastwest_gateway_3
+    snip_install_an_ambient_eastwest_gateway_in_cluster1_2
+    snip_install_an_ambient_eastwest_gateway_in_cluster1_3
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_4 "$snip_install_the_eastwest_gateway_4_out"
+    _verify_like snip_install_an_ambient_eastwest_gateway_in_cluster1_4 "$snip_install_an_ambient_eastwest_gateway_in_cluster1_4_out"
 }
 
 function install_istio_on_cluster2_helm {
@@ -62,11 +62,11 @@ function install_istio_on_cluster2_helm {
     _rewrite_helm_repo snip_install_ztunnel_cluster2
 
     echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_in_cluster2_2
-    snip_install_the_eastwest_gateway_in_cluster2_3
+    snip_install_an_ambient_eastwest_gateway_in_cluster2_2
+    snip_install_an_ambient_eastwest_gateway_in_cluster2_3
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster2_4 "$snip_install_the_eastwest_gateway_in_cluster2_4_out"
+    _verify_like snip_install_an_ambient_eastwest_gateway_in_cluster2_4 "$snip_install_an_ambient_eastwest_gateway_in_cluster2_4_out"
 }
 
 function install_istio_helm {

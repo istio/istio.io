@@ -2,7 +2,7 @@
 title: Before you begin
 description: Initial steps before installing Istio on multiple clusters.
 weight: 1
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,multicluster,ambient]
 test: n/a
 owner: istio/wg-environments-maintainers
 ---
@@ -19,7 +19,7 @@ In addition, review the requirements and perform the initial steps below.
 
 ### Cluster
 
-This guide requires that you have two Kubernetes clusters with any of the
+This guide requires that you have two Kubernetes clusters with support for LoadBalancing `Services` on any of the
 [supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 ### API Server Access

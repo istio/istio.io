@@ -2,12 +2,16 @@
 title: Install ambient multi-primary on different networks
 description: Install an Istio ambient mesh across multiple primary clusters on different networks.
 weight: 30
-keywords: [kubernetes,multicluster]
+keywords: [kubernetes,multicluster,ambient]
 test: yes
 owner: istio/wg-environments-maintainers
 ---
 
 {{< boilerplate alpha >}}
+
+{{< tip >}}
+{{< boilerplate gateway-api-future >}}
+{{< /tip >}}
 
 Follow this guide to install the Istio control plane on both `cluster1` and
 `cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}} (this is currently the only supported configuration in ambient mode). Cluster
@@ -37,8 +41,7 @@ traffic. The gateway in each cluster must be reachable from the other cluster.
 If the istio-system namespace is already created, we need to set the cluster's network there:
 
 {{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER1}" get namespace istio-system && \
-  kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
+$ kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
 {{< /text >}}
 
 ## Configure `cluster1` as a primary
@@ -114,20 +117,12 @@ $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUST
 ## Install an ambient east-west gateway in `cluster1`
 
 Install a gateway in `cluster1` that is dedicated to ambient
-[east-west](https://en.wikipedia.org/wiki/East-west_traffic) traffic. By
-default, this gateway will be public on the Internet. Production systems may
+[east-west](https://en.wikipedia.org/wiki/East-west_traffic) traffic. Be
+aware that, depending on your Kubernetes environment, this gateway may be
+deployed on the public Internet by default. Production systems may
 require additional access restrictions (e.g. via firewall rules) to prevent
 external attacks. Check with your cloud vendor to see what options are
 available.
-
-### Deploy Gateway API CRDs
-
-{{< text syntax=bash snip_id=install_crds >}}
-$ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_CLUSTER1}" &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f - --context="${CTX_CLUSTER1}"; }
-{{< /text >}}
-
-### Install the east-west gateway
 
 {{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
 
@@ -191,12 +186,6 @@ Wait for the east-west gateway to be assigned an external IP address:
 $ kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
-{{< /text >}}
-
-## Expose services in `cluster1`
-
-{{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER1}" label svc helloworld -n sample istio.io/global="true"
 {{< /text >}}
 
 ## Set the default network for `cluster2`
@@ -278,7 +267,7 @@ $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUST
 
 {{< /tabset >}}
 
-## Install the east-west gateway in `cluster2`
+## Install an ambient east-west gateway in `cluster2`
 
 As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
 to east-west traffic.
@@ -341,12 +330,6 @@ Wait for the east-west gateway to be assigned an external IP address:
 $ kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
 NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AGE
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
-{{< /text >}}
-
-## Expose services in `cluster2`
-
-{{< text bash >}}
-$ kubectl --context="${CTX_CLUSTER2}" label svc helloworld -n sample istio.io/global="true"
 {{< /text >}}
 
 ## Enable Endpoint Discovery

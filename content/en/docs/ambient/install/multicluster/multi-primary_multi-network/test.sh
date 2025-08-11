@@ -37,10 +37,10 @@ function install_istio_on_cluster1_istioctl {
     echo y | snip_configure_cluster1_as_a_primary_2
 
     echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_1
+    snip_install_an_ambient_eastwest_gateway_in_cluster1_1
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_4 "$snip_install_the_eastwest_gateway_4_out"
+    _verify_like snip_install_an_ambient_eastwest_gateway_in_cluster1_4 "$snip_install_an_ambient_eastwest_gateway_in_cluster1_4_out"
 }
 
 function install_istio_on_cluster2_istioctl {
@@ -55,10 +55,10 @@ function install_istio_on_cluster2_istioctl {
     echo y | snip_configure_cluster2_as_a_primary_2
 
     echo "Creating the east-west gateway"
-    snip_install_the_eastwest_gateway_in_cluster2_1
+    snip_install_an_ambient_eastwest_gateway_in_cluster2_1
 
     echo "Waiting for the east-west gateway to have an external IP"
-    _verify_like snip_install_the_eastwest_gateway_in_cluster2_4 "$snip_install_the_eastwest_gateway_in_cluster2_4_out"
+    _verify_like snip_install_an_ambient_eastwest_gateway_in_cluster2_4 "$snip_install_an_ambient_eastwest_gateway_in_cluster2_4_out"
 }
 
 function install_istio_istioctl {
