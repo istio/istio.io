@@ -1,4 +1,4 @@
-{{ if and (eq .Section "docs") (not .Site.Params.archive) }}
+{{ if and (eq .Section "docs") (not $.Site.Data.args.archive) }}
 {{ $versions := site.Data.versions }}
 {{ $mainVerStr := $versions.main }}
 {{ $preliminaryVerStr := $versions.preliminary }}
