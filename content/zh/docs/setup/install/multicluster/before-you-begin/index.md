@@ -49,7 +49,7 @@ API 服务器的访问。
 | `CTX_CLUSTER1` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster1`。 |
 | `CTX_CLUSTER2` | [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的默认上下文名称，用于访问集群 `cluster2`。 |
 
-继续之前，设置这两个变量：
+继续之前，设置这两个环境变量：
 
 {{< text syntax=bash snip_id=none >}}
 $ export CTX_CLUSTER1=<your cluster1 context>
@@ -87,8 +87,7 @@ Istio 的安装说明可能略有变化。
 生成并分别推送 CA 证书的秘钥给 `cluster1` 和 `cluster2`。
 
 {{< tip >}}
-如果您当前有一个自签名 CA 的独立集群
-(就像[入门](/zh/docs/setup/getting-started/)中描述的那样)，
+如果您当前有一个自签名 CA 的独立集群（就像[入门](/zh/docs/setup/getting-started/)中描述的那样），
 您需要用一个[证书管理](/zh/docs/tasks/security/cert-management/)中介绍的方法，来改变 CA。
 改变 CA 通常需要重新安装 Istio。
 以下安装说明可能必须根据您对 CA 的选择进行更改。
