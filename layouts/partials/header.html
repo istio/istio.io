@@ -23,7 +23,7 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if and (eq .Identifier "docs") (eq $.Section "docs") (not $.Site.Params.archive) }}
+                    {{ if and (eq .Identifier "docs") (eq $.Section "docs") (not $.Site.Data.args.archive) }}
                     <li class="main-navigation-links-item">
                     <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                         <span>{{ .Name }}</span>
