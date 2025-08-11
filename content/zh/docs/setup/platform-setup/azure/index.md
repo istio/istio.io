@@ -64,3 +64,41 @@ Azure 为 Azure Kubernetes Service (AKS) 提供了
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
+
+### 在 Azure 中使用 Gateway API {#using-gateway-api-with-azure}
+
+如果您将 Gateway API 与 AKS 一起使用，则可能还需要将以下配置添加到 `Gateway` 资源：
+
+{{< text yaml >}}
+infrastructure:
+  annotations:
+    service.beta.kubernetes.io/port_<http[s] port>_health-probe_protocol: tcp
+{{< /text >}}
+
+其中，`<http[s] port>` 是 HTTP(S) 侦听器的端口号。如果您有多个 HTTP(S) 侦听器，
+则需要为每个侦听器添加注解。当 `/` 路径未响应 200 时，此注解是 Azure 负载均衡器运行状况检查正常运行所必需的。
+
+例如，如果您按照 [Ingress Gateway](/zh/docs/setup/getting-started)
+示例使用 Gateway API，则需要部署以下 `Gateway`：
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/port_80_health-probe_protocol: tcp
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    hostname: "httpbin.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+EOF
+{{< /text >}}
