@@ -18,7 +18,18 @@ owner: istio/wg-environments-maintainers
 
 本指南需要您具备两个 Kubernetes 集群，且版本需为[Kubernetes 支持的版本：](/zh/docs/releases/supported-releases#support-status-of-istio-releases){{< supported_kubernetes_versions >}}。
 
-### API Server Access
+{{< tip >}}
+如果您正在 `kind` 测试多集群设置，则可以使用脚本
+`samples/kind-lb/setupkind.sh` 快速设置具有负载均衡器支持的集群：
+
+{{< text bash >}}
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
+{{< /text >}}
+
+{{< /tip >}}
+
+### API 服务器访问 {#api-server-access}
 
 每个集群中的 API 服务器必须能被网格中其他集群访问。
 很多云服务商通过网络负载均衡器（NLB）开放 API 服务器的公网访问。
@@ -44,6 +55,16 @@ $ export CTX_CLUSTER1=<your cluster1 context>
 $ export CTX_CLUSTER2=<your cluster2 context>
 {{< /text >}}
 
+{{< tip >}}
+如果您使用 `kind`，请设置以下上下文：
+
+{{< text bash >}}
+$ export CTX_CLUSTER1=$(kubectl config get-contexts -o name | grep kind-cluster-1)
+$ export CTX_CLUSTER2=$(kubectl config get-contexts -o name | grep kind-cluster-2)
+{{< /text >}}
+
+{{< /tip >}}
+
 ## 配置信任关系 {#configure-trust}
 
 多集群服务网格部署要求您在网格中的所有集群之间建立信任关系。
@@ -68,6 +89,51 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 您需要用一个[证书管理](/zh/docs/tasks/security/cert-management/)中介绍的方法，来改变 CA。
 改变 CA 通常需要重新安装 Istio。
 以下安装说明可能必须根据您对 CA 的选择进行更改。
+{{< /tip >}}
+
+{{< tip >}}
+如果您使用 `kind`，则可以使用提供的 Makefile
+为您的集群快速生成自签名 CA 证书：
+
+{{< text bash >}}
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    ROOTCA_CN="Root CA" \
+    ROOTCA_ORG=istio.io \
+    root-ca
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    INTERMEDIATE_CN="Cluster 1 Intermediate CA" \
+    INTERMEDIATE_ORG=istio.io \
+    cluster1-cacerts
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    INTERMEDIATE_CN="Cluster 2 Intermediate CA" \
+    INTERMEDIATE_ORG=istio.io \
+    cluster2-cacerts
+{{< /text >}}
+
+This will create a root CA and intermediate CA certificates for each cluster, which you can then use to set up trust between your clusters.
+这将为每个集群创建一个根 CA 和中间 CA 证书，
+然后您可以使用它们在集群之间建立信任。
+
+要在每个集群中创建 `cacerts` Secret，请在生成证书后使用以下命令：
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER1}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER1}" create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem=cluster1/ca-cert.pem \
+    --from-file=ca-key.pem=cluster1/ca-key.pem \
+    --from-file=root-cert.pem=cluster1/root-cert.pem \
+    --from-file=cert-chain.pem=cluster1/cert-chain.pem
+$ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER2}" create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem=cluster2/ca-cert.pem \
+    --from-file=ca-key.pem=cluster2/ca-key.pem \
+    --from-file=root-cert.pem=cluster2/root-cert.pem \
+    --from-file=cert-chain.pem=cluster2/cert-chain.pem
+{{< /text >}}
+
+这将在每个集群的 `istio-system` 命名空间中创建 `cacerts` Secret，
+从而允许 Istio 使用您的自定义 CA 证书。
+
 {{< /tip >}}
 
 ## 后续步骤 {#next-steps}
