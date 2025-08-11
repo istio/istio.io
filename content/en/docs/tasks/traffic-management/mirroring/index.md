@@ -7,6 +7,18 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
+<!--
+Please don't attempt to edit this page to change the indentation to fix the
+examples. The indentation is correct, but the template rendering is wrong.
+See the callout below.
+-->
+
+{{< warning >}}
+A [template bug in the Istio website code](https://github.com/istio/istio.io/issues/15689)
+means that the examples on this page do not render properly.
+You can [view the page source](https://raw.githubusercontent.com/istio/istio.io/master/content/en/docs/tasks/traffic-management/mirroring/index.md) to see the correct manifests.
+{{< /warning >}}
+
 This task demonstrates the traffic mirroring capabilities of Istio.
 
 Traffic mirroring, also called shadowing, is a powerful concept that allows
