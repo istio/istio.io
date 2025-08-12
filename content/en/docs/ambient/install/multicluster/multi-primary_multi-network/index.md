@@ -5,8 +5,8 @@ weight: 30
 keywords: [kubernetes,multicluster,ambient]
 test: yes
 owner: istio/wg-environments-maintainers
-next: docs/ambient/install/multicluster/verify
-prev: docs/ambient/install/multicluster/before-you-begin/index.md
+next: /docs/ambient/install/multicluster/verify
+prev: /docs/ambient/install/multicluster/before-you-begin
 ---
 
 {{< boilerplate alpha >}}
