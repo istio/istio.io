@@ -5,7 +5,7 @@ weight: 1
 keywords: [kubernetes,multicluster,ambient]
 test: n/a
 owner: istio/wg-environments-maintainers
-next: /docs/ambient/install/multicluster/multi-primary-multi-network
+next: /docs/ambient/install/multicluster/multi-primary_multi-network
 prev: /docs/ambient/install/multicluster
 ---
 
