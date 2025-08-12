@@ -95,7 +95,7 @@ check_content() {
         FAILED=1
     fi
 
-    if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive/)" .; then
+    if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive|latest\/news)" .; then
         error "Ensure markdown content uses relative references to istio.io"
         FAILED=1
     fi
