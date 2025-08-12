@@ -20,7 +20,6 @@
 #          docs/ambient/usage/waypoint/index.md
 ####################################################################################################
 source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
-source "content/en/boilerplates/snips/gateway-api-remove-crds.sh"
 
 snip_check_ns_label() {
 kubectl get ns -L istio.io/dataplane-mode
