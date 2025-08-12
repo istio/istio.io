@@ -185,7 +185,7 @@ aliases:
   用于配置 istiod 用于在集群中传播其根 CA 证书的 ConfigMap 的名称。
   这允许在同一集群中运行具有重叠命名空间的多个控制平面。
 
-- **新增** 添加了对自定义 Ambinet 启用标签的支持。
+- **新增** 添加了对自定义 Ambient 启用标签的支持。
   ([Issue #53578](https://github.com/istio/istio/issues/53578))
 
 - **新增** 添加了在 Gateway Helm Chart 上配置 `additionalContainers` 和 `initContainers` 的支持。
