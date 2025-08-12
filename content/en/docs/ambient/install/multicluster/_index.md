@@ -7,6 +7,7 @@ simple_list: true
 content_above: true
 test: table-of-contents
 owner: istio/wg-environments-maintainers
+next: /docs/ambient/install/multicluster/before-you-begin
 ---
 
 Follow this guide to install an Istio {{< gloss "ambient" >}}ambient service mesh{{< /gloss >}}

@@ -8,7 +8,6 @@ aliases:
 owner: istio/wg-environment-maintainers
 test: n/a
 list_below: yes
-next: /docs/ambient/install/multicluster/before-you-begin
 keywords: [kubernetes,ambient,install]
 ---
 
