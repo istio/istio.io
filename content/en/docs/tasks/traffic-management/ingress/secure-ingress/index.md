@@ -543,10 +543,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Because the Kubernetes Gateway API does not currently support mutual TLS termination in a
-[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway),
-we use an Istio-specific option, `gateway.istio.io/tls-terminate-mode: MUTUAL`,
-to configure it:
+Add a reference to a ConfigMap or a Secret with `ca.crt` or `cacert` key that holds CA certificates.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -566,8 +563,11 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
+      frontendValidation:
+        caCertificateRefs:
+        - group: ""
+          kind: Secret
+          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
