@@ -64,6 +64,6 @@ Istio {{< gloss "ambient" >}}Ambient 服务网格{{< /gloss >}}。
 
 {{< tip >}}
 随着 Ambient 多集群技术的成熟，许多此类限制将得到解决。
-请查看 [Istio 发行说明](https://istio.io/latest/zh/news/)，
+请查看 [Istio 发行说明](/zh/news/)，
 了解 Ambient 多集群功能的更新。
 {{< /tip >}}
