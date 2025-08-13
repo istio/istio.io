@@ -12,50 +12,47 @@ prev: /zh/docs/ambient/install/multicluster/before-you-begin
 {{< boilerplate alpha >}}
 
 {{< tip >}}
-This guide requires installation of the Gateway API CRDs.
+本指南需要安装 Gateway API CRD。
 {{< boilerplate gateway-api-install-crds >}}
 {{< /tip >}}
 
-Follow this guide to install the Istio control plane on both `cluster1` and
-`cluster2`, making each a {{< gloss >}}primary cluster{{< /gloss >}} (this is currently the only supported configuration in ambient mode). Cluster
-`cluster1` is on the `network1` network, while `cluster2` is on the
-`network2` network. This means there is no direct connectivity between pods
-across cluster boundaries.
+按照本指南在 `cluster1` 和 `cluster2` 上安装 Istio 控制平面，
+使每个集群成为{{< gloss "primary cluster" >}}主集群{{< /gloss >}}（这是目前 Ambient 模式下唯一支持的配置）。
+集群 `cluster1` 位于 `network1` 网络上，而 `cluster2` 位于 `network2` 网络上。
+这意味着跨集群边界的 Pod 之间没有直接连接。
 
-Before proceeding, be sure to complete the steps under
-[before you begin](/docs/ambient/install/multicluster/before-you-begin).
+在继续之前，请务必完成[开始之前](/zh/docs/ambient/install/multicluster/before-you-begin)下的步骤。
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
-In this configuration, both `cluster1` and `cluster2` observe the API Servers
-in each cluster for endpoints.
+在此配置中，`cluster1` 和 `cluster2` 都会互相发现每个集群中的 API 服务器端点。
 
-Service workloads across cluster boundaries communicate indirectly, via
-dedicated gateways for [east-west](https://en.wikipedia.org/wiki/East-west_traffic)
-traffic. The gateway in each cluster must be reachable from the other cluster.
+跨集群边界的服务工作负载通过专用网关间接通信，
+用于[东西向](https://en.wikipedia.org/wiki/East-west_traffic)流量。
+每个集群中的网关必须能够与其他集群互通。
 
 {{< image width="75%"
     link="arch.svg"
-    caption="Multiple primary clusters on separate networks"
+    caption="独立网络上的多个主集群"
     >}}
 
-## Set the default network for `cluster1`
+## 设置 `cluster1` 的默认网络 {#set-the-default-network-for-cluster1}
 
-If the istio-system namespace is already created, we need to set the cluster's network there:
+如果 istio-system 命名空间已经创建，我们需要在那里设置集群的网络：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
 {{< /text >}}
 
-## Configure `cluster1` as a primary
+## 将 `cluster1` 配置为主集群 {#configure-cluster1-as-a-primary}
 
-Create the `istioctl` configuration for `cluster1`:
+为 `cluster1` 创建 `istioctl` 配置：
 
 {{< tabset category-name="multicluster-install-type-cluster-1" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Install Istio as primary in `cluster1` using istioctl and the `IstioOperator` API.
+使用 istioctl 和 `IstioOperator` API 在 `cluster1` 中将 Istio 安装为主集群。
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
@@ -78,7 +75,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration to `cluster1`:
+将配置应用到 `cluster1`：
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
@@ -87,27 +84,27 @@ $ istioctl install --context="${CTX_CLUSTER1}" -f cluster1.yaml
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
 
-Install Istio as primary in `cluster1` using the following Helm commands:
+使用以下 Helm 命令在 `cluster1` 中将 Istio 安装为主集群：
 
-Install the `base` chart in `cluster1`:
+在 `cluster1` 中安装 `base` Chart：
 
 {{< text bash >}}
 $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 
-Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
+然后，使用以下多集群设置在 `cluster1` 中安装 `istiod` Chart：
 
 {{< text bash >}}
 $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 {{< /text >}}
 
-Next, install the CNI node agent in ambient mode:
+接下来，在 Ambient 模式下安装 CNI 节点代理：
 
 {{< text syntax=bash snip_id=install_cni_cluster1 >}}
 $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}" --set profile=ambient
 {{< /text >}}
 
-Finally, install the ztunnel data plane:
+最后，安装 ztunnel 数据平面：
 
 {{< text syntax=bash snip_id=install_ztunnel_cluster1 >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}" --set multiCluster.clusterName=cluster1 --set global.network=network1
@@ -117,15 +114,12 @@ $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUST
 
 {{< /tabset >}}
 
-## Install an ambient east-west gateway in `cluster1`
+## 在 `cluster1` 中安装 Ambient 东西向网关 {#install-an-ambient-east-west-gateway-in-cluster1}
 
-Install a gateway in `cluster1` that is dedicated to ambient
-[east-west](https://en.wikipedia.org/wiki/East-west_traffic) traffic. Be
-aware that, depending on your Kubernetes environment, this gateway may be
-deployed on the public Internet by default. Production systems may
-require additional access restrictions (e.g. via firewall rules) to prevent
-external attacks. Check with your cloud vendor to see what options are
-available.
+在 `cluster1` 中安装一个专用于 Ambient [东西向](https://en.wikipedia.org/wiki/East-west_traffic)流量的网关。
+请注意，根据您的 Kubernetes 环境，此网关可能默认部署在公共互联网上。
+生产系统可能需要额外的访问限制（例如通过防火墙规则）来防止外部攻击。
+请咨询您的云供应商，了解有哪些可用的选项。
 
 {{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
 
@@ -139,13 +133,13 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /text >}}
 
 {{< warning >}}
-If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
+如果控制平面安装了修订版，请将 `--revision rev` 标志添加到 `gen-eastwest-gateway.sh` 命令中。
 {{< /warning >}}
 
 {{< /tab >}}
 {{< tab name="Kubectl apply" category-value="helm" >}}
 
-Install the east-west gateway in `cluster1` using the following Gateway definition:
+使用以下网关定义在 `cluster1` 中安装东西向网关：
 
 {{< text bash >}}
 $ cat <<EOF > cluster1-ewgateway.yaml
@@ -170,10 +164,11 @@ EOF
 {{< /text >}}
 
 {{< warning >}}
-If you are running a revisioned instance of istiod and you don't have a default revision or tag set, you may need to add the `istio.io/rev` label to this `Gateway` manifest.
+如果您正在运行 istiod 的修订实例，并且没有设置默认修订或标签，
+则可能需要将 `istio.io/rev` 标签添加到此 `Gateway` 清单中。
 {{< /warning >}}
 
-Apply the configuration to `cluster1`:
+将配置应用到 `cluster1`：
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" -f cluster1-ewgateway.yaml
@@ -183,7 +178,7 @@ $ kubectl apply --context="${CTX_CLUSTER1}" -f cluster1-ewgateway.yaml
 
 {{< /tabset >}}
 
-Wait for the east-west gateway to be assigned an external IP address:
+等待东西向网关分配外部 IP 地址：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" get svc istio-eastwestgateway -n istio-system
@@ -191,24 +186,24 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51s
 {{< /text >}}
 
-## Set the default network for `cluster2`
+## 设置 `cluster2` 的默认网络 {#set-the-default-network-for-cluster2}
 
-If the istio-system namespace is already created, we need to set the cluster's network there:
+如果 istio-system 命名空间已经创建，我们需要在那里设置集群的网络：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
   kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
 {{< /text >}}
 
-## Configure cluster2 as a primary
+## 将 cluster2 配置为主集群 {#configure-cluster2-as-a-primary}
 
-Create the `istioctl` configuration for `cluster2`:
+为 `cluster2` 创建 `istioctl` 配置：
 
 {{< tabset category-name="multicluster-install-type-cluster-2" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Install Istio as primary in `cluster2` using istioctl and the `IstioOperator` API.
+使用 istioctl 和 `IstioOperator` API 在 `cluster2` 中将 Istio 安装为主集群。
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
@@ -231,7 +226,7 @@ spec:
 EOF
 {{< /text >}}
 
-Apply the configuration to `cluster2`:
+将配置应用到 `cluster2`：
 
 {{< text bash >}}
 $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
@@ -240,27 +235,27 @@ $ istioctl install --context="${CTX_CLUSTER2}" -f cluster2.yaml
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
 
-Install Istio as primary in `cluster2` using the following Helm commands:
+使用以下 Helm 命令在 `cluster2` 中将 Istio 安装为主集群：
 
-Install the `base` chart in `cluster2`:
+在 `cluster2` 中安装 `base` Chart：
 
 {{< text bash >}}
 $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
-Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
+然后，使用以下多集群设置在 `cluster2` 中安装 `istiod` Chart：
 
 {{< text bash >}}
 $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
 {{< /text >}}
 
-Next, install the CNI node agent in ambient mode:
+接下来，在 Ambient 模式下安装 CNI 节点代理：
 
 {{< text syntax=bash snip_id=install_cni_cluster2 >}}
 $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER2}" --set profile=ambient
 {{< /text >}}
 
-Finally, install the ztunnel data plane:
+最后，安装 ztunnel 数据平面：
 
 {{< text syntax=bash snip_id=install_ztunnel_cluster2 >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"  --set multiCluster.clusterName=cluster2 --set global.network=network2
@@ -270,10 +265,9 @@ $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUST
 
 {{< /tabset >}}
 
-## Install an ambient east-west gateway in `cluster2`
+## 在 `cluster2` 中安装环境东西向网关 {#install-an-ambient-east-west-gateway-in-cluster2}
 
-As we did with `cluster1` above, install a gateway in `cluster2` that is dedicated
-to east-west traffic.
+正如我们上面的 `cluster1` 中所做的那样，在 `cluster2` 中安装一个专用于东西向流量的网关。
 
 {{< tabset category-name="east-west-gateway-install-type-cluster-2" >}}
 
@@ -289,7 +283,7 @@ $ @samples/multicluster/gen-eastwest-gateway.sh@ \
 {{< /tab >}}
 {{< tab name="Kubectl apply" category-value="helm" >}}
 
-Install the east-west gateway in `cluster2` using the following Gateway definition:
+使用以下网关定义在 `cluster2` 中安装东西向网关：
 
 {{< text bash >}}
 $ cat <<EOF > cluster2-ewgateway.yaml
@@ -314,10 +308,11 @@ EOF
 {{< /text >}}
 
 {{< warning >}}
-If you are running a revisioned instance of istiod and you don't have a default revision or tag set, you may need to add the `istio.io/rev` label to this `Gateway` manifest.
+如果您正在运行 istiod 的修订实例，并且没有设置默认修订或标签，
+则可能需要将 `istio.io/rev` 标签添加到此 `Gateway` 清单中。
 {{< /warning >}}
 
-Apply the configuration to `cluster2`:
+将配置应用到 `cluster2`：
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER2}" -f cluster2-ewgateway.yaml
@@ -327,7 +322,7 @@ $ kubectl apply --context="${CTX_CLUSTER2}" -f cluster2-ewgateway.yaml
 
 {{< /tabset >}}
 
-Wait for the east-west gateway to be assigned an external IP address:
+等待东西向网关分配外部 IP 地址：
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" get svc istio-eastwestgateway -n istio-system
@@ -335,9 +330,9 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 {{< /text >}}
 
-## Enable Endpoint Discovery
+## 启用端点发现 {#enable-endpoint-discovery}
 
-Install a remote secret in `cluster2` that provides access to `cluster1`’s API server.
+在 `cluster2` 中安装一个远程密钥，以提供对 `cluster1` 的 API 服务器的访问。
 
 {{< text bash >}}
 $ istioctl create-remote-secret \
@@ -346,7 +341,7 @@ $ istioctl create-remote-secret \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
-Install a remote secret in `cluster1` that provides access to `cluster2`’s API server.
+在 `cluster1` 中安装一个远程密钥，以提供对 `cluster2` 的 API 服务器的访问。
 
 {{< text bash >}}
 $ istioctl create-remote-secret \
@@ -355,29 +350,28 @@ $ istioctl create-remote-secret \
   kubectl apply -f - --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
-**Congratulations!** You successfully installed an Istio mesh across multiple
-primary clusters on different networks!
+**恭喜！**您已成功在不同网络上的多个主集群上安装 Istio 网格！
 
-## Next Steps
+## 下一步 {#next-steps}
 
-You can now [verify the installation](/docs/ambient/install/multicluster/verify).
+您现在可以[验证安装](/zh/docs/ambient/install/multicluster/verify)。
 
-## Cleanup
+## 清理 {#cleanup}
 
-Uninstall Istio from both `cluster1` and `cluster2` using the same mechanism you installed Istio with (istioctl or Helm).
+使用与安装 Istio 相同的机制（istioctl 或 Helm）从 `cluster1` 和 `cluster2` 中卸载 Istio。
 
 {{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-Uninstall Istio in `cluster1`:
+在 `cluster1` 中卸载 Istio：
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl uninstall --context="${CTX_CLUSTER1}" -y --purge
 $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
-Uninstall Istio in `cluster2`:
+在 `cluster2` 中卸载 Istio：
 
 {{< text syntax=bash snip_id=none >}}
 $ istioctl uninstall --context="${CTX_CLUSTER2}" -y --purge
@@ -388,7 +382,7 @@ $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 
 {{< tab name="Helm" category-value="helm" >}}
 
-Delete Istio Helm installation from `cluster1`:
+从 `cluster1` 中删除 Istio Helm 安装：
 
 {{< text syntax=bash >}}
 $ helm delete ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}"
@@ -397,13 +391,13 @@ $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER1}"
 $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER1}"
 {{< /text >}}
 
-Delete the `istio-system` namespace from `cluster1`:
+从 `cluster1` 中删除 `istio-system` 命名空间：
 
 {{< text syntax=bash >}}
 $ kubectl delete ns istio-system --context="${CTX_CLUSTER1}"
 {{< /text >}}
 
-Delete Istio Helm installation from `cluster2`:
+从 `cluster1` 中删除 Istio Helm 安装：
 
 {{< text syntax=bash >}}
 $ helm delete ztunnel -n istio-system --kube-context "${CTX_CLUSTER2}"
@@ -412,23 +406,24 @@ $ helm delete istiod -n istio-system --kube-context "${CTX_CLUSTER2}"
 $ helm delete istio-base -n istio-system --kube-context "${CTX_CLUSTER2}"
 {{< /text >}}
 
-Delete the `istio-system` namespace from `cluster2`:
+从 `cluster2` 中删除 `istio-system` 命名空间：
 
 {{< text syntax=bash >}}
 $ kubectl delete ns istio-system --context="${CTX_CLUSTER2}"
 {{< /text >}}
 
 (Optional) Delete CRDs installed by Istio:
+（可选）删除 Istio 安装的 CRD：
 
-Deleting CRDs permanently removes any Istio resources you have created in your clusters.
-To delete Istio CRDs installed in your clusters:
+删除 CRD 会永久移除您在集群中创建的所有 Istio 资源。
+要删除集群中已安装的 Istio CRD，请执行以下操作：
 
 {{< text syntax=bash snip_id=delete_crds >}}
 $ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
 $ kubectl get crd -oname --context "${CTX_CLUSTER2}" | grep --color=never 'istio.io' | xargs kubectl delete --context "${CTX_CLUSTER2}"
 {{< /text >}}
 
-And finally, clean up the Gateway API CRDs:
+最后，清理 Gateway API CRD：
 
 {{< text syntax=bash snip_id=delete_gateway_crds >}}
 $ kubectl get crd -oname --context "${CTX_CLUSTER1}" | grep --color=never 'gateway.networking.k8s.io' | xargs kubectl delete --context "${CTX_CLUSTER1}"
