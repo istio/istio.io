@@ -32,7 +32,6 @@ Ambient [东西](https://en.wikipedia.org/wiki/East-west_traffic)网关无法用
 
 ## 环境变量 {#environment-variables}
 
-This guide will refer to two clusters: `cluster1` and `cluster2`. The following environment variables will be used throughout to simplify the instructions:
 本指南将涉及两个集群：`cluster1` 和 `cluster2`。为了简化说明，我们将始终使用以下环境变量：
 
 变量 | 描述
