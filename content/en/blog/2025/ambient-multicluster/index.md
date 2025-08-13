@@ -13,7 +13,7 @@ This release brings the core functionality of a multicluster mesh and lays the g
 ## The Power & Complexity of Multicluster
 
 Multicluster architectures increase outage resilience, shrink your blast radius, and scale across data centers.
-That said, connecting multiple clusters poses connectivity, security, and operational challenges.
+That said, integrating multiple clusters poses connectivity, security, and operational challenges.
 
 In a single Kubernetes cluster, every pod can directly connect to another pod via a unique pod IP or service VIP.
 These guarantees break down in multicluster architectures;
@@ -95,6 +95,6 @@ We are looking to improve the following areas
 
 We are also looking to improve our reference documentation, guides, testing, and performance.
 
-If you would like to try out ambient multicluster, please follow [this guide](TODO).
+If you would like to try out ambient multicluster, please follow [this guide](/docs/ambient/install/multicluster).
 Remember, this feature is in alpha status and not ready for production use.
 We welcome your bug reports, thoughts, comments, and use cases -- you can reach us on [GitHub](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
