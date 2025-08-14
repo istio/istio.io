@@ -1,0 +1,162 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="趋于成熟的 Istio Ambient：与 Kubernetes 各供应商和各类 CNI 的兼容性"><meta name=description content="工作负载 Pod 和 ztunnel 之间的创新流量重定向机制。"><meta name=author content="Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io); Translated by Wilson Wu (DaoCloud)"><meta name=keywords content="microservices,services,mesh,Ambient,Istio,CNI,ztunnel,traffic"><meta property="og:title" content="趋于成熟的 Istio Ambient：与 Kubernetes 各供应商和各类 CNI 的兼容性"><meta property="og:type" content="website"><meta property="og:description" content="工作负载 Pod 和 ztunnel 之间的创新流量重定向机制。"><meta property="og:url" content="/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"><meta property="og:image:alt" content="The Istio sailboat logo"><meta property="og:image:width" content="4096"><meta property="og:image:height" content="2048"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@IstioMesh"><title>Istio / 趋于成熟的 Istio Ambient：与 Kubernetes 各供应商和各类 CNI 的兼容性</title><script async src="https://www.googletagmanager.com/gtag/js?id=G-RNS1643NL0"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RNS1643NL0")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.26/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.26/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.26/feed.xml><link rel="shortcut icon" href=/v1.26/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.26/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.26/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.26/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.26/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.26/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.26/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.26/favicons/android-96x96.png sizes=96xW96><link rel=icon type=image/png href=/v1.26/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.26/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.26/favicons/favicon.svg><link rel=icon type=image/png href=/v1.26/favicons/favicon.png><link rel=mask-icon href=/v1.26/favicons/safari-pinned-tab.svg color=#466BB0><link rel=manifest href=/v1.26/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.26/css/style.min.0c49b55ad2ee8f27538494fb946f08d5400dcce2593afe704b5b10d9be44493d.css integrity="sha256-DEm1WtLujydThJT7lG8I1UANzOJZOv5wS1sQ2b5EST0=" crossorigin=anonymous><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.26/js/themes_init.min.js></script></head><body class=language-unknown><script>const branchName="release-1.26",docTitle="趋于成熟的 Istio Ambient：与 Kubernetes 各供应商和各类 CNI 的兼容性",iconFile="/v1.26//img/icons.svg",buttonCopy="复制到剪切板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.26/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.26/zh/ aria-label=logotype><span class=logo><svg width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span>
+</a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation">
+<svg class="icon menu-hamburger"><use xlink:href="/v1.26/img/icons.svg#menu-hamburger"/></svg>
+</button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation">
+<svg class="icon menu-close"><use xlink:href="/v1.26/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span>
+<svg class="icon dropdown-arrow"><use xlink:href="/v1.26/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.26/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.26/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.26/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.26/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.26/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.26/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.26/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.26/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.26/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.26/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.26/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.26/zh/docs/overview/quickstart class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:veyyqmfmpj4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/latest/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.26/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>趋于成熟的 Istio Ambient：与 Kubernetes 各供应商和各类 CNI 的兼容性</h1><p>工作负载 Pod 和 ztunnel 之间的创新流量重定向机制。</p></div><p class=post-author>Jan 29, 2024 <span>| </span>作者 Ben Leggett - Solo.io, Yuval Kohavi - Solo.io, Lin Sun - Solo.io; Translated by Wilson Wu - DaoCloud</p><div><p>Istio 项目于 2022 年<a href=/v1.26/zh/blog/2022/introducing-ambient-mesh/>宣布推出一种全新的无 Sidecar 数据平面模式：Ambient 网格</a>，
+并于 2023 年初<a href=/v1.26/zh/news/releases/1.18.x/announcing-1.18/#ambient-mesh>发布了 Alpha 版实现</a>。</p><p>Alpha 版的重点是在有限的配置和环境下证明 Ambient 数据平面模式的价值。
+然而，当时的条件十分有限。Ambient 模式依赖于透明地重定向在工作负载 Pod 和
+<a href=/v1.26/zh/blog/2023/rust-based-ztunnel/>ztunnel</a> 之间的流量，
+然而，最初为此使用的机制与多种第三方容器网络接口（CNI）实现相冲突。
+通过 GitHub Issue 和 Slack 的讨论，我们发现用户希望能够在
+<a href=https://github.com/istio/istio/issues/46163>minikube</a> 和
+<a href=https://github.com/istio/istio/issues/47436>Docker Desktop</a> 上使用 Ambient 模式，
+希望使用 <a href=https://github.com/istio/istio/issues/44198>Cilium</a>
+和 <a href=https://github.com/istio/istio/issues/40973>Calico</a> 等 CNI 实现，
+还希望能够支持在 <a href=https://github.com/istio/istio/issues/42341>OpenShift</a>
+和 <a href=https://github.com/istio/istio/issues/42340>Amazon EKS</a> 等使用内部 CNI 实现上运行的服务。
+在各种场景下广泛支持 Kubernetes 已成为 Ambient 网格进阶至 Beta
+的首要需求，也就是说人们期望 Istio 能够在任意 Kubernetes 平台和任何 CNI 实现中工作。
+毕竟，如果 Ambient 不能随处可用，那么 Ambient 就不能被称为 Ambient！</p><p>在 Solo 公司，我们已将 Ambient 模式集成到 Gloo Mesh 产品中，
+并针对这个难题提出了创新的解决方案。我们决定在
+2023 年末将我们的修改提交到<a href=https://github.com/istio/istio/issues/48212>上游</a>，
+以帮助 Ambient 更快进阶至 Beta，让更多用户可以在 Istio 1.21 或更高版本中用上 Ambient，
+并在他们各自的平台中体验 Ambient 这种无 Sidecar 网格的优势，不用再操心现有的 CNI 或首选的 CNI 是什么。</p><h2 id=how-did-we-get-here>回首来时路，披荆斩棘</h2><h3 id=service-meshes-and-cnis-its-complicated>服务网格和 CNI：错综复杂</h3><p>Istio 是一种服务网格，而所有服务网格严格意义上来说都不是
+<strong>CNI 实现</strong> ，服务网格想要在所有 Kubernetes 集群运行，
+底层需要一个<a href=https://www.cni.dev/docs/spec/#overview-1>合规的主流 CNI 实现</a>。</p><p>这个主流 CNI 实现可能由您的云供应商（AKS、GKE 和 EKS 自己）提供，
+也可能由 Calico 和 Cilium 等第三方 CNI 实现提供。
+某些服务网格还可能捆绑了他们自己的主流 CNI 实现，他们明确要求只有这些实现才能让网格正常运行。</p><p>基本上，在使用 mTLS 保护 Pod 流量并在服务网格层应用高级身份验证和授权策略等操作之前，
+您必须拥有一个具有功能性 CNI 实现的功能性 Kubernetes 集群，
+以确保设置基本网络路径以便数据包可以从集群中的一个 Pod 发送到另一个 Pod（以及从一个节点发送到另一个节点）。</p><p>尽管某些服务网格也可能提供并需要自己的内部主流 CNI 实现，
+而且有时可以在同一集群内并行运行两个主流 CNI 实现（例如，一个由云提供商提供，另一个由第三方实现），
+但实际上，这会引入一系列兼容性问题、奇怪的行为、功能集减少以及由于每个
+CNI 实现可能内部使用的机制差异而导致的一些不兼容性。</p><p>为了避免这些问题，Istio 项目选择不发布或要求我们自己的主流 CNI 实现，
+甚至不需要“首选” CNI 实现 - 而是选择支持 CNI 链接与使用尽可能广泛的 CNI 实现生态系统，
+并确保与托管产品、跨供应商支持以及与更广泛的 CNCF 生态系统的可组合性。</p><h3 id=traffic-redirection-in-ambient-alpha>Ambient Alpha 版中的流量重定向</h3><p><a href=/v1.26/zh/docs/setup/additional-setup/cni/>istio-cni</a>
+组件是 Sidecar 数据平面模式下的可选组件，
+通常用于移除<a href=/v1.26/zh/docs/ops/application-deployment/requirements/>对 <code>NET_ADMIN</code> 和 <code>NET_RAW</code> 功能的兼容性要求</a>以供用户将 Pod 部署到网格中。
+<code>istio-cni</code> 是 Ambient 数据平面模式中必需的组件。
+<code>istio-cni</code> 组件<strong>不是</strong>主流 CNI 实现，它是一个节点代理，可以对集群中已存在的任何主流 CNI 实现进行扩展。</p><p>每当 Pod 被添加到 Ambient 网格时，<code>istio-cni</code> 组件都会为 Pod
+和 Pod 所在节点中运行的 <a href=/v1.26/zh/blog/2023/rust-based-ztunnel/>ztunnel</a>
+之间的所有传入和传出流量通过节点级网络命名空间配置流量重定向。
+Sidecar 机制和 Ambient Alpha 版机制之间的主要区别在于，在后者中，
+当 Pod 流量被重定向出 Pod 网络命名空间，并进入同位 ztunnel Pod
+网络命名空间时 - 途中必然经过主机网络命名空间，这是实现此目标的批量流量重定向规则所在的地方。</p><p>当我们在多个具有自己的默认 CNI 的真实 Kubernetes 环境中进行更广泛的测试时，
+很明显，在主机网络命名空间中捕获和重定向 Pod 流量（就像我们在 Alpha 版开发期间相同）无法满足我们的要求。
+使用这种方法在这些不同的环境中以通用的方式实现我们的目标根本不可行。</p><p>在主机网络命名空间中重定向流量的根本问题在于，
+这正是集群的主流 CNI 实现<strong>必须</strong>配置流量路由/网络规则的地方。
+这造成了不可避免的冲突，最关键的是：</p><ul><li>主流 CNI 实现的基本主机级网络配置可能会干扰 Istio 的 CNI
+扩展的主机级 Ambient 网络配置，从而导致流量中断和其他冲突。</li><li>如果用户部署了由主流 CNI 实现强制执行的网络策略，
+则在部署 Istio CNI 扩展时可能不会强制执行网络策略（取决于主流 CNI 实现如何执行 NetworkPolicy）</li></ul><p>虽然我们可以根据具体情况针对<strong>某些</strong>主流 CNI 实现进行设计，
+但我们无法可持续地实现通用 CNI 支持。我们考虑过 eBPF，
+但意识到任何 eBPF 实现都会遇到相同的基本问题，
+因为目前没有标准化的方法来安全地链接/扩展任意 eBPF 程序，
+并且我们仍然很难用此方法支持非 eBPF CNI 实现。</p><h3 id=addressing-the-challenges>应对挑战</h3><p>一个新的解决方案是必要的 - 在节点的网络命名空间中进行任何类型的重定向都会产生不可避免的冲突，
+除非我们对兼容性需求进行妥协。</p><p>Sidecar 模式中，在 Sidecar 和应用程序 Pod 之间配置流量重定向很简单，
+因为两者都在 Pod 的网络命名空间内运行。这让我灵光一现：为什么不模仿 Sidecar，
+并在应用程序 Pod 的网络命名空间中配置重定向呢？</p><p>虽然这听起来只是一个“简单”的想法，但要如何让其实现呢？
+Ambient 的一个关键要求是 ztunnel 必须在应用程序 Pod 外部的 Istio 系统命名空间中运行。
+经过一番研究，我们发现在一个网络命名空间中运行的 Linux 进程可以在另一个网络命名空间中创建并拥有监听套接字。
+这是 Linux 套接字 API 的基本功能。然而，为了使这项工作正常运行并覆盖所有 Pod 生命周期场景，
+我们必须对 ztunnel 以及 <code>istio-cni</code> 节点代理进行架构变更。</p><p>在进行原型设计并充分验证这种新颖方法确实适用于我们可以访问的所有 Kubernetes 平台之后，
+我们对这项工作建立了信心，并决定将这一新的工作负载 Pod 和 ztunnel 节点代理组件之间的 <strong>in-Pod</strong>
+流量重定向机制模式贡献到上游，该机制是从头开始建立的，
+与所有主流云提供商和 CNI 高度兼容。</p><p>关键的创新是将 Pod 的网络命名空间传递到同位的 ztunnel，
+以便 ztunnel 可以在 Pod 的网络命名空间内部启动其重定向套接字，同时仍然在 Pod 外部运行。
+通过这种方法，ztunnel 和应用程序 Pod 之间的流量重定向的方式与当今的 Sidecar 和应用程序 Pod 非常相似，
+并且对于在节点网络命名空间中运行的任何 Kubernetes 主流 CNI 完全不可见。
+网络策略可以继续由任何 Kubernetes 主流 CNI 执行和管理，
+无论 CNI 是否使用 eBPF 或 iptables，都不会发生任何冲突。</p><h2 id=technical-deep-dive-of-in-pod-traffic-redirection>in-Pod 流量重定向的技术深入探讨</h2><p>首先，让我们回顾一下数据包是如何在 Kubernetes 中 Pod 之间传输的基础知识。</p><h3 id=linux-kubernetes-and-cni----whats-a-network-namespace-and-why-does-it-matter>Linux、Kubernetes 和 CNI - 什么是网络命名空间，为什么它很重要？</h3><p>在 Linux 中，<strong>容器</strong>是在隔离的 Linux 命名空间中运行的一个或多个 Linux 进程。
+Linux 命名空间只是一个内核标志，用于控制在该命名空间内运行的进程能够看到的内容。
+例如，如果您通过 <code>ip netns add my-linux-netns</code> 命令创建一个新的 Linux 网络命名空间并在其中运行一个进程，
+则该进程只能看到在该网络命名空间中创建的网络规则。
+它看不到在其外部创建的任何网络规则 - 即使该计算机上运行的所有内容仍然共享一个 Linux 网络堆栈。</p><p>Linux 命名空间在概念上很像 Kubernetes 命名空间 - 组织和隔离不同活动进程的逻辑标签，
+并允许您创建关于给定命名空间内的事物可以看到的规则以及对它们应用什么规则 - 它们只是在更低的层次上运行。</p><p>当在网络命名空间内运行的进程创建向外发送其他内容的 TCP 数据包时，
+该数据包必须首先由本地网络命名空间内的任何本地规则进行处理，
+然后离开本地网络命名空间，传递到另一个网络命名空间。</p><p>例如，在没有安装任何网格的普通 Kubernetes 中，
+一个 Pod 可能会创建一个数据包并将其发送到另一个 Pod，并且该数据包可能（取决于网络的设置方式）：</p><ul><li>由源 Pod 的网络命名空间内的任何规则进行处理。</li><li>离开源 Pod 网络命名空间，并冒泡到节点的网络命名空间，并由该命名空间中的任何规则进行处理。</li><li>接着，最终被重定向到目标 Pod 的网络命名空间（并由那里的任何规则处理）。</li></ul><p>在 Kubernetes 中，
+<a href=https://kubernetes.io/zh-cn/docs/concepts/architecture/cri/>容器<strong>运行时</strong>接口（CRI）</a>负责与 Linux 内核通信、
+为新 Pod 创建网络命名空间并启动其中的流程。
+然后，CRI 调用 <a href=https://github.com/containernetworking/cni>容器<strong>网络</strong>接口（CNI）</a>，
+该接口负责连接各个 Linux 网络命名空间中的网络规则，
+以便数据包离开和进入新的 Pod 就可以到达他们应该去的地方。
+对于 Kubernetes 或容器运行时来说，CNI 使用什么拓扑或机制来实现这一点并不重要 - 只要数据包到达它们应该在的地方，
+Kubernetes 正常工作，所有人都高兴。</p><h3 id=why-did-we-drop-the-previous-model>为什么我们放弃之前的模式？</h3><p>在 Istio Ambient 网格中，每个节点至少有两个作为 Kubernetes DaemonSet 运行的容器：</p><ul><li>一个高效的 ztunnel，可作为网格流量代理职责和 L4 策略执行。</li><li>一个 <code>istio-cni</code> 节点代理，负责将新的和现有的 Pod 添加到 Ambient 网格中。</li></ul><p>在之前的 Ambient 网格实现中，应用程序 Pod 被添加到 Ambient 网格的方式如下：</p><ul><li><code>istio-cni</code> 节点代理检测现有或新启动的 Kubernetes Pod，
+其命名空间被标记为 <code>istio.io/dataplane-mode=ambient</code>，表明它应被包含在 Ambient 网格中。</li><li>然后，<code>istio-cni</code> 节点代理在主机网络命名空间中建立网络重定向规则，
+以便拦截进入或离开应用程序 Pod 的数据包，
+并将其重定向到相关代理<a href=https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports>端口</a>（15008、15006 或 15001）。</li></ul><p>这意味着对于 Ambient 网格中 Pod 创建的数据包，该数据包将离开该源 Pod，
+进入节点的主机网络命名空间，然后理想情况下会被拦截并重定向到该节点的 ztunnel（在其自己的网络命名空间中运行）
+用于代理到目标 Pod，返回流程类似。</p><p>这个模式作为初始 Ambient 网格 Alpha 版实现的简易设计工作得很好，
+但正如前面提到的，它有一个基本问题 - 具有许多 CNI 实现，并且在 Linux 中，
+有许多根本不同且不兼容的方法，您可以使用在其中配置数据包的方式从一个网络名称空间到另一个网络名称空间。
+您可以使用隧道、全覆盖网络、通过主机网络命名空间或绕过它。
+您可以通过 Linux 用户空间网络堆栈进行数据包处理，也可以跳过它并在内核空间堆栈中来回传输数据包，等等。
+对于每种可能的方法，也许都有一个 CNI 实现在使用它。</p><p>这意味着使用之前的重定向方法，有很多 CNI 实现根本无法与 Ambient 配合使用。
+鉴于其对主机网络命名空间数据包重定向的依赖 - 任何不通过主机网络命名空间路由数据包的 CNI 都需要不同的重定向实现。
+即使对于明确这样实现的 CNI，我们也会遇到不可避免且可能无法解决的主机级规则冲突问题。
+我们是在 CNI 之前拦截，还是之后拦截？如果我们执行其中一项或另一项，
+一些 CNI 是否会崩溃，而他们却没有预料到这一点？由于 NetworkPolicy 必须在主机网络命名空间中强制执行，
+因此 NetworkPolicy 何时何地被强制执行？我们是否需要大量代码来对每个流行的 CNI 进行特殊处理？</p><h3 id=istio-ambient-traffic-redirection-the-new-model>Istio Ambient 流量重定向：新模式</h3><p>在新的 Ambient 模式中，应用程序 Pod 被添加到 Ambient 网格的方式如下：</p><ul><li><code>istio-cni</code> 节点代理检测到一个 Kubernetes Pod（现有的或新启动的），
+其命名空间被标记为 <code>istio.io/dataplane-mode=ambient</code>，表明它应该包含在 Ambient 网格中。<ul><li>如果启动了一个应添加到 Ambient 网格中的<strong>新</strong> Pod，
+则 CRI 会触发 CNI 插件（由 <code>istio-cni</code> 代理安装和管理）。
+该插件用于将新的 Pod 事件推送到节点的 <code>istio-cni</code> 代理，
+并阻止 Pod 启动，直到代理成功配置重定向。由于 CNI 插件由 CRI 尽早在 Kubernetes Pod 创建过程中调用，
+这确保了我们可以足够早地建立流量重定向，以防止启动期间流量逃逸，而无需依赖初始化容器之类的机制。</li><li>如果<strong>已经运行</strong>的 Pod 被添加到 Ambient 网格中，则会触发新的 Pod 事件。
+<code>istio-cni</code> 节点代理的 Kubernetes API 观察程序会检测到这一点，并以相同的方式配置重定向。</li></ul></li><li><code>istio-cni</code> 节点代理进入 Pod 的网络命名空间，
+并在 Pod 网络命名空间内建立网络重定向规则，以便拦截进入和离开 Pod 的数据包，
+并将其透明地重定向到侦听<a href=https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports>已知端口</a>（15008、15006、15001）的节点本地 ztunnel 代理实例。</li><li>然后，<code>istio-cni</code> 节点代理通过 Unix 域套接字通知节点 ztunnel，
+它应该在 Pod 的网络命名空间内建立本地代理侦听端口
+（在 15008、15006 和 15001 上），并为 ztunnel 提供低等级 Linux
+<a href=https://zh.wikipedia.org/wiki/File_descriptor>文件描述符</a>用来表示 Pod 的网络命名空间。<ul><li>虽然套接字通常是由实际在该网络命名空间内运行的进程在 Linux 网络命名空间内创建的，
+但完全可以利用 Linux 的低等级套接字 API 来允许在一个网络命名空间中运行的进程在另一个网络命名空间中创建侦听套接字，
+假设目标网络命名空间在创建时是已知的。</li></ul></li><li>节点本地 ztunnel 在内部启动一个新的代理实例和侦听端口集，专用于新添加的 Pod。</li><li>一旦 in-Pod 重定向规则就位并且 ztunnel 建立完成侦听端口，
+Pod 就会被添加到网格中，并且流量开始像以前一样流经节点本地 ztunnel。</li></ul><p>下面是显示应用程序 Pod 添加到 Ambient 网格的基本流程图：</p><figure style=width:100%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:81.0602409638554%><a data-skipendnotes=true href=/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/pod-added-to-ambient.svg title><img class=element-to-stretch src=/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/pod-added-to-ambient.svg alt="Pod 被添加到 Ambient 网格的流程"></a></div><figcaption></figcaption></figure><p>一旦 Pod 成功被添加到 Ambient 网格中，默认情况下，
+进出网格中 Pod 的流量将像 Istio 一贯的做法一样使用 mTLS 完全加密。</p><p>现在，流量将作为加密流量进入和离开 Pod 网络命名空间 - 即使 Pod 中运行的用户应用程序对此一无所知，
+看上去 Ambient 网格中的每个 Pod 都能够执行网格策略并安全地加密流量。</p><p>下图说明了新模式中 Ambient 网格中的 Pod 之间的加密流量如何流动：</p><figure style=width:100%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:74.61855670103093%><a data-skipendnotes=true href=/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/traffic-flows-between-pods-in-ambient.svg title><img class=element-to-stretch src=/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/traffic-flows-between-pods-in-ambient.svg alt="HBONE 流量在 Ambient 网格中 Pod 之间的流程"></a></div><figcaption></figcaption></figure><p>而且，和以前一样，对于有必要的用例，仍然可以处理来自网格外部的未加密的明文流量并强制执行策略：</p><figure style=width:100%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:74.34412928724853%><a data-skipendnotes=true href=/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/traffic-flows-plaintext.svg title><img class=element-to-stretch src=/v1.26/zh/blog/2024/inpod-traffic-redirection-ambient/traffic-flows-plaintext.svg alt="网格 Pod 之间的明文流量的流程"></a></div><figcaption></figcaption></figure><h3 id=the-new-ambient-traffic-redirection-what-this-gets-us>新的 Ambient 流量重定向：这给我们带来了什么</h3><p>新 Ambient 捕获模式的最终结果是所有流量捕获和重定向都发生在 Pod 的网络命名空间内。
+对于节点、CNI 和其他所有内容来说，Pod 内似乎有一个 Sidecar 代理，
+即使 <strong>Pod 中根本没有运行任何 Sidecar 代理</strong>。请记住，CNI 实现的工作是将数据包<strong>传入和传出</strong> Pod。
+根据设计和 CNI 规范，他们不关心在那之后数据包会发生什么。</p><p>这种方法会自动消除与各种 CNI 和 NetworkPolicy 实现的冲突，
+并显着提高 Istio Ambient 网格与所有主流 CNI 中所有主流托管 Kubernetes 产品的兼容性。</p><h2 id=wrapping-up>总结</h2><p>感谢我们可爱的社区在使用各种 Kubernetes 平台和 CNI 测试变更方面付出的巨大努力，
+以及 Istio 维护人员的多轮审核，我们很高兴地宣布
+<a href=https://github.com/istio/ztunnel/pull/747>ztunnel</a>
+和 <a href=https://github.com/istio/istio/pull/48253>istio-cni</a>
+实现此功能的 PR 已被合并到 Istio 1.21，并且默认为 Ambient 启用，
+因此 Istio 用户可以开始在任何 Kubernetes 平台上使用 Istio 1.21 或更高版本中的任何 CNI 运行 Ambient 网格。
+我们已经使用 GKE、AKS 和 EKS 及其提供的所有 CNI 实现，
+还有 Calico 和 Cilium 等第三方 CNI 以及 OpenShift 等平台对此进行了测试，并取得了可靠的结果。</p><p>我们非常高兴能够通过 ztunnel 和用户应用程序 Pod 之间这种创新的 in-Pod 流量重定向方法，
+推动 Istio Ambient 网格向前发展，使其能够在任何地方运行。
+随着 Ambient Beta 版这一首要技术障碍的解决，我们迫不及待地与 Istio 社区的其他成员合作，
+尽快将 Ambient 网格引入 Beta 版！要了解有关 Ambient 网格 Beta 版进度的更多信息，
+请加入 Istio <a href=https://slack.istio.io>slack</a> 中的 #ambient 和 #ambient-dev 频道，
+或参加<a href=https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings>每周三的 Ambient 贡献者会议</a>，
+或查看 Ambient 网格 Beta 版<a href="https://github.com/orgs/istio/projects/9/views/3?filterQuery=beta">项目板</a>并帮助我们修复一些问题！</p></div><div class=share-social><div class=heading>Share this post</div><div class=share-buttons><a href="https://www.linkedin.com/shareArticle?mini=true&url=%2fv1.26%2fzh%2fblog%2f2024%2finpod-traffic-redirection-ambient%2f" target=_blank><img class=share-icon src=/v1.26/img/social/linkedin.svg alt="Share to LinkedIn">
+</a><a href="https://twitter.com/intent/tweet?text=%e8%b6%8b%e4%ba%8e%e6%88%90%e7%86%9f%e7%9a%84%20Istio%20Ambient%ef%bc%9a%e4%b8%8e%20Kubernetes%20%e5%90%84%e4%be%9b%e5%ba%94%e5%95%86%e5%92%8c%e5%90%84%e7%b1%bb%20CNI%20%e7%9a%84%e5%85%bc%e5%ae%b9%e6%80%a7&url=%2fv1.26%2fzh%2fblog%2f2024%2finpod-traffic-redirection-ambient%2f" target=_blank><img class=share-icon src=/v1.26/img/social/twitterx.svg alt="Share to X">
+</a><a href="https://www.facebook.com/sharer/sharer.php?u=%2fv1.26%2fzh%2fblog%2f2024%2finpod-traffic-redirection-ambient%2f" target=_blank><img class=share-icon src=/v1.26/img/social/facebook.svg alt="Share to Facebook"></a></div></div><nav class=pagenav><div class=left><a title=宣布最新成员并提议变更选举时间。 href=/v1.26/zh/blog/2024/steering-results/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.26/img/icons.svg#left-arrow"/></svg>2024 年 Istio 指导委员会</a></div><div class=right><a title="KubeCon + CloudNativeCon 中的精彩 Istio 活动阵容。" href=/v1.26/zh/blog/2024/kubecon-eu/ class=next-link>Istio 在巴黎！相约 KubeCon Europe 2024<svg class="icon right-arrow"><use xlink:href="/v1.26/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.26/img/icons.svg#github"/></svg>
+</a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.26/img/icons.svg#drive"/></svg>
+</a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.26/img/icons.svg#slack"/></svg>
+</a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.26/img/icons.svg#stackoverflow"/></svg>
+</a><a class=channel title='关注我们的 LinkedIn 来获取最新信息' href=https://www.linkedin.com/company/istio/ aria-label=LinkedIn><svg class="icon linkedin"><use xlink:href="/v1.26/img/icons.svg#linkedin"/></svg>
+</a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.26/img/icons.svg#twitter"/></svg>
+</a><a class=channel title='关注我们的 Bluesky 来获取最新信息' href=https://bsky.app/profile/istio.io aria-label=Bluesky><svg class="icon bluesky"><use xlink:href="/v1.26/img/icons.svg#bluesky"/></svg>
+</a><a class=channel title='关注我们的 Mastodon 来获取最新信息' href=https://mastodon.social/@istio aria-label=Mastodon rel=me><svg class="icon mastodon"><use xlink:href="/v1.26/img/icons.svg#mastodon"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.26/zh/ aria-label=logotype><svg width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English
+</a><a tabindex=-1 lang=es id=switch-lang-es class=footer-languages-item>Español
+</a><a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.26/img/icons.svg#tick"/></svg>
+中文
+</a><a tabindex=-1 lang=uk id=switch-lang-uk class=footer-languages-item>Українська</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/trademark-usage>商标
+</a>|
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.26/content/zh/blog/2024/inpod-traffic-redirection-ambient/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2025 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步工作正在进行中<br>版本
+Istio
+1.26.3</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2024/inpod-traffic-redirection-ambient/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1>
+<svg class="icon top"><use xlink:href="/v1.26/img/icons.svg#top"/></svg></button></div></body></html>

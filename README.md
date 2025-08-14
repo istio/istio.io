@@ -82,19 +82,22 @@ This script replaces the old process where an admin needed to run to commit dire
 a release branch, but this should be doable for anyone on the docs team and parallels the process of branch cutting done by the release managers for minor versions in
 the other repositories.
 
-This script requires the `gh` command line tool to be installed and authenticated. Please note that due to a limitation in the gh tool's PR creation ability, the forked
-repository must be created by a user and not an organization. See [this issue](https://github.com/cli/cli/issues/10093) for more details.
+This script requires:
+
+- The GitHub CLI tool (`gh`) to be installed and authenticated. Please note that due to a limitation in the gh tool's PR creation ability, the forked
+    repository must be created by a user and not an organization. See [this issue](https://github.com/cli/cli/issues/10093) for more details.
+- GNU tools. If you are running OS X, you will need to install at least gnu-sed and have `sed` by linked to that version of the utility.
 
 1. The script takes a single argument, the new minor version. For example, if the new minor version is `1.26`, run
-   `./scripts/create_minor_version.sh 1.26`. The script *requires* the `FORKED_REPO_SOURCE` environment variable to be set to the source of the forked repo. This is used
+   `./scripts/create_minor_version.sh 1.26`. The script *requires* the `FORKED_GIT_SOURCE` environment variable to be set to the source of the forked repo. This is used
     to do the work and to create PRs from
 
 1. Do a dry run before the official release to ensure everything is working as expected. This is done by specifying DRY_RUN=1 in the command line. For example:
-    `DRY_RUN=1 FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
+    `DRY_RUN=1 FORKED_GIT_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`. This will do all the work in a /tmp directory (or `TMP_DIR`) and will not
     push any changes to the repos
 
 1. On the day of .0 release, the docs team will need to run the script but leave off the DRY_RUN environment variable. This will be the live publishing.
-    `FORKED_REPO_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
+    `FORKED_GIT_SOURCE=git@github.com:dhawton/istio-istio.io ./scripts/create_minor_version.sh 1.26`
 
 1. Go to the istio.io project on [Netlify](https://netlify.com) and set the staging environment to the new release branch and deploy. Navigate to https://istio-staging.netlify.app and
    verify that the new release branch is being used and the documentation looks correct
