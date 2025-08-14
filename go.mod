@@ -191,7 +191,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v3 v3.18.4 // indirect
-	istio.io/api v1.27.0-beta.0.0.20250731082105-36763529c462 // indirect
+	istio.io/api v1.27.0-rc.0 // indirect
 	istio.io/client-go v1.27.0-beta.0.0.20250731082605-b098a6e566f4 // indirect
 	k8s.io/api v0.33.2 // indirect
 	k8s.io/apiextensions-apiserver v0.33.2 // indirect

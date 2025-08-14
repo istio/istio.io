@@ -622,15 +622,8 @@ Istio 支持读取几种不同的 Secret 格式，以支持与各种工具的集
 * 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，`cacert` 可以作为密钥。
 * 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，名为 `<secret>-cacert` 的带有 `cacert` 键的通用 Secret。
   例如，`httpbin-credential` 有 `key` 和 `cert`，`httpbin-credential-cacert` 有 `cacert`。
-* 对于双向 TLS，可以在 `tls.credentialNames` 中以 `<secret>-cacert`
-  的形式引用单独的通用 Secret，并使用 `cacert` 键。
-  例如，`my-httpbin-mtls-trustbundle` 具有 `cacert`，
-  而 `tls.credentialNames` 具有 `my-httpbin-mtls-trustbundle-cacert`。
-* 对于双向 TLS，可以在 `tls.credentialNames` 中以
-  `configmap://<namespace>/<configmap>-cacert` 的形式引用单独的 ConfigMap，
-  并使用 `cacert` 键。例如，`httpbin` 命名空间中的 `my-httpbin-mtls-trustbundle`
-  ConfigMap 具有 `cacert`，而 `tls.credentialNames` 具有
-  `configmap://httpbin/my-httpbin-mtls-trustbundle-cacert`。
+* 对于双向 TLS，可以使用 `caCertCredentialName` 引用带有`cacert`或 `ca.crt`
+  键的单独通用 Secret。它优先于使用 `credentialName(s)` 引用的 Secret 中的 CA 证书。
 * `cacert` 键值可以是一个 CA 捆绑包，由串联的各个 CA 证书组成。
 
 ### SNI 路由 {#sni-routing}
