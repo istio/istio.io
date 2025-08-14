@@ -1,6 +1,6 @@
 ---
 title: Acceso a Services Externos
-description: Describe cómo configurar Istio para enrutar el tráfico de services en la malla a services externos.
+description: Describe cómo configurar Istio para enrutar el tráfico de services en la mesh a servicios externos.
 weight: 10
 aliases:
     - /docs/tasks/egress.html
@@ -18,7 +18,7 @@ un control más estricto suele ser preferible.
 
 Esta tarea le muestra cómo acceder a services externos de tres maneras diferentes:
 
-1. Permitir que el proxy Envoy pase las solicitudes a services que no están configurados dentro de la malla.
+1. Permitir que el proxy Envoy pase las solicitudes a services que no están configurados dentro de la mesh.
 1. Configurar [entradas de service](/es/docs/reference/config/networking/service-entry/) para proporcionar acceso controlado a services externos.
 1. Omitir completamente el proxy Envoy para un rango específico de IPs.
 
@@ -60,7 +60,7 @@ Istio tiene una [opción de instalación](/es/docs/reference/config/istio.mesh.v
 de services externos, es decir, aquellos services que no están definidos en el service registry interno de Istio.
 Si esta opción se establece en `ALLOW_ANY`, el proxy de Istio permite que las llamadas a services desconocidos pasen.
 Si la opción se establece en `REGISTRY_ONLY`, el proxy de Istio bloquea cualquier host sin un service HTTP o
-una entrada de service definida dentro de la malla.
+una entrada de service definida dentro de la mesh.
 `ALLOW_ANY` es el valor predeterminado, lo que le permite comenzar a evaluar Istio rápidamente,
 sin controlar el acceso a services externos.
 Luego puede decidir [configurar el acceso a services externos](#controlled-access-to-external-services) más tarde.
@@ -97,11 +97,11 @@ Luego puede decidir [configurar el acceso a services externos](#controlled-acces
     HTTP/2 200
     {{< /text >}}
 
-¡Felicidades! Ha enviado tráfico de salida desde su malla con éxito.
+¡Felicidades! Ha enviado tráfico de salida desde su mesh con éxito.
 
 Este enfoque simple para acceder a services externos tiene el inconveniente de que se pierde el monitoreo y control de Istio
-para el tráfico a services externos. La siguiente sección le muestra cómo monitorear y controlar el acceso de su malla a
-services externos.
+para el tráfico a services externos. La siguiente sección le muestra cómo monitorear y controlar el acceso de su mesh a
+servicios externos.
 
 ## Acceso controlado a services externos
 
@@ -163,7 +163,7 @@ cualquier otro acceso no intencional.
     accediendo a `httpbin.org` estableciéndolo en la cabecera `HOST`, mientras que en realidad se conecta a una IP diferente
     (que no está asociada con `httpbin.org`). El proxy sidecar de Istio confiará en la cabecera HOST, y permitirá incorrectamente
     el tráfico, aunque se esté entregando a la dirección IP de un host diferente. Ese host puede ser un sitio malicioso,
-    o un sitio legítimo, prohibido por las políticas de seguridad de la malla.
+    o un sitio legítimo, prohibido por las políticas de seguridad de la mesh.
 
     Con la resolución `DNS`, el proxy sidecar ignorará la dirección IP de destino original y dirigirá el tráfico
     a `httpbin.org`, realizando una consulta DNS para obtener una dirección IP de `httpbin.org`.
@@ -548,17 +548,17 @@ $ istioctl install <flags-you-used-to-install-Istio>
 
 ## Comprender lo que sucedió
 
-En esta tarea, examinó tres formas de llamar a services externos desde una malla de Istio:
+En esta tarea, examinó tres formas de llamar a services externos desde un mesh de Istio:
 
 1. Configurar Envoy para permitir el acceso a cualquier service externo.
 
-1. Usar una entrada de service para registrar un service externo accesible dentro de la malla. Este es el
+1. Usar una entrada de service para registrar un service externo accesible dentro de la mesh. Este es el
    enfoque recomendado.
 
 1. Configurar el sidecar de Istio para excluir IPs externas de su tabla de IPs remapeadas.
 
 El primer enfoque dirige el tráfico a través del proxy sidecar de Istio, incluidas las llamadas a services
-desconocidos dentro de la malla. Al usar este enfoque,
+desconocidos dentro de la mesh. Al usar este enfoque,
 no puede monitorear el acceso a services externos ni aprovechar las features de control de tráfico de Istio para ellos.
 Para cambiar fácilmente al segundo enfoque para services específicos, simplemente cree entradas de service para esos services externos.
 Este proceso le permite acceder inicialmente a cualquier service externo y luego
