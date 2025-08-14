@@ -118,8 +118,8 @@ $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metada
 
 Aunque Istio actualiza automáticamente todo el tráfico entre los proxies y los workloads a mTLS,
 los workloads aún pueden recibir tráfico de texto plano. Para evitar el tráfico no mTLS para toda la mesh,
-establezca una política de autenticación de pares a nivel de meshcon el modo mTLS establecido en `STRICT`.
-La política de autenticación de pares a nivel de meshno debe tener un `selector` y debe aplicarse en el **namespace raíz**, por ejemplo:
+establezca una política de autenticación de pares a nivel de mesh con el modo mTLS establecido en `STRICT`.
+La política de autenticación de pares a nivel de mesh no debe tener un `selector` y debe aplicarse en el **namespace raíz**, por ejemplo:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF

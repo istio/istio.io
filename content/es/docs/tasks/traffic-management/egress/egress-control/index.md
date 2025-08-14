@@ -1,6 +1,6 @@
 ---
 title: Acceso a Services Externos
-description: Describe cómo configurar Istio para enrutar el tráfico de services en la mesh a services externos.
+description: Describe cómo configurar Istio para enrutar el tráfico de services en la mesh a servicios externos.
 weight: 10
 aliases:
     - /docs/tasks/egress.html
@@ -97,11 +97,11 @@ Luego puede decidir [configurar el acceso a services externos](#controlled-acces
     HTTP/2 200
     {{< /text >}}
 
-¡Felicidades! Ha enviado tráfico de salida desde su meshcon éxito.
+¡Felicidades! Ha enviado tráfico de salida desde su mesh con éxito.
 
 Este enfoque simple para acceder a services externos tiene el inconveniente de que se pierde el monitoreo y control de Istio
-para el tráfico a services externos. La siguiente sección le muestra cómo monitorear y controlar el acceso de su mesha
-services externos.
+para el tráfico a services externos. La siguiente sección le muestra cómo monitorear y controlar el acceso de su mesh a
+servicios externos.
 
 ## Acceso controlado a services externos
 

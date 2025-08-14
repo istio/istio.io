@@ -10,7 +10,7 @@ test: yes
 Esta tarea muestra cómo migrar de un trust domain a otro sin cambiar la política de autorización.
 
 En Istio 1.4, introducimos una feature alfa para soportar la {{< gloss >}}trust domain migration{{</ gloss >}} para la política de autorización. Esto significa que si una
-meshde Istio necesita cambiar su {{< gloss >}}trust domain{{</ gloss >}}, la política de autorización no necesita ser cambiada manualmente.
+mesh de Istio necesita cambiar su {{< gloss >}}trust domain{{</ gloss >}}, la política de autorización no necesita ser cambiada manualmente.
 En Istio, si un {{< gloss >}}workload{{</ gloss >}} se está ejecutando en el namespace `foo` con la cuenta de service `bar`, y el trust domain del sistema es `my-td`,
 la identidad de dicho workload es `spiffe://my-td/ns/foo/sa/bar`. Por defecto, el trust domain de la mesh de Istio es `cluster.local`,
 a menos que lo especifique durante la instalación.

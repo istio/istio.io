@@ -485,7 +485,7 @@ EOF
     ...
     {{< /text >}}
 
-### Configurar un gateway de ingreso de TLS mutuo
+### Configurar un gateway de ingress de TLS mutuo
 
 Puedes extender la definición del gateway para soportar [TLS mutuo](https://en.wikipedia.org/wiki/Mutual_authentication).
 
@@ -677,7 +677,7 @@ Ver [configuración de enrutamiento de SNI](/es/docs/ops/common-problems/network
     El log debería mostrar que el secreto `httpbin-credential` fue añadido. Si usas TLS mutuo, entonces el secreto `httpbin-credential-cacert` también debería aparecer.
     Verifica que el log muestre que el agente de gateway recibe solicitudes SDS del gateway de ingreso, que el nombre del recurso es `httpbin-credential`, y que el gateway de ingreso obtiene la pareja clave/certificado. Si usas TLS mutuo, el log debería mostrar
     clave/certificado fue enviado al gateway de ingreso,
-    que el agente de gateway recibió la solicitud SDS con el nombre de recurso `httpbin-credential-cacert`,   y que el gateway de ingreso obtuvo el certificado raíz.
+    que el agente de gateway recibió la solicitud SDS con el nombre de recurso `httpbin-credential-cacert`, y que el gateway de ingreso obtuvo el certificado raíz.
 
 ## Limpieza
 

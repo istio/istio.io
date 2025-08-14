@@ -32,7 +32,7 @@ de la service mesh debe fluir a través de un conjunto de nodos dedicados. Estos
 separadas del resto de los nodos que ejecutan applications en el cluster. Estos nodos especiales servirán
 para la aplicación de políticas en el tráfico de salida y serán monitoreados más a fondo que otros nodos.
 
-Otro caso de uso es un cluster donde los nodos de la aplicación no tienen IPs públicas, por lo que los services en meshque se ejecutan
+Otro caso de uso es un cluster donde los nodos de la aplicación no tienen IPs públicas, por lo que los services en mesh que se ejecutan
 en ellos no pueden acceder a Internet. Definir un egress gateway, dirigir todo el tráfico de salida a través de él y
 asignar IPs públicas a los nodos del egress gateway permite que los nodos de la aplicación accedan a services externos de forma
 controlada.

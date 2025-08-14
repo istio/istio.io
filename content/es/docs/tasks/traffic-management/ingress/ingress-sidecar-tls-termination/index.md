@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-En un despliegue de meshde Istio regular, la terminación TLS para las solicitudes descendentes se realiza en el Ingress Gateway.
+En un despliegue de mesh de Istio regular, la terminación TLS para las solicitudes descendentes se realiza en el Ingress Gateway.
 Aunque esto satisface la mayoría de los casos de uso, para algunos (como un API Gateway en la mesh) el Ingress Gateway no es necesariamente necesario. Esta tarea muestra cómo eliminar el salto adicional introducido por el Ingress Gateway de Istio y permitir que el sidecar de Envoy, que se ejecuta junto con la aplicación, realice la terminación TLS para las solicitudes que provienen de fuera de la service mesh.
 
 El service HTTPS de ejemplo utilizado para esta tarea es un service [httpbin](https://httpbin.org) simple.
@@ -240,7 +240,7 @@ ROOTCA                                                                  CA      
 file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Chain     ACTIVE     true           14033888812979945197                        2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
 {{< /text >}}
 
-### Verificar la conectividad de meshinterna en el puerto 8080
+### Verificar la conectividad de mesh interna en el puerto 8080
 
 {{< text bash >}}
 $ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=curl -o jsonpath={.items..metadata.name})
@@ -255,7 +255,7 @@ content-length: 0
 x-envoy-upstream-service-time: 5
 {{< /text >}}
 
-### Verificar la conectividad de meshexterna a interna en el puerto 8443
+### Verificar la conectividad de mesh externa a interna en el puerto 8443
 
 Para verificar el tráfico mTLS desde un cliente externo, primero copie el certificado de CA y el certificado/clave de cliente al cliente curl que se ejecuta en el namespace predeterminado.
 
