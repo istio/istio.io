@@ -7,7 +7,7 @@ keywords: [ambient,multicluster]
 ---
 
 Multicluster has been one of the most requested features of ambient -— and as of Istio 1.27, it is available in alpha status!
-We sought to capture the benefits and avoid the complications of multicluster architectures using the same modular design that ambient users love.
+We sought to capture the benefits and avoid the complications of multicluster architectures while using the same modular design that ambient users love.
 This release brings the core functionality of a multicluster mesh and lays the groundwork for a richer feature set in upcoming releases.
 
 ## The Power & Complexity of Multicluster
