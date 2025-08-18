@@ -65,7 +65,7 @@
             {{ end }}
             <input type="hidden" name="ie" value="utf-8" />
             <input type="hidden" name="hl" value="{{ .Page.Lang }}" />
-            <input type="hidden" id="search-page-url" value="{{ "/search" | relLangURL }}" />
+            <input type="hidden" id="search-page-url" value="{{ "/latest/search" | relLangURL }}" />
             <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
         </form>

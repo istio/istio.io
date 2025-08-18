@@ -96,7 +96,7 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
 
 生成的清单可用于检查具体安装了什么以及跟踪清单随时间的变化。
 虽然 `IstioOperator` CR 代表完整的用户配置并且足以跟踪它，
-但 `manifest generate` 的输出还捕获了底层图表中可能的变化，因此可用于跟踪实际安装的资源。
+但 `manifest generate` 的输出还捕获了底层 Chart 中可能的变化，因此可用于跟踪实际安装的资源。
 
 {{< tip >}}
 您通常用于安装的任何其他标志或自定义值覆盖也应提供给 `istioctl manifest generate` 命令。

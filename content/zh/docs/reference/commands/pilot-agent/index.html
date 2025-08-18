@@ -426,6 +426,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>The set of paths where to output the log. This can be any path as well as the special values stdout and stderr  (default `[stdout]`)</td>
 </tr>
 <tr>
+<td><code>--native-nftables</code></td>
+<td></td>
+<td>Use native nftables instead of iptables rules. </td>
+</tr>
+<tr>
 <td><code>--network-namespace &lt;string&gt;</code></td>
 <td></td>
 <td>The network namespace that iptables rules should be applied to.  (default ``)</td>
@@ -870,6 +875,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio merge destinationrules considering their exportTo fields, they will be kept as independent rules if the exportTos are not equal.</td>
+</tr>
+<tr id='enable-gateway-api-inference-extension'>
+<td><a href='#enable-gateway-api-inference-extension'><code>ENABLE_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='enable-gateway-api-manual-deployment'>
 <td><a href='#enable-gateway-api-manual-deployment'><code>ENABLE_GATEWAY_API_MANUAL_DEPLOYMENT</code></a></td>
@@ -1679,6 +1690,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code></code></td>
 <td>Comma separated list of potentially insecure kubeconfig authentication options that are allowed for multicluster authentication.Support values: all authProviders (`gcp`, `azure`, `exec`, `openstack`), `clientKey`, `clientCertificate`, `tokenFile`, and `exec`.</td>
 </tr>
+<tr id='pilot-ip-autoallocate-ipv4-prefix'>
+<td><a href='#pilot-ip-autoallocate-ipv4-prefix'><code>PILOT_IP_AUTOALLOCATE_IPV4_PREFIX</code></a></td>
+<td>String</td>
+<td><code>240.240.0.0/16</code></td>
+<td>The CIDR range/prefix to use for auto-allocated IPv4 addresses. This should be a private range, and not conflict with any other IPs in the cluster.</td>
+</tr>
+<tr id='pilot-ip-autoallocate-ipv6-prefix'>
+<td><a href='#pilot-ip-autoallocate-ipv6-prefix'><code>PILOT_IP_AUTOALLOCATE_IPV6_PREFIX</code></a></td>
+<td>String</td>
+<td><code>2001:2::/48</code></td>
+<td>The CIDR range/prefix to use for auto-allocated IPv6 addresses. This should be a private range, and not conflict with any other IPs in the cluster.</td>
+</tr>
 <tr id='pilot-jwt-enable-remote-jwks'>
 <td><a href='#pilot-jwt-enable-remote-jwks'><code>PILOT_JWT_ENABLE_REMOTE_JWKS</code></a></td>
 <td>String</td>
@@ -1894,12 +1917,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td>Additional config map to load for shared MeshConfig settings. The standard mesh config will take precedence.</td>
-</tr>
-<tr id='support-gateway-api-inference-extension'>
-<td><a href='#support-gateway-api-inference-extension'><code>SUPPORT_GATEWAY_API_INFERENCE_EXTENSION</code></a></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, support gateway inference extension routing apis</td>
 </tr>
 <tr id='token-audiences'>
 <td><a href='#token-audiences'><code>TOKEN_AUDIENCES</code></a></td>

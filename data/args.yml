@@ -25,7 +25,7 @@ archive_date: YYYY-MM-DD
 archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
-source_branch_name: master
+source_branch_name: release-1.27
 doc_branch_name: master
 
 ####### Static values
@@ -45,6 +45,8 @@ archive_analytics_id: "G-5XBWY4YJ1E"
 supported_languages:
   - name: "English"
     code: "en"
+  - name: "Español"
+    code: "es"
   - name: "中文"
     code: "zh"
   - name: "Українська"

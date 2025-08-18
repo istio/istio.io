@@ -14,7 +14,7 @@
 
 "use strict";
 
-function observeResize(el, callback) {
+export function observeResize(el, callback) {
     if (window.ResizeObserver) {
        const ro = new ResizeObserver(entries => {
             for (let entry of entries) {

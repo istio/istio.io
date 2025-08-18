@@ -95,7 +95,7 @@ check_content() {
         FAILED=1
     fi
 
-    if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive/)" .; then
+    if grep -nrP --include "*.md" -e "\(https://istio.io/(?!v[0-9]\.[0-9]/|archive|latest\/news)" .; then
         error "Ensure markdown content uses relative references to istio.io"
         FAILED=1
     fi
@@ -127,7 +127,7 @@ check_content() {
     rm -fr "${TMP}"
 }
 
-SKIP_LANGS=( en zh uk )
+SKIP_LANGS=( en es zh uk )
 for lang in $LANGS; do
     for i in "${!SKIP_LANGS[@]}"; do
        if [[ "${SKIP_LANGS[$i]}" = "${lang}" ]]; then
