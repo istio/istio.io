@@ -14,9 +14,9 @@ One of those three seats became vacant, prompting a by-election. Long-time maint
 
 Five candidates stood for the three available seats, and the Steering Committee has now concluded the election.
 
-**Lin Sun** and **Louis Ryan** were re-elected to their two seats. Both have been involved with Istio since before its public launch, and continue to serve as active leaders across the project.
+**[Lin Sun](https://github.com/linsun)** and **[Louis Ryan](https://github.com/louiscryan)** were re-elected to their two seats. Both have been involved with Istio since before its public launch, and continue to serve as active leaders across the project.
 
-The third seat was won by **Rama Chavali**, a long-time contributor and maintainer of Istio through his work at Salesforce.
+The third seat was won by **[Rama Chavali](https://github.com/ramaraochavali)**, a long-time contributor and maintainer of Istio through his work at Salesforce.
 
 In Rama's own words:
 
