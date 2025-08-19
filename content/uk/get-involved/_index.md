@@ -48,7 +48,7 @@ doc_type: get-involved
 <!-- 1. Зацікавлені в допомозі з **документацією китайською мовою**? Приєднуйтесь до [Cloud Native Community (China)](https://cloudnativecn.com). -->
 {{% /involve_block %}}
 
-{{% involve_block title="Зрозуміти нагляд і планування" subtitle="Istio має два ключові комітети, які здійснюють нагляд за проєктом: Steering та Technical Oversight." icon="magnifier" %}}
+{{% involve_block title="Зрозумійте нагляд і планування" subtitle="Istio має два ключові комітети, які здійснюють нагляд за проєктом: Steering та Technical Oversight." icon="magnifier" %}}
 
 1. Управління та адвокація проєкту здійснюється [**Istio Steering Committee**](https://github.com/istio/community/tree/master/steering).
 2. Технічний напрямок і планування проєкту є роллю [**Istio Technical Oversight Committee**](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).

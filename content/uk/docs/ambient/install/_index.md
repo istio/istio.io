@@ -8,6 +8,7 @@ aliases:
 owner: istio/wg-environment-maintainers
 test: n/a
 list_below: yes
+keywords: [kubernetes,ambient,install]
 ---
 
 {{< tip >}}
