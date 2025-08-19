@@ -1,7 +1,7 @@
 ---
 title: "Istio Project Announces 2025 Technical Oversight Committee Election Results"
 description: Announcing the results of our annual election.
-publishdate: 2025-08-20
+publishdate: 2025-08-19
 attribution: "Craig Box, for the Istio Steering Committee"
 keywords: [istio,toc,governance,community,election]
 ---
