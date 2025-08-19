@@ -16,11 +16,11 @@ This task shows you how to set up Istio authorization policy of `ALLOW` action f
 
 Before you begin this task, do the following:
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
+* Follow the [Istio installation guide](/pt-br/docs/setup/install/istioctl/) to install Istio with mutual TLS enabled.
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 After deploying the Bookinfo application, go to the Bookinfo product page at `http://$GATEWAY_URL/productpage`. On
 the product page, you can see the following sections:

@@ -10,7 +10,7 @@ test: yes
 
 Follow this guide to upgrade and configure an Istio mesh using
 [Helm](https://helm.sh/docs/).  This guide assumes you have already performed an
-[installation with Helm](/docs/setup/install/helm) for a previous minor or patch version of Istio.
+[installation with Helm](/pt-br/docs/setup/install/helm) for a previous minor or patch version of Istio.
 
 {{< boilerplate helm-preamble >}}
 
@@ -64,7 +64,7 @@ primary and canary installations.
       istiod-canary-9cc9fd96f-jpc7n   1/1     Running   0          34m   canary
     {{< /text >}}
 
-1. If you are using [Istio gateways](/docs/setup/additional-setup/gateway/#deploying-a-gateway), install a canary revision of the Gateway chart by setting the revision value:
+1. If you are using [Istio gateways](/pt-br/docs/setup/additional-setup/gateway/#deploying-a-gateway), install a canary revision of the Gateway chart by setting the revision value:
 
     {{< text bash >}}
     $ helm install istio-ingress-canary istio/gateway \
@@ -81,9 +81,9 @@ primary and canary installations.
       istio-ingress-canary-5d649bd644-4m8lp   1/1     Running   0          3m24s   canary
     {{< /text >}}
 
-    See [Upgrading Gateways](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) for in-depth documentation on gateway canary upgrade.
+    See [Upgrading Gateways](/pt-br/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) for in-depth documentation on gateway canary upgrade.
 
-1. Follow the steps [here](/docs/setup/upgrade/canary/#data-plane) to test or migrate
+1. Follow the steps [here](/pt-br/docs/setup/upgrade/canary/#data-plane) to test or migrate
    existing workloads to use the canary control plane.
 
 1. Once you have verified and migrated your workloads to use the canary control
@@ -167,4 +167,4 @@ preserve your custom configuration during Helm upgrades.
 
 ## Uninstall
 
-Please refer to the uninstall section in our [Helm install guide](/docs/setup/install/helm/#uninstall).
+Please refer to the uninstall section in our [Helm install guide](/pt-br/docs/setup/install/helm/#uninstall).

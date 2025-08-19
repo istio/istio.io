@@ -47,4 +47,4 @@ Istio will be at [KubeCon NA](https://events.linuxfoundation.org/kubecon-cloudna
 
 ## CNCF progress update
 
-In April, [we announced that Istio has been proposed to become a CNCF incubation project](/blog/2022/istio-has-applied-to-join-the-cncf/). Our team has been hard at work preparing our application, and the project is currently in the public request for comments phase.  Please see [this thread](https://lists.cncf.io/g/cncf-toc/message/7367) if you want to participate!
+In April, [we announced that Istio has been proposed to become a CNCF incubation project](/pt-br/blog/2022/istio-has-applied-to-join-the-cncf/). Our team has been hard at work preparing our application, and the project is currently in the public request for comments phase.  Please see [this thread](https://lists.cncf.io/g/cncf-toc/message/7367) if you want to participate!

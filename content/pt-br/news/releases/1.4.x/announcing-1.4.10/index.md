@@ -11,7 +11,7 @@ aliases:
 
 This is the final release for Istio 1.4.
 
-This release fixes the security vulnerability described in [our June 11th, 2020 news post](/news/security/istio-security-2020-006)
+This release fixes the security vulnerability described in [our June 11th, 2020 news post](/pt-br/news/security/istio-security-2020-006)
 as well as bug fixes to improve robustness.
 
 This release note describes what's different between Istio 1.4.9 and Istio 1.4.10.

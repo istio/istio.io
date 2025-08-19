@@ -52,7 +52,7 @@ The primary source of these complications is that Istio lacked a first-class def
 
 `WorkloadEntry` was created specifically to solve this problem. `WorkloadEntry` allows you to describe non-Pod endpoints that should still be part of the mesh, and treat them the same as a Pod. From here everything becomes easier, like enabling `MUTUAL_TLS` between workloads, whether they are containerized or not.
 
-To create a [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) and attach it to a [`ServiceEntry`](/docs/reference/config/networking/service-entry/) you can do something like this:
+To create a [`WorkloadEntry`](/pt-br/docs/reference/config/networking/workload-entry/) and attach it to a [`ServiceEntry`](/pt-br/docs/reference/config/networking/service-entry/) you can do something like this:
 
 {{< text yaml >}}
 ---

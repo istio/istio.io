@@ -12,7 +12,7 @@ aliases:
 
 ## Deprecation Notices
 
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
+These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/pt-br/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
 
 - **Deprecated** usage of `values.istio_cni` in favor of `values.pilot.cni`.
   ([Issue #49290](https://github.com/istio/istio/issues/49290))
@@ -157,7 +157,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Improved** JSON access logs to emit keys in a consistent order.
 
 - **Added** option to export OpenTelemetry traces via HTTP.
-  ([reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider))
+  ([reference](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider))
   ([Issue #47835](https://github.com/istio/istio/issues/47835))
 
 - **Enabled** configuring Dynatrace Sampler as the `OpenTelemetryTracingProvider` in `MeshConfig`.
@@ -210,7 +210,7 @@ These notices describe functionality that will be removed in a future release ac
 - **Added** the `istioctl proxy-status` command, which is the promoted `istioctl experimental proxy-status` command. The old `istioctl proxy-status` command has been removed.
   This promotion should not result in any loss of functionality. However, the request is now sent based on xDS instead of HTTP, and we have introduced a set of new xDS-based flags to target the control plane.
 
-- **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/docs/setup/install/multicluster/).
+- **Added** support for multi-cluster analysis in `istioctl analyze` command when there are remote cluster secrets set up through [Install Multicluster](/pt-br/docs/setup/install/multicluster/).
 
 - **Added** a new `istioctl dashboard proxy` command, which can be used to show the admin UI of different proxy pods, for example: Envoy, ztunnel, and waypoint.
 
@@ -249,7 +249,7 @@ These notices describe functionality that will be removed in a future release ac
   ([Issue #50790](https://github.com/istio/istio/issues/50790))
 
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
-  See [OpenShift Platform Setup](/docs/setup/platform-setup/openshift/) and [Install OpenShift using `istioctl`](/docs/setup/install/istioctl/#install-a-different-profile) documents for more information.
+  See [OpenShift Platform Setup](/pt-br/docs/setup/platform-setup/openshift/) and [Install OpenShift using `istioctl`](/pt-br/docs/setup/install/istioctl/#install-a-different-profile) documents for more information.
 
 - **Added** the flag `--proxy-admin-port` to the command `istioctl experimental envoy-stats` to set a custom proxy admin port.
 

@@ -35,8 +35,8 @@ An attacker could cause increased memory usage when processing specially crafted
 
 ## Mitigation
 
-* For Istio 1.5.x deployments: update to [Istio 1.5.7](/news/releases/1.5.x/announcing-1.5.7) or later.
-* For Istio 1.6.x deployments: update to [Istio 1.6.4](/news/releases/1.6.x/announcing-1.6.4) or later.
+* For Istio 1.5.x deployments: update to [Istio 1.5.7](/pt-br/news/releases/1.5.x/announcing-1.5.7) or later.
+* For Istio 1.6.x deployments: update to [Istio 1.6.4](/pt-br/news/releases/1.6.x/announcing-1.6.4) or later.
 
 {{< warning >}}
 You must take the following additional steps to mitigate CVE-2020-8663.

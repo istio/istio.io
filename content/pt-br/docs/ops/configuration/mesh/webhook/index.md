@@ -30,13 +30,13 @@ detailed documentation of the [Mutating Webhook Configuration](https://kubernete
 
 ## Verify dynamic admission webhook prerequisites
 
-See the [platform setup instructions](/docs/setup/platform-setup/)
+See the [platform setup instructions](/pt-br/docs/setup/platform-setup/)
 for Kubernetes provider specific setup instructions. Webhooks will not
 function properly if the cluster is misconfigured. You can follow
 these steps once the cluster has been configured and dynamic
 webhooks and dependent features are not functioning properly.
 
-1. Verify you’re using a [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) ({{< supported_kubernetes_versions >}}) of
+1. Verify you’re using a [supported version](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases) ({{< supported_kubernetes_versions >}}) of
    [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and of the Kubernetes server:
 
     {{< text bash >}}
@@ -54,7 +54,7 @@ webhooks and dependent features are not functioning properly.
 
 1. Verify `MutatingAdmissionWebhook` and `ValidatingAdmissionWebhook` plugins are
    listed in the `kube-apiserver --enable-admission-plugins`. Access
-   to this flag is [provider specific](/docs/setup/platform-setup/).
+   to this flag is [provider specific](/pt-br/docs/setup/platform-setup/).
 
 1. Verify the Kubernetes api-server has network connectivity to the
    webhook pod. e.g. incorrect `http_proxy` settings can interfere

@@ -19,7 +19,7 @@ Similar to services running inside the service mesh, you can configure Istio to 
 
 ## Define external endpoints using a ServiceEntry
 
-[Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/) works based on `region` or `zone`, which are usually inferred from labels set on the Kubernetes nodes. First, determine the location of your workloads:
+[Locality load balancing](/pt-br/docs/tasks/traffic-management/locality-load-balancing/) works based on `region` or `zone`, which are usually inferred from labels set on the Kubernetes nodes. First, determine the location of your workloads:
 
 {{< text bash >}}
 $ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
@@ -208,7 +208,7 @@ spec:
       baseEjectionTime: 1m
 {{< /text >}}
 
-The `DestinationRule` now performs TLS origination and configures the outlier detection. The rule also has a [failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what regions are failover targets. This is useful when you have several regions defined.
+The `DestinationRule` now performs TLS origination and configures the outlier detection. The rule also has a [failover](/pt-br/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) field configured where you can specify exactly what regions are failover targets. This is useful when you have several regions defined.
 
 ## Wrapping Up
 

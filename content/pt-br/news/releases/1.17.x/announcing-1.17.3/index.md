@@ -14,7 +14,7 @@ This release contains bug fixes to improve robustness. This release note describ
 ## Changes
 
 - **Added** support for `PodDisruptionBudget` (PDB) in the Gateway chart. [Issue #44469](https://github.com/istio/istio/issues/44469)
-- **Fixed** an issue with forward compatibility with Istio 1.18+ [Kubernetes Gateway Automated Deployment](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). To have a seamless upgrade to 1.18+, users of this feature should first adopt this patch release. [Issue #44164](https://github.com/istio/istio/issues/44164)
+- **Fixed** an issue with forward compatibility with Istio 1.18+ [Kubernetes Gateway Automated Deployment](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment). To have a seamless upgrade to 1.18+, users of this feature should first adopt this patch release. [Issue #44164](https://github.com/istio/istio/issues/44164)
 - **Fixed** The `dns_upstream_failures_total` metric was mistakenly deleted in the previous release. [PR #44176](https://github.com/istio/istio/pull/44176)
 - **Fixed** an issue where grpc stats are absent. [Issue #43908](https://github.com/istio/istio/issues/43908), [Issue #44144](https://github.com/istio/istio/issues/44144)
 - **Fixed** an issue where `Istio Gateway` (Envoy) would crash due to a duplicate `istio_authn` network filter in the Envoy filter chain. [Issue #44385](https://github.com/istio/istio/issues/44385)

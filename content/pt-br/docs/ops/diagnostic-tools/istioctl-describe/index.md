@@ -11,7 +11,7 @@ test: no
 
 {{< boilerplate experimental-feature-warning >}}
 
-In Istio 1.3, we included the [`istioctl experimental describe`](/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)
+In Istio 1.3, we included the [`istioctl experimental describe`](/pt-br/docs/reference/commands/istioctl/#istioctl-experimental-describe-pod)
 command. This CLI command provides you with the information needed to understand
 the configuration impacting a {{< gloss >}}pod{{< /gloss >}}. This guide shows
 you how to use this experimental sub-command to see if a pod is in the mesh and
@@ -31,17 +31,17 @@ Just like all other `istioctl` commands, you can replace `experimental`
 with `x` for convenience.
 {{< /tip >}}
 
-This guide assumes you have deployed the [Bookinfo](/docs/examples/bookinfo/)
+This guide assumes you have deployed the [Bookinfo](/pt-br/docs/examples/bookinfo/)
 sample in your mesh. If you haven't already done so,
-[start the application's services](/docs/examples/bookinfo/#start-the-application-services)
-and [determine the IP and port of the ingress](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
+[start the application's services](/pt-br/docs/examples/bookinfo/#start-the-application-services)
+and [determine the IP and port of the ingress](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port)
 before continuing.
 
 ## Verify a pod is in the mesh
 
 The `istioctl describe` command returns a warning if the {{< gloss >}}Envoy{{< /gloss >}}
 proxy is not present in a pod or if the proxy has not started. Additionally, the command warns
-if some of the [Istio requirements for pods](/docs/ops/deployment/application-requirements/)
+if some of the [Istio requirements for pods](/pt-br/docs/ops/deployment/application-requirements/)
 are not met.
 
 For example, the following command produces a warning indicating a `kube-dns`
@@ -80,7 +80,7 @@ The output shows the following information:
 ## Verify destination rule configurations
 
 You can use `istioctl describe` to see what
-[destination rules](/docs/concepts/traffic-management/#destination-rules) apply to requests
+[destination rules](/pt-br/docs/concepts/traffic-management/#destination-rules) apply to requests
 to a pod. For example, apply the Bookinfo
 [mutual TLS destination rules]({{< github_file >}}/samples/bookinfo/networking/destination-rule-all-mtls.yaml):
 
@@ -112,7 +112,7 @@ The command now shows additional output:
 
 ## Verify virtual service configurations
 
-When [virtual services](/docs/concepts/traffic-management/#virtual-services) configure
+When [virtual services](/pt-br/docs/concepts/traffic-management/#virtual-services) configure
 routes to a pod, `istioctl describe` will also include the routes in its output.
 For example, apply the
 [Bookinfo virtual services]({{< github_file>}}/samples/bookinfo/networking/virtual-service-all-v1.yaml)
@@ -235,7 +235,7 @@ other cases.
 
 ## Verifying strict mutual TLS
 
-Following the [mutual TLS migration](/docs/tasks/security/authentication/mtls-migration/)
+Following the [mutual TLS migration](/pt-br/docs/tasks/security/authentication/mtls-migration/)
 instructions, you can enable strict mutual TLS for the `ratings` service:
 
 {{< text bash >}}

@@ -51,7 +51,7 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
 
 ## Other enhancements
 
-- `istioctl` gained many debugging features to help you highlight various issues in your mesh installation. Checkout the `istioctl` [reference page](/docs/reference/commands/istioctl/) for the set of all supported features.
+- `istioctl` gained many debugging features to help you highlight various issues in your mesh installation. Checkout the `istioctl` [reference page](/pt-br/docs/reference/commands/istioctl/) for the set of all supported features.
 
 - Locality aware load balancing graduated from experimental to default in this release too. Istio now takes advantage of existing locality information to prioritize load balancing pools and favor sending requests to the closest backends.
 
@@ -64,9 +64,9 @@ Leverage Istio to integrate with Kubernetes and handle large fleets of Envoys in
     - Added a new Grafana dashboard for Citadel
     - Improved the Pilot dashboard to expose additional key metrics
 
-- Added the new [Istio Deployment Models concept](/docs/ops/deployment/deployment-models/) to help you decide what deployment model suits your needs.
+- Added the new [Istio Deployment Models concept](/pt-br/docs/ops/deployment/deployment-models/) to help you decide what deployment model suits your needs.
 
-- Organized the content in of our [Operations Guide](/docs/ops/) and created a [section with all troubleshooting tasks](/docs/ops/common-problems) to help you find the information you seek faster.
+- Organized the content in of our [Operations Guide](/pt-br/docs/ops/) and created a [section with all troubleshooting tasks](/pt-br/docs/ops/common-problems) to help you find the information you seek faster.
 
 As always, there is a lot happening in the [Community Meeting](https://github.com/istio/community#community-meeting); join us every other Thursday at 10 AM Pacific.
 

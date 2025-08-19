@@ -61,7 +61,7 @@ A separate component, the istio-agent, helps each sidecar connect to the mesh by
 
 There will still be some cases where you might want to run Istio components independently, or replace certain components.
 
-Some users might want to use a Certificate Authority (CA) outside the mesh, and we have [documentation on how to do that](/docs/tasks/security/cert-management/plugin-ca-cert/). If you do your certificate provisioning using a different tool, we can use that instead of the built-in CA.
+Some users might want to use a Certificate Authority (CA) outside the mesh, and we have [documentation on how to do that](/pt-br/docs/tasks/security/cert-management/plugin-ca-cert/). If you do your certificate provisioning using a different tool, we can use that instead of the built-in CA.
 
 ## Moving forward
 

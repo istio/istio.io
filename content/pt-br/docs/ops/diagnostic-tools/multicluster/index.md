@@ -8,8 +8,8 @@ test: no
 ---
 
 This page describes how to troubleshoot issues with Istio deployed to multiple clusters and/or networks.
-Before reading this, you should take the steps in [Multicluster Installation](/docs/setup/install/multicluster/)
-and read the [Deployment Models](/docs/ops/deployment/deployment-models/) guide.
+Before reading this, you should take the steps in [Multicluster Installation](/pt-br/docs/setup/install/multicluster/)
+and read the [Deployment Models](/pt-br/docs/ops/deployment/deployment-models/) guide.
 
 ## Cross-Cluster Load Balancing
 
@@ -23,7 +23,7 @@ Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 ...
 {{< /text >}}
 
-When following the guide to [verify multicluster installation](/docs/setup/install/multicluster/verify/)
+When following the guide to [verify multicluster installation](/pt-br/docs/setup/install/multicluster/verify/)
 we would expect both `v1` and `v2` responses, indicating traffic is going to both clusters.
 
 There are many possible causes to the problem:
@@ -49,7 +49,7 @@ $ kubectl create --context="${CTX_CLUSTER1}" namespace uninjected-sample
 $ kubectl create --context="${CTX_CLUSTER2}" namespace uninjected-sample
 {{< /text >}}
 
-Then deploy the same apps used in [verify multicluster installation](/docs/setup/install/multicluster/verify/):
+Then deploy the same apps used in [verify multicluster installation](/pt-br/docs/setup/install/multicluster/verify/):
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
@@ -103,7 +103,7 @@ Istio configuration.
 
 ### Locality Load Balancing
 
-[Locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover)
+[Locality load balancing](/pt-br/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover)
 can be used to make clients prefer that traffic go to the nearest destination. If the clusters
 are in different localities (region/zone), locality load balancing will prefer the local-cluster and is working as
 intended. If locality load balancing is disabled, or the clusters are in the same locality, there may be another issue.
@@ -112,7 +112,7 @@ intended. If locality load balancing is disabled, or the clusters are in the sam
 
 Cross-cluster traffic, as with intra-cluster traffic, relies on a common root of trust between the proxies. The default
 Istio installation will use their own individually generated root certificate-authorities. For multi-cluster, we
-must manually configure a shared root of trust. Follow Plug-in Certs below or read [Identity and Trust Models](/docs/ops/deployment/deployment-models/#identity-and-trust-models)
+must manually configure a shared root of trust. Follow Plug-in Certs below or read [Identity and Trust Models](/pt-br/docs/ops/deployment/deployment-models/#identity-and-trust-models)
 to learn more.
 
 **Plug-in Certs:**
@@ -125,14 +125,14 @@ $ diff \
    <(kubectl --context="${CTX_CLUSTER2}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
-If the root-certs do not match or the secret does not exist at all, you can follow the [Plugin CA Certs](/docs/tasks/security/cert-management/plugin-ca-cert/)
+If the root-certs do not match or the secret does not exist at all, you can follow the [Plugin CA Certs](/pt-br/docs/tasks/security/cert-management/plugin-ca-cert/)
 guide, ensuring to run the steps for every cluster.
 
 ### Step-by-step Diagnosis
 
 If you've gone through the sections above and are still having issues, then it's time to dig a little deeper.
 
-The following steps assume you're following the [HelloWorld verification](/docs/setup/install/multicluster/verify/).
+The following steps assume you're following the [HelloWorld verification](/pt-br/docs/setup/install/multicluster/verify/).
 Before continuing, make sure both `helloworld` and `curl` are deployed in each cluster.
 
 From each cluster, find the endpoints the `curl` service has for `helloworld`:

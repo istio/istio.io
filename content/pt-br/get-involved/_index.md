@@ -32,8 +32,8 @@ doc_type: get-involved
 {{% /involve_block %}}
 
 {{% involve_block title="Bugs and Security" subtitle="Thank you for helping to improve Istio with bug reports or security vulnerability reports." icon="security" %}}
-1. Read this [**quick explanation on how to report bugs**](/docs/releases/bugs/), in code or in documentation.
-1. The Istio security team responds rapidly to **vulnerability reports**. Read [how to submit an issue](/docs/releases/security-vulnerabilities/).
+1. Read this [**quick explanation on how to report bugs**](/pt-br/docs/releases/bugs/), in code or in documentation.
+1. The Istio security team responds rapidly to **vulnerability reports**. Read [how to submit an issue](/pt-br/docs/releases/security-vulnerabilities/).
 {{% /involve_block %}}
 
 {{% involve_block title="Become a contributor" subtitle="Code, documentation, community: Istio welcomes your contribution! Use these links as your entry point." icon="contribution" %}}

@@ -13,7 +13,7 @@ This release includes bug fixes to improve robustness. This release note describ
 between Istio 1.4.7 and Istio 1.4.8.
 
 The fixes below focus on various issues related to installing Istio on OpenShift with CNI. Instructions
-for installing Istio on OpenShift with CNI can be found [here](/docs/setup/additional-setup/cni/#instructions-for-istio-1-4-x-and-openshift).
+for installing Istio on OpenShift with CNI can be found [here](/pt-br/docs/setup/additional-setup/cni/#instructions-for-istio-1-4-x-and-openshift).
 
 {{< relnote >}}
 

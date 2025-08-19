@@ -22,7 +22,7 @@ Envoy, and subsequently Istio, is vulnerable to six newly discovered vulnerabili
 
 Istio contains a remotely exploitable vulnerability, [CVE-2021-39156](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-39156),
 where an HTTP request with a fragment (a section in the end of a URI that begins with a `#` character) in the URI path could bypass Istio's URI path-based authorization policies.
-For instance, an Istio authorization policy [denies](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) requests sent to the URI path `/user/profile`.
+For instance, an Istio authorization policy [denies](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) requests sent to the URI path `/user/profile`.
 In the vulnerable versions, a request with URI path `/user/profile#section1` bypasses the deny policy and routes to the backend (with the normalized URI path `/user/profile%23section1`), possibly leading to a security incident.
 
 The fix depends on a fix in Envoy, which is associated with [CVE-2021-32779](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32779).
@@ -33,10 +33,10 @@ You are impacted by this vulnerability if:
 
 * You use Istio patch versions earlier than 1.9.8, 1.10.4 or 1.11.1.
 * You use authorization policies with
-  [DENY actions](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
-  [`operation.paths`](/docs/reference/config/security/authorization-policy/#Operation), or
-  [ALLOW actions](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
-  [`operation.notPaths`](/docs/reference/config/security/authorization-policy/#Operation).
+  [DENY actions](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
+  [`operation.paths`](/pt-br/docs/reference/config/security/authorization-policy/#Operation), or
+  [ALLOW actions](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
+  [`operation.notPaths`](/pt-br/docs/reference/config/security/authorization-policy/#Operation).
 
 With the [mitigation](#mitigation),
 the fragment part of the request’s URI is removed before the authorization and routing.
@@ -78,10 +78,10 @@ You are impacted by this vulnerability if:
 
 * You use Istio patch versions earlier than 1.9.8, 1.10.4 or 1.11.1.
 * You use Istio authorization policies with
-  [DENY actions](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
-  [`operation.hosts`](/docs/reference/config/security/authorization-policy/#Operation), or
-  [ALLOW actions](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
-  [`operation.notHosts`](/docs/reference/config/security/authorization-policy/#Operation).
+  [DENY actions](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
+  [`operation.hosts`](/pt-br/docs/reference/config/security/authorization-policy/#Operation), or
+  [ALLOW actions](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) and
+  [`operation.notHosts`](/pt-br/docs/reference/config/security/authorization-policy/#Operation).
 
 With the [mitigation](#mitigation),
 when authorization policies based on `hosts` or `notHosts` are used, the Istio authorization policy compares the HTTP `Host` or `:authority` headers
@@ -97,7 +97,7 @@ When a request header contains multiple values, the external authorization serve
 You are impacted by this vulnerability if:
 
 * You use Istio patch versions earlier than 1.9.8, 1.10.4 or 1.11.1.
-* You use [`EnvoyFilters`](/docs/reference/config/networking/envoy-filter/).
+* You use [`EnvoyFilters`](/pt-br/docs/reference/config/networking/envoy-filter/).
 
 ### CVE-2021-32778
 
@@ -130,7 +130,7 @@ Envoy accessing deallocated memory and terminating abnormally. See [CVE-2021-327
 You are impacted by this vulnerability if:
 
 * You use Istio patch versions earlier than 1.9.8, 1.10.4 or 1.11.1.
-* You use [`EnvoyFilters`](/docs/reference/config/networking/envoy-filter/).
+* You use [`EnvoyFilters`](/pt-br/docs/reference/config/networking/envoy-filter/).
 
 ### Mitigation
 
@@ -147,11 +147,11 @@ To mitigate the above CVEs, update your cluster to the latest supported version:
 
 When creating a `VirtualService` or `Gateway`, Istio generates configuration matching both the hostname itself and the hostname with all matching ports. For instance, a `VirtualService` or `Gateway` for a host of `httpbin.foo` generates a config matching `httpbin.foo` and `httpbin.foo:*`. However, an `AuthorizationPolicy` using exact match only matches the exact string given for the `hosts` or `notHosts` fields.
 
-Your cluster is impacted if you have an `AuthorizationPolicy` using exact string comparison for the [`hosts` or `notHosts`](/docs/reference/config/security/authorization-policy/#Operation).
+Your cluster is impacted if you have an `AuthorizationPolicy` using exact string comparison for the [`hosts` or `notHosts`](/pt-br/docs/reference/config/security/authorization-policy/#Operation).
 
 #### `AuthorizationPolicy` Mitigation
 
-Update your authorization policy [rules](/docs/reference/config/security/authorization-policy/#Rule) to use prefix match instead of exact match.  For example, to match a `VirtualService` or `Gateway` with a host of `httpbin.com` , create an `AuthorizationPolicy` with `hosts: ["httpbin.com", "httpbin.com:*"]` as shown below.
+Update your authorization policy [rules](/pt-br/docs/reference/config/security/authorization-policy/#Rule) to use prefix match instead of exact match.  For example, to match a `VirtualService` or `Gateway` with a host of `httpbin.com` , create an `AuthorizationPolicy` with `hosts: ["httpbin.com", "httpbin.com:*"]` as shown below.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1beta1

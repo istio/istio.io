@@ -29,27 +29,27 @@ By default Istio injects an [init container](https://kubernetes.io/docs/concepts
 
 The CNI plugin can be chained with other plugins, and supports most hosted Kubernetes implementations.
 
-In this release, we have promoted the CNI plugin functionality to Beta by improving our documentation and testing to ensure users can enable this feature safely in production. [Learn how to install Istio with the CNI plugin.](/docs/setup/additional-setup/cni/)
+In this release, we have promoted the CNI plugin functionality to Beta by improving our documentation and testing to ensure users can enable this feature safely in production. [Learn how to install Istio with the CNI plugin.](/pt-br/docs/setup/additional-setup/cni/)
 
 ## External control plane (Beta)
 
-Last year we introduced a [new deployment model for Istio](/blog/2020/new-deployment-model/) where the control plane for a cluster was managed outside of that cluster.  This allows for separation of concerns between a mesh owner, who administers the control plane, and the mesh users, who deploy and configure services in the mesh. An external control plane, running in a separate cluster, can control a single data plane cluster or more than one cluster of a multicluster mesh.
+Last year we introduced a [new deployment model for Istio](/pt-br/blog/2020/new-deployment-model/) where the control plane for a cluster was managed outside of that cluster.  This allows for separation of concerns between a mesh owner, who administers the control plane, and the mesh users, who deploy and configure services in the mesh. An external control plane, running in a separate cluster, can control a single data plane cluster or more than one cluster of a multicluster mesh.
 
-In 1.11, this feature has been promoted to Beta. [Learn how you can set up a mesh with an external control plane](/docs/setup/install/external-controlplane/).
+In 1.11, this feature has been promoted to Beta. [Learn how you can set up a mesh with an external control plane](/pt-br/docs/setup/install/external-controlplane/).
 
 ## Gateway injection
 
-Istio provides gateways as a way to interface with the outside world. You can deploy [ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/), for incoming traffic originating outside your cluster, and [egress gateways](/docs/tasks/traffic-management/egress/egress-gateway/), for outgoing traffic from your applications to services deployed outside your cluster.
+Istio provides gateways as a way to interface with the outside world. You can deploy [ingress gateways](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/), for incoming traffic originating outside your cluster, and [egress gateways](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/), for outgoing traffic from your applications to services deployed outside your cluster.
 
 In the past, an Istio version would deploy a gateway as a Deployment which had a completely separate proxy configuration to all the rest of the sidecar proxies in the cluster. This made management and upgrade of the gateway complex, especially when multiple gateways were deployed in the cluster. One common issue was that settings from the control plane passed down to sidecar proxies and the gateways could drift, causing unexpected issues.
 
 Gateway injection moves the management of gateways to the same method as sidecar proxies. Configuration that you set on your proxies globally will apply to your gateways, and complex configurations that weren't possible (for example, running a gateway as a DaemonSet) are now easy. You can also update your gateways to the latest version after a cluster upgrade simply by restarting the pods.
 
-In addition to these changes, we have released new [Installing Gateways](/docs/setup/additional-setup/gateway/) documentation, which covers best practices for installation, management, and upgrade of gateways.
+In addition to these changes, we have released new [Installing Gateways](/pt-br/docs/setup/additional-setup/gateway/) documentation, which covers best practices for installation, management, and upgrade of gateways.
 
 ## Updates to revision and tag deployments
 
-In Istio 1.6 we added support for running multiple control planes simultaneously, which allows you to do a [canary deployment of a new Istio version](/blog/2020/multiple-control-planes/).  In 1.10, we introduced [revision tags](/blog/2021/revision-tags/), which lets you mark a revision as "production" or "testing" and minimizes the chance of error when upgrading.
+In Istio 1.6 we added support for running multiple control planes simultaneously, which allows you to do a [canary deployment of a new Istio version](/pt-br/blog/2020/multiple-control-planes/).  In 1.10, we introduced [revision tags](/pt-br/blog/2021/revision-tags/), which lets you mark a revision as "production" or "testing" and minimizes the chance of error when upgrading.
 
 The `istioctl tag` command has graduated out of experimental in 1.11. You can also now specify a default revision for the control plane. This helps further simplify the canary upgrade from a non-revisioned control plane to a new version.
 
@@ -69,7 +69,7 @@ This is the first phase in [our plan](https://docs.google.com/document/d/1K8hvQ8
 
 ## Sneak peek: new APIs
 
-A number of Istio features can only be configured by [`EnvoyFilter`](/docs/reference/config/networking/envoy-filter/), which allows you to set proxy configuration. We're working on new APIs for common use cases - such as configuring telemetry settings and WebAssembly (Wasm) extension deployment, and you can expect to see these become available to users in the 1.12 release.  If you're interested in helping us test the implementations as they are built, [please join the appropriate working group meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
+A number of Istio features can only be configured by [`EnvoyFilter`](/pt-br/docs/reference/config/networking/envoy-filter/), which allows you to set proxy configuration. We're working on new APIs for common use cases - such as configuring telemetry settings and WebAssembly (Wasm) extension deployment, and you can expect to see these become available to users in the 1.12 release.  If you're interested in helping us test the implementations as they are built, [please join the appropriate working group meeting](https://github.com/istio/community/blob/master/WORKING-GROUPS.md).
 
 ## Join the Istio community
 

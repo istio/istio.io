@@ -8,25 +8,25 @@ test: n/a
 ---
 
 Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect your services and data.
-However, to fully make use of these features securely, care must be taken to follow best practices. It is recommended to review the [Security overview](/docs/concepts/security/) before proceeding.
+However, to fully make use of these features securely, care must be taken to follow best practices. It is recommended to review the [Security overview](/pt-br/docs/concepts/security/) before proceeding.
 
 ## Mutual TLS
 
-Istio will [automatically](/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) encrypt traffic using [Mutual TLS](/docs/concepts/security/#mutual-tls-authentication) whenever possible.
-However, proxies are configured in [permissive mode](/docs/concepts/security/#permissive-mode) by default, meaning they will accept both mutual TLS and plaintext traffic.
+Istio will [automatically](/pt-br/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) encrypt traffic using [Mutual TLS](/pt-br/docs/concepts/security/#mutual-tls-authentication) whenever possible.
+However, proxies are configured in [permissive mode](/pt-br/docs/concepts/security/#permissive-mode) by default, meaning they will accept both mutual TLS and plaintext traffic.
 
 While this is required for incremental adoption or allowing traffic from clients without an Istio sidecar, it also weakens the security stance.
-It is recommended to [migrate to strict mode](/docs/tasks/security/authentication/mtls-migration/) when possible, to enforce that mutual TLS is used.
+It is recommended to [migrate to strict mode](/pt-br/docs/tasks/security/authentication/mtls-migration/) when possible, to enforce that mutual TLS is used.
 
 Mutual TLS alone is not always enough to fully secure traffic, however, as it provides only authentication, not authorization.
 This means that anyone with a valid certificate can still access a service.
 
-To fully lock down traffic, it is recommended to configure [authorization policies](/docs/tasks/security/authorization/).
+To fully lock down traffic, it is recommended to configure [authorization policies](/pt-br/docs/tasks/security/authorization/).
 These allow creating fine-grained policies to allow or deny traffic. For example, you can allow only requests from the `app` namespace to access the `hello-world` service.
 
 ## Authorization policies
 
-Istio [authorization](/docs/concepts/security/#authorization) plays a critical part in Istio security.
+Istio [authorization](/pt-br/docs/concepts/security/#authorization) plays a critical part in Istio security.
 It takes effort to configure the correct authorization policies to best protect your clusters.
 It is important to understand the implications of these configurations as Istio cannot determine the proper authorization for all users.
 Please follow this section in its entirety.
@@ -40,7 +40,7 @@ The default-deny authorization pattern means your system denies all requests by 
 In case you miss some conditions, traffic will be unexpectedly denied, instead of traffic being unexpectedly allowed.
 The latter typically being a security incident while the former may result in a poor user experience, a service outage or will not match your SLO/SLA.
 
-For example, in the [authorization for HTTP traffic task](/docs/tasks/security/authorization/authz-http/),
+For example, in the [authorization for HTTP traffic task](/pt-br/docs/tasks/security/authorization/authz-http/),
 the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
 From there, other authorization policies allow traffic based on specific conditions.
 
@@ -148,13 +148,13 @@ This becomes a complicated problem because of the following factors:
 Istio authorization policy implements built-in support of various basic normalization options to help you to better address
 the problem:
 
-* Refer to [Guideline on configuring the path normalization option](/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option)
+* Refer to [Guideline on configuring the path normalization option](/pt-br/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option)
   to understand which normalization options you may want to use.
 
-* Refer to [Customize your system on path normalization](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization) to
+* Refer to [Customize your system on path normalization](/pt-br/docs/ops/best-practices/security/#customize-your-system-on-path-normalization) to
   understand the detail of each normalization option.
 
-* Refer to [Mitigation for unsupported normalization](/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization) for
+* Refer to [Mitigation for unsupported normalization](/pt-br/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization) for
   alternative solutions in case you need any unsupported normalization options.
 
 ### Guideline on configuring the path normalization option
@@ -166,7 +166,7 @@ Before diving into the details of configuring normalization, you should first ma
 You do not need normalization if you don't use authorization policies or if your authorization policies don't
 use any `path` fields.
 
-You may not need normalization if all your authorization policies follow the [safer authorization pattern](/docs/ops/best-practices/security/#safer-authorization-policy-patterns)
+You may not need normalization if all your authorization policies follow the [safer authorization pattern](/pt-br/docs/ops/best-practices/security/#safer-authorization-policy-patterns)
 which, in the worst case, results in unexpected rejection instead of policy bypass.
 
 #### Case 2: You need normalization but not sure which normalization option to use
@@ -183,13 +183,13 @@ For either option, make sure you write both positive and negative tests specific
 normalization is working as expected. The tests are useful in catching potential bypass issues caused by a misunderstanding
 or incomplete knowledge of the normalization happening to your request.
 
-Refer to [Customize your system on path normalization](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization)
+Refer to [Customize your system on path normalization](/pt-br/docs/ops/best-practices/security/#customize-your-system-on-path-normalization)
 for more details on configuring the normalization option.
 
 #### Case 3: You need an unsupported normalization option
 
 If you need a specific normalization option that is not supported by Istio yet, please follow
-[Mitigation for unsupported normalization](/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization)
+[Mitigation for unsupported normalization](/pt-br/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization)
 for customized normalization support or create a feature request for the Istio community.
 
 ### Customize your system on path normalization
@@ -210,8 +210,8 @@ before evaluating against the authorization policies and routing the requests:
 | `DECODE_AND_MERGE_SLASHES` | The most strict setting when you allow all traffic by default. This setting is recommended, with the caveat that you will need to thoroughly test your authorization policies routes. [Percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slash and backslash characters (`%2F`, `%2f`, `%5C` and `%5c`) are decoded to `/` or `\`, before the `MERGE_SLASHES` normalization. | `/a%2fb` is normalized to `/a/b`. |
 
 {{< tip >}}
-The configuration is specified via the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
-field in the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/).
+The configuration is specified via the [`pathNormalization`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+field in the [mesh config](/pt-br/docs/reference/config/istio.mesh.v1alpha1/).
 {{< /tip >}}
 
 To emphasize, the normalization algorithms are conducted in the following order:
@@ -225,7 +225,7 @@ While these normalization options represent recommendations from HTTP standards 
 applications may interpret a URL in any way it chooses to. When using denial policies, ensure that you understand how your application behaves.
 {{< /warning >}}
 
-For a complete list of supported normalizations, please refer to [authorization policy normalization](/docs/reference/config/security/normalization/).
+For a complete list of supported normalizations, please refer to [authorization policy normalization](/pt-br/docs/reference/config/security/normalization/).
 
 #### Examples of configuration
 
@@ -246,7 +246,7 @@ The normalized URL paths, or the original URL paths if _NONE_ is selected, will 
 
 #### How to configure
 
-You can use `istioctl` to update the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/):
+You can use `istioctl` to update the [mesh config](/pt-br/docs/reference/config/istio.mesh.v1alpha1/):
 
 {{< text bash >}}
 $ istioctl upgrade --set meshConfig.pathNormalization.normalization=DECODE_AND_MERGE_SLASHES
@@ -267,8 +267,8 @@ $ istioctl install -f iop.yaml
 {{< /text >}}
 
 Alternatively, if you want to directly edit the mesh config,
-you can add the [`pathNormalization`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
-to the [mesh config](/docs/reference/config/istio.mesh.v1alpha1/), which is the `istio-<REVISION_ID>` configmap in the `istio-system` namespace.
+you can add the [`pathNormalization`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+to the [mesh config](/pt-br/docs/reference/config/istio.mesh.v1alpha1/), which is the `istio-<REVISION_ID>` configmap in the `istio-system` namespace.
 For example, if you choose the `DECODE_AND_MERGE_SLASHES` option, you modify the mesh config as the following:
 
 {{< text yaml >}}
@@ -337,7 +337,7 @@ Istio generates hostnames for both the hostname itself and all matching ports. F
 for a host of `example.com` generates a config matching `example.com` and `example.com:*`. However, exact match authorization
 policies only match the exact string given for the `hosts` or `notHosts` fields.
 
-[Authorization policy rules](/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
+[Authorization policy rules](/pt-br/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
 prefix matches instead of exact matches.  For example, for an `AuthorizationPolicy` matching the Envoy configuration generated
 for a hostname of `example.com`, you would use `hosts: ["example.com", "example.com:*"]` as shown in the below `AuthorizationPolicy`.
 
@@ -364,7 +364,7 @@ does not use the `Host` header when redirecting the request to the application. 
 on sidecar because a client could reach out to the application using explicit IP address and arbitrary `Host` header instead of
 the service name.
 
-If you really need to enforce access control based on the `Host` header on sidecars for any reason, follow with the [default-deny patterns](/docs/ops/best-practices/security/#use-default-deny-patterns)
+If you really need to enforce access control based on the `Host` header on sidecars for any reason, follow with the [default-deny patterns](/pt-br/docs/ops/best-practices/security/#use-default-deny-patterns)
 which would reject the request if the client uses an arbitrary `Host` header.
 
 #### Specialized Web Application Firewall (WAF)
@@ -375,7 +375,7 @@ on the normalized requests. Please refer to your specific WAF product for config
 
 #### Feature request to Istio
 
-If you believe Istio should officially support a specific normalization, you can follow the [reporting a vulnerability](/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
+If you believe Istio should officially support a specific normalization, you can follow the [reporting a vulnerability](/pt-br/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
 page to send a feature request about the specific normalization to the Istio Product Security Work Group for initial evaluation.
 
 Please do not open any issues in public without first contacting the Istio Product Security Work Group because the
@@ -413,7 +413,7 @@ The Istio sidecar works by capturing both inbound traffic and outbound traffic a
 However, not *all* traffic is captured:
 
 * Redirection only handles TCP based traffic. Any UDP or ICMP packets will not be captured or modified.
-* Inbound capture is disabled on many [ports used by the sidecar](/docs/ops/deployment/application-requirements/#ports-used-by-istio) as well as port 22. This list can be expanded by options like `traffic.sidecar.istio.io/excludeInboundPorts`.
+* Inbound capture is disabled on many [ports used by the sidecar](/pt-br/docs/ops/deployment/application-requirements/#ports-used-by-istio) as well as port 22. This list can be expanded by options like `traffic.sidecar.istio.io/excludeInboundPorts`.
 * Outbound capture may similarly be reduced through settings like `traffic.sidecar.istio.io/excludeOutboundPorts` or other means.
 
 In general, there is minimal security boundary between an application and its sidecar proxy. Configuration of the sidecar is allowed on a per-pod basis, and both run in the same network/process namespace.
@@ -440,16 +440,16 @@ new connections will be subject to the new policy.
 
 ### Securing egress traffic
 
-A common misconception is that options like [`outboundTrafficPolicy: REGISTRY_ONLY`](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) acts as a security policy preventing all access to undeclared services.
+A common misconception is that options like [`outboundTrafficPolicy: REGISTRY_ONLY`](/pt-br/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) acts as a security policy preventing all access to undeclared services.
 However, this is not a strong security boundary as mentioned above, and should be considered best-effort.
 
-While this is useful to prevent accidental dependencies, if you want to secure egress traffic, and enforce all outbound traffic goes through a proxy, you should instead rely on an [Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
-When combined with a [Network Policy](/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies), you can enforce all traffic, or some subset, goes through the egress gateway.
+While this is useful to prevent accidental dependencies, if you want to secure egress traffic, and enforce all outbound traffic goes through a proxy, you should instead rely on an [Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/).
+When combined with a [Network Policy](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies), you can enforce all traffic, or some subset, goes through the egress gateway.
 This ensures that even if a client accidentally or maliciously bypasses their sidecar, the request will be blocked.
 
 ## Configure TLS verification in Destination Rule when using TLS origination
 
-Istio offers the ability to [originate TLS](/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
+Istio offers the ability to [originate TLS](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
 This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
 
 Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates`, `subjectAltNames`, and `sni` fields.
@@ -489,7 +489,7 @@ spec:
 
 ## Gateways
 
-When running an Istio [gateway](/docs/tasks/traffic-management/ingress/), there are a few resources involved:
+When running an Istio [gateway](/pt-br/docs/tasks/traffic-management/ingress/), there are a few resources involved:
 
 * `Gateway`s, which controls the ports and TLS settings for the gateway.
 * `VirtualService`s, which control the routing logic. These are associated with `Gateway`s by direct reference in the `gateways` field and a mutual agreement on the `hosts` field in the `Gateway` and `VirtualService`.
@@ -531,7 +531,7 @@ servers:
 ### Isolate sensitive services
 
 It may be desired to enforce stricter physical isolation for sensitive services. For example, you may want to run a
-[dedicated gateway instance](/docs/setup/install/istioctl/#configure-gateways) for a sensitive `payments.example.com`, while utilizing a single
+[dedicated gateway instance](/pt-br/docs/setup/install/istioctl/#configure-gateways) for a sensitive `payments.example.com`, while utilizing a single
 shared gateway instance for less sensitive domains like `blog.example.com` and `store.example.com`.
 This can offer a stronger defense-in-depth and help meet certain regulatory compliance guidelines.
 
@@ -604,22 +604,22 @@ spec:
 
 ## Protocol detection
 
-Istio will [automatically determine the protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) of traffic it sees.
-To avoid accidental or intentional miss detection, which may result in unexpected traffic behavior, it is recommended to [explicitly declare the protocol](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) where possible.
+Istio will [automatically determine the protocol](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) of traffic it sees.
+To avoid accidental or intentional miss detection, which may result in unexpected traffic behavior, it is recommended to [explicitly declare the protocol](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) where possible.
 
 ## CNI
 
 In order to transparently capture all traffic, Istio relies on `iptables` rules configured by the `istio-init` `initContainer`.
-This adds a [requirement](/docs/ops/deployment/application-requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
+This adds a [requirement](/pt-br/docs/ops/deployment/application-requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
 
-To reduce privileges granted to pods, Istio offers a [CNI plugin](/docs/setup/additional-setup/cni/) which removes this requirement.
+To reduce privileges granted to pods, Istio offers a [CNI plugin](/pt-br/docs/setup/additional-setup/cni/) which removes this requirement.
 
 ## Use hardened docker images
 
 Istio's default docker images, including those run by the control plane, gateway, and sidecar proxies, are based on `ubuntu`.
 This provides various tools such as `bash` and `curl`, which trades off convenience for an increase attack surface.
 
-Istio also offers a smaller image based on [distroless images](/docs/ops/configuration/security/harden-docker-images/) that reduces the dependencies in the image.
+Istio also offers a smaller image based on [distroless images](/pt-br/docs/ops/configuration/security/harden-docker-images/) that reduces the dependencies in the image.
 
 {{< warning >}}
 Distroless images are currently an alpha feature.
@@ -627,7 +627,7 @@ Distroless images are currently an alpha feature.
 
 ## Release and security policy
 
-In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/docs/releases/supported-releases) that is still receiving security patches.
+In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/pt-br/docs/releases/supported-releases) that is still receiving security patches.
 
 ## Detect invalid configurations
 
@@ -641,18 +641,18 @@ This could result in applying a policy that is unexpectedly ignored, leading to 
 
 ## Avoid alpha and experimental features
 
-All Istio features and APIs are assigned a [feature status](/docs/releases/feature-stages/), defining its stability, deprecation policy, and security policy.
+All Istio features and APIs are assigned a [feature status](/pt-br/docs/releases/feature-stages/), defining its stability, deprecation policy, and security policy.
 
 Because alpha and experimental features do not have as strong security guarantees, it is recommended to avoid them whenever possible.
-Security issues found in these features may not be fixed immediately or otherwise not follow our standard [security vulnerability](/docs/releases/security-vulnerabilities/) process.
+Security issues found in these features may not be fixed immediately or otherwise not follow our standard [security vulnerability](/pt-br/docs/releases/security-vulnerabilities/) process.
 
-To determine the feature status of features in use in your cluster, consult the [Istio features](/docs/releases/feature-stages/#istio-features) list.
+To determine the feature status of features in use in your cluster, consult the [Istio features](/pt-br/docs/releases/feature-stages/#istio-features) list.
 
 <!-- In the future, we should document the `istioctl` command to check this when available. -->
 
 ## Lock down ports
 
-Istio configures a [variety of ports](/docs/ops/deployment/application-requirements/#ports-used-by-istio) that may be locked down to improve security.
+Istio configures a [variety of ports](/pt-br/docs/ops/deployment/application-requirements/#ports-used-by-istio) that may be locked down to improve security.
 
 ### Control Plane
 
@@ -702,7 +702,7 @@ While most cloud providers support this feature now, many local development tool
 
 ## Configure a limit on downstream connections
 
-By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
+By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/pt-br/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
 
 ### Configure `global_downstream_max_connections` value
 

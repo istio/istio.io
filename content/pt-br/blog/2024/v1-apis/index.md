@@ -7,26 +7,26 @@ keywords: [istio, traffic, security, telemetry, API]
 target_release: 1.22
 ---
 
-Istio provides [networking](/docs/reference/config/networking/), [security](/docs/reference/config/security/) and [telemetry](/docs/reference/config/telemetry/) APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure.
+Istio provides [networking](/pt-br/docs/reference/config/networking/), [security](/pt-br/docs/reference/config/security/) and [telemetry](/pt-br/docs/reference/config/telemetry/) APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure.
 
-Most of the features powered by these APIs have been [considered stable](/docs/releases/feature-stages/) for some time, but the API version has remained at `v1beta1`. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote these APIs to `v1` in Istio 1.22.
+Most of the features powered by these APIs have been [considered stable](/pt-br/docs/releases/feature-stages/) for some time, but the API version has remained at `v1beta1`. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote these APIs to `v1` in Istio 1.22.
 
 In Istio 1.22 we are happy to announce that a concerted effort has been made to graduate the below APIs to `v1`:
-* [Destination Rule](/docs/reference/config/networking/destination-rule/)
-* [Gateway](/docs/reference/config/networking/gateway/)
-* [Service Entry](/docs/reference/config/networking/service-entry/)
-* [Sidecar](/docs/reference/config/networking/sidecar/)
-* [Virtual Service](/docs/reference/config/networking/virtual-service/)
-* [Workload Entry](/docs/reference/config/networking/workload-entry/)
-* [Workload Group](/docs/reference/config/networking/workload-group/)
-* [Telemetry API](/docs/reference/config/telemetry/)*
-* [Peer Authentication](/docs/reference/config/security/peer_authentication/)
+* [Destination Rule](/pt-br/docs/reference/config/networking/destination-rule/)
+* [Gateway](/pt-br/docs/reference/config/networking/gateway/)
+* [Service Entry](/pt-br/docs/reference/config/networking/service-entry/)
+* [Sidecar](/pt-br/docs/reference/config/networking/sidecar/)
+* [Virtual Service](/pt-br/docs/reference/config/networking/virtual-service/)
+* [Workload Entry](/pt-br/docs/reference/config/networking/workload-entry/)
+* [Workload Group](/pt-br/docs/reference/config/networking/workload-group/)
+* [Telemetry API](/pt-br/docs/reference/config/telemetry/)*
+* [Peer Authentication](/pt-br/docs/reference/config/security/peer_authentication/)
 
 ## Feature stability and API versions
 
 Declarative APIs, such as those used by Kubernetes and Istio, decouple the _description_ of a resource from the _implementation_ that acts on it.
 
-[Istio's feature phase definitions](/docs/releases/feature-stages/) describe how a stable feature — one that is deemed ready for production use at any scale, and comes with a formal deprecation policy — should be matched with a `v1` API. We are now making good on that promise, with our API versions matching our feature stability for both features that have been stable for some time, and those which are being newly designated as stable in this release.
+[Istio's feature phase definitions](/pt-br/docs/releases/feature-stages/) describe how a stable feature — one that is deemed ready for production use at any scale, and comes with a formal deprecation policy — should be matched with a `v1` API. We are now making good on that promise, with our API versions matching our feature stability for both features that have been stable for some time, and those which are being newly designated as stable in this release.
 
 Although there are currently no plans to discontinue support for the previous `v1beta1` and `v1alpha1` API versions, users are encouraged to manually transition to utilizing the `v1` APIs by updating their existing YAML files.
 
@@ -54,22 +54,22 @@ This is the full list of supported API versions:
 
 | Category | API | Versions |
 | ---------|-----|----------|
-| Networking | [Destination Rule](/docs/reference/config/networking/destination-rule/) |  `v1`, `v1beta1`, `v1alpha3` |
-| | Istio [Gateway](/docs/reference/config/networking/gateway/) |  `v1`, `v1beta1`, `v1alpha3` |
-| | [Service Entry](/docs/reference/config/networking/service-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
-| | [Sidecar](/docs/reference/config/networking/sidecar/) scope |  `v1`, `v1beta1`, `v1alpha3` |
-| | [Virtual Service](/docs/reference/config/networking/virtual-service/) |  `v1`, `v1beta1`, `v1alpha3` |
-| | [Workload Entry](/docs/reference/config/networking/workload-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
-| | [Workload Group](/docs/reference/config/networking/workload-group/) |  `v1`, `v1beta1`, `v1alpha3` |
-| | [Proxy Config](/docs/reference/config/networking/proxy-config/) |  `v1beta1` |
-| | [Envoy Filter](/docs/reference/config/networking/envoy-filter/) |  `v1alpha3` |
-| Security  | [Authorization Policy](/docs/reference/config/security/authorization-policy/) |  `v1`, `v1beta1` |
-| | [Peer Authentication](/docs/reference/config/security/peer_authentication/) |  `v1`, `v1beta1` |
-| | [Request Authentication](/docs/reference/config/security/request_authentication/) |  `v1`, `v1beta1` |
-| Telemetry | [Telemetry](/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
-| Extension | [Wasm Plugin](/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
+| Networking | [Destination Rule](/pt-br/docs/reference/config/networking/destination-rule/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | Istio [Gateway](/pt-br/docs/reference/config/networking/gateway/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Service Entry](/pt-br/docs/reference/config/networking/service-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Sidecar](/pt-br/docs/reference/config/networking/sidecar/) scope |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Virtual Service](/pt-br/docs/reference/config/networking/virtual-service/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Workload Entry](/pt-br/docs/reference/config/networking/workload-entry/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Workload Group](/pt-br/docs/reference/config/networking/workload-group/) |  `v1`, `v1beta1`, `v1alpha3` |
+| | [Proxy Config](/pt-br/docs/reference/config/networking/proxy-config/) |  `v1beta1` |
+| | [Envoy Filter](/pt-br/docs/reference/config/networking/envoy-filter/) |  `v1alpha3` |
+| Security  | [Authorization Policy](/pt-br/docs/reference/config/security/authorization-policy/) |  `v1`, `v1beta1` |
+| | [Peer Authentication](/pt-br/docs/reference/config/security/peer_authentication/) |  `v1`, `v1beta1` |
+| | [Request Authentication](/pt-br/docs/reference/config/security/request_authentication/) |  `v1`, `v1beta1` |
+| Telemetry | [Telemetry](/pt-br/docs/reference/config/telemetry/) |  `v1`, `v1alpha1` |
+| Extension | [Wasm Plugin](/pt-br/docs/reference/config/proxy_extensions/wasm-plugin/) |  `v1alpha1` |
 
-Istio can also be configured [using the Kubernetes Gateway API](/docs/setup/getting-started/).
+Istio can also be configured [using the Kubernetes Gateway API](/pt-br/docs/setup/getting-started/).
 
 ## Using the `v1` Istio APIs
 

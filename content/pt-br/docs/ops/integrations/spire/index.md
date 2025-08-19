@@ -147,7 +147,7 @@ Below are the equivalent manual registrations based off the automatic registrati
 
 ## Install Istio
 
-1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
+1. [Download the Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/).
 
 1. Create the Istio configuration with custom patches for the Ingress Gateway and `istio-proxy`. The Ingress Gateway component includes the `spiffe.io/spire-managed-identity: "true"` label.
 

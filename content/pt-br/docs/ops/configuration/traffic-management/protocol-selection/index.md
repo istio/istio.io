@@ -23,7 +23,7 @@ any interception by the Istio proxy but cannot be used in proxy-only components 
 Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
 
 {{< tip >}}
-Server First protocols, such as MySQL, are incompatible with automatic protocol selection. See [Server first protocols](/docs/ops/deployment/application-requirements#server-first-protocols) for more information.
+Server First protocols, such as MySQL, are incompatible with automatic protocol selection. See [Server first protocols](/pt-br/docs/ops/deployment/application-requirements#server-first-protocols) for more information.
 {{< /tip >}}
 
 ## Explicit protocol selection
@@ -49,7 +49,7 @@ The following protocols are supported:
 | `tcp`                                 | Opaque TCP data stream                                                                                                                                                  | Opaque TCP data stream                                                                                                                                                  |
 | `tls`                                 | TLS Encrypted data                                                                                                                                                      | TLS Encrypted data                                                                                                                                                      |
 | `grpc`, `grpc-web`                                | Same as `http2`                                                                                                                                                         | Same as `http2`                                                                                                                                                         |  |
-| `mongo`, `mysql`, `redis` | Experimental application protocol support. To enable them, configure the corresponding [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream | Experimental application protocol support. To enable them, configure the corresponding [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream |
+| `mongo`, `mysql`, `redis` | Experimental application protocol support. To enable them, configure the corresponding [environment variables](/pt-br/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream | Experimental application protocol support. To enable them, configure the corresponding [environment variables](/pt-br/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream |
 
 Below is an example of a Service that defines a `https` port by `appProtocol` and an `http` port by name:
 
@@ -70,4 +70,4 @@ spec:
 
 Unlike sidecars, gateways are by default unable to automatically detect the specific HTTP protocol to use when forwarding requests to backend services. Therefore, unless explicit protocol selection is used to specify HTTP/1.1 (`http`) or HTTP/2 (`http2` or `grpc`), gateways will forward all incoming HTTP requests using HTTP/1.1.
 
-Instead of using explicit protocol selection, you can instruct gateways to forward requests using the same protocol as the incoming request by setting the [`useClientProtocol`](/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) option for a Service. Note, however, that using this option with services that do not support HTTP/2 can be risky because HTTPS gateways always [advertise](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) support for HTTP/1.1 and HTTP/2. So even when a backend service doesn't support HTTP/2, modern clients will think it does and often choose to use it.
+Instead of using explicit protocol selection, you can instruct gateways to forward requests using the same protocol as the incoming request by setting the [`useClientProtocol`](/pt-br/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) option for a Service. Note, however, that using this option with services that do not support HTTP/2 can be risky because HTTPS gateways always [advertise](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) support for HTTP/1.1 and HTTP/2. So even when a backend service doesn't support HTTP/2, modern clients will think it does and often choose to use it.

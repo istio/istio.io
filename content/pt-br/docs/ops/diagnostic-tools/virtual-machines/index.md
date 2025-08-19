@@ -8,8 +8,8 @@ test: n/a
 ---
 
 This page describes how to troubleshoot issues with Istio deployed to Virtual Machines.
-Before reading this, you should take the steps in [Virtual Machine Installation](/docs/setup/install/virtual-machine/).
-Additionally, [Virtual Machine Architecture](/docs/ops/deployment/vm-architecture/) can help you understand how the components interact.
+Before reading this, you should take the steps in [Virtual Machine Installation](/pt-br/docs/setup/install/virtual-machine/).
+Additionally, [Virtual Machine Architecture](/pt-br/docs/ops/deployment/vm-architecture/) can help you understand how the components interact.
 
 Troubleshooting an Istio Virtual Machine installation is similar to troubleshooting issues with proxies running inside Kubernetes, but there are some key differences to be aware of.
 

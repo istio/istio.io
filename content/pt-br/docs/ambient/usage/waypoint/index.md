@@ -151,7 +151,7 @@ If the `istio.io/use-waypoint` label exists on both a namespace and a service, t
 
 ### Configure a service to use a specific waypoint
 
-Using the services from the sample [bookinfo application](/docs/examples/bookinfo/), we can deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
+Using the services from the sample [bookinfo application](/pt-br/docs/examples/bookinfo/), we can deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:
 
 {{< text syntax=bash >}}
 $ istioctl waypoint apply -n default --name reviews-svc-waypoint

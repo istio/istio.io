@@ -7,7 +7,7 @@ social_image: book_cover.png
 keywords: [istio,phippy,izzy,dolphin]
 ---
 
-Earlier this year, [we added Izzy Dolphin, the Indo-Pacific Bottlenose](/blog/2024/istio-phippy/) to the [CNCF "Phippy and Friends" family](https://www.cncf.io/phippy/). Ever since then, Istio lovers worldwide have been eagerly awaiting the first children's book featuring our cute dolphin.
+Earlier this year, [we added Izzy Dolphin, the Indo-Pacific Bottlenose](/pt-br/blog/2024/istio-phippy/) to the [CNCF "Phippy and Friends" family](https://www.cncf.io/phippy/). Ever since then, Istio lovers worldwide have been eagerly awaiting the first children's book featuring our cute dolphin.
 
 And here it is!
 

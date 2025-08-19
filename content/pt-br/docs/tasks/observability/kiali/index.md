@@ -21,12 +21,12 @@ To learn about the full set of features it supports,
 see the [Kiali website](https://kiali.io/docs/features/).
 {{< /idea >}}
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample application as the example throughout. This task
+This task uses the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application as the example throughout. This task
 assumes the Bookinfo application is installed in the `bookinfo` namespace.
 
 ## Before you begin
 
-Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) documentation to deploy Kiali into your cluster.
+Follow the [Kiali installation](/pt-br/docs/ops/integrations/kiali/#installation) documentation to deploy Kiali into your cluster.
 
 ## Generating a graph
 
@@ -36,7 +36,7 @@ Follow the [Kiali installation](/docs/ops/integrations/kiali/#installation) docu
     $ kubectl -n istio-system get svc kiali
     {{< /text >}}
 
-1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+1.  To determine the Bookinfo URL, follow the instructions to determine the [Bookinfo ingress `GATEWAY_URL`](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 1.  To send traffic to the mesh, you have three options
 
@@ -310,7 +310,7 @@ For a deeper exploration of Kiali it is recommended to run through the [Kiali Tu
 
 If you are not planning any follow-up tasks, remove the Bookinfo sample application and Kiali from your cluster.
 
-1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions.
+1. To remove the Bookinfo application, refer to the [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions.
 
 1. To remove Kiali from a Kubernetes environment:
 

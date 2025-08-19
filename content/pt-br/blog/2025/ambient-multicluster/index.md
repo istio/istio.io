@@ -47,7 +47,7 @@ even as clusters are added or removed.
 
 ### Double HBONE
 
-Ambient multicluster uses nested [HBONE](/docs/ambient/architecture/hbone) connections to efficiently secure traffic traversing cluster boundaries.
+Ambient multicluster uses nested [HBONE](/pt-br/docs/ambient/architecture/hbone) connections to efficiently secure traffic traversing cluster boundaries.
 An outer HBONE connection encrypts traffic to the east-west gateway and allows the source ztunnel and east-west gateway to verify each other's identity.
 An inner HBONE connection encrypts traffic end-to-end, which allows the source ztunnel and destination ztunnel to verify each other's identity.
 At the same time, the HBONE layers allow ztunnel to effectively reuse cross-cluster connections, minimizing TLS handshakes.
@@ -95,6 +95,6 @@ We are looking to improve the following areas
 
 We are also looking to improve our reference documentation, guides, testing, and performance.
 
-If you would like to try out ambient multicluster, please follow [this guide](/docs/ambient/install/multicluster).
+If you would like to try out ambient multicluster, please follow [this guide](/pt-br/docs/ambient/install/multicluster).
 Remember, this feature is in alpha status and not ready for production use.
 We welcome your bug reports, thoughts, comments, and use cases -- you can reach us on [GitHub](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).

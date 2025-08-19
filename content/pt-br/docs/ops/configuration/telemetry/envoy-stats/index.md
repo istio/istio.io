@@ -12,7 +12,7 @@ test: yes
 The Envoy proxy keeps detailed statistics about network traffic.
 
 Envoy's statistics only cover the traffic for a particular Envoy instance.  See
-[Observability](/docs/tasks/observability/) for persistent per-service Istio telemetry.  The
+[Observability](/pt-br/docs/tasks/observability/) for persistent per-service Istio telemetry.  The
 statistics the Envoy proxies record can provide more information about specific pod instances.
 
 To see the statistics for a pod:
@@ -38,8 +38,8 @@ keys are:
 - `cluster.xds-grpc`
 
 To see the Envoy settings for statistics data collection use
-[`istioctl proxy-config bootstrap`](/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap) and follow the
-[deep dive into Envoy configuration](/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration).
+[`istioctl proxy-config bootstrap`](/pt-br/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap) and follow the
+[deep dive into Envoy configuration](/pt-br/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration).
 Envoy only collects statistical data on items matching the `inclusion_list` within
 the `stats_matcher` JSON element.
 
@@ -49,7 +49,7 @@ If you build or maintain dashboards or alerts based on Envoy statistics, it is *
 statistics in a canary environment **before upgrading Istio**.
 {{< /tip >}}
 
-To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breakers, request retries, upstream connections, and request timeouts globally, you can specify stats matcher as follows:
+To configure Istio proxy to record additional statistics, you can add [`ProxyConfig.ProxyStatsMatcher`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#ProxyStatsMatcher) to your mesh config. For example, to enable stats for circuit breakers, request retries, upstream connections, and request timeouts globally, you can specify stats matcher as follows:
 
 {{< tip >}}
 Proxy needs to restart to pick up the stats matcher configuration.

@@ -24,8 +24,8 @@ Both Istio gateways and sidecars are vulnerable to this issue. If you are runnin
 
 ## Mitigation
 
-* For Istio 1.1.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](https://archive.istio.io/1.1/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.1.16](/news/releases/1.1.x/announcing-1.1.16) or later.
-* For Istio 1.2.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](https://archive.istio.io/1.2/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.2.7](/news/releases/1.2.x/announcing-1.2.7) or later.
-* For Istio 1.3.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](https://archive.istio.io/1.3/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.3.2](/news/releases/1.3.x/announcing-1.3.2) or later.
+* For Istio 1.1.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](https://archive.istio.io/1.1/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.1.16](/pt-br/news/releases/1.1.x/announcing-1.1.16) or later.
+* For Istio 1.2.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](https://archive.istio.io/1.2/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.2.7](/pt-br/news/releases/1.2.x/announcing-1.2.7) or later.
+* For Istio 1.3.x deployments: update all control plane components (Pilot, Mixer, Citadel, and Galley) and then [upgrade the data plane](https://archive.istio.io/1.3/docs/setup/upgrade/cni-helm-upgrade/#sidecar-upgrade) to [Istio 1.3.2](/pt-br/news/releases/1.3.x/announcing-1.3.2) or later.
 
 {{< boilerplate "security-vulnerability" >}}

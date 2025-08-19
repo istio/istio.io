@@ -46,4 +46,4 @@ On behalf of the Steering Committee, I wish to congratulate our new and returnin
 
 We would also like to extend our heartfelt thanks to Iris Ding, Arunkumar Jayaraman, Abhi Joglekar, Kebe Liu and Jamie Longmuir, whose terms have now ended.
 
-The new team will continue to grow and improve Istio as a successful and sustainable open source project. We encourage everyone to [get involved in the Istio community](/get-involved/), and help us shape the future of the world's most popular service mesh.
+The new team will continue to grow and improve Istio as a successful and sustainable open source project. We encourage everyone to [get involved in the Istio community](/pt-br/get-involved/), and help us shape the future of the world's most popular service mesh.

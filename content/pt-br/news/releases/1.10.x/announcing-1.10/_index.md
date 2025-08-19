@@ -29,11 +29,11 @@ In previous Istio versions, Istio’s control plane has watched and processed up
 
 You can think of them as a bit like Istio’s Sidecar API resources but for Istiod itself: a `Sidecar` resource limits the set of configuration that Istiod will send to Envoy. Discovery Selectors limit the set of configurations that Istio will receive and process from Kubernetes.
 
-[Check out the great write-up](/blog/2021/discovery-selectors/) by Lin, Christian, and Harvey for an in-depth walk-through of this new feature!
+[Check out the great write-up](/pt-br/blog/2021/discovery-selectors/) by Lin, Christian, and Harvey for an in-depth walk-through of this new feature!
 
 ## Stable Revision Labels
 
-Istio added support for deploying multiple control planes safely with revisions [all the way back in 1.6](/blog/2020/multiple-control-planes/) and we’ve been steadily improving support since. One of the major usability complaints about revisions has been that a lot of namespace relabeling was required to change revisions, because a label mapped directly to a specific Istio control plane deployment.
+Istio added support for deploying multiple control planes safely with revisions [all the way back in 1.6](/pt-br/blog/2020/multiple-control-planes/) and we’ve been steadily improving support since. One of the major usability complaints about revisions has been that a lot of namespace relabeling was required to change revisions, because a label mapped directly to a specific Istio control plane deployment.
 
 With revision tags, there’s now a layer of indirection: you can create tags like `canary` and `prod`, label namespaces using those tags as revisions (i.e. `istio.io/rev=prod`), and associate a specific Istiod revision with that tag.
 
@@ -51,17 +51,17 @@ Now, when you’re ready to promote the `1-8-0` revision from `canary` to `prod`
     caption="Namespaces A, B, and C pointed to 1-8-0"
     >}}
 
-Check out the [updated Canary Upgrade guide](/docs/setup/upgrade/canary/#stable-revision-labels) for a walk-through you can follow along with!
+Check out the [updated Canary Upgrade guide](/pt-br/docs/setup/upgrade/canary/#stable-revision-labels) for a walk-through you can follow along with!
 
 ## Sidecar Networking Changes
 
 In previous Istio releases, Istio has rewritten pod networking to trap traffic from `eth0` and send it to applications on `lo`. Most applications bind to both interfaces and don’t notice any difference; however some applications are specifically written to only expect specific traffic on either interface (e.g. it’s common to expose admin endpoints only on `lo` and never over `eth0`, or for stateful applications to bind only to `eth0`). These applications’ behavior can be impacted by how Istio directs traffic into the pod.
 
-In 1.10, Istio is updating Envoy to send traffic to the application on `eth0` rather than `lo` by default. For new users, this should only be an improvement. For existing users, `istioctl experimental precheck` will identify pods that listen on localhost, and may be impacted, as [IST0143](/docs/reference/config/analysis/ist0143/).
+In 1.10, Istio is updating Envoy to send traffic to the application on `eth0` rather than `lo` by default. For new users, this should only be an improvement. For existing users, `istioctl experimental precheck` will identify pods that listen on localhost, and may be impacted, as [IST0143](/pt-br/docs/reference/config/analysis/ist0143/).
 
-See [the write-up](/blog/2021/upcoming-networking-changes/) by John Howard for a more in depth overview of the change, how and why it might impact you, and how to preserve today’s behavior to enable a seamless migration.
+See [the write-up](/pt-br/blog/2021/upcoming-networking-changes/) by John Howard for a more in depth overview of the change, how and why it might impact you, and how to preserve today’s behavior to enable a seamless migration.
 
-The changes in networking behavior solve a number of problems when using Istio with Kubernetes `StatefulSets`. [Lin, Christian, John and Zhonghu discuss this in a blog post](/blog/2021/statefulsets-made-easier/).
+The changes in networking behavior solve a number of problems when using Istio with Kubernetes `StatefulSets`. [Lin, Christian, John and Zhonghu discuss this in a blog post](/pt-br/blog/2021/statefulsets-made-easier/).
 
 ## A Fresh Look for Istio.io
 
@@ -83,7 +83,7 @@ Two features are being deprecated in 1.10:
 
 * The `values.global.arch` option has been superseded by Affinity settings in Kubernetes config.
 
-See the 1.10 [change notes](/news/releases/1.10.x/announcing-1.10/change-notes/) for a more detailed overview of these deprecations.
+See the 1.10 [change notes](/pt-br/news/releases/1.10.x/announcing-1.10/change-notes/) for a more detailed overview of these deprecations.
 
 ## Tell Us How We’re Doing
 

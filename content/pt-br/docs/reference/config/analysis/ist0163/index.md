@@ -156,7 +156,7 @@ webhooks:
 
 There are several ways to resolve these invalid configurations, depending on why the configuration is invalid.
 
-If your webhook configurations have no URLs defined, adding valid URLs that use a hostname will resolve this warning message. Instructions on how to do that can be found [here](/docs/setup/install/external-controlplane/#set-up-the-remote-config-cluster).
+If your webhook configurations have no URLs defined, adding valid URLs that use a hostname will resolve this warning message. Instructions on how to do that can be found [here](/pt-br/docs/setup/install/external-controlplane/#set-up-the-remote-config-cluster).
 
 If your hostname cannot be resolved to an IP address via a DNS lookup, you can try running `dig <your-hostname>` on your local machine to see if a DNS resolution occurs. If your local machine can resolve the hostname via a DNS lookup, your cluster may not be able to. Any security rules blocking DNS traffic could result in a failure to resolve lookups. New DNS records may take up to 72 hours to propagate across the web depending on your DNS provider and specific configuration.
 

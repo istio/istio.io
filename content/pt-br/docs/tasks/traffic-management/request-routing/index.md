@@ -17,19 +17,19 @@ microservice.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
-* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
+* Review the [Traffic Management](/pt-br/docs/concepts/traffic-management) concepts doc.
 
 ## About this task
 
-The Istio [Bookinfo](/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
+The Istio [Bookinfo](/pt-br/docs/examples/bookinfo/) sample consists of four separate microservices, each with multiple versions.
 Three different versions of one of the microservices, `reviews`, have been deployed and are running concurrently.
 To illustrate the problem this causes, access the Bookinfo app's `/productpage` in a browser and refresh several times.
 The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+the [Bookinfo](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
 You’ll notice that sometimes the book review output contains star ratings and other times it does not.
 This is because without an explicit default service version to route to, Istio routes requests to all available versions
@@ -43,7 +43,7 @@ will apply a rule to route traffic based on the value of an HTTP request header.
 To route to one version only, you configure route rules that send traffic to default versions for the microservices.
 
 {{< warning >}}
-If you haven't already, follow the instructions in [define the service versions](/docs/examples/bookinfo/#define-the-service-versions).
+If you haven't already, follow the instructions in [define the service versions](/pt-br/docs/examples/bookinfo/#define-the-service-versions).
 {{< /warning >}}
 
 1. Run the following command to create the route rules:
@@ -228,7 +228,7 @@ adds a custom `end-user` header to all outbound HTTP requests to the reviews
 service.
 
 Istio also supports routing based on strongly authenticated JWT on ingress gateway, refer to the
-[JWT claim based routing](/docs/tasks/security/authentication/jwt-route) for more details.
+[JWT claim based routing](/pt-br/docs/tasks/security/authentication/jwt-route) for more details.
 
 Remember, `reviews:v2` is the version that includes the star ratings feature.
 
@@ -322,9 +322,9 @@ to the request by the `productpage` service.
 
 Note that Kubernetes services, like the Bookinfo ones used in this task, must
 adhere to certain restrictions to take advantage of Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/) for details.
+Refer to the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/application-requirements/) for details.
 
-In the [traffic shifting](/docs/tasks/traffic-management/traffic-shifting) task, you
+In the [traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting) task, you
 will follow the same basic pattern you learned here to configure route rules to
 gradually send traffic from one version of a service to another.
 
@@ -353,5 +353,5 @@ $ kubectl delete httproute reviews
 {{< /tabset >}}
 
 2) If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

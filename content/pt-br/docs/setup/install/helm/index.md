@@ -55,7 +55,7 @@ You can display the default values of configuration parameters using the `helm s
 
     In the output locate the entry for `istio-base` and make sure the status is set to `deployed`.
 
-1. If you intend to use Istio CNI chart you must do so now. See [Install Istio with the CNI plugin](/docs/setup/additional-setup/cni/#installing-with-helm) for more info.
+1. If you intend to use Istio CNI chart you must do so now. See [Install Istio with the CNI plugin](/pt-br/docs/setup/additional-setup/cni/#installing-with-helm) for more info.
 
 1. Install the Istio discovery chart which deploys the `istiod` service:
 
@@ -121,15 +121,15 @@ You can display the default values of configuration parameters using the `helm s
     $ helm install istio-ingress istio/gateway -n istio-ingress --wait
     {{< /text >}}
 
-    See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+    See [Installing Gateways](/pt-br/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
     {{< warning >}}
     The namespace the gateway is deployed in must not have a `istio-injection=disabled` label.
-    See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
+    See [Controlling the injection policy](/pt-br/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more info.
     {{< /warning >}}
 
 {{< tip >}}
-See [Advanced Helm Chart Customization](/docs/setup/additional-setup/customize-installation-helm/) for in-depth documentation on how to use
+See [Advanced Helm Chart Customization](/pt-br/docs/setup/additional-setup/customize-installation-helm/) for in-depth documentation on how to use
 Helm post-renderer to customize the Helm charts.
 {{< /tip >}}
 
@@ -152,7 +152,7 @@ It is highly recommended to take a backup of your Istio resources using steps
 described above before deleting current Istio installation in your cluster.
 {{< /warning >}}
 
-You can follow steps mentioned in the [Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio).
+You can follow steps mentioned in the [Istioctl uninstall guide](/pt-br/docs/setup/install/istioctl#uninstall-istio).
 
 ## Uninstall
 
@@ -251,7 +251,7 @@ If attempting to install and manage Istio using `helm template`, please note the
 
 1. While `helm install` will automatically detect environment specific settings from your Kubernetes context,
 `helm template` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
-that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+that you follow [these steps](/pt-br/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
 Kubernetes environment does not support third party service account tokens.
 
 1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the

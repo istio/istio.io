@@ -15,11 +15,11 @@ Follow this guide to deploy Istio and connect a virtual machine to it.
 
 ## Prerequisites
 
-1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/)
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/)
-1. Check the requirements [for Pods and Services](/docs/ops/deployment/application-requirements/)
+1. [Download the Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/)
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/)
+1. Check the requirements [for Pods and Services](/pt-br/docs/ops/deployment/application-requirements/)
 1. Virtual machines must have IP connectivity to the ingress gateway in the connecting mesh, and optionally every pod in the mesh via L3 networking if enhanced performance is desired.
-1. Learn about [Virtual Machine Architecture](/docs/ops/deployment/vm-architecture/) to gain an understanding of the high level architecture of Istio's virtual machine integration.
+1. Learn about [Virtual Machine Architecture](/pt-br/docs/ops/deployment/vm-architecture/) to gain an understanding of the high level architecture of Istio's virtual machine integration.
 
 ## Prepare the guide environment
 
@@ -285,7 +285,7 @@ With this configuration, the automatically generated `WorkloadEntry` will not be
 {{< /tabset >}}
 
 {{< warning >}}
-Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
+Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/pt-br/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
 If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the Istio install commands.
 {{< /warning >}}
 
@@ -379,7 +379,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. Install the [Mesh Config](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
+1. Install the [Mesh Config](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
@@ -447,8 +447,8 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
 For more information about virtual machines:
 
-* [Debugging Virtual Machines](/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
-* [Bookinfo with a Virtual Machine](/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
+* [Debugging Virtual Machines](/pt-br/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
+* [Bookinfo with a Virtual Machine](/pt-br/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
 
 ## Uninstall
 

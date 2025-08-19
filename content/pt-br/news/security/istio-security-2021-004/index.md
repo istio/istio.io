@@ -13,19 +13,19 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-This is a security advisory for customers to check the authorization policy to make sure [mTLS (STRICT mode) is enabled](/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
-when using [mTLS-only fields](/docs/concepts/security/#dependency-on-mutual-tls) in the authorization policy.
+This is a security advisory for customers to check the authorization policy to make sure [mTLS (STRICT mode) is enabled](/pt-br/docs/tasks/security/authentication/authn-policy/#globally-enabling-istio-mutual-tls-in-strict-mode)
+when using [mTLS-only fields](/pt-br/docs/concepts/security/#dependency-on-mutual-tls) in the authorization policy.
 
 You can stop reading if:
 
-- Your authorization policy does not use [mTLS-only fields](/docs/concepts/security/#dependency-on-mutual-tls); or
+- Your authorization policy does not use [mTLS-only fields](/pt-br/docs/concepts/security/#dependency-on-mutual-tls); or
 
 - Your authorization policy uses mTLS-only fields and you have also enabled mTLS with STRICT mode or your authorization
 policy is configured to reject plain text traffic explicitly.
 
 ## Issue
 
-In authorization policy, the following are [mTLS-only fields](/docs/concepts/security/#dependency-on-mutual-tls):
+In authorization policy, the following are [mTLS-only fields](/pt-br/docs/concepts/security/#dependency-on-mutual-tls):
 
 - the `principals` and `notPrincipals` field under the `source` section
 - the `namespaces` and `notNamespaces` field under the `source` section
@@ -74,7 +74,7 @@ even if the source namespace is `foo`.
 
 ## Solution
 
-To solve this problem, it's recommended to always [enable mTLS with STRICT mode](/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload)
+To solve this problem, it's recommended to always [enable mTLS with STRICT mode](/pt-br/docs/tasks/security/authentication/authn-policy/#enable-mutual-tls-per-namespace-or-workload)
 on the workloads before using any mTLS-only fields in the authorization policy on the same workload.
 
 If you are unable to enable mTLS with STRICT mode for the workload, the alternative solution is to update the authorization
@@ -119,7 +119,7 @@ spec:
         notNamespaces: ["*"]
 {{< /text >}}
 
-Also check the [security policy examples](/docs/ops/configuration/security/security-policy-examples/#require-mtls-in-authorization-layer-defense-in-depth)
+Also check the [security policy examples](/pt-br/docs/ops/configuration/security/security-policy-examples/#require-mtls-in-authorization-layer-defense-in-depth)
 for more details about the above alternative solution.
 
 ## Credit

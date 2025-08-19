@@ -48,7 +48,7 @@ If you did not intend to expose the application to other pods, you can remove th
 If you do want to expose the application to other pods, there are two options:
 
 - Modify the application to bind to a network interface exposed to other pods. Typically, this means binding to `0.0.0.0` or `::`, such as `nc 0.0.0.0 8080 -l`.
-- Create a [`Sidecar` configuration](/docs/reference/config/networking/sidecar/#IstioIngressListener) to customize the inbound networking configuration for the pod.
+- Create a [`Sidecar` configuration](/pt-br/docs/reference/config/networking/sidecar/#IstioIngressListener) to customize the inbound networking configuration for the pod.
   For example, with the above application:
 
 {{< text yaml >}}

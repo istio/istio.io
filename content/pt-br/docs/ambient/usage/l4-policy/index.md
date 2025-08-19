@@ -6,9 +6,9 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-The Layer 4 (L4) features of Istio's [security policies](/docs/concepts/security) are supported by {{< gloss >}}ztunnel{{< /gloss >}}, and are available in {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth.
+The Layer 4 (L4) features of Istio's [security policies](/pt-br/docs/concepts/security) are supported by {{< gloss >}}ztunnel{{< /gloss >}}, and are available in {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) also continue to work if your cluster has a {{< gloss >}}CNI{{< /gloss >}} plugin that supports them, and can be used to provide defense-in-depth.
 
-The layering of ztunnel and {{< gloss "waypoint" >}}waypoint proxies{{< /gloss >}} gives you a choice as to whether or not you want to enable Layer 7 (L7) processing for a given workload. To use L7 policies, and Istio's traffic routing features, you can [deploy a waypoint](/docs/ambient/usage/waypoint) for your workloads. Because policy can now be enforced in two places, there are [considerations](#considerations) that need to be understood.
+The layering of ztunnel and {{< gloss "waypoint" >}}waypoint proxies{{< /gloss >}} gives you a choice as to whether or not you want to enable Layer 7 (L7) processing for a given workload. To use L7 policies, and Istio's traffic routing features, you can [deploy a waypoint](/pt-br/docs/ambient/usage/waypoint) for your workloads. Because policy can now be enforced in two places, there are [considerations](#considerations) that need to be understood.
 
 ## Policy enforcement using ztunnel
 
@@ -45,7 +45,7 @@ L7 policies in ambient mode are enforced by waypoints, which are configured with
 
 ## Allowed policy attributes
 
-Authorization policy rules can contain [source](/docs/reference/config/security/authorization-policy/#Source) (`from`), [operation](/docs/reference/config/security/authorization-policy/#Operation) (`to`), and [condition](/docs/reference/config/security/authorization-policy/#Condition) (`when`) clauses.
+Authorization policy rules can contain [source](/pt-br/docs/reference/config/security/authorization-policy/#Source) (`from`), [operation](/pt-br/docs/reference/config/security/authorization-policy/#Operation) (`to`), and [condition](/pt-br/docs/reference/config/security/authorization-policy/#Condition) (`when`) clauses.
 
 This list of attributes determines whether a policy is considered L4-only:
 
@@ -105,7 +105,7 @@ This means that when you have a waypoint installed, **the ideal place to enforce
 
 ## Peer authentication
 
-Istio's [peer authentication policies](/docs/concepts/security/#peer-authentication), which configure mutual TLS (mTLS) modes, are supported by ztunnel.
+Istio's [peer authentication policies](/pt-br/docs/concepts/security/#peer-authentication), which configure mutual TLS (mTLS) modes, are supported by ztunnel.
 
 The default policy for ambient mode is `PERMISSIVE`, which allows pods to accept both mTLS-encrypted traffic (from within the mesh) and plain text traffic (from without). Enabling `STRICT` mode means that pods will only accept mTLS-encrypted traffic.
 

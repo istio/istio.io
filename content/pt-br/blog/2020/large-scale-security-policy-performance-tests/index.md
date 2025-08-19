@@ -155,4 +155,4 @@ The overall trends of both graphs are similar. This is consistent to the paths v
 
 If you are interested in creating your own large scale security policies and running performance tests with them, see the [performance benchmarking tool README](https://github.com/istio/tools/tree/master/perf/benchmark/security/generate_policies).
 
-If you are interested in reading more about the security policies tests, see [our design doc](https://docs.google.com/document/d/1ZP9eQ_2EJEG12xnfsoo7125FDN38r62iqY1PUn9Dz-0/edit?usp=sharing). If you don't already have access, you can [join the Istio team drive](/get-involved/).
+If you are interested in reading more about the security policies tests, see [our design doc](https://docs.google.com/document/d/1ZP9eQ_2EJEG12xnfsoo7125FDN38r62iqY1PUn9Dz-0/edit?usp=sharing). If you don't already have access, you can [join the Istio team drive](/pt-br/get-involved/).

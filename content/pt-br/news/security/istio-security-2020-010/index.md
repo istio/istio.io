@@ -21,7 +21,7 @@ In some cases, Envoy only considers the first value when multiple headers are pr
 
 ## Mitigation
 
-- For Istio 1.6.x deployments: update to [Istio 1.6.11](/news/releases/1.6.x/announcing-1.6.11) or later.
-- For Istio 1.7.x deployments: update to [Istio 1.7.3](/news/releases/1.7.x/announcing-1.7.3) or later.
+- For Istio 1.6.x deployments: update to [Istio 1.6.11](/pt-br/news/releases/1.6.x/announcing-1.6.11) or later.
+- For Istio 1.7.x deployments: update to [Istio 1.7.3](/pt-br/news/releases/1.7.x/announcing-1.7.3) or later.
 
 {{< boilerplate "security-vulnerability" >}}

@@ -12,22 +12,22 @@ This task shows you how to customize the metrics that Istio generates.
 Istio generates telemetry that various dashboards consume to help you visualize
 your mesh. For example, dashboards that support Istio include:
 
-* [Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/)
-* [Kiali](/docs/tasks/observability/kiali/)
-* [Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
+* [Grafana](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
+* [Kiali](/pt-br/docs/tasks/observability/kiali/)
+* [Prometheus](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
 
 By default, Istio defines and generates a set of standard metrics (e.g.
 `requests_total`), but you can also customize them and create new metrics
-using the [Telemetry API](/docs/tasks/observability/telemetry/).
+using the [Telemetry API](/pt-br/docs/tasks/observability/telemetry/).
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) in your cluster and deploy an application.
+[Install Istio](/pt-br/docs/setup/) in your cluster and deploy an application.
 Alternatively, you can set up custom statistics as part of the Istio
 installation.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
-the example application throughout this task. For installation instructions, see [deploying the Bookinfo application](/docs/examples/bookinfo/#deploying-the-application).
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used as
+the example application throughout this task. For installation instructions, see [deploying the Bookinfo application](/pt-br/docs/examples/bookinfo/#deploying-the-application).
 
 ## Enable custom metrics
 
@@ -67,7 +67,7 @@ $ curl "http://$GATEWAY_URL/productpage"
 {{< /text >}}
 
 {{< tip >}}
-`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+`$GATEWAY_URL` is the value set in the [Bookinfo](/pt-br/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
 Use the following command to verify that Istio generates the data for your new
@@ -119,4 +119,4 @@ For example, the expression for the peer `app` label to be used in an outbound c
 ## Cleanup
 
 To delete the `Bookinfo` sample application and its configuration, see
-[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+[`Bookinfo` cleanup](/pt-br/docs/examples/bookinfo/#cleanup).

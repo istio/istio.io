@@ -8,7 +8,7 @@ keywords: [istio,steering,governance,community,contributor]
 
 The [Istio Steering Committee](https://github.com/istio/community/blob/master/steering/README.md) consists of 9 Contribution Seats, proportionally allocated based on corporate contributions to the project, and 4 elected Community Seats.
 
-Last year, we [elected four members](/blog/2022/steering-election-results/) to the community seats. It's now time to announce the companies who fuel our growth by selecting the Contribution Seat members. As per the [Steering charter](https://github.com/istio/community/blob/master/steering/CHARTER.md), every February we look at which companies have made the most contributions to Istio based on an [annually agreed metric](https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md).
+Last year, we [elected four members](/pt-br/blog/2022/steering-election-results/) to the community seats. It's now time to announce the companies who fuel our growth by selecting the Contribution Seat members. As per the [Steering charter](https://github.com/istio/community/blob/master/steering/CHARTER.md), every February we look at which companies have made the most contributions to Istio based on an [annually agreed metric](https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md).
 
 According to our [seat allocation process](https://docs.google.com/spreadsheets/d/1IIms6OT1DgJ_lbn5433sy5wvqNBIIQgQHoWZvpShSXk/edit#gid=1365082320), this year Google will be allocated 5 seats and IBM/Red Hat will be allocated 2. As the third largest contributor to Istio in the last 12 months, we are pleased to announce that Huawei has earned two Contribution Seats.
 

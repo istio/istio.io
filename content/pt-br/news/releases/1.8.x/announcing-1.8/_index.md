@@ -17,27 +17,27 @@ We are pleased to announce the release of Istio 1.8!
 
 This is our fourth and final release for 2020.  We would like to thank the entire Istio team, and especially the release managers [Greg Hanson](https://github.com/GregHanson) from IBM and [Pengyuan Bian](https://github.com/bianpengyuan) from Google.
 
-We continue to navigate in the direction outlined in our [2020 roadmap post](/blog/2020/tradewinds-2020/), improving usability, security, reliability, with focus on multi-cluster meshes and VM workloads. We've introduced new features where necessary to further those goals, but in general, we've been focusing on bug fixes and polish — a theme we'll be continuing into 2021.
+We continue to navigate in the direction outlined in our [2020 roadmap post](/pt-br/blog/2020/tradewinds-2020/), improving usability, security, reliability, with focus on multi-cluster meshes and VM workloads. We've introduced new features where necessary to further those goals, but in general, we've been focusing on bug fixes and polish — a theme we'll be continuing into 2021.
 
 Here are some highlights for this release:
 
 ## Installing and Upgrading Istio
 
-To codify all the knowledge on how to deploy and upgrade a mesh into software, we built the `IstioOperator` API and two different methods to install it - [istioctl install](/docs/setup/install/istioctl/) and the [Istio operator](https://archive.istio.io/v1.23/docs/setup/install/operator/). However, some of our users have a deployment workflow for other software based on Helm, and so in this release we've added support for [installing Istio with Helm 3](/docs/setup/install/helm/). This includes both [in-place upgrades](/docs/setup/install/helm/#in-place-upgrade) and [canary deployment of new control planes](/docs/setup/install/helm/#canary-upgrade), after installing 1.8 or later. Helm 3 support is currently Alpha, so please try it out and give your feedback.
+To codify all the knowledge on how to deploy and upgrade a mesh into software, we built the `IstioOperator` API and two different methods to install it - [istioctl install](/pt-br/docs/setup/install/istioctl/) and the [Istio operator](https://archive.istio.io/v1.23/docs/setup/install/operator/). However, some of our users have a deployment workflow for other software based on Helm, and so in this release we've added support for [installing Istio with Helm 3](/pt-br/docs/setup/install/helm/). This includes both [in-place upgrades](/pt-br/docs/setup/install/helm/#in-place-upgrade) and [canary deployment of new control planes](/pt-br/docs/setup/install/helm/#canary-upgrade), after installing 1.8 or later. Helm 3 support is currently Alpha, so please try it out and give your feedback.
 
-Given the several methods of installation that Istio now supports, we've added a [which Istio installation method should I use?](/about/faq/#install-method-selection) FAQ page to help users understand which method may be best suited to their particular use case.
+Given the several methods of installation that Istio now supports, we've added a [which Istio installation method should I use?](/pt-br/about/faq/#install-method-selection) FAQ page to help users understand which method may be best suited to their particular use case.
 
-Vendors can now provide optimized profiles for installing Istio on their platform. [Installing Istio on OpenShift](/docs/setup/platform-setup/openshift/) is easier as a result!
+Vendors can now provide optimized profiles for installing Istio on their platform. [Installing Istio on OpenShift](/pt-br/docs/setup/platform-setup/openshift/) is easier as a result!
 
 ## Multi-cluster
 
 If you're serious about reliability, you run more than one Kubernetes cluster. Setting up a mesh across multiple clusters used to take a lot of manual work, and you had a lot of permutations of choice as to how you wanted to run.
 
-In this release, we've written a [new installation guide](/docs/setup/install/multicluster/) which makes it easy to install a mesh that spans multiple clusters, with options depending on if the clusters are [on the same network](/docs/ops/deployment/deployment-models#network-models), and whether you want [multiple control planes](/docs/ops/deployment/deployment-models#control-plane-models).
+In this release, we've written a [new installation guide](/pt-br/docs/setup/install/multicluster/) which makes it easy to install a mesh that spans multiple clusters, with options depending on if the clusters are [on the same network](/pt-br/docs/ops/deployment/deployment-models#network-models), and whether you want [multiple control planes](/pt-br/docs/ops/deployment/deployment-models#control-plane-models).
 
 ## Easier to add VMs to your mesh
 
-After making a number of security improvements to VM mesh endpoints in 1.7, we've focused on usability for 1.8. We simplified the installation process, and you can now use `istioctl` to do it. The new [smart DNS proxying](/blog/2020/dns-proxy/) feature lets you resolve mesh services from your VMs, without having to insecurely point them at your cluster DNS server. It also reduces both cluster DNS traffic, and the number of look-ups needed to resolve a service's IP. [Auto registration](/docs/setup/install/virtual-machine/#install-the-istio-control-plane) allows you to tell the VM agent what kind of workload it has, and automatically have `WorkloadEntry` objects created for it when it joins the mesh.
+After making a number of security improvements to VM mesh endpoints in 1.7, we've focused on usability for 1.8. We simplified the installation process, and you can now use `istioctl` to do it. The new [smart DNS proxying](/pt-br/blog/2020/dns-proxy/) feature lets you resolve mesh services from your VMs, without having to insecurely point them at your cluster DNS server. It also reduces both cluster DNS traffic, and the number of look-ups needed to resolve a service's IP. [Auto registration](/pt-br/docs/setup/install/virtual-machine/#install-the-istio-control-plane) allows you to tell the VM agent what kind of workload it has, and automatically have `WorkloadEntry` objects created for it when it joins the mesh.
 
 ## Security and secrets
 
@@ -57,9 +57,9 @@ You can now refer to pods indirectly. No more `istioctl dashboard envoy $(kubect
 
 ## Deprecations
 
-Istio has been saying a long goodbye to the Mixer component, which is now [removed in 1.8](https://github.com/istio/istio/issues/25333). If you still depend on any Mixer functionality, make sure to check the upgrade notes. [You can still use the Mixer from 1.7](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer) - but you should really get on the [WebAssembly train](/blog/2020/wasm-announce/)!
+Istio has been saying a long goodbye to the Mixer component, which is now [removed in 1.8](https://github.com/istio/istio/issues/25333). If you still depend on any Mixer functionality, make sure to check the upgrade notes. [You can still use the Mixer from 1.7](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer) - but you should really get on the [WebAssembly train](/pt-br/blog/2020/wasm-announce/)!
 
-Over the last two releases, we've [changed how we package integrations addons](/blog/2020/addon-rework/) (such as Prometheus, Zipkin, Jaeger and Kiali). Our bundled versions were not as powerful as those provided by the upstream authors, so we moved to providing upstream manifests instead of including them directly. Support for installing addons with Istioctl was deprecated in 1.7 and is removed in 1.8.
+Over the last two releases, we've [changed how we package integrations addons](/pt-br/blog/2020/addon-rework/) (such as Prometheus, Zipkin, Jaeger and Kiali). Our bundled versions were not as powerful as those provided by the upstream authors, so we moved to providing upstream manifests instead of including them directly. Support for installing addons with Istioctl was deprecated in 1.7 and is removed in 1.8.
 
 ## Join the Istio community
 

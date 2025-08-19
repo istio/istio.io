@@ -21,8 +21,8 @@ By sending a specially crafted packet, an attacker could trigger a Null Pointer 
 
 ## Mitigation
 
-* For Istio 1.4.x deployments: update to [Istio 1.4.9](/news/releases/1.4.x/announcing-1.4.9) or later.
-* For Istio 1.5.x deployments: update to [Istio 1.5.4](/news/releases/1.5.x/announcing-1.5.4) or later.
+* For Istio 1.4.x deployments: update to [Istio 1.4.9](/pt-br/news/releases/1.4.x/announcing-1.4.9) or later.
+* For Istio 1.5.x deployments: update to [Istio 1.5.4](/pt-br/news/releases/1.5.x/announcing-1.5.4) or later.
 * Workaround: Alternatively, you can disable telemetry v2 by running the following:
 
 {{< text bash >}}

@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.3.6
 ---
 
-This release contains fixes for the security vulnerability described in [our December 10th, 2019 news post](/news/security/istio-security-2019-007) as well as bug fixes to improve robustness. This release note describes what's different between Istio 1.3.5 and Istio 1.3.6.
+This release contains fixes for the security vulnerability described in [our December 10th, 2019 news post](/pt-br/news/security/istio-security-2019-007) as well as bug fixes to improve robustness. This release note describes what's different between Istio 1.3.5 and Istio 1.3.6.
 
 {{< relnote >}}
 

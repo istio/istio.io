@@ -10,7 +10,7 @@ test: n/a
 ---
 
 This page describes the built-in configuration profiles that can be used when
-[installing Istio](/docs/setup/install).
+[installing Istio](/pt-br/docs/setup/install).
 
 Configuration profiles are simply named groups of Helm chart value overrides that are built into the charts,
 and can be used when installing via either `helm` or `istioctl`.
@@ -62,31 +62,31 @@ You can think of this as `istioctl` and `helm` sharing exactly the same configur
 
 ## Deployment Profiles
 
-The following built-in deployment profiles are currently available for both `istioctl` and `helm` install mechanisms. Note that as these are just sets of Helm values overrides, using them is not strictly required to install Istio, but they do provide a convenient baseline and are recommended for new installs. Additionally, you may [customize the configuration](/docs/setup/additional-setup/customize-installation/)
+The following built-in deployment profiles are currently available for both `istioctl` and `helm` install mechanisms. Note that as these are just sets of Helm values overrides, using them is not strictly required to install Istio, but they do provide a convenient baseline and are recommended for new installs. Additionally, you may [customize the configuration](/pt-br/docs/setup/additional-setup/customize-installation/)
 beyond what the deployment profile includes, for your specific needs. The following built-in deployment profiles are currently available:
 
 1. **default**: enables components according to the default settings of the
-    [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/).
+    [`IstioOperator` API](/pt-br/docs/reference/config/istio.operator.v1alpha1/).
     This profile is recommended for production deployments and for
     {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}} in a
-    [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
+    [multicluster mesh](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters).
 
 1. **demo**: configuration designed to showcase Istio functionality with modest resource requirements.
-    It is suitable to run the [Bookinfo](/docs/examples/bookinfo/) application and associated tasks.
-    This is the configuration that is installed with the [quick start](/docs/setup/getting-started/) instructions.
+    It is suitable to run the [Bookinfo](/pt-br/docs/examples/bookinfo/) application and associated tasks.
+    This is the configuration that is installed with the [quick start](/pt-br/docs/setup/getting-started/) instructions.
 
     {{< warning >}}
     This profile enables high levels of tracing and access logging so it is not suitable for performance tests.
     {{< /warning >}}
 
 1. **minimal**: same as the default profile, but only the control plane components are installed.
-    This allows you to configure the control plane and data plane components (e.g., gateways) using [separate profiles](/docs/setup/additional-setup/gateway/#deploying-a-gateway).
+    This allows you to configure the control plane and data plane components (e.g., gateways) using [separate profiles](/pt-br/docs/setup/additional-setup/gateway/#deploying-a-gateway).
 
 1. **remote**: used for configuring a {{< gloss >}}remote cluster{{< /gloss >}} that is managed by an
     {{< gloss >}}external control plane{{< /gloss >}} or by a control plane in a {{< gloss >}}primary cluster{{< /gloss >}}
-    of a [multicluster mesh](/docs/ops/deployment/deployment-models/#multiple-clusters).
+    of a [multicluster mesh](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters).
 
-1. **ambient**: the ambient profile is designed to help you get started with [ambient mode](/docs/ambient).
+1. **ambient**: the ambient profile is designed to help you get started with [ambient mode](/pt-br/docs/ambient).
 
 1. **empty**: deploys nothing. This can be useful as a base profile for custom configuration.
 
@@ -108,7 +108,7 @@ For `istioctl` only, specifying configuration profiles additionally automaticall
 
 {{< tip >}}
 To further customize Istio, a number of addon components can also be installed.
-Refer to [integrations](/docs/ops/integrations) for more details.
+Refer to [integrations](/pt-br/docs/ops/integrations) for more details.
 {{< /tip >}}
 
 ## Platform Profiles

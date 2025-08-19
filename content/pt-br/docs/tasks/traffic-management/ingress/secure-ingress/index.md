@@ -10,7 +10,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Control Ingress Traffic task](/docs/tasks/traffic-management/ingress/ingress-control)
+The [Control Ingress Traffic task](/pt-br/docs/tasks/traffic-management/ingress/ingress-control)
 describes how to configure an ingress gateway to expose an HTTP service to external traffic.
 This task shows how to expose a secure HTTPS service using either simple or mutual TLS.
 
@@ -18,7 +18,7 @@ This task shows how to expose a secure HTTPS service using either simple or mutu
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 *   Start the [httpbin]({{< github_tree >}}/samples/httpbin) sample:
 
@@ -168,7 +168,7 @@ spec:
 EOF
 {{< /text >}}
 
-Finally, follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+Finally, follow [these instructions](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 to set the `INGRESS_HOST` and `SECURE_INGRESS_PORT` variables for accessing the gateway.
 
 {{< /tab >}}
@@ -621,7 +621,7 @@ EOF
 
 ### Key formats
 
-Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
+Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/pt-br/docs/ops/integrations/certmanager/):
 
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `tls.key` and `tls.crt`, and `httpbin-credential-cacert` has `cacert`.
@@ -634,7 +634,7 @@ Istio supports reading a few different Secret formats, to support integration wi
 
 An HTTPS `Gateway` will perform [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) matching against its configured host(s)
 before forwarding a request, which may cause some requests to fail.
-See [configuring SNI routing](/docs/ops/common-problems/network-issues/#configuring-sni-routing-when-not-sending-sni) for details.
+See [configuring SNI routing](/pt-br/docs/ops/common-problems/network-issues/#configuring-sni-routing-when-not-sending-sni) for details.
 
 ## Troubleshooting
 

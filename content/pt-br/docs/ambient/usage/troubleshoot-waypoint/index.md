@@ -52,7 +52,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     ...
     {{< /text >}}
 
-    If your source calls the destination using a pod IP, use the `istioctl ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints, because by default [a waypoint only handles traffic addressed to services](/docs/ambient/usage/waypoint/#waypoint-traffic-types).
+    If your source calls the destination using a pod IP, use the `istioctl ztunnel-config workload` command to confirm your waypoint is used by the destination pod. Following the example earlier, the `reviews` `v2` pod should use the `reviews-v2-pod-waypoint` while all other pods in the `default` namespace should not have any waypoints, because by default [a waypoint only handles traffic addressed to services](/pt-br/docs/ambient/usage/waypoint/#waypoint-traffic-types).
 
     {{< text bash >}}
     $ istioctl ztunnel-config workload
@@ -83,7 +83,7 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     ...
     {{< /text >}}
 
-1.  Enable Envoy's [access log](/docs/tasks/observability/logs/access-log/) and check the logs of the waypoint proxy after sending some requests:
+1.  Enable Envoy's [access log](/pt-br/docs/tasks/observability/logs/access-log/) and check the logs of the waypoint proxy after sending some requests:
 
     {{< text bash >}}
     $ kubectl logs deploy/waypoint
@@ -101,5 +101,5 @@ Requests to the `reviews` `v2` pod should be enforced by the `reviews-v2-pod-way
     $ istioctl proxy-config all deploy/waypoint
     {{< /text >}}
 
-Refer to the [deep dive into Envoy configuration](/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration) section for more
+Refer to the [deep dive into Envoy configuration](/pt-br/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration) section for more
 information regarding how to debug Envoy since waypoint proxies are based on Envoy.

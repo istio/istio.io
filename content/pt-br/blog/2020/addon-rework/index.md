@@ -20,15 +20,15 @@ In previous releases, these addons were bundled as part of the Istio installatio
 
 In order to address these gaps, we have made a number of changes:
 
-* Added a new [Integrations](/docs/ops/integrations/) documentation section to explain which applications Istio can integrate with, how to use them, and best practices.
+* Added a new [Integrations](/pt-br/docs/ops/integrations/) documentation section to explain which applications Istio can integrate with, how to use them, and best practices.
 
 * Reduced the amount of configuration required to set up telemetry addons
 
-    * Grafana dashboards are now [published to `grafana.com`](/docs/ops/integrations/grafana/#import-from-grafana-com).
+    * Grafana dashboards are now [published to `grafana.com`](/pt-br/docs/ops/integrations/grafana/#import-from-grafana-com).
 
-    * Prometheus can now scrape all Istio pods [using standard `prometheus.io` annotations](/docs/ops/integrations/prometheus/#option-2-metrics-merging). This allows most Prometheus deployments to work with Istio without any special configuration.
+    * Prometheus can now scrape all Istio pods [using standard `prometheus.io` annotations](/pt-br/docs/ops/integrations/prometheus/#option-2-metrics-merging). This allows most Prometheus deployments to work with Istio without any special configuration.
 
-* Removed the bundled addon installations from `istioctl` and the operator. Istio does not install components that are not delivered by the Istio project. As a result, Istio will stop shipping installation artifacts related to addons. However, Istio will guarantee version compatibility where necessary. It is the user's responsibility to install these components by using the official [Integrations](/docs/ops/integrations/) documentation and artifacts provided by the respective projects. For demos, users can deploy simple YAML files from the [`samples/addons/` directory]({{< github_tree >}}/samples/addons).
+* Removed the bundled addon installations from `istioctl` and the operator. Istio does not install components that are not delivered by the Istio project. As a result, Istio will stop shipping installation artifacts related to addons. However, Istio will guarantee version compatibility where necessary. It is the user's responsibility to install these components by using the official [Integrations](/pt-br/docs/ops/integrations/) documentation and artifacts provided by the respective projects. For demos, users can deploy simple YAML files from the [`samples/addons/` directory]({{< github_tree >}}/samples/addons).
 
 We hope these changes allow users to make the most of these addons so as to fully experience what Istio can offer.
 

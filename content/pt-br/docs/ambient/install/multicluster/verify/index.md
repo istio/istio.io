@@ -11,8 +11,8 @@ Follow this guide to verify that your ambient multicluster Istio installation is
 properly.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/ambient/install/multicluster/before-you-begin) as well as
-choosing and following one of the [multicluster installation guides](/docs/ambient/install/multicluster).
+[before you begin](/pt-br/docs/ambient/install/multicluster/before-you-begin) as well as
+choosing and following one of the [multicluster installation guides](/pt-br/docs/ambient/install/multicluster).
 
 In this guide, we will verify multicluster is functional, deploy the `HelloWorld`
 application `v1` to `cluster1` and `v2` to `cluster2`. Upon receiving a request,
@@ -50,7 +50,7 @@ match the certificate being used by the intermediate host.
 
 In order to make the `HelloWorld` service callable from any cluster, the DNS
 lookup must succeed in each cluster (see
-[deployment models](/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
+[deployment models](/pt-br/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
 for details). We will address this by deploying the `HelloWorld` Service to
 each cluster in the mesh.
 

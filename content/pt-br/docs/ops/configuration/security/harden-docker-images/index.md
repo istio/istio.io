@@ -22,14 +22,14 @@ See also the [Why should I use distroless images?](https://github.com/GoogleCont
 
 ## Install distroless images
 
-Follow the [Installation Steps](/docs/setup/install/istioctl/) to set up Istio.
+Follow the [Installation Steps](/pt-br/docs/setup/install/istioctl/) to set up Istio.
 Add the `variant` option to use the *distroless images*.
 
 {{< text bash >}}
 $ istioctl install --set values.global.variant=distroless
 {{< /text >}}
 
-If you are only interested in using distroless images for injected proxy images, you can also use the `image.imageType` field in [Proxy Config](/docs/reference/config/networking/proxy-config/#ProxyImage).
+If you are only interested in using distroless images for injected proxy images, you can also use the `image.imageType` field in [Proxy Config](/pt-br/docs/reference/config/networking/proxy-config/#ProxyImage).
 Note the above `variant` flag will automatically set this for you.
 
 ## Debugging

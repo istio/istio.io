@@ -14,7 +14,7 @@ This release note describes what’s different between Istio 1.14.3 and Istio 1.
 
 ## Changes
 
-- **Added** support for `ALPN` negotiation to Istio [health checks](/docs/ops/configuration/mesh/app-health-check/), mirroring
+- **Added** support for `ALPN` negotiation to Istio [health checks](/pt-br/docs/ops/configuration/mesh/app-health-check/), mirroring
 how `Kubelet` functions. This allows `HTTPS` type probes to use `HTTP2`. To revert to the older behavior,
 which always used `HTTP/1.1`, you can set the `ISTIO_ENABLE_HTTP2_PROBING=false` variable.
 

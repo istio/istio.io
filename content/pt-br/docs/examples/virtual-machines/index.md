@@ -30,12 +30,12 @@ https://docs.google.com/drawings/d/1G1592HlOVgtbsIqxJnmMzvy6ejIdhajCosxF1LbvspI/
 ## Before you begin
 
 - Setup Istio by following the instructions in the
-  [Virtual Machine Installation guide](/docs/setup/install/virtual-machine/).
+  [Virtual Machine Installation guide](/pt-br/docs/setup/install/virtual-machine/).
 
-- Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
+- Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application (in the `bookinfo` namespace).
 
 - Create a VM and add it to the `vm` namespace, following the steps in
-  [Configure the virtual machine](/docs/setup/install/virtual-machine/#configure-the-virtual-machine).
+  [Configure the virtual machine](/pt-br/docs/setup/install/virtual-machine/#configure-the-virtual-machine).
 
 ## Running MySQL on the VM
 
@@ -149,16 +149,16 @@ $ curl productpage.bookinfo:9080/productpage
 ...
 {{< /text >}}
 
-Istio's [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) automatically configures DNS for the virtual machine, allowing us to make calls to Kubernetes hostnames.
+Istio's [DNS proxying](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/) automatically configures DNS for the virtual machine, allowing us to make calls to Kubernetes hostnames.
 
 ## Cleanup
 
 - Delete the `Bookinfo` sample application and its configuration following the steps in
-[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+[`Bookinfo` cleanup](/pt-br/docs/examples/bookinfo/#cleanup).
 - Delete the `mysqldb` Service:
 
     {{< text syntax=bash snip_id=none >}}
     $ kubectl delete service mysqldb
     {{< /text >}}
 
-- Cleanup the VM following the steps in [virtual-machine uninstall](/docs/setup/install/virtual-machine/#uninstall).
+- Cleanup the VM following the steps in [virtual-machine uninstall](/pt-br/docs/setup/install/virtual-machine/#uninstall).

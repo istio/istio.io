@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: no
 ---
 
-By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using the {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
+By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/pt-br/docs/concepts). Waypoints are configured using the {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
 
 {{< warning >}}
 Usage of VirtualService with the ambient data plane mode is considered Alpha. Mixing with Gateway API configuration is not supported, and will lead to undefined behavior.
@@ -35,16 +35,16 @@ With a waypoint proxy deployed, you can use the following traffic route types:
 | [`TLSRoute`](https://gateway-api.sigs.k8s.io/guides/tls) | Alpha | `parentRefs` |
 | [`TCPRoute`](https://gateway-api.sigs.k8s.io/guides/tcp/) | Alpha | `parentRefs` |
 
-Refer to the [traffic management](/docs/tasks/traffic-management/) documentation to see the range of features that can be implemented using these routes.
+Refer to the [traffic management](/pt-br/docs/tasks/traffic-management/) documentation to see the range of features that can be implemented using these routes.
 
 ## Security
 
-Without a waypoint installed, you can only use [Layer 4 security policies](/docs/ambient/usage/l4-policy/). By adding a waypoint, you gain access to the following policies:
+Without a waypoint installed, you can only use [Layer 4 security policies](/pt-br/docs/ambient/usage/l4-policy/). By adding a waypoint, you gain access to the following policies:
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
-| [`AuthorizationPolicy`](/docs/reference/config/security/authorization-policy/) (including L7 features) | Beta | `targetRefs` |
-| [`RequestAuthentication`](/docs/reference/config/security/request_authentication/) | Beta | `targetRefs` |
+| [`AuthorizationPolicy`](/pt-br/docs/reference/config/security/authorization-policy/) (including L7 features) | Beta | `targetRefs` |
+| [`RequestAuthentication`](/pt-br/docs/reference/config/security/request_authentication/) | Beta | `targetRefs` |
 
 ### Considerations for authorization policies {#considerations}
 
@@ -52,11 +52,11 @@ In ambient mode, authorization policies can either be *targeted* (for ztunnel en
 
 The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted with a workload selector (rather than attached with a `targetRef`), such that it is enforced by a ztunnel, it will fail safe by becoming a `DENY` policy.
 
-See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
+See [the L4 policy guide](/pt-br/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 
 ## Observability
 
-The [full set of Istio traffic metrics](/docs/reference/config/metrics/) are exported by a waypoint proxy.
+The [full set of Istio traffic metrics](/pt-br/docs/reference/config/metrics/) are exported by a waypoint proxy.
 
 ## Extension
 
@@ -66,7 +66,7 @@ As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, some 
 | --- | --- | --- |
 | `WasmPlugin` † | Alpha | `targetRefs` |
 
-† [Read more on how to extend waypoints with WebAssembly plugins](/docs/ambient/usage/extend-waypoint-wasm/).
+† [Read more on how to extend waypoints with WebAssembly plugins](/pt-br/docs/ambient/usage/extend-waypoint-wasm/).
 
 Extension configurations are considered policy by the Gateway API definition.
 

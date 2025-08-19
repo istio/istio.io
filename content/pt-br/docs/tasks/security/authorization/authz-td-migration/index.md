@@ -19,7 +19,7 @@ unless you specify it during the installation.
 
 Before you begin this task, do the following:
 
-1. Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+1. Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
 1. Install Istio with a custom trust domain and mutual TLS enabled.
 

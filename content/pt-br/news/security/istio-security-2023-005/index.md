@@ -15,7 +15,7 @@ skip_seealso: true
 
 The Istio Security Committee were recently made aware of a potential scenario where the Istio CNI could be used as an attack vector on an already compromised node due to its high level of permissions.  The vector involves abusing the `istio-cni-repair-role` `ClusterRole` on a compromised node to expand the scope of the compromise from local to the node to a cluster-wide compromise.
 
-The Istio maintainers are, therefore, gradually rolling out a change to the above `ClusterRole` that reduces the permissions to close this potential attack vector. In the patched versions, roles are limited to the bare minimum requirements based on the [repair mode selected](/docs/setup/additional-setup/cni/#race-condition--mitigation). Previously, regardless of the configuration all roles were granted, and the roles that were granted were excessive.
+The Istio maintainers are, therefore, gradually rolling out a change to the above `ClusterRole` that reduces the permissions to close this potential attack vector. In the patched versions, roles are limited to the bare minimum requirements based on the [repair mode selected](/pt-br/docs/setup/additional-setup/cni/#race-condition--mitigation). Previously, regardless of the configuration all roles were granted, and the roles that were granted were excessive.
 
 An additional option can further mitigate any potential attacks, by completely removing the need for Istio CNI to have custom RBAC permissions; due to the possible risks associated with this new method, it is only enabled by default on Istio 1.21+. See below for the configuration options available, and roles required:
 

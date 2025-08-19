@@ -26,7 +26,7 @@ If you depend on this behavior, there are a few options:
 * Change the protocol from type `http` to type `tcp`
 * Specify the environment variable `PILOT_BLOCK_HTTP_ON_443=false` to the Pilot deployment. Note: this may be removed in future releases.
 
-See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
+See [Protocol Selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/) for more information about specifying the protocol of a port
 
 ### Regex Engine Changes
 
@@ -43,15 +43,15 @@ If one or more fields in your configurations are unknown or have wrong types, th
 To help with your upgrade, here are some steps you could take:
 
 * After upgrading Istio, run your Istio configurations with `kubectl apply --dry-run` so that you are able to know if the configurations can be accepted by the API server as well as any possible unknown and/or invalid fields to the API server. (`DryRun` feature is on by default for Kubernetes 1.13+ clusters.)
-* Use the [reference documentation](/docs/reference/config/) to confirm and correct the field names and data types.
-* In addition to structural validation, you can also use `istioctl x analyze` to help you detect other potential issues with your Istio configurations. Refer to [here](/docs/ops/diagnostic-tools/istioctl-analyze/) for more details.
+* Use the [reference documentation](/pt-br/docs/reference/config/) to confirm and correct the field names and data types.
+* In addition to structural validation, you can also use `istioctl x analyze` to help you detect other potential issues with your Istio configurations. Refer to [here](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) for more details.
 
 If you choose to ignore the validation errors, add `--validate=false` to your `kubectl` command when you create or modify Istio resources. We strongly discourage doing so however, since it is willingly introducing incorrect configuration.
 
 ## Leftover CRD
 
 Istio 1.4 introduces a new CRD `authorizationpolicies.security.istio.io` for the
-[authorization policy](/docs/reference/config/security/authorization-policy/).
+[authorization policy](/pt-br/docs/reference/config/security/authorization-policy/).
 Your cluster may have an interim leftover CRD `authorizationpolicies.rbac.istio.io`
 due to an internal implementation detail before Istio 1.4.
 

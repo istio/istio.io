@@ -15,7 +15,7 @@ which causes the sidecar injector to inject the sidecar at the start of the
 pod's container list and configures it to block the start of all other
 containers until the proxy is ready.  This option is disabled by default.
  ([Issue #11130](https://github.com/istio/istio/issues/11130))
-- **Added** SDS support for Client Certificate and CA certificate used for [TLS/mTLS Origination from Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) using `DestinationRule`.
+- **Added** SDS support for Client Certificate and CA certificate used for [TLS/mTLS Origination from Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) using `DestinationRule`.
   ([Issue #14039](https://github.com/istio/istio/issues/14039))
 
 ## Security
@@ -35,11 +35,11 @@ containers until the proxy is ready.  This option is disabled by default.
   ([Issue #25963](https://github.com/istio/istio/issues/25963))
 - **Added** TCP Metrics and Access Logs to Stackdriver.
  ([Issue #23134](https://github.com/istio/istio/issues/23134))
-- **Deprecated** installation of telemetry addons by `istioctl`. These will be disabled by default, and in a future release removed entirely. More information on installing these addons can be found in the [Integrations](/docs/ops/integrations/) page.
+- **Deprecated** installation of telemetry addons by `istioctl`. These will be disabled by default, and in a future release removed entirely. More information on installing these addons can be found in the [Integrations](/pt-br/docs/ops/integrations/) page.
  ([Issue #22762](https://github.com/istio/istio/issues/22762))
-- **Enabled** Prometheus [metrics merging](/docs/ops/integrations/prometheus/#option-1-metrics-merging) by default.
+- **Enabled** Prometheus [metrics merging](/pt-br/docs/ops/integrations/prometheus/#option-1-metrics-merging) by default.
  ([Issue #21366](https://github.com/istio/istio/issues/21366))
-- **Fixed** Prometheus [metrics merging](/docs/ops/integrations/prometheus/#option-1-metrics-merging) to not drop Envoy metrics during application failures.
+- **Fixed** Prometheus [metrics merging](/pt-br/docs/ops/integrations/prometheus/#option-1-metrics-merging) to not drop Envoy metrics during application failures.
  ([Issue #22825](https://github.com/istio/istio/issues/22825))
 - **Fixed** Fix unexplained telemetry which affects Kiali graph. This fix increases default outbound protocol sniffing timeout to `5s`, which has impact on server first protocol like `mysql`.
    ([Issue #24379](https://github.com/istio/istio/issues/24379))
@@ -51,7 +51,7 @@ accurate.
 
 - **Added** RPM packages for running the Istio sidecar on a VM to the release.
  ([Issue #9117](https://github.com/istio/istio/issues/9117))
-- **Added** experimental [external Istiod](/blog/2020/new-deployment-model/) support.
+- **Added** experimental [external Istiod](/pt-br/blog/2020/new-deployment-model/) support.
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 - **Improved** gateway deployments to run as non-root by default.
  ([Issue #23379](https://github.com/istio/istio/issues/23379))
@@ -65,7 +65,7 @@ accurate.
 
 ## istioctl
 
-- **Added** Allow [`proxy-status <pod>` command](/docs/reference/commands/istioctl/#istioctl-proxy-status) for non Kubernetes workloads with proxy config passed in from the `--file` parameter.
+- **Added** Allow [`proxy-status <pod>` command](/pt-br/docs/reference/commands/istioctl/#istioctl-proxy-status) for non Kubernetes workloads with proxy config passed in from the `--file` parameter.
 - **Added** a configuration file to hold istioctl default flags. Its default location (`$HOME/.istioctl/config.yaml`) can be changed using the environment variable `ISTIOCONFIG`. The new command `istioctl experimental config list` shows the default flags.
  ([Issue #23868](https://github.com/istio/istio/issues/23868))
 - **Added** `--revision` flag to `istioctl operator init` and `istioctl operator remove` commands to support multiple control plane upgrade.

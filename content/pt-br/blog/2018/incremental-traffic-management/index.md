@@ -11,11 +11,11 @@ target_release: 1.0
 
 Traffic management is one of the critical benefits provided by Istio. At the heart of Istio’s traffic management is the ability to decouple traffic flow and infrastructure scaling. This lets you control your traffic in ways that aren’t possible without a service mesh like Istio.
 
-For example, let’s say you want to execute a [canary deployment](https://martinfowler.com/bliki/CanaryRelease.html). With Istio, you can specify that **v1** of a service receives 90% of incoming traffic, while **v2** of that service only receives 10%. With standard Kubernetes deployments, the only way to achieve this is to manually control the number of available Pods for each version, for example 9 Pods running v1 and 1 Pod running v2. This type of manual control is hard to implement, and over time may have trouble scaling. For more information, check out [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+For example, let’s say you want to execute a [canary deployment](https://martinfowler.com/bliki/CanaryRelease.html). With Istio, you can specify that **v1** of a service receives 90% of incoming traffic, while **v2** of that service only receives 10%. With standard Kubernetes deployments, the only way to achieve this is to manually control the number of available Pods for each version, for example 9 Pods running v1 and 1 Pod running v2. This type of manual control is hard to implement, and over time may have trouble scaling. For more information, check out [Canary Deployments using Istio](/pt-br/blog/2017/0.1-canary/).
 
 The same issue exists when deploying updates to existing services. While you can update deployments with Kubernetes, it requires replacing v1 Pods with v2 Pods. Using Istio, you can deploy v2 of your service and use built-in traffic management mechanisms to shift traffic to your updated services at a network level, then remove the v1 Pods.
 
-In addition to canary deployments and general traffic shifting, Istio also gives you the ability to implement dynamic request routing (based on HTTP headers), failure recovery, retries, circuit breakers, and fault injection. For more information, check out the [Traffic Management documentation](/docs/concepts/traffic-management/).
+In addition to canary deployments and general traffic shifting, Istio also gives you the ability to implement dynamic request routing (based on HTTP headers), failure recovery, retries, circuit breakers, and fault injection. For more information, check out the [Traffic Management documentation](/pt-br/docs/concepts/traffic-management/).
 
 This post walks through a technique that highlights a particularly useful way that you can implement Istio incrementally -- in this case, only the traffic management features -- without having to individually update each of your Pods.
 
@@ -39,15 +39,15 @@ Let’s say you have two services that are part of the Istio mesh, Service A and
 
 If Services A and B are not part of the Istio mesh, there is no sidecar proxy that knows how to route traffic to different versions of Service B. In that case you need to use another approach to get traffic from Service A to Service B, following the 50/50 rules you’ve set up.
 
-Fortunately, a standard Istio deployment already includes a [Gateway](/docs/concepts/traffic-management/#gateways) that specifically deals with ingress traffic outside of the Istio mesh. This Gateway is used to allow ingress traffic from outside the cluster via an external load balancer, or to allow ingress traffic from within the Kubernetes cluster but outside the service mesh. It can be configured to proxy incoming ingress traffic to the appropriate Pods, even if they don’t have a sidecar proxy. While this approach allows you to leverage Istio’s traffic management features, it does mean that traffic going through the ingress gateway will incur an extra hop.
+Fortunately, a standard Istio deployment already includes a [Gateway](/pt-br/docs/concepts/traffic-management/#gateways) that specifically deals with ingress traffic outside of the Istio mesh. This Gateway is used to allow ingress traffic from outside the cluster via an external load balancer, or to allow ingress traffic from within the Kubernetes cluster but outside the service mesh. It can be configured to proxy incoming ingress traffic to the appropriate Pods, even if they don’t have a sidecar proxy. While this approach allows you to leverage Istio’s traffic management features, it does mean that traffic going through the ingress gateway will incur an extra hop.
 
 {{< image width="60%" link="./fifty-fifty-ingress-gateway.png" caption="50/50 Traffic Split using Ingress Gateway" >}}
 
 ## In action: traffic routing with Istio
 
-A simple way to see this type of approach in action is to first set up your Kubernetes environment using the [Platform Setup](/docs/setup/platform-setup/) instructions, and then install the **minimal** Istio profile using [Helm](https://archive.istio.io/1.4/docs/setup/install/helm/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
+A simple way to see this type of approach in action is to first set up your Kubernetes environment using the [Platform Setup](/pt-br/docs/setup/platform-setup/) instructions, and then install the **minimal** Istio profile using [Helm](https://archive.istio.io/1.4/docs/setup/install/helm/), including only the traffic management components (ingress gateway, egress gateway, Pilot). The following example uses [Google Kubernetes Engine](https://cloud.google.com/gke).
 
-First, set up and configure [GKE](/docs/setup/platform-setup/gke/):
+First, set up and configure [GKE](/pt-br/docs/setup/platform-setup/gke/):
 
 {{< text bash >}}
 $ gcloud container clusters create istio-inc --zone us-central1-f

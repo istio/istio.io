@@ -10,7 +10,7 @@ weight: 10
 
 ## Deprecation Notices
 
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
+These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/pt-br/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
 
 - **Deprecated** fetching charts from URLs in `istio-operator`.
 
@@ -107,10 +107,10 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Added** a `--cluster-specific` flag to `istioctl manifest generate`. When this is set, the current cluster context will be used to determine dynamic default settings, mirroring `istioctl install`.
 
-- **Added** auto-detection of [GKE specific installation steps](/docs/setup/additional-setup/cni/#hosted-kubernetes-settings) when using CNI to `istioctl install` and `helm install`.
+- **Added** auto-detection of [GKE specific installation steps](/pt-br/docs/setup/additional-setup/cni/#hosted-kubernetes-settings) when using CNI to `istioctl install` and `helm install`.
 
 - **Added** an `ENABLE_LEADER_ELECTION=false` feature flag for pilot-discovery to disable leader election when using a single replica of istiod.
-  ([Reference](/docs/reference/commands/pilot-discovery/)) ([Issue #40427](https://github.com/istio/istio/issues/40427))
+  ([Reference](/pt-br/docs/reference/commands/pilot-discovery/)) ([Issue #40427](https://github.com/istio/istio/issues/40427))
 
 - **Added** support for configuring `MaxConcurrentReconciles` in istio-operator. ([Issue #40827](https://github.com/istio/istio/issues/40827))
 

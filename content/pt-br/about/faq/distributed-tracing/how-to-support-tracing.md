@@ -20,4 +20,4 @@ In particular, Istio relies on applications to forward the Envoy-generated reque
 - `x-b3-flags`
 - `b3`
 
-Header propagation may be accomplished through client libraries, such as [OpenTelemetry](https://opentelemetry.io/docs/concepts/context-propagation/). It can also be accomplished manually, as documented in the [Distributed Tracing task](/docs/tasks/observability/distributed-tracing/overview/#trace-context-propagation).
+Header propagation may be accomplished through client libraries, such as [OpenTelemetry](https://opentelemetry.io/docs/concepts/context-propagation/). It can also be accomplished manually, as documented in the [Distributed Tracing task](/pt-br/docs/tasks/observability/distributed-tracing/overview/#trace-context-propagation).

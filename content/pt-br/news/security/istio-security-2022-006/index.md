@@ -15,6 +15,6 @@ skip_seealso: true
 
 ## Do not use Istio 1.14.2 and Istio 1.13.6
 
-Due to a process issue, [CVE-2022-31045](/news/security/istio-security-2022-005/#cve-2022-31045) was not included in our Istio 1.14.2 and Istio 1.13.6 builds.
+Due to a process issue, [CVE-2022-31045](/pt-br/news/security/istio-security-2022-005/#cve-2022-31045) was not included in our Istio 1.14.2 and Istio 1.13.6 builds.
 
 At this time we suggest you do not install 1.14.2 or 1.13.6 in a production environment. If you have, you may downgrade to Istio 1.14.1 or Istio 1.13.5. Istio 1.14.3 and Istio 1.13.7 are expected to be released later this week.

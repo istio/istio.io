@@ -6,7 +6,7 @@ publishdate: 2020-07-08
 attribution: "Sean Suchter (Google)"
 keywords: [trademark,governance,steering]
 ---
-Since [day one](/news/releases/0.x/announcing-0.1/), the Istio project has believed in the importance of being contributor-run, open, transparent and available to all. In that spirit, Google is pleased to announce that it will be transferring ownership of the project’s trademarks to the new Open Usage Commons.
+Since [day one](/pt-br/news/releases/0.x/announcing-0.1/), the Istio project has believed in the importance of being contributor-run, open, transparent and available to all. In that spirit, Google is pleased to announce that it will be transferring ownership of the project’s trademarks to the new Open Usage Commons.
 
 Istio is an open source project, released under the Apache 2.0 license. That means people can copy, modify, distribute, make, use and sell the source code. The only freedom people don't have under the Apache 2.0 license is to use the name Istio, or its logo, in a way that would confuse consumers.
 

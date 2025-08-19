@@ -104,4 +104,4 @@ application could still provide useful functionality. It displayed the reviews
 and the basic information about the book.
 
 You are ready to
-[add a new version of the reviews application](/docs/examples/microservices-istio/add-new-microservice-version).
+[add a new version of the reviews application](/pt-br/docs/examples/microservices-istio/add-new-microservice-version).

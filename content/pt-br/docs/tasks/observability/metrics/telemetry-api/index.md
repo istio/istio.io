@@ -14,7 +14,7 @@ This task shows you how to customize the metrics that Istio generates with Telem
 
 ## Before you begin
 
-[Install Istio](/docs/setup/) in your cluster and deploy an application.
+[Install Istio](/pt-br/docs/setup/) in your cluster and deploy an application.
 
 Telemetry API can not work together with `EnvoyFilter`. For more details please checkout this [issue](https://github.com/istio/istio/issues/39772).
 
@@ -178,7 +178,7 @@ $ curl "http://$GATEWAY_URL/productpage"
 {{< /text >}}
 
 {{< tip >}}
-`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+`$GATEWAY_URL` is the value set in the [Bookinfo](/pt-br/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
 Use the following command to verify that Istio generates the data for your new

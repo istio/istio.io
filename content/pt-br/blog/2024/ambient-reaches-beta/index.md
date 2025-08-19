@@ -11,7 +11,7 @@ Ambient mode is designed for simplified operations, broader application compatib
 It gives you a sidecar-less data plane that’s integrated into your infrastructure,
 all while maintaining Istio’s core features of zero-trust security, telemetry, and traffic management.
 
-Ambient mode [was announced in September 2022](/blog/2022/introducing-ambient-mesh/).
+Ambient mode [was announced in September 2022](/pt-br/blog/2022/introducing-ambient-mesh/).
 Since then, our community has put in 20 months of hard work and collaboration, with
 contributions from Solo.io, Google, Microsoft, Intel, Aviatrix, Huawei, IBM, Red Hat, and many others.
 Beta status in 1.22 indicates the features of ambient mode are now ready for production workloads, with appropriate precautions.
@@ -30,11 +30,11 @@ of complexity faced by users looking to implement service mesh. The new feature 
 was named 'ambient mode' as it was designed to be transparent to your application, ensuring no additional configuration was
 required to adopt it, and required no restarting of applications by users.
 
-In ambient mode it is trivial to add or remove applications from the mesh. You can now simply [label a namespace](/docs/ambient/usage/add-workloads/), and all applications
+In ambient mode it is trivial to add or remove applications from the mesh. You can now simply [label a namespace](/pt-br/docs/ambient/usage/add-workloads/), and all applications
 in that namespace are added to the mesh. This immediately secures all traffic with mTLS, all without sidecars or the need to
 restart applications.
 
-Refer to the [Introducing Ambient Mesh blog](/blog/2022/introducing-ambient-mesh/)
+Refer to the [Introducing Ambient Mesh blog](/pt-br/blog/2022/introducing-ambient-mesh/)
 for more information on why we built ambient mode.
 
 ## How does ambient mode make adoption easier?
@@ -51,12 +51,12 @@ bypass some of the previously restrictive elements of the sidecar model. Server-
 work, most reserved ports are now available, and the ability for containers to bypass the sidecar — either
 maliciously or not — is eliminated.
 
-The lightweight shared L4 node proxy is called the *[ztunnel](/docs/ambient/overview/#ztunnel)* (zero-trust tunnel). Ztunnel drastically reduces the overhead of
+The lightweight shared L4 node proxy is called the *[ztunnel](/pt-br/docs/ambient/overview/#ztunnel)* (zero-trust tunnel). Ztunnel drastically reduces the overhead of
 running a mesh by removing the need to potentially over-provision memory and CPU within a cluster to handle expected loads. In
 some use cases, the savings can exceed 90% or more, while still providing zero-trust security using mutual TLS with
 cryptographic identity, simple L4 authorization policies, and telemetry.
 
-The L7 proxies are called *[waypoints](/docs/ambient/overview/#waypoint-proxies)*. Waypoints process L7 functions such as traffic routing, rich authorization policy
+The L7 proxies are called *[waypoints](/pt-br/docs/ambient/overview/#waypoint-proxies)*. Waypoints process L7 functions such as traffic routing, rich authorization policy
 enforcement, and enterprise-grade resilience. Waypoints run outside of your application deployments and can scale independently
 based on your needs, which could be for the entire namespace or for multiple services within a namespace. Compared with
 sidecars, you don’t need one waypoint per application pod, and you can scale your waypoint effectively based on its scope,
@@ -72,9 +72,9 @@ Complex L7 handling such as retries, traffic splitting, load balancing, and obse
 We recommend you explore the following Beta functions of ambient mode in production with appropriate precautions, after validating
 them in test environments:
 
-- [Installing Istio with support for ambient mode](/docs/ambient/install/).
-- [Adding your workloads to the mesh](/docs/ambient/usage/add-workloads/) to gain mutual TLS with cryptographic identity, [L4 authorization policies](/docs/ambient/usage/l4-policy/), and telemetry.
-- [Configuring waypoints](/docs/ambient/usage/waypoint/) to [use L7 functions](/docs/ambient/usage/l7-features/) such as traffic shifting, request routing, and rich authorization policy enforcement.
+- [Installing Istio with support for ambient mode](/pt-br/docs/ambient/install/).
+- [Adding your workloads to the mesh](/pt-br/docs/ambient/usage/add-workloads/) to gain mutual TLS with cryptographic identity, [L4 authorization policies](/pt-br/docs/ambient/usage/l4-policy/), and telemetry.
+- [Configuring waypoints](/pt-br/docs/ambient/usage/waypoint/) to [use L7 functions](/pt-br/docs/ambient/usage/l7-features/) such as traffic shifting, request routing, and rich authorization policy enforcement.
 - Connecting the Istio ingress gateway to workloads in ambient mode, supporting all existing Istio APIs.
 - Using `istioctl` to operate waypoints, and troubleshoot ztunnel & waypoints.
 
@@ -110,7 +110,7 @@ ambient mode, the Istio project remains committed to ongoing sidecar mode suppor
 ## Try ambient mode today
 
 With the 1.22 release of Istio and the Beta release of ambient mode, it is now easier than ever to try out Istio on your own
-workloads. Follow the [getting started guide](/docs/ambient/getting-started/) to explore ambient mode, or read our new [user guides](/docs/ambient/usage/)
+workloads. Follow the [getting started guide](/pt-br/docs/ambient/getting-started/) to explore ambient mode, or read our new [user guides](/pt-br/docs/ambient/usage/)
 to learn how to incrementally adopt ambient for mutual TLS & L4 authorization policy, traffic management, rich L7
 authorization policy, and more. You can engage with the developers in the #ambient channel on [the Istio Slack](https://slack.istio.io),
 or use the discussion forum on [GitHub](https://github.com/istio/istio/discussions) for any questions you may have.

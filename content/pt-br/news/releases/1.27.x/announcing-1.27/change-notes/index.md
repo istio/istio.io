@@ -174,7 +174,7 @@ aliases:
 
 - **Added** `ENABLE_NATIVE_SIDECARS` Helm value in the compatibility profiles of Istio 1.24, 1.25, and 1.26, allowing users to disable the default enabling of native sidecars.
 
-- **Added** support for proxy protocol on status port. ([reference](/docs/reference/commands/pilot-agent/#envvars))
+- **Added** support for proxy protocol on status port. ([reference](/pt-br/docs/reference/commands/pilot-agent/#envvars))
   ([Issue #39868](https://github.com/istio/istio/issues/39868))
 
 - **Added** Helm value `.Values.istiodRemote.enabledLocalInjectorIstiod` to support sidecar injection in remote clusters.

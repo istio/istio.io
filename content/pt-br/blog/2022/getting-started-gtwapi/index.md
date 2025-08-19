@@ -12,7 +12,7 @@ for clients outside of the cluster. If you're using plain Kubernetes clusters, y
 Kubernetes [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) resources
 to configure the incoming traffic. If you're using Istio, you are more likely
 to be using Istio's recommended configuration resources,
-[Gateway](/docs/reference/config/networking/gateway/) and [VirtualService](/docs/reference/config/networking/virtual-service/),
+[Gateway](/pt-br/docs/reference/config/networking/gateway/) and [VirtualService](/pt-br/docs/reference/config/networking/virtual-service/),
 to do the job.
 
 The Kubernetes Ingress resource has for some time been known to have significant shortcomings, especially
@@ -270,14 +270,14 @@ add this support.
 Although not as mature as the Gateway API for ingress traffic, an effort
 known as the [Gateway API for Mesh Management and Administration (GAMMA)](https://gateway-api.sigs.k8s.io/contributing/gamma/)
 initiative is underway to make this a reality and Istio intends to make Gateway API the default API for all
-of its traffic management [in the future](/blog/2022/gateway-api-beta/).
+of its traffic management [in the future](/pt-br/blog/2022/gateway-api-beta/).
 
 The first significant [Gateway Enhancement Proposal (GEP)](https://gateway-api.sigs.k8s.io/geps/gep-1426/)
 has recently been accepted and is, in-fact, already available to use in Istio.
 To try it out, you'll need to use the
 [experimental version](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
 of the Gateway API CRDs, instead of the standard Beta version we installed above, but otherwise, you're ready to go.
-Check out the Istio [request routing task](/docs/tasks/traffic-management/request-routing/)
+Check out the Istio [request routing task](/pt-br/docs/tasks/traffic-management/request-routing/)
 to get started.
 
 ## Summary
@@ -286,8 +286,8 @@ In this article, we've seen how a light-weight minimal install of Istio can be u
 of the new Kubernetes Gateway API for cluster ingress traffic control. For Istio users, the Istio implementation also lets
 you start trying out the experimental Gateway API support for east-west traffic management within the mesh.
 
-Much of Istio's documentation, including all of the [ingress tasks](/docs/tasks/traffic-management/ingress/)
+Much of Istio's documentation, including all of the [ingress tasks](/pt-br/docs/tasks/traffic-management/ingress/)
 and several mesh-internal traffic management tasks, already includes parallel instructions for
 configuring traffic using either the Gateway API or the Istio configuration API.
-Check out the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information about the
+Check out the [Gateway API task](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/) for more information about the
 Gateway API implementation in Istio.

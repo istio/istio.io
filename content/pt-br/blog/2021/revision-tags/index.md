@@ -6,11 +6,11 @@ attribution: "Christian Posta (Solo.io), Lin Sun (Solo.io), Sam Naser (Google)"
 keywords: [upgrades,revisions,operations,canary]
 ---
 
-Like all security software, your service mesh should be kept up-to-date. The Istio community [releases new versions every quarter](/docs/releases/supported-releases/), with regular patch releases for bug fixes [and security vulnerabilities](/blog/2021/patch-tuesdays/). The operator of a service mesh will need to upgrade the control plane and data plane components many times. You must take care when upgrading, as a mistake could affect your business traffic. Istio has many mechanisms to make it safe to perform upgrades in a controlled manner, and in Istio 1.10 we further improve this operational experience.
+Like all security software, your service mesh should be kept up-to-date. The Istio community [releases new versions every quarter](/pt-br/docs/releases/supported-releases/), with regular patch releases for bug fixes [and security vulnerabilities](/pt-br/blog/2021/patch-tuesdays/). The operator of a service mesh will need to upgrade the control plane and data plane components many times. You must take care when upgrading, as a mistake could affect your business traffic. Istio has many mechanisms to make it safe to perform upgrades in a controlled manner, and in Istio 1.10 we further improve this operational experience.
 
 ## Background
 
-[In Istio 1.6](/news/releases/1.6.x/announcing-1.6/change-notes/), we added [basic support for upgrading the service mesh following a canary pattern using revisions](/blog/2020/multiple-control-planes/). Using this approach, you can run multiple control planes side-by-side without impacting an existing deployment and slowly migrate workloads from the old control plane to the new.
+[In Istio 1.6](/pt-br/news/releases/1.6.x/announcing-1.6/change-notes/), we added [basic support for upgrading the service mesh following a canary pattern using revisions](/pt-br/blog/2020/multiple-control-planes/). Using this approach, you can run multiple control planes side-by-side without impacting an existing deployment and slowly migrate workloads from the old control plane to the new.
 
 To support this revision-based upgrade, Istio introduced a `istio.io/rev` label for namespaces. This indicates which control plane revision should inject sidecar proxies for the workloads in the respective namespace. For example, a label of `istio.io/rev=1-9-5` indicates the control plane revision `1-9-5` should inject the data plane using proxies for `1-9-5` for workloads in that namespace.
 
@@ -18,7 +18,7 @@ If you wanted to upgrade the data-plane proxies for a particular namespace, you 
 
 ## Introducing Revision Tags
 
-[In Istio 1.10](/news/releases/1.10.x/announcing-1.10/), we've improved revision-based upgrades with a new feature called _[revision tags](/docs/setup/upgrade/canary/#stable-revision-labels-experimental)_. A revision tag reduces the number of changes an operator has to make to use revisions, and safely upgrade an Istio control plane. You use the tag as the label for your namespaces, and assign a revision to that tag. This means you don't have to change the labels on a namespace while upgrading, and minimizes the number of manual steps and configuration changes.
+[In Istio 1.10](/pt-br/news/releases/1.10.x/announcing-1.10/), we've improved revision-based upgrades with a new feature called _[revision tags](/pt-br/docs/setup/upgrade/canary/#stable-revision-labels-experimental)_. A revision tag reduces the number of changes an operator has to make to use revisions, and safely upgrade an Istio control plane. You use the tag as the label for your namespaces, and assign a revision to that tag. This means you don't have to change the labels on a namespace while upgrading, and minimizes the number of manual steps and configuration changes.
 
 For example, you can define a tag named `prod-stable` and point it to the `1-9-5` revision of a control plane. You can also define another tag named `prod-canary` which points to the `1-10-0` revision. You may have a lot of important namespaces in your cluster, and you can label those namespaces with `istio.io/rev=prod-stable`. In other namespaces you may be willing to test the new version of Istio, and you can label that namespace `istio.io/rev=prod-canary`. The tag will indirectly associate those namespaces with the `1-9-5` revision for `prod-stable` and `1-10-0` for `prod-canary` respectively.
 
@@ -108,4 +108,4 @@ $ istioctl x uninstall --revision 1-9-5
 
 ## Wrapping up
 
-Using revisions makes it safer to canary changes to an Istio control plane. In large environments with lots of namespaces, you may prefer to use stable tags, as we've introduced in this blog, to remove the number of moving pieces and simplify any automation you may build around updating an Istio control plane. Please check out the [1.10 release](/news/releases/1.10.x/announcing-1.10/) [and the new tag feature](/docs/setup/upgrade/canary/#stable-revision-labels) and give us your feedback!
+Using revisions makes it safer to canary changes to an Istio control plane. In large environments with lots of namespaces, you may prefer to use stable tags, as we've introduced in this blog, to remove the number of moving pieces and simplify any automation you may build around updating an Istio control plane. Please check out the [1.10 release](/pt-br/news/releases/1.10.x/announcing-1.10/) [and the new tag feature](/pt-br/docs/setup/upgrade/canary/#stable-revision-labels) and give us your feedback!

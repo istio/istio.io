@@ -13,7 +13,7 @@ aliases:
 This post was updated on May 16, 2018 to use the latest version of the traffic management model.
 {{< /tip >}}
 
-One of the benefits of the [Istio](/) project is that it provides the control needed to deploy canary services. The idea behind
+One of the benefits of the [Istio](/pt-br/) project is that it provides the control needed to deploy canary services. The idea behind
 canary deployment (or rollout) is to introduce a new version of a service by first testing it using a small percentage of user
 traffic, and then if all goes well, increase, possibly gradually in increments, the percentage while simultaneously phasing out
 the old version. If anything goes wrong along the way, we abort and roll back to the previous version. In its simplest form,
@@ -34,7 +34,7 @@ Whether we use one deployment or two, canary management using deployment feature
 
 With Istio, traffic routing and replica deployment are two completely independent functions. The number of pods implementing services are free to scale up and down based on traffic load, completely orthogonal to the control of version traffic routing. This makes managing a canary version in the presence of autoscaling a much simpler problem. Autoscalers may, in fact, respond to load variations resulting from traffic routing changes, but they are nevertheless functioning independently and no differently than when loads change for other reasons.
 
-Istio’s [routing rules](/docs/concepts/traffic-management/#routing-rules) also provide other important advantages; you can easily control
+Istio’s [routing rules](/pt-br/docs/concepts/traffic-management/#routing-rules) also provide other important advantages; you can easily control
 fine-grained traffic percentages (e.g., route 1% of traffic without requiring 100 pods) and you can control traffic using other criteria (e.g., route traffic for specific users to the canary version). To illustrate, let’s look at deploying the **helloworld** service and see how simple the problem becomes.
 
 We begin by defining the **helloworld** Service, just like any other Kubernetes service, something like this:
@@ -90,7 +90,7 @@ spec:
 
 Note that this is exactly the same way we would do a [canary deployment](https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#canary-deployments) using plain Kubernetes, but in that case we would need to adjust the number of replicas of each Deployment to control the distribution of traffic. For example, to send 10% of the traffic to the canary version (**v2**), the replicas for **v1** and **v2** could be set to 9 and 1, respectively.
 
-However, since we are going to deploy the service in an [Istio enabled](/docs/setup/) cluster, all we need to do is set a routing
+However, since we are going to deploy the service in an [Istio enabled](/pt-br/docs/setup/) cluster, all we need to do is set a routing
 rule to control the traffic distribution. For example if we want to send 10% of the traffic to the canary, we could use `kubectl`
 to set a routing rule something like this:
 
@@ -235,5 +235,5 @@ As before, the autoscalers bound to the 2 version Deployments will automatically
 
 In this article we’ve seen how Istio supports general scalable canary deployments, and how this differs from the basic deployment support in Kubernetes. Istio’s service mesh provides the control necessary to manage traffic distribution with complete independence from deployment scaling. This allows for a simpler, yet significantly more functional, way to do canary test and rollout.
 
-Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out [istio.io](/) for more information and to try it out.
+Intelligent routing in support of canary deployment is just one of the many features of Istio that will make the production deployment of large-scale microservices-based applications much simpler. Check out [istio.io](/pt-br/) for more information and to try it out.
 The sample code used in this article can be found [here]({{< github_tree >}}/samples/helloworld).

@@ -21,7 +21,7 @@ In order to push Istio and Cilium to their limits, we created 500 different serv
     alt="Scaling to 500 services with 50,000 pods."
     >}}
 
-For the Istio test, we used Istio’s ambient mode, with a [waypoint proxy](/docs/ambient/usage/waypoint/) in every service namespace, and default install parameters. In order to make our test scenarios similar, we had to turn on a few non-default features in Cilium, including WireGuard encryption, L7 Proxies, and Node Init. We also created a Cilium Network Policy in each namespace, with HTTP path-based rules. In both scenarios, we generated churn by scaling one service to between 85 and 115 instances at random every second, and relabeling one namespace every minute. To see the precise settings we used, and to reproduce our results, see [my notes](https://github.com/therealmitchconnors/tools/blob/2384dc26f114300687b21f921581a158f27dc9e1/perf/load/many-svc-scenario/README.md).
+For the Istio test, we used Istio’s ambient mode, with a [waypoint proxy](/pt-br/docs/ambient/usage/waypoint/) in every service namespace, and default install parameters. In order to make our test scenarios similar, we had to turn on a few non-default features in Cilium, including WireGuard encryption, L7 Proxies, and Node Init. We also created a Cilium Network Policy in each namespace, with HTTP path-based rules. In both scenarios, we generated churn by scaling one service to between 85 and 115 instances at random every second, and relabeling one namespace every minute. To see the precise settings we used, and to reproduce our results, see [my notes](https://github.com/therealmitchconnors/tools/blob/2384dc26f114300687b21f921581a158f27dc9e1/perf/load/many-svc-scenario/README.md).
 
 ## Scalability Scorecard
 

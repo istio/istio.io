@@ -14,7 +14,7 @@ test: n/a
 
 ## End-user authentication fails
 
-With Istio, you can enable authentication for end users through [request authentication policies](/docs/tasks/security/authentication/authn-policy/#end-user-authentication). Follow these steps to troubleshoot the policy specification.
+With Istio, you can enable authentication for end users through [request authentication policies](/pt-br/docs/tasks/security/authentication/authn-policy/#end-user-authentication). Follow these steps to troubleshoot the policy specification.
 
 1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
 
@@ -122,7 +122,7 @@ do not exist in the raw TCP connections.
 In the case of `ALLOW` policy, these fields are never matched. In the case of `DENY` and `CUSTOM` action, these fields
 are considered always matched. The final effect is a more restrictive policy that could cause unexpected denies.
 
-Check the Kubernetes service definition to verify that the port is [named with the correct protocol properly](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
+Check the Kubernetes service definition to verify that the port is [named with the correct protocol properly](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
 If you are using HTTP-only fields on the port, make sure the port name has the `http-` prefix.
 
 ### Make sure the policy is applied to the correct target
@@ -140,7 +140,7 @@ authorization policy in effect by running `istioctl x authz check POD-NAME.POD-N
 
 - The `AUDIT` action does not enforce access control and will not deny the request at any cases.
 
-Read [authorization implicit enablement](/docs/concepts/security/#implicit-enablement) for more details of the evaluation order.
+Read [authorization implicit enablement](/pt-br/docs/concepts/security/#implicit-enablement) for more details of the evaluation order.
 
 ## Ensure Istiod accepts the policies
 
@@ -373,7 +373,7 @@ are not using `httpbin`.
     The log `enforced denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` means the request is rejected by
     the policy `ns[foo]-policy[deny-path-headers]-rule[0]`.
 
-1. The following is an example output for authorization policy in the [dry-run mode](/docs/tasks/security/authorization/authz-dry-run):
+1. The following is an example output for authorization policy in the [dry-run mode](/pt-br/docs/tasks/security/authorization/authz-dry-run):
 
     {{< text plain >}}
     ...
@@ -476,9 +476,9 @@ Make sure the displayed certificate contains valid information. In particular, t
 If you suspect problems with mutual TLS, first ensure that istiod is healthy, and
 second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/docs/tasks/security/authentication/authn-policy/)
+If everything appears to be working so far, the next step is to verify that the right [authentication policy](/pt-br/docs/tasks/security/authentication/authn-policy/)
 is applied and the right destination rules are in place.
 
 If you suspect the client side sidecar may send mutual TLS or plaintext traffic incorrectly, check the
-[Grafana Workload dashboard](/docs/ops/integrations/grafana/). The outbound requests are annotated whether mTLS
+[Grafana Workload dashboard](/pt-br/docs/ops/integrations/grafana/). The outbound requests are annotated whether mTLS
  is used or not. After checking this if you believe the client sidecars are misbehaved, report an issue on GitHub.

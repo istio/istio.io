@@ -50,9 +50,9 @@ spec:
           codec_type: HTTP1
 {{< /text >}}
 
-* For Istio 1.4.x deployments: update to [Istio 1.4.10](/news/releases/1.4.x/announcing-1.4.10) or later.
-* For Istio 1.5.x deployments: update to [Istio 1.5.5](/news/releases/1.5.x/announcing-1.5.5) or later.
-* For Istio 1.6.x deployments: update to [Istio 1.6.2](/news/releases/1.6.x/announcing-1.6.2) or later.
+* For Istio 1.4.x deployments: update to [Istio 1.4.10](/pt-br/news/releases/1.4.x/announcing-1.4.10) or later.
+* For Istio 1.5.x deployments: update to [Istio 1.5.5](/pt-br/news/releases/1.5.x/announcing-1.5.5) or later.
+* For Istio 1.6.x deployments: update to [Istio 1.6.2](/pt-br/news/releases/1.6.x/announcing-1.6.2) or later.
 
 ## Credit
 

@@ -90,7 +90,7 @@ suites will be ignored and logged.
 - **Added** TLS settings to the sidecar API in order to enable TLS/mTLS termination on the sidecar proxy for requests
 coming from outside the mesh. ([Issue #35111](https://github.com/istio/istio/issues/35111))
 
-- **Promoted** [authorization policy dry-run mode](/docs/tasks/security/authorization/authz-dry-run/) to Alpha. ([Issue #112](https://github.com/istio/enhancements/pull/112))
+- **Promoted** [authorization policy dry-run mode](/pt-br/docs/tasks/security/authorization/authz-dry-run/) to Alpha. ([Issue #112](https://github.com/istio/enhancements/pull/112))
 
 - **Fixed** a couple of issues in the ext-authz filter affecting the behavior of the gRPC check response API. Please
 see the [Envoy release note](https://www.envoyproxy.io/docs/envoy/latest/version_history/v1.20.0#bug-fixes) for more

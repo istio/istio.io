@@ -6,7 +6,7 @@ attribution: "Craig Box (ARMO), for the Istio Product Security Working Group"
 keywords: [istio,security,audit,ada logics,assessment,cncf,ostif]
 ---
 
-Istio is a project that platform engineers trust to enforce security policy in their production Kubernetes environments. We pay a lot of care to security in our code, and maintain a robust [vulnerability program](/docs/releases/security-vulnerabilities/). To validate our work, we periodically invite external review of the project, and we are pleased to publish [the results of our second security audit](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202023-01-30%20-%20v1.0.pdf).
+Istio is a project that platform engineers trust to enforce security policy in their production Kubernetes environments. We pay a lot of care to security in our code, and maintain a robust [vulnerability program](/pt-br/docs/releases/security-vulnerabilities/). To validate our work, we periodically invite external review of the project, and we are pleased to publish [the results of our second security audit](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202023-01-30%20-%20v1.0.pdf).
 
 The auditors’ assessment was that **"Istio is a well-maintained project that has a strong and sustainable approach to security"**. No critical issues were found; the highlight of the report was the discovery of a vulnerability in the Go programming language.
 
@@ -14,7 +14,7 @@ We would like to thank the [Cloud Native Computing Foundation](https://cncf.io/)
 
 ## Scope and overall findings
 
-[Istio received its first security assessment in 2020](/blog/2021/ncc-security-assessment/), with its data plane, the [Envoy proxy](https://envoyproxy.io/), having been [independently assessed in 2018 and 2021](https://github.com/envoyproxy/envoy#security-audit). The Istio Product Security Working Group and ADA Logics therefore decided on the following scope:
+[Istio received its first security assessment in 2020](/pt-br/blog/2021/ncc-security-assessment/), with its data plane, the [Envoy proxy](https://envoyproxy.io/), having been [independently assessed in 2018 and 2021](https://github.com/envoyproxy/envoy#security-audit). The Istio Product Security Working Group and ADA Logics therefore decided on the following scope:
 
 * Produce a formal threat model, to guide this and future security audits
 * Carry out a manual code audit for security issues

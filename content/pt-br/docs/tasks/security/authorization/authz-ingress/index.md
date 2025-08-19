@@ -15,9 +15,9 @@ This task shows you how to enforce IP-based access control on an Istio ingress g
 
 Before you begin this task, do the following:
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
+* Install Istio using the [Istio installation guide](/pt-br/docs/setup/install/istioctl/).
 
 * Deploy a workload, `httpbin`, in namespace `foo` with sidecar injection enabled:
 
@@ -46,7 +46,7 @@ $ kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/
 {{< /text >}}
 
 Follow the instructions in
-[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+[Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 to define the `INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 {{< /tab >}}
@@ -281,7 +281,7 @@ $ kubectl patch svc httpbin-gateway-istio -n foo -p '{"spec":{"externalTrafficPo
 
 ### HTTP/HTTPS Load Balancer {#http-https}
 
-If you are using an HTTP/HTTPS external load balancer (AWS ALB, GCP ), it can put the original client IP address in the X-Forwarded-For header.  Istio can extract the client IP address from this header with some configuration.  See [Configuring Gateway Network Topology](/docs/ops/configuration/traffic-management/network-topologies/). Quick example if using a single load balancer in front of Kubernetes:
+If you are using an HTTP/HTTPS external load balancer (AWS ALB, GCP ), it can put the original client IP address in the X-Forwarded-For header.  Istio can extract the client IP address from this header with some configuration.  See [Configuring Gateway Network Topology](/pt-br/docs/ops/configuration/traffic-management/network-topologies/). Quick example if using a single load balancer in front of Kubernetes:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1

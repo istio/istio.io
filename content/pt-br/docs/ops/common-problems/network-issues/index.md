@@ -39,12 +39,12 @@ Common response flags are:
 With the current Envoy sidecar implementation, up to 100 requests may be required for weighted
 version distribution to be observed.
 
-If route rules are working perfectly for the [Bookinfo](/docs/examples/bookinfo/) sample,
+If route rules are working perfectly for the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample,
 but similar version routing rules have no effect on your own application, it may be that
 your Kubernetes services need to be changed slightly.
 Kubernetes services must adhere to certain restrictions in order to take advantage of
 Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/)
+Refer to the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/application-requirements/)
 for details.
 
 Another potential issue is that the route rules may simply be slow to take effect.
@@ -58,7 +58,7 @@ order of seconds.
 ## 503 errors after setting destination rule
 
 {{< tip >}}
-You should only see this error if you disabled [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) during install.
+You should only see this error if you disabled [automatic mutual TLS](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) during install.
 {{< /tip >}}
 
 If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
@@ -326,12 +326,12 @@ Here are some of the ways to avoid this 503 error:
 
     Here `web-0` is the pod name of one of the 3 replicas of `nginx`.
 
-Refer to this [traffic routing](/docs/ops/configuration/traffic-management/traffic-routing/) page for some additional information on headless services and traffic routing behavior for different protocols.
+Refer to this [traffic routing](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/) page for some additional information on headless services and traffic routing behavior for different protocols.
 
 ## TLS configuration mistakes
 
 Many traffic management problems
-are caused by incorrect [TLS configuration](/docs/ops/configuration/traffic-management/tls-configuration/).
+are caused by incorrect [TLS configuration](/pt-br/docs/ops/configuration/traffic-management/tls-configuration/).
 The following sections describe some of the most common misconfigurations.
 
 ### Sending HTTPS to an HTTP port
@@ -615,7 +615,7 @@ servers:
 This may cause certain requests to fail.
 
 For example, if you do not have DNS set up and are instead directly setting the host header, such as `curl 1.2.3.4 -H "Host: app.example.com"`, no SNI will be set, causing the request to fail.
-Instead, you can set up DNS or use the `--resolve` flag of `curl`. See the [Secure Gateways](/docs/tasks/traffic-management/ingress/secure-ingress/) task for more information.
+Instead, you can set up DNS or use the `--resolve` flag of `curl`. See the [Secure Gateways](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/) task for more information.
 
 Another common issue is load balancers in front of Istio.
 Most cloud load balancers will not forward the SNI, so if you are terminating TLS in your cloud load balancer you may need to do one of the following:

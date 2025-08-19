@@ -9,11 +9,11 @@ test: n/a
 This page describes all the supported normalizations in the authorization policy. The normalized request will be used for
 both the evaluation of authorization policies and the request that is ultimately sent to the backend server.
 
-For more information, please refer to [authorization normalization best practices](/docs/ops/best-practices/security/#customize-your-system-on-path-normalization).
+For more information, please refer to [authorization normalization best practices](/pt-br/docs/ops/best-practices/security/#customize-your-system-on-path-normalization).
 
 ## Path Related
 
-This applies to the [`paths` field](/docs/reference/config/security/authorization-policy/#Operation-paths) and the [`notPaths` field](/docs/reference/config/security/authorization-policy/#Operation-not_paths).
+This applies to the [`paths` field](/pt-br/docs/reference/config/security/authorization-policy/#Operation-paths) and the [`notPaths` field](/pt-br/docs/reference/config/security/authorization-policy/#Operation-not_paths).
 
 ### 1. Single percent-encoded character (%HH)
 

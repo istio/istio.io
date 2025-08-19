@@ -27,7 +27,7 @@ Istio 1.26.0 is officially supported on Kubernetes versions 1.29 to 1.32. We exp
 
 ### Customization of resources provisioned by the Gateway API
 
-When you create a Gateway or a waypoint using the Gateway API, a `Service` and a `Deployment` are created automatically. It has been a common request to allow customization of these objects, and that is now supported in Istio 1.26 by specifying a `ConfigMap` of parameters. If configuration for a `HorizontalPodAutoscaler` or `PodDisruptionBudget` is provided, those resources will automatically be created also. [Learn more about customizing the generated Gateway API resources.](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)
+When you create a Gateway or a waypoint using the Gateway API, a `Service` and a `Deployment` are created automatically. It has been a common request to allow customization of these objects, and that is now supported in Istio 1.26 by specifying a `ConfigMap` of parameters. If configuration for a `HorizontalPodAutoscaler` or `PodDisruptionBudget` is provided, those resources will automatically be created also. [Learn more about customizing the generated Gateway API resources.](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)
 
 ### New Gateway API support
 
@@ -50,7 +50,7 @@ Read about these and more in the full [release notes](change-notes/).
 
 ## Catch up with the Istio project
 
-If you only check in with us when we have a new release, you might have missed that [we published a security audit on ztunnel](/blog/2025/ztunnel-security-assessment/), [we compared performance of ambient mode throughput vs. running in-kernel](/blog/2025/ambient-performance/), or that [we had a major presence at KubeCon EU](/blog/2025/istio-at-kubecon-eu/). Check those posts out!
+If you only check in with us when we have a new release, you might have missed that [we published a security audit on ztunnel](/pt-br/blog/2025/ztunnel-security-assessment/), [we compared performance of ambient mode throughput vs. running in-kernel](/pt-br/blog/2025/ambient-performance/), or that [we had a major presence at KubeCon EU](/pt-br/blog/2025/istio-at-kubecon-eu/). Check those posts out!
 
 ## Upgrading to 1.26
 

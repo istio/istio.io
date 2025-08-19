@@ -13,7 +13,7 @@ However, there are powerful ways Istio can manage traffic differently than a typ
 To understand what is happening in your mesh, it is important to understand how Istio routes traffic.
 
 {{< warning >}}
-This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/docs/concepts/traffic-management/) or [Tasks](/docs/tasks/traffic-management/).
+This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/pt-br/docs/concepts/traffic-management/) or [Tasks](/pt-br/docs/tasks/traffic-management/).
 {{< /warning >}}
 
 ## Frontends and backends
@@ -44,7 +44,7 @@ In general, there are three classes of protocols Istio understands:
 * TLS, which includes HTTPS.
 * Raw TCP bytes.
 
-The [protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/) document describes how Istio decides which protocol is used.
+The [protocol selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/) document describes how Istio decides which protocol is used.
 
 The use of "TCP" can be confusing, as in other contexts it is used to distinguish between other L4 protocols, such as UDP.
 When referring to the TCP protocol in Istio, this typically means we are treating it as a raw stream of bytes,
@@ -53,7 +53,7 @@ and not parsing application level protocols such as TLS or HTTP.
 ## Traffic Routing
 
 When an Envoy proxy receives a request, it must decide where, if anywhere, to forward it to.
-By default, this will be to the original service that was requested, unless [customized](/docs/tasks/traffic-management/traffic-shifting/).
+By default, this will be to the original service that was requested, unless [customized](/pt-br/docs/tasks/traffic-management/traffic-shifting/).
 How this works depends on the protocol used.
 
 ### TCP
@@ -61,7 +61,7 @@ How this works depends on the protocol used.
 When processing TCP traffic, Istio has a very small amount of useful information to route the connection - only the destination IP and Port.
 These attributes are used to determine the intended Service; the proxy is configured to listen on each service IP (`<Kubernetes ClusterIP>:<Port>`) pair and forward traffic to the upstream service.
 
-For customizations, a TCP `VirtualService` can be configured, which allows [matching on specific IPs and ports](/docs/reference/config/networking/virtual-service/#L4MatchAttributes) and routing it to different upstream services than requested.
+For customizations, a TCP `VirtualService` can be configured, which allows [matching on specific IPs and ports](/pt-br/docs/reference/config/networking/virtual-service/#L4MatchAttributes) and routing it to different upstream services than requested.
 
 ### TLS
 
@@ -70,12 +70,12 @@ When processing TLS traffic, Istio has slightly more information available than 
 For standard Services, the same IP:Port matching is used as for raw TCP.
 However, for services that do not have a Service IP defined, such as [ExternalName services](#externalname-services), the SNI field will be used for routing.
 
-Additionally, custom routing can be configured with a TLS `VirtualService` to [match on SNI](/docs/reference/config/networking/virtual-service/#TLSMatchAttributes) and route requests to custom destinations.
+Additionally, custom routing can be configured with a TLS `VirtualService` to [match on SNI](/pt-br/docs/reference/config/networking/virtual-service/#TLSMatchAttributes) and route requests to custom destinations.
 
 ### HTTP
 
 HTTP allows much richer routing than TCP and TLS. With HTTP, you can route individual HTTP requests, rather than just connections.
-In addition, a [number of rich attributes](/docs/reference/config/networking/virtual-service/#HTTPMatchRequest) are available, such as host, path, headers, query parameters, etc.
+In addition, a [number of rich attributes](/pt-br/docs/reference/config/networking/virtual-service/#HTTPMatchRequest) are available, such as host, path, headers, query parameters, etc.
 
 While TCP and TLS traffic generally behave the same with or without Istio (assuming no configuration has been applied to customize the routing), HTTP has significant differences.
 
@@ -84,7 +84,7 @@ While TCP and TLS traffic generally behave the same with or without Istio (assum
 
 ## Unmatched traffic
 
-If traffic cannot be matched using one of the methods described above, it is treated as [passthrough traffic](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services).
+If traffic cannot be matched using one of the methods described above, it is treated as [passthrough traffic](/pt-br/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services).
 By default, these requests will be forwarded as-is, which ensures that traffic to services that Istio is not aware of (such as external services that do not have `ServiceEntry`s created) continues to function.
 Note that when these requests are forwarded, mutual TLS will not be used and telemetry collection is limited.
 
@@ -108,7 +108,7 @@ An exception to this is for protocols declared as HTTP, which will match traffic
 
 {{< warning >}}
 Without Istio, the `ports` field of a headless service is not strictly required because requests go directly to pod IPs, which can accept traffic on all ports.
-However, with Istio the port must be declared in the Service, or it will [not be matched](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
+However, with Istio the port must be declared in the Service, or it will [not be matched](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
 {{< /warning >}}
 
 ### ExternalName Services
@@ -145,7 +145,7 @@ If that hostname is not known to Istio, the requests will fail; in this case, a 
 
 ### ServiceEntry
 
-In addition to Kubernetes Services, [Service Entries](/docs/reference/config/networking/service-entry/#ServiceEntry) can be created to extend the set of services known to Istio.
+In addition to Kubernetes Services, [Service Entries](/pt-br/docs/reference/config/networking/service-entry/#ServiceEntry) can be created to extend the set of services known to Istio.
 This can be useful to ensure that traffic to external services, such as `example.com`, get the functionality of Istio.
 
 A ServiceEntry with `addresses` set will perform routing just like a `ClusterIP` Service.

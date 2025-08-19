@@ -8,8 +8,8 @@ test: no
 
 In {{< gloss "ambient" >}}ambient mode{{< /gloss >}}, workloads can fall into 3 categories:
 1. **Out of Mesh**: a standard pod without any mesh features enabled. Istio and the ambient {{< gloss >}}data plane{{< /gloss >}} are not enabled.
-1. **In Mesh**: a pod that is included in the ambient {{< gloss >}}data plane{{< /gloss >}}, and has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In this mode, L4 policies can be enforced for pod traffic. This mode can be enabled by setting the `istio.io/dataplane-mode=ambient` label. See [labels](/docs/ambient/usage/add-workloads/#ambient-labels) for more details.
-1. **In Mesh, Waypoint enabled**: a pod that is _in mesh_ *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed. In this mode, L7 policies can be enforced for pod traffic. This mode can be enabled by setting the `istio.io/use-waypoint` label. See [labels](/docs/ambient/usage/add-workloads/#ambient-labels) for more details.
+1. **In Mesh**: a pod that is included in the ambient {{< gloss >}}data plane{{< /gloss >}}, and has traffic intercepted at the Layer 4 level by {{< gloss >}}ztunnel{{< /gloss >}}. In this mode, L4 policies can be enforced for pod traffic. This mode can be enabled by setting the `istio.io/dataplane-mode=ambient` label. See [labels](/pt-br/docs/ambient/usage/add-workloads/#ambient-labels) for more details.
+1. **In Mesh, Waypoint enabled**: a pod that is _in mesh_ *and* has a {{< gloss "waypoint" >}}waypoint proxy{{< /gloss >}} deployed. In this mode, L7 policies can be enforced for pod traffic. This mode can be enabled by setting the `istio.io/use-waypoint` label. See [labels](/pt-br/docs/ambient/usage/add-workloads/#ambient-labels) for more details.
 
 Depending on which category a workload is in, the traffic path will be different.
 
@@ -17,7 +17,7 @@ Depending on which category a workload is in, the traffic path will be different
 
 ### Outbound
 
-When a pod in an ambient mesh makes an outbound request, it will be [transparently redirected](/docs/ambient/architecture/traffic-redirection) to the node-local ztunnel which will determine where and how to forward the request.
+When a pod in an ambient mesh makes an outbound request, it will be [transparently redirected](/pt-br/docs/ambient/architecture/traffic-redirection) to the node-local ztunnel which will determine where and how to forward the request.
 In general, the traffic routing behaves just like Kubernetes default traffic routing;
 requests to a `Service` will be sent to an endpoint within the `Service` while requests directly to a `Pod` IP will go directly to that IP.
 
@@ -32,7 +32,7 @@ some pods to use a waypoint while others do not. Users are generally recommended
 
 ### Inbound
 
-When a pod in an ambient mesh receives an inbound request, it will be [transparently redirected](/docs/ambient/architecture/traffic-redirection) to the node-local ztunnel.
+When a pod in an ambient mesh receives an inbound request, it will be [transparently redirected](/pt-br/docs/ambient/architecture/traffic-redirection) to the node-local ztunnel.
 When ztunnel receives the request, it will apply Authorization Policies and forward the request only if the request passes these checks.
 
 A pod can receive HBONE traffic or plaintext traffic.
@@ -66,7 +66,7 @@ Ztunnel additionally will handle the rotation of these certificates as they appr
 
 ##### Telemetry
 
-Ztunnel emits the full set of [Istio Standard TCP Metrics](/docs/reference/config/metrics/).
+Ztunnel emits the full set of [Istio Standard TCP Metrics](/pt-br/docs/reference/config/metrics/).
 
 ##### Dataplane example for Layer 4 traffic
 
@@ -81,7 +81,7 @@ The figure shows several workloads added to the ambient mesh, running on nodes W
 
 The figure shows that pods C1 and C2, running on node W1, connect with pod S1 running on node W2.
 
-The TCP traffic for C1 and C2 is securely tunneled via ztunnel-created {{< gloss >}}HBONE{{< /gloss >}} connections. {{< gloss "mutual tls authentication" >}}Mutual TLS (mTLS){{< /gloss >}} is used for encryption as well as mutual authentication of traffic being tunneled. [SPIFFE](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE.md) identities are used to identify the workloads on each side of the connection. For more details on the tunneling protocol and traffic redirection mechanism, refer to the guides on [HBONE](/docs/ambient/architecture/hbone) and [ztunnel traffic redirection](/docs/ambient/architecture/traffic-redirection).
+The TCP traffic for C1 and C2 is securely tunneled via ztunnel-created {{< gloss >}}HBONE{{< /gloss >}} connections. {{< gloss "mutual tls authentication" >}}Mutual TLS (mTLS){{< /gloss >}} is used for encryption as well as mutual authentication of traffic being tunneled. [SPIFFE](https://github.com/spiffe/spiffe/blob/main/standards/SPIFFE.md) identities are used to identify the workloads on each side of the connection. For more details on the tunneling protocol and traffic redirection mechanism, refer to the guides on [HBONE](/pt-br/docs/ambient/architecture/hbone) and [ztunnel traffic redirection](/pt-br/docs/ambient/architecture/traffic-redirection).
 
 {{< tip >}}
 Note: Although the figure shows the HBONE tunnels to be between the two ztunnel proxies, the tunnels are in fact between the source and destination pods. Traffic is HBONE encapsulated and encrypted in the network namespace of the source pod itself, and eventually decapsulated and decrypted in the network namespace of the destination pod on the destination worker node. The ztunnel proxy still logically handles both the control plane and data plane needed for HBONE transport; however, it is able to do that from inside the network namespaces of the source and destination pods.

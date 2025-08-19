@@ -7,7 +7,7 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-This task shows you how to set up an Istio authorization policy using a new value for the [action field](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`,
+This task shows you how to set up an Istio authorization policy using a new value for the [action field](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action), `CUSTOM`,
 to delegate the access control to an external authorization system. This can be used to integrate with [OPA authorization](https://www.openpolicyagent.org/docs/envoy),
 [`oauth2-proxy`](https://github.com/oauth2-proxy/oauth2-proxy), your own custom external authorization server and more.
 
@@ -15,9 +15,9 @@ to delegate the access control to an external authorization system. This can be 
 
 Before you begin this task, do the following:
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
+* Follow the [Istio installation guide](/pt-br/docs/setup/install/istioctl/) to install Istio.
 
 * Deploy test workloads:
 

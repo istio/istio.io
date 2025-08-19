@@ -6,7 +6,7 @@ attribution: "Pengyuan Bian (Google)"
 keywords: [wasm,extensibility,WebAssembly]
 ---
 
-One year ago today, in the 1.5 release, we introduced [WebAssembly-based extensibility](/blog/2020/wasm-announce/) to Istio.
+One year ago today, in the 1.5 release, we introduced [WebAssembly-based extensibility](/pt-br/blog/2020/wasm-announce/) to Istio.
 Over the course of the year, the Istio, Envoy, and Proxy-Wasm communities have continued our joint efforts to make WebAssembly (Wasm)
 extensibility stable, reliable, and easy to adopt. Let's walk through the updates to Wasm support through the Istio 1.9 release,
 and our plans for the future.
@@ -47,7 +47,7 @@ To fix this issue, [a fundamental change](https://github.com/envoyproxy/envoy/is
 Istio 1.9 provides a reliable distribution mechanism out of the box by leveraging the xDS proxy inside istio-agent and Envoy's [Extension Configuration Discovery Service](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/extension) (ECDS).
 
 istio-agent intercepts the extension config resource update from istiod, reads the remote fetch hint from it, downloads the Wasm module, and rewrites the ECDS configuration with the path of the downloaded Wasm module.
-If the download fails, istio-agent will reject the ECDS update and prevent a bad configuration reaching Envoy. For more detail, please see [our docs on Wasm module distribution](/docs/tasks/extensibility/wasm-module-distribution/).
+If the download fails, istio-agent will reject the ECDS update and prevent a bad configuration reaching Envoy. For more detail, please see [our docs on Wasm module distribution](/pt-br/docs/tasks/extensibility/wasm-module-distribution/).
 
 {{< image width="75%"
     link="./architecture-istio-agent-downloading-wasm-module.svg"

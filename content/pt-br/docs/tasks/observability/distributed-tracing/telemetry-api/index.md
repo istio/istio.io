@@ -12,19 +12,19 @@ This task shows you how to customize the tracing options with Telemetry API.
 
 ## Before you begin
 
-1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
+1.  Ensure that your applications propagate tracing headers as described [here](/pt-br/docs/tasks/observability/distributed-tracing/overview/).
 
-1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
+1.  Follow the tracing installation guide located under [Integrations](/pt-br/docs/ops/integrations/)
     based on your preferred tracing backend to install the appropriate software and
     configure an extension provider.
 
 ## Installation
 
-In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/). Install Zipkin before you continue.
+In this example, we will send traces to [Zipkin](/pt-br/docs/ops/integrations/zipkin/). Install Zipkin before you continue.
 
 ### Configure an extension provider
 
-Install Istio with an [extension provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
+Install Istio with an [extension provider](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -64,7 +64,7 @@ EOF
 
 ### Verify the results
 
-You can verify the results by [accessing the Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
+You can verify the results by [accessing the Zipkin UI](/pt-br/docs/tasks/observability/distributed-tracing/zipkin/).
 
 ## Customization
 

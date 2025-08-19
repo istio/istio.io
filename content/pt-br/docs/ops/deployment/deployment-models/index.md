@@ -122,7 +122,7 @@ cross-cluster communication by simply configuring firewall rules.
 
 Within a multicluster mesh, all services are shared by default, according to the
 concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
-[Traffic management rules](/docs/ops/configuration/traffic-management/multicluster)
+[Traffic management rules](/pt-br/docs/ops/configuration/traffic-management/multicluster)
 provide fine-grained control over the behavior of multicluster traffic.
 
 ### DNS with multiple clusters
@@ -154,8 +154,8 @@ This can also be achieved with Istio `ServiceEntry`, rather than Kubernetes
 `Service`. However, a `ServiceEntry` does not configure the Kubernetes DNS server.
 This means that DNS will need to be configured either manually or
 with automated tooling such as the
-[Address auto allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
-feature of [Istio DNS Proxying](/docs/ops/configuration/traffic-management/dns-proxy/).
+[Address auto allocation](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
+feature of [Istio DNS Proxying](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/).
 
 {{< tip >}}
 There are a few efforts in progress that will help simplify the DNS story:
@@ -220,7 +220,7 @@ Multiple networks afford the following capabilities beyond that of single networ
 - Compliance with standards that require network segmentation
 
 In this model, the workload instances in different networks can only reach each
-other through one or more [Istio gateways](/docs/concepts/traffic-management/#gateways).
+other through one or more [Istio gateways](/pt-br/docs/concepts/traffic-management/#gateways).
 Istio uses **partitioned service discovery** to provide consumers a different
 view of {{< gloss >}}service endpoint{{< /gloss >}}s. The view depends on the
 network of the consumers.
@@ -370,7 +370,7 @@ the cluster, enabling cross-cluster load balancing for these services.
 
 By default, Istio will load balance requests evenly between endpoints in
 each cluster. In large systems that span geographic regions, it may be
-desirable to use [locality load balancing](/docs/tasks/traffic-management/locality-load-balancing)
+desirable to use [locality load balancing](/pt-br/docs/tasks/traffic-management/locality-load-balancing)
 to prefer that traffic stay in the same zone or region.
 
 In some advanced scenarios, load balancing across clusters may not be desired.

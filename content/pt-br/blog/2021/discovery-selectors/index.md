@@ -22,7 +22,7 @@ Note that the `httpbin` service endpoint in the `ns-x` namespace is in the list 
 
 ## Introducing Discovery Selectors
 
-Starting with Istio 1.10, we are introducing the new `discoverySelectors` option to [MeshConfig](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type is `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
+Starting with Istio 1.10, we are introducing the new `discoverySelectors` option to [MeshConfig](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig), which is an array of Kubernetes [selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements). The exact type is `[]LabelSelector`, as defined [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#resources-that-support-set-based-requirements), allowing both simple selectors and set-based selectors. These selectors apply to labels on namespaces.
 
 You can configure each label selector for expressing a variety of use cases, including but not limited to:
 
@@ -71,7 +71,7 @@ You can use `matchLabels` to configure multiple labels with AND semantics or use
 
 ## Discovery Selectors vs Sidecar Resource
 
-The `discoverySelectors` configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?
+The `discoverySelectors` configuration enables users to dynamically restrict the set of namespaces that are part of the mesh. A [Sidecar](/pt-br/docs/reference/config/networking/sidecar/) resource also controls the visibility of sidecar configurations and what gets pushed to the sidecar proxy. What are the differences between them?
 
 * The `discoverySelectors` configuration declares what Istio control plane watches and processes. Without `discoverySelectors` configuration, the Istio control plane watches and processes all namespaces/services/endpoints/pods in the cluster regardless of the sidecar resources you have.
 * `discoverySelectors` is configured globally for the mesh by the mesh administrators. While Sidecar resources can also be configured for the mesh globally by the mesh administrators in the MeshConfig root namespace,  they are commonly configured by service owners for their namespaces.

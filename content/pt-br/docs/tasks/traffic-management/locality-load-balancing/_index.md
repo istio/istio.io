@@ -33,7 +33,7 @@ triplet defines a locality:
 - **Sub-zone**: Allows administrators to further subdivide zones for more
   fine-grained control, such as "same rack". The sub-zone concept doesn't exist
   in Kubernetes. As a result, Istio introduced the custom node label
-  [`topology.istio.io/subzone`](/docs/reference/config/labels/#:~:text=topology.istio.io/subzone)
+  [`topology.istio.io/subzone`](/pt-br/docs/reference/config/labels/#:~:text=topology.istio.io/subzone)
   to define a sub-zone.
 
 {{< tip >}}

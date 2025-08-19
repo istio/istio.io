@@ -7,7 +7,7 @@ publishdate: 2024-02-09
 release: 1.20.3
 ---
 
-This release implements the security updates described in our February 8th post, [`ISTIO-SECURITY-2024-001`](/news/security/istio-security-2024-001) along with bug fixes to improve robustness.
+This release implements the security updates described in our February 8th post, [`ISTIO-SECURITY-2024-001`](/pt-br/news/security/istio-security-2024-001) along with bug fixes to improve robustness.
 
 This release note describes what’s different between Istio 1.20.2 and 1.20.3.
 

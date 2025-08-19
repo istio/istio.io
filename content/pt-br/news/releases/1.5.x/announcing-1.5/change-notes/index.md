@@ -27,8 +27,8 @@ publishdate: 2020-03-05
 
 - **Graduated** SDS to stable and enabled by default. It provides identity provisioning for Istio Envoy proxies.
 - **Added** Beta authentication API. The new API separates peer (i.e mutual TLS) and origin (JWT) authentication into [`PeerAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/peer_authentication.proto) and [`RequestAuthentication`](https://github.com/istio/api/blob/master/security/v1beta1/request_authentication.proto) respectively. Both new APIs are workload-oriented, as opposed to service-oriented in alpha `AuthenticationPolicy`.
-- **Added** [deny semantics](/docs/tasks/security/authorization/authz-deny) and [exclusion matching](/docs/concepts/security/#exclusion-matching) to Authorization Policy.
-- **Graduated** [auto mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) from alpha to beta. This feature is now enabled by default.
+- **Added** [deny semantics](/pt-br/docs/tasks/security/authorization/authz-deny) and [exclusion matching](/pt-br/docs/concepts/security/#exclusion-matching) to Authorization Policy.
+- **Graduated** [auto mutual TLS](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) from alpha to beta. This feature is now enabled by default.
 - **Improved** [SDS security](https://www.envoyproxy.io/docs/envoy/latest/configuration/security/secret) by merging Node Agent with Pilot Agent as Istio Agent and removing cross-pod UDS, which no longer requires users to deploy Kubernetes pod security policies for UDS connections.
 - **Improved** Istio by including certificate provisioning functionality within Istiod.
 - **Added** Support Kubernetes [`first-party-jwt`](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#service-account-tokens) as a fallback token for CSR authentication in clusters where [`third-party-jwt`](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection) is not supported.
@@ -52,30 +52,30 @@ publishdate: 2020-03-05
 
 ## Operator
 
-- **Replaced** the alpha `IstioControlPlane` API with the new [`IstioOperator`](/docs/reference/config/istio.operator.v1alpha1/) API to align with existing `MeshConfig` API.
+- **Replaced** the alpha `IstioControlPlane` API with the new [`IstioOperator`](/pt-br/docs/reference/config/istio.operator.v1alpha1/) API to align with existing `MeshConfig` API.
 - **Added** `istioctl operator init` and `istioctl operator remove` commands.
 - **Improved** reconciliation speed with caching [`operator#667`](https://github.com/istio/operator/pull/667).
 
 ## `istioctl`
 
-- **Graduated** [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
+- **Graduated** [`Istioctl Analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) out of experimental.
 - **Added** various analyzers: mutual TLS, JWT, `ServiceAssociation`, Secret, sidecar image, port name and policy deprecated analyzers.
 - **Updated** more validation rules for `RequestAuthentication`.
-- **Added** a new flag `-A|--all-namespaces` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze the entire cluster.
-- **Added** support for analyzing content passed via `stdin` to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
-- **Added** [`istioctl analyze -L`](/docs/ops/diagnostic-tools/istioctl-analyze/) to show a list of all analyzers available.
-- **Added** the ability to suppress messages from [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
-- **Added** structured format options to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
-- **Added** links to relevant documentation to [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) output.
-- **Updated** annotation methods provided by Istio API in [`Istioctl Analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/).
-- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) now loads files from a directory.
-- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to try to associate message with their source filename.
-- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to print the namespace that is being analyzed.
-- **Updated** [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze in-cluster resources by default.
-- **Fixed** bug where [`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) suppressed cluster-level resource messages.
+- **Added** a new flag `-A|--all-namespaces` to [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze the entire cluster.
+- **Added** support for analyzing content passed via `stdin` to [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Added** [`istioctl analyze -L`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) to show a list of all analyzers available.
+- **Added** the ability to suppress messages from [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Added** structured format options to [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Added** links to relevant documentation to [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) output.
+- **Updated** annotation methods provided by Istio API in [`Istioctl Analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/).
+- **Updated** [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) now loads files from a directory.
+- **Updated** [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) to try to associate message with their source filename.
+- **Updated** [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) to print the namespace that is being analyzed.
+- **Updated** [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) to analyze in-cluster resources by default.
+- **Fixed** bug where [`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) suppressed cluster-level resource messages.
 - **Added** support for multiple input files to `istioctl manifest`.
 - **Replaced** the `IstioControlPlane` API with the `IstioOperator` API.
-- **Added** selector for [`istioctl dashboard`](/docs/reference/commands/istioctl/#istioctl-dashboard).
-- **Added** support for slices and lists in [`istioctl manifest --set`](/docs/reference/commands/istioctl/#istioctl-manifest) flag.
-- **Added** support for [`istioctl manifest`](/docs/reference/commands/istioctl/#istioctl-manifest) to read profiles from `stdin`.
+- **Added** selector for [`istioctl dashboard`](/pt-br/docs/reference/commands/istioctl/#istioctl-dashboard).
+- **Added** support for slices and lists in [`istioctl manifest --set`](/pt-br/docs/reference/commands/istioctl/#istioctl-manifest) flag.
+- **Added** support for [`istioctl manifest`](/pt-br/docs/reference/commands/istioctl/#istioctl-manifest) to read profiles from `stdin`.
 - **Added** a `docker/istioctl` image #19079.

@@ -82,12 +82,12 @@ This is expected to be an uncommon case, so for most users there will be no beha
 If this behavior is not desired, it can be temporarily disabled with `--set values.sidecarInjectorWebhook.useLegacySelectors=true`.
 This option will be removed in future releases.
 
-See the updated [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/) documentation for more information.
+See the updated [Automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/) documentation for more information.
 
 ## Multicluster `.global` stub domain
 
-As part of the fixes for [ISTIO-SECURITY-2021-006](/news/security/istio-security-2021-006/), the [previously deprecated](/news/releases/1.8.x/announcing-1.8/upgrade-notes/#multicluster-global-stub-domain-deprecation) `.global` stub domain for multicluster will no longer work.
+As part of the fixes for [ISTIO-SECURITY-2021-006](/pt-br/news/security/istio-security-2021-006/), the [previously deprecated](/pt-br/news/releases/1.8.x/announcing-1.8/upgrade-notes/#multicluster-global-stub-domain-deprecation) `.global` stub domain for multicluster will no longer work.
 
-This change can be temporarily disabled if desired by setting the environment variable `PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH=true` in Istiod. However, this is strongly discouraged, as it negates the fix to [ISTIO-SECURITY-2021-006](/news/security/istio-security-2021-006/).
+This change can be temporarily disabled if desired by setting the environment variable `PILOT_ENABLE_LEGACY_AUTO_PASSTHROUGH=true` in Istiod. However, this is strongly discouraged, as it negates the fix to [ISTIO-SECURITY-2021-006](/pt-br/news/security/istio-security-2021-006/).
 
-Please follow the [Multicluster Installation documentation](/docs/setup/install/multicluster/) for more information.
+Please follow the [Multicluster Installation documentation](/pt-br/docs/setup/install/multicluster/) for more information.

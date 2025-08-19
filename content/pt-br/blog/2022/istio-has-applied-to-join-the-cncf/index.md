@@ -7,9 +7,9 @@ keywords: [Istio,CNCF]
 
 The Istio project is pleased to announce its intention to join the [Cloud Native Computing Foundation](https://cncf.io/) (CNCF). With the support of the Istio Steering Committee, [Google has submitted an application proposal for Istio to join the CNCF](https://github.com/cncf/toc/pull/827), the home of its companion projects Kubernetes and Envoy.
 
-It is almost 5 years since [Google, IBM and Lyft launched Istio 0.1 in May 2017](/news/releases/0.x/announcing-0.1/). That first version set the standard for what a service mesh should be: traffic management, policy enforcement, and observability, powered by sidecars next to workloads. We're proud to be the [most popular service mesh](https://www.cncf.io/reports/cncf-annual-survey-2021/) according to a recent CNCF survey, and look forward to working closer with the CNCF communities around networking and service mesh.
+It is almost 5 years since [Google, IBM and Lyft launched Istio 0.1 in May 2017](/pt-br/news/releases/0.x/announcing-0.1/). That first version set the standard for what a service mesh should be: traffic management, policy enforcement, and observability, powered by sidecars next to workloads. We're proud to be the [most popular service mesh](https://www.cncf.io/reports/cncf-annual-survey-2021/) according to a recent CNCF survey, and look forward to working closer with the CNCF communities around networking and service mesh.
 
-As we deepen our integration with Kubernetes through the [Gateway API](/docs/tasks/traffic-management/ingress/gateway-api/) and gRPC with [proxyless mesh](/blog/2021/proxyless-grpc/) — not to mention Envoy, which has grown up beside Istio — we think it's time to unite the premier Cloud Native stack under a single umbrella.
+As we deepen our integration with Kubernetes through the [Gateway API](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/) and gRPC with [proxyless mesh](/pt-br/blog/2021/proxyless-grpc/) — not to mention Envoy, which has grown up beside Istio — we think it's time to unite the premier Cloud Native stack under a single umbrella.
 
 ## What’s next?
 
@@ -21,9 +21,9 @@ Google currently funds and manages Istio's build/test infrastructure. The compan
 
 Nothing about our current open governance model has to change as a result of this transfer. We will continue to reward corporate contribution, community influence and long-term maintainership through our [Steering Committee](https://github.com/istio/community/tree/master/steering) and [Technical Oversight Committee](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md) model. Istio is key to the future of Google Cloud and Google intends to continue investing heavily in the project.
 
-We want to thank the ecosystem of [Istio users](/about/case-studies/), [integrated projects](/about/ecosystem/#integrations), and [professional services vendors](/about/ecosystem/#services). Please send us a PR if you want to be listed on our site!
+We want to thank the ecosystem of [Istio users](/pt-br/about/case-studies/), [integrated projects](/pt-br/about/ecosystem/#integrations), and [professional services vendors](/pt-br/about/ecosystem/#services). Please send us a PR if you want to be listed on our site!
 
-Istio is the building block for products by [over 20 different vendors](/about/ecosystem/#providers). No other service mesh has a comparable footprint.  We want to thank all the clouds, technology enterprises, startups and everyone else who has built a product based on Istio, or who makes Istio available with their hosted Kubernetes service.  We look forward to our continued collaboration.
+Istio is the building block for products by [over 20 different vendors](/pt-br/about/ecosystem/#providers). No other service mesh has a comparable footprint.  We want to thank all the clouds, technology enterprises, startups and everyone else who has built a product based on Istio, or who makes Istio available with their hosted Kubernetes service.  We look forward to our continued collaboration.
 
 Finally, we want to thank Google for their stewardship of the Istio community to date, their immeasurable contributions to Istio, and for their continued support during this transition.
 

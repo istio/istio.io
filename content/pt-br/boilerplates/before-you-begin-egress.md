@@ -2,16 +2,16 @@
 ---
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
     {{< tip >}}
     The egress gateway and access logging will be enabled if you install the `demo`
-    [configuration profile](/docs/setup/additional-setup/config-profiles/).
+    [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/).
     {{< /tip >}}
 
 *   Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
     If you have
-    [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
     enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}

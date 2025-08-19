@@ -22,7 +22,7 @@ This guide shows how to enforce access control policies for a simple microservic
 - A Kubernetes cluster with Istio installed.
 - The `istioctl` command-line tool installed.
 
-Install Istio and configure your [mesh options](/docs/reference/config/istio.mesh.v1alpha1/) to enable Kyverno:
+Install Istio and configure your [mesh options](/pt-br/docs/reference/config/istio.mesh.v1alpha1/) to enable Kyverno:
 
 {{< text bash >}}
 $ istioctl install -y -f - <<EOF

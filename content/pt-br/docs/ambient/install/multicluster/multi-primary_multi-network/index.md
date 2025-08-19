@@ -23,7 +23,7 @@ Follow this guide to install the Istio control plane on both `cluster1` and
 across cluster boundaries.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/ambient/install/multicluster/before-you-begin).
+[before you begin](/pt-br/docs/ambient/install/multicluster/before-you-begin).
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
@@ -360,7 +360,7 @@ primary clusters on different networks!
 
 ## Next Steps
 
-You can now [verify the installation](/docs/ambient/install/multicluster/verify).
+You can now [verify the installation](/pt-br/docs/ambient/install/multicluster/verify).
 
 ## Cleanup
 

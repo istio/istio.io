@@ -8,14 +8,14 @@ attribution: Julien Senon
 target_release: 1.0
 ---
 
-This post provides instructions to manually create a custom ingress [gateway](/docs/reference/config/networking/gateway/) with automatic provisioning of certificates based on cert-manager.
+This post provides instructions to manually create a custom ingress [gateway](/pt-br/docs/reference/config/networking/gateway/) with automatic provisioning of certificates based on cert-manager.
 
 The creation of custom ingress gateway could be used in order to have different `loadbalancer` in order to isolate traffic.
 
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 * Set up `cert-manager` with helm [chart](https://github.com/helm/charts/tree/master/stable/cert-manager#installing-the-chart)
 * We will use `demo.mydemo.com` for our example,
   it must be resolved with your DNS
@@ -129,7 +129,7 @@ The creation of custom ingress gateway could be used in order to have different 
       desiredReplicas: 1
     {{< /text >}}
 
-1. Apply your deployment with declaration provided in the [yaml definition](/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)
+1. Apply your deployment with declaration provided in the [yaml definition](/pt-br/blog/2019/custom-ingress-gateway/deployment-custom-ingress.yaml)
 
     {{< tip >}}
     The annotations used, for example `aws-load-balancer-type`, only apply for AWS.
@@ -231,4 +231,4 @@ The creation of custom ingress gateway could be used in order to have different 
       SSL certificate verify ok.
     {{< /text >}}
 
-**Congratulations!** You can now use your custom `istio-custom-gateway` [gateway](/docs/reference/config/networking/gateway/) configuration object.
+**Congratulations!** You can now use your custom `istio-custom-gateway` [gateway](/pt-br/docs/reference/config/networking/gateway/) configuration object.

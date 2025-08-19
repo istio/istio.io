@@ -6,7 +6,7 @@ attribution: "IstioCon China 2023 Program Committee"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
-It’s great to be able to safely get together in person again.  After two years of only running virtual events, we have filled the calendar for 2023. [Istio Day Europe](/blog/2023/istio-at-kubecon-eu/) was held in April, and [Istio Day North America](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/) is coming this November.
+It’s great to be able to safely get together in person again.  After two years of only running virtual events, we have filled the calendar for 2023. [Istio Day Europe](/pt-br/blog/2023/istio-at-kubecon-eu/) was held in April, and [Istio Day North America](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/) is coming this November.
 
 IstioCon is committed to the industry-leading service mesh that provides a platform to explore insights gained from real-world Istio deployments, engage in interactive hands-on activities, and connect with maintainers across the entire Istio ecosystem.
 

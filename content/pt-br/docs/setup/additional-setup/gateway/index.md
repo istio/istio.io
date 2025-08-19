@@ -11,14 +11,14 @@ test: yes
 {{< boilerplate gateway-api-future >}}
 If you use the Gateway API, you will not need to install and manage a gateway `Deployment` as described in this document.
 By default, a gateway `Deployment` and `Service` will be automatically provisioned based on the `Gateway` configuration.
-Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
+Refer to the [Gateway API task](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
 {{< /tip >}}
 
-Along with creating a service mesh, Istio allows you to manage [gateways](/docs/concepts/traffic-management/#gateways),
+Along with creating a service mesh, Istio allows you to manage [gateways](/pt-br/docs/concepts/traffic-management/#gateways),
 which are Envoy proxies running at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
 
-Some of Istio's built in [configuration profiles](/docs/setup/additional-setup/config-profiles/) deploy gateways during installation.
-For example, a call to `istioctl install` with [default settings](/docs/setup/install/istioctl/#install-istio-using-the-default-profile)
+Some of Istio's built in [configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/) deploy gateways during installation.
+For example, a call to `istioctl install` with [default settings](/pt-br/docs/setup/install/istioctl/#install-istio-using-the-default-profile)
 will deploy an ingress gateway along with the control plane.
 Although fine for evaluation and simple use cases, this couples the gateway to the control plane, making management and upgrade more complicated.
 For production Istio deployments, it is highly recommended to decouple these to allow independent operation.
@@ -27,7 +27,7 @@ Follow this guide to separately deploy and manage one or more gateways in a prod
 
 ## Prerequisites
 
-This guide requires the Istio control plane [to be installed](/docs/setup/install/) before proceeding.
+This guide requires the Istio control plane [to be installed](/pt-br/docs/setup/install/) before proceeding.
 
 {{< tip >}}
 You can use the `minimal` profile, for example `istioctl install --set profile=minimal`, to prevent any gateways from being deployed
@@ -36,7 +36,7 @@ during installation.
 
 ## Deploying a gateway
 
-Using the same mechanisms as [Istio sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection),
+Using the same mechanisms as [Istio sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection),
 the Envoy proxy configuration for gateways can similarly be auto-injected.
 
 Using auto-injection for gateway deployments is recommended as it gives developers full control over the gateway deployment,
@@ -52,7 +52,7 @@ Choose the method you are most familiar with.
 As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
 {{< /tip >}}
 
-All methods listed below rely on [Injection](/docs/setup/additional-setup/sidecar-injection/) to populate additional pod settings at runtime.
+All methods listed below rely on [Injection](/pt-br/docs/setup/additional-setup/sidecar-injection/) to populate additional pod settings at runtime.
 In order to support this, the namespace the gateway is deployed in must not have the `istio-injection=disabled` label.
 If it does, you will see pods failing to startup attempting to pull the `auto` image, which is a placeholder that is intended to be replaced when a pod is created.
 
@@ -207,7 +207,7 @@ These are automatically included when using the other gateway installation metho
 
 {{< tip >}}
 The `sidecar.istio.io/inject` label on the pod is used in this example to enable injection. Just like application sidecar injection, this can instead be controlled at the namespace level.
-See [Controlling the injection policy](/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
+See [Controlling the injection policy](/pt-br/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
 {{< /tip >}}
 
 Next, apply it to the cluster:
@@ -224,7 +224,7 @@ $ kubectl apply -f ingress.yaml
 ## Managing gateways
 
 The following describes how to manage gateways after installation. For more information on their usage, follow
-the [Ingress](/docs/tasks/traffic-management/ingress/) and [Egress](/docs/tasks/traffic-management/egress/) tasks.
+the [Ingress](/pt-br/docs/tasks/traffic-management/ingress/) and [Egress](/pt-br/docs/tasks/traffic-management/egress/) tasks.
 
 ### Gateway selectors
 
@@ -280,7 +280,7 @@ Because gateways utilize pod injection, new gateway pods that are created will a
 
 To pick up changes to the gateway configuration, the pods can simply be restarted, using commands such as `kubectl rollout restart deployment`.
 
-If you would like to change the [control plane revision](/docs/setup/upgrade/canary/) in use by the gateway, you can set the `istio.io/rev` label on the gateway Deployment, which will also trigger a rolling restart.
+If you would like to change the [control plane revision](/pt-br/docs/setup/upgrade/canary/) in use by the gateway, you can set the `istio.io/rev` label on the gateway Deployment, which will also trigger a rolling restart.
 
 {{< image width="50%" link="inplace-upgrade.svg" caption="In place upgrade in progress" >}}
 
@@ -288,7 +288,7 @@ If you would like to change the [control plane revision](/docs/setup/upgrade/can
 
 {{< warning >}}
 This upgrade method depends on control plane revisions, and therefore can only be used in conjunction with
-[control plane canary upgrade](/docs/setup/upgrade/canary/).
+[control plane canary upgrade](/pt-br/docs/setup/upgrade/canary/).
 {{< /warning >}}
 
 If you would like to more slowly control the rollout of a new control plane revision, you can run multiple versions of a gateway deployment.
@@ -327,13 +327,13 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 
 {{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade in progress" >}}
 
-Unlike application services deployed inside the mesh, you cannot use [Istio traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) to distribute the traffic between the gateway versions because their traffic is coming directly from external clients that Istio does not control.
+Unlike application services deployed inside the mesh, you cannot use [Istio traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/) to distribute the traffic between the gateway versions because their traffic is coming directly from external clients that Istio does not control.
 Instead, you can control the distribution of traffic by the number of replicas of each deployment.
 If you use another load balancer in front of Istio, you may also use that to control the traffic distribution.
 
 {{< warning >}}
 Because other installation methods bundle the gateway `Service`, which controls its external IP address, with the gateway `Deployment`,
-only the [Kubernetes YAML](/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) method is supported for this upgrade method.
+only the [Kubernetes YAML](/pt-br/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) method is supported for this upgrade method.
 {{< /warning >}}
 
 ### Canary upgrade with external traffic shifting (advanced)

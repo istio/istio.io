@@ -8,7 +8,7 @@ test: n/a
 This message occurs when an Istio or Kubernetes resource has an Istio annotation that
 is new, has been incompletely implemented, or lacks performance testing.
 
-Consult Istio's [Feature Status documentation](/docs/releases/feature-stages/) for information
+Consult Istio's [Feature Status documentation](/pt-br/docs/releases/feature-stages/) for information
 on the relative maturity and support level of Istio features.
 
 ## How to resolve

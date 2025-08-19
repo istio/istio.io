@@ -20,9 +20,9 @@ The Istio documentation follows the standard [GitHub collaboration flow](https:/
 for Pull Requests (PRs). This well-established collaboration model helps open
 source projects manage the following types of contributions:
 
-- [Add](/docs/releases/contribute/add-content) new files to the repository.
+- [Add](/pt-br/docs/releases/contribute/add-content) new files to the repository.
 - [Edit](#quick-edit) existing files.
-- [Review](/docs/releases/contribute/review) the added or modified files.
+- [Review](/pt-br/docs/releases/contribute/review) the added or modified files.
 - Manage multiple release or development [branches](#branching-strategy).
 
 The contribution guides assume you can complete the following tasks:
@@ -59,8 +59,8 @@ edit to any page on the Istio website. The process is very simple:
 1. Perform your edits on the GitHub UI.
 1. Submit a Pull Request with your changes.
 
-Please see our guides on how to [contribute new content](/docs/releases/contribute/add-content)
-or [review content](/docs/releases/contribute/review) to learn more about submitting more
+Please see our guides on how to [contribute new content](/pt-br/docs/releases/contribute/add-content)
+or [review content](/pt-br/docs/releases/contribute/review) to learn more about submitting more
 substantial changes.
 
 ## Branching strategy {#branching-strategy}
@@ -83,7 +83,7 @@ release, see the [archive page](https://archive.istio.io/).
 
 This branching strategy allows us to provide the following Istio online resources:
 
-- The [public site](/docs/) shows the content from the current
+- The [public site](/pt-br/docs/) shows the content from the current
   release branch.
 
 - The preliminary site at `https://preliminary.istio.io` shows the content from

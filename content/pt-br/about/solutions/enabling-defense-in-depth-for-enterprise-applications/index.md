@@ -8,4 +8,4 @@ sidebar_force: sidebar_solution
 type: solutions
 ---
 
-We are hard at work on publishing solutions guides to help you understand what you can do with Istio. Until then, please check out our [security](/docs/tasks/security/) and [policy enforcement](/docs/tasks/policy-enforcement/) documentation.
+We are hard at work on publishing solutions guides to help you understand what you can do with Istio. Until then, please check out our [security](/pt-br/docs/tasks/security/) and [policy enforcement](/pt-br/docs/tasks/policy-enforcement/) documentation.

@@ -75,7 +75,7 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
     {{< /text >}}
 
 1.  Set `INGRESS_HOST` and `INGRESS_PORT` using the instructions in the
-    [Determining the Ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) section.
+    [Determining the Ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) section.
 
 1.  Add the output of this command to your `/etc/hosts` file:
 
@@ -111,7 +111,7 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
 1.  Check the graph of your namespace in the Kiali console
     `my-kiali.io/kiali/console`.
     (The `my-kiali.io` URL should be in your `/etc/hosts` file that you set
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
+    [previously](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
 
     This time, you can see that traffic arrives from two sources, `unknown` (the
     Kubernetes Ingress) and from `istio-ingressgateway istio-system` (the Istio
@@ -147,4 +147,4 @@ ingress gateway, in order to apply Istio control on traffic to your microservice
         caption="Kiali Graph Tab with Istio Ingress Gateway as a single source of traffic"
         >}}
 
-You are ready to configure [logging with Istio](/docs/examples/microservices-istio/logs-istio).
+You are ready to configure [logging with Istio](/pt-br/docs/examples/microservices-istio/logs-istio).

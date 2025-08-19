@@ -19,8 +19,8 @@ Istio 1.3 to 1.3.7 and 1.4 to 1.4.3 are vulnerable to a newly discovered vulnera
 
 ## Mitigation
 
-* For Istio 1.3.x deployments: update to [Istio 1.3.8](/news/releases/1.3.x/announcing-1.3.8) or later.
-* For Istio 1.4.x deployments: update to [Istio 1.4.4](/news/releases/1.4.x/announcing-1.4.4) or later.
+* For Istio 1.3.x deployments: update to [Istio 1.3.8](/pt-br/news/releases/1.3.x/announcing-1.3.8) or later.
+* For Istio 1.4.x deployments: update to [Istio 1.4.4](/pt-br/news/releases/1.4.x/announcing-1.4.4) or later.
 
 ## Credit
 

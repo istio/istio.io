@@ -14,15 +14,15 @@ This allows a deeper understanding about request latency, serialization and para
 
 Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
 
-Most tracing backends now accept [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) protocol to receive traces, though Istio also supports legacy protocols for projects like [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
+Most tracing backends now accept [OpenTelemetry](/pt-br/docs/tasks/observability/distributed-tracing/opentelemetry/) protocol to receive traces, though Istio also supports legacy protocols for projects like [Zipkin](/pt-br/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/pt-br/docs/tasks/observability/distributed-tracing/skywalking/).
 
 ## Configuring tracing
 
-Istio provides a [Telemetry API](/docs/tasks/observability/distributed-tracing/telemetry-api/) which can be used to configure distributed tracing, including selecting a provider, setting [sampling rate](/docs/tasks/observability/distributed-tracing/sampling/) and header modification.
+Istio provides a [Telemetry API](/pt-br/docs/tasks/observability/distributed-tracing/telemetry-api/) which can be used to configure distributed tracing, including selecting a provider, setting [sampling rate](/pt-br/docs/tasks/observability/distributed-tracing/sampling/) and header modification.
 
 ## Extension providers
 
-[Extension providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) are defined in `MeshConfig`, and allow defining the configuration for a trace backend. Supported providers are OpenTelemetry, Zipkin, SkyWalking, Datadog and Stackdriver.
+[Extension providers](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) are defined in `MeshConfig`, and allow defining the configuration for a trace backend. Supported providers are OpenTelemetry, Zipkin, SkyWalking, Datadog and Stackdriver.
 
 ## Building applications to support trace context propagation
 

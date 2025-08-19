@@ -25,7 +25,7 @@ disrupt your application, it continues to run and serve user requests.
 
     {{< tip >}}
     This tutorial step demonstrates manual sidecar injection to demonstrate enabling Istio service-by-service for instructional purposes.
-    [Automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) is the recommended method for production use.
+    [Automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection) is the recommended method for production use.
     {{< /tip >}}
 
     {{< text bash >}}
@@ -85,7 +85,7 @@ disrupt your application, it continues to run and serve user requests.
     {{< /text >}}
 
 1.  Check the Istio dashboard, using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
+    [previously](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -132,4 +132,4 @@ a single microservice, you will learn how to apply Istio on the whole
 application to realize its full potential.
 
 You are ready to
-[enable Istio on all the microservices](/docs/examples/microservices-istio/enable-istio-all-microservices).
+[enable Istio on all the microservices](/pt-br/docs/examples/microservices-istio/enable-istio-all-microservices).

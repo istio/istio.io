@@ -24,7 +24,7 @@ The Istio control plane, istiod, is vulnerable to a request processing error, al
 sends a specially crafted message which results in the control plane crashing. This endpoint is served over TLS port 15012,
 but does not require any authentication from the attacker.
 
-For simple installations, istiod is typically only reachable from within the cluster, limiting the blast radius. However, for some deployments, especially [multicluster topologies](/docs/setup/install/multicluster/primary-remote/), this port is exposed over the public internet.
+For simple installations, istiod is typically only reachable from within the cluster, limiting the blast radius. However, for some deployments, especially [multicluster topologies](/pt-br/docs/setup/install/multicluster/primary-remote/), this port is exposed over the public internet.
 
 ### Envoy CVEs
 

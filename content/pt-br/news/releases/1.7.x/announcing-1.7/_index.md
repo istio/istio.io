@@ -25,7 +25,7 @@ that Istio is able to make so many improvements, quarter after quarter.
 ## About Istio 1.7
 
 This release continues to navigate in the direction outlined in our [roadmap
-post](/blog/2020/tradewinds-2020/), improving usability, security, reliability, and especially improving on
+post](/pt-br/blog/2020/tradewinds-2020/), improving usability, security, reliability, and especially improving on
 the VM (non-Kubernetes) use case.
 
 Here are some highlights for this release:
@@ -38,12 +38,12 @@ with SDS (especially automatic rotation), even if they are mounted as files.
 This is an important security best practice.
 
 The above item applies to Gateway pods. It is [now possible](https://github.com/istio/istio/issues/14039) for
-[Egress Gateways that do TLS/mTLS origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)
+[Egress Gateways that do TLS/mTLS origination](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)
 to provision client certificates as secrets.
 
 [We improved](https://github.com/istio/istio/issues/26224) Trust Domain Validation to validate TCP traffic as well.
 Previously only HTTP traffic was validated. Trust Domain Validation now also supports `trustDomainAliases`
-in the [`MeshConfig` resource](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
+in the [`MeshConfig` resource](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig).
 
 [ECC cryptography](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography)
 is helpful for providing high security while being highly efficient. We added
@@ -62,7 +62,7 @@ respected. [This got fixed]({{<github_blob>}}/releasenotes/notes/25818.yaml).
 
 A big part of making systems like Istio easy to use is in their "day 2" usage,
 especially in their ability to help you see potential problems. We're adding to
-the ability of the very useful [istioctl analyze tool](/docs/ops/diagnostic-tools/istioctl-analyze/):
+the ability of the very useful [istioctl analyze tool](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/):
 
 - [Warn on a potentially insecure `DestinationRule` configuration]({{<github_blob>}}/releasenotes/notes/dr-analyzer.yaml)
 - [Warn on deprecated Mixer resource usage]({{<github_blob>}}/releasenotes/notes/24471.yaml)
@@ -92,7 +92,7 @@ Sometimes stale endpoints could make Pilot become unhealthy. [We fixed that](htt
 The [Istio Operator](https://archive.istio.io/v1.23/docs/setup/install/operator/)
 is a great way to install Istio, as it automates a fair amount of toil. Canary
 control plane deployments are also important; they allow ultra-safe upgrades of
-Istio. Unfortunately, you couldn't use them together - [until now](/docs/setup/upgrade/#canary-upgrades).
+Istio. Unfortunately, you couldn't use them together - [until now](/pt-br/docs/setup/upgrade/#canary-upgrades).
 
 [We exposed metrics from the Istio-agent](https://github.com/istio/istio/issues/22825),
 so you can watch what's going on with it.
@@ -111,7 +111,7 @@ improvements. Please note that this is still an Alpha feature.
 One of the most used features of Istio is its security feature set. At its core
 is assigning a strong identity to each workload, in the form of short-lived
 certificates. In this release we are ensuring that workloads running on [VMs in
-the mesh](/docs/setup/install/virtual-machine/) get a [secure bootstrapping
+the mesh](/pt-br/docs/setup/install/virtual-machine/) get a [secure bootstrapping
 process, along with automatic certificate rotation.](https://github.com/istio/istio/issues/24554)
 
 For example, you might have a Kubernetes cluster hosting stateless web services
@@ -133,7 +133,7 @@ on Red Hat-based images a very easy proposition.
 ## Other fixes
 
 We removed some [invalid control plane metrics](https://github.com/istio/istio/issues/25154),
-and [stopped installing telemetry addons](/blog/2020/addon-rework/)
+and [stopped installing telemetry addons](/pt-br/blog/2020/addon-rework/)
 by default.
 
 We fixed an issue with [SNI routing](https://github.com/istio/istio/pull/25691).

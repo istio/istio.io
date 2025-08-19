@@ -42,7 +42,7 @@ storing the CA private keys, and enables integration with existing PKIs through 
 SPIRE implements SPIFFE Federation, enabling workloads to trust peers in a different trust domain, in
 a configurable and flexible way through the Federation API.
 
-For more information, check out the [documentation](/docs/ops/integrations/spire/) and this [video](https://www.youtube.com/watch?v=WOPoNqfrhb4) from the HP Enterprise and Solo.io teams.
+For more information, check out the [documentation](/pt-br/docs/ops/integrations/spire/) and this [video](https://www.youtube.com/watch?v=WOPoNqfrhb4) from the HP Enterprise and Solo.io teams.
 
 ## Add auto-sni support
 
@@ -55,11 +55,11 @@ and the [pull request 38238](https://github.com/istio/istio/pull/38238).
 
 TLS version is important for security. This new feature adds
 support for configuring the minimum TLS version for Istio workloads.
-For more information, check out the [documentation](/docs/tasks/security/tls-configuration/workload-min-tls-version/).
+For more information, check out the [documentation](/pt-br/docs/tasks/security/tls-configuration/workload-min-tls-version/).
 
 ## Telemetry improvements
 
-The [Telemetry API](/docs/tasks/observability/telemetry/) has undergone a number of improvements,
+The [Telemetry API](/pt-br/docs/tasks/observability/telemetry/) has undergone a number of improvements,
 including support for OpenTelemetry access logging, filtering based on `WorkloadMode`, and more.
 
 ## Upgrading to 1.14
@@ -78,5 +78,5 @@ on istio.io were first time users. We will be sharing a more detailed report of 
 
 ## CNCF news
 
-We're so pleased at the response to our announcement that [Istio has been proposed to the CNCF](/blog/2022/istio-has-applied-to-join-the-cncf/).
+We're so pleased at the response to our announcement that [Istio has been proposed to the CNCF](/pt-br/blog/2022/istio-has-applied-to-join-the-cncf/).
 We're hard at work on our application, and hope to have more to share in the coming months!

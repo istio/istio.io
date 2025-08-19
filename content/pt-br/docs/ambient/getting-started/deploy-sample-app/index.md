@@ -7,7 +7,7 @@ test: yes
 prev: /docs/ambient/getting-started
 ---
 
-To explore Istio, you will install the sample [Bookinfo application](/docs/examples/bookinfo/), composed of four separate microservices used to demonstrate various Istio features.
+To explore Istio, you will install the sample [Bookinfo application](/pt-br/docs/examples/bookinfo/), composed of four separate microservices used to demonstrate various Istio features.
 
 {{< image width="50%" link="./bookinfo.svg" caption="Istio's Bookinfo sample application is written in many different languages" >}}
 

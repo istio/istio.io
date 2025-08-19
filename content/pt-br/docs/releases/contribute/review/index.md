@@ -11,7 +11,7 @@ test: n/a
 ---
 
 The maintainers and working group leads of the Istio Docs Working Group (WG) approve
-all changes to the [Istio website](/docs/).
+all changes to the [Istio website](/pt-br/docs/).
 
 A **documentation reviewer** is a trusted contributor that approves content that
 meets the acceptance criteria described in the [review criteria](#review-criteria).
@@ -100,9 +100,9 @@ Criteria has two tiers: required and supplemental.
 
 - Content structure: Information structure enhances the readers' experience.
 - Consistency: Content adheres to all recommendations in the
-  [Istio contribution guides](/docs/releases/contribute/)
+  [Istio contribution guides](/pt-br/docs/releases/contribute/)
 - Style: Content adheres to the [Google developer style guide](https://developers.google.com/style).
-- Graphic assets: Diagrams follow the Istio [diagram creation guide](/docs/releases/contribute/diagrams/).\
+- Graphic assets: Diagrams follow the Istio [diagram creation guide](/pt-br/docs/releases/contribute/diagrams/).\
 - Code samples: Content provides relevant, testable, and working code samples.
 - Content reuse: Any repeatable content follows a reusability strategy using
   boilerplate text.

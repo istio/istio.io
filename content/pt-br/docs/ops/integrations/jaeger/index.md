@@ -31,4 +31,4 @@ No special changes are needed for Jaeger to work with Istio.
 ## Usage
 
 For information on using Jaeger, please refer to the
-[Jaeger task](/docs/tasks/observability/distributed-tracing/jaeger/).
+[Jaeger task](/pt-br/docs/tasks/observability/distributed-tracing/jaeger/).

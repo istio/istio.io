@@ -7,18 +7,18 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-This guide lets you quickly evaluate Istio, using only its legacy APIs. If you want to use the Kubernetes Gateway API, [please see that example](/docs/setup/getting-started/).
+This guide lets you quickly evaluate Istio, using only its legacy APIs. If you want to use the Kubernetes Gateway API, [please see that example](/pt-br/docs/setup/getting-started/).
 If you are already familiar with
 Istio or interested in installing other configuration profiles or
-advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
-[which Istio installation method should I use?](/about/faq/#install-method-selection)
+advanced [deployment models](/pt-br/docs/ops/deployment/deployment-models/), refer to our
+[which Istio installation method should I use?](/pt-br/about/faq/#install-method-selection)
 FAQ page.
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
-[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
+[supported version](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}). You can use any supported platform, for
 example [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) or
 others specified by the
-[platform-specific setup instructions](/docs/setup/platform-setup/).
+[platform-specific setup instructions](/pt-br/docs/setup/platform-setup/).
 
 Follow these steps to get started with Istio:
 
@@ -60,7 +60,7 @@ Follow these steps to get started with Istio:
     The installation directory contains:
 
     - Sample applications in `samples/`
-    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
+    - The [`istioctl`](/pt-br/docs/reference/commands/istioctl) client binary in the
       `bin/` directory.
 
 1.  Add the `istioctl` client to your path (Linux or macOS):
@@ -72,14 +72,14 @@ Follow these steps to get started with Istio:
 ## Install Istio {#install}
 
 1.  For this installation, we use the `demo`
-    [configuration profile](/docs/setup/additional-setup/config-profiles/). It's
+    [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/). It's
     selected to have a good set of defaults for testing, but there are other
     profiles for production or performance testing.
 
     {{< warning >}}
     If your platform has a vendor-specific configuration profile, e.g., Openshift, use
     it in the following command, instead of the `demo` profile. Refer to your
-    [platform instructions](/docs/setup/platform-setup/) for details.
+    [platform instructions](/pt-br/docs/setup/platform-setup/) for details.
     {{< /warning >}}
 
     {{< text bash >}}
@@ -101,7 +101,7 @@ Follow these steps to get started with Istio:
 
 ## Deploy the sample application {#bookinfo}
 
-1.  Deploy the [`Bookinfo` sample application](/docs/examples/bookinfo/):
+1.  Deploy the [`Bookinfo` sample application](/pt-br/docs/examples/bookinfo/):
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -166,7 +166,7 @@ Follow these steps to get started with Istio:
 
 The Bookinfo application is deployed but not accessible from the outside. To make it accessible,
 you need to create an
-[Istio Ingress Gateway](/docs/concepts/traffic-management/#gateways), which maps a path to a
+[Istio Ingress Gateway](/pt-br/docs/concepts/traffic-management/#gateways), which maps a path to a
 route at the edge of your mesh.
 
 1.  Associate this application with the Istio gateway:
@@ -341,10 +341,10 @@ by viewing the Bookinfo product page using a browser.
 
 ## View the dashboard {#dashboard}
 
-Istio integrates with [several](/docs/ops/integrations) different telemetry applications. These can help you gain
+Istio integrates with [several](/pt-br/docs/ops/integrations) different telemetry applications. These can help you gain
 an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
 
-Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/docs/ops/integrations/prometheus/), [Grafana](/docs/ops/integrations/grafana), and [Jaeger](/docs/ops/integrations/jaeger/).
+Use the following instructions to deploy the [Kiali](/pt-br/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/pt-br/docs/ops/integrations/prometheus/), [Grafana](/pt-br/docs/ops/integrations/grafana), and [Jaeger](/pt-br/docs/ops/integrations/jaeger/).
 
 1.  Install [Kiali and the other addons]({{< github_tree >}}/samples/addons) and wait for them to be deployed.
 
@@ -385,30 +385,30 @@ Congratulations on completing the evaluation installation!
 These tasks are a great place for beginners to further evaluate Istio's
 features using this `demo` installation:
 
-- [Request routing](/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+- [Request routing](/pt-br/docs/tasks/traffic-management/request-routing/)
+- [Fault injection](/pt-br/docs/tasks/traffic-management/fault-injection/)
+- [Traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/)
+- [Querying metrics](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizing metrics](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Accessing external services](/pt-br/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizing your mesh](/pt-br/docs/tasks/observability/kiali/)
 
 Before you customize Istio for production use, see these resources:
 
-- [Deployment models](/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/docs/ops/best-practices/deployment/)
-- [Pod requirements](/docs/ops/deployment/application-requirements/)
-- [General installation instructions](/docs/setup/)
+- [Deployment models](/pt-br/docs/ops/deployment/deployment-models/)
+- [Deployment best practices](/pt-br/docs/ops/best-practices/deployment/)
+- [Pod requirements](/pt-br/docs/ops/deployment/application-requirements/)
+- [General installation instructions](/pt-br/docs/setup/)
 
 ## Join the Istio community
 
 We welcome you to ask questions and give us feedback by joining the
-[Istio community](/get-involved/).
+[Istio community](/pt-br/get-involved/).
 
 ## Uninstall
 
 To delete the `Bookinfo` sample application and its configuration, see
-[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+[`Bookinfo` cleanup](/pt-br/docs/examples/bookinfo/#cleanup).
 
 The Istio uninstall deletes the RBAC permissions and all resources hierarchically
 under the `istio-system` namespace. It is safe to ignore errors for non-existent

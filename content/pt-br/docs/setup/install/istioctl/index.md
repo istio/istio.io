@@ -9,18 +9,18 @@ test: no
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
 If you are new to Istio, and just want to try it out, follow the
-[quick start instructions](/docs/setup/getting-started) instead.
+[quick start instructions](/pt-br/docs/setup/getting-started) instead.
 
-This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command line
+This installation guide uses the [istioctl](/pt-br/docs/reference/commands/istioctl/) command line
 tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
 It has user input validation to help prevent installation errors and customization options to
 override any aspect of the configuration.
 
 Using these instructions, you can select any one of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/)
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
-The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
+The `istioctl` command supports the full [`IstioOperator` API](/pt-br/docs/reference/config/istio.operator.v1alpha1/)
 via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
 {{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
 
@@ -28,14 +28,14 @@ via command-line options for individual settings or for passing a yaml file cont
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/).
+1. [Download the Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/).
+1. Check the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/application-requirements/).
 
 ## Install Istio using the default profile
 
 The simplest option is to install the `default` Istio
-[configuration profile](/docs/setup/additional-setup/config-profiles/)
+[configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/)
 using the following command:
 
 {{< text bash >}}
@@ -73,7 +73,7 @@ $ istioctl install -f my-config.yaml
 {{< /tip >}}
 
 {{< tip >}}
-The full API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/).
+The full API is documented in the [`IstioOperator` API reference](/pt-br/docs/reference/config/istio.operator.v1alpha1/).
 In general, you can use the `--set` flag in `istioctl` as you would with
 Helm, and the Helm `values.yaml` API is currently supported for backwards compatibility. The only difference is you must
 prefix the legacy `values.yaml` paths with `values.` because this is the prefix for the Helm pass-through API.
@@ -141,7 +141,7 @@ not create the `istiod-default-validator` validating webhook configuration unles
 
 1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
 `manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
-that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+that you follow [these steps](/pt-br/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
 Kubernetes environment does not support third party service account tokens. It is recommended to append `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment, which will embed those cluster-specific environment settings into the generated manifests. This requires network access to your running cluster.
 
 1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
@@ -153,7 +153,7 @@ resources must be removed manually.
 
 {{< /warning >}}
 
-See [Customizing the installation configuration](/docs/setup/additional-setup/customize-installation/) for additional information on customizing the install.
+See [Customizing the installation configuration](/pt-br/docs/setup/additional-setup/customize-installation/) for additional information on customizing the install.
 
 ## Uninstall Istio
 

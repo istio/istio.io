@@ -6,7 +6,7 @@ attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,deprecation]
 ---
 
-With the recent announcement of the In-Cluster IstioOperator [deprecation](/blog/2024/in-cluster-operator-deprecation-announcement/) in Istio 1.23 and its subsequent deletion for Istio 1.24, we want to build awareness of a
+With the recent announcement of the In-Cluster IstioOperator [deprecation](/pt-br/blog/2024/in-cluster-operator-deprecation-announcement/) in Istio 1.23 and its subsequent deletion for Istio 1.24, we want to build awareness of a
 [new operator](https://github.com/istio-ecosystem/sail-operator) that the team at Red Hat have been developing to manage Istio as part of the [istio-ecosystem](https://github.com/istio-ecosystem) organization.
 
 The Sail Operator manages the lifecycle of Istio control planes, making it easier and more efficient for cluster administrators to deploy, configure and upgrade Istio in large scale production environments. Instead of

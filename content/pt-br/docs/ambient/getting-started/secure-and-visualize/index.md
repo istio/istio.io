@@ -64,4 +64,4 @@ In addition to the TCP metrics, Istio has created a strong identity for each ser
 
 ## Next steps
 
-Now that you have identities assigned to the services, let's [enforce authorization policies](/docs/ambient/getting-started/enforce-auth-policies/) to secure access to the application.
+Now that you have identities assigned to the services, let's [enforce authorization policies](/pt-br/docs/ambient/getting-started/enforce-auth-policies/) to secure access to the application.

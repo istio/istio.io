@@ -77,7 +77,7 @@ This typically involves two steps beyond standard sidecar injection:
 
    Alternatively, setting the `Host` header to the service name can also work.
    However, this can result in unexpected behavior; the load balancer will pick a specific pod, but Istio will ignore it.
-   See [here](/docs/ops/configuration/traffic-management/traffic-routing/#http) for more information on why this works.
+   See [here](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/#http) for more information on why this works.
 
 ### ingress-nginx
 

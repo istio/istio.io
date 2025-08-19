@@ -22,7 +22,7 @@ With this release, that vision is made a reality: Istio users can use the same r
 
 ## Getting started
 
-Throughout the Istio documentation, all of our examples have been updated to show how to use the Gateway API, so explore some of the [tasks](/docs/tasks/traffic-management/) to gain a deeper understanding.
+Throughout the Istio documentation, all of our examples have been updated to show how to use the Gateway API, so explore some of the [tasks](/pt-br/docs/tasks/traffic-management/) to gain a deeper understanding.
 
 Using Gateway API for service mesh should feel familiar both to users already using Gateway API for ingress, and users using `VirtualService` for service mesh today.
 
@@ -68,7 +68,7 @@ Breaking this down, we have a few parts:
 * Optionally, we can modify the request. Here, we add a header.
 * Finally, we select a destination for the request. In this example, we are picking between two versions of our application.
 
-For more details, see [Istio's traffic routing internals](/docs/ops/configuration/traffic-management/traffic-routing/) and [Gateway API's Service documentation](https://gateway-api.sigs.k8s.io/mesh/service-facets/).
+For more details, see [Istio's traffic routing internals](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/) and [Gateway API's Service documentation](https://gateway-api.sigs.k8s.io/mesh/service-facets/).
 
 ## Which API should I use?
 
@@ -78,11 +78,11 @@ Here is the breakdown:
 
 | API Name     | Object Types                                                                                                                          | Status                            | Recommendation                                                             |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|----------------------------------------------------------------------------|
-| Gateway APIs | [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/), [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/), ... | Stable in Gateway API v1.0 (2023) | Use for new deployments, in particular with [ambient mode](/docs/ambient/) |
-| Istio APIs   | [Virtual Service](/docs/reference/config/networking/virtual-service/), [Gateway](/docs/reference/config/networking/gateway/)          | `v1` in Istio 1.22 (2024)         | Use for existing deployments, or where advanced features are needed        |
+| Gateway APIs | [HTTPRoute](https://gateway-api.sigs.k8s.io/api-types/httproute/), [Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/), ... | Stable in Gateway API v1.0 (2023) | Use for new deployments, in particular with [ambient mode](/pt-br/docs/ambient/) |
+| Istio APIs   | [Virtual Service](/pt-br/docs/reference/config/networking/virtual-service/), [Gateway](/pt-br/docs/reference/config/networking/gateway/)          | `v1` in Istio 1.22 (2024)         | Use for existing deployments, or where advanced features are needed        |
 | Ingress API  | [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress)                                                            | Stable in Kubernetes v1.19 (2020) | Use only for legacy deployments                                            |
 
-You may wonder, given the above, why the Istio APIs were [promoted to `v1`](/blog/2024/v1-apis) concurrently?
+You may wonder, given the above, why the Istio APIs were [promoted to `v1`](/pt-br/blog/2024/v1-apis) concurrently?
 This was part of an effort to accurate categorize the *stability* of the APIs.
 While we view Gateway API as the future (and present!) of traffic routing APIs, our existing APIs are here to stay for the long run, with full compatibility.
 This mirrors Kubernetes' approach with [`Ingress`](https://kubernetes.io/docs/concepts/services-networking/ingress), which was promoted to `v1` while directing future work towards the Gateway API.
@@ -95,4 +95,4 @@ It is incredible to look at the [list of organizations](https://gateway-api.sigs
 A special thanks goes out to my [co-leads on the effort](https://gateway-api.sigs.k8s.io/mesh/gamma/): Flynn, Keith Mattix, and Mike Morris, as well as the countless others involved.
 
 Interested in getting involved, or even just providing feedback?
-Check out Istio's [community page](/get-involved/) or the Gateway API [contributing guide](https://gateway-api.sigs.k8s.io/contributing/)!
+Check out Istio's [community page](/pt-br/get-involved/) or the Gateway API [contributing guide](https://gateway-api.sigs.k8s.io/contributing/)!

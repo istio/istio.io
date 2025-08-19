@@ -6,7 +6,7 @@ attribution: "Francisco Herrera - Red Hat"
 keywords: [istio,operator,sail,incluster,istiooperator]
 ---
 
-The [Sail Operator](https://github.com/istio-ecosystem/sail-operator) is a community project launched by Red Hat to build a modern [operator](https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator) for Istio. [First announced in August 2024](/blog/2024/introducing-sail-operator/), we are pleased to announce Sail Operator is now GA with a clear mission: to simplify and streamline Istio management in your cluster.
+The [Sail Operator](https://github.com/istio-ecosystem/sail-operator) is a community project launched by Red Hat to build a modern [operator](https://www.redhat.com/en/topics/containers/what-is-a-kubernetes-operator) for Istio. [First announced in August 2024](/pt-br/blog/2024/introducing-sail-operator/), we are pleased to announce Sail Operator is now GA with a clear mission: to simplify and streamline Istio management in your cluster.
 
 ## Simplified deployment & management
 
@@ -22,7 +22,7 @@ The main resources that are part of the Sail Operator are:
 * `ZTunnel`: manage the ambient mode ztunnel DaemonSet (Alpha feature).
 
 {{< idea >}}
-If you are migrating from the [since-removed Istio in-cluster operator](/blog/2024/in-cluster-operator-deprecation-announcement/), you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your `IstioOperator` resource to an `Istio` resource.
+If you are migrating from the [since-removed Istio in-cluster operator](/pt-br/blog/2024/in-cluster-operator-deprecation-announcement/), you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your `IstioOperator` resource to an `Istio` resource.
 {{< /idea >}}
 
 ## Main features and support
@@ -30,7 +30,7 @@ If you are migrating from the [since-removed Istio in-cluster operator](/blog/20
 - Each component of the Istio control plane is managed independently by the Sail Operator through dedicated Kubernetes Custom Resources (CRs). The Sail Operator provides separate CRDs for components such as `Istio`, `IstioCNI`, and `ZTunnel`, allowing you to configure, manage, and upgrade them individually. Additionally, there are CRDs for `IstioRevision` and `IstioRevisionTag` to manage Istio control plane revisions.
 - Support for multiple Istio versions. Currently the 1.0.0 version supports: 1.24.3, 1.24.2, 1.24.1, 1.23.5, 1.23.4, 1.23.3, 1.23.0.
 - Two update strategies are supported: `InPlace` and `RevisionBased`. Check our documentation for more information about the update types supported.
-- Support for multicluster Istio [deployment models](/docs/setup/install/multicluster/): multi-primary, primary-remote, external control plane. More information and examples in our [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multi-cluster).
+- Support for multicluster Istio [deployment models](/pt-br/docs/setup/install/multicluster/): multi-primary, primary-remote, external control plane. More information and examples in our [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multi-cluster).
 - Ambient mode support is Alpha: check our specific [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/common/istio-ambient-mode.md).
 - Addons are managed separately from the Sail Operator. They can be easily integrated with the Sail Operator, check this section for the [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#addons) for examples and more information.
 

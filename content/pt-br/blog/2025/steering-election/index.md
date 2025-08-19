@@ -16,7 +16,7 @@ We are pleased to share the result of this year's calculation, and to kick off o
 
 ## Contribution seats
 
-The calculation for the 2025-2026 term reflects the deep investment of our vendors in the Istio open source project, especially in the area of [ambient mode](/blog/2024/ambient-reaches-ga/). As was the case last year, we have five companies represented in our Contribution Seats:
+The calculation for the 2025-2026 term reflects the deep investment of our vendors in the Istio open source project, especially in the area of [ambient mode](/pt-br/blog/2024/ambient-reaches-ga/). As was the case last year, we have five companies represented in our Contribution Seats:
 
 {{< centered_block >}}
 <table style="display: table">
@@ -55,7 +55,7 @@ The full allocation can be seen in our [formula spreadsheet](https://docs.google
 
 ## Community Seat election
 
-Last year, we [changed the timing of the Community Seat elections](/blog/2024/steering-results/#proposed-changes-to-election-timing) to immediately follow the allocation of the Contribution Seats. It is therefore now time to collect our nominations for candidates, and ensure our voter list is correct.
+Last year, we [changed the timing of the Community Seat elections](/pt-br/blog/2024/steering-results/#proposed-changes-to-election-timing) to immediately follow the allocation of the Contribution Seats. It is therefore now time to collect our nominations for candidates, and ensure our voter list is correct.
 
 ### Candidates
 

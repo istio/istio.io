@@ -86,4 +86,4 @@ Using an IP address instead of a hostname for your ingress gateway running in th
 
 If you are running in a production environment, you can fix this info message by changing the address to a valid hostname that resolves to the IP address of your ingress gateway.
 
-Instructions for exposing the ingress gateway service using a public hostname with TLS can be found [here](/docs/setup/install/external-controlplane/#set-up-a-gateway-in-the-external-cluster).
+Instructions for exposing the ingress gateway service using a public hostname with TLS can be found [here](/pt-br/docs/setup/install/external-controlplane/#set-up-a-gateway-in-the-external-cluster).

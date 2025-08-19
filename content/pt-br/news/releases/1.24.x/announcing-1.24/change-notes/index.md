@@ -22,7 +22,7 @@ aliases:
   allows usage on older Kubernetes versions (as the field was added as beta in Kubernetes 1.31).
   Note that waypoints automatically set this.
 
-- **Fixed** an issue preventing [server first protocols](/docs/ops/deployment/application-requirements/#server-first-protocols) from working with waypoints.
+- **Fixed** an issue preventing [server first protocols](/pt-br/docs/ops/deployment/application-requirements/#server-first-protocols) from working with waypoints.
 
 - **Improved** logs from Envoy when connection failures occur in ambient mode to show more error details.
 
@@ -142,7 +142,7 @@ aliases:
 
 - **Added** support customized Zipkin collector endpoint under `meshConfig.extensionProviders.zipkin.path`.  ([Issue #53086](https://github.com/istio/istio/issues/53086))
 
-- **Fixed** Added the metrics port to the pods created by [`Gateway` automated deployments](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+- **Fixed** Added the metrics port to the pods created by [`Gateway` automated deployments](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
 
 - **Fixed** The `citadel_server_root_cert_expiry_timestamp`, `citadel_server_root_cert_expiry_seconds`, `citadel_server_cert_chain_expiry_timestamp`, and `citadel_server_cert_chain_expiry_seconds` update when new certificates are loaded.
 

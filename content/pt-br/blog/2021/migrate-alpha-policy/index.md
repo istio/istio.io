@@ -6,7 +6,7 @@ attribution: Yangmin Zhu (Google), Craig Box (Google)
 keywords: [security,policy,migrate,alpha,beta,deprecate,peer,jwt,authorization]
 ---
 
-In versions of Istio prior to 1.4, security policy was configured using `v1alpha1` APIs (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`). After consulting with our early adopters, we made [major improvements to the policy system](/blog/2019/v1beta1-authorization-policy/) and released `v1beta1` APIs along with Istio 1.4. These refreshed APIs (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) helped standardize how we define policy targets in Istio, helped users understand where policies were applied, and cut the number of configuration objects required.
+In versions of Istio prior to 1.4, security policy was configured using `v1alpha1` APIs (`MeshPolicy`, `Policy`, `ClusterRbacConfig`, `ServiceRole` and `ServiceRoleBinding`). After consulting with our early adopters, we made [major improvements to the policy system](/pt-br/blog/2019/v1beta1-authorization-policy/) and released `v1beta1` APIs along with Istio 1.4. These refreshed APIs (`PeerAuthentication`, `RequestAuthentication` and `AuthorizationPolicy`) helped standardize how we define policy targets in Istio, helped users understand where policies were applied, and cut the number of configuration objects required.
 
 The old APIs were deprecated in Istio 1.4. Two releases after the `v1beta1` APIs were introduced, Istio 1.6 removed support for the `v1alpha1` APIs.
 
@@ -26,7 +26,7 @@ It is recommended to first upgrade to Istio 1.5 as a transitive version, because
 version will take precedence over the `v1alpha1` version.
 
 Alternatively, if you want to do a skip-level upgrade directly from Istio 1.4 to 1.6 or later, you should use the
-[canary upgrade](/docs/setup/upgrade/canary/) method to install a new Istio version as a separate control plane, and
+[canary upgrade](/pt-br/docs/setup/upgrade/canary/) method to install a new Istio version as a separate control plane, and
 gradually migrate your workloads to the new control plane completing the security policy migration at the same time.
 
 {{< warning >}}
@@ -42,8 +42,8 @@ and then move forward to the next namespace.
 
 ## Major differences
 
-Before starting the migration, read through the `v1beta1` [authentication](/docs/concepts/security/#authentication)
-and [authorization](/docs/concepts/security/#authorization) documentation to understand the `v1beta1` policy.
+Before starting the migration, read through the `v1beta1` [authentication](/pt-br/docs/concepts/security/#authentication)
+and [authorization](/pt-br/docs/concepts/security/#authorization) documentation to understand the `v1beta1` policy.
 
 You should examine all of your existing `v1alpha1` security policies, find out what fields are used and which policies
 need migration, compare the findings with the major differences listed below and confirm there are no blocking issues
@@ -109,7 +109,7 @@ For each `v1alpha1` authentication policy, migrate with the following rules:
 
 1. For mTLS related configuration, use `STRICT` mode if the alpha policy is using `STRICT`, or use `PERMISSIVE` in all other cases.
 
-1. For JWT related configuration, refer to the [`end-user authentication` documentation](/docs/tasks/security/authentication/authn-policy/#end-user-authentication)
+1. For JWT related configuration, refer to the [`end-user authentication` documentation](/pt-br/docs/tasks/security/authentication/authn-policy/#end-user-authentication)
    to learn how to migrate to `RequestAuthentication` and `AuthorizationPolicy`.
 
 A [security policy migration tool](https://github.com/istio-ecosystem/security-policy-migrate) is provided to

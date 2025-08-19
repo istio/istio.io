@@ -78,4 +78,4 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     $ docker stop my-ratings
     {{< /text >}}
 
-You have learned how to package a single service into a container. The next step is to learn how to [deploy the whole application to a Kubernetes cluster](/docs/examples/microservices-istio/bookinfo-kubernetes).
+You have learned how to package a single service into a container. The next step is to learn how to [deploy the whole application to a Kubernetes cluster](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes).

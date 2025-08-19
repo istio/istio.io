@@ -212,7 +212,7 @@ kind of information you should provide.
     We're still working to documenting the analyzers. In the meantime, you can see
     all the analyzers in the [Istio source]({{< github_tree >}}/pkg/config/analysis/analyzers).
 
-    You can also see what [configuration analysis messages](/docs/reference/config/analysis/)
+    You can also see what [configuration analysis messages](/pt-br/docs/reference/config/analysis/)
     are supported to get an idea of what is currently covered.
 
 - **Can analysis do anything harmful to my cluster?**
@@ -228,5 +228,5 @@ kind of information you should provide.
 
 - **Where can I find out how to fix the errors I'm getting?**
 
-    The set of [configuration analysis messages](/docs/reference/config/analysis/)
+    The set of [configuration analysis messages](/pt-br/docs/reference/config/analysis/)
     contains descriptions of each message along with suggested fixes.

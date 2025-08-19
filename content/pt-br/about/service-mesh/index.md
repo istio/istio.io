@@ -28,11 +28,11 @@ doc_type: about
 
 A **service mesh** is an infrastructure layer that gives applications capabilities like zero-trust security, observability, and advanced traffic management, without code changes. **Istio** is the most popular, powerful, and trusted service mesh. Founded by Google, IBM and Lyft in 2016, Istio is a graduated project in the Cloud Native Computing Foundation alongside projects like Kubernetes and Prometheus.
 
-Istio ensures that cloud native and distributed systems are resilient, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/docs/concepts/observability/) of traffic across your estate.
+Istio ensures that cloud native and distributed systems are resilient, helping modern enterprises maintain their workloads across diverse platforms while staying connected and protected. It [enables security and governance controls](/pt-br/docs/concepts/observability/) including mTLS encryption, policy management and access control, [powers network features](/pt-br/docs/concepts/traffic-management/) like canary deployments, A/B testing, load balancing, failure recovery, and [adds observability](/pt-br/docs/concepts/observability/) of traffic across your estate.
 
 Istio is not confined to the boundaries of a single cluster, network or runtime — services running on Kubernetes or VMs, multi-cloud, hybrid, or on-premises, can be included within a single mesh.
 
-Extensible by design and supported by a [broad ecosystem](/about/ecosystem) of contributors and partners, Istio offers packaged integrations and distributions for various use cases. You can install Istio independently or opt for managed support from commercial vendors providing Istio-based solutions.
+Extensible by design and supported by a [broad ecosystem](/pt-br/about/ecosystem) of contributors and partners, Istio offers packaged integrations and distributions for various use cases. You can install Istio independently or opt for managed support from commercial vendors providing Istio-based solutions.
 
 <div class="cta-container">
     <a class="btn" href="/docs/overview/">Learn more about Istio</a>

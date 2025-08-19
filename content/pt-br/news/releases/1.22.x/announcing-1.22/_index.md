@@ -26,15 +26,15 @@ Istio 1.22.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 Istio’s ambient mode is designed for simplified operations without requiring changes or restarts to your application. It introduces lightweight, shared node proxies and optional Layer 7 per-workload proxies, thus removing the need for traditional sidecars from the data plane. Compared to sidecar mode, ambient mode reduces memory overhead and CPU usage by over 90% in many cases.
 
-Under development since 2022, the Beta release status indicates ambient mode’s features and stability are ready for production workloads with appropriate precautions. [Our ambient mode blog post has all the details](/blog/2024/ambient-reaches-beta/).
+Under development since 2022, the Beta release status indicates ambient mode’s features and stability are ready for production workloads with appropriate precautions. [Our ambient mode blog post has all the details](/pt-br/blog/2024/ambient-reaches-beta/).
 
 ### Istio APIs promoted to `v1`
 
-Istio provides APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. Most of the features powered by these APIs have been [considered stable](/docs/releases/feature-stages/) for some time, but the API version has remained at `v1beta1`. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote these APIs to `v1` in Istio 1.22. Learn about what this means in [a blog post introducing the v1 APIs](/blog/2024/v1-apis/).
+Istio provides APIs that are crucial for ensuring the robust security, seamless connectivity, and effective observability of services within the service mesh. These APIs are used on thousands of clusters across the world, securing and enhancing critical infrastructure. Most of the features powered by these APIs have been [considered stable](/pt-br/docs/releases/feature-stages/) for some time, but the API version has remained at `v1beta1`. As a reflection of the stability, adoption, and value of these resources, the Istio community has decided to promote these APIs to `v1` in Istio 1.22. Learn about what this means in [a blog post introducing the v1 APIs](/pt-br/blog/2024/v1-apis/).
 
 ### Gateway API now Stable for service mesh
 
-We are thrilled to announce that Service Mesh support for the Gateway API is now officially marked as "Stable"! With the release of Gateway API v1.1 and its support in Istio 1.22, you can make use of Kubernetes' next-generation traffic management APIs for both ingress ("north-south") and service mesh ("east-west") use cases. Read more about the improvements in [our Gateway API v1.1 blog](/blog/2024/gateway-mesh-ga/).
+We are thrilled to announce that Service Mesh support for the Gateway API is now officially marked as "Stable"! With the release of Gateway API v1.1 and its support in Istio 1.22, you can make use of Kubernetes' next-generation traffic management APIs for both ingress ("north-south") and service mesh ("east-west") use cases. Read more about the improvements in [our Gateway API v1.1 blog](/pt-br/blog/2024/gateway-mesh-ga/).
 
 ### Delta xDS now on by default
 
@@ -44,7 +44,7 @@ To improve performance, we implemented the [delta (or incremental) xDS APIs](htt
 
 ### Path templating in Authorization Policy
 
-Up until now, you have had to list every path to which you wanted to apply an `AuthorizationPolicy` object. Istio 1.22 takes advantage of a new feature in Envoy allowing you to specify [template wildcards](/docs/reference/config/security/authorization-policy/#Operation) to match of a path.
+Up until now, you have had to list every path to which you wanted to apply an `AuthorizationPolicy` object. Istio 1.22 takes advantage of a new feature in Envoy allowing you to specify [template wildcards](/pt-br/docs/reference/config/security/authorization-policy/#Operation) to match of a path.
 
 You can now safely allow path matches like `/tenants/{*}/application_forms/guest` — a [long-requested feature](https://github.com/istio/istio/issues/16585)!
 

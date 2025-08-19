@@ -41,7 +41,7 @@ Starting with Istio 1.10, the networking behavior is changed to align with the s
 
 Here we can see that the proxy no longer redirects the traffic to the `lo` interface, but instead forwards it to the application on `eth0`.
 As a result, the standard behavior of Kubernetes is retained, but we still get all the benefits of Istio.
-This change allows Istio to get closer to its goal of being a drop-in transparent proxy that works with existing workloads with [zero configuration](/blog/2021/zero-config-istio/).
+This change allows Istio to get closer to its goal of being a drop-in transparent proxy that works with existing workloads with [zero configuration](/pt-br/blog/2021/zero-config-istio/).
 Additionally, it avoids unintended exposure of applications binding only to `lo`.
 
 ## Am I impacted?
@@ -67,7 +67,7 @@ See https://istio.io/latest/docs/reference/config/analysis for more information 
 If you are currently binding to `lo`, you have a few options:
 
 * Switch your application to bind to all interfaces (`0.0.0.0` or `::`).
-* Explicitly configure the port using the [`Sidecar` ingress configuration](/docs/reference/config/networking/sidecar/#IstioIngressListener) to send to `lo`, preserving the old behavior.
+* Explicitly configure the port using the [`Sidecar` ingress configuration](/pt-br/docs/reference/config/networking/sidecar/#IstioIngressListener) to send to `lo`, preserving the old behavior.
 
     For example, to configure request to be sent to `localhost` for the `ratings` application:
 

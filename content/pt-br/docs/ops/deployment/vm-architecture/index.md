@@ -8,7 +8,7 @@ test: n/a
 owner: istio/wg-environments-maintainers
 ---
 
-Before reading this document, be sure to review [Istio's architecture](/docs/ops/deployment/architecture/) and [deployment models](/docs/ops/deployment/deployment-models/).
+Before reading this document, be sure to review [Istio's architecture](/pt-br/docs/ops/deployment/architecture/) and [deployment models](/pt-br/docs/ops/deployment/deployment-models/).
 This page builds on those documents to explain how Istio can be extended to support joining virtual machines into the mesh.
 
 Istio's virtual machine support allows connecting workloads outside of a Kubernetes cluster to the mesh.
@@ -23,7 +23,7 @@ The following diagram shows the architecture of a mesh with virtual machines:
 
 {{< tab name="Single-Network" category-value="single" >}}
 
-In this mesh, there is a single [network](/docs/ops/deployment/deployment-models/#network-models), where pods and virtual machines can communicate directly with each other.
+In this mesh, there is a single [network](/pt-br/docs/ops/deployment/deployment-models/#network-models), where pods and virtual machines can communicate directly with each other.
 
 Control plane traffic, including XDS configuration and certificate signing, are sent through a Gateway in the cluster.
 This ensures that the virtual machines have a stable address to connect to when they are bootstrapping. Pods and virtual machines can communicate directly with each other without requiring any intermediate Gateway.
@@ -39,7 +39,7 @@ This ensures that the virtual machines have a stable address to connect to when 
 
 {{< tab name="Multi-Network" category-value="multiple" >}}
 
-In this mesh, there are multiple [networks](/docs/ops/deployment/deployment-models/#network-models), where pods and virtual machines are not able to communicate directly with each other.
+In this mesh, there are multiple [networks](/pt-br/docs/ops/deployment/deployment-models/#network-models), where pods and virtual machines are not able to communicate directly with each other.
 
 Control plane traffic, including XDS configuration and certificate signing, are sent through a Gateway in the cluster.
 Similarly, all communication between pods and virtual machines goes through the gateway, which acts as a bridge between the two networks.
@@ -59,8 +59,8 @@ Similarly, all communication between pods and virtual machines goes through the 
 
 Istio provides two mechanisms to represent virtual machine workloads:
 
-* [`WorkloadGroup`](/docs/reference/config/networking/workload-group/) represents a logical group of virtual machine workloads that share common properties. This is similar to a `Deployment` in Kubernetes.
-* [`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) represents a single instance of a virtual machine workload. This is similar to a `Pod` in Kubernetes.
+* [`WorkloadGroup`](/pt-br/docs/reference/config/networking/workload-group/) represents a logical group of virtual machine workloads that share common properties. This is similar to a `Deployment` in Kubernetes.
+* [`WorkloadEntry`](/pt-br/docs/reference/config/networking/workload-entry/) represents a single instance of a virtual machine workload. This is similar to a `Pod` in Kubernetes.
 
 Creating these resources (`WorkloadGroup` and `WorkloadEntry`) does not result in provisioning of any resources or running any virtual machine workloads.
 Rather, these resources just reference these workloads and inform Istio how to configure the mesh appropriately.
@@ -83,7 +83,7 @@ spec:
       port: 8080
 {{< /text >}}
 
-Once a virtual machine has been [configured and added to the mesh](/docs/setup/install/virtual-machine/#configure-the-virtual-machine), a corresponding `WorkloadEntry` will be automatically created by the Istio control plane.
+Once a virtual machine has been [configured and added to the mesh](/pt-br/docs/setup/install/virtual-machine/#configure-the-virtual-machine), a corresponding `WorkloadEntry` will be automatically created by the Istio control plane.
 For example:
 
 {{< text yaml >}}
@@ -122,7 +122,7 @@ With this configuration, requests to `product` would be load-balanced across bot
 
 Kubernetes provides DNS resolution in pods for `Service` names allowing pods to easily communicate with one another by stable hostnames.
 
-For virtual machine expansion, Istio provides similar functionality via a [DNS Proxy](/docs/ops/configuration/traffic-management/dns-proxy/).
+For virtual machine expansion, Istio provides similar functionality via a [DNS Proxy](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/).
 This feature redirects all DNS queries from the virtual machine workload to the Istio proxy, which maintains a mapping of hostnames to IP addresses.
 
 As a result, workloads running on virtual machines can transparently call `Service`s (similar to pods) without requiring any additional configuration.

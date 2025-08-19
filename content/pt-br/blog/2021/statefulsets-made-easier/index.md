@@ -8,7 +8,7 @@ keywords: [statefulset,Istio,networking,localhost,loopback,eth0]
 
 Kubernetes [`StatefulSets`](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) are commonly used to manage stateful applications. In addition to managing the deployment and scaling of a set of `Pods`, `StatefulSets` provide guarantees about the ordering and uniqueness of those `Pods`. Common applications used with `StatefulSets` include ZooKeeper, Cassandra, Elasticsearch, Redis and NiFi.
 
-The Istio community has been making gradual progress towards zero-configuration support for `StatefulSets`; from automatic mTLS, to eliminating the need to create `DestinationRule` or `ServiceEntry` resources, to the most recent [pod networking changes in Istio 1.10](/blog/2021/upcoming-networking-changes/).
+The Istio community has been making gradual progress towards zero-configuration support for `StatefulSets`; from automatic mTLS, to eliminating the need to create `DestinationRule` or `ServiceEntry` resources, to the most recent [pod networking changes in Istio 1.10](/pt-br/blog/2021/upcoming-networking-changes/).
 
 What is unique about using a `StatefulSet` with a service mesh? The `StatefulSet` pods are created from the same spec, but are not interchangeable: each has a persistent identifier that it maintains across any rescheduling. The kind of apps that run in a `StatefulSet` are often those that need to communicate among their pods, and, as they come from a world of hard-coded IP addresses, may listen on the pod IP only, instead of `0.0.0.0`.
 
@@ -114,7 +114,7 @@ $ istioctl proxy-config cluster my-release-zookeeper-1 --port 3888 --direction i
 ...
 {{< /text >}}
 
-What is interesting here is that the inbound on port 3888 has `127.0.0.1` as its endpoint. This is because the Envoy proxy, in versions of Istio prior to 1.10, redirects the inbound traffic to the `loopback` interface, as described in [our blog post about the change](/blog/2021/upcoming-networking-changes/).
+What is interesting here is that the inbound on port 3888 has `127.0.0.1` as its endpoint. This is because the Envoy proxy, in versions of Istio prior to 1.10, redirects the inbound traffic to the `loopback` interface, as described in [our blog post about the change](/pt-br/blog/2021/upcoming-networking-changes/).
 
 ## `StatefulSets` in action with Istio 1.10
 

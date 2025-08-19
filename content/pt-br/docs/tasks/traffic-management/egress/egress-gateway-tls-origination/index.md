@@ -11,9 +11,9 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
+The [TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/)
 example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
-for traffic to an external service. The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/)
+for traffic to an external service. The [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/)
 example shows how to configure Istio to direct egress traffic through a
 dedicated _egress gateway_ service. This example combines the previous two by
 describing how to configure an egress gateway to perform TLS origination for
@@ -23,12 +23,12 @@ traffic to external services.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 *   Start the [curl]({{< github_tree >}}/samples/curl) sample
     which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
+    If you have enabled [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), do
 
     {{< text bash >}}
     $ kubectl apply -f @samples/curl/curl.yaml@
@@ -60,7 +60,7 @@ traffic to external services.
     should work correctly with the instructions in this task. Otherwise, upgrade your `openssl` or try
     a different implementation of `openssl`, for example on a Linux machine.
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
     if not already enabled. For example, using `istioctl`:
 
     {{< text bask >}}
@@ -68,12 +68,12 @@ traffic to external services.
     {{< /text >}}
 
 *   If you are NOT using the `Gateway API` instructions, make sure to
-    [deploy the Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+    [deploy the Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 ## Perform TLS origination with an egress gateway
 
 This section describes how to perform the same TLS origination as in the
-[TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
+[TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
 only this time using an egress gateway. Note that in this case the TLS origination will
 be done by the egress gateway, as opposed to by the sidecar in the previous example.
 
@@ -320,7 +320,7 @@ EOF
     ...
     {{< /text >}}
 
-    The output should be the same as in the [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/)
+    The output should be the same as in the [TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/)
     example, with TLS origination: without the _301 Moved Permanently_ message.
 
 7) Check the log of the egress gateway's proxy.
@@ -465,7 +465,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
-    [enabled](/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
+    [enabled](/pt-br/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external

@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.12.2
 ---
 
-This release fixes security vulnerabilities described on January 18th ([ISTIO-SECURITY-2022-001](/news/security/istio-security-2022-001) and [ISTIO-SECURITY-2022-002](/news/security/istio-security-2022-002)) and includes minor bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.1 and Istio 1.12.2.
+This release fixes security vulnerabilities described on January 18th ([ISTIO-SECURITY-2022-001](/pt-br/news/security/istio-security-2022-001) and [ISTIO-SECURITY-2022-002](/pt-br/news/security/istio-security-2022-002)) and includes minor bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.1 and Istio 1.12.2.
 
 {{< relnote >}}
 

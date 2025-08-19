@@ -18,9 +18,9 @@ service to properly validate and route based on JWT claims.
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and [virtual service](/docs/concepts/traffic-management/#virtual-services) concepts.
+* Understand Istio [authentication policy](/pt-br/docs/concepts/security/#authentication-policies) and [virtual service](/pt-br/docs/concepts/traffic-management/#virtual-services) concepts.
 
-* Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
+* Install Istio using the [Istio installation guide](/pt-br/docs/setup/install/istioctl/).
 
 * Deploy a workload, `httpbin` in a namespace, for example `foo`, and expose it through the Istio ingress gateway with this command:
 
@@ -31,7 +31,7 @@ service to properly validate and route based on JWT claims.
     {{< /text >}}
 
 *  Follow the instructions in
-   [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+   [Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
    to define the `INGRESS_HOST` and `INGRESS_PORT` environment variables.
 
 * Verify that the `httpbin` workload and ingress gateway are working as expected using this command:
@@ -76,7 +76,7 @@ identity and more secure compared using the unauthenticated HTTP attributes (e.g
     on ingress gateways.
 
     Note: the request authentication will only check the JWT if it exists in the request. To make the JWT required and
-    reject the request if it does not include JWT, apply the authorization policy as specified in the [task](/docs/tasks/security/authentication/authn-policy#require-a-valid-token).
+    reject the request if it does not include JWT, apply the authorization policy as specified in the [task](/pt-br/docs/tasks/security/authentication/authn-policy#require-a-valid-token).
 
 1. Update the virtual service to route based on validated JWT claims:
 

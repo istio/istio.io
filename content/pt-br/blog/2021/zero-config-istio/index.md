@@ -16,17 +16,17 @@ ingress routing, fine-tune networking settings, or lock down security policies.
 
 ## Getting started
 
-To get started, check out our [getting started](/docs/setup/getting-started/) documentation, where you will learn how to install Istio.
+To get started, check out our [getting started](/pt-br/docs/setup/getting-started/) documentation, where you will learn how to install Istio.
 If you are already familiar, you can simply run `istioctl install`.
 
 Next, we will explore all the benefits Istio provides us, without any configuration or changes to application code.
 
 ## Security
 
-Istio automatically enables [mutual TLS](/docs/concepts/security/#mutual-tls-authentication) for traffic between pods in the mesh.
+Istio automatically enables [mutual TLS](/pt-br/docs/concepts/security/#mutual-tls-authentication) for traffic between pods in the mesh.
 This enables applications to forgo complex TLS configuration and certificate management, and offload all transport layer security to the sidecar.
 
-Once comfortable with automatic TLS, you may choose to [allow only mTLS traffic](/docs/tasks/security/authentication/mtls-migration/), or configure custom [authorization policies](/docs/tasks/security/authorization/) for your needs.
+Once comfortable with automatic TLS, you may choose to [allow only mTLS traffic](/pt-br/docs/tasks/security/authentication/mtls-migration/), or configure custom [authorization policies](/pt-br/docs/tasks/security/authorization/) for your needs.
 
 ## Observability
 
@@ -34,9 +34,9 @@ Istio automatically generates detailed telemetry for all service communications 
 This telemetry provides observability of service behavior, empowering operators to troubleshoot, maintain, and optimize their applications – without imposing any additional burdens on service developers.
 Through Istio, operators gain a thorough understanding of how monitored services are interacting, both with other services and with the Istio components themselves.
 
-All of this functionality is added by Istio without any configuration. [Integrations](/docs/ops/integrations/) with tools such as Prometheus, Grafana, Jaeger, Zipkin, and Kiali are also available.
+All of this functionality is added by Istio without any configuration. [Integrations](/pt-br/docs/ops/integrations/) with tools such as Prometheus, Grafana, Jaeger, Zipkin, and Kiali are also available.
 
-For more information about the observability Istio provides, check out the [observability overview](/docs/concepts/observability/).
+For more information about the observability Istio provides, check out the [observability overview](/pt-br/docs/concepts/observability/).
 
 ## Traffic Management
 
@@ -76,6 +76,6 @@ Hostname=echo-cb96f8d94-rpfqz
 Hostname=echo-cb96f8d94-cgmxr
 {{< /text >}}
 
-Here we can see our requests are [round-robin](/docs/concepts/traffic-management/#load-balancing-options) load balanced between all backends.
+Here we can see our requests are [round-robin](/pt-br/docs/concepts/traffic-management/#load-balancing-options) load balanced between all backends.
 
-In addition to these better defaults, Istio offers customization of a [variety of traffic management settings](/docs/concepts/traffic-management/), including timeouts, retries, and much more.
+In addition to these better defaults, Istio offers customization of a [variety of traffic management settings](/pt-br/docs/concepts/traffic-management/), including timeouts, retries, and much more.

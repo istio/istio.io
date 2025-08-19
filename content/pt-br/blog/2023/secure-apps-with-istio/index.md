@@ -308,7 +308,7 @@ to your application pods.
 
 ### Cryptographic identity
 
-In Kubernetes environment, [Istio](/docs/concepts/security/#istio-identity)
+In Kubernetes environment, [Istio](/pt-br/docs/concepts/security/#istio-identity)
 creates an application’s identity based on its service account. Identity certificate is provided to
 each application pod in the mesh after you add your application to the mesh.
 
@@ -322,16 +322,16 @@ damage it can cause.
 
 The default mTLS behavior is mTLS whenever possible but not strictly enforced. To strictly enforce
 your application to accept only mTLS traffic, you can use Istio’s
-[PeerAuthentication](/docs/reference/config/security/peer_authentication/) policy, mesh-wide or
+[PeerAuthentication](/pt-br/docs/reference/config/security/peer_authentication/) policy, mesh-wide or
 per namespace or workload. In addition, you can also apply Istio’s
-[AuthorizationPolicy](/docs/reference/config/security/authorization-policy/) to control access for your workloads.
+[AuthorizationPolicy](/pt-br/docs/reference/config/security/authorization-policy/) to control access for your workloads.
 
 ### TLS version
 
 TLS version 1.3 is the default in Istio for intra-mesh application communication with the Envoy’s
 [default cipher suites](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto)
 (for example `TLS_AES_256_GCM_SHA384` for Istio 1.19.0). If you need an older TLS version, you can
-[configure a different mesh-wide minimum TLS protocol version](/docs/tasks/security/tls-configuration/workload-min-tls-version/) for your workloads.
+[configure a different mesh-wide minimum TLS protocol version](/pt-br/docs/tasks/security/tls-configuration/workload-min-tls-version/) for your workloads.
 
 ## Wrapping up
 

@@ -10,14 +10,14 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/docs/concepts/wasm/).
+Istio provides the ability to [extend its functionality using WebAssembly (Wasm)](/pt-br/docs/concepts/wasm/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime. This document outlines how to extend ambient mode within Istio with Wasm features. In ambient mode, Wasm configuration must be applied to the waypoint proxy deployed in each namespace.
 
 ## Before you begin
 
-1. Set up Istio by following the instructions in the [ambient mode Getting Started guide](/docs/ambient/getting-started).
-1. Deploy the [Bookinfo sample application](/docs/ambient/getting-started/deploy-sample-app).
-1. [Add the default namespace to the ambient mesh](/docs/ambient/getting-started/secure-and-visualize).
+1. Set up Istio by following the instructions in the [ambient mode Getting Started guide](/pt-br/docs/ambient/getting-started).
+1. Deploy the [Bookinfo sample application](/pt-br/docs/ambient/getting-started/deploy-sample-app).
+1. [Add the default namespace to the ambient mesh](/pt-br/docs/ambient/getting-started/secure-and-visualize).
 1. Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
 
     {{< text syntax=bash >}}
@@ -30,7 +30,7 @@ With the Kubernetes Gateway API, Istio provides a centralized entry point for ma
 
 ### Configure a WebAssembly plugin for a gateway
 
-In this example, you will add a HTTP [Basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) to your mesh. You will configure Istio to pull the Basic auth module from a remote image registry and load it. It will be configured to run on calls to `/productpage`. These steps are similar to those in [Distributing WebAssembly Modules](/docs/tasks/extensibility/wasm-module-distribution/), with the difference being the use of the `targetRefs` field instead of label selectors.
+In this example, you will add a HTTP [Basic auth module](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) to your mesh. You will configure Istio to pull the Basic auth module from a remote image registry and load it. It will be configured to run on calls to `/productpage`. These steps are similar to those in [Distributing WebAssembly Modules](/pt-br/docs/tasks/extensibility/wasm-module-distribution/), with the difference being the use of the `targetRefs` field instead of label selectors.
 
 To configure a WebAssembly filter with a remote Wasm module, create a `WasmPlugin` resource targeting the `bookinfo-gateway`:
 
@@ -90,7 +90,7 @@ Waypoint proxies play a crucial role in Istio's ambient mode, facilitating secur
 
 ### Deploy a waypoint proxy
 
-Follow the [waypoint deployment instructions](/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy) to deploy a waypoint proxy in the bookinfo namespace.
+Follow the [waypoint deployment instructions](/pt-br/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy) to deploy a waypoint proxy in the bookinfo namespace.
 
 {{< text syntax=bash snip_id=create_waypoint >}}
 $ istioctl waypoint apply --enroll-namespace --wait
@@ -228,4 +228,4 @@ When executing the provided command without credentials, it verifies that access
     $ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
     {{< /text >}}
 
-1. Follow [the ambient mode uninstall guide](/docs/ambient/getting-started/#uninstall) to remove Istio and sample test applications.
+1. Follow [the ambient mode uninstall guide](/pt-br/docs/ambient/getting-started/#uninstall) to remove Istio and sample test applications.

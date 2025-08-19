@@ -18,11 +18,11 @@ and list-of-string typed JWT claims.
 
 Before you begin this task, do the following:
 
-* Complete the [Istio end user authentication task](/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
+* Complete the [Istio end user authentication task](/pt-br/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Install Istio using [Istio installation guide](/docs/setup/install/istioctl/).
+* Install Istio using [Istio installation guide](/pt-br/docs/setup/install/istioctl/).
 
 * Deploy two workloads: `httpbin` and `curl`. Deploy these in one namespace,
   for example `foo`. Both workloads run with an Envoy proxy in front of each.

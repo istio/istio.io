@@ -23,16 +23,16 @@ complete the migration by sending 100% of traffic to `reviews:v3`.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
-* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
+* Review the [Traffic Management](/pt-br/docs/concepts/traffic-management) concepts doc.
 
 ## Apply weight-based routing
 
 {{< warning >}}
-If you haven't already, follow the instructions in [define the service versions](/docs/examples/bookinfo/#define-the-service-versions).
+If you haven't already, follow the instructions in [define the service versions](/pt-br/docs/examples/bookinfo/#define-the-service-versions).
 {{< /warning >}}
 
 1.  To get started, run this command to route all traffic to the `v1` version:
@@ -58,7 +58,7 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v1.yaml@
 {{< /tabset >}}
 
 2)  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+the [Bookinfo](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
     Notice that the reviews part of the page displays with no rating stars, no
     matter how many times you refresh. This is because you configured Istio to route
@@ -204,7 +204,7 @@ In this task you migrated traffic from an old to new version of the `reviews` se
 With Istio, you can allow the two versions of the `reviews` service to scale up and down independently, without affecting the traffic distribution between them.
 
 For more information about version routing with autoscaling, check out the blog
-article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+article [Canary Deployments using Istio](/pt-br/blog/2017/0.1-canary/).
 
 ## Cleanup
 
@@ -231,5 +231,5 @@ $ kubectl delete httproute reviews
 {{< /tabset >}}
 
 2) If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

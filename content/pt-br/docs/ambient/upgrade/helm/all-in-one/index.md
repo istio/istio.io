@@ -8,7 +8,7 @@ draft: true
 ---
 
 Follow this guide to upgrade and configure an ambient mode installation using
-[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm and the ambient wrapper chart](/docs/ambient/install/helm/all-in-one) with a previous version of Istio.
+[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm and the ambient wrapper chart](/pt-br/docs/ambient/install/helm/all-in-one) with a previous version of Istio.
 
 {{< warning >}}
 Note that these upgrade instructions only apply if you are upgrading Helm installation created using the
@@ -59,7 +59,7 @@ $ helm upgrade istio-ambient istio/ambient -n istio-system --wait
 
 ### Upgrade manually deployed gateway chart (optional)
 
-`Gateway`s that were [deployed manually](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
+`Gateway`s that were [deployed manually](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
 
 {{< text syntax=bash snip_id=none >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress

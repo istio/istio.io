@@ -15,9 +15,9 @@ Istio is an open source service mesh that layers transparently onto existing dis
 * A pluggable policy layer and configuration API supporting access controls, rate limits and quotas
 * Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
 
-Istio is designed for extensibility and can handle a diverse range of deployment needs. Istio’s {{< gloss >}}control plane{{< /gloss >}} runs on Kubernetes, and you can add applications deployed in that cluster to your mesh, [extend the mesh to other clusters](/docs/ops/deployment/deployment-models/), or even [connect VMs or other endpoints](/docs/ops/deployment/vm-architecture/) running outside of Kubernetes.
+Istio is designed for extensibility and can handle a diverse range of deployment needs. Istio’s {{< gloss >}}control plane{{< /gloss >}} runs on Kubernetes, and you can add applications deployed in that cluster to your mesh, [extend the mesh to other clusters](/pt-br/docs/ops/deployment/deployment-models/), or even [connect VMs or other endpoints](/pt-br/docs/ops/deployment/vm-architecture/) running outside of Kubernetes.
 
-A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. You can install Istio yourself, or a [large number of vendors](/about/ecosystem) have products that integrate Istio and manage it for you.
+A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. You can install Istio yourself, or a [large number of vendors](/pt-br/about/ecosystem) have products that integrate Istio and manage it for you.
 
 ## How it works
 
@@ -32,4 +32,4 @@ Istio supports two data plane modes:
 * **sidecar mode**, which deploys an Envoy proxy along with each pod that you start in your cluster, or running alongside services running on VMs.
 * **ambient mode**, which uses a per-node Layer 4 proxy, and optionally a per-namespace Envoy proxy for Layer 7 features.
 
-[Learn how to choose which mode is right for you](/docs/overview/dataplane-modes/).
+[Learn how to choose which mode is right for you](/pt-br/docs/overview/dataplane-modes/).

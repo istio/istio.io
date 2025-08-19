@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 Follow this guide to configure your mesh for locality failover.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
+[before you begin](/pt-br/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
 In this task, you will use the `curl` pod in `region1.zone1` as the source of
 requests to the `HelloWorld` service. You will then trigger failures that will
@@ -36,17 +36,17 @@ Priority | Locality | Details
 
 Apply a `DestinationRule` that configures the following:
 
-- [Outlier detection](/docs/reference/config/networking/destination-rule/#OutlierDetection)
+- [Outlier detection](/pt-br/docs/reference/config/networking/destination-rule/#OutlierDetection)
   for the `HelloWorld` service. This is required in order for failover to
   function properly. In particular, it configures the sidecar proxies to know
   when endpoints for a service are unhealthy, eventually triggering a failover
   to the next locality.
 
-- [Failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting-Failover)
+- [Failover](/pt-br/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting-Failover)
   policy between regions. This ensures that failover beyond a region boundary
   will behave predictably.
 
-- [Connection Pool](/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-http)
+- [Connection Pool](/pt-br/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-http)
   policy that forces each HTTP request to use a new connection. This task utilizes
   Envoy's [drain](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining)
   function to force a failover to the next locality. Once drained, Envoy will reject
@@ -178,5 +178,5 @@ several more times and verify that the `version` in the response is always
 
 ## Next steps
 
-[Cleanup](/docs/tasks/traffic-management/locality-load-balancing/cleanup)
+[Cleanup](/pt-br/docs/tasks/traffic-management/locality-load-balancing/cleanup)
 resources and files from this task.

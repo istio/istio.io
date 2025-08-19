@@ -8,7 +8,7 @@ keywords: [traffic-management,automation,configuration,multicluster,multi-mesh,g
 target_release: 1.5
 ---
 
-At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](/blog/2019/isolated-clusters/) and immediately related to some of the problems mentioned.
+At Intuit, we read the blog post [Multi-Mesh Deployments for Isolation and Boundary Protection](/pt-br/blog/2019/isolated-clusters/) and immediately related to some of the problems mentioned.
 We realized that even though we wanted to configure a single multi-cluster mesh, instead of a federation of multiple meshes
 as described in the blog post, the same non-uniform naming issues also applied in our environment.
 This blog post explains how we solved these problems using [Admiral](https://github.com/istio-ecosystem/admiral), an open source project under `istio-ecosystem` in GitHub.
@@ -17,11 +17,11 @@ This blog post explains how we solved these problems using [Admiral](https://git
 
 Using Istio, we realized the configuration for multi-cluster was complex and challenging to maintain over time. As a result, we chose the model described in [Multi-Cluster Istio Service Mesh with replicated control planes](https://istio.io/v1.6/docs/setup/install/multicluster/gateways/#deploy-the-istio-control-plane-in-each-cluster) for scalability and other operational reasons. Following this model, we had to solve these key requirements before widely adopting an Istio service mesh:
 
-- Creation of service DNS entries decoupled from the namespace, as described in [Features of multi-mesh deployments](/blog/2019/isolated-clusters/#features-of-multi-mesh-deployments).
+- Creation of service DNS entries decoupled from the namespace, as described in [Features of multi-mesh deployments](/pt-br/blog/2019/isolated-clusters/#features-of-multi-mesh-deployments).
 - Service discovery across many clusters.
 - Supporting active-active & HA/DR deployments. We also had to support these crucial resiliency patterns with services being deployed in globally unique namespaces across discrete clusters.
 
-We have over 160 Kubernetes clusters with a globally unique namespace name across all clusters. In this configuration, we can have the same service workload deployed in different regions running in namespaces with different names. As a result, following the routing strategy mentioned in [Multicluster version routing](/blog/2019/multicluster-version-routing), the example name `foo.namespace.global` wouldn't work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique Kubernetes FQDN. For example, `foo.global` should resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if `foo` is running in two Kubernetes clusters with different names.
+We have over 160 Kubernetes clusters with a globally unique namespace name across all clusters. In this configuration, we can have the same service workload deployed in different regions running in namespaces with different names. As a result, following the routing strategy mentioned in [Multicluster version routing](/pt-br/blog/2019/multicluster-version-routing), the example name `foo.namespace.global` wouldn't work across clusters. We needed a globally unique and discoverable service DNS that resolves service instances in multiple clusters, each instance running/addressable with its own unique Kubernetes FQDN. For example, `foo.global` should resolve to both `foo.uswest2.svc.cluster.local` & `foo.useast2.svc.cluster.local` if `foo` is running in two Kubernetes clusters with different names.
 Also, our services need additional DNS names with different resolution and global routing properties. For example, `foo.global` should resolve locally first, then route to a remote instance using topology routing, while `foo-west.global` and `foo-east.global` (names used for testing) should always resolve to the respective regions.
 
 ## Contextual Configuration

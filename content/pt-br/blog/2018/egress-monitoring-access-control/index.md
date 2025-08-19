@@ -17,7 +17,7 @@ In this blog post, we show how to apply monitoring and access policies to HTTP e
 ## Use case
 
 Consider an organization that runs applications that process content from _cnn.com_. The applications are decomposed
-into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) and everything works fine. However, at some
+into microservices deployed in an Istio service mesh. The applications access pages of various topics from _cnn.com_: [edition.cnn.com/politics](https://edition.cnn.com/politics), [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health). The organization [configures Istio to allow access to edition.cnn.com](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) and everything works fine. However, at some
 point in time, the organization decides to banish politics. Practically, it means blocking access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) and allowing access to
 [edition.cnn.com/sport](https://edition.cnn.com/sport) and  [edition.cnn.com/health](https://edition.cnn.com/health)
@@ -33,14 +33,14 @@ will prevent any possibility for a malicious application to access the forbidden
 
 ## Related tasks and examples
 
-* The [Control Egress Traffic](/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
+* The [Control Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/) task demonstrates how external (outside the
   Kubernetes cluster) HTTP and HTTPS services can be accessed by applications inside the mesh.
-* The [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example describes how to configure
+* The [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/) example describes how to configure
   Istio to direct egress traffic through a dedicated gateway service called _egress gateway_.
-* The [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example
+* The [Egress Gateway with TLS Origination](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example
   demonstrates how to allow applications to send HTTP requests to external servers that require HTTPS, while directing
   traffic through egress gateway.
-* The [Visualizing Metrics with Grafana](/docs/tasks/observability/metrics/using-istio-dashboard/)
+* The [Visualizing Metrics with Grafana](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
   describes the Istio Dashboard to monitor mesh traffic.
 * The [Basic Access Control](https://istio.io/v1.6/docs/tasks/policy-enforcement/denial-and-list/) task shows how to control access to
   in-mesh services.
@@ -52,14 +52,14 @@ applied exclusively to the egress traffic.
 
 ## Before you begin
 
-Follow the steps in the [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example, **with mutual TLS authentication enabled**, without
-the [Cleanup](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination//#cleanup) step.
+Follow the steps in the [Egress Gateway with TLS Origination](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/) example, **with mutual TLS authentication enabled**, without
+the [Cleanup](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination//#cleanup) step.
 After completing that example, you can access [edition.cnn.com/politics](https://edition.cnn.com/politics) from an in-mesh container with `curl` installed. This blog post assumes that the `SOURCE_POD` environment variable contains the source pod's name and that the container's name is `sleep`.
 
 ## Configure monitoring and access policies
 
 Since you want to accomplish your tasks in a _secure way_, you should direct egress traffic through
-_egress gateway_, as described in the [Egress Gateway with TLS Origination](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)
+_egress gateway_, as described in the [Egress Gateway with TLS Origination](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/)
 task. The _secure way_ here means that you want to prevent malicious applications from bypassing Istio monitoring and
 policy enforcement.
 
@@ -77,7 +77,7 @@ Configure Istio to log access to _*.cnn.com_. You create a `logentry` and two
 direct your `logentry` instances to your `handlers`. One rule directs access to _*.cnn.com/politics_ to the handler for
 logging forbidden access, another rule directs log entries to the handler that outputs each access to _*.cnn.com_ as an
 _info_ log entry. To understand the Istio `logentries`, `rules`, and `handlers`, see
-[Istio Adapter Model](/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them
+[Istio Adapter Model](/pt-br/blog/2017/adapter-model/). A diagram with the involved entities and dependencies between them
 appears below:
 
 {{< image width="80%"
@@ -279,24 +279,24 @@ accessing _/health_ and _/sport_ URL paths only. Such a simple policy control ca
 While implementing access control using Istio routing worked for us in this simple case, it would not suffice for more
 complex cases. For example, the organization may want to allow access to
 [edition.cnn.com/politics](https://edition.cnn.com/politics) under certain conditions, so more complex policy logic than
-just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/blog/2017/adapter-model/),
+just filtering by URL paths will be required. You may want to apply [Istio Mixer Adapters](/pt-br/blog/2017/adapter-model/),
 for example
 [white lists or black lists](https://istio.io/v1.6/docs/tasks/policy-enforcement/denial-and-list/#attribute-based-whitelists-or-blacklists)
 of allowed/forbidden URL paths, respectively.
 [Policy Rules](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/istio.policy.v1beta1/) allow specifying complex conditions,
 specified in a [rich expression language](https://istio.io/v1.6/docs/reference/config/policy-and-telemetry/expression-language/), which
 includes AND and OR logical operators. The rules can be reused for both logging and policy checks. More advanced users
-may want to apply [Istio Role-Based Access Control](/docs/concepts/security/#authorization).
+may want to apply [Istio Role-Based Access Control](/pt-br/docs/concepts/security/#authorization).
 
 An additional aspect is integration with remote access policy systems. If the organization in our use case operates some
 [Identity and Access Management](https://en.wikipedia.org/wiki/Identity_management) system, you may want to configure
 Istio to use access policy information from such a system. You implement this integration by applying
-[Istio Mixer Adapters](/blog/2017/adapter-model/).
+[Istio Mixer Adapters](/pt-br/blog/2017/adapter-model/).
 
 Cancel the access control by routing you used in this section and implement access control by Mixer policy checks
 in the next section.
 
-1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) example:
+1.  Replace the `VirtualService` for _edition.cnn.com_ with your previous version from the [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/#perform-tls-origination-with-an-egress-gateway) example:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -569,7 +569,7 @@ caption="HTTPS egress traffic through an egress gateway"
 
 The end-to-end HTTPS is considered a better approach from the security point of view. However, since the traffic is
 encrypted the Istio proxies and the egress gateway can only see the source and destination IPs and the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) of the destination. Since you configure Istio to use mutual TLS between the sidecar proxy
-and the egress gateway, the [identity of the source](/docs/concepts/security/#istio-identity) is also known.
+and the egress gateway, the [identity of the source](/pt-br/docs/concepts/security/#istio-identity) is also known.
 The gateway is unable to inspect the URL path, the HTTP method and the headers of the requests, so no monitoring and
 policies based on the HTTP information can be possible.
 In our use case, the organization would be able to allow access to _edition.cnn.com_ and to specify which applications
@@ -592,8 +592,8 @@ demonstrated a simple policy that allowed certain URL paths only. We also showed
 
 ## Cleanup
 
-1.  Perform the instructions in [Cleanup](/docs/tasks/traffic-management/egress/egress-gateway//#cleanup) section of the
-[Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example.
+1.  Perform the instructions in [Cleanup](/pt-br/docs/tasks/traffic-management/egress/egress-gateway//#cleanup) section of the
+[Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/) example.
 
 1.  Delete the logging and policy checks configuration:
 

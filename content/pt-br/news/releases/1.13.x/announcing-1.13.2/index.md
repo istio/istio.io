@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.13.2
 ---
 
-This release fixes the security vulnerabilities described in our March 9th post, [ISTIO-SECURITY-2022-004](/news/security/istio-security-2022-004).
+This release fixes the security vulnerabilities described in our March 9th post, [ISTIO-SECURITY-2022-004](/pt-br/news/security/istio-security-2022-004).
 This release note describes what’s different between Istio 1.13.1 and 1.13.2.
 
 {{< relnote >}}

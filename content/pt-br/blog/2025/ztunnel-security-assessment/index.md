@@ -6,11 +6,11 @@ attribution: "Craig Box - Solo.io, for the Istio Product Security Working Group"
 keywords: [istio,security,audit,ztunnel,ambient]
 ---
 
-Istio’s ambient mode splits the service mesh into two distinct layers: Layer 7 processing (the "[waypoint proxy](/docs/ambient/usage/waypoint/)"), which remains powered by the traditional Envoy proxy; and a secure overlay (the "zero-trust tunnel" or "[ztunnel](https://github.com/istio/ztunnel)"), which is [a new codebase](/blog/2023/rust-based-ztunnel/), written from the ground up in Rust.
+Istio’s ambient mode splits the service mesh into two distinct layers: Layer 7 processing (the "[waypoint proxy](/pt-br/docs/ambient/usage/waypoint/)"), which remains powered by the traditional Envoy proxy; and a secure overlay (the "zero-trust tunnel" or "[ztunnel](https://github.com/istio/ztunnel)"), which is [a new codebase](/pt-br/blog/2023/rust-based-ztunnel/), written from the ground up in Rust.
 
 It is our intention that the ztunnel project be safe to install by default in every Kubernetes cluster, and to that end, it needs to be secure and performant.
 
-We comprehensively demonstrated ztunnel’s performance, showing that it is [the highest-bandwidth way to achieve a secure zero-trust network in Kubernetes](/blog/2025/ambient-performance/) — providing higher TCP throughput than even in-kernel data planes like IPsec and WireGuard — and that its performance has increased by 75% over the past 4 releases.
+We comprehensively demonstrated ztunnel’s performance, showing that it is [the highest-bandwidth way to achieve a secure zero-trust network in Kubernetes](/pt-br/blog/2025/ambient-performance/) — providing higher TCP throughput than even in-kernel data planes like IPsec and WireGuard — and that its performance has increased by 75% over the past 4 releases.
 
 Today, we are excited to validate the security of ztunnel, publishing [the results of an audit of the codebase](https://ostif.org/wp-content/uploads/2025/04/Istio-Ztunnel-Final-Summary-Report-1.pdf) performed by [Trail of Bits](https://www.trailofbits.com/).
 
@@ -18,7 +18,7 @@ We would like to thank the [Cloud Native Computing Foundation](https://cncf.io/)
 
 ## Scope and overall findings
 
-Istio has been assessed in [2020](/blog/2021/ncc-security-assessment/) and [2023](/blog/2023/ada-logics-security-assessment/), with the Envoy proxy [receiving independent assessment](https://github.com/envoyproxy/envoy#security-audit). The scope of this review was the new code in Istio’s ambient mode, the ztunnel component: specifically code relating to L4 authorization, inbound request proxying, transport-layer security (TLS), and certificate management.
+Istio has been assessed in [2020](/pt-br/blog/2021/ncc-security-assessment/) and [2023](/pt-br/blog/2023/ada-logics-security-assessment/), with the Envoy proxy [receiving independent assessment](https://github.com/envoyproxy/envoy#security-audit). The scope of this review was the new code in Istio’s ambient mode, the ztunnel component: specifically code relating to L4 authorization, inbound request proxying, transport-layer security (TLS), and certificate management.
 
 The auditors stated that "the ztunnel codebase is well-written and structured", and had no findings relating to vulnerabilities in the code. Their three findings — one of medium severity and two of informational — refer to recommendations regarding external factors, including software supply chain and testing.
 

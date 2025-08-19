@@ -7,7 +7,7 @@ attribution: "Christian Posta (Solo.io)"
 keywords: [wasm,extensibility,alpha,operator]
 ---
 
-As outlined in the [Istio 2020 trade winds blog](/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm.
+As outlined in the [Istio 2020 trade winds blog](/pt-br/blog/2020/tradewinds-2020/) and more recently [announced with Istio 1.5](/pt-br/news/releases/1.5.x/announcing-1.5/), WebAssembly (Wasm) is now an (alpha) option for extending the functionality of the Istio service proxy (Envoy proxy). With Wasm, users can build support for new protocols, custom metrics, loggers, and other filters. Working closely with Google, we in the community ([Solo.io](https://solo.io)) have focused on the user experience of building, socializing, and deploying Wasm extensions to Istio. We've announced [WebAssembly Hub](https://webassemblyhub.io) and [associated tooling](https://docs.solo.io/web-assembly-hub/latest/installation/) to build a "docker-like" experience for working with Wasm.
 
 ## Background
 
@@ -72,7 +72,7 @@ Under the covers the operator is doing a few things that aid in deploying and co
     caption="Understanding how wasme operator works"
     >}}
 
-At the moment, the Wasm image needs to be published into a registry for the operator to correctly cache it. The cache pods run as DaemonSet on each node so that the cache can be mounted into the Envoy container. This is being improved, as it's not the ideal mechanism. Ideally we wouldn't have to deal with mounting anything and could stream the module to the proxy directly over HTTP, so stay tuned for updates (should land within next few days). The mount is established by using the `sidecar.istio.io/userVolume` and `sidecar.istio.io/userVolumeMount` annotations. See [the docs on Istio Resource Annotations](/docs/reference/config/annotations/) for more about how that works.
+At the moment, the Wasm image needs to be published into a registry for the operator to correctly cache it. The cache pods run as DaemonSet on each node so that the cache can be mounted into the Envoy container. This is being improved, as it's not the ideal mechanism. Ideally we wouldn't have to deal with mounting anything and could stream the module to the proxy directly over HTTP, so stay tuned for updates (should land within next few days). The mount is established by using the `sidecar.istio.io/userVolume` and `sidecar.istio.io/userVolumeMount` annotations. See [the docs on Istio Resource Annotations](/pt-br/docs/reference/config/annotations/) for more about how that works.
 
 Once the Wasm module is cached correctly and mounted into the workload's service proxy, the operator then configures the `EnvoyFilter` resources.
 
@@ -132,7 +132,7 @@ Take a look at the [WebAssembly Hub wasme tooling](https://docs.solo.io/web-asse
 
 ## Learn more
 
--   Redefine Extensibility [with WebAssembly on Envoy and Istio](/blog/2020/wasm-announce/)
+-   Redefine Extensibility [with WebAssembly on Envoy and Istio](/pt-br/blog/2020/wasm-announce/)
 
 -   WebAssembly SF talk (video): [Extensions for network proxies](https://www.youtube.com/watch?v=OIUPf8m7CGA), by John Plevyak
 

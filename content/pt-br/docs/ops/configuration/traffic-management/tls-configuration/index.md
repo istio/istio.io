@@ -12,7 +12,7 @@ One of Istio's most important features is the ability to lock down and secure ne
 and within the mesh. However, configuring TLS settings can be confusing and a common source of misconfiguration.
 This document attempts to explain the various connections involved when sending requests in Istio and how
 their associated TLS settings are configured.
-Refer to [TLS configuration mistakes](/docs/ops/common-problems/network-issues/#tls-configuration-mistakes)
+Refer to [TLS configuration mistakes](/pt-br/docs/ops/common-problems/network-issues/#tls-configuration-mistakes)
 for a summary of some the most common TLS configuration problems.
 
 ## Sidecars
@@ -31,7 +31,7 @@ Sidecar traffic has a variety of associated connections. Let's break them down o
     If the client is inside the mesh, this traffic may be encrypted with Istio mutual TLS.
     By default, the sidecar will be configured to accept both mTLS and non-mTLS traffic, known as `PERMISSIVE` mode.
     The mode can alternatively be configured to `STRICT`, where traffic must be mTLS, or `DISABLE`, where traffic must be plaintext.
-    The mTLS mode is configured using a [`PeerAuthentication` resource](/docs/reference/config/security/peer_authentication/).
+    The mTLS mode is configured using a [`PeerAuthentication` resource](/pt-br/docs/reference/config/security/peer_authentication/).
 
 1. **Local inbound traffic**
     This is traffic going to your application service, from the sidecar. This traffic will always be forwarded as-is.
@@ -41,14 +41,14 @@ Sidecar traffic has a variety of associated connections. Let's break them down o
 1. **Local outbound traffic**
     This is outgoing traffic from your application service that is intercepted by the sidecar.
     Your application may be sending plaintext or TLS traffic.
-    If [automatic protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection)
+    If [automatic protocol selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection)
     is enabled, Istio will automatically detect the protocol. Otherwise you should use the port name in the destination service to
-    [manually specify the protocol](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
+    [manually specify the protocol](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
 
 1. **External outbound traffic**
     This is traffic leaving the sidecar to some external destination. Traffic can be forwarded as is, or a TLS connection can
     be initiated (mTLS or standard TLS). This is controlled using the TLS mode setting in the `trafficPolicy` of a
-    [`DestinationRule` resource](/docs/reference/config/networking/destination-rule/).
+    [`DestinationRule` resource](/pt-br/docs/reference/config/networking/destination-rule/).
     A mode setting of `DISABLE` will send plaintext, while `SIMPLE`, `MUTUAL`, and `ISTIO_MUTUAL` will originate a TLS connection.
 
 The key takeaways are:
@@ -65,7 +65,7 @@ wherever possible, and only send plaintext to workloads that are not part of the
 
 Istio makes this easy with a feature called "Auto mTLS". Auto mTLS works by doing exactly that. If TLS settings are
 not explicitly configured in a `DestinationRule`, the sidecar will automatically determine if
-[Istio mutual TLS](/about/faq/#difference-between-mutual-and-istio-mutual) should be sent.
+[Istio mutual TLS](/pt-br/about/faq/#difference-between-mutual-and-istio-mutual) should be sent.
 This means that without any configuration, all inter-mesh traffic will be mTLS encrypted.
 
 ## Gateways
@@ -93,7 +93,7 @@ the destination is outside of the mesh.
 ### Inbound
 
 As part of the inbound request, the gateway must decode the traffic in order to apply routing rules.
-This is done based on the server configuration in a [`Gateway` resource](/docs/reference/config/networking/gateway/).
+This is done based on the server configuration in a [`Gateway` resource](/pt-br/docs/reference/config/networking/gateway/).
 For example, if an inbound connection is plaintext HTTP, the port protocol is configured as `HTTP`:
 
 {{< text yaml >}}
@@ -159,9 +159,9 @@ just like external outbound traffic from [sidecars](#sidecars), or [auto mTLS](#
 
 The only difference is that you should be careful to consider the `Gateway` settings when configuring this.
 For example, if the `Gateway` is configured with TLS `PASSTHROUGH` while the `DestinationRule` configures TLS origination,
-you will end up with [double encryption](/docs/ops/common-problems/network-issues/#double-tls).
+you will end up with [double encryption](/pt-br/docs/ops/common-problems/network-issues/#double-tls).
 This works, but is often not the desired behavior.
 
 A `VirtualService` bound to the gateway needs care as well to
-[ensure it is consistent](/docs/ops/common-problems/network-issues/#gateway-mismatch)
+[ensure it is consistent](/pt-br/docs/ops/common-problems/network-issues/#gateway-mismatch)
 with the `Gateway` definition.

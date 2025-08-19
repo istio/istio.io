@@ -6,11 +6,11 @@ attribution: "Ben Leggett (Solo.io), Yuval Kohavi (Solo.io), Lin Sun (Solo.io)"
 keywords: [Ambient,Istio,CNI,ztunnel,traffic]
 ---
 
-The Istio project [announced ambient mesh - its new sidecar-less dataplane mode](/blog/2022/introducing-ambient-mesh/) in 2022,
-and [released an alpha implementation](/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
+The Istio project [announced ambient mesh - its new sidecar-less dataplane mode](/pt-br/blog/2022/introducing-ambient-mesh/) in 2022,
+and [released an alpha implementation](/pt-br/news/releases/1.18.x/announcing-1.18/#ambient-mesh) in early 2023.
 
 Our alpha was focused on proving out the value of the ambient data plane mode under limited configurations and environments.
-However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic between workload pods and [ztunnel](/blog/2023/rust-based-ztunnel/), and the initial
+However, the conditions were quite limited. Ambient mode relies on transparently redirecting traffic between workload pods and [ztunnel](/pt-br/blog/2023/rust-based-ztunnel/), and the initial
 mechanism we used to do that conflicted with several categories of 3rd-party Container Networking Interface (CNI) implementations.
 Through GitHub issues and Slack discussions, we heard our users wanted to be able to use ambient mode in [minikube](https://github.com/istio/istio/issues/46163)
 and [Docker Desktop](https://github.com/istio/istio/issues/47436), with CNI implementations like [Cilium](https://github.com/istio/istio/issues/44198) and [Calico](https://github.com/istio/istio/issues/40973),
@@ -50,13 +50,13 @@ compatibility with managed offerings, cross-vendor support, and composability wi
 
 ### Traffic redirection in ambient alpha
 
-The [istio-cni](/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
-commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/) for
+The [istio-cni](/pt-br/docs/setup/additional-setup/cni/) component is an optional component in the sidecar data plane mode,
+commonly used to remove the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/pt-br/docs/ops/deployment/application-requirements/) for
 users deploying pods into the mesh. `istio-cni` is a required component in the ambient
 data plane mode.  The `istio-cni` component is _not_ a primary CNI implementation, it is a node agent that extends whatever primary CNI implementation is already present in the cluster.
 
 Whenever pods are added to an ambient mesh, the `istio-cni` component configures traffic redirection for all
-incoming and outgoing traffic between the pods and the [ztunnel](/blog/2023/rust-based-ztunnel/) running on
+incoming and outgoing traffic between the pods and the [ztunnel](/pt-br/blog/2023/rust-based-ztunnel/) running on
 the pod's node, via the node-level network namespace. The key difference between the sidecar mechanism and the ambient alpha mechanism
 is that in the latter, pod traffic was redirected out of the pod network namespace, and into the co-located ztunnel pod network namespace - necessarily passing through the host network namespace on the way, which is where the bulk of the traffic redirection rules to achieve this were implemented.
 

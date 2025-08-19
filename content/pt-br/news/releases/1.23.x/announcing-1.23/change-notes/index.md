@@ -12,7 +12,7 @@ aliases:
 
 ## Deprecations
 
-- **Deprecated** the in-cluster Operator.  Please check out [our deprecation announcement blog post](/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
+- **Deprecated** the in-cluster Operator.  Please check out [our deprecation announcement blog post](/pt-br/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
 
 ## Traffic Management
 
@@ -134,7 +134,7 @@ aliases:
 
 - **Removed** `values.cni.logLevel` is now deprecated. Use `values.{cni|global}.logging.level` instead.
 
-- **Updated** the [`distroless`](/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
+- **Updated** the [`distroless`](/pt-br/docs/ops/configuration/security/harden-docker-images/) images to be based on [Wolfi](https://wolfi.dev).
   This should have no user-facing impact.
 
 - **Updated** Kiali addon to version 1.87.0.

@@ -12,11 +12,11 @@ administrators, operators and vendors to be aware of security bulletins and secu
 
 We currently disclose vulnerabilities and security releases via numerous channels:
 
-* [istio.io](https://istio.io) via our [Release Announcements](/news/releases/) and [Security Bulletins](/news/security/)
+* [istio.io](https://istio.io) via our [Release Announcements](/pt-br/news/releases/) and [Security Bulletins](/pt-br/news/security/)
 * [Discuss](https://discuss.istio.io/c/announcements/5)
 * announcements channel on [Slack](https://istio.slack.com)
 * [Twitter](https://twitter.com/IstioMesh)
-* [RSS](/news/feed.xml)
+* [RSS](/pt-br/news/feed.xml)
 
 When operating any software, it is preferable to plan for possible downtime when upgrading. Given the work that the Istio
 community is doing around Day 2 operations in 2021, the Environments working group has done a good job to streamline many
@@ -38,8 +38,8 @@ release for that month, barring some exceptions listed below.
 
 ### First Patch Tuesday
 
-We are pleased to announce that [Istio 1.9.5](/news/releases/1.9.x/announcing-1.9.5/), and the final release of Istio 1.8,
-[1.8.6](/news/releases/1.8.x/announcing-1.8.6/), are the first security releases to fit this pattern. As Istio 1.10 will
+We are pleased to announce that [Istio 1.9.5](/pt-br/news/releases/1.9.x/announcing-1.9.5/), and the final release of Istio 1.8,
+[1.8.6](/pt-br/news/releases/1.8.x/announcing-1.8.6/), are the first security releases to fit this pattern. As Istio 1.10 will
 be shipping soon we are intending to continue this new tradition in June.
 
 These releases fix 3 CVEs. Please see the release pages for information regarding the specific CVEs fixed.
@@ -59,7 +59,7 @@ When this occurs, Istio will release a same-day patch once the embargo is lifted
 
 ## Security Best Practices
 
-The [Istio Security Best Practices](/docs/ops/best-practices/security/) has seen many improvements over the past few
+The [Istio Security Best Practices](/pt-br/docs/ops/best-practices/security/) has seen many improvements over the past few
 months. We recommend you check it regularly, as many of our recent security bulletins can be mitigated by utilizing
 methods discussed in the Security Best Practices page.
 

@@ -77,7 +77,7 @@ EOF
 
 ## Mitigation
 
-* For Istio 1.1.x deployments: update to [Istio 1.1.13](/news/releases/1.1.x/announcing-1.1.13) or later
-* For Istio 1.2.x deployments: update to [Istio 1.2.4](/news/releases/1.2.x/announcing-1.2.4) or later.
+* For Istio 1.1.x deployments: update to [Istio 1.1.13](/pt-br/news/releases/1.1.x/announcing-1.1.13) or later
+* For Istio 1.2.x deployments: update to [Istio 1.2.4](/pt-br/news/releases/1.2.x/announcing-1.2.4) or later.
 
 {{< boilerplate "security-vulnerability" >}}

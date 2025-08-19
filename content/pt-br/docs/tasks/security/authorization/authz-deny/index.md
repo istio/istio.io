@@ -15,9 +15,9 @@ bypassed by any `ALLOW` actions.
 
 Before you begin this task, do the following:
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/docs/setup/install/istioctl/) to install Istio.
+* Follow the [Istio installation guide](/pt-br/docs/setup/install/istioctl/) to install Istio.
 
 * Deploy workloads:
 

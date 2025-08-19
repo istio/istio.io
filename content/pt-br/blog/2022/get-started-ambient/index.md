@@ -7,10 +7,10 @@ keywords: [ambient,demo,guide]
 ---
 
 {{< warning >}}
-Refer to the latest [getting started with ambient mesh doc](/docs/ambient/getting-started/) for updated instructions.
+Refer to the latest [getting started with ambient mesh doc](/pt-br/docs/ambient/getting-started/) for updated instructions.
 {{< /warning >}}
 
-Ambient mesh is [a new data plane mode for Istio introduced today](/blog/2022/introducing-ambient-mesh/). Following this getting started guide, you can experience how ambient mesh can simplify your application onboarding, help with ongoing operations, and reduce service mesh infrastructure resource usage.
+Ambient mesh is [a new data plane mode for Istio introduced today](/pt-br/blog/2022/introducing-ambient-mesh/). Following this getting started guide, you can experience how ambient mesh can simplify your application onboarding, help with ongoing operations, and reduce service mesh infrastructure resource usage.
 
 ## Install Istio with Ambient Mode
 
@@ -70,7 +70,7 @@ As new pods are deployed or removed on the node, CNI plugin continues to monitor
 
 ## Deploy Your Applications
 
-You’ll use the sample [bookinfo application](/docs/examples/bookinfo/), which is part of your Istio download from previous steps.
+You’ll use the sample [bookinfo application](/pt-br/docs/examples/bookinfo/), which is part of your Istio download from previous steps.
 In ambient mode, you deploy applications to your Kubernetes cluster exactly the same way you would without Istio.
 This means you can have your applications running in your Kubernetes before you enable ambient mesh, and have them join the mesh without needing to restart or reconfigure your applications.
 

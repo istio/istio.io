@@ -9,7 +9,7 @@ release: 1.24.2
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.24.1 and Istio 1.24.2.
 
-This release implements the security updates described in our 18th of December post, [`ISTIO-SECURITY-2024-007`](/news/security/istio-security-2024-007).
+This release implements the security updates described in our 18th of December post, [`ISTIO-SECURITY-2024-007`](/pt-br/news/security/istio-security-2024-007).
 
 {{< relnote >}}
 

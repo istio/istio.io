@@ -12,7 +12,7 @@ Istio interacts with DNS in different ways that can be confusing to understand.
 This document provides a deep dive into how Istio and DNS work together.
 
 {{< warning >}}
-This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/docs/concepts/traffic-management/) or [Tasks](/docs/tasks/traffic-management/) pages.
+This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/pt-br/docs/concepts/traffic-management/) or [Tasks](/pt-br/docs/tasks/traffic-management/) pages.
 {{< /warning >}}
 
 ## Life of a request
@@ -32,14 +32,14 @@ $ curl example.com -v
 Next, the request will be intercepted by Istio.
 At this point, Istio will see both the hostname (from a `Host: example.com` header), and the destination address (`192.0.2.0:80`).
 Istio uses this information to determine the intended destination.
-[Understanding Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing/) gives a deep dive into how this behavior works.
+[Understanding Traffic Routing](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/) gives a deep dive into how this behavior works.
 
 If the client was unable to resolve the DNS request, the request would terminate before Istio receives it.
 This means that if a request is sent to a hostname which is known to Istio (for example, by a `ServiceEntry`) but not to the DNS server, the request will fail.
 Istio [DNS proxying](#dns-proxying) can change this behavior.
 
 Once Istio has identified the intended destination, it must choose which address to send to.
-Because of Istio's advanced [load balancing capabilities](/docs/concepts/traffic-management/#load-balancing-options), this is often not the original IP address the client sent.
+Because of Istio's advanced [load balancing capabilities](/pt-br/docs/concepts/traffic-management/#load-balancing-options), this is often not the original IP address the client sent.
 Depending on the service configuration, there are a few different ways Istio does this.
 
 * Use the original IP address of the client (`192.0.2.0`, in the example above).
@@ -66,11 +66,11 @@ In these cases, the following can help reduce the load:
 
 * Switch to `resolution: NONE` to avoid proxy DNS lookups entirely. This is suitable for many use cases.
 * If you control the domains being resolved, increase their TTL.
-* If your `ServiceEntry` is only needed by a few workloads, limit its scope with `exportTo` or a [`Sidecar`](/docs/reference/config/networking/sidecar/).
+* If your `ServiceEntry` is only needed by a few workloads, limit its scope with `exportTo` or a [`Sidecar`](/pt-br/docs/reference/config/networking/sidecar/).
 
 ## DNS Proxying
 
-Istio offers a feature to [proxy DNS requests](/docs/ops/configuration/traffic-management/dns-proxy/).
+Istio offers a feature to [proxy DNS requests](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/).
 This allows Istio to capture DNS requests sent by the client and return a response directly.
 This can improve DNS latency, reduce load, and allow `ServiceEntries`, which otherwise would not be known to `kube-dns`, to be resolved.
 

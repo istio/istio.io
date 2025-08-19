@@ -9,9 +9,9 @@ keywords: [traffic-management,egress,tcp,mongo]
 target_release: 1.1
 ---
 
-In the [Consuming External TCP Services](/blog/2018/egress-tcp/) blog post, I described how external services
+In the [Consuming External TCP Services](/pt-br/blog/2018/egress-tcp/) blog post, I described how external services
 can be consumed by in-mesh Istio applications via TCP. In this post, I demonstrate consuming external MongoDB services.
-You use the [Istio Bookinfo sample application](/docs/examples/bookinfo/), the version in which the book
+You use the [Istio Bookinfo sample application](/pt-br/docs/examples/bookinfo/), the version in which the book
 ratings data is persisted in a MongoDB database. You deploy this database outside the cluster and configure the
 _ratings_ microservice to use it. You will learn multiple options of controlling traffic to external MongoDB services and their
 pros and cons.
@@ -19,7 +19,7 @@ pros and cons.
 ## Bookinfo with external ratings database
 
 First, you set up a MongoDB database instance to hold book ratings data outside of your Kubernetes cluster. Then you
-modify the [Bookinfo sample application](/docs/examples/bookinfo/) to use your database.
+modify the [Bookinfo sample application](/pt-br/docs/examples/bookinfo/) to use your database.
 
 ### Setting up the ratings database
 
@@ -94,9 +94,9 @@ For this task you set up an instance of [MongoDB](https://www.mongodb.com). You 
 
 ### Initial setting of Bookinfo application
 
-To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/docs/setup/getting-started/). Then you deploy the
-[Istio Bookinfo sample application](/docs/examples/bookinfo/), [apply the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules), and
-[change Istio to the blocking-egress-by-default policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
+To demonstrate the scenario of using an external database, you start with a Kubernetes cluster with [Istio installed](/pt-br/docs/setup/getting-started/). Then you deploy the
+[Istio Bookinfo sample application](/pt-br/docs/examples/bookinfo/), [apply the default destination rules](/pt-br/docs/examples/bookinfo/#apply-default-destination-rules), and
+[change Istio to the blocking-egress-by-default policy](/pt-br/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy).
 
 This application uses the `ratings` microservice to fetch book ratings, a number between 1 and 5. The ratings are
 displayed as stars for each review. There are several versions of the `ratings` microservice. You will deploy the
@@ -105,7 +105,7 @@ version that uses [MongoDB](https://www.mongodb.com) as the ratings database in 
 The example commands in this blog post work with Istio 1.0.
 
 As a reminder, here is the end-to-end architecture of the application from the
-[Bookinfo sample application](/docs/examples/bookinfo/).
+[Bookinfo sample application](/pt-br/docs/examples/bookinfo/).
 
 {{< image width="80%" link="/docs/examples/bookinfo/withistio.svg" caption="The original Bookinfo application" >}}
 
@@ -131,10 +131,10 @@ _reviews_ service always calls the _ratings_ service. In addition, route all the
 service to _ratings v2_ that uses your database.
 
     Specify the routing for both services above by adding two
-    [virtual services](/docs/reference/config/networking/virtual-service/). These virtual services are
+    [virtual services](/pt-br/docs/reference/config/networking/virtual-service/). These virtual services are
     specified in `samples/bookinfo/networking/virtual-service-ratings-mongodb.yaml` of an Istio release archive.
     ***Important:*** make sure you
-    [applied the default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules) before running the
+    [applied the default destination rules](/pt-br/docs/examples/bookinfo/#apply-default-destination-rules) before running the
      following command.
 
     {{< text bash >}}
@@ -153,7 +153,7 @@ boundary of the service mesh is marked by a dashed line.
 ### Access the webpage
 
 Access the webpage of the application, after
-[determining the ingress IP and port](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
+[determining the ingress IP and port](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
 Since you did not configure the egress traffic control yet, the access to the MongoDB service is blocked by Istio.
 This is why instead of the rating stars, the message _"Ratings service is currently unavailable"_ is currently
@@ -167,14 +167,14 @@ egress control in Istio.
 ## Egress control for TCP
 
 Since [MongoDB Wire Protocol](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/) runs on top of TCP, you
-can control the egress traffic to your MongoDB as traffic to any other [external TCP service](/blog/2018/egress-tcp/). To
+can control the egress traffic to your MongoDB as traffic to any other [external TCP service](/pt-br/blog/2018/egress-tcp/). To
 control TCP traffic, a block of IPs in the [CIDR](https://tools.ietf.org/html/rfc2317) notation that includes the IP
 address of your MongoDB host must be specified. The caveat here is that sometimes the IP of the MongoDB host is not
 stable or known in advance.
 
 In the cases when the IP of the MongoDB host is not stable, the egress traffic can either be
 [controlled as TLS traffic](#egress-control-for-tls), or the traffic can be routed
-[directly](/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services), bypassing the Istio sidecar
+[directly](/pt-br/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services), bypassing the Istio sidecar
 proxies.
 
 Get the IP address of your MongoDB database instance. As an option, you can use the
@@ -187,7 +187,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 ### Control TCP egress traffic without a gateway
 
 In case you do not need to direct the traffic through an
-[egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#use-case), for example if you do not have a
+[egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#use-case), for example if you do not have a
 requirement that all the traffic that exists your mesh must exit through the gateway, follow the
 instructions in this section. Alternatively, if you do want to direct your traffic through an egress gateway, proceed to
 [Direct TCP egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
@@ -241,18 +241,18 @@ instructions in this section. Alternatively, if you do want to direct your traff
 ### Direct TCP Egress traffic through an egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
-[egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#use-case). The sidecar proxy routes TCP
+[egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#use-case). The sidecar proxy routes TCP
 connections from the MongoDB client to the egress gateway, by matching the IP of the MongoDB host (a CIDR block of
   length 32). The egress gateway forwards the traffic to the MongoDB host, by its hostname.
 
-1.  [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+1.  [Deploy Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 1.  If you did not perform the steps in [the previous section](#control-tcp-egress-traffic-without-a-gateway), perform them now.
 
 1.  You may want to enable {{< gloss >}}mutual TLS Authentication{{< /gloss >}} between the sidecar proxies of
 your MongoDB clients and the egress gateway to let the egress gateway monitor the identity of the source pods and to
 enable Mixer policy enforcement based on that identity. By enabling mutual TLS you also encrypt the traffic.
-If you do not want to enable mutual TLS, proceed to the [Mutual TLS between the sidecar proxies and the egress gateway](/blog/2018/egress-mongo/#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway) section.
+If you do not want to enable mutual TLS, proceed to the [Mutual TLS between the sidecar proxies and the egress gateway](/pt-br/blog/2018/egress-mongo/#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway) section.
 Otherwise, proceed to the following section.
 
 #### Configure TCP traffic from sidecars to the egress gateway
@@ -489,7 +489,7 @@ Otherwise, proceed to the following section.
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy and see a line that corresponds to your
     requests to the MongoDB service. If Istio is deployed in the `istio-system` namespace, the command to print the
@@ -533,7 +533,7 @@ your MongoDB egress traffic on the TCP level, as described in the previous secti
 
 ### Control TLS egress traffic without a gateway
 
-In case you [do not need an egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#use-case), follow the
+In case you [do not need an egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#use-case), follow the
 instructions in this section. If you want to direct your traffic through an egress gateway, proceed to
 [Direct TCP Egress traffic through an egress gateway](#direct-tcp-egress-traffic-through-an-egress-gateway).
 
@@ -567,13 +567,13 @@ $ kubectl delete serviceentry mongo
 ### Direct TLS Egress traffic through an egress gateway
 
 In this section you handle the case when you need to direct the traffic through an
-[egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#use-case). The sidecar proxy routes TLS
+[egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#use-case). The sidecar proxy routes TLS
 connections from the MongoDB client to the egress gateway, by matching the SNI of the MongoDB host.
 The egress gateway forwards the traffic to the MongoDB host. Note that the sidecar proxy rewrites the destination port
 to be 443. The egress gateway accepts the MongoDB traffic on the port 443, matches the MongoDB host by SNI, and rewrites
  the port again to be the port of the MongoDB server.
 
-1.  [Deploy Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
+1.  [Deploy Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway).
 
 1.  Create a `ServiceEntry` for the MongoDB service:
 
@@ -603,7 +603,7 @@ to be 443. The egress gateway accepts the MongoDB traffic on the port 443, match
 1.  Create an egress `Gateway` for your MongoDB service, and destination rules and virtual services
     to direct the traffic through the egress gateway and from the egress gateway to the external service.
 
-    If you want to enable [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) between the sidecar proxies of
+    If you want to enable [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/authn-policy/) between the sidecar proxies of
     your application pods and the egress gateway, use the following command. (You may want to enable mutual TLS to let
     the egress gateway monitor the identity of the source pods and to enable Mixer policy enforcement based on that
     identity.)
@@ -787,7 +787,7 @@ You can pick a wildcarded domain according to your MongoDB host.
 
 To configure egress gateway traffic for a wildcarded domain, you will first need to deploy a custom egress
 gateway with
-[an additional SNI proxy](/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains).
+[an additional SNI proxy](/pt-br/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains).
 This is needed due to current limitations of Envoy, the proxy used by the standard Istio egress gateway.
 
 #### Prepare a new egress gateway with an SNI proxy
@@ -1080,7 +1080,7 @@ to hold the configuration of the Nginx SNI proxy:
 
 1.  Refresh the web page of the application again and verify that the ratings are still displayed correctly.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
 1.  Check the log of the egress gateway's Envoy proxy. If Istio is deployed in the `istio-system` namespace, the command
     to print the log is:

@@ -56,8 +56,8 @@ Prefix and exact matches in `AuthorizationPolicy` is unaffected, as are ALLOW ac
 
 ## Mitigation
 
-* For Istio 1.5.x deployments: update to [Istio 1.5.9](/news/releases/1.5.x/announcing-1.5.8) or later.
-* For Istio 1.6.x deployments: update to [Istio 1.6.8](/news/releases/1.6.x/announcing-1.6.8) or later.
+* For Istio 1.5.x deployments: update to [Istio 1.5.9](/pt-br/news/releases/1.5.x/announcing-1.5.8) or later.
+* For Istio 1.6.x deployments: update to [Istio 1.6.8](/pt-br/news/releases/1.6.x/announcing-1.6.8) or later.
 * Do not use suffix matching in DENY policies in the source principal or namespace field for TCP services and use Prefix and Exact matching where applicable. Where possible change TCP to HTTP for port name suffixes in your Services.
 
 {{< boilerplate "security-vulnerability" >}}

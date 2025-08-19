@@ -9,5 +9,5 @@ test: table-of-contents
 ---
 
 {{< tip >}}
-Istio {{< istio_version >}} is [supported on these Kubernetes versions](/docs/releases/supported-releases#support-status-of-istio-releases): {{< supported_kubernetes_versions >}}.
+Istio {{< istio_version >}} is [supported on these Kubernetes versions](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases): {{< supported_kubernetes_versions >}}.
 {{< /tip >}}

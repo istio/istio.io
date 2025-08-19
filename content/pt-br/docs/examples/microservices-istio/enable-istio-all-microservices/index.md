@@ -57,7 +57,7 @@ enable Istio on all the remaining microservices in one step.
     {{< /text >}}
 
 1.  Access the Istio dashboard using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
+    [previously](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
 
     {{< text plain >}}
     http://my-istio-dashboard.io/dashboard/db/istio-mesh-dashboard
@@ -82,13 +82,13 @@ enable Istio on all the remaining microservices in one step.
     [Kiali](https://www.kiali.io) console, which is not a part of Istio, but is
     installed as part of the `demo` configuration.
     Access the dashboard using the custom URL you set in your `/etc/hosts` file
-    [previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
+    [previously](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file):
 
     {{< text plain >}}
     http://my-kiali.io/kiali/console
     {{< /text >}}
 
-    If you installed Kiali as part of the [getting started](/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
+    If you installed Kiali as part of the [getting started](/pt-br/docs/setup/getting-started/) instructions, your Kiali console user name is `admin` and the password is `admin`.
 
 1.  Click on the Graph tab and select your namespace in the _Namespace_ drop-down menu in the top level corner.
     In the _Display_ drop-down menu mark the _Traffic Animation_ check box to see some cool traffic animation.
@@ -112,4 +112,4 @@ enable Istio on all the remaining microservices in one step.
         >}}
 
 You are ready to
-[configure the Istio Ingress Gateway](/docs/examples/microservices-istio/istio-ingress-gateway).
+[configure the Istio Ingress Gateway](/pt-br/docs/examples/microservices-istio/istio-ingress-gateway).

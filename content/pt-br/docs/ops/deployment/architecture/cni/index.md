@@ -14,4 +14,4 @@ In order to configure mesh traffic redirection, regardless of what CNI you or yo
 
 The Istio CNI plugin is optional in sidecar mode, and required in {{<gloss>}}ambient{{< /gloss >}} mode.
 
-* [Learn how to install Istio with a CNI plugin](/docs/setup/additional-setup/cni/)
+* [Learn how to install Istio with a CNI plugin](/pt-br/docs/setup/additional-setup/cni/)

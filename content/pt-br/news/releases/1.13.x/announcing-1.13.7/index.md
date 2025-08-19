@@ -7,7 +7,7 @@ publishdate: 2022-08-01
 release: 1.13.7
 ---
 
-This release contains a fix for [CVE-2022-31045](/news/security/istio-security-2022-005/#cve-2022-31045) and
+This release contains a fix for [CVE-2022-31045](/pt-br/news/security/istio-security-2022-005/#cve-2022-31045) and
 bug fixes to improve robustness. We recommend users install this release instead of Istio 1.13.6,
 which does not contain the above CVE fix.
 This release note describes what’s different between Istio 1.13.6 and Istio 1.13.7.
@@ -25,4 +25,4 @@ which includes 9 security fixes. We recommend you to upgrade to this newer Go ve
 
 # Security update
 
-- **Fixed** [CVE-2022-31045](/news/security/istio-security-2022-005/#cve-2022-31045).
+- **Fixed** [CVE-2022-31045](/pt-br/news/security/istio-security-2022-005/#cve-2022-31045).

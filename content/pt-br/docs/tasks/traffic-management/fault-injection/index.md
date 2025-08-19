@@ -14,16 +14,16 @@ This task shows you how to inject faults to test the resiliency of your applicat
 ## Before you begin
 
 * Set up Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
-  [default destination rules](/docs/examples/bookinfo/#apply-default-destination-rules).
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application including the
+  [default destination rules](/pt-br/docs/examples/bookinfo/#apply-default-destination-rules).
 
 * Review the fault injection discussion in the
-[Traffic Management](/docs/concepts/traffic-management) concepts doc.
+[Traffic Management](/pt-br/docs/concepts/traffic-management) concepts doc.
 
 * Apply application version routing by either performing the
-  [request routing](/docs/tasks/traffic-management/request-routing/) task or by
+  [request routing](/pt-br/docs/tasks/traffic-management/request-routing/) task or by
   running the following commands:
 
     {{< text bash >}}
@@ -86,7 +86,7 @@ still expect the end-to-end flow to continue without any errors.
 
 ## Testing the delay configuration
 
-1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
+1. Open the [Bookinfo](/pt-br/docs/examples/bookinfo) web application in your browser.
 
 1. On the `/productpage` web page, log in as user `jason`.
 
@@ -137,7 +137,7 @@ The `reviews:v3` service reduces the `reviews` to `ratings` timeout from 10s to 
 so that it is compatible with (less than) the timeout of the downstream `productpage` requests.
 
 If you migrate all traffic to `reviews:v3` as described in the
-[traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) task, you can then
+[traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/) task, you can then
 try to change the delay rule to any amount less than 2.5s, for example 2s, and confirm
 that the end-to-end flow continues without any errors.
 
@@ -188,7 +188,7 @@ service is currently unavailable` message.
 
 ## Testing the abort configuration
 
-1. Open the [Bookinfo](/docs/examples/bookinfo) web application in your browser.
+1. Open the [Bookinfo](/pt-br/docs/examples/bookinfo) web application in your browser.
 
 1. On the `/productpage`, log in as user `jason`.
 
@@ -209,5 +209,5 @@ service is currently unavailable` message.
     {{< /text >}}
 
 1. If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+[Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
 to shutdown the application.

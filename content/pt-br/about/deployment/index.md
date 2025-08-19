@@ -15,7 +15,7 @@ doc_type: about
 
 You have decided you want to use Istio. Welcome to the world of service mesh. Congratulations, you're in great company!
 
-If you haven't already, you might like to try Istio out in a test environment, and run through our [Getting Started guide](/docs/setup/getting-started/). This will give you an idea for the **traffic management**, **security** and **observability** features.
+If you haven't already, you might like to try Istio out in a test environment, and run through our [Getting Started guide](/pt-br/docs/setup/getting-started/). This will give you an idea for the **traffic management**, **security** and **observability** features.
 
 ## Do it yourself, or bring a guide?
 
@@ -27,7 +27,7 @@ $ istioctl install
 
 As new versions are released, you can test them and gradually roll them out across your clusters.
 
-Many managed Kubernetes service providers have an option to automatically install and manage Istio for you. Check out our [distributors page](/about/ecosystem/) to see if your vendor supports Istio.
+Many managed Kubernetes service providers have an option to automatically install and manage Istio for you. Check out our [distributors page](/pt-br/about/ecosystem/) to see if your vendor supports Istio.
 
 Istio is also the engine powering many commercial service management products, with teams of experts ready to help you get on board.
 
@@ -45,9 +45,9 @@ Istio is flexible to match the configuration of your Kubernetes cluster and netw
 
 As long as pods can reach each other on the network, Istio will work; and you can even configure Istio Gateways to act as bastion hosts between networks.
 
-Learn about the [full range of deployment models](/docs/ops/deployment/deployment-models/) in our documentation.
+Learn about the [full range of deployment models](/pt-br/docs/ops/deployment/deployment-models/) in our documentation.
 
-Now is also a great time to think about which integrations you want to use: we recommend [setting up Prometheus](/docs/ops/integrations/prometheus/#Configuration) for service monitoring, with a [hierarchical federation to an external server](/docs/ops/best-practices/observability/). If your company's observability stack is run by a different team, now is the time to get them on board.
+Now is also a great time to think about which integrations you want to use: we recommend [setting up Prometheus](/pt-br/docs/ops/integrations/prometheus/#Configuration) for service monitoring, with a [hierarchical federation to an external server](/pt-br/docs/ops/best-practices/observability/). If your company's observability stack is run by a different team, now is the time to get them on board.
 
 ## Adding services to the mesh on Day 1
 
@@ -57,27 +57,27 @@ Your mesh is now configured and ready to accept services. To do that, you simply
 
 Many services will work out of the box, but by adding a little information to your Kubernetes manifests, you can make Istio much smarter. For example, setting labels for `app` and `version` will help with querying metrics later.
 
-For common ports and protocols, Istio will detect the traffic type. If it can't detect, it will fall back to treating the traffic as TCP, but you can easily [annotate the service](/docs/ops/configuration/traffic-management/protocol-selection/) with the traffic type.
+For common ports and protocols, Istio will detect the traffic type. If it can't detect, it will fall back to treating the traffic as TCP, but you can easily [annotate the service](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/) with the traffic type.
 
-Learn more about [enabling applications for use with Istio](/docs/ops/deployment/application-requirements/).
+Learn more about [enabling applications for use with Istio](/pt-br/docs/ops/deployment/application-requirements/).
 
 ### Enabling security
 
-Istio will configure services in the mesh to use mTLS when talking to one another when possible. Istio will run in "permissive mTLS" mode by default, which means services will accept both encrypted and unencrypted traffic to allow traffic from non-mesh services to remain functional. After onboarding all your services to the mesh, you can [change the authentication policy to only allow encrypted traffic](/docs/tasks/security/authentication/mtls-migration/). You can then be certain that all your traffic is encrypted.
+Istio will configure services in the mesh to use mTLS when talking to one another when possible. Istio will run in "permissive mTLS" mode by default, which means services will accept both encrypted and unencrypted traffic to allow traffic from non-mesh services to remain functional. After onboarding all your services to the mesh, you can [change the authentication policy to only allow encrypted traffic](/pt-br/docs/tasks/security/authentication/mtls-migration/). You can then be certain that all your traffic is encrypted.
 
 ### Istio's two types of APIs
 
-Istio has APIs for platform owners and service owners. Depending on which role you play, you only need to consider a subset. For example, the platform owners will own the installation, authentication and authorization resources. Traffic management resources will be handled by the service owners. [Learn which APIs are useful to you.](/docs/reference/config/)
+Istio has APIs for platform owners and service owners. Depending on which role you play, you only need to consider a subset. For example, the platform owners will own the installation, authentication and authorization resources. Traffic management resources will be handled by the service owners. [Learn which APIs are useful to you.](/pt-br/docs/reference/config/)
 
 ### Connect services on virtual machines
 
-Istio isn't just for Kubernetes; it's possible to [add services on virtual machines](/docs/setup/install/virtual-machine/) (or bare metal) into a mesh, to get all the benefits that Istio provides such as mutual TLS, rich telemetry, and advanced traffic management capabilities.
+Istio isn't just for Kubernetes; it's possible to [add services on virtual machines](/pt-br/docs/setup/install/virtual-machine/) (or bare metal) into a mesh, to get all the benefits that Istio provides such as mutual TLS, rich telemetry, and advanced traffic management capabilities.
 
 ### Monitor your services
 
-Check out traffic flowing through your mesh using [Kiali](/docs/ops/integrations/kiali/), or trace requests using [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) or [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/).
+Check out traffic flowing through your mesh using [Kiali](/pt-br/docs/ops/integrations/kiali/), or trace requests using [Zipkin](/pt-br/docs/tasks/observability/distributed-tracing/zipkin/) or [Jaeger](/pt-br/docs/tasks/observability/distributed-tracing/jaeger/).
 
-Use the default [Grafana](/docs/ops/integrations/grafana/) dashboards for Istio to get automatic reporting of golden signals for services running in a mesh.
+Use the default [Grafana](/pt-br/docs/ops/integrations/grafana/) dashboards for Istio to get automatic reporting of golden signals for services running in a mesh.
 
 ## Operational considerations and Day 2
 
@@ -89,7 +89,7 @@ With istioctl, you can easily install Istio using one of the built-in profiles. 
 
 ### Upgrade safely
 
-When a new version is released, Istio allows for both in-place and canary upgrades. Choosing between the two is a trade off between simplicity and potential downtime. For production environments, it’s recommended to use the [canary upgrade method](/docs/setup/upgrade/canary/). After the new control and data plane versions are verified to be working, you can upgrade your gateways.
+When a new version is released, Istio allows for both in-place and canary upgrades. Choosing between the two is a trade off between simplicity and potential downtime. For production environments, it’s recommended to use the [canary upgrade method](/pt-br/docs/setup/upgrade/canary/). After the new control and data plane versions are verified to be working, you can upgrade your gateways.
 
 ### Monitor the mesh
 

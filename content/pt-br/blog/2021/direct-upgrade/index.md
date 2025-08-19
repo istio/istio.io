@@ -12,7 +12,7 @@ With the release of Istio 1.10, we are announcing Alpha level support for upgrad
 
 ## Upgrade From 1.8 to 1.10
 
-For direct upgrades we recommend using the canary upgrade method so that control plane functionality can be verified before cutting workloads over to the new version. We’ll also be using [revision tags](/blog/2021/revision-tags/) in this guide, an improvement to canary upgrades that was introduced in 1.10, so users don’t have to change the labels on a namespace while upgrading.
+For direct upgrades we recommend using the canary upgrade method so that control plane functionality can be verified before cutting workloads over to the new version. We’ll also be using [revision tags](/pt-br/blog/2021/revision-tags/) in this guide, an improvement to canary upgrades that was introduced in 1.10, so users don’t have to change the labels on a namespace while upgrading.
 
 First, using a version `1.10` or newer `istioctl`, create a revision tag `stable` pointed to your existing `1.8` revision. From now on let’s assume this revision is called `1-8-5`:
 

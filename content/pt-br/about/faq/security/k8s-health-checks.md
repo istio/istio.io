@@ -8,9 +8,9 @@ If mutual TLS is enabled, HTTP and TCP health checks from the kubelet will not w
 There are several options:
 
 1.  Using probe rewrite to redirect liveness and readiness requests to the
-    workload directly. Please refer to [Probe Rewrite](/docs/ops/configuration/mesh/app-health-check/#probe-rewrite)
+    workload directly. Please refer to [Probe Rewrite](/pt-br/docs/ops/configuration/mesh/app-health-check/#probe-rewrite)
     for more information. This is enabled by default and recommended.
 
-1.  Using a separate port for health checks and enabling mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/docs/ops/configuration/mesh/app-health-check/#separate-port) for more information.
+1.  Using a separate port for health checks and enabling mutual TLS only on the regular service port. Please refer to [Health Checking of Istio Services](/pt-br/docs/ops/configuration/mesh/app-health-check/#separate-port) for more information.
 
-1.  Using the [`PERMISSIVE` mode](/docs/tasks/security/authentication/mtls-migration) for the workload, so it can accept both plaintext and mutual TLS traffic. Please keep in mind that mutual TLS is not enforced with this option.
+1.  Using the [`PERMISSIVE` mode](/pt-br/docs/tasks/security/authentication/mtls-migration) for the workload, so it can accept both plaintext and mutual TLS traffic. Please keep in mind that mutual TLS is not enforced with this option.

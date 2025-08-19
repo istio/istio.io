@@ -9,9 +9,9 @@ aliases:
   - /docs/examples/advanced-gateways/egress-tls-origination/
 ---
 
-The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task demonstrates how external,
+The [Accessing External Services](/pt-br/docs/tasks/traffic-management/egress/egress-control) task demonstrates how external,
 i.e., outside of the service mesh, HTTP and HTTPS services can be accessed from applications inside the mesh. As described
-in that task, a [`ServiceEntry`](/docs/reference/config/networking/service-entry/) is used to configure Istio
+in that task, a [`ServiceEntry`](/pt-br/docs/reference/config/networking/service-entry/) is used to configure Istio
 to access external services in a controlled way.
 This example shows how to configure Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}
 for traffic to an external service. Istio will open HTTPS connections to the external service while the original
@@ -29,11 +29,11 @@ is that Istio can produce better telemetry and provide more routing control for 
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+* Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 *   Start the [curl]({{< github_tree >}}/samples/curl) sample which will be used as a test source for external calls.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `curl` application:
+    If you have enabled [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `curl` application:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/curl/curl.yaml@
@@ -57,7 +57,7 @@ is that Istio can produce better telemetry and provide more routing control for 
 ## Configuring access to an external service
 
 First start by configuring access to an external service, `edition.cnn.com`,
-using the same technique shown in the [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task.
+using the same technique shown in the [Accessing External Services](/pt-br/docs/tasks/traffic-management/egress/egress-control) task.
 This time, however, use a single `ServiceEntry` to enable both HTTP and HTTPS access to the service.
 
 1.  Create a `ServiceEntry` to enable access to `edition.cnn.com`:
@@ -272,7 +272,7 @@ the Istio service mesh, i.e., in a namespace without Istio sidecar proxy injecti
 
 1.  Create a namespace to represent services outside the Istio mesh, namely `mesh-external`. Note that the sidecar proxy will
     not be automatically injected into the pods in this namespace since the automatic sidecar injection was not
-    [enabled](/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
+    [enabled](/pt-br/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) on it.
 
     {{< text bash >}}
     $ kubectl create namespace mesh-external

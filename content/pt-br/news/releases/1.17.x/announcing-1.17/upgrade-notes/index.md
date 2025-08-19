@@ -9,7 +9,7 @@ When you upgrade from Istio 1.16.x to Istio 1.17, you need to consider the chang
 These notes detail the changes which purposefully break backwards compatibility with Istio `1.16.x`.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio `1.16.x`.
-Users upgrading from 1.15.x to Istio 1.17 should also reference the [1.16 change notes](/news/releases/1.16.x/announcing-1.16/change-notes/).
+Users upgrading from 1.15.x to Istio 1.17 should also reference the [1.16 change notes](/pt-br/news/releases/1.16.x/announcing-1.16/change-notes/).
 
 ## Gateway naming scheme updated
 

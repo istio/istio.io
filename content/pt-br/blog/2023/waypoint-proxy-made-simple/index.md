@@ -8,7 +8,7 @@ keywords: [istio,ambient,waypoint]
 
 Ambient splits Istio’s functionality into two distinct layers, a secure overlay layer and a
 Layer 7 processing layer. The waypoint proxy is an optional component that is Envoy-based
-and handles L7 processing for workloads it manages. Since the [initial ambient launch](/blog/2022/introducing-ambient-mesh/) in 2022,
+and handles L7 processing for workloads it manages. Since the [initial ambient launch](/pt-br/blog/2022/introducing-ambient-mesh/) in 2022,
 we have made significant changes to simplify waypoint configuration, debuggability and scalability.
 
 ## Architecture of waypoint proxies
@@ -43,7 +43,7 @@ Istiod will monitor these resources and deploy and manage the corresponding wayp
 
 ## Shift source proxy configuration to destination proxy
 
-In the existing sidecar architecture, most traffic-shaping (for example [request routing](/docs/tasks/traffic-management/request-routing/) or [traffic shifting](/docs/tasks/traffic-management/traffic-shifting/) or [fault injection](/docs/tasks/traffic-management/fault-injection/)) policies are implemented by the source (client) proxy while most security policies are implemented by the destination (server) proxy. This leads to a number of concerns:
+In the existing sidecar architecture, most traffic-shaping (for example [request routing](/pt-br/docs/tasks/traffic-management/request-routing/) or [traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/) or [fault injection](/pt-br/docs/tasks/traffic-management/fault-injection/)) policies are implemented by the source (client) proxy while most security policies are implemented by the destination (server) proxy. This leads to a number of concerns:
 
 * Scaling - each source sidecar needs to know information about every other destination in the mesh. This is a polynomial scaling problem. Worse, if any destination configuration changes, we need to notify all sidecars at once.
 * Debugging - because policy enforcement is split between the client and server sidecars, it can be hard to understand the behavior of the system when troubleshooting.
@@ -85,7 +85,7 @@ when you apply it to service account waypoint proxies.
 
 This reduced configuration means lower resource usage (CPU, RAM, and network bandwidth) for both the
 control plane and data plane. While users today can see similar improvements with careful usage of
-`exportTo` in their Istio networking resources or of the [Sidecar](/docs/reference/config/networking/sidecar/) API,
+`exportTo` in their Istio networking resources or of the [Sidecar](/pt-br/docs/reference/config/networking/sidecar/) API,
 in ambient mode this is no longer required, making scaling a breeze.
 
 ## What if my destination doesn’t have a waypoint proxy?
@@ -96,7 +96,7 @@ This is an area under active development in the community, where we design how t
 
 ## A deep-dive of waypoint configuration
 
-Assuming you have followed the [ambient get started guide](/docs/ambient/getting-started/) up to and including the [control traffic section](/docs/ambient/getting-started/#control), you have deployed a waypoint proxy for the bookinfo-reviews service account to direct 90% traffic to reviews v1 and 10% traffic to reviews v2.
+Assuming you have followed the [ambient get started guide](/pt-br/docs/ambient/getting-started/) up to and including the [control traffic section](/pt-br/docs/ambient/getting-started/#control), you have deployed a waypoint proxy for the bookinfo-reviews service account to direct 90% traffic to reviews v1 and 10% traffic to reviews v2.
 
 Use `istioctl` to retrieve the listeners for the `reviews` waypoint proxy:
 
@@ -218,4 +218,4 @@ Note that you don’t get any endpoints related to any services other than revie
 
 ## Wrapping up
 
-We are very excited about the waypoint simplification focusing on destination oriented waypoint proxies. This is another significant step towards simplifying Istio’s usability, scalability and debuggability which are top priorities on Istio’s roadmap. Follow our [getting started guide](/docs/ambient/getting-started/) to try the ambient alpha build today and experience the simplified waypoint proxy!
+We are very excited about the waypoint simplification focusing on destination oriented waypoint proxies. This is another significant step towards simplifying Istio’s usability, scalability and debuggability which are top priorities on Istio’s roadmap. Follow our [getting started guide](/pt-br/docs/ambient/getting-started/) to try the ambient alpha build today and experience the simplified waypoint proxy!

@@ -19,13 +19,13 @@ This is a major release for Istio on the road to 1.0. There are a great many new
 ## Networking
 
 - **Revamped Traffic Management Model**. We're finally ready to take the wraps off our
-[new traffic management APIs](/blog/2018/v1alpha3-routing/). We believe this new model is easier to understand while covering more real world
-deployment [use-cases](/docs/tasks/traffic-management/). For folks upgrading from earlier releases there is a
-[migration guide](/docs/setup/upgrade/) and a conversion tool built into `istioctl` to help convert your configuration from the old model.
+[new traffic management APIs](/pt-br/blog/2018/v1alpha3-routing/). We believe this new model is easier to understand while covering more real world
+deployment [use-cases](/pt-br/docs/tasks/traffic-management/). For folks upgrading from earlier releases there is a
+[migration guide](/pt-br/docs/setup/upgrade/) and a conversion tool built into `istioctl` to help convert your configuration from the old model.
 
 - **Streaming Envoy configuration**. By default Pilot now streams configuration to Envoy using its [ADS API](https://github.com/envoyproxy/data-plane-api/blob/master/xds_protocol.rst). This new approach increases effective scalability, reduces rollout delay and should eliminate spurious 404 errors.
 
-- **Gateway for Ingress/Egress**. We no longer support combining Kubernetes Ingress specs with Istio routing rules as it has led to several bugs and reliability issues. Istio now supports a platform independent [Gateway](/docs/concepts/traffic-management/#gateways) model for ingress & egress proxies that works across Kubernetes and Cloud Foundry and works seamlessly with routing. The Gateway supports [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) based routing,
+- **Gateway for Ingress/Egress**. We no longer support combining Kubernetes Ingress specs with Istio routing rules as it has led to several bugs and reliability issues. Istio now supports a platform independent [Gateway](/pt-br/docs/concepts/traffic-management/#gateways) model for ingress & egress proxies that works across Kubernetes and Cloud Foundry and works seamlessly with routing. The Gateway supports [Server Name Indication](https://en.wikipedia.org/wiki/Server_Name_Indication) based routing,
 as well as serving a certificate based on the server name presented by the client.
 
 - **Constrained Inbound Ports**. We now restrict the inbound ports in a pod to the ones declared by the apps running inside that pod.
@@ -36,7 +36,7 @@ as well as serving a certificate based on the server name presented by the clien
 
 - **Multicluster Support**. We support per-cluster Citadel in multicluster deployments such that all Citadels share the same root certificate and workloads can authenticate each other across the mesh.
 
-- **Authentication Policy**. We've created a unified API for [authentication policy](/docs/tasks/security/authentication/authn-policy/) that controls whether service-to-service communication uses mutual TLS as well as end user authentication. This is now the recommended way to control these behaviors.
+- **Authentication Policy**. We've created a unified API for [authentication policy](/pt-br/docs/tasks/security/authentication/authn-policy/) that controls whether service-to-service communication uses mutual TLS as well as end user authentication. This is now the recommended way to control these behaviors.
 
 ## Telemetry
 

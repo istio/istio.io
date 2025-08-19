@@ -14,7 +14,7 @@ is on the `network2` network. This means there is no direct connectivity
 between pods across cluster boundaries.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/setup/install/multicluster/before-you-begin).
+[before you begin](/pt-br/docs/setup/install/multicluster/before-you-begin).
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
@@ -265,7 +265,7 @@ Here we're configuring the location of the control plane using the `injectionPat
 `remotePilotAddress` parameters. Although convenient for demonstration, in a production
 environment it is recommended to instead configure the `injectionURL` parameter using
 properly signed DNS certs similar to the configuration shown in the
-[external control plane instructions](/docs/setup/install/external-controlplane/#register-the-new-cluster).
+[external control plane instructions](/pt-br/docs/setup/install/external-controlplane/#register-the-new-cluster).
 {{< /tip >}}
 
 ## Attach `cluster2` as a remote cluster of `cluster1`
@@ -359,7 +359,7 @@ and remote clusters on different networks!
 
 ## Next Steps
 
-You can now [verify the installation](/docs/setup/install/multicluster/verify).
+You can now [verify the installation](/pt-br/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 

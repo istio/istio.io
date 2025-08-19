@@ -21,17 +21,17 @@ When validating TLS certificates, Envoy incorrectly allows a wildcard DNS Subjec
 
 Istio users are exposed to this vulnerability in the following ways:
 
-* Direct use of Envoy's `verify_subject_alt_name` and `match_subject_alt_names` configuration via [Envoy Filter](/docs/reference/config/networking/envoy-filter/).
+* Direct use of Envoy's `verify_subject_alt_name` and `match_subject_alt_names` configuration via [Envoy Filter](/pt-br/docs/reference/config/networking/envoy-filter/).
 
-* Use of Istio's [`subjectAltNames` field in destination rules with client TLS settings](/docs/reference/config/networking/destination-rule/#ClientTLSSettings).  A destination rule with a `subjectAltNames` field containing `nested.subdomain.example.com` incorrectly accepts a certificate from an upstream peer with a Subject Alternative Name (SAN) of `*.example.com`.  Instead a SAN of `*.subdomain.example.com` or `nested.subdomain.example.com` should be present.
+* Use of Istio's [`subjectAltNames` field in destination rules with client TLS settings](/pt-br/docs/reference/config/networking/destination-rule/#ClientTLSSettings).  A destination rule with a `subjectAltNames` field containing `nested.subdomain.example.com` incorrectly accepts a certificate from an upstream peer with a Subject Alternative Name (SAN) of `*.example.com`.  Instead a SAN of `*.subdomain.example.com` or `nested.subdomain.example.com` should be present.
 
-* Use of Istio's [`subjectAltNames` in service entries](/docs/reference/config/networking/service-entry/).  A service entry with a `subjectAltNames` field with a value similar to `nested.subdomain.example.com` incorrectly accepts a certificate from an upstream peer with a SAN of `*.example.com`.
+* Use of Istio's [`subjectAltNames` in service entries](/pt-br/docs/reference/config/networking/service-entry/).  A service entry with a `subjectAltNames` field with a value similar to `nested.subdomain.example.com` incorrectly accepts a certificate from an upstream peer with a SAN of `*.example.com`.
 
 The Istio CA, which was formerly known as Citadel, does not issue certificates with DNS wildcard SANs. The vulnerability only impacts configurations that validate externally issued certificates.
 
 ## Mitigation
 
-* For Istio 1.5.x deployments: update to [Istio 1.5.8](/news/releases/1.5.x/announcing-1.5.8) or later.
-* For Istio 1.6.x deployments: update to [Istio 1.6.5](/news/releases/1.6.x/announcing-1.6.5) or later.
+* For Istio 1.5.x deployments: update to [Istio 1.5.8](/pt-br/news/releases/1.5.x/announcing-1.5.8) or later.
+* For Istio 1.6.x deployments: update to [Istio 1.6.5](/pt-br/news/releases/1.6.x/announcing-1.6.5) or later.
 
 {{< boilerplate "security-vulnerability" >}}

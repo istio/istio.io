@@ -23,16 +23,16 @@ The current implementation of the xDS APIs within gRPC is limited in some areas 
 features should work, although this is not an exhaustive list and other features may have partial functionality:
 
 * Basic service discovery. Your gRPC service can reach other pods and virtual machines registered in the mesh.
-* [`DestinationRule`](/docs/reference/config/networking/destination-rule/):
+* [`DestinationRule`](/pt-br/docs/reference/config/networking/destination-rule/):
     * Subsets: Your gRPC service can split traffic based on label selectors to different groups of instances.
     * The only Istio `loadBalancer` currently supported is `ROUND_ROBIN`, `consistentHash` will be added in
       future versions of Istio (it is supported by gRPC).
     * `tls` settings are restricted to `DISABLE` or `ISTIO_MUTUAL`. Other modes will be treated as `DISABLE`.
-* [`VirtualService`](/docs/reference/config/networking/virtual-service/):
+* [`VirtualService`](/pt-br/docs/reference/config/networking/virtual-service/):
     * Header match and URI match in the format `/ServiceName/RPCName`.
     * Override destination host and subset.
     * Weighted traffic shifting.
-* [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/):
+* [`PeerAuthentication`](/pt-br/docs/reference/config/security/peer_authentication/):
     * Only `DISABLE` and `STRICT` are supported. Other modes will be treated as `DISABLE`.
     * Support for auto-mTLS may exist in a future release.
 
@@ -42,7 +42,7 @@ of xDS features in gRPC can be found [here](https://github.com/grpc/grpc/blob/ma
 status of Istio's support will exist in future official docs.
 
 {{< warning >}}
-This is feature is [experimental](/docs/releases/feature-stages/). Standard Istio features will become supported
+This is feature is [experimental](/pt-br/docs/releases/feature-stages/). Standard Istio features will become supported
 over time along with improvements to the overall design.
 {{< /warning >}}
 
@@ -147,7 +147,7 @@ proxyless gRPC. With this app you can try out some supported traffic policies en
 
 ### Prerequisites
 
-This guide requires the Istio (1.11+) control plane [to be installed](/docs/setup/install/) before proceeding.
+This guide requires the Istio (1.11+) control plane [to be installed](/pt-br/docs/setup/install/) before proceeding.
 
 ### Deploy the application
 

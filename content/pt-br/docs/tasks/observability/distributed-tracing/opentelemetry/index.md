@@ -11,14 +11,14 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-[OpenTelemetry](https://opentelemetry.io/) (OTel) is a vendor-neutral, open source observability framework for instrumenting, generating, collecting, and exporting telemetry data. [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otlp/) (OTLP) traces can be sent to [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), as well as many commercial services.
+[OpenTelemetry](https://opentelemetry.io/) (OTel) is a vendor-neutral, open source observability framework for instrumenting, generating, collecting, and exporting telemetry data. [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otlp/) (OTLP) traces can be sent to [Jaeger](/pt-br/docs/tasks/observability/distributed-tracing/jaeger/), as well as many commercial services.
 
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 After completing this task, you will understand how to have your application participate in tracing with [OpenTelemetry](https://www.opentelemetry.io/), regardless of the language, framework, or platform you use to build your application.
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application and the
-[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as the receiver of traces. To see an example of how to send traces directly to an OTLP compatible backend, see the [Jaeger task](/docs/tasks/observability/distributed-tracing/jaeger/).
+This task uses the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample as the example application and the
+[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as the receiver of traces. To see an example of how to send traces directly to an OTLP compatible backend, see the [Jaeger task](/pt-br/docs/tasks/observability/distributed-tracing/jaeger/).
 
 ## Deploy the OpenTelemetry Collector
 
@@ -111,7 +111,7 @@ EOF
 
 ## Deploy the Bookinfo Application
 
-Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Generating traces using the Bookinfo sample
 
@@ -188,5 +188,5 @@ Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.

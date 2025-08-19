@@ -10,7 +10,7 @@ Encryption in transit is a baseline requirement for almost all Kubernetes enviro
 
 However, the challenge with security is that it doesn’t come without a cost: it often involves a trade-off between complexity, user experience, and performance.
 
-While most Cloud Native users will know of Istio as a service mesh, providing advanced HTTP functionality, it can also serve the role of providing a foundational network security layer. When we set out to build [Istio's ambient mode](/docs/overview/dataplane-modes/#ambient-mode), these two layers were explicitly split. One of our primary objectives was to be able to offer security (and a long list of [other features](/docs/concepts/)!) without compromise.
+While most Cloud Native users will know of Istio as a service mesh, providing advanced HTTP functionality, it can also serve the role of providing a foundational network security layer. When we set out to build [Istio's ambient mode](/pt-br/docs/overview/dataplane-modes/#ambient-mode), these two layers were explicitly split. One of our primary objectives was to be able to offer security (and a long list of [other features](/pt-br/docs/concepts/)!) without compromise.
 
 With ambient mode, **Istio is now the highest-bandwidth way to achieve a secure zero-trust network in Kubernetes**.
 
@@ -56,7 +56,7 @@ The tests run on 16 core x86 machines running Linux 6.13. For various reasons, n
 
 Note: many of these implementations support HTTP control.
 This test does not exercise this functionality in any implementation.
-[Previous posts](/blog/2024/ambient-vs-cilium/) have focused on this area of Istio.
+[Previous posts](/pt-br/blog/2024/ambient-vs-cilium/) have focused on this area of Istio.
 
 </details>
 
@@ -87,6 +87,6 @@ Some other factors include:
 
 If you're looking to enhance your cluster's security without compromising on complexity or performance, now is the perfect time to try Istio's ambient mode!
 
-Follow the [getting started guide](/docs/ambient/getting-started/) to learn how easy it is to install and enable.
+Follow the [getting started guide](/pt-br/docs/ambient/getting-started/) to learn how easy it is to install and enable.
 
 You can engage with the developers in the #ambient channel on [the Istio Slack](https://slack.istio.io), or use the [discussion forum on GitHub](https://github.com/istio/istio/discussions) for any questions you may have.

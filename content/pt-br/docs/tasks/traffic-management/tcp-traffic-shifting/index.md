@@ -23,9 +23,9 @@ weighted routing feature.
 
 ## Before you begin
 
-* Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+* Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
-* Review the [Traffic Management](/docs/concepts/traffic-management) concepts doc.
+* Review the [Traffic Management](/pt-br/docs/concepts/traffic-management) concepts doc.
 
 ## Set up the test environment
 
@@ -78,7 +78,7 @@ $ kubectl apply -f @samples/tcp-echo/gateway-api/tcp-echo-all-v1.yaml@ -n istio-
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Follow the instructions in
-[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+[Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 to set the `TCP_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 {{< /tab >}}
@@ -243,7 +243,7 @@ With Istio, you can allow the two versions of the `tcp-echo` service to scale up
 and down independently, without affecting the traffic distribution between them.
 
 For more information about version routing with autoscaling, check out the blog
-article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+article [Canary Deployments using Istio](/pt-br/blog/2017/0.1-canary/).
 
 ## Cleanup
 

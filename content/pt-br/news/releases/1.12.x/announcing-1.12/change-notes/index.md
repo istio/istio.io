@@ -18,7 +18,7 @@ aliases:
 - **Added** validator for empty regex match in VirtualService, preventing invalid Envoy configuration.
   ([Issue #34065](https://github.com/istio/istio/issues/34065))
 
-- **Added** support for `useSourceIP` [consistent hash load balancing](/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB) for TCP traffic. Previously, only HTTP was supported.
+- **Added** support for `useSourceIP` [consistent hash load balancing](/pt-br/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB) for TCP traffic. Previously, only HTTP was supported.
   ([Issue #33558](https://github.com/istio/istio/issues/33558))
 
 - **Added** support for envoy to track active connections during drain and quit if active connections become zero instead of waiting for entire drain duration. This is disabled by default and can be enabled by setting `EXIT_ON_ZERO_ACTIVE_CONNECTIONS` to true.
@@ -43,7 +43,7 @@ aliases:
   ([Issue #35424](https://github.com/istio/istio/issues/35424))
 
 - **Fixed** TCP probes. When using TCP probes with older versions of Istio the check was always successful, even if the application didn't open the port.
-  ([details](/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected))
+  ([details](/pt-br/news/releases/1.12.x/announcing-1.12/upgrade-notes/#tcp-probes-now-working-as-expected))
 
 - **Fixed** Gateway API xRoute does not forward the traffic to that backend when weight `0`.
   ([Issue #34129](https://github.com/istio/istio/issues/34129))
@@ -74,13 +74,13 @@ aliases:
 - **Added** values to the Istio Gateway Helm charts for configuring annotations on the ServiceAccount.  Can be used to enable [IAM Roles for Service Accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) on AWS EKS.
   ([Pull Request #33914](https://github.com/istio/istio/pull/33914))
 
-- **Added** support for [JWT claim based routing](/docs/tasks/security/authentication/jwt-route) on ingress gateways.
+- **Added** support for [JWT claim based routing](/pt-br/docs/tasks/security/authentication/jwt-route) on ingress gateways.
   ([Pull Request #35762](https://github.com/istio/istio/pull/35762))
 
 - **Fixed** the `EnvoyExternalAuthorizationHttpProvider` to match HTTP headers in a case-insensitive way.
   ([Issue #35220](https://github.com/istio/istio/issues/35220))
 
-- **Promoted** the [external authorization](/docs/tasks/security/authorization/authz-custom) feature from Experimental to Alpha.
+- **Promoted** the [external authorization](/pt-br/docs/tasks/security/authorization/authz-custom) feature from Experimental to Alpha.
   ([Pull Request #104](https://github.com/istio/enhancements/pull/104))
 
 ## Telemetry

@@ -75,22 +75,22 @@ Please check [Mixer Deprecation](https://tinyurl.com/mixer-deprecation) notice f
 
 ## Traffic management resource visibility changes
 
-In Istio 1.5 proxy configuration for hosts is determined by [`VirtualService`](/docs/reference/config/networking/virtual-service) visibility in
-addition to that of any relevant [`ServiceEntry`](/docs/reference/config/networking/service-entry/).
+In Istio 1.5 proxy configuration for hosts is determined by [`VirtualService`](/pt-br/docs/reference/config/networking/virtual-service) visibility in
+addition to that of any relevant [`ServiceEntry`](/pt-br/docs/reference/config/networking/service-entry/).
 
-If in previous versions you relied on [`Sidecar`](/docs/reference/config/networking/sidecar/) resources to
+If in previous versions you relied on [`Sidecar`](/pt-br/docs/reference/config/networking/sidecar/) resources to
 restrict the visibility of hosts (mesh internal or external) to a target set of sidecar proxies, you now also need to
-consider the hosts implied by any [`VirtualService`](/docs/reference/config/networking/virtual-service).
+consider the hosts implied by any [`VirtualService`](/pt-br/docs/reference/config/networking/virtual-service).
 
-Depending on your use of [`Sidecar`](/docs/reference/config/networking/sidecar/) resources in your mesh, this may require
-you to review the namespaces that your [`VirtualService`](/docs/reference/config/networking/virtual-service)s are in to
+Depending on your use of [`Sidecar`](/pt-br/docs/reference/config/networking/sidecar/) resources in your mesh, this may require
+you to review the namespaces that your [`VirtualService`](/pt-br/docs/reference/config/networking/virtual-service)s are in to
 ensure only the intended workloads can see them.
 
 More details on this change can be found at [24251](https://github.com/istio/istio/issues/24251) and [20408](https://github.com/istio/istio/pull/20408).
 
 ## Authentication policy
 
-Istio 1.5 introduces [`PeerAuthentication`](/docs/reference/config/security/peer_authentication/) and [`RequestAuthentication`](/docs/reference/config/security/request_authentication/), which are replacing the alpha version of the Authentication API. For more information about how to use the new API, see the [authentication policy](/docs/tasks/security/authentication/authn-policy) tutorial.
+Istio 1.5 introduces [`PeerAuthentication`](/pt-br/docs/reference/config/security/peer_authentication/) and [`RequestAuthentication`](/pt-br/docs/reference/config/security/request_authentication/), which are replacing the alpha version of the Authentication API. For more information about how to use the new API, see the [authentication policy](/pt-br/docs/tasks/security/authentication/authn-policy) tutorial.
 
 * After you upgrade Istio, your alpha authentication policies remain in place and being used. You can gradually replace them with the equivalent `PeerAuthentication` and `RequestAuthentication`. The new policy will take over the old policy in the scope it is defined. We recommend starting with workload-wide (the most specific scope), then namespace-wide, and finally mesh-wide.
 * After you replace policies for workload, namespace, and mesh, you can safely remove the alpha authentication policies. To delete the alpha policies, use this command:
@@ -107,7 +107,7 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 
 ## Automatic mutual TLS
 
-Automatic mutual TLS is now enabled by default. Traffic between sidecars is automatically configured as mutual TLS. You can disable this explicitly if you worry about the encryption overhead by adding the option `-- set values.global.mtls.auto=false` during install. For more details, refer to [automatic mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls).
+Automatic mutual TLS is now enabled by default. Traffic between sidecars is automatically configured as mutual TLS. You can disable this explicitly if you worry about the encryption overhead by adding the option `-- set values.global.mtls.auto=false` during install. For more details, refer to [automatic mutual TLS](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls).
 
 ## Control plane security
 

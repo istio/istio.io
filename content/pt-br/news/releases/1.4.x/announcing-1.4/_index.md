@@ -32,13 +32,13 @@ TCP metrics and Stackdriver metrics.
 ## Authorization policy model in `beta`
 
 The authorization policy model is now in Beta with the introduction of the
-[`v1beta1` authorization policy](/blog/2019/v1beta1-authorization-policy/) that
+[`v1beta1` authorization policy](/pt-br/blog/2019/v1beta1-authorization-policy/) that
 focuses on simplification and flexibility. This will also replace the old
 [`v1alpha1` RBAC policy](https://archive.istio.io/1.4/docs/reference/config/security/istio.rbac.v1alpha1/).
 
 ## Automatic mutual TLS
 
-We added [automatic mutual TLS support](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls). It allows
+We added [automatic mutual TLS support](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls). It allows
 you to adopt mutual TLS without needing to configure destination rules. Istio automatically programs
 client sidecar proxies to send mutual TLS to server endpoints that are able to accept mutual TLS.
 
@@ -48,7 +48,7 @@ future release.
 ## Improved troubleshooting
 
 We're introducing the
-[`istioctl analyze`](/docs/ops/diagnostic-tools/istioctl-analyze/) command to
+[`istioctl analyze`](/pt-br/docs/ops/diagnostic-tools/istioctl-analyze/) command to
 improve troubleshooting of your mesh. Check for problems with
 configuration in your mesh, and even validate new configuration prior to
 submitting it to the mesh.
@@ -60,7 +60,7 @@ experience of using it. Envoy now exits more gracefully on crashes, supports
 more metrics, and can mirror traffic to a percentage of traffic. It reports
 the direction of traffic and has better configuration of `stat patterns`.
 Finally, there is a new
-[experimental command](/docs/reference/commands/istioctl/#istioctl-experimental-wait)
+[experimental command](/pt-br/docs/reference/commands/istioctl/#istioctl-experimental-wait)
 that can tell you when configuration
 has been pushed to all proxies in the mesh.
 

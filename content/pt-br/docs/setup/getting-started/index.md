@@ -11,16 +11,16 @@ test: yes
 ---
 
 {{< tip >}}
-Want to explore Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}? Visit the [Getting Started with Ambient Mode](/docs/ambient/getting-started) guide!
+Want to explore Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}? Visit the [Getting Started with Ambient Mode](/pt-br/docs/ambient/getting-started) guide!
 {{< /tip >}}
 
 This guide lets you quickly evaluate Istio. If you are already familiar with
 Istio or interested in installing other configuration profiles or
-advanced [deployment models](/docs/ops/deployment/deployment-models/), refer to our
-[which Istio installation method should I use?](/about/faq/#install-method-selection)
+advanced [deployment models](/pt-br/docs/ops/deployment/deployment-models/), refer to our
+[which Istio installation method should I use?](/pt-br/about/faq/#install-method-selection)
 FAQ page.
 
-You will need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
+You will need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/pt-br/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/pt-br/docs/setup/platform-setup).
 
 Follow these steps to get started with Istio:
 
@@ -34,7 +34,7 @@ Follow these steps to get started with Istio:
 
 1.  Go to the [Istio release]({{< istio_release_url >}}) page to
     download the installation file for your OS, or [download and
-    extract the latest release automatically](/docs/setup/additional-setup/download-istio-release)
+    extract the latest release automatically](/pt-br/docs/setup/additional-setup/download-istio-release)
     (Linux or macOS):
 
     {{< text bash >}}
@@ -51,7 +51,7 @@ Follow these steps to get started with Istio:
     The installation directory contains:
 
     - Sample applications in `samples/`
-    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
+    - The [`istioctl`](/pt-br/docs/reference/commands/istioctl) client binary in the
       `bin/` directory.
 
 1.  Add the `istioctl` client to your path (Linux or macOS):
@@ -63,13 +63,13 @@ Follow these steps to get started with Istio:
 ## Install Istio {#install}
 
 For this guide, we use the `demo`
-[configuration profile](/docs/setup/additional-setup/config-profiles/). It is
+[configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/). It is
 selected to have a good set of defaults for testing, but there are other
-profiles for production, performance testing or [OpenShift](/docs/setup/platform-setup/openshift/).
+profiles for production, performance testing or [OpenShift](/pt-br/docs/setup/platform-setup/openshift/).
 
-Unlike [Istio Gateways](/docs/concepts/traffic-management/#gateways), creating
+Unlike [Istio Gateways](/pt-br/docs/concepts/traffic-management/#gateways), creating
 [Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/) will, by default, also
-[deploy gateway proxy servers](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+[deploy gateway proxy servers](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
 Because they won't be used, we disable the deployment of the default Istio gateway services that
 are normally installed as part of the `demo` profile.
 
@@ -107,7 +107,7 @@ installed before using the Gateway API.
 
 You have configured Istio to inject sidecar containers into any application you deploy in your `default` namespace.
 
-1.  Deploy the [`Bookinfo` sample application](/docs/examples/bookinfo/):
+1.  Deploy the [`Bookinfo` sample application](/pt-br/docs/examples/bookinfo/):
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -177,7 +177,7 @@ route at the edge of your mesh.
     httproute.gateway.networking.k8s.io/bookinfo created
     {{< /text >}}
 
-    By default, Istio creates a `LoadBalancer` service for a gateway. As we will access this gateway by a tunnel, we don't need a load balancer. If you want to learn about how load balancers are configured for external IP addresses, read the [ingress gateways](/docs/tasks/traffic-management/ingress/ingress-control/) documentation.
+    By default, Istio creates a `LoadBalancer` service for a gateway. As we will access this gateway by a tunnel, we don't need a load balancer. If you want to learn about how load balancers are configured for external IP addresses, read the [ingress gateways](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/) documentation.
 
 1. Change the service type to `ClusterIP` by annotating the gateway:
 
@@ -209,10 +209,10 @@ If you refresh the page, you should see the book reviews and ratings changing as
 
 ## View the dashboard {#dashboard}
 
-Istio integrates with [several different telemetry applications](/docs/ops/integrations). These can help you gain
+Istio integrates with [several different telemetry applications](/pt-br/docs/ops/integrations). These can help you gain
 an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
 
-Use the following instructions to deploy the [Kiali](/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/docs/ops/integrations/prometheus/), [Grafana](/docs/ops/integrations/grafana), and [Jaeger](/docs/ops/integrations/jaeger/).
+Use the following instructions to deploy the [Kiali](/pt-br/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/pt-br/docs/ops/integrations/prometheus/), [Grafana](/pt-br/docs/ops/integrations/grafana), and [Jaeger](/pt-br/docs/ops/integrations/jaeger/).
 
 1.  Install [Kiali and the other addons]({{< github_tree >}}/samples/addons) and wait for them to be deployed.
 
@@ -248,30 +248,30 @@ Congratulations on completing the evaluation installation!
 These tasks are a great place for beginners to further evaluate Istio's
 features using this `demo` installation:
 
-- [Request routing](/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+- [Request routing](/pt-br/docs/tasks/traffic-management/request-routing/)
+- [Fault injection](/pt-br/docs/tasks/traffic-management/fault-injection/)
+- [Traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/)
+- [Querying metrics](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizing metrics](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Accessing external services](/pt-br/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizing your mesh](/pt-br/docs/tasks/observability/kiali/)
 
 Before you customize Istio for production use, see these resources:
 
-- [Deployment models](/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/docs/ops/best-practices/deployment/)
-- [Pod requirements](/docs/ops/deployment/application-requirements/)
-- [General installation instructions](/docs/setup/)
+- [Deployment models](/pt-br/docs/ops/deployment/deployment-models/)
+- [Deployment best practices](/pt-br/docs/ops/best-practices/deployment/)
+- [Pod requirements](/pt-br/docs/ops/deployment/application-requirements/)
+- [General installation instructions](/pt-br/docs/setup/)
 
 ## Join the Istio community
 
 We welcome you to ask questions and give us feedback by joining the
-[Istio community](/get-involved/).
+[Istio community](/pt-br/get-involved/).
 
 ## Uninstall
 
 To delete the `Bookinfo` sample application and its configuration, see
-[`Bookinfo` cleanup](/docs/examples/bookinfo/#cleanup).
+[`Bookinfo` cleanup](/pt-br/docs/examples/bookinfo/#cleanup).
 
 The Istio uninstall deletes the RBAC permissions and all resources hierarchically
 under the `istio-system` namespace. It is safe to ignore errors for non-existent

@@ -20,7 +20,7 @@ We're pleased to announce the availability of Istio 0.3. Please see below for wh
 ## General
 
 Starting with 0.3, Istio is switching to a monthly release cadence. We hope this will help accelerate our ability
-to deliver timely improvements. See [here](/docs/releases/feature-stages/) for information on the state of individual features
+to deliver timely improvements. See [here](/pt-br/docs/releases/feature-stages/) for information on the state of individual features
 for this release.
 
 This is a fairly modest release in terms of new features as the team put emphasis on internal

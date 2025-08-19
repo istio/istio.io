@@ -31,7 +31,7 @@ Therefore the health check requests will fail.
 TCP probe checks need special handling, because Istio redirects all incoming traffic into the sidecar, and so all TCP ports appear open. The Kubelet simply checks if some process is listening on the specified port, and so the probe will always succeed as long as the sidecar is running.
 
 Istio solves both these problems by rewriting the application `PodSpec` readiness/liveness probe,
-so that the probe request is sent to the [sidecar agent](/docs/reference/commands/pilot-agent/).
+so that the probe request is sent to the [sidecar agent](/pt-br/docs/reference/commands/pilot-agent/).
 
 ## Liveness probe rewrite example
 
@@ -102,7 +102,7 @@ $ kubectl get pod "$LIVENESS_POD" -n istio-io-health-rewrite -o=jsonpath="{.spec
 For HTTP and gRPC requests, the sidecar agent redirects the request to the application and strips the response body, only returning the response code. For TCP probes, the sidecar agent will then do the port check while avoiding the traffic redirection.
 
 The rewriting of problematic probes is enabled by default in all built-in Istio
-[configuration profiles](/docs/setup/additional-setup/config-profiles/) but can be disabled as described below.
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/) but can be disabled as described below.
 
 ## Liveness and readiness probes using the command approach
 
@@ -150,7 +150,7 @@ feature either for specific pods, or globally.
 
 ### Disable the probe rewrite for a pod {#disable-the-http-probe-rewrite-for-a-pod}
 
-You can [annotate the pod](/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "false"`
+You can [annotate the pod](/pt-br/docs/reference/config/annotations/) with `sidecar.istio.io/rewriteAppHTTPProbers: "false"`
 to disable the probe rewrite option. Make sure you add the annotation to the
 [pod resource](https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/) because it will be ignored
 anywhere else (for example, on an enclosing deployment resource).
@@ -238,7 +238,7 @@ without reinstalling Istio.
 
 ### Disable the probe rewrite globally
 
-[Install Istio](/docs/setup/install/istioctl/) using `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false`
+[Install Istio](/pt-br/docs/setup/install/istioctl/) using `--set values.sidecarInjectorWebhook.rewriteAppHTTPProbe=false`
 to disable the probe rewrite globally. **Alternatively**, update the configuration map for the Istio sidecar injector:
 
 {{< text bash >}}

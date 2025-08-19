@@ -11,7 +11,7 @@ This message occurs when an `annotation` mentions `istio.io` but the annotation
 - is known, but has a disallowed value, such as a string where a number is needed
 - is applied to the wrong kind of resource, such as a pod-specific resource applied to a service
 
-Consult [Istio's list of resource annotations](/docs/reference/config/annotations/).
+Consult [Istio's list of resource annotations](/pt-br/docs/reference/config/annotations/).
 
 ## Example
 

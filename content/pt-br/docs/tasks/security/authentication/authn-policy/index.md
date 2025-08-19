@@ -11,15 +11,15 @@ test: yes
 ---
 
 This task covers the primary activities you might need to perform when enabling, configuring, and using Istio authentication policies. Find out more about
-the underlying concepts in the [authentication overview](/docs/concepts/security/#authentication).
+the underlying concepts in the [authentication overview](/pt-br/docs/concepts/security/#authentication).
 
 ## Before you begin
 
-* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related
-[mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
+* Understand Istio [authentication policy](/pt-br/docs/concepts/security/#authentication-policies) and related
+[mutual TLS authentication](/pt-br/docs/concepts/security/#mutual-tls-authentication) concepts.
 
 * Install Istio on a Kubernetes cluster with the `default` configuration profile, as described in
-[installation steps](/docs/setup/getting-started).
+[installation steps](/pt-br/docs/setup/getting-started).
 
 {{< text bash >}}
 $ istioctl install --set profile=default
@@ -323,7 +323,7 @@ $ kubectl delete peerauthentication httpbin -n bar
 To experiment with this feature, you need a valid JWT. The JWT must correspond to the JWKS endpoint you want to use for the demo. This tutorial uses the test token [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) and
 [JWKS endpoint]({{< github_file >}}/security/tools/jwt/samples/jwks.json) from the Istio code base.
 
-Also, for convenience, expose `httpbin.foo` via an ingress gateway (for more details, see the [ingress task](/docs/tasks/traffic-management/ingress/)).
+Also, for convenience, expose `httpbin.foo` via an ingress gateway (for more details, see the [ingress task](/pt-br/docs/tasks/traffic-management/ingress/)).
 
 {{< boilerplate gateway-api-support >}}
 
@@ -338,7 +338,7 @@ $ kubectl apply -f @samples/httpbin/httpbin-gateway.yaml@ -n foo
 {{< /text >}}
 
 Follow the instructions in
-[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+[Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 to define the `INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 {{< /tab >}}

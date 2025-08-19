@@ -27,4 +27,4 @@ Consult the [Zipkin documentation](https://zipkin.io/) to get started. No specia
 
 ## Usage
 
-For information on using Zipkin, please refer to the [Zipkin task](/docs/tasks/observability/distributed-tracing/zipkin/).
+For information on using Zipkin, please refer to the [Zipkin task](/pt-br/docs/tasks/observability/distributed-tracing/zipkin/).

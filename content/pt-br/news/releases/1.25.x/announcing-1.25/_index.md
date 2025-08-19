@@ -37,7 +37,7 @@ In this release, we have added the ability to target policy to a named `GatewayC
 
 Whether for reliability, performance, or cost reasons, controlling cross-zone and cross-region traffic is often an important "day 2" operation for users. With Istio 1.25, this just got even easier!
 
-[Kubernetes's traffic distribution](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) feature is now fully supported, offering a simplified interface to keep traffic local. The existing Istio [locality load balancing](/docs/tasks/traffic-management/locality-load-balancing/) settings remain available for more complex use cases.
+[Kubernetes's traffic distribution](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) feature is now fully supported, offering a simplified interface to keep traffic local. The existing Istio [locality load balancing](/pt-br/docs/tasks/traffic-management/locality-load-balancing/) settings remain available for more complex use cases.
 
 In ambient mode, ztunnel will now report the additional `source_zone`, `source_region`, `destination_zone`, and `destination_region` labels to all metrics, giving a clear view of cross-zonal traffic.
 

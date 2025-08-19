@@ -18,7 +18,7 @@ Upgrading from Istio versions 1.5 and prior, to 1.6 and later, may result in acc
 - **Incorrect gateway ports on authorization policies on upgrades**: In Istio
 versions 1.6 and later, the default container ports for Istio ingress
 gateways are updated from port "80" to "8080" and "443" to "8443" to allow
-[gateways to run as non-root](/news/releases/1.7.x/announcing-1.7/upgrade-notes/#gateways-run-as-non-root)
+[gateways to run as non-root](/pt-br/news/releases/1.7.x/announcing-1.7/upgrade-notes/#gateways-run-as-non-root)
 by default. With this change, any existing authorization policies targeting
 an Istio ingress gateway on ports `80` and `443` need to be migrated to use the
 new container ports `8080` and `8443`, before upgrading to the listed versions.

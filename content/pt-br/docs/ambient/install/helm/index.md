@@ -14,14 +14,14 @@ test: yes
 {{< tip >}}
 Follow this guide to install and configure an Istio mesh with support for ambient mode.
 If you are new to Istio, and just want to try it out, follow the
-[quick start instructions](/docs/ambient/getting-started) instead.
+[quick start instructions](/pt-br/docs/ambient/getting-started) instead.
 {{< /tip >}}
 
-We encourage the use of Helm to install Istio for production use in ambient mode. To allow controlled upgrades, the control plane and data plane components are packaged and installed separately. (Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components.)
+We encourage the use of Helm to install Istio for production use in ambient mode. To allow controlled upgrades, the control plane and data plane components are packaged and installed separately. (Because the ambient data plane is split across [two components](/pt-br/docs/ambient/architecture/data-plane), the ztunnel and waypoints, upgrades involve separate steps for these components.)
 
 ## Prerequisites
 
-1. Check the [Platform-Specific Prerequisites](/docs/ambient/install/platform-prerequisites).
+1. Check the [Platform-Specific Prerequisites](/pt-br/docs/ambient/install/platform-prerequisites).
 
 1. [Install the Helm client](https://helm.sh/docs/intro/install/), version 3.6 or above.
 
@@ -40,9 +40,9 @@ Default configuration values can be changed using one or more `--set <parameter>
 You can display the default values of configuration parameters using the `helm show values <chart>` command or refer to Artifact Hub chart documentation for the [base](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [istiod](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values), [CNI](https://artifacthub.io/packages/helm/istio-official/cni?modal=values), [ztunnel](https://artifacthub.io/packages/helm/istio-official/ztunnel?modal=values) and [Gateway](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values) chart configuration parameters.
 {{< /tip >}}
 
-Full details on how to use and customize Helm installations are available in [the sidecar installation documentation](/docs/setup/install/helm/).
+Full details on how to use and customize Helm installations are available in [the sidecar installation documentation](/pt-br/docs/setup/install/helm/).
 
-Unlike [istioctl](/docs/ambient/install/istioctl/) profiles, which group together components to be installed or removed, Helm profiles simply set groups of configuration values.
+Unlike [istioctl](/pt-br/docs/ambient/install/istioctl/) profiles, which group together components to be installed or removed, Helm profiles simply set groups of configuration values.
 
 ### Base components
 
@@ -89,7 +89,7 @@ $ helm install ztunnel istio/ztunnel -n istio-system --wait
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
 If you use the Gateway API, you do not need to install and manage an ingress gateway Helm chart as described below.
-Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
+Refer to the [Gateway API task](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
 {{< /tip >}}
 
 To install an ingress gateway, run the command below:
@@ -98,7 +98,7 @@ To install an ingress gateway, run the command below:
 $ helm install istio-ingress istio/gateway -n istio-ingress --create-namespace --wait
 {{< /text >}}
 
-If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+If your Kubernetes cluster doesn't support the `LoadBalancer` service type (`type: LoadBalancer`) with a proper external IP assigned, run the above command without the `--wait` parameter to avoid the infinite wait. See [Installing Gateways](/pt-br/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
 ## Configuration
 
@@ -135,8 +135,8 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
 ### Verify with the sample application
 
-After installing ambient mode with Helm, you can follow the [Deploy the sample application](/docs/ambient/getting-started/deploy-sample-app/) guide to deploy the sample application and ingress gateways, and then you can
-[add your application to the ambient mesh](/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
+After installing ambient mode with Helm, you can follow the [Deploy the sample application](/pt-br/docs/ambient/getting-started/deploy-sample-app/) guide to deploy the sample application and ingress gateways, and then you can
+[add your application to the ambient mesh](/pt-br/docs/ambient/getting-started/secure-and-visualize/#add-bookinfo-to-the-mesh).
 
 ## Uninstall
 
@@ -240,7 +240,7 @@ If attempting to install and manage Istio using `helm template`, please note the
 
 1. While `helm install` will automatically detect environment specific settings from your Kubernetes context,
 `helm template` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
-that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+that you follow [these steps](/pt-br/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
 Kubernetes environment does not support third party service account tokens.
 
 1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the

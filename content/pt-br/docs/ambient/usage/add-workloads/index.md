@@ -16,11 +16,11 @@ Ambient mode can be seamlessly enabled (or disabled) completely transparently as
 
 ### Layer 4 and Layer 7 functionality
 
-The secure L4 overlay supports authentication and authorization policies. [Learn about L4 policy support in ambient mode](/docs/ambient/usage/l4-policy/). To opt-in to use Istio's L7 functionality, such as traffic routing, you will need to [deploy a waypoint proxy and enroll your workloads to use it](/docs/ambient/usage/waypoint/).
+The secure L4 overlay supports authentication and authorization policies. [Learn about L4 policy support in ambient mode](/pt-br/docs/ambient/usage/l4-policy/). To opt-in to use Istio's L7 functionality, such as traffic routing, you will need to [deploy a waypoint proxy and enroll your workloads to use it](/pt-br/docs/ambient/usage/waypoint/).
 
 ### Ambient and Kubernetes NetworkPolicy
 
-See [ambient and Kubernetes NetworkPolicy](/docs/ambient/usage/networkpolicy/).
+See [ambient and Kubernetes NetworkPolicy](/pt-br/docs/ambient/usage/networkpolicy/).
 
 ## Communicating between pods in different data plane modes
 

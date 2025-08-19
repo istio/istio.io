@@ -16,7 +16,7 @@ We are pleased to announce the release of Istio 1.6!
 {{< relnote >}}
 
 With this release, we continue the path we charted earlier this year in
-our [roadmap post](/blog/2020/tradewinds-2020/), sailing toward more
+our [roadmap post](/pt-br/blog/2020/tradewinds-2020/), sailing toward more
 simplicity, a better installation experience, and we have added other goodies as
 well.
 
@@ -49,20 +49,20 @@ Upgrading Istio has been improved as well, in several powerful ways. First, we
 now support canarying of the Istio control plane itself. That means you can
 install a new version of the control plane alongside the existing version and
 selectively have proxies use the new one. Check out this
-[blog post](/blog/2020/multiple-control-planes/) for more details on that.
+[blog post](/pt-br/blog/2020/multiple-control-planes/) for more details on that.
 
 We also have an `istioctl upgrade` command that will perform an in-place
 upgrade in your clusters (still giving you the control over updating the proxies
 themselves).
 
-Check out the [documentation](/docs/setup/upgrade/) for all of the details on
+Check out the [documentation](/pt-br/docs/setup/upgrade/) for all of the details on
 the new upgrade experience.
 
 ## Observe this
 
 Many companies adopt Istio solely to get better observability of distributed
 applications, so we continue to invest there. There are too many changes to list
-them all here, so please see the [release notes](/news/releases/1.6.x/announcing-1.6/change-notes/)
+them all here, so please see the [release notes](/pt-br/news/releases/1.6.x/announcing-1.6/change-notes/)
 for the full details. Some
 highlights: you'll see more configurability, better
 ability to control your trace sampling rates, and updated Grafana dashboards
@@ -77,7 +77,7 @@ great progress here.
 
 For those of you who are adding non-Kubernetes workloads to meshes (for
 example, workloads deployed on VMs), the new
-[`WorkloadEntry`](/docs/reference/config/networking/workload-entry/) resource
+[`WorkloadEntry`](/pt-br/docs/reference/config/networking/workload-entry/) resource
 makes that easier than ever. We created this API to give non-Kubernetes
 workloads first-class representation in Istio. It elevates a VM or bare metal
 workload to the same level as a Kubernetes `Pod`, instead of just an endpoint

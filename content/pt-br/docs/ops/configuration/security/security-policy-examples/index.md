@@ -14,15 +14,15 @@ as a quick reference to example policies.
 The policies demonstrated here are just examples and require changes to adapt to your actual environment
 before applying.
 
-Also read the [authentication](/docs/tasks/security/authentication/authn-policy) and
-[authorization](/docs/tasks/security/authorization) tasks for a hands-on tutorial of using the security policy in
+Also read the [authentication](/pt-br/docs/tasks/security/authentication/authn-policy) and
+[authorization](/pt-br/docs/tasks/security/authorization) tasks for a hands-on tutorial of using the security policy in
 more detail.
 
 ## Require different JWT issuer per host
 
 JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
 hosts. You can use the authorization policy for fine grained JWT validation in addition to the
-[request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
+[request authentication](/pt-br/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 
 Use the following policy if you want to allow access to the given hosts if JWT principal matches. Access to other hosts
 will always be denied.
@@ -141,7 +141,7 @@ You can use the `DENY` policy if you want to require mandatory authorization che
 bypassed by another more permissive `ALLOW` policy. This works because the `DENY` policy takes precedence over the
 `ALLOW` policy and could deny a request early before `ALLOW` policies.
 
-Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
+Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/pt-br/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
 The policy denies the request if the request principal is empty. The request principal will be empty if JWT validation failed.
 In other words, the policy allows requests if the request principal is non-empty.
 `"*"` means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.

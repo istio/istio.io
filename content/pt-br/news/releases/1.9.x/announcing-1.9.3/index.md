@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.9.3
 ---
 
-This release fixes the security vulnerability described in [our April 15th post](/news/security/istio-security-2021-003).
+This release fixes the security vulnerability described in [our April 15th post](/pt-br/news/security/istio-security-2021-003).
 
 {{< relnote >}}
 

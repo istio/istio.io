@@ -16,7 +16,7 @@ All content accepted into the Istio documentation must be **clear** and
 **understandable**. The standard we use to make that determination is defined by
 the [highlights](https://developers.google.com/style/highlights) and
 the [general principles](https://developers.google.com/style/tone) of the Google
-developer style guide. See our [review page](/docs/releases/contribute/review) for details on how your content
+developer style guide. See our [review page](/pt-br/docs/releases/contribute/review) for details on how your content
 contributions are reviewed and accepted.
 
 Here you can find all the scenarios where the Istio project has decided to

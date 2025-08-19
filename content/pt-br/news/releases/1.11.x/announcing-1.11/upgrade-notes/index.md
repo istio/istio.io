@@ -74,7 +74,7 @@ configuration to enable host header fallback.
 
 `EnvoyFilter` matches rely on internal implementation details to match generated xDS segments, which is subject to change at any time.
 
-In this release, the [virtual host name match](/docs/reference/config/networking/envoy-filter/#EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch) may have different results.
+In this release, the [virtual host name match](/pt-br/docs/reference/config/networking/envoy-filter/#EnvoyFilter-RouteConfigurationMatch-VirtualHostMatch) may have different results.
 
 Previously, each domain name had its own virtual host. As an optimization, multiple domains may use a single virtual host.
 This means that an Envoy Filter previously matching a specific virtual host may now apply to more domains than in previous releases.

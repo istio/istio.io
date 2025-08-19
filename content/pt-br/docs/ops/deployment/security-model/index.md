@@ -11,13 +11,13 @@ This document aims to describe the security posture of Istio's various component
 ## Components
 
 Istio comes with a variety of optional components that will be covered here.
-For a high level overview, see [Istio Architecture](/docs/ops/deployment/architecture/).
+For a high level overview, see [Istio Architecture](/pt-br/docs/ops/deployment/architecture/).
 Note that Istio deployments are highly flexible; below, we will primarily assume the worst case scenarios.
 
 ### Istiod
 
-Istiod serves as the core control plane component of Istio, often serving the role of the [XDS serving component](/docs/concepts/traffic-management/) as well
-as the mesh [mTLS Certificate Authority](/docs/concepts/security/).
+Istiod serves as the core control plane component of Istio, often serving the role of the [XDS serving component](/pt-br/docs/concepts/traffic-management/) as well
+as the mesh [mTLS Certificate Authority](/pt-br/docs/concepts/security/).
 
 Istiod is considered a highly privileged component, similar to that of the Kubernetes API server itself.
 * It has high Kubernetes RBAC privileges, typically including `Secret` read access and webhook write access.
@@ -29,7 +29,7 @@ Following [Kubernetes security best practices](https://kubernetes.io/docs/concep
 
 ### Istio CNI plugin
 
-Istio can optionally be deployed with the [Istio CNI Plugin `DaemonSet`](/docs/setup/additional-setup/cni/).
+Istio can optionally be deployed with the [Istio CNI Plugin `DaemonSet`](/pt-br/docs/setup/additional-setup/cni/).
 This `DaemonSet` is responsible for setting up networking rules in Istio to ensure traffic is transparently redirected as needed.
 This is an alternative to the `istio-init` container discussed [below](#sidecar-proxies).
 
@@ -42,7 +42,7 @@ this option is generally recommended.
 
 ### Sidecar Proxies
 
-Istio may [optionally](/docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
+Istio may [optionally](/pt-br/docs/overview/dataplane-modes/) deploy a sidecar proxy next to an application.
 
 The sidecar proxy needs the network to be programmed to direct all traffic through the proxy.
 This can be done with the [Istio CNI plugin](#istio-cni-plugin) or by deploying an `initContainer` (`istio-init`) on the pod (this is done automatically if the CNI plugin is not deployed).
@@ -76,15 +76,15 @@ This, again, ensures these privileges are **node-local** only.
 
 When a pod is enrolled in the mesh, all incoming TCP traffic will be redirected to the proxy.
 This includes both mTLS/{{< gloss >}}HBONE{{< /gloss >}} traffic and plaintext traffic.
-Any applicable [policies](/docs/tasks/security/authorization/) for the workload will be enforced before forwarding the traffic to the workload.
+Any applicable [policies](/pt-br/docs/tasks/security/authorization/) for the workload will be enforced before forwarding the traffic to the workload.
 
 However, Istio does not currently guarantee that _outgoing_ traffic is redirect to the proxy.
-See [traffic capture limitations](/docs/ops/best-practices/security/#understand-traffic-capture-limitations).
-As such, care must be taken to follow the [securing egress traffic](/docs/ops/best-practices/security/#securing-egress-traffic) steps if outbound policies are required.
+See [traffic capture limitations](/pt-br/docs/ops/best-practices/security/#understand-traffic-capture-limitations).
+As such, care must be taken to follow the [securing egress traffic](/pt-br/docs/ops/best-practices/security/#securing-egress-traffic) steps if outbound policies are required.
 
 ## Mutual TLS Properties
 
-[Mutual TLS](/docs/concepts/security/#mutual-tls-authentication) provides the basis for much of Istio's security posture.
+[Mutual TLS](/pt-br/docs/concepts/security/#mutual-tls-authentication) provides the basis for much of Istio's security posture.
 Below explains various properties mutual TLS provides for the security posture of Istio.
 
 ### Certificate Authority
@@ -104,12 +104,12 @@ Istio can also integrate with a variety of third party CAs; please refer to any 
 
 {{< tabset category-name="dataplane" >}}
 {{< tab name="Sidecar mode" category-value="sidecar" >}}
-In sidecar mode, the client sidecar will [automatically use TLS](/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) when connecting to a service
-that is detected to support mTLS. This can also be [explicitly configured](/docs/ops/configuration/traffic-management/tls-configuration/#sidecars).
+In sidecar mode, the client sidecar will [automatically use TLS](/pt-br/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) when connecting to a service
+that is detected to support mTLS. This can also be [explicitly configured](/pt-br/docs/ops/configuration/traffic-management/tls-configuration/#sidecars).
 Note that this automatic detection relies on Istio associating the traffic to a Service.
-[Unsupported traffic types](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic) or [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping/) can prevent this.
+[Unsupported traffic types](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic) or [configuration scoping](/pt-br/docs/ops/configuration/mesh/configuration-scoping/) can prevent this.
 
-When [connecting to a backend](/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the Service level, based on the union of all backend's identities.
+When [connecting to a backend](/pt-br/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the Service level, based on the union of all backend's identities.
 {{< /tab >}}
 
 {{< tab name="Ambient mode" category-value="ambient" >}}
@@ -174,8 +174,8 @@ Additionally, as the pod itself doesn't have access to a service account token t
 {{< /tabset >}}
 
 Istio offers a variety of features that can limit the impact of such a compromise:
-* [Observability](/docs/tasks/observability/) features can be used to identify the attack.
-* [Policies](/docs/tasks/security/authorization/) can be used to restrict what type of traffic a workload can send or receive.
+* [Observability](/pt-br/docs/tasks/observability/) features can be used to identify the attack.
+* [Policies](/pt-br/docs/tasks/security/authorization/) can be used to restrict what type of traffic a workload can send or receive.
 
 ### Proxy compromise - Sidecars
 
@@ -188,7 +188,7 @@ In this scenario, a [waypoint proxy](#gateways-and-waypoints) is compromised.
 While waypoints do not have any privileges for a hacker to exploit, they do serve (potentially) many different services and workloads.
 A compromised waypoint will receive all traffic for these, which it can view, modify, or drop.
 
-Istio offers the flexibility of [configuring the granularity of a waypoint deployment](/docs/ambient/usage/waypoint/#useawaypoint).
+Istio offers the flexibility of [configuring the granularity of a waypoint deployment](/pt-br/docs/ambient/usage/waypoint/#useawaypoint).
 Users may consider deploying more isolated waypoints if they require stronger isolation.
 
 Because waypoints run with a distinct identity from the applications they serve, a compromised waypoint does not imply the user's applications can be impersonated.
@@ -223,4 +223,4 @@ removing any Istio `AuthorizationPolicies`, or even uninstalling Istio entirely.
 
 A compromise of Istiod generally leads to the same result as an [API Server compromise](#cluster-api-server-compromise).
 Istiod is a highly privileged component that should be strongly protected.
-Following the [security best practices](/docs/ops/best-practices/security) is crucial to maintaining a secure cluster.
+Following the [security best practices](/pt-br/docs/ops/best-practices/security) is crucial to maintaining a secure cluster.

@@ -14,9 +14,9 @@ API design is more of an art than a science, and Istio is often used as an API t
 
 When we launched Istio in 2017, we brought many years of experience from Google's production API serving infrastructure and IBM's Amalgam8 project, and mapped it onto Kubernetes. We soon came up against the limitations of Kubernetes' Ingress API. A desire to support all proxy implementations meant that Ingress only supported the most basic of HTTP routing features, with other features often implemented as vendor-specific annotations. The Ingress API was shared between infrastructure admins ("create and configure a load balancer"), cluster operators ("manage a TLS certificate for my entire domain") and application users ("use it to route /foo to the foo service").
 
-We [rewrote our traffic APIs in early 2018](/blog/2018/v1alpha3-routing/) to address user feedback, and to more adequately address these concerns.
+We [rewrote our traffic APIs in early 2018](/pt-br/blog/2018/v1alpha3-routing/) to address user feedback, and to more adequately address these concerns.
 
-A primary feature of Istio's new model was having separate APIs that describe infrastructure (the load balancer, represented by the [Gateway](/docs/concepts/traffic-management/#gateways)), and application (routing and post-routing, represented by the [VirtualService](/docs/concepts/traffic-management/#virtual-services) and [DestinationRule](/docs/concepts/traffic-management/#destination-rules)).
+A primary feature of Istio's new model was having separate APIs that describe infrastructure (the load balancer, represented by the [Gateway](/pt-br/docs/concepts/traffic-management/#gateways)), and application (routing and post-routing, represented by the [VirtualService](/pt-br/docs/concepts/traffic-management/#virtual-services) and [DestinationRule](/pt-br/docs/concepts/traffic-management/#destination-rules)).
 
 Ingress worked well as a lowest common denominator between different implementations, but its shortcomings led SIG Network to investigate the design of a "version 2". A [user survey in 2018](https://github.com/bowei/k8s-ingress-survey-2018/blob/master/survey.pdf) was followed by [a proposal for new APIs in 2019](https://www.youtube.com/watch?v=Ne9UJL6irXY), based in large part on Istio's traffic APIs. That effort came to be known as the "Gateway API".
 
@@ -24,13 +24,13 @@ The Gateway API was built to be able to model many more use cases, with extensio
 
 ## Support for the Gateway API in Istio
 
-Istio added [support for the Gateway API](/docs/tasks/traffic-management/ingress/gateway-api/) in November 2020, with support marked Alpha along with the API implementation. With the Beta release of the API spec we are pleased to announce support for ingress use in Istio is being promoted to Beta. We also encourage early adopters to start experimenting with the Gateway API for mesh (service-to-service) use, and we will move that support to Beta when SIG Network has standardized the required semantics.
+Istio added [support for the Gateway API](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/) in November 2020, with support marked Alpha along with the API implementation. With the Beta release of the API spec we are pleased to announce support for ingress use in Istio is being promoted to Beta. We also encourage early adopters to start experimenting with the Gateway API for mesh (service-to-service) use, and we will move that support to Beta when SIG Network has standardized the required semantics.
 
 Around the time of the v1 release of the API, we intend to make the Gateway API the default method for configuring all traffic routing in Istio - for ingress (north-south) and service-to-service (east-west). At that time, we will change our documentation and examples to reflect the recommendation.
 
 Just like Kubernetes intends to support the Ingress API for many years after the Gateway API goes stable, the Istio APIs (Gateway, VirtualService and DestinationRule) will remain supported for the foreseeable future.
 
-Not only that, but you can continue to use the existing Istio traffic APIs alongside the Gateway API, for example, using an [HTTPRoute](https://gateway-api.sigs.k8s.io/v1beta1/api-types/httproute/) with an Istio [VirtualService](/docs/reference/config/networking/virtual-service/).
+Not only that, but you can continue to use the existing Istio traffic APIs alongside the Gateway API, for example, using an [HTTPRoute](https://gateway-api.sigs.k8s.io/v1beta1/api-types/httproute/) with an Istio [VirtualService](/pt-br/docs/reference/config/networking/virtual-service/).
 
 The similarity between the APIs means that we will be able to offer a tool to easily convert Istio API objects to Gateway API objects, and we will release this alongside the v1 version of the API.
 

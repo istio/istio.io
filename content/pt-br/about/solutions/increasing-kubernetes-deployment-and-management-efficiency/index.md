@@ -8,4 +8,4 @@ sidebar_force: sidebar_solution
 type: solutions
 ---
 
-We are hard at work on publishing solutions guides to help you understand what you can do with Istio. Until then, please check out our [traffic management](/docs/tasks/traffic-management/) documentation.
+We are hard at work on publishing solutions guides to help you understand what you can do with Istio. Until then, please check out our [traffic management](/pt-br/docs/tasks/traffic-management/) documentation.

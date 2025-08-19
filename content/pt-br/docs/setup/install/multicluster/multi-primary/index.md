@@ -12,7 +12,7 @@ clusters reside on the `network1` network, meaning there is direct
 connectivity between the pods in both clusters.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/setup/install/multicluster/before-you-begin).
+[before you begin](/pt-br/docs/setup/install/multicluster/before-you-begin).
 
 In this configuration, each control plane observes the API Servers in both
 clusters for endpoints.
@@ -151,7 +151,7 @@ primary clusters!
 
 ## Next Steps
 
-You can now [verify the installation](/docs/setup/install/multicluster/verify).
+You can now [verify the installation](/pt-br/docs/setup/install/multicluster/verify).
 
 ## Cleanup
 

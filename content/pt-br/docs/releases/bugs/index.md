@@ -22,7 +22,7 @@ it. If you don't find your problem in the database, please open a [new
 issue](https://github.com/istio/istio/issues/new/choose) and let us know
 what's going on.
 
-If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/docs/releases/security-vulnerabilities/)
+If you think a bug is in fact a security vulnerability, please visit [Reporting Security Vulnerabilities](/pt-br/docs/releases/security-vulnerabilities/)
 to learn what to do.
 
 ### Kubernetes cluster state archives
@@ -50,7 +50,7 @@ If you are running `bug-report` on a large cluster, it might fail to complete.
 Please use the `--include ns1,ns2` option to target the collection of proxy
 commands and logs only for the relevant namespaces. For more bug-report options,
 please visit [the istioctl bug-report
-reference](/docs/reference/commands/istioctl/#istioctl-bug-report).
+reference](/pt-br/docs/reference/commands/istioctl/#istioctl-bug-report).
 {{< /tip >}}
 
 If you are unable to use the `bug-report` command, please attach your own archive

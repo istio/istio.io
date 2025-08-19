@@ -3,7 +3,7 @@ title: Why is my CORS configuration not working?
 weight: 40
 ---
 
-After applying [CORS configuration](/docs/reference/config/networking/virtual-service/#CorsPolicy), you may find that seemingly nothing happened and wonder what went wrong.
+After applying [CORS configuration](/pt-br/docs/reference/config/networking/virtual-service/#CorsPolicy), you may find that seemingly nothing happened and wonder what went wrong.
 CORS is a commonly misunderstood HTTP concept that often leads to confusion when configuring.
 
 To understand this, it helps to take a step back and look at [what CORS is](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) and when it should be used.

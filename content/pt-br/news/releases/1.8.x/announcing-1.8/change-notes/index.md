@@ -67,7 +67,7 @@ If this is not needed or creates problems with non Envoy clients, it can disable
   ([Pull Request #27500](https://github.com/istio/istio/pull/27500))
 
 - **Updated** The `ipBlocks`/`notIpBlocks` fields of an `AuthorizationPolicy` now strictly refer to the source IP address of the IP packet as it arrives at the sidecar.  Prior to this release, if using the Proxy Protocol, then the `ipBlocks`/`notIpBlocks` would refer to the IP address determined by the Proxy Protocol.  Now the `remoteIpBlocks`/`notRemoteIpBlocks` fields must be used to refer to the client IP address from the Proxy Protocol.
- ([reference](/docs/reference/config/security/authorization-policy/))([usage](/docs/ops/configuration/traffic-management/network-topologies/))([usage](/docs/tasks/security/authorization/authz-ingress/)) ([Issue #22341](https://github.com/istio/istio/issues/22341))
+ ([reference](/pt-br/docs/reference/config/security/authorization-policy/))([usage](/pt-br/docs/ops/configuration/traffic-management/network-topologies/))([usage](/pt-br/docs/tasks/security/authorization/authz-ingress/)) ([Issue #22341](https://github.com/istio/istio/issues/22341))
 
 - **Added** `AuthorizationPolicy` now supports nested JWT claims.
   ([Issue #21340](https://github.com/istio/istio/issues/21340))
@@ -77,7 +77,7 @@ This fixes the multi-cluster service discovery client SAN generation to use all 
   ([Pull Request #26185](https://github.com/istio/istio/pull/26185))
 
 - **Added** Experimental feature support allowing Istiod to integrate with external certificate authorities using Kubernetes CSR API (>=1.18 only).
-  ([Issue #27606](https://github.com/istio/istio/issues/27606))([usage](/docs/tasks/security/cert-management/custom-ca-k8s/))
+  ([Issue #27606](https://github.com/istio/istio/issues/27606))([usage](/pt-br/docs/tasks/security/cert-management/custom-ca-k8s/))
 
 - **Added** Enable user to set the custom VM identity provider for credential authentication
   ([Issue #27947](https://github.com/istio/istio/issues/27947))
@@ -90,8 +90,8 @@ default, can be disabled by `REQUIRE_3P_TOKEN` environment variable in Istiod, w
 `TOKEN_AUDIENCES` environment variable allows customizing the checked audience, default remains `istio-ca`.
   ([Pull Request #26482](https://github.com/istio/istio/pull/26482))
 
-- **Added** `AuthorizationPolicy` now supports a `Source` of type `remoteIpBlocks`/`notRemoteIpBlocks` that map to a new `Condition` attribute called `remote.ip` that can also be used in the "when" clause.  If using an http/https load balancer in front of the ingress gateway, the `remote.ip` attribute is set to the original client IP address determined by the `X-Forwarded-For` http header from the trusted proxy configured through the `numTrustedProxies` field of the `gatewayTopology` under the `meshConfig` when you install Istio or set it via an annotation on the ingress gateway.  See the documentation here: [Configuring Gateway Network Topology](/docs/ops/configuration/traffic-management/network-topologies/). If using a TCP load balancer with the Proxy Protocol in front of the ingress gateway, the `remote.ip` is set to the original client IP address as given by the Proxy Protocol.
- ([reference](/docs/reference/config/security/authorization-policy/))([usage](/docs/ops/configuration/traffic-management/network-topologies/))([usage](/docs/tasks/security/authorization/authz-ingress/)) ([Issue #22341](https://github.com/istio/istio/issues/22341))
+- **Added** `AuthorizationPolicy` now supports a `Source` of type `remoteIpBlocks`/`notRemoteIpBlocks` that map to a new `Condition` attribute called `remote.ip` that can also be used in the "when" clause.  If using an http/https load balancer in front of the ingress gateway, the `remote.ip` attribute is set to the original client IP address determined by the `X-Forwarded-For` http header from the trusted proxy configured through the `numTrustedProxies` field of the `gatewayTopology` under the `meshConfig` when you install Istio or set it via an annotation on the ingress gateway.  See the documentation here: [Configuring Gateway Network Topology](/pt-br/docs/ops/configuration/traffic-management/network-topologies/). If using a TCP load balancer with the Proxy Protocol in front of the ingress gateway, the `remote.ip` is set to the original client IP address as given by the Proxy Protocol.
+ ([reference](/pt-br/docs/reference/config/security/authorization-policy/))([usage](/pt-br/docs/ops/configuration/traffic-management/network-topologies/))([usage](/pt-br/docs/tasks/security/authorization/authz-ingress/)) ([Issue #22341](https://github.com/istio/istio/issues/22341))
 
 {{< warning >}}
 A critical [bug](https://groups.google.com/g/envoy-security-announce/c/aqtBt5VUor0) has been identified in Envoy that the proxy protocol downstream address is restored incorrectly for non-HTTP connections.
@@ -141,15 +141,15 @@ Mixer-focused CRDs and component and related functionality.
 
 ## Installation
 
-- **Promoted** [external control plane](/docs/setup/install/external-controlplane/) to alpha.
+- **Promoted** [external control plane](/pt-br/docs/setup/install/external-controlplane/) to alpha.
   ([Issue #11](https://github.com/istio/enhancements/issues/11))
 
 - **Updated** Kiali addon to version 1.26.
 
-- **Added** support for [installing and upgrading Istio](/docs/setup/install/helm/) using [Helm 3](https://helm.sh/docs/)
+- **Added** support for [installing and upgrading Istio](/pt-br/docs/setup/install/helm/) using [Helm 3](https://helm.sh/docs/)
 
 - **Improved** multi-network configuration so that labeling a service with `topology.istio.io/network=network-name` can
-configure cross-network gateways without using [mesh networks](/docs/reference/config/istio.mesh.v1alpha1/#MeshNetworks).
+configure cross-network gateways without using [mesh networks](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshNetworks).
 
 - **Improved** sidecar injection to not modify the pod `securityPolicy.fsGroup` which could conflict with existing settings and secret mounts.
  This option is enabled automatically on Kubernetes 1.19+ and is not supported on older versions.
@@ -178,7 +178,7 @@ configure cross-network gateways without using [mesh networks](/docs/reference/c
 
 - **Fixed** an issue preventing `NodePort` services from being used as the `registryServiceName` in `meshNetworks`.
 
-- **Removed** support for installing third-party telemetry applications with `istioctl`. These applications (Prometheus, Grafana, Zipkin, Jaeger, and Kiali), often referred to as the Istio addons, must now be installed separately. This does not impact Istio's ability to produce telemetry for those use in the addons. See [Reworking our Addon Integrations](/blog/2020/addon-rework/) for more info.
+- **Removed** support for installing third-party telemetry applications with `istioctl`. These applications (Prometheus, Grafana, Zipkin, Jaeger, and Kiali), often referred to as the Istio addons, must now be installed separately. This does not impact Istio's ability to produce telemetry for those use in the addons. See [Reworking our Addon Integrations](/pt-br/blog/2020/addon-rework/) for more info.
   ([Issue #23868](https://github.com/istio/istio/issues/23868)), ([Issue #23583](https://github.com/istio/istio/issues/23583))
 
 - **Removed** `istio-telemetry` and `istio-policy` services and deployments from installation by `istioctl`.
@@ -206,7 +206,7 @@ A new option, `--plaintext`, has been created for testing without tokens.
 - **Added** `--type` for `istioctl experimental create-remote-secret` to allow user specify type for the created secret.
 
 - **Added** an experimental OpenShift Kubernetes platform profile to `istioctl`. To install with the OpenShift profile, use `istioctl install --set profile=openshift`.
- ([OpenShift Platform Setup](/docs/setup/platform-setup/openshift/))([Install OpenShift using `istioctl`](/docs/setup/install/istioctl/#install-a-different-profile))
+ ([OpenShift Platform Setup](/pt-br/docs/setup/platform-setup/openshift/))([Install OpenShift using `istioctl`](/pt-br/docs/setup/install/istioctl/#install-a-different-profile))
 
 - **Added** `istioctl bug-report` command to generate an archive of Istio and cluster information to assist with debugging.
   ([Issue #26045](https://github.com/istio/istio/issues/26045))

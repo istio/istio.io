@@ -81,9 +81,9 @@ EOF
 
 This bug is fixed in the following Istio releases:
 
-* For Istio 1.0.x deployments: update to [Istio 1.0.9](/news/releases/1.0.x/announcing-1.0.9) or later.
-* For Istio 1.1.x deployments: update to [Istio 1.1.10](/news/releases/1.1.x/announcing-1.1.10) or later.
-* For Istio 1.2.x deployments: update to [Istio 1.2.2](/news/releases/1.2.x/announcing-1.2.2) or later.
+* For Istio 1.0.x deployments: update to [Istio 1.0.9](/pt-br/news/releases/1.0.x/announcing-1.0.9) or later.
+* For Istio 1.1.x deployments: update to [Istio 1.1.10](/pt-br/news/releases/1.1.x/announcing-1.1.10) or later.
+* For Istio 1.2.x deployments: update to [Istio 1.2.2](/pt-br/news/releases/1.2.x/announcing-1.2.2) or later.
 
 If you cannot immediately upgrade to one of these releases, you have the additional option of injecting a
 [Lua filter](https://github.com/istio/tools/tree/master/examples/luacheck) into older releases of Istio.

@@ -12,7 +12,7 @@ all the different ways sampling can be configured.
 
 ## Before you begin
 
-1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
+1.  Ensure that your applications propagate tracing headers as described [here](/pt-br/docs/tasks/observability/distributed-tracing/overview/).
 
 ## Available trace sampling configurations
 
@@ -35,7 +35,7 @@ There are three ways you can configure the random sampling rate:
 #### Telemetry API
 
 Sampling can be configured on various scopes: mesh-wide, namespace or workload, offering great flexibility.
-To learn more, please see the [Telemetry API](/docs/tasks/observability/telemetry/) documentation.
+To learn more, please see the [Telemetry API](/pt-br/docs/tasks/observability/telemetry/) documentation.
 
 Install Istio without setting `sampling` inside `defaultConfig`:
 
@@ -144,7 +144,7 @@ The OpenTelemetry specification defines the [Sampler API](https://opentelemetry.
 The Sampler API enables building a custom sampler that can perform more intelligent and efficient sampling decisions,
 such as [probability sampling](https://opentelemetry.io/docs/specs/otel/trace/tracestate-probability-sampling-experimental/).
 
-Such samplers can then be paired with the [`OpenTelemetryTracingProvider`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider).
+Such samplers can then be paired with the [`OpenTelemetryTracingProvider`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider).
 
 {{< quote >}}
 The sampler implementation resides in the proxy, and can be found in
@@ -153,7 +153,7 @@ The sampler implementation resides in the proxy, and can be found in
 
 Current custom sampler configurations in Istio:
 
-- [Dynatrace Sampler](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler)
+- [Dynatrace Sampler](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler)
 
 Custom samplers are configured via `MeshConfig`. Here is an example of configuring the Dynatrace sampler:
 
@@ -203,7 +203,7 @@ because the custom sampler needs to receive 100% of spans to be able to properly
 
 ## Deploy the Bookinfo Application
 
-Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Generating traces using the Bookinfo sample
 

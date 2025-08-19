@@ -7,7 +7,7 @@ publishdate: 2023-04-04T07:00:00-06:00
 release: 1.15.7
 ---
 
-This release fixes the security vulnerabilities described in our April 4th post, [ISTIO-SECURITY-2023-001](/news/security/istio-security-2023-001).
+This release fixes the security vulnerabilities described in our April 4th post, [ISTIO-SECURITY-2023-001](/pt-br/news/security/istio-security-2023-001).
 This release note describes what’s different between Istio 1.15.6 and 1.15.7.
 
 {{< relnote >}}

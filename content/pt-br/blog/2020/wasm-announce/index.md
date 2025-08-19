@@ -79,7 +79,7 @@ at the W3C, with a sample implementation, which provides an OS-like abstraction 
 [Over the past 18 months](https://github.com/envoyproxy/envoy/issues/4272), we have been working
 with the Envoy community to build Wasm extensibility into Envoy and contribute it upstream.
 We're pleased to announce it is available as Alpha in the Envoy build shipped
-with [Istio 1.5](/news/releases/1.5.x/announcing-1.5/), with source in
+with [Istio 1.5](/pt-br/news/releases/1.5.x/announcing-1.5/), with source in
 the [`envoy-wasm`](https://github.com/envoyproxy/envoy-wasm/) development fork and work ongoing to
 merge it into the main Envoy tree. The implementation uses the WebAssembly runtime built into
 Google's high performance [V8 engine](https://v8.dev/).
@@ -149,7 +149,7 @@ however, this has given us a lot of confidence in our general approach and in th
 environment, ABI and SDKs that have been developed.
 
 We have also been careful to ensure that the Istio control plane and
-its [Envoy configuration APIs](/docs/reference/config/networking/envoy-filter/) are Wasm-ready.
+its [Envoy configuration APIs](/pt-br/docs/reference/config/networking/envoy-filter/) are Wasm-ready.
 We have samples to show how several common customizations such as custom header decoding or
 programmatic routing can be performed which are common asks from users. As we move this support to
 Beta, you will see documentation showing best practices for using Wasm with Istio.

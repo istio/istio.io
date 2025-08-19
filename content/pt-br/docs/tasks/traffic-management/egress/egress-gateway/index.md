@@ -13,13 +13,13 @@ test: yes
 This example does not work in Minikube.
 {{</warning>}}
 
-The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task shows how to configure
+The [Accessing External Services](/pt-br/docs/tasks/traffic-management/egress/egress-control) task shows how to configure
 Istio to allow access to external HTTP and HTTPS services from applications inside the mesh.
 There, the external services are called directly from the client sidecar.
 This example also shows how to configure Istio to call external services, although this time
 indirectly via a dedicated _egress gateway_ service.
 
-Istio uses [ingress and egress gateways](/docs/reference/config/networking/gateway/)
+Istio uses [ingress and egress gateways](/pt-br/docs/reference/config/networking/gateway/)
 to configure load balancers executing at the edge of a service mesh.
 An ingress gateway allows you to define entry points into the mesh that all incoming traffic flows through.
 Egress gateway is a symmetrical concept; it defines exit points from the mesh. Egress gateways allow
@@ -41,11 +41,11 @@ controlled way.
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
     {{< tip >}}
     The egress gateway and access logging will be enabled if you install the `demo`
-    [configuration profile](/docs/setup/additional-setup/config-profiles/).
+    [configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/).
     {{< /tip >}}
 
 *   Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
@@ -68,11 +68,11 @@ controlled way.
     The instructions in this task create a destination rule for the egress gateway in the `default` namespace
     and assume that the client, `SOURCE_POD`, is also running in the `default` namespace.
     If not, the destination rule will not be found on the
-    [destination rule lookup path](/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
+    [destination rule lookup path](/pt-br/docs/ops/best-practices/traffic-management/#cross-namespace-configuration)
     and the client requests will fail.
     {{< /warning >}}
 
-*   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+*   [Enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
     if not already enabled. For example, using `istioctl`:
 
     {{< text bask >}}
@@ -82,7 +82,7 @@ controlled way.
 ## Deploy Istio egress gateway
 
 {{< tip >}}
-Egress gateways are [deployed automatically](/docs/tasks/traffic-management/ingress/gateway-api/#deployment-methods)
+Egress gateways are [deployed automatically](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#deployment-methods)
 when using Gateway API to configure them. You can skip this section if you are using the `Gateway API` instructions
 in the following sections.
 {{< /tip >}}
@@ -165,7 +165,7 @@ First create a `ServiceEntry` to allow direct traffic to an external service.
     {{< /text >}}
 
     The output should be the same as in the
-    [TLS Origination for Egress Traffic](/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
+    [TLS Origination for Egress Traffic](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/) example,
     without TLS origination.
 
 1.  Create a `Gateway` for egress traffic to _edition.cnn.com_ port 80.
@@ -358,7 +358,7 @@ You should see a line similar to the following:
 {{< /text >}}
 
 {{< tip >}}
-If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
+If [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
 
 {{< text bash >}}
 $ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -n istio-system -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1
@@ -385,7 +385,7 @@ You should see a line similar to the following:
 {{< /text >}}
 
 {{< tip >}}
-If [mutual TLS Authentication](/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
+If [mutual TLS Authentication](/pt-br/docs/tasks/security/authentication/authn-policy/) is enabled, and you have issues connecting to the egress gateway, run the following command to verify the certificate is correct:
 
 {{< text bash >}}
 $ istioctl pc secret "$(kubectl get pod -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1

@@ -78,7 +78,7 @@ Your cluster is **NOT impacted** by this vulnerability if:
   * Istio 1.8.6, if using 1.8.x
   * Istio 1.9.5 or up
   * The patch version specified by your cloud provider
-1. Follow the [security best practices](/docs/ops/best-practices/security/#authorization-policies)
+1. Follow the [security best practices](/pt-br/docs/ops/best-practices/security/#authorization-policies)
    to configure your authorization policies.
 
 ## Credit

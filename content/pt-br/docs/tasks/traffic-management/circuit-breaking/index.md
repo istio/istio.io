@@ -19,7 +19,7 @@ configuration by intentionally "tripping" the circuit breaker.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
 {{< boilerplate start-httpbin-service >}}
 
@@ -27,12 +27,12 @@ The `httpbin` application serves as the backend service for this task.
 
 ## Configuring the circuit breaker
 
-1.  Create a [destination rule](/docs/reference/config/networking/destination-rule/) to apply circuit breaking settings
+1.  Create a [destination rule](/pt-br/docs/reference/config/networking/destination-rule/) to apply circuit breaking settings
 when calling the `httpbin` service:
 
     {{< warning >}}
     If you installed/configured Istio with mutual TLS authentication enabled, you must add a TLS traffic policy `mode: ISTIO_MUTUAL` to the `DestinationRule` before applying it.
-    Otherwise requests will generate 503 errors as described [here](/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
+    Otherwise requests will generate 503 errors as described [here](/pt-br/docs/ops/common-problems/network-issues/#503-errors-after-setting-destination-rule).
     {{< /warning >}}
 
     {{< text bash >}}
@@ -92,7 +92,7 @@ policies you set in the `DestinationRule`. 
 1. Inject the client with the Istio sidecar proxy so network interactions are
 governed by Istio.
 
-    If you have enabled [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `fortio` service:
+    If you have enabled [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), deploy the `fortio` service:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/sample-client/fortio-deploy.yaml@

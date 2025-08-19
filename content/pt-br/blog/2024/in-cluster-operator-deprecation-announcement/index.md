@@ -56,7 +56,7 @@ Disable the In-Cluster Operator. This will not disable your control plane or dis
 $ kubectl scale deployment -n istio-system istio-operator –replicas 0
 {{< /text >}}
 
-When you are ready to upgrade Istio to version 1.24 or later, follow [the upgrade instructions](/docs/setup/upgrade/canary/), using the `istio.yaml` file you downloaded above.
+When you are ready to upgrade Istio to version 1.24 or later, follow [the upgrade instructions](/pt-br/docs/setup/upgrade/canary/), using the `istio.yaml` file you downloaded above.
 
 Once you have completed and verified your migration, run the following commands to clean up your operator resources:
 

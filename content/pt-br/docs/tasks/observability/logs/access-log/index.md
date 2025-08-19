@@ -43,7 +43,7 @@ The above example uses the default `envoy` access log provider, and we do not co
 
 Similar configuration can also be applied on an individual namespace, or to an individual workload, to control logging at a fine grained level.
 
-For more information about using the Telemetry API, see the [Telemetry API overview](/docs/tasks/observability/telemetry/).
+For more information about using the Telemetry API, see the [Telemetry API overview](/pt-br/docs/tasks/observability/telemetry/).
 
 ### Using Mesh Config
 
@@ -66,7 +66,7 @@ You can also choose between JSON and text by setting `accessLogEncoding` to `JSO
 You may also want to customize the
 [format](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules) of the access log by editing `accessLogFormat`.
 
-Refer to [global mesh options](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for more information
+Refer to [global mesh options](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) for more information
 on all three of these settings:
 
 * `meshConfig.accessLogFile`

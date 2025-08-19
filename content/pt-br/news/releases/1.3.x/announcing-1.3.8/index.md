@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.3.8
 ---
 
-This release contains a fix for the security vulnerability described in [our February 11th, 2020 news post](/news/security/istio-security-2020-001). This release note describes what's different between Istio 1.3.7 and Istio 1.3.8.
+This release contains a fix for the security vulnerability described in [our February 11th, 2020 news post](/pt-br/news/security/istio-security-2020-001). This release note describes what's different between Istio 1.3.7 and Istio 1.3.8.
 
 {{< relnote >}}
 

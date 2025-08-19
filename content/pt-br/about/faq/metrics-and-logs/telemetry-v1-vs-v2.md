@@ -16,18 +16,18 @@ v2 which are listed below:
   with the platform data. This metadata exchange is performed by the Envoy proxies
   by adding a specific HTTP header for HTTP protocol or augmenting
   ALPN protocol for TCP protocol as described
-  [here](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection).
+  [here](/pt-br/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection).
   This requires Envoy proxies to be injected at both the client & server workloads,
   implying that the telemetry reported when one peer is not in the mesh will be
   missing peer attributes like workload name, namespace and labels.
   However, if both peers have proxies injected all the labels mentioned
-  [here](/docs/reference/config/metrics/) are available in the generated metrics.
+  [here](/pt-br/docs/reference/config/metrics/) are available in the generated metrics.
   When the server workload is out of the mesh, server workload metadata is still
   distributed to client sidecar, causing client side metrics to have server workload
   metadata labels filled.
 
 * **TCP metadata exchange requires mTLS**
-  TCP metadata exchange relies on the [Istio ALPN protocol](/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection)
+  TCP metadata exchange relies on the [Istio ALPN protocol](/pt-br/docs/tasks/observability/metrics/tcp-metrics/#understanding-tcp-telemetry-collection)
   which requires mutual TLS (mTLS) to be enabled for the Envoy proxies
   to exchange metadata successfully. This implies that if mTLS is not
   enabled in your cluster, telemetry for TCP protocol will not include
@@ -48,4 +48,4 @@ v2 which are listed below:
   the metrics prevents reporting of metrics which would no longer change in the
   future, thereby reducing network traffic and storage in Prometheus.
   This expiration mechanism is not available in in-proxy telemetry.
-  The workaround for this can be found [here](/about/faq/#metric-expiry).
+  The workaround for this can be found [here](/pt-br/about/faq/#metric-expiry).

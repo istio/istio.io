@@ -7,7 +7,7 @@ publishdate: 2022-10-11
 release: 1.13.9
 ---
 
-This release contains a fix for [CVE-2022-39278](/news/security/istio-security-2022-007/#cve-2022-39278) and
+This release contains a fix for [CVE-2022-39278](/pt-br/news/security/istio-security-2022-007/#cve-2022-39278) and
 bug fixes to improve robustness. This release note describes what is different between Istio 1.13.8 and Istio 1.13.9.
 
 {{< relnote >}}

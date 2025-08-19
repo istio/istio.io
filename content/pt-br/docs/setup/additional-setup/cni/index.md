@@ -16,11 +16,11 @@ For the {{< gloss >}}sidecar{{< /gloss >}} data plane mode, the Istio CNI node a
 
 The Istio CNI node agent is **required** in the {{< gloss >}}ambient{{< /gloss >}} data plane mode.
 
-This guide is focused on using the Istio CNI node agent as an optional part of the sidecar data plane mode. Consult [the ambient mode documentation](/docs/ambient/) for information on using the ambient data plane mode.
+This guide is focused on using the Istio CNI node agent as an optional part of the sidecar data plane mode. Consult [the ambient mode documentation](/pt-br/docs/ambient/) for information on using the ambient data plane mode.
 
 {{< tip >}}
 Note: The Istio CNI node agent _does not_ replace your cluster's existing {{< gloss="cni" >}}CNI{{< /gloss >}}. Among other things, it installs a _chained_ CNI plugin, which is designed to be layered on top of another, previously-installed primary interface CNI, such as [Calico](https://docs.projectcalico.org), or the cluster CNI used by your cloud provider.
-See [compatibility with CNIs](/docs/setup/additional-setup/cni/#compatibility-with-other-cnis) for details.
+See [compatibility with CNIs](/pt-br/docs/setup/additional-setup/cni/#compatibility-with-other-cnis) for details.
 {{< /tip >}}
 
 Follow this guide to install, configure, and use the Istio CNI node agent with the sidecar data plane mode.
@@ -43,7 +43,7 @@ problematic for some organizations' security compliance, as is the requirement t
 The `istio-cni` node agent is effectively a replacement for the `istio-init` container that enables the same
 networking functionality, but without requiring the use or deployment of privileged init containers in every workload. Instead, `istio-cni` itself runs as a single privileged pod on the node. It uses this privilege to install a [chained CNI plugin](https://www.cni.dev/docs/spec/#section-2-execution-protocol) on the node, which is invoked after your "primary" interface CNI plugin. CNI plugins are invoked dynamically by Kubernetes as a privileged process on the host node whenever a new pod is created, and are able to configure pod networking.
 
-The Istio chained CNI plugin always runs after the primary interface plugins, identifies user application pods with sidecars requiring traffic redirection, and sets up redirection in the Kubernetes pod lifecycle's network setup phase, thereby removing the need for privileged init containers, as well as the [requirement for `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/)
+The Istio chained CNI plugin always runs after the primary interface plugins, identifies user application pods with sidecars requiring traffic redirection, and sets up redirection in the Kubernetes pod lifecycle's network setup phase, thereby removing the need for privileged init containers, as well as the [requirement for `NET_ADMIN` and `NET_RAW` capabilities](/pt-br/docs/ops/deployment/application-requirements/)
 for users and pod deployments.
 
 {{< image width="60%" link="./cni.svg" caption="Istio CNI" >}}
@@ -106,10 +106,10 @@ The CNI DaemonSet runs with [`system-node-critical`](https://kubernetes.io/docs/
 {{< tip >}}
 You can install `istio-cni` into any Kubernetes namespace, but the namespace must allow pods with the `system-node-critical` PriorityClass to be scheduled in it. Some cloud providers (notably GKE) by default disallow the scheduling of `system-node-critical` pods in any namespace but specific ones, such as `kube-system`.
 
-You may either install `istio-cni` into `kube-system`, or (recommended) define a ResourceQuota for your GKE cluster that allows the use of `system-node-critical` pods inside `istio-system`. See [here](/docs/ambient/install/platform-prerequisites#google-kubernetes-engine-gke) for more details.
+You may either install `istio-cni` into `kube-system`, or (recommended) define a ResourceQuota for your GKE cluster that allows the use of `system-node-critical` pods inside `istio-system`. See [here](/pt-br/docs/ambient/install/platform-prerequisites#google-kubernetes-engine-gke) for more details.
 {{< /tip >}}
 
-Note that if installing `istiod` with the Helm chart according to the [Install with Helm](/docs/setup/install/helm/#installation-steps) guide, you must install `istiod` with the following extra override value, in order to disable the privileged init container injection:
+Note that if installing `istiod` with the Helm chart according to the [Install with Helm](/pt-br/docs/setup/install/helm/#installation-steps) guide, you must install `istiod` with the following extra override value, in order to disable the privileged init container injection:
 
 {{< text syntax=bash snip_id=cni_agent_helm_istiod_install >}}
 $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true --wait
@@ -123,14 +123,14 @@ In addition to the above basic configuration there are additional configuration 
 * `values.cni.cniConfFileName` configures the name of the plugin configuration file.
 * `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
 
-Normally, these do not need to be changed, but some platforms may use nonstandard paths. Please check the guidelines for your specific platform, if any, [here](/docs/ambient/install/platform-prerequisites).
+Normally, these do not need to be changed, but some platforms may use nonstandard paths. Please check the guidelines for your specific platform, if any, [here](/pt-br/docs/ambient/install/platform-prerequisites).
 
 {{< tip >}}
 There is a time gap between a node becomes schedulable and the Istio CNI plugin becomes ready on that node.
 If an application pod starts up during this time, it is possible that traffic redirection is not properly set up and traffic would be able to bypass the Istio sidecar.
 
 This race condition is mitigated for the sidecar data plane mode by a "detect and repair" method.
-Please take a look at [race condition & mitigation](/docs/setup/additional-setup/cni/#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions.
+Please take a look at [race condition & mitigation](/pt-br/docs/setup/additional-setup/cni/#race-condition--mitigation) section to understand the implication of this mitigation, and for configuration instructions.
 {{< /tip >}}
 
 ### Handling init container injection for revisions
@@ -158,10 +158,10 @@ which means CNI and control plane can be upgraded in any order, as long as their
 
 ### Upgrading
 
-When upgrading Istio with [in-place upgrade](/docs/setup/upgrade/in-place/), the
+When upgrading Istio with [in-place upgrade](/pt-br/docs/setup/upgrade/in-place/), the
 CNI component can be upgraded together with the control plane using one `IstioOperator` resource.
 
-When upgrading Istio with [canary upgrade](/docs/setup/upgrade/canary/), because the CNI component runs as a cluster singleton,
+When upgrading Istio with [canary upgrade](/pt-br/docs/setup/upgrade/canary/), because the CNI component runs as a cluster singleton,
 it is recommended to operate and upgrade the CNI component separately from the revisioned control plane.
 
 The following `IstioOperator` can be used to upgrade the CNI component independently.
@@ -199,7 +199,7 @@ which detects if traffic redirection is set up correctly, and blocks the pod sta
 The CNI DaemonSet will detect and handle any pod stuck in such state; how the pod is handled is dependent on configuration described below.
 This mitigation is enabled by default and can be turned off by setting `values.cni.repair.enabled` to false.
 
-This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005/).  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
+This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/pt-br/news/security/istio-security-2023-005/).  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
 
 |Configuration                    | Roles       | Behavior on Error                                                                                                                           | Notes
 |---------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------
@@ -213,7 +213,7 @@ To redirect traffic in the application pod's network namespace to/from the Istio
 the Istio CNI plugin configures the namespace's iptables.
 You can adjust traffic redirection parameters using the same pod annotations as normal,
 such as ports and IP ranges to be included or excluded from redirection.
-See [resource annotations](/docs/reference/config/annotations) for available parameters.
+See [resource annotations](/pt-br/docs/reference/config/annotations) for available parameters.
 
 ### Compatibility with application init containers
 
@@ -229,7 +229,7 @@ Init containers execute before the sidecar proxy starts, which can result in tra
 Avoid this traffic loss with one of the following settings:
 
 1. Set the `uid` of the init container to `1337` using `runAsUser`.
-  `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/application-requirements/#pod-requirements).
+  `1337` is the [`uid` used by the sidecar proxy](/pt-br/docs/ops/deployment/application-requirements/#pod-requirements).
    Traffic sent by this `uid` is not captured by the Istio's `iptables` rule.
    Application container traffic will still be captured as usual.
 1. Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
@@ -238,11 +238,11 @@ Avoid this traffic loss with one of the following settings:
    specific outbound ports the init containers use.
 
 {{< tip >}}
-You must use the `runAsUser 1337` workaround if [DNS proxying](/docs/ops/configuration/traffic-management/dns-proxy/) is enabled, and an init container sends traffic to a host name which requires DNS resolution.
+You must use the `runAsUser 1337` workaround if [DNS proxying](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/) is enabled, and an init container sends traffic to a host name which requires DNS resolution.
 {{< /tip >}}
 
 {{< tip >}}
-Some platforms (e.g. OpenShift) do not use `1337` as the sidecar `uid` and instead use a pseudo-random number, that is only known at runtime. In such cases, you can instruct the proxy to run as a predefined `uid` by leveraging the [custom injection feature](/docs/setup/additional-setup/sidecar-injection/#customizing-injection), and use that same `uid` for the init container.
+Some platforms (e.g. OpenShift) do not use `1337` as the sidecar `uid` and instead use a pseudo-random number, that is only known at runtime. In such cases, you can instruct the proxy to run as a predefined `uid` by leveraging the [custom injection feature](/pt-br/docs/setup/additional-setup/sidecar-injection/#customizing-injection), and use that same `uid` for the init container.
 {{< /tip >}}
 
 {{< warning >}}

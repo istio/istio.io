@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.10.4
 ---
 
-This release fixes the security vulnerabilities described in our August 24th post, [ISTIO-SECURITY-2021-008](/news/security/istio-security-2021-008) as
+This release fixes the security vulnerabilities described in our August 24th post, [ISTIO-SECURITY-2021-008](/pt-br/news/security/istio-security-2021-008) as
 well as a few minor bug fixes to improve robustness. This release note describes what’s different between Istio 1.10.3 and 1.10.4.
 
 {{< relnote >}}

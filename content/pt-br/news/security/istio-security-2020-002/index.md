@@ -23,7 +23,7 @@ To be vulnerable, Istio must have Mixer Policy enabled and used in the specified
 
 ## Mitigation
 
-* For Istio 1.3.x deployments: update to [Istio 1.3.7](/news/releases/1.3.x/announcing-1.3.7) or later.
+* For Istio 1.3.x deployments: update to [Istio 1.3.7](/pt-br/news/releases/1.3.x/announcing-1.3.7) or later.
 
 ## Credit
 

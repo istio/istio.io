@@ -19,8 +19,8 @@ and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) 
 
 {{< tip >}}
 Many of the Istio traffic management documents include instructions for using either the Istio or Kubernetes API
-(see the [control ingress traffic task](/docs/tasks/traffic-management/ingress/ingress-control), for example).
-You can use the Gateway API, right from the start, by following the [getting started instructions](/docs/setup/getting-started/).
+(see the [control ingress traffic task](/pt-br/docs/tasks/traffic-management/ingress/ingress-control), for example).
+You can use the Gateway API, right from the start, by following the [getting started instructions](/pt-br/docs/setup/getting-started/).
 {{< /tip >}}
 
 ## Setup
@@ -47,7 +47,7 @@ The new Gateway APIs aim to take the learnings from various Kubernetes ingress i
 to build a standardized vendor neutral API. These APIs generally serve the same purposes as Istio Gateway and VirtualService,
 with a few key differences:
 
-* In Istio APIs, a `Gateway` *configures* an existing gateway Deployment/Service that has [been deployed](/docs/setup/additional-setup/gateway/).
+* In Istio APIs, a `Gateway` *configures* an existing gateway Deployment/Service that has [been deployed](/pt-br/docs/setup/additional-setup/gateway/).
   In the Gateway APIs, the `Gateway` resource both *configures and deploys* a gateway.
   See [Deployment Methods](#deployment-methods) for more information.
 * In the Istio `VirtualService`, all protocols are configured within a single resource.
@@ -270,7 +270,7 @@ However, if the corresponding field is present in the customization, they will b
 
 Defaults for all `Gateway`s can be configured for each `GatewayClass`.
 This is done by a `ConfigMap` with the label `gateway.istio.io/defaults-for-class: <gateway class name>`.
-This `ConfigMap` must be in the [root namespace](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace) (typically, `istio-system`).
+This `ConfigMap` must be in the [root namespace](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace) (typically, `istio-system`).
 Only one `ConfigMap` per `GatewayClass` is allowed.
 This `ConfigMap` takes the same format as the `ConfigMap` for a `Gateway`.
 
@@ -352,11 +352,11 @@ spec:
 
 ### Manual deployment
 
-If you do not want to have an automated deployment, a `Deployment` and `Service` can be [configured manually](/docs/setup/additional-setup/gateway/).
+If you do not want to have an automated deployment, a `Deployment` and `Service` can be [configured manually](/pt-br/docs/setup/additional-setup/gateway/).
 
 When this option is done, you will need to manually link the `Gateway` to the `Service`, as well as keep their port configuration in sync.
 
-In order to support Policy Attachment, e.g. when you're using the [`targetRef`](/docs/reference/config/type/workload-selector/#PolicyTargetReference) field on an AuthorizationPolicy, you will also need to reference the name of your `Gateway` by adding the following label to your gateway pod: `gateway.networking.k8s.io/gateway-name: <gateway name>`.
+In order to support Policy Attachment, e.g. when you're using the [`targetRef`](/pt-br/docs/reference/config/type/workload-selector/#PolicyTargetReference) field on an AuthorizationPolicy, you will also need to reference the name of your `Gateway` by adding the following label to your gateway pod: `gateway.networking.k8s.io/gateway-name: <gateway name>`.
 
 To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
 
@@ -405,7 +405,7 @@ spec:
       port: 80
 {{< /text >}}
 
-More details and examples can be found in other [traffic management tasks](/docs/tasks/traffic-management/).
+More details and examples can be found in other [traffic management tasks](/pt-br/docs/tasks/traffic-management/).
 
 ## Cleanup
 

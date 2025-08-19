@@ -17,9 +17,9 @@ up to 4 requests per minute, allowing for any in-mesh traffic.
 ## Before you begin
 
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
-   [Installation Guide](/docs/setup/getting-started/).
+   [Installation Guide](/pt-br/docs/setup/getting-started/).
 
-1. Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application.
+1. Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application.
 
 ## Rate limits
 
@@ -420,7 +420,7 @@ $ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev
 {{< /text >}}
 
 {{< tip >}}
-`$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+`$GATEWAY_URL` is the value set in the [Bookinfo](/pt-br/docs/examples/bookinfo/) example.
 {{< /tip >}}
 
 For `/productpage`, you will see the first request go through but every following request within

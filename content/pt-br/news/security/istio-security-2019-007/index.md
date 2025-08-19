@@ -28,8 +28,8 @@ Both Istio gateways and sidecars are vulnerable to this issue. If you are runnin
 
 ## Mitigation
 
-* For Istio 1.2.x deployments: update to [Istio 1.2.10](/news/releases/1.2.x/announcing-1.2.10) or later.
-* For Istio 1.3.x deployments: update to [Istio 1.3.6](/news/releases/1.3.x/announcing-1.3.6) or later.
-* For Istio 1.4.x deployments: update to [Istio 1.4.2](/news/releases/1.4.x/announcing-1.4.2) or later.
+* For Istio 1.2.x deployments: update to [Istio 1.2.10](/pt-br/news/releases/1.2.x/announcing-1.2.10) or later.
+* For Istio 1.3.x deployments: update to [Istio 1.3.6](/pt-br/news/releases/1.3.x/announcing-1.3.6) or later.
+* For Istio 1.4.x deployments: update to [Istio 1.4.2](/pt-br/news/releases/1.4.x/announcing-1.4.2) or later.
 
 {{< boilerplate "security-vulnerability" >}}

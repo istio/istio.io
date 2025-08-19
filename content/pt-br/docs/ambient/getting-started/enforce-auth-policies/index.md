@@ -13,7 +13,7 @@ identities that are automatically issued to all workloads in the mesh.
 
 ## Enforce Layer 4 authorization policy
 
-Let's create an [authorization policy](/docs/reference/config/security/authorization-policy/) that restricts which services can communicate with the `productpage` service. The policy is applied to pods with the `app: productpage` label, and it allows calls only from the the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. This is the service account that is used by the Bookinfo gateway you deployed in the previous step.
+Let's create an [authorization policy](/pt-br/docs/reference/config/security/authorization-policy/) that restricts which services can communicate with the `productpage` service. The policy is applied to pods with the `app: productpage` label, and it allows calls only from the the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. This is the service account that is used by the Bookinfo gateway you deployed in the previous step.
 
 {{< text syntax=bash snip_id=deploy_l4_policy >}}
 $ kubectl apply -f - <<EOF
@@ -69,7 +69,7 @@ NAME       CLASS            ADDRESS       PROGRAMMED   AGE
 waypoint   istio-waypoint   10.96.58.95   True         42s
 {{< /text >}}
 
-Adding a [L7 authorization policy](/docs/ambient/usage/l7-features/) will explicitly allow the `curl` service to send `GET` requests to the `productpage` service, but perform no other operations:
+Adding a [L7 authorization policy](/pt-br/docs/ambient/usage/l7-features/) will explicitly allow the `curl` service to send `GET` requests to the `productpage` service, but perform no other operations:
 
 {{< text syntax=bash snip_id=deploy_l7_policy >}}
 $ kubectl apply -f - <<EOF
@@ -121,7 +121,7 @@ EOF
 {{< /text >}}
 
 {{< tip >}}
-To learn about how to enable more of Istio's features, read the [Layer 7 features user guide](/docs/ambient/usage/l7-features/).
+To learn about how to enable more of Istio's features, read the [Layer 7 features user guide](/pt-br/docs/ambient/usage/l7-features/).
 {{< /tip >}}
 
 Confirm the new waypoint proxy is enforcing the updated authorization policy:

@@ -21,7 +21,7 @@ Istio version 1.12.0 and 1.12.1 are vulnerable to a privilege escalation attack.
 
 ## Am I Impacted?
 
-This vulnerability impacts only an Alpha level feature, the [Kubernetes Gateway API](/docs/tasks/traffic-management/ingress/gateway-api/). This is not the same as the Istio `Gateway` type (`gateways.networking.istio.io`), which is not vulnerable.
+This vulnerability impacts only an Alpha level feature, the [Kubernetes Gateway API](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/). This is not the same as the Istio `Gateway` type (`gateways.networking.istio.io`), which is not vulnerable.
 
 Your cluster may be impacted if:
 * You have the Kubernetes Gateway CRD installed. This can be detected with `kubectl get crd gateways.gateway.networking.k8s.io`.

@@ -17,7 +17,7 @@ In the following steps you will deploy the httpbin service inside your service m
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/), enabling the experimental
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/), enabling the experimental
     feature `ENABLE_TLS_ON_SIDECAR_INGRESS`.
 
     {{< text bash >}}

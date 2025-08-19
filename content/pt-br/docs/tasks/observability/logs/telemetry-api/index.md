@@ -157,11 +157,11 @@ $ kubectl apply -f @samples/open-telemetry/loki/otel.yaml@ -n istio-system
     EOF
     {{< /text >}}
 
-    For more information, see [Use expressions for values](/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values)
+    For more information, see [Use expressions for values](/pt-br/docs/tasks/observability/metrics/customize-metrics/#use-expressions-for-values)
 
 ## Work with OpenTelemetry provider
 
-Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol, as explained [here](/docs/tasks/observability/logs/otel-provider).
+Istio supports sending access logs with [OpenTelemetry](https://opentelemetry.io/) protocol, as explained [here](/pt-br/docs/tasks/observability/logs/otel-provider).
 
 ## Cleanup
 

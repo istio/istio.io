@@ -12,7 +12,7 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## Health Probes will no longer re-use connections
 
-Health probes using the istio-agent [health probe rewrite](/docs/ops/configuration/mesh/app-health-check/) will
+Health probes using the istio-agent [health probe rewrite](/pt-br/docs/ops/configuration/mesh/app-health-check/) will
 now no longer re-use connections for the probe. This behavior was changed to match probing behavior of Kubernetes',
 and may also improve probe reliability for applications using short idle timeouts.
 
@@ -23,7 +23,7 @@ If you need to revert to the old behavior, the `ENABLE_PROBE_KEEPALIVE_CONNECTIO
 
 ## Multicluster Secret Authentication Changes
 
-When kubeconfig files are created to [enable endpoint discovery](/docs/setup/install/multicluster/multi-primary/#enable-endpoint-discovery)
+When kubeconfig files are created to [enable endpoint discovery](/pt-br/docs/setup/install/multicluster/multi-primary/#enable-endpoint-discovery)
 in multicluster installations, the authentication methods allowed in the configuration are now limited to improve the security.
 
 The two authentication methods output but `istioctl create-remote-secret` (`oidc` and `token`), are not impacted.

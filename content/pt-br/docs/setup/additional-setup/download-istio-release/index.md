@@ -9,9 +9,9 @@ test: n/a
 
 Each Istio release includes a _release archive_ which contains:
 
-- the [`istioctl`](/docs/ops/diagnostic-tools/istioctl/) binary
-- [installation profiles](/docs/setup/additional-setup/config-profiles/) and [Helm charts](/docs/setup/install/helm)
-- samples, including the [Bookinfo](/docs/examples/bookinfo/) application
+- the [`istioctl`](/pt-br/docs/ops/diagnostic-tools/istioctl/) binary
+- [installation profiles](/pt-br/docs/setup/additional-setup/config-profiles/) and [Helm charts](/pt-br/docs/setup/install/helm)
+- samples, including the [Bookinfo](/pt-br/docs/examples/bookinfo/) application
 
 A release archive is built for each supported processor architecture and operating system.
 
@@ -48,7 +48,7 @@ A release archive is built for each supported processor architecture and operati
     The installation directory contains:
 
     - Sample applications in `samples/`
-    - The [`istioctl`](/docs/reference/commands/istioctl) client binary in the
+    - The [`istioctl`](/pt-br/docs/reference/commands/istioctl) client binary in the
       `bin/` directory.
 
 1.  Add the `istioctl` client to your path (Linux or macOS):

@@ -22,7 +22,7 @@ Istio 1.23.0 is officially supported on Kubernetes versions `1.27` to `1.30`.
 
 ### Ambient, ambient, ambient
 
-Hot on the tail of the recent promotion of [ambient mode to Beta in Istio 1.22](/blog/2024/ambient-reaches-beta/), Istio 1.23 comes with a huge set of improvements. Working closely with the many users who have been adopting ambient mode, we have been working diligently to address all the feedback we have received. These improvements include broader platform support, added features, bug fixes, and performance improvements.
+Hot on the tail of the recent promotion of [ambient mode to Beta in Istio 1.22](/pt-br/blog/2024/ambient-reaches-beta/), Istio 1.23 comes with a huge set of improvements. Working closely with the many users who have been adopting ambient mode, we have been working diligently to address all the feedback we have received. These improvements include broader platform support, added features, bug fixes, and performance improvements.
 
 A small sample of the highlights:
 
@@ -38,7 +38,7 @@ A small sample of the highlights:
 
 ### DNS auto-allocation improvements
 
-For years, Istio has has an [address allocation option](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation) for use with the DNS proxy mode. This solves a number of problems for Service routing.
+For years, Istio has has an [address allocation option](/pt-br/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation) for use with the DNS proxy mode. This solves a number of problems for Service routing.
 
 In Istio 1.23, a new implementation of this feature was added. In the new approach, the allocated IP addresses are persisted in the `ServiceEntry` `status` field, ensuring that they are never changed. This fixes long-standing reliability issues with the old approach, where the allocation would occasionally shuffle and cause issues. Additionally, this approach is more standard, easier to debug, and makes the feature work with ambient mode!
 
@@ -73,7 +73,7 @@ We recommend users move to Helm and istioctl, which remain supported by the Isti
 
 Users who wish to stick with the operator pattern have two third-party options in the [istio-ecosystem](https://github.com/istio-ecosystem/) org.
 
-Please check out [our deprecation announcement blog post](/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
+Please check out [our deprecation announcement blog post](/pt-br/blog/2024/in-cluster-operator-deprecation-announcement/) for more details on the change.
 
 ## Upgrading to 1.23
 

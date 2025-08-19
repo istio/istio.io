@@ -11,8 +11,8 @@ keywords: [authorization,access control,opa,oauth2]
 
 Istio's authorization policy provides access control for services in the mesh. It is fast, powerful and a widely used
 feature. We have made continuous improvements to make policy more flexible since its first release in Istio 1.4, including
-the [`DENY` action](/docs/tasks/security/authorization/authz-deny/), [exclusion semantics](/docs/tasks/security/authorization/authz-deny/),
-[`X-Forwarded-For` header support](/docs/tasks/security/authorization/authz-ingress/), [nested JWT claim support](/docs/tasks/security/authorization/authz-jwt/)
+the [`DENY` action](/pt-br/docs/tasks/security/authorization/authz-deny/), [exclusion semantics](/pt-br/docs/tasks/security/authorization/authz-deny/),
+[`X-Forwarded-For` header support](/pt-br/docs/tasks/security/authorization/authz-ingress/), [nested JWT claim support](/pt-br/docs/tasks/security/authorization/authz-jwt/)
 and more. These features improve the flexibility of the authorization policy, but there are still many use cases that
 cannot be supported with this model, for example:
 
@@ -21,14 +21,14 @@ cannot be supported with this model, for example:
 
 - You want to integrate with a 3rd-party solution (e.g. [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)
   or [`oauth2` proxy](https://github.com/oauth2-proxy/oauth2-proxy)) which may require use of the
-  [low-level Envoy configuration APIs](/docs/reference/config/networking/envoy-filter/) in Istio, or may not be possible
+  [low-level Envoy configuration APIs](/pt-br/docs/reference/config/networking/envoy-filter/) in Istio, or may not be possible
   at all.
 
 - Authorization policy lacks necessary semantics for your use case.
 
 ## Solution
 
-In Istio 1.9, we have implemented extensibility into authorization policy by introducing a [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action),
+In Istio 1.9, we have implemented extensibility into authorization policy by introducing a [`CUSTOM` action](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action),
 which allows you to delegate the access control decision to an external authorization service.
 
 The `CUSTOM` action allows you to integrate Istio with an external authorization system that implements its own custom
@@ -97,11 +97,11 @@ extensionProviders:
     port: 9000
 {{< /text >}}
 
-The authorization policy of [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
+The authorization policy of [`CUSTOM` action](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
 enables the external authorization in runtime, it could be configured to trigger the external authorization conditionally
 based on the request using the same rule that you have already been using with other actions.
 
-The external authorization service is currently defined in the [`meshconfig` API](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
+The external authorization service is currently defined in the [`meshconfig` API](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)
 and referred to by its name. It could be deployed in the mesh with or without proxy. If with the proxy, you could
 further use `PeerAuthentication` to enable mTLS between the proxy and your external authorization service.
 
@@ -116,7 +116,7 @@ For more information, please see the [Better External Authorization design doc](
 In this section, we will demonstrate using the `CUSTOM` action with the Open Policy Agent as the external authorizer on
 the ingress gateway. We will conditionally enable the external authorization on all paths except `/ip`.
 
-You can also refer to the [external authorization task](/docs/tasks/security/authorization/authz-custom/) for a more
+You can also refer to the [external authorization task](/pt-br/docs/tasks/security/authorization/authz-custom/) for a more
 basic introduction that uses a sample `ext-authz` server.
 
 ### Create the example OPA policy

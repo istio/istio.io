@@ -27,7 +27,7 @@ Istio 1.27.0 is officially supported on Kubernetes versions 1.29 to 1.33.
 
 Istio 1.27 includes a [fully-compliant implementation](https://gateway-api-inference-extension.sigs.k8s.io/implementations/gateways/#istio) of the extension when using the Gateway API for cluster ingress traffic control.
 
-[Learn more about the extension and Istio's implementation](/blog/2025/inference-extension-support/).
+[Learn more about the extension and Istio's implementation](/pt-br/blog/2025/inference-extension-support/).
 
 ### Ambient Multicluster
 

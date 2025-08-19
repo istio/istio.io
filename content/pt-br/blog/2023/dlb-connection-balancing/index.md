@@ -60,7 +60,7 @@ An ingress gateway is expected to process as much data as possible as quickly as
 
 With the 1.17 release, Istio officially supports Intel DLB connection load balancing.
 
-The following steps show how to use Intel DLB connection load balancing in an Istio [Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/) in an SPR (Sapphire Rapids) machine, assuming the Kubernetes cluster is running.
+The following steps show how to use Intel DLB connection load balancing in an Istio [Ingress Gateway](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/) in an SPR (Sapphire Rapids) machine, assuming the Kubernetes cluster is running.
 
 ### Step 1: Prepare DLB environment
 
@@ -304,4 +304,4 @@ $ kubectl logs -n istio-system ${POD} | grep dlb
 2023-05-05T06:37:45.975215Z     debug   envoy connection external/envoy/contrib/network/connection_balance/dlb/source/connection_balancer_impl.cc:283   worker_0 dlb receive none, skip thread=46
 {{< /text >}}
 
-For more details about Istio Ingress Gateway, please refer to [Istio Ingress Gateway Official Doc](/docs/tasks/traffic-management/ingress/ingress-control/).
+For more details about Istio Ingress Gateway, please refer to [Istio Ingress Gateway Official Doc](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/).

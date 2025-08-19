@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Securing Gateways with HTTPS](/docs/tasks/traffic-management/ingress/secure-ingress/) task describes how to configure HTTPS
+The [Securing Gateways with HTTPS](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/) task describes how to configure HTTPS
 ingress access to an HTTP service. This example describes how to configure HTTPS ingress access to an HTTPS service,
 i.e., configure an ingress gateway to perform SNI passthrough, instead of TLS termination on incoming requests.
 
@@ -21,7 +21,7 @@ Then you configure a gateway to provide ingress access to the service via host `
 
 ## Before you begin
 
-Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
 ## Generate client and server certificates and keys
 
@@ -295,7 +295,7 @@ EOF
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Follow the instructions in
-[Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
+[Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
 to set the `SECURE_INGRESS_PORT` and `INGRESS_HOST` environment variables.
 
 {{< /tab >}}

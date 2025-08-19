@@ -9,7 +9,7 @@ When you upgrade from Istio 1.13.x to Istio 1.14.0, you need to consider the cha
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.14.0.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio `1.13.x`.
-Users upgrading from 1.12.x to Istio 1.14.0 should also reference the [1.13.0 change logs](/news/releases/1.13.x/announcing-1.13/change-notes/).
+Users upgrading from 1.12.x to Istio 1.14.0 should also reference the [1.13.0 change logs](/pt-br/news/releases/1.13.x/announcing-1.13/change-notes/).
 
 ## `gogo/protobuf` library migration
 

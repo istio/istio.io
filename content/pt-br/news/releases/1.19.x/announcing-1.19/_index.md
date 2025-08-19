@@ -26,13 +26,13 @@ The Kubernetes [Gateway API](http://gateway-api.org/) is an initiative to bring 
 
 In this release, in tandem with the Gateway API v0.8.0 release, [service mesh support](https://gateway-api.sigs.k8s.io/blog/2023/0829-mesh-support/) is officially added! This effort was a widespread community effort across the broader Kubernetes ecosystem and has multiple conformant implementations (including Istio).
 
-Check out the [mesh documentation](/docs/tasks/traffic-management/ingress/gateway-api/#mesh-traffic) to get started. As with any experimental feature, feedback is highly appreciated.
+Check out the [mesh documentation](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#mesh-traffic) to get started. As with any experimental feature, feedback is highly appreciated.
 
-In addition to mesh traffic, usage of the API for ingress traffic [is in beta](/docs/tasks/traffic-management/ingress/gateway-api/#configuring-a-gateway) and rapidly approaching GA.
+In addition to mesh traffic, usage of the API for ingress traffic [is in beta](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#configuring-a-gateway) and rapidly approaching GA.
 
 ### Ambient Mesh
 
-During this release cycle, the team has been hard at work improving the [ambient mesh](/docs/ambient/), a new Istio deployment model alternative to the previous sidecar model. If you haven't heard of ambient yet, check out the [introduction blog post](/blog/2022/introducing-ambient-mesh/).
+During this release cycle, the team has been hard at work improving the [ambient mesh](/pt-br/docs/ambient/), a new Istio deployment model alternative to the previous sidecar model. If you haven't heard of ambient yet, check out the [introduction blog post](/pt-br/blog/2022/introducing-ambient-mesh/).
 
 In this release, support for `ServiceEntry`, `WorkloadEntry`, `PeerAuthentication`, and DNS proxying has been added. In addition, a number of bug fixes and reliability improvements have been made.
 

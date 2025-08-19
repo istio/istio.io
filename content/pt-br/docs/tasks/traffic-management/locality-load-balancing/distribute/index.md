@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 Follow this guide to configure the distribution of traffic across localities.
 
 Before proceeding, be sure to complete the steps under
-[before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
+[before you begin](/pt-br/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
 In this task, you will use the `curl` pod in `region1` `zone1` as the source of
 requests to the `HelloWorld` service. You will configure Istio with the following
@@ -26,7 +26,7 @@ Region | Zone | % of traffic
 
 Apply a `DestinationRule` that configures the following:
 
-- [Outlier detection](/docs/reference/config/networking/destination-rule/#OutlierDetection)
+- [Outlier detection](/pt-br/docs/reference/config/networking/destination-rule/#OutlierDetection)
   for the `HelloWorld` service. This is required in order for distribution to
   function properly. In particular, it configures the sidecar proxies to know
   when endpoints for a service are unhealthy.
@@ -78,5 +78,5 @@ this guide.
 
 ## Next steps
 
-[Cleanup](/docs/tasks/traffic-management/locality-load-balancing/cleanup)
+[Cleanup](/pt-br/docs/tasks/traffic-management/locality-load-balancing/cleanup)
 resources and files from this task.

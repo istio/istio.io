@@ -17,7 +17,7 @@ This feature requires Kubernetes version >= 1.18.
 This task shows how to provision workload certificates
 using a custom certificate authority that integrates with the
 [Kubernetes CSR API](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/). Different workloads can get their certificates signed from different cert-signers. Each cert-signer is effectively a different CA. It is expected that workloads whose certificates are issued from the same cert-signer can talk mTLS to each other while workloads signed by different signers cannot.
-This feature leverages [Chiron](/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates using the Kubernetes CSR API.
+This feature leverages [Chiron](/pt-br/blog/2019/dns-cert/), a lightweight component linked with Istiod that signs certificates using the Kubernetes CSR API.
 
 For this example, we use [open-source cert-manager](https://cert-manager.io).
 Cert-manager has added [experimental Support for Kubernetes `CertificateSigningRequests`](https://cert-manager.io/docs/usage/kube-csr/) starting with version 1.4.

@@ -15,7 +15,7 @@ What about local development? As more and more micro-services are deployed to Ku
 
 ![Virtual Machine Istio Installation](./istio-current-vm-process.png)
 
-Today, adding a virtual machine to your Istio service mesh involves a lot of [moving parts](/docs/setup/install/virtual-machine/). You must create a Kubernetes service account, Istio workload entry and then generate configuration all before on-boarding a single virtual machine. There are also complexities to automating this, especially for auto scaling VMs. Finally you are required to expose Istiod externally to your cluster.
+Today, adding a virtual machine to your Istio service mesh involves a lot of [moving parts](/pt-br/docs/setup/install/virtual-machine/). You must create a Kubernetes service account, Istio workload entry and then generate configuration all before on-boarding a single virtual machine. There are also complexities to automating this, especially for auto scaling VMs. Finally you are required to expose Istiod externally to your cluster.
 
 The complexity of adding a virtual machine comes from the expectation that the VM should participate 100% within the service mesh. For many this is not a necessity, by looking at the actual requirements of your system you may be able to simplify your virtual machine on-boarding and still get the features you need.
 

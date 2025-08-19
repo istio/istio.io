@@ -18,5 +18,5 @@ The fixes below focus on various bugs occurring during node restarts. If you use
 ## Improvements
 
 - **Fixed** a bug triggered by node restart causing Pods to receive incorrect configuration ([Issue 20676](https://github.com/istio/istio/issues/20676)).
-- **Improved** [Istio CNI](/docs/setup/additional-setup/cni/) robustness. Previously, when a node restarted, new pods may be created before the CNI was setup, causing pods to be created without `iptables` rules configured ([Issue 14327](https://github.com/istio/istio/issues/14327)).
+- **Improved** [Istio CNI](/pt-br/docs/setup/additional-setup/cni/) robustness. Previously, when a node restarted, new pods may be created before the CNI was setup, causing pods to be created without `iptables` rules configured ([Issue 14327](https://github.com/istio/istio/issues/14327)).
 - **Fixed** MCP metrics to include the size of the MCP responses, rather than just requests ([Issue 21049](https://github.com/istio/istio/issues/21049)).

@@ -6,7 +6,7 @@ test: no
 ---
 
 This message occurs when Istio detects an overlap between
-[virtual service](/docs/reference/config/networking/virtual-service)
+[virtual service](/pt-br/docs/reference/config/networking/virtual-service)
 resources that conflict with one another. For example, multiple virtual
 services defined to use the same hostname and attached to a mesh gateway
 will generate an error message. Note that Istio supports merging of virtual

@@ -35,7 +35,7 @@ Istio considers this a 0-day vulnerability due to the publication of
 
 The following Envoy CVEs for Envoy were also patched for Istio 1.11.8, 1.12.5 and Istio 1.13.2. They were publicly fixed in
 [https://github.com/envoyproxy/envoy](https://github.com/envoyproxy/envoy) for versions of Envoy used in prior Istio versions. As detailed in
-[ISTIO-SECURITY-2022-003](/news/security/istio-security-2022-003), Istio was not vulnerable to attack.
+[ISTIO-SECURITY-2022-003](/pt-br/news/security/istio-security-2022-003), Istio was not vulnerable to attack.
 
 - __[CVE-2022-21657](https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g)__
   (CVSS Score 3.1, Low): X.509 Extended Key Usage and Trust Purposes bypass.

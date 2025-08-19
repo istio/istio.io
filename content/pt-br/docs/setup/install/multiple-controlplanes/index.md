@@ -21,7 +21,7 @@ Using `discoverySelectors`, you can scope Kubernetes resources in a cluster to s
 ## Before you begin
 
 This guide requires that you have a Kubernetes cluster with any of the
-[supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
+[supported Kubernetes versions:](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 This cluster will host two control planes installed in two different system namespaces. The mesh application workloads will run in multiple application-specific namespaces, each namespace associated with one or the other control plane based on revision and discovery selector configurations.
 

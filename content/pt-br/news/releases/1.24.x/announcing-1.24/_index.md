@@ -23,12 +23,12 @@ Istio 1.24.0 is officially supported on Kubernetes versions `1.28` to `1.31`.
 
 ### Ambient mode is generally available
 
-We are thrilled to announce [the General Availability of Istio's ambient mode](/blog/2024/ambient-reaches-ga/)! The core features (ztunnel, waypoints and APIs) have been marked as Stable by the Istio TOC. This marks the final stage in Istio's [feature phase progression](/docs/releases/feature-stages/), signaling the features are fully ready for broad production usage.
+We are thrilled to announce [the General Availability of Istio's ambient mode](/pt-br/blog/2024/ambient-reaches-ga/)! The core features (ztunnel, waypoints and APIs) have been marked as Stable by the Istio TOC. This marks the final stage in Istio's [feature phase progression](/pt-br/docs/releases/feature-stages/), signaling the features are fully ready for broad production usage.
 
-Since its [announcement in 2022](/blog/2022/introducing-ambient-mesh/), the community has been hard at work [innovating](/blog/2024/inpod-traffic-redirection-ambient/),
-[scaling](/blog/2024/ambient-vs-cilium/), [stabilizing](/blog/2024/ambient-reaches-beta/), and tuning ambient mode to be ready for prime time.
+Since its [announcement in 2022](/pt-br/blog/2022/introducing-ambient-mesh/), the community has been hard at work [innovating](/pt-br/blog/2024/inpod-traffic-redirection-ambient/),
+[scaling](/pt-br/blog/2024/ambient-vs-cilium/), [stabilizing](/pt-br/blog/2024/ambient-reaches-beta/), and tuning ambient mode to be ready for prime time.
 
-On top of [countless changes since the Beta release](/news/releases/1.23.x/announcing-1.23/#ambient-ambient-ambient), Istio 1.24 comes with a number of enhancements to ambient mode:
+On top of [countless changes since the Beta release](/pt-br/news/releases/1.23.x/announcing-1.23/#ambient-ambient-ambient), Istio 1.24 comes with a number of enhancements to ambient mode:
 
 * New `status` messages are now written to a variety of resources, including `Services` and `AuthorizationPolicies`, to help understand the current state of the object.
 * Policies can now be attached directly to `ServiceEntry`s. Give it a try with a simplified [egress gateway](https://www.solo.io/blog/egress-gateways-made-easy/)!
@@ -37,7 +37,7 @@ On top of [countless changes since the Beta release](/news/releases/1.23.x/annou
 
 ### Improved retries
 
-Automatic [retries](/docs/concepts/traffic-management/#retries) has been a core part of Istio's traffic management functionality.
+Automatic [retries](/pt-br/docs/concepts/traffic-management/#retries) has been a core part of Istio's traffic management functionality.
 In Istio 1.24, it gets even better.
 
 Previously, retries were exclusively implemented on the *client sidecar*.
@@ -55,4 +55,4 @@ We would like to hear from you regarding your experience upgrading to Istio 1.24
 Would you like to contribute directly to Istio? Find and join one of our [Working Groups](https://github.com/istio/community/blob/master/WORKING-GROUPS.md) and help us improve.
 
 Attending KubeCon North America 2024?
-Be sure to stop by the co-located [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/) to catch some [great talks](/blog/2024/kubecon-na/), or swing by the [Istio project booth](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/venue-travel/#venue-maps) to chat.
+Be sure to stop by the co-located [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/) to catch some [great talks](/pt-br/blog/2024/kubecon-na/), or swing by the [Istio project booth](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/venue-travel/#venue-maps) to chat.

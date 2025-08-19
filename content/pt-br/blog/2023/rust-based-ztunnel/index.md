@@ -73,7 +73,7 @@ With this efficient API between Istiod and ztunnel, we found we could configure 
 
 ### Runtime implementation
 
-As the name suggests, ztunnel uses an [HTTPS tunnel](/blog/2022/introducing-ambient-mesh/#building-an-ambient-mesh) to carry users requests. While Envoy supports this tunneling, we found the configuration model limiting for our needs. Roughly speaking, Envoy operates by sending requests through a series of "filters", starting with accepting a request and ending with sending a request. With our requirements, which have multiple layers of requests (the tunnel itself and the users' requests), as well as a need to apply per-pod policy after load balancing, we found we would need to loop through these filters 4 times per connection when implementing our prior Envoy-based ztunnel. While Envoy has [some optimizations](https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener) for essentially "sending a request to itself" in memory, this was still very complex and expensive.
+As the name suggests, ztunnel uses an [HTTPS tunnel](/pt-br/blog/2022/introducing-ambient-mesh/#building-an-ambient-mesh) to carry users requests. While Envoy supports this tunneling, we found the configuration model limiting for our needs. Roughly speaking, Envoy operates by sending requests through a series of "filters", starting with accepting a request and ending with sending a request. With our requirements, which have multiple layers of requests (the tunnel itself and the users' requests), as well as a need to apply per-pod policy after load balancing, we found we would need to loop through these filters 4 times per connection when implementing our prior Envoy-based ztunnel. While Envoy has [some optimizations](https://www.envoyproxy.io/docs/envoy/latest/configuration/other_features/internal_listener) for essentially "sending a request to itself" in memory, this was still very complex and expensive.
 
 By building out our own implementation, we could design around these constraints from the ground up. In addition, we have more flexibility in all aspects of the design. For example, we could choose to share connections across threads or implement more bespoke requirements around isolation between service accounts. After establishing that a purpose built proxy was viable, we set out to choose the implementation details.
 
@@ -169,7 +169,7 @@ You may be pleasantly surprised that the ztunnel logs are easy to understand. Fo
 2023-02-15T20:40:48.628251Z  INFO inbound{id=4399fa68cf25b8ebccd472d320ba733f peer_ip=10.244.2.5 peer_id=spiffe://cluster.local/ns/default/sa/sleep}: ztunnel::proxy::inbound: got CONNECT request to 10.244.2.8:5000
 {{< /text >}}
 
-You can view L4 metrics of your workloads by accessing the `localhost:15020/metrics` API which provides the full set of TCP [standard metrics](/docs/reference/config/metrics/), with same labels that sidecars expose. For example:
+You can view L4 metrics of your workloads by accessing the `localhost:15020/metrics` API which provides the full set of TCP [standard metrics](/pt-br/docs/reference/config/metrics/), with same labels that sidecars expose. For example:
 
 {{< text plaintext >}}
 istio_tcp_connections_opened_total{
@@ -195,4 +195,4 @@ If you install Prometheus and Kiali, you can view these metrics easily from Kial
 
 ## Wrapping up
 
-We are super excited that the new [Rust-based ztunnel](https://github.com/istio/ztunnel/) is drastically simplified, more lightweight and performant than the prior Envoy-based ztunnel. With the purposefully designed workload xDS for the Rust-based ztunnel, you’ll not only be able to understand the xDS configuration much more easily, but also have drastically reduced network traffic and cost between the Istiod control plane and ztunnels. With Istio ambient now merged to upstream master, you can try the new Rust-based ztunnel by following our [getting started guide](/docs/ambient/getting-started/).
+We are super excited that the new [Rust-based ztunnel](https://github.com/istio/ztunnel/) is drastically simplified, more lightweight and performant than the prior Envoy-based ztunnel. With the purposefully designed workload xDS for the Rust-based ztunnel, you’ll not only be able to understand the xDS configuration much more easily, but also have drastically reduced network traffic and cost between the Istiod control plane and ztunnels. With Istio ambient now merged to upstream master, you can try the new Rust-based ztunnel by following our [getting started guide](/pt-br/docs/ambient/getting-started/).

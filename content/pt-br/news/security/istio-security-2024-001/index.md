@@ -27,6 +27,6 @@ skip_seealso: true
 
 ## Am I Impacted?
 
-The majority of exploitable behavior is related to the use of PROXY Protocol, primarily used in gateway scenarios. If you or your users have PROXY Protocol enabled, either via `EnvoyFilter` or [proxy config](/docs/ops/configuration/traffic-management/network-topologies/#proxy-protocol) annotations, there is potential exposure.
+The majority of exploitable behavior is related to the use of PROXY Protocol, primarily used in gateway scenarios. If you or your users have PROXY Protocol enabled, either via `EnvoyFilter` or [proxy config](/pt-br/docs/ops/configuration/traffic-management/network-topologies/#proxy-protocol) annotations, there is potential exposure.
 
 Aside from the use of PROXY protocol, the usage of the `%DOWNSTREAM_PEER_IP_SAN%` [command operator](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage.html#command-operators) for access logs has potential exposure.

@@ -23,9 +23,9 @@ Only claims of type string, boolean, and integer are supported. Array type claim
 
 Before you begin this task, do the following:
 
-* Familiarize yourself with [Istio end user authentication](/docs/tasks/security/authentication/authn-policy/#end-user-authentication) support.
+* Familiarize yourself with [Istio end user authentication](/pt-br/docs/tasks/security/authentication/authn-policy/#end-user-authentication) support.
 
-* Install Istio using [Istio installation guide](/docs/setup/install/istioctl/).
+* Install Istio using [Istio installation guide](/pt-br/docs/setup/install/istioctl/).
 
 * Deploy `httpbin` and `curl` workloads in namespace `foo` with sidecar injection enabled.
     Deploy the example namespace and workloads using these commands:

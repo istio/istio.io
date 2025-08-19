@@ -12,7 +12,7 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-1. To run Istio with Docker Desktop, install a version which contains a [supported Kubernetes version](/docs/releases/supported-releases#support-status-of-istio-releases)
+1. To run Istio with Docker Desktop, install a version which contains a [supported Kubernetes version](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases)
     ({{< supported_kubernetes_versions >}}).
 
 1. If you want to run Istio under Docker Desktop's built-in Kubernetes, you need to increase Docker's memory limit

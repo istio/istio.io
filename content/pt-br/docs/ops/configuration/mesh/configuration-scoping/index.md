@@ -9,7 +9,7 @@ test: no
 
 In order to program the service mesh, the Istio control plane (Istiod) reads a variety of configurations, including core Kubernetes types like `Service` and `Node`,
 and Istio's own types like `Gateway`.
-These are then sent to the data plane (see [Architecture](/docs/ops/deployment/architecture/) for more information).
+These are then sent to the data plane (see [Architecture](/pt-br/docs/ops/deployment/architecture/) for more information).
 
 By default, the control plane will read all configuration in all namespaces.
 Each proxy instance will receive configuration for all namespaces as well.
@@ -30,7 +30,7 @@ Depending on your requirements, these can be used alone or together.
 
 ### `Sidecar` import
 
-The [`egress.hosts`](/docs/reference/config/networking/sidecar/#IstioEgressListener) field in `Sidecar`
+The [`egress.hosts`](/pt-br/docs/reference/config/networking/sidecar/#IstioEgressListener) field in `Sidecar`
 allows specifying a list of configurations to import.
 Only configurations matching the specified criteria will be seen by sidecars impacted by the `Sidecar` resource.
 
@@ -71,7 +71,7 @@ spec: ...
 
 ### `DiscoverySelectors`
 
-While the previous controls operate on a workload or service owner level, [`DiscoverySelectors`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) provides mesh wide control over configuration visibility.
+While the previous controls operate on a workload or service owner level, [`DiscoverySelectors`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) provides mesh wide control over configuration visibility.
 Discovery selectors allows specifying criteria for which namespaces should be visible to the control plane.
 Any namespaces not matching are ignored by the control plane entirely.
 
@@ -111,17 +111,17 @@ Some tools to detect which configurations are changing:
 * Istiod exposes metrics `pilot_k8s_cfg_events` and `pilot_k8s_reg_events` for each change.
 * `kubectl get <resource> --watch -oyaml --show-managed-fields` can show changes to an object (or objects) to help understand what is changing, and by whom.
 
-[Headless services](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) (besides ones declared as [HTTP](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection))
+[Headless services](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) (besides ones declared as [HTTP](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection))
 scale with the number of instances. This makes large headless services expensive, and a good candidate for exclusion with `exportTo` or equivalent.
 
 ### What happens if I connect to a service outside of my scope?
 
 When connecting to a service that has been excluded through one of the scoping mechanisms, the data plane will not know anything about the destination,
-so it will be treated as [Unmatched traffic](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
+so it will be treated as [Unmatched traffic](/pt-br/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
 
 ### What about Gateways?
 
-While [Gateways](/docs/setup/additional-setup/gateway/) will respect `exportTo` and `DiscoverySelectors`, `Sidecar` objects do not impact Gateways.
+While [Gateways](/pt-br/docs/setup/additional-setup/gateway/) will respect `exportTo` and `DiscoverySelectors`, `Sidecar` objects do not impact Gateways.
 However, unlike sidecars, gateways do not have configuration for the entire cluster by default.
 Instead, each configuration is explicitly attached to the gateway, which mostly avoids this problem.
 

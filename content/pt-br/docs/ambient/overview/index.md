@@ -6,7 +6,7 @@ owner: istio/wg-docs-maintainers-english
 test: no
 ---
 
-In **ambient mode**, Istio implements its [features](/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy.
+In **ambient mode**, Istio implements its [features](/pt-br/docs/concepts) using a per-node Layer 4 (L4) proxy, and optionally a per-namespace Layer 7 (L7) proxy.
 
 This layered approach allows you to adopt Istio in a more incremental fashion, smoothly transitioning from no mesh, to a secure L4 overlay, to full L7 processing and policy — on a per-namespace basis, as needed. Furthermore, workloads running in different Istio {{< gloss >}}data plane{{< /gloss >}} modes interoperate seamlessly, allowing users to mix and match capabilities based on their particular needs as they change over time.
 
@@ -20,7 +20,7 @@ Ambient mode splits Istio’s functionality into two distinct layers. At the bas
 Pods and workloads using sidecar mode can co-exist within the same mesh as pods that use ambient mode. The term "ambient mesh" refers to an Istio mesh that was installed with support for ambient mode, and so can support mesh pods that use either type of data plane.
 {{< /tip >}}
 
-For details on the design of ambient mode, and how it interacts with the Istio {{< gloss >}}control plane{{< /gloss >}}, see the [data plane](/docs/ambient/architecture/data-plane) and [control plane](/docs/ambient/architecture/control-plane) architecture documentation.
+For details on the design of ambient mode, and how it interacts with the Istio {{< gloss >}}control plane{{< /gloss >}}, see the [data plane](/pt-br/docs/ambient/architecture/data-plane) and [control plane](/pt-br/docs/ambient/architecture/control-plane) architecture documentation.
 
 ## ztunnel
 
@@ -28,7 +28,7 @@ The ztunnel (Zero Trust tunnel) component is a purpose-built, per-node proxy tha
 
 Ztunnel is responsible for securely connecting and authenticating workloads within the mesh. The ztunnel proxy is written in Rust and is intentionally scoped to handle L3 and L4 functions such as mTLS, authentication, L4 authorization and telemetry. Ztunnel does not terminate workload HTTP traffic or parse workload HTTP headers. The ztunnel ensures L3 and L4 traffic is efficiently and securely transported either directly to workloads, other ztunnel proxies, or to waypoint proxies.
 
-The term "secure overlay" is used to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/docs/ambient/architecture/hbone).
+The term "secure overlay" is used to collectively describe the set of L4 networking functions implemented in an ambient mesh via the ztunnel proxy. At the transport layer, this is implemented via an HTTP CONNECT-based traffic tunneling protocol called [HBONE](/pt-br/docs/ambient/architecture/hbone).
 
 ## Waypoint proxies
 

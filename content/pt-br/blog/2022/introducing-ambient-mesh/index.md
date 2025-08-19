@@ -7,7 +7,7 @@ keywords: [ambient]
 ---
 
 {{< tip >}}
-[Ambient mode is now generally available!](/blog/2024/ambient-reaches-ga/)
+[Ambient mode is now generally available!](/pt-br/blog/2024/ambient-reaches-ga/)
 {{< /tip >}}
 
 Today, we are excited to introduce "ambient mesh", and its reference implementation: a new Istio data plane mode that’s designed for simplified operations, broader application compatibility, and reduced infrastructure cost. Ambient mesh gives users the option to forgo sidecar proxies in favor of a data plane that’s integrated into their infrastructure, all while maintaining Istio’s core features of zero-trust security, telemetry, and traffic management. We are sharing a preview of ambient mesh with the Istio community that we are working to bring to production readiness in the coming months.
@@ -61,7 +61,7 @@ Ztunnels enable the core functionality of a service mesh: zero trust.  A secure 
     >}}
 
 After ambient mode is enabled and a secure overlay is created, a namespace can be configured to utilize L7 features.
-This allows a namespace to implement the full set of Istio capabilities, including the [Virtual Service API](/docs/reference/config/networking/virtual-service/), [L7 telemetry](/docs/reference/config/telemetry/), and [L7 authorization policies](/docs/reference/config/security/authorization-policy/).
+This allows a namespace to implement the full set of Istio capabilities, including the [Virtual Service API](/pt-br/docs/reference/config/networking/virtual-service/), [L7 telemetry](/pt-br/docs/reference/config/telemetry/), and [L7 authorization policies](/pt-br/docs/reference/config/security/authorization-policy/).
 Namespaces operating in this mode use one or more Envoy-based **_waypoint proxies_** to handle L7 processing for workloads in that namespace.
 Istio’s control plane configures the ztunnels in the cluster to pass all traffic that requires L7 processing through the waypoint proxy.
 Importantly, from a Kubernetes perspective, waypoint proxies are just regular pods that can be auto-scaled like any other Kubernetes deployment.
@@ -72,7 +72,7 @@ We expect this to yield significant resource savings for users, as the waypoint 
     caption="When additional features are needed, ambient mesh deploys waypoint proxies, which ztunnels connect through for policy enforcement"
     >}}
 
-Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call [HBONE (HTTP-Based Overlay Network Environment)](/docs/ambient/architecture/hbone/). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.
+Ambient mesh uses HTTP CONNECT over mTLS to implement its secure tunnels and insert waypoint proxies in the path, a pattern we call [HBONE (HTTP-Based Overlay Network Environment)](/pt-br/docs/ambient/architecture/hbone/). HBONE provides for a cleaner encapsulation of traffic than TLS on its own while enabling interoperability with common load-balancer infrastructure. FIPS builds are used by default to meet compliance needs. More details on HBONE, its standards-based approach, and plans for UDP and other non-TCP protocols will be provided in a future blog.
 
 Mixing sidecar and ambient modes in a single mesh does not introduce limitations on the capabilities or security properties of the system. The Istio control plane ensures that policies are properly enforced regardless of the deployment model chosen. Ambient mode simply introduces an option that has better ergonomics and more flexibility.
 
@@ -105,7 +105,7 @@ Ambient mode’s lower fixed per-node overhead and dynamically scaled waypoint p
 
 ## What about security?
 
-With a radically new architecture naturally comes questions around security.  The [ambient mode security blog](/blog/2022/ambient-security/) does a deep dive, but we’ll summarize here.
+With a radically new architecture naturally comes questions around security.  The [ambient mode security blog](/pt-br/blog/2022/ambient-security/) does a deep dive, but we’ll summarize here.
 
 Sidecars co-locate with the workloads they serve and as a result, a vulnerability in one compromises the other.
 In the ambient mesh model, even if an application is compromised, the ztunnels and waypoint proxies can still enforce strict security policy on the compromised application’s traffic.
@@ -136,7 +136,7 @@ Take a look at a short video to watch Christian run through the Istio ambient mo
 What we have released today is an early version of ambient mode in Istio, and it is very much still under active development. We are excited to share it with the broader community and look forward to getting more people involved in shaping it as we move to production readiness in 2023.
 
 We would love your feedback to help shape the solution.
-A build of Istio which supports ambient mode is available to [download and try](/blog/2022/get-started-ambient/) in the [Istio Experimental repo]({{< github_raw >}}/tree/experimental-ambient).
+A build of Istio which supports ambient mode is available to [download and try](/pt-br/blog/2022/get-started-ambient/) in the [Istio Experimental repo]({{< github_raw >}}/tree/experimental-ambient).
 A list of missing features and work items is available in the [README]({{< github_raw >}}/blob/experimental-ambient/README.md).
 Please try it out and [let us know what you think!](https://slack.istio.io/)
 

@@ -7,7 +7,7 @@ test: yes
 owner: istio/wg-networking-maintainers
 ---
 Before you begin the locality load balancing tasks, you must first
-[install Istio on multiple clusters](/docs/setup/install/multicluster). The
+[install Istio on multiple clusters](/pt-br/docs/setup/install/multicluster). The
 clusters must span three regions, containing four availability zones. The
 number of clusters required may vary based on the capabilities offered by
 your cloud provider.
@@ -178,9 +178,9 @@ to begin the locality load balancing tasks!
 
 You can now configure one of the following load balancing options:
 
-- [Locality failover](/docs/tasks/traffic-management/locality-load-balancing/failover)
+- [Locality failover](/pt-br/docs/tasks/traffic-management/locality-load-balancing/failover)
 
-- [Locality weighted distribution](/docs/tasks/traffic-management/locality-load-balancing/distribute)
+- [Locality weighted distribution](/pt-br/docs/tasks/traffic-management/locality-load-balancing/distribute)
 
 {{< warning >}}
 Only one of the load balancing options should be configured, as they are

@@ -10,19 +10,19 @@ test: yes
 {{< tip >}}
 Follow this guide to install and configure an Istio mesh with support for ambient mode.
 If you are new to Istio and just want to try it out, follow the
-[quick start instructions](/docs/ambient/getting-started) instead.
+[quick start instructions](/pt-br/docs/ambient/getting-started) instead.
 {{< /tip >}}
 
-This installation guide uses the [istioctl](/docs/reference/commands/istioctl/) command-line
+This installation guide uses the [istioctl](/pt-br/docs/reference/commands/istioctl/) command-line
 tool. `istioctl`, like other installation methods, exposes many customization options. Additionally,
 it offers user input validation to help prevent installation errors, and includes many
 post-installation analysis and configuration tools.
 
 Using these instructions, you can select any one of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/)
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/)
 and then further customize the configuration for your specific needs.
 
-The `istioctl` command supports the full [`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
+The `istioctl` command supports the full [`IstioOperator` API](/pt-br/docs/reference/config/istio.operator.v1alpha1/)
 via command-line options for individual settings, or passing a YAML file containing an `IstioOperator`
 {{<gloss CRDs>}}custom resource{{</gloss>}}.
 
@@ -30,8 +30,8 @@ via command-line options for individual settings, or passing a YAML file contain
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
-1. Perform any necessary [platform-specific setup](/docs/ambient/install/platform-prerequisites/).
+1. [Download the Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/ambient/install/platform-prerequisites/).
 
 ## Install or upgrade the Kubernetes Gateway API CRDs
 
@@ -39,7 +39,7 @@ Before you begin, check the following prerequisites:
 
 ## Install Istio using the ambient profile
 
-`istioctl` supports a number of [configuration profiles](/docs/setup/additional-setup/config-profiles/) that include different default options,
+`istioctl` supports a number of [configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/) that include different default options,
 and can be customized for your production needs. Support for ambient mode is included in the `ambient` profile. Install Istio with the
 following command:
 
@@ -52,10 +52,10 @@ Kubernetes configuration.
 
 ## Configure and modify profiles
 
-Istio's installation API is documented in the [`IstioOperator` API reference](/docs/reference/config/istio.operator.v1alpha1/). You
+Istio's installation API is documented in the [`IstioOperator` API reference](/pt-br/docs/reference/config/istio.operator.v1alpha1/). You
 can use the `--set` option to `istioctl install` to modify individual installation parameters, or specify your own configuration file with `-f`.
 
-Full details on how to use and customize `istioctl` installations are available in [the sidecar installation documentation](/docs/setup/install/istioctl/).
+Full details on how to use and customize `istioctl` installations are available in [the sidecar installation documentation](/pt-br/docs/setup/install/istioctl/).
 
 ## Uninstall Istio
 
@@ -121,7 +121,7 @@ If attempting to install and manage Istio using `istioctl manifest generate`, pl
 
 1. While `istioctl install` will automatically detect environment-specific settings from your Kubernetes context,
    `manifest generate` cannot do so as it runs offline, which may lead to unexpected results. In particular, you must ensure
-   that you follow [these steps](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
+   that you follow [these steps](/pt-br/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
    Kubernetes environment does not support third party service account tokens. It is recommended to append
    `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment,
    which will embed those cluster-specific environment settings into the generated manifests.

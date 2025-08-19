@@ -20,7 +20,7 @@ The charter for the TOC spells out the responsibilities of its members, includin
 
 * Setting the overall technical direction and roadmap of the project.
 * Resolving technical issues, disagreements, and escalations.
-* Declaring [maturity levels for Istio features](/docs/releases/feature-stages/).
+* Declaring [maturity levels for Istio features](/pt-br/docs/releases/feature-stages/).
 * Approving the creation and dissolution of working groups and approving leadership changes of working groups.
 * Ensuring the team adheres to our [code of conduct](https://github.com/istio/community/blob/master/CONTRIBUTING.md#code-of-conduct) and respects our [values](https://github.com/istio/community/blob/master/VALUES.md).
 * Fostering an environment for a healthy and happy community of developers and contributors.
@@ -41,7 +41,7 @@ The key changes in the [new charter](https://github.com/istio/community/blob/mas
 
 ## TOC member farewells
 
-We recently announced [the retirement of long-time contributor Eric Van Norman](/news/releases/1.22.x/announcing-1.22/#a-thank-you). We also now bid farewell to Neeraj Poddar from the Istio TOC. Neeraj has been involved with the project since 2017, co-founding Aspen Mesh within F5, and later leading Gloo Mesh as VP of Engineering at Solo.io. He was first elected to the TOC in 2020. [Neeraj has taken a role as VP of Engineering at NimbleEdge](https://www.linkedin.com/feed/update/urn:li:activity:7251958639400206336/), and we congratulate him and wish him well for the future.
+We recently announced [the retirement of long-time contributor Eric Van Norman](/pt-br/news/releases/1.22.x/announcing-1.22/#a-thank-you). We also now bid farewell to Neeraj Poddar from the Istio TOC. Neeraj has been involved with the project since 2017, co-founding Aspen Mesh within F5, and later leading Gloo Mesh as VP of Engineering at Solo.io. He was first elected to the TOC in 2020. [Neeraj has taken a role as VP of Engineering at NimbleEdge](https://www.linkedin.com/feed/update/urn:li:activity:7251958639400206336/), and we congratulate him and wish him well for the future.
 
 ## Maintainers: stand in our first election
 

@@ -39,7 +39,7 @@ across the broader Kubernetes ecosystem that has produced multiple conformant im
 
 This marks a significant milestone, as Istio users can now leverage the stable set of Gateway API
 features for enhanced traffic management and ingress control in production environments.
-Check out the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) to get started.
+Check out the [Gateway API task](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/) to get started.
 
 In this release, we have also added support for configuring Istio
 CRDs `AuthorizationPolicy`, `RequestAuthentication`, `Telemetry` and `WasmPlugin` for Kubernetes Gateway API via

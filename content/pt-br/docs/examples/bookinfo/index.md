@@ -14,9 +14,9 @@ This example deploys a sample application composed of four separate microservice
 to demonstrate various Istio features.
 
 {{< tip >}}
-If you installed Istio using the [Getting Started](/docs/setup/getting-started/)
+If you installed Istio using the [Getting Started](/pt-br/docs/setup/getting-started/)
 instructions, you already have Bookinfo installed and you can skip most of these steps
-and go directly to [Define the service versions](/docs/examples/bookinfo/#define-the-service-versions).
+and go directly to [Define the service versions](/pt-br/docs/examples/bookinfo/#define-the-service-versions).
 {{< /tip >}}
 
 The application displays information about a
@@ -49,7 +49,7 @@ for the `reviews` service.
 ## Before you begin
 
 If you haven't already done so, setup Istio by following the instructions
-in the [installation guide](/docs/setup/).
+in the [installation guide](/pt-br/docs/setup/).
 
 {{< boilerplate gateway-api-support >}}
 
@@ -75,7 +75,7 @@ If you use GKE, please ensure your cluster has at least 4 standard GKE nodes. If
 
 1.  Change directory to the root of the Istio installation.
 
-1.  The default Istio installation uses [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
+1.  The default Istio installation uses [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection).
     Label the namespace that will host the application with `istio-injection=enabled`:
 
     {{< text bash >}}
@@ -140,7 +140,7 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
 
     {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-    Create an [Istio Gateway](/docs/concepts/traffic-management/#gateways) using the following command:
+    Create an [Istio Gateway](/pt-br/docs/concepts/traffic-management/#gateways) using the following command:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/networking/bookinfo-gateway.yaml@
@@ -156,7 +156,7 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
     bookinfo-gateway   32s
     {{< /text >}}
 
-    Follow [these instructions](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
+    Follow [these instructions](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) to set the `INGRESS_HOST` and `INGRESS_PORT` variables for accessing the gateway. Return here, when they are set.
 
     {{< /tab >}}
 
@@ -173,7 +173,7 @@ Kubernetes cluster, e.g., from a browser. A gateway is used for this purpose.
     {{< /text >}}
 
     Because creating a Kubernetes `Gateway` resource will also
-    [deploy an associated proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+    [deploy an associated proxy service](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
     run the following command to wait for the gateway to be ready:
 
     {{< text bash >}}
@@ -221,7 +221,7 @@ versions.
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-Istio uses *subsets*, in [destination rules](/docs/concepts/traffic-management/#destination-rules),
+Istio uses *subsets*, in [destination rules](/pt-br/docs/concepts/traffic-management/#destination-rules),
 to define versions of a service.
 Run the following command to create default destination rules for the Bookinfo services:
 
@@ -230,7 +230,7 @@ $ kubectl apply -f @samples/bookinfo/networking/destination-rule-all.yaml@
 {{< /text >}}
 
 {{< tip >}}
-The `default` and `demo` [configuration profiles](/docs/setup/additional-setup/config-profiles/) have [auto mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) enabled by default.
+The `default` and `demo` [configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/) have [auto mutual TLS](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) enabled by default.
 To enforce mutual TLS, use the destination rules in `samples/bookinfo/networking/destination-rule-all-mtls.yaml`.
 {{< /tip >}}
 
@@ -263,8 +263,8 @@ $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo-versions.yaml@
 
 You can now use this sample to experiment with Istio's features for
 traffic routing, fault injection, rate limiting, etc.
-To proceed, refer to one or more of the [Istio Tasks](/docs/tasks),
-depending on your interest. [Configuring Request Routing](/docs/tasks/traffic-management/request-routing/)
+To proceed, refer to one or more of the [Istio Tasks](/pt-br/docs/tasks),
+depending on your interest. [Configuring Request Routing](/pt-br/docs/tasks/traffic-management/request-routing/)
 is a good place to start for beginners.
 
 ## Cleanup

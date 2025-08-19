@@ -18,7 +18,7 @@ To make a report, send an email to the private
 [istio-security-vulnerability-reports@googlegroups.com](mailto:istio-security-vulnerability-reports@googlegroups.com)
 mailing list with the vulnerability details. For normal product bugs
 unrelated to latent security vulnerabilities, please head to
-our [Reporting Bugs](/docs/releases/bugs/) page to learn what to do.
+our [Reporting Bugs](/pt-br/docs/releases/bugs/) page to learn what to do.
 
 ### When to report a security vulnerability?
 
@@ -80,7 +80,7 @@ branches.
 
 - Once the binaries are available, an announcement is sent out on the following channels:
 
-    - The [Istio blog](/blog)
+    - The [Istio blog](/pt-br/blog)
     - The [Announcements](https://discuss.istio.io/c/announcements) category on discuss.istio.io
     - The [Istio Twitter feed](https://twitter.com/IstioMesh)
     - The [#announcements channel on Slack](https://istio.slack.com/messages/CFXS256EQ/)
@@ -91,7 +91,7 @@ This means the announcement will be seen morning Pacific, early evening Europe, 
 
 ## Base Images
 
-Istio offers two sets of docker images, based on `ubuntu` (default) and based on `distroless` (see [Harden Docker Container Images](/docs/ops/configuration/security/harden-docker-images/)).
+Istio offers two sets of docker images, based on `ubuntu` (default) and based on `distroless` (see [Harden Docker Container Images](/pt-br/docs/ops/configuration/security/harden-docker-images/)).
 These base images occasionally have CVEs.
 The Istio security team has automated scanning to ensure base images are kept free of CVEs.
 
@@ -102,4 +102,4 @@ For these cases, new releases will not typically be released just to resolve the
 
 As a result, base image CVEs should not be [reported](#reporting-a-vulnerability) unless there is evidence it may be exploitable within Istio.
 
-The [`distroless`](/docs/ops/configuration/security/harden-docker-images/) base images are strongly encouraged if reducing base image CVEs is important to you.
+The [`distroless`](/pt-br/docs/ops/configuration/security/harden-docker-images/) base images are strongly encouraged if reducing base image CVEs is important to you.

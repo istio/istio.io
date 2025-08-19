@@ -11,7 +11,7 @@ weight: 20
 ## Deprecation Notices
 
 These notices describe functionality that will be removed in a future release according
-to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading
+to [Istio's deprecation policy](/pt-br/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading
 your
 environment to remove the deprecated functionality.
 

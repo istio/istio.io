@@ -10,13 +10,13 @@ test: yes
 This task describes how to configure Istio to expose a service outside of the service mesh cluster, using the Kubernetes [Ingress Resource](https://kubernetes.io/docs/concepts/services-networking/ingress/).
 
 {{< tip >}}
-Using a [Gateway](/docs/tasks/traffic-management/ingress/ingress-control/), rather than Ingress,
+Using a [Gateway](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/), rather than Ingress,
 is recommended to make use of the full feature set that Istio offers, such as rich traffic management and security features.
 {{< /tip >}}
 
 ## Before you begin
 
-Follow the instructions in the [Before you begin](/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin) and [Determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) sections of the [Ingress Gateways task](/docs/tasks/traffic-management/ingress/ingress-control/).
+Follow the instructions in the [Before you begin](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#before-you-begin) and [Determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) sections of the [Ingress Gateways task](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/).
 
 ## Configuring ingress using an Ingress resource
 
@@ -86,7 +86,7 @@ Let's see how you can configure a `Ingress` on port 80 for HTTP traffic.
 
 ### TLS
 
-`Ingress` supports [specifying TLS settings](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls). This is supported by Istio, but the referenced `Secret` must exist in the namespace of the `istio-ingressgateway` deployment (typically `istio-system`). [cert-manager](/docs/ops/integrations/certmanager/) can be used to generate these certificates.
+`Ingress` supports [specifying TLS settings](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls). This is supported by Istio, but the referenced `Secret` must exist in the namespace of the `istio-ingressgateway` deployment (typically `istio-system`). [cert-manager](/pt-br/docs/ops/integrations/certmanager/) can be used to generate these certificates.
 
 ### Specifying path type
 

@@ -9,7 +9,7 @@ test: n/a
 
 Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Out of the gate, the project included the features that would come to define a service mesh, including standards-based mutual TLS for zero-trust networking, smart traffic routing, and observability through metrics, logs and tracing.
 
-Since then, the project has driven advances in the mesh space including [multi-cluster & multi-network topologies](/docs/ops/deployment/deployment-models/), [extensibility via WebAssembly](/docs/concepts/wasm/), the [development of the Kubernetes Gateway API](/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
+Since then, the project has driven advances in the mesh space including [multi-cluster & multi-network topologies](/pt-br/docs/ops/deployment/deployment-models/), [extensibility via WebAssembly](/pt-br/docs/concepts/wasm/), the [development of the Kubernetes Gateway API](/pt-br/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/pt-br/docs/ambient/overview/).
 
 Here are a few reasons we think you should use Istio as your service mesh.
 
@@ -23,7 +23,7 @@ It is better to have a feature and not need it, than to need it and not have it!
 
 From the beginning, Istio has been powered by the {{< gloss >}}Envoy{{< /gloss >}} proxy, a high performance service proxy initially built by Lyft. Istio was the first project to adopt Envoy, and [the Istio team were the first external committers](https://eng.lyft.com/envoy-7-months-later-41986c2fd443). Envoy would go on to become [the load balancer that powers Google Cloud](https://cloud.google.com/load-balancing/docs/https) as well as the proxy for almost every other service mesh platform.
 
-Istio inherits all the power and flexibility of Envoy, including world-class extensibility using WebAssembly that was [developed in Envoy by the Istio team](/blog/2020/wasm-announce/).
+Istio inherits all the power and flexibility of Envoy, including world-class extensibility using WebAssembly that was [developed in Envoy by the Istio team](/pt-br/blog/2020/wasm-announce/).
 
 ## Community
 
@@ -33,7 +33,7 @@ No other service mesh project has the breadth of support from the industry as Is
 
 ## Packages
 
-We make stable binary releases available to everyone, with every release, and commit to continue doing so. We publish free and regular security patches for [our latest release and a number of prior releases](/docs/releases/supported-releases/). Many of our vendors will support older versions, but we believe that engaging a vendor should not be a requirement to be safe in a stable open source project.
+We make stable binary releases available to everyone, with every release, and commit to continue doing so. We publish free and regular security patches for [our latest release and a number of prior releases](/pt-br/docs/releases/supported-releases/). Many of our vendors will support older versions, but we believe that engaging a vendor should not be a requirement to be safe in a stable open source project.
 
 ## Alternatives considered
 
@@ -41,7 +41,7 @@ A good design document includes a section on alternatives that were considered, 
 
 ### Why not "use eBPF"?
 
-We do - where it's appropriate! Istio can be configured to use {{< gloss >}}eBPF{{< /gloss >}} [to route traffic from pods to proxies](/blog/2022/merbridge/). This shows a small performance increase over using `iptables`.
+We do - where it's appropriate! Istio can be configured to use {{< gloss >}}eBPF{{< /gloss >}} [to route traffic from pods to proxies](/pt-br/blog/2022/merbridge/). This shows a small performance increase over using `iptables`.
 
 Why not use it for everything? No-one does, because no-one actually can.
 
@@ -59,6 +59,6 @@ In ambient mode, we strictly limit our ztunnel proxy to L4 processing - [just li
 
 Today, some CNI plugins are starting to offer service mesh-like functionality as an add-on that sits on top of their own CNI implementation. For example, they may implement their own encryption schemes for traffic between nodes or pods, workload identity, or support some amount of transport-level policy by redirecting traffic to a L7 proxy. These service mesh addons are non-standard, and as such can only work on top of the CNI that ships them. They also offer varying feature sets. For example, solutions built on top of Wireguard cannot be made FIPS-compliant.
 
-For this reason, Istio has implemented its zero-trust tunnel (ztunnel) component, which transparently and efficiently provides this functionality using proven, industry-standard encryption protocols. [Learn more about ztunnel](/docs/ambient/overview).
+For this reason, Istio has implemented its zero-trust tunnel (ztunnel) component, which transparently and efficiently provides this functionality using proven, industry-standard encryption protocols. [Learn more about ztunnel](/pt-br/docs/ambient/overview).
 
-Istio is designed to be a service mesh that provides a consistent, highly secure, efficient, and standards-compliant service mesh implementation providing a [powerful set of L7 policies](/docs/concepts/security/#authorization), [platform-agnostic workload identity](/docs/concepts/security/#istio-identity), using [industry-proven mTLS protocols](/docs/concepts/security/#mutual-tls-authentication) - in any environment, with any CNI, or even across clusters with different CNIs.
+Istio is designed to be a service mesh that provides a consistent, highly secure, efficient, and standards-compliant service mesh implementation providing a [powerful set of L7 policies](/pt-br/docs/concepts/security/#authorization), [platform-agnostic workload identity](/pt-br/docs/concepts/security/#istio-identity), using [industry-proven mTLS protocols](/pt-br/docs/concepts/security/#mutual-tls-authentication) - in any environment, with any CNI, or even across clusters with different CNIs.

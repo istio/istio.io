@@ -26,7 +26,7 @@ Before going through the following steps, an AWS environment that is configured 
 
 ### Step 1: Install Istio with AWS NLB
 
-The blog [Configuring Istio Ingress with AWS NLB](/blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. You can also use other automation tools, such as Terraform, to achieve the same goal. In the following example, more complete configurations are shown in order to enable proxy protocol and `X-Forwarded-For` at the same time.
+The blog [Configuring Istio Ingress with AWS NLB](/pt-br/blog/2018/aws-nlb/) provides detailed steps to set up AWS IAM roles and enable the usage of AWS NLB by Helm. You can also use other automation tools, such as Terraform, to achieve the same goal. In the following example, more complete configurations are shown in order to enable proxy protocol and `X-Forwarded-For` at the same time.
 
 {{< text yaml >}}
 apiVersion: v1
@@ -67,7 +67,7 @@ spec:
 
 ### Step 3: Enable `X-Forwarded-For` header
 
-This [blog](/docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. In the following example, the configurations are tuned to enable `X-Forwarded-For` without any middle proxy.
+This [blog](/pt-br/docs/ops/configuration/traffic-management/network-topologies/) includes several samples of configuring Gateway Network Topology. In the following example, the configurations are tuned to enable `X-Forwarded-For` without any middle proxy.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -97,7 +97,7 @@ spec:
 ### Step 4: Deploy ingress gateway for httpbin on port 80 and 443
 
 {{< warning>}}
-When following the [secure ingress setup](/docs/tasks/traffic-management/ingress/secure-ingress/), macOS users must add an additional patch to generate certificates for TLS.
+When following the [secure ingress setup](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/), macOS users must add an additional patch to generate certificates for TLS.
 {{< /warning >}}
 
 {{< text yaml >}}

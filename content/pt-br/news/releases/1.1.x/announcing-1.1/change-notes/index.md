@@ -14,15 +14,15 @@ aliases:
 
 In addition to the new features and improvements listed below, Istio 1.1 has introduced
 a number of significant changes from 1.0 that can alter the behavior of applications.
-A concise list of these changes can be found in the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes).
+A concise list of these changes can be found in the [upgrade notice](/pt-br/news/releases/1.1.x/announcing-1.1/upgrade-notes).
 
 ## Upgrades
 
 We recommend a manual upgrade of the control plane and data plane to 1.1. See
-the [upgrades documents](/docs/setup/upgrade/) for more information.
+the [upgrades documents](/pt-br/docs/setup/upgrade/) for more information.
 
 {{< warning >}}
-Be sure to check out the [upgrade notice](/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
+Be sure to check out the [upgrade notice](/pt-br/news/releases/1.1.x/announcing-1.1/upgrade-notes) for a
 concise list of things you should know before upgrading your deployment to Istio 1.1.
 {{< /warning >}}
 
@@ -37,7 +37,7 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Installation Configuration Profiles**. Added several installation
   configuration profiles to simplify the installation process using well-known
   and well-tested patterns. Learn more about the better user experience
-  afforded by the [installation profile feature](/docs/setup/additional-setup/config-profiles/).
+  afforded by the [installation profile feature](/pt-br/docs/setup/additional-setup/config-profiles/).
 
 - **Improved Multicluster Integration**. Consolidated the 1.0 `istio-remote`
   chart previously used for
@@ -47,7 +47,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ## Traffic management
 
-- **New `Sidecar` Resource**. The new [sidecar](/docs/concepts/traffic-management/#sidecars) resource
+- **New `Sidecar` Resource**. The new [sidecar](/pt-br/docs/concepts/traffic-management/#sidecars) resource
   enables more fine-grained control over the behavior of the sidecar proxies attached to workloads within a namespace.
   In particular it adds support to limit the set of services a sidecar will send traffic to.
   This reduces the amount of configuration computed and transmitted to
@@ -73,7 +73,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Locality-Aware Routing**. Added full support for routing to services in the
   same locality before picking services in other localities.
-  See [Locality Load Balancer Settings](/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
+  See [Locality Load Balancer Settings](/pt-br/docs/reference/config/networking/destination-rule#LocalityLoadBalancerSetting)
 
 - **Refined Multicluster Routing**. Simplified the multicluster setup and
   enabled additional deployment modes. You can now connect multiple clusters
@@ -84,9 +84,9 @@ concise list of things you should know before upgrading your deployment to Istio
   solution.
 
 - **Istio Ingress Deprecated**. Removed the previously deprecated Istio
-  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/docs/ops/integrations/certmanager/)
+  ingress. Refer to the [Securing Kubernetes Ingress with Cert-Manager](/pt-br/docs/ops/integrations/certmanager/)
   example for more details on how to use Kubernetes Ingress resources with
-  [gateways](/docs/concepts/traffic-management/#gateways).
+  [gateways](/pt-br/docs/concepts/traffic-management/#gateways).
 
 - **Performance and Scalability Improvements**. Tuned the performance and
   scalability of Istio and Envoy. Read more about [Performance and Scalability](https://archive.istio.io/v1.1/docs/ops/deployment/performance-and-scalability/)
@@ -98,7 +98,7 @@ concise list of things you should know before upgrading your deployment to Istio
 ### Security
 
 - **Readiness and Liveness Probes**. Added support for Kubernetes' HTTP
-  [readiness and liveness probes](/about/faq/#k8s-health-checks) when
+  [readiness and liveness probes](/pt-br/about/faq/#k8s-health-checks) when
   mutual TLS is enabled.
 
 - **Cluster RBAC Configuration**. Replaced the `RbacConfig` resource with the
@@ -111,11 +111,11 @@ concise list of things you should know before upgrading your deployment to Istio
   restarting Envoy.
 
 - **Authorization for TCP Services**. Added support of authorization for TCP
-  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/docs/tasks/security/authorization/authz-tcp)
+  services in addition to HTTP and gRPC services. See [Authorization for TCP Services](/pt-br/docs/tasks/security/authorization/authz-tcp)
   for more information.
 
 - **Authorization for End-User Groups**. Added authorization based on `groups`
-  claim or any list-typed claims in JWT. See [Authorization for JWT](/docs/tasks/security/authorization/authz-jwt/)
+  claim or any list-typed claims in JWT. See [Authorization for JWT](/pt-br/docs/tasks/security/authorization/authz-jwt/)
   for more information.
 
 - **External Certificate Management on Ingress Gateway Controller**.
@@ -135,7 +135,7 @@ concise list of things you should know before upgrading your deployment to Istio
 
 - **Kiali**. Replaced the [Service Graph addon](https://github.com/istio/istio/issues/9066)
   with [Kiali](https://www.kiali.io) to provide a richer visualization
-  experience. See the [Kiali task](/docs/tasks/observability/kiali/) for more
+  experience. See the [Kiali task](/pt-br/docs/tasks/observability/kiali/) for more
   details.
 
 - **Reduced Overhead**. Added several performance and scale improvements
@@ -173,7 +173,7 @@ concise list of things you should know before upgrading your deployment to Istio
 - **Reduced Load Balancer Requirements for Addons**. Stopped exposing addons
   via separate load balancers. Instead, addons are exposed via the Istio
   gateway. To expose addons externally using either HTTP or HTTPS protocols,
-  please use the [Addon Gateway documentation](/docs/tasks/observability/gateways/).
+  please use the [Addon Gateway documentation](/pt-br/docs/tasks/observability/gateways/).
 
 - **Secure Addon Credentials**. Changed storage of the addon credentials.
   Grafana, Kiali, and Jaeger passwords and username are now stored in
@@ -198,10 +198,10 @@ concise list of things you should know before upgrading your deployment to Istio
 
 ## `istioctl` and `kubectl`
 
-- **Validate Command**. Added the [`istioctl validate`](/docs/reference/commands/istioctl/#istioctl-validate)
+- **Validate Command**. Added the [`istioctl validate`](/pt-br/docs/reference/commands/istioctl/#istioctl-validate)
   command for offline validation of Istio Kubernetes resources.
 
-- **Verify-Install Command**. Added the [`istioctl verify-install`](/docs/reference/commands/istioctl/#istioctl-verify-install)
+- **Verify-Install Command**. Added the [`istioctl verify-install`](/pt-br/docs/reference/commands/istioctl/#istioctl-verify-install)
   command to verify the status of an Istio installation given a specified
   installation YAML file.
 

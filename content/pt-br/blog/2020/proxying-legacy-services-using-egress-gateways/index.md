@@ -14,7 +14,7 @@ We can set Istio up as a proxy service for these upstream services. This allows 
 
 At the end of this article there is a hands-on exercise where you can simulate the scenario. In the exercise, an upstream service hosted at [https://httpbin.org](https://httpbin.org) will be proxied by an Istio egress gateway.
 
-If you are familiar with Istio, one of the methods offered to connect to upstream services is through an [egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/).
+If you are familiar with Istio, one of the methods offered to connect to upstream services is through an [egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/).
 
 You can deploy one to control all the upstream traffic or you can deploy multiple in order to have fine-grained control and satisfy the [single-responsibility principle](https://en.wikipedia.org/wiki/Single-responsibility_principle) as this picture shows:
 
@@ -81,7 +81,7 @@ At the end, you will have:
 ### Prerequisites
 
 - [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (Kubernetes-in-Docker - perfect for local development)
-- [istioctl](/docs/setup/getting-started/#download)
+- [istioctl](/pt-br/docs/setup/getting-started/#download)
 
 #### Kind
 
@@ -208,7 +208,7 @@ Create the namespace where you will install the egress gateway:
 $ kubectl create ns httpbin
 {{< /text >}}
 
-As it is described in the [documentation](/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deploy several Operator resources. However, they have to be pre-parsed and then applied to the cluster.
+As it is described in the [documentation](/pt-br/docs/setup/install/istioctl/#customize-kubernetes-settings), you can deploy several Operator resources. However, they have to be pre-parsed and then applied to the cluster.
 
 {{< text bash >}}
 $ istioctl manifest generate -f egress.yaml | kubectl apply -f -
@@ -222,7 +222,7 @@ Now you will configure Istio to allow connections to the upstream service at [ht
 
 You need a certificate to make a secure connection from outside the cluster to your egress service.
 
-How to generate a certificate is explained in the [Istio ingress documentation](/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
+How to generate a certificate is explained in the [Istio ingress documentation](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/#generate-client-and-server-certificates-and-keys).
 
 Create and apply one to be used at the end of this article to access the service from outside the cluster (`<my-proxied-service-hostname>`):
 
@@ -381,7 +381,7 @@ spec:
 
 #### Destination Rule
 
-Create a `DestinationRule` to allow TLS origination for egress traffic as explained in the [documentation](/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
+Create a `DestinationRule` to allow TLS origination for egress traffic as explained in the [documentation](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/#tls-origination-for-egress-traffic)
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -438,7 +438,7 @@ $ kubectl -n istio-system port-forward svc/istio-ingressgateway 15443:443
 $ curl -vvv -k -HHost:<my-proxied-service-hostname> --resolve "<my-proxied-service-hostname>:15443:127.0.0.1" --cacert <cert> "https://<my-proxied-service-hostname>:15443/status/200"
 {{< /text >}}
 
-Where `<my-proxied-service-hostname>` is the hostname to access through the `my-ingressgateway` and `<cert>` is the certificate defined for the `ingressgateway` object. This is due to `tls.mode: SIMPLE` which [does not terminate TLS](/docs/tasks/traffic-management/ingress/secure-ingress/)
+Where `<my-proxied-service-hostname>` is the hostname to access through the `my-ingressgateway` and `<cert>` is the certificate defined for the `ingressgateway` object. This is due to `tls.mode: SIMPLE` which [does not terminate TLS](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/)
 
 #### Service-to-service access
 

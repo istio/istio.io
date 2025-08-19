@@ -53,7 +53,7 @@ body of a message. It will be more flexible and more efficient, eliminating the
 need for running a Mixer component separately (which also simplifies
 deployments).
 
-[Read our Wasm blog post](/blog/2020/wasm-announce/), and look out for posts
+[Read our Wasm blog post](/pt-br/blog/2020/wasm-announce/), and look out for posts
 from Google, Solo.io and the Envoy community for much more detail about this
 exciting work!
 
@@ -61,7 +61,7 @@ exciting work!
 
 We’re always making Istio easier to adopt and use, and this release in
 particular has some cool enhancements. Command line installation of Istio using
-[`istioctl`](/docs/reference/commands/istioctl) is now beta for installation and
+[`istioctl`](/pt-br/docs/reference/commands/istioctl) is now beta for installation and
 will work for most customers in most use cases. Managing your installation via
 an Operator is still alpha, but we continue to improve it with a new
 `IstioOperator` API.
@@ -83,7 +83,7 @@ Istio 1.4.
 
 As always, we are working to make Istio more secure with every release. With
 1.5, all security policies including
-[Auto mTLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls),
+[Auto mTLS](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls),
 [`AuthenticationPolicy`](https://archive.istio.io/1.4/docs/reference/config/security/istio.authentication.v1alpha1/)
 (`PeerAuthentication` and `RequestAuthentication`) and authorization are now in
 Beta. SDS is now stable. Authorization now supports Deny semantics to enforce

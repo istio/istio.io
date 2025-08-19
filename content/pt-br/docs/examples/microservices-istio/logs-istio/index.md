@@ -20,7 +20,7 @@ See below several examples of Prometheus Istio-related queries.
 
 1.  Access the Prometheus UI at [http://my-istio-logs-database.io](http://my-istio-logs-database.io).
 (The `my-istio-logs-database.io` URL should be in your /etc/hosts file, you set it
-[previously](/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
+[previously](/pt-br/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)).
 
     {{< image width="80%" link="prometheus.png" caption="Prometheus Query UI" >}}
 
@@ -63,22 +63,22 @@ Congratulations on completing the tutorial!
 These tasks are a great place for beginners to further evaluate Istio's
 features using this `demo` installation:
 
-- [Request routing](/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Accessing external services](/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/docs/tasks/observability/kiali/)
+- [Request routing](/pt-br/docs/tasks/traffic-management/request-routing/)
+- [Fault injection](/pt-br/docs/tasks/traffic-management/fault-injection/)
+- [Traffic shifting](/pt-br/docs/tasks/traffic-management/traffic-shifting/)
+- [Querying metrics](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizing metrics](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Accessing external services](/pt-br/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizing your mesh](/pt-br/docs/tasks/observability/kiali/)
 
 Before you customize Istio for production use, see these resources:
 
-- [Deployment models](/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/docs/ops/best-practices/deployment/)
-- [Pod requirements](/docs/ops/deployment/application-requirements/)
-- [General installation instructions](/docs/setup/)
+- [Deployment models](/pt-br/docs/ops/deployment/deployment-models/)
+- [Deployment best practices](/pt-br/docs/ops/best-practices/deployment/)
+- [Pod requirements](/pt-br/docs/ops/deployment/application-requirements/)
+- [General installation instructions](/pt-br/docs/setup/)
 
 ## Join the Istio community
 
 We welcome you to ask questions and give us feedback by joining the
-[Istio community](/get-involved/).
+[Istio community](/pt-br/get-involved/).

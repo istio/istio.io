@@ -7,10 +7,10 @@ keywords: [istio,ambient,ztunnel,eBPF]
 ---
 
 {{< idea >}}
-Ambient mode now uses [in-Pod redirection](/blog/2024/inpod-traffic-redirection-ambient/) to redirect traffic between workload pods and ztunnel. The method described in this blog is no longer needed, and this post has been left for historical interest.
+Ambient mode now uses [in-Pod redirection](/pt-br/blog/2024/inpod-traffic-redirection-ambient/) to redirect traffic between workload pods and ztunnel. The method described in this blog is no longer needed, and this post has been left for historical interest.
 {{< /idea >}}
 
-In Istio's new [ambient mode](/blog/2022/introducing-ambient-mesh/), the `istio-cni` component running on each Kubernetes worker node is responsible for redirecting application traffic to the zero-trust tunnel (ztunnel) on that node. By default it relies on iptables and
+In Istio's new [ambient mode](/pt-br/blog/2022/introducing-ambient-mesh/), the `istio-cni` component running on each Kubernetes worker node is responsible for redirecting application traffic to the zero-trust tunnel (ztunnel) on that node. By default it relies on iptables and
 [Generic Network Virtualization Encapsulation (Geneve)](https://www.rfc-editor.org/rfc/rfc8926.html) overlay tunnels to achieve this redirection. We have now added support for an eBPF-based method of traffic redirection.
 
 ## Why eBPF
@@ -34,7 +34,7 @@ All traffic to/from the application pod will be intercepted by eBPF and redirect
 
 ## How to enable eBPF redirection in Istio ambient mode
 
-Follow the instructions in [Getting Started with Ambient Mesh](/blog/2022/get-started-ambient/) to set up your cluster, with a small change: when you install Istio, set the `values.cni.ambient.redirectMode` configuration parameter to `ebpf`.
+Follow the instructions in [Getting Started with Ambient Mesh](/pt-br/blog/2022/get-started-ambient/) to set up your cluster, with a small change: when you install Istio, set the `values.cni.ambient.redirectMode` configuration parameter to `ebpf`.
 
 {{< text bash >}}
 $ istioctl install --set profile=ambient --set values.cni.ambient.redirectMode="ebpf"

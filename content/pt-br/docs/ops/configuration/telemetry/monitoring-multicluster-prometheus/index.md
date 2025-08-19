@@ -23,8 +23,8 @@ of the clusters within the mesh.
 
 ## Multicluster Istio setup
 
-Follow the [multicluster installation](/docs/setup/install/multicluster/) section to set up your Istio clusters in one of the
-supported [multicluster deployment models](/docs/ops/deployment/deployment-models/#multiple-clusters). For the purpose of
+Follow the [multicluster installation](/pt-br/docs/setup/install/multicluster/) section to set up your Istio clusters in one of the
+supported [multicluster deployment models](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters). For the purpose of
 this guide, any of those approaches will work, with the following caveat:
 
 **Ensure that a cluster-local Istio Prometheus instance is installed in each cluster.**
@@ -61,11 +61,11 @@ For production use, secure access to each Prometheus endpoint with HTTPS. In add
 internal load-balancer instead of a public endpoint and the appropriate configuration of firewall rules.
 {{< /warning >}}
 
-Istio provides a way to expose cluster services externally via [Gateways](/docs/reference/config/networking/gateway/).
+Istio provides a way to expose cluster services externally via [Gateways](/pt-br/docs/reference/config/networking/gateway/).
 You can configure an ingress gateway for the cluster-local Prometheus, providing external connectivity to the in-cluster
 Prometheus endpoint.
 
-For each cluster, follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/docs/tasks/observability/gateways/#option-1-secure-access-https) task.
+For each cluster, follow the appropriate instructions from the [Remotely Accessing Telemetry Addons](/pt-br/docs/tasks/observability/gateways/#option-1-secure-access-https) task.
 Also note that you **SHOULD** establish secure (HTTPS) access.
 
 Next, configure your external Prometheus instance to access the cluster-local Prometheus instances using a configuration

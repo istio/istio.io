@@ -27,7 +27,7 @@ To retain the old gateway behavior of always utilizing all cores, `proxy.istio.i
 
 ## Gateway API Automated Deployment changes
 
-This change impacts you only if you use [Gateway API Automated Deployment](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+This change impacts you only if you use [Gateway API Automated Deployment](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
 Note that this only applies to the Kubernetes Gateway API, not the Istio `Gateway`.
 You can check if you are using this feature with the following command:
 

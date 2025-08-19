@@ -7,4 +7,4 @@ When `STRICT` mutual TLS is enabled, non-Istio workloads cannot communicate to I
 If you need to allow these clients, the mutual TLS mode can be configured to `PERMISSIVE`, allowing both plaintext and mutual TLS.
 This can be done for individual workloads or the entire mesh.
 
-See [Authentication Policy](/docs/tasks/security/authentication/authn-policy) for more details.
+See [Authentication Policy](/pt-br/docs/tasks/security/authentication/authn-policy) for more details.

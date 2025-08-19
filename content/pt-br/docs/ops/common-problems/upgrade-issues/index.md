@@ -17,7 +17,7 @@ first-class Istio API which carries substantially lower upgrade risks.
 ### Use Telemetry API for metrics customization
 
 The usage of `IstioOperator` to customize Prometheus metrics generation has been
-replaced by the [Telemetry API](/docs/tasks/observability/metrics/customize-metrics/),
+replaced by the [Telemetry API](/pt-br/docs/tasks/observability/metrics/customize-metrics/),
 because `IstioOperator` relies on a template `EnvoyFilter` to change the
 metrics filter configuration. Note that the two methods are incompatible, and
 the Telemetry API does not work with `EnvoyFilter` or `IstioOperator` metric
@@ -64,7 +64,7 @@ spec:
 ### Use the WasmPlugin API for Wasm data plane extensibility
 
 The usage of `EnvoyFilter` to inject Wasm filters has been replaced by the
-[WasmPlugin API](/docs/tasks/extensibility/wasm-module-distribution).
+[WasmPlugin API](/pt-br/docs/tasks/extensibility/wasm-module-distribution).
 WasmPlugin API allows dynamic loading of the plugins from artifact registries,
 URLs, or local files. The "Null" plugin runtime is no longer a recommended option
 for deployment of Wasm code.
@@ -73,9 +73,9 @@ for deployment of Wasm code.
 
 The usage of `EnvoyFilter` to configure the number of the trusted hops in the
 HTTP connection manager has been replaced by the
-[`gatewayTopology`](/docs/reference/config/istio.mesh.v1alpha1/#Topology)
+[`gatewayTopology`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#Topology)
 field in
-[`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
+[`ProxyConfig`](/pt-br/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
 on the pod or the mesh default. Instead of:
 
@@ -117,9 +117,9 @@ metadata:
 The usage of `EnvoyFilter` to enable [PROXY
 protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) on the
 ingress gateways has been replaced by the
-[`gatewayTopology`](/docs/reference/config/istio.mesh.v1alpha1/#Topology)
+[`gatewayTopology`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#Topology)
 field in
-[`ProxyConfig`](/docs/ops/configuration/traffic-management/network-topologies).
+[`ProxyConfig`](/pt-br/docs/ops/configuration/traffic-management/network-topologies).
 For example, the following `EnvoyFilter` configuration should use an annotation
 on the pod or the mesh default. Instead of:
 

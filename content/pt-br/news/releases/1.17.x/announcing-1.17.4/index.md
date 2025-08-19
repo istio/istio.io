@@ -7,7 +7,7 @@ publishdate: 2023-07-14
 release: 1.17.4
 ---
 
-This release fixes the security vulnerabilities described in our July 14th post, [ISTIO-SECURITY-2023-002](/news/security/istio-security-2023-002).
+This release fixes the security vulnerabilities described in our July 14th post, [ISTIO-SECURITY-2023-002](/pt-br/news/security/istio-security-2023-002).
 
 This release note describes what’s different between Istio 1.17.3 and 1.17.4. There will be an additional security release made on or after July 25th, 2023 that will fix numerous
 security defects with the highest security defect considered high severity. For more information, please see the

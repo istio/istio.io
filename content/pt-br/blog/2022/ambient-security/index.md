@@ -6,12 +6,12 @@ attribution: "Ethan Jackson (Google), Yuval Kohavi (Solo.io), Justin Pettit (Goo
 keywords: [ambient]
 ---
 
-We recently announced Istio's new ambient mode, which is a sidecar-less data plane for Istio and the reference implementation of the ambient mesh pattern. [As stated in the announcement blog](/blog/2022/introducing-ambient-mesh/), the top concerns we address with ambient mesh are simplified operations, broader application compatibility, reduced infrastructure costs and improved performance. When designing the ambient data plane, we wanted to carefully balance the concerns around operations, cost, and performance while not sacrificing security or functionality. As the components of ambient mesh run outside of the application pods, the security boundaries have changed -- we believe for the better. In this blog, we go into some detail about these changes and how they compare to a sidecar deployment.
+We recently announced Istio's new ambient mode, which is a sidecar-less data plane for Istio and the reference implementation of the ambient mesh pattern. [As stated in the announcement blog](/pt-br/blog/2022/introducing-ambient-mesh/), the top concerns we address with ambient mesh are simplified operations, broader application compatibility, reduced infrastructure costs and improved performance. When designing the ambient data plane, we wanted to carefully balance the concerns around operations, cost, and performance while not sacrificing security or functionality. As the components of ambient mesh run outside of the application pods, the security boundaries have changed -- we believe for the better. In this blog, we go into some detail about these changes and how they compare to a sidecar deployment.
 
 {{< image link="./ambient-layers.png" caption="Layering of ambient mesh data plane" >}}
 
 To recap, Istio's ambient mode introduces a layered mesh data plane with a secure overlay responsible for transport security and routing, that has the option to add L7 capabilities for namespaces that need them.
-To understand more, please see the [announcement blog](/blog/2022/introducing-ambient-mesh/) and the [getting started blog](/blog/2022/get-started-ambient).
+To understand more, please see the [announcement blog](/pt-br/blog/2022/introducing-ambient-mesh/) and the [getting started blog](/pt-br/blog/2022/get-started-ambient).
 The secure overlay consists of a node-shared component, the ztunnel, that is responsible for L4 telemetry and mTLS which is deployed as a DaemonSet.
 The L7 layer of the mesh is provided by waypoint proxies, full L7 Envoy proxies that are deployed per identity/workload type.
 Some of the core implications of this design include:

@@ -16,10 +16,10 @@ This task shows you how to set up request timeouts in Envoy using Istio.
 ## Before you begin
 
 * Setup Istio by following the instructions in the
-  [Installation guide](/docs/setup/).
+  [Installation guide](/pt-br/docs/setup/).
 
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) sample application including the
-  [service versions](/docs/examples/bookinfo/#define-the-service-versions).
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application including the
+  [service versions](/pt-br/docs/examples/bookinfo/#define-the-service-versions).
 
 ## Request timeouts
 
@@ -140,7 +140,7 @@ EOF
 {{< /tabset >}}
 
 3)  Open the Bookinfo URL `http://$GATEWAY_URL/productpage` in your browser, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+the [Bookinfo](/pt-br/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
     You should see the Bookinfo application working normally (with ratings stars displayed),
     but there is a 2 second delay whenever you refresh the page.
@@ -220,12 +220,12 @@ You observed that instead of displaying reviews, the Bookinfo product page (whic
 the message: Sorry, product reviews are currently unavailable for this book.
 This was the result of it receiving the timeout error from the `reviews` service.
 
-If you examine the [fault injection task](/docs/tasks/traffic-management/fault-injection/), you'll find out that the `productpage`
+If you examine the [fault injection task](/pt-br/docs/tasks/traffic-management/fault-injection/), you'll find out that the `productpage`
 microservice also has its own application-level timeout (3 seconds) for calls to the `reviews` microservice.
 Notice that in this task you used an Istio route rule to set the timeout to half a second.
 Had you instead set the timeout to something greater than 3 seconds (such as 4 seconds) the timeout
 would have had no effect since the more restrictive of the two takes precedence.
-More details can be found [here](/docs/concepts/traffic-management/#network-resilience-and-testing).
+More details can be found [here](/pt-br/docs/concepts/traffic-management/#network-resilience-and-testing).
 
 One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
 as you did in this task, they can also be overridden on a per-request basis if the application adds
@@ -258,5 +258,5 @@ $ kubectl delete virtualservice ratings
 {{< /tabset >}}
 
 * If you are not planning to explore any follow-on tasks, see the
-  [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+  [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
   to shutdown the application.

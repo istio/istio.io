@@ -11,15 +11,15 @@ test: n/a
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/).
+1. [Download the Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/).
+1. Check the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/application-requirements/).
 
 In addition to installing any of Istio's built-in
-[configuration profiles](/docs/setup/additional-setup/config-profiles/),
+[configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/),
 `istioctl install` provides a complete API for customizing the configuration.
 
-- [The `IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/)
+- [The `IstioOperator` API](/pt-br/docs/reference/config/istio.operator.v1alpha1/)
 
 The configuration parameters in this API can be set individually using `--set` options on the command
 line. For example, to enable debug logging in a default configuration profile, use this command:
@@ -45,10 +45,10 @@ $ istioctl install --set values.pilot.traceSampling=0.1
 {{< /text >}}
 
 Helm values can also be set in an `IstioOperator` CR (YAML file) as described in
-[Customize Istio settings using the Helm API](/docs/setup/additional-setup/customize-installation/#customize-istio-settings-using-the-helm-api), below.
+[Customize Istio settings using the Helm API](/pt-br/docs/setup/additional-setup/customize-installation/#customize-istio-settings-using-the-helm-api), below.
 
 If you want to set Kubernetes resource settings, use the `IstioOperator` API as described in
- [Customize Kubernetes settings](/docs/setup/additional-setup/customize-installation/#customize-kubernetes-settings).
+ [Customize Kubernetes settings](/pt-br/docs/setup/additional-setup/customize-installation/#customize-kubernetes-settings).
 {{< /tip >}}
 
 ### Identify an Istio component
@@ -84,7 +84,7 @@ All of the components also share a common API for changing Kubernetes-specific s
 
 The `IstioOperator` API allows each component's Kubernetes settings to be customized in a consistent way.
 
-Each component has a [`KubernetesResourceSpec`](/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
+Each component has a [`KubernetesResourceSpec`](/pt-br/docs/reference/config/istio.operator.v1alpha1/#KubernetesResourcesSpec),
 which allows the following settings to be changed. Use this list to identify the setting to customize:
 
 1. [Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container)
@@ -157,7 +157,7 @@ consistent, is validated, and follows the [community graduation process](https:/
 ### Configure gateways
 
 Gateways are a special type of component, since multiple ingress and egress gateways can be defined. In the
-[`IstioOperator` API](/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
+[`IstioOperator` API](/pt-br/docs/reference/config/istio.operator.v1alpha1/), gateways are defined as a list type.
 The `default` profile installs one ingress gateway, called `istio-ingressgateway`. You can [inspect the default values
 for this gateway]({{< github_tree >}}/manifests/charts/gateways/istio-ingress/values.yaml). The built-in gateways can be customized just like any other component.
 
@@ -256,7 +256,7 @@ Creating a custom profile is only required if you need to refer to the profile b
 
 The `IstioOperator` CR, input to `istioctl`, is used to generate the output manifest containing the
 Kubernetes resources to be applied to the cluster. The output manifest can be further customized to add, modify or delete resources
-through the `IstioOperator` [overlays](/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API, after it is
+through the `IstioOperator` [overlays](/pt-br/docs/reference/config/istio.operator.v1alpha1/#K8sObjectOverlay) API, after it is
 generated but before it is applied to the cluster.
 
 The following example overlay file (`patch.yaml`) demonstrates the type of output manifest patching that can be done:

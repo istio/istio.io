@@ -12,7 +12,7 @@ aliases:
 
 ## Traffic Management
 
-- **Promoted** [CNI](/docs/setup/additional-setup/cni/) to beta. ([Issue #86](https://github.com/istio/enhancements/issues/86))
+- **Promoted** [CNI](/pt-br/docs/setup/additional-setup/cni/) to beta. ([Issue #86](https://github.com/istio/enhancements/issues/86))
 
 - **Improved** resolution of headless services via in-agent DNS to include endpoints
 from other clusters that are on the same network.
@@ -33,7 +33,7 @@ from other clusters that are on the same network.
 The recommended way to access the debug interface is through `istioctl experimental internal-debug`, which handles
 this automatically.
 
-- **Added** the `shutdownDuration` flag to [pilot-discovery](/docs/reference/commands/pilot-discovery/) so that users can configure the duration istiod needs to terminate gracefully. The default value is 10s.
+- **Added** the `shutdownDuration` flag to [pilot-discovery](/pt-br/docs/reference/commands/pilot-discovery/) so that users can configure the duration istiod needs to terminate gracefully. The default value is 10s.
 
 - **Added** an environment variable `PILOT_STATUS_UPDATE_INTERVAL` that is the interval to update the XDS distribution status and its default value is `500ms`.
 
@@ -67,7 +67,7 @@ Istio will automatically create `ServiceExport` in all clusters for each service
   ([Issue #29384](https://github.com/istio/istio/issues/29384))
 
 - **Fixed** an issue to `enableCoreDump` using the sidecar annotation.
- ([reference](/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
+ ([reference](/pt-br/docs/reference/config/annotations/)) ([Issue #26668](https://github.com/istio/istio/issues/26668))
 
 - **Fixed** where both inbound and outbound apps were unable to intercept traffic when using `podIP` in TPROXY interception mode.
   ([Issue #31095](https://github.com/istio/istio/issues/31095))
@@ -118,13 +118,13 @@ configuration.
 - **Added** a new metric (`istiod_managed_clusters`) to `istiod` to track the number of clusters managed by an
 `istiod` instance.
 
-- **Fixed** Prometheus [metrics merging](/docs/ops/integrations/prometheus/#option-1-metrics-merging) to
+- **Fixed** Prometheus [metrics merging](/pt-br/docs/ops/integrations/prometheus/#option-1-metrics-merging) to
 correctly handle the case where the application metrics are exposed as [OpenMetrics](https://github.com/OpenObservability/OpenMetrics).
   ([Issue #33474](https://github.com/istio/istio/issues/33474))
 
 ## Installation
 
-- **Promoted** [external control plane](/docs/setup/install/external-controlplane/) to beta.
+- **Promoted** [external control plane](/pt-br/docs/setup/install/external-controlplane/) to beta.
   ([Pull Request #93](https://github.com/istio/enhancements/pull/93))
 
 - **Improved** the installation of Istio on remote clusters using an external control plane.

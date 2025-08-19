@@ -10,8 +10,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Along with support for Kubernetes [Ingress](/docs/tasks/traffic-management/ingress/kubernetes-ingress/) resources, Istio also allows you to configure ingress traffic
-using either an [Istio Gateway](/docs/concepts/traffic-management/#gateways) or [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource.
+Along with support for Kubernetes [Ingress](/pt-br/docs/tasks/traffic-management/ingress/kubernetes-ingress/) resources, Istio also allows you to configure ingress traffic
+using either an [Istio Gateway](/pt-br/docs/concepts/traffic-management/#gateways) or [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) resource.
 A `Gateway` provides more extensive customization and flexibility than `Ingress`, and allows Istio features such as monitoring and route rules to be applied to traffic entering the cluster.
 
 This task describes how to configure Istio to expose a service outside of the service mesh using a `Gateway`.
@@ -20,7 +20,7 @@ This task describes how to configure Istio to expose a service outside of the se
 
 ## Before you begin
 
-*   Setup Istio by following the instructions in the [Installation guide](/docs/setup/).
+*   Setup Istio by following the instructions in the [Installation guide](/pt-br/docs/setup/).
 
     {{< tip >}}
     If you are going to use the `Gateway API` instructions, you can install Istio using the `minimal`
@@ -58,7 +58,7 @@ Let's see how you can configure a `Gateway` on port 80 for HTTP traffic.
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-Create an [Istio Gateway](/docs/reference/config/networking/gateway/):
+Create an [Istio Gateway](/pt-br/docs/reference/config/networking/gateway/):
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -108,11 +108,11 @@ spec:
 EOF
 {{< /text >}}
 
-You have now created a [virtual service](/docs/reference/config/networking/virtual-service/)
+You have now created a [virtual service](/pt-br/docs/reference/config/networking/virtual-service/)
 configuration for the `httpbin` service containing two route rules that allow traffic for paths `/status` and
 `/delay`.
 
-The [gateways](/docs/reference/config/networking/virtual-service/#VirtualService-gateways) list
+The [gateways](/pt-br/docs/reference/config/networking/virtual-service/#VirtualService-gateways) list
 specifies that only requests through your `httpbin-gateway` are allowed.
 All other external requests will be rejected with a 404 response.
 
@@ -122,7 +122,7 @@ but instead will default to round-robin routing. To apply these rules to interna
 you can add the special value `mesh` to the list of `gateways`. Since the internal hostname for the
 service is probably different (e.g., `httpbin.default.svc.cluster.local`) from the external one,
 you will also need to add it to the `hosts` list. Refer to the
-[operations guide](/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
+[operations guide](/pt-br/docs/ops/common-problems/network-issues#route-rules-have-no-effect-on-ingress-gateway-requests)
 for more details.
 {{< /warning >}}
 
@@ -159,7 +159,7 @@ as the `Gateway`.
 {{< /tip >}}
 
 Because creating a Kubernetes `Gateway` resource will also
-[deploy an associated proxy service](/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
+[deploy an associated proxy service](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment),
 run the following command to wait for the gateway to be ready:
 
 {{< text bash >}}
@@ -253,7 +253,7 @@ If the `EXTERNAL-IP` value is set, your environment has an external load balance
 If the `EXTERNAL-IP` value is `<none>` (or perpetually `<pending>`), your environment does not provide an external load balancer for the ingress gateway.
 
 If your environment does not support external load balancers, you can try
-[accessing the ingress gateway using node ports](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
+[accessing the ingress gateway using node ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 Otherwise, set the ingress IP and ports using the following commands:
 
 {{< text bash >}}
@@ -515,7 +515,7 @@ they have valid values, according to the output of the following commands:
     {{< /text >}}
 
 1.  If you have an external load balancer and it does not work for you, try to
-    [access the gateway using its node port](/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
+    [access the gateway using its node port](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#using-node-ports-of-the-ingress-gateway-service).
 
 ## Cleanup
 

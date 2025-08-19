@@ -15,8 +15,8 @@ skip_seealso: true
 
 ## Issue
 
-The Istio [`Gateway`](/docs/tasks/traffic-management/ingress/secure-ingress/) and
-[`DestinationRule`](/docs/reference/config/networking/destination-rule/) can load private keys and certificates from Kubernetes
+The Istio [`Gateway`](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/) and
+[`DestinationRule`](/pt-br/docs/reference/config/networking/destination-rule/) can load private keys and certificates from Kubernetes
 secrets via the `credentialName` configuration.
 For Istio 1.8 and above, the secrets are conveyed from Istiod to gateways or workloads via the XDS API.
 
@@ -29,8 +29,8 @@ However, a bug in Istiod permits an authorized client the ability to access and 
 Your cluster is impacted if ALL of following conditions are true:
 
 * It is using Istio 1.10.0 to 1.10.1, Istio 1.9.0 to 1.9.5 or Istio 1.8.x.
-* It has defined [`Gateways`](/docs/tasks/traffic-management/ingress/secure-ingress/) or
-  [`DestinationRules`](/docs/reference/config/networking/destination-rule/) with the `credentialName` field specified.
+* It has defined [`Gateways`](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/) or
+  [`DestinationRules`](/pt-br/docs/reference/config/networking/destination-rule/) with the `credentialName` field specified.
 * It does not specify the Istiod flag `PILOT_ENABLE_XDS_CACHE=false`.
 
 {{< warning >}}

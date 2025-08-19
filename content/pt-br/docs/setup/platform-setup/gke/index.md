@@ -32,12 +32,12 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< tip >}}
     The default installation of Istio requires nodes with >1 vCPU. If you are
     installing with the
-    [demo configuration profile](/docs/setup/additional-setup/config-profiles/),
+    [demo configuration profile](/pt-br/docs/setup/additional-setup/config-profiles/),
     you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
     {{< /tip >}}
 
     {{< warning >}}
-    To use the Istio CNI feature on GKE Standard, please check the [CNI installation guide](/docs/setup/additional-setup/cni/#prerequisites)
+    To use the Istio CNI feature on GKE Standard, please check the [CNI installation guide](/pt-br/docs/setup/additional-setup/cni/#prerequisites)
     for prerequisite cluster configuration steps. Since the CNI node agent requires the SYS_ADMIN capability, it is not available on GKE Autopilot. Instead, use the istio-init container.
     {{< /warning >}}
 

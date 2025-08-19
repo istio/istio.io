@@ -11,10 +11,10 @@ skip_list: true
 next: /docs/ambient/getting-started/deploy-sample-app
 ---
 
-This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/docs/setup/platform-setup).
+This guide lets you quickly evaluate Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}. You'll need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/pt-br/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/pt-br/docs/setup/platform-setup).
 
 These steps require you to have a {{< gloss >}}cluster{{< /gloss >}} running a
-[supported version](/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}).
+[supported version](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases) of Kubernetes ({{< supported_kubernetes_versions >}}).
 
 ## Download the Istio CLI
 
@@ -36,7 +36,7 @@ client version: {{< istio_full_version >}}
 
 ## Install Istio on to your cluster
 
-`istioctl` supports a number of [configuration profiles](/docs/setup/additional-setup/config-profiles/) that include different default options, and can be customized for your production needs. Support for ambient mode is included in the `ambient` profile. Install Istio with the following command:
+`istioctl` supports a number of [configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/) that include different default options, and can be customized for your production needs. Support for ambient mode is included in the `ambient` profile. Install Istio with the following command:
 
 {{< text syntax=bash snip_id=install_ambient >}}
 $ istioctl install --set profile=ambient --skip-confirmation
@@ -60,4 +60,4 @@ You will use the Kubernetes Gateway API to configure traffic routing.
 
 ## Next steps
 
-Congratulations! You've successfully installed Istio with support for ambient mode. Continue to the next step to [install a sample application](/docs/ambient/getting-started/deploy-sample-app/).
+Congratulations! You've successfully installed Istio with support for ambient mode. Continue to the next step to [install a sample application](/pt-br/docs/ambient/getting-started/deploy-sample-app/).

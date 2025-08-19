@@ -32,9 +32,9 @@ To reconcile broken links, use this flowchart:
 
 ## Submit your contribution to GitHub
 
-If you are not familiar with GitHub, see our [working with GitHub guide](/docs/releases/contribute/github)
+If you are not familiar with GitHub, see our [working with GitHub guide](/pt-br/docs/releases/contribute/github)
 to learn how to submit documentation changes.
 
 If you want to learn more about how and when your contributions are published,
-see the [section on branching](/docs/releases/contribute/github#branching-strategy) to understand
+see the [section on branching](/pt-br/docs/releases/contribute/github#branching-strategy) to understand
 how we use branches and cherry picking to publish our content.

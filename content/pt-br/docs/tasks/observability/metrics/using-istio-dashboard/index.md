@@ -14,15 +14,15 @@ This task shows you how to set up and use the Istio Dashboard to monitor mesh
 traffic. As part of this task, you will use the Grafana Istio addon and
 the web-based interface for viewing service mesh traffic data.
 
-The [Bookinfo](/docs/examples/bookinfo/) sample application is used as
+The [Bookinfo](/pt-br/docs/examples/bookinfo/) sample application is used as
 the example application throughout this task.
 
 ## Before you begin
 
-* [Install Istio](/docs/setup) in your cluster.
-* Install the [Grafana Addon](/docs/ops/integrations/grafana/#option-1-quick-start).
-* Install the [Prometheus Addon](/docs/ops/integrations/prometheus/#option-1-quick-start).
-* Deploy the [Bookinfo](/docs/examples/bookinfo/) application.
+* [Install Istio](/pt-br/docs/setup) in your cluster.
+* Install the [Grafana Addon](/pt-br/docs/ops/integrations/grafana/#option-1-quick-start).
+* Install the [Prometheus Addon](/pt-br/docs/ops/integrations/prometheus/#option-1-quick-start).
+* Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/) application.
 
 ## Viewing the Istio dashboard
 
@@ -68,7 +68,7 @@ the example application throughout this task.
     {{< boilerplate trace-generation >}}
 
     {{< tip >}}
-    `$GATEWAY_URL` is the value set in the [Bookinfo](/docs/examples/bookinfo/) example.
+    `$GATEWAY_URL` is the value set in the [Bookinfo](/pt-br/docs/examples/bookinfo/) example.
     {{< /tip >}}
 
     Refresh the page a few times (or send the command a few times) to generate a
@@ -137,5 +137,5 @@ For more on how to create, configure, and edit dashboards, please see the
     {{< /text >}}
 
 * If you are not planning to explore any follow-on tasks, refer to the
-[Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+[Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
 to shutdown the application.

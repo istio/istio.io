@@ -20,8 +20,8 @@ publishdate: 2021-02-09
 - **Added** Allow enabling gRPC logging with --log_output_level for pilot.
   ([Issue #28482](https://github.com/istio/istio/issues/28482))
 
-- **Added** a new experimental proxy option [DNS_AUTO_ALLOCATE](/docs/ops/configuration/traffic-management/dns-proxy), to control auto allocation of ServiceEntry addresses. Previously,
-this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without auto allocation. See [Smart DNS Proxying](/blog/2020/dns-proxy/) for more info.
+- **Added** a new experimental proxy option [DNS_AUTO_ALLOCATE](/pt-br/docs/ops/configuration/traffic-management/dns-proxy), to control auto allocation of ServiceEntry addresses. Previously,
+this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without auto allocation. See [Smart DNS Proxying](/pt-br/blog/2020/dns-proxy/) for more info.
   ([Issue #29324](https://github.com/istio/istio/issues/29324))
 
 - **Fixed** istiod will no longer generate listeners for privileged gateway ports (<1024) if the gateway Pod does not have sufficient permissions.
@@ -42,8 +42,8 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 - **Added** support of PeerAuthentication per-port-level configuration on pass through filter chains.
   ([Issue #27994](https://github.com/istio/istio/issues/27994))
 
-- **Added** an experimental [`CUSTOM` action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
-  in AuthorizationPolicy for integration with external authorization systems like OPA, OAuth2 and more. See [the blog on this feature](/blog/2021/better-external-authz/)
+- **Added** an experimental [`CUSTOM` action](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action)
+  in AuthorizationPolicy for integration with external authorization systems like OPA, OAuth2 and more. See [the blog on this feature](/pt-br/blog/2021/better-external-authz/)
   for more info. ([Issue #27790](https://github.com/istio/istio/issues/27790))
 
 ## Telemetry
@@ -62,7 +62,7 @@ this option was tied to `DNS_CAPTURE`. Now, `DNS_CAPTURE` can be enabled without
 
 ## Extensibility
 
-- **Added** [Reliable Wasm module remote load](/docs/tasks/extensibility/wasm-module-distribution) with Istio agent. ([Issue #29989](https://github.com/istio/istio/issues/29989))
+- **Added** [Reliable Wasm module remote load](/pt-br/docs/tasks/extensibility/wasm-module-distribution) with Istio agent. ([Issue #29989](https://github.com/istio/istio/issues/29989))
 
 ## Networking
 

@@ -12,7 +12,7 @@ test: yes
 ---
 
 Follow this guide to upgrade and configure an ambient mode installation using
-[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/docs/ambient/install/helm/) with a previous version of Istio.
+[Helm](https://helm.sh/docs/). This guide assumes you have already performed an [ambient mode installation with Helm](/pt-br/docs/ambient/install/helm/) with a previous version of Istio.
 
 {{< warning >}}
 In contrast to sidecar mode, ambient mode supports moving application pods to an upgraded ztunnel proxy without a mandatory restart or reschedule of running application pods. However, upgrading ztunnel **will** cause all long-lived TCP connections on the upgraded node to reset, and Istio does not currently support canary upgrades of ztunnel, **even with the use of revisions**.
@@ -22,9 +22,9 @@ Node cordoning and blue/green node pools are recommended to limit the blast radi
 
 ## Understanding ambient mode upgrades
 
-All Istio upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the ambient data plane is split across [two components](/docs/ambient/architecture/data-plane), the ztunnel and gateways (which includes waypoints), upgrades involve separate steps for these components. Upgrading the control plane and CRDs is covered here in brief, but is essentially identical to [the process for upgrading these components in sidecar mode](/docs/setup/upgrade/canary/).
+All Istio upgrades involve upgrading the control plane, data plane, and Istio CRDs. Because the ambient data plane is split across [two components](/pt-br/docs/ambient/architecture/data-plane), the ztunnel and gateways (which includes waypoints), upgrades involve separate steps for these components. Upgrading the control plane and CRDs is covered here in brief, but is essentially identical to [the process for upgrading these components in sidecar mode](/pt-br/docs/setup/upgrade/canary/).
 
-Like sidecar mode, gateways can make use of [revision tags](/docs/setup/upgrade/canary/#stable-revision-labels) to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including waypoints, with simple controls for rolling back to a previous version of the Istio control plane at any point. However, unlike sidecar mode, the ztunnel runs as a DaemonSet — a per-node proxy — meaning that ztunnel upgrades affect, at minimum, an entire node at a time. While this may be acceptable in many cases, applications with long-lived TCP connections may be disrupted.  In such cases, we recommend using node cordoning and draining before upgrading the ztunnel for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which may involve a short downtime.
+Like sidecar mode, gateways can make use of [revision tags](/pt-br/docs/setup/upgrade/canary/#stable-revision-labels) to allow fine-grained control over ({{< gloss >}}gateway{{</ gloss >}}) upgrades, including waypoints, with simple controls for rolling back to a previous version of the Istio control plane at any point. However, unlike sidecar mode, the ztunnel runs as a DaemonSet — a per-node proxy — meaning that ztunnel upgrades affect, at minimum, an entire node at a time. While this may be acceptable in many cases, applications with long-lived TCP connections may be disrupted.  In such cases, we recommend using node cordoning and draining before upgrading the ztunnel for a given node. For the sake of simplicity, this document will demonstrate in-place upgrades of the ztunnel, which may involve a short downtime.
 
 ## Prerequisites
 
@@ -91,7 +91,7 @@ $ helm upgrade istio-base istio/base -n istio-system
 
 ### istiod control plane
 
-The [Istiod](/docs/ops/deployment/architecture/#istiod) control plane manages and configures the proxies that route traffic within the mesh. The following command will install a new instance of the control plane alongside the current one, but will not introduce any new gateway proxies or waypoints, or take over control of existing ones.
+The [Istiod](/pt-br/docs/ops/deployment/architecture/#istiod) control plane manages and configures the proxies that route traffic within the mesh. The following command will install a new instance of the control plane alongside the current one, but will not introduce any new gateway proxies or waypoints, or take over control of existing ones.
 
 If you have customized your istiod installation, you can reuse the `values.yaml` file from previous upgrades or installs to keep your control planes consistent.
 
@@ -169,7 +169,7 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" 
 
 ### Upgrade manually deployed gateway chart (optional)
 
-`Gateway`s that were [deployed manually](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
+`Gateway`s that were [deployed manually](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
 
 {{< text syntax=bash snip_id=none >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress
@@ -193,7 +193,7 @@ For each tag, you can upgrade the tag by running the following command, replacin
 $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
-This will upgrade all objects referencing that tag, except for those using [manual gateway deployment mode](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), which are dealt with below, and sidecars, which are not used in ambient mode.
+This will upgrade all objects referencing that tag, except for those using [manual gateway deployment mode](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), which are dealt with below, and sidecars, which are not used in ambient mode.
 
 It is recommended that you closely monitor the health of applications using the upgraded data plane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
 
@@ -203,7 +203,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 
 ### Upgrade manually deployed gateways (optional)
 
-`Gateway`s that were [deployed manually](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
+`Gateway`s that were [deployed manually](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:
 
 {{< text syntax=bash snip_id=upgrade_gateway >}}
 $ helm upgrade istio-ingress istio/gateway -n istio-ingress

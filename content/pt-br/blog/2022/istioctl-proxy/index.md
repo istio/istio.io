@@ -7,7 +7,7 @@ keywords: [istioctl, cli, external, remote, multicluster]
 ---
 
 When using the `istioctl` CLI on a {{< gloss >}}remote cluster{{< /gloss >}} of an
-[external control plane](/docs/setup/install/external-controlplane/) or a [multicluster](/docs/setup/install/multicluster/)
+[external control plane](/pt-br/docs/setup/install/external-controlplane/) or a [multicluster](/pt-br/docs/setup/install/multicluster/)
 Istio deployment, some of the commands will not work by default. For example, `istioctl proxy-status` requires access to
 the `istiod` service to retrieve the status and configuration of the proxies it's managing. If you try running it on a
 remote cluster, you'll get an error message like this:
@@ -58,7 +58,7 @@ configured as a remote cluster using a control plane installed in the other clus
 ## Install Istio with a remote cluster topology
 
 To demonstrate `istioctl` working on a remote cluster, we'll start by using the
-[external control plane install instructions](/docs/setup/install/external-controlplane/)
+[external control plane install instructions](/pt-br/docs/setup/install/external-controlplane/)
 to set up a single remote cluster mesh with an external control plane running in a separate external cluster.
 
 After completing the installation, we should have two environment variables, `CTX_REMOTE_CLUSTER` and `CTX_EXTERNAL_CLUSTER`,
@@ -164,7 +164,7 @@ mesh user. It's only available on the external cluster for the mesh operator to 
 ## Summary
 
 In this article, we used a [sample proxy server](https://github.com/istio-ecosystem/istioctl-proxy-sample) to configure `istioctl` to
-work with an [external control plane installation](/docs/setup/install/external-controlplane/).
+work with an [external control plane installation](/pt-br/docs/setup/install/external-controlplane/).
 We've seen how some of the `istioctl` CLI commands don't work out of the box on a remote cluster managed
 by an external control plane. Commands such as `istioctl proxy-status`, among others, need access to the `istiod` service
 instances managing the mesh, which are unavailable when the control plane is running outside of the mesh cluster.

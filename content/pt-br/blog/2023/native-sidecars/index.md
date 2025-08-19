@@ -193,7 +193,7 @@ No more zombie pods!
 
 ## What about ambient mode?
 
-Last year, Istio announced [ambient mode](/blog/2022/introducing-ambient-mesh/) - a new data plane mode for Istio that doesn't rely on sidecar containers.
+Last year, Istio announced [ambient mode](/pt-br/blog/2022/introducing-ambient-mesh/) - a new data plane mode for Istio that doesn't rely on sidecar containers.
 So with ambient mode coming, does any of this even matter?
 
 I would say a resounding "Yes"!
@@ -204,13 +204,13 @@ So while there may be fewer scenarios where this matters, it still is a huge imp
 
 You may wonder the opposite - if all our sidecar woes are addressed, why do we need ambient mode at all?
 There are still a variety of benefits ambient brings with these sidecar limitations addressed.
-For example, [this blog post](/blog/2023/waypoint-proxy-made-simple/) goes into details about why decoupling proxies from workloads is advantageous.
+For example, [this blog post](/pt-br/blog/2023/waypoint-proxy-made-simple/) goes into details about why decoupling proxies from workloads is advantageous.
 
 ## Try it out yourself
 
 We encourage the adventurous readers to try this out themselves in testing environments!
 Feedback for these experimental and alpha features is critical to ensure they are stable and meeting expectations before promoting them.
-If you try it out, let us know what you think in the [Istio Slack](/get-involved/)!
+If you try it out, let us know what you think in the [Istio Slack](/pt-br/get-involved/)!
 
 In particular, the Kubernetes team is interested in hearing more about:
 

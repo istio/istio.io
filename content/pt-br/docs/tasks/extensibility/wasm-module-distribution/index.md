@@ -14,14 +14,14 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/blog/2020/wasm-announce/).
+Istio provides the ability to [extend proxy functionality using WebAssembly (Wasm)](/pt-br/blog/2020/wasm-announce/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
 These extensions must first be distributed to the Envoy proxy.
 Istio makes this possible by allowing the proxy agent to dynamically download Wasm modules.
 
 ## Setup the Test Application
 
-Before you begin this task, please deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+Before you begin this task, please deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Configure Wasm Modules
 
@@ -77,7 +77,7 @@ If a `WasmPlugin` is created in a specific namespace besides `istio-system`, the
     200
     {{< /text >}}
 
-For more example usage of the `WasmPlugin` API, please take a look at the [API reference](/docs/reference/config/proxy_extensions/wasm-plugin/).
+For more example usage of the `WasmPlugin` API, please take a look at the [API reference](/pt-br/docs/reference/config/proxy_extensions/wasm-plugin/).
 
 ## Clean up Wasm modules
 

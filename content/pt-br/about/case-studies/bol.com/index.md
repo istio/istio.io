@@ -35,7 +35,7 @@ This challenge was exacerbated by the need to protect personally identifying inf
 
 Since network policies are cluster local, they don’t work across cluster boundaries. All of those per-cluster network policies got messy fast. They needed a solution that would allow them to apply security at a higher layer.
 
-Istio's [multi-cluster deployment model](/docs/ops/deployment/deployment-models/#multiple-clusters) ended up being the perfect solution. [Authorization policies](/docs/reference/config/security/authorization-policy/) could be used to securely allow workloads from different clusters to talk to each other. With Istio, Kool's team was able to move away from OSI layer 3 or 4 network policies to [authz policies](/docs/tasks/security/authorization/authz-http/) implemented in layer 7. This move was made possible by Istio's strong identity support, service-to-service authentication, and security with mutual TLS (mTLS).
+Istio's [multi-cluster deployment model](/pt-br/docs/ops/deployment/deployment-models/#multiple-clusters) ended up being the perfect solution. [Authorization policies](/pt-br/docs/reference/config/security/authorization-policy/) could be used to securely allow workloads from different clusters to talk to each other. With Istio, Kool's team was able to move away from OSI layer 3 or 4 network policies to [authz policies](/pt-br/docs/tasks/security/authorization/authz-http/) implemented in layer 7. This move was made possible by Istio's strong identity support, service-to-service authentication, and security with mutual TLS (mTLS).
 
 These changes gave bol.com the ability to scale by adding new Kubernetes clusters while maintaining service discovery, load balancing, and required security policies.
 
@@ -45,7 +45,7 @@ When bol.com initially began migrating to Kubernetes, Istio was only at version 
 
 Eventually, however, it wasn't just the scaling issues that brought bol.com back to an Istio solution. In addition to needing Kubernetes clusters to securely communicate with each other, they also were facing new regulatory requirements that would necessitate secure communications with various third party services and APIs. These controls could not be based on firewall rules and IP ranges, which are subject to constant change – they needed to be based on the identity of the application.
 
-Their solution took advantage of the [Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/). This enables them to apply authz controls which can allow or deny traffic based on attributes like the identity or namespace of the client workload, the destination hostname, and even attributes like the the URL of the HTTP request.
+Their solution took advantage of the [Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/). This enables them to apply authz controls which can allow or deny traffic based on attributes like the identity or namespace of the client workload, the destination hostname, and even attributes like the the URL of the HTTP request.
 
 Bol.com needed a service mesh that supports multi-cluster deployments, and Istio fits the bill. In addition, Istio provided the fine-grained control they needed to meet their particular requirements.
 
@@ -59,4 +59,4 @@ One of the biggest changes for Kool and the team at bol.com was that it was sudd
 
 Developers have provided good feedback and have enthusiastically embraced many of Istio's capabilities. They are pleased at how easy it is to get apps talking to each other across clusters now. All of these connections are easy to set up and manage, thanks to Istio.
 
-The bol.com infrastructure continues to evolve, and thanks to the observability it offers, Istio is a key part of that roadmap. By [integrating Istio with Prometheus](/docs/ops/integrations/prometheus/), they are able to collect the metrics and diagnostics needed to understand where that roadmap needs to take them. Future plans now include consolidating load balancing services, new testing methods, distributed tracing, and installing Istio across more of the company's infrastructure.
+The bol.com infrastructure continues to evolve, and thanks to the observability it offers, Istio is a key part of that roadmap. By [integrating Istio with Prometheus](/pt-br/docs/ops/integrations/prometheus/), they are able to collect the metrics and diagnostics needed to understand where that roadmap needs to take them. Future plans now include consolidating load balancing services, new testing methods, distributed tracing, and installing Istio across more of the company's infrastructure.

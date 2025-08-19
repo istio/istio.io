@@ -21,7 +21,7 @@ Prior to version 1.7, Istio required the control plane to run in one of the {{< 
 
 ## External control plane deployment model
 
-After installing Istio using the [default installation profile](/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have an Istiod control plane installed in a single cluster like the diagram below:
+After installing Istio using the [default installation profile](/pt-br/docs/setup/install/istioctl/#install-istio-using-the-default-profile), you will have an Istiod control plane installed in a single cluster like the diagram below:
 
 {{< image width="100%"
     link="single-cluster.svg"

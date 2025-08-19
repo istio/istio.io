@@ -97,7 +97,7 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 --snip--
 {{< /text >}}
 
-These log messages confirm the traffic was sent via the ztunnel proxy. Additional fine-grained monitoring can be done by checking logs on the specific ztunnel proxy instances that are on the same nodes as the source and destination pods of the traffic. If these logs are not seen, then a possibility is that [traffic redirection](/docs/ambient/architecture/traffic-redirection) may not be working correctly.
+These log messages confirm the traffic was sent via the ztunnel proxy. Additional fine-grained monitoring can be done by checking logs on the specific ztunnel proxy instances that are on the same nodes as the source and destination pods of the traffic. If these logs are not seen, then a possibility is that [traffic redirection](/pt-br/docs/ambient/architecture/traffic-redirection) may not be working correctly.
 
 {{< tip >}}
 Traffic always traverses the ztunnel pod, even when the source and destination of the traffic are on the same compute node.
@@ -132,9 +132,9 @@ This is a round robin load balancing algorithm and is separate from and independ
 
 In addition to checking ztunnel logs and other monitoring options noted above, you can also use normal Istio monitoring and telemetry functions to monitor application traffic using the ambient data plane mode.
 
-* [Prometheus installation](/docs/ops/integrations/prometheus/#installation)
-* [Kiali installation](/docs/ops/integrations/kiali/#installation)
-* [Istio metrics](/docs/reference/config/metrics/)
-* [Querying Metrics from Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
+* [Prometheus installation](/pt-br/docs/ops/integrations/prometheus/#installation)
+* [Kiali installation](/pt-br/docs/ops/integrations/kiali/#installation)
+* [Istio metrics](/pt-br/docs/reference/config/metrics/)
+* [Querying Metrics from Prometheus](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
 
 If a service is only using the secure overlay provided by ztunnel, the Istio metrics reported will only be the L4 TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported if a waypoint proxy is used.

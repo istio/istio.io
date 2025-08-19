@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.6.2
 ---
 
-This release fixes the security vulnerability described in [our June 11th, 2020 news post](/news/security/istio-security-2020-006).
+This release fixes the security vulnerability described in [our June 11th, 2020 news post](/pt-br/news/security/istio-security-2020-006).
 
 This release note describes what's different between Istio 1.6.2 and Istio 1.6.1.
 

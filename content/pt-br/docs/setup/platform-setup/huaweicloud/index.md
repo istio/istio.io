@@ -32,7 +32,7 @@ Following the [Huawei Cloud Instructions](https://support.huaweicloud.com/en-us/
 
     {{< tip >}}
     Istio release has some requirements for the Kubernetes version,
-    select the version according to Istio's [support policy](/docs/releases/supported-releases#support-status-of-istio-releases).
+    select the version according to Istio's [support policy](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases).
     {{< /tip >}}
 
     The image below shows the GUI where you create and configure the cluster:
@@ -52,7 +52,7 @@ Following the [Huawei Cloud Instructions](https://support.huaweicloud.com/en-us/
 
 1.  [Configure kubectl](https://support.huaweicloud.com/intl/en-us/cce_faq/cce_faq_00041.html)
 
-1.  Now you can install Istio on CCE cluster according to [install guide](/docs/setup/install).
+1.  Now you can install Istio on CCE cluster according to [install guide](/pt-br/docs/setup/install).
 
 1.  Configure [ELB](https://support.huaweicloud.com/intl/productdesc-elb/en-us_topic_0015479966.html) to expose Istio ingress gateway if needed.
 
@@ -121,4 +121,4 @@ spec:
 EOF
 {{< /text >}}
 
-Start playing with Istio by trying out the various [tasks](/docs/tasks).
+Start playing with Istio by trying out the various [tasks](/pt-br/docs/tasks).

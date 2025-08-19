@@ -38,7 +38,7 @@ assistance. Separately, 3rd parties and partners may offer longer-term support s
 
 You can find available releases on the [releases page](https://github.com/istio/istio/releases),
 and if you're the adventurous type, you can learn about our development builds on the [development builds wiki](https://github.com/istio/istio/wiki/Dev%20Builds).
-You can find high-level releases notes for each minor and patch release [here](/news).
+You can find high-level releases notes for each minor and patch release [here](/pt-br/news).
 
 ## Naming scheme
 
@@ -53,7 +53,7 @@ current `<minor>` release. A patch is usually a small change relative to the `<m
 
 ## Control Plane/Data Plane Skew
 
-The Istio control plane can be one version ahead of the data plane. However, the data plane cannot be ahead of control plane. We recommend using [revisions](/docs/setup/upgrade/canary/) so that there is no skew at all.
+The Istio control plane can be one version ahead of the data plane. However, the data plane cannot be ahead of control plane. We recommend using [revisions](/pt-br/docs/setup/upgrade/canary/) so that there is no skew at all.
 
 As of now, data plane to data plane is compatible across all versions; however, this may change in the future.
 

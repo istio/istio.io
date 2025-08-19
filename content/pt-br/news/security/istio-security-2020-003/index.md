@@ -64,7 +64,7 @@ Envoy, and subsequently Istio are vulnerable to four newly discovered vulnerabil
 
 ## Mitigation
 
-* For Istio 1.4.x deployments: update to [Istio 1.4.6](/news/releases/1.4.x/announcing-1.4.6) or later.
+* For Istio 1.4.x deployments: update to [Istio 1.4.6](/pt-br/news/releases/1.4.x/announcing-1.4.6) or later.
 * For Istio 1.5.x deployments: Istio 1.5.0 will contain the equivalent security fixes.
 
 {{< boilerplate "security-vulnerability" >}}

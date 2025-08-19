@@ -19,7 +19,7 @@ The standard output of the OpenTelemetry collector can then be accessed via the 
 
 ## Enable Envoy's access logging
 
-To enable access logging, use the [Telemetry API](/docs/tasks/observability/telemetry/).
+To enable access logging, use the [Telemetry API](/pt-br/docs/tasks/observability/telemetry/).
 
 Edit `MeshConfig` to add an OpenTelemetry provider, named `otel`.  This involves adding an extension provider stanza:
 
@@ -81,7 +81,7 @@ The above example uses the `otel` access log provider, and we do not configure a
 
 Similar configuration can also be applied on an individual namespace, or to an individual workload, to control logging at a fine grained level.
 
-For more information about using the Telemetry API, see the [Telemetry API overview](/docs/tasks/observability/telemetry/).
+For more information about using the Telemetry API, see the [Telemetry API overview](/pt-br/docs/tasks/observability/telemetry/).
 
 ### Using Mesh Config
 

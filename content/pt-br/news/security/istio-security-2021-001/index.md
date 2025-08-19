@@ -38,7 +38,7 @@ For the service paths that both conditions are met, an incoming request with a J
 ## Mitigation
 
 For proper JWT validation, you should always use the `AuthorizationPolicy` as documented on istio.io for
-[specifying a valid token](/docs/tasks/security/authentication/authn-policy/#require-a-valid-token).
+[specifying a valid token](/pt-br/docs/tasks/security/authentication/authn-policy/#require-a-valid-token).
 To do this you will have to audit all of your `RequestAuthentication` and subsequent `AuthorizationPolicy` resources to
 make sure they align with the documented practice.
 

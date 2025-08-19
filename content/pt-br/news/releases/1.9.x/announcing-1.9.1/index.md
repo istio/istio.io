@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.9.1
 ---
 
-This release fixes the security vulnerability described in [our March 1st, 2021 news post](/news/security/istio-security-2021-001)
+This release fixes the security vulnerability described in [our March 1st, 2021 news post](/pt-br/news/security/istio-security-2021-001)
 as well as bug fixes to improve robustness.
 
 This release note describes what’s different between Istio 1.9.0 and Istio 1.9.1.

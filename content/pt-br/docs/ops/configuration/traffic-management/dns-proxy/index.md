@@ -43,7 +43,7 @@ spec:
 EOF
 {{< /text >}}
 
-This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/):
+This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/pt-br/docs/reference/config/annotations/):
 
 {{< text syntax=yaml snip_id=none >}}
 kind: Deployment
@@ -61,7 +61,7 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
+When deploying to a VM using [`istioctl workload entry configure`](/pt-br/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
 {{< /tip >}}
 
 ## DNS capture in action

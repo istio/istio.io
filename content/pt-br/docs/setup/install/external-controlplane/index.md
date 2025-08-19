@@ -12,7 +12,7 @@ test: yes
 
 This guide walks you through the process of installing an {{< gloss >}}external control plane{{< /gloss >}}
 and then connecting one or more {{< gloss "remote cluster" >}}remote clusters{{< /gloss >}} to it.
-The external control plane [deployment model](/docs/ops/deployment/deployment-models/#control-plane-models)
+The external control plane [deployment model](/pt-br/docs/ops/deployment/deployment-models/#control-plane-models)
 allows a mesh operator  to install and manage a control plane on an external cluster, separate from the data
 plane cluster (or multiple clusters) comprising the mesh. This deployment model allows a clear separation
 between mesh operators and mesh administrators. Mesh operators install and manage Istio control planes while mesh
@@ -37,7 +37,7 @@ the Kubernetes API server, as shown in the above diagram.
 ### Clusters
 
 This guide requires that you have two Kubernetes clusters with any of the
-[supported Kubernetes versions:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
+[supported Kubernetes versions:](/pt-br/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 The first cluster will host the {{< gloss >}}external control plane{{< /gloss >}} installed in the
 `external-istiod` namespace. An ingress gateway is also installed in the `istio-system` namespace to provide
@@ -149,7 +149,7 @@ and installing the sidecar injector webhook configuration on the remote cluster 
 
     These instructions assume that you are exposing the external cluster's gateway using a hostname with properly signed DNS certs
     as this is the recommended approach in a production environment.
-    Refer to the [secure ingress task](/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-tls-ingress-gateway-for-a-single-host)
+    Refer to the [secure ingress task](/pt-br/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-tls-ingress-gateway-for-a-single-host)
     for more information on exposing a secure gateway.
 
     Your environment variables should look something like this:
@@ -571,7 +571,7 @@ $ istioctl install -f istio-ingressgateway.yaml --set values.global.istioNamespa
 $ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}"
 {{< /text >}}
 
-See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+See [Installing Gateways](/pt-br/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
 {{< /tab >}}
 {{< /tabset >}}
@@ -611,7 +611,7 @@ $ istioctl install -f istio-egressgateway.yaml --set values.global.istioNamespac
 $ helm install istio-egressgateway istio/gateway -n external-istiod --kube-context="${CTX_REMOTE_CLUSTER}" --set service.type=ClusterIP
 {{< /text >}}
 
-See [Installing Gateways](/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
+See [Installing Gateways](/pt-br/docs/setup/additional-setup/gateway/) for in-depth documentation on gateway installation.
 
 {{< /tab >}}
 {{< /tabset >}}
@@ -675,7 +675,7 @@ $ kubectl apply -f @samples/helloworld/gateway-api/helloworld-gateway.yaml@ -n s
 {{< /tabset >}}
 
 3) Set the `GATEWAY_URL` environment variable
-    (see [determining the ingress IP and ports](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) for details):
+    (see [determining the ingress IP and ports](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports) for details):
 
 {{< tabset category-name="config-api" >}}
 
@@ -711,7 +711,7 @@ $ export GATEWAY_URL=$INGRESS_HOST:80
 ## Adding clusters to the mesh (optional) {#adding-clusters}
 
 This section shows you how to expand an existing external control plane mesh to multicluster by adding another remote cluster.
-This allows you to easily distribute services and use [location-aware routing and fail over](/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
+This allows you to easily distribute services and use [location-aware routing and fail over](/pt-br/docs/tasks/traffic-management/locality-load-balancing/) to support high availability of your application.
 
 {{< image width="75%"
     link="external-multicluster.svg"
@@ -720,7 +720,7 @@ This allows you to easily distribute services and use [location-aware routing an
 
 Unlike the first remote cluster, the second and subsequent clusters added to the same external control plane do not
 provide mesh config, but instead are only sources of endpoint configuration, just like remote clusters in a
-[primary-remote](/docs/setup/install/multicluster/primary-remote_multi-network/) Istio multicluster configuration.
+[primary-remote](/pt-br/docs/setup/install/multicluster/primary-remote_multi-network/) Istio multicluster configuration.
 
 To proceed, you'll need another Kubernetes cluster for the second remote cluster of the mesh. Set the following
 environment variables to the context name and cluster name of the cluster:

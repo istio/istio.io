@@ -14,7 +14,7 @@ the administration of software infrastructure components. Istio is a natural can
 operator as it is challenging to administer.
 
 Up until now, [Helm](https://github.com/helm/helm) has been the primary tool to install and upgrade Istio.
-Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/docs/setup/install/istioctl/).
+Istio 1.4 introduces a new method of [installation using {{< istioctl >}}](/pt-br/docs/setup/install/istioctl/).
 This new installation method builds on the strengths of Helm with the addition of the
 following:
 
@@ -42,7 +42,7 @@ to define its custom resource, that is, its API. Istio's operator API is defined
 [`IstioControlPlane` CRD](https://archive.istio.io/v1.4/docs/reference/config/istio.operator.v1alpha12.pb/),
 which is generated from an
 [`IstioControlPlane` proto](https://github.com/istio/operator/blob/release-1.4/pkg/apis/istio/v1alpha2/istiocontrolplane_types.proto).
-The API supports all of Istio's current [configuration profiles](/docs/setup/additional-setup/config-profiles/)
+The API supports all of Istio's current [configuration profiles](/pt-br/docs/setup/additional-setup/config-profiles/)
 using a single field to select the profile. For example, the following `IstioControlPlane` resource
 configures Istio using the `demo` profile:
 
@@ -98,7 +98,7 @@ $ istioctl manifest apply --set telemetry.enabled=false
 There are also a number of other `istioctl` commands that, for example, help you list, display,
 and compare configuration profiles and manifests.
 
-Refer to the Istio [install instructions](/docs/setup/install/istioctl) for more details.
+Refer to the Istio [install instructions](/pt-br/docs/setup/install/istioctl) for more details.
 
 ## Istio Controller (alpha)
 
@@ -151,11 +151,11 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 {{< /text >}}
 
 You can also set Helm configuration values in an `IstioControlPlane` custom resource.
-See [Customize Istio settings using Helm](/docs/setup/install/istioctl/#customize-istio-settings-using-the-helm-api)
+See [Customize Istio settings using Helm](/pt-br/docs/setup/install/istioctl/#customize-istio-settings-using-the-helm-api)
 for details.
 
 Another feature to help with the transition from Helm is the alpha
-[{{< istioctl >}} manifest migrate](/docs/reference/commands/istioctl/#istioctl-manifest-migrate) command.
+[{{< istioctl >}} manifest migrate](/pt-br/docs/reference/commands/istioctl/#istioctl-manifest-migrate) command.
 This command can be used to automatically convert a Helm `values.yaml` file to a corresponding
 `IstioControlPlane` configuration.
 

@@ -13,7 +13,7 @@ namespace to use throughout the tutorial.
 
 {{< warning >}}
 If you are in a workshop and the instructors provide a cluster for you,
-proceed to [setting up your local computer](/docs/examples/microservices-istio/setup-local-computer).
+proceed to [setting up your local computer](/pt-br/docs/examples/microservices-istio/setup-local-computer).
 {{</ warning >}}
 
 1.  Ensure you have access to a
@@ -43,9 +43,9 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
     simultaneously by multiple participants.
     {{< /tip >}}
 
-1.  [Install Istio](/docs/setup/getting-started/) using the `demo` profile.
+1.  [Install Istio](/pt-br/docs/setup/getting-started/) using the `demo` profile.
 
-1.  The [Kiali](/docs/ops/integrations/kiali/) and [Prometheus](/docs/ops/integrations/prometheus/) addons are used in this example and need to be installed. All addons are installed using:
+1.  The [Kiali](/pt-br/docs/ops/integrations/kiali/) and [Prometheus](/pt-br/docs/ops/integrations/prometheus/) addons are used in this example and need to be installed. All addons are installed using:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
@@ -272,4 +272,4 @@ proceed to [setting up your local computer](/docs/examples/microservices-istio/s
 
 Congratulations, you configured your cluster for the tutorial!
 
-You are ready to [set up a local computer](/docs/examples/microservices-istio/setup-local-computer).
+You are ready to [set up a local computer](/pt-br/docs/examples/microservices-istio/setup-local-computer).

@@ -21,7 +21,7 @@ celebrate the project’s 7th birthday, we wanted to highlight Istio’s momentu
 Istio, the most widely adopted service mesh project in the world, has been gathering significant momentum since
 its inception in 2017. Last year Istio joined Kubernetes, Prometheus, and other stalwarts of the cloud native
 ecosystem with [its CNCF graduation](https://www.cncf.io/announcements/2023/07/12/cloud-native-computing-foundation-reaffirms-istio-maturity-with-project-graduation/).
-End users range from digital native startups to the world’s largest financial institutions and telcos, with [case studies](/about/case-studies/)
+End users range from digital native startups to the world’s largest financial institutions and telcos, with [case studies](/pt-br/about/case-studies/)
 from companies including eBay, T-Mobile, Airbnb, Splunk, FICO, T-Mobile, Salesforce, and many others.
 
 Istio’s control plane and sidecar are the #3 and #4 most downloaded images on Docker Hub, each with over [10 billion downloads](https://hub.docker.com/search?q=istio).
@@ -122,7 +122,7 @@ companies and the number of contributors. Recall that Istio had 500 contributors
 old? We have had over 1,700 contributors in the past year!
 
 With Microsoft's Open Service Mesh team joining
-the Istio community, we added Azure to the [list of clouds and enterprise Kubernetes vendors](/about/ecosystem/) providing Istio-compatible solutions, including Google Cloud, Red Hat OpenShift, VMware Tanzu, Huawei Cloud, DaoCloud, Oracle Cloud, Tencent Cloud, Akamai Cloud and Alibaba Cloud. We are also delighted to see the Amazon Web Services team publish the [EKS Blueprint for Istio](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/)
+the Istio community, we added Azure to the [list of clouds and enterprise Kubernetes vendors](/pt-br/about/ecosystem/) providing Istio-compatible solutions, including Google Cloud, Red Hat OpenShift, VMware Tanzu, Huawei Cloud, DaoCloud, Oracle Cloud, Tencent Cloud, Akamai Cloud and Alibaba Cloud. We are also delighted to see the Amazon Web Services team publish the [EKS Blueprint for Istio](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/)
 due to high demand from users wanting to run Istio on AWS.
 
 Specialist network software providers are also driving Istio forward, with Solo.io, Tetrate and F5 Networks all offering enterprise Istio solutions that will run in any environment.
@@ -210,7 +210,7 @@ processing into two distinct layers. This layered approach allows you to adopt I
 smooth transition from no mesh, to a secure overlay (L4), to optional full L7 processing — on a per-namespace
 basis, as needed, across your fleet.
 
-As part of the [Istio 1.22 release](/news/releases/1.22.x/announcing-1.22/), [ambient mode has reached beta](/blog/2024/ambient-reaches-beta/)
+As part of the [Istio 1.22 release](/pt-br/news/releases/1.22.x/announcing-1.22/), [ambient mode has reached beta](/pt-br/blog/2024/ambient-reaches-beta/)
 and you can run Istio without sidecars in production with precautions.
 
 Here are some thoughts and well-wishes from our contributors and users:
@@ -275,7 +275,7 @@ excellence, offering enhanced features and improved performance. Looking forward
 If you are new to Istio, here are a few resources to help you learn more:
 
 - Check out the [project website](https://istio.io) and [GitHub repository](https://github.com/istio/istio/).
-- Read the [documentation](/docs/).
+- Read the [documentation](/pt-br/docs/).
 - Join the community [Slack](https://slack.istio.io/).
 - Follow the project on [Twitter](https://twitter.com/IstioMesh) and [LinkedIn](https://www.linkedin.com/company/istio).
 - Attend the [user community meetings](https://github.com/istio/community/blob/master/README.md#community-meeting).

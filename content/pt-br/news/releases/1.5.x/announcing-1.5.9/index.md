@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.5.9
 ---
 
-This release fixes the security vulnerability described in [our August 11th, 2020 news post](/news/security/istio-security-2020-009).
+This release fixes the security vulnerability described in [our August 11th, 2020 news post](/pt-br/news/security/istio-security-2020-009).
 
 These release notes describe what's different between Istio 1.5.8 and Istio 1.5.9.
 

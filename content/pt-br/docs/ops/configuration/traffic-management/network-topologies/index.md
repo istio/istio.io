@@ -26,7 +26,7 @@ and forwarded whether the network uses cloud-based Load Balancers, on-premise Lo
 exposed directly to the internet, gateways that serve many intermediate proxies, and other deployment topologies not
 specified.
 
-While Istio provides an [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties
+While Istio provides an [ingress gateway](/pt-br/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties
 of architectures mentioned above, reasonable defaults are not able to be shipped that support the proper forwarding of
 client attributes to the destination workloads.
 This becomes ever more vital as Istio multicluster deployment models become more common.

@@ -8,8 +8,8 @@ test: no
 status: Stable
 ---
 
-Istio provides a [Telemetry API](/docs/reference/config/telemetry/) that enables flexible configuration of
-[metrics](/docs/tasks/observability/metrics/), [access logs](/docs/tasks/observability/logs/), and [tracing](/docs/tasks/observability/distributed-tracing/).
+Istio provides a [Telemetry API](/pt-br/docs/reference/config/telemetry/) that enables flexible configuration of
+[metrics](/pt-br/docs/tasks/observability/metrics/), [access logs](/pt-br/docs/tasks/observability/logs/), and [tracing](/pt-br/docs/tasks/observability/distributed-tracing/).
 
 ## Using the API
 
@@ -33,7 +33,7 @@ Workload-specific overrides can be achieved by applying a new Telemetry resource
 
 ### Workload Selection
 
-Individual workloads within a namespace are selected via a [`selector`](/docs/reference/config/type/workload-selector/#WorkloadSelector)
+Individual workloads within a namespace are selected via a [`selector`](/pt-br/docs/reference/config/type/workload-selector/#WorkloadSelector)
 which allows label-based selection of workloads.
 
 It is not valid to have two different `Telemetry` resources select the same workload using `selector`. Likewise, it is not valid to have two
@@ -41,7 +41,7 @@ distinct `Telemetry` resources in a namespace with no `selector` specified.
 
 ### Provider Selection
 
-The Telemetry API uses the concept of providers to indicate the protocol or type of integration to use. Providers can be configured in [`MeshConfig`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider).
+The Telemetry API uses the concept of providers to indicate the protocol or type of integration to use. Providers can be configured in [`MeshConfig`](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider).
 
 An example set of provider configuration in `MeshConfig` is:
 
@@ -67,11 +67,11 @@ For convenience, Istio comes with a few providers configured out of the box with
 | `stackdriver` | Metrics, Tracing, Access Logging |
 | `envoy`       | Access Logging                   |
 
-In additional, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
+In additional, a [default provider](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
 will be used when the `Telemetry` resources do not specify a provider.
 
 {{< tip >}}
-If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
+If you're using [Sidecar](/pt-br/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
 {{< /tip >}}
 
 {{< tip >}}

@@ -10,9 +10,9 @@ test: n/a
 ---
 
 This page describes the supported keys and value formats you can use as conditions
-in the `when` field of an [authorization policy rule](/docs/reference/config/security/authorization-policy/#Rule).
+in the `when` field of an [authorization policy rule](/pt-br/docs/reference/config/security/authorization-policy/#Rule).
 
-For more information, refer to the [authorization concept page](/docs/concepts/security/#authorization).
+For more information, refer to the [authorization concept page](/pt-br/docs/concepts/security/#authorization).
 
 ## Supported Conditions
 

@@ -18,7 +18,7 @@ We are pleased to announce the release of Istio 1.1!
 {{< relnote >}}
 
 Since we released 1.0 back in July, we’ve done a lot of work to help people get
-into production. Not surprisingly, we had to do some [patch releases](/news)
+into production. Not surprisingly, we had to do some [patch releases](/pt-br/news)
 (6 so far!), but we’ve also been hard at work adding new features to the
 product.
 
@@ -29,9 +29,9 @@ adopt Istio they hit some limits.
 One of our prime areas of focus has been [performance and scalability](https://archive.istio.io/v1.1/docs/ops/deployment/performance-and-scalability/).
 As people moved into production with larger clusters running more services at
 higher volume, they hit some scaling and performance issues. The
-[sidecars](/docs/concepts/traffic-management/#sidecars) took too many resources
+[sidecars](/pt-br/docs/concepts/traffic-management/#sidecars) took too many resources
 and added too much latency. The control plane (especially
-[Pilot](/docs/ops/deployment/architecture/#pilot)) was overly
+[Pilot](/pt-br/docs/ops/deployment/architecture/#pilot)) was overly
 resource hungry.
 
 We’ve done a lot of work to make both the data plane and the control plane more
@@ -42,15 +42,15 @@ We’ve done work around namespace isolation as well. This lets you use
 Kubernetes namespaces to enforce boundaries of control, and ensures that your
 teams cannot interfere with each other.
 
-We have also improved the [multicluster capabilities and usability](/docs/ops/deployment/deployment-models/).
+We have also improved the [multicluster capabilities and usability](/pt-br/docs/ops/deployment/deployment-models/).
 We listened to the community and improved defaults for traffic control and
 policy. We introduced a new component called
 [Galley](https://archive.istio.io/v1.1/docs/concepts/what-is-istio/#galley). Galley validates that sweet,
 sweet YAML, reducing the chance of configuration errors. Galley will also be
-instrumental in [multicluster setups](/docs/setup/install/multicluster/),
+instrumental in [multicluster setups](/pt-br/docs/setup/install/multicluster/),
 gathering service discovery information from each Kubernetes cluster. We are
 also supporting additional multicluster topologies including different
-[control plane models](/docs/ops/deployment/deployment-models/#control-plane-models)
+[control plane models](/pt-br/docs/ops/deployment/deployment-models/#control-plane-models)
 topologies without requiring a flat network.
 
 There is lots more -- see the [change notes](./change-notes) for complete
@@ -73,5 +73,5 @@ testing on 1.1. Thanks especially to those companies and users who worked with
 us installing and upgrading to the early builds and helping us catch problems
 before the release.
 
-So: now’s the time! Grab 1.1, check out [the updated documentation](/docs/),
-[install it](/docs/setup/) and...happy meshing!
+So: now’s the time! Grab 1.1, check out [the updated documentation](/pt-br/docs/),
+[install it](/pt-br/docs/setup/) and...happy meshing!

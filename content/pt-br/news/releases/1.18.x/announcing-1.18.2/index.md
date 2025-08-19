@@ -7,7 +7,7 @@ publishdate: 2023-07-25
 release: 1.18.2
 ---
 
-This release fixes the security vulnerabilities described in our July 25th post, [ISTIO-SECURITY-2023-003](/news/security/istio-security-2023-003).
+This release fixes the security vulnerabilities described in our July 25th post, [ISTIO-SECURITY-2023-003](/pt-br/news/security/istio-security-2023-003).
 
 This release note describes what’s different between Istio 1.18.1 and 1.18.2.
 

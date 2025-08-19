@@ -87,7 +87,7 @@ $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
 
 ## Protocol Detection Timeout Changes
 
-In order to support permissive mTLS traffic as well as [automatic protocol detection](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection),
+In order to support permissive mTLS traffic as well as [automatic protocol detection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection),
 the proxy will sniff the first few bytes of traffic to determine the protocol used. For certain "server first" protocols, such
 as the protocol used by `MySQL`, there will be no initial bytes to sniff. To mitigate this issue in the past, Istio introduced
 a detection timeout. However, we found this caused frequent telemetry and traffic failures during slow connections, while increasing latency
@@ -97,7 +97,7 @@ This timeout has been disabled by default. This has the following impacts:
 
 - Non "server first" protocols will no longer have a risk of telemetry or traffic failures during slow connections
 - Properly configured "server first" protocols will no longer have an extra 5 seconds latency on each connection
-- Improperly configured "server first" protocols will experience connection timeouts. Please ensure you follow the steps listed in [Server First Protocols](/docs/ops/configuration/traffic-management/protocol-selection/#server-first-protocols)
+- Improperly configured "server first" protocols will experience connection timeouts. Please ensure you follow the steps listed in [Server First Protocols](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#server-first-protocols)
   to ensure you do not run into traffic issues.
 
 ## Update AuthorizationPolicy resources to use `remoteIpBlocks`/`notRemoteIpBlocks` instead of `ipBlocks`/`notIpBlocks` if using the Proxy Protocol
@@ -122,7 +122,7 @@ on the `istio-ingressgateway` and `istio-egressgateway`.
 
 If you are relying on this feature for multi-network support, please ensure you apply one of the following changes:
 
-1. Follow our new [Multicluster Installation](/docs/setup/install/multicluster/) documentation.
+1. Follow our new [Multicluster Installation](/pt-br/docs/setup/install/multicluster/) documentation.
 
    This documentation will guide you through running a dedicate gateway deployment for this type of traffic (generally referred to as the `eastwest-gateway`).
    This `eastwest-gateway` will automatically be configured to support `AUTO_PASSTHROUGH`.

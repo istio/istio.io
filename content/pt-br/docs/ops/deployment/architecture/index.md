@@ -88,16 +88,16 @@ them into a standard format that any sidecar conforming with the
 Istio can support discovery for multiple environments such as Kubernetes or VMs.
 
 You can use Istio's
-[Traffic Management API](/docs/concepts/traffic-management/#introducing-istio-traffic-management)
+[Traffic Management API](/pt-br/docs/concepts/traffic-management/#introducing-istio-traffic-management)
 to instruct Istiod to refine the Envoy configuration to exercise more granular control
 over the traffic in your service mesh.
 
-Istiod [security](/docs/concepts/security/) enables strong service-to-service and
+Istiod [security](/pt-br/docs/concepts/security/) enables strong service-to-service and
 end-user authentication with built-in identity and credential management. You
 can use Istio to upgrade unencrypted traffic in the service mesh. Using
 Istio, operators can enforce policies based on service identity rather than
 on relatively unstable layer 3 or layer 4 network identifiers.
-Additionally, you can use [Istio's authorization feature](/docs/concepts/security/#authorization)
+Additionally, you can use [Istio's authorization feature](/pt-br/docs/concepts/security/#authorization)
 to control who can access your services.
 
 Istiod acts as a Certificate Authority (CA) and generates certificates to allow

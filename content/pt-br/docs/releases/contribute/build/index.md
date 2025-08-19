@@ -92,5 +92,5 @@ $ make INTERNAL_ONLY=True lint
 {{< /text >}}
 
 When your content passes all the checks, submit it to the repository through a
-PR. Visit [Working with GitHub](/docs/releases/contribute/github) for more
+PR. Visit [Working with GitHub](/pt-br/docs/releases/contribute/github) for more
 information.

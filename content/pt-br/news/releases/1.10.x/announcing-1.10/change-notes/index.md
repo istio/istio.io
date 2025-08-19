@@ -9,10 +9,10 @@ weight: 10
 
 ## Deprecation Notices
 
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
+These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/pt-br/docs/releases/feature-stages/#feature-phase-definitions). Please consider upgrading your environment to remove the deprecated functionality.
 
 - **Deprecated** the `values.global.jwtPolicy=first-party-jwt` option. This option is less secure and intended for backwards compatibility
-with older Kubernetes clusters without support for more secure token authentication but is now enabled by default in new Kubernetes versions. See [this documentation](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) for more information.
+with older Kubernetes clusters without support for more secure token authentication but is now enabled by default in new Kubernetes versions. See [this documentation](/pt-br/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) for more information.
 
 - **Deprecated** the `values.global.arch` option in favor of the affinity Kubernetes settings.
   ([Issue #30027](https://github.com/istio/istio/issues/30027))
@@ -23,7 +23,7 @@ with older Kubernetes clusters without support for more secure token authenticat
 ## Traffic Management
 
 - **Added** `meshConfig.discoverySelectors` to dynamically restrict the set of namespaces for `Services`, `Pods`, and `Endpoints` that istiod processes when pushing xDS updates to improve performance on the data plane.
-  ([Blog](/blog/2021/discovery-selectors/), [Issue #26679](https://github.com/istio/istio/issues/26679))
+  ([Blog](/pt-br/blog/2021/discovery-selectors/), [Issue #26679](https://github.com/istio/istio/issues/26679))
 
 - **Added** the `ISTIO_GATEWAY_STRIP_HOST_PORT` environment variable to control whether gateways strip the host port before any processing of requests by HTTP filters or routing. This option is disabled by default.
   ([Issue #25350](https://github.com/istio/istio/issues/25350))
@@ -70,18 +70,18 @@ with older Kubernetes clusters without support for more secure token authenticat
 ## Security
 
 - **Added** an experimental feature to allow dry-run of an `AuthorizationPolicy` without actually enforcing the policy.
- ([Usage](/docs/tasks/security/authorization/authz-dry-run/), [Design](https://docs.google.com/document/d/1xQdZsEgJ3Ld2qebfT3EJkg2COTtCR1TqBVojmnvI78g), [PR #1933](https://github.com/istio/api/pull/1933))
+ ([Usage](/pt-br/docs/tasks/security/authorization/authz-dry-run/), [Design](https://docs.google.com/document/d/1xQdZsEgJ3Ld2qebfT3EJkg2COTtCR1TqBVojmnvI78g), [PR #1933](https://github.com/istio/api/pull/1933))
 
 - **Updated** configuration to sign istiod certificates using Kubernetes CA (`PILOT_CERT_PROVIDER=kubernetes`) will not be honored in
 clusters with version 1.22 and greater.
   ([Issue #22161](https://github.com/istio/istio/issues/22161))
 
-- **Improved** the experimental [External Authorization](/docs/tasks/security/authorization/authz-custom/) feature with new capabilities:
+- **Improved** the experimental [External Authorization](/pt-br/docs/tasks/security/authorization/authz-custom/) feature with new capabilities:
     - **Added** the `timeout` field to configure the timeout (default is `10m`) between the `ext_authz` filter and the external service.
     - **Added** the `include_additional_headers_in_check` field to send additional headers to the external service.
     - **Added** the `include_request_body_in_check` field to send the body to the external service.
     - **Supported** prefix and suffix match in the `include_request_headers_in_check`, `headers_to_upstream_on_allow` and `headers_to_downstream_on_deny` field.
-    - **Deprecated** the `include_headers_in_check` field with the new `include_request_headers_in_check` field for better naming. ([Reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider), [PR #1926](https://github.com/istio/api/pull/1926))
+    - **Deprecated** the `include_headers_in_check` field with the new `include_request_headers_in_check` field for better naming. ([Reference](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-EnvoyExternalAuthorizationHttpProvider), [PR #1926](https://github.com/istio/api/pull/1926))
 
 - **Added** experimental option to configure Envoy to fetch the JWKS by itself. This should be enabled if the `jwks_uri` is a mesh cluster URL for mTLS and has other benefits like retries, JWKS caching etc.
 This is disabled by default and can be enabled by setting `PILOT_JWT_ENABLE_REMOTE_JWKS` to true.
@@ -122,7 +122,7 @@ The default interval is `20m`. Valid time units are "ns", "us", "ms", "s", "m", 
 control plane revisions. Users can label their namespaces with a revision tag rather than pointing them
 directly at a revision and selectively decide the granularity of their namespace labels. This makes it possible
 to perform upgrades with the ease of in-place upgrades while having the safety of revision-based upgrades
-under the hood. Read more about using revision tags [here](/docs/setup/upgrade/canary/#stable-revision-labels-experimental).
+under the hood. Read more about using revision tags [here](/pt-br/docs/setup/upgrade/canary/#stable-revision-labels-experimental).
 
 - **Improved** `ConfigMaps` to be read directly rather than from volume mounts. This improves the speed
 of updates and ensures that for external istiod installations that the configmaps are read from the config cluster.
@@ -147,8 +147,8 @@ existing default injection labels (`istio-injection=enabled` and `sidecar.istio.
   ([Issue #31186](https://github.com/istio/istio/issues/31186))
 
 - **Removed** the `15012` and `15443` ports from the default gateway installation. These can be explicitly
-[added](/docs/setup/install/istioctl/#configure-gateways) if desired, although it is
-recommended to follow the new [multicluster installation guide](/docs/setup/install/multicluster/) instead.
+[added](/pt-br/docs/setup/install/istioctl/#configure-gateways) if desired, although it is
+recommended to follow the new [multicluster installation guide](/pt-br/docs/setup/install/multicluster/) instead.
 
 - **Updated** Kiali addon to the latest version `v1.34`.
 
@@ -166,7 +166,7 @@ recommended to follow the new [multicluster installation guide](/docs/setup/inst
   ([Issue #31525](https://github.com/istio/istio/issues/31525))
 
 - **Added** `istioctl proxy-config -o yaml` to display in YAML along with the current JSON and short format.
- ([Usage](/docs/reference/commands/istioctl/#istioctl-proxy-config), [Issue #31695](https://github.com/istio/istio/issues/31695))
+ ([Usage](/pt-br/docs/reference/commands/istioctl/#istioctl-proxy-config), [Issue #31695](https://github.com/istio/istio/issues/31695))
 
 - **Added** the `istioctl proxy-config all` command to view the full proxy configuration.
 

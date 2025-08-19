@@ -15,7 +15,7 @@ As ztunnel aims to transparently encrypt and route application traffic, a mechan
 
 ## Istio's in-pod traffic redirection model
 
-The core design principle underlying ambient mode's in-pod traffic redirection is that the ztunnel proxy has the ability to perform data path capture inside the Linux network namespace of the workload pod. This is achieved via a cooperation of functionality between the [`istio-cni` node agent](/docs/setup/additional-setup/cni/) and the ztunnel node proxy. A key benefit of this model is that it enables Istio's ambient mode to work alongside any Kubernetes CNI plugin, transparently, and without impacting Kubernetes networking features.
+The core design principle underlying ambient mode's in-pod traffic redirection is that the ztunnel proxy has the ability to perform data path capture inside the Linux network namespace of the workload pod. This is achieved via a cooperation of functionality between the [`istio-cni` node agent](/pt-br/docs/setup/additional-setup/cni/) and the ztunnel node proxy. A key benefit of this model is that it enables Istio's ambient mode to work alongside any Kubernetes CNI plugin, transparently, and without impacting Kubernetes networking features.
 
 The following figure illustrates the sequence of events when a new workload pod is started in (or added to) an ambient-enabled namespace.
 
@@ -52,7 +52,7 @@ This diagram illustrates how encrypted traffic flows between pods in the ambient
 
 ## Observing and debugging traffic redirection in ambient mode
 
-If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. We recommend that troubleshooting begin with the steps described in the [ztunnel debugging guide](/docs/ambient/usage/troubleshoot-ztunnel/).
+If traffic redirection is not working correctly in ambient mode, some quick checks can be made to help narrow down the problem. We recommend that troubleshooting begin with the steps described in the [ztunnel debugging guide](/pt-br/docs/ambient/usage/troubleshoot-ztunnel/).
 
 ### Check the ztunnel proxy logs
 

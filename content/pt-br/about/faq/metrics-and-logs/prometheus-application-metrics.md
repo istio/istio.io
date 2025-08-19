@@ -6,8 +6,8 @@ weight: 90
 Yes. [Prometheus](https://prometheus.io/) is an open source monitoring system and time series database.
 You can use Prometheus with Istio to record metrics that track the health of Istio and of
 applications within the service mesh. You can visualize metrics using tools like
-[Grafana](/docs/ops/integrations/grafana/) and [Kiali](/docs/tasks/observability/kiali/).
-See [Configuration for Prometheus](/docs/ops/integrations/prometheus/#Configuration) to understand how to enable collection of metrics.
+[Grafana](/pt-br/docs/ops/integrations/grafana/) and [Kiali](/pt-br/docs/tasks/observability/kiali/).
+See [Configuration for Prometheus](/pt-br/docs/ops/integrations/prometheus/#Configuration) to understand how to enable collection of metrics.
 
 A few notes:
 

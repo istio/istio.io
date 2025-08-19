@@ -66,5 +66,5 @@ Below is our list of existing features and their current phases. This informatio
 {{< features section="Ambient mode" >}}
 
 {{< idea >}}
-Please get in touch by [joining our community](/get-involved/) if there are features you'd like to see in our future releases!
+Please get in touch by [joining our community](/pt-br/get-involved/) if there are features you'd like to see in our future releases!
 {{< /idea >}}

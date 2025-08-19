@@ -68,7 +68,7 @@ aliases:
 
 - **Added** support of replacing virtual host in envoy filter.
 
-- **Added** the API `runtimeValues` to [Proxy Config](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) for
+- **Added** the API `runtimeValues` to [Proxy Config](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig) for
   configuring Envoy runtime configuration.  ([Issue #37202](https://github.com/istio/istio/issues/37202))
 
 - **Added** setting upstream TLS maximum version to TLS 1.3.  ([Issue #36271](https://github.com/istio/istio/issues/36271))
@@ -82,7 +82,7 @@ aliases:
 
 - **Fixed** an issue where removing inline Network and HTTP filters was not working properly.
 
-- **Fixed** an issue causing traffic from a gateway to a service with an [undeclared protocol](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) being treated as TCP traffic rather than HTTP.
+- **Fixed** an issue causing traffic from a gateway to a service with an [undeclared protocol](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) being treated as TCP traffic rather than HTTP.
   ([Issue #37196](https://github.com/istio/istio/issues/37196))
 
 - **Fixed** an issue with `DNS` type `ServiceEntry`s causing excessive DNS requests when the DNS lookup fails.
@@ -113,7 +113,7 @@ aliases:
 ## Security
 
 - **Added** a new approach for CA integration through the Envoy SDS API.
-  ([usage](/docs/ops/integrations/spire/)) ([design](https://docs.google.com/document/d/1zJP6QJukLzckTbdY42ZMLkulGXz4gWzH9SwOh4xoe0A)) ([Issue #37183](https://github.com/istio/istio/issues/37183))
+  ([usage](/pt-br/docs/ops/integrations/spire/)) ([design](https://docs.google.com/document/d/1zJP6QJukLzckTbdY42ZMLkulGXz4gWzH9SwOh4xoe0A)) ([Issue #37183](https://github.com/istio/istio/issues/37183))
 
 - **Added** `allowed_client_headers_on_success` feature for Istio external authorization.
   ([Issue #36950](https://github.com/istio/istio/issues/36950))

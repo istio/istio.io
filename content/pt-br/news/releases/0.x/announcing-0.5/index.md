@@ -27,7 +27,7 @@ information on customized Istio deployments.
 [mutating webhook feature](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.9.md#api-machinery) to provide automatic
 pod-level proxy injection. Automatic injection requires Kubernetes 1.9 or beyond and
 therefore doesn't work on older versions. The alpha initializer mechanism is no longer supported.
-[Learn more](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+[Learn more](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
 
 - **Revised Traffic Rules**. Based on user feedback, we have made significant changes to Istio's traffic management
 (routing rules, destination rules, etc.). We would love your continuing feedback while we polish this in the coming weeks.
@@ -38,7 +38,7 @@ therefore doesn't work on older versions. The alpha initializer mechanism is no 
 providing a flexible fine-grained access control mechanism. [Learn more](https://docs.google.com/document/d/1U2XFmah7tYdmC5lWkk3D43VMAAQ0xkBatKmohf90ICA)
 
 - **Istio RBAC**. Mixer now has a role-based access control adapter.
-[Learn more](/docs/concepts/security/#authorization)
+[Learn more](/pt-br/docs/concepts/security/#authorization)
 
 - **Fluentd**. Mixer now has an adapter for log collection through [Fluentd](https://www.fluentd.org).
 
@@ -48,12 +48,12 @@ of controls.
 ## Security
 
 - **Bring Your Own CA**. There have been many enhancements to the 'bring your own CA' feature.
-[Learn more](/docs/tasks/security/cert-management/plugin-ca-cert/)
+[Learn more](/pt-br/docs/tasks/security/cert-management/plugin-ca-cert/)
 
 - **PKCS8**. Add support for PKCS8 keys to Istio PKI.
 
 - **Istio RBAC** Istio RBAC provides access control for services in Istio mesh.
-[Learn more](/docs/concepts/security/#authorization).
+[Learn more](/pt-br/docs/concepts/security/#authorization).
 
 ## Other
 

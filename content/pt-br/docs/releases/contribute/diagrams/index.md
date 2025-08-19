@@ -32,7 +32,7 @@ To create your diagrams, follow these steps:
 1. Connect the shapes with the appropriate style of line.
 1. Label the shapes and lines with descriptive yet short text.
 1. Add a legend for any labels that apply multiple times.
-1. [Contribute](/docs/releases/contribute/add-content) your diagram to our
+1. [Contribute](/pt-br/docs/releases/contribute/add-content) your diagram to our
    documentation.
 
 If you create the diagram in Google Drawings, follow these steps:

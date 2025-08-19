@@ -128,4 +128,4 @@ Since you run the `ratings` service locally, you can also access it via the
 
 Congratulations, you can now build, test, and run a service on your local computer!
 
-You are ready to [package the service](/docs/examples/microservices-istio/package-service) into a container.
+You are ready to [package the service](/pt-br/docs/examples/microservices-istio/package-service) into a container.

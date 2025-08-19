@@ -24,7 +24,7 @@ As an example, as of this writing, `istioctl` has 25 scopes, representing differ
 
 - `ads`, `adsc`, `all`, `analysis`, `authn`, `authorization`, `ca`, `cache`, `cli`, `default`, `installer`, `klog`, `mcp`, `model`, `patch`, `processing`, `resource`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`, `wle`
 
-Pilot-Agent, Pilot-Discovery, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
+Pilot-Agent, Pilot-Discovery, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/pt-br/docs/reference/commands/).
 
 Each scope has a unique output level which is one of:
 
@@ -44,7 +44,7 @@ $ istioctl analyze --log_output_level klog:none,cli:info
 {{< /text >}}
 
 In addition to controlling the output level from the command-line, you can also control the output level of a running component
-by using its [ControlZ](/docs/ops/diagnostic-tools/controlz) interface.
+by using its [ControlZ](/pt-br/docs/ops/diagnostic-tools/controlz) interface.
 
 ## Controlling output
 

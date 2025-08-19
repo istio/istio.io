@@ -20,10 +20,10 @@ that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
 This guide covers some of the most common concerns when creating a
 {{< gloss >}}multicluster{{< /gloss >}} mesh:
 
-- [Network topologies](/docs/ops/deployment/deployment-models#network-models):
+- [Network topologies](/pt-br/docs/ops/deployment/deployment-models#network-models):
   one or two networks
 
-- [Control plane topologies](/docs/ops/deployment/deployment-models#control-plane-models):
+- [Control plane topologies](/pt-br/docs/ops/deployment/deployment-models#control-plane-models):
   multiple {{< gloss "primary cluster" >}}primary clusters{{< /gloss >}},
   a primary and {{< gloss >}}remote cluster{{< /gloss >}}
 
@@ -31,6 +31,6 @@ This guide covers some of the most common concerns when creating a
 For meshes that span more than two clusters, you can extend the steps in this
 guide to configure more complex topologies.
 
-See [deployment models](/docs/ops/deployment/deployment-models) for more
+See [deployment models](/pt-br/docs/ops/deployment/deployment-models) for more
 information.
 {{< /tip >}}

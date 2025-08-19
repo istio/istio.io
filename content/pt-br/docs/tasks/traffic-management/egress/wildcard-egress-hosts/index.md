@@ -9,8 +9,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-The [Accessing External Services](/docs/tasks/traffic-management/egress/egress-control) task and
-the [Configure an Egress Gateway](/docs/tasks/traffic-management/egress/egress-gateway/) example
+The [Accessing External Services](/pt-br/docs/tasks/traffic-management/egress/egress-control) task and
+the [Configure an Egress Gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/) example
 describe how to configure egress traffic for specific hostnames, like `edition.cnn.com`.
 This example shows how to enable egress traffic for a set of hosts in a common domain, for
 example `*.wikipedia.org`, instead of configuring each and every host separately.
@@ -39,9 +39,9 @@ $ istioctl install --set profile=demo --set meshConfig.outboundTrafficPolicy.mod
 
 {{< tip >}}
 You can run this task on an Istio configuration other than the `demo` profile as long as you make sure to
-[deploy the Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway),
-[enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging), and
-[apply the blocking-by-default outbound traffic policy](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
+[deploy the Istio egress gateway](/pt-br/docs/tasks/traffic-management/egress/egress-gateway/#deploy-istio-egress-gateway),
+[enable Envoy’s access logging](/pt-br/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging), and
+[apply the blocking-by-default outbound traffic policy](/pt-br/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)
 in your installation.
 {{< /tip >}}
 
@@ -62,7 +62,7 @@ $ istioctl install --set profile=minimal -y \
 
 *   Deploy the [curl]({{< github_tree >}}/samples/curl) sample app to use as a test source for sending requests.
     If you have
-    [automatic sidecar injection](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
+    [automatic sidecar injection](/pt-br/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)
     enabled, run the following command to deploy the sample app:
 
     {{< text bash >}}
@@ -388,10 +388,10 @@ Unfortunately, when using an egress gateway, the original destination address of
 request is redirected to the gateway, causing the destination IP address to become the IP address of the gateway.
 
 Although not as easy and somewhat fragile as it relies on Istio implementation details, you can use
-[Envoy filters](/docs/reference/config/networking/envoy-filter/) to configure a gateway to support arbitrary domains
+[Envoy filters](/pt-br/docs/reference/config/networking/envoy-filter/) to configure a gateway to support arbitrary domains
 by using the [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) value in an HTTPS, or any TLS, request to
 identify the original destination to which to route the request. One example of this configuration approach can be
-found in [routing egress traffic to wildcard destinations](/blog/2023/egress-sni/).
+found in [routing egress traffic to wildcard destinations](/pt-br/blog/2023/egress-sni/).
 
 ## Cleanup
 

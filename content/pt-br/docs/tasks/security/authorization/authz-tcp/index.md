@@ -15,9 +15,9 @@ This task shows you how to set up Istio authorization policy for TCP traffic in 
 
 Before you begin this task, do the following:
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Install Istio using the [Istio installation guide](/docs/setup/install/istioctl/).
+* Install Istio using the [Istio installation guide](/pt-br/docs/setup/install/istioctl/).
 
 * Deploy two workloads named `curl` and `tcp-echo` together in a namespace, for example `foo`.
   Both workloads run with an Envoy proxy in front of each. The `tcp-echo` workload listens on port

@@ -17,7 +17,7 @@ In order to take advantage of all of Istio's features, pods in the mesh must be 
 
 The following sections describe two
 ways of injecting the Istio sidecar into a pod: enabling automatic Istio sidecar injection in the pod's namespace,
-or by manually using the [`istioctl`](/docs/reference/commands/istioctl) command.
+or by manually using the [`istioctl`](/pt-br/docs/reference/commands/istioctl) command.
 
 When enabled in a pod's namespace, automatic injection injects the proxy configuration at pod creation time using an admission controller.
 
@@ -118,7 +118,7 @@ on a per-pod basis, by configuring the `sidecar.istio.io/inject` label on a pod:
 | Namespace | `istio-injection` | `enabled` | `disabled` |
 | Pod | `sidecar.istio.io/inject` | `"true"` | `"false"` |
 
-If you are using [control plane revisions](/docs/setup/upgrade/canary/), revision specific labels are instead used by a matching `istio.io/rev` label.
+If you are using [control plane revisions](/pt-br/docs/setup/upgrade/canary/), revision specific labels are instead used by a matching `istio.io/rev` label.
 For example, for a revision named `canary`:
 
 | Resource | Enabled label | Disabled label |
@@ -137,7 +137,7 @@ The injector is configured with the following logic:
 
 ### Manual sidecar injection
 
-To manually inject a deployment, use [`istioctl kube-inject`](/docs/reference/commands/istioctl/#istioctl-kube-inject):
+To manually inject a deployment, use [`istioctl kube-inject`](/pt-br/docs/reference/commands/istioctl/#istioctl-kube-inject):
 
 {{< text bash >}}
 $ istioctl kube-inject -f @samples/curl/curl.yaml@ | kubectl apply -f -
@@ -226,7 +226,7 @@ Other admission controllers may execute against the Pod spec prior to Istio inje
 For instance, `LimitRange` may automatically insert resource requests prior to Istio adding its configured resources, giving unexpected results.
 {{< /warning >}}
 
-Additionally, certain fields are configurable by [annotations](/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
+Additionally, certain fields are configurable by [annotations](/pt-br/docs/reference/config/annotations/) on the pod, although it is recommended to use the above approach to customizing settings. Additional care must be taken for certain annotations:
 
 * If `sidecar.istio.io/proxyCPU` is set, make sure to explicitly set `sidecar.istio.io/proxyCPULimit`. Otherwise the sidecar's `cpu` limit will be set as unlimited.
 * If `sidecar.istio.io/proxyMemory` is set, make sure to explicitly set `sidecar.istio.io/proxyMemoryLimit`. Otherwise the sidecar's `memory` limit will be set as unlimited.

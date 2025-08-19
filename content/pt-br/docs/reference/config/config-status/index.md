@@ -8,7 +8,7 @@ test: no
 
 {{< warning >}}
 This feature is in the Alpha stage, see
-[Istio Feature Status](/docs/releases/feature-stages/). Your feedback is welcome in the
+[Istio Feature Status](/pt-br/docs/releases/feature-stages/). Your feedback is welcome in the
 [Istio User Experience discussion](https://discuss.istio.io/c/UX/23). Currently,
 this feature is tested only for single, low volume clusters with a single
 control plane revision.
@@ -96,4 +96,4 @@ when `PassedValidation` status is `True`, because those are informational
 messages.
 
 For validation message examples, see
-[Configuration Analysis Messages](/docs/reference/config/analysis/).
+[Configuration Analysis Messages](/pt-br/docs/reference/config/analysis/).

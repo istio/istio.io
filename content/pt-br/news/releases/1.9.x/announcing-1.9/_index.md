@@ -16,7 +16,7 @@ We are pleased to announce the release of Istio 1.9!
 Our core focus for the 1.9 release was to improve the [Day 2 operations](https://dzone.com/articles/defining-day-2-operations)
 for users running Istio in production. Building upon the feedback collected by the User Experience Working Group, we
 wanted to improve the stability and overall upgrade experience for our users. A key aspect of stability is publishing
-accurate [feature status](/docs/releases/feature-stages/) for Istio core APIs and features, and progressing their stability to
+accurate [feature status](/pt-br/docs/releases/feature-stages/) for Istio core APIs and features, and progressing their stability to
 enable our users to utilize Istio's capabilities with confidence, which was another focus for the 1.9 release.
 
 Keep an eye on our blog for our 2021 roadmap, where we will demonstrate our focus on continued improvement in the Day 2
@@ -47,20 +47,20 @@ promoted this feature to Beta.
 
 Here's a list of supporting documents which you can follow to easily expand your Istio service mesh to include VMs:
 
-* [Virtual Machine Installation](/docs/setup/install/virtual-machine/) to get started.
-* [Virtual Machine Architecture](/docs/ops/deployment/vm-architecture/) to learn about the high level architecture of Istio's virtual machine integration.
-* [Debugging Virtual Machines](/docs/ops/diagnostic-tools/virtual-machines/) to learn more about troubleshooting issues with virtual machines.
-* [Bookinfo with a Virtual Machine](/docs/examples/virtual-machines/) to learn more about connecting virtual machine workloads to Kubernetes workloads.
+* [Virtual Machine Installation](/pt-br/docs/setup/install/virtual-machine/) to get started.
+* [Virtual Machine Architecture](/pt-br/docs/ops/deployment/vm-architecture/) to learn about the high level architecture of Istio's virtual machine integration.
+* [Debugging Virtual Machines](/pt-br/docs/ops/diagnostic-tools/virtual-machines/) to learn more about troubleshooting issues with virtual machines.
+* [Bookinfo with a Virtual Machine](/pt-br/docs/examples/virtual-machines/) to learn more about connecting virtual machine workloads to Kubernetes workloads.
 
 ## Request Classification (Beta)
 
 Istio continues to make mesh telemetry collection more configurable. In this release,
-[Request Classification](/docs/tasks/observability/metrics/classify-metrics/) has been promoted to Beta. This feature
+[Request Classification](/pt-br/docs/tasks/observability/metrics/classify-metrics/) has been promoted to Beta. This feature
 enables users to more precisely understand and monitor the traffic in their service mesh.
 
 ## Kubernetes Gateway API support (Alpha)
 
-Configuring Istio to expose a service using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) has been an active area of development since Istio 1.6, and we are pleased to announce support for them as Alpha in 1.9. Using these APIs benefits users who move between other service meshes that support these APIs. To try them out, check out the [Gateway API getting started documentation](/docs/tasks/traffic-management/ingress/gateway-api/).
+Configuring Istio to expose a service using [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) has been an active area of development since Istio 1.6, and we are pleased to announce support for them as Alpha in 1.9. Using these APIs benefits users who move between other service meshes that support these APIs. To try them out, check out the [Gateway API getting started documentation](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/).
 
 We are eager to evolve these CRDs in partnership with the Kubernetes community, notably the
 [Kubernetes SIG-NETWORK group](https://github.com/kubernetes/community/tree/master/sig-network), in upcoming releases to
@@ -69,22 +69,22 @@ help unify and up-level Ingress capabilities across ecosystems.
 ## Integration with external authorization systems (Experimental)
 
 Authorization policy now supports an experimental feature of
-[CUSTOM action](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) that allows users to
+[CUSTOM action](/pt-br/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action) that allows users to
 integrate with external auth systems (e.g. OPA, OAuth2, etc.) more easily.
 
-We have published a [blog on this feature](/blog/2021/better-external-authz/), and you can look at [our documentation](/docs/tasks/security/authorization/authz-custom)
-to use this functionality. If you are using the [Envoy Filter](/docs/reference/config/networking/envoy-filter/) API today
+We have published a [blog on this feature](/pt-br/blog/2021/better-external-authz/), and you can look at [our documentation](/pt-br/docs/tasks/security/authorization/authz-custom)
+to use this functionality. If you are using the [Envoy Filter](/pt-br/docs/reference/config/networking/envoy-filter/) API today
 to integrate with an external authorization system, we recommend you try this feature out and give us feedback!
 
 ## Remote fetch and load of WebAssembly (Wasm) HTTP filters (Experimental)
 
-Now Istio supports an experimental feature to [fetch WebAssembly modules](/docs/tasks/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
+Now Istio supports an experimental feature to [fetch WebAssembly modules](/pt-br/docs/tasks/extensibility/wasm-module-distribution) from remote repositories and dynamically (re)load them without restarting the proxies in your mesh.  With this you can inject [custom C++ code](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) into your mesh to handle uses cases that go well beyond the Istio APIs.
 
 Please try it and tell us how it worked for you.  Also, stay tuned for more blogs, support for more languages, and integration with more repositories.
 
 ## Mirroring of images on gcr.io
 
-To prevent our users from getting affected by Docker Hub's [rate-limiting policy](/blog/2020/docker-rate-limit/),
+To prevent our users from getting affected by Docker Hub's [rate-limiting policy](/pt-br/blog/2020/docker-rate-limit/),
 we are now publishing all our images on the `gcr.io/istio-release` registry. You can optionally set the hub in your
 installation step to `gcr.io/istio-release` to get around issues related to failed image downloads from Docker hub. Note
 that Docker hub is still the default hub for Istio installation.
@@ -95,7 +95,7 @@ We have continued to make significant improvements in the `istioctl` tool to imp
 capabilities for our users. Key features include:
 
 * A new `verify-install` command that notifies users of any installation configuration errors.
-* The `analyze` sub-command can now check if deprecated or alpha-level [annotations](/docs/reference/config/annotations/) are used.
+* The `analyze` sub-command can now check if deprecated or alpha-level [annotations](/pt-br/docs/reference/config/annotations/) are used.
 
 ## Join the Istio community
 

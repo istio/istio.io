@@ -21,18 +21,18 @@ Over the last 12 months, the Istio project has been very focused on the [day-0
 & day-1](https://dzone.com/articles/defining-day-2-operations) experience for
 users by actively listening to our users through UX surveys and GitHub issues.
 
-- We [simplified the control plane architecture](/blog/2020/istiod/) and
+- We [simplified the control plane architecture](/pt-br/blog/2020/istiod/) and
    made Istio easier to install, configure and upgrade.
 - We provided clarity and process to our feature status and promotion of features and APIs.
 - We simplified the debugging experience with various istioctl commands.
-- We expanded the mesh to services running in [VMs](/news/releases/1.9.x/announcing-1.9/#virtual-machine-integration-beta)
-    and [multiple clusters](/docs/setup/install/multicluster/).
-- We made [`StatefulSet` easier](/blog/2021/statefulsets-made-easier/) to use in Istio 1.10 with zero-configuration.
-- We made various performance improvements to the Istio control plane and data plane via [discovery selectors](/blog/2021/discovery-selectors/), sidecar resources etc.
-- We [introduced WebAssembly](/blog/2021/wasm-progress/) as our extensibility platform which has helped users tailor Istio to their needs.
+- We expanded the mesh to services running in [VMs](/pt-br/news/releases/1.9.x/announcing-1.9/#virtual-machine-integration-beta)
+    and [multiple clusters](/pt-br/docs/setup/install/multicluster/).
+- We made [`StatefulSet` easier](/pt-br/blog/2021/statefulsets-made-easier/) to use in Istio 1.10 with zero-configuration.
+- We made various performance improvements to the Istio control plane and data plane via [discovery selectors](/pt-br/blog/2021/discovery-selectors/), sidecar resources etc.
+- We [introduced WebAssembly](/pt-br/blog/2021/wasm-progress/) as our extensibility platform which has helped users tailor Istio to their needs.
 - We beefed up our CVE management and release processes to meet enterprise needs.
 
-[Read more](/blog/2020/tradewinds-2020/) about improvements to
+[Read more](/pt-br/blog/2020/tradewinds-2020/) about improvements to
 Istio in 2020 that made this technology easier to use.
 
 In February 2021, we celebrated the first IstioCon! This community-led event was an opportunity

@@ -18,7 +18,7 @@ external service inside your cluster, you can just update its Kubernetes service
 
 This task shows that these Kubernetes mechanisms for accessing external services continue to work with Istio.
 The only configuration step you must perform is to use a TLS mode other than Istio's
-[mutual TLS](/docs/concepts/security/#mutual-tls-authentication). The external services are not part of an Istio service
+[mutual TLS](/pt-br/docs/concepts/security/#mutual-tls-authentication). The external services are not part of an Istio service
 mesh so they cannot perform the mutual TLS of Istio. You must set the TLS mode according to the TLS requirements of the
 external service and according to the way your workload accesses the external service. If your workload issues plain
 HTTP requests and the external service requires TLS, you may want to perform TLS origination by Istio. If your workload
@@ -26,7 +26,7 @@ already uses TLS, the traffic is already encrypted and you can just disable Isti
 
 {{< warning >}}
 This page describes how Istio can integrate with existing Kubernetes configurations. For new deployments, we recommend
-following [Accessing Egress Services](/docs/tasks/traffic-management/egress/egress-control/).
+following [Accessing Egress Services](/pt-br/docs/tasks/traffic-management/egress/egress-control/).
 {{< /warning >}}
 
 While the examples in this task use HTTP protocols,
@@ -107,7 +107,7 @@ Kubernetes Services for egress traffic work with other protocols as well.
 
 1.  In this example, unencrypted HTTP requests are sent to `httpbin.org`. For the sake of the example only, you disable
     the TLS mode and allow the unencrypted traffic to the external service. In the real life scenarios, we recommend
-    to perform [Egress TLS origination](/docs/tasks/traffic-management/egress/egress-tls-origination/) by Istio.
+    to perform [Egress TLS origination](/pt-br/docs/tasks/traffic-management/egress/egress-tls-origination/) by Istio.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

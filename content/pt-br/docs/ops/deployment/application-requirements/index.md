@@ -38,7 +38,7 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 
 - **`NET_ADMIN` and `NET_RAW` capabilities**: If [pod security policies](https://kubernetes.io/docs/concepts/policy/pod-security-policy/)
     are [enforced](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)
-    in your cluster and unless you use the [Istio CNI Plugin](/docs/setup/additional-setup/cni/), your pods must have the
+    in your cluster and unless you use the [Istio CNI Plugin](/pt-br/docs/setup/additional-setup/cni/), your pods must have the
     `NET_ADMIN` and `NET_RAW` capabilities allowed. The initialization containers of the Envoy
     proxies require these capabilities.
 
@@ -73,7 +73,7 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
     - Application version: `service.istio.io/canonical-revision`, `app.kubernetes.io/version`, or `version`.
 
 - **Named service ports**: Service ports may optionally be named to explicitly specify a protocol.
-  See [Protocol Selection](/docs/ops/configuration/traffic-management/protocol-selection/) for
+  See [Protocol Selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/) for
   more details. If a pod belongs to multiple [Kubernetes services](https://kubernetes.io/docs/concepts/services-networking/service/),
   the services cannot use the same port number for different protocols, for
   instance HTTP and TCP.
@@ -113,11 +113,11 @@ The following ports and protocols are used by the Istio control plane (istiod).
 ## Server First Protocols
 
 Some protocols are "Server First" protocols, which means the server will send the first bytes. This may have an impact on
-[`PERMISSIVE`](/docs/reference/config/security/peer_authentication/#PeerAuthentication-MutualTLS-Mode) mTLS and [Automatic protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection).
+[`PERMISSIVE`](/pt-br/docs/reference/config/security/peer_authentication/#PeerAuthentication-MutualTLS-Mode) mTLS and [Automatic protocol selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection).
 
 Both of these features work by inspecting the initial bytes of a connection to determine the protocol, which is incompatible with server first protocols.
 
-In order to support these cases, follow the [Explicit protocol selection](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) steps to declare the protocol of the application as `TCP`.
+In order to support these cases, follow the [Explicit protocol selection](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) steps to declare the protocol of the application as `TCP`.
 
 The following ports are known to commonly carry server first protocols, and are automatically assumed to be `TCP`:
 
@@ -132,7 +132,7 @@ Because TLS communication is not server first, TLS encrypted server first traffi
 
 1. Configure `mTLS` mode `STRICT` for the server. This will enforce TLS encryption for all requests.
 1. Configure `mTLS` mode `DISABLE` for the server. This will disable the TLS sniffing, allowing server first protocols to be used.
-1. Configure all clients to send `TLS` traffic, generally through a [`DestinationRule`](/docs/reference/config/networking/destination-rule/#ClientTLSSettings) or by relying on auto mTLS.
+1. Configure all clients to send `TLS` traffic, generally through a [`DestinationRule`](/pt-br/docs/reference/config/networking/destination-rule/#ClientTLSSettings) or by relying on auto mTLS.
 1. Configure your application to send TLS traffic directly.
 
 ## Outbound traffic
@@ -147,7 +147,7 @@ rather than `1.2.3.4`.
 For Non HTTP-based traffic (including HTTPS), Istio does not have access to an `Host` header, so routing decisions are based on the Service IP address.
 
 One implication of this is that direct calls to pods (for example, `curl <POD_IP>`), rather than Services, will not be matched. While the traffic may
-be [passed through](/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services), it will not get the full Istio functionality
+be [passed through](/pt-br/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services), it will not get the full Istio functionality
 including mTLS encryption, traffic routing, and telemetry.
 
-See the [Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing) page for more information.
+See the [Traffic Routing](/pt-br/docs/ops/configuration/traffic-management/traffic-routing) page for more information.

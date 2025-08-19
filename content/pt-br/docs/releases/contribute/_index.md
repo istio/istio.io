@@ -19,7 +19,7 @@ test: n/a
 
 Welcome to the Istio documentation contribution guides. This section contains
 all the information you need to contribute documentation, blog posts, and other
-[content types](/docs/releases/contribute/add-content/#content-types).
+[content types](/pt-br/docs/releases/contribute/add-content/#content-types).
 
 The Istio content is multilingual. Within the `content` folder, you can
 find the following folders for the available languages:

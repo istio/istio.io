@@ -12,21 +12,21 @@ test: yes
 After completing this task, you understand how to have your application participate in tracing with [Zipkin](https://zipkin.io/),
 regardless of the language, framework, or platform you use to build your application.
 
-This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application.
+This task uses the [Bookinfo](/pt-br/docs/examples/bookinfo/) sample as the example application.
 
 To learn how Istio handles tracing, visit this task's [overview](../overview/).
 
 ## Before you begin
 
-1.  Follow the [Zipkin installation](/docs/ops/integrations/zipkin/#installation) documentation to deploy Zipkin into your cluster.
+1.  Follow the [Zipkin installation](/pt-br/docs/ops/integrations/zipkin/#installation) documentation to deploy Zipkin into your cluster.
 
-1.  Deploy the [Bookinfo](/docs/examples/bookinfo/#deploying-the-application) sample application.
+1.  Deploy the [Bookinfo](/pt-br/docs/examples/bookinfo/#deploying-the-application) sample application.
 
 ## Configure Istio for distributed tracing
 
 ### Configure an extension provider
 
-Install Istio with an [extension provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
+Install Istio with an [extension provider](/pt-br/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -66,7 +66,7 @@ EOF
 
 ## Accessing the dashboard
 
-The [Remotely Accessing Telemetry Addons task](/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
+The [Remotely Accessing Telemetry Addons task](/pt-br/docs/tasks/observability/gateways) details how to configure access to the Istio addons through a gateway.
 
 For testing (and temporary access), you may also use port-forwarding. Use the following, assuming you've deployed Zipkin to the `istio-system` namespace:
 
@@ -103,5 +103,5 @@ $ istioctl dashboard zipkin
     {{< /text >}}
 
 1.  If you are not planning to explore any follow-on tasks, refer to the
-    [Bookinfo cleanup](/docs/examples/bookinfo/#cleanup) instructions
+    [Bookinfo cleanup](/pt-br/docs/examples/bookinfo/#cleanup) instructions
     to shutdown the application.

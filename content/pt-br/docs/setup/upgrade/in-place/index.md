@@ -10,12 +10,12 @@ test: no
 The `istioctl upgrade` command performs an upgrade of Istio.
 
 {{< tip >}}
-[Canary Upgrade](/docs/setup/upgrade/canary/) is safer than doing an in-place upgrade and is the recommended upgrade method.
+[Canary Upgrade](/pt-br/docs/setup/upgrade/canary/) is safer than doing an in-place upgrade and is the recommended upgrade method.
 {{< /tip >}}
 
 The upgrade command can also perform a downgrade of Istio.
 
-See the [`istioctl` upgrade reference](/docs/reference/commands/istioctl/#istioctl-upgrade)
+See the [`istioctl` upgrade reference](/pt-br/docs/reference/commands/istioctl/#istioctl-upgrade)
 for all the options provided by the `istioctl upgrade` command.
 
 {{< warning >}}
@@ -30,7 +30,7 @@ Before you begin the upgrade process, check the following prerequisites:
 * The installed Istio version is no more than one minor version less than the upgrade version.
    For example, 1.6.0 or higher is required before you start the upgrade process to 1.7.x.
 
-* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
+* Your Istio installation was [installed using {{< istioctl >}}](/pt-br/docs/setup/install/istioctl/).
 
 ## Upgrade steps
 
@@ -44,7 +44,7 @@ are configured with a minimum availability of 1.
 The commands in this section should be run using the new version of `istioctl` which
 can be found in the `bin/` subdirectory of the downloaded package.
 
-1. [Download the new Istio release](/docs/setup/additional-setup/download-istio-release/)
+1. [Download the new Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/)
    and change directory to the new release directory.
 
 1. Ensure that your Kubernetes configuration points to the cluster to upgrade:
@@ -95,7 +95,7 @@ can be found in the `bin/` subdirectory of the downloaded package.
 
 Before you begin the downgrade process, check the following prerequisites:
 
-* Your Istio installation was [installed using {{< istioctl >}}](/docs/setup/install/istioctl/).
+* Your Istio installation was [installed using {{< istioctl >}}](/pt-br/docs/setup/install/istioctl/).
 
 * The Istio version you intend to downgrade to is no more than one minor version less than the installed Istio version.
    For example, you can downgrade to no lower than 1.6.0 from Istio 1.7.x.

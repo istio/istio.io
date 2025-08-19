@@ -18,9 +18,9 @@ such as sampling rate and adding custom tags to reported spans.
 
 ## Before you begin
 
-1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
+1.  Ensure that your applications propagate tracing headers as described [here](/pt-br/docs/tasks/observability/distributed-tracing/overview/).
 
-1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
+1.  Follow the tracing installation guide located under [Integrations](/pt-br/docs/ops/integrations/)
     based on your preferred tracing backend to install the appropriate software and
     configure your Istio proxies to send traces to the tracing deployment.
 

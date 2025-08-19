@@ -56,7 +56,7 @@ aliases:
 - **Added** connection pool settings to the `Sidecar` API to enable configuring the inbound connection pool for sidecars in the mesh.
   Previously, the `DestinationRule`'s connection pool settings applied to both client and server sidecars. Using the updated `Sidecar` API,
   it's now possible to configure the server's connection pool separately from the clients' in the mesh.
-  ([reference](/docs/reference/config/networking/sidecar/#Sidecar-inbound_connection_pool))
+  ([reference](/pt-br/docs/reference/config/networking/sidecar/#Sidecar-inbound_connection_pool))
   ([Issue #32130](https://github.com/istio/istio/issues/32130)), ([Issue #41235](https://github.com/istio/istio/issues/41235))
 
 - **Added** `idle_timeout` to the TCP settings in the `DestinationRule` API to enable configuring idle timeout per `TcpProxy` filter.

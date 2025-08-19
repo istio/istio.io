@@ -8,7 +8,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 
 The open source and cloud native community gathered from the 6th to the 9th of November in Chicago for the final KubeCon of 2023. The four-day conference, organized by the Cloud Native Computing Foundation, was "twice the fun" for Istio, as we grew from a half-day event in Europe in April to a full day co-located event. To add to the excitement, Istio Day North America marked our first event as a CNCF graduated project.
 
-With Istio Day NA over, that's a wrap for our major community events for 2023. In case you missed them, [Istio Day Europe](/blog/2023/istio-at-kubecon-eu/) was held in April, and alongside our [Virtual IstioCon 2023](https://events.istio.io/) event, [IstioCon China 2023](/blog/2023/istiocon-china/) was held on September 26 in Shanghai, China.
+With Istio Day NA over, that's a wrap for our major community events for 2023. In case you missed them, [Istio Day Europe](/pt-br/blog/2023/istio-at-kubecon-eu/) was held in April, and alongside our [Virtual IstioCon 2023](https://events.istio.io/) event, [IstioCon China 2023](/pt-br/blog/2023/istiocon-china/) was held on September 26 in Shanghai, China.
 
 {{< image width="75%"
     link="./welcome.jpg"

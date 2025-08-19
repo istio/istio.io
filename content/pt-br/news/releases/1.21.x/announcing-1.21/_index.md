@@ -29,7 +29,7 @@ Istio 1.21.0 is officially supported on Kubernetes versions `1.26` to `1.29`.
 ### Easing upgrades with compatibility versions
 
 Istio 1.21 introduces a new concept known as
-[compatibility versions](/docs/setup/additional-setup/compatibility-versions/).
+[compatibility versions](/pt-br/docs/setup/additional-setup/compatibility-versions/).
 
 Compatibility versions solve a long running problem in Istio: as time
 passes, changes to the behavior of Istio may be desired to fix bugs,
@@ -67,7 +67,7 @@ In this release, the following changes are gated behind compatibility versions:
 
 `istioctl experimental precheck` can detect possibly impacted resources for all of these changes. For
 more info on these changes, see the
-[Upgrade Notes](/news/releases/1.21.x/announcing-1.21/upgrade-notes).
+[Upgrade Notes](/pt-br/news/releases/1.21.x/announcing-1.21/upgrade-notes).
 
 Istio joins related projects like [Kubernetes](https://github.com/kubernetes/enhancements/blob/master/keps/sig-architecture/4330-compatibility-versions/README.md) and [Go](https://go.dev/blog/compat) who have introduced
 similar features.
@@ -85,7 +85,7 @@ reduction - across many pods, this quickly adds up to cost savings.
 
 ### Support for all CNIs in ambient mode
 
-Our new [ambient mode](/blog/2022/introducing-ambient-mesh/) now works across all Kubernetes platforms and CNI implementations. Ambient mode has been tested with GKE, AKS, and EKS and all the CNI implementations they offer, 3rd-party CNIs like Calico and Cilium, and platforms like OpenShift, all with solid results. The engineering challenges behind this fix were described in [a recent blog post](/blog/2024/inpod-traffic-redirection-ambient/).
+Our new [ambient mode](/pt-br/blog/2022/introducing-ambient-mesh/) now works across all Kubernetes platforms and CNI implementations. Ambient mode has been tested with GKE, AKS, and EKS and all the CNI implementations they offer, 3rd-party CNIs like Calico and Cilium, and platforms like OpenShift, all with solid results. The engineering challenges behind this fix were described in [a recent blog post](/pt-br/blog/2024/inpod-traffic-redirection-ambient/).
 
 Ambient mode is targeted to move to Beta in the upcoming Istio 1.22.
 

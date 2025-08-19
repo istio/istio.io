@@ -101,7 +101,7 @@ Each type uses a different syntax to express the target.
   with a slash `/`, for example:
 
     {{< text markdown >}}
-    [This links to a page on the about section](/about/page/)
+    [This links to a page on the about section](/pt-br/about/page/)
     {{< /text >}}
 
 Regardless of type, links do not point to the `index.md` file with the content,

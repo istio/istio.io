@@ -11,10 +11,10 @@ test: n/a
 
 Before you begin, check the following prerequisites:
 
-1. [Download the Istio release](/docs/setup/additional-setup/download-istio-release/).
-1. Perform any necessary [platform-specific setup](/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/docs/ops/deployment/application-requirements/).
-1. [Usage of helm for Istio installation](/docs/setup/install/helm).
+1. [Download the Istio release](/pt-br/docs/setup/additional-setup/download-istio-release/).
+1. Perform any necessary [platform-specific setup](/pt-br/docs/setup/platform-setup/).
+1. Check the [Requirements for Pods and Services](/pt-br/docs/ops/deployment/application-requirements/).
+1. [Usage of helm for Istio installation](/pt-br/docs/setup/install/helm).
 1. Helm version that supports post rendering. (>= 3.1)
 1. kubectl or kustomize.
 
@@ -152,6 +152,6 @@ spec:
 
 For further detailed information about the concepts and techniques described in this document, please refer to:
 
-1. [IstioOperator - Customize Installation](/docs/setup/additional-setup/customize-installation)
+1. [IstioOperator - Customize Installation](/pt-br/docs/setup/additional-setup/customize-installation)
 1. [Advanced Helm Techniques](https://helm.sh/docs/topics/advanced/)
 1. [Kustomize](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/)

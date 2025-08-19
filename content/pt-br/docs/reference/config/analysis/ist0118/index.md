@@ -5,7 +5,7 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-This message occurs when the port doesn't follow the [Istio service port naming convention](/docs/ops/configuration/traffic-management/protocol-selection/)
+This message occurs when the port doesn't follow the [Istio service port naming convention](/pt-br/docs/ops/configuration/traffic-management/protocol-selection/)
 or the port is unnamed.
 
 ## Example
@@ -39,7 +39,7 @@ In this example, the port name `foo-http` does not follow the syntax: `name: <pr
 ## How to resolve
 
 - If you know the protocol the service port is serving, rename the port with `<protocol>[-<suffix>]` format;
-- If you don't know the protocol the service port is serving, you need to [query metrics from Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
+- If you don't know the protocol the service port is serving, you need to [query metrics from Prometheus](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
     - Run query `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200"}[TIME_RANGE]`. If you are using Telemetry metric overrides,
       you can also run query `istio_requests_total{reporter="destination",destination_service_name="SERVICE_NAME",response_code="200",destination_port="TARGET_PORT"}[TIME_RANGE]`.
     - If there are outputs, you can find the `request_protocol` from the record. E.g., if the `request_protocol` is "http", rename port to "http-foo";

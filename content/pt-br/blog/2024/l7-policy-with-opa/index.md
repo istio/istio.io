@@ -21,7 +21,7 @@ When integrated with Istio, OPA can be used to enforce fine-grained access contr
 - A Kubernetes cluster with Istio installed.
 - The `istioctl` command-line tool installed.
 
-Install Istio and configure your [mesh options](/docs/reference/config/istio.mesh.v1alpha1/) to enable OPA:
+Install Istio and configure your [mesh options](/pt-br/docs/reference/config/istio.mesh.v1alpha1/) to enable OPA:
 
 {{< text bash >}}
 $ istioctl install -y -f - <<'EOF'

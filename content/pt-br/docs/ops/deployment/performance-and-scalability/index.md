@@ -59,7 +59,7 @@ However, this part is inherently horizontally scalable.
 You can increase the number of Istiod instances to reduce the amount of time it takes for the configuration
 to reach all proxies.
 
-At large scale, [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping) is highly recommended.
+At large scale, [configuration scoping](/pt-br/docs/ops/configuration/mesh/configuration-scoping) is highly recommended.
 
 ## Data plane performance
 

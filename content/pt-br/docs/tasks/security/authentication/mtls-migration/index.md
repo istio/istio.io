@@ -12,11 +12,11 @@ test: yes
 This task shows how to ensure your workloads only communicate using mutual TLS as they are migrated to
 Istio.
 
-Istio automatically configures workload sidecars to use [mutual TLS](/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) when calling other workloads. By default, Istio configures the destination workloads using `PERMISSIVE` mode.
+Istio automatically configures workload sidecars to use [mutual TLS](/pt-br/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) when calling other workloads. By default, Istio configures the destination workloads using `PERMISSIVE` mode.
 When `PERMISSIVE` mode is enabled, a service can accept both plaintext and mutual TLS traffic. In order to only allow
 mutual TLS traffic, the configuration needs to be changed to `STRICT` mode.
 
-You can use the [Grafana dashboard](/docs/tasks/observability/metrics/using-istio-dashboard/) to
+You can use the [Grafana dashboard](/pt-br/docs/tasks/observability/metrics/using-istio-dashboard/) to
 check which workloads are still sending plaintext traffic to the workloads in `PERMISSIVE` mode and choose to lock
 them down once the migration is done.
 
@@ -24,12 +24,12 @@ them down once the migration is done.
 
 <!-- TODO: update the link after other PRs are merged -->
 
-* Understand Istio [authentication policy](/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/docs/concepts/security/#mutual-tls-authentication) concepts.
+* Understand Istio [authentication policy](/pt-br/docs/concepts/security/#authentication-policies) and related [mutual TLS authentication](/pt-br/docs/concepts/security/#mutual-tls-authentication) concepts.
 
-* Read the [authentication policy task](/docs/tasks/security/authentication/authn-policy) to
+* Read the [authentication policy task](/pt-br/docs/tasks/security/authentication/authn-policy) to
   learn how to configure authentication policy.
 
-* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (for example, use the `default` configuration profile as described in [installation steps](/docs/setup/getting-started)).
+* Have a Kubernetes cluster with Istio installed, without global mutual TLS enabled (for example, use the `default` configuration profile as described in [installation steps](/pt-br/docs/setup/getting-started)).
 
 In this task, you can try out the migration process by creating sample workloads and modifying
 the policies to enforce STRICT mutual TLS between the workloads.
@@ -127,7 +127,7 @@ respectively.
 
 If you can't migrate all your services to Istio (i.e., inject Envoy sidecar in all of them), you will need to continue to use `PERMISSIVE` mode.
 However, when configured with `PERMISSIVE` mode, no authentication or authorization checks will be performed for plaintext traffic by default.
-We recommend you use [Istio Authorization](/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
+We recommend you use [Istio Authorization](/pt-br/docs/tasks/security/authorization/authz-http/) to configure different paths with different authorization policies.
 
 ## Lock down mutual TLS for the entire mesh
 

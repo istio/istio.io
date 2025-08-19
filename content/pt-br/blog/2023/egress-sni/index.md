@@ -410,7 +410,7 @@ $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://en.wikipedia.org
 
 We could reach both English and German `wikipedia.org` subdomains, great!
 
-Normally, in a production environment, we would [block external requests](/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy) that are not configured to redirect through the egress gateway, but since we didn't do that in our test environment, let's access another external site for comparison:
+Normally, in a production environment, we would [block external requests](/pt-br/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy) that are not configured to redirect through the egress gateway, but since we didn't do that in our test environment, let's access another external site for comparison:
 
 {{< text bash >}}
 $ kubectl exec "$SOURCE_POD" -c sleep -- sh -c 'curl -s https://cloud.ibm.com/login | grep -o "<title>.*</title>"'

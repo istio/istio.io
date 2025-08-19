@@ -28,25 +28,25 @@ Here are some of the highlights of the release:
 
 ### External Authorization Promoted to Beta
 
-Istio's External Authorization feature has been promoted to Beta. For more information, see the [External Authorization](/docs/tasks/security/authorization/authz-custom/) documentation.
+Istio's External Authorization feature has been promoted to Beta. For more information, see the [External Authorization](/pt-br/docs/tasks/security/authorization/authz-custom/) documentation.
 
 ### Kubernetes Gateway API Implementation Promoted to Beta
 
 Istio's implementation of the [Gateway API](https://gateway-api.sigs.k8s.io/) has been promoted to Beta.
-This is a significant step toward our goal of making the Gateway API the default API for traffic management [in the future](/blog/2022/gateway-api-beta/).
+This is a significant step toward our goal of making the Gateway API the default API for traffic management [in the future](/pt-br/blog/2022/gateway-api-beta/).
 
 Along with the Beta promotion, we have enhanced all of our
-[ingress tasks](/docs/tasks/traffic-management/ingress/) to include parallel instructions for
+[ingress tasks](/pt-br/docs/tasks/traffic-management/ingress/) to include parallel instructions for
 configuring ingress using either the Gateway API or the Istio configuration API.
 Also, although using the Gateway API for more generally configuring internal mesh traffic is still an
 [experimental feature](https://gateway-api.sigs.k8s.io/concepts/versioning/#release-channels-eg-experimental-standard)
 of the Gateway API, pending [upstream agreement](https://gateway-api.sigs.k8s.io/contributing/gamma/),
 several other Istio documents have been updated with Gateway API instructions to allow early experimentation.
-Refer to the [Gateway API task](/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
+Refer to the [Gateway API task](/pt-br/docs/tasks/traffic-management/ingress/gateway-api/) for more information.
 
 ### JWT Claim Based Routing Promoted to Alpha
 
-Istio's JWT Claim Based Routing feature has been promoted to Alpha. For more information, see the [JWT Claim Based Routing](/docs/tasks/security/authentication/jwt-route/) documentation.
+Istio's JWT Claim Based Routing feature has been promoted to Alpha. For more information, see the [JWT Claim Based Routing](/pt-br/docs/tasks/security/authentication/jwt-route/) documentation.
 
 ### HBONE for Sidecars and Ingress (Experimental)
 

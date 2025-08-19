@@ -10,7 +10,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-This task shows you how to set up an Istio authorization policy using a new [experimental annotation `istio.io/dry-run`](/docs/reference/config/annotations/)
+This task shows you how to set up an Istio authorization policy using a new [experimental annotation `istio.io/dry-run`](/pt-br/docs/reference/config/annotations/)
 to dry-run the policy without actually enforcing it.
 
 The dry-run annotation allows you to better understand the effect of an authorization policy before applying it to
@@ -20,14 +20,14 @@ the production traffic. This helps to reduce the risk of breaking the production
 
 Before you begin this task, do the following:
 
-* Read the [Istio authorization concepts](/docs/concepts/security/#authorization).
+* Read the [Istio authorization concepts](/pt-br/docs/concepts/security/#authorization).
 
-* Follow the [Istio installation guide](/docs/setup/install) to install Istio.
+* Follow the [Istio installation guide](/pt-br/docs/setup/install) to install Istio.
 
-* Deploy Zipkin for checking dry-run tracing results. Follow the [Zipkin task](/docs/tasks/observability/distributed-tracing/zipkin/)
+* Deploy Zipkin for checking dry-run tracing results. Follow the [Zipkin task](/pt-br/docs/tasks/observability/distributed-tracing/zipkin/)
   to install Zipkin in the cluster.
 
-* Deploy Prometheus for checking dry-run metric results. Follow the [Prometheus task](/docs/tasks/observability/metrics/querying-metrics/)
+* Deploy Prometheus for checking dry-run metric results. Follow the [Prometheus task](/pt-br/docs/tasks/observability/metrics/querying-metrics/)
   to install the Prometheus in the cluster.
 
 * Deploy test workloads:
@@ -115,7 +115,7 @@ $ kubectl logs "$(kubectl -n foo -l app=httpbin get pods -o jsonpath={.items..me
 ...
 {{< /text >}}
 
-Also see the [troubleshooting guide](/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
+Also see the [troubleshooting guide](/pt-br/docs/ops/common-problems/security-issues/#ensure-proxies-enforce-policies-correctly) for more details of the logging.
 
 ## Check dry-run result in metric using Prometheus
 
