@@ -20,8 +20,12 @@ The third seat was won by **Rama Chavali**, a long-time contributor and maintain
 
 In Rama's own words:
 
-> I have worked with service mesh technologies for more than eight years, contributing to various projects that built the Managed Mesh platform for Salesforce. Istio and Envoy are the backbone of the Salesforce service mesh platform, powering critical workloads. The majority of Salesforce traffic flows through Istio and Envoy.
-> I have been an active and impactful contributor to the Istio project since April 2019. My contributions span both the core control plane components of Istio and Envoy, the high-performance proxy that serves as Istio's data plane. Demonstrating a deep technical understanding and commitment to the project, I was recognized as a maintainer of Istio's control plane in January 2020. Building on this expertise in service mesh networking, I became a Networking Working Group lead in July 2020.
-> Throughout my tenure, I have been instrumental in shaping the Istio project through the development and implementation of numerous significant features and architectural designs.
+{{< quote >}}
+I have worked with service mesh technologies for more than eight years, contributing to various projects that built the Managed Mesh platform for Salesforce. Istio and Envoy are the backbone of the Salesforce service mesh platform, powering critical workloads. The majority of Salesforce traffic flows through Istio and Envoy.
+
+I have been an active and impactful contributor to the Istio project since April 2019. My contributions span both the core control plane components of Istio and Envoy, the high-performance proxy that serves as Istio's data plane. Demonstrating a deep technical understanding and commitment to the project, I was recognized as a maintainer of Istio's control plane in January 2020. Building on this expertise in service mesh networking, I became a Networking Working Group lead in July 2020.
+
+Throughout my tenure, I have been instrumental in shaping the Istio project through the development and implementation of numerous significant features and architectural designs.
+{{< /quote >}}
 
 On behalf of the Istio community, I congratulate Rama on his election to the TOC and look forward to his continued leadership and impact.
