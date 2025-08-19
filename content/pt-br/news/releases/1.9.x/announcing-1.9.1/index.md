@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.1 patch release.
 publishdate: 2021-03-01
 release: 1.9.1
-aliases:
-    - /news/announcing-1.9.1
 ---
 
 This release fixes the security vulnerability described in [our March 1st, 2021 news post](/pt-br/news/security/istio-security-2021-001)

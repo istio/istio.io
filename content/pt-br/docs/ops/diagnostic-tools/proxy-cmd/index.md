@@ -3,10 +3,6 @@ title: Debugging Envoy and Istiod
 description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
-aliases:
-    - /help/ops/traffic-management/proxy-cmd
-    - /help/ops/misc
-    - /help/ops/troubleshooting/proxy-cmd
 owner: istio/wg-user-experience-maintainers
 test: no
 ---

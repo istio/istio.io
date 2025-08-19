@@ -3,8 +3,6 @@ title: Traffic Shifting
 description: Shows you how to migrate traffic from an old to new version of a service.
 weight: 30
 keywords: [traffic-management,traffic-shifting]
-aliases:
-    - /docs/tasks/traffic-management/version-migration.html
 owner: istio/wg-networking-maintainers
 test: yes
 ---

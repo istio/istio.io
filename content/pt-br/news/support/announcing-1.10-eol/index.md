@@ -3,8 +3,6 @@ title: Support for Istio 1.10 ends on December 30th, 2021
 subtitle: Support Announcement
 description: Upcoming Istio 1.10 end of life announcement.
 publishdate: 2021-11-19
-aliases:
-- /news/2021/announcing-1.10-eol
 ---
 
 According to Istio's [extended support policy](/pt-br/blog/2021/extended-support/), minor releases like 1.10 are supported until six weeks after the N+2 minor release (1.12 in this case). [Istio 1.12 was released on November 18th](/pt-br/news/releases/1.12.x/announcing-1.12/), and support for 1.10 will end on December 30th, 2021.

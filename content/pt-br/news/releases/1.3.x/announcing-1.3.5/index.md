@@ -5,9 +5,6 @@ description: Istio 1.3.5 patch release.
 publishdate: 2019-11-11
 subtitle: Patch Release
 release: 1.3.5
-aliases:
-    - /news/2019/announcing-1.3.5
-    - /news/announcing-1.3.5
 ---
 
 This release contains fixes for the security vulnerability described in [our November 11, 2019 news post](/pt-br/news/security/istio-security-2019-006)  as well as bug fixes to improve robustness. This release note describes what's different between Istio 1.3.4 and Istio 1.3.5.

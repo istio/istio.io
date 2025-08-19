@@ -3,7 +3,6 @@ title: SPIRE
 description: How to configure Istio to integrate with SPIRE to get cryptographic identities through Envoy's SDS API.
 weight: 31
 keywords: [kubernetes,spiffe,spire]
-aliases:
 owner: istio/wg-networking-maintainers
 test: yes
 ---

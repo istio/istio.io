@@ -3,9 +3,6 @@ title: IBM Cloud
 description: Instructions to set up an IBM Cloud cluster for Istio.
 weight: 25
 skip_seealso: true
-aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/ibm/
-    - /docs/setup/kubernetes/platform-setup/ibm/
 keywords: [platform-setup,ibm,iks]
 owner: istio/wg-environments-maintainers
 test: no

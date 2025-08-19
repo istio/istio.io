@@ -2,9 +2,6 @@
 title: Follow Formatting Standards
 description: Explains the standard markup used to format Istio documentation.
 weight: 10
-aliases:
-    - /about/contribute/formatting
-    - /latest/about/contribute/formatting
 keywords: [contribute]
 owner: istio/wg-docs-maintainers
 test: n/a

@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.13.4 patch release.
 publishdate: 2022-05-17
 release: 1.13.4
-aliases:
-    - /news/announcing-1.13.4
 ---
 
 This release contains bug fixes to improve robustness.

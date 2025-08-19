@@ -3,8 +3,6 @@ title: Overview
 description: Overview of distributed tracing in Istio.
 weight: 1
 keywords: [telemetry,tracing]
-aliases:
- - /docs/tasks/telemetry/distributed-tracing/overview/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---

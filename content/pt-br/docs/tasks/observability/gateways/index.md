@@ -3,8 +3,6 @@ title: Remotely Accessing Telemetry Addons
 description: This task shows you how to configure external access to the set of Istio telemetry addons.
 weight: 98
 keywords: [telemetry,gateway,jaeger,zipkin,tracing,kiali,prometheus,addons]
-aliases:
- - /docs/tasks/telemetry/gateways/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---

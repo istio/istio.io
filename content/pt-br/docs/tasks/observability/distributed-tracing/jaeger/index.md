@@ -3,8 +3,6 @@ title: Jaeger
 description: Learn how to configure the proxies to send tracing requests to Jaeger.
 weight: 6
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
-aliases:
- - /docs/tasks/telemetry/distributed-tracing/jaeger/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---

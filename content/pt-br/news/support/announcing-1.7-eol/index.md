@@ -3,8 +3,6 @@ title: Support for Istio 1.7 ends on February 19th, 2021
 subtitle: Support Announcement
 description: Upcoming Istio 1.7 end of life announcement.
 publishdate: 2021-01-19
-aliases:
-    - /news/2021/announcing-1.7-eol
 ---
 
 According to Istio's [support policy](/pt-br/docs/releases/supported-releases#supported-releases/), LTS releases like 1.7 are supported for three months after the next LTS release. Since [1.8 was released on November 19th](/pt-br/news/releases/1.8.x/announcing-1.8/), support for 1.7 will end on February 19th, 2021.

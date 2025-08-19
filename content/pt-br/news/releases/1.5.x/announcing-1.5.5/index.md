@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.5.5 security release.
 publishdate: 2020-06-11
 release: 1.5.5
-aliases:
-    - /news/announcing-1.5.5
 ---
 
 This release fixes the security vulnerability described in [our June 11th, 2020 news post](/pt-br/news/security/istio-security-2020-006).

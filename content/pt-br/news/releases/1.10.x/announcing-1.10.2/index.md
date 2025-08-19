@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.10.2 patch release.
 publishdate: 2021-06-24
 release: 1.10.2
-aliases:
-    - /news/announcing-1.10.2
 ---
 
 This release fixes the security vulnerabilities described in our June 24th post, [ISTIO-SECURITY-2021-007](/pt-br/news/security/istio-security-2021-007) as

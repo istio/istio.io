@@ -2,15 +2,6 @@
 title: Contribute Documentation
 description: Details how to create and maintain Istio documentation pages.
 weight: 100
-aliases:
-    - /docs/welcome/contribute/writing-a-new-topic.html
-    - /docs/welcome/contribute/index.html
-    - /docs/reference/contribute/writing-a-new-topic.html
-    - /about/contribute/writing-a-new-topic.html
-    - /about/contribute/creating-and-editing-pages
-    - /create
-    - /about/contribute
-    - /latest/about/contribute
 keywords: [contribute, github, docs, shortcodes, code-blocks, website]
 list_below: true
 owner: istio/wg-docs-maintainers

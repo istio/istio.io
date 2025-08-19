@@ -3,8 +3,6 @@ title: Deployment Best Practices
 description: General best practices when setting up an Istio service mesh.
 force_inline_toc: true
 weight: 10
-aliases:
-  - /docs/ops/prep/deployment
 owner: istio/wg-environments-maintainers
 test: n/a
 ---

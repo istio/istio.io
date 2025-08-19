@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.6 patch release.
 publishdate: 2021-06-24
 release: 1.9.6
-aliases:
-    - /news/announcing-1.9.6
 ---
 
 This release fixes the security vulnerabilities described in our June 24th post, [ISTIO-SECURITY-2021-007](/pt-br/news/security/istio-security-2021-007) as

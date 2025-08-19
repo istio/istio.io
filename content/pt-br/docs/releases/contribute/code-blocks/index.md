@@ -2,9 +2,6 @@
 title: Add Code Blocks
 description: Explains how to include code in your documentation.
 weight: 8
-aliases:
-  - /about/contribute/code-blocks
-  - /latest/about/contribute/code-blocks
 keywords: [contribute, documentation, guide, code-block]
 owner: istio/wg-docs-maintainers
 test: n/a

@@ -5,9 +5,6 @@ subtitle: Major Release
 description: Istio 1.24 Release Announcement.
 publishdate: 2024-11-07
 release: 1.24.0
-aliases:
-- /news/announcing-1.24
-- /news/announcing-1.24.0
 ---
 
 We are pleased to announce the release of Istio 1.24. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.24.0 release published!

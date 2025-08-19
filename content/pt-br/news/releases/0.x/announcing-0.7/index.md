@@ -5,11 +5,6 @@ subtitle: Major Update
 description: Istio 0.7 announcement.
 publishdate: 2018-03-28
 release: 0.7.0
-aliases:
-    - /about/notes/0.7
-    - /about/notes/0.7/index.html
-    - /news/2018/announcing-0.7
-    - /news/announcing-0.7
 ---
 
 For this release, we focused on improving our build and test infrastructures and increasing the

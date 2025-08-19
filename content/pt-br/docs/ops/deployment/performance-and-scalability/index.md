@@ -7,16 +7,6 @@ keywords:
   - scalability
   - scale
   - benchmarks
-aliases:
-  - /docs/performance-and-scalability/overview
-  - /docs/performance-and-scalability/microbenchmarks
-  - /docs/performance-and-scalability/performance-testing-automation
-  - /docs/performance-and-scalability/realistic-app-benchmark
-  - /docs/performance-and-scalability/scalability
-  - /docs/performance-and-scalability/scenarios
-  - /docs/performance-and-scalability/synthetic-benchmarks
-  - /docs/concepts/performance-and-scalability
-  - /docs/ops/performance-and-scalability
 owner: istio/wg-environments-maintainers
 test: n/a
 ---

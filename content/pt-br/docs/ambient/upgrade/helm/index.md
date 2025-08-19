@@ -2,11 +2,6 @@
 title: Upgrade with Helm
 description: Upgrading an ambient mode installation with Helm.
 weight: 5
-aliases:
-  - /docs/ops/ambient/upgrade/helm-upgrade
-  - /latest/docs/ops/ambient/upgrade/helm-upgrade
-  - /docs/ambient/upgrade/helm
-  - /latest/docs/ambient/upgrade/helm
 owner: istio/wg-environments-maintainers
 test: yes
 ---

@@ -2,9 +2,6 @@
 title: Getting Started
 description: Try Istio’s features quickly and easily.
 weight: 5
-aliases:
-    - /docs/setup/additional-setup/getting-started/
-    - /latest/docs/setup/additional-setup/getting-started/
 keywords: [getting-started, install, bookinfo, quick-start, kubernetes, gateway-api]
 owner: istio/wg-environments-maintainers
 test: yes

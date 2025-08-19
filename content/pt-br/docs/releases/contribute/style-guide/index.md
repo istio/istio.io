@@ -2,11 +2,6 @@
 title: Style Guide
 description: Explains the style conventions used in the Istio documentation.
 weight: 11
-aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
-    - /about/contribute/style-guide
-    - /latest/about/contribute/style-guide
 keywords: [contribute]
 owner: istio/wg-docs-maintainers
 test: n/a

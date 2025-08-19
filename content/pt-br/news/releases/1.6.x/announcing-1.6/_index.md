@@ -6,9 +6,6 @@ description: Istio 1.6 release announcement.
 publishdate: 2020-05-21
 release: 1.6.0
 skip_list: true
-aliases:
-    - /news/announcing-1.6.0
-    - /news/announcing-1.6
 ---
 
 We are pleased to announce the release of Istio 1.6!

@@ -2,8 +2,6 @@
 title: Kubernetes Gardener
 description: Instructions to set up a Gardener cluster for Istio.
 weight: 35
-aliases:
-    - /docs/setup/kubernetes/platform-setup/gardener/
 skip_seealso: true
 keywords: [platform-setup,kubernetes,gardener,sap]
 owner: istio/wg-environments-maintainers

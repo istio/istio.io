@@ -3,8 +3,6 @@ title: Support for Istio 1.6 ends on November 21st, 2020
 subtitle: Support Announcement
 description: Upcoming Istio 1.6 end of life announcement.
 publishdate: 2020-10-20
-aliases:
-    - /news/2020/announcing-1.6-eol
 ---
 
 According to Istio's [support policy](/pt-br/docs/releases/supported-releases#supported-releases/), LTS releases like 1.6 are supported for three months after the next LTS release. Since [1.7 was released on August 21st](/pt-br/news/releases/1.7.x/announcing-1.7/), support for 1.6 will end on November 21st, 2020.

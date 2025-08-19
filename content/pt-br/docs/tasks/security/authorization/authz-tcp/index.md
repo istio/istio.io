@@ -3,8 +3,6 @@ title: TCP Traffic
 description: Shows how to set up access control for TCP traffic.
 weight: 20
 keywords: [security,access-control,rbac,tcp,authorization]
-aliases:
-    - /docs/tasks/security/authz-tcp/
 owner: istio/wg-security-maintainers
 test: no
 ---

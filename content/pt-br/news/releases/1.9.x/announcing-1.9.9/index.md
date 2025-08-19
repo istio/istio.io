@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.9 patch release.
 publishdate: 2021-10-08
 release: 1.9.9
-aliases:
-    - /news/announcing-1.9.9
 ---
 
 This is the final release of Istio 1.9. We urge you to upgrade to the latest Istio supported version, Istio ({{<istio_release_name>}}).

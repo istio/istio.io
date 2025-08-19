@@ -2,13 +2,6 @@
 title: Feature Status
 description: List of features and their release stages.
 weight: 10
-aliases:
-    - /docs/reference/release-roadmap.html
-    - /docs/reference/feature-stages.html
-    - /docs/welcome/feature-stages.html
-    - /docs/home/roadmap.html
-    - /about/feature-stages
-    - /latest/about/feature-stages
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

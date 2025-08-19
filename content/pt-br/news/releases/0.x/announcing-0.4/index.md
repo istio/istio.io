@@ -5,12 +5,6 @@ subtitle: Major Update
 description: Istio 0.4 announcement.
 publishdate: 2017-12-18
 release: 0.4.0
-aliases:
-    - /about/notes/older/0.4
-    - /docs/welcome/notes/0.4.html
-    - /about/notes/0.4/index.html
-    - /news/2017/announcing-0.4
-    - /news/announcing-0.4
 ---
 
 This release has only got a few weeks' worth of changes, as we stabilize our monthly release process.

@@ -5,8 +5,6 @@ weight: 50
 keywords: [telemetry,metrics]
 owner: istio/wg-user-experience-maintainers
 test: n/a
-aliases:
-    - /docs/reference/config/telemetry/metrics/
 ---
 
 The following are the standard service level metrics exported by Istio.

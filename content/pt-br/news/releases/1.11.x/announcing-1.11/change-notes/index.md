@@ -6,8 +6,6 @@ description: Istio 1.11.0 release notes.
 publishdate: 2021-08-12
 release: 1.11.0
 weight: 10
-aliases:
-    - /news/announcing-1.11.0
 ---
 
 ## Traffic Management

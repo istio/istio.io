@@ -3,8 +3,6 @@ title: Support for Istio 1.2 has ended
 subtitle: Support Announcement
 description: Istio 1.2 end of life announcement.
 publishdate: 2019-12-13
-aliases:
-    - /news/2019/announcing-1.2-eol-final
 ---
 
 As [previously announced](/pt-br/news/support/announcing-1.2-eol/), support for Istio 1.2 has now officially ended.

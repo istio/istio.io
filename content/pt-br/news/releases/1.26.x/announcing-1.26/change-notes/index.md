@@ -6,9 +6,6 @@ description: Istio 1.26.0 release notes.
 publishdate: 2025-05-08
 release: 1.26.0
 weight: 10
-aliases:
-    - /news/announcing-1.26.0
-    - /news/announcing-1.26.x
 ---
 
 ## Traffic Management

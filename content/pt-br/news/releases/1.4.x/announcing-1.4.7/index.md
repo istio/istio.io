@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.7 patch release.
 publishdate: 2020-03-25
 release: 1.4.7
-aliases:
-    - /news/announcing-1.4.7
 ---
 
 This release contains fixes for the security vulnerabilities described in [our March 25th, 2020 news post](/pt-br/news/security/istio-security-2020-004). This release note describes what’s different between Istio 1.4.6 and Istio 1.4.7.

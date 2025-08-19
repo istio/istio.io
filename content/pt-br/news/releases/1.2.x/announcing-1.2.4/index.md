@@ -5,11 +5,6 @@ subtitle: Patch Release
 description: Istio 1.2.4 patch release.
 publishdate: 2019-08-13
 release: 1.2.4
-aliases:
-    - /about/notes/1.2.4
-    - /blog/2019/announcing-1.2.4
-    - /news/2019/announcing-1.2.4
-    - /news/announcing-1.2.4
 ---
 
 We're pleased to announce the availability of Istio 1.2.4. Please see below for what's changed.

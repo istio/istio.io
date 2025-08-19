@@ -6,9 +6,6 @@ description: Istio 1.5 release announcement.
 publishdate: 2020-03-05
 release: 1.5.0
 skip_list: true
-aliases:
-    - /news/announcing-1.5.0
-    - /news/announcing-1.5
 ---
 
 We are pleased to announce the release of Istio 1.5!

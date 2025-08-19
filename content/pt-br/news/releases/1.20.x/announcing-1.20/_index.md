@@ -5,9 +5,6 @@ subtitle: Major Release
 description: Istio 1.20 Release Announcement.
 publishdate: 2023-11-14
 release: 1.20.0
-aliases:
-- /news/announcing-1.20
-- /news/announcing-1.20.0
 ---
 
 We are pleased to announce the release of Istio 1.20. This is the last Istio release of 2023. We would like to thank the

@@ -3,9 +3,6 @@ title: Istiod Introspection
 description: Describes how to use ControlZ to get insight into a running istiod component.
 weight: 60
 keywords: [ops]
-aliases:
-  - /help/ops/controlz
-  - /docs/ops/troubleshooting/controlz
 owner: istio/wg-user-experience-maintainers
 test: no
 ---

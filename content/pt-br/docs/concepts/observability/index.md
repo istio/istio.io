@@ -3,13 +3,6 @@ title: Observability
 description: Describes the telemetry and monitoring features provided by Istio.
 weight: 40
 keywords: [telemetry,metrics,logs,tracing]
-aliases:
-    - /docs/concepts/policy-and-control/mixer.html
-    - /docs/concepts/policy-and-control/mixer-config.html
-    - /docs/concepts/policy-and-control/attributes.html
-    - /docs/concepts/policies-and-telemetry/overview/
-    - /docs/concepts/policies-and-telemetry/config/
-    - /docs/concepts/policies-and-telemetry/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---

@@ -3,8 +3,6 @@ title: Support for Istio 1.8 ends on May 12th, 2021
 subtitle: Support Announcement
 description: Upcoming Istio 1.8 end of life announcement.
 publishdate: 2021-04-12
-aliases:
-    - /news/2021/announcing-1.8-eol
 ---
 
 According to Istio's [support policy](/pt-br/docs/releases/supported-releases#supported-releases/), minor releases like 1.8 are supported for three months after the next minor release. Since [1.9 was released on February 9th](/pt-br/news/releases/1.9.x/announcing-1.9/), support for 1.8 will end on May 12th, 2021.

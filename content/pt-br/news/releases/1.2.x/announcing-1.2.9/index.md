@@ -5,9 +5,6 @@ subtitle: Patch Release
 description: Istio 1.2.9 patch release.
 publishdate: 2019-11-06
 release: 1.2.9
-aliases:
-    - /news/2019/announcing-1.2.9
-    - /news/announcing-1.2.9
 ---
 
 We're pleased to announce the availability of Istio 1.2.9. Please see below for what's changed.

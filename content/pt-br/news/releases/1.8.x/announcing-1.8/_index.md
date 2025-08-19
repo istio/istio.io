@@ -6,9 +6,6 @@ description: Istio 1.8 release announcement.
 publishdate: 2020-11-19
 release: 1.8.0
 skip_list: true
-aliases:
-    - /news/announcing-1.8
-    - /news/announcing-1.8.0
 ---
 
 We are pleased to announce the release of Istio 1.8!

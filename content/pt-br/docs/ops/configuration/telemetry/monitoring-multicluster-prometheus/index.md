@@ -2,9 +2,6 @@
 title: Monitoring Multicluster Istio with Prometheus
 description: Configure Prometheus to monitor multicluster Istio.
 weight: 10
-aliases:
-  - /help/ops/telemetry/monitoring-multicluster-prometheus
-  - /docs/ops/telemetry/monitoring-multicluster-prometheus
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---

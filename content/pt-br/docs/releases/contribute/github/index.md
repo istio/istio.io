@@ -2,15 +2,6 @@
 title: Work with GitHub
 description: Shows you how to use GitHub to contribute to the Istio documentation.
 weight: 2
-aliases:
-    - /docs/welcome/contribute/creating-a-pull-request.html
-    - /docs/welcome/contribute/staging-your-changes.html
-    - /docs/welcome/contribute/editing.html
-    - /about/contribute/creating-a-pull-request
-    - /about/contribute/editing
-    - /about/contribute/staging-your-changes
-    - /about/contribute/github
-    - /latest/about/contribute/github
 keywords: [contribute,community,github,pr]
 owner: istio/wg-docs-maintainers
 test: n/a

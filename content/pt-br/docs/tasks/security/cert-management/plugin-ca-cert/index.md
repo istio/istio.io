@@ -3,8 +3,6 @@ title: Plug in CA Certificates
 description: Shows how system administrators can configure Istio's CA with a root certificate, signing certificate and key.
 weight: 80
 keywords: [security,certificates]
-aliases:
-    - /docs/tasks/security/plugin-ca-cert/
 owner: istio/wg-security-maintainers
 test: yes
 ---

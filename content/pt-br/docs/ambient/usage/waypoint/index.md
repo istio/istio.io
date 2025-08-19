@@ -2,9 +2,6 @@
 title: Configure waypoint proxies
 description: Gain the full set of Istio features with optional Layer 7 proxies.
 weight: 30
-aliases:
-  - /docs/ops/ambient/usage/waypoint
-  - /latest/docs/ops/ambient/usage/waypoint
 owner: istio/wg-networking-maintainers
 test: yes
 ---

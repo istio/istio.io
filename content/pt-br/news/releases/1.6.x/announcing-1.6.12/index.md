@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.6.12 patch release.
 publishdate: 2020-10-06
 release: 1.6.12
-aliases:
-    - /news/announcing-1.6.12
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.6.11 and Istio 1.6.12

@@ -6,11 +6,6 @@ description: Istio 1.3 release announcement.
 publishdate: 2019-09-12
 release: 1.3.0
 skip_list: true
-aliases:
-    - /blog/2019/announcing-1.3
-    - /news/2019/announcing-1.3
-    - /news/announcing-1.3.0
-    - /news/announcing-1.3
 ---
 
 We are pleased to announce the release of Istio 1.3!

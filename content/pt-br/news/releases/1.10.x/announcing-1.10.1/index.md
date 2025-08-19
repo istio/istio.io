@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.10.1 patch release.
 publishdate: 2021-06-09
 release: 1.10.1
-aliases:
-    - /news/announcing-1.10.1
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.10.0 and Istio 1.10.1.

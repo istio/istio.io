@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.8 patch release.
 publishdate: 2021-08-24
 release: 1.9.8
-aliases:
-    - /news/announcing-1.9.8
 ---
 
 This release fixes the security vulnerabilities described in our August 24th post, [ISTIO-SECURITY-2021-008](/pt-br/news/security/istio-security-2021-008) as

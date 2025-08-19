@@ -4,10 +4,6 @@ description: Techniques to address common Istio authentication, authorization, a
 force_inline_toc: true
 weight: 20
 keywords: [security,citadel]
-aliases:
-    - /help/ops/security/repairing-citadel
-    - /help/ops/troubleshooting/repairing-citadel
-    - /docs/ops/troubleshooting/repairing-citadel
 owner: istio/wg-security-maintainers
 test: n/a
 ---

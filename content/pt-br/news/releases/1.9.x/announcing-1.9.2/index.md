@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.2 patch release.
 publishdate: 2021-03-25
 release: 1.9.2
-aliases:
-    - /news/announcing-1.9.2
 ---
 
 This release note describes what’s different between Istio 1.9.1 and Istio 1.9.2.

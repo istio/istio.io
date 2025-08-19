@@ -3,8 +3,6 @@ title: Using an External HTTPS Proxy
 description: Describes how to configure Istio to let applications use an external HTTPS proxy.
 weight: 60
 keywords: [traffic-management,egress]
-aliases:
-  - /docs/examples/advanced-gateways/http-proxy/
 owner: istio/wg-networking-maintainers
 test: yes
 ---

@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.10 security release.
 publishdate: 2020-06-22
 release: 1.4.10
-aliases:
-    - /news/announcing-1.4.10
 ---
 
 This is the final release for Istio 1.4.

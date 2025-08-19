@@ -2,9 +2,6 @@
 title: Install Istio with Pod Security Admission
 description: Install and use Istio with the Pod Security admission controller.
 weight: 70
-aliases:
-    - /docs/setup/kubernetes/install/pod-security-admission
-    - /docs/setup/kubernetes/additional-setup/pod-security-admission
 keywords: [psa]
 owner: istio/wg-networking-maintainers
 test: yes

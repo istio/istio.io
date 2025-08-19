@@ -6,8 +6,6 @@ description: Istio 1.22.0 release notes.
 publishdate: 2024-05-13
 release: 1.22.0
 weight: 10
-aliases:
-    - /news/announcing-1.22.0
 ---
 
 ## Deprecation Notices

@@ -2,9 +2,6 @@
 title: Supported Releases
 description: The currently supported Istio releases.
 weight: 35
-aliases:
-    - /about/supported-releases
-    - /latest/about/supported-releases
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

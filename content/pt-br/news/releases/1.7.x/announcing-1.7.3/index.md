@@ -5,8 +5,6 @@ subtitle: Security Release
 description: Istio 1.7.3 security release.
 publishdate: 2020-09-29
 release: 1.7.3
-aliases:
-    - /news/announcing-1.7.3
 ---
 
 This release fixes the security vulnerability described in [our September 29 post](/pt-br/news/security/istio-security-2020-010).

@@ -5,9 +5,6 @@ subtitle: Major Release
 description: Istio 1.21 Release Announcement.
 publishdate: 2024-03-13
 release: 1.21.0
-aliases:
-- /news/announcing-1.21
-- /news/announcing-1.21.0
 ---
 
 We are pleased to announce the release of Istio 1.21. This is the first Istio release of 2024. We would like to thank the

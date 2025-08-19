@@ -6,9 +6,6 @@ description: Istio 1.9 release announcement.
 publishdate: 2021-02-09
 release: 1.9.0
 skip_list: true
-aliases:
-    - /news/announcing-1.9
-    - /news/announcing-1.9.0
 ---
 
 We are pleased to announce the release of Istio 1.9!

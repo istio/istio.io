@@ -2,9 +2,6 @@
 title: Authorization Policy Conditions
 description: Describes the supported conditions in authorization policies.
 weight: 30
-aliases:
-    - /docs/reference/config/security/conditions/
-    - /docs/reference/config/security/constraints-and-properties/
 owner: istio/wg-security-maintainers
 test: n/a
 ---

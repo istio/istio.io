@@ -3,10 +3,6 @@ title: Docker Desktop
 description: Instructions to set up Docker Desktop for Istio.
 weight: 15
 skip_seealso: true
-aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/docker-for-desktop/
-    - /docs/setup/kubernetes/prepare/platform-setup/docker/
-    - /docs/setup/kubernetes/platform-setup/docker/
 keywords: [platform-setup,kubernetes,docker-desktop]
 owner: istio/wg-environments-maintainers
 test: no

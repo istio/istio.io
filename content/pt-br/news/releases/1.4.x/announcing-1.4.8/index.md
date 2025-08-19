@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.8 patch release.
 publishdate: 2020-04-23
 release: 1.4.8
-aliases:
-    - /news/announcing-1.4.8
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what’s different

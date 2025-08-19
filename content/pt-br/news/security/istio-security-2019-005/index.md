@@ -10,8 +10,6 @@ releases: ["1.1 to 1.1.15", "1.2 to 1.2.6", "1.3 to 1.3.1"]
 publishdate: 2019-10-08
 keywords: [CVE]
 skip_seealso: true
-aliases:
-    - /news/2019/istio-security-2019-005
 ---
 
 {{< security_bulletin >}}

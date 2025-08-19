@@ -4,14 +4,6 @@ linktitle: 0.2
 description: Istio 0.2 announcement.
 publishdate: 2017-10-10
 subtitle: Improved mesh and support for multiple environments
-aliases:
-    - /blog/istio-0.2-announcement.html
-    - /about/notes/older/0.2
-    - /blog/2017/0.2-announcement
-    - /docs/welcome/notes/0.2.html
-    - /about/notes/0.2/index.html
-    - /news/2017/announcing-0.2
-    - /news/announcing-0.2
 ---
 
 We launched Istio; an open platform to connect, manage, monitor, and secure microservices, on May 24, 2017. We have been humbled by the incredible interest, and

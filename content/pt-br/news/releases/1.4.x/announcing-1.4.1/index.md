@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.1 patch release.
 publishdate: 2019-12-05
 release: 1.4.1
-aliases:
-    - /news/announcing-1.4.1
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.4.0 and Istio 1.4.1.

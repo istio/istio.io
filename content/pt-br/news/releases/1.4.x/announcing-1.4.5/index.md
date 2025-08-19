@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.5 patch release.
 publishdate: 2020-02-18
 release: 1.4.5
-aliases:
-    - /news/announcing-1.4.5
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what’s different between Istio 1.4.4 and Istio 1.4.5.

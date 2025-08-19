@@ -3,8 +3,6 @@ title: Visualizing Your Mesh
 description: This task shows you how to visualize your services within an Istio mesh.
 weight: 49
 keywords: [telemetry,visualization]
-aliases:
- - /docs/tasks/telemetry/kiali/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---

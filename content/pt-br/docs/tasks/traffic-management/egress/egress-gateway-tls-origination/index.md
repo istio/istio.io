@@ -3,10 +3,6 @@ title: Egress Gateways with TLS Origination
 description: Describes how to configure an Egress Gateway to perform TLS origination to external services.
 weight: 40
 keywords: [traffic-management,egress]
-aliases:
-  - /docs/examples/advanced-gateways/egress-gateway-tls-origination/
-  - /docs/examples/advanced-gateways/egress-gateway-tls-origination-sds/
-  - /docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds/
 owner: istio/wg-networking-maintainers
 test: yes
 ---

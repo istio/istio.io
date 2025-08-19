@@ -3,9 +3,6 @@ title: Support for Istio 1.1 ends on September 19th, 2019
 subtitle: Support Announcement
 description: Upcoming Istio 1.1 end of life announcement.
 publishdate: 2019-08-15
-aliases:
-    - /blog/2019/announcing-1.1-eol
-    - /news/2019/announcing-1.1-eol
 ---
 
 According to Istio's [support policy](/pt-br/docs/releases/supported-releases#supported-releases/), LTS releases like 1.1 are supported for three months after the next LTS release.   Since [1.2 was released on June 18th](/pt-br/news/releases/1.2.x/announcing-1.2/), support for 1.1 will end on September 19th, 2019.

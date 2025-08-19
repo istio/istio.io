@@ -5,8 +5,6 @@ description: Istio 1.3.7 patch release.
 publishdate: 2020-02-04
 subtitle: Patch Release
 release: 1.3.7
-aliases:
-    - /news/announcing-1.3.7
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what's different between Istio 1.3.6 and Istio 1.3.7.

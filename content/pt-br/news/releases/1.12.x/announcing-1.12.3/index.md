@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.12.3 patch release.
 publishdate: 2022-02-10
 release: 1.12.3
-aliases:
-    - /news/announcing-1.12.3
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.12.2 and Istio 1.12.3.

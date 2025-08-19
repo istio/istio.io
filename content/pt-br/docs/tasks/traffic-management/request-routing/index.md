@@ -2,8 +2,6 @@
 title: Request Routing
 description: This task shows you how to configure dynamic request routing to multiple versions of a microservice.
 weight: 10
-aliases:
-    - /docs/tasks/request-routing.html
 keywords: [traffic-management,routing]
 owner: istio/wg-networking-maintainers
 test: yes

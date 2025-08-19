@@ -2,9 +2,6 @@
 title: Architecture
 description: Describes Istio's high-level architecture and design goals.
 weight: 10
-aliases:
-  - /docs/concepts/architecture
-  - /docs/ops/architecture
 owner: istio/wg-environments-maintainers
 test: n/a
 ---

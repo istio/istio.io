@@ -2,9 +2,6 @@
 title: Accessing External Services
 description: Describes how to configure Istio to route traffic from services in the mesh to external services.
 weight: 10
-aliases:
-    - /docs/tasks/egress.html
-    - /docs/tasks/egress
 keywords: [traffic-management,egress]
 owner: istio/wg-networking-maintainers
 test: yes

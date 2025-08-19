@@ -3,9 +3,6 @@ title: Oracle Cloud Infrastructure
 description: Instructions to prepare a cluster for Istio using Oracle Container Engine for Kubernetes (OKE).
 weight: 60
 skip_seealso: true
-aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/oci/
-    - /docs/setup/kubernetes/platform-setup/oci/
 keywords: [platform-setup,kubernetes,oke,oci,oracle]
 owner: istio/wg-environments-maintainers
 test: no

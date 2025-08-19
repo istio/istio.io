@@ -3,8 +3,6 @@ title: Mutual TLS Migration
 description: Shows you how to incrementally migrate your Istio services to mutual TLS.
 weight: 40
 keywords: [security,authentication,migration]
-aliases:
-    - /docs/tasks/security/mtls-migration/
 owner: istio/wg-security-maintainers
 test: yes
 ---

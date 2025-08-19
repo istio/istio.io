@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.4 patch release.
 publishdate: 2021-04-27
 release: 1.9.4
-aliases:
-    - /news/announcing-1.9.4
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.9.3 and Istio 1.9.4

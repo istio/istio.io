@@ -3,9 +3,6 @@ title: Huawei Cloud
 description: Instructions to set up an Huawei Cloud kubernetes cluster for Istio.
 weight: 23
 skip_seealso: true
-aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/huaweicloud/
-    - /docs/setup/kubernetes/platform-setup/huaweicloud/
 keywords: [platform-setup,huawei,huaweicloud,cce]
 owner: istio/wg-environments-maintainers
 test: no

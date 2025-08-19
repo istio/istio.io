@@ -3,8 +3,6 @@ title: Sidecar Injection Problems
 description: Resolve common problems with Istio's use of Kubernetes webhooks for automatic sidecar injection.
 force_inline_toc: true
 weight: 40
-aliases:
-  - /docs/ops/troubleshooting/injection
 owner: istio/wg-user-experience-maintainers
 test: n/a
 ---

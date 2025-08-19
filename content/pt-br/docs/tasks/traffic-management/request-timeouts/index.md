@@ -2,8 +2,6 @@
 title: Request Timeouts
 description: This task shows you how to set up request timeouts in Envoy using Istio.
 weight: 40
-aliases:
-    - /docs/tasks/request-timeouts.html
 keywords: [traffic-management,timeouts]
 owner: istio/wg-networking-maintainers
 test: yes

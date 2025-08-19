@@ -6,9 +6,6 @@ description: Istio 1.27.0 release notes.
 publishdate: 2025-08-11
 release: 1.27.0
 weight: 10
-aliases:
-    - /news/announcing-1.27.0
-    - /news/announcing-1.27.x
 ---
 
 ## Traffic Management

@@ -6,9 +6,6 @@ publishdate: 2019-09-12
 release: 1.3
 subtitle: Minor Release
 linktitle: 1.3 Upgrade Notes
-aliases:
-    - /docs/setup/kubernetes/upgrade/notice/
-    - /docs/setup/upgrade/notice
 ---
 
 This page describes changes you need to be aware of when upgrading from

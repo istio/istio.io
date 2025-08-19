@@ -5,9 +5,6 @@ subtitle: Major Update
 description: Istio 1.17 release annoucement.
 publishdate: 2023-02-14
 release: 1.17.0
-aliases:
-    - /news/announcing-1.17
-    - /news/announcing-1.17.0
 ---
 
 We are pleased to announce the release of Istio 1.17. This is the first Istio release of 2023. We would like to thank the entire Istio community for helping get the 1.17.0 release published. We would like to thank the Release Managers for this release, `Mariam John` from IBM, `Paul Merrison` from Tetrate and `Kalya Subramanian` from Microsoft. The release managers would specially like to thank the Test & Release WG lead Eric Van Norman (IBM) for his help and guidance throughout the release cycle. We would also like to thank the maintainers of the Istio work groups and the broader Istio community for helping us throughout the release process with timely feedback, reviews, community testing and for all your support to help ensure a timely release.

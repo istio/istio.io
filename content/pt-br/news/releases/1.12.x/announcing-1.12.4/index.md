@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.12.4 patch release.
 publishdate: 2022-02-22
 release: 1.12.4
-aliases:
-    - /news/announcing-1.12.4
 ---
 
 This release fixes the security vulnerabilities described in our February 22nd post, [ISTIO-SECURITY-2022-003](/pt-br/news/security/istio-security-2022-003). This release note describes what’s different between Istio 1.12.3 and 1.12.4.

@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.9.5 patch release.
 publishdate: 2021-05-11
 release: 1.9.5
-aliases:
-    - /news/announcing-1.9.5
 ---
 
 This release fixes the security vulnerabilities described in our May 11th posts, [ISTIO-SECURITY-2021-005](/pt-br/news/security/istio-security-2021-005) and [ISTIO-SECURITY-2021-006](/pt-br/news/security/istio-security-2021-006).

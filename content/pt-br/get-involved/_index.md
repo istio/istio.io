@@ -9,12 +9,6 @@ skip_toc: true
 skip_byline: true
 skip_pagenav: true
 skip_breadcrumb: true
-aliases:
-    - /community
-    - /about/community
-    - /latest/about/community
-    - /about/community/join
-    - /latest/about/community/join
 doc_type: get-involved
 
 ---

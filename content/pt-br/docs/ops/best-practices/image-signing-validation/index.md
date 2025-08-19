@@ -2,7 +2,6 @@
 title: Image Signing and Validation
 description: Describes how to use image signatures to verify the provenance of Istio images.
 weight: 35
-aliases: []
 keywords: [install,signing]
 owner: istio/wg-environments-maintainers
 test: n/a

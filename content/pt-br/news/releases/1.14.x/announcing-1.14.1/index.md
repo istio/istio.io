@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.14.1 patch release.
 publishdate: 2022-06-09
 release: 1.14.1
-aliases:
-    - /news/announcing-1.14.1
 ---
 
 This release fixes the security vulnerabilities described in our June 9th post, [ISTIO-SECURITY-2022-005](/pt-br/news/security/istio-security-2022-005). This release note describes what’s different between Istio 1.14.0 and 1.14.1.

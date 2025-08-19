@@ -2,9 +2,6 @@
 title: Harden Docker Container Images
 description: Use hardened container images to reduce Istio's attack surface.
 weight: 80
-aliases:
-  - /help/ops/security/harden-docker-images
-  - /docs/ops/security/harden-docker-images
 owner: istio/wg-security-maintainers
 test: n/a
 status: Beta

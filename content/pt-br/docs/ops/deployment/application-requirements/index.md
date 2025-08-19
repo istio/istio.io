@@ -9,16 +9,6 @@ keywords:
   - deployment-models
   - pods
   - setup
-aliases:
-  - /docs/setup/kubernetes/spec-requirements/
-  - /docs/setup/kubernetes/prepare/spec-requirements/
-  - /docs/setup/kubernetes/prepare/requirements/
-  - /docs/setup/kubernetes/additional-setup/requirements/
-  - /docs/setup/additional-setup/requirements
-  - /docs/ops/setup/required-pod-capabilities
-  - /help/ops/setup/required-pod-capabilities
-  - /docs/ops/prep/requirements
-  - /docs/ops/deployment/requirements
 owner: istio/wg-environments-maintainers
 test: n/a
 ---

@@ -3,8 +3,6 @@ title: Zipkin
 description: Learn how to configure the proxies to send tracing requests to Zipkin.
 weight: 7
 keywords: [telemetry,tracing,zipkin,span,port-forwarding]
-aliases:
-    - /docs/tasks/zipkin-tracing.html
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---

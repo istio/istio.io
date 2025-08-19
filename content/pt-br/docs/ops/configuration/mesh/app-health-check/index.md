@@ -2,13 +2,6 @@
 title: Health Checking of Istio Services
 description: Shows how to do health checking for Istio services.
 weight: 50
-aliases:
-  - /docs/tasks/traffic-management/app-health-check/
-  - /docs/ops/security/health-checks-and-mtls/
-  - /help/ops/setup/app-health-check
-  - /help/ops/app-health-check
-  - /docs/ops/app-health-check
-  - /docs/ops/setup/app-health-check
 keywords: [security,health-check]
 owner: istio/wg-user-experience-maintainers
 test: yes

@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.9 patch release.
 publishdate: 2020-05-12
 release: 1.4.9
-aliases:
-    - /news/announcing-1.4.9
 ---
 
 This release contains bug fixes to improve robustness and fixes for the security vulnerabilities described in [our May 12th, 2020 news post](/pt-br/news/security/istio-security-2020-005). This release note describes what's different between Istio 1.4.9 and Istio 1.4.8.

@@ -6,9 +6,6 @@ description: Istio 1.7 release announcement.
 publishdate: 2020-08-21
 release: 1.7.0
 skip_list: true
-aliases:
-    - /news/announcing-1.7
-    - /news/announcing-1.7.0
 ---
 
 We are pleased to announce the release of Istio 1.7!

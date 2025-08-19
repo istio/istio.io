@@ -10,9 +10,6 @@ releases: ["1.0 to 1.0.8", "1.1 to 1.1.9", "1.2 to 1.2.1"]
 publishdate: 2019-06-28
 keywords: [CVE]
 skip_seealso: true
-aliases:
-    - /blog/2019/cve-2019-12995
-    - /news/2019/cve-2019-12995
 ---
 
 {{< security_bulletin >}}

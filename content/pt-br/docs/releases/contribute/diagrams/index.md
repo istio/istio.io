@@ -2,9 +2,6 @@
 title: Diagram Creation Guidelines
 description: Provides assets and instructions to create diagrams for the Istio documentation.
 weight: 13
-aliases:
-   - /about/contribute/diagrams
-   - /latest/about/contribute/diagrams
 keywords: [contribute,diagram,documentation,guide]
 owner: istio/wg-docs-maintainers
 test: n/a

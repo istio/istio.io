@@ -5,9 +5,6 @@ subtitle: Patch Release
 description: Istio 1.3.2 patch release.
 publishdate: 2019-10-08
 release: 1.3.2
-aliases:
-    - /news/2019/announcing-1.3.2
-    - /news/announcing-1.3.2
 ---
 
 We're pleased to announce the availability of Istio 1.3.2. Please see below for what's changed.

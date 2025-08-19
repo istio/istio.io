@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.6.8 patch release.
 publishdate: 2020-08-11
 release: 1.6.8
-aliases:
-    - /news/announcing-1.6.8
 ---
 
 This release fixes the security vulnerability described in [our August 11th, 2020 news post](/pt-br/news/security/istio-security-2020-009).

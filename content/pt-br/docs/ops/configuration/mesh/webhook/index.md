@@ -2,9 +2,6 @@
 title: Dynamic Admission Webhooks Overview
 description: Provides a general overview of Istio's use of Kubernetes webhooks and the related issues that can arise.
 weight: 10
-aliases:
-  - /help/ops/setup/webhook
-  - /docs/ops/setup/webhook
 owner: istio/wg-user-experience-maintainers
 test: no
 ---

@@ -6,12 +6,6 @@ keywords: [locality,load balancing,priority,prioritized,kubernetes,multicluster]
 list_below: true
 simple_list: true
 content_above: true
-aliases:
-  - /help/ops/traffic-management/locality-load-balancing
-  - /help/ops/locality-load-balancing
-  - /help/tasks/traffic-management/locality-load-balancing
-  - /docs/ops/traffic-management/locality-load-balancing
-  - /docs/ops/configuration/traffic-management/locality-load-balancing
 owner: istio/wg-networking-maintainers
 test: n/a
 ---

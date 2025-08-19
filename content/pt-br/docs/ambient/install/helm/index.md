@@ -2,11 +2,6 @@
 title: Install with Helm
 description: Install Istio with support for ambient mode with Helm.
 weight: 4
-aliases:
-  - /docs/ops/ambient/install/helm-installation
-  - /latest/docs/ops/ambient/install/helm-installation
-  - /docs/ambient/install/helm-installation
-  - /latest/docs/ambient/install/helm-installation
 owner: istio/wg-environments-maintainers
 test: yes
 ---

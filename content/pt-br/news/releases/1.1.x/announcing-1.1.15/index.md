@@ -5,11 +5,6 @@ subtitle: Patch Release
 description: Istio 1.1.15 patch release.
 publishdate: 2019-09-16
 release: 1.1.15
-aliases:
-    - /about/notes/1.1.15
-    - /blog/2019/announcing-1.1.15
-    - /news/2019/announcing-1.1.15
-    - /news/announcing-1.1.15
 ---
 
 We're pleased to announce the availability of Istio 1.1.15. Please see below for what's changed.

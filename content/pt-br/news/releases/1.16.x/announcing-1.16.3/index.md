@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.16.3 patch release.
 publishdate: 2023-02-21T08:00:00-06:00
 release: 1.16.3
-aliases:
-    - /news/announcing-1.16.3
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.16.2 and Istio 1.16.3.

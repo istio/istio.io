@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.5.10 patch release.
 publishdate: 2020-08-24
 release: 1.5.10
-aliases:
-    - /news/announcing-1.5.10
 ---
 
 This release includes bug fixes to improve robustness. These release notes describe what's different between Istio 1.5.9 and Istio 1.5.10.

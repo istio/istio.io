@@ -3,9 +3,6 @@ title: Ingress Gateways
 description: Describes how to configure an Istio gateway to expose a service outside of the service mesh.
 weight: 10
 keywords: [traffic-management,ingress]
-aliases:
-    - /docs/tasks/ingress.html
-    - /docs/tasks/ingress
 owner: istio/wg-networking-maintainers
 test: yes
 ---

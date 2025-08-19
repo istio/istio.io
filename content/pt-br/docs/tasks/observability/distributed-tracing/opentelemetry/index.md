@@ -3,10 +3,6 @@ title: OpenTelemetry
 description: Learn how to configure the proxies to send traces in OpenTelemetry format.
 weight: 5
 keywords: [telemetry,tracing,opentelemetry,span,port-forwarding]
-aliases:
- - /docs/tasks/telemetry/distributed-tracing/opentelemetry/
- - /docs/tasks/observability/distributed-tracing/lightstep/
- - /latest/docs/tasks/observability/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---

@@ -2,9 +2,6 @@
 title: Getting Started
 description: How to deploy and install Istio in ambient mode.
 weight: 2
-aliases:
-  - /docs/ops/ambient/getting-started
-  - /latest/docs/ops/ambient/getting-started
 owner: istio/wg-networking-maintainers
 test: yes
 skip_list: true

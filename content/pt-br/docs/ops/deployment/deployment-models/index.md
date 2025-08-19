@@ -12,10 +12,6 @@ keywords:
   - trust
   - single-mesh
   - multiple-meshes
-aliases:
-  - /docs/concepts/multicluster-deployments
-  - /docs/concepts/deployment-models
-  - /docs/ops/prep/deployment-models
 owner: istio/wg-environments-maintainers
 test: n/a
 ---

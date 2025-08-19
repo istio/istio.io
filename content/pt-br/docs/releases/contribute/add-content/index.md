@@ -2,13 +2,6 @@
 title: Add New Documentation
 description: Details how to contribute new documentation to Istio.
 weight: 3
-aliases:
-    - /docs/welcome/contribute/writing-a-new-topic.html
-    - /docs/reference/contribute/writing-a-new-topic.html
-    - /about/contribute/writing-a-new-topic.html
-    - /create
-    - /about/contribute/add-content
-    - /latest/about/contribute/add-content
 keywords: [contribute]
 owner: istio/wg-docs-maintainers
 test: n/a

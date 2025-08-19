@@ -3,9 +3,6 @@ title: Observability Problems
 description: Dealing with telemetry collection issues.
 force_inline_toc: true
 weight: 30
-aliases:
-    - /docs/ops/troubleshooting/grafana
-    - /docs/ops/troubleshooting/missing-traces
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---

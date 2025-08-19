@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.5.6 patch release.
 publishdate: 2020-06-17
 release: 1.5.6
-aliases:
-    - /news/announcing-1.5.6
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.5.5 and Istio 1.5.6.

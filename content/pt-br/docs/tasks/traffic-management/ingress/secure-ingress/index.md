@@ -2,9 +2,6 @@
 title: Secure Gateways
 description: Expose a service outside of the service mesh over TLS or mTLS.
 weight: 20
-aliases:
-    - /docs/tasks/traffic-management/ingress/secure-ingress-sds/
-    - /docs/tasks/traffic-management/ingress/secure-ingress-mount/
 keywords: [traffic-management,ingress,sds-credentials]
 owner: istio/wg-networking-maintainers
 test: yes

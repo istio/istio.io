@@ -6,9 +6,6 @@ description: Istio 1.15 release announcement.
 publishdate: 2022-08-31
 release: 1.15.0
 skip_list: true
-aliases:
-- /news/announcing-1.15
-- /news/announcing-1.15.0
 ---
 
 We are pleased to announce the release of Istio 1.15!

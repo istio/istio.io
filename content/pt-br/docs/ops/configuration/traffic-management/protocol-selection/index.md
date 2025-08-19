@@ -3,11 +3,6 @@ title: Protocol Selection
 description: Information on how to specify protocols.
 weight: 10
 keywords: [protocol,protocol sniffing,protocol selection,protocol detection]
-aliases:
-  - /help/ops/traffic-management/protocol-selection
-  - /help/ops/protocol-selection
-  - /help/tasks/traffic-management/protocol-selection
-  - /docs/ops/traffic-management/protocol-selection
 owner: istio/wg-networking-maintainers
 test: n/a
 ---

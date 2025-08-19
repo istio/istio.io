@@ -2,10 +2,6 @@
 title: Bookinfo Application
 description: Deploys a sample application composed of four separate microservices used to demonstrate various Istio features.
 weight: 10
-aliases:
-    - /docs/samples/bookinfo.html
-    - /docs/guides/bookinfo/index.html
-    - /docs/guides/bookinfo.html
 owner: istio/wg-docs-maintainers
 test: yes
 ---

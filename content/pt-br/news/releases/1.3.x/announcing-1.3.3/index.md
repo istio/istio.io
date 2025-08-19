@@ -5,9 +5,6 @@ subtitle: Patch Release
 description: Istio 1.3.3 patch release.
 publishdate: 2019-10-14
 release: 1.3.3
-aliases:
-    - /news/2019/announcing-1.3.3
-    - /news/announcing-1.3.3
 ---
 
 This release includes bug fixes to improve robustness. This release note describes what's different between Istio 1.3.2 and Istio 1.3.3.

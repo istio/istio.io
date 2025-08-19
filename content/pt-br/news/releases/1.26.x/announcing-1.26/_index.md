@@ -5,9 +5,6 @@ subtitle: Major Release
 description: Istio 1.26 Release Announcement.
 publishdate: 2025-05-08
 release: 1.26.0
-aliases:
-    - /news/announcing-1.26
-    - /news/announcing-1.26.0
 ---
 
 We are pleased to announce the release of Istio 1.26. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.26.0 release published!

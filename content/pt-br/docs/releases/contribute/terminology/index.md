@@ -2,11 +2,6 @@
 title: Terminology Standards
 description: Explains the terminology standards used in the Istio documentation.
 weight: 12
-aliases:
-    - /docs/welcome/contribute/style-guide.html
-    - /docs/reference/contribute/style-guide.html
-    - /about/contribute/terminology
-    - /latest/about/contribute/terminology
 keywords: [contribute, documentation, guide, code-block]
 owner: istio/wg-docs-maintainers
 test: n/a

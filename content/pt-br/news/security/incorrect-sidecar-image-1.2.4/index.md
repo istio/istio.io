@@ -4,9 +4,6 @@ description: An erroneous 1.2.4 sidecar image was available due to a faulty rele
 releases: ["1.2 to 1.2.4"]
 publishdate: 2019-09-10
 keywords: [community,blog,security]
-aliases:
-    - /blog/2019/incorrect-sidecar-image-1.2.4
-    - /news/2019/incorrect-sidecar-image-1.2.4
 ---
 To the Istio’s user community,
 

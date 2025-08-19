@@ -2,9 +2,6 @@
 title: Install the Istio CNI node agent
 description: Install and use the Istio CNI node agent, allowing operators to deploy workloads with lower privilege.
 weight: 70
-aliases:
-    - /docs/setup/kubernetes/additional-setup/cni
-    - /docs/setup/additional-setup/cni
 keywords: [cni]
 owner: istio/wg-networking-maintainers
 test: yes

@@ -2,9 +2,6 @@
 title: Ztunnel traffic redirection
 description: Understand how traffic is redirected between pods and the ztunnel node proxy.
 weight: 2
-aliases:
-  - /docs/ops/ambient/usage/traffic-redirection
-  - /latest/docs/ops/ambient/usage/traffic-redirection
 owner: istio/wg-networking-maintainers
 test: no
 ---

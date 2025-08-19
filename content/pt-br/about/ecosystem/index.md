@@ -6,9 +6,6 @@ weight: 34
 skip_toc: true
 skip_byline: true
 skip_pagenav: true
-aliases:
-    - /about/community/partners/
-    - /latest/about/community/partners/
 doc_type: about
 ---
 

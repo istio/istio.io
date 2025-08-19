@@ -6,8 +6,6 @@ description: Istio 1.24.0 release notes.
 publishdate: 2024-11-07
 release: 1.24.0
 weight: 10
-aliases:
-    - /news/announcing-1.24.0
 ---
 
 ## Ambient mode

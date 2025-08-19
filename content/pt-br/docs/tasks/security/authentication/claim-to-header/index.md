@@ -3,9 +3,6 @@ title: Copy JWT Claims to HTTP Headers
 description: Shows how users can copy their JWT claims to HTTP headers.
 weight: 30
 keywords: [security,authentication,JWT,claim]
-aliases:
-    - /docs/tasks/security/istio-auth.html
-    - /docs/tasks/security/authn-policy/
 owner: istio/wg-security-maintainers
 test: yes
 status: Experimental

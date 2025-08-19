@@ -6,8 +6,6 @@ release: 1.3
 subtitle: Minor Release
 linktitle: 1.3 Change Notes
 weight: 10
-aliases:
-    - /about/notes/1.3
 ---
 
 ## Installation

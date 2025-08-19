@@ -3,10 +3,6 @@ title: Configuration Validation Problems
 description: Describes how to resolve configuration validation problems.
 force_inline_toc: true
 weight: 50
-aliases:
-    - /help/ops/setup/validation
-    - /help/ops/troubleshooting/validation
-    - /docs/ops/troubleshooting/validation
 owner: istio/wg-user-experience-maintainers
 test: no
 ---

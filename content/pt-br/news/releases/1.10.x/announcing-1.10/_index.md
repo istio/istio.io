@@ -6,9 +6,6 @@ description: Istio 1.10 release announcement.
 publishdate: 2021-05-18
 release: 1.10.0
 skip_list: true
-aliases:
-    - /news/announcing-1.10
-    - /news/announcing-1.10.0
 ---
 
 We’re excited to announce the release of Istio 1.10! We’d like to give a special thanks to our release managers [Sam Naser](https://github.com/Monkeyanator) and [Zhihan Zhang](https://github.com/ZhiHanZ) in addition to the entire Test and Release Working Group for their work on 1.10.

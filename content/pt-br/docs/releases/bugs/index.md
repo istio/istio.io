@@ -2,12 +2,6 @@
 title: Reporting Bugs
 description: What to do if you find a bug.
 weight: 34
-aliases:
-    - /bugs.html
-    - /bugs/index.html
-    - /help/bugs/
-    - /about/bugs
-    - /latest/about/bugs
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

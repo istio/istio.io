@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.7.7 patch release.
 publishdate: 2021-01-29
 release: 1.7.7
-aliases:
-- /news/announcing-1.7.7
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.7.6 and Istio 1.7.7

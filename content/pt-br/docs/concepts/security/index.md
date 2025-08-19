@@ -3,13 +3,6 @@ title: Security
 description: Describes Istio's authorization and authentication functionality.
 weight: 30
 keywords: [security,policy,policies,authentication,authorization,rbac,access-control]
-aliases:
-    - /docs/concepts/network-and-auth/auth.html
-    - /docs/concepts/security/authn-policy/
-    - /docs/concepts/security/mutual-tls/
-    - /docs/concepts/security/rbac/
-    - /docs/concepts/security/mutual-tls.html
-    - /docs/concepts/policies/
 owner: istio/wg-security-maintainers
 test: n/a
 ---

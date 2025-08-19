@@ -5,8 +5,6 @@ keywords: [traffic-management,egress]
 weight: 20
 owner: istio/wg-networking-maintainers
 test: yes
-aliases:
-  - /docs/examples/advanced-gateways/egress-tls-origination/
 ---
 
 The [Accessing External Services](/pt-br/docs/tasks/traffic-management/egress/egress-control) task demonstrates how external,

@@ -2,9 +2,6 @@
 title: Security Vulnerabilities
 description: How we handle security vulnerabilities.
 weight: 35
-aliases:
-    - /about/security-vulnerabilities
-    - /latest/about/security-vulnerabilities
 owner: istio/wg-docs-maintainers
 test: n/a
 ---

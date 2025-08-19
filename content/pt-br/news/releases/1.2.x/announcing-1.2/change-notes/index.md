@@ -6,8 +6,6 @@ linktitle: 1.2 Change Notes
 description: Istio 1.2 release notes.
 publishdate: 2019-06-18
 weight: 10
-aliases:
-    - /about/notes/1.2
 ---
 
 ## General

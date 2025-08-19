@@ -3,9 +3,6 @@ title: JWT Token
 description: Shows how to set up access control for JWT token.
 weight: 30
 keywords: [security,authorization,jwt,claim]
-aliases:
-    - /docs/tasks/security/rbac-groups/
-    - /docs/tasks/security/authorization/rbac-groups/
 owner: istio/wg-security-maintainers
 test: yes
 ---

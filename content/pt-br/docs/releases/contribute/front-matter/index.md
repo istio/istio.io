@@ -2,9 +2,6 @@
 title: Front matter
 description: Explains the front matter used in our documentation and the fields available.
 weight: 6
-aliases:
-    - /about/contribute/front-matter
-    - /latest/about/contribute/front-matter
 keywords: [metadata,navigation,table-of-contents]
 owner: istio/wg-docs-maintainers
 test: n/a
@@ -25,8 +22,6 @@ title: <title>
 description: <description>
 weight: <weight>
 keywords: [<keyword1>,<keyword2>,...]
-aliases:
-    - <previously-published-at-this-URL>
 ---
 {{< /text >}}
 
@@ -57,8 +52,6 @@ On the _target page_, which is the page where you want users to land, add the `<
 of the _original page_ to the front-matter as follows:
 
 {{< text plain >}}
-aliases:
-    - <path>
 {{< /text >}}
 
 For example, you could find our FAQ page in the past under `/help/faq`. To help our users find the FAQ page, we moved the page one level up to `/faq/` and changed the front matter as follows:
@@ -68,8 +61,6 @@ For example, you could find our FAQ page in the past under `/help/faq`. To help 
 title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 13
-aliases:
-    - /help/faq
 ---
 {{< /text >}}
 
@@ -82,10 +73,6 @@ Multiple redirects are supported, for example:
 title: Frequently Asked Questions
 description: Questions Asked Frequently.
 weight: 13
-aliases:
-    - /faq
-    - /faq2
-    - /faq3
 ---
 {{< /text >}}
 

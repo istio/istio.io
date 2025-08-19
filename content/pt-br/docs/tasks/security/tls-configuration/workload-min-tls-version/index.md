@@ -3,8 +3,6 @@ title: Istio Workload Minimum TLS Version Configuration
 description: Shows how to configure the minimum TLS version for Istio workloads.
 weight: 90
 keywords: [security,TLS]
-aliases:
-- /docs/tasks/security/workload-min-tls-version/
 owner: istio/wg-security-maintainers
 test: yes
 ---

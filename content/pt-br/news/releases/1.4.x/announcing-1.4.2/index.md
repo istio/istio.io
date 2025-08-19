@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.4.2 patch release.
 publishdate: 2019-12-10
 release: 1.4.2
-aliases:
-    - /news/announcing-1.4.2
 ---
 
 This release contains fixes for the security vulnerability described in [our December 10th, 2019 news post](/pt-br/news/security/istio-security-2019-007). This release note describes what’s different between Istio 1.4.1 and Istio 1.4.2.

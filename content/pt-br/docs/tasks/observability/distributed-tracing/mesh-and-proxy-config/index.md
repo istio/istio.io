@@ -3,9 +3,6 @@ title: Configure tracing using MeshConfig and pod annotations
 description: How to configure tracing options using MeshConfig and pod annotations.
 weight: 3
 keywords: [telemetry,tracing]
-aliases:
- - /docs/tasks/observability/distributed-tracing/configurability/
- - /docs/tasks/observability/distributed-tracing/configurability/mesh-and-proxy-config/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 status: Beta

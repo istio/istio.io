@@ -5,8 +5,6 @@ subtitle: Patch Release
 description: Istio 1.26.2 patch release.
 publishdate: 2025-06-20
 release: 1.26.2
-aliases:
-    - /news/announcing-1.26.2
 ---
 
 This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.26.1 and 1.26.2.

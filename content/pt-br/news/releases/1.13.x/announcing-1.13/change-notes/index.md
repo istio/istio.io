@@ -6,8 +6,6 @@ description: Istio 1.13.0 change notes.
 publishdate: 2022-02-11
 release: 1.13.0
 weight: 10
-aliases:
-    - /news/announcing-1.13.0
 ---
 
 ## Traffic Management

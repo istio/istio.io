@@ -3,9 +3,6 @@ title: cert-manager
 description: Information on how to integrate with cert-manager.
 weight: 26
 keywords: [integration,cert-manager]
-aliases:
-  - /docs/tasks/traffic-management/ingress/ingress-certmgr/
-  - /docs/examples/advanced-gateways/ingress-certmgr/
 owner: istio/wg-environments-maintainers
 test: no
 ---

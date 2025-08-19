@@ -5,9 +5,6 @@ subtitle: Major Release
 description: Istio 1.25 Release Announcement.
 publishdate: 2025-03-03
 release: 1.25.0
-aliases:
-- /news/announcing-1.25
-- /news/announcing-1.25.0
 ---
 
 We are pleased to announce the release of Istio 1.25. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.25.0 release published!

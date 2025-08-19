@@ -2,13 +2,6 @@
 title: Use Shortcodes
 description: Explains the shortcodes available and how to use them.
 weight: 9
-aliases:
-    - /docs/welcome/contribute/writing-a-new-topic.html
-    - /docs/reference/contribute/writing-a-new-topic.html
-    - /about/contribute/writing-a-new-topic.html
-    - /create
-    - /about/contribute/shortcodes
-    - /latest/about/contribute/shortcodes
 keywords: [contribute]
 owner: istio/wg-docs-maintainers
 test: n/a

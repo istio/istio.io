@@ -3,9 +3,6 @@ title: Google Kubernetes Engine
 description: Instructions to set up a Google Kubernetes Engine cluster for Istio.
 weight: 20
 skip_seealso: true
-aliases:
-    - /docs/setup/kubernetes/prepare/platform-setup/gke/
-    - /docs/setup/kubernetes/platform-setup/gke/
 keywords: [platform-setup,kubernetes,gke,google]
 owner: istio/wg-environments-maintainers
 test: no

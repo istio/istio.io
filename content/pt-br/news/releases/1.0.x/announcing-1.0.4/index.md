@@ -5,11 +5,6 @@ subtitle: Patch Release
 description: Istio 1.0.4 patch release.
 publishdate: 2018-11-21
 release: 1.0.4
-aliases:
-    - /about/notes/1.0.4
-    - /blog/2018/announcing-1.0.4
-    - /news/2018/announcing-1.0.4
-    - /news/announcing-1.0.4
 ---
 
 We're pleased to announce the availability of Istio 1.0.4. Please see below for what's changed.

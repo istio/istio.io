@@ -2,9 +2,6 @@
 title: Website Content Changes
 description: List of recent changes to this website.
 weight: 110
-aliases:
-    - /about/log
-    - /latest/about/log
 skip_seealso: true
 skip_byline: true
 owner: istio/wg-docs-maintainers

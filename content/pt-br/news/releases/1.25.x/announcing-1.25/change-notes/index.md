@@ -6,8 +6,6 @@ description: Istio 1.25.0 release notes.
 publishdate: 2025-03-03
 release: 1.25.0
 weight: 10
-aliases:
-    - /news/announcing-1.25.0
 ---
 
 ## Deprecation Notices
