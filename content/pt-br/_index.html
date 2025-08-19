@@ -1,0 +1,114 @@
+---
+title: Istio
+description: A service mesh for observability, security in depth, and management that speeds deployment cycles.
+---
+<!-- these script blocks are only for the primary English home page -->
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "url": "https://istio.io",
+        "logo": "https://istio.io/img/logo.png",
+        "sameAs": [
+            "https://twitter.com/IstioMesh",
+        ]
+    }
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://istio.io/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://istio.io/latest/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+</script>
+
+<main class="landing">
+    <section id="hero">
+        <h1 id="title">
+            Service Mesh. Simplified.
+        </h1>
+        <p class="subtitle">Easily build cloud native workloads securely and reliably with Istio, with or without sidecars.</p>
+    </section>
+
+    <section id="landing-panels" class="container">
+        <div class="panels">
+            {{< content_panel type="dark" title="latest_news" text="Fast, secure and simple: Istio's ambient mode is now Generally Available." button="read_more" url="/blog/2024/ambient-reaches-ga/" >}}
+            {{< content_panel type="dark" title="join_the_community" text="Connect with over 10,000+ of your peers using, testing and innovating with Istio." button="connect_with_us" url="/get-involved" >}}
+            {{< content_panel type="dark" title="get_started" text="Try Istio today. Quickly evaluate the project in four steps." button="learn_more" url="/docs/overview/quickstart" >}}
+        </div>
+    </section>
+
+    <section id="service-mesh" class="container">
+        <h1>What is Istio?</h1>
+
+        <p>
+            Istio extends Kubernetes to establish a programmable, application-aware network. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
+            <br/><br/>
+            Select the features you want and Istio deploys proxy infrastructure as needed.  Use the zero-trust tunnel for Layer 4 performance and security, or add the powerful Envoy service proxy for Layer 7 features.
+        </p>
+
+        <div class="cta-container">
+            <a class="btn" href="/about/service-mesh">Learn more</a>
+        </div>
+    </section>
+
+    <section id="case-studies" class="container">
+        <h1>Trusted by</h1>
+
+        {{< logo_carousel >}}
+
+        <div class="cta-container">
+            <a class="btn" href="/about/case-studies">Read our case studies</a>
+        </div>
+    </section>
+    
+    <section id="features" class="container">
+        <h1>Features</h1>
+
+        <div class="panels">
+            {{< content_panel type="transparent" title="security" text="Simple implementation of service-to-service security including mTLS authentication, authorization, and encryption." button="learn_more" image="security.svg" url="/docs/concepts/security/" >}}
+            {{< content_panel type="transparent" title="observability" text="Optimize best practices with deep visibility into applications and identify where to focus to improve performance." button="learn_more" image="observability.svg" url="/docs/concepts/observability/" >}}
+            {{< content_panel type="transparent" title="traffic_management" text="Manage networking for services consistently, without any additional developer overhead." button="learn_more" image="management.svg" url="/docs/concepts/traffic-management/" >}}
+        </div>
+
+    </section>
+
+    <section id="providers" class="container">
+        <h1>Istio Providers</h1>
+
+        <p>
+            Istio is supported and implemented by an ecosystem of leading providers and consultants. You can install and manage Istio yourself or use a one-click install feature of your Kubernetes or cloud provider. Another option is to turn to a provider for a fully managed service mesh based on Istio. Choose the way that works for you.
+        </p>
+
+        <div class="companies-grid">
+            {{< company_logo link="https://cloud.google.com/service-mesh" logo="./logos/google-cloud.png" alt="Google Cloud" >}}
+            {{< company_logo link="https://www.ibm.com/products/istio" logo="./logos/ibm-cloud.svg" alt="IBM Cloud" >}}
+            {{< company_logo link="https://www.redhat.com/en/technologies/cloud-computing/openshift/what-is-openshift-service-mesh" logo="./logos/redhat.svg" alt="Red Hat" >}}
+            {{< company_logo link="https://learn.microsoft.com/en-us/azure/aks/istio-about" logo="./logos/microsoft-azure.svg" alt="Microsoft Azure" >}}        
+            {{< company_logo link="https://www.solo.io/products/gloo-mesh/" logo="./logos/solo.svg" alt="Solo.io" >}}
+            {{< company_logo link="https://support.huaweicloud.com/asm/index.html/" logo="./logos/huawei.png" alt="Huawei" >}}
+            {{< company_logo link="https://tetrate.io/tetrate-service-bridge/" logo="./logos/tetrate.svg" alt="Tetrate" >}}
+            {{< company_logo link="https://tanzu.vmware.com/service-mesh" logo="./logos/vmware.svg" alt="VMware" >}}
+        </div>
+
+        <div class="cta-container">
+            <a class="btn" href="/about/ecosystem#providers">See all providers</a>
+        </div>
+    </section>
+
+    <section id="cncf" class="container">
+        <div class="cncf-logo">
+            <figure>
+                <img src="/img/cncf-color.svg" alt="Cloud Native Computing Foundation logo"/>
+                <figcaption>
+                    <p>We are a Cloud Native Computing Foundation graduated project.</p>
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+</main>
