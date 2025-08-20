@@ -2,4 +2,4 @@
 main: "1.27"
 
 # The version of Istio currently documented in preliminary.istio.io
-preliminary: false
+preliminary: "1.28"
