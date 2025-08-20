@@ -451,6 +451,97 @@ disableAliases = true
     url = "/uk/docs/"
     weight = 5
 
+  [[languages.pt-br.menu.main]]
+    identifier = "about"
+    name = "About"
+    title = "About section"
+    weight = 1
+
+    [[languages.pt-br.menu.main]]
+      identifier = "service-mesh"
+      name = "Service mesh"
+      title = "Service mesh"
+      url = "/about/service-mesh"
+      parent = "about"
+      weight = 1
+
+    [[mlanguages.pt-br.enu.main]]
+      identifier = "solutions"
+      name = "Solutions"
+      title = "Solutions"
+      url = "/about/solutions"
+      parent = "about"
+      weight = 2
+
+    [[languages.pt-br.menu.main]]
+      identifier = "case-studies"
+      name = "Case studies"
+      title = "Case studies"
+      url = "/about/case-studies"
+      parent = "about"
+      weight = 3
+
+    [[languages.pt-br.menu.main]]
+      identifier = "ecosystem"
+      name = "Ecosystem"
+      title = "Ecosystem"
+      url = "/about/ecosystem"
+      parent = "about"
+      weight = 4
+
+    [[languages.pt-br.menu.main]]
+      identifier = "deployment"
+      name = "Deployment"
+      title = "Deployment"
+      url = "/about/deployment"
+      parent = "about"
+      weight = 5
+
+    [[languages.pt-br.menu.main]]
+      identifier = "training"
+      name = "Training"
+      title = "Training"
+      url = "/about/training"
+      parent = "about"
+      weight = 6
+
+    [[languages.pt-br.menu.main]]
+      identifier = "faq"
+      name = "FAQ"
+      title = "FAQ"
+      url = "/about/faq"
+      parent = "about"
+      weight = 7
+
+  [[languages.pt-br.menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    title = "Istio Blog"
+    url = "/blog/"
+    weight = 2
+
+  [[languages.pt-br.menu.main]]
+    identifier = "news"
+    name = "News"
+    title = "News"
+    url = "/news/"
+    weight = 3
+
+  [[languages.pt-br.menu.main]]
+    identifier = "get-involved"
+    name = "Get involved"
+    title = "Get involved"
+    url = "/get-involved/"
+    weight = 4
+
+  [[languages.pt-br.menu.main]]
+    identifier = "docs"
+    name = "Documentation"
+    title = "Documentation"
+    url = "/docs/"
+    weight = 5
+
+
 [permalinks]
   case-studies = "/:slug"
 

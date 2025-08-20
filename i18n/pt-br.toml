@@ -1,0 +1,399 @@
+[download_desc]
+other = "Go download Istio %s now"
+
+[discuss_istio_io_desc]
+other = "Join the Istio discussion board to participate in discussions and get help troubleshooting problems"
+
+[twitter_desc]
+other = "Follow us on Twitter to get the latest news"
+
+[bluesky_desc]
+other = "Follow us on Bluesky to get the latest news"
+
+[mastodon_desc]
+other = "Follow us on Mastodon to get the latest news"
+
+[linkedin_desc]
+other = "Follow us on LinkedIn to get the latest news"
+
+[stackoverflow_desc]
+other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
+
+[for_everyone]
+other = "for everyone"
+
+[for_developers]
+other = "for developers"
+
+[github_desc]
+other = "GitHub is where development takes place on Istio code"
+
+[team_drive_desc]
+other = "Access our team drive if you'd like to take a look at the Istio technical design documents"
+
+[working_group_desc]
+other = "If you'd like to contribute to the Istio project, consider participating in our working groups"
+
+[slack_desc]
+other = "Interactively discuss issues with the Istio community on Slack"
+
+[report_site_bugs]
+other = "Report Site Bugs"
+
+[edit_on_github]
+other = "Edit this Page on GitHub"
+
+[light_theme]
+other = "Light Theme"
+
+[dark_theme]
+other = "Dark Theme"
+
+[other_versions_of_site]
+other = "Other versions of this site"
+
+[current_release]
+other = "current release"
+
+[next_release]
+other = "next release"
+
+[archived_releases]
+other = "older releases"
+
+[options_menu]
+other = "Options and settings"
+
+[search]
+other = "Search this site"
+
+[search_label]
+other = "Search"
+
+[search_cancel]
+other = "Cancel search"
+
+[footer_istio]
+other = "Istio"
+
+[footer_version]
+other = "Version"
+
+[footer_istio_preliminary]
+other = "Preliminary"
+
+[footer_istio_archive]
+other = "Archive"
+
+[footer_archived_on]
+other = "Archived on %s"
+
+[footer_last_modified]
+other = "Page last modified: %s"
+
+[footer_date_format]
+other = "January 2, 2006"
+
+[footer_privacy_policy]
+other = "Privacy policy"
+
+[footer_terms_and_conditions]
+other = "Terms and Conditions"
+
+[footer_trademarks]
+other = "Trademarks"
+
+[page_publish_date_format]
+other = "January 2, 2006"
+
+[page_last_update_format]
+other = "(updated on %s)"
+
+[page_word_count]
+other = "%d words"
+
+[page_reading_time]
+other = "%v minute read"
+
+[relnote_update_advice]
+other = "Before you download %s, you should know that there's a newer patch release with the latest bug fixes and perf improvements."
+
+[relnote_update_button]
+other = "LEARN ABOUT ISTIO %s"
+
+[relnote_update_notice]
+other = "Update Notice"
+
+[relnote_change_notes_title]
+other = "CHANGE NOTES"
+
+[relnote_change_notes_detail]
+other = "Get a detailed list of what's changed."
+
+[relnote_before_you_upgrade_title]
+other = "BEFORE YOU UPGRADE"
+
+[relnote_before_you_upgrade_detail]
+other = "Things to know and prepare before upgrading."
+
+[relnote_download_title]
+other = "DOWNLOAD"
+
+[relnote_download_detail]
+other = "Download and install this release."
+
+[relnote_docs_title]
+other = "DOCS"
+
+[relnote_docs_detail]
+other = "Visit the documentation for this release."
+
+[relnote_helm_changes_title]
+other = "HELM CHANGES"
+
+[relnote_helm_changes_detail]
+other = "Learn about changes in our Helm installation options."
+
+[relnote_source_changes_title]
+other = "SOURCE CHANGES"
+
+[relnote_source_changes_detail]
+other = "Inspect the full set of source code changes."
+
+[page_attribution]
+other = "By "
+
+[button_copy]
+other = "Copy to clipboard"
+
+[button_print]
+other = "Print"
+
+[button_download]
+other = "Download"
+
+[button_top]
+other = "Back to top"
+
+[button_sidenav]
+other = "Toggle the navigation bar"
+
+[partner_component_notice]
+other = "This component was created and is maintained by an Istio partner. Please address support questions to the partner directly."
+
+[partner_component_partner]
+other = "Partner"
+
+[partner_component_contact]
+other = "Contact"
+
+[partner_component_support_site]
+other = "Support Site"
+
+[partner_component_source_code]
+other = "Source Code"
+
+[partner_component_latest_release]
+other = "Latest Release"
+
+[partner_component_helm_chart]
+other = "Helm Chart"
+
+[partner_component_istio_versions]
+other = "Tested by %s with these Istio Versions"
+
+[partner_component_supported_templates]
+other = "Supported Templates"
+
+[adapter]
+other = "Adapter"
+
+[supported_templates]
+other = "Supported Templates"
+
+[adapters]
+other = "Adapters"
+
+[template]
+other = "Template"
+
+[subscribe]
+other = "Subscribe"
+
+[see_also]
+other = "See also"
+
+[links]
+other = "Links"
+
+[generated_file]
+other = "This is an auto-generated file, please edit the source in the %s repo."
+
+[switch_lang]
+other = "Switch Language"
+
+[advisory]
+other = "-"
+
+[syntax_coloring]
+other = "Color Examples"
+
+[analysis_name]
+other = "Message Name"
+
+[analysis_code]
+other = "Message Code"
+
+[analysis_description]
+other = "Description"
+
+[analysis_level]
+other = "Level"
+
+[target_release]
+other = "This blog post was written assuming Istio %v, so some of this content may now be outdated."
+
+[security_disclosure]
+other = "Disclosure"
+
+[security_related]
+other = "Related"
+
+[security_date]
+other = "Date"
+
+[security_affected_releases]
+other = "Affected Releases"
+
+[security_impact_score]
+other = "Impact Score"
+
+[mark_all_as_read]
+other = "Mark all as read"
+
+[security_bulletin_title]
+other = "Disclosure Details"
+
+[security_bulletin_cves]
+other = "CVE(s)"
+
+[security_bulletin_cvss]
+other = "CVSS Impact Score"
+
+[security_bulletin_affected_releases]
+other = "Affected Releases"
+
+[feedback_title]
+other = "Was this information useful?"
+
+[feedback_yes]
+other = "Yes"
+
+[feedback_no]
+other = "No"
+
+[feedback_ask_for_comment]
+other = "Do you have any suggestions for improvement?"
+
+[feedback_thankyou]
+other = "Thanks for your feedback!"
+
+[feedback_comment_placeholder]
+other = "Help us improve..."
+
+[log_month_format]
+other = "January 2006"
+
+[log_change_format]
+other = "2006/01/02"
+
+[log_when]
+other = "When"
+
+[log_doc]
+other = "Document"
+
+[log_change]
+other = "Change"
+
+[tested]
+other = "page test"
+
+[has_test]
+other = "An automated test is available for this page. Click for details."
+
+[needs_test]
+other = "No automated test is available for this page. Click for details or to help create one."
+
+[try_istio]
+other = "Try Istio"
+
+[service_mesh]
+other = "Service mesh"
+
+[what_is_istio]
+other = "What is Istio?"
+
+[join_the_community]
+other = "Join the community"
+
+[get_started]
+other = "Get started"
+
+[latest_news]
+other = "Latest news"
+
+[solutions]
+other = "Solutions"
+
+[deployment]
+other = "Deployment"
+
+[learn_more]
+other = "Learn more"
+
+[read_more]
+other = "Read more"
+
+[connect_with_us]
+other = "Connect with us"
+
+
+[traffic_management]
+other = "Reliability"
+
+[observability]
+other = "Observability"
+
+[security]
+other = "Security"
+
+[sidebar-toggle]
+other = "Contents"
+
+[add_your_logo]
+other = "Add your logo"
+
+[share_your_story]
+other = "Share your story"
+
+[more_case_studies]
+other = "Also used by"
+
+[go_to_solutions]
+other = "Go to solutions"
+
+[case_study_slogan]
+other = "Read case studies of companies that benefited from implementing Istio"
+
+[archive_banner_text]
+other = "⚠️ This documentation is for an older version (<strong>%s</strong>) and is no longer updated."
+
+[archive_banner_link]
+other = "Read the latest version."
+
+[not_found_message]
+other = "We're sorry, the page you requested cannot be found"
+
+[not_found_explanation]
+other = "The URL may be misspelled or the page you're looking for is no longer available"

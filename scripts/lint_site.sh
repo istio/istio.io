@@ -183,7 +183,12 @@ for lang in $LANGS; do
     elif [[ "$lang" == "uk" ]]; then
         # only check English words in Ukrainian docs
         check_content "content/$lang" --en-us
+    elif [[ "$lang" == "pt-br" ]]; then
+        # only check English words in Brazillian Portuguese docs
+        # TODO: can we add something for pt-br as well?
+        check_content "content/$lang" --en-us
     fi
+
 done
 
 if [ -d ./public ]; then
