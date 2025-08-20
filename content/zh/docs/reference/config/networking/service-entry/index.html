@@ -405,7 +405,9 @@ which the service is being accessed must not be shared by any other
 service in the mesh. In other words, the sidecar will behave as a
 simple TCP proxy, forwarding incoming traffic on a specified port to
 the specified destination endpoint IP/host. Unix domain socket
-addresses are not supported in this field.</p>
+addresses are not supported in this field. Although the API allows
+specifying addresses in a list, multiple addresses will not be used by a single host.
+This means manual specification of dual-stack addressing is not supported.</p>
 
 </td>
 </tr>

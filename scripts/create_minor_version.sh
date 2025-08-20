@@ -149,9 +149,9 @@ parse_versions() {
 
 step0() {
     echo -e "\nStep 0: Check and prepare the environment\n"
+    parse_input "$1"
     prepare_env
     echo "Current working directory: $(pwd)"
-    parse_input "$1"
     parse_versions
 }
 
@@ -226,6 +226,7 @@ step2() {
     " Makefile.core.mk
 
     go get istio.io/istio@master
+    go get istio.io/api@master
     go mod tidy
 
     make update_all gen

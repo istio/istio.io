@@ -1,5 +1,5 @@
 # The version of Istio currently documented in istio.io
-main: "1.26"
+main: "1.27"
 
 # The version of Istio currently documented in preliminary.istio.io
-preliminary: "1.27"
+preliminary: "1.28"
