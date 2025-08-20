@@ -226,6 +226,7 @@ step2() {
     " Makefile.core.mk
 
     go get istio.io/istio@master
+    go get istio.io/api@master
     go mod tidy
 
     make update_all gen

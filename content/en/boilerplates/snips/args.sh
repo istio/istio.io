@@ -25,9 +25,9 @@ v1.3.0
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_previous_version <<\ENDSNIP
-1.26
+1.27
 ENDSNIP
 
 ! IFS=$'\n' read -r -d '' bpsnip_args_istio_full_version <<\ENDSNIP
-1.27.0
+1.28.0
 ENDSNIP
