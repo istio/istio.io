@@ -14,7 +14,7 @@ Además de su propia API de gestión de tráfico,
 {{< boilerplate gateway-api-future >}}
 Este documento describe las diferencias entre las APIs de Istio y Kubernetes y proporciona un ejemplo simple
 que te muestra cómo configurar Istio para exponer un servicio fuera del clúster de service mesh usando el Gateway API.
-Ten en cuenta que estas APIs son una evolución desarrollada activamente de las APIs de [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
+Ten en cuenta que estas APIs son una evolución desarrollada activamente de las APIs de [Servicio](https://kubernetes.io/docs/concepts/services-networking/service/)
 e [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) de Kubernetes.
 
 {{< tip >}}
