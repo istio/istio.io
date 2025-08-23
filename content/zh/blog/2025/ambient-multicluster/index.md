@@ -57,7 +57,7 @@ Ambient 多集群使用嵌套的 [HBONE](/zh/docs/ambient/architecture/hbone)
 ### 服务发现和范围 {#service-discovery-and-scope}
 
 将服务标记为全局服务可以实现跨集群通信。Istiod 配置东西向网关以接受全局服务流量并将其路由到本地 Pod，
-并编程 ztunnels 以将全局服务流量负载均衡到远程集群。
+并编程 ztunnel 以将全局服务流量负载均衡到远程集群。
 
 网格管理员通过 `ServiceScope` API 为全局服务定义基于标签的标准，
 应用开发者则相应地标记他们的服务。默认的 `ServiceScope` 是：
