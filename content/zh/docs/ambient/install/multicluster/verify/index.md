@@ -107,7 +107,6 @@ $ kubectl label --context="${CTX_CLUSTER1}" svc helloworld -n sample \
 
 将 `helloworld-v2` 应用程序部署到 `cluster2`：
 
-
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f @samples/helloworld/helloworld.yaml@ \
