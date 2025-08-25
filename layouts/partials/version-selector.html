@@ -1,0 +1,40 @@
+{{ $versions := site.Data.versions }}
+{{ $mainVerStr := $versions.main }}
+{{ $preliminaryVerStr := $versions.preliminary }}
+{{ $mainVerParts := split $mainVerStr "." }}
+{{ $major := index $mainVerParts 0 | int }}
+{{ $minor := index $mainVerParts 1 | int }}
+{{ $versionCount := 5 }}
+
+<!-- Preliminary version -->
+{{ $preUrl := printf "https://preliminary.istio.io/v%s/docs" $preliminaryVerStr }}
+<li class="main-navigation-links-dropdown-item">
+  <a href="{{ $preUrl }}"
+     class="main-navigation-links-link">
+     Preliminary
+  </a>
+</li>
+
+<!-- Main version -->
+{{ $mainUrl := printf "https://istio.io/v%s/docs" $mainVerStr }}
+<li class="main-navigation-links-dropdown-item">
+  <a href="{{ $mainUrl }}"
+     class="main-navigation-links-link">
+    <strong>v{{ $mainVerStr }} (Current)</strong>
+  </a>
+</li>
+
+<!-- Previous versions -->
+{{ range $i := seq 1 (sub $versionCount 1) }}
+  {{ $currentMinor := sub $minor $i }}
+  {{ if ge $currentMinor 0 }}
+    {{ $ver := printf "v%d.%d" $major $currentMinor }}
+    {{ $url := printf "https://istio.io/%s/docs" $ver }}
+    <li class="main-navigation-links-dropdown-item">
+      <a href="{{ $url }}"
+         class="main-navigation-links-link">
+        {{ $ver }}
+      </a>
+    </li>
+  {{ end }}
+{{ end }}

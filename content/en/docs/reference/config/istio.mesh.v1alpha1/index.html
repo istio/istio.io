@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 81
+number_of_entries: 83
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -4099,6 +4099,29 @@ standards.</p>
 
 </td>
 </tr>
+<tr id="ProxyConfig-ProxyHeaders-x_forwarded_host">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ProxyHeaders-x_forwarded_host">xForwardedHost</a></code></div>
+<div class="type"><a href="#ProxyConfig-ProxyHeaders-XForwardedHost">XForwardedHost</a></div>
+</div></td>
+<td>
+<p>Controls the <code>X-Forwarded-Host</code> header. If enabled, the <code>X-Forwarded-Host</code> header is appended
+with the original host when it is rewritten.
+This header is disabled by default.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ProxyHeaders-x_forwarded_port">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ProxyHeaders-x_forwarded_port">xForwardedPort</a></code></div>
+<div class="type"><a href="#ProxyConfig-ProxyHeaders-XForwardedPort">XForwardedPort</a></div>
+</div></td>
+<td>
+<p>Controls the <code>X-Forwarded-Port</code> header. If enabled, the <code>X-Forwarded-Port</code> header is header with the port value
+client used to connect to Envoy. It will be ignored if the <code>x-forwarded-port</code> header has been set by any
+trusted proxy in front of Envoy.
+This header is disabled by default.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -4163,6 +4186,46 @@ standards.</p>
 <tbody>
 <tr id="ProxyConfig-ProxyHeaders-AttemptCount-disabled">
 <td><div class="field"><div class="name"><code><a href="#ProxyConfig-ProxyHeaders-AttemptCount-disabled">disabled</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="ProxyConfig-ProxyHeaders-XForwardedHost">XForwardedHost</h4>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-XForwardedHost-enabled">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ProxyHeaders-XForwardedHost-enabled">enabled</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="ProxyConfig-ProxyHeaders-XForwardedPort">XForwardedPort</h4>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ProxyHeaders-XForwardedPort-enabled">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ProxyHeaders-XForwardedPort-enabled">enabled</a></code></div>
 <div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
 </div></td>
 <td>
