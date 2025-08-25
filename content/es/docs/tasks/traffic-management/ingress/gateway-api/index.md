@@ -1,6 +1,6 @@
 ---
 title: Kubernetes Gateway API
-description: Describes how to configure the Kubernetes Gateway API with Istio.
+description: Describe cómo configurar el Kubernetes Gateway API con Istio.
 weight: 50
 aliases:
     - /docs/tasks/traffic-management/ingress/service-apis/
@@ -10,65 +10,65 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-In addition to its own traffic management API,
+Además de su propia API de gestión de tráfico,
 {{< boilerplate gateway-api-future >}}
-This document describes the differences between the Istio and Kubernetes APIs and provides a simple example
-that shows you how to configure Istio to expose a service outside the service mesh cluster using the Gateway API.
-Note that these APIs are an actively developed evolution of the Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
-and [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) APIs.
+Este documento describe las diferencias entre las APIs de Istio y Kubernetes y proporciona un ejemplo simple
+que te muestra cómo configurar Istio para exponer un servicio fuera del clúster de service mesh usando el Gateway API.
+Ten en cuenta que estas APIs son una evolución desarrollada activamente de las APIs de [Servicio](https://kubernetes.io/docs/concepts/services-networking/service/)
+e [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/) de Kubernetes.
 
 {{< tip >}}
-Many of the Istio traffic management documents include instructions for using either the Istio or Kubernetes API
-(see the [control ingress traffic task](/es/docs/tasks/traffic-management/ingress/ingress-control), for example).
-You can use the Gateway API, right from the start, by following the [getting started instructions](/es/docs/setup/getting-started/).
+Muchos de los documentos de gestión de tráfico de Istio incluyen instrucciones para usar tanto la API de Istio como la de Kubernetes
+(consulta la [tarea de controlar tráfico de ingreso](/es/docs/tasks/traffic-management/ingress/ingress-control), por ejemplo).
+Puedes usar el Gateway API, desde el principio, siguiendo las [instrucciones de comenzar](/es/docs/setup/getting-started/).
 {{< /tip >}}
 
-## Setup
+## Configuración
 
-1. The Gateway APIs do not come installed by default on most Kubernetes clusters. Install the Gateway API CRDs if they are not present:
+1. Las APIs de Gateway no vienen instaladas por defecto en la mayoría de los clústeres de Kubernetes. Instala los CRDs del Gateway API si no están presentes:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-1. Install Istio using the `minimal` profile:
+1. Instala Istio usando el perfil `minimal`:
 
     {{< text bash >}}
     $ istioctl install --set profile=minimal -y
     {{< /text >}}
 
-## Differences from Istio APIs
+## Diferencias de las APIs de Istio
 
-The Gateway APIs share a lot of similarities to the Istio APIs such as Gateway and VirtualService.
-The main resource shares the same name, `Gateway`, and the resources serve similar goals.
+Las APIs de Gateway comparten muchas similitudes con las APIs de Istio como Gateway y VirtualService.
+El recurso principal comparte el mismo nombre, `Gateway`, y los recursos sirven objetivos similares.
 
-The new Gateway APIs aim to take the learnings from various Kubernetes ingress implementations, including Istio,
-to build a standardized vendor neutral API. These APIs generally serve the same purposes as Istio Gateway and VirtualService,
-with a few key differences:
+Las nuevas APIs de Gateway buscan incorporar las lecciones de varias implementaciones de ingress de Kubernetes, incluyendo Istio,
+para crear una API estandarizada neutral de proveedores. Estas APIs generalmente sirven los mismos propósitos que las APIs de Gateway y VirtualService,
+con algunas diferencias clave:
 
-* In Istio APIs, a `Gateway` *configures* an existing gateway Deployment/Service that has [been deployed](/es/docs/setup/additional-setup/gateway/).
-  In the Gateway APIs, the `Gateway` resource both *configures and deploys* a gateway.
-  See [Deployment Methods](#deployment-methods) for more information.
-* In the Istio `VirtualService`, all protocols are configured within a single resource.
-  In the Gateway APIs, each protocol type has its own resource, such as `HTTPRoute` and `TCPRoute`.
-* While the Gateway APIs offer a lot of rich routing functionality, it does not yet cover 100% of Istio's feature set.
-  Work is ongoing to extend the API to cover these use cases, as well as utilizing the APIs [extensibility](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)
-  to better expose Istio functionality.
+* En las APIs de Istio, un `Gateway` *configura* un Deployment/Service de gateway existente que [ha sido desplegado](/es/docs/setup/additional-setup/gateway/).
+  En las APIs de Gateway, el recurso `Gateway` tanto *configura como despliega* un gateway.
+  Consulta [Métodos de despliegue](#métodos-de-despliegue) para más información.
+* En el `VirtualService` de Istio, todos los protocolos se configuran en un solo recurso.
+  En las APIs de Gateway, cada tipo de protocolo tiene su propio recurso, como `HTTPRoute` y `TCPRoute`.
+* Aunque las APIs de Gateway ofrecen una gran funcionalidad de enrutamiento, no cubren aún el 100% de la funcionalidad de Istio.
+  El trabajo continúa para extender la API para cubrir estos casos de uso, así como para utilizar las APIs [extensibilidad](https://gateway-api.sigs.k8s.io/#gateway-api-concepts)
+  para exponer mejor la funcionalidad de Istio.
 
-## Configuring a Gateway
+## Configuración de un Gateway
 
-See the [Gateway API](https://gateway-api.sigs.k8s.io/) documentation for information about the APIs.
+Consulta la [documentación de la API de Gateway](https://gateway-api.sigs.k8s.io/) para información sobre las APIs.
 
-In this example, we will deploy a simple application and expose it externally using a `Gateway`.
+En este ejemplo, desplegaremos una aplicación simple y la expondremos externamente usando un `Gateway`.
 
-1. First, deploy the `httpbin` test application:
+1. Primero, despliega la aplicación de prueba `httpbin`:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-1. Deploy the Gateway API configuration including a single exposed route (i.e., `/get`):
+1. Despliega la configuración del Gateway API que incluye una sola ruta expuesta (es decir, `/get`):
 
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
@@ -110,14 +110,14 @@ In this example, we will deploy a simple application and expose it externally us
     EOF
     {{< /text >}}
 
-1.  Set the Ingress Host environment variable:
+1.  Establece la variable de entorno Ingress Host:
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
     {{< /text >}}
 
-1.  Access the `httpbin` service using _curl_:
+1.  Accede al servicio `httpbin` usando _curl_:
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
@@ -128,11 +128,11 @@ In this example, we will deploy a simple application and expose it externally us
     ...
     {{< /text >}}
 
-    Note the use of the `-H` flag to set the _Host_ HTTP header to
-    "httpbin.example.com". This is needed because the `HTTPRoute` is configured to handle "httpbin.example.com",
-    but in your test environment you have no DNS binding for that host and are simply sending your request to the ingress IP.
+    Nota el uso del flag `-H` para establecer el encabezado HTTP _Host_ a
+    "httpbin.example.com". Esto es necesario porque la regla `HTTPRoute` está configurada para manejar "httpbin.example.com",
+    pero en tu entorno de prueba no tienes un enlace DNS para ese host y simplemente envías tu solicitud al IP de ingress.
 
-1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
+1.  Accede a cualquier otro URL que no haya sido expuesto explícitamente. Deberías ver un error HTTP 404:
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
@@ -140,7 +140,7 @@ In this example, we will deploy a simple application and expose it externally us
     ...
     {{< /text >}}
 
-1.  Update the route rule to also expose `/headers` and to add a header to the request:
+1.  Actualiza la regla de ruta para exponer `/headers` y añade un encabezado a la solicitud:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -174,7 +174,7 @@ In this example, we will deploy a simple application and expose it externally us
     EOF
     {{< /text >}}
 
-1.  Access `/headers` again and notice header `My-Added-Header` has been added to the request:
+1.  Accede a `/headers` de nuevo y observa que el encabezado `My-Added-Header` ha sido añadido a la solicitud:
 
     {{< text bash >}}
     $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
@@ -183,19 +183,19 @@ In this example, we will deploy a simple application and expose it externally us
     ...
     {{< /text >}}
 
-## Deployment methods
+## Métodos de despliegue
 
-In the example above, you did not need to install an ingress gateway `Deployment` prior to configuring a Gateway.
-In the default configuration, a gateway `Deployment` and `Service` is automatically provisioned based on the `Gateway` configuration.
-For advanced use cases, manual deployment is still allowed.
+En el ejemplo anterior, no necesitaste instalar un gateway de ingress `Deployment` antes de configurar un Gateway.
+En la configuración por defecto, un gateway `Deployment` y `Service` se provisionan automáticamente basándose en la configuración del `Gateway`.
+Para casos de uso avanzados, el despliegue manual aún está permitido.
 
-### Automated deployment
+### Despliegue automático
 
-By default, each `Gateway` will automatically provision a `Service` and `Deployment`.
-These will be named `<Gateway name>-<GatewayClass name>` (with the exception of the `istio-waypoint` `GatewayClass`, which does not append a suffix).
-These configurations will be updated automatically if the `Gateway` changes (for example, if a new port is added).
+Por defecto, cada `Gateway` provisionará automáticamente un `Service` y un `Deployment`.
+Estos se nombrarán `<Nombre-Gateway>-<Nombre-GatewayClass>` (con la excepción del `GatewayClass` `istio-waypoint`, que no añade un sufijo).
+Estas configuraciones se actualizarán automáticamente si el `Gateway` cambia (por ejemplo, si se añade un nuevo puerto).
 
-These resources can be customized by using the `infrastructure` field:
+Estos recursos pueden ser personalizados usando el campo `infrastructure`:
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -215,11 +215,11 @@ spec:
   gatewayClassName: istio
 {{< /text >}}
 
-Key-value pairs under `labels` and `annotations` will be copied onto the generated resources.
-The `parametersRef` can be used to fully customize the generated resources.
-This must reference a `ConfigMap` in the same namespace as the `Gateway`.
+Los pares clave-valor bajo `labels` y `annotations` se copiarán en los recursos generados.
+El `parametersRef` puede ser usado para personalizar completamente los recursos generados.
+Este debe referenciar un `ConfigMap` en el mismo namespace que el `Gateway`.
 
-An example configuration:
+Un ejemplo de configuración:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -253,8 +253,8 @@ data:
         port: 15021
 {{< /text >}}
 
-These configurations will be overlaid on top of the generated resources using a [Strategic Merge Patch](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md) strategy.
-The following keys are valid:
+Estas configuraciones se superpondrán en los recursos generados usando una estrategia de [Strategic Merge Patch](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md)
+Las siguientes claves son válidas:
 * `service`
 * `deployment`
 * `serviceAccount`
@@ -262,22 +262,22 @@ The following keys are valid:
 * `podDisruptionBudget`
 
 {{< tip >}}
-A `HorizontalPodAutoscaler` and `PodDisruptionBudget` are not created by default.
-However, if the corresponding field is present in the customization, they will be created.
+Un `HorizontalPodAutoscaler` y un `PodDisruptionBudget` no se crean por defecto.
+Sin embargo, si el campo correspondiente está presente en la personalización, se crearán.
 {{< /tip >}}
 
-#### GatewayClass defaults
+#### Configuración por defecto de GatewayClass
 
-Defaults for all `Gateway`s can be configured for each `GatewayClass`.
-This is done by a `ConfigMap` with the label `gateway.istio.io/defaults-for-class: <gateway class name>`.
-This `ConfigMap` must be in the [root namespace](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace) (typically, `istio-system`).
-Only one `ConfigMap` per `GatewayClass` is allowed.
-This `ConfigMap` takes the same format as the `ConfigMap` for a `Gateway`.
+Las configuraciones por defecto para todos los `Gateway`s pueden ser configuradas para cada `GatewayClass`.
+Esto se hace con un `ConfigMap` con la etiqueta `gateway.istio.io/defaults-for-class: <nombre-gateway-class>`.
+Este `ConfigMap` debe estar en el [namespace raíz](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace) (generalmente, `istio-system`).
+Solo se permite un `ConfigMap` por `GatewayClass`.
+Este `ConfigMap` tiene el mismo formato que el `ConfigMap` para un `Gateway`.
 
-Customization may be present on both a `GatewayClass` and a `Gateway`.
-If both are present, the `Gateway` customization applies after the `GatewayClass` customization.
+La personalización puede estar presente tanto en un `GatewayClass` como en un `Gateway`.
+Si ambos están presentes, la personalización del `Gateway` se aplica después de la personalización del `GatewayClass`.
 
-This `ConfigMap` can also be created at installation time. For example:
+Este `ConfigMap` también puede ser creado en el momento de la instalación. Por ejemplo:
 
 {{< text yaml >}}
 kind: IstioOperator
@@ -290,16 +290,16 @@ spec:
             replicas: 2
 {{< /text >}}
 
-#### Resource attachment and scaling
+#### Asociación de recursos y escalado
 
-Resources can be *attached* to a `Gateway` to customize it.
-However, most Kubernetes resources do not currently support attaching directly to a `Gateway`, but they can be attached to the corresponding generated `Deployment` and `Service` instead.
-This is easily done because [the resources are generated with well-known labels](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment) (`gateway.networking.k8s.io/gateway-name: <gateway name>`) and names:
+Los recursos pueden ser *asociados* a un `Gateway` para personalizarlo.
+Sin embargo, la mayoría de los recursos de Kubernetes no soportan actualmente la asociación directa a un `Gateway`, pero pueden ser asociados al `Deployment` y `Service` generado correspondiente.
+Esto es fácil de hacer porque [los recursos están generados con etiquetas bien conocidas](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment) (`gateway.networking.k8s.io/gateway-name: <nombre-gateway>`) y nombres:
 
-* Gateway: `<gateway name>-<gateway class name>`
-* Waypoint: `<gateway name>`
+* Gateway: `<nombre-gateway>-<nombre-gateway-class>`
+* Waypoint: `<nombre-gateway>`
 
-For example, to deploy a `Gateway` with a `HorizontalPodAutoscaler` and `PodDisruptionBudget`:
+Por ejemplo, para desplegar un `Gateway` con un `HorizontalPodAutoscaler` y un `PodDisruptionBudget`:
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -322,8 +322,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: gateway
 spec:
-  # Match the generated Deployment by reference
-  # Note: Do not use `kind: Gateway`.
+  # Coincide con el Deployment generado por referencia
+  # Nota: No use `kind: Gateway`.
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
@@ -345,20 +345,20 @@ metadata:
 spec:
   minAvailable: 1
   selector:
-    # Match the generated Deployment by label
+    # Coincide con el Deployment generado por etiqueta
     matchLabels:
       gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
-### Manual deployment
+### Despliegue manual
 
-If you do not want to have an automated deployment, a `Deployment` and `Service` can be [configured manually](/es/docs/setup/additional-setup/gateway/).
+Si no quieres tener un despliegue automático, un `Deployment` y un `Service` pueden ser [configurados manualmente](/es/docs/setup/additional-setup/gateway/).
 
-When this option is done, you will need to manually link the `Gateway` to the `Service`, as well as keep their port configuration in sync.
+Cuando esta opción se realiza, necesitarás enlazar manualmente el `Gateway` al `Service`, así como mantener la configuración de sus puertos sincronizada.
 
-In order to support Policy Attachment, e.g. when you're using the [`targetRef`](/es/docs/reference/config/type/workload-selector/#PolicyTargetReference) field on an AuthorizationPolicy, you will also need to reference the name of your `Gateway` by adding the following label to your gateway pod: `gateway.networking.k8s.io/gateway-name: <gateway name>`.
+Para soportar la asociación de políticas, por ejemplo, cuando estás usando el campo [`targetRef`](/es/docs/reference/config/type/workload-selector/#PolicyTargetReference) en una AuthorizationPolicy, también necesitarás referenciar el nombre de tu `Gateway` añadiendo la siguiente etiqueta a tu pod de gateway: `gateway.networking.k8s.io/gateway-name: <nombre-gateway>`.
 
-To link a `Gateway` to a `Service`, configure the `addresses` field to point to a **single** `Hostname`.
+Para enlazar un `Gateway` a un `Service`, configura el campo `addresses` para apuntar a un **único** `Hostname`.
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -372,12 +372,12 @@ spec:
 ...
 {{< /text >}}
 
-## Mesh Traffic
+## Tráfico de Mesh
 
-The Gateway API can also be used to configure mesh traffic.
-This is done by configuring the `parentRef` to point to a service, instead of a gateway.
+El Gateway API también puede ser usado para configurar el tráfico de mesh.
+Esto se hace configurando el `parentRef` para apuntar a un servicio, en lugar de un gateway.
 
-For example, to add a header on all calls to an in-cluster `Service` named `example`:
+Por ejemplo, para añadir un encabezado a todas las llamadas a un servicio en clúster `example`:
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -401,11 +401,11 @@ spec:
       port: 80
 {{< /text >}}
 
-More details and examples can be found in other [traffic management tasks](/es/docs/tasks/traffic-management/).
+Más detalles y ejemplos pueden ser encontrados en otras [tareas de gestión de tráfico](/es/docs/tasks/traffic-management/).
 
-## Cleanup
+## Limpieza
 
-1. Remove the `httpbin` sample and gateway:
+1. Elimina la muestra `httpbin` y el gateway:
 
     {{< text bash >}}
     $ kubectl delete -f @samples/httpbin/httpbin.yaml@
@@ -414,14 +414,14 @@ More details and examples can be found in other [traffic management tasks](/es/d
     $ kubectl delete ns istio-ingress
     {{< /text >}}
 
-1. Uninstall Istio:
+1. Desinstala Istio:
 
     {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
     {{< /text >}}
 
-1. Remove the Gateway API CRDs if they are no longer needed:
+1. Elimina los CRDs del Gateway API si ya no son necesarios:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -

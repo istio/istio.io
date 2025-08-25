@@ -10,7 +10,7 @@ test: yes
 Esta tarea muestra cómo configurar el interruptor de circuito para conexiones, solicitudes
 y detección de valores atípicos.
 
-el interruptor de circuito es un patrón importante para crear applications de microservices resilientes.
+el interruptor de circuito es un patrón importante para crear applications de microservicios resilientes.
 el interruptor de circuito le permite escribir applications que limitan el impacto de fallos, picos de latencia y otros efectos indeseables de las peculiaridades de la red.
 
 En esta tarea, configurará las reglas de interruptor de circuito y luego probará la

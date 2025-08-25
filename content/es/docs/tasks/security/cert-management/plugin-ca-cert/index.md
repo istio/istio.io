@@ -18,7 +18,7 @@ y utilizar la CA raíz para emitir certificados intermedios a las CA de Istio qu
 Una CA de Istio puede firmar certificados de workloads utilizando el certificado y la clave especificados por el administrador, y distribuir un
 certificado raíz especificado por el administrador a los workloads como la raíz de confianza.
 
-El siguiente gráfico demuestra la jerarquía de CA recomendada en una malla que contiene dos clusters.
+El siguiente gráfico demuestra la jerarquía de CA recomendada en un mesh que contiene dos clusters.
 
 {{< image width="50%"
     link="ca-hierarchy.svg"
