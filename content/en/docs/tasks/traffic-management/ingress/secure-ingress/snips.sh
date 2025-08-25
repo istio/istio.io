@@ -441,8 +441,11 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
+      frontendValidation:
+        caCertificateRefs:
+        - group: ""
+          kind: Secret
+          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
