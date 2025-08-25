@@ -23,7 +23,26 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if .HasChildren }}
+                    {{ if and (eq .Identifier "docs") (eq $.Section "docs") (not $.Site.Data.args.archive) }}
+                    <li class="main-navigation-links-item">
+                    <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
+                        <span>{{ .Name }}</span>
+                        {{ partial "icon.html" "dropdown-arrow" }}
+                    </a>
+
+                    <ul class="main-navigation-links-dropdown">
+                        {{ range .Children }}
+                        <li class="main-navigation-links-dropdown-item">
+                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                        </li>
+                        {{ end }}
+
+
+                        {{ partial "version-selector.html" $ }}
+
+                    </ul>
+                    </li>
+                    {{else if .HasChildren }}
                         <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
@@ -48,11 +67,12 @@
                 {{ end }}
             </ul>
 
+
+
             <div class="main-navigation-footer">
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
                 <a href='{{ "/docs/overview/quickstart" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
             </div>
-            
         </div>
 
         <form id="search-form" class="search" name="cse" role="search">
@@ -69,5 +89,7 @@
             <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
         </form>
+
+
     </nav>
 </header>

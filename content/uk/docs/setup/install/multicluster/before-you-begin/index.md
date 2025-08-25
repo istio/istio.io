@@ -17,6 +17,16 @@ owner: istio/wg-environments-maintainers
 
 Для цього посібника вам потрібно мати два кластери Kubernetes з однією з [підтримуваних версій Kubernetes:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
+{{< tip >}}
+Якщо ви тестуєте налаштування мультикластеру на `kind`, ви можете скористатися скриптом `samples/kind-lb/setupkind.sh`, щоб швидко налаштувати кластери з підтримкою балансування навантаження:
+
+{{< text bash >}}
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
+{{< /text >}}
+
+{{< /tip >}}
+
 ### Доступ до API-сервера {#api-server-access}
 
 API-сервер у кожному кластері повинен бути доступний для інших кластерів у межах сервісної мережі. Багато хмарних провайдерів надають доступ до API-серверів через мережеві балансувальники навантаження (NLB). Якщо API-сервер недоступний напряму, вам доведеться змінити процедуру встановлення для забезпечення доступу. Наприклад, шлюз [схід-захід](https://en.wikipedia.org/wiki/East-west_traffic), який використовується в конфігураціях з кількома мережами та основний-віддалений, може також використовуватися для забезпечення доступу до API-сервера.
@@ -37,6 +47,16 @@ $ export CTX_CLUSTER1=<your cluster1 context>
 $ export CTX_CLUSTER2=<your cluster2 context>
 {{< /text >}}
 
+{{< tip >}}
+Якщо ви використовуєте `kind`, встановіть наступні контексти:
+
+{{< text bash >}}
+$ export CTX_CLUSTER1=$(kubectl config get-contexts -o name | grep kind-cluster-1)
+$ export CTX_CLUSTER2=$(kubectl config get-contexts -o name | grep kind-cluster-2)
+{{< /text >}}
+
+{{< /tip >}}
+
 ## Налаштування довіри {#configure-trust}
 
 Для розгортання сервісної мережі в мультикластері потрібно встановити довіру між усіма кластерами в мережі. Залежно від вимог до вашої системи, можуть бути доступні різні варіанти для встановлення довіри. Дивіться [управління сертифікатами](/docs/tasks/security/cert-management/) для детальних описів та інструкцій щодо всіх доступних варіантів. Залежно від обраного варіанту, інструкції з встановлення Istio можуть дещо змінитися.
@@ -49,6 +69,47 @@ $ export CTX_CLUSTER2=<your cluster2 context>
 
 {{< tip >}}
 Якщо у вас наразі є єдиний кластер із самопідписним ЦС (як описано в розділі [Початок роботи](/docs/setup/getting-started/)), вам потрібно змінити ЦС, використовуючи один із методів, описаних в розділі [управління сертифікатами](/docs/tasks/security/cert-management/). Зміна ЦС зазвичай вимагає повторного встановлення Istio. Нижченаведені інструкції щодо встановлення можуть потребувати змін залежно від вибору ЦС.
+{{< /tip >}}
+
+{{< tip >}}
+Якщо ви використовуєте `kind`, ви можете швидко створити самопідписні сертифікати CA для своїх кластерів за допомогою наданого Makefile:
+
+{{< text bash >}}
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    ROOTCA_CN="Root CA" \
+    ROOTCA_ORG=istio.io \
+    root-ca
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    INTERMEDIATE_CN="Cluster 1 Intermediate CA" \
+    INTERMEDIATE_ORG=istio.io \
+    cluster1-cacerts
+$ make -f @tools/certs/Makefile.selfsigned.mk@ \
+    INTERMEDIATE_CN="Cluster 2 Intermediate CA" \
+    INTERMEDIATE_ORG=istio.io \
+    cluster2-cacerts
+{{< /text >}}
+
+Це створить кореневий сертифікат CA та проміжні сертифікати CA для кожного кластера, які ви потім зможете використовувати для налаштування довіри між вашими кластерами.
+
+Щоб створити секрет `cacerts` у кожному кластері, після генерації сертифікатів виконайте наступну команду:
+
+{{< text bash >}}
+$ kubectl --context="${CTX_CLUSTER1}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER1}" create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem=cluster1/ca-cert.pem \
+    --from-file=ca-key.pem=cluster1/ca-key.pem \
+    --from-file=root-cert.pem=cluster1/root-cert.pem \
+    --from-file=cert-chain.pem=cluster1/cert-chain.pem
+$ kubectl --context="${CTX_CLUSTER2}" create namespace istio-system
+$ kubectl --context="${CTX_CLUSTER2}" create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem=cluster2/ca-cert.pem \
+    --from-file=ca-key.pem=cluster2/ca-key.pem \
+    --from-file=root-cert.pem=cluster2/root-cert.pem \
+    --from-file=cert-chain.pem=cluster2/cert-chain.pem
+{{< /text >}}
+
+Це створить секрет `cacerts` в просторі імен `istio-system` кожного кластера, що дозволить Istio використовувати ваші власні сертифікати CA.
+
 {{< /tip >}}
 
 ## Наступні кроки {#next-steps}

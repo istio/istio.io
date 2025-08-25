@@ -26,6 +26,8 @@ DNS proxying is enabled by default in ambient mode from Istio 1.25 onwards.
 
 For versions prior to 1.25, you can enable DNS capture by setting `values.cni.ambient.dnsCapture=true` and `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` during installation.
 
+Individual pods may opt-out of global ambient mode DNS capture by applying the `ambient.istio.io/dns-capture=false` annotation.
+
 ### Sidecar mode
 
 This feature is not currently enabled by default. To enable it, install Istio with the following settings:
