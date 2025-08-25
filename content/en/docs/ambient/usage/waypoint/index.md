@@ -35,7 +35,7 @@ Waypoint proxies are deployed using Kubernetes Gateway resources.
 
 {{< boilerplate gateway-api-install-crds >}}
 
-You can use istioctl waypoint subcommands to generate, apply or list these resources.
+You can use `istioctl waypoint` subcommands to generate, apply or list these resources.
 
 After the waypoint is deployed, the entire namespace (or whichever services or pods you choose) must be [enrolled](#useawaypoint) to use it.
 
@@ -243,7 +243,7 @@ $ kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypo
 serviceentries.networking.istio.io/istio-site labeled
 {{< /text >}}
 
-### Cleaning up
+## Removing waypoints
 
 You can remove all waypoints from a namespace by doing the following:
 
@@ -251,5 +251,3 @@ You can remove all waypoints from a namespace by doing the following:
 $ istioctl waypoint delete --all -n default
 $ kubectl label ns default istio.io/use-waypoint-
 {{< /text >}}
-
-{{< boilerplate gateway-api-remove-crds >}}
