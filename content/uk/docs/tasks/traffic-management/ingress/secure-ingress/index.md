@@ -609,6 +609,7 @@ Istio підтримує кілька різних форматів секрет
 * TLS Secret з ключами `tls.key` і `tls.crt`, як описано вище. Для взаємного TLS, окремий загальний Secret з назвою `<secret>-cacert`, з ключем `cacert`. Наприклад, `httpbin-credential` має `tls.key` і `tls.crt`, а `httpbin-credential-cacert` має `cacert`.
 * Загальний Secret з ключами `key` та `cert`. Для взаємного TLS можна використовувати ключ `cacert`.
 * Загальний Secret з ключами `key` та `cert`. Для взаємного TLS можна використовувати окремий загальний секрет з назвою `<secret>-cacert`, який містить ключ `cacert`. Наприклад, `httpbin-credential` має `key` та `cert`, а `httpbin-credential-cacert` має `cacert`.
+* Для взаємного TLS можна посилатися на окремий загальний Secret з ключем `cacert` або `ca.crt` за допомогою `caCertCredentialName`. Він має перевагу над сертифікатами CA в Secret, на який посилаються з `credentialName(s)`.
 * Значення ключа `cacert` може бути зв'язкою сертифікатів CA, яка складається з окремих об'єднаних сертифікатів CA.
 
 ### SNI маршрутизація {#sni-routing}
