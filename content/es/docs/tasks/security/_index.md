@@ -1,6 +1,6 @@
 ---
 title: Seguridad
-description: Demuestra cómo asegurar la malla.
+description: Demuestra cómo asegurar la mesh.
 weight: 19
 aliases:
     - /docs/tasks/istio-auth.html
