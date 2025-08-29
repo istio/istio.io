@@ -463,7 +463,7 @@ Para simular un service externo real que admita el protocolo mTLS,
 despliegue un servidor [NGINX](https://www.nginx.com) en su cluster de Kubernetes, pero ejecutándose fuera de
 la service mesh de Istio, es decir, en un namespace sin la inyección de proxy sidecar de Istio habilitada.
 
-1.  Cree un namespace para representar services fuera de la malla de Istio, llamado `mesh-external`. Tenga en cuenta que el proxy sidecar
+1.  Cree un namespace para representar servicios fuera de la mesh de Istio, llamado `mesh-external`. Tenga en cuenta que el proxy sidecar
     no se inyectará automáticamente en los pods de este namespace ya que la inyección automática de sidecar no estaba
     [habilitada](/es/docs/setup/additional-setup/sidecar-injection/#deploying-an-app) en él.
 
