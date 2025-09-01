@@ -12229,7 +12229,7 @@ spec:
   profile: demo
   telemetry:
     enabled: false</code></pre>
-<h2 id="installing-with-hahahugoshortcode304s4hbhb">Installing with istioctl</h2>
+<h2 id="installing-with-hahahugoshortcode305s4hbhb">Installing with istioctl</h2>
 <p>The recommended way to use the Istio operator API is through a new set of <code>istioctl</code> commands.
 For example, to install Istio into a cluster:</p>
 <pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ istioctl manifest apply -f &lt;your-istiocontrolplane-customresource&gt;</code></pre>
