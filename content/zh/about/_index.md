@@ -7,10 +7,10 @@ weight: 15
 icon: about
 doc_type: about
 cascade:
-  _build:
+  build:
     render: always
     list: always
-_build:
+build:
   render: never
   list: never
 ---

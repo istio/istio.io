@@ -538,9 +538,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-因为 Kubernetes Gateway API 目前不支持
-[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
-中的双向 TLS 终止，所以我们使用 Istio 特定的选项 `gateway.istio.io/tls-terminate-mode: MUTUAL` 来配置它：
+添加对包含 CA 证书的带有 `ca.crt` 或 `cacert` 键的 ConfigMap 或 Secret 的引用。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -560,8 +558,11 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
+      frontendValidation:
+        caCertificateRefs:
+        - group: ""
+          kind: Secret
+          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
