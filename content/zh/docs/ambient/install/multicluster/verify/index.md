@@ -5,7 +5,7 @@ weight: 50
 keywords: [kubernetes,multicluster,ambient]
 test: yes
 owner: istio/wg-environments-maintainers
-prev: /docs/ambient/install/multicluster/multi-primary_multi-network
+prev: /zh/docs/ambient/install/multicluster/multi-primary_multi-network
 ---
 按照本指南验证您的 Ambient 多集群 Istio 安装是否正常工作。
 
