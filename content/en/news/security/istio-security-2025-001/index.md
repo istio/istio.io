@@ -17,7 +17,7 @@ skip_seealso: true
 
 ### Envoy CVEs
 
-- __[CVE-2025-55162](https://github.com/envoyproxy/envoy/security/advisories/GHSA-95j4-hw7f-v2rh)__: (CVSS score 6.3, Moderate): oAuth2 Filter Signout route will not clear cookies because of missing "secure;" flag
+- __[CVE-2025-55162](https://github.com/envoyproxy/envoy/security/advisories/GHSA-95j4-hw7f-v2rh)__: (CVSS score 6.3, Moderate): OAuth2 Filter Signout route will not clear cookies because of missing "secure;" flag
 - __[CVE-2025-54588](https://github.com/envoyproxy/envoy/security/advisories/GHSA-g9vw-6pvx-7gmw)__: (CVSS score 7.5, High): Use after free in DNS cache
 
 ## Am I Impacted?

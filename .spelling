@@ -1192,6 +1192,7 @@ sidecar.env
 sidecar.istio.io
 Sidecarless
 SignalFX
+Signout
 sigstore
 sinkInfo
 SkyWalking
@@ -1380,6 +1381,7 @@ v2
 v2-mysql
 v2.0
 v3
+v3.18.5
 validatable
 validator
 ValueType
