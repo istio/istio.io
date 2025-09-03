@@ -113,6 +113,7 @@ elif [[ "$IP_FAMILIES" =~ "IPv6" ]] && [[ "$IP_FAMILIES" =~ "IPv4" ]]; then
    KIND_IP_FAMILY="dual"
 fi
 export KIND_IP_FAMILY
+export NODE_IMAGE=""
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
@@ -120,10 +121,10 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
   export METRICS_SERVER_CONFIG_DIR=''
 
   if [[ "${TOPOLOGY}" == "SINGLE_CLUSTER" ]]; then
-    time setup_kind_cluster "istio-testing" "${NODE_IMAGE}"
+    time setup_kind_cluster "istio-testing"
   else
     time load_cluster_topology "${CLUSTER_TOPOLOGY_CONFIG_FILE}"
-    time setup_kind_clusters "${NODE_IMAGE}" "${KIND_IP_FAMILY}"
+    time setup_kind_clusters "" "${KIND_IP_FAMILY}"
 
     export TEST_ENV=kind-metallb
     export DOCTEST_KUBECONFIG
