@@ -113,7 +113,6 @@ elif [[ "$IP_FAMILIES" =~ "IPv6" ]] && [[ "$IP_FAMILIES" =~ "IPv4" ]]; then
    KIND_IP_FAMILY="dual"
 fi
 export KIND_IP_FAMILY
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.31.0"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
