@@ -87,7 +87,7 @@ try:
             print("ALL")
             sys.exit(0)
 
-        # Files that are being removed or that are unchanged don't require tests. Skip them.
+        # Files that are being removed or that are unchanged don't require tests. Skip them
         if file.status == "removed" or file.status == "unchanged":
             continue
 
