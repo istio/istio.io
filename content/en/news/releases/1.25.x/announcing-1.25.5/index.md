@@ -26,5 +26,5 @@ This release implements the security updates described in our 3rd of September p
 - **Fixed** an issue causing Gateway chart installation failures with Helm v3.18.5 due to a stricter JSON schema validator. The chart's schema has been updated to be compatible.
   ([Issue #57354](https://github.com/istio/istio/issues/57354))
 
-- **Fixed** an issue where the `PreserveHeaderCase` option was overriding other HTTP/1.x protocol options such as HTTP/1.0 support.
+- **Fixed** an issue where the `PreserveHeaderCase` option was overriding other HTTP/1.x protocol options, such as HTTP/1.0.
   ([Issue #57528](https://github.com/istio/istio/issues/57528))
