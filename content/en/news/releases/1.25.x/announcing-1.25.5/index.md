@@ -17,7 +17,7 @@ This release implements the security updates described in our 3rd of September p
 
 ## Changes
 
-- **Fixed** `istio-iptables` sometimes ignoring the IPv4 state in favor of the IPv6 one when deciding whether new iptables rules needed to be applied.
+- **Fixed** an issue where `istio-iptables` would sometimes ignore the IPv4 state in favor of the IPv6 state when deciding whether new iptables rules needed to be applied.
   ([Issue #56587](https://github.com/istio/istio/issues/56587))
 
 - **Fixed** a bug where our tag watcher code didn't consider the default revision to be the same as the default tag. This would cause issues where Kubernetes gateways wouldn't be programmed.
@@ -25,3 +25,6 @@ This release implements the security updates described in our 3rd of September p
 
 - **Fixed** an issue causing Gateway chart installation failures with Helm v3.18.5 due to a stricter JSON schema validator. The chart's schema has been updated to be compatible.
   ([Issue #57354](https://github.com/istio/istio/issues/57354))
+
+- **Fixed** an issue where the `PreserveHeaderCase` option was overriding other HTTP/1.x protocol options such as HTTP/1.0 support.
+  ([Issue #57528](https://github.com/istio/istio/issues/57528))
