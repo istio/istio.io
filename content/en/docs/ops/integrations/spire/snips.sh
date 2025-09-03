@@ -113,7 +113,9 @@ spec:
           labels:
             spiffe.io/spire-managed-identity: "true"
           spec:
-            containers:
+            # NOTE: Use `containers` instead of `initContainers`
+            # if native sidecars are disabled or not supported in your Kubernetes cluster.
+            initContainers:
             - name: istio-proxy
               volumeMounts:
               - name: workload-socket
