@@ -150,27 +150,6 @@ spec:
                     name: workload-socket
                     mountPath: "/run/secrets/workload-spiffe-uds"
                     readOnly: true
-                - path: spec.template.spec.initContainers
-                  value:
-                    - name: wait-for-spire-socket
-                      image: busybox:1.36
-                      volumeMounts:
-                        - name: workload-socket
-                          mountPath: /run/secrets/workload-spiffe-uds
-                          readOnly: true
-                      env:
-                        - name: CHECK_FILE
-                          value: /run/secrets/workload-spiffe-uds/socket
-                      command:
-                        - sh
-                        - "-c"
-                        - |-
-                          echo "$(date -Iseconds)" Waiting for: ${CHECK_FILE}
-                          while [[ ! -e ${CHECK_FILE} ]] ; do
-                            echo "$(date -Iseconds)" File does not exist: ${CHECK_FILE}
-                            sleep 15
-                          done
-                          ls -l ${CHECK_FILE}
 EOF
 }
 
