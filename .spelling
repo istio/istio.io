@@ -423,6 +423,8 @@ CVE-2024-53270
 CVE-2024-53271
 CVE-2025-30157
 CVE-2025-46821
+CVE-2025-54588
+CVE-2025-55162
 CVEs
 cves
 cvss
@@ -706,6 +708,7 @@ ISTIO-SECURITY-2023-003
 ISTIO-SECURITY-2023-004
 ISTIO-SECURITY-2024-006
 ISTIO-SECURITY-2024-007
+ISTIO-SECURITY-2025-001
 istio-system
 istio.io
 istio.io.
@@ -1189,6 +1192,7 @@ sidecar.env
 sidecar.istio.io
 Sidecarless
 SignalFX
+Signout
 sigstore
 sinkInfo
 SkyWalking
@@ -1377,6 +1381,7 @@ v2
 v2-mysql
 v2.0
 v3
+v3.18.5
 validatable
 validator
 ValueType
