@@ -72,7 +72,7 @@ try:
 
     test_paths = set()
 
-    # NOTE(mweiner): View [1] for schema of GitHub's API to list files in a PR.
+    # NOTE: View [1] for schema of GitHub's API to list files in a PR.
     # [1] https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files
 
     for file in pr.get_files():
