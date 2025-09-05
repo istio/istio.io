@@ -46,7 +46,7 @@ La sobrecarga de caché y propagación puede causar algún retraso.
 
 ## Desplegar el autorizador externo
 
-Primero, debe desplegar el autorizador externo. Para ello, simplemente desplegará el autorizador externo de ejemplo en un pod independiente en la malla.
+Primero, debe desplegar el autorizador externo. Para ello, simplemente desplegará el autorizador externo de ejemplo en un pod independiente en la mesh.
 
 1. Ejecute el siguiente comando para desplegar el autorizador externo de ejemplo:
 
@@ -65,8 +65,8 @@ Primero, debe desplegar el autorizador externo. Para ello, simplemente desplegar
     {{< /text >}}
 
 Alternativamente, también puede desplegar el autorizador externo como un contenedor separado en el mismo pod de la aplicación
-que necesita la autorización externa o incluso desplegarlo fuera de la malla. En cualquier caso, también deberá crear un
-recurso de entrada de service para registrar el service en la malla y asegurarse de que sea accesible para el proxy.
+que necesita la autorización externa o incluso desplegarlo fuera de la mesh. En cualquier caso, también deberá crear un
+recurso de entrada de service para registrar el service en la mesh y asegurarse de que sea accesible para el proxy.
 
 El siguiente es un ejemplo de entrada de service para un autorizador externo desplegado en un contenedor separado en el mismo pod
 de la aplicación que necesita la autorización externa.
@@ -78,12 +78,12 @@ metadata:
   name: external-authz-grpc-local
 spec:
   hosts:
-  - "external-authz-grpc.local" # El nombre del service a usar en el proveedor de extensión en la configuración de la malla.
+  - "external-authz-grpc.local" # El nombre del service a usar en el proveedor de extensión en la configuración de la mesh.
   endpoints:
   - address: "127.0.0.1"
   ports:
   - name: grpc
-    number: 9191 # El número de puerto a usar en el proveedor de extensión en la configuración de la malla.
+    number: 9191 # El número de puerto a usar en el proveedor de extensión en la configuración de la mesh.
     protocol: GRPC
   resolution: STATIC
 {{< /text >}}
@@ -91,8 +91,8 @@ spec:
 ## Definir el autorizador externo
 
 Para utilizar la acción `CUSTOM` en la política de autorización, debe definir el autorizador externo que está permitido
-utilizar en la malla. Esto se define actualmente en el [proveedor de extensión](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)
-en la configuración de la malla.
+utilizar en la mesh. Esto se define actualmente en el [proveedor de extensión](https://github.com/istio/api/blob/a205c627e4b955302bbb77dd837c8548e89e6e64/mesh/v1alpha1/config.proto#L534)
+en la configuración de la mesh.
 
 Actualmente, el único tipo de proveedor de extensión compatible es el proveedor [Envoy `ext_authz`](https://www.envoyproxy.io/docs/envoy/v1.16.2/intro/arch_overview/security/ext_authz_filter).
 El autorizador externo debe implementar la API de verificación `ext_authz` de Envoy correspondiente.
@@ -100,7 +100,7 @@ El autorizador externo debe implementar la API de verificación `ext_authz` de E
 En esta tarea, utilizará un [autorizador externo de ejemplo]({{< github_tree >}}/samples/extauthz) que
 permite solicitudes con la cabecera `x-ext-authz: allow`.
 
-1. Edite la configuración de la malla con el siguiente comando:
+1. Edite la configuración de la mesh con el siguiente comando:
 
     {{< text bash >}}
     $ kubectl edit configmap istio -n istio-system
@@ -168,7 +168,7 @@ El autorizador externo ya está listo para ser utilizado por la política de aut
           app: httpbin
       action: CUSTOM
       provider:
-        # El nombre del proveedor debe coincidir con el proveedor de extensión definido en la configuración de la malla.
+        # El nombre del proveedor debe coincidir con el proveedor de extensión definido en la configuración de la mesh.
         # También puede reemplazar esto con sample-ext-authz-http para probar la otra definición de autorizador externo.
         name: sample-ext-authz-grpc
       rules:
@@ -230,7 +230,7 @@ El autorizador externo ya está listo para ser utilizado por la política de aut
     $ kubectl delete namespace foo
     {{< /text >}}
 
-1. Elimine la definición del proveedor de extensión de la configuración de la malla.
+1. Elimine la definición del proveedor de extensión de la configuración de la mesh.
 
 ## Expectativas de rendimiento
 
