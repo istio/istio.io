@@ -34,7 +34,7 @@ application de ejemplo a lo largo de esta tarea.
     prometheus   ClusterIP   10.109.160.254   <none>        9090/TCP   4m
     {{< /text >}}
 
-1.  Envíe tráfico a la malla.
+1.  Envíe tráfico a la mesh.
 
     Para la muestra de Bookinfo, visite `http://$GATEWAY_URL/productpage` en su navegador web
     o emita el siguiente comando:
