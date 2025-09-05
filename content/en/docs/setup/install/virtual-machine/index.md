@@ -105,7 +105,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-    {{< boilerplate experimental >}}
+    {{< boilerplate alpha >}}
 
     {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
@@ -226,7 +226,7 @@ EOF
 
 First, create a template `WorkloadGroup` for the VM(s):
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -315,7 +315,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
