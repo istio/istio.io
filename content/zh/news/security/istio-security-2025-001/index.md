@@ -18,7 +18,7 @@ skip_seealso: true
 ### Envoy CVE {#envoy-cves}
 
 - __[CVE-2025-55162](https://github.com/envoyproxy/envoy/security/advisories/GHSA-95j4-hw7f-v2rh)__:
-  (CVSS score 6.3, Moderate)：gOAuth2 Filter Signout 路由由于缺少“secure;”标志将不会清除 Cookie
+  (CVSS score 6.3, Moderate)：OAuth2 Filter Signout 路由由于缺少“secure;”标志将不会清除 Cookie
 - __[CVE-2025-54588](https://github.com/envoyproxy/envoy/security/advisories/GHSA-g9vw-6pvx-7gmw)__:
   (CVSS score 7.5, High)：DNS 缓存释放后使用
 
