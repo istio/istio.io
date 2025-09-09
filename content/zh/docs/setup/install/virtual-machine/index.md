@@ -104,7 +104,7 @@ test: yes
 
     {{< tab name="自动化 WorkloadEntry 创建" category-value="autoreg" >}}
 
-    {{< boilerplate experimental >}}
+    {{< boilerplate alpha >}}
 
     {{< text bash >}}
     $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
@@ -225,7 +225,7 @@ EOF
 
 首先，为虚拟机创建 `WorkloadGroup` 模板：
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -317,7 +317,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 {{< tab name="自动化 WorkloadEntry 创建" category-value="autoreg" >}}
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
