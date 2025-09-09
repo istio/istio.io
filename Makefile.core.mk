@@ -196,7 +196,7 @@ build-old-archive-%:
 	@scripts/build_old_archive.sh $@
 
 # The init recipe was split into two recipes to solve an issue seen in prow
-# where paralyzation is happening and some tasks in a recipe were occuring out
+# where paralyzation is happening and some tasks in a recipe were occurring out
 # of order. The desired behavior is for `preinit` to do the clone and set up the
 # istio/istio directory. Then the eval task in `init` will have the directory in
 # which to run the `git command.

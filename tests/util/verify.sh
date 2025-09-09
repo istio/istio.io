@@ -117,7 +117,7 @@ __cmp_first_line() {
 
 # Returns 0 if $out is "like" $expected. Like implies:
 #   1. Same number of lines
-#   2. Same number of whitespace-seperated tokens per line
+#   2. Same number of whitespace-separated tokens per line
 #   3. Tokens can only differ in the following ways:
 #        - different elapsed time values (e.g. 25s, 2m30s).
 #        - different ip values. Disallows <none> and <pending> by
@@ -442,7 +442,7 @@ _verify_first_line() {
 #
 # Like implies:
 #   1. Same number of lines
-#   2. Same number of whitespace-seperated tokens per line
+#   2. Same number of whitespace-separated tokens per line
 #   3. Tokens can only differ in the following ways:
 #        - different elapsed time values
 #        - different ip values. Disallows <none> and <pending> by
