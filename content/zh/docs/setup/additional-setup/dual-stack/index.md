@@ -7,8 +7,6 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate beta >}}
-
 ## 先决条件 {#prerequisites}
 
 * Istio 1.17 或更高版本。
