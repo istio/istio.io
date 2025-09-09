@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate alpha >}}
+{{< boilerplate beta >}}
 
 ## 先决条件 {#prerequisites}
 
