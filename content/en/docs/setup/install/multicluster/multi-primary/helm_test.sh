@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1090,SC2154 source=content/en/docs/setup/install/multicluster/common.sh
+# shellcheck disable=SC1090,SC2154
 
 # Copyright Istio Authors
 #
