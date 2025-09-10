@@ -211,12 +211,10 @@ Below are the equivalent manual registrations based off the automatic registrati
     EOF
     {{< /text >}}
 
-{{< warning >}}
-If you are using Kubernetes 1.33 **and** have not disabled support for native sidecars in the Istio control plane, you must use `initContainers` in the injection template for sidecars. This is required because native sidecar support changes how sidecars are injected. 
-
-The SPIRE injection template for gateways should continue to use regular `containers` as before.
-{{< /warning >}}
-
+    {{< warning >}}
+    If you are using Kubernetes 1.33 **and** have not disabled support for [native sidecars](/blog/2023/native-sidecars/) in the Istio control plane, you must use `initContainers` in the injection template for sidecars. This is required because native sidecar support changes how sidecars are injected.
+    **NOTE:** The SPIRE injection template for gateways should continue to use regular `containers` as before.
+    {{< /warning >}}
 
 1. Apply the configuration:
 
