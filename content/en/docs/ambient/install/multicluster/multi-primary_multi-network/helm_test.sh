@@ -21,7 +21,10 @@ set -e
 set -u
 set -o pipefail
 
+#shellcheck source=tests/util/gateway-api.sh
 source "tests/util/gateway-api.sh"
+
+#shellcheck source=content/en/docs/setup/install/multicluster/common.sh
 source "content/en/docs/ambient/install/multicluster/common.sh"
 
 set_multi_network_vars
@@ -82,13 +85,13 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
-#shellcheck source=content/en/docs/setup/install/multicluster/common.sh
 time configure_trust
 time install_istio_helm
 time enable_endpoint_discovery
 time verify_load_balancing
 
 # @cleanup
+#shellcheck source=content/en/docs/setup/install/multicluster/common.sh
 source "content/en/docs/setup/install/multicluster/common.sh"
 set_multi_network_vars
 
