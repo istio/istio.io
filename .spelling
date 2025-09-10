@@ -97,6 +97,7 @@
 8.5
 8ms
 8x
+9254:7127:1337:ffff:ffff:ffff:ffff
 9ms
 a.k.a.
 Aakash2017
@@ -538,8 +539,6 @@ faq.md
 Faseela
 Fawad
 fcm.googleapis.com
-fd16:9254:7127:1337:ffff:ffff:ffff:ffff
-fd16:9254:7127:1337:ffff:ffff:ffff:ffff/128
 FDs
 feature_block
 FedRAMP

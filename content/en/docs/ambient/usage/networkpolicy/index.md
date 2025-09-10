@@ -64,7 +64,7 @@ Various CNI implementations solve this in different ways and seek to either work
 
 In Istio ambient, this problem is solved by using a combination of iptables rules and source network address translation (SNAT) to rewrite only packets that provably originate from the local node with a fixed link-local IP, so that they can be explicitly ignored by Istio policy enforcement as unsecured health probe traffic. A link-local IP was chosen as the default since they are typically ignored for ingress-egress controls, and [by IETF standard](https://datatracker.ietf.org/doc/html/rfc3927) are not routable outside of the local subnetwork.
 
-This behavior is transparently enabled when you add pods to the ambient mesh, and by default ambient uses the link-local addresses 169.254.7.127 (IPv4) and fd16:9254:7127:1337:ffff:ffff:ffff:ffff (IPv6) to identify and correctly allow kubelet health probe packets.
+This behavior is transparently enabled when you add pods to the ambient mesh, and by default ambient uses the link-local addresses `169.254.7.127` (IPv4) and `fd16:9254:7127:1337:ffff:ffff:ffff:ffff` (IPv6) to identify and correctly allow kubelet health probe packets.
 
 Note: If your workload, namespace, or cluster enforces Kubernetes `NetworkPolicy`, you must allow both the IPv4 and IPv6 addresses used by ambient mode. Depending on your CNI, packets with these addresses may otherwise be blocked, which will cause application pod health probes to fail once they join the ambient mesh.
 
@@ -100,4 +100,4 @@ spec:
           cidr: 169.254.7.127/32
 {{< /text >}}
 
-Note: If you are using a dual-stack cluster or an IPv6-only cluster, make sure to update your `NetworkPolicy` with the IPv6 ipBlock (fd16:9254:7127:1337:ffff:ffff:ffff:ffff/128) in addition to, or instead of, the IPv4 entry.
+Note: If you are using a dual-stack cluster or an IPv6-only cluster, make sure to update your `NetworkPolicy` with the IPv6 ipBlock (`fd16:9254:7127:1337:ffff:ffff:ffff:ffff/128`) in addition to, or instead of, the IPv4 entry.
