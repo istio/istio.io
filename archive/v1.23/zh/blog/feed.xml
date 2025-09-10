@@ -1520,7 +1520,7 @@ Istio 提供零信任网络、策略执行、流量管理、负载平衡和监�
 让您加入 <code>#teamcloudnative</code>！</p>
 ]]></description><pubDate>Fri, 08 Mar 2024 00:00:00 +0000</pubDate><link>/v1.23//zh/blog/2024/istio-phippy/</link><guid isPermaLink="true">/v1.23//zh/blog/2024/istio-phippy/</guid><category>istio</category><category>phippy</category><category>izzy</category><category>dolphin</category></item><item><title>2024 年 Istio 指导委员会</title><description><![CDATA[<p>Istio 指导委员会（Steering Committee）负责总体监督该项目的管理方面事宜，
 包括治理、品牌、营销以及与 CNCF 的合作。</p>
-<p>每年，Istio 项目的领导者都会针对<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=contributions">过去一年为 Istio 做出贡献的数百家公司</a>进行<a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">贡献比例评估</a>，
+<p>每年，Istio 项目的领导者都会针对<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=contributions">过去一年为 Istio 做出贡献的数百家公司</a>进行<a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">贡献比例评估</a>，
 并使用该指标按比例为我们的指导委员会分配九个贡献席位（Contribution Seat）。</p>
 <p>然后，我们的项目成员将投票选出四个社区席位（Community Seat），
 候选人来自未获得贡献席位的公司。</p>
@@ -3546,7 +3546,7 @@ Sidecar 部署仍然是使用 Istio 的推荐方法，而我们的
 微软<a href="https://openservicemesh.io/blog/osm-project-update/">决定将 Open Service Mesh 项目归档并协作推进 Istio</a>。
 Istio 作为<a href="https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1">活跃度排名第三的 CNCF 项目</a>，
 得到了 <a href="/zh/about/ecosystem/">20 多家供应商的支持</a>以及
-<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs">数十家公司的持续贡献</a>，
+<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=prs">数十家公司的持续贡献</a>，
 在服务网格领域没有比 Istio 更好的选择。</p>
 <p>我们邀请 Istio 社区为<a href="https://sessionize.com/istiocon-2023">即将举行的虚拟 IstioCon 2023 提交演讲话题</a>，
 这是与 KubeCon China 在上海同一个地点举办的
@@ -7009,7 +7009,7 @@ Amazon DynamoDB 端点选择与 Google Kubernetes Engine（GKE）
       </tr>
   </tbody>
 </table>
-<p><img alt="故障转移" src="/v1.23/zh/blog/2021/external-locality-failover/external-locality-failover.png"></p>
+<p><img src="/v1.23/zh/blog/2021/external-locality-failover/external-locality-failover.png" alt="故障转移"></p>
 <h2 id="define-external-endpoints-using-a-serviceentry">使用 ServiceEntry 定义外部端点</h2>
 <p><a href="/zh/docs/tasks/traffic-management/locality-load-balancing/">本地负载均衡</a>基于 <code>region</code>
 或 <code>zone</code> 工作，这通常是从 Kubernetes 节点上设置的标签推断出来的。
@@ -8175,7 +8175,7 @@ Control Plane 可以部署在一个 Cluster 中，尽管不能部署在它所控
 <h2 id="committee-and-election">2020 年委员会和选举</h2>
 <p>根据我们的<a href="https://docs.google.com/spreadsheets/d/1Dt-h9s8G7Wyt4r16ZVqcmdWXDuCaPC0kPS21BuAfCL8/edit#gid=0">席位分配流程</a>，今年谷歌将分配 5 个席位，IBM/Red Hat 将分配 3 个席位。作为过去 12 个月 Istio 的第三大贡献者，我们很高兴地宣布 Salesforce 赢得了一个贡献席位。</p>
 <p>第一次<a href="https://github.com/istio/community/tree/master/steering/elections/2020">社区席位选举</a>今日开始。成员有两周时间提名自己，投票将于 9 月 14 日至 27 日进行。你可以在 GitHub 上的 <code>istio/community</code> 知识库中了解有关选举的所有信息。我们也将在太平洋地区本周四 10:00 举办一个特别的<a href="http://bit.ly/istiocommunitymeet">社区会议</a>，讨论选举的变化和过程。我们希望在那里见到你!</p>
-]]></description><pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate><link>/v1.23//zh/blog/2020/steering-changes/</link><guid isPermaLink="true">/v1.23//zh/blog/2020/steering-changes/</guid><category>istio</category><category>steering</category><category>governance</category><category>community</category><category>election</category></item><item><title>在 Istio 中使用 MOSN：另一个数据平面</title><description><![CDATA[<p>MOSN（Modular Open Smart Network）是用 Go 编写的网络代理服务器。它是 <a href="https://www.antfin.com/">蚂蚁集团</a> 为 Sidecar、API Gateway、云原生 Ingress、Layer 4 或 Layer 7 负载均衡器等场景构建的。随着时间的推移，我们添加了额外的功能，例如多协议框架，多进程插件机制，DSL 和对 <a href="https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol">xDS API</a> 的支持。支持 xDS 意味着我们现在可以将 MOSN 用作 Istio 的数据平面。Istio 项目不支持此配置。如需帮助，请参阅下面的<a href="/zh/blog/2020/mosn-proxy/#了解更多">了解更多</a>。</p>
+]]></description><pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate><link>/v1.23//zh/blog/2020/steering-changes/</link><guid isPermaLink="true">/v1.23//zh/blog/2020/steering-changes/</guid><category>istio</category><category>steering</category><category>governance</category><category>community</category><category>election</category></item><item><title>在 Istio 中使用 MOSN：另一个数据平面</title><description><![CDATA[<p>MOSN（Modular Open Smart Network）是用 Go 编写的网络代理服务器。它是 <a href="https://www.antfin.com/">蚂蚁集团</a> 为 Sidecar、API Gateway、云原生 Ingress、Layer 4 或 Layer 7 负载均衡器等场景构建的。随着时间的推移，我们添加了额外的功能，例如多协议框架，多进程插件机制，DSL 和对 <a href="https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol">xDS API</a> 的支持。支持 xDS 意味着我们现在可以将 MOSN 用作 Istio 的数据平面。Istio 项目不支持此配置。如需帮助，请参阅下面的<a href="/zh/blog/2020/mosn-proxy/#%e4%ba%86%e8%a7%a3%e6%9b%b4%e5%a4%9a">了解更多</a>。</p>
 <h2 id="背景">背景</h2>
 <p>在 Service Mesh 领域，使用 Istio 作为控制平面已成为主流。由于 Istio 的数据面默认是基于 Envoy 构建的，因此它使用了 Envoy 的数据平面 API（统称为 xDS API）。这些 API 已与 Envoy 分开并进行了标准化，因此，通过在 MOSN 中实现它们，我们就可以使用 MOSN 替代 Envoy。Istio 的第三方数据平面集成可以通过以下三个步骤实现：</p>
 <ul>
@@ -8271,7 +8271,7 @@ Control Plane 可以部署在一个 Cluster 中，尽管不能部署在它所控
 <p>Open Usage Commons 专注于项目商标；它不涉及开放项目的其他方面，比如谁得到决策投票的规则。与早期的许多项目一样，Istio 的委员会也是由创始公司创立的小团队组成的。但是 Istio 已经成长和成熟（去年 Istio 是 <a href="https://octoverse.github.com/#fastest-growing-oss-projects-by-contributors">GitHub 中增长最快的开源项目的第 4 名！</a>），并且是时候开始 Istio 治理的下一次演变了。</p>
 <p>最近，<a href="https://aspenmesh.io/helping-istio-sail/">我们很荣幸地任命 Neeraj Poddar，Aspen Mesh 的联合创始人兼首席架构师</a>为技术监督委员会，该委员会负责项目的所有技术决策。Neeraj 是该项目的长期贡献者，并担任工作组领导。<a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#committee-members">TOC 现在由</a> 4 个不同公司的 7 个成员组成——Tetrate，IBM，谷歌和现在的 Aspen Mesh。</p>
 <p>我们的社区目前正在讨论如何管理监督市场和社区活动的指导委员会，来反映不断扩大的社区和生态系统。如果你对这种新的治理方式有想法，请访问正在进行积极讨论的 <a href="https://github.com/istio/community/pull/361">GitHub 上的 pull request</a>。</p>
-<p>在过去的 12 个月里，Istio 已经有了来自 <a href="https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=commits">100 多个组织</a>的提交，目前有<a href="http://eng.istio.io/maintainers">来自 14 个不同公司的 70 名维护者</a>。这种趋势正是项目创始人所希望的贡献者多样性，培养这种多样性仍然是首要任务。谷歌对 Istio 的未来感到兴奋，并希望您能成为其中的一员。</p>
+<p>在过去的 12 个月里，Istio 已经有了来自 <a href="https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&amp;var-metric=commits">100 多个组织</a>的提交，目前有<a href="http://eng.istio.io/maintainers">来自 14 个不同公司的 70 名维护者</a>。这种趋势正是项目创始人所希望的贡献者多样性，培养这种多样性仍然是首要任务。谷歌对 Istio 的未来感到兴奋，并希望您能成为其中的一员。</p>
 ]]></description><pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate><link>/v1.23//zh/blog/2020/open-usage/</link><guid isPermaLink="true">/v1.23//zh/blog/2020/open-usage/</guid><category>trademark</category><category>governance</category><category>steering</category></item><item><title>重做我们的插件集成</title><description><![CDATA[<p>从 Istio 1.6 开始，我们引入了一种与遥测插件集成的新方法，例如 Grafana，Prometheus，Zipkin，Jaeger 和 Kiali。</p>
 <p>在以前的版本中，这些附加软件是作为 Istio 安装的一部分捆绑在一起的。这使用户可以快速开始使用 Istio，无需进行任何复杂的配置即可安装和集成这些插件。但是，它带来一些问题：</p>
 <ul>
@@ -9841,7 +9841,7 @@ $ kubectl delete destinationrule localhost
           <td>联邦信息，数据和元数据</td>
       </tr>
       <tr>
-          <td><a href="http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736">HIPAA</a></td>
+          <td><a href="http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&amp;packageId=CRPT-104hrpt736">HIPAA</a></td>
           <td>个人健康数据</td>
       </tr>
       <tr>
@@ -9850,7 +9850,7 @@ $ kubectl delete destinationrule localhost
       </tr>
   </tbody>
 </table>
-<p><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a>，例如，建议将持卡人数据环境放置在和系统其它部分不同的网络上。它还需要使用 <a href="https://en.wikipedia.org/wiki/DMZ_(computing)">DMZ</a>，并在公网和 DMZ 之间以及 DMZ 和内部网络之间设置防火墙。</p>
+<p><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a>，例如，建议将持卡人数据环境放置在和系统其它部分不同的网络上。它还需要使用 <a href="https://en.wikipedia.org/wiki/DMZ_%28computing%29">DMZ</a>，并在公网和 DMZ 之间以及 DMZ 和内部网络之间设置防火墙。</p>
 <p>将敏感数据环境与其他信息系统隔离可以减少合规性检查的范围并提高敏感数据的安全性。缩小范围可降低合规性检查失败的风险，并降低合规性成本，因为根据合规性要求，要检查和保护的组件较少。</p>
 <p>通过将处理数据的应用程序各部分分离到单独的服务网格中（最好也是在单独的网络上），然后将具有不同合规性要求的网格连接到 <span class="term" data-title="Multi-Mesh" data-body="&lt;p&gt;Multi-mesh 是由两个或多个&lt;a href=&#34;/v1.23/zh/docs/reference/glossary/#service-mesh&#34;&gt;服务网格&lt;/a&gt;组成的部署模型。
 每个网格都有独立的命名管理和身份管理，但是您可以通过&lt;a href=&#34;/v1.23/zh/docs/reference/glossary/#mesh-federation&#34;&gt;网格联邦&lt;/a&gt;来暴露网格之间的服务，
@@ -9875,7 +9875,7 @@ $ kubectl delete destinationrule localhost
     </aside>
 </div>
 
-<p>各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>建议为 <em>持卡人数据</em> 环境实现网络隔离，并要求将此环境与 <a href="https://en.wikipedia.org/wiki/DMZ_(computing)">DMZ</a> 隔离。<a href="https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf">FedRAMP 边界授权指南</a>描述了联邦信息和数据的 <em>授权边界</em>，而 <a href="https://doi.org/10.6028/NIST.SP.800-37r2">NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法</a> <em>附录 G，授权边界注意事项</em> 建议保护这样的边界：</p>
+<p>各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>建议为 <em>持卡人数据</em> 环境实现网络隔离，并要求将此环境与 <a href="https://en.wikipedia.org/wiki/DMZ_%28computing%29">DMZ</a> 隔离。<a href="https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf">FedRAMP 边界授权指南</a>描述了联邦信息和数据的 <em>授权边界</em>，而 <a href="https://doi.org/10.6028/NIST.SP.800-37r2">NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法</a> <em>附录 G，授权边界注意事项</em> 建议保护这样的边界：</p>
 <div>
     <aside class="callout quote">
         <div class="type">
@@ -9901,7 +9901,7 @@ $ kubectl delete destinationrule localhost
 <ul>
 <li><strong>非统一命名</strong>。一个网格 <code>accounts</code> 命名空间中的 <code>withdraw</code> 服务可能与其他网格 <code>accounts</code> 命名空间中的 <code>withdraw</code> 服务具有不同的功能和 API。这种情况可能发生在没有统一命名空间和服务命名策略的组织中，或者当网格属于不同组织时。</li>
 <li><strong>默认不暴露任何内容</strong>。默认情况下，网格中没有任何暴露的服务，网格所有者必须明确指定要暴露的服务。</li>
-<li><strong>边界保护</strong>。流量的访问控制必须在入口网关上执行，这将阻止未经允许的流量进入网格。该要求实现了<a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">纵深防御原则</a>，并且是某些合规性标准的一部分，例如<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>。</li>
+<li><strong>边界保护</strong>。流量的访问控制必须在入口网关上执行，这将阻止未经允许的流量进入网格。该要求实现了<a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">纵深防御原则</a>，并且是某些合规性标准的一部分，例如<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>。</li>
 <li><strong>可能不存在共同信任</strong>。由于某些安全要求或由于网格所有者最初未计划网格联邦，可能会出现一个网格中的 Istio sidecar 不信任其他网格中的 Citadel 证书的情况。</li>
 </ul>
 <p>必需通过 <strong>默认不暴露任何内容</strong> 和 <strong>边界保护</strong> 来促进合规性并提高安全性。连接不同组织的网格，或者组织不能执行统一命名，或者不能建立网格之间的公共信任，<strong>非统一命名</strong> 和 <strong>可能不存在共同信任</strong> 也是必需的。</p>
@@ -10520,7 +10520,7 @@ Istio 是我所知的唯一解决方案，它可以让你：</p>
 所以您必须使用一些<a href="/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations">附加的安全机制</a>，
 比如 <a href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/">Kubernetes 网络策略</a> 或者 L3 防火墙。
 看一个 <a href="/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-Kubernetes-network-policies">Kubernetes 网络策略配置</a> 的例子。
-根据 <a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">纵深防御</a> 的概念，为同一个目标使用的安全机制越多越安全。</p>
+根据 <a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">纵深防御</a> 的概念，为同一个目标使用的安全机制越多越安全。</p>
 <p>您也必需也要确保 Istio 控制平面和出口网关不能被破坏。您的集群里面可能有成百上千的应用程序 Pod，而只有十几个 Istio 控制平面 Pod 和网关。
 您可以也应该聚焦在保护控制平面 Pod 和网关，因为这比较容易（需要保护的 Pod 数量很少），并且这对集群的安全性是最关键的。
 如果攻击者破坏了控制平面和出口网关，他们可以违反任何策略。</p>
@@ -10751,7 +10751,7 @@ Istio 是我所知的唯一解决方案，它可以让你：</p>
 <p>第二个要求指出：必须监控 SNI 和流量源。监控是防止攻击的第一步。即使攻击者可以从集群内访问外部服务，如果监控了访问请求，就会有机会发现可疑流量并且采取纠正措施。</p>
 <p>注意如果是应用程序发起的 TLS，Istio 的 sidecar 代理就只能看到 TCP 流量和包含 SNI 的 TLS 握手。源 pod 的标签可以识别出流量来源，但是 pod 的服务账号或者其它源识标识符也可以用来识别流量。我们把出口流量管控系统的这个特性叫做 <em>Kubernetes 可感知</em>：这个系统必须理解 Kubernetes 组件，比如 pod 和服务账号。如果这个系统不是 Kubernetes 可感知的，那它只能监控 IP 地址，并把它作为源的标示。</p>
 <p>第三个要求指出：Istio 运维人员必须能为整个集群所有的出口流量定规策略。策略指出集群中的 pod 可能会访问哪些外部服务。外部服务可以通过服务的 <a href="https://en.wikipedia.org/wiki/Fully_qualified_domain_name">全域名</a>（比如 <code>www.ibm.com</code>）或者泛域名（比如：<code>*.ibm.com</code>）进行标示。只有指定的外部服务可以访问，其它所有的出口流量都要被阻止。</p>
-<p>这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了<a href="https://en.wikipedia.org/wiki/Attack_surface">攻击面</a>。当外部服务有了它们自己的安全机制，您想使用<a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">纵深防御</a> 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。</p>
+<p>这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了<a href="https://en.wikipedia.org/wiki/Attack_surface">攻击面</a>。当外部服务有了它们自己的安全机制，您想使用<a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">纵深防御</a> 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。</p>
 <p>这个要求意味着外部服务必须能用域名来标示。我们把出口管控系统的这个特性叫做 DNS 感知。如果系统不是 DNS 可感知的，外部服务必须用 IP 地址标示。
 使用 IP 地址不方便而且经常不灵活，因为服务的 IP 地址会变的。有时候服务的所有 IP 地址甚至都不知道，比如：<a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a>。</p>
 <p>第四个要求指出：出口流量的源都必须添加策略，以高效扩展第三个要求。策略能明确那个源可以访问那个外部服务，并且就像第二个要求一样源必须要标示，例如：通过源 pod 的标签或者通过 pod 的服务账号。
@@ -10797,7 +10797,7 @@ Istio 是我所知的唯一解决方案，它可以让你：</p>
 Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。</p>
 <h2 id="有用的链接useful-links">有用的链接{useful-links}</h2>
 <ul>
-<li><a href="https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU">Istio 服务网格性能 (34:30)</a>, 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018</li>
+<li><a href="https://www.youtube.com/watch?time_continue=349&amp;v=G4F5aRFEXnU">Istio 服务网格性能 (34:30)</a>, 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018</li>
 <li><a href="https://discuss.istio.io/c/performance-and-scalability">Istio 性能和可扩展性讨论专题</a></li>
 </ul>
 <h2 id="免责声明disclaimer">免责声明{disclaimer}</h2>
