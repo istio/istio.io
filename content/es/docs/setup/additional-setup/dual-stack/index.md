@@ -7,8 +7,6 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate alpha >}}
-
 ## Prerequisites
 
 * Istio 1.17 or later.

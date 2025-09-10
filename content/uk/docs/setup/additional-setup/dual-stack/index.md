@@ -7,8 +7,6 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate alpha >}}
-
 ## Передумови {#prerequisites}
 
 * Istio 1.17 або новіший.
