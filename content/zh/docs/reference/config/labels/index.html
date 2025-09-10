@@ -110,15 +110,15 @@ Note: users wishing to use sidecar mode should see the <code>istio-injection</co
     </tr>
     <tr>
       <th>Feature Status</th>
-      <td>Alpha</td>
+      <td>Beta</td>
     </tr>
     <tr>
       <th>Resource Types</th>
-      <td>[Namespace]</td>
+      <td>[Namespace Gateway Pod]</td>
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>Istio control plane revision associated with the resource; e.g. <code>canary</code></p>
+      <td><p>Istio control plane revision or tag associated with the resource; e.g. <code>canary</code></p>
 </td>
     </tr>
   </tbody>
@@ -136,11 +136,11 @@ Note: users wishing to use sidecar mode should see the <code>istio-injection</co
     </tr>
     <tr>
       <th>Resource Types</th>
-      <td>[Namespace]</td>
+      <td>[MutatingWebhookConfiguration]</td>
     </tr>
     <tr>
       <th>Description</th>
-      <td><p>Istio control plane tag name associated with the resource; e.g. <code>canary</code></p>
+      <td><p>Istio control plane tag name associated with the resource - for internal use only</p>
 </td>
     </tr>
   </tbody>
