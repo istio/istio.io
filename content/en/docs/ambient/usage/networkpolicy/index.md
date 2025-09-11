@@ -64,9 +64,9 @@ Various CNI implementations solve this in different ways and seek to either work
 
 In Istio ambient, this problem is solved by using a combination of iptables rules and source network address translation (SNAT) to rewrite only packets that provably originate from the local node with a fixed link-local IP, so that they can be explicitly ignored by Istio policy enforcement as unsecured health probe traffic. A link-local IP was chosen as the default since they are typically ignored for ingress-egress controls, and [by IETF standard](https://datatracker.ietf.org/doc/html/rfc3927) are not routable outside of the local subnetwork.
 
-This behavior is transparently enabled when you add pods to the ambient mesh, and by default ambient uses the link-local address `169.254.7.127` to identify and correctly allow kubelet health probe packets.
+This behavior is transparently enabled when you add pods to the ambient mesh, and by default ambient uses the link-local addresses `169.254.7.127` (IPv4) and `fd16:9254:7127:1337:ffff:ffff:ffff:ffff` (IPv6) to identify and correctly allow kubelet health probe packets.
 
-However if your workload, namespace or cluster has a preexisting ingress or egress `NetworkPolicy`, depending on the CNI you are using, packets with this link-local address may be blocked by the explicit `NetworkPolicy`, which will cause your application pod health probes to begin failing when you add your pods to the ambient mesh.
+Note: If your workload, namespace, or cluster enforces Kubernetes `NetworkPolicy`, you must allow both the IPv4 and IPv6 addresses used by ambient mode. Depending on your CNI, packets with these addresses may otherwise be blocked, which will cause application pod health probes to fail once they join the ambient mesh.
 
 For instance, applying the following `NetworkPolicy` in a namespace would block all traffic (Istio or otherwise) to the `my-app` pod, **including** kubelet health probes. Depending on your CNI, kubelet probes and link-local addresses may be ignored by this policy, or be blocked by it:
 
@@ -83,7 +83,7 @@ spec:
   - Ingress
 {{< /text >}}
 
-Once the pod is enrolled in the ambient mesh, health probe packets will begin to be assigned a link local address via SNAT, which means health probes may begin to be blocked by your CNI's `NetworkPolicy` implementation. To allow ambient health probes to bypass `NetworkPolicy`, explicitly allow traffic from the host node to your pod by allow-listing the link-local address ambient uses for this traffic:
+Once the pod is enrolled in the ambient mesh, health probe packets will begin to be assigned a link local address via SNAT, which means health probes may begin to be blocked by your CNI's `NetworkPolicy` implementation. To allow ambient health probes to bypass `NetworkPolicy`, explicitly allow traffic from the host node to your pod by allow-listing the link-local addresses ambient uses for this traffic:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: networking.k8s.io/v1
@@ -99,3 +99,5 @@ spec:
       - ipBlock:
           cidr: 169.254.7.127/32
 {{< /text >}}
+
+Note: If you are using a dual-stack cluster or an IPv6-only cluster, make sure to update your `NetworkPolicy` with the IPv6 ipBlock (`fd16:9254:7127:1337:ffff:ffff:ffff:ffff/128`) in addition to, or instead of, the IPv4 entry.
