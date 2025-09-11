@@ -235,6 +235,13 @@ EOF
     EOF
     {{< /text >}}
 
+    {{< warning >}}
+    如果您使用的是 Kubernetes 1.33 版本，并且尚未在 Istio 控制平面中禁用对原生 Sidecar 的支持，
+    则必须在 Sidecar 注入模板中使用 `initContainers`。
+    这是必需的，因为原生 Sidecar 支持会改变 Sidecar 的注入方式。
+    **注意：**网关的 SPIRE 注入模板应继续像以前一样使用常规 `containers`。
+    {{< /warning >}}
+
 1. 应用配置：
 
     {{< text syntax=bash snip_id=apply_istio_operator_configuration >}}
