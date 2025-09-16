@@ -1,6 +1,6 @@
 ---
-title: Traffic Shifting
-description: Shows you how to migrate traffic from an old to new version of a service.
+title: Desplazamiento de Tráfico
+description: Te muestra cómo migrar tráfico de una versión antigua a una nueva versión de un servicio.
 weight: 30
 keywords: [traffic-management,traffic-shifting]
 aliases:
@@ -9,33 +9,33 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task shows you how to shift traffic from one version of a microservice to another.
+Esta tarea te muestra cómo desplazar tráfico de una versión de un microservicio a otra.
 
-A common use case is to migrate traffic gradually from an older version of a microservice to a new one.
-In Istio, you accomplish this goal by configuring a sequence of routing rules that redirect a percentage of traffic
-from one destination to another.
+Un caso de uso común es migrar tráfico gradualmente de una versión antigua de un microservicio a una nueva.
+En Istio, logras este objetivo configurando una secuencia de reglas de enrutamiento que redirigen un porcentaje de tráfico
+de un destino a otro.
 
-In this task, you will use send 50% of traffic to `reviews:v1` and 50% to `reviews:v3`. Then, you will
-complete the migration by sending 100% of traffic to `reviews:v3`.
+En esta tarea, enviarás 50% del tráfico a `reviews:v1` y 50% a `reviews:v3`. Luego,
+completarás la migración enviando 100% del tráfico a `reviews:v3`.
 
 {{< boilerplate gateway-api-support >}}
 
-## Before you begin
+## Antes de comenzar
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/es/docs/setup/).
+* Configura Istio siguiendo las instrucciones en la
+  [Guía de instalación](/es/docs/setup/).
 
-* Deploy the [Bookinfo](/es/docs/examples/bookinfo/) sample application.
+* Despliega la aplicación de ejemplo [Bookinfo](/es/docs/examples/bookinfo/).
 
-* Review the [Traffic Management](/es/docs/concepts/traffic-management) concepts doc.
+* Revisa el documento de conceptos de [Gestión de Tráfico](/es/docs/concepts/traffic-management).
 
-## Apply weight-based routing
+## Aplicar enrutamiento basado en peso
 
 {{< warning >}}
-If you haven't already, follow the instructions in [define the service versions](/es/docs/examples/bookinfo/#define-the-service-versions).
+Si no lo has hecho ya, sigue las instrucciones en [definir las versiones del servicio](/es/docs/examples/bookinfo/#define-the-service-versions).
 {{< /warning >}}
 
-1.  To get started, run this command to route all traffic to the `v1` version:
+1.  Para comenzar, ejecuta este comando para enrutar todo el tráfico a la versión `v1`:
 
 {{< tabset category-name="config-api" >}}
 
@@ -57,15 +57,15 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v1.yaml@
 
 {{< /tabset >}}
 
-2)  Open the Bookinfo site in your browser. The URL is `http://$GATEWAY_URL/productpage`, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+2)  Abre el sitio Bookinfo en tu navegador. La URL es `http://$GATEWAY_URL/productpage`, donde `$GATEWAY_URL` es la dirección IP externa del ingress, como se explica en
+el documento [Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-    Notice that the reviews part of the page displays with no rating stars, no
-    matter how many times you refresh. This is because you configured Istio to route
-    all traffic for the reviews service to the version `reviews:v1` and this
-    version of the service does not access the star ratings service.
+    Nota que la parte de reseñas de la página se muestra sin estrellas,
+    independientemente de cuántas veces la refresques. Esto es porque configuraste Istio para enrutar
+    todo el tráfico para el servicio de reseñas a la versión `reviews:v1` y esta
+    versión del servicio no accede al servicio de valoraciones.
 
-3)  Transfer 50% of the traffic from `reviews:v1` to `reviews:v3` with the following command:
+3)  Transfiere el 50% del tráfico de `reviews:v1` a `reviews:v3` con el siguiente comando:
 
 {{< tabset category-name="config-api" >}}
 
@@ -87,8 +87,8 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-50-v3.yaml@
 
 {{< /tabset >}}
 
-4) Wait a few seconds for the new rules to propagate and then
-confirm the rule was replaced:
+4) Espera unos segundos para que las nuevas reglas se propaguen y luego
+confirma que la regla se reemplazó:
 
 {{< tabset category-name="config-api" >}}
 
@@ -161,18 +161,18 @@ status:
 
 {{< /tabset >}}
 
-5)  Refresh the `/productpage` in your browser and you now see *red* colored star ratings approximately 50% of the time. This is because the `v3` version of `reviews` accesses
-the star ratings service, but the `v1` version does not.
+5)  Refresca la `/productpage` en tu navegador y ahora verás *rojas* las estrellas de valoración aproximadamente el 50% del tiempo. Esto es porque la versión `v3` de `reviews` accede
+al servicio de valoraciones, pero la versión `v1` no.
 
     {{< tip >}}
-    With the current Envoy sidecar implementation, you may need to refresh the
-    `/productpage` many times --perhaps 15 or more--to see the proper distribution.
-    You can modify the rules to route 90% of the traffic to `v3` to see red stars
-    more often.
+    Con la implementación actual del sidecar de Envoy, puede que necesites refrescar
+    la `/productpage` muchas veces --quizás 15 o más-- para ver la distribución correcta.
+    Puedes modificar las reglas para enrutar el 90% del tráfico a `v3` para ver las estrellas rojas
+    más a menudo.
     {{< /tip >}}
 
-6)  Assuming you decide that the `reviews:v3` microservice is stable, you can
-route 100% of the traffic to `reviews:v3` by applying this virtual service:
+6)  Suponiendo que decides que el microservicio `reviews:v3` es estable, puedes
+enrutar el 100% del tráfico a `reviews:v3` aplicando este servicio virtual:
 
 {{< tabset category-name="config-api" >}}
 
@@ -194,21 +194,20 @@ $ kubectl apply -f @samples/bookinfo/gateway-api/route-reviews-v3.yaml@
 
 {{< /tabset >}}
 
-7) Refresh the `/productpage` several times. Now you will always see book reviews
-    with *red* colored star ratings for each review.
+7) Refresca la `/productpage` varias veces. Ahora siempre verás reseñas de libros
+    con *rojas* las estrellas de valoración para cada reseña.
 
-## Understanding what happened
+## Entendiendo lo que sucedió
 
-In this task you migrated traffic from an old to new version of the `reviews` service using Istio's weighted routing feature. Note that this is very different than doing version migration using the deployment features of container orchestration platforms, which use instance scaling to manage the traffic.
+En esta tarea migras tráfico de una versión antigua a una nueva versión del servicio `reviews` usando la característica de enrutamiento ponderado de Istio. Ten en cuenta que esto es muy diferente a hacer la migración de versiones usando las características de escalado de instancias de orquestación de contenedores, que usan el escalado de instancias para gestionar el tráfico.
 
-With Istio, you can allow the two versions of the `reviews` service to scale up and down independently, without affecting the traffic distribution between them.
+Con Istio, puedes permitir que las dos versiones del servicio `reviews` escalen independientemente, sin afectar la distribución del tráfico entre ellas.
 
-For more information about version routing with autoscaling, check out the blog
-article [Canary Deployments using Istio](/blog/2017/0.1-canary/).
+Para más información sobre el enrutamiento de versiones con autoscaling, consulta el artículo del blog [Desplazamientos de canario usando Istio](/blog/2017/0.1-canary/).
 
-## Cleanup
+## Limpieza
 
-1. Remove the application routing rules:
+1. Elimina las reglas de enrutamiento de la aplicación:
 
 {{< tabset category-name="config-api" >}}
 
@@ -230,6 +229,6 @@ $ kubectl delete httproute reviews
 
 {{< /tabset >}}
 
-2) If you are not planning to explore any follow-on tasks, refer to the
-  [Bookinfo cleanup](/es/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+2) Si no planeas explorar ninguna tarea posterior, consulta las
+  instrucciones de [limpieza del Bookinfo](/es/docs/examples/bookinfo/#cleanup)
+  para apagar la aplicación.

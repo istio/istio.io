@@ -7,7 +7,7 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-Esta tarea muestra cómo configurar la política de autorización de Istio de acción `DENY` para denegar explícitamente el tráfico en una malla de Istio.
+Esta tarea muestra cómo configurar la política de autorización de Istio de acción `DENY` para denegar explícitamente el tráfico en un mesh de Istio.
 Esto es diferente de la acción `ALLOW` porque la acción `DENY` tiene mayor prioridad y no será
 eludida por ninguna acción `ALLOW`.
 

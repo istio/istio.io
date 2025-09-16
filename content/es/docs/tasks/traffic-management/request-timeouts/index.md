@@ -1,6 +1,6 @@
 ---
-title: Request Timeouts
-description: This task shows you how to set up request timeouts in Envoy using Istio.
+title: Timeouts de Solicitud
+description: Esta tarea te muestra cómo configurar timeouts de solicitud en Envoy usando Istio.
 weight: 40
 aliases:
     - /docs/tasks/request-timeouts.html
@@ -9,27 +9,27 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-This task shows you how to set up request timeouts in Envoy using Istio.
+Esta tarea te muestra cómo configurar timeouts de solicitud en Envoy usando Istio.
 
 {{< boilerplate gateway-api-support >}}
 
-## Before you begin
+## Antes de comenzar
 
-* Setup Istio by following the instructions in the
-  [Installation guide](/es/docs/setup/).
+* Configura Istio siguiendo las instrucciones en la
+  [Guía de instalación](/es/docs/setup/).
 
-* Deploy the [Bookinfo](/es/docs/examples/bookinfo/) sample application including the
-  [service versions](/es/docs/examples/bookinfo/#define-the-service-versions).
+* Despliega la aplicación de ejemplo [Bookinfo](/es/docs/examples/bookinfo/) incluyendo las
+  [versiones del servicio](/es/docs/examples/bookinfo/#define-the-service-versions).
 
-## Request timeouts
+## Timeouts de solicitud
 
-A timeout for HTTP requests can be specified using a timeout field in a route rule.
-By default, the request timeout is disabled, but in this task you override the `reviews` service
-timeout to half a second.
-To see its effect, however, you also introduce an artificial 2 second delay in calls
-to the `ratings` service.
+Un timeout para solicitudes HTTP puede ser especificado usando un campo timeout en una regla de ruta.
+Por defecto, el timeout de solicitud está deshabilitado, pero en esta tarea sobrescribes el timeout del servicio `reviews`
+a medio segundo.
+Para ver su efecto, sin embargo, también introduces un retraso artificial de 2 segundos en las llamadas
+al servicio `ratings`.
 
-1.  Route requests to v2 of the `reviews` service, i.e., a version that calls the `ratings` service:
+1.  Ruta las solicitudes al servicio `reviews` v2, es decir, una versión que llama al servicio `ratings`:
 
 {{< tabset category-name="config-api" >}}
 
@@ -79,7 +79,7 @@ EOF
 
 {{< /tabset >}}
 
-2)  Add a 2 second delay to calls to the `ratings` service:
+2)  Añade un retraso de 2 segundos a las llamadas al servicio `ratings`:
 
 {{< tabset category-name="config-api" >}}
 
@@ -111,8 +111,8 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Gateway API does not support fault injection yet, so we need to use an Istio `VirtualService` to
-add the delay for now:
+Gateway API no soporta la inyección de fallos todavía, por lo que necesitamos usar un `VirtualService` de Istio
+para añadir el retraso por ahora:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -139,13 +139,13 @@ EOF
 
 {{< /tabset >}}
 
-3)  Open the Bookinfo URL `http://$GATEWAY_URL/productpage` in your browser, where `$GATEWAY_URL` is the External IP address of the ingress, as explained in
-the [Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
+3)  Abre la URL de Bookinfo `http://$GATEWAY_URL/productpage` en tu navegador, donde `$GATEWAY_URL` es la dirección IP externa del ingress, tal como se explica en
+la [Guía de Bookinfo](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port) doc.
 
-    You should see the Bookinfo application working normally (with ratings stars displayed),
-    but there is a 2 second delay whenever you refresh the page.
+    Deberías ver la aplicación Bookinfo funcionando normalmente (con estrellas de valoración mostradas),
+    pero hay un retraso de 2 segundos cada vez que refrescas la página.
 
-4)  Now add a half second request timeout for calls to the `reviews` service:
+4)  Ahora añade un timeout de solicitud de medio segundo para las llamadas al servicio `reviews`:
 
 {{< tabset category-name="config-api" >}}
 
@@ -198,43 +198,43 @@ EOF
 
 {{< /tabset >}}
 
-5)  Refresh the Bookinfo web page.
+5)  Refresca la página web de Bookinfo.
 
-    You should now see that it returns in about 1 second, instead of 2, and the reviews are unavailable.
+    Ahora deberías ver que tarda aproximadamente 1 segundo en devolverse, en lugar de 2, y las reseñas no están disponibles.
 
     {{< tip >}}
-    The reason that the response takes 1 second, even though the timeout is configured at half a second, is
-    because there is a hard-coded retry in the `productpage` service, so it calls the timing out `reviews` service
-    twice before returning.
+    La razón por la que la respuesta tarda 1 segundo, incluso aunque el timeout esté configurado a medio segundo, es
+    porque hay un reintento hardcodeado en el servicio `productpage`, por lo que llama al servicio `reviews` que está tardando
+    dos veces antes de devolverse.
     {{< /tip >}}
 
-## Understanding what happened
+## Entendiendo lo que ocurrió
 
-In this task, you used Istio to set the request timeout for calls to the `reviews`
-microservice to half a second. By default the request timeout is disabled.
-Since the `reviews` service subsequently calls the `ratings` service when handling requests,
-you used Istio to inject a 2 second delay in calls to `ratings` to cause the
-`reviews` service to take longer than half a second to complete and consequently you could see the timeout in action.
+En esta tarea, usaste Istio para establecer el timeout de solicitud para las llamadas al servicio `reviews`
+a medio segundo. Por defecto, el timeout de solicitud está deshabilitado.
+Dado que el servicio `reviews` llama al servicio `ratings` cuando maneja las solicitudes,
+usaste Istio para inyectar un retraso de 2 segundos en las llamadas a `ratings` para hacer que
+el servicio `reviews` tarde más de medio segundo en completarse y, por lo tanto, pudiste ver el timeout en acción.
 
-You observed that instead of displaying reviews, the Bookinfo product page (which calls the `reviews` service to populate the page) displayed
-the message: Sorry, product reviews are currently unavailable for this book.
-This was the result of it receiving the timeout error from the `reviews` service.
+Observaste que en lugar de mostrar reseñas, la página de producto de Bookinfo (que llama al servicio `reviews` para poblar la página) mostró
+el mensaje: Lo sentimos, las reseñas del producto no están disponibles por ahora.
+Esto fue el resultado de recibir el error de timeout del servicio `reviews`.
 
-If you examine the [fault injection task](/es/docs/tasks/traffic-management/fault-injection/), you'll find out that the `productpage`
-microservice also has its own application-level timeout (3 seconds) for calls to the `reviews` microservice.
-Notice that in this task you used an Istio route rule to set the timeout to half a second.
-Had you instead set the timeout to something greater than 3 seconds (such as 4 seconds) the timeout
-would have had no effect since the more restrictive of the two takes precedence.
-More details can be found [here](/es/docs/concepts/traffic-management/#network-resilience-and-testing).
+Si examinas la tarea de [inyección de fallos](/es/docs/tasks/traffic-management/fault-injection/), encontrarás que el servicio `productpage`
+también tiene su propio timeout de aplicación (3 segundos) para las llamadas al servicio `reviews`.
+Observa que en esta tarea usaste una regla de ruta de Istio para establecer el timeout a medio segundo.
+Si en su lugar hubieras establecido el timeout a algo mayor que 3 segundos (como 4 segundos), el timeout
+no habría tenido efecto ya que el más restrictivo de los dos prevalece.
+Más detalles se pueden encontrar [aquí](/es/docs/concepts/traffic-management/#network-resilience-and-testing).
 
-One more thing to note about timeouts in Istio is that in addition to overriding them in route rules,
-as you did in this task, they can also be overridden on a per-request basis if the application adds
-an `x-envoy-upstream-rq-timeout-ms` header on outbound requests. In the header,
-the timeout is specified in milliseconds instead of seconds.
+Una cosa más sobre los timeouts en Istio es que, además de sobrescribirlos en las reglas de ruta,
+como hiciste en esta tarea, también se pueden sobrescribir a nivel de solicitud por solicitud si la aplicación añade
+un encabezado `x-envoy-upstream-rq-timeout-ms` en las solicitudes de salida. En el encabezado,
+el timeout se especifica en milisegundos en lugar de segundos.
 
-## Cleanup
+## Limpieza
 
-*   Remove the application routing rules:
+*   Elimina las reglas de enrutamiento de la aplicación:
 
 {{< tabset category-name="config-api" >}}
 
@@ -257,6 +257,6 @@ $ kubectl delete virtualservice ratings
 
 {{< /tabset >}}
 
-* If you are not planning to explore any follow-on tasks, see the
-  [Bookinfo cleanup](/es/docs/examples/bookinfo/#cleanup) instructions
-  to shutdown the application.
+* Si no tienes intención de explorar ninguna tarea posterior, consulta las
+  [instrucciones de limpieza de Bookinfo](/es/docs/examples/bookinfo/#cleanup)
+  para apagar la aplicación.

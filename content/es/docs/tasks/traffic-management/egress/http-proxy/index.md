@@ -9,7 +9,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 El ejemplo [Configurar un Egress Gateway](/es/docs/tasks/traffic-management/egress/egress-gateway/) muestra cómo dirigir
-el tráfico a services externos desde su malla a través de un componente de borde de Istio llamado _Egress Gateway_. Sin embargo, algunos
+el tráfico a services externos desde su mesh a través de un componente de borde de Istio llamado _Egress Gateway_. Sin embargo, algunos
 casos requieren un proxy HTTPS externo y heredado (no Istio) para acceder a services externos. Por ejemplo, su
 empresa ya puede tener un proxy de este tipo en su lugar y todas las applications dentro de la organización pueden estar obligadas a
 dirigir su tráfico a través de él.

@@ -42,11 +42,11 @@ Esta tarea describe cómo configurar Istio para exponer un service fuera de la s
 
     Tenga en cuenta que, para el propósito de este documento, que muestra cómo usar un gateway para controlar el tráfico de entrada
     en su "cluster de Kubernetes", puede iniciar el service `httpbin` con o sin
-    la inyección de sidecar habilitada (es decir, el service de destino puede estar dentro o fuera de la malla de Istio).
+    la inyección de sidecar habilitada (es decir, el service de destino puede estar dentro o fuera de la mesh de Istio).
 
 ## Configuración de la entrada usando un gateway
 
-Un `Gateway` de entrada describe un balanceador de carga que opera en el borde de la malla y que recibe conexiones HTTP/TCP entrantes.
+Un `Gateway` de entrada describe un balanceador de carga que opera en el borde de la mesh y que recibe conexiones HTTP/TCP entrantes.
 Configura los puertos expuestos, protocolos, etc.
 pero, a diferencia de los [Recursos Ingress de Kubernetes](https://kubernetes.io/docs/concepts/services-networking/ingress/),
 no incluye ninguna configuración de enrutamiento de tráfico. El enrutamiento de tráfico para el tráfico de entrada se configura
@@ -117,7 +117,7 @@ especifica que solo se permiten las solicitudes a través de su `httpbin-gateway
 Todas las demás solicitudes externas serán rechazadas con una respuesta 404.
 
 {{< warning >}}
-Las solicitudes internas de otros services en la malla no están sujetas a estas reglas
+Las solicitudes internas de otros services en la mesh no están sujetas a estas reglas
 sino que, en su lugar, se establecerán por defecto en el enrutamiento round-robin. Para aplicar estas reglas también a las llamadas internas,
 puede agregar el valor especial `mesh` a la lista de `gateways`. Dado que el hostname interno para el
 service es probablemente diferente (por ejemplo, `httpbin.default.svc.cluster.local`) del externo,

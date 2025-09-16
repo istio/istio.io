@@ -14,16 +14,16 @@ Este ejemplo no funciona en Minikube.
 {{</warning>}}
 
 La tarea [Acceso a Services Externos](/es/docs/tasks/traffic-management/egress/egress-control) muestra cómo configurar
-Istio para permitir el acceso a services HTTP y HTTPS externos desde applications dentro de la malla.
+Istio para permitir el acceso a services HTTP y HTTPS externos desde applications dentro de la mesh.
 Allí, los services externos se llaman directamente desde el sidecar del cliente.
 Este ejemplo también muestra cómo configurar Istio para llamar a services externos, aunque esta vez
 indirectamente a través de un service _egress gateway_ dedicado.
 
 Istio utiliza [ingress y egress gateways](/es/docs/reference/config/networking/gateway/)
 para configurar balanceadores de carga que se ejecutan en el borde de una service mesh.
-Un ingress gateway le permite definir puntos de entrada a la malla por los que fluye todo el tráfico entrante.
-Un egress gateway es un concepto simétrico; define puntos de salida de la malla. Los egress gateways permiten
-aplicar features de Istio, por ejemplo, monitoreo y reglas de ruta, al tráfico que sale de la malla.
+Un ingress gateway le permite definir puntos de entrada a la mesh por los que fluye todo el tráfico entrante.
+Un egress gateway es un concepto simétrico; define puntos de salida de la mesh. Los egress gateways permiten
+aplicar features de Istio, por ejemplo, monitoreo y reglas de ruta, al tráfico que sale de la mesh.
 
 ## Caso de uso
 
@@ -32,7 +32,7 @@ de la service mesh debe fluir a través de un conjunto de nodos dedicados. Estos
 separadas del resto de los nodos que ejecutan applications en el cluster. Estos nodos especiales servirán
 para la aplicación de políticas en el tráfico de salida y serán monitoreados más a fondo que otros nodos.
 
-Otro caso de uso es un cluster donde los nodos de la aplicación no tienen IPs públicas, por lo que los services en malla que se ejecutan
+Otro caso de uso es un cluster donde los nodos de la aplicación no tienen IPs públicas, por lo que los services en mesh que se ejecutan
 en ellos no pueden acceder a Internet. Definir un egress gateway, dirigir todo el tráfico de salida a través de él y
 asignar IPs públicas a los nodos del egress gateway permite que los nodos de la aplicación accedan a services externos de forma
 controlada.
@@ -687,12 +687,12 @@ $ kubectl delete tlsroute forward-cnn-from-egress-gateway
 Tenga en cuenta que la definición de un `Gateway` de salida en Istio no proporciona por sí misma ningún tratamiento especial para los nodos
 en los que se ejecuta el service del egress gateway. Depende del administrador del cluster o del proveedor de la nube desplegar
 los egress gateways en nodos dedicados e introducir medidas de seguridad adicionales para hacer que estos nodos sean más
-seguros que el resto de la malla.
+seguros que el resto de la mesh.
 
 Istio *no puede garantizar de forma segura* que todo el tráfico de salida fluya realmente a través de los egress gateways. Istio solo
 habilita dicho flujo a través de sus proxies sidecar. Si los atacantes eluden el proxy sidecar, podrían acceder directamente
 a services externos sin atravesar el egress gateway. Así, los atacantes escapan del control y monitoreo de Istio.
-El administrador del cluster o el proveedor de la nube deben asegurarse de que ningún tráfico salga de la malla sin pasar por el egress
+El administrador del cluster o el proveedor de la nube deben asegurarse de que ningún tráfico salga de la mesh sin pasar por el egress
 gateway. Los mecanismos externos a Istio deben hacer cumplir este requisito. Por ejemplo, el administrador del cluster
 puede configurar un firewall para denegar todo el tráfico que no provenga del egress gateway.
 Las [políticas de red de Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/) también

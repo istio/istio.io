@@ -117,9 +117,9 @@ $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metada
 ## Habilitar globalmente mTLS de Istio en modo STRICT
 
 Aunque Istio actualiza automáticamente todo el tráfico entre los proxies y los workloads a mTLS,
-los workloads aún pueden recibir tráfico de texto plano. Para evitar el tráfico no mTLS para toda la malla,
-establezca una política de autenticación de pares a nivel de malla con el modo mTLS establecido en `STRICT`.
-La política de autenticación de pares a nivel de malla no debe tener un `selector` y debe aplicarse en el **namespace raíz**, por ejemplo:
+los workloads aún pueden recibir tráfico de texto plano. Para evitar el tráfico no mTLS para toda la mesh,
+establezca una política de autenticación de pares a nivel de mesh con el modo mTLS establecido en `STRICT`.
+La política de autenticación de pares a nivel de mesh no debe tener un `selector` y debe aplicarse en el **namespace raíz**, por ejemplo:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -139,7 +139,7 @@ El ejemplo asume que `istio-system` es el namespace raíz. Si usó un valor dife
  {{< /tip >}}
 
 Esta política de autenticación de pares configura los workloads para que solo acepten solicitudes cifradas con TLS.
-Dado que no especifica un valor para el campo `selector`, la política se aplica a todos los workloads de la malla.
+Dado que no especifica un valor para el campo `selector`, la política se aplica a todos los workloads de la mesh.
 
 Ejecute el comando de prueba de nuevo:
 

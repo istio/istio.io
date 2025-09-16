@@ -9,7 +9,7 @@ owner: istio/wg-security-maintainers
 test: no
 ---
 
-Esta tarea muestra cómo configurar la política de autorización de Istio para el tráfico TCP en una malla de Istio.
+Esta tarea muestra cómo configurar la política de autorización de Istio para el tráfico TCP en un mesh de Istio.
 
 ## Antes de empezar
 
