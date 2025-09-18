@@ -530,7 +530,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Оскільки Kubernetes Gateway API наразі не підтримує термінацію mutual TLS в [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway), ми використовуємо Istio-специфічну опцію, `gateway.istio.io/tls-terminate-mode: MUTUAL`,  щоб зробити це:
+Додайте посилання на ConfigMap або Secret із ключем `ca.crt` або `cacert`, який містить сертифікати CA.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -550,8 +550,11 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
+      frontendValidation:
+        caCertificateRefs:
+        - group: ""
+          kind: Secret
+          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
