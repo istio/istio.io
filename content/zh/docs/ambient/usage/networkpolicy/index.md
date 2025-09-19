@@ -80,12 +80,14 @@ Kubernetes 健康检查探测存在问题，并为 Kubernetes 流量策略创建
 链路本地 IP 被选为默认 IP，因为它们通常会被忽略以进行入口-出口控制，
 并且[根据 IETF 标准](https://datatracker.ietf.org/doc/html/rfc3927)无法在本地子网之外路由。
 
-当您将 Pod 添加到 Ambient 网格时，此行为是透明启用的，默认情况下，
-Ambient 使用链接本地地址 `169.254.7.127` 来识别并正确允许 kubelet 健康探测数据包。
+当您将 Pod 添加到 Ambient 网格时，此行为会透明地启用，默认情况下，
+Ambient 使用链路本地地址`169.254.7.127`（IPv4）和 `fd16:9254:7127:1337:ffff:ffff:ffff:ffff`（IPv6）
+来识别并正确允许 kubelet 健康探测数据包。
 
-但是，如果您的工作负载、命名空间或集群具有预先存在的入口或出口 `NetworkPolicy`，
-则根据您使用的 CNI，具有此链接本地地址的数据包可能会被显式 `NetworkPolicy` 阻止，
-这将导致您的应用程序 Pod 健康探测在您将 Pod 添加到 Ambient 网格时开始失败。
+注意：如果您的工作负载、命名空间或集群强制执行 Kubernetes NetworkPolicy，
+则必须同时允许 Ambient 模式使用的 IPv4 和 IPv6 地址。
+否则，根据您的 CNI，带有这些地址的数据包可能会被阻止，
+这将导致应用程序 Pod 健康探测在加入 Ambient 网格后失败。
 
 例如，在命名空间中应用以下 `NetworkPolicy` 将阻止所有到 `my-app` Pod 的流量（Istio 或其他），
 包括 kubelet 健康探测器。根据您的 CNI，kubelet 探测器和链接本地地址可能会被此策略忽略，或被其阻止：
@@ -122,3 +124,7 @@ spec:
       - ipBlock:
           cidr: 169.254.7.127/32
 {{< /text >}}
+
+注意：如果您使用的是双栈集群或仅 IPv6 集群，
+请确保使用 IPv6 ipBlock（`fd16:9254:7127:1337:ffff:ffff:ffff:ffff/128`）来更新您的 `NetworkPolicy`，
+以补充或代替 IPv4 条目。
