@@ -755,6 +755,72 @@ Supported values are <code>brotli</code>, <code>gzip</code>, and <code>zstd</cod
     </tr>
   </tbody>
 </table>
+<h2 id="SidecarStatsEvictionInterval">sidecar.istio.io/statsEvictionInterval</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/statsEvictionInterval</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies the expiration interval for the Istio standard metrics. This gets rounded to a multiple of the flush interval. A time series is expected to be evicted after 2 iterations of this interval from the last measurement.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsFlushInterval">sidecar.istio.io/statsFlushInterval</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/statsFlushInterval</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies the flush interval for push-based stat sinks, e.g. OTLP. Default interval is <code>5s</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="SidecarStatsHistogramBins">sidecar.istio.io/statsHistogramBins</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>sidecar.istio.io/statsHistogramBins</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Specifies the bin size per time series for the Istio standard metrics histograms. Reducing this value from the default <code>100</code> decreases overall memory usage for sparse and/or high cardinality histograms.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="SidecarStatsHistogramBuckets">sidecar.istio.io/statsHistogramBuckets</h2>
 <table class="annotations">
   <tbody>
