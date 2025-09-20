@@ -310,7 +310,7 @@ data plane services that comprise the mesh.
     caption="A single cluster with an external control plane"
     >}}
 
-A cloud vendor's {{< gloss >}}managed control plane{{< /gloss >}} is a
+A cloud vendor's {{< gloss >}}control plane gestionado{{< /gloss >}} is a
 typical example of an external control plane.
 
 For high availability, you should deploy multiple control planes across
