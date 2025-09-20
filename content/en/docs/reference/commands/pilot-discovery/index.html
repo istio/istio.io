@@ -509,6 +509,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>24h0m0s</code></td>
 <td>The default TTL of issued workload certificates. Applied when the client sets a non-positive TTL in the CSR.</td>
 </tr>
+<tr id='disable-shadow-host-suffix'>
+<td><a href='#disable-shadow-host-suffix'><code>DISABLE_SHADOW_HOST_SUFFIX</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, the shadow host suffix will be added to the hostnames of the mirrored requests.</td>
+</tr>
 <tr id='enable-100-continue-headers'>
 <td><a href='#enable-100-continue-headers'><code>ENABLE_100_CONTINUE_HEADERS</code></a></td>
 <td>Boolean</td>
