@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 83
+number_of_entries: 84
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1436,6 +1436,51 @@ If true, will result in a 64 bit trace id being used.</p>
 <td>
 <p>Specifies the endpoint of Zipkin API.
 The default value is &ldquo;/api/v2/spans&rdquo;.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-trace_context_option">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-ZipkinTracingProvider-trace_context_option">traceContextOption</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-ZipkinTracingProvider-TraceContextOption">TraceContextOption</a></div>
+</div></td>
+<td>
+<p>Determines which trace context format to use for trace header extraction and propagation.
+This controls both downstream request header extraction and upstream request header injection.
+The default value is USE_B3 to maintain backward compatibility.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h5 id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-TraceContextOption">TraceContextOption</h5>
+<section>
+<p>Available trace context options for handling different trace header formats.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-TraceContextOption-USE_B3">
+<td><code><a href="#MeshConfig-ExtensionProvider-ZipkinTracingProvider-TraceContextOption-USE_B3">USE_B3</a></code></td>
+<td>
+<p>Use B3 headers only (default behavior).</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-TraceContextOption-USE_B3_WITH_W3C_PROPAGATION">
+<td><code><a href="#MeshConfig-ExtensionProvider-ZipkinTracingProvider-TraceContextOption-USE_B3_WITH_W3C_PROPAGATION">USE_B3_WITH_W3C_PROPAGATION</a></code></td>
+<td>
+<p>Enable B3 and W3C dual header support:</p>
+<ul>
+<li>For downstream: Extract from B3 headers first, fallback to W3C traceparent if B3 is unavailable.</li>
+<li>For upstream: Inject both B3 and W3C traceparent headers.
+When this option is NOT set, only B3 headers are used for both extraction and injection.</li>
+</ul>
 
 </td>
 </tr>
