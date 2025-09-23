@@ -132,7 +132,7 @@ bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   Tr
 ENDSNIP
 
 snip_view_the_dashboard_1() {
-kubectl apply -f samples/addons
+kubectl apply -f samples/addons/kiali.yaml
 kubectl rollout status deployment/kiali -n istio-system
 }
 
