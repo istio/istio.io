@@ -285,6 +285,17 @@ jwksUri: https://example.com/.secret/jwks.json
 fromHeaders:
 - &quot;x-goog-iap-jwt-assertion&quot;
 </code></pre>
+<p>This example shows how to configure custom claims to be treated as space-delimited strings.
+This is useful when JWT tokens contain custom claims with multiple space-separated values
+that should be available for individual matching in authorization policies.</p>
+<pre><code class="language-yaml">issuer: https://example.com
+spaceDelimitedClaims:
+- &quot;custom_scope&quot;
+- &quot;provider.login.scope&quot;
+- &quot;roles&quot;
+</code></pre>
+<p>With this configuration, a JWT containing <code>&quot;custom_scope&quot;: &quot;read write admin&quot;</code> will allow
+authorization policies to match against individual values like &ldquo;read&rdquo;, &ldquo;write&rdquo;, or &ldquo;admin&rdquo;.</p>
 
 <table class="message-fields">
 <thead>
@@ -447,6 +458,28 @@ The header specified in each operation in the list must be unique. Nested claims
 <td>
 <p>The maximum amount of time that the resolver, determined by the PILOT_JWT_ENABLE_REMOTE_JWKS environment variable,
 will spend waiting for the JWKS to be fetched. Default is 5s.</p>
+
+</td>
+</tr>
+<tr id="JWTRule-space_delimited_claims">
+<td><div class="field"><div class="name"><code><a href="#JWTRule-space_delimited_claims">spaceDelimitedClaims</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+<p>List of JWT claim names that should be treated as space-delimited strings.
+These claims will be split on whitespace and each individual value will be available
+for matching in authorization policies. This extends the default behavior that only
+treats &lsquo;scope&rsquo; and &lsquo;permission&rsquo; claims as space-delimited.</p>
+<p>Example usage for custom claims:</p>
+<pre><code class="language-yaml">spaceDelimitedClaims:
+- &quot;custom_scope&quot;
+- &quot;provider.login.scope&quot;
+- &quot;roles&quot;
+</code></pre>
+<p>This allows authorization policies to match individual values within space-separated
+claim strings, maintaining compatibility with existing JWT token formats.</p>
+<p>Note: The default claims &lsquo;scope&rsquo; and &lsquo;permission&rsquo; are always treated as space-delimited
+regardless of this setting.</p>
 
 </td>
 </tr>
