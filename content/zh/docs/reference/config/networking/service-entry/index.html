@@ -611,6 +611,27 @@ cannot be used with Unix domain socket endpoints.</p>
 
 </td>
 </tr>
+<tr id="ServiceEntry-Resolution-DYNAMIC_DNS">
+<td><code><a href="#ServiceEntry-Resolution-DYNAMIC_DNS">DYNAMIC_DNS</a></code></td>
+<td>
+<p>DYNAMIC_DNS will attempt to resolve the host name specified in
+the Host header or SNI to an IP address when handling traffic. This
+allows multiple DNS addresses to be represented by a single wildcard
+<code>host</code> entry without having to explicitly enumerate all possible
+endpoints. During DNS proxying, ztunnel will resolve all subdomains
+matching the wildcard host name to a VIP which isn&rsquo;t used for routing
+outside the mesh. <code>DYNAMIC_DNS</code> will provide configuration to a
+waypoint proxy to recover the original host name using information
+from SNI or a Host header in an HTTP Request. This original host name
+will then be resolved so that traffic can be routed to the intended
+IP address. This method of handling wildcard traffic is not
+compatible with raw TCP traffic where the original host cannot
+be recovered. <code>DYNAMIC_DNS</code> is only supported for wildcard hosts,
+<code>MESH_EXTERNAL</code> location and in ambient mode. The ServiceEntry must
+be bound to a waypoint. Specified endpoints will be ignored.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
