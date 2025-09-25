@@ -217,7 +217,7 @@ Istio 和[几个遥测应用](/zh/docs/ops/integrations)做了集成。
 1.  安装 [Kiali 和其他插件]({{< github_tree >}}/samples/addons)，等待部署完成。
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/addons@
+    $ kubectl apply -f @samples/addons/kiali.yaml@
     $ kubectl rollout status deployment/kiali -n istio-system
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out
