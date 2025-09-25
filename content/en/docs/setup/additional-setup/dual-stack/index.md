@@ -45,6 +45,7 @@ spec:
     pilot:
       env:
         ISTIO_DUAL_STACK: "true"
+      ipFamilyPolicy: RequireDualStack
     # The below values are optional and can be used based on your requirements
     gateways:
       istio-ingressgateway:
@@ -62,16 +63,16 @@ meshConfig:
   defaultConfig:
     proxyMetadata:
       ISTIO_DUAL_STACK: "true"
-values:
-  pilot:
-    env:
-      ISTIO_DUAL_STACK: "true"
-  # The below values are optional and can be used based on your requirements
-  gateways:
-    istio-ingressgateway:
-      ipFamilyPolicy: RequireDualStack
-    istio-egressgateway:
-      ipFamilyPolicy: RequireDualStack
+pilot:
+  env:
+    ISTIO_DUAL_STACK: "true"
+  ipFamilyPolicy: RequireDualStack
+# The below values are optional and can be used based on your requirements
+gateways:
+  istio-ingressgateway:
+    ipFamilyPolicy: RequireDualStack
+  istio-egressgateway:
+    ipFamilyPolicy: RequireDualStack
 {{< /text >}}
 
 {{< /tab >}}
