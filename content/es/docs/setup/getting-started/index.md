@@ -1,6 +1,6 @@
 ---
-title: Getting Started
-description: Try Istio’s features quickly and easily.
+title: Comenzando
+description: Prueba las características de Istio de forma rápida y fácil.
 weight: 5
 aliases:
     - /docs/setup/additional-setup/getting-started/
@@ -11,69 +11,67 @@ test: yes
 ---
 
 {{< tip >}}
-Want to explore Istio's {{< gloss "ambient" >}}ambient mode{{< /gloss >}}? Visit the [Getting Started with Ambient Mode](/es/docs/ambient/getting-started) guide!
+¿Quieres explorar el {{< gloss "ambient" >}}modo ambient{{< /gloss >}} de Istio? ¡Visita la guía de [Comenzando con el Modo Ambient](/es/docs/ambient/getting-started)!
 {{< /tip >}}
 
-This guide lets you quickly evaluate Istio. If you are already familiar with
-Istio or interested in installing other configuration profiles or
-advanced [deployment models](/es/docs/ops/deployment/deployment-models/), refer to our
-[which Istio installation method should I use?](/es/about/faq/#install-method-selection)
-FAQ page.
+Esta guía te permite evaluar Istio rápidamente. Si ya estás familiarizado con
+Istio o estás interesado en instalar otros perfiles de configuración o
+[modelos de deployment](/es/docs/ops/deployment/deployment-models/) avanzados, consulta nuestra
+página de FAQ sobre [¿qué método de instalación de Istio debería usar?](/es/about/faq/#install-method-selection).
 
-You will need a Kubernetes cluster to proceed. If you don't have a cluster, you can use [kind](/es/docs/setup/platform-setup/kind) or any other [supported Kubernetes platform](/es/docs/setup/platform-setup).
+Necesitarás un cluster de Kubernetes para continuar. Si no tienes un cluster, puedes usar [kind](/es/docs/setup/platform-setup/kind) o cualquier otra [plataforma de Kubernetes soportada](/es/docs/setup/platform-setup).
 
-Follow these steps to get started with Istio:
+Sigue estos pasos para comenzar con Istio:
 
-1. [Download and install Istio](#download)
-1. [Install the Kubernetes Gateway API CRDs](#gateway-api)
-1. [Deploy the sample application](#bookinfo)
-1. [Open the application to outside traffic](#ip)
-1. [View the dashboard](#dashboard)
+1. [Descargar e instalar Istio](#download)
+1. [Instalar los CRDs del API Gateway de Kubernetes](#gateway-api)
+1. [Desplegar la aplicación de ejemplo](#bookinfo)
+1. [Abrir la aplicación al tráfico externo](#ip)
+1. [Ver el panel de control](#dashboard)
 
-## Download Istio {#download}
+## Descargar Istio {#download}
 
-1.  Go to the [Istio release]({{< istio_release_url >}}) page to
-    download the installation file for your OS, or [download and
-    extract the latest release automatically](/es/docs/setup/additional-setup/download-istio-release)
-    (Linux or macOS):
+1.  Ve a la página de [releases de Istio]({{< istio_release_url >}}) para
+    descargar el archivo de instalación para tu sistema operativo, o [descarga y
+    extrae el release más reciente automáticamente](/es/docs/setup/additional-setup/download-istio-release)
+    (Linux o macOS):
 
     {{< text bash >}}
     $ curl -L https://istio.io/downloadIstio | sh -
     {{< /text >}}
 
-1.  Move to the Istio package directory. For example, if the package is
+1.  Muévete al directorio del paquete de Istio. Por ejemplo, si el paquete es
     `istio-{{< istio_full_version >}}`:
 
     {{< text syntax=bash snip_id=none >}}
     $ cd istio-{{< istio_full_version >}}
     {{< /text >}}
 
-    The installation directory contains:
+    El directorio de instalación contiene:
 
-    - Sample applications in `samples/`
-    - The [`istioctl`](/es/docs/reference/commands/istioctl) client binary in the
-      `bin/` directory.
+    - Aplicaciones de ejemplo en `samples/`
+    - El binario cliente [`istioctl`](/es/docs/reference/commands/istioctl) en el
+      directorio `bin/`.
 
-1.  Add the `istioctl` client to your path (Linux or macOS):
+1.  Agrega el cliente `istioctl` a tu path (Linux o macOS):
 
     {{< text bash >}}
     $ export PATH=$PWD/bin:$PATH
     {{< /text >}}
 
-## Install Istio {#install}
+## Instalar Istio {#install}
 
-For this guide, we use the `demo`
-[configuration profile](/es/docs/setup/additional-setup/config-profiles/). It is
-selected to have a good set of defaults for testing, but there are other
-profiles for production, performance testing or [OpenShift](/es/docs/setup/platform-setup/openshift/).
+Para esta guía, usamos el [perfil de configuración](/es/docs/setup/additional-setup/config-profiles/) `demo`. Está
+seleccionado para tener un buen conjunto de valores por defecto para pruebas, pero hay otros
+perfiles para producción, pruebas de rendimiento o [OpenShift](/es/docs/setup/platform-setup/openshift/).
 
-Unlike [Istio Gateways](/es/docs/concepts/traffic-management/#gateways), creating
-[Kubernetes Gateways](https://gateway-api.sigs.k8s.io/api-types/gateway/) will, by default, also
-[deploy gateway proxy servers](/es/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
-Because they won't be used, we disable the deployment of the default Istio gateway services that
-are normally installed as part of the `demo` profile.
+A diferencia de los [Gateways de Istio](/es/docs/concepts/traffic-management/#gateways), crear
+[Gateways de Kubernetes](https://gateway-api.sigs.k8s.io/api-types/gateway/) por defecto también
+[desplegará servidores proxy de gateway](/es/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment).
+Debido a que no se usarán, deshabilitamos el deployment de los Services gateway predeterminados de Istio que
+normalmente se instalan como parte del perfil `demo`.
 
-1. Install Istio using the `demo` profile, without any gateways:
+1. Instala Istio usando el perfil `demo`, sin ningún gateway:
 
     {{< text bash >}}
     $ istioctl install -f @samples/bookinfo/demo-profile-no-gateways.yaml@ -y
@@ -83,31 +81,31 @@ are normally installed as part of the `demo` profile.
     Made this installation the default for injection and validation.
     {{< /text >}}
 
-1.  Add a namespace label to instruct Istio to automatically inject Envoy
-    sidecar proxies when you deploy your application later:
+1.  Agrega una etiqueta de Namespace para instruir a Istio que inyecte automáticamente proxies
+    sidecar de Envoy cuando despliegues tu aplicación más adelante:
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled
     namespace/default labeled
     {{< /text >}}
 
-## Install the Kubernetes Gateway API CRDs {#gateway-api}
+## Instalar los CRDs del API Gateway de Kubernetes {#gateway-api}
 
-The Kubernetes Gateway API CRDs do not come installed by default on most Kubernetes clusters, so make sure they are
-installed before using the Gateway API.
+Los CRDs del API Gateway de Kubernetes no vienen instalados por defecto en la mayoría de los clusters de Kubernetes, así que asegúrate de que estén
+instalados antes de usar el Gateway API.
 
-1. Install the Gateway API CRDs, if they are not already present:
+1. Instala los CRDs del Gateway API, si no están ya presentes:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
     { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-## Deploy the sample application {#bookinfo}
+## Desplegar la aplicación de ejemplo {#bookinfo}
 
-You have configured Istio to inject sidecar containers into any application you deploy in your `default` namespace.
+Has configurado Istio para inyectar contenedores sidecar en cualquier aplicación que despliegues en tu Namespace `default`.
 
-1.  Deploy the [`Bookinfo` sample application](/es/docs/examples/bookinfo/):
+1.  Despliega la [aplicación de ejemplo `Bookinfo`](/es/docs/examples/bookinfo/):
 
     {{< text bash >}}
     $ kubectl apply -f @samples/bookinfo/platform/kube/bookinfo.yaml@
@@ -127,8 +125,8 @@ You have configured Istio to inject sidecar containers into any application you 
     deployment.apps/productpage-v1 created
     {{< /text >}}
 
-    The application will start. As each pod becomes ready, the Istio sidecar will be
-    deployed along with it.
+    La aplicación se iniciará. A medida que cada Pod esté listo, el sidecar de Istio será
+    desplegado junto con él.
 
     {{< text bash >}}
     $ kubectl get services
@@ -140,7 +138,7 @@ You have configured Istio to inject sidecar containers into any application you 
     reviews       ClusterIP   10.0.0.28       <none>        9080/TCP   29s
     {{< /text >}}
 
-    and
+    y
 
     {{< text bash >}}
     $ kubectl get pods
@@ -153,23 +151,22 @@ You have configured Istio to inject sidecar containers into any application you 
     reviews-v3-7dbcdcbc56-m8dph       2/2     Running   0          2m41s
     {{< /text >}}
 
-    Note that the pods show `READY 2/2`, confirming they have their application container and the Istio sidecar container.
+    Nota que los Pods muestran `READY 2/2`, confirmando que tienen su contenedor de aplicación y el contenedor sidecar de Istio.
 
-1.  Validate that the app is running inside the cluster by
-    checking for the page title in the response:
+1.  Valida que la aplicación esté corriendo dentro del cluster comprobando el título de la página en la respuesta:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-## Open the application to outside traffic {#ip}
+## Abrir la aplicación al tráfico externo {#ip}
 
-The Bookinfo application is deployed, but not accessible from the outside. To make it accessible,
-you need to create an ingress gateway, which maps a path to a
-route at the edge of your mesh.
+La aplicación Bookinfo está desplegada, pero no es accesible desde el exterior. Para hacerla accesible,
+necesitas crear un gateway de ingreso, que mapea un camino a una
+ruta en el borde de tu malla.
 
-1.  Create a [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/api-types/gateway/) for the Bookinfo application:
+1.  Crea un [Gateway de Kubernetes](https://gateway-api.sigs.k8s.io/api-types/gateway/) para la aplicación Bookinfo:
 
     {{< text syntax=bash snip_id=deploy_bookinfo_gateway >}}
     $ kubectl apply -f @samples/bookinfo/gateway-api/bookinfo-gateway.yaml@
@@ -177,15 +174,15 @@ route at the edge of your mesh.
     httproute.gateway.networking.k8s.io/bookinfo created
     {{< /text >}}
 
-    By default, Istio creates a `LoadBalancer` service for a gateway. As we will access this gateway by a tunnel, we don't need a load balancer. If you want to learn about how load balancers are configured for external IP addresses, read the [ingress gateways](/es/docs/tasks/traffic-management/ingress/ingress-control/) documentation.
+    Por defecto, Istio crea un servicio `LoadBalancer` para un gateway. Como accederemos a este gateway por un túnel, no necesitamos un balanceador de carga. Si quieres aprender sobre cómo se configuran los balanceadores de carga para direcciones IP externas, lee la documentación sobre [gateways de ingreso](/es/docs/tasks/traffic-management/ingress/ingress-control/).
 
-1. Change the service type to `ClusterIP` by annotating the gateway:
+1. Cambia el tipo de servicio a `ClusterIP` anotando el gateway:
 
     {{< text syntax=bash snip_id=annotate_bookinfo_gateway >}}
     $ kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
     {{< /text >}}
 
-1. To check the status of the gateway, run:
+1. Para verificar el estado del gateway, ejecuta:
 
     {{< text bash >}}
     $ kubectl get gateway
@@ -193,28 +190,28 @@ route at the edge of your mesh.
     bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   True         42s
     {{< /text >}}
 
-## Access the application
+## Acceder a la aplicación
 
-You will connect to the Bookinfo `productpage` service through the gateway you just provisioned. To access the gateway, you need to use the `kubectl port-forward` command:
+Conectarás al servicio `productpage` de Bookinfo a través del gateway que acabas de provisionar. Para acceder al gateway, necesitas usar el comando `kubectl port-forward`:
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl port-forward svc/bookinfo-gateway-istio 8080:80
 {{< /text >}}
 
-Open your browser and navigate to `http://localhost:8080/productpage` to view the Bookinfo application.
+Abre tu navegador y navega a `http://localhost:8080/productpage` para ver la aplicación Bookinfo.
 
-{{< image width="80%" link="./bookinfo-browser.png" caption="Bookinfo Application" >}}
+{{< image width="80%" link="./bookinfo-browser.png" caption="Aplicación Bookinfo" >}}
 
-If you refresh the page, you should see the book reviews and ratings changing as the requests are distributed across the different versions of the `reviews` service.
+Si refrescas la página, deberías ver que las reseñas y las calificaciones cambian a medida que las solicitudes se distribuyen entre las diferentes versiones del servicio `reviews`.
 
-## View the dashboard {#dashboard}
+## Ver el panel de control {#dashboard}
 
-Istio integrates with [several different telemetry applications](/es/docs/ops/integrations). These can help you gain
-an understanding of the structure of your service mesh, display the topology of the mesh, and analyze the health of your mesh.
+Istio integra con [varias aplicaciones de telemetría](/es/docs/ops/integrations). Estas pueden ayudarte a
+entender la estructura de tu meshde servicios, mostrar la topología de la mesh y analizar la salud de tu malla.
 
-Use the following instructions to deploy the [Kiali](/es/docs/ops/integrations/kiali/) dashboard, along with [Prometheus](/es/docs/ops/integrations/prometheus/), [Grafana](/es/docs/ops/integrations/grafana), and [Jaeger](/es/docs/ops/integrations/jaeger/).
+Usa las siguientes instrucciones para desplegar el [Kiali](/es/docs/ops/integrations/kiali/), junto con [Prometheus](/es/docs/ops/integrations/prometheus/), [Grafana](/es/docs/ops/integrations/grafana), y [Jaeger](/es/docs/ops/integrations/jaeger/).
 
-1.  Install [Kiali and the other addons]({{< github_tree >}}/samples/addons) and wait for them to be deployed.
+1.  Instala [Kiali y los addons]({{< github_tree >}}/samples/addons) y espera a que se desplieguen.
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons@
@@ -223,88 +220,86 @@ Use the following instructions to deploy the [Kiali](/es/docs/ops/integrations/k
     deployment "kiali" successfully rolled out
     {{< /text >}}
 
-1.  Access the Kiali dashboard.
+1.  Accede al dashboard de Kiali.
 
     {{< text bash >}}
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  In the left navigation menu, select _Graph_ and in the _Namespace_ drop down, select _default_.
+1.  En el menú de navegación izquierdo, selecciona _Graph_ y en el desplegable _Namespace_, selecciona _default_.
 
     {{< tip >}}
     {{< boilerplate trace-generation >}}
     {{< /tip >}}
 
-    The Kiali dashboard shows an overview of your mesh with the relationships
-    between the services in the `Bookinfo` sample application. It also provides
-    filters to visualize the traffic flow.
+    El dashboard de Kiali muestra una vista general de tu meshcon las relaciones
+    entre los servicios en la aplicación de ejemplo `Bookinfo`. También proporciona
+    filtros para visualizar el flujo de tráfico.
 
-    {{< image link="./kiali-example2.png" caption="Kiali Dashboard" >}}
+    {{< image link="./kiali-example2.png" caption="Dashboard de Kiali" >}}
 
-## Next steps
+## Pasos siguientes
 
-Congratulations on completing the evaluation installation!
+¡Felicitaciones por completar la instalación de evaluación!
 
-These tasks are a great place for beginners to further evaluate Istio's
-features using this `demo` installation:
+Estos son un excelente lugar para que los principiantes evalúen más a fondo las características de Istio usando esta instalación `demo`:
 
-- [Request routing](/es/docs/tasks/traffic-management/request-routing/)
-- [Fault injection](/es/docs/tasks/traffic-management/fault-injection/)
-- [Traffic shifting](/es/docs/tasks/traffic-management/traffic-shifting/)
-- [Querying metrics](/es/docs/tasks/observability/metrics/querying-metrics/)
-- [Visualizing metrics](/es/docs/tasks/observability/metrics/using-istio-dashboard/)
-- [Accessing external services](/es/docs/tasks/traffic-management/egress/egress-control/)
-- [Visualizing your mesh](/es/docs/tasks/observability/kiali/)
+- [Enrutamiento de solicitudes](/es/docs/tasks/traffic-management/request-routing/)
+- [Inyección de fallos](/es/docs/tasks/traffic-management/fault-injection/)
+- [Cambio de tráfico](/es/docs/tasks/traffic-management/traffic-shifting/)
+- [Consultar métricas](/es/docs/tasks/observability/metrics/querying-metrics/)
+- [Visualizar métricas](/es/docs/tasks/observability/metrics/using-istio-dashboard/)
+- [Acceso a servicios externos](/es/docs/tasks/traffic-management/egress/egress-control/)
+- [Visualizar tu malla](/es/docs/tasks/observability/kiali/)
 
-Before you customize Istio for production use, see these resources:
+Antes de personalizar Istio para su uso en producción, consulta estos recursos:
 
-- [Deployment models](/es/docs/ops/deployment/deployment-models/)
-- [Deployment best practices](/es/docs/ops/best-practices/deployment/)
-- [Pod requirements](/es/docs/ops/deployment/application-requirements/)
-- [General installation instructions](/es/docs/setup/)
+- [Modelos de deployment](/es/docs/ops/deployment/deployment-models/)
+- [Mejores prácticas de deployment](/es/docs/ops/best-practices/deployment/)
+- [Requisitos de Pod](/es/docs/ops/deployment/application-requirements/)
+- [Instrucciones de instalación generales](/es/docs/setup/)
 
-## Join the Istio community
+## Únete a la comunidad de Istio
 
-We welcome you to ask questions and give us feedback by joining the
-[Istio community](/get-involved/).
+¡Te damos la bienvenida a que nos preguntes y nos des tu feedback uniendo la
+[comunidad de Istio](/get-involved/).
 
-## Uninstall
+## Desinstalar
 
-To delete the `Bookinfo` sample application and its configuration, see
-[`Bookinfo` cleanup](/es/docs/examples/bookinfo/#cleanup).
+Para eliminar la aplicación de ejemplo `Bookinfo` y su configuración, consulta
+[`Bookinfo` limpieza](/es/docs/examples/bookinfo/#cleanup).
 
-The Istio uninstall deletes the RBAC permissions and all resources hierarchically
-under the `istio-system` namespace. It is safe to ignore errors for non-existent
-resources because they may have been deleted hierarchically.
+La desinstalación de Istio elimina los permisos RBAC y todos los recursos jerárquicamente
+bajo el espacio de nombres `istio-system`. Es seguro ignorar errores por recursos inexistentes porque pueden haber sido eliminados jerárquicamente.
 
 {{< text bash >}}
 $ kubectl delete -f @samples/addons@
 $ istioctl uninstall -y --purge
 {{< /text >}}
 
-The `istio-system` namespace is not removed by default.
-If no longer needed, use the following command to remove it:
+El espacio de nombres `istio-system` no se elimina por defecto.
+Si ya no es necesario, usa el siguiente comando para eliminarlo:
 
 {{< text bash >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
 
-The label to instruct Istio to automatically inject Envoy sidecar proxies is not removed by default.
-If no longer needed, use the following command to remove it:
+La etiqueta para instruir a Istio a inyectar automáticamente proxies sidecar no se elimina por defecto.
+Si ya no es necesario, usa el siguiente comando para eliminarlo:
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection-
 {{< /text >}}
 
-If you installed the Kubernetes Gateway API CRDs and would now like to remove them, run one of the following commands:
+Si instalaste los CRDs del API Gateway de Kubernetes y ahora quieres eliminarlos, ejecuta uno de los siguientes comandos:
 
-- If you ran any tasks that required the **experimental version** of the CRDs:
+- Si ejecutaste tareas que requerían la **versión experimental** de los CRDs:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
     {{< /text >}}
 
-- Otherwise:
+- De lo contrario:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
