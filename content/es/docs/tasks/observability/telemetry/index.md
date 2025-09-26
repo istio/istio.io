@@ -21,11 +21,11 @@ Los recursos de la API de Telemetría heredan la configuración de los recursos 
 1.  namespace local (recurso con alcance de namespace **sin** `selector` de workload)
 1.  workload (recurso con alcance de namespace con un `selector` de workload)
 
-Un recurso de la API de Telemetría en el namespace de configuración raíz, típicamente `istio-system`, proporciona valores predeterminados para el comportamiento de toda la malla.
+Un recurso de la API de Telemetría en el namespace de configuración raíz, típicamente `istio-system`, proporciona valores predeterminados para el comportamiento de toda la mesh.
 Cualquier selector específico de workload en el namespace de configuración raíz será ignorado/rechazado. No es válido definir múltiples
-recursos de la API de Telemetría de toda la malla en el namespace de configuración raíz.
+recursos de la API de Telemetría de toda la mesh en el namespace de configuración raíz.
 
-Las anulaciones específicas del namespace para la configuración de toda la malla se pueden lograr aplicando un nuevo recurso `Telemetry` en el namespace deseado
+Las anulaciones específicas del namespace para la configuración de toda la mesh se pueden lograr aplicando un nuevo recurso `Telemetry` en el namespace deseado
 (sin un selector de workload). Cualquier campo especificado en la configuración del namespace anulará completamente
 el campo de la configuración padre (en el namespace de configuración raíz).
 
@@ -80,10 +80,10 @@ Los proveedores no admiten `$(HOST_IP)`. Si está ejecutando el colector en modo
 
 ## Ejemplos
 
-### Configuración del comportamiento de toda la malla
+### Configuración del comportamiento de toda la mesh
 
-Los recursos de la API de Telemetría heredan del namespace de configuración raíz para una malla, típicamente `istio-system`. Para configurar
-el comportamiento de toda la malla, agregue un nuevo (o edite el existente) recurso `Telemetry` en el namespace de configuración raíz.
+Los recursos de la API de Telemetría heredan del namespace de configuración raíz para una mesh, típicamente `istio-system`. Para configurar
+el comportamiento de toda la mesh, agregue un nuevo (o edite el existente) recurso `Telemetry` en el namespace de configuración raíz.
 
 Aquí hay un ejemplo de configuración que utiliza la configuración del proveedor de la sección anterior:
 
@@ -104,8 +104,8 @@ spec:
     randomSamplingPercentage: 100
 {{< /text >}}
 
-Esta configuración anula el proveedor predeterminado de `MeshConfig`, estableciendo el valor predeterminado de la malla en el proveedor `localtrace`.
-También establece el porcentaje de muestreo de toda la malla en `100`, y configura una etiqueta para que se agregue a todos los spans de traza con
+Esta configuración anula el proveedor predeterminado de `MeshConfig`, estableciendo el valor predeterminado de la mesh en el proveedor `localtrace`.
+También establece el porcentaje de muestreo de toda la mesh en `100`, y configura una etiqueta para que se agregue a todos los spans de traza con
 un nombre de `foo` y un valor de `bar`.
 
 ### Configuración del comportamiento de trazado con alcance de namespace
@@ -129,7 +129,7 @@ spec:
           defaultValue: unknown
 {{< /text >}}
 
-Cuando se despliega en una malla con la configuración de ejemplo de toda la malla anterior, esto dará como resultado
+Cuando se despliega en un mesh con la configuración de ejemplo de toda la mesh anterior, esto dará como resultado
 un comportamiento de trazado en el namespace `myapp` que envía spans de traza al proveedor `localtrace` y
 selecciona aleatoriamente solicitudes para el trazado a una tasa del `100%`, pero que establece etiquetas personalizadas para cada span con
 un nombre de `userId` y un valor tomado de la cabecera de solicitud `userId`.
