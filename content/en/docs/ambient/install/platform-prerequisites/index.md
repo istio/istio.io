@@ -257,6 +257,12 @@ OpenShift requires that `ztunnel` and `istio-cni` components are installed in th
 
 {{< /tabset >}}
 
+To deploy Istio in ambient dataplane mode on OpenShift, set `routingViaHost: true` in the Cluster Network Operator to enable [OVN-Kubernetes local gateway mode](https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/ovn-kubernetes_network_plugin/configuring-gateway-mode#nwt-gateway-mode_configuring-gateway-mode). This one-time configuration change is required to ensure that traffic from Kubernetes readiness probes is exempt from the standard iptables-based traffic redirection that is configured by the Istio CNI.  
+
+By default, the kubelet and Kubernetes nodes do not have their own cryptographic identity. For this reason, ambient mesh uses a combination of iptables rules and source network address translation (SNAT) to rewrite packets that originate from the local node with a fixed link-local IP. This way, Istio does not categorize traffic from the kubelet as insecure. To learn more about how ambient mesh allows kubelet traffic and probes, see [Considerations for Kubernetes network policy](https://ambientmesh.io/docs/security/configure-networkpolicies/).
+
+When you set up your OpenShift cluster in OVN-Kubernetes shared gateway mode, traffic bypasses the host netfilter stack by using the Open vSwitch (OVS). Because of that, traffic from the kubelet is not correctly routed to the pod and therefore fails. To allow the Istio CNI to change the main routing tables so that SNAT and postrouting iptables rules can be created and applied in the host network namespace, you must enable OVN-Kubernetes local gateway mode instead. 
+
 ## CNI plugins
 
 The following configurations apply to all platforms, when certain {{< gloss "CNI" >}}CNI plugins{{< /gloss >}} are used:
