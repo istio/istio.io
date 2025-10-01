@@ -8953,18 +8953,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>false</code></td>
 <td>This will disable metrics endpoint from outside of the pod, allowing only localhost access.</td>
 </tr>
-<tr id='metric-graceful-deletion-interval'>
-<td><a href='#metric-graceful-deletion-interval'><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></a></td>
-<td>Time Duration</td>
-<td><code>5m0s</code></td>
-<td>Metric expiry graceful deletion interval. No-op if METRIC_ROTATION_INTERVAL is disabled.</td>
-</tr>
-<tr id='metric-rotation-interval'>
-<td><a href='#metric-rotation-interval'><code>METRIC_ROTATION_INTERVAL</code></a></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
-</tr>
 <tr id='mutex-profile-fraction'>
 <td><a href='#mutex-profile-fraction'><code>MUTEX_PROFILE_FRACTION</code></a></td>
 <td>Integer</td>
@@ -9394,7 +9382,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr id='pilot-spawn-upstream-span-for-gateway'>
 <td><a href='#pilot-spawn-upstream-span-for-gateway'><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></a></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
 <tr id='pilot-status-max-workers'>
