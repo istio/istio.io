@@ -45,7 +45,7 @@ export function copyToClipboard(str: string): void {
         const oldSelection = sel.getRangeAt(0);
 
         el.select();                                     // Select the <textarea> content
-        document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
+        navigator.clipboard.writeText(str);              // Copy - only works as a result of a user action (e.g. click events)
         document.body.removeChild(el);                   // Remove the <textarea> element
 
         // restore the previous selection
@@ -53,7 +53,7 @@ export function copyToClipboard(str: string): void {
         sel.addRange(oldSelection);
     } else {
         el.select();                                     // Select the <textarea> content
-        document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
+        navigator.clipboard.writeText(str);              // Copy - only works as a result of a user action (e.g. click events)
         document.body.removeChild(el);                   // Remove the <textarea> element
     }
 }
