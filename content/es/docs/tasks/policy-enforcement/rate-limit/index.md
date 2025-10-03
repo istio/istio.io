@@ -12,7 +12,7 @@ En esta tarea, aplicará un límite de tasa global para el service `productpage`
 1 solicitud por minuto en todas las instancias del service. Además, aplicará un límite de tasa local para cada
 instancia individual de `productpage` que permitirá 4 solicitudes por minuto. De esta manera, se asegurará de que el service `productpage`
 maneje un máximo de 1 solicitud por minuto a través del ingress gateway, pero cada instancia de `productpage` puede manejar
-hasta 4 solicitudes por minuto, permitiendo cualquier tráfico dentro de la malla.
+hasta 4 solicitudes por minuto, permitiendo cualquier tráfico dentro de la mesh.
 
 ## Antes de empezar
 
@@ -24,7 +24,7 @@ hasta 4 solicitudes por minuto, permitiendo cualquier tráfico dentro de la mall
 ## Límites de tasa
 
 Envoy admite dos tipos de limitación de tasa: global y local. La limitación de tasa global
-utiliza un service de limitación de tasa gRPC global para proporcionar limitación de tasa para toda la malla.
+utiliza un service de limitación de tasa gRPC global para proporcionar limitación de tasa para toda la mesh.
 La limitación de tasa local se utiliza para limitar la tasa de solicitudes por instancia de service.
 La limitación de tasa local se puede utilizar junto con la limitación de tasa global para reducir la carga en
 el service de limitación de tasa global.
