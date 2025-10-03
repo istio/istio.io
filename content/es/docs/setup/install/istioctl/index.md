@@ -1,63 +1,61 @@
 ---
-title: Install with Istioctl
-description: Install and customize any Istio configuration profile for in-depth evaluation or production use.
+title: Instalar con Istioctl
+description: Instala y personaliza cualquier perfil de configuración de Istio para evaluación detallada o uso en producción.
 weight: 10
 keywords: [istioctl,kubernetes]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
-If you are new to Istio, and just want to try it out, follow the
-[quick start instructions](/es/docs/setup/getting-started) instead.
+Sigue esta guía para instalar y configurar un mesh de Istio para evaluación detallada o uso en producción.
+Si eres nuevo en Istio, y solo quieres probarlo, sigue las
+[instrucciones de inicio rápido](/es/docs/setup/getting-started) en su lugar.
 
-This installation guide uses the [istioctl](/es/docs/reference/commands/istioctl/) command line
-tool to provide rich customization of the Istio control plane and of the sidecars for the Istio data plane.
-It has user input validation to help prevent installation errors and customization options to
-override any aspect of the configuration.
+Esta guía de instalación usa la herramienta de línea de comandos [istioctl](/es/docs/reference/commands/istioctl/)
+para proporcionar una rica personalización del control plane de Istio y de los sidecars para el data plane de Istio.
+Tiene validación de entrada del usuario para ayudar a prevenir errores de instalación y opciones de personalización para
+sobrescribir cualquier aspecto de la configuración.
 
-Using these instructions, you can select any one of Istio's built-in
-[configuration profiles](/es/docs/setup/additional-setup/config-profiles/)
-and then further customize the configuration for your specific needs.
+Usando estas instrucciones, puedes seleccionar cualquiera de los
+[perfiles de configuración](/es/docs/setup/additional-setup/config-profiles/) incorporados de Istio
+y luego personalizar aún más la configuración para tus necesidades específicas.
 
-The `istioctl` command supports the full [`IstioOperator` API](/es/docs/reference/config/istio.operator.v1alpha1/)
-via command-line options for individual settings or for passing a yaml file containing an `IstioOperator`
-{{<gloss CRDs>}}custom resource (CR){{</gloss>}}.
+El comando `istioctl` soporta la [`IstioOperator` API](/es/docs/reference/config/istio.operator.v1alpha1/) completa
+a través de opciones de línea de comandos para configuraciones individuales o para pasar un archivo yaml que contiene un
+{{<gloss CRDs>}}recurso personalizado (CR){{</gloss>}} `IstioOperator`.
 
-## Prerequisites
+## Prerrequisitos
 
-Before you begin, check the following prerequisites:
+Antes de comenzar, verifica los siguientes prerrequisitos:
 
-1. [Download the Istio release](/es/docs/setup/additional-setup/download-istio-release/).
-1. Perform any necessary [platform-specific setup](/es/docs/setup/platform-setup/).
-1. Check the [Requirements for Pods and Services](/es/docs/ops/deployment/application-requirements/).
+1. [Descarga la versión de Istio](/es/docs/setup/additional-setup/download-istio-release/).
+1. Realiza cualquier configuración específica de la plataforma ([/es/docs/setup/platform-setup/](/es/docs/setup/platform-setup/)).
+1. Verifica los [Requisitos para Pods y Servicios](/es/docs/ops/deployment/application-requirements/).
 
-## Install Istio using the default profile
+## Instalar Istio usando el perfil por defecto
 
-The simplest option is to install the `default` Istio
-[configuration profile](/es/docs/setup/additional-setup/config-profiles/)
-using the following command:
+La opción más simple es instalar el perfil `default` de Istio
+[perfil de configuración](/es/docs/setup/additional-setup/config-profiles/)
+usando el siguiente comando:
 
 {{< text bash >}}
 $ istioctl install
 {{< /text >}}
 
-This command installs the `default` profile on the cluster defined by your
-Kubernetes configuration. The `default` profile is a good starting point
-for establishing a production environment, unlike the larger `demo` profile that
-is intended for evaluating a broad set of Istio features.
+Este comando instala el perfil `default` en el clúster definido por tu
+configuración de Kubernetes. El perfil `default` es un buen punto de partida
+para establecer un entorno de producción, a diferencia del perfil `demo` más grande que
+está destinado a evaluar un amplio conjunto de características de Istio.
 
-Various settings can be configured to modify the installations. For example, to enable access logs:
+Varias configuraciones pueden modificarse para modificar las instalaciones. Por ejemplo, para habilitar los registros de acceso:
 
 {{< text bash >}}
 $ istioctl install --set meshConfig.accessLogFile=/dev/stdout
 {{< /text >}}
 
 {{< tip >}}
-Many of the examples on this page and elsewhere in the documentation are written using `--set` to modify installation
-parameters, rather than passing a configuration file with `-f`. This is done to make the examples more compact.
-The two methods are equivalent, but `-f` is strongly recommended for production. The above command would be written as
-follows using `-f`:
+Muchos de los ejemplos de esta página y en la documentación en su totalidad están escritos usando `--set` para modificar los parámetros de instalación, en lugar de pasar un archivo de configuración con `-f`. Esto se hace para hacer los ejemplos más compactos.
+Los dos métodos son equivalentes, pero `-f` es fuertemente recomendado para producción. El comando anterior se escribiría de la siguiente manera usando `-f`:
 
 {{< text bash >}}
 $ cat <<EOF > ./my-config.yaml
@@ -73,114 +71,113 @@ $ istioctl install -f my-config.yaml
 {{< /tip >}}
 
 {{< tip >}}
-The full API is documented in the [`IstioOperator` API reference](/es/docs/reference/config/istio.operator.v1alpha1/).
-In general, you can use the `--set` flag in `istioctl` as you would with
-Helm, and the Helm `values.yaml` API is currently supported for backwards compatibility. The only difference is you must
-prefix the legacy `values.yaml` paths with `values.` because this is the prefix for the Helm pass-through API.
+La API completa está documentada en la [referencia de la API de `IstioOperator`](/es/docs/reference/config/istio.operator.v1alpha1/).
+En general, puedes usar la bandera `--set` en `istioctl` como lo harías con
+Helm, y la API de `values.yaml` de Helm es actualmente compatible para compatibilidad hacia atrás. La única diferencia es que
+debes prefijar las rutas de `values.yaml` heredadas con `values.` porque este es el prefijo para la API de pasatrough de Helm.
 {{< /tip >}}
 
-## Install from external charts
+## Instalar desde gráficos externos
 
-By default, `istioctl` uses compiled-in charts to generate the install manifest. These charts are released together with
-`istioctl` for auditing and customization purposes and can be found in the release tar in the
-`manifests` directory.
-`istioctl` can also use external charts rather than the compiled-in ones. To select external charts, set
-the `manifests` flag to a local file system path:
+Por defecto, `istioctl` usa gráficos compilados para generar el manifiesto de instalación. Estos gráficos se lanzan juntos con
+`istioctl` para propósitos de auditoría y personalización y se pueden encontrar en el archivo tar de la versión en el
+directorio `manifests`.
+`istioctl` también puede usar gráficos externos en lugar de los compilados. Para seleccionar gráficos externos, establece
+la bandera `manifests` a un camino de sistema de archivos local:
 
 {{< text bash >}}
 $ istioctl install --manifests=manifests/
 {{< /text >}}
 
-If using the `istioctl` {{< istio_full_version >}} binary, this command will result in the same installation as `istioctl install` alone, because it points to the
-same charts as the compiled-in ones.
-Other than for experimenting with or testing new features, we recommend using the compiled-in charts rather than external ones to ensure compatibility of the
-`istioctl` binary with the charts.
+Si estás usando el binario de `istioctl` {{< istio_full_version >}}, este comando resultará en la misma instalación que `istioctl install` solo, porque apunta a los
+mismos gráficos que los compilados.
+Aparte de para experimentar con o probar nuevas características, recomendamos usar los gráficos compilados en lugar de externos para asegurar la compatibilidad del
+binario de `istioctl` con los gráficos.
 
-## Install a different profile
+## Instalar un perfil diferente
 
-Other Istio configuration profiles can be installed in a cluster by passing the
-profile name on the command line. For example, the following command can be used
-to install the `demo` profile:
+Otros perfiles de configuración de Istio pueden instalarse en un clúster pasando el
+nombre del perfil en la línea de comandos. Por ejemplo, el siguiente comando puede usarse
+para instalar el perfil `demo`:
 
 {{< text bash >}}
 $ istioctl install --set profile=demo
 {{< /text >}}
 
-## Generate a manifest before installation
+## Generar un manifiesto antes de la instalación
 
-You can generate the manifest before installing Istio using the `manifest generate`
-sub-command.
-For example, use the following command to generate a manifest for the `default` profile that can be installed with `kubectl`:
+Puedes generar el manifiesto antes de instalar Istio usando el subcomando `manifest generate`.
+Por ejemplo, usa el siguiente comando para generar un manifiesto para el perfil `default` que puede ser instalado con `kubectl`:
 
 {{< text bash >}}
 $ istioctl manifest generate > $HOME/generated-manifest.yaml
 {{< /text >}}
 
-The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time. While the `IstioOperator` CR represents the full user configuration and is sufficient for tracking it, the output from `manifest generate` also captures possible changes in the underlying charts and therefore can be used to track the actual installed resources.
+El manifiesto generado puede usarse para inspeccionar exactamente qué se ha instalado así como para rastrear cambios en el manifiesto a lo largo del tiempo. Mientras que el CR `IstioOperator` representa la configuración completa del usuario y es suficiente para rastrearlo, la salida de `manifest generate` también captura posibles cambios en los gráficos subyacentes y, por lo tanto, puede usarse para rastrear los recursos realmente instalados.
 
 {{< tip >}}
-Any additional flags or custom values overrides you would normally use for installation should also be supplied to the `istioctl manifest generate` command.
+Cualquier otra bandera o sobrescritura de valores personalizados que normalmente usarías para la instalación también deberías ser suministrada al comando `istioctl manifest generate`.
 {{< /tip >}}
 
 {{< warning >}}
-If attempting to install and manage Istio using `istioctl manifest generate`, please note the following caveats:
+Si estás intentando instalar y gestionar Istio usando `istioctl manifest generate`, por favor ten en cuenta los siguientes advertencias:
 
-1. The Istio namespace (`istio-system` by default) must be created manually.
+1. El espacio de nombres de Istio (`istio-system` por defecto) debe crearse manualmente.
 
-1. Istio validation will not be enabled by default. Unlike `istioctl install`, the `manifest generate` command will
-not create the `istiod-default-validator` validating webhook configuration unless `values.defaultRevision` is set:
+1. La validación de Istio no estará habilitada por defecto. A diferencia de `istioctl install`, el comando `manifest generate`
+no creará la configuración de webhook de validador de `istiod-default-validator` a menos que `values.defaultRevision` esté establecido:
 
     {{< text bash >}}
     $ istioctl manifest generate --set values.defaultRevision=default
     {{< /text >}}
 
-1. Resources may not be installed with the same sequencing of dependencies as
+1. Los recursos pueden no instalarse con la misma secuenciación de dependencias que
 `istioctl install`.
 
-1. This method is not tested as part of Istio releases.
+1. Este método no está probado como parte de las versiones de Istio.
 
-1. While `istioctl install` will automatically detect environment specific settings from your Kubernetes context,
-`manifest generate` cannot as it runs offline, which may lead to unexpected results. In particular, you must ensure
-that you follow [these steps](/es/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) if your
-Kubernetes environment does not support third party service account tokens. It is recommended to append `--cluster-specific` to your `istio manifest generate` command to detect the target cluster's environment, which will embed those cluster-specific environment settings into the generated manifests. This requires network access to your running cluster.
+1. Mientras que `istioctl install` detectará automáticamente las configuraciones específicas del entorno de tu contexto de Kubernetes,
+`manifest generate` no puede hacerlo porque se ejecuta en línea, lo que puede llevar a resultados inesperados. En particular, debes asegurarte
+de que sigas [estos pasos](/es/docs/ops/best-practices/security/#configure-third-party-service-account-tokens) si tu
+entorno de Kubernetes no soporta tokens de cuenta de servicio de terceros. Se recomienda añadir `--cluster-specific` a tu comando `istio manifest generate` para detectar el entorno del clúster objetivo, lo que incluirá esos ajustes de entorno específicos del clúster en los manifiestos generados. Esto requiere acceso a red a tu clúster en ejecución.
 
-1. `kubectl apply` of the generated manifest may show transient errors due to resources not being available in the
-cluster in the correct order.
+1. `kubectl apply` del manifiesto generado puede mostrar errores transitorios debido a recursos no disponibles en el
+orden correcto en el clúster.
 
-1. `istioctl install` automatically prunes any resources that should be removed when the configuration changes (e.g.
-if you remove a gateway). This does not happen when you use `istio manifest generate` with `kubectl` and these
-resources must be removed manually.
+1. `istioctl install` automáticamente poda cualquier recurso que debería ser eliminado cuando la configuración cambia (por ejemplo,
+si eliminas un gateway). Esto no ocurre cuando usas `istio manifest generate` con `kubectl` y estos
+recursos deben ser eliminados manualmente.
 
 {{< /warning >}}
 
-See [Customizing the installation configuration](/es/docs/setup/additional-setup/customize-installation/) for additional information on customizing the install.
+Consulta [Personalizar la configuración de la instalación](/es/docs/setup/additional-setup/customize-installation/) para obtener más información sobre la personalización de la instalación.
 
-## Uninstall Istio
+## Desinstalar Istio
 
-To completely uninstall Istio from a cluster, run the following command:
+Para desinstalar completamente Istio de un clúster, ejecuta el siguiente comando:
 
 {{< text bash >}}
 $ istioctl uninstall --purge
 {{< /text >}}
 
 {{< warning >}}
-The optional `--purge` flag will remove all Istio resources, including cluster-scoped resources that may be shared with other Istio control planes.
+La bandera opcional `--purge` eliminará todos los recursos de Istio, incluyendo recursos de nivel de clúster que pueden ser compartidos con otros planes de control de Istio.
 {{< /warning >}}
 
-Alternatively, to remove only a specific Istio control plane, run the following command:
+Alternativamente, para eliminar solo un plan de control de Istio específico, ejecuta el siguiente comando:
 
 {{< text bash >}}
-$ istioctl uninstall <your original installation options>
+$ istioctl uninstall <tus opciones de instalación originales>
 {{< /text >}}
 
-or
+o
 
 {{< text bash >}}
-$ istioctl manifest generate <your original installation options> | kubectl delete --ignore-not-found=true -f -
+$ istioctl manifest generate <tus opciones de instalación originales> | kubectl delete --ignore-not-found=true -f -
 {{< /text >}}
 
-The control plane namespace (e.g., `istio-system`) is not removed by default.
-If no longer needed, use the following command to remove it:
+El espacio de nombres del plan de control (por ejemplo, `istio-system`) no se elimina por defecto.
+Si ya no es necesario, usa el siguiente comando para eliminarlo:
 
 {{< text bash >}}
 $ kubectl delete namespace istio-system
