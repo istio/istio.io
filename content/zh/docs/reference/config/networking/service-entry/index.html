@@ -384,6 +384,7 @@ additional properties will be considered by <code>istiod</code>:</p>
 service accounts associated with the pods of the service, the
 SANs specified here will also be verified.</li>
 </ol>
+<p><strong>NOTE 3:</strong> Ztunnel and Waypoint proxies do not support wildcard hosts.</p>
 
 </td>
 </tr>
@@ -486,6 +487,7 @@ defines an export to all namespaces.</p>
 <p>For a Kubernetes Service, the equivalent effect can be achieved by setting
 the annotation &ldquo;networking.istio.io/exportTo&rdquo; to a comma-separated list
 of namespace names.</p>
+<p><strong>Note:</strong> Ztunnel and Waypoint proxies not support this field and will read it at &ldquo;*&rdquo;.</p>
 
 </td>
 </tr>
