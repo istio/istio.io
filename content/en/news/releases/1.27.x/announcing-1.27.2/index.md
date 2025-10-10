@@ -26,13 +26,11 @@ Gateways that use a hostname address remain namespace-only.
 
 - **Fixed** the cluster waypoint `correct_originate` configuration when `PILOT_SKIP_VALIDATE_TRUST_DOMAIN` is set.  ([Issue #56741](https://github.com/istio/istio/issues/56741))
 
-- **Fixed** an annotation issue where both `istio.io/reroute-virtual-interfaces` and the deprecated `traffic.sidecar.istio.io/kubevirtInterfaces` were processed. The newer `reroute-virtual-interfaces` annotation now correctly takes precedence. 
-  ([Issue #57662](https://github.com/istio/istio/issues/57662))
+- **Fixed** an annotation issue where both `istio.io/reroute-virtual-interfaces` and the deprecated `traffic.sidecar.istio.io/kubevirtInterfaces` were processed. The newer `reroute-virtual-interfaces` annotation now correctly takes precedence.  ([Issue #57662](https://github.com/istio/istio/issues/57662))
 
 - **Fixed** ServiceEntry resolution in ztunnel now matches ServiceEntry port names to pod container ports, aligning behavior with sidecars where there isn't an explicit `targetPort`
   ([Issue #57713](https://github.com/istio/istio/issues/57713))
 
 - **Fixed** missing gateway reconciliation for MeshConfig changes. ([Issue #57890](https://github.com/istio/istio/issues/57890))
 
-- **Removed** the istioctl installation dependency between pilot and CNI. CNI installation is no longer dependent on pilot being installed first. If the istio-cni configuration exists before installation (which can be the case when using an istio-owned CNI config), pilot installation will not fail while waiting for CNI readiness since CNI installation is no longer dependent on pilot. ([Issue #57600](https://github.com/istio/istio/issues/57600))
-
+- **Removed** the istioctl installation dependency between pilot and CNI. CNI installation is no longer dependent on pilot being installed first. If the istio-cni configuration exists before installation (which can be the case when using an istio-owned CNI config), pilot installation will not fail while waiting for CNI readiness since CNI installation is no longer dependent on pilot.  ([Issue #57600](https://github.com/istio/istio/issues/57600))
