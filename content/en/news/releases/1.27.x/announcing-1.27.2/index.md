@@ -15,9 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Improved**: For Kubernetes Gateway API gateways, access to referenced TLS secrets
-now requires both the namespace and the service account to match (previously only the namespace), or an explicit `ReferenceGrant`.
-Gateways that use a hostname address remain namespace-only.
+- **Improved** access to referenced TLS secrets to require both namespace and service accounts to match (previously only the namespace), or to have an explicit `ReferenceGrant`, for Kubernetes Gateway API gateways. Gateways that use a hostname address remain namespace-only.
 
 - **Fixed** a goroutine leak in multicluster where `krt` collections with data from remote clusters would stay in memory even after that cluster was removed.
   ([Issue #57269](https://github.com/istio/istio/issues/57269))
@@ -28,7 +26,7 @@ Gateways that use a hostname address remain namespace-only.
 
 - **Fixed** an annotation issue where both `istio.io/reroute-virtual-interfaces` and the deprecated `traffic.sidecar.istio.io/kubevirtInterfaces` were processed. The newer `reroute-virtual-interfaces` annotation now correctly takes precedence.  ([Issue #57662](https://github.com/istio/istio/issues/57662))
 
-- **Fixed** ServiceEntry resolution in ztunnel now matches ServiceEntry port names to pod container ports, aligning behavior with sidecars where there isn't an explicit `targetPort`
+- **Fixed** `ServiceEntry` resolution in ztunnel to match port names to pod container ports, aligning behavior with sidecars, when there isn't an explicit `targetPort` set.
   ([Issue #57713](https://github.com/istio/istio/issues/57713))
 
 - **Fixed** missing gateway reconciliation for MeshConfig changes. ([Issue #57890](https://github.com/istio/istio/issues/57890))
