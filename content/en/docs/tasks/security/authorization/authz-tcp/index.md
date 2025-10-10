@@ -193,7 +193,7 @@ If you don’t see the expected output, retry after a few seconds. Caching and p
     {{< /text >}}
 
 1. Verify that requests to port 9000 are denied. This occurs because Istio doesn't understand the
-   HTTP-only fields while creating a DENY rule for tcp port and due to it's restrictive nature it denies all the traffic to the tcp ports:
+   HTTP-only fields while creating a DENY rule for tcp port and due to its restrictive nature it denies all the traffic to the tcp ports:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" \

@@ -24,7 +24,7 @@ We have also worked closely with the community to ensure that there is a great d
 for users to get started quickly. The Google team has been working closely with the team
 at [Solo.io](https://solo.io) who have built the [WebAssembly Hub,](https://webassemblyhub.io/)
 a service for building, sharing, discovering and deploying Wasm extensions.
-With the WebAssembly Hub, Wasm extensions are as easy to manage, install and and run as containers.
+With the WebAssembly Hub, Wasm extensions are as easy to manage, install and run as containers.
 
 This work is being released today in Alpha and there is still lots
 of [work to be done](#next-steps), but we are excited to get this into the hands of developers

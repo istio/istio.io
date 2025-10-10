@@ -122,7 +122,7 @@ This script requires:
 ### Creating a patch release
 
 A few days before the patch release, the release managers should notify the Doc WG that the release
-is built and is starting it's long running qualification test. At this time, move the doc automation
+is built and is starting its long running qualification test. At this time, move the doc automation
 tests to use the new release to verify automated doc testing passes.
 
 To move to a new release (make sure you are in the patch's release branch):
@@ -257,7 +257,7 @@ For French, this would be:
     /  /fr   302  Language=fr
     ```
 
-- Edit fhe file `layouts/partials/headers.html`. Search for `switch-lang` and you'll find the definitions for the language selection
+- Edit the file `layouts/partials/headers.html`. Search for `switch-lang` and you'll find the definitions for the language selection
 menu. Add a line for your new language.
 
 And that's it.
@@ -267,7 +267,7 @@ And that's it.
 We have a number of checks in place to ensure a number of invariants are maintained in order to
 help the site's overall quality. For example, we disallow checking in broken links and we do spell
 checking. There are some things which are hard to systematically check through automation and instead
-require a human to review on in a while to ensure everything's doing well.
+require a human to review once in a while to ensure everything's doing well.
 
 It's a good idea to run through this list before every major release of the site:
 

@@ -46,7 +46,7 @@ The following Istio releases are vulnerable:
 
 [CVE 2019-9900](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9900) and [CVE 2019-9901](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9901)
 allow remote attackers access to unauthorized resources by using specially crafted request URI paths (9901) and NUL bytes in
-HTTP/1.1 headers (9900), potentially circumventing DoS prevention systems such as rate limiting, or routing to a unexposed upstream system. Refer to
+HTTP/1.1 headers (9900), potentially circumventing DoS prevention systems such as rate limiting, or routing to an unexposed upstream system. Refer to
 [issue 6434](https://github.com/envoyproxy/envoy/issues/6434)
 and [issue 6435](https://github.com/envoyproxy/envoy/issues/6435) for more information.
 
