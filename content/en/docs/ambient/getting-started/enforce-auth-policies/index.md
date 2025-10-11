@@ -13,7 +13,7 @@ identities that are automatically issued to all workloads in the mesh.
 
 ## Enforce Layer 4 authorization policy
 
-Let's create an [authorization policy](/docs/reference/config/security/authorization-policy/) that restricts which services can communicate with the `productpage` service. The policy is applied to pods with the `app: productpage` label, and it allows calls only from the the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. This is the service account that is used by the Bookinfo gateway you deployed in the previous step.
+Let's create an [authorization policy](/docs/reference/config/security/authorization-policy/) that restricts which services can communicate with the `productpage` service. The policy is applied to pods with the `app: productpage` label, and it allows calls only from the service account `cluster.local/ns/default/sa/bookinfo-gateway-istio`. This is the service account that is used by the Bookinfo gateway you deployed in the previous step.
 
 {{< text syntax=bash snip_id=deploy_l4_policy >}}
 $ kubectl apply -f - <<EOF

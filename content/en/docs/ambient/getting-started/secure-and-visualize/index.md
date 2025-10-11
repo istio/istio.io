@@ -56,7 +56,7 @@ If you don't see the traffic graph, try re-sending the traffic to the Bookinfo a
 To see the mTLS status between the services, click the **Display** drop-down and click **Security**.
 {{</ tip >}}
 
-If you click on the line connecting two services on the the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio.
+If you click on the line connecting two services on the dashboard, you can see the inbound and outbound traffic metrics gathered by Istio.
 
 {{< image link="./kiali-tcp-traffic.png" caption="L4 traffic" >}}
 
