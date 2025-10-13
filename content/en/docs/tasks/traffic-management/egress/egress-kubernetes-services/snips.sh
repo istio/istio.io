@@ -198,7 +198,7 @@ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443
 * Hostname en.wikipedia.org was found in DNS cache
 *   Trying 172.21.156.230...
 * TCP_NODELAY set
-* Connected to en.wikipedia.org (172.21.156.230) port 443 (#0)
+* Established connection to en.wikipedia.org (172.21.156.230 port 443) from 10.244.1.2 port 43790
 ...
 ENDSNIP
 

@@ -229,7 +229,7 @@ $ kubectl delete service my-httpbin
     {{< /text >}}
 
 1.  Check that the access is indeed performed by the cluster IP. Notice the sentence
-    `Connected to en.wikipedia.org   (172.21.156.230)` in the output of `curl -v`, it mentions the IP that was printed
+    `Established connection to en.wikipedia.org (172.21.156.230 port 443)` in the output of `curl -v`, it mentions the IP that was printed
     in the output of your service as the cluster IP.
 
     {{< text bash >}}
@@ -238,7 +238,7 @@ $ kubectl delete service my-httpbin
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...
     * TCP_NODELAY set
-    * Connected to en.wikipedia.org (172.21.156.230) port 443 (#0)
+    * Established connection to en.wikipedia.org (172.21.156.230 port 443) from 10.244.1.2 port 43790
     ...
     {{< /text >}}
 

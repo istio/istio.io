@@ -223,7 +223,7 @@ $ kubectl delete service my-httpbin
     {{< /text >}}
 
 1. 检查访问是否确实由集群 IP 完成。在 `curl -v` 的输出中注意这句话
-   `Connected to en.wikipedia.org (172.21.156.230)`，其中提到了在您的服务输出中作为集群 IP 打印的 IP。
+   `Established connection to en.wikipedia.org (172.21.156.230 port 443)`，其中提到了在您的服务输出中作为集群 IP 打印的 IP。
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
@@ -231,7 +231,7 @@ $ kubectl delete service my-httpbin
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...
     * TCP_NODELAY set
-    * Connected to en.wikipedia.org (172.21.156.230) port 443 (#0)
+    * Established connection to en.wikipedia.org (172.21.156.230 port 443) from 10.244.1.2 port 43790
     ...
     {{< /text >}}
 

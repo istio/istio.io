@@ -62,7 +62,7 @@ _wait_for_resource destinationrule default my-wikipedia
 
 _verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_6 "<title>Wikipedia, the free encyclopedia</title>"
 
-_verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7 "Connected to en.wikipedia.org"
+_verify_contains snip_use_a_kubernetes_service_with_endpoints_to_access_an_external_service_7 "Established connection to en.wikipedia.org"
 
 # @cleanup
 snip_cleanup_of_kubernetes_externalname_service_1
