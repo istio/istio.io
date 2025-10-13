@@ -114,6 +114,7 @@ kubectl exec deploy/curl -- curl -sS -v auto.internal
 
 ! IFS=$'\n' read -r -d '' snip_address_autoallocation_4_out <<\ENDSNIP
 * Could not resolve host: auto.internal
+* Store negative name resolve for auto.internal:80
 * shutting down connection #0
 ENDSNIP
 
