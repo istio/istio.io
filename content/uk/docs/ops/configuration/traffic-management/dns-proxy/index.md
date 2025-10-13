@@ -167,6 +167,7 @@ EOF
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 * Could not resolve host: auto.internal
+* Store negative name resolve for auto.internal:80
 * shutting down connection #0
 {{< /text >}}
 
@@ -307,6 +308,7 @@ EOF
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 * Could not resolve host: auto.internal
+* Store negative name resolve for auto.internal:80
 * shutting down connection #0
 {{< /text >}}
 
