@@ -47,6 +47,7 @@ aliases:
   ([Issue #57890](https://github.com/istio/istio/issues/57890))
 
 - **移除** 移除了 pilot 和 CNI 之间的 istioctl 安装依赖关系。
-  CNI 安装不再依赖于 pilot 的先安装。如果 istio-cni 配置在安装前就已存在（使用 istio 拥有的 CNI 配置时可能会出现这种情况），
+  CNI 安装不再依赖于 pilot 的先安装。如果 istio-cni 配置在安装前就已存在
+  （使用 istio 拥有的 CNI 配置时可能会出现这种情况），
   则在等待 CNI 准备就绪时，pilot 的安装不会失败，因为 CNI 的安装不再依赖于 pilot。
   ([Issue #57600](https://github.com/istio/istio/issues/57600))
