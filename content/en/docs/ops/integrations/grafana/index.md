@@ -81,4 +81,4 @@ Grafana can be installed and configured through other methods. To import Istio d
 refer to the documentation for the installation method. For example:
 
 * [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) official documentation.
-* [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) for the `stable/grafana` Helm chart.
+* [Importing dashboards](https://github.com/grafana/helm-charts/tree/main/charts/grafana#import-dashboards) for the `stable/grafana` Helm chart.

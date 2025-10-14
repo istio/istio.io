@@ -73,4 +73,4 @@ $ done
 Grafana може бути встановлена та налаштована іншими методами. Для імпорту панелей управління Istio, ознайомтеся з документацією для методу встановлення. Наприклад:
 
 * Офіційна документація [Provisioning Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards).
-* [Імпорт інфопанелей](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) для Helm chart `stable/grafana`.
+* [Імпорт інфопанелей](https://github.com/grafana/helm-charts/tree/main/charts/grafana#import-dashboards) для Helm chart `stable/grafana`.
