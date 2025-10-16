@@ -346,7 +346,7 @@ features:
     id: "core.dual_stack"
     level:
       checklist: features/dual-stack-support.md
-      maturity: Beta 
+      maturity: Alpha 
       link: "https://istio.io/latest/docs/setup/additional-setup/dual-stack/"
       nextExpectedPromotion: ""
     area: Core
