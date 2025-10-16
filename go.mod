@@ -10,7 +10,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.16.0
-	istio.io/istio v0.0.0-20250820092323-51e2c411637c
+	istio.io/istio v0.0.0-20251014173602-f8bd299c6f45
 	k8s.io/apimachinery v0.33.3
 	k8s.io/client-go v0.33.3
 )
@@ -132,6 +132,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
+	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
@@ -145,9 +146,6 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/vbatts/tar-split v0.12.1 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
-	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
-	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	github.com/xlab/treeprint v1.2.0 // indirect
 	github.com/yl2chen/cidranger v1.0.2 // indirect
 	github.com/zeebo/errs v1.4.0 // indirect
@@ -188,9 +186,9 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	helm.sh/helm/v3 v3.18.4 // indirect
-	istio.io/api v1.26.0-alpha.0.0.20250819205620-f7e25069711d // indirect
-	istio.io/client-go v1.27.0-beta.0 // indirect
+	helm.sh/helm/v3 v3.18.5 // indirect
+	istio.io/api v1.27.2-0.20251010085937-bc3692c751f3 // indirect
+	istio.io/client-go v1.27.2-0.20251010090538-d3877427e89c // indirect
 	k8s.io/api v0.33.3 // indirect
 	k8s.io/apiextensions-apiserver v0.33.3 // indirect
 	k8s.io/apiserver v0.33.3 // indirect
