@@ -1930,7 +1930,10 @@ between retries will be determined automatically (25ms+). When request
 <code>timeout</code> of the <a href="/docs/reference/config/networking/virtual-service/#HTTPRoute">HTTP route</a>
 or <code>per_try_timeout</code> is configured, the actual number of retries attempted also depends on
 the specified request <code>timeout</code> and <code>per_try_timeout</code> values. MUST be &gt;= 0. If <code>0</code>, retries will be disabled.
-The maximum possible number of requests made will be 1 + <code>attempts</code>.</p>
+The maximum possible number of requests made will be 1 + <code>attempts</code>.
+While the retry attempts are set to 0, other fields under <code>retries</code>, namely <code>attempts</code> , <code>perTryTimeout</code>, 
+<code>retryRemoteLocalities</code> , <code>retryOn</code> , <code>backoff</code> should be ommitted.
+</p>
 
 </td>
 </tr>
