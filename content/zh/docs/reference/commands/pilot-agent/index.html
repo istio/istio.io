@@ -806,7 +806,7 @@ gRPC Go SDK, and gRPC C++ SDK. This policy is experimental.
 WARNING: Setting compliance policy in the control plane is a necessary but
 not a sufficient requirement to achieve compliance. There are additional
 steps necessary to claim compliance, including using the validated
-cryptograhic modules (please consult
+cryptographic modules (please consult
 https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fips-140-2).</td>
 </tr>
 <tr id='credential-fetcher-type'>
@@ -826,6 +826,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Disables all Envoy agent features.</td>
+</tr>
+<tr id='disable-shadow-host-suffix'>
+<td><a href='#disable-shadow-host-suffix'><code>DISABLE_SHADOW_HOST_SUFFIX</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, the shadow host suffix will be added to the hostnames of the mirrored requests.</td>
 </tr>
 <tr id='dns-forward-parallel'>
 <td><a href='#dns-forward-parallel'><code>DNS_FORWARD_PARALLEL</code></a></td>
@@ -1341,18 +1347,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>false</code></td>
 <td>This will disable metrics endpoint from outside of the pod, allowing only localhost access.</td>
 </tr>
-<tr id='metric-graceful-deletion-interval'>
-<td><a href='#metric-graceful-deletion-interval'><code>METRIC_GRACEFUL_DELETION_INTERVAL</code></a></td>
-<td>Time Duration</td>
-<td><code>5m0s</code></td>
-<td>Metric expiry graceful deletion interval. No-op if METRIC_ROTATION_INTERVAL is disabled.</td>
-</tr>
-<tr id='metric-rotation-interval'>
-<td><a href='#metric-rotation-interval'><code>METRIC_ROTATION_INTERVAL</code></a></td>
-<td>Time Duration</td>
-<td><code>0s</code></td>
-<td>Metric scope rotation interval, set to 0 to disable the metric scope rotation</td>
-</tr>
 <tr id='minimum-drain-duration'>
 <td><a href='#minimum-drain-duration'><code>MINIMUM_DRAIN_DURATION</code></a></td>
 <td>Time Duration</td>
@@ -1800,7 +1794,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr id='pilot-spawn-upstream-span-for-gateway'>
 <td><a href='#pilot-spawn-upstream-span-for-gateway'><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></a></td>
 <td>Boolean</td>
-<td><code>false</code></td>
+<td><code>true</code></td>
 <td>If true, separate tracing span for each upstream request for gateway.</td>
 </tr>
 <tr id='pilot-status-max-workers'>
@@ -2076,6 +2070,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>pilot_xds_expired_nonce</code></td><td><code>Sum</code></td><td>Total number of XDS requests with an expired nonce.</td></tr>
 <tr><td><code>pilot_xds_lds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected LDS.</td></tr>
 <tr><td><code>pilot_xds_rds_reject</code></td><td><code>LastValue</code></td><td>Pilot rejected RDS.</td></tr>
+<tr><td><code>pilot_xds_recv_max</code></td><td><code>LastValue</code></td><td>The maximum size request we have received so far.</td></tr>
 <tr><td><code>pilot_xds_send_time</code></td><td><code>Distribution</code></td><td>Total time in seconds Pilot takes to send generated configuration.</td></tr>
 <tr><td><code>pilot_xds_write_timeout</code></td><td><code>Sum</code></td><td>Pilot XDS response write timeouts.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
@@ -2083,7 +2078,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
 <tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
 <tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
-<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversion count and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
+<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversions and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
 <tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
 <tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
 <tr><td><code>xds_proxy_requests</code></td><td><code>Sum</code></td><td>The total number of Xds Proxy Requests</td></tr>
