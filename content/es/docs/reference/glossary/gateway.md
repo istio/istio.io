@@ -3,7 +3,7 @@ title: Gateway
 test: n/a
 ---
 
-A gateway is a standalone Istio proxy deployed at the edge of the mesh.
-Gateways are used to route traffic [into](/es/docs/tasks/traffic-management/ingress/) or [out of](/es/docs/tasks/traffic-management/egress/) the mesh.
+Un gateway es un proxy Istio independiente desplegado en el borde de la mesh.
+Los gateways se usan para enrutar tráfico [hacia](/es/docs/tasks/traffic-management/ingress/) o [fuera de](/es/docs/tasks/traffic-management/egress/) la mesh.
 
-An Istio `Gateway` CR is used to configure the exposed ports of a gateway deployment.
+Un CR `Gateway` de Istio se usa para configurar los puertos expuestos de un deployment de gateway.
