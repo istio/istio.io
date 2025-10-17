@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 27
+number_of_entries: 28
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -840,6 +840,49 @@ Consistent Hash load balancer.</p>
 <p>Lifetime of the cookie. If specified, a cookie with the TTL will be
 generated if the cookie is not present. If the TTL is present and zero,
 the generated cookie will be a session cookie.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-attributes">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-attributes">attributes</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-Attribute">Attribute[]</a></div>
+</div></td>
+<td>
+<p>Additional attributes for the cookie. They will be used when generating a new cookie.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h5 id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-Attribute">Attribute</h5>
+<section>
+<p>Attribute defines an API for adding additional attributes for a HTTP cookie.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-Attribute-name">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-Attribute-name">name</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
+<td>
+<p>The name of the cookie attribute.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-ConsistentHashLB-HTTPCookie-Attribute-value">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-ConsistentHashLB-HTTPCookie-Attribute-value">value</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>The optional value of the cookie attribute.</p>
 
 </td>
 </tr>
