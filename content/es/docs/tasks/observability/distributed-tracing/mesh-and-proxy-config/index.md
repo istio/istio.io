@@ -50,7 +50,7 @@ opciones, debe reiniciar los pods inyectados con proxies de Istio.
 
 Cualquier anotación de pod agregada para la configuración de trazado anula la configuración global.
 Para preservar cualquier configuración global, debe copiarla de la
-configuración de la malla global a las anotaciones del pod junto con la personalización específica del
+configuración de la mesh global a las anotaciones del pod junto con la personalización específica del
 workload. En particular, asegúrese de que la dirección del backend de trazado se
 proporcione siempre en las anotaciones para garantizar que las trazas se informen
 correctamente para el workload.
@@ -109,7 +109,7 @@ EOF
 ### Usar la anotación `proxy.istio.io/config` para la configuración de trazas
 
 Puede agregar la anotación `proxy.istio.io/config` a la especificación de metadatos de su Pod
-para anular cualquier configuración de trazado de toda la malla.
+para anular cualquier configuración de trazado de toda la mesh.
 Por ejemplo, para modificar el deployment `curl` que se envía con Istio, agregaría
 lo siguiente a `samples/curl/curl.yaml`:
 
@@ -142,12 +142,12 @@ spec:
 
 La opción de tasa de muestreo se puede utilizar para controlar qué porcentaje de solicitudes se
 informan a su sistema de trazado. Esto debe configurarse en función de su
-tráfico en la malla y la cantidad de datos de trazado que desea recopilar.
+tráfico en la mesh y la cantidad de datos de trazado que desea recopilar.
 La tasa predeterminada es del 1%.
 
 {{< warning >}}
 Anteriormente, el método recomendado era cambiar la configuración `values.pilot.traceSampling`
-durante la configuración de la malla o cambiar la variable de entorno `PILOT_TRACE_SAMPLE`
+durante la configuración de la mesh o cambiar la variable de entorno `PILOT_TRACE_SAMPLE`
 en el deployment de istiod.
 Si bien este método para alterar el muestreo sigue funcionando, se recomienda
 encarecidamente el siguiente método.

@@ -1,6 +1,6 @@
 ---
 title: Visualizando Métricas con Grafana
-description: Esta tarea muestra cómo configurar y usar el Dashboard de Istio para monitorear el tráfico de la malla.
+description: Esta tarea muestra cómo configurar y usar el Dashboard de Istio para monitorear el tráfico de la mesh.
 weight: 40
 keywords: [telemetry,visualization]
 aliases:
@@ -11,7 +11,7 @@ test: yes
 ---
 
 Esta tarea muestra cómo configurar y usar el Dashboard de Istio para monitorear el
-tráfico de la malla. Como parte de esta tarea, utilizará el addon de Grafana Istio y
+tráfico de la mesh. Como parte de esta tarea, utilizará el addon de Grafana Istio y
 la interfaz web para ver los datos de tráfico de la service mesh.
 
 La application de ejemplo [Bookinfo](/es/docs/examples/bookinfo/) se utiliza como
@@ -60,7 +60,7 @@ application de ejemplo a lo largo de esta tarea.
 
     {{< image link="./grafana-istio-dashboard.png" caption="Dashboard de Istio" >}}
 
-1.  Envíe tráfico a la malla.
+1.  Envíe tráfico a la mesh.
 
     Para la muestra de Bookinfo, visite `http://$GATEWAY_URL/productpage` en su navegador web
     o emita el siguiente comando:
@@ -79,7 +79,7 @@ application de ejemplo a lo largo de esta tarea.
 
     {{< image link="./dashboard-with-traffic.png" caption="Dashboard de Istio con Tráfico" >}}
 
-    Esto proporciona una vista global de la Malla junto con los services y workloads en la malla.
+    Esto proporciona una vista global de la mesh junto con los services y workloads en la mesh.
     Puede obtener más detalles sobre los services y workloads navegando a sus dashboards específicos como se explica a continuación.
 
 1.  Visualizar Dashboards de Service.
@@ -114,15 +114,15 @@ application de ejemplo a lo largo de esta tarea.
 
 El Dashboard de Istio consta de tres secciones principales:
 
-1. Una Vista de Resumen de la Malla. Esta sección proporciona una vista de Resumen Global de la Malla y muestra los workloads HTTP/gRPC y TCP
-   en la Malla.
+1. Una Vista de Resumen de la mesh. Esta sección proporciona una vista de Resumen Global de la mesh y muestra los workloads HTTP/gRPC y TCP
+   en la mesh.
 
 1. Vista de Services Individuales. Esta sección proporciona métricas sobre solicitudes y
-   respuestas para cada service individual dentro de la malla (HTTP/gRPC y TCP).
+   respuestas para cada service individual dentro de la mesh (HTTP/gRPC y TCP).
    También proporciona métricas sobre los workloads del cliente y del service para este service.
 
 1. Vista de Workloads Individuales: Esta sección proporciona métricas sobre solicitudes y
-   respuestas para cada workload individual dentro de la malla (HTTP/gRPC y TCP).
+   respuestas para cada workload individual dentro de la mesh (HTTP/gRPC y TCP).
    También proporciona métricas sobre los workloads de entrada y los services de salida para este workload.
 
 Para obtener más información sobre cómo crear, configurar y editar dashboards, consulte la
