@@ -22,4 +22,5 @@ skip_seealso: true
 
 ## Am I Impacted?
 
-You are impacted if you use Lua via `EnvoyFilter` that returns an oversized response body exceeding the `per_connection_buffer_limit_bytes` (default 1MB) or where you have large requsts and responses where a connection can be closed but data from upstream is still being sent.
+You are impacted if you use Lua via `EnvoyFilter` that returns an oversized response body exceeding the `per_connection_buffer_limit_bytes` (default 1MB) or where you have large requests
+and responses where a connection can be closed but data from upstream is still being sent.
