@@ -495,6 +495,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td><code>false</code></td>
 <td>If true, the multi-network functionality will be enabled.</td>
 </tr>
+<tr id='ambient-enable-multi-network-waypoint'>
+<td><a href='#ambient-enable-multi-network-waypoint'><code>AMBIENT_ENABLE_MULTI_NETWORK_WAYPOINT</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true and AMBIENT_ENABLE_MULTI_NETWORK is also true, it will enable waypoints to route requests to clusters on remote networks, while by default waypoints will keep traffic local.</td>
+</tr>
 <tr id='ambient-enable-status'>
 <td><a href='#ambient-enable-status'><code>AMBIENT_ENABLE_STATUS</code></a></td>
 <td>Boolean</td>

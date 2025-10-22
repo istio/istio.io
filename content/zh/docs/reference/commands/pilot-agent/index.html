@@ -331,6 +331,11 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <td>Apply iptables changes even if they appear to already be in place. </td>
 </tr>
 <tr>
+<td><code>--force-iptables-binary &lt;string&gt;</code></td>
+<td></td>
+<td>Break glass option to choose which iptables binary to use.  (default ``)</td>
+</tr>
+<tr>
 <td><code>--inbound-capture-port &lt;string&gt;</code></td>
 <td><code>-z</code></td>
 <td>Port to which all inbound TCP traffic to the pod/VM should be redirected to.  (default `15006`)</td>
@@ -727,6 +732,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If true, the multi-network functionality will be enabled.</td>
+</tr>
+<tr id='ambient-enable-multi-network-waypoint'>
+<td><a href='#ambient-enable-multi-network-waypoint'><code>AMBIENT_ENABLE_MULTI_NETWORK_WAYPOINT</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true and AMBIENT_ENABLE_MULTI_NETWORK is also true, it will enable waypoints to route requests to clusters on remote networks, while by default waypoints will keep traffic local.</td>
 </tr>
 <tr id='ambient-enable-status'>
 <td><a href='#ambient-enable-status'><code>AMBIENT_ENABLE_STATUS</code></a></td>
