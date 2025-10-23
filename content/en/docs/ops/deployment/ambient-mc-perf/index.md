@@ -11,7 +11,7 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-Multicluster deployments with Ambient mode enable you to offer truly globally resilient applications at scale with minimal overhead. In addition to its normal functions, the Istio control plane creates watches on all remote clusters to keep an up-to-date listing of what global services each cluster offers. The Istio dataplane can route traffic to these remote global services, either as a part of normal traffic distribution, or specifically when the local service is unavailable.
+Multicluster deployments with ambient mode enable you to offer truly globally resilient applications at scale with minimal overhead. In addition to its normal functions, the Istio control plane creates watches on all remote clusters to keep an up-to-date listing of what global services each cluster offers. The Istio data plane can route traffic to these remote global services, either as a part of normal traffic distribution, or specifically when the local service is unavailable.
 
 ## Control plane performance
 
