@@ -298,7 +298,7 @@ spec:
       istio: ingressgateway
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.28/security/tools/jwt/samples/jwks.json"
 EOF
 }
 
@@ -316,7 +316,7 @@ spec:
     name: httpbin-gateway
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.28/security/tools/jwt/samples/jwks.json"
 EOF
 }
 
@@ -337,7 +337,7 @@ curl --header "Authorization: Bearer deadbeef" "$INGRESS_HOST:$INGRESS_PORT/head
 ENDSNIP
 
 snip_enduser_authentication_9() {
-TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/demo.jwt -s)
+TOKEN=$(curl https://raw.githubusercontent.com/istio/istio/release-1.28/security/tools/jwt/samples/demo.jwt -s)
 curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/headers" -s -o /dev/null -w "%{http_code}\n"
 }
 
@@ -346,11 +346,11 @@ curl --header "Authorization: Bearer $TOKEN" "$INGRESS_HOST:$INGRESS_PORT/header
 ENDSNIP
 
 snip_enduser_authentication_10() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.28/security/tools/jwt/samples/gen-jwt.py
 }
 
 snip_enduser_authentication_11() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.28/security/tools/jwt/samples/key.pem
 }
 
 snip_enduser_authentication_12() {
