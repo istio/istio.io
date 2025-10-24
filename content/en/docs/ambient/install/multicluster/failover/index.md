@@ -9,7 +9,7 @@ prev: /docs/ambient/install/multicluster/verify
 ---
 Follow this guide to customize failover behavior in your ambient multicluster Istio installation using waypoint proxies.
 
-Before proceeding, be sure to complete ambient multicluster Istio installtion following one of the
+Before proceeding, be sure to complete ambient multicluster Istio installation following one of the
 [multicluster installation guides](/docs/ambient/install/multicluster) and verify that the installation is working properly.
 
 In this guide, we will build on top of the `HelloWorld` application used to verify the multicluster installation. We will
@@ -131,7 +131,7 @@ Send request from the `curl` pods on `cluster1` to the `HelloWorld` service:
 
 {{< text bash >}}
 $ kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
-    "$(kubectl get pod --context "{CTX_CLUSTER1}" -n sample -l \
+    "$(kubectl get pod --context "${CTX_CLUSTER1}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
@@ -149,7 +149,7 @@ Similarly, send request from `curl` pods on `cluster2` several times:
 
 {{< text bash >}}
 $ kubectl exec --context "${CTX_CLUSTER2}" -n sample -c curl \
-    "$(kubectl get pod --context "{CTX_CLUSTER2}" -n sample -l \
+    "$(kubectl get pod --context "${CTX_CLUSTER2}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
