@@ -134,10 +134,7 @@ kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
     -- curl -sS helloworld.sample:5000/hello
 }
 
-snip_verify_failover_to_another_cluster_3() {
-}
-
-! IFS=$'\n' read -r -d '' snip_verify_failover_to_another_cluster_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_failover_to_another_cluster_3 <<\ENDSNIP
 Hello version: v2, instance: helloworld-v2-7b768b9bbd-7zftm
 Hello version: v2, instance: helloworld-v2-7b768b9bbd-7zftm
 ...
