@@ -183,7 +183,7 @@ $ kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
 This time you should see that the request is processed by `HelloWorld` service in `cluster2` because there are no
 available endpoints in `cluster1`:
 
-{{< text bash >}}
+{{< text plain >}}
 Hello version: v2, instance: helloworld-v2-7b768b9bbd-7zftm
 Hello version: v2, instance: helloworld-v2-7b768b9bbd-7zftm
 ...
