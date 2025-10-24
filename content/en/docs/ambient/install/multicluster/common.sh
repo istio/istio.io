@@ -19,6 +19,7 @@
 _set_kube_vars
 
 source content/en/docs/ambient/install/multicluster/verify/snips.sh
+source content/en/docs/ambient/install/multicluster/failover/snips.sh
 
 # set_single_network_vars initializes all variables for a single network config.
 function set_single_network_vars
@@ -154,6 +155,52 @@ function verify_load_balancing
   echo "Verifying load balancing from ${CTX_CLUSTER2}"
   _verify_contains snip_verifying_crosscluster_traffic_3 "$EXPECTED_RESPONSE_FROM_CLUSTER1"
   _verify_contains snip_verifying_crosscluster_traffic_3 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
+}
+
+function deploy_waypoints
+{
+	# Deploy waypoints in both clusters and wait until they are up and running
+	snip_deploy_waypoint_proxy_1
+  	_wait_for_deployment sample waypoint "${CTX_CLUSTER1}"
+  	_wait_for_deployment sample waypoint "${CTX_CLUSTER2}"
+
+	# Label HelloWorld service to use the newly deployed waypoints
+	snip_deploy_waypoint_proxy_4
+	# Mark waypoint service as global
+	snip_deploy_waypoint_proxy_5
+}
+
+function configure_locality_failover
+{
+	echo "Deploying locality failover configuration"
+	snip_configure_locality_failover_1
+	snip_configure_locality_failover_2
+}
+
+function verify_traffic_local
+{
+  local EXPECTED_RESPONSE_FROM_CLUSTER1="Hello version: v1, instance:"
+  local EXPECTED_RESPONSE_FROM_CLUSTER2="Hello version: v2, instance:"
+
+  echo "Verifying traffic stays in ${CTX_CLUSTER1}"
+  _verify_contains snip_verify_traffic_stays_in_local_cluster_1 "$EXPECTED_RESPONSE_FROM_CLUSTER1"
+
+  echo "Verifying traffic stays in ${CTX_CLUSTER2}"
+  _verify_contains snip_verify_traffic_stays_in_local_cluster_3 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
+}
+
+function break_cluster1
+{
+	echo "Breaking ${CTX_CLUSTER1}"
+	snip_verify_failover_to_another_cluster_1
+}
+
+function verify_failover
+{
+	local EXPECTED_RESPONSE_FROM_CLUSTER2="Hello version: v2, instance:"
+
+	echo "Verifying that traffic from ${CTX_CLUSTER1} fails over to ${CTX_CLUSTER2}"
+	_verify_contains snip_verify_failover_to_another_cluster_2 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
 }
 
 # For Helm multi-cluster installation steps
