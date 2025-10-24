@@ -99,7 +99,7 @@ EOF
 
 snip_verify_traffic_stays_in_local_cluster_1() {
 kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
-    "$(kubectl get pod --context "{CTX_CLUSTER1}" -n sample -l \
+    "$(kubectl get pod --context "${CTX_CLUSTER1}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
@@ -112,7 +112,7 @@ ENDSNIP
 
 snip_verify_traffic_stays_in_local_cluster_3() {
 kubectl exec --context "${CTX_CLUSTER2}" -n sample -c curl \
-    "$(kubectl get pod --context "{CTX_CLUSTER2}" -n sample -l \
+    "$(kubectl get pod --context "${CTX_CLUSTER2}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
