@@ -175,7 +175,7 @@ Send request from the `curl` pods on `cluster1` to the `HelloWorld` service agai
 
 {{< text bash >}}
 $ kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
-    "$(kubectl get pod --context "{CTX_CLUSTER1}" -n sample -l \
+    "$(kubectl get pod --context "${CTX_CLUSTER1}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}

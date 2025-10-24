@@ -129,7 +129,7 @@ kubectl --context "${CTX_CLUSTER1}" scale --replicas=0 deployment/helloworld-v1 
 
 snip_verify_failover_to_another_cluster_2() {
 kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
-    "$(kubectl get pod --context "{CTX_CLUSTER1}" -n sample -l \
+    "$(kubectl get pod --context "${CTX_CLUSTER1}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS helloworld.sample:5000/hello
 }
