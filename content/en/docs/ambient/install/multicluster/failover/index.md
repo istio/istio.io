@@ -13,7 +13,7 @@ Before proceeding, be sure to complete ambient multicluster Istio installation f
 [multicluster installation guides](/docs/ambient/install/multicluster) and verify that the installation is working properly.
 
 In this guide, we will build on top of the `HelloWorld` application used to verify the multicluster installation. We will
-configure locality failover for the `HelloWorld` service to prefer endpoints in the cluster local to the client using a
+configure locality failover for the `HelloWorld` service to prefer endpoints in the client's local cluster
 `DestinationRule` and will deploy a waypoint proxy to enforce the configuration.
 
 ## Deploy waypoint proxy
