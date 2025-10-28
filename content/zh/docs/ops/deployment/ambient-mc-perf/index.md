@@ -25,7 +25,6 @@ Ambient 多集群为控制平面的可扩展性增加了两个新维度：远程
 由于控制平面不为远程集群编写代理（假设采用多主部署拓扑），
 因此向网格中添加 10 个远程服务对控制平面性能的影响远低于添加 10 个本地服务。
 
-Our multicluster control plane load test created 300 services with 4000 endpoints in each of 10 clusters, and added these clusters to the mesh one at a time. The approximate control plane impact of adding a remote cluster at this scale was **1% of a CPU core, and 180 MB of memory**. At this scale, it should be safe to scale well beyond 10 clusters in a mesh with a properly scaled control plane. One item to note is that for multicluster scalability, horizontally scaling the control plane will not help, as each control plane instance maintains a complete cache of remote services. Instead, we recommend modifying the resource requests and limits of the control plane to scale vertically to meet the needs of your multicluster mesh.
 我们的多集群控制平面负载测试在 10 个集群中分别创建了 300 个服务，
 包含 4000 个端点，并将这些集群逐个添加到网格中。
 以这种规模添加远程集群对控制平面的影响约为 **1% 的 CPU 核心和 180 MB 内存**。
@@ -41,7 +40,6 @@ Our multicluster control plane load test created 300 services with 4000 endpoint
 这种内外隧道的使用使得数据平面能够安全地与远程集群通信，
 而无需了解哪些 Pod IP 代表哪些服务的详细信息。
 
-This double encryption does carry some overhead, however. The data plane load test measures the response latency of traffic between pods in the same cluster, versus those in two different clusters, to understand the impact of double encryption on latency. Additionally, double encryption requires double handshakes, which disproportionately affects the latency of new connections to the remote cluster. As you can see below, our initial connections observed an average of 2.2 milliseconds (346%) additional latency, while requests using existing connections observed an increase of 0.13 milliseconds (72%). While these numbers appear significant, it is expected that most multicluster traffic will cross availability zones or regions, and the observed increase in overhead latency will be minimal compared to the overall transit latency between data centers.
 然而，这种双重加密确实会带来一些开销。
 数据平面负载测试测量了同一集群内 Pod 之间以及两个不同集群之间 Pod 之间的流量响应延迟，
 以了解双重加密对延迟的影响。此外，双重加密需要两次握手，
