@@ -8465,6 +8465,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>false</code></td>
 <td>If true, the multi-network functionality will be enabled.</td>
 </tr>
+<tr id='ambient-enable-multi-network-waypoint'>
+<td><a href='#ambient-enable-multi-network-waypoint'><code>AMBIENT_ENABLE_MULTI_NETWORK_WAYPOINT</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true and AMBIENT_ENABLE_MULTI_NETWORK is also true, it will enable waypoints to route requests to clusters on remote networks, while by default waypoints will keep traffic local.</td>
+</tr>
 <tr id='ambient-enable-status'>
 <td><a href='#ambient-enable-status'><code>AMBIENT_ENABLE_STATUS</code></a></td>
 <td>Boolean</td>
@@ -8672,6 +8678,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr id='enable-wildcard-host-service-entries-for-tls'>
+<td><a href='#enable-wildcard-host-service-entries-for-tls'><code>ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ServiceEntries with wildcard hosts and dynamic dns resolution will be allowed for TLS traffic. This is a security risk, susceptible to SNI spoofing, and should be used with caution. Only consider using this feature if the client is trusted and you understand the risks.</td>
 </tr>
 <tr id='envoy-status-port-enable-proxy-protocol'>
 <td><a href='#envoy-status-port-enable-proxy-protocol'><code>ENVOY_STATUS_PORT_ENABLE_PROXY_PROTOCOL</code></a></td>

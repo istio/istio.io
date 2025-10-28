@@ -1450,6 +1450,26 @@ The default value is USE_B3 to maintain backward compatibility.</p>
 
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-timeout">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-ZipkinTracingProvider-timeout">timeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The timeout for the HTTP request to the Zipkin collector.
+If not specified, the default timeout from Envoy&rsquo;s configuration will be used (which is 5 seconds currently).</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-headers">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-ZipkinTracingProvider-headers">headers</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-HttpHeader">HttpHeader[]</a></div>
+</div></td>
+<td>
+<p>Additional HTTP headers to include in the request to the Zipkin collector.
+These headers will be added to the HTTP request when sending spans to the collector.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
