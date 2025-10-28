@@ -99,8 +99,8 @@ $ istioctl x precheck
 {{< boilerplate revision-tags-usage >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision={{< istio_previous_version_revision >}}-1 -n istio-system | kubectl apply -f -
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-canary}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{prod-stable}" --set revision={{< istio_previous_version_revision >}}-1 -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{prod-canary}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< warning >}}
@@ -110,7 +110,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< boilerplate revision-tags-middle >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{prod-stable}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{prod-stable}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< boilerplate revision-tags-prologue >}}
@@ -120,7 +120,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 {{< boilerplate revision-tags-default-intro >}}
 
 {{< text bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{default}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{default}" --set revision={{< istio_full_version_revision >}} -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 {{< boilerplate revision-tags-default-outro >}}

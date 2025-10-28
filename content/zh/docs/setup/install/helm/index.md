@@ -203,7 +203,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 ## 卸载稳定的修订版标签资源 {#uninstall-stable-revision-label-resources}
 
 如果您决定继续使用旧的控制平面不更新，您可以通过第一次发布来卸载较新的版本及其标记
-`helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`。
+`helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`。
 您必须按照上述卸载步骤卸载 Istio 的修订版。
 
 如果您使用就地升级安装了此版本的网关，则还必须手动重新安装上一个版本的网关，
