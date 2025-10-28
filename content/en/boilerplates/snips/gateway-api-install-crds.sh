@@ -21,7 +21,6 @@
 ####################################################################################################
 
 bpsnip_gateway_api_install_crds_install_crds() {
-# Workaround for https://github.com/kubernetes-sigs/gateway-api/issues/4156 -- change experimental back to standard when issue is fixed
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
 }

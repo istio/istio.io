@@ -20,8 +20,6 @@
 #          boilerplates/gateway-api-remove-crds.md
 ####################################################################################################
 
-
 bpsnip_gateway_api_remove_crds_remove_crds() {
-# Workaround for https://github.com/kubernetes-sigs/gateway-api/issues/4156 -- change experimental back to standard when issue is fixed
 kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
 }
