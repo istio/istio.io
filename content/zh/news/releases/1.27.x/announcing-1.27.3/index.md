@@ -14,7 +14,7 @@ aliases:
 
 {{< relnote >}}
 
-## 安全更新 {security-update}
+## 安全更新 {#security-update}
 
 本次发布实现了 10 月 20 日公布的安全更新
 [`ISTIO-SECURITY-2025-002`](/zh/news/security/istio-security-2025-002)。
