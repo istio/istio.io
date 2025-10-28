@@ -190,7 +190,7 @@ $ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,i
 Para cada etiqueta, puedes actualizar la etiqueta ejecutando el siguiente comando, reemplazando `$MYTAG` con tu nombre de etiqueta y `$REVISION` con tu nombre de revisión:
 
 {{< text syntax=bash snip_id=upgrade_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 Esto actualizará todos los objetos que hacen referencia a esa etiqueta, excepto aquellos que usan el [modo de despliegue manual de la gateway](/es/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), que se tratan a continuación, y los sidecars, que no se usan en el modo ambient.
@@ -198,7 +198,7 @@ Esto actualizará todos los objetos que hacen referencia a esa etiqueta, excepto
 Se recomienda que supervises de cerca la salud de las aplicaciones que usan el data plane actualizado antes de actualizar la siguiente etiqueta. Si detectas un problema, puedes revertir una etiqueta, restableciéndola para que apunte al nombre de tu revisión anterior:
 
 {{< text syntax=bash snip_id=rollback_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 ### Actualizar las gateways desplegadas manualmente (opcional)

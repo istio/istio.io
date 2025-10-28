@@ -247,7 +247,7 @@ $ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,i
 将 `$MYTAG` 替换为您的标签名称，将 `$REVISION` 替换为您的修订名称：
 
 {{< text syntax=bash snip_id=upgrade_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 这将升级引用该标签的所有对象，
@@ -258,7 +258,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 如果检测到问题，您可以回滚标签，将其重置为指向旧修订版本的名称：
 
 {{< text syntax=bash snip_id=rollback_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 ### 升级手动部署的网关（可选） {#upgrade-manually-deployed-gateways-optional}

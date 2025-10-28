@@ -190,7 +190,7 @@ $ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,i
 For each tag, you can upgrade the tag by running the following command, replacing `$MYTAG` with your tag name, and `$REVISION` with your revision name:
 
 {{< text syntax=bash snip_id=upgrade_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 This will upgrade all objects referencing that tag, except for those using [manual gateway deployment mode](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), which are dealt with below, and sidecars, which are not used in ambient mode.
@@ -198,7 +198,7 @@ This will upgrade all objects referencing that tag, except for those using [manu
 It is recommended that you closely monitor the health of applications using the upgraded data plane before upgrading the next tag. If you detect a problem, you can rollback a tag, resetting it to point to the name of your old revision:
 
 {{< text syntax=bash snip_id=rollback_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 ### Upgrade manually deployed gateways (optional)
