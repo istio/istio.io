@@ -13,9 +13,9 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-## CVE{#CVE}
+## CVE
 
-### CVE-2022-23635{#CVE-2022-23635}
+### CVE-2022-23635
 
 - __[CVE-2022-23635](https://github.com/istio/istio/security/advisories/GHSA-856q-xv3c-7f2f)__:
   (CVSS 评分 7.5，高):  控制平面不能拒绝未经身份验证的服务攻击。
@@ -26,7 +26,7 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 
 对于简单的安装，istiod 通常只能从集群内访问，从而限制了受影响的半径。但是，对于某些部署，尤其是[多集群拓扑](/zh/docs/setup/install/multicluster/primary-remote/)，该端口会通过公网公开。
 
-### Envoy CVEs{#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 目前，人们认为 Istio 不会受到 Envoy 中的这些 CVE 的攻击。然而，还是在下面把它们列出来了，
 以让大家都了解。
@@ -43,10 +43,10 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 | [CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2) | 3.1, 低      | X.509 `subjectAltName` 匹配（和 `nameConstraints`） 旁路。                                                           | 是               | 是               | Envoy 没有向后移植此修复程序。 |
 | [CVE-2022-21657](https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g) | 3.1, 低      | X.509 Extended Key Usage 和 Trust Purposes 旁路                                                                        | 不，下一个版本。 | 不，下一个版本。 | 不，下一个版本。                |
 
-## 我受到影响了吗？{#am-i-impacted?}
+## 我受到影响了吗？{#am-i-impacted}
 
 如果您在多集群环境中运行 Istio，或者如果您已将 istiod 暴露在外部，那么您面临的风险最大。
 
-## 赞扬{#credit}
+## 赞扬 {#credit}
 
 我们要感谢 Adam Korczynski（[`ADA Logics`](https://adalogics.com)）和 John Howard（Google）的报告和修复。

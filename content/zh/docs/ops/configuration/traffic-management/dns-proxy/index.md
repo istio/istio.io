@@ -81,7 +81,7 @@ spec:
 默认启用基础 DNS 代理。
 {{< /tip >}}
 
-## DNS 捕获 {#DNS-capture-in-action}
+## DNS 捕获 {#dns-capture-in-action}
 
 为了尝试 DNS 捕获，首先为某些外部服务启动一个 `ServiceEntry`：
 

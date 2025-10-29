@@ -23,7 +23,7 @@ Istio 1.12.0 在 Kubernetes `1.19` 到 `1.22` 版本上得到了官方支持。
 
 以下是该版本的一些亮点：
 
-## WebAssembly API{#WebAssembly-API}
+## WebAssembly API
 
 [WebAssembly](/zh/docs/concepts/wasm/) 一直是一个重要的项目，已经开发了 [3 年多](/zh/blog/2020/wasm-announce/)，通过允许用户在运行时动态加载自定义扩展，为 Istio 带来高级的可扩展性。
 然而，到目前为止，配置 WebAssembly 插件还处于实验阶段，并且很难使用。
@@ -34,7 +34,7 @@ Istio 1.12.0 在 Kubernetes `1.19` 到 `1.22` 版本上得到了官方支持。
 
 该 API 目前处于 alpha 阶段并在不断发展。感谢[您的反馈](/zh/get-involved/)！
 
-## Telemetry API{#Telemetry-API}
+## Telemetry API
 
 在 Istio 1.11 中，我们引入了一个全新的 [`Telemetry` API](/zh/docs/reference/config/telemetry/)，带来了一个标准化的 API，用于在 Istio 中配置跟踪、日志记录和指标。
 
@@ -49,7 +49,7 @@ Istio 1.12.0 在 Kubernetes `1.19` 到 `1.22` 版本上得到了官方支持。
 
 该 API 目前处于 alpha 阶段并在不断发展。感谢[您的反馈](/zh/get-involved/)！
 
-## Helm 支持{#helm-support}
+## Helm 支持 {#helm-support}
 
 Istio 1.12 对我们的 [Helm 安装支持](/zh/docs/setup/install/helm/)进行了许多改进，并为该功能在未来升级到测试版铺平了道路。
 
@@ -61,7 +61,7 @@ Istio 1.12 对我们的 [Helm 安装支持](/zh/docs/setup/install/helm/)进行�
 此外，还发布了新的精制的 [`gateway` chart](https://artifacthub.io/packages/helm/istio-official/gateway) 图表。
 这个 chart 取代了旧的 `istio-ingressgateway` 和 `istio-egressgateway` charts，极大地简化了网关的管理，并遵循 Helm 的最佳实践。请访问网关注入页面，了解迁移到 helm chart 的说明。
 
-## Kubernetes Gateway API{#Kubernetes-Gateway-API}
+## Kubernetes Gateway API
 
 Istio 已经完全支持 `v1alpha2` 版本的 [Kubernetes Gateway API](http://gateway-api.org/)。
 该 API 的目的是统一 Istio、Kubernetes `Ingress` 和其他代理使用的各种 API 集，以定义一个强大的、可扩展的 API 来配置流量路由。
@@ -69,7 +69,7 @@ Istio 已经完全支持 `v1alpha2` 版本的 [Kubernetes Gateway API](http://ga
 虽然 API 还没有针对生产工作负载，但 API 和 Istio 的实现正在迅速发展。
 要试用它，请查看 [Kubernetes Gateway API](/zh/docs/tasks/traffic-management/ingress/gateway-api/) 文档。
 
-## 还有很多很多{#and-much-much-more}
+## 还有很多很多 {#and-much-much-more}
 
 * Default Retry Policies 已经被添加到 [Mesh Config](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig)，允许用户在单个位置配置默认的重试策略，而不是在每个 VirtualService 中重复配置。
 * 一个新的 `failoverPriority` 配置已经添加到[Locality Load Balancing 配置](/zh/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting)中，允许自定义 Pod 的优先级。例如，同一网络中的 Pod 可以被赋予额外的优先级。
