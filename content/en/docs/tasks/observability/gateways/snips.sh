@@ -495,10 +495,10 @@ kubectl -n istio-system delete gateway grafana-gateway kiali-gateway prometheus-
 }
 
 ! IFS=$'\n' read -r -d '' snip_cleanup_1_out <<\ENDSNIP
-gateway.networking.istio.io "grafana-gateway" deleted
-gateway.networking.istio.io "kiali-gateway" deleted
-gateway.networking.istio.io "prometheus-gateway" deleted
-gateway.networking.istio.io "tracing-gateway" deleted
+gateway.networking.istio.io "grafana-gateway" deleted from istio-system namespace
+gateway.networking.istio.io "kiali-gateway" deleted from istio-system namespace
+gateway.networking.istio.io "prometheus-gateway" deleted from istio-system namespace
+gateway.networking.istio.io "tracing-gateway" deleted from istio-system namespace
 ENDSNIP
 
 snip_cleanup_2() {
@@ -506,10 +506,10 @@ kubectl -n istio-system delete virtualservice grafana-vs kiali-vs prometheus-vs 
 }
 
 ! IFS=$'\n' read -r -d '' snip_cleanup_2_out <<\ENDSNIP
-virtualservice.networking.istio.io "grafana-vs" deleted
-virtualservice.networking.istio.io "kiali-vs" deleted
-virtualservice.networking.istio.io "prometheus-vs" deleted
-virtualservice.networking.istio.io "tracing-vs" deleted
+virtualservice.networking.istio.io "grafana-vs" deleted from istio-system namespace
+virtualservice.networking.istio.io "kiali-vs" deleted from istio-system namespace
+virtualservice.networking.istio.io "prometheus-vs" deleted from istio-system namespace
+virtualservice.networking.istio.io "tracing-vs" deleted from istio-system namespace
 ENDSNIP
 
 snip_cleanup_3() {
@@ -517,8 +517,8 @@ kubectl -n istio-system delete destinationrule grafana kiali prometheus tracing
 }
 
 ! IFS=$'\n' read -r -d '' snip_cleanup_3_out <<\ENDSNIP
-destinationrule.networking.istio.io "grafana" deleted
-destinationrule.networking.istio.io "kiali" deleted
-destinationrule.networking.istio.io "prometheus" deleted
-destinationrule.networking.istio.io "tracing" deleted
+destinationrule.networking.istio.io "grafana" deleted from istio-system namespace
+destinationrule.networking.istio.io "kiali" deleted from istio-system namespace
+destinationrule.networking.istio.io "prometheus" deleted from istio-system namespace
+destinationrule.networking.istio.io "tracing" deleted from istio-system namespace
 ENDSNIP
