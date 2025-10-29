@@ -20,7 +20,7 @@ K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd/experime
 GATEWAY_API="true"
 
 function install_gateway_api_crds() {
-    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply -f - --context="$1"
+    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply --server-side -f - --context="$1"
 }
 
 function remove_gateway_api_crds() {
