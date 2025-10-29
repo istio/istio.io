@@ -10,11 +10,11 @@ owner: istio/wg-docs-maintainers
 test: n/a
 ---
 
-要从Istio中删除文档，请遵循以下简单步骤：
+要从 Istio 中删除文档，请遵循以下简单步骤：
 
-1. 删除页面。
-1. 调整失效的链接。
-1. 将您的贡献提交到 GitHub。
+1. 删除页面；
+2. 调整失效的链接；
+3. 将您的贡献提交到 GitHub。
 
 ## 删除页面{#remove-the-page}
 
@@ -32,7 +32,7 @@ test: n/a
 
 ## 将您的贡献提交到 GitHub{#submit-your-contribution-to-GitHub}
 
-如果您不熟悉 GitHub，请参阅我们的 [GitHub工作指南](/zh/docs/releases/contribute/github),
+如果您不熟悉 GitHub，请参阅我们的 [GitHub 工作指南](/zh/docs/releases/contribute/github),
 了解如何提交文档更改。
 
 如果您想了解更多关于您的贡献如何以及何时发表的信息，
