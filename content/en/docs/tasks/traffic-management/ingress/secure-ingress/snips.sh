@@ -441,7 +441,7 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      frontendValidation:
+      validation:
         caCertificateRefs:
         - group: ""
           kind: Secret
