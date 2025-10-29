@@ -483,4 +483,3 @@ _verify_failure() {
     local func=$1
     __verify_with_retry __cmp_failure "$func" "NON-ZERO COMMAND EXIT STATUS"
 }
-w
