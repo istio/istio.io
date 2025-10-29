@@ -26,7 +26,7 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 
 对于简单的安装，istiod 通常只能从集群内访问，从而限制了受影响的半径。但是，对于某些部署，尤其是[多集群拓扑](/zh/docs/setup/install/multicluster/primary-remote/)，该端口会通过公网公开。
 
-### Envoy CVEs
+### Envoy CVE {#envoy-cves}
 
 目前，人们认为 Istio 不会受到 Envoy 中的这些 CVE 的攻击。然而，还是在下面把它们列出来了，
 以让大家都了解。

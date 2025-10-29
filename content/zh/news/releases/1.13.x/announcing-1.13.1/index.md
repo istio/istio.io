@@ -13,12 +13,12 @@ aliases:
 
 {{< relnote >}}
 
-## 安全更新{#security-update}
+## 安全更新 {#security-update}
 
 - __[CVE-2022-23635](https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=CVE-2022-23635)__:
   CVE-2022-23635 (CVSS Score 7.5, High):  Istio 控制平面容易受到请求处理错误的影响，允许未经身份验证的恶意攻击者发送特制消息，从而导致控制平面崩溃。
 
-### Envoy CVEs{#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 目前，人们认为 Istio 不会受到 Envoy 中这些 CVE 的攻击。然而还是将它们在下面列举出来，以让 Istio 的使用者们都能够知道。
 
@@ -40,7 +40,7 @@ aliases:
 - __[CVE-2022-23606](https://github.com/envoyproxy/envoy/security/advisories/GHSA-9vp2-4cp7-vvxf)__:
   (CVSS Score 4.4, Moderate): 当通过 Cluster Discovery Service 删除集群时，堆栈耗尽。
 
-# 改变{#changes}
+# 改变 {#changes}
 
 - **修复** 修复了 `istioctl x describe svc` 无法正确评估 `appProtocol` 协议端口的问题。
   ([Issue #37159](https://github.com/istio/istio/issues/37159))
