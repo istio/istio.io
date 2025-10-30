@@ -189,7 +189,7 @@ $ kubectl get mutatingwebhookconfigurations -l 'istio.io/tag' -L istio\.io/tag,i
 Для кожного теґу ви можете оновити теґ, виконавши наступну команду, замінивши `$MYTAG` назвою вашого теґу, а `$REVISION` назвою вашої версії:
 
 {{< text syntax=bash snip_id=upgrade_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 Це оновить всі обʼєкти, що посилаються на цей теґ, за винятком тих, що використовують [режим ручного розгортання шлюзу](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment), які розглянуті нижче, і sidecar, які не використовуються в режимі оточення.
@@ -197,7 +197,7 @@ $ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisi
 Рекомендується уважно стежити за станом справності застосунків, що використовують оновлені панелі даних, перед оновленням наступного теґу. Якщо ви виявите проблему, ви можете відкотити теґ, повернувши його до вказування на назву вашої старої версії:
 
 {{< text syntax=bash snip_id=rollback_tag >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
 ### Оновлення вручну розгорнутих шлюзів (необовʼязково) {#upgrade-manually-deployed-gateways-optional}

@@ -25,7 +25,7 @@ archive_date: YYYY-MM-DD
 archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
-source_branch_name: master
+source_branch_name: release-1.28
 doc_branch_name: master
 
 ####### Static values
@@ -53,4 +53,4 @@ supported_languages:
     code: "uk"
 
 # Kubernetes Gateway API
-k8s_gateway_api_version: "v1.3.0"
+k8s_gateway_api_version: "v1.4.0"

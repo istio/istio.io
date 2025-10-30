@@ -432,6 +432,14 @@ metadata:
   namespace: istio-system
 spec:
   gatewayClassName: istio
+  tls:
+    frontend:
+      default:
+        validation:
+          caCertificateRefs:
+          - group: ""
+            kind: Secret
+            name: httpbin-credential
   listeners:
   - name: https
     hostname: "httpbin.example.com"
@@ -441,11 +449,6 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      frontendValidation:
-        caCertificateRefs:
-        - group: ""
-          kind: Secret
-          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
