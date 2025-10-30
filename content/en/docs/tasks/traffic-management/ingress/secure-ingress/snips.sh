@@ -441,11 +441,13 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      validation:
-        caCertificateRefs:
-        - group: ""
-          kind: Secret
-          name: httpbin-credential
+      frontend:
+        default:
+          validation:
+            caCertificateRefs:
+            - group: ""
+              kind: Secret
+              name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
