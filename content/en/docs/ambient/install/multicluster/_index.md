@@ -59,6 +59,14 @@ the current state and limitations of this feature.
 
 **If a service's waypoint is marked as global, that service will also be global**
   - This can lead to unintended cross-cluster traffic if not managed carefully
+  - The solution to this issue is tracked [here](https://github.com/istio/istio/issues/57710)
+
+#### Load Distribution on Remote Network
+
+**Traffic going to a remote network is not equally distributed between endpoints**
+  - When failover to a remote network due to multiplexing of HTTP requests and connection pooling a single endpoint
+    on remote network may get a disproportionate number of requests
+  - The solution to this issue is tracked [here](https://github.com/istio/istio/issues/58039)
 
 #### Gateway Limitations
 
