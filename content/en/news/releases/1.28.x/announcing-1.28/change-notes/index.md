@@ -16,6 +16,9 @@ This is an automatically generated rough draft of the release notes and has not 
 
 ## Traffic Management
 
+- **Promoted** Istio dual-stack support to beta.
+  ([Issue #16863](https://github.com/istio/istio.io/pull/16863))
+
 - **Updated** the default value for maximum accepted connections per socket event. The
 default value now is 1 for inbound and outbound listeners explicetly binding to ports
 in sidecars. Listeners with no IPTABLES interception will benefit from better performance
@@ -69,43 +72,33 @@ an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540)
 
 ## Security
 
-- **Improved** root certificate parsing to when some certificates are invalid. 
-Istio now filters out malformed certificates instead of rejecting the entire bundle.
+- **Improved** root certificate parsing when some certificates were invalid. Istio now filters out malformed certificates instead of rejecting the entire bundle.
 
-- **Added** `caCertCredentialName` field in `ServerTLSSettings` to reference a Secret/ConfigMap that holds CA certificates for mTLS
+- **Added** `caCertCredentialName` field in `ServerTLSSettings` to reference a `Secret`/`ConfigMap` that holds CA certificates for mTLS.
  ([usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#key-formats))([reference]( https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings-ca_cert_credential_name)) ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
-- **Added** optional NetworkPolicy deployment for istiod
-
-You can set `global.networkPolicy.enabled=true` to deploy a default NetworkPolicy for istiod and gateways.
-We're planning to extend this to later also include NetworkPolicy for istio-cni and ztunnel.
+- **Added** optional `NetworkPolicy` deployment for istiod. You can set `global.networkPolicy.enabled=true` to deploy a default `NetworkPolicy` for istiod and gateways. We're planning to extend this to later also include `NetworkPolicy` for istio-cni and Ztunnel.
   ([Issue #56877](https://github.com/istio/api/issues/56877))
 
 - **Added** support for configuring `seccompProfile` in the `istio-validation` and `istio-proxy` containers within the sidecar injection template. Users can now set the `seccompProfile.type` to `RuntimeDefault` for enhanced security compliance.
   ([Issue #57004](https://github.com/istio/istio/issues/57004))
 
-- **Added** Support Gateway API FrontendTLSValidation (GEP-91)
+- **Added** support for FrontendTLSValidation (GEP-91) in Gateway API.
  ([usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-mutual-tls-ingress-gateway))([reference]( https://gateway-api.sigs.k8s.io/reference/spec/#frontendtlsvalidation)) ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
-- **Fixed** JWT filter configuration to include custom space-delimited claims
+- **Fixed** JWT filter configuration to include custom space-delimited claims. The JWT filter configuration now correctly includes user-specified custom space-delimited claims in addition to the default claims ("scope" and "permission"). This ensures that the Envoy JWT filter treats these claims as space-delimited strings, allowing for proper validation of JWT tokens that include these claims. To set custom space-delimited claims, use the `spaceDelimitedClaims` field in the JWT rule configuration inside the `RequestAuthentication` resource.  ([Issue #56873](https://github.com/istio/istio/issues/56873))
 
-The JWT filter configuration now correctly includes user-specified custom space-delimited claims in addition to the default claims ("scope" and "permission").
-This ensures that the Envoy JWT filter treats these claims as space-delimited strings, allowing for proper validation of JWT tokens that include these claims.
-To set custom space-delimited claims, use the `spaceDelimitedClaims` field in the JWT rule configuration inside the `RequestAuthentication` resource.  ([Issue #56873](https://github.com/istio/istio/issues/56873))
-
-- **Removed** use of MD5 to optimize comparisons.
-Istio does not and has not used MD5 for cryptographic purposes.
-The change is merely to make the code easier to audit and to run in [FIPS 140-3 mode](https://go.dev/doc/security/fips140).
+- **Removed** use of MD5 to optimize comparisons. Istio does not and has not used MD5 for cryptographic purposes. The change is merely to make the code easier to audit and to run in [FIPS 140-3 mode](https://go.dev/doc/security/fips140).
 
 ## Telemetry
 
-- **Improved** environment variable `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY` default value to `true`,
+- **Updated** environment variable `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY` default value to `true`,
 enabling the spawning of upstream spans for gateway requests by default.
 
-- **Added** support for annotation `sidecar.istio.io/statsFlushInterval`and `sidecar.istio.io/statsEvictionInterval`.
+- **Added** support for annotations `sidecar.istio.io/statsFlushInterval` and `sidecar.istio.io/statsEvictionInterval`.
 
-- **Added** support for Zipkin TraceContextOption configuration to enable dual B3/W3C header propagation.
-Configure with `trace_context_option: USE_B3_WITH_W3C_PROPAGATION` in MeshConfig extensionProviders to
+- **Added** support for Zipkin's `TraceContextOption` configuration to enable dual B3/W3C header propagation.
+Configure with `trace_context_option: USE_B3_WITH_W3C_PROPAGATION` in MeshConfig `extensionProviders` to
 extract B3 headers preferentially, fall back to W3C traceparent headers, and inject both header types
 upstream for better tracing interoperability.
  ([envoy]( https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto#envoy-v3-api-enum-config-trace-v3-zipkinconfig-tracecontextoption))([reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/))([usage]( https://istio.io/latest/docs/tasks/observability/distributed-tracing/))
@@ -114,65 +107,55 @@ upstream for better tracing interoperability.
 
 ## Extensibility
 
-- **Fixed** for waypoint, the envoyfilter with targetRef kind: GatewayClass with group: gateway.networking.k8s.io in the root namespace doesn't work.
+- **Fixed** bug where `EnvoyFilter` using `targetRef` with kind `GatewayClass` and group `gateway.networking.k8s.io` in the root namespace wasn't working.
 
 ## Installation
 
-- **Promoted** Istio dual-stack support to Beta
-  ([Issue #16863](https://github.com/istio/istio.io/pull/16863))
-
-- **Updated** the istiod helm chart to create EndpointSlice resources instead of Endpoints for remote istiod installs due to Endpoints' deprecation as of Kubernetes 1.33.
+- **Updated** the istiod helm chart to create `EndpointSlice` resources instead of `Endpoints` for remote istiod installs due to `Endpoints`' deprecation as of Kubernetes 1.33.
   ([Issue #57037](https://github.com/istio/istio/issues/57037))
 
 - **Updated** Kiali addon to version v2.17.0.
 
-- **Added** `Added ability to completely null out resource limits or requests in the gateway chart`
+- **Added** ability to completely null out resource limits or requests in the gateway chart.
 
 - **Added** support for "persona-based" installations to our Helm charts based on the scope of generated/applied resources.
 If no `resourceScope` is set, all resources will be installed. This is the same behavior a user would expect from 1.27 charts.
 If `resourceScope` is set to `namespace`, only namespace-scoped resources will be installed.
 If `resourceScope` is set to `cluster`, only cluster-scoped resources will be installed.
-This can enable a kubernetes administrator to manage the resources in the cluster and the mesh administrator to manage the resources in the mesh.
-For the ztunnel chart, `resourceScope` is a top-level field. For all other charts, it is a field under `global`.  ([Issue #57530](https://github.com/istio/istio/issues/57530))
+This can enable a Kubernetes administrator to manage the resources in the cluster and the mesh administrator to manage the resources in the mesh.
+For the Ztunnel chart, `resourceScope` is a top-level field. For all other charts, it is a field under `global`.  ([Issue #57530](https://github.com/istio/istio/issues/57530))
 
-- **Added** support for environment variable `FORCE_IPTABLES_BINARY` to override iptables backend detection and use a specific binary.  ([Issue #57827](https://github.com/istio/istio/issues/57827))
+- **Added** support for the environment variable `FORCE_IPTABLES_BINARY` to override iptables backend detection and use a specific binary.  ([Issue #57827](https://github.com/istio/istio/issues/57827))
 
-- **Added** `.Values.podLabels` and `.Values.daemonSetLabels` to istio-cni helm chart.
+- **Added** `.Values.podLabels` and `.Values.daemonSetLabels` to istio-cni Helm chart.
 
-- **Added** service.clusterIP configuration to Gateway chart to support overriding the `spec.clusterIP` of the Service resource. This 
-could be useful in cases where the user wants to set a specific ClusterIP for the Gateway Service instead of relying on automatic assignment.
+- **Added** `service.clusterIP` configuration to Gateway chart to support overriding the `spec.clusterIP` of the `Service` resource. This 
+could be useful in cases where the user wants to set a specific cluster IP for the Gateway service instead of relying on automatic assignment.
 
 - **Added** a new representation of revision tags using cluster IP services, meant to stop using mutating webhooks in ambient mode.
-`istioctl tag set <tag> --revision <rev>` and the `revisionTags` helm value will both create a MutatingWebhook using the current
-specifications and a Service similar to the istiod Service but including the `istio.io/tag` label to store the mapping.
+`istioctl tag set <tag> --revision <rev>` and the `revisionTags` Helm value will both create a `MutatingWebhook` using the current
+specifications and a `Service` similar to the istiod `Service` but including the `istio.io/tag` label to store the mapping.
 
-- **Fixed** an issue where the PDB created by default installation was blocking draining of the k8s node
+- **Added** `internalTrafficPolicy` option for gateway service (needed, for example when installing Argocd with gateway which is an internal application).
+
+- **Fixed** an issue where the PDB created by a default installation was blocking the draining of Kubernetes nodes.
   ([Issue #12602](https://github.com/istio/istio/issues/12602))
 
-- **Fixed** gateway service has only option to set the externalTrafficPolicy, but some applications requires to change the 
-internalTrafficPolicy as well (for example when you try to install Argocd with gateway which is internal application)
-
-- **Upgraded** Gateway API support to v1.4. This introduces support for `BackendTLSPolicy` `v1`.
+- **Upgraded** Gateway API support to v1.4. This introduces support for `BackendTLSPolicy` v1.
 
 ## istioctl
 
 - **Added** automatic detection of the default revision in `istioctl` commands. When `--revision` is not explicitly specified, the default revision (as configured by `istioctl tag set default`) will be used automatically.
   ([Issue #54518](https://github.com/istio/istio/issues/54518))
 
-- **Added** support reset log level or stack trace level separately for `istioctl admin log`.
-
-- **Added** support specifying proxy admin port for `istioctl experimental describe`.
-
-- **Added** support specifying both `--level` and `--stack-trace-level` for `istioctl admin log`.
+- **Added** support for specifying both `--level` and `--stack-trace-level` for `istioctl admin log`.
   ([Issue #57007](https://github.com/istio/istio/issues/57007))
 
 - **Added** support specifying the proxy admin port for `istioctl experimental authz`, `istioctl proxystatus`, `istioctl bug-report` and `istioctl experimental describe` with the flag `--proxy-admin-port`.
 
-- **Added** flags to support list debug types for `istioctl experimental internal-debug`
+- **Added** flags to support list debug types for `istioctl experimental internal-debug`.
   ([Issue #57372](https://github.com/istio/istio/issues/57372))
 
-- **Added** support display connections info for `istioctl ztunnel-config all`
+- **Added** support for displaying connection information for `istioctl ztunnel-config all`
 
-- **Fixed** IST0173 analyzer (DestinationRuleSubsetNotSelectPods) incorrectly flags DestinationRule subsets as not selecting any pods when the subsets used topology labels.
-
-## Documentation changes
+- **Fixed** IST0173 analyzer (DestinationRuleSubsetNotSelectPods) incorrectly flagging `DestinationRule` subsets as not selecting any pods when the subsets used topology labels.
