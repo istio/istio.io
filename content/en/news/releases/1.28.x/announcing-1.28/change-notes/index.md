@@ -30,52 +30,41 @@ to zero.
 
 - **Added** support for `sectionName` in Gateway API `BackendTLSPolicy` to enable port-specific TLS configuration.
 This allows targeting specific ports of a Service by name, enabling different TLS settings per port.
-For example, you can now configure TLS settings for only the `https` port of a Service while leaving other ports unaffected.
+For example, you can now configure TLS settings for only the `https` port of a `Service` while leaving other ports unaffected.
 
 - **Added** support for `ServiceEntry` as a `targetRef` in `BackendTLSPolicy`.
 This allows users to apply TLS settings to external services defined by `ServiceEntry` resources.
   ([Issue #57521](https://github.com/istio/istio/issues/57521))
 
 - **Added** support for native nftables when using Istio Ambient mode. This update makes it possible to use nftables
-instead of iptables to manage network rules, offering more efficient approach to traffic redirection for pods and
-services. To enable the nftables mode, use "--set values.global.nativeNftables=true" when installing istio-cni.  ([Issue #57324](https://github.com/istio/istio/issues/57324))
+instead of iptables to manage network rules. To enable the nftables mode, use "--set values.global.nativeNftables=true" when installing Istio. ([Issue #57324](https://github.com/istio/istio/issues/57324))
 
-- **Added** support for wildcard hosts in ServiceEntries with DYNAMIC_DNS resolution.
-Only supported for HTTP traffic. Requires ambient mode and a waypoint configured as
+- **Added** support for wildcard hosts in ServiceEntries with `DYNAMIC_DNS` resolution.
+This is only supported for HTTP traffic for now. It requires ambient mode and a waypoint configured as
 an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540))
 
-- **Added** support for X-Forwarded headers in `ProxyConfig.ProxyHeaders`
+- **Added** support for `X-Forwarded` headers in `ProxyConfig.ProxyHeaders`.
 
 - **Enabled** waypoints to route traffic to remote networks in ambient multi-cluster.
   ([Issue #57537](https://github.com/istio/istio/issues/57537))
 
-- **Fixed** zTunnel will now respect WorkloadEntry port map when referencing Service port name.
+- **Fixed** a bug where zTunennl wouldn't correctly use the `WorkloadEntry` port map when referencing a `Service` port name.
   ([Issue #56251](https://github.com/istio/istio/issues/56251))
 
-- **Fixed** a bug where our tag watcher code didn't consider the default revision to be the same as the default tag. This would cause issues where Kubernetes gateways wouldn't be programmed.
+- **Fixed** a bug where the tag watcher code didn't consider the default revision to be the same as the default tag. This would cause issues where Kubernetes gateways wouldn't be programmed.
   ([Issue #56767](https://github.com/istio/istio/issues/56767))
 
-- **Fixed** shadow Service port number for an InferencePool to start with `54321`
-as is did before https://github.com/istio/istio/pull/57295 merged.
+- **Fixed** a bug where a shadow `Service` port number for an `InferencePool` would start with 543210 instead of 54321. 
   ([Issue #57472](https://github.com/istio/istio/issues/57472))
 
-- **Fixed** an issue where the ambient dataplane did not correctly handle ServiceEntries with resolution set to `NONE`. Previously, The configuration would have a VIP but no endpoints, which would result in a no healthy upstream error. We now configure this as a "PASSTHROUGH" service, meaning the addresses called by the client will be used as the backend.
+- **Fixed** an issue where the ambient dataplane did not correctly handle `ServiceEntries` with resolution set to `NONE`. Previously, the configuration would have a VIP but no endpoints, which would result in a "no healthy upstream" error. This scenario is now configured as a `PASSTHROUGH` service, meaning the addresses called by the client will be used as the backend.
   ([Issue #57656](https://github.com/istio/istio/issues/57656))
 
-- **Fixed** an issue where HTTP/2 connection pool settings are not applied when enabling HTTP/2 upgrades  ([Issue #57583](https://github.com/istio/istio/issues/57583))
+- **Fixed** an issue where HTTP/2 connection pool settings are not applied when enabling HTTP/2 upgrades. ([Issue #57583](https://github.com/istio/istio/issues/57583))
 
-- **Fixed** waypoint deployments to use the default Kubernetes terminationGracePeriodSeconds (30s) instead of a hardcoded 2 seconds value.
+- **Fixed** waypoint deployments to use the default Kubernetes `terminationGracePeriodSeconds` (30s) instead of a hardcoded 2 seconds value.
 
-- **Removed** support for InferencePool v1.0.0-rc.2.
-**Added** support for InferencePool v1.0.0.
-  ([Issue #57219](https://github.com/istio/istio/issues/57219))
-
-- **Removed** support for InferencePool v1.0.0-rc.1.
-**Added** support for InferencePool v1.0.0-rc.2.
-  ([Issue #57219](https://github.com/istio/istio/issues/57219))
-
-- **Removed** support for the v1alpha2 InferencePool API type.
-**Added** support for the v1 InferencePool API type.
+- **Added** support for `InferencePool` v1.0.0.
   ([Issue #57219](https://github.com/istio/istio/issues/57219))
 
 ## Security
