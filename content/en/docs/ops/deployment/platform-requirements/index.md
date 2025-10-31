@@ -58,8 +58,8 @@ The following additional modules are used by the above listed modules and should
 
 ### nftables Backend
 
-The `nftables` framework is a modern replacement for iptables, offering improved performance and flexibility.
-Istio relies on the `nft` CLI tool to configure nftables rules. The `nft` binary must be version 1.0.1 or later, and it
+The `nftables` framework is a modern replacement for `iptables`, offering improved performance and flexibility.
+Istio relies on the `nft` CLI tool to configure `nftables` rules. The `nft` binary must be version 1.0.1 or later, and it
 requires Linux kernel version 5.13 or higher. For the `nft` CLI to function correctly, the following kernel modules must
 be available on the host system.
 
