@@ -14,24 +14,18 @@ aliases:
 This is an automatically generated rough draft of the release notes and has not yet been reviewed.
 {{< /warning >}}
 
-## Deprecation Notices
-
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
-
 ## Traffic Management
 
-- **Updated** the default value of maximum connections to accept per socket event to 1
-for inbound and outbound listeners built for sidecars that explicitly bind to ports.
-This allows for listeners built without IPTABLES interception to benefit from better 
-performance under high connection churn scenarios. To get the old behavior, you can 
-set `MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP` to zero.
+- **Updated** the default value for maximum accepted connections per socket event. The
+default value now is 1 for inbound and outbound listeners explicetly binding to ports
+in sidecars. Listeners with no IPTABLES interception will benefit from better performance
+under high connection churn scenarios. To get the old behavior, you can set `MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP`
+to zero.
 
-- **Added** Support for cookie attributes in consistent hash load balancing. You can now specify additional attributes (such as `SameSite`, `Secure`, `HttpOnly`) for HTTP cookies used in consistent hash load balancing policies.
-This allows for more secure and compliant cookie handling in load balancing scenarios.
-  ([Issue #56468](https://github.com/istio/istio/issues/56468)),([Issue #49870](https://github.com/istio/istio/issues/49870))
+- **Added** support for cookie attributes in consistent hash load balancing. You can now specify additional attributes, such as `SameSite`, `Secure` and `HttpOnly`.bThis allows for more secure and compliant cookie handling in load balancing scenarios.
+  ([Issue #56468](https://github.com/istio/istio/issues/56468)), ([Issue #49870](https://github.com/istio/istio/issues/49870))
 
-- **Added** `DISABLE_SHADOW_HOST_SUFFIX` environment variable to control shadow host suffix behavior in mirror policies. When set to `true` (default), shadow host suffixes are added to hostnames of mirrored requests. When set to `true`, shadow host suffixes are not added. 
-This provides backward compatibility for users upgrading from older Istio versions where shadow host suffixes were added by default via compatibility profiles.
+- **Added** `DISABLE_SHADOW_HOST_SUFFIX` environment variable to control shadow host suffix behavior in mirroring policies. When set to `true` (default), shadow host suffixes are added to hostnames of mirrored requests. When set to `false`, shadow host suffixes are not added. This provides backward compatibility for users upgrading from older Istio versions where shadow host suffixes were added by default via compatibility profiles.
   ([Issue #57530](https://github.com/istio/istio/issues/57530))
 
 - **Added** support for `sectionName` in Gateway API `BackendTLSPolicy` to enable port-specific TLS configuration.
