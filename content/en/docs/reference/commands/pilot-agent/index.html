@@ -833,12 +833,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>true</code></td>
 <td>If disabled, the shadow host suffix will be added to the hostnames of the mirrored requests.</td>
 </tr>
-<tr id='disable-track-remaining-cb-metrics'>
-<td><a href='#disable-track-remaining-cb-metrics'><code>DISABLE_TRACK_REMAINING_CB_METRICS</code></a></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If disabled, the remaining metrics for circuit breakers will not be tracked.</td>
-</tr>
 <tr id='dns-forward-parallel'>
 <td><a href='#dns-forward-parallel'><code>DNS_FORWARD_PARALLEL</code></a></td>
 <td>Boolean</td>
@@ -1012,12 +1006,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
-</tr>
-<tr id='enable-wildcard-host-service-entries-for-tls'>
-<td><a href='#enable-wildcard-host-service-entries-for-tls'><code>ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS</code></a></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If enabled, ServiceEntries with wildcard hosts and dynamic dns resolution will be allowed for TLS traffic. This is a security risk, susceptible to SNI spoofing, and should be used with caution. Only consider using this feature if the client is trusted and you understand the risks.</td>
 </tr>
 <tr id='envoy-prometheus-port'>
 <td><a href='#envoy-prometheus-port'><code>ENVOY_PROMETHEUS_PORT</code></a></td>
