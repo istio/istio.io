@@ -64,7 +64,7 @@ the current state and limitations of this feature.
 #### Load Distribution on Remote Network
 
 **Traffic going to a remote network is not equally distributed between endpoints**
-  - When failing over to a remote network, a single endpoint on a remote network may get a disproportionate number of requests 
+  - When failing over to a remote network, a single endpoint on a remote network may get a disproportionate number of requests
     due to multiplexing of HTTP requests and connection pooling
   - The solution to this issue is tracked [here](https://github.com/istio/istio/issues/58039)
 
