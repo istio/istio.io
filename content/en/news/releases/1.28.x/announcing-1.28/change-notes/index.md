@@ -13,7 +13,7 @@ aliases:
 ## Traffic Management
 
 - **Promoted** Istio dual-stack support to beta.
-  ([Issue #16863](https://github.com/istio/istio.io/pull/16863))
+  ([Issue #54127](https://github.com/istio/istio/issues/54127))
 
 - **Updated** the default value for maximum accepted connections per socket event. The
   default value now is 1 for inbound and outbound listeners explicitly binding to ports
