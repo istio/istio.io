@@ -50,7 +50,7 @@ Istio's dual-stack networking support has been promoted to beta in this release.
 This release includes several important security improvements:
 
 - **Enhanced JWT Authentication**: Improved JWT filter configuration now supports custom space-delimited claims in addition to default claims like "scope" and "permission". This enhancement ensures proper validation of JWT tokens with custom claims using the `spaceDelimitedClaims` field in `RequestAuthentication` resources
-- **NetworkPolicy Support**: Optional NetworkPolicy deployment for istiod with `global.networkPolicy.enabled=true`
+- **`NetworkPolicy` Support**: Optional `NetworkPolicy` deployment for istiod with `global.networkPolicy.enabled=true`
 - **Enhanced Container Security**: Support for configuring `seccompProfile` in istio-validation and istio-proxy containers for better security compliance
 - **Gateway API Security**: Support for `FrontendTLSValidation` (GEP-91) enabling mutual TLS ingress gateway configurations
 - **Improved Certificate Handling**: Better root certificate parsing that filters out malformed certificates instead of rejecting the entire bundle
