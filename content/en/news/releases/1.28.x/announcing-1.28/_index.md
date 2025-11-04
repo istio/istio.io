@@ -27,7 +27,6 @@ Istio 1.28 continues to build on the Gateway API Inference Extension support wit
 
 The `InferencePool` v1 API offers improved stability and functionality for managing pools of inference endpoints, enabling more sophisticated load balancing and failover strategies for AI workloads.
 
-
 ### Ambient Multicluster
 
 Istio 1.28 brings significant improvements to ambient multicluster deployments. Waypoints can now route traffic to remote networks in ambient multicluster configurations, expanding the capabilities of the non sidecar mesh architecture across distributed environments.
@@ -39,6 +38,10 @@ This enhancement enables more multicluster topologies while maintaining the simp
 Istio 1.28 introduces support for native nftables when using ambient mode. This significant enhancement allows you to use nftables instead of iptables to manage network rules, providing a more flexible rule management. To enable nftables mode, use `--set values.global.nativeNftables=true` when installing Istio.
 
 This addition complements the existing nftables support in sidecar mode, ensuring Istio stays current with modern Linux networking frameworks.
+
+### Dual-stack Support Promoted to Beta
+
+Istio's dual-stack networking support has been promoted to beta in this release. This advancement provides robust IPv4/IPv6 networking capabilities, enabling organizations to deploy Istio in modern network environments that require both IP protocol versions.
 
 ### Enhanced Security Features
 
@@ -52,7 +55,6 @@ This release includes several important security improvements:
 
 ### Gateway API and Traffic Management Enhancements
 
-- **Dual-stack Support**: Promoted to beta, providing better IPv4/IPv6 networking capabilities
 - **BackendTLSPolicy v1**: Full Gateway API v1.4 support with enhanced TLS configuration options
 - **ServiceEntry Integration**: Support for ServiceEntry as a targetRef in BackendTLSPolicy for external service TLS configuration
 - **Wildcard Host Support**: ServiceEntry resources now support wildcard hosts with DYNAMIC_DNS resolution (HTTP traffic only, requires ambient mode and waypoint)
