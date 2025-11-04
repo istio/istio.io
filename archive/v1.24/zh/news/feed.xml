@@ -59387,7 +59387,7 @@ Istio 1.22 利用 Envoy 中的一项新功能，允许您指定<a href="/zh/docs
 担任 Istio 1.4 的发布经理、文档工作组的维护者、测试和发布工作组的负责人，
 并且在 2021 年顺理成章的加入技术监督委员会。</p>
 <p>Eric 的大部分开发工作都是在幕后进行的，确保构建和测试 Istio 版本和文档的各种管道继续运行和改进。
-事实上，Eric 是 Istio GitHub 中的<a href="https://istio.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&amp;var-period_name=Last%20decade&amp;var-metric=contributions&amp;var-repogroup_name=All&amp;var-country_name=All&amp;var-companies=All">第二大贡献者</a>。</p>
+事实上，Eric 是 Istio GitHub 中的<a href="https://istio.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%20decade&var-metric=contributions&var-repogroup_name=All&var-country_name=All&var-companies=All">第二大贡献者</a>。</p>
 <p>虽然 Eric 将从 TOC 辞职，但他已承诺留在社区 - 尽管我们可能需要从 Slack 改为业余无线电才能联系到他！</p>
 <h2 id="upgrading-to-122">升级到 1.22</h2>
 <p>我们希望听到您关于升级到 Istio 1.22 的体验。
@@ -106502,30 +106502,30 @@ Sidecar 等策略在应用于 Ambient 命名空间时不会产生任何影响。
 <table>
   <thead>
       <tr>
-          <th>配置</th>
-          <th>角色</th>
-          <th>错误时的行为</th>
-          <th>备注</th>
+          <th style="text-align: left">配置</th>
+          <th style="text-align: left">角色</th>
+          <th style="text-align: left">错误时的行为</th>
+          <th style="text-align: left">备注</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><code>values.cni.repair.deletePods</code></td>
-          <td>DELETE Pod</td>
-          <td>Pod 将被删除，重新调度后它们将具有正确的配置。</td>
-          <td>1.20 及更早版本中的默认值</td>
+          <td style="text-align: left"><code>values.cni.repair.deletePods</code></td>
+          <td style="text-align: left">DELETE Pod</td>
+          <td style="text-align: left">Pod 将被删除，重新调度后它们将具有正确的配置。</td>
+          <td style="text-align: left">1.20 及更早版本中的默认值</td>
       </tr>
       <tr>
-          <td><code>values.cni.repair.labelPods</code></td>
-          <td>UPDATE Pod</td>
-          <td>只对 Pod 打标签。用户需要采取手动操作来解决问题。</td>
-          <td></td>
+          <td style="text-align: left"><code>values.cni.repair.labelPods</code></td>
+          <td style="text-align: left">UPDATE Pod</td>
+          <td style="text-align: left">只对 Pod 打标签。用户需要采取手动操作来解决问题。</td>
+          <td style="text-align: left"></td>
       </tr>
       <tr>
-          <td><code>values.cni.repair.repairPods</code></td>
-          <td>无</td>
-          <td>Pod 会动态的被重新配置以具有适当的配置。当容器重新启动时，Pod 将继续正常执行。</td>
-          <td>1.21 及更高版本中的默认值</td>
+          <td style="text-align: left"><code>values.cni.repair.repairPods</code></td>
+          <td style="text-align: left">无</td>
+          <td style="text-align: left">Pod 会动态的被重新配置以具有适当的配置。当容器重新启动时，Pod 将继续正常执行。</td>
+          <td style="text-align: left">1.21 及更高版本中的默认值</td>
       </tr>
   </tbody>
 </table>
@@ -146438,34 +146438,34 @@ HTTP/2 拒绝服务</li>
 <table>
   <thead>
       <tr>
-          <th>旧</th>
-          <th>新</th>
+          <th style="text-align: left">旧</th>
+          <th style="text-align: left">新</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><code>ClusterRole istiod</code></td>
-          <td><code>ClusterRole istiod-clusterrole</code></td>
+          <td style="text-align: left"><code>ClusterRole istiod</code></td>
+          <td style="text-align: left"><code>ClusterRole istiod-clusterrole</code></td>
       </tr>
       <tr>
-          <td><code>ClusterRole istiod-reader</code></td>
-          <td><code>ClusterRole istio-reader-clusterrole</code></td>
+          <td style="text-align: left"><code>ClusterRole istiod-reader</code></td>
+          <td style="text-align: left"><code>ClusterRole istio-reader-clusterrole</code></td>
       </tr>
       <tr>
-          <td><code>ClusterRoleBinding istiod</code></td>
-          <td><code>ClusterRoleBinding istiod-clusterrole</code></td>
+          <td style="text-align: left"><code>ClusterRoleBinding istiod</code></td>
+          <td style="text-align: left"><code>ClusterRoleBinding istiod-clusterrole</code></td>
       </tr>
       <tr>
-          <td><code>Role istiod</code></td>
-          <td><code>Role istiod</code></td>
+          <td style="text-align: left"><code>Role istiod</code></td>
+          <td style="text-align: left"><code>Role istiod</code></td>
       </tr>
       <tr>
-          <td><code>RoleBinding istiod</code></td>
-          <td><code>RoleBinding istiod</code></td>
+          <td style="text-align: left"><code>RoleBinding istiod</code></td>
+          <td style="text-align: left"><code>RoleBinding istiod</code></td>
       </tr>
       <tr>
-          <td><code>ServiceAccount istiod-service-account</code></td>
-          <td><code>ServiceAccount istiod</code></td>
+          <td style="text-align: left"><code>ServiceAccount istiod-service-account</code></td>
+          <td style="text-align: left"><code>ServiceAccount istiod</code></td>
       </tr>
   </tbody>
 </table>
@@ -299828,86 +299828,86 @@ Istio 1.11.8 之间的不同之处。</p>
 <table>
   <thead>
       <tr>
-          <th>CVE ID</th>
-          <th>Score, Rating</th>
-          <th>描述</th>
-          <th>在 1.13.1 中修复</th>
-          <th>在 1.12.4 中修复</th>
-          <th>在 1.11.7 中修复</th>
+          <th style="text-align: left">CVE ID</th>
+          <th style="text-align: left">Score, Rating</th>
+          <th style="text-align: left">描述</th>
+          <th style="text-align: left">在 1.13.1 中修复</th>
+          <th style="text-align: left">在 1.12.4 中修复</th>
+          <th style="text-align: left">在 1.11.7 中修复</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-vj5m-rch8-5r2p">CVE-2021-43824</a></td>
-          <td>6.5, 中</td>
-          <td>当使用 JWT 过滤器 <code>safe_regex</code> 匹配时，潜在的空指针取消引用。</td>
-          <td>是</td>
-          <td>是</td>
-          <td>是</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-vj5m-rch8-5r2p">CVE-2021-43824</a></td>
+          <td style="text-align: left">6.5, 中</td>
+          <td style="text-align: left">当使用 JWT 过滤器 <code>safe_regex</code> 匹配时，潜在的空指针取消引用。</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-h69p-g6xg-mhhh">CVE-2021-43825</a></td>
-          <td>6.1, 中</td>
-          <td>当响应过滤器增加响应数据，并且增加的数据超出下游缓冲区限制时，需要释放内存后再使用。</td>
-          <td>是</td>
-          <td>是</td>
-          <td>是</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-h69p-g6xg-mhhh">CVE-2021-43825</a></td>
+          <td style="text-align: left">6.1, 中</td>
+          <td style="text-align: left">当响应过滤器增加响应数据，并且增加的数据超出下游缓冲区限制时，需要释放内存后再使用。</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-cmx3-fvgf-83mf">CVE-2021-43826</a></td>
-          <td>6.1, 中</td>
-          <td>当通过 HTTP 隧道传输 TCP时，如果在上游连接建立期间下游断开连接，则需要在释放内存后再使用。</td>
-          <td>是</td>
-          <td>是</td>
-          <td>是</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-cmx3-fvgf-83mf">CVE-2021-43826</a></td>
+          <td style="text-align: left">6.1, 中</td>
+          <td style="text-align: left">当通过 HTTP 隧道传输 TCP时，如果在上游连接建立期间下游断开连接，则需要在释放内存后再使用。</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-5j4x-g36v-m283">CVE-2022-21654</a></td>
-          <td>7.3, 中</td>
-          <td>不正确的配置处理允许 mTLS 会话在更改验证设置后无需重新验证即可重用。</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-5j4x-g36v-m283">CVE-2022-21654</a></td>
+          <td style="text-align: left">7.3, 中</td>
+          <td style="text-align: left">不正确的配置处理允许 mTLS 会话在更改验证设置后无需重新验证即可重用。</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
       </tr>
       <tr>
-          <td>是</td>
-          <td>是</td>
-          <td>是</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-7r5p-7fmh-jxpg">CVE-2022-21655</a></td>
-          <td>7.5, 高</td>
-          <td>对带有直接响应条目的内部重定向路由的错误处理。</td>
-          <td>是</td>
-          <td>是</td>
-          <td>是</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-7r5p-7fmh-jxpg">CVE-2022-21655</a></td>
+          <td style="text-align: left">7.5, 高</td>
+          <td style="text-align: left">对带有直接响应条目的内部重定向路由的错误处理。</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-9vp2-4cp7-vvxf">CVE-2022-23606</a></td>
-          <td>4.4, 中</td>
-          <td>当通过 Cluster Discovery Service 删除集群时，堆栈耗尽。</td>
-          <td>是</td>
-          <td>是</td>
-          <td>不适用</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-9vp2-4cp7-vvxf">CVE-2022-23606</a></td>
+          <td style="text-align: left">4.4, 中</td>
+          <td style="text-align: left">当通过 Cluster Discovery Service 删除集群时，堆栈耗尽。</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">不适用</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2">CVE-2022-21656</a></td>
-          <td>3.1, 低</td>
-          <td>X.509 <code>subjectAltName</code> 匹配（和 <code>nameConstraints</code>） 旁路。</td>
-          <td>是</td>
-          <td>是</td>
-          <td>Envoy 没有向后移植此修复程序。</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2">CVE-2022-21656</a></td>
+          <td style="text-align: left">3.1, 低</td>
+          <td style="text-align: left">X.509 <code>subjectAltName</code> 匹配（和 <code>nameConstraints</code>） 旁路。</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">Envoy 没有向后移植此修复程序。</td>
       </tr>
       <tr>
-          <td><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g">CVE-2022-21657</a></td>
-          <td>3.1, 低</td>
-          <td>X.509 Extended Key Usage 和 Trust Purposes 旁路</td>
-          <td>不，下一个版本。</td>
-          <td>不，下一个版本。</td>
-          <td>不，下一个版本。</td>
+          <td style="text-align: left"><a href="https://github.com/envoyproxy/envoy/security/advisories/GHSA-837m-wjrv-vm5g">CVE-2022-21657</a></td>
+          <td style="text-align: left">3.1, 低</td>
+          <td style="text-align: left">X.509 Extended Key Usage 和 Trust Purposes 旁路</td>
+          <td style="text-align: left">不，下一个版本。</td>
+          <td style="text-align: left">不，下一个版本。</td>
+          <td style="text-align: left">不，下一个版本。</td>
       </tr>
   </tbody>
 </table>
@@ -349674,7 +349674,7 @@ Istio 1.12.0 和 1.12.1 版本存在特权升级攻击的漏洞。拥有 <code>g
 其中 HTTP 请求中 <code>#</code> 在 URL 路径中的片段（URI 末尾以字符 <code>#</code> 开头的部分）可以绕过 Istio 的基于 URI 路径的授权策略。例如，Istio 授权策略<a href="/zh/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-Action">拒绝</a> 发送到 URI 路径 <code>/user/profile</code> 的请求。在易受攻击的版本中，带有 URI 路径的请求 <code>/user/profile#section1</code> 会绕过拒绝策略并路由到后端 （使用规范化的 URI 路径 <code>/user/profile%23section1</code>），这可能会导致安全事件。</p>
 <p>该修复取决于 Envoy 的修复，该修复与 <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32779">CVE-2021-32779</a> 相关联。</p>
 <ul>
-<li>CVSS 得分： 8.1 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N&amp;version=3.1">AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N</a></li>
+<li>CVSS 得分： 8.1 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N&version=3.1">AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N</a></li>
 </ul>
 <p>如果出现以下情况，你会受到此漏洞的影响：</p>
 <ul>
@@ -349710,7 +349710,7 @@ spec:
 <p>Istio 包含一个可远程利用的漏洞，当使用基于 <code>hosts</code> 或 <code>notHosts</code> 的规则时， HTTP 请求可能会绕过 Istio 授权策略。在易受攻击的版本中， Istio 授权策略以区分大小写的方式比较 HTTP 的 <code>Host</code> 或 <code>:authority</code> 头，这与 <a href="https://datatracker.ietf.org/doc/html/rfc4343">RFC 4343</a> 不一致。例如，用户可能有一个拒绝带有 host <code>secret.com</code> 的请求的授权策略，但攻击者可以通过发送带有主机名 <code>Secret.com</code> 的请求来绕过这一点，流量将被路由到 <code>secret.com</code> ，这一行为违反了授权策略。</p>
 <p>有关更多信息，请参阅 <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-39155">CVE-2021-39155</a>。</p>
 <ul>
-<li>CVSS 得分: 8.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L&amp;version=3.1">AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L</a></li>
+<li>CVSS 得分: 8.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L&version=3.1">AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:L</a></li>
 </ul>
 <p>如果出现以下情况，您会受到此漏洞的影响：</p>
 <ul>
@@ -382605,19 +382605,19 @@ Istio 包含一个可远程利用的漏洞，当网关配置了 <code>AUTO_PASST
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-28683">CVE-2021-28683</a></strong>：
 Envoy 包含一个可远程利用的 NULL 指针取消引用，并在收到未知 TLS 警报代码时在 TLS 中崩溃。
 <ul>
-<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-28682">CVE-2021-28682</a></strong>：
 Envoy 包含一个可远程利用的整数溢出，其中非常大的 grpc-timeout 值会导致意外的超时计算。
 <ul>
-<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-29258">CVE-2021-29258</a></strong>：
 Envoy 包含一个可远程利用的漏洞，其中带有空元数据映射的 HTTP2 请求可能导致 Envoy 崩溃。
 <ul>
-<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 </ul>
@@ -385870,19 +385870,19 @@ Envoy 包含一个可远程利用的漏洞，其中带有空元数据映射的 H
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-28683">CVE-2021-28683</a></strong>:
 Envoy 中包含一个远程可利用的 NULL 指针解引用，当接收到未知的 TLS 警报代码时，会导致 TLS 崩溃。
 <ul>
-<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-28682">CVE-2021-28682</a></strong>:
 Envoy 包含一个远程可利用的整数溢出，其中一个非常大的超时值会导致意外的超时计算。
 <ul>
-<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-29258">CVE-2021-29258</a></strong>:
 Envoy 包含一个远程可利用的漏洞，其中带有空元数据映射的 HTTP2 请求可能导致 Envoy 崩溃。
 <ul>
-<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li><strong>CVSS Score</strong>: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 </ul>
@@ -409007,7 +409007,7 @@ envoyfilter.networking.istio.io/add-header configured</code></pre>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-25017">CVE-2020-25017</a></strong>：
 在某些情况下，Envoy 只会在出现多个（HTTP）头信息时考虑第一个值。而且 Envoy 不会替换所有存在的 non-inline（HTTP）头信息 。
 <ul>
-<li><strong>CVSS Score</strong>：8.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L</a></li>
+<li><strong>CVSS Score</strong>：8.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L&version=3.1">AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L</a></li>
 </ul>
 </li>
 </ul>
@@ -412257,7 +412257,7 @@ envoyfilter.networking.istio.io/add-header configured</code></pre>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-25017">CVE-2020-25017</a></strong>：
 在某些情况下，当存在多个头（Header）时，Envoy 只考虑第一个值。另外，Envoy 不会替换所有已存在的非内联头。
 <ul>
-<li><strong>CVSS Score</strong>： 8.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L</a></li>
+<li><strong>CVSS Score</strong>： 8.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L&version=3.1">AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L</a></li>
 </ul>
 </li>
 </ul>
@@ -418830,7 +418830,7 @@ envoyfilter.networking.istio.io/add-header configured</code></pre>
 <ul>
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-16844"><code>CVE-2020-16844</code></a></strong>：对于源 Principals 和名称空间字段使用通配符后缀（例如：<code>* -some-suffix</code> ）的具有 <code>DENY</code> 操作的已定义授权策略TCP服务调用者，将永远不会被拒绝访问。
 <ul>
-<li>CVSS Score: 6.8 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N&amp;version=3.1">AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N</a></li>
+<li>CVSS Score: 6.8 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N&version=3.1">AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:N</a></li>
 </ul>
 </li>
 </ul>
@@ -418911,7 +418911,7 @@ spec:
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-15104"><code>CVE-2020-15104</code></a></strong>:
 当验证 TLS 证书时，Envoy 错误地允许将通配符 DNS 使用者主机名称应用于多个子域。例如，在 SAN 为 <code>*.example.com</code> 通配的情况下，Envoy 错误地允许使用 <code>nested.subdomain.example.com</code>，而它只允许使用 <code>subdomain.example.com</code>。
 <ul>
-<li>CVSS Score: 6.6 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C&amp;version=3.1">AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C</a></li>
+<li>CVSS Score: 6.6 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C&version=3.1">AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:L/A:N/E:F/RL:O/RC:C</a></li>
 </ul>
 </li>
 </ul>
@@ -418985,28 +418985,28 @@ spec:
 <p><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12603">CVE-2020-12603</a></strong>：
 通过发送特制数据包，攻击者可能会导致 Envoy 在代理 HTTP/2 请求或响应时消耗过多的内存。</p>
 <ul>
-<li>CVSS Score: 7.0 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li>CVSS Score: 7.0 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li>
 <p><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12605">CVE-2020-12605</a></strong>：
 在处理特制 HTTP/1.1 的数据包时，攻击者可能会导致 Envoy 消耗过多的内存。</p>
 <ul>
-<li>CVSS Score: 7.0 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li>CVSS Score: 7.0 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li>
 <p><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8663">CVE-2020-8663</a></strong>：
 当接受太多连接时，攻击者可能导致 Envoy 耗尽文件描述符。</p>
 <ul>
-<li>CVSS Score: 7.0 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li>CVSS Score: 7.0 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 <li>
 <p><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12604">CVE-2020-12604</a></strong>：
 在处理特制数据包时，攻击者可能会导致内存使用增加。</p>
 <ul>
-<li>CVSS Score: 5.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L</a></li>
+<li>CVSS Score: 5.3 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L</a></li>
 </ul>
 </li>
 </ul>
@@ -422360,7 +422360,7 @@ $ kubectl --namespace istio-system exec -i -t  ${ISTIO_INGRESS_PODNAME} -c istio
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-11080">CVE-2020-11080</a></strong>：
 通过发送特制数据包，攻击者可能会导致 CPU 峰值激增100％。 这可以发送到 Ingress 网关或 Sidecar。
 <ul>
-<li>CVSS Score: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li>CVSS Score: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 </ul>
@@ -425838,7 +425838,7 @@ Istio 指标中使用的标签。这改进了 Istio
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10739">CVE-2020-10739</a></strong>:
 通过发送特制数据包，攻击者可能会触发空指针异常，从而导致拒绝服务。这可以发送到 ingress gateway 或 sidecar。
 <ul>
-<li>CVSS Score: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&amp;version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
+<li>CVSS Score: 7.5 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1">AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H</a></li>
 </ul>
 </li>
 </ul>
@@ -425899,7 +425899,7 @@ Istio 指标中使用的标签。这改进了 Istio
 <li><strong><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-1764"><code>CVE-2020-1764</code></a></strong>:
 Istio 对 Kiali 使用默认的 <code>signing_key</code>。这允许攻击者查看和修改 Istio 配置。
 <ul>
-<li>CVSS Score: 8.7 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&amp;version=3.1">AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N</a></li>
+<li>CVSS Score: 8.7 <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N&version=3.1">AV:A/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:N</a></li>
 </ul>
 </li>
 </ul>

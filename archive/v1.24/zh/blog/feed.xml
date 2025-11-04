@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Istio Blog</title><description>Blog posts from the Istio service mesh.</description><link>/v1.24/</link><image><title>Istio Blog</title><url>/v1.24//favicons/android-192x192.png</url><link>/v1.24/</link></image><category>Service mesh</category><item><title>宣布 Istio 2025 年指导委员会选举</title><description><![CDATA[<p>Istio 指导委员会负责监督项目的行政方面，
 包括治理、品牌、营销和与 CNCF 的合作。</p>
 <p>每年，Istio 项目的领导者都会<a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">评估</a>
-<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=contributions">过去一年中为 Istio 做出贡献的数百家公司</a>的比例，
+<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=contributions">过去一年中为 Istio 做出贡献的数百家公司</a>的比例，
 并使用该指标按比例分配我们指导委员会的九个贡献席位。</p>
 <p>然后，我们的项目成员投票选出四个社区席位，
 候选人来自未获得贡献席位的公司。</p>
@@ -1898,81 +1898,81 @@ Envoy 将中断链路，因为它无法解释该请求 ID。通过将此值设�
 <table>
   <thead>
       <tr>
-          <th>类别</th>
-          <th>API</th>
-          <th>版本</th>
+          <th style="text-align: left">类别</th>
+          <th style="text-align: left">API</th>
+          <th style="text-align: left">版本</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>网络</td>
-          <td><a href="/zh/docs/reference/config/networking/destination-rule/">Destination Rule</a></td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left">网络</td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/destination-rule/">Destination Rule</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td>Istio <a href="/zh/docs/reference/config/networking/gateway/">Gateway</a></td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">Istio <a href="/zh/docs/reference/config/networking/gateway/">Gateway</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/service-entry/">Service Entry</a></td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/service-entry/">Service Entry</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/sidecar/">Sidecar</a> scope</td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/sidecar/">Sidecar</a> scope</td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/virtual-service/">Virtual Service</a></td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/virtual-service/">Virtual Service</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/workload-entry/">Workload Entry</a></td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/workload-entry/">Workload Entry</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/workload-group/">Workload Group</a></td>
-          <td><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/workload-group/">Workload Group</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code>, <code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/proxy-config/">Proxy Config</a></td>
-          <td><code>v1beta1</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/proxy-config/">Proxy Config</a></td>
+          <td style="text-align: left"><code>v1beta1</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/networking/envoy-filter/">Envoy Filter</a></td>
-          <td><code>v1alpha3</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/envoy-filter/">Envoy Filter</a></td>
+          <td style="text-align: left"><code>v1alpha3</code></td>
       </tr>
       <tr>
-          <td>安全</td>
-          <td><a href="/zh/docs/reference/config/security/authorization-policy/">Authorization Policy</a></td>
-          <td><code>v1</code>, <code>v1beta1</code></td>
+          <td style="text-align: left">安全</td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/security/authorization-policy/">Authorization Policy</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/security/peer_authentication/">Peer Authentication</a></td>
-          <td><code>v1</code>, <code>v1beta1</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/security/peer_authentication/">Peer Authentication</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code></td>
       </tr>
       <tr>
-          <td></td>
-          <td><a href="/zh/docs/reference/config/security/request_authentication/">Request Authentication</a></td>
-          <td><code>v1</code>, <code>v1beta1</code></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/security/request_authentication/">Request Authentication</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1beta1</code></td>
       </tr>
       <tr>
-          <td>Telemetry</td>
-          <td><a href="/zh/docs/reference/config/telemetry/">Telemetry</a></td>
-          <td><code>v1</code>, <code>v1alpha1</code></td>
+          <td style="text-align: left">Telemetry</td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/telemetry/">Telemetry</a></td>
+          <td style="text-align: left"><code>v1</code>, <code>v1alpha1</code></td>
       </tr>
       <tr>
-          <td>扩展</td>
-          <td><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/">Wasm Plugin</a></td>
-          <td><code>v1alpha1</code></td>
+          <td style="text-align: left">扩展</td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/">Wasm Plugin</a></td>
+          <td style="text-align: left"><code>v1alpha1</code></td>
       </tr>
   </tbody>
 </table>
@@ -2168,30 +2168,30 @@ spec:
 <table>
   <thead>
       <tr>
-          <th>API 名称</th>
-          <th>对象类型</th>
-          <th>状态</th>
-          <th>推荐</th>
+          <th style="text-align: left">API 名称</th>
+          <th style="text-align: left">对象类型</th>
+          <th style="text-align: left">状态</th>
+          <th style="text-align: left">推荐</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>Gateway API</td>
-          <td><a href="https://gateway-api.sigs.k8s.io/api-types/httproute/">HTTPRoute</a>, <a href="https://gateway-api.sigs.k8s.io/api-types/gateway/">Gateway</a>, &hellip;</td>
-          <td>Gateway API v1.0（2023）稳定</td>
-          <td>用于新部署，特别是 <a href="/zh/docs/ambient/">Ambient 模式</a></td>
+          <td style="text-align: left">Gateway API</td>
+          <td style="text-align: left"><a href="https://gateway-api.sigs.k8s.io/api-types/httproute/">HTTPRoute</a>, <a href="https://gateway-api.sigs.k8s.io/api-types/gateway/">Gateway</a>, &hellip;</td>
+          <td style="text-align: left">Gateway API v1.0（2023）稳定</td>
+          <td style="text-align: left">用于新部署，特别是 <a href="/zh/docs/ambient/">Ambient 模式</a></td>
       </tr>
       <tr>
-          <td>Istio API</td>
-          <td><a href="/zh/docs/reference/config/networking/virtual-service/">Virtual Service</a>, <a href="/zh/docs/reference/config/networking/gateway/">Gateway</a></td>
-          <td>Istio 1.22（2024）中达到 <code>v1</code></td>
-          <td>用于现存部署或需要高级功能的地方</td>
+          <td style="text-align: left">Istio API</td>
+          <td style="text-align: left"><a href="/zh/docs/reference/config/networking/virtual-service/">Virtual Service</a>, <a href="/zh/docs/reference/config/networking/gateway/">Gateway</a></td>
+          <td style="text-align: left">Istio 1.22（2024）中达到 <code>v1</code></td>
+          <td style="text-align: left">用于现存部署或需要高级功能的地方</td>
       </tr>
       <tr>
-          <td>Ingress API</td>
-          <td><a href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress">Ingress</a></td>
-          <td>在 Kubernetes v1.19（2020）中稳定</td>
-          <td>仅用于旧部署</td>
+          <td style="text-align: left">Ingress API</td>
+          <td style="text-align: left"><a href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/ingress">Ingress</a></td>
+          <td style="text-align: left">在 Kubernetes v1.19（2020）中稳定</td>
+          <td style="text-align: left">仅用于旧部署</td>
       </tr>
   </tbody>
 </table>
@@ -2253,7 +2253,7 @@ Istio 提供零信任网络、策略执行、流量管理、负载平衡和监�
 让您加入 <code>#teamcloudnative</code>！</p>
 ]]></description><pubDate>Fri, 08 Mar 2024 00:00:00 +0000</pubDate><link>/v1.24//zh/blog/2024/istio-phippy/</link><guid isPermaLink="true">/v1.24//zh/blog/2024/istio-phippy/</guid><category>istio</category><category>phippy</category><category>izzy</category><category>dolphin</category></item><item><title>2024 年 Istio 指导委员会</title><description><![CDATA[<p>Istio 指导委员会（Steering Committee）负责总体监督该项目的管理方面事宜，
 包括治理、品牌、营销以及与 CNCF 的合作。</p>
-<p>每年，Istio 项目的领导者都会针对<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=contributions">过去一年为 Istio 做出贡献的数百家公司</a>进行<a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">贡献比例评估</a>，
+<p>每年，Istio 项目的领导者都会针对<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=contributions">过去一年为 Istio 做出贡献的数百家公司</a>进行<a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">贡献比例评估</a>，
 并使用该指标按比例为我们的指导委员会分配九个贡献席位（Contribution Seat）。</p>
 <p>然后，我们的项目成员将投票选出四个社区席位（Community Seat），
 候选人来自未获得贡献席位的公司。</p>
@@ -2314,90 +2314,90 @@ Istio 提供零信任网络、策略执行、流量管理、负载平衡和监�
 <div class="centered-block"><table>
   <thead>
       <tr>
-          <th>姓名</th>
-          <th>公司</th>
-          <th>介绍</th>
-          <th>席位类型</th>
+          <th style="text-align: left">姓名</th>
+          <th style="text-align: left">公司</th>
+          <th style="text-align: left">介绍</th>
+          <th style="text-align: left">席位类型</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>Craig Box</td>
-          <td>Solo.io</td>
-          <td><a href="https://github.com/craigbox"><code>craigbox</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Craig Box</td>
+          <td style="text-align: left">Solo.io</td>
+          <td style="text-align: left"><a href="https://github.com/craigbox"><code>craigbox</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Rob Cernich</td>
-          <td>Red Hat（红帽）</td>
-          <td><a href="https://github.com/rcernich"><code>rcernich</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Rob Cernich</td>
+          <td style="text-align: left">Red Hat（红帽）</td>
+          <td style="text-align: left"><a href="https://github.com/rcernich"><code>rcernich</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Mitch Connors</td>
-          <td>Aviatrix</td>
-          <td><a href="https://github.com/therealmitchconnors"><code>therealmitchconnors</code></a></td>
-          <td>社区席位</td>
+          <td style="text-align: left">Mitch Connors</td>
+          <td style="text-align: left">Aviatrix</td>
+          <td style="text-align: left"><a href="https://github.com/therealmitchconnors"><code>therealmitchconnors</code></a></td>
+          <td style="text-align: left">社区席位</td>
       </tr>
       <tr>
-          <td>Iris (Shaojun) Ding（丁少君）</td>
-          <td>Intel（英特尔）</td>
-          <td><a href="https://github.com/irisdingbj"><code>irisdingbj</code></a></td>
-          <td>社区席位</td>
+          <td style="text-align: left">Iris (Shaojun) Ding（丁少君）</td>
+          <td style="text-align: left">Intel（英特尔）</td>
+          <td style="text-align: left"><a href="https://github.com/irisdingbj"><code>irisdingbj</code></a></td>
+          <td style="text-align: left">社区席位</td>
       </tr>
       <tr>
-          <td>Cameron Etezadi</td>
-          <td>Google（谷歌）</td>
-          <td><a href="https://github.com/cetezadi"><code>cetezadi</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Cameron Etezadi</td>
+          <td style="text-align: left">Google（谷歌）</td>
+          <td style="text-align: left"><a href="https://github.com/cetezadi"><code>cetezadi</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>John Howard</td>
-          <td>Google（谷歌）</td>
-          <td><a href="https://github.com/howardjohn"><code>howardjohn</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">John Howard</td>
+          <td style="text-align: left">Google（谷歌）</td>
+          <td style="text-align: left"><a href="https://github.com/howardjohn"><code>howardjohn</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Faseela K</td>
-          <td>Ericsson Software Technology（爱立信软件科技）</td>
-          <td><a href="https://github.com/kfaseela"><code>kfaseela</code></a></td>
-          <td>社区席位</td>
+          <td style="text-align: left">Faseela K</td>
+          <td style="text-align: left">Ericsson Software Technology（爱立信软件科技）</td>
+          <td style="text-align: left"><a href="https://github.com/kfaseela"><code>kfaseela</code></a></td>
+          <td style="text-align: left">社区席位</td>
       </tr>
       <tr>
-          <td>Kebe Liu（刘齐均）</td>
-          <td>DaoCloud（道客）</td>
-          <td><a href="https://github.com/kebe7jun"><code>kebe7jun</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Kebe Liu（刘齐均）</td>
+          <td style="text-align: left">DaoCloud（道客）</td>
+          <td style="text-align: left"><a href="https://github.com/kebe7jun"><code>kebe7jun</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Keith Mattix</td>
-          <td>Microsoft（微软）</td>
-          <td><a href="https://github.com/keithmattix"><code>keithmattix</code></a></td>
-          <td>社区席位</td>
+          <td style="text-align: left">Keith Mattix</td>
+          <td style="text-align: left">Microsoft（微软）</td>
+          <td style="text-align: left"><a href="https://github.com/keithmattix"><code>keithmattix</code></a></td>
+          <td style="text-align: left">社区席位</td>
       </tr>
       <tr>
-          <td>Jamie Longmuir</td>
-          <td>Red Hat（红帽）</td>
-          <td><a href="https://github.com/longmuir"><code>longmuir</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Jamie Longmuir</td>
+          <td style="text-align: left">Red Hat（红帽）</td>
+          <td style="text-align: left"><a href="https://github.com/longmuir"><code>longmuir</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Justin Pettit</td>
-          <td>Google（谷歌）</td>
-          <td><a href="https://github.com/justinpettit"><code>justinpettit</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Justin Pettit</td>
+          <td style="text-align: left">Google（谷歌）</td>
+          <td style="text-align: left"><a href="https://github.com/justinpettit"><code>justinpettit</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Lin Sun</td>
-          <td>Solo.io</td>
-          <td><a href="https://github.com/linsun"><code>linsun</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Lin Sun</td>
+          <td style="text-align: left">Solo.io</td>
+          <td style="text-align: left"><a href="https://github.com/linsun"><code>linsun</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
       <tr>
-          <td>Zhonghu Xu（徐中虎）</td>
-          <td>Huawei（华为）</td>
-          <td><a href="https://github.com/hzxuzhonghu"><code>hzxuzhonghu</code></a></td>
-          <td>贡献席位</td>
+          <td style="text-align: left">Zhonghu Xu（徐中虎）</td>
+          <td style="text-align: left">Huawei（华为）</td>
+          <td style="text-align: left"><a href="https://github.com/hzxuzhonghu"><code>hzxuzhonghu</code></a></td>
+          <td style="text-align: left">贡献席位</td>
       </tr>
   </tbody>
 </table>
@@ -4247,7 +4247,7 @@ Sidecar 部署仍然是使用 Istio 的推荐方法，而我们的
 微软<a href="https://openservicemesh.io/blog/osm-project-update/">决定将 Open Service Mesh 项目归档并协作推进 Istio</a>。
 Istio 作为<a href="https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1">活跃度排名第三的 CNCF 项目</a>，
 得到了 <a href="/zh/about/ecosystem/">20 多家供应商的支持</a>以及
-<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=prs">数十家公司的持续贡献</a>，
+<a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs">数十家公司的持续贡献</a>，
 在服务网格领域没有比 Istio 更好的选择。</p>
 <p>我们邀请 Istio 社区为<a href="https://sessionize.com/istiocon-2023">即将举行的虚拟 IstioCon 2023 提交演讲话题</a>，
 这是与 KubeCon China 在上海同一个地点举办的
@@ -4808,30 +4808,30 @@ Istio 强制所有进入命名空间的流量都经过 Waypoint，然后该 Wayp
 <table>
   <thead>
       <tr>
-          <th>配置分发</th>
-          <th>命名空间 1</th>
-          <th>命名空间 2</th>
-          <th>总计</th>
+          <th style="text-align: left">配置分发</th>
+          <th style="text-align: left">命名空间 1</th>
+          <th style="text-align: left">命名空间 2</th>
+          <th style="text-align: left">总计</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>Sidecars</td>
-          <td>25 configurations * 250 sidecars</td>
-          <td>25 configurations * 250 sidecars</td>
-          <td>12500</td>
+          <td style="text-align: left">Sidecars</td>
+          <td style="text-align: left">25 configurations * 250 sidecars</td>
+          <td style="text-align: left">25 configurations * 250 sidecars</td>
+          <td style="text-align: left">12500</td>
       </tr>
       <tr>
-          <td>Waypoints</td>
-          <td>25 configurations * 2 waypoints</td>
-          <td>25 configurations * 2 waypoints</td>
-          <td>100</td>
+          <td style="text-align: left">Waypoints</td>
+          <td style="text-align: left">25 configurations * 2 waypoints</td>
+          <td style="text-align: left">25 configurations * 2 waypoints</td>
+          <td style="text-align: left">100</td>
       </tr>
       <tr>
-          <td>Waypoints / Sidecars</td>
-          <td>0.8%</td>
-          <td>0.8%</td>
-          <td>0.8%</td>
+          <td style="text-align: left">Waypoints / Sidecars</td>
+          <td style="text-align: left">0.8%</td>
+          <td style="text-align: left">0.8%</td>
+          <td style="text-align: left">0.8%</td>
       </tr>
   </tbody>
 </table>
@@ -7342,41 +7342,41 @@ Handling connection for 17171
 <table>
   <thead>
       <tr>
-          <th></th>
-          <th>客户端 <code>mCPU</code></th>
-          <th>客户端内存（<code>MiB</code>）</th>
-          <th>服务端 <code>mCPU</code></th>
-          <th>服务端内存（<code>MiB</code>）</th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">客户端 <code>mCPU</code></th>
+          <th style="text-align: left">客户端内存（<code>MiB</code>）</th>
+          <th style="text-align: left">服务端 <code>mCPU</code></th>
+          <th style="text-align: left">服务端内存（<code>MiB</code>）</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>Envoy 纯文本</td>
-          <td>320.44</td>
-          <td>66.93</td>
-          <td>243.78</td>
-          <td>64.91</td>
+          <td style="text-align: left">Envoy 纯文本</td>
+          <td style="text-align: left">320.44</td>
+          <td style="text-align: left">66.93</td>
+          <td style="text-align: left">243.78</td>
+          <td style="text-align: left">64.91</td>
       </tr>
       <tr>
-          <td>Envoy mTLS</td>
-          <td>340.87</td>
-          <td>66.76</td>
-          <td>309.82</td>
-          <td>64.82</td>
+          <td style="text-align: left">Envoy mTLS</td>
+          <td style="text-align: left">340.87</td>
+          <td style="text-align: left">66.76</td>
+          <td style="text-align: left">309.82</td>
+          <td style="text-align: left">64.82</td>
       </tr>
       <tr>
-          <td>无代理纯文本</td>
-          <td>0.72</td>
-          <td>23.54</td>
-          <td>0.84</td>
-          <td>24.31</td>
+          <td style="text-align: left">无代理纯文本</td>
+          <td style="text-align: left">0.72</td>
+          <td style="text-align: left">23.54</td>
+          <td style="text-align: left">0.84</td>
+          <td style="text-align: left">24.31</td>
       </tr>
       <tr>
-          <td>无代理 mTLS</td>
-          <td>0.73</td>
-          <td>25.05</td>
-          <td>0.78</td>
-          <td>25.43</td>
+          <td style="text-align: left">无代理 mTLS</td>
+          <td style="text-align: left">0.73</td>
+          <td style="text-align: left">25.05</td>
+          <td style="text-align: left">0.78</td>
+          <td style="text-align: left">25.43</td>
       </tr>
   </tbody>
 </table>
@@ -7399,24 +7399,24 @@ Handling connection for 17171
 <table>
   <thead>
       <tr>
-          <th>议题</th>
+          <th style="text-align: left">议题</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC%E7%83%AD%E5%8D%87%E7%BA%A7%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB.pdf">《服务网格数据平面热升级技术分享》史泽寰-阿里云</a></td>
+          <td style="text-align: left"><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC%E7%83%AD%E5%8D%87%E7%BA%A7%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB.pdf">《服务网格数据平面热升级技术分享》史泽寰-阿里云</a></td>
       </tr>
       <tr>
-          <td><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-EnvoyPrincipleIntroductionAndOnlineProblemPit.pdf">《Envoy 原理介绍及线上问题采坑》张伟-华为云容器网格数据面技术专家</a></td>
+          <td style="text-align: left"><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-EnvoyPrincipleIntroductionAndOnlineProblemPit.pdf">《Envoy 原理介绍及线上问题采坑》张伟-华为云容器网格数据面技术专家</a></td>
       </tr>
       <tr>
-          <td><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-AccelerateServiceMeshNetworkwithebpf.pdf">《使用 eBPF 加速 Istio/Envoy 网络》钟露瑶-Intel云计算软件工程师</a></td>
+          <td style="text-align: left"><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-AccelerateServiceMeshNetworkwithebpf.pdf">《使用 eBPF 加速 Istio/Envoy 网络》钟露瑶-Intel云计算软件工程师</a></td>
       </tr>
       <tr>
-          <td><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-Full-stackServicemesh-howAerakihelpsyoumanageanyLayer7trafficinIstio.pdf">《全栈服务网格- <code>Aeraki</code>助你在 Istio 中管理任意七层流量》赵化冰-腾讯云高级工程师</a></td>
+          <td style="text-align: left"><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-Full-stackServicemesh-howAerakihelpsyoumanageanyLayer7trafficinIstio.pdf">《全栈服务网格- <code>Aeraki</code>助你在 Istio 中管理任意七层流量》赵化冰-腾讯云高级工程师</a></td>
       </tr>
       <tr>
-          <td><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC%E5%AE%89%E5%85%A8-%E7%90%86%E8%A7%A3IstioCNI.pdf">《服务网络安全-理解<code>IstioCNI</code>》张之晗-Tetrate</a></td>
+          <td style="text-align: left"><a href="/v1.24/zh/blog/2021/istiomeetups-china-report/IstioMeetupChina-%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC%E5%AE%89%E5%85%A8-%E7%90%86%E8%A7%A3IstioCNI.pdf">《服务网络安全-理解<code>IstioCNI</code>》张之晗-Tetrate</a></td>
       </tr>
   </tbody>
 </table>
@@ -7524,46 +7524,46 @@ Istio 产品安全工作组评估了报告中的每一个问题，并制定了�
 <table>
   <thead>
       <tr>
-          <th>时间 (中国本地时间 GMT+8)</th>
-          <th>议题</th>
+          <th style="text-align: left">时间 (中国本地时间 GMT+8)</th>
+          <th style="text-align: left">议题</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>13:30 - 13:50</td>
-          <td>活动签到</td>
+          <td style="text-align: left">13:30 - 13:50</td>
+          <td style="text-align: left">活动签到</td>
       </tr>
       <tr>
-          <td>13:50 - 14:00</td>
-          <td>欢迎致辞 - Craig Box (Istio steering committee member), 丁少君 (Iris Ding) (Intel 云计算软件工程师)</td>
+          <td style="text-align: left">13:50 - 14:00</td>
+          <td style="text-align: left">欢迎致辞 - Craig Box (Istio steering committee member), 丁少君 (Iris Ding) (Intel 云计算软件工程师)</td>
       </tr>
       <tr>
-          <td>14:00 - 14:30</td>
-          <td>《服务网格技术能力要求》标准解读    信通院 云计算部工程师 尹夏梦雪</td>
+          <td style="text-align: left">14:00 - 14:30</td>
+          <td style="text-align: left">《服务网格技术能力要求》标准解读    信通院 云计算部工程师 尹夏梦雪</td>
       </tr>
       <tr>
-          <td>14:30 - 15:00</td>
-          <td>《服务网格数据平面热升级技术分享》  史泽寰 阿里云</td>
+          <td style="text-align: left">14:30 - 15:00</td>
+          <td style="text-align: left">《服务网格数据平面热升级技术分享》  史泽寰 阿里云</td>
       </tr>
       <tr>
-          <td>15:00 - 15:30</td>
-          <td>《Envoy 原理介绍及线上问题采坑》    张伟：华为云容器网格数据面技术专家</td>
+          <td style="text-align: left">15:00 - 15:30</td>
+          <td style="text-align: left">《Envoy 原理介绍及线上问题采坑》    张伟：华为云容器网格数据面技术专家</td>
       </tr>
       <tr>
-          <td>15:30 - 15:45</td>
-          <td>茶歇交流</td>
+          <td style="text-align: left">15:30 - 15:45</td>
+          <td style="text-align: left">茶歇交流</td>
       </tr>
       <tr>
-          <td>15:45 - 16:15</td>
-          <td>《使用 eBPF 加速 Istio/Envoy 网络》  钟露瑶 Intel 云计算软件工程师</td>
+          <td style="text-align: left">15:45 - 16:15</td>
+          <td style="text-align: left">《使用 eBPF 加速 Istio/Envoy 网络》  钟露瑶 Intel 云计算软件工程师</td>
       </tr>
       <tr>
-          <td>16:15 - 16:45</td>
-          <td>《全栈服务网格 - <code>Aeraki</code> 助你在 Istio 中管理任意七层流量》 赵化冰 腾讯云高级工程师</td>
+          <td style="text-align: left">16:15 - 16:45</td>
+          <td style="text-align: left">《全栈服务网格 - <code>Aeraki</code> 助你在 Istio 中管理任意七层流量》 赵化冰 腾讯云高级工程师</td>
       </tr>
       <tr>
-          <td>16:45 - 17:15</td>
-          <td>《服务网络安全：理解 Istio CNI》 张之晗  Tetrate</td>
+          <td style="text-align: left">16:45 - 17:15</td>
+          <td style="text-align: left">《服务网络安全：理解 Istio CNI》 张之晗  Tetrate</td>
       </tr>
   </tbody>
 </table>
@@ -7596,22 +7596,22 @@ Amazon DynamoDB 端点选择与 Google Kubernetes Engine（GKE）
 <table>
   <thead>
       <tr>
-          <th>路由</th>
-          <th>端点</th>
+          <th style="text-align: left">路由</th>
+          <th style="text-align: left">端点</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>主路由</td>
-          <td><a href="http://dynamodb.us-east-1.amazonaws.com">http://dynamodb.us-east-1.amazonaws.com</a></td>
+          <td style="text-align: left">主路由</td>
+          <td style="text-align: left"><a href="http://dynamodb.us-east-1.amazonaws.com">http://dynamodb.us-east-1.amazonaws.com</a></td>
       </tr>
       <tr>
-          <td>故障路由</td>
-          <td><a href="http://dynamodb.us-west-1.amazonaws.com">http://dynamodb.us-west-1.amazonaws.com</a></td>
+          <td style="text-align: left">故障路由</td>
+          <td style="text-align: left"><a href="http://dynamodb.us-west-1.amazonaws.com">http://dynamodb.us-west-1.amazonaws.com</a></td>
       </tr>
   </tbody>
 </table>
-<p><img src="/v1.24/zh/blog/2021/external-locality-failover/external-locality-failover.png" alt="故障转移"></p>
+<p><img alt="故障转移" src="/v1.24/zh/blog/2021/external-locality-failover/external-locality-failover.png"></p>
 <h2 id="define-external-endpoints-using-a-serviceentry">使用 ServiceEntry 定义外部端点</h2>
 <p><a href="/zh/docs/tasks/traffic-management/locality-load-balancing/">本地负载均衡</a>基于 <code>region</code>
 或 <code>zone</code> 工作，这通常是从 Kubernetes 节点上设置的标签推断出来的。
@@ -8723,7 +8723,7 @@ $ done</code></pre>
 <h2 id="committee-and-election">2020 年委员会和选举</h2>
 <p>根据我们的<a href="https://docs.google.com/spreadsheets/d/1Dt-h9s8G7Wyt4r16ZVqcmdWXDuCaPC0kPS21BuAfCL8/edit#gid=0">席位分配流程</a>，今年谷歌将分配 5 个席位，IBM/Red Hat 将分配 3 个席位。作为过去 12 个月 Istio 的第三大贡献者，我们很高兴地宣布 Salesforce 赢得了一个贡献席位。</p>
 <p>第一次<a href="https://github.com/istio/community/tree/master/steering/elections/2020">社区席位选举</a>今日开始。成员有两周时间提名自己，投票将于 9 月 14 日至 27 日进行。你可以在 GitHub 上的 <code>istio/community</code> 知识库中了解有关选举的所有信息。我们也将在太平洋地区本周四 10:00 举办一个特别的<a href="http://bit.ly/istiocommunitymeet">社区会议</a>，讨论选举的变化和过程。我们希望在那里见到你!</p>
-]]></description><pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate><link>/v1.24//zh/blog/2020/steering-changes/</link><guid isPermaLink="true">/v1.24//zh/blog/2020/steering-changes/</guid><category>istio</category><category>steering</category><category>governance</category><category>community</category><category>election</category></item><item><title>在 Istio 中使用 MOSN：另一个数据平面</title><description><![CDATA[<p>MOSN（Modular Open Smart Network）是用 Go 编写的网络代理服务器。它是 <a href="https://www.antfin.com/">蚂蚁集团</a> 为 Sidecar、API Gateway、云原生 Ingress、Layer 4 或 Layer 7 负载均衡器等场景构建的。随着时间的推移，我们添加了额外的功能，例如多协议框架，多进程插件机制，DSL 和对 <a href="https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol">xDS API</a> 的支持。支持 xDS 意味着我们现在可以将 MOSN 用作 Istio 的数据平面。Istio 项目不支持此配置。如需帮助，请参阅下面的<a href="/zh/blog/2020/mosn-proxy/#%e4%ba%86%e8%a7%a3%e6%9b%b4%e5%a4%9a">了解更多</a>。</p>
+]]></description><pubDate>Mon, 24 Aug 2020 00:00:00 +0000</pubDate><link>/v1.24//zh/blog/2020/steering-changes/</link><guid isPermaLink="true">/v1.24//zh/blog/2020/steering-changes/</guid><category>istio</category><category>steering</category><category>governance</category><category>community</category><category>election</category></item><item><title>在 Istio 中使用 MOSN：另一个数据平面</title><description><![CDATA[<p>MOSN（Modular Open Smart Network）是用 Go 编写的网络代理服务器。它是 <a href="https://www.antfin.com/">蚂蚁集团</a> 为 Sidecar、API Gateway、云原生 Ingress、Layer 4 或 Layer 7 负载均衡器等场景构建的。随着时间的推移，我们添加了额外的功能，例如多协议框架，多进程插件机制，DSL 和对 <a href="https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol">xDS API</a> 的支持。支持 xDS 意味着我们现在可以将 MOSN 用作 Istio 的数据平面。Istio 项目不支持此配置。如需帮助，请参阅下面的<a href="/zh/blog/2020/mosn-proxy/#了解更多">了解更多</a>。</p>
 <h2 id="背景">背景</h2>
 <p>在 Service Mesh 领域，使用 Istio 作为控制平面已成为主流。由于 Istio 的数据面默认是基于 Envoy 构建的，因此它使用了 Envoy 的数据平面 API（统称为 xDS API）。这些 API 已与 Envoy 分开并进行了标准化，因此，通过在 MOSN 中实现它们，我们就可以使用 MOSN 替代 Envoy。Istio 的第三方数据平面集成可以通过以下三个步骤实现：</p>
 <ul>
@@ -8814,7 +8814,7 @@ $ done</code></pre>
 <p>Open Usage Commons 专注于项目商标；它不涉及开放项目的其他方面，比如谁得到决策投票的规则。与早期的许多项目一样，Istio 的委员会也是由创始公司创立的小团队组成的。但是 Istio 已经成长和成熟（去年 Istio 是 <a href="https://octoverse.github.com/#fastest-growing-oss-projects-by-contributors">GitHub 中增长最快的开源项目的第 4 名！</a>），并且是时候开始 Istio 治理的下一次演变了。</p>
 <p>最近，<a href="https://aspenmesh.io/helping-istio-sail/">我们很荣幸地任命 Neeraj Poddar，Aspen Mesh 的联合创始人兼首席架构师</a>为技术监督委员会，该委员会负责项目的所有技术决策。Neeraj 是该项目的长期贡献者，并担任工作组领导。<a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#committee-members">TOC 现在由</a> 4 个不同公司的 7 个成员组成——Tetrate，IBM，谷歌和现在的 Aspen Mesh。</p>
 <p>我们的社区目前正在讨论如何管理监督市场和社区活动的指导委员会，来反映不断扩大的社区和生态系统。如果你对这种新的治理方式有想法，请访问正在进行积极讨论的 <a href="https://github.com/istio/community/pull/361">GitHub 上的 pull request</a>。</p>
-<p>在过去的 12 个月里，Istio 已经有了来自 <a href="https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&amp;var-metric=commits">100 多个组织</a>的提交，目前有<a href="http://eng.istio.io/maintainers">来自 14 个不同公司的 70 名维护者</a>。这种趋势正是项目创始人所希望的贡献者多样性，培养这种多样性仍然是首要任务。谷歌对 Istio 的未来感到兴奋，并希望您能成为其中的一员。</p>
+<p>在过去的 12 个月里，Istio 已经有了来自 <a href="https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=commits">100 多个组织</a>的提交，目前有<a href="http://eng.istio.io/maintainers">来自 14 个不同公司的 70 名维护者</a>。这种趋势正是项目创始人所希望的贡献者多样性，培养这种多样性仍然是首要任务。谷歌对 Istio 的未来感到兴奋，并希望您能成为其中的一员。</p>
 ]]></description><pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate><link>/v1.24//zh/blog/2020/open-usage/</link><guid isPermaLink="true">/v1.24//zh/blog/2020/open-usage/</guid><category>trademark</category><category>governance</category><category>steering</category></item><item><title>重做我们的插件集成</title><description><![CDATA[<p>从 Istio 1.6 开始，我们引入了一种与遥测插件集成的新方法，例如 Grafana，Prometheus，Zipkin，Jaeger 和 Kiali。</p>
 <p>在以前的版本中，这些附加软件是作为 Istio 安装的一部分捆绑在一起的。这使用户可以快速开始使用 Istio，无需进行任何复杂的配置即可安装和集成这些插件。但是，它带来一些问题：</p>
 <ul>
@@ -9647,41 +9647,41 @@ spec:
 <table>
   <thead>
       <tr>
-          <th>特性</th>
-          <th><code>v1alpha1</code> RBAC 策略</th>
-          <th><code>v1beta1</code> 授权策略</th>
+          <th style="text-align: left">特性</th>
+          <th style="text-align: left"><code>v1alpha1</code> RBAC 策略</th>
+          <th style="text-align: left"><code>v1beta1</code> 授权策略</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>API 稳定性</td>
-          <td><code>alpha</code>：<strong>不</strong> 向后兼容</td>
-          <td><code>beta</code>：<strong>确保</strong>向后兼容</td>
+          <td style="text-align: left">API 稳定性</td>
+          <td style="text-align: left"><code>alpha</code>：<strong>不</strong> 向后兼容</td>
+          <td style="text-align: left"><code>beta</code>：<strong>确保</strong>向后兼容</td>
       </tr>
       <tr>
-          <td>CRD 数量</td>
-          <td>三个：<code>ClusterRbacConfig</code>、<code>ServiceRole</code> 和 <code>ServiceRoleBinding</code></td>
-          <td>一个：<code>AuthorizationPolicy</code></td>
+          <td style="text-align: left">CRD 数量</td>
+          <td style="text-align: left">三个：<code>ClusterRbacConfig</code>、<code>ServiceRole</code> 和 <code>ServiceRoleBinding</code></td>
+          <td style="text-align: left">一个：<code>AuthorizationPolicy</code></td>
       </tr>
       <tr>
-          <td>策略目标</td>
-          <td><strong>service</strong></td>
-          <td><strong>workload</strong></td>
+          <td style="text-align: left">策略目标</td>
+          <td style="text-align: left"><strong>service</strong></td>
+          <td style="text-align: left"><strong>workload</strong></td>
       </tr>
       <tr>
-          <td>默认拒绝行为</td>
-          <td>通过<strong>显式</strong>的配置 <code>ClusterRbacConfig</code> 启用</td>
-          <td><strong>隐式</strong>的通过 <code>AuthorizationPolicy</code> 启用</td>
+          <td style="text-align: left">默认拒绝行为</td>
+          <td style="text-align: left">通过<strong>显式</strong>的配置 <code>ClusterRbacConfig</code> 启用</td>
+          <td style="text-align: left"><strong>隐式</strong>的通过 <code>AuthorizationPolicy</code> 启用</td>
       </tr>
       <tr>
-          <td>Ingress/Egress 网关支持</td>
-          <td>不支持</td>
-          <td>支持</td>
+          <td style="text-align: left">Ingress/Egress 网关支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">支持</td>
       </tr>
       <tr>
-          <td>策略中的 <code>&quot;*&quot;</code> 值</td>
-          <td>匹配所有内容（空和非空）</td>
-          <td>仅匹配非空内容</td>
+          <td style="text-align: left">策略中的 <code>&quot;*&quot;</code> 值</td>
+          <td style="text-align: left">匹配所有内容（空和非空）</td>
+          <td style="text-align: left">仅匹配非空内容</td>
       </tr>
   </tbody>
 </table>
@@ -9690,26 +9690,26 @@ spec:
 <table>
   <thead>
       <tr>
-          <th><code>ClusterRbacConfig.Mode</code></th>
-          <th><code>AuthorizationPolicy</code></th>
+          <th style="text-align: left"><code>ClusterRbacConfig.Mode</code></th>
+          <th style="text-align: left"><code>AuthorizationPolicy</code></th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><code>OFF</code></td>
-          <td>未应用策略</td>
+          <td style="text-align: left"><code>OFF</code></td>
+          <td style="text-align: left">未应用策略</td>
       </tr>
       <tr>
-          <td><code>ON</code></td>
-          <td>在根命名空间中应用的全部拒绝策略</td>
+          <td style="text-align: left"><code>ON</code></td>
+          <td style="text-align: left">在根命名空间中应用的全部拒绝策略</td>
       </tr>
       <tr>
-          <td><code>ON_WITH_INCLUSION</code></td>
-          <td>策略应用于 <code>ClusterRbacConfig</code> 中包含的命名空间或工作负载</td>
+          <td style="text-align: left"><code>ON_WITH_INCLUSION</code></td>
+          <td style="text-align: left">策略应用于 <code>ClusterRbacConfig</code> 中包含的命名空间或工作负载</td>
       </tr>
       <tr>
-          <td><code>ON_WITH_EXCLUSION</code></td>
-          <td>策略应用于 <code>ClusterRbacConfig</code> 中包含的命名空间或工作负载</td>
+          <td style="text-align: left"><code>ON_WITH_EXCLUSION</code></td>
+          <td style="text-align: left">策略应用于 <code>ClusterRbacConfig</code> 中包含的命名空间或工作负载</td>
       </tr>
   </tbody>
 </table>
@@ -9717,50 +9717,50 @@ spec:
 <table>
   <thead>
       <tr>
-          <th><code>ServiceRole</code></th>
-          <th><code>AuthorizationPolicy</code></th>
+          <th style="text-align: left"><code>ServiceRole</code></th>
+          <th style="text-align: left"><code>AuthorizationPolicy</code></th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><code>services</code></td>
-          <td><code>selector</code></td>
+          <td style="text-align: left"><code>services</code></td>
+          <td style="text-align: left"><code>selector</code></td>
       </tr>
       <tr>
-          <td><code>paths</code></td>
-          <td><code>to</code> 字段下的 <code>paths</code></td>
+          <td style="text-align: left"><code>paths</code></td>
+          <td style="text-align: left"><code>to</code> 字段下的 <code>paths</code></td>
       </tr>
       <tr>
-          <td><code>methods</code></td>
-          <td><code>to</code> 字段下的 <code>methods</code></td>
+          <td style="text-align: left"><code>methods</code></td>
+          <td style="text-align: left"><code>to</code> 字段下的 <code>methods</code></td>
       </tr>
       <tr>
-          <td>在约束中的 <code>destination.ip</code></td>
-          <td>不支持</td>
+          <td style="text-align: left">在约束中的 <code>destination.ip</code></td>
+          <td style="text-align: left">不支持</td>
       </tr>
       <tr>
-          <td>在约束中的 <code>destination.port</code></td>
-          <td><code>to</code> 字段下的 <code>ports</code></td>
+          <td style="text-align: left">在约束中的 <code>destination.port</code></td>
+          <td style="text-align: left"><code>to</code> 字段下的 <code>ports</code></td>
       </tr>
       <tr>
-          <td>在约束中的 <code>destination.labels</code></td>
-          <td><code>selector</code></td>
+          <td style="text-align: left">在约束中的 <code>destination.labels</code></td>
+          <td style="text-align: left"><code>selector</code></td>
       </tr>
       <tr>
-          <td>在约束中的 <code>destination.namespace</code></td>
-          <td>替换为策略的命名空间，即元数据中的 <code>namespace</code></td>
+          <td style="text-align: left">在约束中的 <code>destination.namespace</code></td>
+          <td style="text-align: left">替换为策略的命名空间，即元数据中的 <code>namespace</code></td>
       </tr>
       <tr>
-          <td>在约束中的 <code>destination.user</code></td>
-          <td>不支持</td>
+          <td style="text-align: left">在约束中的 <code>destination.user</code></td>
+          <td style="text-align: left">不支持</td>
       </tr>
       <tr>
-          <td>在约束中的 <code>experimental.envoy.filters</code></td>
-          <td><code>when</code> 字段下的 <code>experimental.envoy.filters</code></td>
+          <td style="text-align: left">在约束中的 <code>experimental.envoy.filters</code></td>
+          <td style="text-align: left"><code>when</code> 字段下的 <code>experimental.envoy.filters</code></td>
       </tr>
       <tr>
-          <td>在约束中的 <code>request.headers</code></td>
-          <td><code>when</code> 字段下的 <code>request.headers</code></td>
+          <td style="text-align: left">在约束中的 <code>request.headers</code></td>
+          <td style="text-align: left"><code>when</code> 字段下的 <code>request.headers</code></td>
       </tr>
   </tbody>
 </table>
@@ -9768,50 +9768,50 @@ spec:
 <table>
   <thead>
       <tr>
-          <th><code>ServiceRoleBinding</code></th>
-          <th><code>AuthorizationPolicy</code></th>
+          <th style="text-align: left"><code>ServiceRoleBinding</code></th>
+          <th style="text-align: left"><code>AuthorizationPolicy</code></th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><code>user</code></td>
-          <td><code>from</code> 字段下的 <code>principals</code></td>
+          <td style="text-align: left"><code>user</code></td>
+          <td style="text-align: left"><code>from</code> 字段下的 <code>principals</code></td>
       </tr>
       <tr>
-          <td><code>group</code></td>
-          <td><code>to</code> 字段下的 <code>paths</code></td>
+          <td style="text-align: left"><code>group</code></td>
+          <td style="text-align: left"><code>to</code> 字段下的 <code>paths</code></td>
       </tr>
       <tr>
-          <td><code>source.ip</code> 属性</td>
-          <td><code>from</code> 字段下的 <code>ipBlocks</code></td>
+          <td style="text-align: left"><code>source.ip</code> 属性</td>
+          <td style="text-align: left"><code>from</code> 字段下的 <code>ipBlocks</code></td>
       </tr>
       <tr>
-          <td><code>source.namespace</code> 属性</td>
-          <td><code>from</code> 字段下的 <code>namespaces</code></td>
+          <td style="text-align: left"><code>source.namespace</code> 属性</td>
+          <td style="text-align: left"><code>from</code> 字段下的 <code>namespaces</code></td>
       </tr>
       <tr>
-          <td><code>source.principal</code> 属性</td>
-          <td><code>from</code> 字段下的 <code>principals</code></td>
+          <td style="text-align: left"><code>source.principal</code> 属性</td>
+          <td style="text-align: left"><code>from</code> 字段下的 <code>principals</code></td>
       </tr>
       <tr>
-          <td><code>request.headers</code> 属性</td>
-          <td><code>when</code> 字段下的 <code>request.headers</code></td>
+          <td style="text-align: left"><code>request.headers</code> 属性</td>
+          <td style="text-align: left"><code>when</code> 字段下的 <code>request.headers</code></td>
       </tr>
       <tr>
-          <td><code>request.auth.principal</code> 属性</td>
-          <td><code>from</code> 字段下的 <code>requestPrincipals</code> 或 <code>when</code> 字段下的 <code>request.auth.principal</code></td>
+          <td style="text-align: left"><code>request.auth.principal</code> 属性</td>
+          <td style="text-align: left"><code>from</code> 字段下的 <code>requestPrincipals</code> 或 <code>when</code> 字段下的 <code>request.auth.principal</code></td>
       </tr>
       <tr>
-          <td><code>request.auth.audiences</code> 属性</td>
-          <td><code>when</code> 字段下的 <code>request.auth.audiences</code></td>
+          <td style="text-align: left"><code>request.auth.audiences</code> 属性</td>
+          <td style="text-align: left"><code>when</code> 字段下的 <code>request.auth.audiences</code></td>
       </tr>
       <tr>
-          <td><code>request.auth.presenter</code> 属性</td>
-          <td><code>when</code> 字段下的 <code>request.auth.presenter</code></td>
+          <td style="text-align: left"><code>request.auth.presenter</code> 属性</td>
+          <td style="text-align: left"><code>when</code> 字段下的 <code>request.auth.presenter</code></td>
       </tr>
       <tr>
-          <td><code>request.auth.claims</code> 属性</td>
-          <td><code>when</code> 字段下的 <code>request.auth.claims</code></td>
+          <td style="text-align: left"><code>request.auth.claims</code> 属性</td>
+          <td style="text-align: left"><code>when</code> 字段下的 <code>request.auth.claims</code></td>
       </tr>
   </tbody>
 </table>
@@ -10324,30 +10324,30 @@ $ kubectl delete destinationrule localhost</code></pre>
 <table>
   <thead>
       <tr>
-          <th>标准</th>
-          <th>敏感数据类型</th>
+          <th style="text-align: left">标准</th>
+          <th style="text-align: left">敏感数据类型</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a></td>
-          <td>支付卡数据</td>
+          <td style="text-align: left"><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a></td>
+          <td style="text-align: left">支付卡数据</td>
       </tr>
       <tr>
-          <td><a href="https://www.fedramp.gov">FedRAMP</a></td>
-          <td>联邦信息，数据和元数据</td>
+          <td style="text-align: left"><a href="https://www.fedramp.gov">FedRAMP</a></td>
+          <td style="text-align: left">联邦信息，数据和元数据</td>
       </tr>
       <tr>
-          <td><a href="http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&amp;packageId=CRPT-104hrpt736">HIPAA</a></td>
-          <td>个人健康数据</td>
+          <td style="text-align: left"><a href="http://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736">HIPAA</a></td>
+          <td style="text-align: left">个人健康数据</td>
       </tr>
       <tr>
-          <td><a href="https://gdpr-info.eu">GDPR</a></td>
-          <td>个人资料</td>
+          <td style="text-align: left"><a href="https://gdpr-info.eu">GDPR</a></td>
+          <td style="text-align: left">个人资料</td>
       </tr>
   </tbody>
 </table>
-<p><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a>，例如，建议将持卡人数据环境放置在和系统其它部分不同的网络上。它还需要使用 <a href="https://en.wikipedia.org/wiki/DMZ_%28computing%29">DMZ</a>，并在公网和 DMZ 之间以及 DMZ 和内部网络之间设置防火墙。</p>
+<p><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a>，例如，建议将持卡人数据环境放置在和系统其它部分不同的网络上。它还需要使用 <a href="https://en.wikipedia.org/wiki/DMZ_(computing)">DMZ</a>，并在公网和 DMZ 之间以及 DMZ 和内部网络之间设置防火墙。</p>
 <p>将敏感数据环境与其他信息系统隔离可以减少合规性检查的范围并提高敏感数据的安全性。缩小范围可降低合规性检查失败的风险，并降低合规性成本，因为根据合规性要求，要检查和保护的组件较少。</p>
 <p>通过将处理数据的应用程序各部分分离到单独的服务网格中（最好也是在单独的网络上），然后将具有不同合规性要求的网格连接到 <span class="term" data-title="Multi-Mesh" data-body="&lt;p&gt;Multi-mesh 是由两个或多个&lt;a href=&#34;/v1.24/zh/docs/reference/glossary/#service-mesh&#34;&gt;服务网格&lt;/a&gt;组成的部署模型。
 每个网格都有独立的命名管理和身份管理，
@@ -10376,7 +10376,7 @@ $ kubectl delete destinationrule localhost</code></pre>
     </aside>
 </div>
 
-<p>各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>建议为 <em>持卡人数据</em> 环境实现网络隔离，并要求将此环境与 <a href="https://en.wikipedia.org/wiki/DMZ_%28computing%29">DMZ</a> 隔离。<a href="https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf">FedRAMP 边界授权指南</a>描述了联邦信息和数据的 <em>授权边界</em>，而 <a href="https://doi.org/10.6028/NIST.SP.800-37r2">NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法</a> <em>附录 G，授权边界注意事项</em> 建议保护这样的边界：</p>
+<p>各种合规性标准隔离建议，用于处理组织其余部分的敏感数据的环境。<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>建议为 <em>持卡人数据</em> 环境实现网络隔离，并要求将此环境与 <a href="https://en.wikipedia.org/wiki/DMZ_(computing)">DMZ</a> 隔离。<a href="https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf">FedRAMP 边界授权指南</a>描述了联邦信息和数据的 <em>授权边界</em>，而 <a href="https://doi.org/10.6028/NIST.SP.800-37r2">NIST 特别出版物 800-37，修订版 2，信息系统和组织的风险管理框架：用于安全性和隐私的系统生命周期方法</a> <em>附录 G，授权边界注意事项</em> 建议保护这样的边界：</p>
 <div>
     <aside class="callout quote">
         <div class="type">
@@ -10402,7 +10402,7 @@ $ kubectl delete destinationrule localhost</code></pre>
 <ul>
 <li><strong>非统一命名</strong>。一个网格 <code>accounts</code> 命名空间中的 <code>withdraw</code> 服务可能与其他网格 <code>accounts</code> 命名空间中的 <code>withdraw</code> 服务具有不同的功能和 API。这种情况可能发生在没有统一命名空间和服务命名策略的组织中，或者当网格属于不同组织时。</li>
 <li><strong>默认不暴露任何内容</strong>。默认情况下，网格中没有任何暴露的服务，网格所有者必须明确指定要暴露的服务。</li>
-<li><strong>边界保护</strong>。流量的访问控制必须在入口网关上执行，这将阻止未经允许的流量进入网格。该要求实现了<a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">纵深防御原则</a>，并且是某些合规性标准的一部分，例如<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>。</li>
+<li><strong>边界保护</strong>。流量的访问控制必须在入口网关上执行，这将阻止未经允许的流量进入网格。该要求实现了<a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">纵深防御原则</a>，并且是某些合规性标准的一部分，例如<a href="https://www.pcisecuritystandards.org/pci_security/">支付卡行业（PCI）数据安全标准</a>。</li>
 <li><strong>可能不存在共同信任</strong>。由于某些安全要求或由于网格所有者最初未计划网格联邦，可能会出现一个网格中的 Istio sidecar 不信任其他网格中的 Citadel 证书的情况。</li>
 </ul>
 <p>必需通过 <strong>默认不暴露任何内容</strong> 和 <strong>边界保护</strong> 来促进合规性并提高安全性。连接不同组织的网格，或者组织不能执行统一命名，或者不能建立网格之间的公共信任，<strong>非统一命名</strong> 和 <strong>可能不存在共同信任</strong> 也是必需的。</p>
@@ -10933,36 +10933,36 @@ spec:
 <table>
   <thead>
       <tr>
-          <th></th>
-          <th>Istio 出口流量管控</th>
-          <th>Kubernetes 网络策略</th>
-          <th>现有出口代理或防火墙</th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">Istio 出口流量管控</th>
+          <th style="text-align: left">Kubernetes 网络策略</th>
+          <th style="text-align: left">现有出口代理或防火墙</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>DNS 可感知</td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left">DNS 可感知</td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
       </tr>
       <tr>
-          <td>Kubernetes 可感知</td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
+          <td style="text-align: left">Kubernetes 可感知</td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
       </tr>
       <tr>
-          <td>透明</td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
+          <td style="text-align: left">透明</td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
       </tr>
       <tr>
-          <td>Istio 可感知</td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
-          <td><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
+          <td style="text-align: left">Istio 可感知</td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#checkmark"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
+          <td style="text-align: left"><svg class="large-icon"><use xlink:href="/img/icons.svg#cancel"/></svg></td>
       </tr>
   </tbody>
 </table>
@@ -11009,7 +11009,7 @@ Istio 是我所知的唯一解决方案，它可以让你：</p>
 所以您必须使用一些<a href="/zh/docs/tasks/traffic-management/egress/egress-gateway/#additional-security-considerations">附加的安全机制</a>，
 比如 <a href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/network-policies/">Kubernetes 网络策略</a> 或者 L3 防火墙。
 看一个 <a href="/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-Kubernetes-network-policies">Kubernetes 网络策略配置</a> 的例子。
-根据 <a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">纵深防御</a> 的概念，为同一个目标使用的安全机制越多越安全。</p>
+根据 <a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">纵深防御</a> 的概念，为同一个目标使用的安全机制越多越安全。</p>
 <p>您也必需也要确保 Istio 控制平面和出口网关不能被破坏。您的集群里面可能有成百上千的应用程序 Pod，而只有十几个 Istio 控制平面 Pod 和网关。
 您可以也应该聚焦在保护控制平面 Pod 和网关，因为这比较容易（需要保护的 Pod 数量很少），并且这对集群的安全性是最关键的。
 如果攻击者破坏了控制平面和出口网关，他们可以违反任何策略。</p>
@@ -11241,7 +11241,7 @@ Istio 是我所知的唯一解决方案，它可以让你：</p>
 <p>第二个要求指出：必须监控 SNI 和流量源。监控是防止攻击的第一步。即使攻击者可以从集群内访问外部服务，如果监控了访问请求，就会有机会发现可疑流量并且采取纠正措施。</p>
 <p>注意如果是应用程序发起的 TLS，Istio 的 sidecar 代理就只能看到 TCP 流量和包含 SNI 的 TLS 握手。源 pod 的标签可以识别出流量来源，但是 pod 的服务账号或者其它源识标识符也可以用来识别流量。我们把出口流量管控系统的这个特性叫做 <em>Kubernetes 可感知</em>：这个系统必须理解 Kubernetes 组件，比如 pod 和服务账号。如果这个系统不是 Kubernetes 可感知的，那它只能监控 IP 地址，并把它作为源的标示。</p>
 <p>第三个要求指出：Istio 运维人员必须能为整个集群所有的出口流量定规策略。策略指出集群中的 pod 可能会访问哪些外部服务。外部服务可以通过服务的 <a href="https://en.wikipedia.org/wiki/Fully_qualified_domain_name">全域名</a>（比如 <code>www.ibm.com</code>）或者泛域名（比如：<code>*.ibm.com</code>）进行标示。只有指定的外部服务可以访问，其它所有的出口流量都要被阻止。</p>
-<p>这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了<a href="https://en.wikipedia.org/wiki/Attack_surface">攻击面</a>。当外部服务有了它们自己的安全机制，您想使用<a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">纵深防御</a> 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。</p>
+<p>这个要求是为了阻止攻击者访问恶意站点而提出的，比如下载更新/操作他们的恶意软件。同样也想去限制攻击者可以访问和攻击的外部站点的数量。只允许集群内应用程序需要访问的外部站点并且阻止其它所拥有的服务访问，这样减少了<a href="https://en.wikipedia.org/wiki/Attack_surface">攻击面</a>。当外部服务有了它们自己的安全机制，您想使用<a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">纵深防御</a> 并且使用多个安全层：除了外部系统的安全层外，集群内还有一个安全层。</p>
 <p>这个要求意味着外部服务必须能用域名来标示。我们把出口管控系统的这个特性叫做 DNS 感知。如果系统不是 DNS 可感知的，外部服务必须用 IP 地址标示。
 使用 IP 地址不方便而且经常不灵活，因为服务的 IP 地址会变的。有时候服务的所有 IP 地址甚至都不知道，比如：<a href="https://en.wikipedia.org/wiki/Content_delivery_network">CDN</a>。</p>
 <p>第四个要求指出：出口流量的源都必须添加策略，以高效扩展第三个要求。策略能明确那个源可以访问那个外部服务，并且就像第二个要求一样源必须要标示，例如：通过源 pod 的标签或者通过 pod 的服务账号。
@@ -11287,7 +11287,7 @@ Istio 是我所知的唯一解决方案，它可以让你：</p>
 Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。</p>
 <h2 id="有用的链接useful-links">有用的链接{useful-links}</h2>
 <ul>
-<li><a href="https://www.youtube.com/watch?time_continue=349&amp;v=G4F5aRFEXnU">Istio 服务网格性能 (34:30)</a>, 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018</li>
+<li><a href="https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU">Istio 服务网格性能 (34:30)</a>, 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018</li>
 <li><a href="https://discuss.istio.io/c/performance-and-scalability">Istio 性能和可扩展性讨论专题</a></li>
 </ul>
 <h2 id="免责声明disclaimer">免责声明{disclaimer}</h2>
@@ -13509,96 +13509,96 @@ deployment &#34;ratings-v2&#34; deleted</code></pre></div>
 <table>
   <thead>
       <tr>
-          <th>时间</th>
-          <th>演讲者</th>
-          <th>所属单位</th>
+          <th style="text-align: left">时间</th>
+          <th style="text-align: left">演讲者</th>
+          <th style="text-align: left">所属单位</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>10:00 - 10:30</td>
-          <td><code>Spencer Krum + Lisa-Marie Namphy</code></td>
-          <td><code>IBM / Portworx</code></td>
+          <td style="text-align: left">10:00 - 10:30</td>
+          <td style="text-align: left"><code>Spencer Krum + Lisa-Marie Namphy</code></td>
+          <td style="text-align: left"><code>IBM / Portworx</code></td>
       </tr>
       <tr>
-          <td>10:30 - 11:00</td>
-          <td><code>Lin Sun / Spencer Krum / Sven Mawson</code></td>
-          <td><code>IBM / Google</code></td>
+          <td style="text-align: left">10:30 - 11:00</td>
+          <td style="text-align: left"><code>Lin Sun / Spencer Krum / Sven Mawson</code></td>
+          <td style="text-align: left"><code>IBM / Google</code></td>
       </tr>
       <tr>
-          <td>11:00 - 11:10</td>
-          <td><code>Lin Sun / Spencer Krum</code></td>
-          <td><code>IBM</code></td>
+          <td style="text-align: left">11:00 - 11:10</td>
+          <td style="text-align: left"><code>Lin Sun / Spencer Krum</code></td>
+          <td style="text-align: left"><code>IBM</code></td>
       </tr>
       <tr>
-          <td>11:10 - 11:30</td>
-          <td><code>Jason Yee / Ilan Rabinovich</code></td>
-          <td><code>Datadog</code></td>
+          <td style="text-align: left">11:10 - 11:30</td>
+          <td style="text-align: left"><code>Jason Yee / Ilan Rabinovich</code></td>
+          <td style="text-align: left"><code>Datadog</code></td>
       </tr>
       <tr>
-          <td>11:30 - 11:50</td>
-          <td><code>April Nassl</code></td>
-          <td><code>Google</code></td>
+          <td style="text-align: left">11:30 - 11:50</td>
+          <td style="text-align: left"><code>April Nassl</code></td>
+          <td style="text-align: left"><code>Google</code></td>
       </tr>
       <tr>
-          <td>11:50 - 12:10</td>
-          <td><code>Spike Curtis</code></td>
-          <td><code>Tigera</code></td>
+          <td style="text-align: left">11:50 - 12:10</td>
+          <td style="text-align: left"><code>Spike Curtis</code></td>
+          <td style="text-align: left"><code>Tigera</code></td>
       </tr>
       <tr>
-          <td>12:10 - 12:30</td>
-          <td><code>Shannon Coen</code></td>
-          <td><code>Pivotal</code></td>
+          <td style="text-align: left">12:10 - 12:30</td>
+          <td style="text-align: left"><code>Shannon Coen</code></td>
+          <td style="text-align: left"><code>Pivotal</code></td>
       </tr>
       <tr>
-          <td>12:30 - 1:00</td>
-          <td><code>Matt Klein</code></td>
-          <td><code>Lyft</code></td>
+          <td style="text-align: left">12:30 - 1:00</td>
+          <td style="text-align: left"><code>Matt Klein</code></td>
+          <td style="text-align: left"><code>Lyft</code></td>
       </tr>
       <tr>
-          <td>1:00 - 1:20</td>
-          <td><code>Zach Jory</code></td>
-          <td><code>F5/Aspen Mesh</code></td>
+          <td style="text-align: left">1:00 - 1:20</td>
+          <td style="text-align: left"><code>Zach Jory</code></td>
+          <td style="text-align: left"><code>F5/Aspen Mesh</code></td>
       </tr>
       <tr>
-          <td>1:20 - 1:40</td>
-          <td><code>Dan Ciruli</code></td>
-          <td><code>Google</code></td>
+          <td style="text-align: left">1:20 - 1:40</td>
+          <td style="text-align: left"><code>Dan Ciruli</code></td>
+          <td style="text-align: left"><code>Google</code></td>
       </tr>
       <tr>
-          <td>1:40 - 2:00</td>
-          <td><code>Isaiah Snell-Feikema</code> / <code>Greg Hanson</code></td>
-          <td><code>IBM</code></td>
+          <td style="text-align: left">1:40 - 2:00</td>
+          <td style="text-align: left"><code>Isaiah Snell-Feikema</code> / <code>Greg Hanson</code></td>
+          <td style="text-align: left"><code>IBM</code></td>
       </tr>
       <tr>
-          <td>2:00 - 2:20</td>
-          <td><code>Zach Butcher</code></td>
-          <td><code>Tetrate</code></td>
+          <td style="text-align: left">2:00 - 2:20</td>
+          <td style="text-align: left"><code>Zach Butcher</code></td>
+          <td style="text-align: left"><code>Tetrate</code></td>
       </tr>
       <tr>
-          <td>2:20 - 2:40</td>
-          <td><code>Ray Hudaihed</code></td>
-          <td><code>American Airlines</code></td>
+          <td style="text-align: left">2:20 - 2:40</td>
+          <td style="text-align: left"><code>Ray Hudaihed</code></td>
+          <td style="text-align: left"><code>American Airlines</code></td>
       </tr>
       <tr>
-          <td>2:40 - 3:00</td>
-          <td><code>Christian Posta</code></td>
-          <td><code>Red Hat</code></td>
+          <td style="text-align: left">2:40 - 3:00</td>
+          <td style="text-align: left"><code>Christian Posta</code></td>
+          <td style="text-align: left"><code>Red Hat</code></td>
       </tr>
       <tr>
-          <td>3:00 - 3:20</td>
-          <td><code>Google/IBM China</code></td>
-          <td><code>Google / IBM</code></td>
+          <td style="text-align: left">3:00 - 3:20</td>
+          <td style="text-align: left"><code>Google/IBM China</code></td>
+          <td style="text-align: left"><code>Google / IBM</code></td>
       </tr>
       <tr>
-          <td>3:20 - 3:40</td>
-          <td><code>Colby Dyess</code></td>
-          <td><code>Tuffin</code></td>
+          <td style="text-align: left">3:20 - 3:40</td>
+          <td style="text-align: left"><code>Colby Dyess</code></td>
+          <td style="text-align: left"><code>Tuffin</code></td>
       </tr>
       <tr>
-          <td>3:40 - 4:00</td>
-          <td><code>Rohit Agarwalla</code></td>
-          <td><code>Cisco</code></td>
+          <td style="text-align: left">3:40 - 4:00</td>
+          <td style="text-align: left"><code>Rohit Agarwalla</code></td>
+          <td style="text-align: left"><code>Cisco</code></td>
       </tr>
   </tbody>
 </table>
@@ -15764,26 +15764,26 @@ Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用
 <table>
   <thead>
       <tr>
-          <th></th>
-          <th>Istio 策略</th>
-          <th>网络策略</th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">Istio 策略</th>
+          <th style="text-align: left">网络策略</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td><strong>层级</strong></td>
-          <td>&ldquo;服务&rdquo; &mdash; L7</td>
-          <td>&ldquo;网络&rdquo; &mdash; L3-4</td>
+          <td style="text-align: left"><strong>层级</strong></td>
+          <td style="text-align: left">&ldquo;服务&rdquo; &mdash; L7</td>
+          <td style="text-align: left">&ldquo;网络&rdquo; &mdash; L3-4</td>
       </tr>
       <tr>
-          <td><strong>实现</strong></td>
-          <td>用户空间</td>
-          <td>内核</td>
+          <td style="text-align: left"><strong>实现</strong></td>
+          <td style="text-align: left">用户空间</td>
+          <td style="text-align: left">内核</td>
       </tr>
       <tr>
-          <td><strong>执行点</strong></td>
-          <td>Pod</td>
-          <td>节点</td>
+          <td style="text-align: left"><strong>执行点</strong></td>
+          <td style="text-align: left">Pod</td>
+          <td style="text-align: left">节点</td>
       </tr>
   </tbody>
 </table>
