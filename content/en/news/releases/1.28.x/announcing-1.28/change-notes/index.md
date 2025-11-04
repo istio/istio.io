@@ -67,7 +67,7 @@ aliases:
 - **Improved** root certificate parsing when some certificates were invalid. Istio now filters out malformed certificates instead of rejecting the entire bundle.
 
 - **Added** `caCertCredentialName` field in `ServerTLSSettings` to reference a `Secret`/`ConfigMap` that holds CA certificates for mTLS.
-  See [usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#key-formats) or [reference]( https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings-ca_cert_credential_name) for more information.
+  See [usage](https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#key-formats) or [reference](https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings-ca_cert_credential_name) for more information.
   ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
 - **Added** optional `NetworkPolicy` deployment for istiod. You can set `global.networkPolicy.enabled=true` to deploy a default `NetworkPolicy` for istiod and gateways. We're planning to extend this to later also include `NetworkPolicy` for istio-cni and ztunnel.
