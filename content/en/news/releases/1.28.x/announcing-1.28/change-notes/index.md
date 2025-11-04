@@ -94,7 +94,7 @@ aliases:
 - **Added** support for Zipkin's `TraceContextOption` configuration to enable dual B3/W3C header propagation.
   Configure with `trace_context_option: USE_B3_WITH_W3C_PROPAGATION` in MeshConfig `extensionProviders` to
   extract B3 headers preferentially, fall back to W3C `traceparent` headers, and inject both header types
-  upstream for better tracing interoperability. See [Envoy docs]( https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto#envoy-v3-api-enum-config-trace-v3-zipkinconfig-tracecontextoption) and [`MeshConfig` reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/) and [usage]( https://istio.io/latest/docs/tasks/observability/distributed-tracing/) for more information.
+  upstream for better tracing interoperability. See [Envoy docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto#envoy-v3-api-enum-config-trace-v3-zipkinconfig-tracecontextoption) and [`MeshConfig` reference](/docs/reference/config/istio.mesh.v1alpha1/) and [usage](/docs/tasks/observability/distributed-tracing/) for more information.
 
 - **Removed** metric expiry support. Use `StatsEviction` in bootstrap configuration instead.
 
