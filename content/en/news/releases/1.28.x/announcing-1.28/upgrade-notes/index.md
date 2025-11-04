@@ -24,7 +24,7 @@ This change allows for better security practices by using the default `seccompPr
 
 ## InferencePool
 
-The InferencePool API is now at v1.0.0. If you're using previous unstable versions of the API, please use the v1 InferencePool API type instead. Note that support to the v1alpha and release candidate versions have been removed.
+The InferencePool API is now at v1.0.0. If you're using previous unstable versions of the API, please use the v1 InferencePool API type instead. Note that support to the alpha and release candidate versions have been removed.
 
 **If you're migrating from v1.0.0-rc.1**, please note that the `inferencePool.spec.endpointPickerRef.portNumber`
 field has been replaced with `inferencePool.spec.endpointPickerRef.port.number`. The `inferencePool.spec.endpointPickerRef.port` field is a non-pointer and required when `inferencePool.spec.endpointPickerRef.kind` is unset or `Service`. The port number 9002 is no longer inferred.

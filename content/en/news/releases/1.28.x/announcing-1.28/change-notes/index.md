@@ -111,7 +111,7 @@ aliases:
 
 - **Added** ability to completely null out resource limits or requests in the gateway chart.
 
-- **Added** support for "persona-based" installations to our Helm charts based on the scope of generated/applied resources. 
+- **Added** support for "persona-based" installations to our Helm charts based on the scope of generated/applied resources.
     - If no `resourceScope` is set, all resources will be installed. This is the same behavior a user would expect from 1.27 charts.
     - If `resourceScope` is set to `namespace`, only namespace-scoped resources will be installed.
     - If `resourceScope` is set to `cluster`, only cluster-scoped resources will be installed. This can enable a Kubernetes administrator to manage the resources in the cluster and the mesh administrator to manage the resources in the mesh.
