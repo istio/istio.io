@@ -23,9 +23,48 @@ Istio 1.28.0 is officially supported on Kubernetes versions 1.29 to 1.35.
 
 ### Inference Extension Support
 
+Istio 1.28 continues to build on the Gateway API Inference Extension support with the introduction of `InferencePool` v1. This enhancement provides better management and routing of AI inference workloads, making it easier to deploy and scale Generative AI models on Kubernetes with intelligent traffic management.
+
+The `InferencePool` v1 API offers improved stability and functionality for managing pools of inference endpoints, enabling more sophisticated load balancing and failover strategies for AI workloads.
+
 
 ### Ambient Multicluster
 
+Istio 1.28 brings significant improvements to ambient multicluster deployments. Waypoints can now route traffic to remote networks in ambient multicluster configurations, expanding the capabilities of the non sidecar mesh architecture across distributed environments.
+
+This enhancement enables more multicluster topologies while maintaining the simplified operational model that ambient mode provides, making it easier to manage service mesh deployments that span multiple clusters and networks.
+
+### Native nftables Support in Ambient Mode
+
+Istio 1.28 introduces support for native nftables when using ambient mode. This significant enhancement allows you to use nftables instead of iptables to manage network rules, providing a more flexible rule management. To enable nftables mode, use `--set values.global.nativeNftables=true` when installing Istio.
+
+This addition complements the existing nftables support in sidecar mode, ensuring Istio stays current with modern Linux networking frameworks.
+
+### Enhanced Security Features
+
+This release includes several important security improvements:
+
+- **Enhanced JWT Authentication**: Improved JWT filter configuration now supports custom space-delimited claims in addition to default claims like "scope" and "permission". This enhancement ensures proper validation of JWT tokens with custom claims using the `spaceDelimitedClaims` field in `RequestAuthentication` resources
+- **NetworkPolicy Support**: Optional NetworkPolicy deployment for istiod with `global.networkPolicy.enabled=true`
+- **Enhanced Container Security**: Support for configuring `seccompProfile` in istio-validation and istio-proxy containers for better security compliance
+- **Gateway API Security**: Support for `FrontendTLSValidation` (GEP-91) enabling mutual TLS ingress gateway configurations
+- **Improved Certificate Handling**: Better root certificate parsing that filters out malformed certificates instead of rejecting the entire bundle
+
+### Gateway API and Traffic Management Enhancements
+
+- **Dual-stack Support**: Promoted to beta, providing better IPv4/IPv6 networking capabilities
+- **BackendTLSPolicy v1**: Full Gateway API v1.4 support with enhanced TLS configuration options
+- **ServiceEntry Integration**: Support for ServiceEntry as a targetRef in BackendTLSPolicy for external service TLS configuration
+- **Wildcard Host Support**: ServiceEntry resources now support wildcard hosts with DYNAMIC_DNS resolution (HTTP traffic only, requires ambient mode and waypoint)
+
+### Plus Much More
+
+- **Persona-based Installations**: New `resourceScope` option in Helm charts for namespace or cluster-scoped resource management
+- **Improved Load Balancing**: Cookie attributes support in consistent hash load-balancing with security options like `SameSite`, `Secure`, and `HttpOnly`
+- **Enhanced Telemetry**: Dual B3/W3C header propagation support for better tracing interoperability
+- **istioctl Improvements**: Automatic default revision detection and enhanced debugging capabilities
+
+Read about these and more in the full [release notes](change-notes/).
 
 ## Upgrading to 1.28
 
