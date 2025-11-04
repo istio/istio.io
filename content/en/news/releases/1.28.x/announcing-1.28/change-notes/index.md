@@ -77,7 +77,7 @@ aliases:
   ([Issue #57004](https://github.com/istio/istio/issues/57004))
 
 - **Added** support for `FrontendTLSValidation` (GEP-91) in Gateway API.
- See [usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-mutual-tls-ingress-gateway) and [reference]( https://gateway-api.sigs.k8s.io/reference/spec/#frontendtlsvalidation) for more information.
+  See [usage](https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-mutual-tls-ingress-gateway) and [reference](https://gateway-api.sigs.k8s.io/reference/spec/#frontendtlsvalidation) for more information.
   ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
 - **Fixed** JWT filter configuration to support custom space-delimited claims. The JWT filter configuration now correctly includes user-specified custom space-delimited claims in addition to the default claims ("scope" and "permission"). This ensures that the Envoy JWT filter treats these claims as space-delimited strings, allowing for proper validation of JWT tokens that include these claims. To set custom space-delimited claims, use the `spaceDelimitedClaims` field in the JWT rule configuration inside the `RequestAuthentication` resource.
