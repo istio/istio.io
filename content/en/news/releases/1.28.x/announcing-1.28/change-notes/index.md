@@ -16,10 +16,10 @@ aliases:
   ([Issue #16863](https://github.com/istio/istio.io/pull/16863))
 
 - **Updated** the default value for maximum accepted connections per socket event. The
-default value now is 1 for inbound and outbound listeners explicitly binding to ports
-in sidecars. Listeners with no iptables interception will benefit from better performance
-under high connection churn scenarios. To get the old behavior, you can set `MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP`
-to zero.
+  default value now is 1 for inbound and outbound listeners explicitly binding to ports
+  in sidecars. Listeners with no iptables interception will benefit from better performance
+  under high connection churn scenarios. To get the old behavior, you can set `MAX_CONNECTIONS_PER_SOCKET_EVENT_LOOP`
+  to zero.
 
 - **Added** support for cookie attributes in consistent hash load-balancing. You can now specify additional attributes, such as `SameSite`, `Secure` and `HttpOnly`. This allows for more secure and compliant cookie handling in load-balancing scenarios.
   ([Issue #56468](https://github.com/istio/istio/issues/56468)), ([Issue #49870](https://github.com/istio/istio/issues/49870))
@@ -33,11 +33,11 @@ to zero.
   ([Issue #57521](https://github.com/istio/istio/issues/57521))
 
 - **Added** support for native nftables when using Istio ambient mode. This update makes it possible to use nftables
-instead of iptables to manage network rules. To enable the nftables mode, use `--set values.global.nativeNftables=true` when installing Istio.  ([Issue #57324](https://github.com/istio/istio/issues/57324))
+  instead of iptables to manage network rules. To enable the nftables mode, use `--set values.global.nativeNftables=true` when installing Istio.  ([Issue #57324](https://github.com/istio/istio/issues/57324))
 
 - **Added** support for wildcard hosts in `ServiceEntry` resources with `DYNAMIC_DNS` resolution.
-This is only supported for HTTP traffic for now. It requires ambient mode and a waypoint configured as
-an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540))
+  This is only supported for HTTP traffic for now. It requires ambient mode and a waypoint configured as
+  an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540))
 
 - **Added** support for `X-Forwarded` headers in `ProxyConfig.ProxyHeaders`.
 
@@ -67,7 +67,7 @@ an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540)
 - **Improved** root certificate parsing when some certificates were invalid. Istio now filters out malformed certificates instead of rejecting the entire bundle.
 
 - **Added** `caCertCredentialName` field in `ServerTLSSettings` to reference a `Secret`/`ConfigMap` that holds CA certificates for mTLS.
- See [usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#key-formats) or [reference]( https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings-ca_cert_credential_name) for more information.
+  See [usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#key-formats) or [reference]( https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings-ca_cert_credential_name) for more information.
    ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
 - **Added** optional `NetworkPolicy` deployment for istiod. You can set `global.networkPolicy.enabled=true` to deploy a default `NetworkPolicy` for istiod and gateways. We're planning to extend this to later also include `NetworkPolicy` for istio-cni and ztunnel.
@@ -80,7 +80,8 @@ an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540)
  See [usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-mutual-tls-ingress-gateway) and [reference]( https://gateway-api.sigs.k8s.io/reference/spec/#frontendtlsvalidation) for more information.
   ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
-- **Fixed** JWT filter configuration to support custom space-delimited claims. The JWT filter configuration now correctly includes user-specified custom space-delimited claims in addition to the default claims ("scope" and "permission"). This ensures that the Envoy JWT filter treats these claims as space-delimited strings, allowing for proper validation of JWT tokens that include these claims. To set custom space-delimited claims, use the `spaceDelimitedClaims` field in the JWT rule configuration inside the `RequestAuthentication` resource.  ([Issue #56873](https://github.com/istio/istio/issues/56873))
+- **Fixed** JWT filter configuration to support custom space-delimited claims. The JWT filter configuration now correctly includes user-specified custom space-delimited claims in addition to the default claims ("scope" and "permission"). This ensures that the Envoy JWT filter treats these claims as space-delimited strings, allowing for proper validation of JWT tokens that include these claims. To set custom space-delimited claims, use the `spaceDelimitedClaims` field in the JWT rule configuration inside the `RequestAuthentication` resource.
+  ([Issue #56873](https://github.com/istio/istio/issues/56873))
 
 - **Removed** use of MD5 to optimize comparisons. Istio does not and has not used MD5 for cryptographic purposes. The change is merely to make the code easier to audit and to run in [FIPS 140-3 mode](https://go.dev/doc/security/fips140).
 
@@ -91,9 +92,9 @@ an egress gateway.  ([Issue #54540](https://github.com/istio/istio/issues/54540)
 - **Added** support for annotations `sidecar.istio.io/statsFlushInterval` and `sidecar.istio.io/statsEvictionInterval`.
 
 - **Added** support for Zipkin's `TraceContextOption` configuration to enable dual B3/W3C header propagation.
-Configure with `trace_context_option: USE_B3_WITH_W3C_PROPAGATION` in MeshConfig `extensionProviders` to
-extract B3 headers preferentially, fall back to W3C `traceparent` headers, and inject both header types
-upstream for better tracing interoperability. See [Envoy docs]( https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto#envoy-v3-api-enum-config-trace-v3-zipkinconfig-tracecontextoption) and [`MeshConfig` reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/) and [usage]( https://istio.io/latest/docs/tasks/observability/distributed-tracing/) for more information.
+  Configure with `trace_context_option: USE_B3_WITH_W3C_PROPAGATION` in MeshConfig `extensionProviders` to
+  extract B3 headers preferentially, fall back to W3C `traceparent` headers, and inject both header types
+  upstream for better tracing interoperability. See [Envoy docs]( https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto#envoy-v3-api-enum-config-trace-v3-zipkinconfig-tracecontextoption) and [`MeshConfig` reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/) and [usage]( https://istio.io/latest/docs/tasks/observability/distributed-tracing/) for more information.
 
 - **Removed** metric expiry support. Use `StatsEviction` in bootstrap configuration instead.
 
@@ -110,7 +111,11 @@ upstream for better tracing interoperability. See [Envoy docs]( https://www.envo
 
 - **Added** ability to completely null out resource limits or requests in the gateway chart.
 
-- **Added** support for "persona-based" installations to our Helm charts based on the scope of generated/applied resources. If no `resourceScope` is set, all resources will be installed. This is the same behavior a user would expect from 1.27 charts. If `resourceScope` is set to `namespace`, only namespace-scoped resources will be installed. If `resourceScope` is set to `cluster`, only cluster-scoped resources will be installed. This can enable a Kubernetes administrator to manage the resources in the cluster and the mesh administrator to manage the resources in the mesh. For the ztunnel chart, `resourceScope` is a top-level field. For all other charts, it is a field under `global`.  ([Issue #57530](https://github.com/istio/istio/issues/57530))
+- **Added** support for "persona-based" installations to our Helm charts based on the scope of generated/applied resources. If no `resourceScope` is set, all resources will be installed. This is the same behavior a user would expect from 1.27 charts.
+    - If `resourceScope` is set to `namespace`, only namespace-scoped resources will be installed.
+    - If `resourceScope` is set to `cluster`, only cluster-scoped resources will be installed. This can enable a Kubernetes administrator to manage the resources in the cluster and the mesh administrator to manage the resources in the mesh.
+  For the ztunnel chart, `resourceScope` is a top-level field. For all other charts, it is a field under `global`.
+  ([Issue #57530](https://github.com/istio/istio/issues/57530))
 
 - **Added** support for the environment variable `FORCE_IPTABLES_BINARY` to override iptables backend detection and use a specific binary.  ([Issue #57827](https://github.com/istio/istio/issues/57827))
 
@@ -119,8 +124,8 @@ upstream for better tracing interoperability. See [Envoy docs]( https://www.envo
 - **Added** `service.clusterIP` configuration to Gateway chart to support overriding the `spec.clusterIP` of the `Service` resource. This could be useful in cases where the user wants to set a specific cluster IP for the Gateway service instead of relying on automatic assignment.
 
 - **Added** a new representation of revision tags using cluster IP services, meant to stop using mutating webhooks in ambient mode.
-`istioctl tag set <tag> --revision <rev>` and the `revisionTags` Helm value will both create a `MutatingWebhook` using the current
-specifications and a `Service` similar to the istiod `Service` but including the `istio.io/tag` label to store the mapping.
+  `istioctl tag set <tag> --revision <rev>` and the `revisionTags` Helm value will both create a `MutatingWebhook` using the current
+  specifications and a `Service` similar to the istiod `Service` but including the `istio.io/tag` label to store the mapping.
 
 - **Added** `internalTrafficPolicy` option for gateway service (needed, for example when installing ArgoCD with gateway which is an internal application).
 
