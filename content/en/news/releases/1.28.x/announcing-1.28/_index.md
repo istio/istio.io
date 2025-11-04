@@ -29,7 +29,7 @@ The `InferencePool` v1 API offers improved stability and functionality for manag
 
 ### Ambient Multicluster
 
-Istio 1.28 brings significant improvements to ambient multicluster deployments. Waypoints can now route traffic to remote networks in ambient multicluster configurations, expanding ambient  capabilities. This enhancement enables outlier detection and other L7 policies for requests crossing networks, making it easier to manage multi-network service mesh deployments.
+Istio 1.28 brings significant improvements to ambient multicluster deployments. Waypoints can now route traffic to remote networks in ambient multicluster configurations, expanding ambient capabilities. This enhancement enables outlier detection and other L7 policies for requests crossing networks, making it easier to manage multi-network service mesh deployments.
 
 Ambient multicluster remains an alpha feature and there are several known issues that will be addressed in the future releases. If the recent changes negatively impacted your ambient multicluster deployment, it's possible to disable the recent waypoint behavior change by setting `AMBIENT_ENABLE_MULTI_NETWORK_WAYPOINT` pilot environment variable to `false`.
 
