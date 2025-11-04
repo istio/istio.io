@@ -29,9 +29,11 @@ The `InferencePool` v1 API offers improved stability and functionality for manag
 
 ### Ambient Multicluster
 
-Istio 1.28 brings significant improvements to ambient multicluster deployments. Waypoints can now route traffic to remote networks in ambient multicluster configurations, expanding the capabilities of the non sidecar mesh architecture across distributed environments.
+Istio 1.28 brings significant improvements to ambient multicluster deployments. Waypoints can now route traffic to remote networks in ambient multicluster configurations, expanding ambient  capabilities. This enhancement enables outlier detection and other L7 policies for requests crossing networks, making it easier to manage multi-network service mesh deployments.
 
-This enhancement enables more multicluster topologies while maintaining the simplified operational model that ambient mode provides, making it easier to manage service mesh deployments that span multiple clusters and networks.
+Ambient multicluster remains an alpha feature and there are several known issues that will be addressed in the future releases. If the recent changes negatively impacted your ambient multicluster deployment, it's possible to disable the recent waypoint behavior change by setting `AMBIENT_ENABLE_MULTI_NETWORK_WAYPOINT` pilot environment variable to `false`.
+
+We welcome feedback and bug reports from early adopters of ambient multicluster.
 
 ### Native nftables Support in Ambient Mode
 
@@ -55,9 +57,9 @@ This release includes several important security improvements:
 
 ### Gateway API and Traffic Management Enhancements
 
-- **BackendTLSPolicy v1**: Full Gateway API v1.4 support with enhanced TLS configuration options
-- **ServiceEntry Integration**: Support for ServiceEntry as a targetRef in BackendTLSPolicy for external service TLS configuration
-- **Wildcard Host Support**: ServiceEntry resources now support wildcard hosts with DYNAMIC_DNS resolution (HTTP traffic only, requires ambient mode and waypoint)
+- **`BackendTLSPolicy` v1**: Full Gateway API v1.4 support with enhanced TLS configuration options
+- **ServiceEntry Integration**: Support for `ServiceEntry` as a `targetRef` in `BackendTLSPolicy` for external service TLS configuration
+- **Wildcard Host Support**: `ServiceEntry` resources now support wildcard hosts with `DYNAMIC_DNS` resolution (HTTP traffic only, requires ambient mode and waypoint)
 
 ### Plus Much More
 
