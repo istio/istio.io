@@ -58,7 +58,7 @@ This release includes several important security improvements:
 ### Gateway API and Traffic Management Enhancements
 
 - **`BackendTLSPolicy` v1**: Full Gateway API v1.4 support with enhanced TLS configuration options
-- **ServiceEntry Integration**: Support for `ServiceEntry` as a `targetRef` in `BackendTLSPolicy` for external service TLS configuration
+- **`ServiceEntry` Integration**: Support for `ServiceEntry` as a `targetRef` in `BackendTLSPolicy` for external service TLS configuration
 - **Wildcard Host Support**: `ServiceEntry` resources now support wildcard hosts with `DYNAMIC_DNS` resolution (HTTP traffic only, requires ambient mode and waypoint)
 
 ### Plus Much More
