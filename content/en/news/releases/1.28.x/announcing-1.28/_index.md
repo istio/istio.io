@@ -16,7 +16,7 @@ We would like to thank the Release Managers for this release, **Gustavo Meira** 
 {{< relnote >}}
 
 {{< tip >}}
-Istio 1.28.0 is officially supported on Kubernetes versions 1.29 to 1.35.
+Istio 1.28.0 is officially supported on Kubernetes versions 1.29 to 1.34.
 {{< /tip >}}
 
 ## What’s new?
