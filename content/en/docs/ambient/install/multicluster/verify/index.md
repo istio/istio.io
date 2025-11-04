@@ -217,4 +217,6 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 **Congratulations!** You successfully installed and verified Istio on multiple
 clusters!
 
-<!-- TODO: Link to guide for locality load balancing once we add waypoint instructions -->
+## Next steps
+
+Configure [locality failover](/docs/ambient/install/multicluster/failover) for your multicluster deployment.

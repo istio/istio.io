@@ -78,6 +78,11 @@ time configure_trust
 time install_istio_istioctl
 time enable_endpoint_discovery
 time verify_load_balancing
+time deploy_waypoints
+time configure_locality_failover
+time verify_traffic_local
+time break_cluster1
+time verify_failover
 
 # @cleanup
 source content/en/docs/ambient/install/multicluster/common.sh
