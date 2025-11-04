@@ -260,10 +260,7 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
 规范中设置 `routingViaHost: true` 以启用 OVN-Kubernetes `local` 网关模式。
 如果您的 Pod 清单包含存活或就绪探测，则需要进行此一次性配置，
 因为它可以确保探测流量通过主机路由并应用到主机的路由表，这对于探测正常运行至关重要。
-默认情况下，OVN-Kubernetes 以 `shared` 网关模式运行，
-流量绕过主机，OVS 将其直接发送到节点 IP 接口。
-要在运行时从 `shared` 网关模式切换到 `local` 网关模式，
-请按照[此处](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway-mode#configuring-gateway-mode)中描述的步骤操作。
+要在运行时配置网关模式，请按照[此处](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway)中描述的步骤进行操作。
 
 {{< tabset category-name="install-method" >}}
 
