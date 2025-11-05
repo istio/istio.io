@@ -1359,7 +1359,7 @@ Check out Istio&rsquo;s <a href="/get-involved/">community page</a> or the Gatew
 <p>Istio was initially developed by Google and IBM and built on the Envoy project from Lyft. The project now has maintainers from more than 16 companies, including many of the largest networking vendors and cloud organizations worldwide. Istio provides zero-trust networking, policy enforcement, traffic management, load balancing, and monitoring without requiring applications to be rewritten.</p>
 <p>Over the years Istio has made substantial strides in simplifying the complex problem of cloud native networking. We understand that these concepts remain complicated for many, and that is why we are proud to join Phippy’s mission to talk about tech in an accessible, straight-forward manner. We would like to open the doors of service mesh technology to more folks than ever before through Izzy and enable you to join <code>#teamcloudnative</code>!</p>
 ]]></description><pubDate>Fri, 08 Mar 2024 00:00:00 +0000</pubDate><link>/v1.23//blog/2024/istio-phippy/</link><guid isPermaLink="true">/v1.23//blog/2024/istio-phippy/</guid><category>istio</category><category>phippy</category><category>izzy</category><category>dolphin</category></item><item><title>Istio's Steering Committee for 2024</title><description><![CDATA[<p>The Istio Steering Committee oversees the administrative aspects of the project, including governance, branding, marketing, and working with the CNCF.</p>
-<p>Every year, the leaders in the Istio project <a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">estimate the proportion</a> of the <a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=contributions">hundreds of companies that have contributed to Istio in the past year</a>, and uses that metric to proportionally allocate nine Contribution Seats on our Steering Committee.</p>
+<p>Every year, the leaders in the Istio project <a href="https://github.com/istio/community/blob/master/steering/CONTRIBUTION-FORMULA.md">estimate the proportion</a> of the <a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=contributions">hundreds of companies that have contributed to Istio in the past year</a>, and uses that metric to proportionally allocate nine Contribution Seats on our Steering Committee.</p>
 <p>Then, four Community Seats are voted for by our project members, with candidates being from companies that did not receive Contribution Seats.</p>
 <p>We are pleased to share the result of this year&rsquo;s calculation, and changes to our Community Seat holders as a result.</p>
 <h2 id="contribution-seats">Contribution seats</h2>
@@ -3229,7 +3229,7 @@ active loggers:
 ]]></description><pubDate>Tue, 08 Aug 2023 00:00:00 +0000</pubDate><link>/v1.23//blog/2023/dlb-connection-balancing/</link><guid isPermaLink="true">/v1.23//blog/2023/dlb-connection-balancing/</guid><category>Istio</category><category>DLB</category><category>gateways</category></item><item><title>Announcing Istio's graduation within the CNCF</title><description><![CDATA[<p>We are delighted to announce that <a href="https://www.cncf.io/announcements/2023/07/12/cloud-native-computing-foundation-reaffirms-istio-maturity-with-project-graduation/">Istio is now a graduated Cloud Native Computing Foundation (CNCF) project</a>.</p>
 <p>We would like to thank our TOC sponsors <a href="https://www.cncf.io/people/technical-oversight-committee/?p=emily-fox">Emily Fox</a> and <a href="https://www.cncf.io/people/technical-oversight-committee/?p=nikhita-raghunath">Nikhita Raghunath</a>, and everyone who has collaborated over the past six years on Istio&rsquo;s design, development, and deployment.</p>
 <p>As before, project work continues uninterrupted. We were excited to <a href="/news/releases/1.18.x/announcing-1.18/#ambient-mesh">bring ambient mesh to Alpha in Istio 1.18</a> and are continuing to drive it to production readiness. Sidecar deployments remain the recommended method of using Istio, and our <a href="https://github.com/istio/istio/wiki/Istio-Release-1.19">1.19 release</a> will support a <a href="https://github.com/kubernetes/kubernetes/pull/116429">new sidecar container feature</a> in Alpha in Kubernetes 1.28.</p>
-<p>We have been delighted to welcome Microsoft to our community after <a href="https://openservicemesh.io/blog/osm-project-update/">their decision to archive the Open Service Mesh project and collaborate together on Istio</a>. As the <a href="https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1">third most active CNCF project</a> in terms of PRs, and with <a href="/about/ecosystem/">support from over 20 vendors</a> and <a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&var-period_name=Last%20year&var-metric=prs">dozens of contributing companies</a>, there is simply no better choice for a service mesh.</p>
+<p>We have been delighted to welcome Microsoft to our community after <a href="https://openservicemesh.io/blog/osm-project-update/">their decision to archive the Open Service Mesh project and collaborate together on Istio</a>. As the <a href="https://all.devstats.cncf.io/d/53/projects-health-table?orgId=1">third most active CNCF project</a> in terms of PRs, and with <a href="/about/ecosystem/">support from over 20 vendors</a> and <a href="https://istio.devstats.cncf.io/d/5/companies-table?orgId=1&amp;var-period_name=Last%20year&amp;var-metric=prs">dozens of contributing companies</a>, there is simply no better choice for a service mesh.</p>
 <p>We would like to invite the Istio community to <a href="https://sessionize.com/istiocon-2023">submit a talk to the upcoming virtual IstioCon 2023</a>, the companion <a href="https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-call-for-proposals-cn/#preparing-to-submit-your-proposal-cn">full day, in-person event</a> co-located with KubeCon China in Shanghai, or <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/#call-for-proposals">Istio Day</a> co-located with KubeCon NA in Chicago.</p>
 <h2 id="watch-a-video">Watch a video</h2>
 <p>In this video for <a href="https://techstrong.tv/">Techstrong TV</a>, I talk about the history of the project, and what graduation means to us.</p>
@@ -5328,7 +5328,7 @@ plane, which accesses the <code>istiod</code> instances on its behalf.</p>
     </div>
     <figcaption></figcaption>
 </figure>
-<p>In 2021, more than 4,000 people from across 84 countries joined the event online, to hear from 27 end-user companies how they are using Istio in production. Participants were able to learn how Airbnb navigated scalability issues to finally <a href="https://www.youtube.com/watch?v=6kDiDQW5YXQ&list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&index=39">find a solution in Istio</a>, how <a href="https://www.youtube.com/watch?v=K-UTbDU36q8&list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&index=10">HP set up a secure and wise platform with Istio</a>, and <a href="https://www.youtube.com/watch?v=ckeUh4xNBdo&list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&index=34">how eBay used Istio to create federated access points</a>, <a href="https://www.youtube.com/playlist?list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV">among many more examples of using Istio in production</a>.</p>
+<p>In 2021, more than 4,000 people from across 84 countries joined the event online, to hear from 27 end-user companies how they are using Istio in production. Participants were able to learn how Airbnb navigated scalability issues to finally <a href="https://www.youtube.com/watch?v=6kDiDQW5YXQ&amp;list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&amp;index=39">find a solution in Istio</a>, how <a href="https://www.youtube.com/watch?v=K-UTbDU36q8&amp;list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&amp;index=10">HP set up a secure and wise platform with Istio</a>, and <a href="https://www.youtube.com/watch?v=ckeUh4xNBdo&amp;list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV&amp;index=34">how eBay used Istio to create federated access points</a>, <a href="https://www.youtube.com/playlist?list=PL7wB27eZmdffS-g_xh7X-b0echc_XZMKV">among many more examples of using Istio in production</a>.</p>
 <p>IstioCon 2022 will be an industry-focused event, a platform to connect contributors and users to discuss uses of Istio in different architectural setups, what are some limitations, and where to take the project next. The main focus will be in end-user companies, as we look forward to sharing a diversity of case studies showing how to use Istio in production. The content will be categorized according to expertise level.</p>
 <p>This community-led event also has an interactive social hour to take the load off and mesh with the Istio community, vendors, and maintainers. Participation in the event is free of charge, <a href="https://events.istio.io/istiocon-2022/">register today</a> for a chance to get the conference t-shirt!</p>
 ]]></description><pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate><link>/v1.23//blog/2022/istiocon-register/</link><guid isPermaLink="true">/v1.23//blog/2022/istiocon-register/</guid><category>IstioCon</category><category>Istio</category><category>conference</category></item><item><title>Merbridge - Accelerate your mesh with eBPF</title><description><![CDATA[<p>The secret of Istio’s abilities in traffic management, security, observability and policy is all in the Envoy proxy. Istio uses Envoy as the &ldquo;sidecar&rdquo; to intercept service traffic, with the kernel&rsquo;s <code>netfilter</code> packet filter functionality configured by iptables.</p>
@@ -5522,43 +5522,43 @@ plane, which accesses the <code>istiod</code> instances on its behalf.</p>
 </ul>
 <p>This community-led event also has an interactive social hour to take the load off and mesh with the Istio community, vendors, and maintainers. Participation in the event is free of charge, and will only require participants to register in order to attend.</p>
 <p>Stay tuned to hear more about this conference, and we hope you can join us at IstioCon 2022!</p>
-]]></description><pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate><link>/v1.23//blog/2022/istiocon-2022/</link><guid isPermaLink="true">/v1.23//blog/2022/istiocon-2022/</guid><category>IstioCon</category><category>Istio</category><category>conference</category></item><item><title>An easier way to add virtual machines to Istio service mesh</title><description><![CDATA[<p><img alt="Virtual Machine Traffic Flow" src="/v1.23/blog/2021/simple-vms/traffic-flow.png"></p>
+]]></description><pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate><link>/v1.23//blog/2022/istiocon-2022/</link><guid isPermaLink="true">/v1.23//blog/2022/istiocon-2022/</guid><category>IstioCon</category><category>Istio</category><category>conference</category></item><item><title>An easier way to add virtual machines to Istio service mesh</title><description><![CDATA[<p><img src="/v1.23/blog/2021/simple-vms/traffic-flow.png" alt="Virtual Machine Traffic Flow"></p>
 <p>Some of the complexities involved with joining a virtual machine are due to the sheer number of features that a service mesh provides. But, what if you only need a subset of those features? For example, secure communication from your virtual machine to services running inside your service mesh. With only a few tradeoffs, you can give your virtual machine service mesh features without all of the overhead.</p>
 <p>What about local development? As more and more micro-services are deployed to Kubernetes and as your dependency graph resembles a spider web, it has become increasingly difficult to do local development. What if a local machine could simply join a service mesh and make calls to mesh applications. This solution could potentially save time and money by not requiring developers to wait for their code to be deployed.</p>
 <h2 id="reduce-complexity">Reduce Complexity</h2>
-<p><img alt="Virtual Machine Istio Installation" src="/v1.23/blog/2021/simple-vms/istio-current-vm-process.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/istio-current-vm-process.png" alt="Virtual Machine Istio Installation"></p>
 <p>Today, adding a virtual machine to your Istio service mesh involves a lot of <a href="/docs/setup/install/virtual-machine/">moving parts</a>. You must create a Kubernetes service account, Istio workload entry and then generate configuration all before on-boarding a single virtual machine. There are also complexities to automating this, especially for auto scaling VMs. Finally you are required to expose Istiod externally to your cluster.</p>
 <p>The complexity of adding a virtual machine comes from the expectation that the VM should participate 100% within the service mesh. For many this is not a necessity, by looking at the actual requirements of your system you may be able to simplify your virtual machine on-boarding and still get the features you need.</p>
 <p>So what are some use cases that could be met but yet still make virtual machines easier to work with service mesh?</p>
 <h3 id="single-direction-traffic-flow">Single Direction Traffic Flow</h3>
 <p>Sometimes a virtual machine just needs to talk securely to applications within the service mesh. This is often the case when migrating VM based applications to Kubernetes in which other VMs may have depended on those applications. With the described approach below you can still achieve this without all of the operational overhead as shown above.</p>
-<p><img alt="Single Direction Traffic Flow" src="/v1.23/blog/2021/simple-vms/single-direction-traffic-flow.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/single-direction-traffic-flow.png" alt="Single Direction Traffic Flow"></p>
 <h3 id="developer-access-to-service-mesh">Developer Access to Service Mesh</h3>
 <p>Engineers often do not have the resources to run all of the required micro-services for their environment. The approach below explains how you can achieve this in the same way that virtual machines securely communicate with mesh applications.</p>
-<p><img alt="Local Machine Service Mesh" src="/v1.23/blog/2021/simple-vms/local-machine.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/local-machine.png" alt="Local Machine Service Mesh"></p>
 <h2 id="decouple-envoy-and-istio">Decouple Envoy and Istio</h2>
 <p>The largest amount of complexity as it relates to virtual machines is the connecting of envoy to istiod to get its configuration. A simpler approach is to just not connect them anymore. Even though Istio will no longer know about the virtual machines that are communicating in the mesh, that communication can still be secure and authenticated. The trick is issuing virtual machines their own workload certificates that are rooted in the same trust chain as the mesh workloads. This also means that the end user will be responsible for configuring envoy manually on the virtual machine.  For most this shouldn&rsquo;t be an issue because it is not expected that it will change very often.</p>
 <h2 id="a-simpler-on-boarding-experience">A Simpler On-boarding Experience</h2>
-<p><img alt="Virtual Machine Traffic Flow" src="/v1.23/blog/2021/simple-vms/traffic-flow.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/traffic-flow.png" alt="Virtual Machine Traffic Flow"></p>
 <p>We can achieve a simpler setup by utilizing some built-in Istio features. First we need to expose a secure tunnel for applications outside the mesh to communicate with applications within.</p>
 <p>To do this we simply need to create an Istio east-west gateway and enable <code>AUTO_PASSTHROUGH</code>. This automatically configures the east-west gateway to pass traffic through to the correct service over mTLS. This gives your virtual machine end to end authenticated encryption with the application its trying to reach.</p>
-<p><img alt="Virtual Machine On-boarding Steps" src="/v1.23/blog/2021/simple-vms/virtual-machine-on-boarding-steps.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/virtual-machine-on-boarding-steps.png" alt="Virtual Machine On-boarding Steps"></p>
 <p>Due to the complexity involved in configuring envoy to talk to istiod, it is more practical to directly configure the virtual machine envoy. At first this sounds quite daunting, but due to the reduced complexity we only need to enable a few features to make this work. Envoy will need to be configured to know about each service mesh application that the virtual machine will need to communicate with. We then will configure these as <code>clusters</code> within envoy and set them up to use mTLS communication passing through the east-west gateway in the service mesh. Secondly a listener will need to be exposed to handle incoming traffic from the virtual machine application. Finally certificates will need to be issued for each virtual machine that share the same root of trust as the service mesh applications. This allows end to end encryption as well as the ability to authorize which applications the virtual machine can communicate with.</p>
 <h3 id="easier-to-automate">Easier to Automate</h3>
 <p>Given that no initialization has to occur on the service mesh cluster when on-boarding a virtual machine, it is much easier to automate. The configuration needed for the virtual machine envoy can be added to your pipeline; the envoy container can either be pulled via docker, or added to your image building infrastructure; the mTLS certificates can also be provisioned and maintained by a third party such as Hashicorp&rsquo;s Vault.</p>
 <h3 id="more-runtime-support">More Runtime Support</h3>
 <p>Due to the fact that this installation method does not require access to the underlying OS networking. You can run this approach in more types of environments including Windows and Docker. The only requirement is that your Envoy include the Istio extensions found <a href="https://github.com/istio/proxy/tree/master/extensions">here</a>. Using Docker, you can now run the Envoy proxy on your local machine and communicate with the service mesh directly.</p>
-<p><img alt="Runtime Support" src="/v1.23/blog/2021/simple-vms/runtime-support.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/runtime-support.png" alt="Runtime Support"></p>
 <h2 id="advanced-use-cases">Advanced Use Cases</h2>
 <h3 id="grpc-to-json">gRPC to JSON</h3>
 <p>This technique can also be leveraged to enable virtual machine applications to communicate with gRPC applications without having to implement the gRPC endpoints. Using envoys gRPC / JSON transformation, the virtual machine application can communicate with its local envoy over REST and envoy will translate that to gRPC.</p>
-<p><img alt="gRPC to JSON Transformation" src="/v1.23/blog/2021/simple-vms/grpc-json-transcoding.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/grpc-json-transcoding.png" alt="gRPC to JSON Transformation"></p>
 <h3 id="multi-direction">Multi Direction</h3>
 <p>Even though your service mesh may not know about the virtual machines that are communicating with it, you can still add them as external endpoints using Service Entries. That service entry could be an HTTPS  Load Balancer endpoint that manages traffic to multiple virtual machines. This setup is still often more feasible than fully on-boarding virtual machines into the virtual mesh.</p>
-<p><img alt="Multi Direction Traffic Flow" src="/v1.23/blog/2021/simple-vms/multi-direction-traffic-flow.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/multi-direction-traffic-flow.png" alt="Multi Direction Traffic Flow"></p>
 <h3 id="forwarding-proxy">Forwarding Proxy</h3>
 <p>Maybe installing envoy on every virtual machine is still too complex. An alternative is to run envoy (or an autoscaling group) to run on its own virtual machine and act as a forwarding proxy into the mesh. This is a much simpler solution to accessing mesh services as the virtual machines that run the applications are left untouched.</p>
-<p><img alt="Forwarding Proxy" src="/v1.23/blog/2021/simple-vms/forwarding-proxy.png"></p>
+<p><img src="/v1.23/blog/2021/simple-vms/forwarding-proxy.png" alt="Forwarding Proxy"></p>
 <h2 id="part-2">Part 2…</h2>
 <p>In part 2, I will explain how to configure Istio as well as a virtual machine to communicate within the mesh. If you would like a preview, feel free to reach out to <a href="mailto:nick.nellis@solo.io">nick.nellis@solo.io</a></p>
 <h3 id="special-thanks">Special Thanks</h3>
@@ -6168,8 +6168,8 @@ spec:
 <li><a href="https://aeraki.net">Aeraki Mesh website</a></li>
 <li><a href="https://github.com/aeraki-mesh">Aeraki Mesh on GitHub</a></li>
 <li><a href="http://aeraki.zhaohuabing.com:20001/">Live Demo: Kiali Dashboard</a></li>
-<li><a href="http://aeraki.zhaohuabing.com:3000/d/pgz7wp-Gz/aeraki-demo?orgId=1&refresh=10s&kiosk">Live Demo: Service Metrics: Grafana</a></li>
-<li><a href="http://aeraki.zhaohuabing.com:9090/new/graph?g0.expr=envoy_dubbo_inbound_20880___response_success&g0.tab=0&g0.stacked=1&g0.range_input=1h&g1.expr=envoy_dubbo_outbound_20880__org_apache_dubbo_samples_basic_api_demoservice_request&g1.tab=0&g1.stacked=1&g1.range_input=1h&g2.expr=envoy_thrift_inbound_9090___response&g2.tab=0&g2.stacked=1&g2.range_input=1h&g3.expr=envoy_thrift_outbound_9090__thrift_sample_server_thrift_svc_cluster_local_response_success&g3.tab=0&g3.stacked=1&g3.range_input=1h&g4.expr=envoy_thrift_outbound_9090__thrift_sample_server_thrift_svc_cluster_local_request&g4.tab=0&g4.stacked=1&g4.range_input=1h">Live Demo: Service Metrics: Prometheus</a></li>
+<li><a href="http://aeraki.zhaohuabing.com:3000/d/pgz7wp-Gz/aeraki-demo?orgId=1&amp;refresh=10s&amp;kiosk">Live Demo: Service Metrics: Grafana</a></li>
+<li><a href="http://aeraki.zhaohuabing.com:9090/new/graph?g0.expr=envoy_dubbo_inbound_20880___response_success&amp;g0.tab=0&amp;g0.stacked=1&amp;g0.range_input=1h&amp;g1.expr=envoy_dubbo_outbound_20880__org_apache_dubbo_samples_basic_api_demoservice_request&amp;g1.tab=0&amp;g1.stacked=1&amp;g1.range_input=1h&amp;g2.expr=envoy_thrift_inbound_9090___response&amp;g2.tab=0&amp;g2.stacked=1&amp;g2.range_input=1h&amp;g3.expr=envoy_thrift_outbound_9090__thrift_sample_server_thrift_svc_cluster_local_response_success&amp;g3.tab=0&amp;g3.stacked=1&amp;g3.range_input=1h&amp;g4.expr=envoy_thrift_outbound_9090__thrift_sample_server_thrift_svc_cluster_local_request&amp;g4.tab=0&amp;g4.stacked=1&amp;g4.range_input=1h">Live Demo: Service Metrics: Prometheus</a></li>
 <li>Istio meetup China(Chinese): <a href="https://www.youtube.com/watch?v=Bq5T3OR3iTM">Full Stack Service Mesh - Manage Any Layer-7 Traffic in an Istio Service Mesh with Aeraki</a></li>
 <li>IstioCon 2021: <a href="https://www.youtube.com/watch?v=sBS4utF68d8">How to Manage Any Layer-7 Traffic in an Istio Service Mesh?</a></li>
 </ul>
@@ -6406,7 +6406,7 @@ to raise issues or learn about what we are doing to keep Istio secure!</p>
       </tr>
   </tbody>
 </table>
-<p><img alt="failover" src="/v1.23/blog/2021/external-locality-failover/external-locality-failover.png"></p>
+<p><img src="/v1.23/blog/2021/external-locality-failover/external-locality-failover.png" alt="failover"></p>
 <h2 id="define-external-endpoints-using-a-serviceentry">Define external endpoints using a ServiceEntry</h2>
 <p><a href="/docs/tasks/traffic-management/locality-load-balancing/">Locality load balancing</a> works based on <code>region</code> or <code>zone</code>, which are usually inferred from labels set on the Kubernetes nodes. First, determine the location of your workloads:</p>
 <pre><code class='language-bash' data-expandlinks='true' data-repo='istio' >$ kubectl describe node | grep failure-domain.beta.kubernetes.io/region
@@ -6958,7 +6958,7 @@ Envoy patches due to their embargo. <a href="https://github.com/envoyproxy/envoy
 on how to join their early disclosure list.</p>
 <h2 id="security-feedback">Security Feedback</h2>
 <p>The Product Security Working Group holds bi-weekly meetings on Tuesdays from 9:00-9:30 Pacific. For more information see
-the <a href="https://calendar.google.com/calendar/embed?src=4uhe8fi8sf1e3tvmvh6vrq2dog%40group.calendar.google.com&ctz=America%2FLos_Angeles">Istio Working Group Calendar</a>.</p>
+the <a href="https://calendar.google.com/calendar/embed?src=4uhe8fi8sf1e3tvmvh6vrq2dog%40group.calendar.google.com&amp;ctz=America%2FLos_Angeles">Istio Working Group Calendar</a>.</p>
 <p>Our next public meeting will be held on May 25, 2021. Please join us!</p>
 ]]></description><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><link>/v1.23//blog/2021/patch-tuesdays/</link><guid isPermaLink="true">/v1.23//blog/2021/patch-tuesdays/</guid><category>cve</category><category>product security</category></item><item><title>Use discovery selectors to configure namespaces for your Istio service mesh</title><description><![CDATA[<p>As users move their services to run in the Istio service mesh, they are often surprised that the control plane watches and processes all of the Kubernetes resources, from all namespaces in the cluster, by default. This can be an issue for very large clusters with lots of namespaces and deployments, or even for a moderately sized cluster with rapidly churning resources (for example, Spark jobs).</p>
 <p>Both <a href="https://github.com/istio/istio/issues/26679">in the community</a> as well as for our large-scale customers at <a href="https://solo.io">Solo.io</a>, we need a way to dynamically restrict the set of namespaces that are part of the mesh so that the Istio control plane only processes resources in those namespaces. The ability to restrict the namespaces enables Istiod to watch and push fewer resources and associated changes to the sidecars, thus improving the overall performance on the control plane and data plane.</p>
@@ -9595,7 +9595,7 @@ $ curl -L https://istio.io/downloadIstio | sh -
 <p>The Open Usage Commons is focused on project trademarks; it does not address other facets of an open project, like rules around who gets decision-making votes. Similar to many projects in their early days, Istio’s committees started as small groups that stemmed from the founding companies. But Istio has grown and matured (last year Istio was <a href="https://octoverse.github.com/#fastest-growing-oss-projects-by-contributors">#4 on GitHub&rsquo;s list of fastest growing open source projects!</a>), and it is time for the next evolution of Istio’s governance.</p>
 <p>Recently, <a href="https://aspenmesh.io/helping-istio-sail/">we were proud to appoint Neeraj Poddar, Co-founder &amp; Chief Architect of Aspen Mesh</a>, to the Technical Oversight Committee — the group responsible for all technical decision-making in the project. Neeraj is a long-time contributor to the project and served as a Working Group lead. The <a href="https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md#committee-members">TOC is now made up of</a> 7 members from 4 different companies - Tetrate, IBM, Google &amp; now Aspen Mesh.</p>
 <p>Our community is currently discussing how the Steering Committee, which oversees marketing and community activities, should be governed, to reflect the expanding community and ecosystem. If you have ideas for this new governance, visit the <a href="https://github.com/istio/community/pull/361">pull request on GitHub</a> where an active discussion is taking place.</p>
-<p>In the last 12 months, Istio has had commits from <a href="https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&var-metric=commits">more than 100 organizations</a> and currently has <a href="https://eng.istio.io/maintainers">70 maintainers from 14 different companies</a>. This trend is the kind of contributor diversity the project’s founders intended, and nurturing it remains a priority. Google is excited about what the future holds for Istio, and hopes you’ll be a part of it.</p>
+<p>In the last 12 months, Istio has had commits from <a href="https://istio.teststats.cncf.io/d/5/companies-table?var-period_name=Last%20year&amp;var-metric=commits">more than 100 organizations</a> and currently has <a href="https://eng.istio.io/maintainers">70 maintainers from 14 different companies</a>. This trend is the kind of contributor diversity the project’s founders intended, and nurturing it remains a priority. Google is excited about what the future holds for Istio, and hopes you’ll be a part of it.</p>
 ]]></description><pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate><link>/v1.23//blog/2020/open-usage/</link><guid isPermaLink="true">/v1.23//blog/2020/open-usage/</guid><category>trademark</category><category>governance</category><category>steering</category></item><item><title>Reworking our Addon Integrations</title><description><![CDATA[<p>Starting with Istio 1.6, we are introducing a new method for integration with telemetry addons, such as Grafana, Prometheus, Zipkin, Jaeger, and Kiali.</p>
 <p>In previous releases, these addons were bundled as part of the Istio installation. This allowed users to quickly get started with Istio without any complicated configurations to install and integrate these addons. However, it came with some issues:</p>
 <ul>
@@ -12005,7 +12005,7 @@ types of sensitive data they protect appear in the following table:</p>
           <td>federal information, data and metadata</td>
       </tr>
       <tr>
-          <td><a href="https://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&packageId=CRPT-104hrpt736">HIPAA</a></td>
+          <td><a href="https://www.gpo.gov/fdsys/search/pagedetails.action?granuleId=CRPT-104hrpt736&amp;packageId=CRPT-104hrpt736">HIPAA</a></td>
           <td>personal health data</td>
       </tr>
       <tr>
@@ -12015,7 +12015,7 @@ types of sensitive data they protect appear in the following table:</p>
   </tbody>
 </table>
 <p><a href="https://www.pcisecuritystandards.org/pci_security">PCI DSS</a>, for example, recommends putting cardholder data
-environment on a network, separate from the rest of the system. It also requires using a <a href="https://en.wikipedia.org/wiki/DMZ_(computing)">DMZ</a>,
+environment on a network, separate from the rest of the system. It also requires using a <a href="https://en.wikipedia.org/wiki/DMZ_%28computing%29">DMZ</a>,
 and setting firewalls between the public Internet and the DMZ, and between the DMZ and the internal network.</p>
 <p>Isolation of sensitive data environments from other information systems can reduce the scope of the compliance checks
 and improve the security of the sensitive data. Reducing the scope reduces the risks of failing a compliance check and
@@ -12072,7 +12072,7 @@ among system components using distinct encryption keys.</div>
 organization.
 The <a href="https://www.pcisecuritystandards.org/pci_security/">Payment Card Industry (PCI) Data Security Standard</a>
 recommends implementing network isolation for <em>cardholder data</em> environment and requires isolating this environment from
-the <a href="https://en.wikipedia.org/wiki/DMZ_(computing)">DMZ</a>.
+the <a href="https://en.wikipedia.org/wiki/DMZ_%28computing%29">DMZ</a>.
 <a href="https://www.fedramp.gov/assets/resources/documents/CSP_A_FedRAMP_Authorization_Boundary_Guidance.pdf">FedRAMP Authorization Boundary Guidance</a>
 describes <em>authorization boundary</em> for federal information and data, while
 <a href="https://doi.org/10.6028/NIST.SP.800-37r2">NIST Special Publication 800-37, Revision 2, Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy</a>
@@ -12120,7 +12120,7 @@ when the meshes belong to different organizations.</li>
 explicitly specify which services are exposed.</li>
 <li><strong>boundary protection</strong>. The access control of the traffic must be enforced at the ingress gateway, which stops
 forbidden traffic from entering the mesh. This requirement implements
-<a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">Defense-in-depth principle</a> and is part of some compliance
+<a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">Defense-in-depth principle</a> and is part of some compliance
 standards, such as the
 <a href="https://www.pcisecuritystandards.org/pci_security/">Payment Card Industry (PCI) Data Security Standard</a>.</li>
 <li><strong>common trust may not exist</strong>. The Istio sidecars in one mesh may not trust the Citadel certificates in other
@@ -12932,7 +12932,7 @@ for example,
 the <a href="https://kubernetes.io/docs/concepts/services-networking/network-policies/">Kubernetes network policies</a> or an L3
 firewall. See an example of the
 <a href="/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies">Kubernetes network policies configuration</a>.
-According to the <a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">Defense in depth</a> concept, the more
+According to the <a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">Defense in depth</a> concept, the more
 security mechanisms you apply for the same goal, the better.</p>
 <p>You must also ensure that Istio control plane and the egress gateway cannot be compromised. While you may have hundreds
 or thousands of application pods in your cluster, there are only a dozen of Istio control plane pods and the gateways.
@@ -13254,7 +13254,7 @@ want to limit the number of external sites that the attackers can access and att
 You want to allow access only to the external services that the applications in the cluster need to
 access and to block access to all the other services, this way you reduce the
 <a href="https://en.wikipedia.org/wiki/Attack_surface">attack surface</a>. While the external services
-can have their own security mechanisms, you want to exercise <a href="https://en.wikipedia.org/wiki/Defense_in_depth_(computing)">Defense in depth</a> and to have multiple security layers: a security layer in your cluster in addition to
+can have their own security mechanisms, you want to exercise <a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">Defense in depth</a> and to have multiple security layers: a security layer in your cluster in addition to
 the security layers in the external systems.</p>
 <p>This requirement means that the external services must be identifiable by domain names. We call this property
 of an egress control system as <em>being DNS-aware</em>.
@@ -13320,7 +13320,7 @@ Some of the most visible performance enhancements in 1.1 include:</p>
 Istio 1.1 introduces new features and optimizations to help harden the service mesh for enterprise microservice workloads. The Istio 1.1 Performance and Tuning Guide documents performance simulations, provides sizing and capacity planning guidance, and includes best practices for tuning custom use cases.</p>
 <h2 id="useful-links">Useful links</h2>
 <ul>
-<li><a href="https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU">Istio Service Mesh Performance (34:30)</a>, by Surya Duggirala, Laurent Demailly and Fawad Khaliq at KubeCon Europe 2018</li>
+<li><a href="https://www.youtube.com/watch?time_continue=349&amp;v=G4F5aRFEXnU">Istio Service Mesh Performance (34:30)</a>, by Surya Duggirala, Laurent Demailly and Fawad Khaliq at KubeCon Europe 2018</li>
 <li><a href="https://discuss.istio.io/c/performance-and-scalability">Istio Performance and Scalability discussion forum</a></li>
 </ul>
 <h2 id="disclaimer">Disclaimer</h2>
