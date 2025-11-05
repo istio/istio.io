@@ -62,6 +62,8 @@ aliases:
 - **Added** support for `InferencePool` v1.
   ([Issue #57219](https://github.com/istio/istio/issues/57219))
 
+- **Removed** support for `InferencePool` alpha and release candidate versions.
+
 ## Security
 
 - **Improved** root certificate parsing when some certificates were invalid. Istio now filters out malformed certificates instead of rejecting the entire bundle.
