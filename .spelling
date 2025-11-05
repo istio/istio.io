@@ -38,6 +38,9 @@
 1.27.3
 1.27.x
 1.27.x.
+1.28.0
+1.28.x
+1.28.x.
 1.3.x
 1.3.x.
 1.4.x
@@ -576,6 +579,7 @@ gcr.io
 gdb
 GenAI
 Geneve
+GEP-91
 GHSA-8mq4-c2v5-3h39
 GiB
 GIDs
@@ -951,6 +955,7 @@ non-mTLS
 non-revisioned
 non-sandboxed
 non-UTF8
+noop
 normalization
 ns
 nsenter
@@ -1088,6 +1093,9 @@ Rappi
 ratelimit-handler
 RawVM
 rbac
+rc.1
+rc.2
+rc.2.
 RDS
 re-applied
 re-patch
@@ -1352,6 +1360,8 @@ v0.14.0
 v0.8.0
 v1
 v1.0
+v1.0.0
+v1.0.0.
 v1.1
 v1.19
 v1.2.
@@ -1369,6 +1379,8 @@ v1.32
 v1.33
 v1.34
 v1.35
+v1.36
+v1.4.
 v1.5
 v1.55
 v1.55.1
@@ -1378,6 +1390,7 @@ v1.79.0.
 v1.87.0
 v1.9
 v1alpha1
+v1alpha2
 v1alpha3
 v1beta1
 v1beta1#MutatingWebhookConfiguration
@@ -1386,6 +1399,7 @@ V2
 v2
 v2-mysql
 v2.0
+v2.17.0.
 v3
 v3.18.5
 validatable
