@@ -93,6 +93,7 @@ rollout_restart_pods() {
   kubectl rollout restart deploy/httpbin
   _wait_for_deployment default curl
   _wait_for_deployment default httpbin
+  sleep 5
 }
 
 send_httpbin_requests "status/200"
