@@ -25,7 +25,6 @@ Istio 支持两种流量管理后端：`iptables`（默认）和 `nftables`。
 
 #### 主要 iptables 模块 {#primary-iptables-modules}
 
-
 | 模块                   |   备注                   |
 | --------------------- | ------------------------ |
 | `br_netfilter`        |                          |
