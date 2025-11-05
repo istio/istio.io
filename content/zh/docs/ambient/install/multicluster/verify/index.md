@@ -204,4 +204,6 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 
 **恭喜！**您已成功在多个集群上安装并验证了 Istio！
 
-<!-- TODO: Link to guide for locality load balancing once we add waypoint instructions -->
+## 后续步骤 {#next-steps}
+
+为您的多集群部署配置[本地故障转移](/zh/docs/ambient/install/multicluster/failover)。
