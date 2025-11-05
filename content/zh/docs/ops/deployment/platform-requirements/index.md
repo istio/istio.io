@@ -63,7 +63,6 @@ Istio 支持两种流量管理后端：`iptables`（默认）和 `nftables`。
 
 ### nftables 后端 {#nftables-backend}
 
-The `nftables` framework is a modern replacement for `iptables`, offering improved performance and flexibility. Istio relies on the `nft` CLI tool to configure `nftables` rules. The `nft` binary must be version 1.0.1 or later, and it requires Linux kernel version 5.13 or higher. For the `nft` CLI to function correctly, the following kernel modules must be available on the host system.
 `nftables` 框架是 `iptables` 的现代替代方案，提供更高的性能和灵活性。
 Istio 依赖 `nft` 命令行工具来配置 `nftables` 规则。
 `nft` 二进制文件必须为 1.0.1 或更高版本，并且需要 Linux 内核版本 5.13 或更高版本。
