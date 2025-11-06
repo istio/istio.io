@@ -9,7 +9,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-El trazado distribuido permite a los usuarios rastrear una solicitud a través de la malla que se distribuye entre múltiples services.
+El trazado distribuido permite a los usuarios rastrear una solicitud a través de la mesh que se distribuye entre múltiples services.
 Esto permite una comprensión más profunda sobre la latencia de la solicitud, la serialización y el paralelismo a través de la visualización.
 
 Istio aprovecha la feature de [trazado distribuido de Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing) para proporcionar una integración de trazado lista para usar.

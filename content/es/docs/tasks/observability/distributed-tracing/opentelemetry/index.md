@@ -87,7 +87,7 @@ spec:
 EOF
 {{< /text >}}
 
-## Habilitar el trazado para la malla a través de la API de Telemetría
+## Habilitar el trazado para la mesh a través de la API de Telemetría
 
 Habilite el trazado aplicando la siguiente configuración:
 
