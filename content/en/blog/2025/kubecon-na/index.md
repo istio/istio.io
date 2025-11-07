@@ -30,6 +30,6 @@ An amazing lineup of Istio activities awaits you in Atlanta, Georgia at [KubeCon
     - [End-to-End Security With gRPC in Kubernetes](https://sched.co/27FVP)
     - [On-Call the Easy Way With Agents](https://sched.co/28D66)
 
-- Have a chat with maintainers and users at the Istio kiosk in the Project Pavilion throughout the event, where you can grab a cool Istio T-shirt with our brand new design.
+- Visit the Istio Kiosk in the Project Pavilion: Stop by any time during the event to meet the maintainers, chat with fellow users, and get your questions answered.
 
 Follow us on [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/) or [Bluesky](https://bsky.app/profile/istio.io) to get live updates from the event. See you soon!
