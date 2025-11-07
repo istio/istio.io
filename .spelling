@@ -287,7 +287,6 @@ Composability
 composability
 composable
 config
-ContribFest
 ConfigMap
 configmap
 configmaps
@@ -297,6 +296,7 @@ conformant
 CONNECT-IP
 CONNECT-UDP
 containerID
+ContribFest
 Contribfest
 ControlZ
 Coraza
