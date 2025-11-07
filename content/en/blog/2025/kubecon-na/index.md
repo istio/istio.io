@@ -1,8 +1,8 @@
 ---
-title: "Istio at KubeCon North America, , See you soon in Atlanta!"
+title: "Istio at KubeCon North America 2025: Let’s Connect in Atlanta!"
 description: Celebrate Istio at KubeCon + CloudNativeCon North America 2025.
 publishdate: 2025-11-07
-attribution: "Francisco Herrera, in the name of the Istio Community"
+attribution: "Francisco Herrera, for Istio Community"
 keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
