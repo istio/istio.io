@@ -22,6 +22,12 @@ owner: istio/wg-networking-maintainers
 `region2` | `zone3` | 0
 `region3` | `zone4` | 10
 
+{{< tip >}}
+Istio 从 Pod 运行所在的节点读取拓扑位置。
+使用 [Topology Locality](/zh/docs/reference/config/labels/#TopologyLocality)
+标签可以覆盖默认设置。
+{{< /tip >}}
+
 ## 配置权重分布 {#configure-weighted-distribution}
 
 应用 `DestinationRule` 配置如下：
