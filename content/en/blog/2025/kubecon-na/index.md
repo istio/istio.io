@@ -37,7 +37,7 @@ We gathered recommended sessions from the main conference with strong Istio rele
 
 ## Meet Us in Person
 
-Stop by the **Istio kiosk** in the **Project Pavilion** throughout the event to chat with maintainers, contributors, and users — and grab a cool new Istio T-shirt featuring our latest design!
+Stop by the **Istio kiosk** in the **Project Pavilion** throughout the event to chat with maintainers, contributors, and users!.
 
 ## Don't Miss Out
 
