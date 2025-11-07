@@ -13,11 +13,15 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
     alt="KubeCon + CloudNativeCon North America, November 10-13, 2025, Atlanta, Georgia. #KubeCon"
     >}}
 
-- **Join us at [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/)** on **Monday, November 10 2025** — a full-day, community-focused event. Istio Day will feature sessions on AI readiness for service meshes, scaling Istio across multicluster environments with Ambient Mesh, validating and testing Istio setups, optimizing autoscaling, running stateful workloads like databases in Istio, and zero-downtime migrations to modern Gateway APIs. Attendees will also have hands-on workshops and opportunities to meet maintainers and contributors.
+## Istio Day and Key Sessions
+
+- **Join us at [Istio Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/)** on **Monday, November 10 2025** — a full-day, community-focused event. Istio Day will feature sessions on AI readiness for service meshes, scaling Istio across multicluster environments with Ambient Mesh, validating and testing Istio setups, optimizing autoscaling, running stateful workloads like databases in Istio, and zero-downtime migrations to modern Gateway APIs. Attendees will also have hands-on workshops and opportunities to meet maintainers and contributors.
 - **Catch the TOC session:** [*Istio Project Updates: AI Inference, Ambient Multicluster & Default Deny*](https://sched.co/27NoI) — hear about the latest features, what the community has been working on, and a preview of the 2026 roadmap.
 - **Participate in Istio ContribFest:** [*From Farm (Fork) To Table (Feature): Growing Your First (Free-range Organic) Istio PR*](https://sched.co/27Nku) — a perfect session for newcomers and aspiring contributors to jump into the codebase and community.
 
-- **Recommended sessions across the main conference with strong Istio relevance:**
+## Recommended Sessions at KubeCon
+
+We gathered recommended sessions from the main conference with strong Istio relevance:
     - [Istio: Set Sailing With Istio Without Sidecars | Project Lightning Talk](https://sched.co/27d4r)
     - [Lessons Applied Building a Next-generation AI Proxy](https://sched.co/27FWf)
     - [Automated Rightsizing for Istio DaemonSet Workloads | Poster Session](https://sched.co/27FYD)
@@ -30,12 +34,14 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
     - [End-to-End Security With gRPC in Kubernetes](https://sched.co/27FVP)
     - [On-Call the Easy Way With Agents](https://sched.co/28D66)
 
-- **Meet us in person!**  
-  Stop by the **Istio kiosk** in the **Project Pavilion** throughout the event to chat with maintainers, contributors, and users — and grab a cool new Istio T-shirt featuring our latest design!
+## Meet us in person!
 
-### Don’t Miss Out
-KubeCon + CloudNativeCon is always the perfect time to connect, learn, and celebrate the amazing work happening across the Istio community.  
+Stop by the **Istio kiosk** in the **Project Pavilion** throughout the event to chat with maintainers, contributors, and users — and grab a cool new Istio T-shirt featuring our latest design!
+
+## Don't Miss Out
+
+KubeCon + CloudNativeCon is always the perfect time to connect, learn, and celebrate the amazing work happening across the Istio community.
 Stay tuned for more updates, demos, and announcements — including exciting conversations around **AI inference, multicluster networking, and the evolution of Ambient Mesh**.
 
-Follow us on [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/), or [Bluesky](https://bsky.app/profile/istio.io) to get live updates from the event.  
+Follow us on [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/), or [Bluesky](https://bsky.app/profile/istio.io) to get live updates from the event.
 **See you soon in Atlanta!**
