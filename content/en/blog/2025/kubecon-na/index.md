@@ -22,17 +22,17 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
 ## Recommended Sessions at KubeCon
 
 We gathered recommended sessions from the main conference with strong Istio relevance:
-    - [Istio: Set Sailing With Istio Without Sidecars | Project Lightning Talk](https://sched.co/27d4r)
-    - [Lessons Applied Building a Next-generation AI Proxy](https://sched.co/27FWf)
-    - [Automated Rightsizing for Istio DaemonSet Workloads | Poster Session](https://sched.co/27FYD)
-    - [Gateway API: Table Stakes](https://sched.co/27No3)
-    - [Know Before You Go! Speedrun Intro To Gateway API | Project Lightning Talk](https://sched.co/27FcW)
-    - [Return of the Mesh: Gateway API's Epic Quest for Unity](https://sched.co/27FYA)
-    - [5 Key Lessons From 8 Years of Building Kgateway | Project Lightning Talk](https://sched.co/28yGT)
-    - [GAMMA in Action: How Careem Migrated To Istio Without Downtime](https://sched.co/27FX9)
-    - [Taming Rollout Risks in Distributed Web Apps: A Location-Aware Gradual Deployment Approach](https://sched.co/27FVh)
-    - [End-to-End Security With gRPC in Kubernetes](https://sched.co/27FVP)
-    - [On-Call the Easy Way With Agents](https://sched.co/28D66)
+- [Istio: Set Sailing With Istio Without Sidecars | Project LightningTalk](https://sched.co/27d4r)
+- [Lessons Applied Building a Next-generation AI Proxy](https://schedco/27FWf)
+- [Automated Rightsizing for Istio DaemonSet Workloads | Poster Session](https://sched.co/27FYD)
+- [Gateway API: Table Stakes](https://sched.co/27No3)
+- [Know Before You Go! Speedrun Intro To Gateway API | ProjectLightning Talk](https://sched.co/27FcW)
+- [Return of the Mesh: Gateway API's Epic Quest for Unity](https:/sched.co/27FYA)
+- [5 Key Lessons From 8 Years of Building Kgateway | Project LightningTalk](https://sched.co/28yGT)
+- [GAMMA in Action: How Careem Migrated To Istio Without Downtime](https://sched.co/27FX9)
+- [Taming Rollout Risks in Distributed Web Apps: A Location-AwareGradual Deployment Approach](https://sched.co/27FVh)
+- [End-to-End Security With gRPC in Kubernetes](https://sched.co/27FVP)
+- [On-Call the Easy Way With Agents](https://sched.co/28D66)
 
 ## Meet us in person!
 
