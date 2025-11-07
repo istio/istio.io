@@ -22,6 +22,10 @@ Region | Zone | % of traffic
 `region2` | `zone3` | 0
 `region3` | `zone4` | 10
 
+{{< tip >}}
+Istio reads locality from the node where the pod is running. Use the [topology locality](/docs/reference/config/labels/#TopologyLocality) label to override it.
+{{< /tip >}}
+
 ## Configure Weighted Distribution
 
 Apply a `DestinationRule` that configures the following:
