@@ -1,13 +1,12 @@
 {{ $versions := site.Data.versions }}
 {{ $mainVerStr := $versions.main }}
-{{ $preliminaryVerStr := $versions.preliminary }}
 {{ $mainVerParts := split $mainVerStr "." }}
 {{ $major := index $mainVerParts 0 | int }}
 {{ $minor := index $mainVerParts 1 | int }}
 {{ $versionCount := 5 }}
 
 <!-- Preliminary version -->
-{{ $preUrl := printf "https://preliminary.istio.io/v%s/docs" $preliminaryVerStr }}
+{{ $preUrl := printf "https://preliminary.istio.io/latest/docs" }}
 <li class="main-navigation-links-dropdown-item">
   <a href="{{ $preUrl }}"
      class="main-navigation-links-link">
