@@ -33,7 +33,7 @@ Hay tres formas de configurar la tasa de muestreo aleatorio:
 
 #### API de Telemetría
 
-El muestreo se puede configurar en varios ámbitos: en toda la malla, en el namespace o en el workload, lo que ofrece una gran flexibilidad.
+El muestreo se puede configurar en varios ámbitos: en toda la mesh, en el namespace o en el workload, lo que ofrece una gran flexibilidad.
 Para obtener más información, consulte la documentación de la [API de Telemetría](/es/docs/tasks/observability/telemetry/).
 
 Instale Istio sin establecer `sampling` dentro de `defaultConfig`:
@@ -114,9 +114,9 @@ EOF
 #### Usando la anotación `proxy.istio.io/config`
 
 Puede agregar la anotación `proxy.istio.io/config` a la especificación de metadatos de su Pod
-para anular cualquier configuración de muestreo de toda la malla.
+para anular cualquier configuración de muestreo de toda la mesh.
 
-Por ejemplo, para anular el muestreo de toda la malla anterior, agregaría lo siguiente a su manifiesto de pod:
+Por ejemplo, para anular el muestreo de toda la mesh anterior, agregaría lo siguiente a su manifiesto de pod:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: apps/v1

@@ -1,6 +1,6 @@
 ---
 title: Azure
-description: Instructions to set up an Azure cluster for Istio.
+description: Instrucciones para configurar un cluster de Azure para Istio.
 weight: 10
 skip_seealso: true
 aliases:
@@ -11,49 +11,49 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Follow these instructions to prepare an Azure cluster for Istio.
+Sigue estas instrucciones para preparar un cluster de Azure para Istio.
 
 {{< tip >}}
-Azure offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for the Azure Kubernetes Service (AKS),
-which you can use instead of installing Istio manually.
-Please refer to [Deploy Istio-based service mesh add-on for Azure Kubernetes Service](https://learn.microsoft.com/azure/aks/istio-deploy-addon)
-for details and instructions.
+Azure ofrece una extensión del {{< gloss >}}control plane gestionado{{< /gloss >}} para Azure Kubernetes Service (AKS),
+que puedes usar en lugar de instalar Istio manualmente.
+Por favor consulta [Implementar el complemento de mesh de servicios basada en Istio para el servicio de Kubernetes de Azure](https://learn.microsoft.com/azure/aks/istio-deploy-addon)
+para detalles e instrucciones.
 {{< /tip >}}
 
-You can deploy a Kubernetes cluster to Azure via [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) or [Cluster API provider for Azure (CAPZ) for self-managed Kubernetes or AKS](https://capz.sigs.k8s.io/) which fully supports Istio.
+Puedes desplegar un cluster de Kubernetes en Azure a través de [AKS](https://azure.microsoft.com/en-us/services/kubernetes-service/) o [Cluster API provider for Azure (CAPZ) para Kubernetes autogestionado o AKS](https://capz.sigs.k8s.io/) que soporta completamente Istio.
 
 ## AKS
 
-You can create an AKS cluster via numerous means such as [the az cli](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough), [the Azure portal](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal), [az cli with Bicep](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli), or [Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)
+Puedes crear un cluster AKS a través de numerosos medios como [la CLI az](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough), [el portal de Azure](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal), [CLI az con Bicep](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep?tabs=azure-cli), o [Terraform](https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?tabs=bash)
 
-For the `az` cli option, complete `az login` authentication OR use cloud shell, then run the following commands below.
+Para la opción de CLI `az`, completa la autenticación `az login` O usa cloud shell, luego ejecuta los siguientes comandos a continuación.
 
-1. Determine the desired region name which supports AKS
+1. Determina el nombre de región deseado que soporta AKS
 
     {{< text bash >}}
     $ az provider list --query "[?namespace=='Microsoft.ContainerService'].resourceTypes[] | [?resourceType=='managedClusters'].locations[]" -o tsv
     {{< /text >}}
 
-1. Verify the supported Kubernetes versions for the desired region
+1. Verifica las versiones soportadas de Kubernetes para la región deseada
 
-    Replace `my location` using the desired region value from the above step, and then execute:
+    Reemplaza `my location` usando el valor de región deseado del paso anterior, y luego ejecuta:
 
     {{< text bash >}}
     $ az aks get-versions --location "my location" --query "orchestrators[].orchestratorVersion"
     {{< /text >}}
 
-1. Create the resource group and deploy the AKS cluster
+1. Crea el grupo de recursos y despliega el cluster AKS
 
-    Replace `myResourceGroup` and `myAKSCluster` with desired names, `my location` using the value from step 1, `1.28.3` if not supported in the region, and then execute:
+    Reemplaza `myResourceGroup` y `myAKSCluster` con nombres deseados, `my location` usando el valor del paso 1, `1.28.3` si no está soportado en la región, y luego ejecuta:
 
     {{< text bash >}}
     $ az group create --name myResourceGroup --location "my location"
     $ az aks create --resource-group myResourceGroup --name myAKSCluster --node-count 3 --kubernetes-version 1.28.3 --generate-ssh-keys
     {{< /text >}}
 
-1. Get the AKS `kubeconfig` credentials
+1. Obtén las credenciales de `kubeconfig` del AKS
 
-   Replace `myResourceGroup` and `myAKSCluster` with the names from the previous step and execute:
+   Reemplaza `myResourceGroup` y `myAKSCluster` con los nombres del paso anterior y ejecuta:
 
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
