@@ -8,6 +8,8 @@ keywords: ["Istio", "KubeCon", "service mesh", "Ambient Mesh", "Gateway API"]
 
 ---
 
+<!-- spellchecker:ignore Jackie Maertens Steven Jin Xuan Punakshi Chaand Pankaj Sikka Tyler Schade Michael Bolot Sumit Vij Gergely Karma -->
+
 {{< image width="75%" link="./kubecon-opening.jpg" caption="Istio at KubeCon NA 2025" >}}
 
 KubeCon + CloudNativeCon North America 2025 lit up Atlanta from **November 10–13**, bringing together one of the largest gatherings of open-source practitioners, platform engineers, and maintainers across the cloud native ecosystem. For the Istio community, the week was defined by packed rooms, long hallway conversations, and a genuine sense of shared progress across service mesh, Gateway API, security, and AI-driven platforms.
@@ -87,7 +89,8 @@ At ContribFest, new contributors joined maintainers to work through good-first i
 This year’s [CNCF Community Awards](https://www.cncf.io/announcements/2025/11/12/cncf-honors-innovators-and-defenders-with-2025-community-awards-at-kubecon-cloudnativecon-north-america/) were a proud moment for the project. Two Istio maintainers received well-deserved recognition:
 
 * John Howard — Top Committer Award
-* Daniel Hawton — “Chop Wood, Carry Water” Award
+* Daniel Hawton — "Chop Wood, Carry Water" Award
+
 
 {{< image width="75%" link="./cncf-awards.png" caption="Istio at CNCF Community Awards" >}}
 
