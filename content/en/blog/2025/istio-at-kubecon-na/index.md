@@ -8,8 +8,6 @@ keywords: ["Istio", "KubeCon", "service mesh", "Ambient Mesh", "Gateway API"]
 
 ---
 
-<!-- spellchecker:ignore Jackie Maertens Steven Jin Xuan Punakshi Chaand Pankaj Sikka Tyler Schade Michael Bolot Sumit Vij Gergely Karma -->
-
 {{< image width="75%" link="./kubecon-opening.jpg" caption="Istio at KubeCon NA 2025" >}}
 
 KubeCon + CloudNativeCon North America 2025 lit up Atlanta from **November 10–13**, bringing together one of the largest gatherings of open-source practitioners, platform engineers, and maintainers across the cloud native ecosystem. For the Istio community, the week was defined by packed rooms, long hallway conversations, and a genuine sense of shared progress across service mesh, Gateway API, security, and AI-driven platforms.
@@ -38,7 +36,7 @@ Next, [Running Databases in Istio’s Service Mesh](YouTube link to be added) wi
 
 Modernizing traffic entry points took the stage as Lin Sun and Ahmad Al-Masry walked through [Is Zero-Downtime Migration Possible? Moving From Ingress & Sidecars to Gateway API](YouTube link to be added), focusing on progressive migration strategies that avoid outages during architectural shifts.
 
-The final session, [Credit Karma’s Istio Migration: 50k+ Pods, Minimal Impact, Lessons Learned](YouTube link to be added), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
+The final session, [Credit Karma's Istio Migration: 50k+ Pods, Minimal Impact, Lessons Learned](YouTube link to be added), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
 
 The day closed with remarks from John Howard and Keith Mattix, celebrating the speakers, contributors, and a community that continues to push the boundaries of what Istio makes possible.
 
@@ -90,7 +88,6 @@ This year’s [CNCF Community Awards](https://www.cncf.io/announcements/2025/11/
 
 * John Howard — Top Committer Award
 * Daniel Hawton — "Chop Wood, Carry Water" Award
-
 
 {{< image width="75%" link="./cncf-awards.png" caption="Istio at CNCF Community Awards" >}}
 
