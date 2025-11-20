@@ -89,13 +89,13 @@ This year’s [CNCF Community Awards](https://www.cncf.io/announcements/2025/11/
 * John Howard — Top Committer Award
 * Daniel Hawton — “Chop Wood, Carry Water” Award
 
-{{< image width="75%" link="./cncf-awards.jpg" caption="Istio at CNCF Community Awards" >}}
+{{< image width="75%" link="./cncf-awards.png" caption="Istio at CNCF Community Awards" >}}
 
 Beyond these awards, Istio was also represented prominently in conference leadership. Faseela K, one of the KubeCon NA co-chairs and an Istio maintainer, participated in a keynote panel on [Cloud Native for Good](YouTube link to be added).
 
 During closing remarks, it was also announced that Lin Sun, another long-time Istio maintainer, will serve as an upcoming KubeCon co-chair, highlighting the project’s strong leadership presence within CNCF.
 
-{{< image width="75%" link="./keubecon-co-chairs.jpg" caption="Istio Leadership on Keynote Stage" >}}
+{{< image width="75%" link="./kubecon-co-chairs.jpg" caption="Istio Leadership on Keynote Stage" >}}
 
 ## What We Heard in Atlanta
 
@@ -113,4 +113,4 @@ KubeCon NA 2025 showcased a community that is vibrant, growing, and tackling som
 
 As we look ahead to 2026, the energy from Atlanta gives us confidence: the future of service mesh is bright, and the Istio community is leading the way—together.
 
-{{< image width="75%" link="./kubecon-eu-2026.jpg" caption="See you in Amsterdam" >}}
+{{< image width="75%" link="./kubecon-eu-2026.png" caption="See you in Amsterdam" >}}
