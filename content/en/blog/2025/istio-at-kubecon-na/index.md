@@ -80,7 +80,7 @@ The Maintainer Track brought contributors together to collaborate on roadmap top
 
 At ContribFest, new contributors joined maintainers to work through good-first issues, discuss contribution pathways, and get their first PRs lined up.
 
-{{< image width="75%" link="./istio-contribfest.jpg" caption="Istio ContribFest Collaboration" >}}
+{{< image width="75%" link="./istio-contribfest.png" caption="Istio ContribFest Collaboration" >}}
 
 ## Istio Maintainers Recognized at the CNCF Community Awards
 
