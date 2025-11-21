@@ -1,6 +1,6 @@
 ---
 title: Distribución de Módulos WebAssembly
-description: Describe cómo hacer que los módulos WebAssembly remotos estén disponibles en la malla.
+description: Describe cómo hacer que los módulos WebAssembly remotos estén disponibles en la mesh.
 weight: 10
 aliases:
   - /help/ops/extensibility/distribute-remote-wasm-module

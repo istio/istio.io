@@ -710,9 +710,9 @@ Most fields in authorization policies support all the following matching
 schemas:
 
 - Exact match: exact string match.
-- Prefix match: a string with an ending `"*"`. For example, `"test.abc.*"`
+- Suffix  match: a string with an ending `"*"`. For example, `"test.abc.*"`
    matches `"test.abc.com"`, `"test.abc.com.cn"`, `"test.abc.org"`, etc.
-- Suffix match: a string with a starting `"*"`. For example, `"*.abc.com"`
+- Prefix match: a string with a starting `"*"`. For example, `"*.abc.com"`
    matches `"eng.abc.com"`, `"test.eng.abc.com"`, etc.
 - Presence match: `*` is used to specify anything but not empty. To specify
    that a field must be present, use the `fieldname: ["*"]`format. This is

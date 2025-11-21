@@ -8,7 +8,7 @@ CORS is a commonly misunderstood HTTP concept that often leads to confusion when
 
 To understand this, it helps to take a step back and look at [what CORS is](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) and when it should be used.
 By default, browsers have restrictions on "cross origin" requests initiated by scripts.
-This prevents, for example, a website `attack.example.com` from making a JavaScript request to `bank.example.com` and stealing a users sensitive information.
+This prevents, for example, a website `attack.example.com` from making a JavaScript request to `bank.example.com` and stealing a user's sensitive information.
 
 In order to allow this request, `bank.example.com` must allow `attack.example.com` to perform cross origin requests.
 This is where CORS comes in. If we were serving `bank.example.com` in an Istio enabled cluster, we could configure a `corsPolicy` to allow this:

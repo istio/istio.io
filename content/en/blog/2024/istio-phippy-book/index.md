@@ -16,7 +16,7 @@ And here it is!
     alt="The Izzy Saves the Birthday book cover"
     >}}
 
-The Istio project is excited to unveil Izzy’s adventure sailing with the Phippy family at [KubeCon North America 2024](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/) this week, as together we celebrate the 10 year anniversary of Kubernetes. Copies are available at the the CNCF Store, or on the [online store](https://store.cncf.io) shortly after the event.
+The Istio project is excited to unveil Izzy's adventure sailing with the Phippy family at [KubeCon North America 2024](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/) this week, as together we celebrate the 10 year anniversary of Kubernetes. Copies are available at the CNCF Store, or on the [online store](https://store.cncf.io) shortly after the event.
 
 Captain Kube hosts a grand birthday bash on a special cruise with Phippy and her friends, however the ship is in great danger! But there is nothing to worry about, when Izzy is in charge of the security! Join Izzy's smart and adventurous chase of the pirates who want to spoil Captain Kube's birthday bash.
 

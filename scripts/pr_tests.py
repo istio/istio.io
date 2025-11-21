@@ -72,37 +72,54 @@ try:
 
     test_paths = set()
 
-    commits = pr.get_commits()
-    for commit in commits:
-        files = commit.files
-        for file in files:
-            filename = file.filename
-            if filename.startswith(doc_file_prefix):
-                if filename.endswith("test.sh") or filename.endswith("/snips.sh"):
-                    relative_file = filename[len(doc_file_prefix):]
-                    test_paths.add(relative_file.rsplit('/', 1)[0])
-                    # Tentatively add tests that externally imported other module files
-                    checked = set()
-                    to_check = {os.path.dirname(filename)}
-                    while to_check:
-                        el = to_check.pop()
-                        checked.add(el)
-                        if el in script_dependencies:
-                            to_add = script_dependencies[el] - checked
-                            to_check.update(to_add)
-                            test_paths.update(map(lambda file_path: file_path[len(doc_file_prefix):], to_add))
-            elif filename == istio_go_dependency or \
-                    filename.startswith(test_framework_pkg) or \
-                    filename.startswith(test_framework_util) or \
-                    filename.startswith(prow_dir) or \
-                    filename.startswith(boilerplate_snip_prefix):
-                print("ALL")
-                sys.exit(0)
+    # NOTE: View [1] for schema of GitHub's API to list files in a PR.
+    # [1] https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files
+
+    for file in pr.get_files():
+        # Check for short-circuits up-front for efficiency.
+        if (
+            file.filename == istio_go_dependency or
+            file.filename.startswith(test_framework_pkg) or
+            file.filename.startswith(test_framework_util) or
+            file.filename.startswith(prow_dir) or
+            file.filename.startswith(boilerplate_snip_prefix)
+        ):
+            print("ALL")
+            sys.exit(0)
+
+        # Files that are being removed or that are unchanged don't require tests. Skip them.
+        if file.status == "removed" or file.status == "unchanged":
+            continue
+
+        # At this point, only files with a status of "added", "modified",
+        # "renamed", "copied", or "changed" will be analyzed.
+
+        # No need to consider files outside of the doc_file_prefix. Skip them.
+        if not file.filename.startswith(doc_file_prefix):
+            continue
+
+        # Of the files that remain, only those with certain naming conventions
+        # require testing.
+        if file.filename.endswith("test.sh") or file.filename.endswith("/snips.sh"):
+            relative_file = file.filename[len(doc_file_prefix):]
+            test_paths.add(relative_file.rsplit('/', 1)[0])
+
+            # Tentatively add tests that externally imported other module files
+            checked = set()
+            to_check = {os.path.dirname(file.filename)}
+            while to_check:
+                el = to_check.pop()
+                checked.add(el)
+                if el in script_dependencies:
+                    to_add = script_dependencies[el] - checked
+                    to_check.update(to_add)
+                    # keep paths relative to doc_file_prefix
+                    test_paths.update(map(lambda p: p[len(doc_file_prefix):], to_add))
 
     if len(test_paths) == 0:
         print("NONE")
     else:
-        print(*test_paths, sep=",")
+        print(*sorted(test_paths), sep=",")
 
 except Exception as e:
     # fall back to running all tests if anything goes wrong (e.g., rate-limiting)

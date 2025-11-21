@@ -199,7 +199,7 @@ In this scenario, a [ztunnel](#ztunnel) proxy is compromised.
 
 A compromised ztunnel gives the attacker control of the networking of the node.
 
-Ztunnel has access to private key material for each application running on it's node.
+Ztunnel has access to private key material for each application running on its node.
 A compromised ztunnel could have these exfiltrated and used elsewhere.
 However, lateral movement to identities beyond co-located workloads is not possible; each ztunnel is only authorized to access certificates for workloads running on its node, scoping the blast radius of a compromised ztunnel.
 

@@ -26,7 +26,7 @@ This release note describes what is different between Istio 1.22.3 and 1.22.4.
 
 - **Fixed** an omission in ztunnel helm charts which resulted in some Kubernetes resources being created without labels.
 
-- **Fixed** handling of a a failure adding a pod to the dataplane where the pod was still added to `ipset`.
+- **Fixed** handling of a failure adding a pod to the dataplane where the pod was still added to `ipset`.
   ([Issue #52218](https://github.com/istio/istio/issues/52218))
 
 - **Fixed** an issue causing resources to incorrectly be reported by `istioctl proxy-status` as `STALE`.

@@ -74,5 +74,5 @@ Grafana 可以通过其他方法进行安装和配置。要导入 Istio 仪表�
 请参考文档中的安装方法，例如：
 
 * [Grafana 配置](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards)官方文档。
-* [导入仪表盘](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards)
+* [导入仪表盘](https://github.com/grafana/helm-charts/tree/main/charts/grafana#import-dashboards)
   `stable/grafana` Helm Chart 文档。

@@ -55,3 +55,40 @@ Azure пропонує надбудову {{< gloss "Керована панел
     {{< text bash >}}
     $ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
     {{< /text >}}
+
+### Using Gateway API with Azure {#using-gateway-api-with-azure}
+
+Якщо ви використовуєте Gateway API з AKS, вам також може знадобитися додати наступну конфігурацію до ресурсу `Gateway`:
+
+{{< text yaml >}}
+infrastructure:
+  annotations:
+    service.beta.kubernetes.io/port_<http[s] port>_health-probe_protocol: tcp
+{{< /text >}}
+
+де `<http[s] port>` — номер порту вашого HTTP(S)-прослуховувача.
+Якщо у вас є кілька прослуховувачів HTTP(S), вам потрібно додати анотацію для кожного прослуховувача. Ця анотація необхідна для роботи перевірок працездатності Azure Load Balancer, коли шлях `/` не відповідає кодом 200.
+
+Наприклад, якщо ви використовуєте приклад [Ingress Gateways](docs/setup/getting-started) з використанням Gateway API, вам потрібно буде розгорнути наступний `Gateway`:
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: httpbin-gateway
+spec:
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/port_80_health-probe_protocol: tcp
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    hostname: "httpbin.example.com"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+EOF
+{{< /text >}}

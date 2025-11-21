@@ -7,6 +7,15 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
+<!--
+请不要尝试编辑此页面来更改缩进以修复示例。缩进是正确的，但模板渲染错误。请参阅下方标注。
+-->
+
+{{< warning >}}
+[Istio 网站代码中的模板错误](https://github.com/istio/istio.io/issues/15689)导致此页面上的示例无法正确渲染。
+您可以[查看页面源码](https://raw.githubusercontent.com/istio/istio.io/master/content/en/docs/tasks/traffic-management/mirroring/index.md)以查看正确的清单。
+{{< /warning >}}
+
 此任务演示了 Istio 的流量镜像功能。
 
 流量镜像，也称为影子流量，是一种以尽可能低的风险允许负责功能特性的团队改动生产环境的强大理念。

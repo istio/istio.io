@@ -1,6 +1,6 @@
 ---
 title: Visualizando su Malla
-description: Esta tarea muestra cómo visualizar sus services dentro de una malla de Istio.
+description: Esta tarea muestra cómo visualizar sus services dentro de un mesh de Istio.
 weight: 49
 keywords: [telemetry,visualization]
 aliases:
@@ -9,11 +9,10 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-Esta tarea muestra cómo visualizar diferentes aspectos de su malla de Istio.
-
+Esta tarea muestra cómo visualizar diferentes aspectos de su mesh de Istio.
 Como parte de esta tarea, instalará el addon [Kiali](https://www.kiali.io)
 y utilizará la interfaz gráfica de usuario basada en web para ver los gráficos de service de
-la malla y sus objetos de configuración de Istio.
+la mesh y sus objetos de configuración de Istio.
 
 {{< idea >}}
 Esta tarea no cubre todas las features proporcionadas por Kiali.
@@ -38,7 +37,7 @@ Siga la documentación de [instalación de Kiali](/es/docs/ops/integrations/kial
 
 1.  Para determinar la URL de Bookinfo, siga las instrucciones para determinar la [IP de ingress y el puerto de Bookinfo `GATEWAY_URL`](/es/docs/examples/bookinfo/#determine-the-ingress-ip-and-port).
 
-1.  Para enviar tráfico a la malla, tiene tres opciones
+1.  Para enviar tráfico a la mesh, tiene tres opciones
 
     *   Visite `http://$GATEWAY_URL/productpage` en su navegador web
 
@@ -60,7 +59,7 @@ Siga la documentación de [instalación de Kiali](/es/docs/ops/integrations/kial
     $ istioctl dashboard kiali
     {{< /text >}}
 
-1.  Vea la descripción general de su malla en la página **Overview** que aparece inmediatamente después de iniciar sesión.
+1.  Vea la descripción general de su mesh en la página **Overview** que aparece inmediatamente después de iniciar sesión.
     La página **Overview** muestra todos los namespaces que tienen services en su malla.
     La siguiente captura de pantalla muestra una página similar:
 

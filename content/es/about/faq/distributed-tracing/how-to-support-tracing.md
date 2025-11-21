@@ -3,7 +3,7 @@ title: ¿Qué se requiere para el seguimiento distribuido con Istio?
 weight: 10
 ---
 
-Istio permite la notificación de tramos de seguimiento para las comunicaciones de workload a workload dentro de una malla. Sin embargo, para que los diversos tramos de seguimiento se unan para obtener una vista completa del flujo de tráfico, las aplicaciones deben propagar el contexto de seguimiento entre las solicitudes entrantes y salientes.
+Istio permite la notificación de tramos de seguimiento para las comunicaciones de workload a workload dentro de un mesh. Sin embargo, para que los diversos tramos de seguimiento se unan para obtener una vista completa del flujo de tráfico, las aplicaciones deben propagar el contexto de seguimiento entre las solicitudes entrantes y salientes.
 
 En particular, Istio se basa en que las aplicaciones reenvíen el ID de solicitud generado por Envoy y las cabeceras estándar. Estas cabeceras incluyen:
 

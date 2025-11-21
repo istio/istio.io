@@ -6,6 +6,15 @@ keywords: [traffic-management,mirroring]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
+<!--
+Please don't attempt to edit this page to change the indentation to fix the
+examples. The indentation is correct, but the template rendering is wrong.
+See the callout below.
+-->
+
+{{< warning >}}
+Через [помилку в шаблоні коду веб-сайту Istio](https://github.com/istio/istio.io/issues/15689) приклади на цій сторінці не відображаються належним чином. Ви можете [переглянути джерело сторінки](https://raw.githubusercontent.com/istio/istio.io/master/content/en/docs/tasks/traffic-management/mirroring/index.md), щоб побачити правильні маніфести.
+{{< /warning >}}
 
 Це завдання демонструє можливості дзеркалювання трафіку в Istio.
 

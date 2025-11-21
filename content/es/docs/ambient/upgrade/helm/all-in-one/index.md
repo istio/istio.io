@@ -43,7 +43,7 @@ $ helm repo update istio
 ### Actualizar el control plane y el data plane ambient de Istio
 
 {{< warning >}}
-La actualización mediante el chart contenedor in-place interrumpirá brevemente todo el tráfico de la malla ambient en el nodo, **incluso con el uso de revisiones**. En la práctica, el período de interrupción es una ventana muy pequeña, que afecta principalmente a las conexiones de larga duración.
+La actualización mediante el chart contenedor in-place interrumpirá brevemente todo el tráfico de la mesh ambient en el nodo, **incluso con el uso de revisiones**. En la práctica, el período de interrupción es una ventana muy pequeña, que afecta principalmente a las conexiones de larga duración.
 
 Se recomienda el acordonamiento de nodos y los grupos de nodos azul/verde para mitigar el riesgo del radio de explosión durante las actualizaciones de producción. Consulta la documentación de tu proveedor de Kubernetes para obtener más detalles.
 {{< /warning >}}

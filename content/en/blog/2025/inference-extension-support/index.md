@@ -126,7 +126,7 @@ The future roadmap includes istio-related features such as:
 
 * **Support for Waypoints** - As Istio continues to evolve toward ambient mesh architecture, inference-aware routing will be integrated into waypoint proxies to provide centralized, scalable policy enforcement for AI workloads.
 
-Beyond Istio-specific innovations, the Gateway API Inference Extension community is also actively developing several advanced capabilities that will further enhance routing for for AI inference workloads on Kubernetes:
+Beyond Istio-specific innovations, the Gateway API Inference Extension community is also actively developing several advanced capabilities that will further enhance routing for AI inference workloads on Kubernetes:
 
 * **HPA Integration for AI Metrics**: Horizontal Pod Autoscaling based on model-specific metrics rather than just CPU and memory.
 

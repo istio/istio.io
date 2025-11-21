@@ -445,7 +445,7 @@ Istio 代理，以便现有的连接将被关闭，新的连接将受到新策�
 当结合[网络策略](/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies)一起使用时，
 您可以强制所有出站流量，或者部分通过 Egress 网关。这确保了即使客户端因意外或者被恶意绕过它的代理，请求将会被阻止。
 
-## 当使用 TLS 源时在目标规则上配置 TLS 验证 {#configure-TLS-verification-in-destination-rule-when-using-TLS-origination}
+## 当使用 TLS 源时在目标规则上配置 TLS 验证 {#configure-tls-verification-in-destination-rule-when-using-tls-origination}
 
 Istio 提供了从 Sidecar 代理或者网关上[发起 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)
 的能力。这使得从应用发出的明文 HTTP 流量可以透明地“升级”到 HTTPS。
@@ -538,7 +538,7 @@ servers:
 同时在一个共享的网关实例上运行多个较不敏感的域，例如 `blog.example.com` 和 `store.example.com`。
 这种方式提供了更好的纵深防御并且利于实现监管准则。
 
-### 显式阻止所有的敏感 http 主机被宽泛的 SNI 匹配 {#explicitly-disable-all-the-sensitive-http-host-under-relaxed-SNI-host-matching}
+### 显式阻止所有的敏感 http 主机被宽泛的 SNI 匹配 {#explicitly-disable-all-the-sensitive-http-host-under-relaxed-sni-host-matching}
 
 使用多个 `Gateway` 资源来在不同的主机上定义多个双向或者单向 TLS 是很合理的。
 例如，在 SNI 主机 `admin.example.com` 上使用双向 TLS，在 SNI 主机 `*.example.com` 上使用单向 TLS。
@@ -614,7 +614,7 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 但为了避免意外或者有意的误检测，从而导致意外流量行为发生。
 推荐[显式地声明协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection)。
 
-## CNI 网络容器接口 {#CNI}
+## CNI 网络容器接口 {#cni}
 
 为了透明地劫持所以流量，Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。
 这增加了一个[要求](/zh/docs/ops/deployment/application-requirements/)，即需要提供给 Pod `NET_ADMIN`

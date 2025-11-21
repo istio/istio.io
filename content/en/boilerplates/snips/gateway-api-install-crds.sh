@@ -22,5 +22,5 @@
 
 bpsnip_gateway_api_install_crds_install_crds() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-  kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml
+  kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
 }

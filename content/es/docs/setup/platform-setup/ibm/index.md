@@ -15,7 +15,7 @@ Follow these instructions to prepare a cluster for Istio using the
 [IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-getting-started).
 
 {{< tip >}}
-IBM offers a {{< gloss >}}managed control plane{{< /gloss >}} add-on for the IBM Cloud Kubernetes Service,
+IBM ofrece un add-on para el {{< gloss >}}control plane gestionado{{< /gloss >}} para el servicio de Kubernetes de IBM Cloud,
 which you can use instead of installing Istio manually.
 Refer to [Istio on IBM Cloud Kubernetes Service](https://cloud.ibm.com/docs/containers?topic=containers-istio)
 for details and instructions.

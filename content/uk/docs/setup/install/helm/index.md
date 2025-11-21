@@ -191,7 +191,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 Якщо ви вирішите продовжити використовувати стару панель управління замість завершення оновлення, ви можете видалити новішу версію та її мітку, спочатку виконавши команду:
 
 {{< text syntax=bash >}}
-$ helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -
+$ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -
 {{< /text >}}
 
 Після цього ви повинні видалити версію Istio, на яку вона посилалася, слідуючи процедурі видалення, описаній вище.

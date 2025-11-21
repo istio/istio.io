@@ -10,7 +10,7 @@ target_release: 0.7
 
 多租户是一个在各种环境和各种应用中都得到了广泛应用的概念，但是不同环境中，为每租户提供的具体实现和功能性都是有差异的。[Kubernetes 多租户工作组](https://github.com/kubernetes/community/blob/master/wg-multitenancy/README.md)致力于在 Kubernetes 中定义多租户用例和功能。然而根据他们的工作进展来看，恶意容器和负载对于其他租户的 Pod 和内核资源的访问无法做到完全控制，因此只有"软性多租户”支持是可行的。
 
-## 软性多租户{#soft-multi-tenancy}
+## 软性多租户 {#soft-multi-tenancy}
 
 文中提到的"软性多租户”的定义指的是单一 Kubernetes 控制平面和多个 Istio 控制平面以及多个服务网格相结合；每个租户都有自己的一个控制平面和一个服务网格。集群管理员对所有 Istio 控制面都有控制和监控的能力，而租户管理员仅能得到指定 Istio 的控制权。使用 Kubernetes 的命名空间和 RBAC 来完成不同租户的隔离。
 
@@ -22,9 +22,9 @@ target_release: 0.7
 这里仅就在有限多租户环境中部署 Istio 做一些概要描述。当官方多租户支持实现之后，会在[文档](/zh/docs/)中具体阐述。
 {{< /tip >}}
 
-## 部署{#deployment}
+## 部署 {#deployment}
 
-### 多个 Istio 控制面{#multiple-Istio-control-planes}
+### 多个 Istio 控制面 {#multiple-istio-control-planes}
 
 要部署多个 Istio 控制面，首先要在 Istio 清单文件中对所有的 `namespace` 引用进行替换。以 `istio.yaml` 为例：如果需要两个租户级的 Istio 控制面，那么第一个租户可以使用 `istio.yaml` 中的缺省命名空间也就是 `istio-system`；而第二个租户就要生成一个新的 yaml 文件，并在其中使用不同的命名空间。例如使用下面的命令创建一个使用 `istio-system1` 命名空间的 yaml 文件：
 
@@ -58,11 +58,11 @@ istio-system1   istio-pilot-5bb6b7669c-779vb               2/2       Running   0
 
 需要由集群管理员、而不是租户自己的管理员来加载这两组 yaml 文件。另外，要把租户管理员的操作权限限制在各自的命名空间内，还需要额外的 RBAC 配置。
 
-### 区分通用资源和命名空间资源{#split-common-and-namespace-specific-resources}
+### 区分通用资源和命名空间资源 {#split-common-and-namespace-specific-resources}
 
 Istio 仓库中的清单文件中会创建两种资源，一种是能够被所有 Istio 控制面访问的通用资源，另一种是每个控制平面一份的专属资源。上面所说的在 yaml 文件中替换 `istio-system` 命名空间的方法自然是很简单的，更好的一种方法就是把 yaml 文件拆分为两块，一块是所有租户共享的通用部分；另一块就是租户自有的部分。根据 [CRD 资源定义（Custom Resource Definitions）](https://kubernetes.io/docs/concepts/api-extension/custom-resources/#customresourcedefinitions) 中的说法，角色和角色绑定资源需要从 Istio 文件中进行剥离。另外，清单文件中提供的角色和角色绑定的定义可能不适合多租户环境，还需要进一步的细化和定制。
 
-### Istio 控制面的 Kubernetes RBAC 设置{#Kubernetes-rbac-for-Istio-control-plane-resources}
+### Istio 控制面的 Kubernetes RBAC 设置 {#kubernetes-rbac-for-istio-control-plane-resources}
 
 租户管理员应该被限制在单独的 Istio 命名空间中，要完成这个限制，集群管理员需要创建一个清单，其中至少要包含一个 `Role` 和 `RoleBinding` 的定义，类似下面的文件所示。例子中定义了一个租户管理员，命名为 *sales-admin*，他被限制在命名空间 `istio-system1` 之中。完整的清单中可能要在 `Role` 中包含更多的 `apiGroups` 条目，来定义租户管理员的资源访问能力。
 
@@ -92,7 +92,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 {{< /text >}}
 
-### 关注特定命名空间进行服务发现{#watching-specific-namespaces-for-service-discovery}
+### 关注特定命名空间进行服务发现 {#watching-specific-namespaces-for-service-discovery}
 
 除了创建 RBAC 规则来限制租户管理员只能访问指定 Istio 控制平面之外，Istio 清单还需要为 Istio Pilot 指定一个用于应用程序的命名空间，以便生成 xDS 缓存。Pilot 组件提供了命令行参数 `--appNamespace, ns-1` 可以完成这一任务。*ns-1* 就是租户用来部署自己应用的命名空间。`istio-system1.yaml` 中包含的相关代码大致如下：
 
@@ -122,7 +122,7 @@ spec:
         - containerPort: 443
 {{< /text >}}
 
-### 在特定命名空间中部署租户应用{#deploying-the-tenant-application-in-a-namespace}
+### 在特定命名空间中部署租户应用 {#deploying-the-tenant-application-in-a-namespace}
 
 现在集群管理员已经给租户创建了命名空间（`istio-system1`），并且对 Istio Pilot 的服务发现进行了配置，要求它关注应用的命名空间（`ns-1`），创建应用的 yaml 文件，将其部署到租户的专属命名空间中：
 
@@ -147,7 +147,7 @@ metadata:
 
 虽然没有展示出来，但是应用的命名空间也应该有 RBAC 设置，用来对特定资源进行访问控制。集群管理员和租户管理员都有权完成这种 RBAC 限制。
 
-### 在多租户环境中使用 `istioctl`{#using-in-a-multi-tenant-environment}
+### 在多租户环境中使用 `istioctl` {#using-in-a-multi-tenant-environment}
 
 定义[路由规则](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#RouteRule)或者[目标策略](https://archive.istio.io/v0.7/docs/reference/config/istio.routing.v1alpha1/#DestinationPolicy)时，要确认 `istioctl` 命令是针对专有的 Istio 控制面所在的命名空间运行的。另外规则自身的定义也要限制在租户的命名空间里，这样才能保证规则在租户自己的网格中生效。*-i* 选项用来在 Istio 控制面所属的命名空间中创建（get 和 describe 也一样）规则。*-n* 参数会限制规则的所在范围是租户的网格，取值就是租户应用所在的命名空间。如果 yaml 文件中的资源已经指定了范围，*-n* 参数会被跳过。
 
@@ -170,7 +170,7 @@ reviews-default       RouteRule.v1alpha2.config.istio.io    ns-1
 
 [Multiple Istio control planes](/zh/blog/2018/soft-multitenancy/#multiple-Istio-control-planes) 中讲述了更多多租户环境下 `命名空间` 的相关问题。
 
-### 测试结果{#test-results}
+### 测试结果 {#test-results}
 
 根据前文的介绍，一个集群管理员能够创建一个受限于 RBAC 和命名空间的环境，租户管理员能在其中进行部署。
 
@@ -225,15 +225,15 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 如果部署了[遥测组件](/zh/docs/tasks/observability/), 例如
 [Prometheus](/zh/docs/tasks/observability/metrics/querying-metrics/)（限制在 Istio 的 `namespace`），其中获得的统计结果展示的也只是租户应用命名空间的私有数据。
 
-## 结语{#conclusion}
+## 结语 {#conclusion}
 
 上面的一些尝试表明 Istio 有足够的能力和安全性，符合少量多租户的用例需求。另外也很明显的，Istio 和 Kubernetes **无法**提供足够的能力和安全性来满足其他的用例，尤其是在租户之间要求完全的安全性和隔离的要求的用例。只有等容器技术（例如 Kubernetes ）能够提供更好的安全模型以及隔离能力，我们才能进一步的增强这方面的支持，Istio 的支持并不是很重要。
 
-## 问题{#issues}
+## 问题 {#issues}
 
 * 一个租户（例如，`istio-system` 命名空间）的 CA(Certificate Authority) 和 Mixer 的 Pod 中产生的 Log 包含了另一个租户（例如，`istio-system1` 命名空间）的控制面的 `info` 信息。
 
-## 其他多租户模型的挑战{#challenges-with-other-multi-tenancy-models}
+## 其他多租户模型的挑战 {#challenges-with-other-multi-tenancy-models}
 
 还有其他值得考虑的多租户部署模型：
 
@@ -251,11 +251,11 @@ Error from server (Forbidden): pods is forbidden: User "dev-admin" cannot list p
 
 第三个方式对多数案例都是不合适的，毕竟多数集群管理员倾向于将同一个 Kubernetes 控制面作为 [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) 提供给他们的租户。
 
-## 未来{#future-work}
+## 未来 {#future-work}
 
 很明显，单一 Istio 控制面控制多个网格可能是下一个功能。还有可能就是在同一个网格中支持多个租户，并提供某种程度的隔离和安全保障。要完成这样的能力，就需要像 Kubernetes 中对命名空间的的操作那样，在一个单独的控制平面中进行分区，社区中发出了[这篇文档](https://docs.google.com/document/d/14Hb07gSrfVt5KX9qNi7FzzGwB_6WBpAnDpPG6QEEd9Q)来定义其他的用例，以及要支持这些用例所需要的 Istio 功能。
 
-## 参考{#references}
+## 参考 {#references}
 
 * 视频：[用 RBAC 和命名空间支持的多租户功能及安全模型](https://www.youtube.com/watch?v=ahwCkJGItkU), [幻灯片](https://schd.ws/hosted_files/kccncna17/21/Multi-tenancy%20Support%20%26%20Security%20Modeling%20with%20RBAC%20and%20Namespaces.pdf).
 * `Kubecon` 讨论，关于对“协同软性多租户”的支持 [Building for Trust: How to Secure Your Kubernetes](https://www.youtube.com/watch?v=YRR-kZub0cA).

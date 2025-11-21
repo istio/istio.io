@@ -50,7 +50,7 @@ ENDSNIP
 
 snip_install_the_kubernetes_gateway_api_crds_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
-{ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0" | kubectl apply -f -; }
+{ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.0" | kubectl apply -f -; }
 }
 
 snip_deploy_the_sample_application_1() {
@@ -132,7 +132,7 @@ bookinfo-gateway   istio   bookinfo-gateway-istio.default.svc.cluster.local   Tr
 ENDSNIP
 
 snip_view_the_dashboard_1() {
-kubectl apply -f samples/addons
+kubectl apply -f samples/addons/kiali.yaml
 kubectl rollout status deployment/kiali -n istio-system
 }
 
@@ -159,9 +159,9 @@ kubectl label namespace default istio-injection-
 }
 
 snip_uninstall_4() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.3.0" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.4.0" | kubectl delete -f -
 }
 
 snip_uninstall_5() {
-kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0" | kubectl delete -f -
+kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.0" | kubectl delete -f -
 }

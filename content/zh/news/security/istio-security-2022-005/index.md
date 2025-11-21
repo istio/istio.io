@@ -13,13 +13,13 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-## CVE{#cve}
+## CVE
 
-### CVE-2022-31045{#cve-2022-31045}
+### CVE-2022-31045
 
 - [CVE-2022-31045](https://github.com/istio/istio/security/advisories/GHSA-xwx5-5c9g-x68x) (CVSS score 5.9, Medium): 内存访问冲突：在某些配置中，发送给 Envoy 的格式错误的请求头可能导致意外的内存访问错误，从而产生未定义的行为或崩溃。
 
-### Envoy CVEs{#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 这些 Envoy CVE 不会直接影响 Istio 功能，但我们仍会将它们包含在 1.12.8、1.13.5 和 1.14.1 的补丁版本中。
 
@@ -33,10 +33,10 @@ skip_seealso: true
 
 - [CVE-2022-29227](https://github.com/envoyproxy/envoy/security/advisories/GHSA-rm2p-qvf6-pvr6) (CVSS score 7.5, High): 如果重定向提示 Envoy-generated 的本地回复，则 Envoy 内部重定向带有正文或关键片段的请求是不安全的，攻击者利用该漏洞可以使服务崩溃。
 
-## 我受到影响了吗？{#am-i-impacted?}
+## 我受到影响了吗？ {#am-i-impacted}
 
 如果您有一个暴露于外部流量的 Istio 入口网关，那么您面临的风险最大。
 
-## 致谢{#credit}
+## 致谢 {#credit}
 
 我们要感谢 Red Hat 的 Otto van der Schaaf 的报告。

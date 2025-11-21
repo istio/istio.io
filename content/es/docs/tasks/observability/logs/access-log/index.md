@@ -64,7 +64,7 @@ También puede elegir entre JSON y texto configurando `accessLogEncoding` en `JS
 
 También es posible que desee personalizar el [formato](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#format-rules) del registro de acceso editando `accessLogFormat`.
 
-Consulte las [opciones de malla global](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) para obtener más información
+Consulte las [opciones de mesh  global](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) para obtener más información
 sobre estas tres configuraciones:
 
 * `meshConfig.accessLogFile`

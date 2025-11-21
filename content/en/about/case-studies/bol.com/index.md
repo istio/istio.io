@@ -45,7 +45,7 @@ When bol.com initially began migrating to Kubernetes, Istio was only at version 
 
 Eventually, however, it wasn't just the scaling issues that brought bol.com back to an Istio solution. In addition to needing Kubernetes clusters to securely communicate with each other, they also were facing new regulatory requirements that would necessitate secure communications with various third party services and APIs. These controls could not be based on firewall rules and IP ranges, which are subject to constant change – they needed to be based on the identity of the application.
 
-Their solution took advantage of the [Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/). This enables them to apply authz controls which can allow or deny traffic based on attributes like the identity or namespace of the client workload, the destination hostname, and even attributes like the the URL of the HTTP request.
+Their solution took advantage of the [Istio egress gateway](/docs/tasks/traffic-management/egress/egress-gateway/). This enables them to apply authz controls which can allow or deny traffic based on attributes like the identity or namespace of the client workload, the destination hostname, and even attributes like the URL of the HTTP request.
 
 Bol.com needed a service mesh that supports multi-cluster deployments, and Istio fits the bill. In addition, Istio provided the fine-grained control they needed to meet their particular requirements.
 

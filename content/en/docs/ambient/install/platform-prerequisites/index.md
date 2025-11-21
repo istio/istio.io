@@ -228,6 +228,12 @@ For example:
 
 OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts.
 
+While deploying Ambient dataplane mode on OpenShift, set `routingViaHost: true` in the `gatewayConfig` spec to enable OVN-Kubernetes
+`local` gateway mode. This one-time configuration is required if your pod manifests include liveness or readiness probes, as it ensures
+that probe traffic is routed through the host and applied to the host’s routing table, which is necessary for the probes to function
+correctly. To configure the gateway mode at runtime, follow the steps described
+[here](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway).
+
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}

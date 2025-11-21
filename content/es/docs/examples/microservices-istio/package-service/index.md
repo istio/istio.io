@@ -1,6 +1,6 @@
 ---
-title: Run ratings in Docker
-overview: Run a single microservice in a Docker container.
+title: Ejecutar ratings en Docker
+overview: Ejecutar un solo microservicio en un contenedor Docker.
 
 weight: 20
 
@@ -10,32 +10,32 @@ test: no
 
 {{< boilerplate work-in-progress >}}
 
-This module shows how you create a [Docker](https://www.docker.com) image and run it locally.
+Este módulo muestra cómo crear una imagen [Docker](https://www.docker.com) y ejecutarla localmente.
 
-1.  Download the [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) for the `ratings` microservice.
+1.  Descarga el [`Dockerfile`](https://docs.docker.com/engine/reference/builder/) para el microservicio `ratings`.
 
     {{< text bash >}}
     $ curl -s {{< github_file >}}/samples/bookinfo/src/ratings/Dockerfile -o Dockerfile
     {{< /text >}}
 
-1.  Observe the `Dockerfile`.
+1.  Observa el `Dockerfile`.
 
     {{< text bash >}}
     $ cat Dockerfile
     {{< /text >}}
 
-    Note that it copies the files
-    into the container's filesystem and then runs the `npm install` command you ran in the previous module.
-    The `CMD` command instructs Docker to run the `ratings` service on port `9080`.
+    Nota que copia los archivos
+    en el sistema de archivos del contenedor y luego ejecuta el comando `npm install` que ejecutaste en el módulo anterior.
+    El comando `CMD` instruye a Docker para ejecutar el Service `ratings` en el puerto `9080`.
 
-1.  Create an environment variable to store your user id which will be used to tag the docker image for `ratings` service.
-    For example, `user`.
+1.  Crea una variable de entorno para almacenar tu ID de usuario que se usará para etiquetar la imagen docker para el Service `ratings`.
+    Por ejemplo, `user`.
 
     {{< text bash >}}
     $ export USER=user
     {{< /text >}}
 
-1.  Build a Docker image from the `Dockerfile`:
+1.  Construye una imagen Docker desde el `Dockerfile`:
 
     {{< text bash >}}
     $ docker build -t $USER/ratings .
@@ -47,23 +47,23 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     Successfully tagged user/ratings:latest
     {{< /text >}}
 
-1.  Run ratings in Docker. The following [docker run](https://docs.docker.com/engine/reference/commandline/run/) command
-    instructs Docker to expose port `9080` of the container to port `9081` of your computer, allowing you to access the
-    `ratings` microservice on port `9081`.
+1.  Ejecuta ratings en Docker. El siguiente comando [docker run](https://docs.docker.com/engine/reference/commandline/run/)
+    instruye a Docker para exponer el puerto `9080` del contenedor al puerto `9081` de tu computadora, permitiéndote acceder al
+    microservicio `ratings` en el puerto `9081`.
 
     {{< text bash >}}
     $ docker run --name my-ratings  --rm -d -p 9081:9080 $USER/ratings
     {{< /text >}}
 
-1.  Access [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) in your browser or use the following `curl` command:
+1.  Accede a [http://localhost:9081/ratings/7](http://localhost:9081/ratings/7) en tu navegador o usa el siguiente comando `curl`:
 
     {{< text bash >}}
     $ curl localhost:9081/ratings/7
     {"id":7,"ratings":{"Reviewer1":5,"Reviewer2":4}}
     {{< /text >}}
 
-1.  Observe the running container. Run the [docker ps](https://docs.docker.com/engine/reference/commandline/ps/) command
-    to list all the running containers and notice the container with the image `<your user name>/ratings`.
+1.  Observa el contenedor en ejecución. Ejecuta el comando [docker ps](https://docs.docker.com/engine/reference/commandline/ps/)
+    para listar todos los contenedores en ejecución y nota el contenedor con la imagen `<your user name>/ratings`.
 
     {{< text bash >}}
     $ docker ps
@@ -72,10 +72,10 @@ This module shows how you create a [Docker](https://www.docker.com) image and ru
     ...
     {{< /text >}}
 
-1.  Stop the running container:
+1.  Detén el contenedor en ejecución:
 
     {{< text bash >}}
     $ docker stop my-ratings
     {{< /text >}}
 
-You have learned how to package a single service into a container. The next step is to learn how to [deploy the whole application to a Kubernetes cluster](/es/docs/examples/microservices-istio/bookinfo-kubernetes).
+Has aprendido cómo empaquetar un solo Service en un contenedor. El siguiente paso es aprender cómo [desplegar toda la aplicación en un Cluster de Kubernetes](/es/docs/examples/microservices-istio/bookinfo-kubernetes).

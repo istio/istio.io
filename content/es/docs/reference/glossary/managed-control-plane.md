@@ -1,9 +1,9 @@
 ---
-title: Managed Control Plane
+title: Control Plane Gestionado
 test: n/a
 ---
 
-A managed control plane is an [external control plane](/es/docs/reference/glossary/#external-control-plane)
-that cloud providers manage for their customers.
-Managed control planes reduce the complexity of user deployments
-and typically guarantee some level of performance and availability.
+Un control plane gestionado es un [control plane externo](/es/docs/reference/glossary/#external-control-plane)
+que los proveedores de la nube gestionan para sus clientes.
+Los control planes gestionados reducen la complejidad de los despliegues de los usuarios
+y típicamente garantizan algún nivel de rendimiento y disponibilidad.

@@ -208,29 +208,13 @@ Below are the equivalent manual registrations based off the automatic registrati
                         name: workload-socket
                         mountPath: "/run/secrets/workload-spiffe-uds"
                         readOnly: true
-                    - path: spec.template.spec.initContainers
-                      value:
-                        - name: wait-for-spire-socket
-                          image: busybox:1.36
-                          volumeMounts:
-                            - name: workload-socket
-                              mountPath: /run/secrets/workload-spiffe-uds
-                              readOnly: true
-                          env:
-                            - name: CHECK_FILE
-                              value: /run/secrets/workload-spiffe-uds/socket
-                          command:
-                            - sh
-                            - "-c"
-                            - |-
-                              echo "$(date -Iseconds)" Waiting for: ${CHECK_FILE}
-                              while [[ ! -e ${CHECK_FILE} ]] ; do
-                                echo "$(date -Iseconds)" File does not exist: ${CHECK_FILE}
-                                sleep 15
-                              done
-                              ls -l ${CHECK_FILE}
     EOF
     {{< /text >}}
+
+    {{< warning >}}
+    If you are using Kubernetes 1.33 **and** have not disabled support for [native sidecars](/blog/2023/native-sidecars/) in the Istio control plane, you must use `initContainers` in the injection template for sidecars. This is required because native sidecar support changes how sidecars are injected.
+    **NOTE:** The SPIRE injection template for gateways should continue to use regular `containers` as before.
+    {{< /warning >}}
 
 1. Apply the configuration:
 

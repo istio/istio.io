@@ -202,7 +202,7 @@ $ kubectl delete service my-httpbin
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-7.  Переконайтеся, що доступ дійсно виконується з IP кластера. Зверніть увагу на речення `Connected to en.wikipedia.org (172.21.156.230)` у виводі `curl -v`, в ньому згадується IP, який було надруковано у виводі вашого сервісу як IP кластера.
+7.  Переконайтеся, що доступ дійсно виконується з IP кластера. Зверніть увагу на речення `Established connection to en.wikipedia.org (172.21.156.230 port 443)` у виводі `curl -v`, в ньому згадується IP, який було надруковано у виводі вашого сервісу як IP кластера.
 
     {{< text bash >}}
     $ kubectl exec "$SOURCE_POD" -c curl -- curl -sS -v --resolve en.wikipedia.org:443:"$(kubectl get service my-wikipedia -o jsonpath='{.spec.clusterIP}')" https://en.wikipedia.org/wiki/Main_Page -o /dev/null
@@ -210,7 +210,7 @@ $ kubectl delete service my-httpbin
     * Hostname en.wikipedia.org was found in DNS cache
     *   Trying 172.21.156.230...
     * TCP_NODELAY set
-    * Connected to en.wikipedia.org (172.21.156.230) port 443 (#0)
+    * Established connection to en.wikipedia.org (172.21.156.230 port 443) from 10.244.1.2 port 43790
     ...
     {{< /text >}}
 

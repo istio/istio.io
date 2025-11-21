@@ -1,8 +1,10 @@
 *                @istio/wg-docs-maintainers-infra
 /.spelling       @istio/wg-docs-maintainers-english
 /content/en/     @istio/wg-docs-maintainers-english
+/content/es/     @istio/wg-docs-maintainers-spanish
 /content/zh/     @istio/wg-docs-maintainers-chinese
 /i18n/en.toml    @istio/wg-docs-maintainers-english
+/i18n/es.toml    @istio/wg-docs-maintainers-spanish
 /i18n/zh.toml    @istio/wg-docs-maintainers-chinese
 /pkg/test/       @istio/wg-docs-maintainers-infra @istio/wg-test-and-release-maintainers
 /static/         @istio/wg-docs-maintainers-english

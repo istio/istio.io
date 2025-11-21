@@ -39,6 +39,9 @@ Istio 通常会基于 HTTP 头来路由流量。如果无法基于 HTTP 头进�
 对于 1.25 之前的版本，您可以在安装时通过设置 `values.cni.ambient.dnsCapture=true`
 和 `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` 来启用 DNS 捕获。
 
+各个 Pod 可以通过应用 `ambient.istio.io/dns-capture=false`
+注解来退出全局 Ambient 模式 DNS 捕获。
+
 ### Sidecar 模式 {#sidecar-mode}
 
 此功能默认情况下未启用。要启用该功能，请在安装 Istio 时使用以下设置：
@@ -78,7 +81,7 @@ spec:
 默认启用基础 DNS 代理。
 {{< /tip >}}
 
-## DNS 捕获 {#DNS-capture-in-action}
+## DNS 捕获 {#dns-capture-in-action}
 
 为了尝试 DNS 捕获，首先为某些外部服务启动一个 `ServiceEntry`：
 
@@ -200,6 +203,7 @@ EOF
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 * Could not resolve host: auto.internal
+* Store negative name resolve for auto.internal:80
 * shutting down connection #0
 {{< /text >}}
 

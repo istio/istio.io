@@ -7,8 +7,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-En un despliegue de malla de Istio regular, la terminación TLS para las solicitudes descendentes se realiza en el Ingress Gateway.
-Aunque esto satisface la mayoría de los casos de uso, para algunos (como un API Gateway en la malla) el Ingress Gateway no es necesariamente necesario. Esta tarea muestra cómo eliminar el salto adicional introducido por el Ingress Gateway de Istio y permitir que el sidecar de Envoy, que se ejecuta junto con la aplicación, realice la terminación TLS para las solicitudes que provienen de fuera de la service mesh.
+En un despliegue de mesh de Istio regular, la terminación TLS para las solicitudes descendentes se realiza en el Ingress Gateway.
+Aunque esto satisface la mayoría de los casos de uso, para algunos (como un API Gateway en la mesh) el Ingress Gateway no es necesariamente necesario. Esta tarea muestra cómo eliminar el salto adicional introducido por el Ingress Gateway de Istio y permitir que el sidecar de Envoy, que se ejecuta junto con la aplicación, realice la terminación TLS para las solicitudes que provienen de fuera de la service mesh.
 
 El service HTTPS de ejemplo utilizado para esta tarea es un service [httpbin](https://httpbin.org) simple.
 En los siguientes pasos, desplegará el service httpbin dentro de su service mesh y lo configurará.
@@ -34,7 +34,7 @@ En los siguientes pasos, desplegará el service httpbin dentro de su service mes
 
 ## Habilitar mTLS global
 
-Aplique la siguiente política `PeerAuthentication` para requerir tráfico mTLS para todos los workloads en la malla.
+Aplique la siguiente política `PeerAuthentication` para requerir tráfico mTLS para todos los workloads en la mesh.
 
 {{< text bash >}}
 $ kubectl -n test apply -f - <<EOF
@@ -198,7 +198,7 @@ EOF
 
 ## Verificación
 
-Ahora que el servidor httpbin está desplegado y configurado, levante dos clientes para probar la conectividad de extremo a extremo tanto desde dentro como desde fuera de la malla:
+Ahora que el servidor httpbin está desplegado y configurado, levante dos clientes para probar la conectividad de extremo a extremo tanto desde dentro como desde fuera de la mesh:
 1. Un cliente interno (curl) en el mismo namespace (test) que el service httpbin, con sidecar inyectado.
 1. Un cliente externo (curl) en el namespace predeterminado (es decir, fuera de la service mesh).
 
@@ -240,7 +240,7 @@ ROOTCA                                                                  CA      
 file-root:/etc/istio/tls-ca-certs/ca.crt                                Cert Chain     ACTIVE     true           14033888812979945197                        2023-02-14T09:51:56Z     2022-02-14T09:51:56Z
 {{< /text >}}
 
-### Verificar la conectividad de malla interna en el puerto 8080
+### Verificar la conectividad de mesh interna en el puerto 8080
 
 {{< text bash >}}
 $ export INTERNAL_CLIENT=$(kubectl -n test get pod -l app=curl -o jsonpath={.items..metadata.name})
@@ -255,7 +255,7 @@ content-length: 0
 x-envoy-upstream-service-time: 5
 {{< /text >}}
 
-### Verificar la conectividad de malla externa a interna en el puerto 8443
+### Verificar la conectividad de mesh externa a interna en el puerto 8443
 
 Para verificar el tráfico mTLS desde un cliente externo, primero copie el certificado de CA y el certificado/clave de cliente al cliente curl que se ejecuta en el namespace predeterminado.
 

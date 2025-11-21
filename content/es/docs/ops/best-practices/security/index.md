@@ -1,76 +1,76 @@
 ---
-title: Security Best Practices
-description: Best practices for securing applications using Istio.
+title: Mejores Prácticas de Seguridad
+description: Mejores prácticas para asegurar aplicaciones usando Istio.
 force_inline_toc: true
 weight: 30
 owner: istio/wg-security-maintainers
 test: n/a
 ---
 
-Istio security features provide strong identity, powerful policy, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect your services and data.
-However, to fully make use of these features securely, care must be taken to follow best practices. It is recommended to review the [Security overview](/es/docs/concepts/security/) before proceeding.
+Las características de seguridad de Istio proporcionan identidad fuerte, política poderosa, cifrado TLS transparente, y herramientas de autenticación, autorización y auditoría (AAA) para proteger tus servicios y datos.
+Sin embargo, para aprovechar completamente estas características de manera segura, se debe tener cuidado de seguir las mejores prácticas. Se recomienda revisar la [Visión general de seguridad](/es/docs/concepts/security/) antes de proceder.
 
 ## Mutual TLS
 
-Istio will [automatically](/es/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) encrypt traffic using [Mutual TLS](/es/docs/concepts/security/#mutual-tls-authentication) whenever possible.
-However, proxies are configured in [permissive mode](/es/docs/concepts/security/#permissive-mode) by default, meaning they will accept both mutual TLS and plaintext traffic.
+Istio [automáticamente](/es/docs/ops/configuration/traffic-management/tls-configuration/#auto-mtls) cifrará el tráfico usando [Mutual TLS](/es/docs/concepts/security/#mutual-tls-authentication) siempre que sea posible.
+Sin embargo, los proxies están configurados en [modo permisivo](/es/docs/concepts/security/#permissive-mode) por defecto, lo que significa que aceptarán tanto tráfico mutual TLS como texto plano.
 
-While this is required for incremental adoption or allowing traffic from clients without an Istio sidecar, it also weakens the security stance.
-It is recommended to [migrate to strict mode](/es/docs/tasks/security/authentication/mtls-migration/) when possible, to enforce that mutual TLS is used.
+Aunque esto es requerido para adopción incremental o para permitir tráfico de clientes sin un sidecar de Istio, también debilita la postura de seguridad.
+Se recomienda [migrar al modo estricto](/es/docs/tasks/security/authentication/mtls-migration/) cuando sea posible, para hacer cumplir que se use mutual TLS.
 
-Mutual TLS alone is not always enough to fully secure traffic, however, as it provides only authentication, not authorization.
-This means that anyone with a valid certificate can still access a service.
+Mutual TLS por sí solo no siempre es suficiente para asegurar completamente el tráfico, sin embargo, ya que proporciona solo autenticación, no autorización.
+Esto significa que cualquiera con un certificado válido aún puede acceder a un servicio.
 
-To fully lock down traffic, it is recommended to configure [authorization policies](/es/docs/tasks/security/authorization/).
-These allow creating fine-grained policies to allow or deny traffic. For example, you can allow only requests from the `app` namespace to access the `hello-world` service.
+Para bloquear completamente el tráfico, se recomienda configurar [políticas de autorización](/es/docs/tasks/security/authorization/).
+Estas permiten crear políticas de grano fino para permitir o denegar tráfico. Por ejemplo, puedes permitir solo solicitudes del namespace `app` para acceder al Service `hello-world`.
 
-## Authorization policies
+## Políticas de autorización
 
-Istio [authorization](/es/docs/concepts/security/#authorization) plays a critical part in Istio security.
-It takes effort to configure the correct authorization policies to best protect your clusters.
-It is important to understand the implications of these configurations as Istio cannot determine the proper authorization for all users.
-Please follow this section in its entirety.
+La [autorización](/es/docs/concepts/security/#authorization) de Istio juega un papel crítico en la seguridad de Istio.
+Toma esfuerzo configurar las políticas de autorización correctas para proteger mejor tus clusters.
+Es importante entender las implicaciones de estas configuraciones ya que Istio no puede determinar la autorización apropiada para todos los usuarios.
+Por favor sigue esta sección en su totalidad.
 
-### Safer Authorization Policy Patterns
+### Patrones de Política de Autorización Más Seguros
 
-#### Use default-deny patterns
+#### Usar patrones de denegación por defecto
 
-We recommend you define your Istio authorization policies following the default-deny pattern to enhance your cluster's security posture.
-The default-deny authorization pattern means your system denies all requests by default, and you define the conditions in which the requests are allowed.
-In case you miss some conditions, traffic will be unexpectedly denied, instead of traffic being unexpectedly allowed.
-The latter typically being a security incident while the former may result in a poor user experience, a service outage or will not match your SLO/SLA.
+Recomendamos que definas tus políticas de autorización de Istio siguiendo el patrón de denegación por defecto para mejorar la postura de seguridad de tu cluster.
+El patrón de autorización de denegación por defecto significa que tu sistema deniega todas las solicitudes por defecto, y defines las condiciones en las que se permiten las solicitudes.
+En caso de que omitas algunas condiciones, el tráfico será denegado inesperadamente, en lugar de que el tráfico sea permitido inesperadamente.
+Lo último típicamente siendo un incidente de seguridad mientras que lo primero puede resultar en una mala experiencia de usuario, una interrupción del servicio o no cumplirá con tu SLO/SLA.
 
-For example, in the [authorization for HTTP traffic task](/es/docs/tasks/security/authorization/authz-http/),
-the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
-From there, other authorization policies allow traffic based on specific conditions.
+Por ejemplo, en la [tarea de autorización para tráfico HTTP](/es/docs/tasks/security/authorization/authz-http/),
+la política de autorización llamada `allow-nothing` se asegura de que todo el tráfico sea denegado por defecto.
+Desde ahí, otras políticas de autorización permiten tráfico basado en condiciones específicas.
 
-#### Default-deny pattern with waypoints
+#### Patrón de denegación por defecto con waypoints
 
-Istio's new ambient data plane mode introduced a new split data plane architecture.
-In this architecture, the waypoint proxy is configured using Kubernetes Gateway API which uses more explicit binding to gateways using `parentRef` and `targetRef`.
-Because waypoints adhere more closely to the principles of Kubernetes Gateway API, the default-deny pattern is enabled in a slightly different way when policy is applied waypoints.
-Beginning with Istio 1.25, you may bind `AuthorizationPolicy` resources to the `istio-waypoint` `GatewayClass`.
-By binding `AuthorizationPolicy` to the `GatewayClass`, you can configure all gateways which implement that `GatewayClass` with a default policy.
-It is important to note that `GatewayClass` is a cluster-scoped resource, and binding namespace-scoped policies to it requires special care.
-Istio requires that policies which are bound to a `GatewayClass` reside in the root namespace, typically `istio-system`.
+El nuevo modo de data plane ambient de Istio introdujo una nueva arquitectura de data plane dividida.
+En esta arquitectura, el Proxy waypoint se configura usando Kubernetes Gateway API que usa vinculación más explícita a gateways usando `parentRef` y `targetRef`.
+Porque los waypoints se adhieren más estrechamente a los principios de Kubernetes Gateway API, el patrón de denegación por defecto se habilita de manera ligeramente diferente cuando la política se aplica a waypoints.
+Comenzando con Istio 1.25, puedes vincular recursos `AuthorizationPolicy` al `GatewayClass` `istio-waypoint`.
+Al vincular `AuthorizationPolicy` al `GatewayClass`, puedes configurar todos los gateways que implementan ese `GatewayClass` con una política por defecto.
+Es importante notar que `GatewayClass` es un recurso de alcance de cluster, y vincular políticas de alcance de namespace a él requiere cuidado especial.
+Istio requiere que las políticas que están vinculadas a un `GatewayClass` residan en el namespace raíz, típicamente `istio-system`.
 
 {{< tip >}}
-When using the default-deny pattern with waypoints, the policy bound to the `istio-waypoint` `GatewayClass` should be used in addition to the "classic" default-deny policy. The "classic" default-deny policy will be enforced by ztunnel against the workloads in your mesh and still provides meaningful value.
+Al usar el patrón de denegación por defecto con waypoints, la política vinculada al `GatewayClass` `istio-waypoint` debería usarse además de la política "clásica" de denegación por defecto. La política "clásica" de denegación por defecto será aplicada por ztunnel contra los workloads en tu meshy aún proporciona valor significativo.
 {{< /tip >}}
 
-#### Use `ALLOW-with-positive-matching` and `DENY-with-negative-match` patterns
+#### Usar patrones `ALLOW-with-positive-matching` y `DENY-with-negative-match`
 
-Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy
-patterns are safer because the worst result in the case of policy mismatch is an unexpected 403 rejection instead of
-an authorization policy bypass.
+Usa los patrones `ALLOW-with-positive-matching` o `DENY-with-negative-matching` siempre que sea posible. Estos patrones de política de autorización
+son más seguros porque el peor resultado en el caso de un error de coincidencia de política es un rechazo 403 inesperado en lugar de
+un bypass de la política de autorización.
 
-The `ALLOW-with-positive-matching` pattern is to use the `ALLOW` action only with **positive** matching fields (e.g. `paths`, `values`)
-and do not use any of the **negative** matching fields (e.g. `notPaths`, `notValues`).
+El patrón `ALLOW-with-positive-matching` es usar la acción `ALLOW` solo con campos de coincidencia **positivos** (ej. `paths`, `values`)
+y no usar ninguno de los campos de coincidencia **negativos** (ej. `notPaths`, `notValues`).
 
-The `DENY-with-negative-matching` pattern is to use the `DENY` action only with **negative** matching fields (e.g. `notPaths`, `notValues`)
-and do not use any of the **positive** matching fields (e.g. `paths`, `values`).
+El patrón `DENY-with-negative-matching` es usar la acción `DENY` solo con campos de coincidencia **negativos** (ej. `notPaths`, `notValues`)
+y no usar ninguno de los campos de coincidencia **positivos** (ej. `paths`, `values`).
 
-For example, the authorization policy below uses the `ALLOW-with-positive-matching` pattern to allow requests to path `/public`:
+Por ejemplo, la política de autorización a continuación usa el patrón `ALLOW-with-positive-matching` para permitir solicitudes a la ruta `/public`:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -85,11 +85,11 @@ spec:
         paths: ["/public"]
 {{< /text >}}
 
-The above policy explicitly lists the allowed path (`/public`). This means the request path must be exactly the same as
-`/public` to allow the request. Any other requests will be rejected by default eliminating the risk
-of unknown normalization behavior causing policy bypass.
+La política anterior lista explícitamente la ruta permitida (`/public`). Esto significa que la ruta de la solicitud debe ser exactamente la misma que
+`/public` para permitir la solicitud. Cualquier otra solicitud será rechazada por defecto eliminando el riesgo
+de que el comportamiento de normalización desconocido cause un bypass de política.
 
-The following is an example using the `DENY-with-negative-matching` pattern to achieve the same result:
+El siguiente es un ejemplo usando el patrón `DENY-with-negative-matching` para lograr el mismo resultado:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -104,140 +104,141 @@ spec:
         notPaths: ["/public"]
 {{< /text >}}
 
-### Understand path normalization in authorization policy
+### Entender la normalización de rutas en la política de autorización
 
-The enforcement point for authorization policies is the Envoy proxy instead of the usual resource access point in the backend application. A policy mismatch happens when the Envoy proxy and the backend application interpret the request
-differently.
+El punto de aplicación para las políticas de autorización es el Proxy Envoy en lugar del punto de acceso a recursos usual en la aplicación backend. Un error de coincidencia de política ocurre cuando el Proxy Envoy y la aplicación backend interpretan la solicitud
+de manera diferente.
 
-A mismatch can lead to either unexpected rejection or a policy bypass. The latter is usually a security incident that needs to be
-fixed immediately, and it's also why we need path normalization in the authorization policy.
+Un error de coincidencia puede llevar a rechazo inesperado o a un bypass de política. Lo último es usualmente un incidente de seguridad que necesita ser
+arreglado inmediatamente, y también es por qué necesitamos normalización de rutas en la política de autorización.
 
-For example, consider an authorization policy to reject requests with path `/data/secret`. A request with path `/data//secret` will
-not be rejected because it does not match the path defined in the authorization policy due to the extra forward slash `/` in the path.
+Por ejemplo, considera una política de autorización para rechazar solicitudes con ruta `/data/secret`. Una solicitud con ruta `/data//secret` no
+será rechazada porque no coincide con la ruta definida en la política de autorización debido a la barra diagonal `/` extra en la ruta.
 
-The request goes through and later the backend application returns the same response that it returns for the path `/data/secret`
-because the backend application normalizes the path `/data//secret` to `/data/secret` as it considers the double forward slashes
-`//` equivalent to a single forward slash `/`.
+La solicitud pasa y luego la aplicación backend retorna la misma respuesta que retorna para la ruta `/data/secret`
+porque la aplicación backend normaliza la ruta `/data//secret` a `/data/secret` ya que considera las barras diagonales dobles
+`//` equivalentes a una sola barra diagonal `/`.
 
-In this example, the policy enforcement point (Envoy proxy) had a different understanding of the path than the resource access
-point (backend application). The different understanding caused the mismatch and subsequently the bypass of the authorization policy.
+En este ejemplo, el punto de aplicación de política (Proxy Envoy) tuvo un entendimiento diferente de la ruta que el punto de acceso a recursos
+(aplicación backend). El entendimiento diferente causó el error de coincidencia y posteriormente el bypass de la política de autorización.
 
-This becomes a complicated problem because of the following factors:
+Esto se convierte en un problema complicado debido a los siguientes factores:
 
-* Lack of a clear standard for the normalization.
+* Falta de un estándar claro para la normalización.
 
-* Backends and frameworks in different layers have their own special normalization.
+* Los backends y frameworks en diferentes capas tienen su propia normalización especial.
 
-* Applications can even have arbitrary normalizations for their own use cases.
+* Las aplicaciones pueden incluso tener normalizaciones arbitrarias para sus propios casos de uso.
 
-Istio authorization policy implements built-in support of various basic normalization options to help you to better address
-the problem:
+La política de autorización de Istio implementa soporte incorporado de varias opciones de normalización básicas para ayudarte a abordar mejor
+el problema:
 
-* Refer to [Guideline on configuring the path normalization option](/es/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option)
-  to understand which normalization options you may want to use.
+* Consulta [Guía sobre configurar la opción de normalización de rutas](/es/docs/ops/best-practices/security/#guideline-on-configuring-the-path-normalization-option)
+  para entender qué opciones de normalización podrías querer usar.
 
-* Refer to [Customize your system on path normalization](/es/docs/ops/best-practices/security/#customize-your-system-on-path-normalization) to
-  understand the detail of each normalization option.
+* Consulta [Personalizar tu sistema en normalización de rutas](/es/docs/ops/best-practices/security/#customize-your-system-on-path-normalization) para
+  entender el detalle de cada opción de normalización.
 
-* Refer to [Mitigation for unsupported normalization](/es/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization) for
-  alternative solutions in case you need any unsupported normalization options.
+* Consulta [Mitigación para normalización no soportada](/es/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization) para
+  soluciones alternativas en caso de que necesites cualquier opción de normalización no soportada.
 
-### Guideline on configuring the path normalization option
+### Guía sobre configurar la opción de normalización de rutas
 
-#### Case 1: You do not need normalization at all
+#### Caso 1: No necesitas normalización en absoluto
 
-Before diving into the details of configuring normalization, you should first make sure that normalizations are needed.
+Antes de sumergirse en los detalles de configurar normalización, primero deberías asegurarte de que las normalizaciones sean necesarias.
 
-You do not need normalization if you don't use authorization policies or if your authorization policies don't
-use any `path` fields.
+No necesitas normalización si no usas políticas de autorización o si tus políticas de autorización no
+usan ningún campo `path`.
 
-You may not need normalization if all your authorization policies follow the [safer authorization pattern](/es/docs/ops/best-practices/security/#safer-authorization-policy-patterns)
-which, in the worst case, results in unexpected rejection instead of policy bypass.
+Podrías no necesitar normalización si todas tus políticas de autorización siguen el [patrón de autorización más seguro](/es/docs/ops/best-practices/security/#safer-authorization-policy-patterns)
+que, en el peor caso, resulta en rechazo inesperado en lugar de bypass de política.
 
-#### Case 2: You need normalization but not sure which normalization option to use
+#### Caso 2: Necesitas normalización pero no estás seguro de qué opción de normalización usar
 
-You need normalization but you have no idea of which option to use. The safest choice is the strictest normalization option
-that provides the maximum level of normalization in the authorization policy.
+Necesitas normalización pero no tienes idea de qué opción usar. La elección más segura es la opción de normalización más estricta
+que proporciona el máximo nivel de normalización en la política de autorización.
 
-This is often the case due to the fact that complicated multi-layered systems make it practically impossible to figure
-out what normalization is actually happening to a request beyond the enforcement point.
+Este es a menudo el caso debido al hecho de que los sistemas multi-capas complicados hacen prácticamente imposible averiguar
+qué normalización está realmente ocurriendo a una solicitud más allá del punto de aplicación.
 
-You could use a less strict normalization option if it already satisfies your requirements and you are sure of its implications.
+Podrías usar una opción de normalización menos estricta si ya satisface tus requisitos y estás seguro de sus implicaciones.
 
-For either option, make sure you write both positive and negative tests specifically for your requirements to verify the
-normalization is working as expected. The tests are useful in catching potential bypass issues caused by a misunderstanding
-or incomplete knowledge of the normalization happening to your request.
+Para cualquier opción, asegúrate de escribir tanto pruebas positivas como negativas específicamente para tus requisitos para verificar que la
+normalización esté funcionando como se espera. Las pruebas son útiles para detectar problemas de bypass potenciales causados por un malentendido
+o conocimiento incompleto de la normalización que está ocurriendo a tu solicitud.
 
-Refer to [Customize your system on path normalization](/es/docs/ops/best-practices/security/#customize-your-system-on-path-normalization)
-for more details on configuring the normalization option.
+Consulta [Personalizar tu sistema en normalización de rutas](/es/docs/ops/best-practices/security/#customize-your-system-on-path-normalization)
+para más detalles sobre configurar la opción de normalización.
 
-#### Case 3: You need an unsupported normalization option
+#### Caso 3: Necesitas una opción de normalización no soportada
 
-If you need a specific normalization option that is not supported by Istio yet, please follow
-[Mitigation for unsupported normalization](/es/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization)
-for customized normalization support or create a feature request for the Istio community.
+Si necesitas una opción de normalización específica que aún no es soportada por Istio, por favor sigue
+[Mitigación para normalización no soportada](/es/docs/ops/best-practices/security/#mitigation-for-unsupported-normalization)
+para soporte de normalización personalizada o crea una solicitud de característica para la comunidad de Istio.
 
-### Customize your system on path normalization
+### Personalizar tu sistema en normalización de rutas
 
-Istio authorization policies can be based on the URL paths in the HTTP request.
-[Path normalization (a.k.a., URI normalization)](https://en.wikipedia.org/wiki/URI_normalization) modifies and standardizes the incoming requests' paths,
-so that the normalized paths can be processed in a standard way.
-Syntactically different paths may be equivalent after path normalization.
+Las políticas de autorización de Istio pueden basarse en las rutas URL en la solicitud HTTP.
+[Normalización de rutas (también conocida como normalización de URI)](https://en.wikipedia.org/wiki/URI_normalization) modifica y estandariza las rutas de solicitudes entrantes,
+para que las rutas normalizadas puedan ser procesadas de manera estándar.
+Rutas sintácticamente diferentes pueden ser equivalentes después de la normalización de rutas.
 
-Istio supports the following normalization schemes on the request paths,
-before evaluating against the authorization policies and routing the requests:
+Istio soporta los siguientes esquemas de normalización en las rutas de solicitud,
+antes de evaluar contra las políticas de autorización y enrutar las solicitudes:
 
-| Option | Description | Example |
+| Opción | Descripción | Ejemplo |
 | --- | --- | --- |
-| `NONE` | No normalization is done. Anything received by Envoy will be forwarded exactly as-is to any backend service. | `../%2Fa../b` is evaluated by the authorization policies and sent to your service. |
-| `BASE` | This is currently the option used in the *default* installation of Istio. This applies the [`normalize_path`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-normalize-path) option on Envoy proxies, which follows [RFC 3986](https://tools.ietf.org/html/rfc3986) with extra normalization to convert backslashes to forward slashes. | `/a/../b` is normalized to `/b`. `\da` is normalized to `/da`. |
-| `MERGE_SLASHES` | Slashes are merged after the _BASE_ normalization. | `/a//b` is normalized to `/a/b`. |
-| `DECODE_AND_MERGE_SLASHES` | The most strict setting when you allow all traffic by default. This setting is recommended, with the caveat that you will need to thoroughly test your authorization policies routes. [Percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slash and backslash characters (`%2F`, `%2f`, `%5C` and `%5c`) are decoded to `/` or `\`, before the `MERGE_SLASHES` normalization. | `/a%2fb` is normalized to `/a/b`. |
+| `NONE` | No se hace normalización. Cualquier cosa recibida por Envoy será reenviada exactamente como está a cualquier Service backend. | `../%2Fa../b` es evaluado por las políticas de autorización y enviado a tu servicio. |
+| `BASE` | Esta es actualmente la opción usada en la instalación *por defecto* de Istio. Esto aplica la opción [`normalize_path`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-normalize-path) en los proxies Envoy, que sigue [RFC 3986](https://tools.ietf.org/html/rfc3986) con normalización extra para convertir barras invertidas a barras diagonales. | `/a/../b` se normaliza a `/b`. `\da` se normaliza a `/da`. |
+| `MERGE_SLASHES` | Las barras diagonales se fusionan después de la normalización _BASE_. | `/a//b` se normaliza a `/a/b`. |
+| `DECODE_AND_MERGE_SLASHES` | La configuración más estricta cuando permites todo el tráfico por defecto. Esta configuración se recomienda, con la advertencia de que necesitarás probar exhaustivamente tus políticas de autorización y rutas. Los caracteres de barra diagonal y barra invertida [codificados en porcentaje](https://tools.ietf.org/html/rfc3986#section-2.1) (`%2F`, `%2f`, `%5C` y `%5c`) se decodifican a `/` o `\`, antes de la normalización `MERGE_SLASHES`. | `/a%2fb` se normaliza a `/a/b`. |
 
 {{< tip >}}
-The configuration is specified via the [`pathNormalization`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
-field in the [mesh config](/es/docs/reference/config/istio.mesh.v1alpha1/).
+La configuración se especifica a través del campo [`pathNormalization`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+en la [configuración de malla](/es/docs/reference/config/istio.mesh.v1alpha1/).
 {{< /tip >}}
 
-To emphasize, the normalization algorithms are conducted in the following order:
+Para enfatizar, los algoritmos de normalización se conducen en el siguiente orden:
 
-1. Percent-decode `%2F`, `%2f`, `%5C` and `%5c`.
-1. The [RFC 3986](https://tools.ietf.org/html/rfc3986) and other normalization implemented by the [`normalize_path`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-normalize-path) option in Envoy.
-1. Merge slashes
+1. Decodificar en porcentaje `%2F`, `%2f`, `%5C` y `%5c`.
+1. La normalización [RFC 3986](https://tools.ietf.org/html/rfc3986) y otra implementada por la opción [`normalize_path`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-normalize-path) en Envoy.
+1. Fusionar barras diagonales
 
 {{< warning >}}
-While these normalization options represent recommendations from HTTP standards and common industry practices,
-applications may interpret a URL in any way it chooses to. When using denial policies, ensure that you understand how your application behaves.
+Aunque estas opciones de normalización representan recomendaciones de estándares HTTP y prácticas comunes de la industria,
+las aplicaciones pueden interpretar una URL de cualquier manera que elijan.
+Al usar políticas de denegación, asegúrate de entender cómo se comporta tu aplicación.
 {{< /warning >}}
 
-For a complete list of supported normalizations, please refer to [authorization policy normalization](/es/docs/reference/config/security/normalization/).
+Para una lista completa de normalizaciones soportadas, por favor consulta [normalización de política de autorización](/es/docs/reference/config/security/normalization/).
 
-#### Examples of configuration
+#### Ejemplos de configuración
 
-Ensuring Envoy normalizes request paths to match your backend services' expectation is critical to the security of your system.
-The following examples can be used as reference for you to configure your system.
-The normalized URL paths, or the original URL paths if _NONE_ is selected, will be:
+Asegurar que Envoy normalice las rutas de solicitud para coincidir con la expectativa de tus servicios backend es crítico para la seguridad de tu sistema.
+Los siguientes ejemplos pueden usarse como referencia para configurar tu sistema.
+Las rutas URL normalizadas, o las rutas URL originales si se selecciona _NONE_, serán:
 
-1. Used to check against the authorization policies
-1. Forwarded to the backend application
+1. Usadas para verificar contra las políticas de autorización
+1. Reenviadas a la aplicación backend
 
-| Your application... | Choose... |
+| Tu aplicación... | Elige... |
 | --- | --- |
-| Relies on the proxy to do normalization | `BASE`, `MERGE_SLASHES` or `DECODE_AND_MERGE_SLASHES` |
-| Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986) and does not merge slashes | `BASE` |
-| Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986), merges slashes but does not decode [percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slashes | `MERGE_SLASHES` |
-| Normalizes request paths based on [RFC 3986](https://tools.ietf.org/html/rfc3986), decodes [percent-encoded](https://tools.ietf.org/html/rfc3986#section-2.1) slashes and merges slashes | `DECODE_AND_MERGE_SLASHES` |
-| Processes request paths in a way that is incompatible with [RFC 3986](https://tools.ietf.org/html/rfc3986) | `NONE` |
+| Depende del proxy para hacer normalización | `BASE`, `MERGE_SLASHES` o `DECODE_AND_MERGE_SLASHES` |
+| Normaliza rutas de solicitud basadas en [RFC 3986](https://tools.ietf.org/html/rfc3986) y no fusiona barras diagonales | `BASE` |
+| Normaliza rutas de solicitud basadas en [RFC 3986](https://tools.ietf.org/html/rfc3986), fusiona barras diagonales pero no decodifica barras diagonales [codificadas en porcentaje](https://tools.ietf.org/html/rfc3986#section-2.1) | `MERGE_SLASHES` |
+| Normaliza rutas de solicitud basadas en [RFC 3986](https://tools.ietf.org/html/rfc3986), decodifica barras diagonales [codificadas en porcentaje](https://tools.ietf.org/html/rfc3986#section-2.1) y fusiona barras diagonales | `DECODE_AND_MERGE_SLASHES` |
+| Procesa rutas de solicitud de una manera que es incompatible con [RFC 3986](https://tools.ietf.org/html/rfc3986) | `NONE` |
 
-#### How to configure
+#### Cómo configurar
 
-You can use `istioctl` to update the [mesh config](/es/docs/reference/config/istio.mesh.v1alpha1/):
+Puedes usar `istioctl` para actualizar la [configuración de malla](/es/docs/reference/config/istio.mesh.v1alpha1/):
 
 {{< text bash >}}
 $ istioctl upgrade --set meshConfig.pathNormalization.normalization=DECODE_AND_MERGE_SLASHES
 {{< /text >}}
 
-or by altering your operator overrides file
+o alterando tu archivo de overrides del operator
 
 {{< text bash >}}
 $ cat <<EOF > iop.yaml
@@ -251,10 +252,10 @@ EOF
 $ istioctl install -f iop.yaml
 {{< /text >}}
 
-Alternatively, if you want to directly edit the mesh config,
-you can add the [`pathNormalization`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
-to the [mesh config](/es/docs/reference/config/istio.mesh.v1alpha1/), which is the `istio-<REVISION_ID>` configmap in the `istio-system` namespace.
-For example, if you choose the `DECODE_AND_MERGE_SLASHES` option, you modify the mesh config as the following:
+Alternativamente, si quieres editar directamente la configuración de malla,
+puedes agregar el [`pathNormalization`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ProxyPathNormalization)
+a la [configuración de malla](/es/docs/reference/config/istio.mesh.v1alpha1/), que es el configmap `istio-<REVISION_ID>` en el namespace `istio-system`.
+Por ejemplo, si eliges la opción `DECODE_AND_MERGE_SLASHES`, modificas la configuración de meshcomo lo siguiente:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -266,27 +267,27 @@ apiVersion: v1
       ...
 {{< /text >}}
 
-### Mitigation for unsupported normalization
+### Mitigación para normalización no soportada
 
-This section describes various mitigations for unsupported normalization. These could be useful when you need a specific
-normalization that is not supported by Istio.
+Esta sección describe varias mitigaciones para normalización no soportada. Estas podrían ser útiles cuando necesitas una normalización específica
+que no es soportada por Istio.
 
-Please make sure you understand the mitigation thoroughly and use it carefully as some mitigations rely on things that are
-out the scope of Istio and also not supported by Istio.
+Por favor asegúrate de entender la mitigación completamente y usarla cuidadosamente ya que algunas mitigaciones dependen de cosas que están
+fuera del alcance de Istio y también no son soportadas por Istio.
 
-#### Custom normalization logic
+#### Lógica de normalización personalizada
 
-You can apply custom normalization logic using the WASM or Lua filter. It is recommended to use the WASM filter because
-it's officially supported and also used by Istio. You could use the Lua filter for a quick proof-of-concept DEMO but we do
-not recommend using the Lua filter in production because it is not supported by Istio.
+Puedes aplicar lógica de normalización personalizada usando el filtro WASM o Lua. Se recomienda usar el filtro WASM porque
+está oficialmente soportado y también usado por Istio. Podrías usar el filtro Lua para una prueba de concepto DEMO rápida pero no
+recomendamos usar el filtro Lua en producción porque no está soportado por Istio.
 
-##### Example custom normalization (case normalization)
+##### Ejemplo de normalización personalizada (normalización de caso)
 
-In some environments, it may be useful to have paths in authorization policies compared in a case insensitive manner.
-For example, treating `https://myurl/get` and `https://myurl/GeT` as equivalent.
+En algunos entornos, puede ser útil tener rutas en políticas de autorización comparadas de manera insensible a mayúsculas y minúsculas.
+Por ejemplo, tratar `https://myurl/get` y `https://myurl/GeT` como equivalentes.
 
-In those cases, the `EnvoyFilter` shown below can be used to insert a Lua filter to normalize the path to lower case.
-This filter will change both the path used for comparison and the path presented to the application.
+En esos casos, el `EnvoyFilter` mostrado a continuación puede usarse para insertar un filtro Lua para normalizar la ruta a minúsculas.
+Este filtro cambiará tanto la ruta usada para comparación como la ruta presentada a la aplicación.
 
 {{< text syntax=yaml snip_id=ingress_case_insensitive_envoy_filter >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -316,15 +317,15 @@ spec:
               end
 {{< /text >}}
 
-#### Writing Host Match Policies
+#### Escribir Políticas de Coincidencia de Host
 
-Istio generates hostnames for both the hostname itself and all matching ports. For instance, a virtual service or Gateway
-for a host of `example.com` generates a config matching `example.com` and `example.com:*`. However, exact match authorization
-policies only match the exact string given for the `hosts` or `notHosts` fields.
+Istio genera hostnames tanto para el hostname mismo como para todos los puertos coincidentes. Por ejemplo, un virtual service o Gateway
+para un host de `example.com` genera una configuración que coincide con `example.com` y `example.com:*`. Sin embargo, las políticas de autorización de coincidencia exacta
+solo coinciden con la cadena exacta dada para los campos `hosts` o `notHosts`.
 
-[Authorization policy rules](/es/docs/reference/config/security/authorization-policy/#Rule) matching hosts should be written using
-prefix matches instead of exact matches.  For example, for an `AuthorizationPolicy` matching the Envoy configuration generated
-for a hostname of `example.com`, you would use `hosts: ["example.com", "example.com:*"]` as shown in the below `AuthorizationPolicy`.
+[Las reglas de política de autorización](/es/docs/reference/config/security/authorization-policy/#Rule) que coinciden con hosts deben escribirse usando
+coincidencias de prefijo en lugar de coincidencias exactas. Por ejemplo, para una `AuthorizationPolicy` que coincida con la configuración de Envoy generada
+para un hostname de `example.com`, usarías `hosts: ["example.com", "example.com:*"]` como se muestra en la `AuthorizationPolicy` a continuación.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -343,118 +344,118 @@ spec:
         hosts: ["example.com", "example.com:*"]
 {{< /text >}}
 
-Additionally, the `host` and `notHosts` fields should generally only be used on gateway for external traffic entering the mesh
-and not on sidecars for traffic within the mesh. This is because the sidecar on server side (where the authorization policy is enforced)
-does not use the `Host` header when redirecting the request to the application. This makes the `host` and `notHost` meaningless
-on sidecar because a client could reach out to the application using explicit IP address and arbitrary `Host` header instead of
-the service name.
+Adicionalmente, los campos `host` y `notHosts` generalmente solo deben usarse en gateway para tráfico externo entrando a la mesh
+y no en sidecars para tráfico dentro de la mesh. Esto es porque el sidecar en el lado del servidor (donde se aplica la política de autorización)
+no usa el header `Host` al redirigir la solicitud a la aplicación. Esto hace que `host` y `notHost` no tengan sentido
+en sidecar porque un cliente podría alcanzar la aplicación usando dirección IP explícita y header `Host` arbitrario en lugar de
+el nombre del servicio.
 
-If you really need to enforce access control based on the `Host` header on sidecars for any reason, follow with the [default-deny patterns](/es/docs/ops/best-practices/security/#use-default-deny-patterns)
-which would reject the request if the client uses an arbitrary `Host` header.
+Si realmente necesitas aplicar control de acceso basado en el header `Host` en sidecars por cualquier razón, sigue con los [patrones de denegación por defecto](/es/docs/ops/best-practices/security/#use-default-deny-patterns)
+que rechazarían la solicitud si el cliente usa un header `Host` arbitrario.
 
-#### Specialized Web Application Firewall (WAF)
+#### Web Application Firewall (WAF) Especializado
 
-Many specialized Web Application Firewall (WAF) products provide additional normalization options. They can be deployed in
-front of the Istio ingress gateway to normalize requests entering the mesh. The authorization policy will then be enforced
-on the normalized requests. Please refer to your specific WAF product for configuring the normalization options.
+Muchos productos especializados de Web Application Firewall (WAF) proporcionan opciones de normalización adicionales. Pueden desplegarse en
+frente del Istio ingress gateway para normalizar solicitudes entrando a la mesh. La política de autorización será entonces aplicada
+en las solicitudes normalizadas. Por favor consulta tu producto WAF específico para configurar las opciones de normalización.
 
-#### Feature request to Istio
+#### Solicitud de característica a Istio
 
-If you believe Istio should officially support a specific normalization, you can follow the [reporting a vulnerability](/es/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
-page to send a feature request about the specific normalization to the Istio Product Security Work Group for initial evaluation.
+Si crees que Istio debería soportar oficialmente una normalización específica, puedes seguir la página [reportar una vulnerabilidad](/es/docs/releases/security-vulnerabilities/#reporting-a-vulnerability)
+para enviar una solicitud de característica sobre la normalización específica al Grupo de Trabajo de Seguridad de Producto de Istio para evaluación inicial.
 
-Please do not open any issues in public without first contacting the Istio Product Security Work Group because the
-issue might be considered a security vulnerability that needs to be fixed in private.
+Por favor no abras ningún issue en público sin primero contactar al Grupo de Trabajo de Seguridad de Producto de Istio porque el
+issue podría considerarse una vulnerabilidad de seguridad que necesita ser arreglada en privado.
 
-If the Istio Product Security Work Group evaluates the feature request as not a security vulnerability, an issue will
-be opened in public for further discussions of the feature request.
+Si el Grupo de Trabajo de Seguridad de Producto de Istio evalúa la solicitud de característica como no una vulnerabilidad de seguridad, se abrirá un issue
+en público para más discusiones de la solicitud de característica.
 
-### Known limitations
+### Limitaciones conocidas
 
-This section lists known limitations of the authorization policy.
+Esta sección lista limitaciones conocidas de la política de autorización.
 
-#### Server-first TCP protocols are not supported
+#### Los protocolos TCP server-first no son soportados
 
-Server-first TCP protocols mean the server application will send the first bytes right after accepting the TCP connection
-before receiving any data from the client.
+Los protocolos TCP server-first significan que la aplicación del servidor enviará los primeros bytes justo después de aceptar la conexión TCP
+antes de recibir cualquier dato del cliente.
 
-Currently, the authorization policy only supports enforcing access control on inbound traffic and not the outbound traffic.
+Actualmente, la política de autorización solo soporta aplicar control de acceso en tráfico entrante y no en el tráfico saliente.
 
-It also does not support server-first TCP protocols because the first bytes are sent by the server application even before
-it received any data from the client. In this case, the initial first bytes sent by the server are returned to the client
-directly without going through the access control check of the authorization policy.
+Tampoco soporta protocolos TCP server-first porque los primeros bytes son enviados por la aplicación del servidor incluso antes
+de que reciba cualquier dato del cliente. En este caso, los primeros bytes iniciales enviados por el servidor son retornados al cliente
+directamente sin pasar por la verificación de control de acceso de la política de autorización.
 
-You should not use the authorization policy if the first bytes sent by the server-first TCP protocols include any sensitive
-data that need to be protected by proper authorization.
+No deberías usar la política de autorización si los primeros bytes enviados por los protocolos TCP server-first incluyen cualquier dato sensible
+que necesite ser protegido por autorización apropiada.
 
-You could still use the authorization policy in this case if the first bytes does not include any sensitive data, for example,
-the first bytes are used for negotiating the connection with data that are publicly accessible to any clients. The authorization
-policy will work as usual for the following requests sent by the client after the first bytes.
+Podrías aún usar la política de autorización en este caso si los primeros bytes no incluyen cualquier dato sensible, por ejemplo,
+los primeros bytes se usan para negociar la conexión con datos que son públicamente accesibles a cualquier cliente. La política de autorización
+funcionará como usual para las siguientes solicitudes enviadas por el cliente después de los primeros bytes.
 
-## Understand traffic capture limitations
+## Entender las limitaciones de captura de tráfico
 
-The Istio sidecar works by capturing both inbound traffic and outbound traffic and directing them through the sidecar proxy.
+El sidecar de Istio funciona capturando tanto tráfico entrante como saliente y dirigiéndolos a través del sidecar proxy.
 
-However, not *all* traffic is captured:
+Sin embargo, no *todo* el tráfico es capturado:
 
-* Redirection only handles TCP based traffic. Any UDP or ICMP packets will not be captured or modified.
-* Inbound capture is disabled on many [ports used by the sidecar](/es/docs/ops/deployment/application-requirements/#ports-used-by-istio) as well as port 22. This list can be expanded by options like `traffic.sidecar.istio.io/excludeInboundPorts`.
-* Outbound capture may similarly be reduced through settings like `traffic.sidecar.istio.io/excludeOutboundPorts` or other means.
+* La redirección solo maneja tráfico basado en TCP. Cualquier paquete UDP o ICMP no será capturado o modificado.
+* La captura entrante está deshabilitada en muchos [puertos usados por el sidecar](/es/docs/ops/deployment/application-requirements/#ports-used-by-istio) así como el puerto 22. Esta lista puede expandirse con opciones como `traffic.sidecar.istio.io/excludeInboundPorts`.
+* La captura saliente puede ser reducida similarmente a través de configuraciones como `traffic.sidecar.istio.io/excludeOutboundPorts` u otros medios.
 
-In general, there is minimal security boundary between an application and its sidecar proxy. Configuration of the sidecar is allowed on a per-pod basis, and both run in the same network/process namespace.
-As such, the application may have the ability to remove redirection rules and remove, alter, terminate, or replace the sidecar proxy.
-This allows a pod to intentionally bypass its sidecar for outbound traffic or intentionally allow inbound traffic to bypass its sidecar.
+En general, hay un límite de seguridad mínimo entre una aplicación y su sidecar proxy. La configuración del sidecar está permitida en base por pod, y ambos se ejecutan en el mismo namespace de red/proceso.
+Como tal, la aplicación puede tener la habilidad de remover reglas de redirección y remover, alterar, terminar, o reemplazar el sidecar proxy.
+Esto permite a un pod bypasear intencionalmente su sidecar para tráfico saliente o intencionalmente permitir que tráfico entrante bypasee su sidecar.
 
-As a result, it is not secure to rely on all traffic being captured unconditionally by Istio.
-Instead, the security boundary is that a client may not bypass *another* pod's sidecar.
+Como resultado, no es seguro depender de que todo el tráfico sea capturado incondicionalmente por Istio.
+En su lugar, el límite de seguridad es que un cliente no puede bypasear el sidecar de *otro* pod.
 
-For example, if I run the `reviews` application on port `9080`, I can assume that all traffic from the `productpage` application will be captured by the sidecar proxy,
-where Istio authentication and authorization policies may apply.
+Por ejemplo, si ejecuto la aplicación `reviews` en el puerto `9080`, puedo asumir que todo el tráfico de la aplicación `productpage` será capturado por el sidecar proxy,
+donde las políticas de autenticación y autorización de Istio pueden aplicar.
 
-### Defense in depth with `NetworkPolicy`
+### Defensa en profundidad con `NetworkPolicy`
 
-To further secure traffic, Istio policies can be layered with Kubernetes [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
-This enables a strong [defense in depth](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) strategy that can be used to further strengthen the security of your mesh.
+Para asegurar más el tráfico, las políticas de Istio pueden ser en capas con [Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) de Kubernetes.
+Esto habilita una estrategia fuerte de [defensa en profundidad](https://en.wikipedia.org/wiki/Defense_in_depth_(computing)) que puede usarse para fortalecer más la seguridad de tu malla.
 
-For example, you may choose to only allow traffic to port `9080` of our `reviews` application.
-In the event of a compromised pod or security vulnerability in the cluster, this may limit or stop an attackers progress.
+Por ejemplo, puedes elegir permitir solo tráfico al puerto `9080` de nuestra aplicación `reviews`.
+En el evento de un pod comprometido o vulnerabilidad de seguridad en el cluster, esto puede limitar o detener el progreso de un atacante.
 
-Depending on the actual implementation, changes to network policy may not affect existing connections in the Istio proxies.
-You may need to restart the Istio proxies after applying the policy so that existing connections will be closed and
-new connections will be subject to the new policy.
+Dependiendo de la implementación real, los cambios a la política de red pueden no afectar las conexiones existentes en los proxies de Istio.
+Puedes necesitar reiniciar los proxies de Istio después de aplicar la política para que las conexiones existentes sean cerradas y
+las nuevas conexiones estén sujetas a la nueva política.
 
-### Securing egress traffic
+### Asegurar tráfico de egreso
 
-A common misconception is that options like [`outboundTrafficPolicy: REGISTRY_ONLY`](/es/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) acts as a security policy preventing all access to undeclared services.
-However, this is not a strong security boundary as mentioned above, and should be considered best-effort.
+Un concepto erróneo común es que opciones como [`outboundTrafficPolicy: REGISTRY_ONLY`](/es/docs/tasks/traffic-management/egress/egress-control/#envoy-passthrough-to-external-services) actúa como una política de seguridad previniendo todo acceso a servicios no declarados.
+Sin embargo, esto no es un límite de seguridad fuerte como se mencionó anteriormente, y debería considerarse como mejor esfuerzo.
 
-While this is useful to prevent accidental dependencies, if you want to secure egress traffic, and enforce all outbound traffic goes through a proxy, you should instead rely on an [Egress Gateway](/es/docs/tasks/traffic-management/egress/egress-gateway/).
-When combined with a [Network Policy](/es/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies), you can enforce all traffic, or some subset, goes through the egress gateway.
-This ensures that even if a client accidentally or maliciously bypasses their sidecar, the request will be blocked.
+Aunque esto es útil para prevenir dependencias accidentales, si quieres asegurar tráfico de egreso, y hacer cumplir que todo tráfico saliente pase por un proxy, deberías en su lugar depender de un [Egress Gateway](/es/docs/tasks/traffic-management/egress/egress-gateway/).
+Cuando se combina con una [Network Policy](/es/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies), puedes hacer cumplir que todo el tráfico, o algún subconjunto, pase por el egress gateway.
+Esto asegura que incluso si un cliente accidental o maliciosamente bypasea su sidecar, la solicitud será bloqueada.
 
-## Configure TLS verification in Destination Rule when using TLS origination
+## Configurar verificación TLS en Destination Rule cuando se usa originación TLS
 
-Istio offers the ability to [originate TLS](/es/docs/tasks/traffic-management/egress/egress-tls-origination/) from a sidecar proxy or gateway.
-This enables applications that send plaintext HTTP traffic to be transparently "upgraded" to HTTPS.
+Istio ofrece la habilidad de [originar TLS](/es/docs/tasks/traffic-management/egress/egress-tls-origination/) desde un sidecar proxy o gateway.
+Esto habilita aplicaciones que envían tráfico HTTP de texto plano para ser transparentemente "actualizadas" a HTTPS.
 
-Care must be taken when configuring the `DestinationRule`'s `tls` setting to specify the `caCertificates`, `subjectAltNames`, and `sni` fields.
-The `caCertificate` can be automatically set from the system's certificate store's CA certificate by enabling the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=true` on Istiod.
-If the Operating System CA certificate being automatically used is only desired for select host(s), the environment variable `VERIFY_CERTIFICATE_AT_CLIENT=false` on Istiod, `caCertificates` can be set to `system` in the desired `DestinationRule`(s).
-Specifying the `caCertificates` in a `DestinationRule` will take priority and the OS CA Cert will not be used.
-By default, egress traffic does not send SNI during the TLS handshake.
-SNI must be set in the `DestinationRule` to ensure the host properly handle the request.
+Se debe tener cuidado al configurar la configuración `tls` del `DestinationRule` para especificar los campos `caCertificates`, `subjectAltNames`, y `sni`.
+El `caCertificate` puede establecerse automáticamente desde el certificado CA del almacén de certificados del sistema habilitando la variable de entorno `VERIFY_CERTIFICATE_AT_CLIENT=true` en Istiod.
+Si el certificado CA del Sistema Operativo que se está usando automáticamente solo se desea para host(s) seleccionados, la variable de entorno `VERIFY_CERTIFICATE_AT_CLIENT=false` en Istiod, `caCertificates` puede establecerse a `system` en el(los) `DestinationRule`(s) deseado(s).
+Especificar los `caCertificates` en un `DestinationRule` tomará prioridad y el Certificado CA del SO no será usado.
+Por defecto, el tráfico de egreso no envía SNI durante el handshake TLS.
+SNI debe establecerse en el `DestinationRule` para asegurar que el host maneje apropiadamente la solicitud.
 
 {{< warning >}}
-In order to verify the server's certificate it is important that both `caCertificates` and `subjectAltNames` be set.
+Para verificar el certificado del servidor es importante que tanto `caCertificates` como `subjectAltNames` estén establecidos.
 
-Verification of the certificate presented by the server against a CA is not sufficient, as the Subject Alternative Names must also be validated.
+La verificación del certificado presentado por el servidor contra un CA no es suficiente, ya que los Nombres Alternativos del Sujeto también deben ser validados.
 
-If `VERIFY_CERTIFICATE_AT_CLIENT` is set, but `subjectAltNames` is not set then you are not verifying all credentials.
+Si `VERIFY_CERTIFICATE_AT_CLIENT` está establecido, pero `subjectAltNames` no está establecido entonces no estás verificando todas las credenciales.
 
-If no CA certificate is being used, `subjectAltNames` will not be used regardless of it being set or not.
+Si no se está usando ningún certificado CA, `subjectAltNames` no será usado independientemente de si está establecido o no.
 {{< /warning >}}
 
-For example:
+Por ejemplo:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -474,20 +475,20 @@ spec:
 
 ## Gateways
 
-When running an Istio [gateway](/es/docs/tasks/traffic-management/ingress/), there are a few resources involved:
+Al ejecutar un [gateway](/es/docs/tasks/traffic-management/ingress/) de Istio, hay algunos recursos involucrados:
 
-* `Gateway`s, which controls the ports and TLS settings for the gateway.
-* `VirtualService`s, which control the routing logic. These are associated with `Gateway`s by direct reference in the `gateways` field and a mutual agreement on the `hosts` field in the `Gateway` and `VirtualService`.
+* `Gateway`s, que controlan los puertos y configuraciones TLS para el gateway.
+* `VirtualService`s, que controlan la lógica de enrutamiento. Estos están asociados con `Gateway`s por referencia directa en el campo `gateways` y un acuerdo mutuo en el campo `hosts` en el `Gateway` y `VirtualService`.
 
-### Restrict `Gateway` creation privileges
+### Restringir privilegios de creación de `Gateway`
 
-It is recommended to restrict creation of Gateway resources to trusted cluster administrators. This can be achieved by [Kubernetes RBAC policies](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) or tools like [Open Policy Agent](https://www.openpolicyagent.org/).
+Se recomienda restringir la creación de recursos Gateway a administradores de cluster confiables. Esto puede lograrse por [políticas RBAC de Kubernetes](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) o herramientas como [Open Policy Agent](https://www.openpolicyagent.org/).
 
-### Avoid overly broad `hosts` configurations
+### Evitar configuraciones de `hosts` demasiado amplias
 
-When possible, avoid overly broad `hosts` settings in `Gateway`.
+Cuando sea posible, evita configuraciones de `hosts` demasiado amplias en `Gateway`.
 
-For example, this configuration will allow any `VirtualService` to bind to the `Gateway`, potentially exposing unexpected domains:
+Por ejemplo, esta configuración permitirá a cualquier `VirtualService` vincularse al `Gateway`, potencialmente exponiendo dominios inesperados:
 
 {{< text yaml >}}
 servers:
@@ -499,7 +500,7 @@ servers:
   - "*"
 {{< /text >}}
 
-This should be locked down to allow only specific domains or specific namespaces:
+Esto debería ser bloqueado para permitir solo dominios específicos o namespaces específicos:
 
 {{< text yaml >}}
 servers:
@@ -513,17 +514,17 @@ servers:
   - "route-namespace/*" # Allow only VirtualServices in the route-namespace namespace for any host
 {{< /text >}}
 
-### Isolate sensitive services
+### Aislar servicios sensibles
 
-It may be desired to enforce stricter physical isolation for sensitive services. For example, you may want to run a
-[dedicated gateway instance](/es/docs/setup/install/istioctl/#configure-gateways) for a sensitive `payments.example.com`, while utilizing a single
-shared gateway instance for less sensitive domains like `blog.example.com` and `store.example.com`.
-This can offer a stronger defense-in-depth and help meet certain regulatory compliance guidelines.
+Puede ser deseado hacer cumplir aislamiento físico más estricto para servicios sensibles. Por ejemplo, puedes querer ejecutar una
+[instancia de gateway dedicada](/es/docs/setup/install/istioctl/#configure-gateways) para un `payments.example.com` sensible, mientras utilizas una sola
+instancia de gateway compartida para dominios menos sensibles como `blog.example.com` y `store.example.com`.
+Esto puede ofrecer una defensa en profundidad más fuerte y ayudar a cumplir ciertas pautas de cumplimiento regulatorio.
 
-### Explicitly disable all the sensitive http host under relaxed SNI host matching
+### Deshabilitar explícitamente todos los hosts http sensibles bajo coincidencia de host SNI relajada
 
-It is reasonable to use multiple `Gateway`s to define mutual TLS and simple TLS on different hosts.
-For example, use mutual TLS for SNI host `admin.example.com` and simple TLS for SNI host `*.example.com`.
+Es razonable usar múltiples `Gateway`s para definir mutual TLS y simple TLS en diferentes hosts.
+Por ejemplo, usar mutual TLS para host SNI `admin.example.com` y simple TLS para host SNI `*.example.com`.
 
 {{< text yaml >}}
 kind: Gateway
@@ -559,7 +560,7 @@ spec:
       mode: MUTUAL
 {{< /text >}}
 
-If the above is necessary, it's highly recommended to explicitly disable the http host `admin.example.com` in the `VirtualService` that attaches to `*.example.com`. The reason is that currently the underlying [envoy proxy does not require](https://github.com/envoyproxy/envoy/issues/6767) the http 1 header `Host` or the http 2 pseudo header `:authority` following the SNI constraints, an attacker can reuse the guest-SNI TLS connection to access admin `VirtualService`. The http response code 421 is designed for this `Host` SNI mismatch and can be used to fulfill the disable.
+Si lo anterior es necesario, es altamente recomendado deshabilitar explícitamente el host http `admin.example.com` en el `VirtualService` que se adjunta a `*.example.com`. La razón es que actualmente el [proxy envoy subyacente no requiere](https://github.com/envoyproxy/envoy/issues/6767) que el header http 1 `Host` o el pseudo header http 2 `:authority` sigan las restricciones SNI, un atacante puede reusar la conexión TLS guest-SNI para acceder al `VirtualService` admin. El código de respuesta http 421 está diseñado para este desajuste `Host` SNI y puede usarse para cumplir la deshabilitación.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -587,86 +588,86 @@ spec:
         host: dest.default.cluster.local
 {{< /text >}}
 
-## Protocol detection
+## Detección de protocolo
 
-Istio will [automatically determine the protocol](/es/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) of traffic it sees.
-To avoid accidental or intentional miss detection, which may result in unexpected traffic behavior, it is recommended to [explicitly declare the protocol](/es/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) where possible.
+Istio [determinará automáticamente el protocolo](/es/docs/ops/configuration/traffic-management/protocol-selection/#automatic-protocol-selection) del tráfico que ve.
+Para evitar detección errónea accidental o intencional, que puede resultar en comportamiento de tráfico inesperado, se recomienda [declarar explícitamente el protocolo](/es/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection) donde sea posible.
 
 ## CNI
 
-In order to transparently capture all traffic, Istio relies on `iptables` rules configured by the `istio-init` `initContainer`.
-This adds a [requirement](/es/docs/ops/deployment/application-requirements/) for the `NET_ADMIN` and `NET_RAW` [capabilities](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) to be available to the pod.
+Para capturar transparentemente todo el tráfico, Istio depende de reglas `iptables` configuradas por el `initContainer` `istio-init`.
+Esto agrega un [requisito](/es/docs/ops/deployment/application-requirements/) para que las [capacidades](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-capabilities-for-a-container) `NET_ADMIN` y `NET_RAW` estén disponibles para el pod.
 
-To reduce privileges granted to pods, Istio offers a [CNI plugin](/es/docs/setup/additional-setup/cni/) which removes this requirement.
+Para reducir los privilegios otorgados a los pods, Istio ofrece un [plugin CNI](/es/docs/setup/additional-setup/cni/) que remueve este requisito.
 
-## Use hardened docker images
+## Usar imágenes docker endurecidas
 
-Istio's default docker images, including those run by the control plane, gateway, and sidecar proxies, are based on `ubuntu`.
-This provides various tools such as `bash` and `curl`, which trades off convenience for an increase attack surface.
+Las imágenes docker por defecto de Istio, incluyendo aquellas ejecutadas por el control plane, gateway, y sidecar proxies, están basadas en `ubuntu`.
+Esto proporciona varias herramientas como `bash` y `curl`, que intercambia conveniencia por un aumento en la superficie de ataque.
 
-Istio also offers a smaller image based on [distroless images](/es/docs/ops/configuration/security/harden-docker-images/) that reduces the dependencies in the image.
+Istio también ofrece una imagen más pequeña basada en [imágenes distroless](/es/docs/ops/configuration/security/harden-docker-images/) que reduce las dependencias en la imagen.
 
 {{< warning >}}
-Distroless images are currently an alpha feature.
+Las imágenes distroless son actualmente una característica alpha.
 {{< /warning >}}
 
-## Release and security policy
+## Política de release y seguridad
 
-In order to ensure your cluster has the latest security patches for known vulnerabilities, it is important to stay on the latest patch release of Istio and ensure that you are on a [supported release](/es/docs/releases/supported-releases) that is still receiving security patches.
+Para asegurar que tu cluster tenga los últimos parches de seguridad para vulnerabilidades conocidas, es importante mantenerse en el último patch release de Istio y asegurar que estés en un [release soportado](/es/docs/releases/supported-releases) que aún esté recibiendo parches de seguridad.
 
-## Detect invalid configurations
+## Detectar configuraciones inválidas
 
-While Istio provides validation of resources when they are created, these checks cannot catch all issues preventing configuration being distributed in the mesh.
-This could result in applying a policy that is unexpectedly ignored, leading to unexpected results.
+Aunque Istio proporciona validación de recursos cuando se crean, estas verificaciones no pueden detectar todos los problemas que previenen que la configuración sea distribuida en la mesh.
+Esto podría resultar en aplicar una política que es inesperadamente ignorada, llevando a resultados inesperados.
 
-* Run `istioctl analyze` before or after applying configuration to ensure it is valid.
-* Monitor the control plane for rejected configurations. These are exposed by the `pilot_total_xds_rejects` metric, in addition to logs.
-* Test your configuration to ensure it gives the expected results.
-  For a security policy, it is useful to run positive and negative tests to ensure you do not accidentally restrict too much or too few traffic.
+* Ejecuta `istioctl analyze` antes o después de aplicar configuración para asegurar que sea válida.
+* Monitorea el control plane para configuraciones rechazadas. Estas están expuestas por la métrica `pilot_total_xds_rejects`, además de logs.
+* Prueba tu configuración para asegurar que da los resultados esperados.
+  Para una política de seguridad, es útil ejecutar pruebas positivas y negativas para asegurar que no restringes accidentalmente demasiado o muy poco tráfico.
 
-## Avoid alpha and experimental features
+## Evitar características alpha y experimentales
 
-All Istio features and APIs are assigned a [feature status](/es/docs/releases/feature-stages/), defining its stability, deprecation policy, and security policy.
+Todas las características y APIs de Istio tienen asignado un [estado de característica](/es/docs/releases/feature-stages/), definiendo su estabilidad, política de deprecación, y política de seguridad.
 
-Because alpha and experimental features do not have as strong security guarantees, it is recommended to avoid them whenever possible.
-Security issues found in these features may not be fixed immediately or otherwise not follow our standard [security vulnerability](/es/docs/releases/security-vulnerabilities/) process.
+Porque las características alpha y experimentales no tienen garantías de seguridad tan fuertes, se recomienda evitarlas siempre que sea posible.
+Los problemas de seguridad encontrados en estas características pueden no ser arreglados inmediatamente o de otra manera no seguir nuestro proceso estándar de [vulnerabilidad de seguridad](/es/docs/releases/security-vulnerabilities/).
 
-To determine the feature status of features in use in your cluster, consult the [Istio features](/es/docs/releases/feature-stages/#istio-features) list.
+Para determinar el estado de característica de las características en uso en tu cluster, consulta la lista de [características de Istio](/es/docs/releases/feature-stages/#istio-features).
 
 <!-- In the future, we should document the `istioctl` command to check this when available. -->
 
-## Lock down ports
+## Bloquear puertos
 
-Istio configures a [variety of ports](/es/docs/ops/deployment/application-requirements/#ports-used-by-istio) that may be locked down to improve security.
+Istio configura una [variedad de puertos](/es/docs/ops/deployment/application-requirements/#ports-used-by-istio) que pueden ser bloqueados para mejorar la seguridad.
 
 ### Control Plane
 
-Istiod exposes a few unauthenticated plaintext ports for convenience by default. If desired, these can be closed:
+Istiod expone algunos puertos de texto plano no autenticados por conveniencia por defecto. Si se desea, estos pueden ser cerrados:
 
-* Port `8080` exposes the debug interface, which offers read access to a variety of details about the clusters state.
-  This can be disabled by set the environment variable `ENABLE_DEBUG_ON_HTTP=false` on Istiod. Warning: many `istioctl` commands
-  depend on this interface and will not function if it is disabled.
-* Port `15010` exposes the XDS service over plaintext. This can be disabled by adding the `--grpcAddr=""` flag to the Istiod Deployment.
-  Note: highly sensitive services, such as the certificate signing and distribution services, are never served over plaintext.
+* El puerto `8080` expone la interfaz de debug, que ofrece acceso de lectura a una variedad de detalles sobre el estado del cluster.
+  Esto puede deshabilitarse estableciendo la variable de entorno `ENABLE_DEBUG_ON_HTTP=false` en Istiod. Advertencia: muchos comandos `istioctl`
+  dependen de esta interfaz y no funcionarán si está deshabilitada.
+* El puerto `15010` expone el Service XDS sobre texto plano. Esto puede deshabilitarse agregando la bandera `--grpcAddr=""` al Deployment de Istiod.
+  Nota: servicios altamente sensibles, como los servicios de firma y distribución de certificados, nunca se sirven sobre texto plano.
 
 ### data plane
 
-The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry) and port `15021` (health check).
-Ports `15020` and `15000` provide debugging endpoints. These are exposed over `localhost` only.
-As a result, the applications running in the same pod as the proxy have access; there is no trust boundary between the sidecar and application.
+El proxy expone una variedad de puertos. Expuestos externamente están el puerto `15090` (telemetría) y el puerto `15021` (verificación de salud).
+Los puertos `15020` y `15000` proporcionan endpoints de debugging. Estos están expuestos solo sobre `localhost`.
+Como resultado, las aplicaciones ejecutándose en el mismo pod que el proxy tienen acceso; no hay límite de confianza entre el sidecar y la aplicación.
 
-## Configure third party service account tokens
+## Configurar tokens de cuenta de servicio de terceros
 
-To authenticate with the Istio control plane, the Istio proxy will use a Service Account token. Kubernetes supports two forms of these tokens:
+Para autenticarse con el control plane de Istio, el proxy de Istio usará un token de Service Account. Kubernetes soporta dos formas de estos tokens:
 
-* Third party tokens, which have a scoped audience and expiration.
-* First party tokens, which have no expiration and are mounted into all pods.
+* Tokens de terceros, que tienen una audiencia con alcance y expiración.
+* Tokens de primera parte, que no tienen expiración y están montados en todos los pods.
 
-Because the properties of the first party token are less secure, Istio will default to using third party tokens. However, this feature is not enabled on all Kubernetes platforms.
+Porque las propiedades del token de primera parte son menos seguras, Istio usará por defecto tokens de terceros. Sin embargo, esta característica no está habilitada en todas las plataformas de Kubernetes.
 
-If you are using `istioctl` to install, support will be automatically detected. This can be done manually as well, and configured by passing `--set values.global.jwtPolicy=third-party-jwt` or `--set values.global.jwtPolicy=first-party-jwt`.
+Si estás usando `istioctl` para instalar, el soporte será detectado automáticamente. Esto puede hacerse manualmente también, y configurarse pasando `--set values.global.jwtPolicy=third-party-jwt` o `--set values.global.jwtPolicy=first-party-jwt`.
 
-To determine if your cluster supports third party tokens, look for the `TokenRequest` API. If this returns no response, then the feature is not supported:
+Para determinar si tu cluster soporta tokens de terceros, busca la API `TokenRequest`. Si esto no retorna respuesta, entonces la característica no está soportada:
 
 {{< text bash >}}
 $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceaccounts/token"))'
@@ -683,15 +684,15 @@ $ kubectl get --raw /api/v1 | jq '.resources[] | select(.name | index("serviceac
 }
 {{< /text >}}
 
-While most cloud providers support this feature now, many local development tools and custom installations may not prior to Kubernetes 1.20. To enable this feature, please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection).
+Aunque la mayoría de los proveedores de nube soportan esta característica ahora, muchas herramientas de desarrollo local e instalaciones personalizadas pueden no hacerlo antes de Kubernetes 1.20. Para habilitar esta característica, por favor consulta la [documentación de Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection).
 
-## Configure a limit on downstream connections
+## Configurar un límite en conexiones downstream
 
-By default, Istio (and Envoy) have no limit on the number of downstream connections. This can be exploited by a malicious actor (see [security bulletin 2020-007](/news/security/istio-security-2020-007/)). To work around you this, you must configure an appropriate connection limit for your environment.
+Por defecto, Istio (y Envoy) no tienen límite en el número de conexiones downstream. Esto puede ser explotado por un actor malicioso (ver [boletín de seguridad 2020-007](/news/security/istio-security-2020-007/)). Para solucionar esto, debes configurar un límite de conexión apropiado para tu entorno.
 
-### Configure `global_downstream_max_connections` value
+### Configurar valor `global_downstream_max_connections`
 
-The following configuration can be supplied during installation:
+La siguiente configuración puede suministrarse durante la instalación:
 
 {{< text yaml >}}
 meshConfig:

@@ -6,11 +6,11 @@ aliases:
     - /zh/about/notes/1.1
 ---
 
-## 从 1.0 开始的不兼容变更{#incompatible-changes-from-1-0}
+## 从 1.0 开始的不兼容变更 {#incompatible-changes-from-1-0}
 
 除了下面列出的新功能和改进之外，Istio 从 1.0 开始就引入了许多重要改进，这些改进可以更改应用程序的行为。在[升级说明](/zh/news/releases/1.1.x/announcing-1.1/upgrade-notes)中可以找到这些改进的简明清单。
 
-## 升级{#upgrades}
+## 升级 {#upgrades}
 
 我们建议手动将控制平面和数据平面升级到 1.1。有关更多信息，请参见[升级文档](/zh/docs/setup/upgrade/)。
 
@@ -18,7 +18,7 @@ aliases:
 在将 deployment 升级到 Istio 1.1 之前，请务必查看[升级说明](/zh/news/releases/1.1.x/announcing-1.1/upgrade-notes)以获得您应该了解的简要清单。
 {{< /warning >}}
 
-## 安装{#installation}
+## 安装 {#installation}
 
 - **将 CRD 安装从 Istio 安装中分离出来**。将 Istio 的自定义资源（CRD）放入 `istio-init` Helm chart 中。将 CRD 放置在自己的 Helm chart 中，可以在升级过程中保留自定义资源内容的数据连续性，并进一步使 Istio 能够超越基于 Helm 的安装。
 
@@ -26,7 +26,7 @@ aliases:
 
 - **改进多集群集成**。将 `istio-remote` chart 1.0 合并到 Istio Helm chart 中，从而简化操作体验，其先前用于[多集群 VPN](/zh/docs/setup/install/multicluster/shared-vpn/) 和[多集群水平拆分](/zh/docs/setup/install/multicluster/shared-gateways/)远程集群安装。
 
-## 流量管理{#traffic-management}
+## 流量管理 {#traffic-management}
 
 - **新的 `Sidecar` 资源**。通过新的 [sidecar](/zh/docs/concepts/traffic-management/#sidecars) 资源，可以更精细地控制附加到命名空间中工作负载的 sidecar 代理的行为。特别是，它增加了对限制 sidecar 向其发送流量的服务集的支持。这减少了计算和传输给代理的配置量，从而改善了启动时间、资源消耗和控制平面可伸缩性。对于复杂部署，我们建议为每个命名空间添加 sidecar 资源。我们还为高级用例的端口、协议和流量捕获提供了控件。
 
@@ -46,7 +46,7 @@ aliases:
 
 - **默认关闭访问日志**。默认情况下，禁用所有 Envoy sidecar 的访问日志以提高性能。
 
-### 安全{#security}
+### 安全 {#security}
 
 - **就绪和存活探针**。添加了对 Kubernetes HTTP [就绪和存活探针](/zh/faq/security/#k8s-health-checks)的支持（启用双向 TLS 时）。
 
@@ -64,7 +64,7 @@ aliases:
 
 - **自定义信任域（非`cluster.local`）**。在标识中增加了对特定于组织或群集的信任域的支持。
 
-## 策略和遥测{#policies-and-telemetry}
+## 策略和遥测 {#policies-and-telemetry}
 
 - **默认关闭策略检查**。默认情况下，修改后的策略检查是关闭的，以提高大多数客户方案的性能。[启用策略执行](/zh/docs/tasks/policy-enforcement/enabling-policy/)详细说明了如何根据需要开启 Istio 策略检查。
 
@@ -100,13 +100,13 @@ aliases:
 
 - **更加灵活的 `statsd` 收集器**。删除了内置的 `statsd` 收集器。Istio 现在支持您自己的 `statsd`，以提高现有 Kubernetes 部署的灵活性。
 
-### 配置管理{#configuration-management}
+### 配置管理 {#configuration-management}
 
 - **Galley**。添加 [Galley](/zh/docs/ops/deployment/architecture/#galley) 作为 Istio 主要的配置收集和分发装置。它提供了一个健壮的模型来验证，转换配置状态并将其分配给 Istio 组件，从而将 Istio 组件与 Kubernetes 详细信息隔离开来。Galley 使用[网格配置协议](https://github.com/istio/api/tree/{{<source_branch_name>}}/mcp)与组件进行交互。
 
 - **监听端口**。将 Galley 的默认监听端口从 9093 修改为 15014。
 
-## `istioctl` 和 `kubectl`{#Istio-and-Kube}
+## `istioctl` 和 `kubectl` {#istioctl-and-kubectl}
 
 - **验证命名**。添加 [`istioctl validate`](/zh/docs/reference/commands/istioctl/#istioctl-validate) 命令，用于 Istio Kubernetes 资源的离线验证。
 

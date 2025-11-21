@@ -51,7 +51,7 @@ These notices describe functionality that will be removed in a future release ac
 
 - **Fixed** an issue causing traffic to not match (and return a `404`) when using wildcard domain names and including an unexpected port in the `Host` header.
 
-- **Fixed** an issue causing traffic to match an unexpected route when using wildcard domain names and including an port in the `Host` header.
+- **Fixed** an issue causing traffic to match an unexpected route when using wildcard domain names and including a port in the `Host` header.
 
 ## Security
 

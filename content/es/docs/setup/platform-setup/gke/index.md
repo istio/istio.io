@@ -1,6 +1,6 @@
 ---
 title: Google Kubernetes Engine
-description: Instructions to set up a Google Kubernetes Engine cluster for Istio.
+description: Instrucciones para configurar un cluster de Google Kubernetes Engine para Istio.
 weight: 20
 skip_seealso: true
 aliases:
@@ -11,9 +11,9 @@ owner: istio/wg-environments-maintainers
 test: no
 ---
 
-Follow these instructions to prepare a GKE cluster for Istio.
+Sigue estas instrucciones para preparar un cluster de GKE para Istio.
 
-1. Create a new cluster.
+1. Crea un nuevo cluster.
 
     {{< text bash >}}
     $ export PROJECT_ID=`gcloud config get-value project` && \
@@ -30,29 +30,29 @@ Follow these instructions to prepare a GKE cluster for Istio.
     {{< /text >}}
 
     {{< tip >}}
-    The default installation of Istio requires nodes with >1 vCPU. If you are
-    installing with the
-    [demo configuration profile](/es/docs/setup/additional-setup/config-profiles/),
-    you can remove the `--machine-type` argument to use the smaller `n1-standard-1` machine size instead.
+    La instalación predeterminada de Istio requiere nodos con >1 vCPU. Si estás
+    instalando con el
+    [perfil de configuración demo](/es/docs/setup/additional-setup/config-profiles/),
+    puedes eliminar el argumento `--machine-type` para usar el tamaño de máquina más pequeño `n1-standard-1` en su lugar.
     {{< /tip >}}
 
     {{< warning >}}
-    To use the Istio CNI feature on GKE Standard, please check the [CNI installation guide](/es/docs/setup/additional-setup/cni/#prerequisites)
-    for prerequisite cluster configuration steps. Since the CNI node agent requires the SYS_ADMIN capability, it is not available on GKE Autopilot. Instead, use the istio-init container.
+    Para usar la característica CNI de Istio en GKE Standard, por favor revisa la [guía de instalación CNI](/es/docs/setup/additional-setup/cni/#prerequisites)
+    para los pasos de configuración de prerequisitos del cluster. Dado que el agente de nodo CNI requiere la capacidad SYS_ADMIN, no está disponible en GKE Autopilot. En su lugar, usa el contenedor istio-init.
     {{< /warning >}}
 
     {{< warning >}}
-    **For private GKE clusters**
+    **Para clusters GKE privados**
 
-    An automatically created firewall rule does not open port 15017. This is needed by the istiod discovery validation webhook.
+    Una regla de firewall creada automáticamente no abre el puerto 15017. Esto es necesario para el webhook de validación de descubrimiento de istiod.
 
-    To review this firewall rule for master access:
+    Para revisar esta regla de firewall para acceso del master:
 
     {{< text bash >}}
     $ gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
     {{< /text >}}
 
-    To replace the existing rule and allow master access:
+    Para reemplazar la regla existente y permitir el acceso del master:
 
     {{< text bash >}}
     $ gcloud compute firewall-rules update <firewall-rule-name> --allow tcp:10250,tcp:443,tcp:15017
@@ -60,7 +60,7 @@ Follow these instructions to prepare a GKE cluster for Istio.
 
     {{< /warning >}}
 
-1. Retrieve your credentials for `kubectl`.
+1. Recupera tus credenciales para `kubectl`.
 
     {{< text bash >}}
     $ gcloud container clusters get-credentials $CLUSTER_NAME \
@@ -68,9 +68,8 @@ Follow these instructions to prepare a GKE cluster for Istio.
         --project $PROJECT_ID
     {{< /text >}}
 
-1. Grant cluster administrator (admin) permissions to the current user. To
-   create the necessary RBAC rules for Istio, the current user requires admin
-   permissions.
+1. Otorga permisos de administrador de clúster (admin) al usuario actual. Para
+   crear las reglas RBAC necesarias para Istio, el usuario actual requiere permisos de administrador.
 
     {{< text bash >}}
     $ kubectl create clusterrolebinding cluster-admin-binding \
@@ -78,15 +77,15 @@ Follow these instructions to prepare a GKE cluster for Istio.
         --user=$(gcloud config get-value core/account)
     {{< /text >}}
 
-## Multi-cluster communication
+## Comunicación entre clústeres múltiples
 
-In some cases, a firewall rule must be explicitly created to allow cross-cluster traffic.
+En algunos casos, es necesario crear una regla de firewall explícita para permitir el tráfico entre clústeres.
 
 {{< warning >}}
-The following instructions will allow communication between *all* clusters in your project. Adjust the commands as needed.
+Las siguientes instrucciones permitirán la comunicación entre *todos* los clústeres en tu proyecto. Ajusta los comandos según sea necesario.
 {{< /warning >}}
 
-1. Gather information about your clusters' network.
+1. Recopila información sobre la red de tus clústeres.
 
     {{< text bash >}}
     $ function join_by { local IFS="$1"; shift; echo "$*"; }
@@ -96,7 +95,7 @@ The following instructions will allow communication between *all* clusters in yo
     $ ALL_CLUSTER_NETTAGS=$(join_by , $(echo "${ALL_CLUSTER_NETTAGS}"))
     {{< /text >}}
 
-1. Create the firewall rule.
+1. Crea la regla de firewall.
 
     {{< text bash >}}
     $ gcloud compute firewall-rules create istio-multicluster-pods \

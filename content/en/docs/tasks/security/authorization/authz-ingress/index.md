@@ -415,7 +415,7 @@ EOF
     403
     {{< /text >}}
 
-* Assign your original client IP address to an env variable. If you don't know it, you can an find it
+* Assign your original client IP address to an env variable. If you don't know it, you can find it
     in the Envoy logs using the following command:
 
 {{< tabset category-name="config-api" >}}

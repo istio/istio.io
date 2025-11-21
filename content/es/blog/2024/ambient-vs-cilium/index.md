@@ -33,7 +33,7 @@ Istio pudo entregar un 56% más de consultas con una latencia de cola un 20% má
 
 Teniendo en cuenta el recurso utilizado, Istio procesó 2178 consultas por núcleo, frente a las 1815 de Cilium, una mejora del 20%.
 
-* **La ralentización de Cilium:** Cilium, si bien cuenta con una latencia baja impresionante con los parámetros de instalación predeterminados, se ralentiza sustancialmente cuando se activan las características básicas de Istio, como la política L7 y el cifrado. Además, la utilización de memoria y CPU de Cilium se mantuvo alta incluso cuando no fluía tráfico en la malla. Esto puede afectar la estabilidad y confiabilidad generales de tu cluster, especialmente a medida que crece.
+* **La ralentización de Cilium:** Cilium, si bien cuenta con una latencia baja impresionante con los parámetros de instalación predeterminados, se ralentiza sustancialmente cuando se activan las características básicas de Istio, como la política L7 y el cifrado. Además, la utilización de memoria y CPU de Cilium se mantuvo alta incluso cuando no fluía tráfico en la mesh. Esto puede afectar la estabilidad y confiabilidad generales de tu cluster, especialmente a medida que crece.
 * **Istio, el actor constante:** El modo ambient de Istio, por otro lado, mostró su fortaleza en la estabilidad y el mantenimiento de un rendimiento decente, incluso con la sobrecarga adicional del cifrado. Si bien Istio consumió más memoria y CPU que Cilium bajo prueba, su utilización de CPU se estabilizó en una fracción de la de Cilium cuando no estaba bajo carga.
 
 ## Tras bambalinas: ¿Por qué la diferencia?

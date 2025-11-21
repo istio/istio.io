@@ -72,7 +72,7 @@ Puede verificar los resultados [accediendo a la interfaz de usuario de Zipkin](/
 
 La opción de tasa de muestreo se puede utilizar para controlar qué porcentaje de solicitudes se
 informan a su sistema de trazado. Esto debe configurarse en función de su
-tráfico en la malla y la cantidad de datos de trazado que desea recopilar.
+tráfico en la mesh y la cantidad de datos de trazado que desea recopilar.
 La tasa predeterminada es del 1%.
 
 {{< text bash >}}

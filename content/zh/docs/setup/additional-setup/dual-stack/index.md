@@ -7,8 +7,6 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-{{< boilerplate alpha >}}
-
 ## 先决条件 {#prerequisites}
 
 * Istio 1.17 或更高版本。
@@ -45,6 +43,7 @@ spec:
     pilot:
       env:
         ISTIO_DUAL_STACK: "true"
+      ipFamilyPolicy: RequireDualStack
     # 以下值是可选的，可以根据您的要求使用
     gateways:
       istio-ingressgateway:
@@ -62,16 +61,16 @@ meshConfig:
   defaultConfig:
     proxyMetadata:
       ISTIO_DUAL_STACK: "true"
-values:
-  pilot:
-    env:
-      ISTIO_DUAL_STACK: "true"
-  # 以下值是可选的，可以根据您的要求使用
-  gateways:
-    istio-ingressgateway:
-      ipFamilyPolicy: RequireDualStack
-    istio-egressgateway:
-      ipFamilyPolicy: RequireDualStack
+pilot:
+  env:
+    ISTIO_DUAL_STACK: "true"
+  ipFamilyPolicy: RequireDualStack
+# 以下值是可选的，可以根据您的要求使用
+gateways:
+  istio-ingressgateway:
+    ipFamilyPolicy: RequireDualStack
+  istio-egressgateway:
+    ipFamilyPolicy: RequireDualStack
 {{< /text >}}
 
 {{< /tab >}}
