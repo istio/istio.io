@@ -219,7 +219,7 @@ $ kubectl apply -f ingress.yaml
 ## Gestionando gateways
 
 Lo siguiente describe cómo gestionar gateways después de la instalación. Para más información sobre su uso, sigue
-las tareas de [Ingreso](/es/docs/tasks/traffic-management/ingress/) y [Egreso](/es/docs/tasks/traffic-management/egress/).
+las tareas de [Ingress](/es/docs/tasks/traffic-management/ingress/) y [Egress](/es/docs/tasks/traffic-management/egress/).
 
 ### Selectores de Gateway
 

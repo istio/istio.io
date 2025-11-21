@@ -32,11 +32,11 @@ $ curl example.com -v
 Después, la solicitud será interceptada por Istio.
 En este punto, Istio verá tanto el hostname (de un header `Host: example.com`), como la dirección de destino (`192.0.2.0:80`).
 Istio usa esta información para determinar el destino previsto.
-[Understanding Traffic Routing](/es/docs/ops/configuration/traffic-management/traffic-routing/) proporciona una inmersión profunda en cómo funciona este comportamiento.
+[Entendiendo el enruramiento de tráfico](/es/docs/ops/configuration/traffic-management/traffic-routing/) proporciona una inmersión profunda en cómo funciona este comportamiento.
 
 Si el cliente no pudo resolver la solicitud DNS, la solicitud terminaría antes de que Istio la reciba.
 Esto significa que si se envía una solicitud a un hostname que es conocido por Istio (por ejemplo, por un `ServiceEntry`) pero no por el servidor DNS, la solicitud fallará.
-El [DNS proxying](#dns-proxying) de Istio puede cambiar este comportamiento.
+El [proxy DNS](#dns-proxying) de Istio puede cambiar este comportamiento.
 
 Una vez que Istio ha identificado el destino previsto, debe elegir a qué dirección enviar.
 Debido a las [capacidades avanzadas de balanceamiento de carga](/es/docs/concepts/traffic-management/#load-balancing-options) de Istio, esto a menudo no es la dirección IP original que el cliente envió.
@@ -61,7 +61,7 @@ Cuando se configura un `ServiceEntry` de tipo `resolution: DNS`, el proxy resolv
 Este intervalo está fijado en 30 segundos y no puede cambiarse en este momento.
 Esto sucede incluso si el proxy nunca envía ninguna solicitud a estas aplicaciones.
 
-Paramesh con muchos proxies o muchos `ServiceEntries` de tipo `resolution: DNS`, especialmente cuando se usan `TTL`s bajos, esto puede causar una alta carga en los servidores DNS.
+Para meshes con muchos proxies o muchos `ServiceEntries` de tipo `resolution: DNS`, especialmente cuando se usan `TTL`s bajos, esto puede causar una alta carga en los servidores DNS.
 En estos casos, lo siguiente puede ayudar a reducir la carga:
 
 * Cambiar a `resolution: NONE` para evitar lookups DNS del proxy completamente. Esto es adecuado para muchos casos de uso.

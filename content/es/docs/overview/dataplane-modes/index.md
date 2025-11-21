@@ -18,11 +18,11 @@ Istio soporta dos {{< gloss "data plane mode">}}modos de data plane{{< /gloss >}
 * **modo sidecar**, que despliega un proxy Envoy junto con cada Pod que inicias en tu cluster, o ejecutándose junto a servicios ejecutándose en VMs.
 * **modo ambient**, que usa un proxy capa 4 por nodo, y opcionalmente un proxy Envoy por Namespace para características de capa 7.
 
-Puedes optar ciertos Namespaces o Workloads en cada modo.
+Puedes elegir que ciertos namespaces o workloads se ejecuten en cada modo.
 
 ## Modo sidecar
 
-Istio ha sido construido sobre el patrón sidecar desde su primer release en 2017. El modo sidecar está bien entendido y completamente probado en batalla, pero viene con un costo de recursos y sobrecarga operacional.
+Istio ha sido construido sobre el patrón sidecar desde su primer release en 2017. El modo sidecar está bien entendido y ha sido ampliamente probado en situaciones reales, pero viene con un costo de recursos y sobrecarga operacional.
 
 * Cada aplicación que despliegues tiene un proxy Envoy {{< gloss "injection" >}}inyectado{{< /gloss >}} como un sidecar
 * Todos los proxies pueden procesar tanto capa 4 como capa 7
@@ -244,12 +244,12 @@ El sobrecosto para procesar protocolos en capa 7 es significativamente mayor que
     </tr>
     <tr>
       <th>Detección de outliers</th>
-      <td>En la establecimiento/fallo de la conexión.</td>
+      <td>En el establecimiento/fallo de la conexión.</td>
       <td>En éxito/fallo de la solicitud.</td>
     </tr>
     <tr>
       <th>Rate limiting</th>
-      <td><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/rate_limit_filter#config-network-filters-rate-limit">Rate limit en datos de conexión L4, en la establecimiento de la conexión</a>, con opciones de rate limiting global y local.</td>
+      <td><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/rate_limit_filter#config-network-filters-rate-limit">Rate limit en datos de conexión L4, en el establecimiento de la conexión</a>, con opciones de rate limiting global y local.</td>
       <td><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/rate_limit_filter#config-http-filters-rate-limit">Rate limit en metadatos de solicitud L7</a>, por solicitud.</td>
     </tr>
     <tr>
@@ -269,7 +269,7 @@ El sobrecosto para procesar protocolos en capa 7 es significativamente mayor que
     </tr>
     <tr>
       <th>Traffic mirroring</th>
-      <td>N/A&mdash;HTTP solo</td>
+      <td>N/A&mdash;solo HTTP</td>
       <td><a href="/es/docs/tasks/traffic-management/mirroring/">Mirroring porcentual de solicitudes a múltiples backends</a>.</td>
     </tr>
   </tbody>
@@ -277,7 +277,7 @@ El sobrecosto para procesar protocolos en capa 7 es significativamente mayor que
 
 ## Unsupported features
 
-Los siguientes features están disponibles en modo sidecar, pero aún no implementados en modo ambient:
+Las siguientes features están disponibles en modo sidecar, pero aún no implementadas en modo ambient:
 
 * Interoperabilidad sidecar-waypoint
 * Instalaciones multi-cluster
