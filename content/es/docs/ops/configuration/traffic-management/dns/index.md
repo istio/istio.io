@@ -1,7 +1,7 @@
 ---
 title: Entendiendo DNS
 linktitle: DNS
-description: Cómo DNS interactúa con Istio.
+description: Cómo el DNS interactúa con Istio.
 weight: 31
 keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers
@@ -17,7 +17,7 @@ Este documento describe detalles de implementación de bajo nivel. Para una visi
 
 ## Vida de una solicitud
 
-En estos ejemplos, caminaremos a través de lo que sucede cuando una aplicación ejecuta `curl example.com`.
+En estos ejemplos, veremos lo que sucede cuando una aplicación ejecuta `curl example.com`.
 Aunque se usa `curl` aquí, lo mismo aplica a casi todos los clientes.
 
 Cuando envías una solicitud a un dominio, un cliente hará resolución DNS para resolver eso a una dirección IP.
