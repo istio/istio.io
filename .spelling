@@ -87,6 +87,7 @@
 4ms
 4s
 5000qps
+50k+
 50Mb
 5ms
 5xx
@@ -770,7 +771,6 @@ k8s
 Kafka
 kagent
 Karim
-Karma's
 katacoda
 Katie
 Kaul
