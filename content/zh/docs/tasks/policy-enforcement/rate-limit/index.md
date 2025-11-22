@@ -15,6 +15,12 @@ test: no
 
 ## 开始之前  {#before-you-begin}
 
+{{< warning >}}
+本文档中描述的限流是通过 EnvoyFilter API 实现的。
+EnvoyFilter 会公开一些内部实现细节，这些细节可能随时更改。
+请务必格外谨慎，尤其是在升级过程中。
+{{< /warning >}}
+
 1. 参照[安装指南](/zh/docs/setup/getting-started/)，在 Kubernetes 集群中安装 Istio。
 
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
