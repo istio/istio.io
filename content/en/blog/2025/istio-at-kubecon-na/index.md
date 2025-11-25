@@ -36,7 +36,7 @@ Next, [Running Databases in Istio’s Service Mesh](https://www.youtube.com/watc
 
 Modernizing traffic entry points took the stage as Lin Sun and Ahmad Al-Masry walked through [Is Zero-Downtime Migration Possible? Moving From Ingress & Sidecars to Gateway API](https://www.youtube.com/watch?v=J0SEOc6M35E), focusing on progressive migration strategies that avoid outages during architectural shifts.
 
-The final session, [Credit Karma Istio Migration: 50k+ Pods, Minimal Impact, Lessons Learned](https://www.youtube.com/watch?v=OjT4NmO5MvM), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
+The final session, [Credit Karma's Istio Migration: 50k+ Pods, Minimal Impact, Lessons Learned](https://www.youtube.com/watch?v=OjT4NmO5MvM), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
 
 The day closed with [remarks from John Howard and Keith Mattix](https://www.youtube.com/watch?v=KU30VVnoAf0), celebrating the speakers, contributors, and a community that continues to push the boundaries of what Istio makes possible.
 
