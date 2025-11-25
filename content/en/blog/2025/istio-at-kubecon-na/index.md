@@ -2,7 +2,7 @@
 
 title: "Istio at KubeCon + CloudNativeCon North America 2025: A Week of Momentum, Community, and Milestones"
 description: "Highlights from Istio Day and KubeCon North America 2025 in Atlanta."
-publishdate: 2025-11-20
+publishdate: 2025-11-25
 attribution: "Faseela K, for the Istio Steering Committee"
 keywords: ["Istio", "KubeCon", "service mesh", "Ambient Mesh", "Gateway API"]
 
