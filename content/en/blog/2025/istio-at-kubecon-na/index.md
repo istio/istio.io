@@ -36,7 +36,7 @@ Next, [Running Databases in Istio’s Service Mesh](https://www.youtube.com/watc
 
 Modernizing traffic entry points took the stage as Lin Sun and Ahmad Al-Masry walked through [Is Zero-Downtime Migration Possible? Moving From Ingress & Sidecars to Gateway API](https://www.youtube.com/watch?v=J0SEOc6M35E), focusing on progressive migration strategies that avoid outages during architectural shifts.
 
-The final session, [Credit Karma's Istio Migration - 50k+ Pods, Minimal Impact, Lessons Learned](https://www.youtube.com/watch?v=OjT4NmO5MvM), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
+The final session, [Credit Karma Istio Migration: 50k+ Pods, Minimal Impact, Lessons Learned](https://www.youtube.com/watch?v=OjT4NmO5MvM), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
 
 The day closed with [remarks from John Howard and Keith Mattix](https://www.youtube.com/watch?v=KU30VVnoAf0), celebrating the speakers, contributors, and a community that continues to push the boundaries of what Istio makes possible.
 
@@ -86,7 +86,7 @@ At ContribFest, new contributors joined maintainers to work through good-first i
 
 This year’s [CNCF Community Awards](https://www.cncf.io/announcements/2025/11/12/cncf-honors-innovators-and-defenders-with-2025-community-awards-at-kubecon-cloudnativecon-north-america/) were a proud moment for the project. Two Istio maintainers received well-deserved recognition:
 
-* John Howard — Top Committer Award  
+* John Howard — Top Committer Award
 * Daniel Hawton — "Chop Wood, Carry Water" Award
 
 {{< image width="75%" link="./cncf-awards.png" caption="Istio at CNCF Community Awards" >}}
@@ -101,10 +101,10 @@ During closing remarks, it was also announced that Lin Sun, another long-time Is
 
 Across sessions, kiosks, and hallways, a few themes emerged:
 
-* Ambient Mesh is shifting from exploration to real-world adoption.  
-* AI workloads are driving innovation in mesh traffic patterns and operational practices.  
-* Multicluster deployments are becoming commonplace, with attention to identity, control, and failover.  
-* Gateway API is solidifying as a core tool for modern traffic management.  
+* Ambient Mesh is shifting from exploration to real-world adoption.
+* AI workloads are driving innovation in mesh traffic patterns and operational practices.
+* Multicluster deployments are becoming commonplace, with attention to identity, control, and failover.
+* Gateway API is solidifying as a core tool for modern traffic management.
 * New contributors are joining in meaningful numbers, supported by ContribFest, hands-on guidance, and community engagement.
 
 ## Looking Ahead
