@@ -20,7 +20,7 @@ Istio Day brought together practitioners, contributors, and adopters for an afte
 
 {{< image width="75%" link="./istioday-opening.jpg" caption="IstioDay: North America" >}}
 
-Istio Day opened with [Welcome + Opening Remarks](https://www.youtube.com/watch?v=f5BxnlFgToQ) from John Howard and Keith Mattix, setting the tone for an afternoon focused on real-world mesh evolution and the growing energy across the Istio community.
+Istio Day opened with [Welcome + Opening Remarks](https://www.youtube.com/watch?v=f5BxnlFgToQ) from John Howard from Solo.io and Keith Mattix from Microsoft, setting the tone for an afternoon focused on real-world mesh evolution and the growing energy across the Istio community.
 
 The day quickly moved into applied AI with [Is Your Service Mesh AI Ready?](https://www.youtube.com/watch?v=4ynwGx1QH5I), where John Howard explored how traffic management, security, and observability shape production-grade AI workloads.
 
@@ -28,13 +28,13 @@ The day quickly moved into applied AI with [Is Your Service Mesh AI Ready?](http
 
 Momentum continued with [Istio Ambient Goes Multicluster](https://www.youtube.com/watch?v=7dT2O8Bnvyo) as Jackie Maertens and Steven Jin Xuan from Microsoft demonstrated how Ambient Mesh behaves across distributed clusters—highlighting identity, connectivity, and operational simplifications in multi-cluster deployments.
 
-A burst of energy came with the lightning talk [Validating Your Istio Setups? The Tests Are Already Written](https://www.youtube.com/watch?v=ViUMfYzc8o0), where Francisco Herrera Lira showed how built-in validation tooling can catch common configuration issues before they reach production.
+A burst of energy came with the lightning talk [Validating Your Istio Setups? The Tests Are Already Written](https://www.youtube.com/watch?v=ViUMfYzc8o0), where Francisco Herrera Lira from Red Hat showed how built-in validation tooling can catch common configuration issues before they reach production.
 
 In [Optimizing Istio Autoscaling: From Resource-Centric to Connection-Aware](https://www.youtube.com/watch?v=wHvS_h7FBv4), Punakshi Chaand and Pankaj Sikka shared how Intuit improved reliability by tuning autoscaling behaviors based on connection patterns rather than raw resource metrics.
 
 Next, [Running Databases in Istio’s Service Mesh](https://www.youtube.com/watch?v=3Jy9VKWgHww) with Tyler Schade and Michael Bolot from GEICO Tech challenged long-held assumptions, offering practical lessons on securing and operating stateful workloads inside a mesh.
 
-Modernizing traffic entry points took the stage as Lin Sun and Ahmad Al-Masry walked through [Is Zero-Downtime Migration Possible? Moving From Ingress & Sidecars to Gateway API](https://www.youtube.com/watch?v=J0SEOc6M35E), focusing on progressive migration strategies that avoid outages during architectural shifts.
+Modernizing traffic entry points took the stage as Lin Sun from Solo.io and Ahmad Al-Masry from Harri walked through [Is Zero-Downtime Migration Possible? Moving From Ingress & Sidecars to Gateway API](https://www.youtube.com/watch?v=J0SEOc6M35E), focusing on progressive migration strategies that avoid outages during architectural shifts.
 
 The final session, [Credit Karma's Istio Migration: 50k+ Pods, Minimal Impact, Lessons Learned](https://www.youtube.com/watch?v=OjT4NmO5MvM), saw Sumit Vij and Mark Gergely outline how they executed one of the largest Istio migrations to date with careful automation and rollout discipline.
 
@@ -66,7 +66,7 @@ In [GAMMA in Action: How Careem Migrated To Istio Without Downtime](https://www.
 
 Safety and rollout risks took center stage in [Taming Rollout Risks in Distributed Web Apps: A Location-Aware Gradual Deployment Approach](https://www.youtube.com/watch?v=-fhXEJD-ycs), where strategies for regional rollouts, steering traffic, and minimizing user impact were laid out.
 
-Finally, operations and day-two reality were tackled in [End-to-End Security With gRPC in Kubernetes](https://www.youtube.com/watch?v=fhjiLyntYBg) and [On-Call the Easy Way With Agents](https://www.youtube.com/watch?v=oDli4CBkky8)—sessions reminding everyone that mesh isn’t just about architecture, but about how teams run software safely, reliably, and confidently.
+Finally, operations and day-two reality were tackled in [End-to-End Security With gRPC in Kubernetes](https://www.youtube.com/watch?v=fhjiLyntYBg) and [On-Call the Easy Way With Agents](https://www.youtube.com/watch?v=oDli4CBkky8), reminding everyone that mesh isn’t just about architecture, but about how teams run software safely, reliably, and confidently.
 
 ## Community Spaces: ContribFest, Maintainer Track & the Project Pavilion
 
@@ -111,6 +111,6 @@ Across sessions, kiosks, and hallways, a few themes emerged:
 
 KubeCon NA 2025 showcased a community that is vibrant, growing, and tackling some of the hardest challenges in modern cloud infrastructure—from AI traffic management to zero-downtime migrations, from scaling planet-wide control planes to building the next generation of sidecar-less mesh.
 
-As we look ahead to 2026, the energy from Atlanta gives us confidence: the future of service mesh is bright, and the Istio community is leading the way—together.
+As we look ahead to 2026, the energy from Atlanta gives us confidence: the future of service mesh is bright, and the Istio community is leading the way, together.
 
 {{< image width="75%" link="./kubecon-eu-2026.png" caption="See you in Amsterdam" >}}
