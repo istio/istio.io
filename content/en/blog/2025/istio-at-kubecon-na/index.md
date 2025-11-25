@@ -54,7 +54,7 @@ In [Istio: Set Sailing With Istio Without Sidecars](https://www.youtube.com/watc
 
 The session [Lessons Applied Building a Next-Generation AI Proxy](https://www.youtube.com/watch?v=qa5vSE86z-s&pp=0gcJCRUKAYcqIYzv) took the crowd behind the scenes of how mesh technologies adapt to AI-driven traffic patterns—applying the mesh not just to services, but to model-serving, inference, and data flow.
 
-Over at **Automated Rightsizing for Istio DaemonSet Workloads (Poster)**, practitioners gathered to compare strategies for optimizing control-plane resources, tuning for high scale, and reducing cost without sacrificing performance.
+Over at **Automated Rightsizing for Istio DaemonSet Workloads (Poster Session)**, practitioners gathered to compare strategies for optimizing control-plane resources, tuning for high scale, and reducing cost without sacrificing performance.
 
 The narrative of traffic-management evolution featured prominently in [Gateway API: Table Stakes](https://www.youtube.com/watch?v=RWFDjA6ZeWc) and its faster sibling [Know Before You Go! Speedrun Intro to Gateway API](https://www.youtube.com/watch?v=Cd0hGGydUGo). These sessions brought forward foundational and introductory paths to modern ingress and mesh control.
 
