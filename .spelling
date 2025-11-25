@@ -87,6 +87,7 @@
 4ms
 4s
 5000qps
+50k
 50Mb
 5ms
 5xx
@@ -212,6 +213,7 @@ BluePerf
 Bluesky
 boilerplates
 bol.com
+Bolot
 Bookinfo
 bookinfo
 boolean
@@ -240,6 +242,7 @@ CDNs
 CentOS
 Cernich
 CFP
+Chaand
 Chandrasekhara
 channel
 Chaomeng
@@ -582,6 +585,7 @@ gdb
 GenAI
 Geneve
 GEP-91
+Gergely
 GHSA-8mq4-c2v5-3h39
 GiB
 GIDs
@@ -743,6 +747,7 @@ jason
 Jayaraman
 Jeet
 Jianpeng
+Jin
 Jog
 Joglekar
 Jonh
@@ -766,6 +771,7 @@ k8s
 Kafka
 kagent
 Karim
+Karma's
 katacoda
 Katie
 Kaul
@@ -855,6 +861,7 @@ Lukonde
 Luyao
 Lyft
 macOS
+Maertens
 Maertens
 Maglev
 maintainership
@@ -1013,6 +1020,7 @@ p90
 p99
 PaaS
 Padmanabhan
+Pankaj
 Papertrail
 parenthesization
 Parienty
@@ -1080,6 +1088,7 @@ proxyless
 proxy_http_version
 Pub/Sub
 PubNub
+Punakshi
 pwd
 px.dev
 Qin
@@ -1163,6 +1172,7 @@ Savcı
 sayin
 Schaaf
 Schade
+Schade
 schedulable
 schemas
 SDKs
@@ -1211,6 +1221,7 @@ Sidecarless
 SignalFX
 Signout
 sigstore
+Sikka
 sinkInfo
 SkyWalking
 slack.istio.io
@@ -1485,6 +1496,7 @@ Xie
 Xining
 xRoute
 Xu
+Xuan
 Yahya
 yaml
 yamls
