@@ -1,6 +1,6 @@
 ---
-title: Platform Setup
-description: How to prepare various Kubernetes platforms before installing Istio.
+title: Configuración de Plataforma
+description: Cómo preparar varias plataformas de Kubernetes antes de instalar Istio.
 weight: 10
 aliases:
     - /docs/setup/kubernetes/platform-setup/
@@ -9,5 +9,5 @@ test: table-of-contents
 ---
 
 {{< tip >}}
-Istio {{< istio_version >}} is [supported on these Kubernetes versions](/es/docs/releases/supported-releases#support-status-of-istio-releases): {{< supported_kubernetes_versions >}}.
+Istio {{< istio_version >}} está [soportado en estas versiones de Kubernetes](/es/docs/releases/supported-releases#support-status-of-istio-releases): {{< supported_kubernetes_versions >}}.
 {{< /tip >}}
