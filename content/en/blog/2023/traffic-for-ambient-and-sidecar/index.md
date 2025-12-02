@@ -6,6 +6,11 @@ attribution: "Steve Zhang (Intel), John Howard (Google), Yuxing Zeng(Alibaba), P
 keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
+{{< warning >}}
+Ambient redirection no longer configures the host network namespace as of Istio 1.21.
+See [Ztunnel traffic redirection](/docs/ambient/architecture/traffic-redirection/) for details on the new approach.
+{{< /warning >}}
+
 There are 2 deployment modes for Istio: ambient mode and sidecar mode. The former is still on the way, the latter is the classic one. Therefore, the coexistence of ambient mode and sidecar mode should be a normal deployment form and the reason why this blog may be helpful for Istio users.
 
 ## Background
