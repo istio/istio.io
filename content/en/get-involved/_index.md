@@ -27,7 +27,7 @@ doc_type: get-involved
 {{% /involve_block %}}
 
 {{% involve_block title="Join the community" subtitle="There is so much to talk about around Istio. We welcome your voice!" icon="events" %}}
-1. **Attend an event!** [Follow our calendar](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com) to see what is coming up!
+1. **Attend an event!** [Follow our calendar](https://calendar.google.com/calendar/embed?src=c_fe9cd8d091d0d4d2818d01a930dc925f00d4f97995efe50a8d72512b241568f5@group.calendar.google.com) to see what is coming up!
 1. Follow us on [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
 {{% /involve_block %}}
 
