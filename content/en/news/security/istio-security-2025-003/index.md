@@ -26,4 +26,4 @@ CONNECT upgrade
 
 ## Am I Impacted?
 
-If you are using Istio to accept websocket traffic, you are potentially vulnerable to request smuggling from early data after the CONNECT upgrade. You may also be vulnerable if you are using custom certificates with OTHERNAME SANs or custom JWT authentication with remote JWKS fetching using `EnvoyFilter`.
+If you are using Istio to accept WebSocket traffic, you are potentially vulnerable to request smuggling from early data after the CONNECT upgrade. You may also be vulnerable if you are using custom certificates with OTHERNAME SANs or custom JWT authentication with remote JWKS fetching using `EnvoyFilter`.
