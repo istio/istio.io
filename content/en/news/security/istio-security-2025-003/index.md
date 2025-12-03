@@ -19,7 +19,7 @@ skip_seealso: true
 
 - __[CVE-2025-66220](https://nvd.nist.gov/vuln/detail/CVE-2025-66220)__: (CVSS score 8.1, High): TLS certificate matcher for `match_typed_subject_alt_names`
 may incorrectly treat certificates with `OTHERNAME` SANs containing an embedded null byte as valid.
-- __[CVE-2025-64527](https://nvd.nist.gov/vuln/detail/CVE-2025-64527)__: (CVSS score 6.5, Medium):  Envoy crashes when JWT authentication is configured with
+- __[CVE-2025-64527](https://nvd.nist.gov/vuln/detail/CVE-2025-64527)__: (CVSS score 6.5, Medium): Envoy crashes when JWT authentication is configured with
 the remote JWKS fetching.
 - __[CVE-2025-64763](https://nvd.nist.gov/vuln/detail/CVE-2025-64763)__: (CVSS score 5.3, Medium): Potential request smuggling from early data after the
 CONNECT upgrade
