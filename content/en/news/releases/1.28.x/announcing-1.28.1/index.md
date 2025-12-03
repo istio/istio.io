@@ -30,7 +30,7 @@ behavior in ambient mode.
 - **Fixed** a failure in `istio-init` when using native nftables with TPROXY mode and had an empty `traffic.sidecar.istio.io/includeInboundPorts` annotation.
   ([Issue #58135](https://github.com/istio/istio/issues/58135))
 
-- **Fixed** an issue where EDS generation code did not consider service scope and, as a result, remote cluster endpoints that should not be accesible were included in waypoint configuration.
+- **Fixed** an issue where EDS generation code did not consider service scope and, as a result, remote cluster endpoints that should not be accessible were included in waypoint configuration.
   ([Issue #58139](https://github.com/istio/istio/issues/58139))
 
 - **Fixed** an issue where, due to incorrect EDS caching in pilot, ambient E/W gateway or waypoints would be configured with unusable EDS endpoints.
