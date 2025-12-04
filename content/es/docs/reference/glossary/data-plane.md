@@ -3,8 +3,8 @@ title: data plane
 test: n/a
 ---
 
-The data plane is the part of the mesh that directly handles and routes traffic between workload instances.
+El data plane es la parte de la mesh que maneja y enruta directamente el tráfico entre instancias de workload.
 
-In {{< gloss >}}sidecar{{< /gloss >}} mode, Istio's data plane uses [Envoy](/es/docs/reference/glossary/#envoy) proxies deployed as sidecars to mediate and control all traffic that your mesh services send and receive.
+En modo {{< gloss >}}sidecar{{< /gloss >}}, el data plane de Istio usa proxies [Envoy](/es/docs/reference/glossary/#envoy) desplegados como sidecars para mediar y controlar todo el tráfico que los servicios de tu meshenvían y reciben.
 
-In {{< gloss >}}ambient{{< /gloss >}} mode, Istio's data plane uses node-level {{< gloss >}}ztunnel{{< /gloss >}} proxies deployed as a DaemonSet to mediate and control all traffic that your mesh services send and receive.
+En modo {{< gloss >}}ambient{{< /gloss >}}, el data plane de Istio usa proxies {{< gloss >}}ztunnel{{< /gloss >}} a nivel de nodo desplegados como un DaemonSet para mediar y controlar todo el tráfico que los servicios de tu meshenvían y reciben.

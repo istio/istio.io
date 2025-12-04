@@ -1,6 +1,6 @@
 ---
-title: Installing Gateways
-description: Install and customize Istio Gateways.
+title: Instalando Gateways
+description: Instala y personaliza Gateways de Istio.
 weight: 40
 keywords: [install,gateway,kubernetes]
 owner: istio/wg-environments-maintainers
@@ -9,58 +9,57 @@ test: yes
 
 {{< tip >}}
 {{< boilerplate gateway-api-future >}}
-If you use the Gateway API, you will not need to install and manage a gateway `Deployment` as described in this document.
-By default, a gateway `Deployment` and `Service` will be automatically provisioned based on the `Gateway` configuration.
-Refer to the [Gateway API task](/es/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) for details.
+Si usas el API Gateway, no necesitarás instalar y gestionar un `Deployment` de gateway como se describe en este documento.
+Por defecto, un `Deployment` y `Service` de gateway será aprovisionado automáticamente basado en la configuración de `Gateway`.
+Consulta la [tarea del API Gateway](/es/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment) para más detalles.
 {{< /tip >}}
 
-Along with creating a service mesh, Istio allows you to manage [gateways](/es/docs/concepts/traffic-management/#gateways),
-which are Envoy proxies running at the edge of the mesh, providing fine-grained control over traffic entering and leaving the mesh.
+Junto con crear un service mesh, Istio te permite gestionar [gateways](/es/docs/concepts/traffic-management/#gateways),
+que son proxies Envoy ejecutándose en el borde de la mesh, proporcionando control granular sobre el tráfico que entra y sale de la mesh.
 
-Some of Istio's built in [configuration profiles](/es/docs/setup/additional-setup/config-profiles/) deploy gateways during installation.
-For example, a call to `istioctl install` with [default settings](/es/docs/setup/install/istioctl/#install-istio-using-the-default-profile)
-will deploy an ingress gateway along with the control plane.
-Although fine for evaluation and simple use cases, this couples the gateway to the control plane, making management and upgrade more complicated.
-For production Istio deployments, it is highly recommended to decouple these to allow independent operation.
+Algunos de los [perfiles de configuración](/es/docs/setup/additional-setup/config-profiles/) incorporados de Istio despliegan gateways durante la instalación.
+Por ejemplo, una llamada a `istioctl install` con [configuración por defecto](/es/docs/setup/install/istioctl/#install-istio-using-the-default-profile)
+desplegará un gateway de ingreso junto con el control plane.
+Aunque está bien para evaluación y casos de uso simples, esto acopla el gateway al control plane, haciendo la gestión y actualización más complicada.
+Para deployments de Istio en producción, se recomienda encarecidamente desacoplar estos para permitir operación independiente.
 
-Follow this guide to separately deploy and manage one or more gateways in a production installation of Istio.
+Sigue esta guía para desplegar y gestionar uno o más gateways por separado en una instalación de producción de Istio.
 
-## Prerequisites
+## Prerrequisitos
 
-This guide requires the Istio control plane [to be installed](/es/docs/setup/install/) before proceeding.
-
+Esta guía requiere que el control plane de Istio [esté instalado](/es/docs/setup/install/) antes de proceder.
 {{< tip >}}
-You can use the `minimal` profile, for example `istioctl install --set profile=minimal`, to prevent any gateways from being deployed
-during installation.
+Puedes usar el perfil `minimal`, por ejemplo `istioctl install --set profile=minimal`, para evitar que se desplieguen gateways 
+durante la instalación.
 {{< /tip >}}
 
 ## Deploying a gateway
 
-Using the same mechanisms as [Istio sidecar injection](/es/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection),
-the Envoy proxy configuration for gateways can similarly be auto-injected.
+Usando los mismos mecanismos que [la inyección automática de sidecars de Istio](/es/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection),
+la configuración del proxy Envoy para gateways también puede ser auto-inyectada.
 
-Using auto-injection for gateway deployments is recommended as it gives developers full control over the gateway deployment,
-while also simplifying operations.
-When a new upgrade is available, or a configuration has changed, gateway pods can be updated by simply restarting them.
-This makes the experience of operating a gateway deployment the same as operating sidecars.
+Se recomienda usar la auto-inyección para los despliegues de gateways, ya que brinda a los desarrolladores control total sobre el despliegue del gateway,
+mientras simplifica las operaciones.
+Cuando hay una nueva actualización disponible o ha cambiado una configuración, los pods del gateway pueden ser actualizados simplemente reiniciándolos.
+Esto hace que la experiencia de operar un despliegue de gateway sea similar a la de operar sidecars.
 
-To support users with existing deployment tools, Istio provides a few different ways to deploy a gateway.
-Each method will produce the same result.
-Choose the method you are most familiar with.
+Para apoyar a los usuarios con herramientas de despliegue existentes, Istio proporciona varias formas de desplegar un gateway.
+Cada método producirá el mismo resultado.
+Elige el método con el que estés más familiarizado.
 
 {{< tip >}}
-As a security best practice, it is recommended to deploy the gateway in a different namespace from the control plane.
+Como una práctica de seguridad recomendada, se sugiere desplegar el gateway en un namespace diferente al del control plane.
 {{< /tip >}}
 
-All methods listed below rely on [Injection](/es/docs/setup/additional-setup/sidecar-injection/) to populate additional pod settings at runtime.
-In order to support this, the namespace the gateway is deployed in must not have the `istio-injection=disabled` label.
-If it does, you will see pods failing to startup attempting to pull the `auto` image, which is a placeholder that is intended to be replaced when a pod is created.
+Todos los métodos listados a continuación dependen de [la inyección](/es/docs/setup/additional-setup/sidecar-injection/) para completar configuraciones adicionales de los pods en tiempo de ejecución.
+Para soportar esto, el namespace donde se despliega el gateway no debe tener la etiqueta `istio-injection=disabled`.
+Si la tiene, verás que los pods fallan al iniciar intentando obtener la imagen `auto`, que es un marcador de posición que se reemplaza cuando se crea un pod.
 
 {{< tabset category-name="gateway-install-type" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-First, setup an `IstioOperator` configuration file, called `ingress.yaml` here:
+Primero, configura un archivo de configuración `IstioOperator`, llamado `ingress.yaml` aquí:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -85,7 +84,7 @@ spec:
         injectionTemplate: gateway
 {{< /text >}}
 
-Then install using standard `istioctl` commands:
+Luego instala usando comandos estándar de `istioctl`:
 
 {{< text bash >}}
 $ kubectl create namespace istio-ingress
@@ -95,20 +94,19 @@ $ istioctl install -f ingress.yaml
 {{< /tab >}}
 {{< tab name="Helm" category-value="helm" >}}
 
-Install using standard `helm` commands:
+Instalar usando comandos estándar de `helm`:
 
 {{< text bash >}}
 $ kubectl create namespace istio-ingress
 $ helm install istio-ingressgateway istio/gateway -n istio-ingress
 {{< /text >}}
 
-To see possible supported configuration values, run `helm show values istio/gateway`.
-The Helm repository [README](https://artifacthub.io/packages/helm/istio-official/gateway) contains additional information
-on usage.
+Para ver los posibles valores de configuración compatibles, ejecuta `helm show values istio/gateway`.
+El repositorio [README](https://artifacthub.io/packages/helm/istio-official/gateway) de Helm contiene información adicional sobre el uso.
 
 {{< tip >}}
 
-When deploying the gateway in an OpenShift cluster, use the `openshift` profile to override the default values, for example:
+Cuando despliegues el gateway en un clúster de OpenShift, utiliza el perfil `openshift` para sobrescribir los valores predeterminados, por ejemplo:
 
 {{< text bash >}}
 $ helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.platform=openshift
@@ -120,7 +118,7 @@ $ helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.
 
 {{< tab name="Kubernetes YAML" category-value="yaml" >}}
 
-First, setup the Kubernetes configuration, called `ingress.yaml` here:
+Primero, configura el archivo de configuración de Kubernetes, llamado `ingress.yaml` aquí:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -200,17 +198,14 @@ subjects:
 {{< /text >}}
 
 {{< warning >}}
-This example shows the bare minimum needed to get a gateway running. For production usage, additional
-configuration such as `HorizontalPodAutoscaler`, `PodDisruptionBudget`, and resource requests/limits are recommended.
-These are automatically included when using the other gateway installation methods.
+Este ejemplo muestra lo mínimo necesario para que un gateway funcione. Para uso en producción, se recomienda una configuración adicional como `HorizontalPodAutoscaler`, `PodDisruptionBudget` y solicitudes/límites de recursos. Estos se incluyen automáticamente al usar los otros métodos de instalación de gateways.
 {{< /warning >}}
 
 {{< tip >}}
-The `sidecar.istio.io/inject` label on the pod is used in this example to enable injection. Just like application sidecar injection, this can instead be controlled at the namespace level.
-See [Controlling the injection policy](/es/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) for more information.
+La etiqueta `sidecar.istio.io/inject` en el pod se utiliza en este ejemplo para habilitar la inyección. Al igual que la inyección de sidecars de aplicaciones, esto también puede controlarse a nivel de namespace. Consulta [Controlando la política de inyección](/es/docs/setup/additional-setup/sidecar-injection/#controlling-the-injection-policy) para más información.
 {{< /tip >}}
 
-Next, apply it to the cluster:
+A continuación, aplícalo al clúster:
 
 {{< text bash >}}
 $ kubectl create namespace istio-ingress
@@ -221,18 +216,18 @@ $ kubectl apply -f ingress.yaml
 
 {{< /tabset >}}
 
-## Managing gateways
+## Gestionando gateways
 
-The following describes how to manage gateways after installation. For more information on their usage, follow
-the [Ingress](/es/docs/tasks/traffic-management/ingress/) and [Egress](/es/docs/tasks/traffic-management/egress/) tasks.
+Lo siguiente describe cómo gestionar gateways después de la instalación. Para más información sobre su uso, sigue
+las tareas de [Ingress](/es/docs/tasks/traffic-management/ingress/) y [Egress](/es/docs/tasks/traffic-management/egress/).
 
-### Gateway selectors
+### Selectores de Gateway
 
-The labels on a gateway deployment's pods are used by `Gateway` configuration resources, so it's important that
-your `Gateway` selector matches these labels.
+Las etiquetas en los pods de un despliegue de gateway son utilizadas por los recursos de configuración `Gateway`, por lo que es importante que
+tu selector de `Gateway` coincida con estas etiquetas.
 
-For example, in the above deployments, the `istio=ingressgateway` label is set on the gateway pods.
-To apply a `Gateway` to these deployments, you need to select the same label:
+Por ejemplo, en los despliegues anteriores, la etiqueta `istio=ingressgateway` se establece en los pods del gateway.
+Para aplicar un `Gateway` a estos despliegues, necesitas seleccionar la misma etiqueta:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -245,54 +240,52 @@ spec:
 ...
 {{< /text >}}
 
-### Gateway deployment topologies
+### Topologías de despliegue de Gateway
 
-Depending on your mesh configuration and use cases, you may wish to deploy gateways in different ways.
-A few different gateway deployment patterns are shown below.
-Note that more than one of these patterns can be used within the same cluster.
+Dependiendo de la configuración de tu meshy casos de uso, es posible que desees desplegar gateways de diferentes maneras.
+A continuación se muestran algunos patrones de despliegue de gateways.
+Ten en cuenta que se pueden usar más de uno de estos patrones dentro del mismo clúster.
 
-#### Shared gateway
+#### Gateway compartido
 
-In this model, a single centralized gateway is used by many applications, possibly across many namespaces.
-Gateway(s) in the `ingress` namespace delegate ownership of routes to application namespaces, but retain control over TLS configuration.
+En este modelo, un gateway centralizado único es utilizado por muchas aplicaciones, posiblemente a través de muchos namespaces.
+Los Gateway(s) en el namespace `ingress` delegan la propiedad de las rutas a los namespaces de las aplicaciones, pero mantienen el control sobre la configuración de TLS.
 
-{{< image width="50%" link="shared-gateway.svg" caption="Shared gateway" >}}
+{{< image width="50%" link="shared-gateway.svg" caption="Gateway compartido" >}}
 
-This model works well when you have many applications you want to expose externally, as they are able to use shared infrastructure.
-It also works well in use cases that have the same domain or TLS certificates shared by many applications.
+Este modelo funciona bien cuando tienes muchas aplicaciones que deseas exponer externamente, ya que pueden usar infraestructura compartida.
+También funciona bien en casos de uso que tienen el mismo dominio o certificados TLS compartidos por muchas aplicaciones.
 
-#### Dedicated application gateway
+#### Gateway dedicado para aplicaciones
 
-In this model, an application namespace has its own dedicated gateway installation.
-This allows giving full control and ownership to a single namespace.
-This level of isolation can be helpful for critical applications that have strict performance or security requirements.
+En este modelo, un namespace de aplicación tiene su propia instalación de gateway dedicada.
+Esto permite otorgar control total y propiedad a un único namespace.
+Este nivel de aislamiento puede ser útil para aplicaciones críticas que tienen requisitos estrictos de rendimiento o seguridad.
 
-{{< image width="50%" link="user-gateway.svg" caption="Dedicated application gateway" >}}
+{{< image width="50%" link="user-gateway.svg" caption="Gateway dedicado a aplicaciones" >}}
 
-Unless there is another load balancer in front of Istio, this typically means that each application will have its own IP address,
-which may complicate DNS configurations.
+A menos que haya otro balanceador de carga frente a Istio, esto típicamente significa que cada aplicación tendrá su propia dirección IP, lo que puede complicar las configuraciones de DNS.
 
-## Upgrading gateways
+## Actualización de gateways
 
-### In place upgrade
+### Actualización en el lugar
 
-Because gateways utilize pod injection, new gateway pods that are created will automatically be injected with the latest configuration, which includes the version.
+Debido a que los gateways utilizan la inyección de pods, los nuevos pods de gateway que se creen serán automáticamente inyectados con la configuración más reciente, que incluye la versión.
 
-To pick up changes to the gateway configuration, the pods can simply be restarted, using commands such as `kubectl rollout restart deployment`.
+Para aplicar los cambios a la configuración del gateway, los pods simplemente pueden ser reiniciados, utilizando comandos como `kubectl rollout restart deployment`.
 
-If you would like to change the [control plane revision](/es/docs/setup/upgrade/canary/) in use by the gateway, you can set the `istio.io/rev` label on the gateway Deployment, which will also trigger a rolling restart.
+Si deseas cambiar la [revisión del control plane](/es/docs/setup/upgrade/canary/) utilizada por el gateway, puedes establecer la etiqueta `istio.io/rev` en el Deployment del gateway, lo que también desencadenará un reinicio progresivo.
 
-{{< image width="50%" link="inplace-upgrade.svg" caption="In place upgrade in progress" >}}
+{{< image width="50%" link="inplace-upgrade.svg" caption="In place upgrade en progreso" >}}
 
-### Canary upgrade (advanced)
-
+### Canary upgrade (avanzado)
 {{< warning >}}
-This upgrade method depends on control plane revisions, and therefore can only be used in conjunction with
-[control plane canary upgrade](/es/docs/setup/upgrade/canary/).
+Este método de actualización depende de las revisiones del control plane, y por lo tanto solo puede ser utilizado junto con
+[actualización canaria del control plane](/es/docs/setup/upgrade/canary/).
 {{< /warning >}}
 
-If you would like to more slowly control the rollout of a new control plane revision, you can run multiple versions of a gateway deployment.
-For example, if you want to roll out a new revision, `canary`, create a copy of your gateway deployment with the `istio.io/rev=canary` label set:
+Si deseas controlar más lentamente el despliegue de una nueva revisión del control plane, puedes ejecutar múltiples versiones de un despliegue de gateway.
+Por ejemplo, si deseas desplegar una nueva revisión, `canary`, crea una copia de tu despliegue de gateway con la etiqueta `istio.io/rev=canary` configurada:
 
 {{< text yaml >}}
 apiVersion: apps/v1
@@ -317,7 +310,7 @@ spec:
         image: auto
 {{< /text >}}
 
-When this deployment is created, you will then have two versions of the gateway, both selected by the same Service:
+Cuando se crea este despliegue, tendrás entonces dos versiones del gateway, ambas seleccionadas por el mismo Service:
 
 {{< text bash >}}
 $ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
@@ -325,28 +318,27 @@ NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 {{< /text >}}
 
-{{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade in progress" >}}
+{{< image width="50%" link="canary-upgrade.svg" caption="Canary upgrade en progreso" >}}
 
-Unlike application services deployed inside the mesh, you cannot use [Istio traffic shifting](/es/docs/tasks/traffic-management/traffic-shifting/) to distribute the traffic between the gateway versions because their traffic is coming directly from external clients that Istio does not control.
-Instead, you can control the distribution of traffic by the number of replicas of each deployment.
-If you use another load balancer in front of Istio, you may also use that to control the traffic distribution.
+A diferencia de los servicios de aplicaciones desplegados dentro de la mesh, no puedes usar [redirección de tráfico de Istio](/es/docs/tasks/traffic-management/traffic-shifting/) para distribuir el tráfico entre las versiones del gateway porque su tráfico proviene directamente de clientes externos que Istio no controla. 
+En su lugar, puedes controlar la distribución del tráfico mediante el número de réplicas de cada despliegue. 
+Si utilizas otro balanceador de carga frente a Istio, también puedes usarlo para controlar la distribución del tráfico.
 
 {{< warning >}}
-Because other installation methods bundle the gateway `Service`, which controls its external IP address, with the gateway `Deployment`,
-only the [Kubernetes YAML](/es/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) method is supported for this upgrade method.
+Debido a que otros métodos de instalación agrupan el `Service` del gateway, que controla su dirección IP externa, con el `Deployment` del gateway, solo el método [Kubernetes YAML](/es/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) es compatible con este método de actualización.
 {{< /warning >}}
 
-### Canary upgrade with external traffic shifting (advanced)
+### Actualización canaria con redirección de tráfico externo (avanzado)
 
-A variant of the [canary upgrade](#canary-upgrade) approach is to shift the traffic between the versions using a high level construct outside Istio, such as an external load balancer or DNS.
+Una variante del enfoque de [actualización canaria](#canary-upgrade) es redirigir el tráfico entre las versiones utilizando una construcción de alto nivel fuera de Istio, como un balanceador de carga externo o DNS.
 
-{{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade in progress with external traffic shifting" >}}
+{{< image width="50%" link="high-level-canary.svg" caption="Canary upgrade en progreso con redirección de tráfico externo" >}}
 
-This offers fine-grained control, but may be unsuitable or overly complicated to set up in some environments.
+Esto ofrece un control granular, pero puede ser inadecuado o demasiado complicado de configurar en algunos entornos.
 
-## Cleanup
+## Limpieza
 
-- Cleanup Istio ingress gateway
+- Limpieza del gateway de ingreso de Istio
 
     {{< text bash >}}
     $ istioctl uninstall --istioNamespace istio-ingress -y --purge

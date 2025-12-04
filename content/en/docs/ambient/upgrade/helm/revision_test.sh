@@ -23,12 +23,12 @@ source "content/en/docs/ambient/upgrade/helm/common.sh"
 # @setup profile=none
 _install_istio_ambient_helm
 
+# If you change this... change the kubectl delete mutatingwebhookconfigurations line in the cleanup section
 export MYTAG=tagname
 
 snip_list_revisions
 snip_update_helm
 snip_istioctl_precheck
-
 
 _rewrite_helm_repo snip_upgrade_crds
 _rewrite_helm_repo snip_upgrade_istiod_revisioned
@@ -46,9 +46,11 @@ _rewrite_helm_repo snip_rollback_tag
 
 # @cleanup
 
-# upgrading a tag creates an MWC, let's clean it up 
+# upgrading a tag creates an MWC, let's clean it up
 export REVISION=istio-1-22-1
 helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags="{tagname}" --set revision="$OLD_REVISION" -n istio-system | kubectl delete -f -
 helm delete istiod-"$REVISION" -n istio-system
 snip_delete_old_revision
+# Delete the MWC created by the tag upgrade as it doesn't get cleaned up properly
+kubectl delete mutatingwebhookconfigurations "istio-revision-tag-tagname"
 _remove_istio_ambient_helm

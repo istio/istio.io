@@ -1,6 +1,6 @@
 ---
-title: Overview
-description: A high-level introduction to Istio and service mesh.
+title: Visión General
+description: Una introducción de alto nivel a Istio y mesh de servicios.
 weight: 5
 test: table-of-contents
 ---

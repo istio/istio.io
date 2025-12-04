@@ -1,6 +1,6 @@
 ---
-title: Glossary
-description: A glossary of common Istio terms.
+title: Glosario
+description: Un glosario de términos comunes de Istio.
 weight: 30
 layout: glossary
 aliases:

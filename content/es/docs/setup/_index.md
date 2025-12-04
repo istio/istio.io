@@ -1,6 +1,6 @@
 ---
-title: Sidecar Mode
-description: Information for setting up and operating Istio in sidecar mode.
+title: Modo Sidecar
+description: Información para configurar y operar Istio en modo sidecar.
 weight: 15
 aliases:
     - /docs/tasks/installing-istio.html

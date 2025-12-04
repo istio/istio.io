@@ -1,7 +1,7 @@
 ---
-title: Installation Guides
-linktitle: Install
-description: Choose the guide that best suits your needs and platform.
+title: Guías de Instalación
+linktitle: Instalar
+description: Elige la guía que mejor se adapte a tus necesidades y plataforma.
 weight: 20
 content_above: true
 aliases:
@@ -9,12 +9,12 @@ aliases:
 test: table-of-contents
 ---
 
-If you need help choosing, refer to our
-[which Istio installation method should I use?](/es/about/faq/#install-method-selection) FAQ page.
+Si necesitas ayuda para elegir, consulta nuestra
+página de FAQ [¿qué método de instalación de Istio debería usar?](/es/about/faq/#install-method-selection).
 
-To install gateways in a mesh, refer to [Installing Gateways](/es/docs/setup/additional-setup/gateway) for details.
+Para instalar gateways en un mesh, consulta [Instalando Gateways](/es/docs/setup/additional-setup/gateway) para más detalles.
 
 {{< tip >}}
-Istio {{< istio_version >}} has been tested with these Kubernetes releases:
+Istio {{< istio_version >}} ha sido probado con estas versiones de Kubernetes:
 {{< supported_kubernetes_versions >}}.
 {{< /tip >}}

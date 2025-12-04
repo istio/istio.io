@@ -16,6 +16,10 @@ up to 4 requests per minute, allowing for any in-mesh traffic.
 
 ## Before you begin
 
+{{< warning >}}
+Rate limits as described in this document are implemented using the EnvoyFilter API. EnvoyFilter exposes internal implementation details that may change at any time. Please use extreme caution, especially around upgrades.
+{{< /warning >}}
+
 1. Setup Istio in a Kubernetes cluster by following the instructions in the
    [Installation Guide](/docs/setup/getting-started/).
 
