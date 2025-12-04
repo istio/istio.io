@@ -45,8 +45,6 @@ istioctl analyze samples/bookinfo/networking/bookinfo-gateway.yaml samples/booki
 }
 
 ! IFS=$'\n' read -r -d '' snip_analyze_sample_destrule_out <<\ENDSNIP
-2025-12-04T11:44:52.968676Z	error	kube	translation function for core/v1alpha1/MeshConfig not found	controller=analysis-controller
-2025-12-04T11:44:52.968768Z	error	kube	translation function for core/v1alpha1/MeshNetworks not found	controller=analysis-controller
 Error [IST0101] (Gateway default/bookinfo-gateway samples/bookinfo/networking/bookinfo-gateway.yaml:9) Referenced selector not found: "istio=ingressgateway"
 Error [IST0101] (VirtualService default/bookinfo samples/bookinfo/networking/bookinfo-gateway.yaml:41) Referenced host not found: "productpage"
 Warning [IST0174] (DestinationRule default/details samples/bookinfo/networking/destination-rule-all.yaml:49) The host details defined in the DestinationRule does not match any services in the mesh.
