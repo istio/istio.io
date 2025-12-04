@@ -87,7 +87,7 @@ export NETLIFY_URL
 
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= release-1.28
+export SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh

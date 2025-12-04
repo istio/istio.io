@@ -378,6 +378,28 @@ For example, a <code>Pod</code> resource may default to the <code>Deployment</co
     </tr>
   </tbody>
 </table>
+<h2 id="TopologyLocality">topology.istio.io/locality</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>topology.istio.io/locality</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Pod]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>This label is applied to a workload internally that indicates the region/zone/subzone of an instance. It is used to override the native registry&rsquo;s value. Kubernetes labels does not support <code>/</code>, use <code>.</code> instead in kubernetes. e.g. <code>regionA.zoneB.subZoneC</code></p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="TopologyNetwork">topology.istio.io/network</h2>
 <table class="annotations">
   <tbody>
