@@ -56,10 +56,10 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_show_components_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.28.0     1.28.0
-istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.28.0      1.28.0
-istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.28.0   1.28.0
-ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.28.0  1.28.0
+istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.29.0     1.29.0
+istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.29.0      1.29.0
+istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.29.0   1.29.0
+ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.29.0  1.29.0
 ENDSNIP
 
 snip_check_pods() {
@@ -79,10 +79,10 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_uninstall_1_out <<\ENDSNIP
 NAME            NAMESPACE       REVISION    UPDATED                                 STATUS      CHART           APP VERSION
-istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.28.0     1.28.0
-istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.28.0      1.28.0
-istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.28.0   1.28.0
-ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.28.0  1.28.0
+istio-base      istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    base-1.29.0     1.29.0
+istio-cni       istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    cni-1.29.0      1.29.0
+istiod          istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    istiod-1.29.0   1.29.0
+ztunnel         istio-system    1           2024-04-17 22:14:45.964722028 +0000 UTC deployed    ztunnel-1.29.0  1.29.0
 ENDSNIP
 
 snip_delete_ingress() {
