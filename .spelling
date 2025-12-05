@@ -435,6 +435,9 @@ CVE-2025-54588
 CVE-2025-55162
 CVE-2025-62409
 CVE-2025-62504
+CVE-2025-64527
+CVE-2025-64763
+CVE-2025-66220
 CVEs
 cves
 cvss
@@ -589,6 +592,7 @@ Gergely
 GHSA-8mq4-c2v5-3h39
 GiB
 GIDs
+GIE
 git
 GitHub
 GitOps
@@ -797,6 +801,7 @@ Kops
 Korczynski
 Krishnan
 Kristián
+krt
 KServe
 Kuat
 Kube
@@ -1379,6 +1384,7 @@ v1.0
 v1.0.0
 v1.0.0.
 v1.1
+v1.1.0.
 v1.19
 v1.2.
 v1.21
