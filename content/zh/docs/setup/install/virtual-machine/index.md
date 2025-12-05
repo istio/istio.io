@@ -269,7 +269,7 @@ spec:
       app: "${VM_APP}"
   template:
     serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${NETWORK}"
+    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
