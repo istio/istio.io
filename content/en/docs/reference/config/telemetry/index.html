@@ -9,7 +9,7 @@ generator: protoc-gen-docs
 schema: istio.telemetry.v1alpha1.Telemetry
 aliases: [/docs/reference/config/telemetry/v1alpha1/telemetry]
 weight: 45
-number_of_entries: 18
+number_of_entries: 19
 ---
 <p><code>Telemetry</code> defines how telemetry (metrics, logs and traces)
 is generated for workloads within a mesh.</p>
@@ -438,6 +438,15 @@ span.</p>
 
 </td>
 </tr>
+<tr id="Tracing-CustomTag-formatter" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#Tracing-CustomTag-formatter">formatter</a></code></div>
+<div class="type"><a href="#Tracing-Formatter">Formatter (oneof)</a></div>
+</div></td>
+<td>
+<p>Formatter adds the value of access logging substitution formatter.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -524,6 +533,31 @@ used instead.</p>
 <td>
 <p>If the header is not found, this value will be
 used instead.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="Tracing-Formatter">Formatter</h3>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="Tracing-Formatter-value">
+<td><div class="field"><div class="name"><code><a href="#Tracing-Formatter-value">value</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
+<td>
+<p>The formatter tag value to use, same formatter as HTTP access logging
+(e.g. %REQUESTED_SERVER_NAME%). Unknown specifier values are replaced
+with the empty string.</p>
 
 </td>
 </tr>

@@ -7599,7 +7599,7 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
   istioctl waypoint list -A
 </code></pre>
 <h3 id="istioctl-waypoint-status">istioctl waypoint status</h3>
-<p>Show the status of waypoints for the namespace provided or default namespace if none is provided</p>
+<p>Show the status of waypoints in the cluster</p>
 <pre class="language-bash"><code>istioctl waypoint status [flags]
 </code></pre>
 <table class="command-flags">
@@ -7611,6 +7611,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--all-namespaces</code></td>
+<td><code>-A</code></td>
+<td>Show the status of waypoints in all namespaces </td>
+</tr>
 <tr>
 <td><code>--as &lt;string&gt;</code></td>
 <td></td>
@@ -7662,6 +7667,11 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 <td>number for the log level verbosity. Like -v flag. ex: --vklog=9  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--wait</code></td>
+<td><code>-w</code></td>
+<td>Wait for the waypoint to be ready </td>
+</tr>
+<tr>
 <td><code>--waypoint-timeout &lt;duration&gt;</code></td>
 <td></td>
 <td>Timeout for retrieving status for waypoint  (default `1m30s`)</td>
@@ -7674,6 +7684,9 @@ If set to true, the user is not prompted and a Yes response is assumed in all ca
 
   # Show the status of the waypoint in a specific namespace
   istioctl waypoint status --namespace default
+
+  # Show the status of the waypoint in all namespaces
+  istioctl waypoint status --all-namespaces
 </code></pre>
 <h3 id="istioctl-ztunnel-config">istioctl ztunnel-config</h3>
 <p>A group of commands used to update or retrieve Ztunnel configuration from a Ztunnel instance.</p>
@@ -8535,6 +8548,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>true</code></td>
 <td>If disabled, the shadow host suffix will be added to the hostnames of the mirrored requests.</td>
 </tr>
+<tr id='disable-track-remaining-cb-metrics'>
+<td><a href='#disable-track-remaining-cb-metrics'><code>DISABLE_TRACK_REMAINING_CB_METRICS</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If disabled, the remaining metrics for circuit breakers will not be tracked.</td>
+</tr>
 <tr id='enable-100-continue-headers'>
 <td><a href='#enable-100-continue-headers'><code>ENABLE_100_CONTINUE_HEADERS</code></a></td>
 <td>Boolean</td>
@@ -8678,6 +8697,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If true, will use optimized vtprotobuf based marshaling. Requires a build with -tags=vtprotobuf.</td>
+</tr>
+<tr id='enable-wildcard-host-service-entries-for-tls'>
+<td><a href='#enable-wildcard-host-service-entries-for-tls'><code>ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ServiceEntries with wildcard hosts and dynamic dns resolution will be allowed for TLS traffic. This is a security risk, susceptible to SNI spoofing, and should be used with caution. Only consider using this feature if the client is trusted and you understand the risks.</td>
 </tr>
 <tr id='envoy-status-port-enable-proxy-protocol'>
 <td><a href='#envoy-status-port-enable-proxy-protocol'><code>ENVOY_STATUS_PORT_ENABLE_PROXY_PROTOCOL</code></a></td>
@@ -9000,6 +9025,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Integer</td>
 <td><code>1</code></td>
 <td>Deprecated, superseded by ENABLE_LAZY_SIDECAR_EVALUATION. Used to adjust the concurrency of SidecarScope conversions. When istiod is deployed on a multi-core CPU server, increasing this value will help to use the CPU to accelerate configuration push, but it also means that istiod will consume more CPU resources.</td>
+</tr>
+<tr id='pilot-crl-configmap'>
+<td><a href='#pilot-crl-configmap'><code>PILOT_CRL_CONFIGMAP</code></a></td>
+<td>String</td>
+<td><code>istio-ca-crl</code></td>
+<td>The name of the ConfigMap that stores the Certificate Revocation List (CRL) for a plugged-in CA</td>
 </tr>
 <tr id='pilot-debounce-after'>
 <td><a href='#pilot-debounce-after'><code>PILOT_DEBOUNCE_AFTER</code></a></td>
@@ -9542,6 +9573,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>endpoint_no_pod</code></td><td><code>LastValue</code></td><td>Endpoints without an associated pod.</td></tr>
 <tr><td><code>istio_build</code></td><td><code>LastValue</code></td><td>Istio component build info</td></tr>
 <tr><td><code>istiod_managed_clusters</code></td><td><code>LastValue</code></td><td>Number of clusters managed by istiod</td></tr>
+<tr><td><code>istiod_remote_cluster_sync_status</code></td><td><code>LastValue</code></td><td>Current synchronization state of remote clusters managed by istiod. One sample per cluster and state; a value of 1 indicates the cluster is in that state.</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>

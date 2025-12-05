@@ -52,7 +52,7 @@ Warning [IST0174] (DestinationRule default/productpage samples/bookinfo/networki
 Warning [IST0174] (DestinationRule default/ratings samples/bookinfo/networking/destination-rule-all.yaml:29) The host ratings defined in the DestinationRule does not match any services in the mesh.
 Warning [IST0174] (DestinationRule default/reviews samples/bookinfo/networking/destination-rule-all.yaml:12) The host reviews defined in the DestinationRule does not match any services in the mesh.
 Error: Analyzers found issues when analyzing namespace: default.
-See https://istio.io/v1.28/docs/reference/config/analysis for more information about causes and resolutions.
+See https://istio.io/v1.29/docs/reference/config/analysis for more information about causes and resolutions.
 ENDSNIP
 
 snip_analyze_networking_directory() {
@@ -80,7 +80,7 @@ spec:
 status:
   observedGeneration: "1"
   validationMessages:
-  - documentationUrl: https://istio.io/v1.28/docs/reference/config/analysis/ist0101/
+  - documentationUrl: https://istio.io/v1.29/docs/reference/config/analysis/ist0101/
     level: ERROR
     type:
       code: IST0101

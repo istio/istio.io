@@ -29,6 +29,7 @@ spec:
     mode: STRICT
 </code></pre>
 <p>For mesh level, put the policy in root-namespace according to your Istio installation.</p>
+<p>Note: PeerAuthentication policies with workload selectors are ignored when deployed in the root namespace.</p>
 <p>Policies to allow both mTLS and plaintext traffic for all workloads under namespace <code>foo</code>, but
 require mTLS for workload <code>finance</code>.</p>
 <pre><code class="language-yaml">apiVersion: security.istio.io/v1
