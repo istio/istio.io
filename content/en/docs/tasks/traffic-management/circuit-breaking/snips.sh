@@ -215,7 +215,6 @@ kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats | gre
 }
 
 ! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_5_out <<\ENDSNIP
-cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.remaining_pending: 1
 cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.rq_pending_open: 0
 cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.high.rq_pending_open: 0
 cluster.outbound|8000||httpbin.default.svc.cluster.local;.upstream_rq_pending_active: 0
