@@ -114,10 +114,9 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
 ## TLS origination for egress traffic
 
-1.  Redefine your `ServiceEntry` from the previous section to redirect HTTP requests to port 443
-    and add a `DestinationRule` to perform TLS origination:
+1.  Redefine your `ServiceEntry` from the previous section to redirect HTTP requests to port 443:
 
-    {{< text syntax=bash snip_id=apply_origination >}}
+    {{< text syntax=bash snip_id=apply_origination_serviceentry >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: ServiceEntry
@@ -135,7 +134,17 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
         name: https-port
         protocol: HTTPS
       resolution: DNS
-    ---
+    EOF
+    {{< /text >}}
+
+1.  Add a policy to perform TLS origination:
+
+    {{< tabset category-name="tls-origination" >}}
+
+    {{< tab name="Istio API" category-value="istio-api" >}}
+
+    {{< text syntax=bash snip_id=apply_origination_destinationrule >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
@@ -153,6 +162,35 @@ Both of these issues can be resolved by configuring Istio to perform TLS origina
 
     The above `DestinationRule` will perform TLS origination for HTTP requests on port 80 and the `ServiceEntry`
     will then redirect the requests on port 80 to target port 443.
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    {{< text syntax=bash snip_id=apply_origination_backendtlspolicy >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: BackendTLSPolicy
+    metadata:
+      name: edition-cnn-com
+    spec:
+      targetRefs:
+      - group: networking.istio.io
+        kind: ServiceEntry
+        name: edition-cnn-com
+        sectionName: http-port
+      validation:
+        hostname: edition.cnn.com
+        wellKnownCACertificates: System
+    EOF
+    {{< /text >}}
+
+    The above `BackendTLSPolicy` will perform TLS origination for HTTP requests on the `http` port and the `ServiceEntry`
+    will then redirect the requests on port 80 to target port 443.
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. Send an HTTP request to `http://edition.cnn.com/politics`, as in the previous section:
 
@@ -198,10 +236,27 @@ topics and articles but does not prevent attackers from learning that `edition.c
 
 Remove the Istio configuration items you created:
 
+{{< tabset category-name="cleanup-tls-origination" >}}
+
+{{< tab name="Istio API" category-value="istio-api" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry edition-cnn-com
 $ kubectl delete destinationrule edition-cnn-com
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry edition-cnn-com
+$ kubectl delete backendtlspolicy edition-cnn-com
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Mutual TLS origination for egress traffic
 
