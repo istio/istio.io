@@ -17,6 +17,8 @@
 
 # @setup profile=ambient
 
+source "content/en/boilerplates/snips/gateway-api-remove-crds.sh"
+
 set -e
 set -u
 set -o pipefail
