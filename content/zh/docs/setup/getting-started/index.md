@@ -218,9 +218,13 @@ Istio 和[几个遥测应用](/zh/docs/ops/integrations)做了集成。
 
     {{< text bash >}}
     $ kubectl apply -f @samples/addons/kiali.yaml@
-    $ kubectl rollout status deployment/kiali -n istio-system
+    $ kubectl rollout status deployment/kiali -n istio-system@
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out
+    $ kubectl apply -f @samples/addons/prometheus.yaml@
+    $ kubectl rollout status deployment/prometheus -n istio-system
+    Waiting for deployment "prometheus" rollout to finish: 0 of 1 updated replicas are available...
+    deployment "prometheus" successfully rolled out
     {{< /text >}}
 
 1.  访问 Kiali 仪表板。
