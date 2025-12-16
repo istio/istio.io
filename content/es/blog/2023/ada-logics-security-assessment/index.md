@@ -10,7 +10,7 @@ Istio es un proyecto en el que los ingenieros de plataforma confían para aplica
 
 La evaluación de los auditores fue que **"Istio es un proyecto bien mantenido que tiene un enfoque fuerte y sostenible de la seguridad"**. No se encontraron problemas críticos; lo más destacado del informe fue el descubrimiento de una vulnerabilidad en el lenguaje de programación Go.
 
-Nos gustaría agradecer a la [Cloud Native Computing Foundation](https://cncf.io/) por financiar este trabajo, como un beneficio que se nos ofreció después de [unirnos a la CNCF en agosto](https://www.cncf.io/blog/2022/09/28/istio-sails-into-the-cloud-native-computing-foundation/). Fue [organizado por OSTIF](https://ostif.org/the-audit-of-istio-is-complete) y [realizado por ADA Logics](https://adalogics.com/blog/istio-security-audit).
+Queremos agradecer a la [Cloud Native Computing Foundation](https://cncf.io/) por financiar este trabajo, como un beneficio que se nos ofreció después de [unirnos a la CNCF en agosto](https://www.cncf.io/blog/2022/09/28/istio-sails-into-the-cloud-native-computing-foundation/). Fue [organizado por OSTIF](https://ostif.org/the-audit-of-istio-is-complete) y [realizado por ADA Logics](https://adalogics.com/blog/istio-security-audit).
 
 ## Alcance y hallazgos generales
 
