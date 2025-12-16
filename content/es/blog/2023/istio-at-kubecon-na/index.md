@@ -29,7 +29,7 @@ La keynote de apertura también anunció la disponibilidad del [examen Istio Cer
     alt="Istio Certified Associate (ICA): ¡inscríbete ahora!"
     >}}
 
-También estábamos orgullosos de mostrar un pequeño video de muchos de nuestros contribuyentes, proveedores y usuarios finales felicitándonos por la graduación de la CNCF.
+También nos enorgulleció mostrar un breve video de muchos de nuestros contribuyentes, proveedores y usuarios finales felicitándonos por la graduación de la CNCF.
 
 <div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/c5baPkXZEMU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
