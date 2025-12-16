@@ -11,7 +11,7 @@ keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
     alt="Istio Day North America, 6 noviembre 2023, Chicago. #istioday"
     >}}
 
-Todos nos divertimos mucho en [Istio Day Europe](/blog/2023/istio-at-kubecon-eu/) en abril. El evento fue increíblemente bien recibido, pero tanto los organizadores como los asistentes sintieron que medio día no era suficiente para mostrar todo lo que Istio tiene para ofrecer. Debido a la abrumadora respuesta, nos complace compartir con todos ustedes que [Istio Day North America](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/) será un evento de **día completo**, ubicado conjuntamente con KubeCon North America en Chicago.
+Todos nos divertimos mucho en [Istio Day Europe](/blog/2023/istio-at-kubecon-eu/) en abril. El evento fue increíblemente bien recibido, pero tanto los organizadores como los asistentes sintieron que medio día no era suficiente para mostrar todo lo que Istio tiene para ofrecer. Debido a la excelente respuesta, nos complace compartir que [Istio Day North America](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/istio-day/) será un evento de **día completo**, ubicado conjuntamente con KubeCon North America en Chicago.
 
 {{< image width="100%"
     link="./istioday-na-logo.png"
