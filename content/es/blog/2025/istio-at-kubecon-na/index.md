@@ -16,7 +16,7 @@ Antes de que comenzara la conferencia principal, la comunidad inició las cosas 
 
 ## Istio Day en KubeCon NA
 
-Istio Day reunió a practicantes, contribuyentes y adoptantes para una tarde de aprendizaje, compartir y conversaciones abiertas sobre hacia dónde se dirige el service mesh—y Istio—a continuación.
+Istio Day reunió a profesionales, contribuyentes y usuarios para una tarde de aprendizaje, compartir y conversaciones abiertas sobre hacia dónde se dirige el service mesh—y Istio—a continuación.
 
 {{< image width="75%" link="./istioday-opening.jpg" caption="IstioDay: North America" >}}
 
