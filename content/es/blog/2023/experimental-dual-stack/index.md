@@ -11,7 +11,7 @@ Durante el último año, Intel y F5 han colaborado en un esfuerzo para brindar s
 
 ## Antecedentes
 
-El viaje nos ha llevado más tiempo de lo anticipado y continuamos teniendo trabajo por hacer. El equipo inicialmente comenzó con un diseño basado
+Este proceso nos ha llevado más tiempo del previsto y continuamos teniendo trabajo por hacer. El equipo inicialmente comenzó con un diseño basado
 en una implementación de referencia de F5. El diseño llevó a un [RFC](https://docs.google.com/document/d/1oT6pmRhOw7AtsldU0-HbfA0zA26j9LYiBD_eepeErsQ/edit?usp=sharing) que nos hizo reexaminar nuestro enfoque. En particular, había preocupaciones sobre problemas de memoria y rendimiento que la comunidad quería
 abordar antes de la implementación. El diseño original tuvo que duplicar la configuración de Envoy para listeners, clusters, rutas y endpoints. Dado que muchas personas ya experimentan problemas de consumo de memoria y CPU de Envoy, los comentarios iniciales querían que reevaluáramos completamente este enfoque. Muchos proxies manejan transparentemente el tráfico saliente de doble pila independientemente de cómo se originó el tráfico. Gran parte de los comentarios más tempranos fue implementar el mismo comportamiento en Istio y Envoy.
 
