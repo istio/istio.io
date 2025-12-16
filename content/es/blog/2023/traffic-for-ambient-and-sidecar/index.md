@@ -6,7 +6,7 @@ attribution: "Steve Zhang (Intel), John Howard (Google), Yuxing Zeng(Alibaba), P
 keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
-Hay 2 modos de despliegue para Istio: modo ambient y modo sidecar. El primero todavía está en camino, el segundo es el clásico. Por lo tanto, la coexistencia del modo ambient y el modo sidecar debería ser una forma de despliegue normal y la razón por la cual este blog puede ser útil para los usuarios de Istio.
+Existen 2 modos de despliegue para Istio: modo ambient y modo sidecar. El primero todavía está en camino, el segundo es el clásico. Por lo tanto, la coexistencia del modo ambient y el modo sidecar debería ser una forma de despliegue normal y la razón por la cual este blog puede ser útil para los usuarios de Istio.
 
 ## Antecedentes
 
