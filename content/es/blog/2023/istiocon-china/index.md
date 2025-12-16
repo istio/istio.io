@@ -10,7 +10,7 @@ Es genial poder reunirnos de nuevo en persona de forma segura. Después de dos a
 
 IstioCon está comprometido con el service mesh líder de la industria que proporciona una plataforma para explorar los conocimientos obtenidos de despliegues de Istio del mundo real, participar en actividades interactivas prácticas y conectarse con los mantenedores de todo el ecosistema de Istio.
 
-Junto con nuestro evento [IstioCon 2023 virtual](https://events.istio.io/), [IstioCon China 2023](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/) se llevó a cabo el 26 de septiembre en Shanghái, China. Como parte de KubeCon + CloudNativeCon + Open Source Summit China, el evento fue organizado y alojado por los mantenedores de Istio y la CNCF. Estábamos muy orgullosos de tener un programa sólido para IstioCon en Shanghái y complacidos de reunir a miembros de la comunidad china de Istio. El evento fue un testimonio de la inmensa popularidad de Istio en el ecosistema de Asia-Pacífico.
+Junto con nuestro evento [IstioCon 2023 virtual](https://events.istio.io/), [IstioCon China 2023](https://www.lfasiallc.com/kubecon-cloudnativecon-open-source-summit-china/co-located-events/istiocon-cn/) se llevó a cabo el 26 de septiembre en Shanghái, China. Como parte de KubeCon + CloudNativeCon + Open Source Summit China, el evento fue organizado y hosted por los mantenedores de Istio y la CNCF. Estábamos muy orgullosos de tener un programa sólido para IstioCon en Shanghái y complacidos de reunir a miembros de la comunidad china de Istio. El evento fue un testimonio de la inmensa popularidad de Istio en el ecosistema de Asia-Pacífico.
 
 {{< image link="./group-pic.jpg"
     caption="IstioCon China 2023"
