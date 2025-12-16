@@ -6,7 +6,7 @@ attribution: "Comité Directivo de Istio"
 keywords: [Istio Day,IstioCon,Istio,conference,KubeCon,CloudNativeCon]
 ---
 
-¡Istio está navegando por los canales este abril! Nos complace anunciar [Istio Day Europe 2023](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/cncf-hosted-co-located-events/istio-day/), un evento del "Día 0" ubicado conjuntamente con [KubeCon + CloudNativeCon Europe 2023](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe).
+¡Istio navega por los canales este abril! Nos complace anunciar [Istio Day Europe 2023](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/cncf-hosted-co-located-events/istio-day/), un evento del "Día 0" ubicado conjuntamente con [KubeCon + CloudNativeCon Europe 2023](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe).
 
 {{< image width="75%"
     link="./istioday-eu-logo.png"
