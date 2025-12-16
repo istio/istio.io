@@ -22,7 +22,7 @@ internamente en lugar de soportarlo dentro de Istio. Esto nos ha llevado a un [n
 
 ## Soporte para Doble Pila en Istio 1.17
 
-Hemos trabajado con la comunidad de Envoy para abordar numerosas preocupaciones, lo cual es una razón por la cual la habilitación de doble pila nos
+Hemos trabajado con la comunidad de Envoy para resolver numerosas preocupaciones, lo cual es una razón por la cual la habilitación de doble pila nos
 ha tomado un tiempo implementar. Hemos implementado [familia de IP coincidente para listener saliente](https://github.com/envoyproxy/envoy/issues/16804)
 y [soportado múltiples direcciones por listener](https://github.com/envoyproxy/envoy/issues/11184). Alex Xu también ha
 estado trabajando fervientemente para resolver problemas pendientes de larga data, con la capacidad de que Envoy tenga una
