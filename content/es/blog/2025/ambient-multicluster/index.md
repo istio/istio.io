@@ -30,7 +30,7 @@ a través de APIs simples y declarativas que se mantengan al ritmo de entornos d
 
 ## Componentes clave
 
-El multiclúster ambient extiende ambient con nuevos componentes y APIs mínimas para
+El multiclúster ambient extiende ambient con componentes nuevos y APIs mínimas para
 conectar clústeres de forma segura usando la arquitectura liviana y modular de ambient.
 Se basa en el modelo de {{< gloss "namespace sameness" >}}igualdad de namespace{{< /gloss >}}
 para que los servicios mantengan sus nombres DNS existentes entre clústeres, permitiéndole controlar la comunicación entre clústeres sin cambiar el código de la aplicación.
