@@ -12,7 +12,7 @@ Este lanzamiento trae la funcionalidad central de una malla multiclúster y sien
 
 ## El poder y complejidad de Multiclúster
 
-Las arquitecturas multiclúster aumentan la resistencia a interrupciones, reducen su radio de explosión y escalan a través de centros de datos.
+Las arquitecturas multiclúster aumentan la resistencia a interrupciones, reducen su radio de impacto y escalan a través de centros de datos.
 Dicho esto, integrar múltiples clústeres plantea desafíos de conectividad, seguridad y operacionales.
 
 En un solo clúster de Kubernetes, cada pod puede conectarse directamente a otro pod a través de una IP de pod única o VIP de servicio.
