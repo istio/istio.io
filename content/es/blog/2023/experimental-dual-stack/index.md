@@ -6,7 +6,7 @@ attribution: "Steve Zhang (Intel), Alex Xu (Intel), Iris Ding (Intel), Jacob Del
 keywords: [dual-stack]
 ---
 
-Durante el último año, tanto Intel como F5 han colaborado en un esfuerzo para brindar soporte para
+Durante el último año, Intel y F5 han colaborado en un esfuerzo para brindar soporte para
 [Redes de Doble Pila de Kubernetes](https://kubernetes.io/docs/concepts/services-networking/dual-stack/) a Istio.
 
 ## Antecedentes
