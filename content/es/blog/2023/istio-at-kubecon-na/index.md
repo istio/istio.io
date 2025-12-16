@@ -15,7 +15,7 @@ Con Istio Day NA terminado, eso concluye nuestros principales eventos comunitari
     alt="Letrero de bienvenida de Istio Day NA 2023"
     >}}
 
-Istio Day comenzó con una keynote de apertura de los presidentes del Comité del Programa, Faseela K y Zack Butcher. La keynote se aseguró de reconocer los esfuerzos diarios de nuestros contribuyentes, mantenedores, gestores de lanzamiento y usuarios, con algunos premios para nuestros principales contribuyentes y ayudantes de la comunidad. Rob Salmond y Andrea Ma fueron reconocidos por sus esfuerzos desinteresados en la comunidad de Istio, y también se mencionaron los 20 principales contribuyentes en los últimos 6 meses.
+Istio Day comenzó con una keynote de apertura de los presidentes del Comité del Programa, Faseela K y Zack Butcher. La keynote se encargó de reconocer los esfuerzos diarios de nuestros contribuyentes, mantenedores, gestores de lanzamiento y usuarios, con algunos premios para nuestros principales contribuyentes y ayudantes de la comunidad. Rob Salmond y Andrea Ma fueron reconocidos por sus esfuerzos desinteresados en la comunidad de Istio, y también se mencionaron los 20 principales contribuyentes en los últimos 6 meses.
 
 {{< image width="75%"
     link="./top-contributors-1.jpg"
