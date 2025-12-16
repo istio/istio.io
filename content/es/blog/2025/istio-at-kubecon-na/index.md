@@ -20,7 +20,7 @@ Istio Day reunió a profesionales, contribuyentes y usuarios para una tarde de a
 
 {{< image width="75%" link="./istioday-opening.jpg" caption="IstioDay: North America" >}}
 
-Istio Day abrió con [Bienvenida + Comentarios de Apertura](https://www.youtube.com/watch?v=f5BxnlFgToQ) de John Howard de Solo.io y Keith Mattix de Microsoft, estableciendo el tono para una tarde enfocada en la evolución real de la malla y la creciente energía en toda la comunidad de Istio.
+Istio Day abrió con [Bienvenida + Comentarios de Apertura](https://www.youtube.com/watch?v=f5BxnlFgToQ) de John Howard de Solo.io y Keith Mattix de Microsoft, estableciendo el tono para una tarde enfocada en la evolución real de la mesh y la creciente energía en toda la comunidad de Istio.
 
 El día rápidamente se movió a IA aplicada con [¿Está su Service Mesh listo para IA?](https://www.youtube.com/watch?v=4ynwGx1QH5I), donde John Howard exploró cómo la gestión de tráfico, seguridad y observabilidad dan forma a las cargas de trabajo de IA de grado de producción.
 
