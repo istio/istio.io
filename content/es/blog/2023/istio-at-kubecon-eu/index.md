@@ -13,7 +13,7 @@ La comunidad de código abierto y nativa de la nube se reunió del 18 al 21 de a
     caption="Istio Day Europe 2023, Bienvenida"
     >}}
 
-Istio Day comenzó con una keynote de apertura de los presidentes del Comité del Programa, Mitch Connors y Faseela K. El evento estuvo repleto de gran contenido, desde nuevas características hasta charlas de usuarios finales, y el salón siempre estuvo abarrotado. La [keynote de apertura](https://youtu.be/h9EgMrJ0ahs) fue un rompehielos con algo de diversión de Istio en forma de un cuestionario pop, y reconocimiento a los esfuerzos diarios de nuestros contribuyentes, mantenedores, gestores de lanzamiento y usuarios.
+Istio Day comenzó con una keynote de apertura de los presidentes del Comité del Programa, Mitch Connors y Faseela K. El evento estuvo repleto de gran contenido, desde nuevas características hasta charlas de usuarios finales, y el salón siempre estuvo abarrotado. La [keynote de apertura](https://youtu.be/h9EgMrJ0ahs) fue un rompehielos con algo de diversión de Istio en forma de un cuestionario interactivo, y reconocimiento a los esfuerzos diarios de nuestros contribuyentes, mantenedores, gestores de lanzamiento y usuarios.
 
 {{< image width="75%"
     link="./opening-keynote.jpg"
