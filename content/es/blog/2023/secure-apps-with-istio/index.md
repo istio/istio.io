@@ -13,7 +13,7 @@ pasos simples para comenzar a habilitar mTLS entre sus aplicaciones usando Istio
 
 ## ¿Qué necesita para asegurar las comunicaciones entre sus aplicaciones?
 
-Las aplicaciones modernas nativas de la nube están frecuentemente distribuidas a través de múltiples clústeres de Kubernetes o máquinas virtuales. Nuevas versiones se están preparando frecuentemente y pueden escalar rápida y dinámicamente basándose en solicitudes de usuario. A medida que las aplicaciones modernas ganan eficiencia en la utilización de recursos al no depender de la co-ubicación, es paramount poder aplicar política de acceso y asegurar las comunicaciones entre estas aplicaciones distribuidas debido al aumento de múltiples puntos de entrada que resultan en una superficie de ataque más grande. Ignorar esto es invitar a un riesgo empresarial masivo por pérdida de datos, robo de datos, datos falsificados o simple mal manejo.
+Las aplicaciones modernas nativas de la nube están frecuentemente distribuidas a través de múltiples clústeres de Kubernetes o máquinas virtuales. Nuevas versiones se están preparando frecuentemente y pueden escalar rápida y dinámicamente basándose en solicitudes de usuario. A medida que las aplicaciones modernas ganan eficiencia en la utilización de recursos al no depender de la co-ubicación, es primordial poder aplicar políticas de acceso y asegurar las comunicaciones entre estas aplicaciones distribuidas debido al aumento de múltiples puntos de entrada que resultan en una superficie de ataque más grande. Ignorar esto es invitar a un riesgo empresarial masivo por pérdida de datos, robo de datos, datos falsificados o simple mal manejo.
 
 Los siguientes son los requisitos clave comunes para comunicaciones seguras entre aplicaciones:
 
