@@ -12,7 +12,7 @@ Por eso nos emociona anunciar el soporte de Istio para la extensión de Gateway 
 
 ## Por qué las cargas de trabajo de IA necesitan un tratamiento especial
 
-Los servicios web tradicionales típicamente manejan solicitudes rápidas y sin estado medidas en milisegundos. Las cargas de trabajo de inferencia de IA operan en un paradigma completamente diferente que desafía los enfoques convencionales de balanceo de carga de varias formas fundamentales.
+Los servicios web tradicionales típicamente gestionan solicitudes rápidas y sin estado medidas en milisegundos. Las cargas de trabajo de inferencia de IA operan en un paradigma completamente diferente que desafía los enfoques convencionales de balanceo de carga de varias formas fundamentales.
 
 ### El desafío de escala y duración
 
