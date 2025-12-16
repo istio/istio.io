@@ -41,7 +41,7 @@ Además de sus observaciones anteriores, los auditores señalan que Istio sigue 
 
 Los auditores descubrieron una situación en la que Istio podría aceptar tráfico usando HTTP/2 Over Cleartext (h2c), un método para realizar una conexión no cifrada con HTTP/1.1 y luego actualizar a HTTP/2. La [biblioteca Go para conexiones h2c](https://pkg.go.dev/golang.org/x/net/http2/h2c) lee toda la solicitud en la memoria, y señala que si desea evitar esto, la solicitud debe envolverse en un `MaxBytesHandler`.
 
-Al corregir este error, el miembro del TOC de Istio, John Howard, notó que la corrección recomendada introduce una [vulnerabilidad de contrabando de solicitudes](https://portswigger.net/web-security/request-smuggling). Por lo tanto, el equipo de Go publicó [CVE-2022-41721](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-41721) — ¡la única vulnerabilidad descubierta por esta auditoría!
+Al corregir este error, John Howard, miembro del TOC de Istio, notó que la corrección recomendada introduce una [vulnerabilidad de contrabando de solicitudes](https://portswigger.net/web-security/request-smuggling). Por lo tanto, el equipo de Go publicó [CVE-2022-41721](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-41721) — ¡la única vulnerabilidad descubierta por esta auditoría!
 
 Istio ha sido modificado desde entonces para deshabilitar el soporte de actualización h2c por completo.
 
