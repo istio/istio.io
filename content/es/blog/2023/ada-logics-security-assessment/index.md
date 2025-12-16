@@ -6,7 +6,7 @@ attribution: "Craig Box (ARMO), para el Grupo de Trabajo de Seguridad de Product
 keywords: [istio,security,audit,ada logics,assessment,cncf,ostif]
 ---
 
-Istio es un proyecto en el que los ingenieros de plataforma confían para hacer cumplir las políticas de seguridad en sus entornos de Kubernetes de producción. Prestamos mucha atención a la seguridad en nuestro código y mantenemos un [programa de vulnerabilidades](/docs/releases/security-vulnerabilities/) robusto. Para validar nuestro trabajo, periódicamente invitamos a una revisión externa del proyecto, y nos complace publicar [los resultados de nuestra segunda auditoría de seguridad](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202023-01-30%20-%20v1.0.pdf).
+Istio es un proyecto en el que los ingenieros de plataforma confían para aplicar las políticas de seguridad en sus entornos de Kubernetes de producción. Prestamos mucha atención a la seguridad en nuestro código y mantenemos un [programa de vulnerabilidades](/docs/releases/security-vulnerabilities/) robusto. Para validar nuestro trabajo, periódicamente invitamos a una revisión externa del proyecto, y nos complace publicar [los resultados de nuestra segunda auditoría de seguridad](./Istio%20audit%20report%20-%20ADA%20Logics%20-%202023-01-30%20-%20v1.0.pdf).
 
 La evaluación de los auditores fue que **"Istio es un proyecto bien mantenido que tiene un enfoque fuerte y sostenible de la seguridad"**. No se encontraron problemas críticos; lo más destacado del informe fue el descubrimiento de una vulnerabilidad en el lenguaje de programación Go.
 
