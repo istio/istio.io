@@ -6,7 +6,7 @@ attribution: Jackie Maertens (Microsoft), Keith Mattix (Microsoft), Mikhail Krin
 keywords: [ambient,multicluster]
 ---
 
-Multiclúster ha sido una de las características más solicitadas de ambient — ¡y a partir de Istio 1.27, está disponible en estado alpha!
+El soporte multiclúster ha sido una de las características más solicitadas de ambient — ¡y a partir de Istio 1.27, está disponible en estado alpha!
 Buscamos capturar los beneficios y evitar las complicaciones de las arquitecturas multiclúster mientras usamos el mismo diseño modular que los usuarios de ambient aman.
 Este lanzamiento trae la funcionalidad central de una malla multiclúster y sienta las bases para un conjunto de características más rico en próximos lanzamientos.
 
