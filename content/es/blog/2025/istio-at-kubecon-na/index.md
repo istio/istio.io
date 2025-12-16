@@ -10,7 +10,7 @@ keywords: ["Istio", "KubeCon", "service mesh", "Ambient Mesh", "Gateway API"]
 
 {{< image width="75%" link="./kubecon-opening.jpg" caption="Istio en KubeCon NA 2025" >}}
 
-KubeCon + CloudNativeCon North America 2025 iluminó Atlanta del **10 al 13 de noviembre**, reuniendo una de las mayores congregaciones de practicantes de código abierto, ingenieros de plataforma y mantenedores de todo el ecosistema nativo de la nube. Para la comunidad de Istio, la semana estuvo definida por salas llenas, largas conversaciones en pasillos y un genuino sentido de progreso compartido a través de service mesh, Gateway API, seguridad y plataformas impulsadas por IA.
+KubeCon + CloudNativeCon North America 2025 iluminó Atlanta del **10 al 13 de noviembre**, reuniendo una de las mayores congregaciones de practicantes de código abierto, ingenieros de plataforma y mantenedores de todo el ecosistema nativo de la nube. Para la comunidad de Istio, la semana se caracterizó por salas llenas, largas conversaciones en pasillos y un genuino sentido de progreso compartido a través de service mesh, Gateway API, seguridad y plataformas impulsadas por IA.
 
 Antes de que comenzara la conferencia principal, la comunidad inició las cosas con **Istio Day el 10 de noviembre**, un evento colocado lleno de sesiones técnicas profundas, historias de migración y discusiones mirando hacia el futuro que establecieron el tono para el resto de la semana.
 
