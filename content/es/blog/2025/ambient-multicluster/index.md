@@ -15,7 +15,7 @@ Este lanzamiento trae la funcionalidad central de una malla multiclúster y sien
 Las arquitecturas multiclúster aumentan la resistencia a interrupciones, reducen su radio de impacto y escalan a través de centros de datos.
 Dicho esto, integrar múltiples clústeres plantea desafíos de conectividad, seguridad y operacionales.
 
-En un solo clúster de Kubernetes, cada pod puede conectarse directamente a otro pod a través de una IP de pod única o VIP de servicio.
+En un único clúster de Kubernetes, cada pod puede conectarse directamente a otro pod a través de una IP de pod única o VIP de servicio.
 Estas garantías se rompen en arquitecturas multiclúster;
 los espacios de direcciones IP de diferentes clústeres podrían superponerse,
 e incluso sin superposición, la infraestructura subyacente necesitaría configuración para enrutar tráfico entre clústeres.
