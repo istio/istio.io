@@ -33,7 +33,7 @@ han llegado en el lanzamiento de Istio 1.17 (p. ej. [direcciones de origen adici
 Los cambios de API de Envoy realizados por el equipo se pueden encontrar en su sitio en [Direcciones de listener](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto.html?highlight=additional_addresses) y [bind config](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/address.proto#config-core-v3-bindconfig). Asegurarnos de que podamos tener soporte adecuado tanto en la conexión downstream como upstream para Envoy es importante para realizar
 el soporte de doble pila.
 
-En total, el equipo ha enviado más de una docena de PRs a Envoy y está trabajando en al menos media docena más para facilitar la adopción de doble pila
+En total, el equipo ha enviado más de una decena de PRs a Envoy y está trabajando en al menos media docena más para facilitar la adopción de doble pila
 de Envoy para Istio.
 
 Mientras tanto, en el lado de Istio puedes seguir el progreso en [Issue #40394](https://github.com/istio/istio/issues/40394).
