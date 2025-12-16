@@ -8,7 +8,7 @@ keywords: [istio,AI,inference,gateway-api-inference-extension]
 
 El mundo de la inferencia de IA en Kubernetes presenta desafíos únicos que las arquitecturas tradicionales de enrutamiento de tráfico no fueron diseñadas para manejar. Mientras que Istio ha sobresalido durante mucho tiempo en la gestión del tráfico de microservicios con sofisticadas características de balanceo de carga, seguridad y observabilidad, las demandas de las cargas de trabajo de Modelos de Lenguaje Grande (LLM) requieren funcionalidad especializada.
 
-Por eso nos emociona anunciar el soporte de Istio para Gateway API Inference Extension, trayendo enrutamiento inteligente consciente de modelos y LoRA a Istio.
+Por eso nos emociona anunciar el soporte de Istio para la extensión de Gateway API Inference, trayendo enrutamiento inteligente consciente de modelos y LoRA a Istio.
 
 ## Por qué las cargas de trabajo de IA necesitan un tratamiento especial
 
