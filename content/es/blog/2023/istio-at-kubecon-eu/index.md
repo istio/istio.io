@@ -27,7 +27,7 @@ Esto fue seguido por una sesión de [actualización de la hoja de ruta de 2023](
     caption="Istio Day Europe 2023, Sesiones abarrotadas"
     >}}
 
-Varios de nuestros miembros del ecosistema tuvieron anuncios relacionados con Istio en el evento. Microsoft anunció [Istio como complemento gestionado para Azure Kubernetes Service](https://learn.microsoft.com/en-us/azure/aks/istio-about), y el soporte para Istio ahora está disponible de forma general en [D2iQ Kubernetes Platform](https://www.prnewswire.com/news-releases/d2iq-takes-multi-cloud-multi-cluster-fleet-management-to-the-next-level-with-kubernetes-platform-enhancements-301799358.html).
+Varios de nuestros miembros del ecosistema tuvieron anuncios relacionados con Istio en el evento. Microsoft anunció [Istio como como add-on gestionado para Azure Kubernetes Service](https://learn.microsoft.com/en-us/azure/aks/istio-about), y el soporte para Istio ahora está disponible de forma general en [D2iQ Kubernetes Platform](https://www.prnewswire.com/news-releases/d2iq-takes-multi-cloud-multi-cluster-fleet-management-to-the-next-level-with-kubernetes-platform-enhancements-301799358.html).
 
 Tetrate anunció [Tetrate Service Express](https://tetrate.io/blog/introducing-tetrate-service-express/), una solución de automatización de conectividad, seguridad y resiliencia de servicios basada en Istio para Amazon EKS, y Solo.io anunció [Gloo Fabric](https://www.solo.io/blog/introducing-solo-gloo-fabric/), con capacidades de redes de aplicaciones basadas en Istio expandidas a aplicaciones basadas en VM, contenedores y serverless en entornos de nube.
 
