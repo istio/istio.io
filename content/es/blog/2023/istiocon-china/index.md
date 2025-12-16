@@ -23,7 +23,7 @@ IstioCon China comenzó con una keynote de apertura de los miembros del Comité 
     caption="IstioCon China 2023, Bienvenida"
     >}}
 
-El discurso de bienvenida fue seguido por una keynote patrocinada de Justin Pettit de Google, sobre "Istio Ambient Mesh como una Infraestructura Gestionada" que destacó la importancia y prioridad del modelo ambient en la comunidad de Istio, especialmente para nuestros principales patrocinadores como Google Cloud.
+El discurso de bienvenida fue seguido por una keynote patrocinada de Justin Pettit de Google, sobre "Istio Ambient Mesh como una Infraestructura Gestionada" que resaltó la importancia y prioridad del modelo ambient en la comunidad de Istio, especialmente para nuestros principales patrocinadores como Google Cloud.
 
 {{< image width="75%"
     link="./sponsored-keynote-google.jpg"
