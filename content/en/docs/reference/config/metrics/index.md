@@ -49,7 +49,7 @@ The metrics Istio emits can be overridden with [the `Telemetry` resource's `metr
 
 ## Labels
 
-Labels are added to metrics to identify unique series or provide auxilliary
+Labels are added to metrics to identify unique series or provide auxiliary
 information.
 
 The label name exposed in Prometheus scrapes and used when referring to the
