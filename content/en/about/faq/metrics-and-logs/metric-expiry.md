@@ -4,8 +4,18 @@ weight: 20
 ---
 
 Short-lived metrics can hamper the performance of Prometheus, as they often are a large source of label cardinality. Cardinality is a measure of the number of unique values for a label. To manage the impact of your short-lived metrics on Prometheus, you must first identify the high cardinality metrics and labels. Prometheus provides cardinality information at its `/status` page. Additional information can be retrieved [via PromQL](https://www.robustperception.io/which-are-my-biggest-metrics).
+
 There are several ways to reduce the cardinality of Istio metrics:
 
+* On Istio 1.28.0 and above, add the
+  [`sidecar.istio.io/statsEvictionInterval`](/docs/reference/config/annotations/)
+  annotation to workload pods to expire metrics for inactive peers. This will
+  help prevent endless growth of the metric scrape responses from the Istio
+  proxy and the resulting in large `scrape_samples_scraped` and
+  `scrape_response_size_bytes` for job instances. This will not prevent
+  Prometheus TSDB index bloat and label churn because Prometheus must still
+  record all the unique values. But it will help with excessive scrape-time
+  memory use.
 * Disable host header fallback.
   The `destination_service` label is one potential source of high-cardinality.
   The values for `destination_service` default to the host header if the Istio proxy is not able to determine the destination service from other request metadata.
