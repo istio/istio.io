@@ -536,6 +536,7 @@ exec-ing
 ExecAction
 executables
 exfiltrated
+exploitability
 Exfiltrating
 exfiltration
 Expedia
@@ -1258,6 +1259,7 @@ Stackdriver
 Stackgenie
 Standard_D4ds_v5
 stateful
+statsEvictionInterval
 Statsd
 stdin
 stdout

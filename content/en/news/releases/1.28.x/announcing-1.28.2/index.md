@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Security Update
 
-- [CVE-2025-62408](https://github.com/envoyproxy/envoy/security/advisories/GHSA-fg9g-pvc4-776f) (CVSS Score 5.3, Medium): Use after free can crash Envoy due to malfunctioning or compromised DNS.
+- [CVE-2025-62408](https://github.com/envoyproxy/envoy/security/advisories/GHSA-fg9g-pvc4-776f) (CVSS score 5.3, Moderate): Use after free can crash Envoy due to malfunctioning or compromised DNS. This is a heap use-after-free vulnerability in the c-ares library that can be exploited by an attacker controlling the local DNS infrastructure to cause a Denial of Service (DoS) in Envoy.
 
 ## Changes
 

@@ -2,7 +2,7 @@
 title: ISTIO-SECURITY-2025-004
 subtitle: Security Bulletin
 description: CVEs reported by Envoy.
-cves: [CVE-2025-0913]
+cves: [CVE-2025-62408]
 cvss: "5.3"
 vector: "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N"
 releases: ["1.28.0 to 1.28.1", "1.27.0 to 1.27.4", "1.26.0 to 1.26.7"]
