@@ -25,7 +25,6 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** DNS name table creation for headless services where pods entries did not account for pods to have multiple IPs.  ([Issue #58397](https://github.com/istio/istio/issues/58397))
 
-- **Fixed** annotation `sidecar.istio.io/statsEvictionInterval` with values of 60s or greater causes the `istio-proxy` sidecar to fail to start.
-  ([Issue #58500](https://github.com/istio/istio/issues/58500))
+- **Fixed** annotation `sidecar.istio.io/statsEvictionInterval` with values ≥60s causing `istio-proxy` sidecar startup failure. ([Issue #58500](https://github.com/istio/istio/issues/58500))
 
 - **Fixed** an issue where Envoy proxies that connect to waypoint proxies would in rare cases either get extraneous XDS updates or miss some updates entirely.
