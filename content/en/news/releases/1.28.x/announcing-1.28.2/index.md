@@ -19,7 +19,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** rare race condition where deleting a ServiceEntry that shares a hostname with another ServiceEntry in the same namespace occasionally causes ambient clients to lose the ability to send traffic to that hostname until istiod restarts.
+- **Fixed** rare race condition where deleting a `ServiceEntry` that shares a hostname with another `ServiceEntry` in the same namespace occasionally causes ambient clients to lose the ability to send traffic to that hostname until istiod restarts.
 
 - **Fixed** use cases where upgrading from the iptables backend to the nftables backend in ambient created stale iptables rules on the network. The code now continues to use iptables on the node until it is rebooted. ([Issue #58353](https://github.com/istio/istio/issues/58353))
 
