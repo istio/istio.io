@@ -433,6 +433,7 @@ CVE-2025-30157
 CVE-2025-46821
 CVE-2025-54588
 CVE-2025-55162
+CVE-2025-62408
 CVE-2025-62409
 CVE-2025-62504
 CVE-2025-64527
@@ -538,6 +539,7 @@ exfiltrated
 Exfiltrating
 exfiltration
 Expedia
+exploitability
 ext-authz
 extensibility
 extensionProviders
