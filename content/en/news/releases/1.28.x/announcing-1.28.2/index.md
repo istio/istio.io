@@ -27,4 +27,4 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** annotation `sidecar.istio.io/statsEvictionInterval` with values of 60s or greater causes the `istio-proxy` sidecar to fail to start. ([Issue #58500](https://github.com/istio/istio/issues/58500))
 
-- **Fixed** an issue where Envoy proxies that connect to Waypoint proxies would in rare cases either get extraneous XDS updates or miss some updates entirely.
+- **Fixed** an issue where Envoy proxies that connect to waypoint proxies would in rare cases either get extraneous XDS updates or miss some updates entirely.
