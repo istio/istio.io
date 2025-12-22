@@ -212,7 +212,7 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
     EOF
     {{< /text >}}
 
-1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product:
+1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product and override the product domain:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -238,6 +238,10 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
             operation: MERGE
             value:
               route:
+                typed_per_filter_config:
+                  envoy.filters.http.ratelimit:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                    domain: product # domain override
                 rate_limits:
                 - actions:
                   - header_value_match:
