@@ -188,6 +188,10 @@ spec:
         operation: MERGE
         value:
           route:
+            typed_per_filter_config:
+              envoy.filters.http.ratelimit:
+                "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                domain: product # domain override
             rate_limits:
             - actions:
               - header_value_match:
