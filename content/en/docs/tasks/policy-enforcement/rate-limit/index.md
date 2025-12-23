@@ -53,7 +53,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: ratelimit
+        domain: product # domain name is overridden at route filter level
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -81,7 +81,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
     {{< /text >}}
 
-1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
+1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit http filter.
 
     The patch inserts the `envoy.filters.http.ratelimit`
     [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)
@@ -159,6 +159,10 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
             operation: MERGE
             # Applies the rate limit rules.
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product # domain override
               rate_limits:
                 - actions: # any actions in here
                   - request_headers:
@@ -212,7 +216,7 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
     EOF
     {{< /text >}}
 
-1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product and override the product domain:
+1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
