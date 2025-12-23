@@ -212,7 +212,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
     EOF
     {{< /text >}}
 
-1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作：
+1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作并覆盖产品域名：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -238,6 +238,10 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
             operation: MERGE
             value:
               route:
+                typed_per_filter_config:
+                  envoy.filters.http.ratelimit:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                    domain: product # 域名覆盖
                 rate_limits:
                 - actions:
                   - header_value_match:
