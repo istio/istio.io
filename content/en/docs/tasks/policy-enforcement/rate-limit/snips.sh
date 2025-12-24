@@ -28,7 +28,7 @@ metadata:
   name: ratelimit-config
 data:
   config.yaml: |
-    domain: ratelimit
+    domain: product # domain name is overridden at route filter level
     descriptors:
       - key: PATH
         value: "/productpage"
@@ -118,6 +118,10 @@ spec:
         operation: MERGE
         # Applies the rate limit rules.
         value:
+          typed_per_filter_config:
+            envoy.filters.http.ratelimit:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+              domain: product # domain override
           rate_limits:
             - actions: # any actions in here
               - request_headers:
