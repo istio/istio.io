@@ -5,6 +5,7 @@ description: Istio 1.4 生命周期终止公告。
 publishdate: 2020-06-05
 ---
 
-正如[先前宣布](/zh/news/support/announcement-1.4-eol/)一样，对 Istio 1.4 的支持现在已经正式结束。
+正如[先前已公告](/zh/news/support/announcement-1.4-eol/)，对 Istio 1.4 的支持现已正式结束。
 
-我们将不再为 Istio 1.4 版本提供针对安全问题和关键错误的修复程序，因此，如果您尚未升级，我们建议您升级到最新版本的 Istio（{{<istio_release_name>}}）。
+自此，我们将不再为 Istio 1.4 提供任何安全漏洞或重大缺陷的修复支持。因此，如果您尚未升级，
+我们衷心建议您升级到最新版本的 Istio（{{<istio_release_name>}}）。
