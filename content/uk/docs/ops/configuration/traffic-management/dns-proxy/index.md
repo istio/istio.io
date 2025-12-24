@@ -25,6 +25,8 @@ Istio зазвичай маршрутизує трафік на основі HTT
 
 Для версій до 1.25 ви можете увімкнути перехоплення DNS, встановивши `values.cni.ambient.dnsCapture=true` та `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` під час інсталяції.
 
+Окремі podʼи можуть відмовитися від глобального режиму збору даних DNS, застосувавши анотацію `ambient.istio.io/dns-capture=false`.
+
 ### Режим sidecar {#sidecar-mode}
 
 Ця функція наразі не увімкнена стандартно. Щоб її ввімкнути, встановіть Istio з такими налаштуваннями:
