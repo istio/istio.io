@@ -15,64 +15,98 @@ This document provides a deep dive into how Istio and DNS work together.
 This document describes low level implementation details. For a higher level overview, check out the traffic management [Concepts](/docs/concepts/traffic-management/) or [Tasks](/docs/tasks/traffic-management/) pages.
 {{< /warning >}}
 
+## Scope and perspective
+
+This document describes DNS behavior for **application workloads running inside the Istio service mesh**
+(with Envoy sidecar proxies enabled).
+
+Throughout this document, the term **client** refers to a workload inside the mesh.
+DNS queries from external clients (for example, a developer running `curl` on a laptop)
+are resolved using the operating system’s configured DNS resolver and are **not handled by Istio**.
+
 ## Life of a request
 
-In these examples, we will walk through what happens when an application runs `curl example.com`.
-While `curl` is used here, the same applies to almost all clients.
+In these examples, we will walk through what happens when an application **inside the mesh**
+runs `curl example.com`. While `curl` is used here for simplicity, the same applies to
+almost all HTTP clients running within the mesh.
 
-When you send a request to a domain, a client will do DNS resolution to resolve that to an IP address.
-This happens regardless of any Istio settings, as Istio only intercepts networking traffic; it cannot change your application's behavior or decision to send a DNS request.
-In the example below, `example.com` resolved to `192.0.2.0`.
+When you send a request to a domain, a client will first perform DNS resolution to resolve
+the hostname to an IP address.
+This happens regardless of any Istio settings, as Istio only intercepts network traffic;
+it cannot change an application's decision to perform a DNS lookup.
+In the example below, `example.com` resolves to `192.0.2.0`.
 
 {{< text bash >}}
 $ curl example.com -v
 *   Trying 192.0.2.0:80...
 {{< /text >}}
 
-Next, the request will be intercepted by Istio.
-At this point, Istio will see both the hostname (from a `Host: example.com` header), and the destination address (`192.0.2.0:80`).
-Istio uses this information to determine the intended destination.
-[Understanding Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing/) gives a deep dive into how this behavior works.
+Only after DNS resolution succeeds does the application attempt to open a network connection,
+which is the point at which Istio can intercept the traffic.
 
-If the client was unable to resolve the DNS request, the request would terminate before Istio receives it.
-This means that if a request is sent to a hostname which is known to Istio (for example, by a `ServiceEntry`) but not to the DNS server, the request will fail.
-Istio [DNS proxying](#dns-proxying) can change this behavior.
+Next, the request is intercepted by Istio.
+At this point, Istio sees both the hostname (from a `Host: example.com` header) and the
+destination address (`192.0.2.0:80`).
+Istio uses this information to determine the intended destination.
+[Understanding Traffic Routing](/docs/ops/configuration/traffic-management/traffic-routing/)
+provides a deep dive into how this behavior works.
+
+If a **mesh workload** is unable to resolve the DNS name using its configured DNS resolver,
+the HTTP request is never initiated, and Istio does not receive any traffic to process.
+
+This means that if a workload sends a request to a hostname that is known to Istio
+(for example, through a `ServiceEntry`) but is not resolvable by DNS,
+the request will fail before any HTTP connection is attempted.
+Istio [DNS proxying](#dns-proxying) can change this behavior by intercepting DNS requests
+from the application and returning a response directly.
 
 Once Istio has identified the intended destination, it must choose which address to send to.
-Because of Istio's advanced [load balancing capabilities](/docs/concepts/traffic-management/#load-balancing-options), this is often not the original IP address the client sent.
+Because of Istio's advanced [load balancing capabilities](/docs/concepts/traffic-management/#load-balancing-options),
+this is often not the original IP address the client sent.
 Depending on the service configuration, there are a few different ways Istio does this.
 
 * Use the original IP address of the client (`192.0.2.0`, in the example above).
-  This is the case for `ServiceEntry` of type `resolution: NONE` (the default) and [headless `Services`](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services).
+  This is the case for `ServiceEntry` of type `resolution: NONE` (the default) and
+  [headless `Services`](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services).
 * Load balance over a set of static IP addresses.
-  This is the case for `ServiceEntry` of type `resolution: STATIC`, where all `spec.endpoints` will be used, or for standard `Services`, where all `Endpoints` will be used.
+  This is the case for `ServiceEntry` of type `resolution: STATIC`, where all `spec.endpoints`
+  are used, or for standard `Services`, where all `Endpoints` are used.
 * Periodically resolve an address using DNS, and load balance across all results.
   This is the case for `ServiceEntry` of type `resolution: DNS`.
 
-Note that in all cases, DNS resolution within the Istio proxy is orthogonal to DNS resolution in a user application.
-Even when the client does DNS resolution, the proxy may ignore the resolved IP address and use its own, which could be from
-a static list of IPs or by doing its own DNS resolution (potentially of the same hostname or a different one).
+Note that in all cases, DNS resolution within the Istio proxy is orthogonal to DNS resolution
+performed by the user application.
+Even when the client performs DNS resolution, the proxy may ignore the resolved IP address
+and use its own, which could be from a static list of IPs or from its own DNS resolution
+(potentially of the same hostname or a different one).
 
 ## Proxy DNS resolution
 
-Unlike most clients, which will do DNS requests on demand at the time of requests (and then typically cache the results),
-the Istio proxy never does synchronous DNS requests.
-When a `resolution: DNS` type `ServiceEntry` is configured, the proxy will periodically resolve the configured hostnames and use those for all requests.
-This interval is fixed at 30 seconds and cannot be changed at this time.
-This happens even if the proxy never sends any requests to these applications.
+Unlike most clients, which perform DNS requests on demand at request time (and then typically
+cache the results), the Istio proxy never performs synchronous DNS requests.
+When a `resolution: DNS` type `ServiceEntry` is configured, the proxy periodically resolves
+the configured hostnames and uses those results for all requests.
 
-For meshes with many proxies or many `resolution: DNS` type `ServiceEntries`, especially when low `TTL`s are used, this may cause a high load on DNS servers.
+This interval is fixed at 30 seconds and cannot be changed at this time.
+DNS resolution occurs even if the proxy never sends any requests to the associated services.
+
+For meshes with many proxies or many `resolution: DNS` type `ServiceEntries`, especially when
+low DNS `TTL`s are used, this may cause a high load on DNS servers.
 In these cases, the following can help reduce the load:
 
 * Switch to `resolution: NONE` to avoid proxy DNS lookups entirely. This is suitable for many use cases.
-* If you control the domains being resolved, increase their TTL.
-* If your `ServiceEntry` is only needed by a few workloads, limit its scope with `exportTo` or a [`Sidecar`](/docs/reference/config/networking/sidecar/).
+* If you control the domains being resolved, increase their DNS `TTL`.
+* If a `ServiceEntry` is only needed by a small number of workloads, limit its scope using
+  `exportTo` or a [`Sidecar`](/docs/reference/config/networking/sidecar/).
 
-## DNS Proxying
+## DNS proxying
 
 Istio offers a feature to [proxy DNS requests](/docs/ops/configuration/traffic-management/dns-proxy/).
-This allows Istio to capture DNS requests sent by the client and return a response directly.
-This can improve DNS latency, reduce load, and allow `ServiceEntries`, which otherwise would not be known to `kube-dns`, to be resolved.
+This allows Istio to capture DNS requests sent by the application and return responses directly.
 
-Note this proxying only applies to DNS requests sent by user applications; when `resolution: DNS` type `ServiceEntries` are used,
-the proxy has no impact on the DNS resolution of the Istio proxy.
+DNS proxying can improve DNS latency, reduce load on upstream DNS servers, and allow
+`ServiceEntry` hostnames that would otherwise be unknown to `kube-dns` to be resolved.
+
+Note that DNS proxying only applies to DNS requests sent by user applications.
+When `resolution: DNS` type `ServiceEntries` are used, DNS proxying does not affect
+how the Istio proxy itself performs DNS resolution.
