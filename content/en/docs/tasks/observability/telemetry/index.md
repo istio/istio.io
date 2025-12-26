@@ -77,7 +77,7 @@ labels (for example `destination_service_name`), or no access logs being exporte
 This is expected behavior with Telemetry v2.
 
 For Google Cloud environments, it is recommended to use Prometheus (including Managed Prometheus)
-for metrics and OTLP-based providers for tracing.
+for metrics and `OTLP`-based providers for tracing.
 {{< /warning >}}
 
 In addition, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
