@@ -68,7 +68,7 @@ For convenience, Istio comes with a few providers configured out of the box with
 | `stackdriver` | Tracing (legacy / limited) |
 | `envoy`       | Access Logging             |
 
-{{< note >}}
+{{< warning >}}
 The `stackdriver` provider is retained for legacy compatibility and limited tracing use.
 It is **not** a Telemetry v2 metrics backend and does **not** export access logs.
 
@@ -78,7 +78,7 @@ This is expected behavior with Telemetry v2.
 
 For Google Cloud environments, it is recommended to use Prometheus (including Managed Prometheus)
 for metrics and OTLP-based providers for tracing.
-{{< /note >}}
+{{< /warning >}}
 
 In addition, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
 will be used when the `Telemetry` resources do not specify a provider.
