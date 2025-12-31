@@ -59,11 +59,11 @@ tls_certificates:
 
 ## Configuración de Istio para CryptoMB Private Key Provider
 
-En Istio, la configuración de CryptoMB private key provider puede aplicarse a nivel de malla (mesh‑wide), específica de gateways o específica de pods usando anotaciones de pod. El usuario proporcionará el `PrivateKeyProvider` en el `ProxyConfig` con el valor `pollDelay`. Esta configuración se aplicará a toda la malla (gateways y todos los sidecars).
+En Istio, la configuración de CryptoMB private key provider puede aplicarse a nivel de mesh (mesh‑wide), específica de gateways o específica de pods usando anotaciones de pod. El usuario proporcionará el `PrivateKeyProvider` en el `ProxyConfig` con el valor `pollDelay`. Esta configuración se aplicará a todo el mesh (gateways y todos los sidecars).
 
-{{< image link="./istio-mesh-wide-config.png" caption="Ejemplo de configuración a nivel de malla" >}}
+{{< image link="./istio-mesh-wide-config.png" caption="Ejemplo de configuración a nivel de mesh" >}}
 
-### Configuración a nivel de malla (mesh‑wide) en Istio
+### Configuración a nivel de mesh (mesh‑wide) en Istio
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1

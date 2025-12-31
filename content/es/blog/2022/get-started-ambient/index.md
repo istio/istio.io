@@ -14,7 +14,7 @@ Ambient mesh es [un nuevo modo de plano de datos para Istio presentado hoy](/blo
 
 ## Instalar Istio con modo Ambient
 
-1. [Download the preview version](https://gcsweb.istio.io/gcs/istio-build/dev/0.0.0-ambient.191fe680b52c1754ee72a06b3e0d3f9d116f2e82) of Istio with support for ambient mesh.
+1. [Descarga la versión de vista previa](https://gcsweb.istio.io/gcs/istio-build/dev/0.0.0-ambient.191fe680b52c1754ee72a06b3e0d3f9d116f2e82) de Istio con soporte para ambient mesh.
 2. Consulta los [entornos soportados]({{< github_raw >}}/tree/experimental-ambient#supported-environments). Recomendamos usar un clúster Kubernetes versión 1.21 o superior con dos nodos o más. Si no tienes un clúster Kubernetes, puedes montarlo en local (por ejemplo, usando kind como se muestra abajo) o desplegar uno en Google Cloud o AWS:
 
 {{< text bash >}}
@@ -29,7 +29,7 @@ nodes:
 EOF
 {{< /text >}}
 
-The `ambient` profile is designed to help you get started with ambient mesh.
+El perfil `ambient` está diseñado para ayudarte a empezar con ambient mesh.
 Instala Istio con el perfil `ambient` en tu clúster Kubernetes usando el `istioctl` descargado arriba:
 
 {{< text bash >}}
@@ -72,7 +72,7 @@ A medida que se despliegan o eliminan pods en el nodo, el plugin CNI continúa m
 
 Usarás la aplicación de ejemplo [Bookinfo](/docs/examples/bookinfo/), que forma parte de la descarga de Istio de los pasos anteriores.
 En modo ambient, despliegas aplicaciones en tu clúster Kubernetes exactamente igual que lo harías sin Istio.
-Esto significa que puedes tener tus aplicaciones ejecutándose en Kubernetes antes de habilitar ambient mesh, y hacer que se unan a la malla sin necesidad de reiniciar ni reconfigurar tus aplicaciones.
+Esto significa que puedes tener tus aplicaciones ejecutándose en Kubernetes antes de habilitar ambient mesh, y hacer que se unan al mesh sin necesidad de reiniciar ni reconfigurar tus aplicaciones.
 
 {{< text bash >}}
 $ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
@@ -222,7 +222,7 @@ $ # this should fail with an empty reply
 $ kubectl exec deploy/notsleep -- curl -s http://productpage:9080/ | head -n1
 {{< /text >}}
 
-### Layer 7 Authorization Policies
+### Políticas de autorización L7
 
 Usando la Gateway API de Kubernetes, puedes desplegar un waypoint proxy para el servicio `productpage` que use la service account `bookinfo-productpage`. Cualquier tráfico que vaya al servicio `productpage` será mediado, aplicado y observado por el proxy de capa 7 (L7).
 
@@ -360,4 +360,4 @@ Echa un vistazo a este breve vídeo para ver a Lin recorriendo la demo de Istio 
 
 ## Qué sigue
 
-Estamos muy entusiasmados con el nuevo plano de datos ambient de Istio y su arquitectura “ambient” sencilla. Incorporar aplicaciones a un service mesh con el modo ambient ahora es tan simple como etiquetar un namespace. Tus aplicaciones obtendrán beneficios inmediatos como mTLS con identidad criptográfica para el tráfico de la malla y observabilidad L4. Si necesitas controlar acceso, rutas, aumentar resiliencia u obtener métricas L7 entre tus aplicaciones en ambient mesh, puedes aplicar waypoint proxies según lo necesites. Somos muy partidarios de pagar solo por lo que necesitamos: no solo ahorra recursos, sino que también reduce el coste operativo de tener que actualizar constantemente muchos proxies. Te invitamos a probar la nueva arquitectura de plano de datos ambient de Istio para experimentar lo sencilla que es. ¡Esperamos tu [feedback](http://slack.istio.io) en la comunidad de Istio!
+Estamos muy entusiasmados con el nuevo plano de datos ambient de Istio y su arquitectura "ambient" sencilla. Incorporar aplicaciones a un service mesh con el modo ambient ahora es tan simple como etiquetar un namespace. Tus aplicaciones obtendrán beneficios inmediatos como mTLS con identidad criptográfica para el tráfico del mesh y observabilidad L4. Si necesitas controlar acceso, rutas, aumentar resiliencia u obtener métricas L7 entre tus aplicaciones en ambient mesh, puedes aplicar waypoint proxies según lo necesites. Somos muy partidarios de pagar solo por lo que necesitamos: no solo ahorra recursos, sino que también reduce el coste operativo de tener que actualizar constantemente muchos proxies. Te invitamos a probar la nueva arquitectura de plano de datos ambient de Istio para experimentar lo sencilla que es. ¡Esperamos tu [feedback](http://slack.istio.io) en la comunidad de Istio!

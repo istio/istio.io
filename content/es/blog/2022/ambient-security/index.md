@@ -13,7 +13,7 @@ Recientemente anunciamos el nuevo modo ambient de Istio, que es un plano de dato
 En resumen, el modo ambient de Istio introduce un plano de datos en capas con una “capa segura” (secure overlay) responsable de la seguridad de transporte y el enrutamiento, con la opción de añadir capacidades L7 para los namespaces que lo necesiten.
 Para entender más, consulta el [artículo de anuncio](/blog/2022/introducing-ambient-mesh/) y el [artículo de primeros pasos](/blog/2022/get-started-ambient).
 La capa segura consiste en un componente compartido por nodo, el ztunnel, responsable de la telemetría L4 y mTLS, y que se despliega como un DaemonSet.
-La capa L7 de la malla la proporcionan los waypoint proxies: proxies Envoy completos de L7 que se despliegan por identidad/tipo de workload.
+La capa L7 del mesh la proporcionan los waypoint proxies: proxies Envoy completos de L7 que se despliegan por identidad/tipo de workload.
 Algunas implicaciones clave de este diseño incluyen:
 
 * Separación de la aplicación respecto del plano de datos
@@ -36,7 +36,7 @@ Los componentes L4 del plano de datos en modo ambient se ejecutan como un Daemon
 
 El ztunnel usa una credencial distinta para cada pod, que solo se emite si el pod se está ejecutando actualmente en el nodo. Esto asegura que, si un ztunnel se compromete, el “blast radius” queda limitado a que solo podrían robarse credenciales de pods actualmente programados en ese nodo. Esta propiedad es similar a la de otras infraestructuras compartidas por nodo bien implementadas, incluyendo implementaciones seguras de CNI. El ztunnel no usa credenciales de clúster completo ni credenciales por nodo que, si se robaran, podrían comprometer inmediatamente todo el tráfico de aplicaciones del clúster, a menos que también se implemente un complejo mecanismo secundario de autorización.
 
-Si lo comparamos con el modelo de sidecar, observamos que el ztunnel es compartido y un compromiso podría resultar en la exfiltración de las identidades de las aplicaciones que se ejecutan en el nodo. Sin embargo, la probabilidad de un CVE en este componente es menor que en un sidecar de Istio, ya que la superficie de ataque se reduce significativamente (solo manejo L4); el ztunnel no realiza procesamiento L7. Además, un CVE en un sidecar (con mayor superficie de ataque en L7) no queda realmente contenido solo al workload comprometido: es probable que un CVE serio en un sidecar pueda repetirse en cualquiera de los workloads de la malla.
+Si lo comparamos con el modelo de sidecar, observamos que el ztunnel es compartido y un compromiso podría resultar en la exfiltración de las identidades de las aplicaciones que se ejecutan en el nodo. Sin embargo, la probabilidad de un CVE en este componente es menor que en un sidecar de Istio, ya que la superficie de ataque se reduce significativamente (solo manejo L4); el ztunnel no realiza procesamiento L7. Además, un CVE en un sidecar (con mayor superficie de ataque en L7) no queda realmente contenido solo al workload comprometido: es probable que un CVE serio en un sidecar pueda repetirse en cualquiera de los workloads del mesh.
 
 ## La simplicidad operativa es mejor para la seguridad
 
@@ -54,4 +54,4 @@ En modo ambient no compartimos el procesamiento L7 en un proxy entre múltiples 
 
 ## Los sidecars siguen siendo un modo de despliegue soportado de primera clase
 
-Entendemos que algunas personas se sienten cómodas con el modelo de sidecar y sus límites de seguridad conocidos y desean mantenerse en ese modelo. Con Istio, los sidecars son ciudadanos de primera clase de la malla y los propietarios de la plataforma pueden seguir usándolos. Si un propietario de la plataforma quiere soportar tanto sidecar como ambient, puede hacerlo. Un workload con el plano de datos ambient puede comunicarse de forma nativa con workloads que tienen un sidecar desplegado. A medida que se entienda mejor la postura de seguridad del modo ambient, confiamos en que se convierta en el modo de plano de datos preferido de Istio, dejando los sidecars para optimizaciones específicas.
+Entendemos que algunas personas se sienten cómodas con el modelo de sidecar y sus límites de seguridad conocidos y desean mantenerse en ese modelo. Con Istio, los sidecars son ciudadanos de primera clase del mesh y los propietarios de la plataforma pueden seguir usándolos. Si un propietario de la plataforma quiere soportar tanto sidecar como ambient, puede hacerlo. Un workload con el plano de datos ambient puede comunicarse de forma nativa con workloads que tienen un sidecar desplegado. A medida que se entienda mejor la postura de seguridad del modo ambient, confiamos en que se convierta en el modo de plano de datos preferido de Istio, dejando los sidecars para optimizaciones específicas.

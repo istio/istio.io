@@ -23,11 +23,11 @@ y empuja el resto de funcionalidades de proxies modernos hacia anotaciones no po
 
 Para superar las carencias de Ingress, Istio introdujo su propia API de configuración para la gestión de tráfico de ingress.
 Con la API de Istio, la representación del lado del cliente se define con un recurso Istio Gateway, mientras que el tráfico L7 se mueve a un VirtualService,
-que (no por casualidad) es el mismo recurso que se usa para enrutar tráfico entre servicios dentro de la malla.
+que (no por casualidad) es el mismo recurso que se usa para enrutar tráfico entre servicios dentro del mesh.
 Aunque la API de Istio ofrece una buena solución para la gestión de tráfico de ingress en aplicaciones a gran escala, por desgracia es una API exclusiva de Istio.
 Si estás usando otra implementación de service mesh, o ningún service mesh, no tienes esa opción.
 
-## Enter Gateway API
+## Entra en juego Gateway API
 
 Hay mucha expectación en torno a una nueva API de Kubernetes para la gestión de tráfico,
 llamada [Gateway API](https://gateway-api.sigs.k8s.io/), que recientemente ha sido
@@ -38,12 +38,12 @@ Hay [varias implementaciones](https://gateway-api.sigs.k8s.io/implementations/) 
 así que quizá sea un buen momento para empezar a pensar en cómo migrar tu configuración de tráfico de ingress desde Kubernetes Ingress o desde Istio Gateway/VirtualService
 hacia la nueva Gateway API.
 
-Uses o no (o planees usar) Istio para gestionar tu service mesh, la implementación de Gateway API de Istio se puede usar fácilmente
+Ya uses o no (o planees usar) Istio para gestionar tu service mesh, la implementación de Gateway API de Istio se puede usar fácilmente
 para empezar con el control de ingress de tu clúster.
 Aunque en Istio sigue siendo una funcionalidad Beta (en gran parte porque la propia Gateway API es Beta), la implementación de Istio es bastante robusta
 porque “por debajo” utiliza los mismos recursos internos de Istio, probados y maduros, para implementar la configuración.
 
-## Gateway API quick-start
+## Inicio rápido con Gateway API
 
 Para empezar a usar Gateway API, primero necesitas instalar los CRDs, que aún no vienen instalados por defecto en la mayoría de clústeres Kubernetes:
 
@@ -65,11 +65,11 @@ $ ./bin/istioctl install --set profile=minimal -y
 Ahora tu clúster tendrá una implementación completamente funcional de Gateway API a través del gateway controller de Istio, llamado `istio.io/gateway-controller`,
 lista para usar.
 
-### Deploy a Kubernetes target service
+### Desplegar un servicio destino de Kubernetes
 
 Para probar Gateway API, usaremos el ejemplo [helloworld]({{< github_tree >}}/samples/helloworld) de Istio como destino de ingress,
 pero ejecutándolo únicamente como un servicio Kubernetes simple, sin inyección de sidecar habilitada.
-Como solo vamos a usar Gateway API para controlar el tráfico de ingress “hacia el clúster Kubernetes”, no importa si el servicio destino está dentro o fuera de una malla.
+Como solo vamos a usar Gateway API para controlar el tráfico de ingress "hacia el clúster Kubernetes", no importa si el servicio destino está dentro o fuera de un mesh.
 
 Usaremos el siguiente comando para desplegar el servicio helloworld:
 
@@ -88,7 +88,7 @@ helloworld-v1-776f57d5f6-s7zfc   1/1     Running   0          10s
 helloworld-v2-54df5f84b-9hxgww   1/1     Running   0          10s
 {{< /text >}}
 
-### Configure the helloworld ingress traffic
+### Configurar el tráfico de ingress de helloworld
 
 Con el servicio helloworld ya desplegado, podemos usar Gateway API para configurar su tráfico de ingress.
 
@@ -184,7 +184,7 @@ Hello version: v2, instance: helloworld-v2-54dddc5567-2lm7b
 Como no se ha configurado enrutamiento por versión en la regla de ruta, deberías ver un reparto de tráfico igualitario:
 aproximadamente la mitad manejado por `helloworld-v1` y la otra mitad por `helloworld-v2`.
 
-### Configure weight-based version routing
+### Configurar enrutamiento por versión basado en peso
 
 Entre otras capacidades de “traffic shaping”, puedes usar Gateway API para enviar todo el tráfico a una de las versiones o dividirlo por porcentajes.
 Por ejemplo, puedes usar la siguiente regla para distribuir el tráfico de helloworld en un 90% a `v1` y un 10% a `v2`:
@@ -241,7 +241,7 @@ Hello version: v1, instance: helloworld-v1-78b9f5c87f-2sskj
 
 Esta vez vemos que aproximadamente 9 de cada 10 peticiones las gestiona `helloworld-v1` y solo alrededor de 1 de cada 10 las gestiona `helloworld-v2`.
 
-## Gateway API for internal mesh traffic
+## Gateway API para tráfico interno del mesh
 
 Puede que hayas notado que hemos estado hablando de Gateway API únicamente como una API de configuración de ingress,
 a menudo llamada gestión de tráfico north‑south, y no como una API para la gestión de tráfico servicio‑a‑servicio (también llamada east‑west) dentro de un clúster.
@@ -258,11 +258,11 @@ Para probarla, necesitarás usar la [versión experimental](https://gateway-api.
 de los CRDs de Gateway API, en lugar de la versión Beta estándar que instalamos arriba, pero por lo demás estarás listo.
 Consulta la tarea de Istio de [request routing](/docs/tasks/traffic-management/request-routing/) para empezar.
 
-## Summary
+## Resumen
 
 En este artículo hemos visto cómo una instalación ligera (minimal) de Istio puede usarse para proporcionar una implementación de calidad Beta
 de la nueva Kubernetes Gateway API para el control del tráfico de ingress del clúster. Para usuarios de Istio, la implementación de Istio también permite
-empezar a probar el soporte experimental de Gateway API para la gestión de tráfico east‑west dentro de la malla.
+empezar a probar el soporte experimental de Gateway API para la gestión de tráfico east‑west dentro del mesh.
 
 Gran parte de la documentación de Istio, incluidas todas las [tareas de ingress](/docs/tasks/traffic-management/ingress/) y varias tareas de gestión de tráfico interno,
 ya incluyen instrucciones paralelas para configurar el tráfico usando Gateway API o la API de configuración de Istio.

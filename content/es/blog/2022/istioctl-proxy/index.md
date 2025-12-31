@@ -1,6 +1,6 @@
 ---
 title: Configurar istioctl para un clúster remoto
-description: Usar un servidor proxy para soportar comandos de istioctl en una malla con un plano de control externo.
+description: Usar un servidor proxy para soportar comandos de istioctl en un mesh con un plano de control externo.
 publishdate: 2022-03-25
 attribution: Frank Budinsky (IBM)
 keywords: [istioctl, cli, external, remote, multicluster]
@@ -20,8 +20,8 @@ Error: unable to find any Istiod instances
 Observa que el mensaje de error no solo dice que no puede acceder al servicio `istiod`; menciona específicamente que no puede
 encontrar instancias de `istiod`. Esto se debe a que la implementación de `istioctl proxy-status` necesita recuperar el estado
 de sincronización no de una sola instancia de `istiod`, sino de todas. Cuando hay más de una instancia (réplica) de `istiod`
-ejecutándose, cada instancia solo está conectada a un subconjunto de los proxies de servicio que se ejecutan en la malla.
-El comando `istioctl` necesita devolver el estado de toda la malla, no solo del subconjunto gestionado por una de las instancias.
+ejecutándose, cada instancia solo está conectada a un subconjunto de los proxies de servicio que se ejecutan en el mesh.
+El comando `istioctl` necesita devolver el estado de todo el mesh, no solo del subconjunto gestionado por una de las instancias.
 
 En una instalación “normal” de Istio en la que el servicio `istiod` se ejecuta localmente en el clúster
 (es decir, un {{< gloss >}}clúster primario{{< /gloss >}}), el comando se implementa encontrando todos los pods `istiod` en ejecución,
@@ -32,8 +32,8 @@ llamando a cada uno por turnos y agregando el resultado antes de devolvérselo a
     caption="CLI con acceso local a los pods de istiod"
     >}}
 
-En un clúster remoto, por el contrario, esto no es posible porque las instancias de `istiod` se ejecutan fuera del clúster de la malla
-y no son accesibles para el usuario de la malla. Incluso puede que esas instancias no estén desplegadas como pods en un clúster Kubernetes.
+En un clúster remoto, por el contrario, esto no es posible porque las instancias de `istiod` se ejecutan fuera del clúster del mesh
+y no son accesibles para el usuario del mesh. Incluso puede que esas instancias no estén desplegadas como pods en un clúster Kubernetes.
 
 Por suerte, `istioctl` ofrece una opción de configuración para abordar este problema.
 Puedes configurar `istioctl` con la dirección de un servicio proxy externo que sí tenga acceso a las instancias de `istiod`.
@@ -53,16 +53,16 @@ Puedes encontrar un proyecto del ecosistema de Istio que incluye una implementac
 [aquí](https://github.com/istio-ecosystem/istioctl-proxy-sample). Para probarlo, necesitarás dos clústeres, uno de los cuales esté
 configurado como clúster remoto usando un plano de control instalado en el otro clúster.
 
-## Install Istio with a remote cluster topology
+## Instalar Istio con una topología de clúster remoto
 
 Para demostrar que `istioctl` funciona en un clúster remoto, comenzaremos usando las
 [instrucciones de instalación de plano de control externo](/docs/setup/install/external-controlplane/)
-para configurar una malla con un único clúster remoto y un plano de control externo ejecutándose en un clúster externo separado.
+para configurar un mesh con un único clúster remoto y un plano de control externo ejecutándose en un clúster externo separado.
 
 Tras completar la instalación, deberíamos tener dos variables de entorno, `CTX_REMOTE_CLUSTER` y `CTX_EXTERNAL_CLUSTER`,
-que contienen los nombres de contexto del clúster remoto (malla) y del clúster externo (plano de control), respectivamente.
+que contienen los nombres de contexto del clúster remoto (mesh) y del clúster externo (plano de control), respectivamente.
 
-También deberíamos tener los ejemplos `helloworld` y `sleep` ejecutándose en la malla, es decir, en el clúster remoto:
+También deberíamos tener los ejemplos `helloworld` y `sleep` ejecutándose en el mesh, es decir, en el clúster remoto:
 
 {{< text bash >}}
 $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -78,7 +78,7 @@ $ istioctl proxy-status --context="${CTX_REMOTE_CLUSTER}"
 Error: unable to find any Istiod instances
 {{< /text >}}
 
-## Configure istioctl to use the sample proxy service
+## Configurar istioctl para usar el servicio proxy de ejemplo
 
 Para configurar `istioctl`, primero necesitamos desplegar el servicio proxy junto a los pods `istiod` en ejecución.
 En nuestra instalación, hemos desplegado el plano de control en el namespace `external-istiod`, así que iniciamos el servicio proxy
@@ -139,7 +139,7 @@ Establecer `ISTIOCTL_PREFER_EXPERIMENTAL` es opcional. Indica a `istioctl` que r
 `istioctl x comando`, para cualquier `comando` que tenga implementación estable y experimental.
 En nuestro caso, necesitamos usar `istioctl x proxy-status`, la versión que implementa la funcionalidad de delegación a un proxy.
 
-## Run the istioctl proxy-status command
+## Ejecutar el comando istioctl proxy-status
 
 Ahora que hemos terminado de configurar `istioctl`, podemos probarlo ejecutando de nuevo el comando `proxy-status`:
 
@@ -151,17 +151,17 @@ istio-ingressgateway-75bfd5668f-lggn4.external-istiod     SYNCED     SYNCED     
 sleep-557747455f-v627d.sample                             SYNCED     SYNCED     SYNCED     SYNCED     <external>     1.12.1
 {{< /text >}}
 
-Como puedes ver, esta vez muestra correctamente el estado de sincronización de todos los servicios que se ejecutan en la malla. Observa que la columna
+Como puedes ver, esta vez muestra correctamente el estado de sincronización de todos los servicios que se ejecutan en el mesh. Observa que la columna
 `ISTIOD` devuelve el valor genérico `<external>`, en lugar del nombre de la instancia (por ejemplo, `istiod-666fb6694d-jklkt`) que se mostraría si el pod
-se ejecutara localmente. En este caso, este detalle no está disponible (ni es necesario) para el usuario de la malla. Solo está disponible en el clúster externo
-para que lo vea el operador de la malla.
+se ejecutara localmente. En este caso, este detalle no está disponible (ni es necesario) para el usuario del mesh. Solo está disponible en el clúster externo
+para que lo vea el operador del mesh.
 
-## Summary
+## Resumen
 
 En este artículo usamos un [servidor proxy de ejemplo](https://github.com/istio-ecosystem/istioctl-proxy-sample) para configurar `istioctl` y que funcione
 con una [instalación de plano de control externo](/docs/setup/install/external-controlplane/).
 Hemos visto que algunos comandos de la CLI `istioctl` no funcionan “out of the box” en un clúster remoto gestionado por un plano de control externo. Comandos
-como `istioctl proxy-status`, entre otros, necesitan acceso a las instancias del servicio `istiod` que gestionan la malla, las cuales no están disponibles cuando
-el plano de control se ejecuta fuera del clúster de la malla.
+como `istioctl proxy-status`, entre otros, necesitan acceso a las instancias del servicio `istiod` que gestionan el mesh, las cuales no están disponibles cuando
+el plano de control se ejecuta fuera del clúster del mesh.
 Para abordar este problema, `istioctl` se configuró para delegar en un servidor proxy, ejecutándose junto al plano de control externo, que accede a las instancias
 de `istiod` en su nombre.
