@@ -156,3 +156,4 @@ Gateway API Inference Extension representa un paso significativo adelante en hac
 
 *¿Tiene una pregunta o quiere involucrarse? [Únase al Slack de Kubernetes](https://slack.kubernetes.io/) y luego encuéntrenos en el canal [#gateway-api-inference-extension](https://kubernetes.slack.com/archives/C08E3RZMT2P) o [discuta en el Slack de Istio](https://slack.istio.io).*
 
+

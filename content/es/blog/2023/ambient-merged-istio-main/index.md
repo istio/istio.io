@@ -25,3 +25,4 @@ Siga nuestra [guía de inicio](/docs/ambient/getting-started/) para probar la co
 * Asista a la [reunión](https://github.com/istio/community/blob/master/WORKING-GROUPS.md#working-group-meetings) semanal de contribuyentes de ambient los miércoles.
 * ¡Visite los repositorios de [Istio](http://github.com/istio/istio) y [ztunnel](http://github.com/istio/ztunnel), envíe issues o PRs!
 
+

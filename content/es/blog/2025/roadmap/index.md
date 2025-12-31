@@ -42,3 +42,4 @@ La comunidad de Istio está llena de muchos contribuyentes talentosos cuyos esfu
 
 Esta hoja de ruta describe un futuro cercano emocionante para Istio, enfocándose en un camino de migración sin problemas del modo sidecar al modo ambient, capacidades multiclúster mejoradas y un enfoque refinado de extensibilidad. También estamos comprometidos a fomentar un entorno más acogedor y gratificante para nuestros invaluables contribuyentes. Estas iniciativas solidifican la posición de Istio como el service mesh líder, listo para empoderar a los desarrolladores nativos de la nube con eficiencia, control y una comunidad próspera sin igual.
 
+

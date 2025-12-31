@@ -30,3 +30,4 @@ Basándose en esto, aquí está la lista completa de miembros del Comité Direct
 
 Nuestro más sincero agradecimiento a Louis Ryan, Srihari Angaluri, Kebe Liu y Jason McGee, todos contribuyentes de larga data al proyecto Istio, cuyos mandatos han llegado a su fin.
 
+

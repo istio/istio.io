@@ -70,3 +70,4 @@ En última instancia, la elección entre eBPF e iptables para la redirección de
 
 Todavía hay mucho trabajo por hacer, incluida la integración con varios complementos CNI, y las contribuciones para mejorar la facilidad de uso serían muy bienvenidas. Únase a nosotros en #ambient en el [slack de Istio](https://slack.istio.io/).
 
+

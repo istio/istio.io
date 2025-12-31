@@ -53,3 +53,4 @@ Cuando estábamos construyendo los prototipos iniciales de lo que se convertirí
 Durante mi tiempo como contribuyente y líder dentro de la comunidad de Istio, Istio demostró repetidamente ser una plataforma poderosa con las herramientas que las organizaciones necesitan en el centro de sus estrategias de seguridad, redes y observabilidad. Estoy especialmente orgulloso de las optimizaciones que hicimos en los grupos de trabajo de Seguridad de Productos y Pruebas y Lanzamiento para priorizar las necesidades de los usuarios a través de características y lanzamientos seguros, confiables y predecibles. La graduación de Istio en la CNCF es un gran paso adelante para la comunidad, validando todo el arduo trabajo que hemos contribuido. Felicitaciones a la comunidad. Estoy emocionado de ver hacia dónde va Istio a continuación.
 {{< /quote >}}
 
+

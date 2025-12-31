@@ -30,3 +30,4 @@ A lo largo de mi mandato, he sido fundamental en dar forma al proyecto Istio a t
 
 En nombre de la comunidad de Istio, felicito a Rama por su elección al TOC y espero con interés su continuo liderazgo e impacto.
 
+
