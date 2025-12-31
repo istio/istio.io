@@ -1,5 +1,5 @@
 ---
-title: Clúster Primario
+title: Primary Cluster
 test: n/a
 ---
 

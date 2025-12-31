@@ -6,7 +6,7 @@ attribution: Frank Budinsky (IBM)
 keywords: [istioctl, cli, external, remote, multicluster]
 ---
 
-Al usar la CLI `istioctl` en un {{< gloss >}}clúster remoto{{< /gloss >}} de un despliegue de Istio con
+Al usar la CLI `istioctl` en un {{< gloss >}}remote cluster{{< /gloss >}} de un despliegue de Istio con
 [plano de control externo](/docs/setup/install/external-controlplane/) o [multiclúster](/docs/setup/install/multicluster/),
 algunos comandos no funcionarán por defecto. Por ejemplo, `istioctl proxy-status` requiere acceso al servicio `istiod` para
 obtener el estado y la configuración de los proxies que gestiona. Si intentas ejecutarlo en un clúster remoto, obtendrás un
@@ -24,7 +24,7 @@ ejecutándose, cada instancia solo está conectada a un subconjunto de los proxi
 El comando `istioctl` necesita devolver el estado de todo el mesh, no solo del subconjunto gestionado por una de las instancias.
 
 En una instalación “normal” de Istio en la que el servicio `istiod` se ejecuta localmente en el clúster
-(es decir, un {{< gloss >}}clúster primario{{< /gloss >}}), el comando se implementa encontrando todos los pods `istiod` en ejecución,
+(es decir, un {{< gloss >}}primary cluster{{< /gloss >}}), el comando se implementa encontrando todos los pods `istiod` en ejecución,
 llamando a cada uno por turnos y agregando el resultado antes de devolvérselo al usuario.
 
 {{< image width="75%"

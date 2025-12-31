@@ -1,5 +1,5 @@
 ---
-title: Clúster Remoto
+title: Remote Cluster
 test: n/a
 ---
 
