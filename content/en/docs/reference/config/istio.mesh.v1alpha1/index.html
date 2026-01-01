@@ -576,28 +576,6 @@ For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
 
 </td>
 </tr>
-<tr id="MeshConfig-file_flush_interval">
-<td><div class="field"><div class="name"><code><a href="#MeshConfig-file_flush_interval">fileFlushInterval</a></code></div>
-<div class="type">uint32</div>
-</div></td>
-<td>
-<p>File flush interval for envoy flushes buffers to disk in milliseconds.
-Default is 1000.
-Optional.</p>
-
-</td>
-</tr>
-<tr id="MeshConfig-file_flush_min_size">
-<td><div class="field"><div class="name"><code><a href="#MeshConfig-file_flush_min_size">fileFlushMinSize</a></code></div>
-<div class="type">uint32</div>
-</div></td>
-<td>
-<p>File flush buffer size for envoy flushes buffers to disk in kilobytes.
-Defaults to 64.
-Optional.</p>
-
-</td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -4018,6 +3996,28 @@ Note: currently all headers are enabled by default.</p>
   metadataExchangeHeaders:
     mode: IN_MESH
 </code></pre>
+
+</td>
+</tr>
+<tr id="ProxyConfig-file_flush_interval">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-file_flush_interval">fileFlushInterval</a></code></div>
+<div class="type">uint32</div>
+</div></td>
+<td>
+<p>File flush interval for envoy flushes buffers to disk in milliseconds.
+Default is 1000.
+Optional.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-file_flush_min_size">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-file_flush_min_size">fileFlushMinSize</a></code></div>
+<div class="type">uint32</div>
+</div></td>
+<td>
+<p>File flush buffer size for envoy flushes buffers to disk in kilobytes.
+Defaults to 64.
+Optional.</p>
 
 </td>
 </tr>
