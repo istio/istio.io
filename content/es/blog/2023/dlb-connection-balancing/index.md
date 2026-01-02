@@ -306,3 +306,4 @@ $ kubectl logs -n istio-system ${POD} | grep dlb
 
 Para más detalles sobre Istio Ingress Gateway, consulte la [Documentación oficial de Istio Ingress Gateway](/docs/tasks/traffic-management/ingress/ingress-control/).
 
+

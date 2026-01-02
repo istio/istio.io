@@ -115,3 +115,4 @@ A medida que miramos hacia 2026, la energía de Atlanta nos da confianza: el fut
 
 {{< image width="75%" link="./kubecon-eu-2026.png" caption="Nos vemos en Ámsterdam" >}}
 
+

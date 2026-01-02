@@ -219,3 +219,4 @@ Tenga en cuenta que no obtiene ningún endpoint relacionado con ningún servicio
 
 Estamos muy emocionados con la simplificación de waypoint enfocándose en proxies waypoint orientados a destino. Este es otro paso significativo hacia la simplificación de la usabilidad, escalabilidad y capacidad de depuración de Istio, que son prioridades principales en la hoja de ruta de Istio. ¡Siga nuestra [guía de inicio](/docs/ambient/getting-started/) para probar la compilación alpha de ambient hoy y experimentar el proxy waypoint simplificado!
 
+

@@ -3,8 +3,8 @@ title: Primary Cluster
 test: n/a
 ---
 
-A primary cluster is a [cluster](/es/docs/reference/glossary/#cluster) with a
-[control plane](/es/docs/reference/glossary/#control-plane). A single
-[mesh](/es/docs/reference/glossary/#service-mesh) can have more than
-one primary cluster for HA or to reduce latency. Primary clusters can act as the
-control plane for [remote clusters](/es/docs/reference/glossary/#remote-cluster).
+Un clúster primario es un [clúster](/es/docs/reference/glossary/#cluster) con un
+[plano de control](/es/docs/reference/glossary/#control-plane). Un único
+[mesh](/es/docs/reference/glossary/#service-mesh) puede tener más de
+un clúster primario para alta disponibilidad o para reducir la latencia. Los clústeres primarios pueden actuar como el
+plano de control para [clústeres remotos](/es/docs/reference/glossary/#remote-cluster).

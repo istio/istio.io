@@ -197,3 +197,4 @@ Si instala Prometheus y Kiali, puede ver estas métricas fácilmente desde la UI
 
 Estamos súper emocionados de que el nuevo [ztunnel basado en Rust](https://github.com/istio/ztunnel/) esté drásticamente simplificado, sea más liviano y eficiente que el anterior ztunnel basado en Envoy. Con el xDS de carga de trabajo especialmente diseñado para el ztunnel basado en Rust, no solo podrá entender la configuración xDS mucho más fácilmente, sino que también tendrá un tráfico de red y costo drásticamente reducidos entre el plano de control de Istiod y los ztunnels. Con Istio ambient ahora fusionado con el master upstream, puede probar el nuevo ztunnel basado en Rust siguiendo nuestra [guía de inicio](/docs/ambient/getting-started/).
 
+

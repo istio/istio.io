@@ -24,3 +24,4 @@ Además de los cuatro Asientos Comunitarios, el Comité Directivo de Istio tambi
 
 El Comité Directivo felicita a los ganadores de las elecciones y espera trabajar con ellos para continuar creciendo y mejorando Istio como un proyecto de código abierto exitoso y sostenible. Animamos a todos a involucrarse en la comunidad de Istio, contribuir, votar y ayudarnos a dar forma al futuro del service mesh.
 
+
