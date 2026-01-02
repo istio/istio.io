@@ -99,9 +99,7 @@ external attacks. Check with your cloud vendor to see what options are
 available.
 
 {{< warning >}}
-The east-west gateway must be exposed using a Layer 4 (TCP) load balancer.
-Layer 7 (HTTP/HTTPS) load balancers terminate TLS and are incompatible with
-`AUTO_PASSTHROUGH`, which can result in mTLS handshake failures and 503 errors.
+Layer 7 load balancers terminate TLS and are incompatible with `AUTO_PASSTHROUGH`, which can result in mTLS handshake failures and 503 errors. Do not expose an east-west gateway with a Layer 7 load balancer.
 {{< /warning >}}
 
 {{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
