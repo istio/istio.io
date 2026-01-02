@@ -17,7 +17,7 @@ This document describes low level implementation details. For a higher level ove
 
 ## Scope and perspective
 
-This document describes DNS behavior for **application workloads running inside the Istio service mesh**
+This document describes DNS behavior for application workloads running inside the Istio service mesh
 (with Envoy sidecar proxies enabled).
 
 Throughout this document, the term **client** refers to a workload inside the mesh.
