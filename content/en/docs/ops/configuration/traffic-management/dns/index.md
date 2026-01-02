@@ -90,7 +90,7 @@ low DNS `TTL`s are used, this may cause a high load on DNS servers.
 In these cases, the following can help reduce the load:
 
 * Switch to `resolution: NONE` to avoid proxy DNS lookups entirely. This is suitable for many use cases.
-* If you control the domains being resolved, increase their DNS `TTL`.
+* If you control the domains being resolved, increase their `TTL`.
 * If a `ServiceEntry` is only needed by a small number of workloads, limit its scope using
   `exportTo` or a [`Sidecar`](/docs/reference/config/networking/sidecar/).
 
