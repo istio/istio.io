@@ -94,7 +94,7 @@ In these cases, the following can help reduce the load:
 * If a `ServiceEntry` is only needed by a small number of workloads, limit its scope using
   `exportTo` or a [`Sidecar`](/docs/reference/config/networking/sidecar/).
 
-## DNS proxying
+## DNS Proxying
 
 Istio offers a feature to [proxy DNS requests](/docs/ops/configuration/traffic-management/dns-proxy/).
 This allows Istio to capture DNS requests sent by the application and return responses directly.
