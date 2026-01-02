@@ -24,7 +24,7 @@ Throughout this document, the term `client` refers to a workload inside the mesh
 
 ## Life of a request
 
-In these examples, we will walk through what happens when an application **inside the mesh**
+In these examples, we will walk through what happens when an application inside the mesh
 runs `curl example.com`. While `curl` is used here for simplicity, the same applies to
 almost all HTTP clients running within the mesh.
 
