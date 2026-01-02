@@ -52,9 +52,6 @@ provides a deep dive into how this behavior works.
 If a mesh workload is unable to resolve the DNS name using its configured DNS resolver,
 the connection is never initiated.
 
-This means that if a workload sends a request to a hostname that is known to Istio
-(for example, through a `ServiceEntry`) but is not resolvable by DNS,
-the request will fail before any HTTP connection is attempted.
 Istio [DNS proxying](#dns-proxying) can change this behavior by intercepting DNS requests
 from the application and returning a response directly.
 
