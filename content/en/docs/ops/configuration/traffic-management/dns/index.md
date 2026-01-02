@@ -50,7 +50,7 @@ Istio uses this information to determine the intended destination.
 provides a deep dive into how this behavior works.
 
 If a mesh workload is unable to resolve the DNS name using its configured DNS resolver,
-the HTTP request is never initiated, and Istio does not receive any traffic to process.
+the connection is never initiated.
 
 This means that if a workload sends a request to a hostname that is known to Istio
 (for example, through a `ServiceEntry`) but is not resolvable by DNS,
