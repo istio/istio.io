@@ -21,8 +21,6 @@ This document describes DNS behavior for application workloads running inside th
 (with Envoy sidecar proxies enabled).
 
 Throughout this document, the term `client` refers to a workload inside the mesh.
-DNS queries from external clients (for example, a developer running `curl` on a laptop)
-are resolved using the operating system’s configured DNS resolver and are **not handled by Istio**.
 
 ## Life of a request
 
