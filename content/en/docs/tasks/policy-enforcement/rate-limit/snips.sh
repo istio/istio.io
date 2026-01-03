@@ -82,7 +82,7 @@ spec:
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
             # domain can be anything! Match it to the ratelimter service config
-            domain: ratelimit
+            domain: product
             failure_mode_deny: true
             timeout: 10s
             rate_limit_service:
