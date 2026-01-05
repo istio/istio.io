@@ -41,11 +41,15 @@ v2 which are listed below:
   in Mixer-based telemetry. However, more buckets are available by default
   in in-proxy telemetry for latency metrics at the lower latency levels.
 
-* **No metric expiration for short-lived metrics**
+* **No metric expiration for short-lived metrics by default**
   Mixer-based telemetry supported metric expiration whereby metrics which were
   not generated for a configurable amount of time were de-registered for
-  collection by Prometheus. This is useful in scenarios, such as one-off jobs, that generate short-lived metrics. De-registering
+  collection by Prometheus. This is useful in scenarios, such as one-off jobs,
+  that generate short-lived metrics. De-registering
   the metrics prevents reporting of metrics which would no longer change in the
   future, thereby reducing network traffic and storage in Prometheus.
-  This expiration mechanism is not available in in-proxy telemetry.
-  The workaround for this can be found [here](/about/faq/#metric-expiry).
+
+  The [`sidecar.istio.io/statsEvictionInterval` annotation](/docs/reference/config/annotations/)
+  provides equivalent functionality in newer Istio versions, but metric expiry
+  is not enabled by default. See also
+  [FAQ: metric expiry](/about/faq/#metric-expiry).

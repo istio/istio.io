@@ -45,65 +45,81 @@ For TCP traffic, Istio generates the following metrics:
 
 *   **Tcp Connections Closed** (`istio_tcp_connections_closed_total`): This is a `COUNTER` incremented for every closed connection.
 
+The metrics Istio emits can be overridden with [the `Telemetry` resource's `metricsOverrides` field](/docs/reference/config/telemetry/#MetricsOverrides); see [Telemetry API](/docs/tasks/observability/telemetry/).
+
 ## Labels
 
-*   **Reporter**: This identifies the reporter of the request. It is set to `destination`
+Labels are added to metrics to identify unique series or provide auxiliary
+information.
+
+The label name exposed in Prometheus scrapes and used when referring to the
+label in configuration is shown in parentheses below.
+
+*   **Reporter** (`reporter`): This identifies the reporter of the request. It is set to `destination`
     if report is from a server Istio proxy and `source` if report is from a client
     Istio proxy or a gateway.
 
-*   **Source Workload**: This identifies the name of source workload which
+*   **Source Workload** (`source_workload`): This identifies the name of source workload which
     controls the source, or `unknown` if the source information is missing.
 
-*   **Source Workload Namespace**: This identifies the namespace of the source
+    See also workload label
+    [`service.istio.io/workload-name`](/docs/reference/config/labels/index.html)
+    and proxy env-var `ISTIO_META_WORKLOAD_NAME`.
+
+*   **Source Workload Namespace** (`source_workload_namespace`): This identifies the namespace of the source
     workload, or `unknown` if the source information is missing.
 
-*   **Source Principal**: This identifies the peer principal of the traffic source.
+*   **Source Principal** (`source_princpial`): This identifies the peer principal of the traffic source.
     It is set when peer authentication is used.
 
-*   **Source App**: This identifies the source application based on `app` label
+*   **Source App** (`source_app`): This identifies the source application based on `app` label
     of the source workload, or `unknown` if the source information is missing.
 
-*   **Source Version**: This identifies the version of the source workload, or
+*   **Source Version** (`source_version`): This identifies the version of the source workload, or
     `unknown` if the source information is missing.
 
-*   **Destination Workload**: This identifies the name of destination workload,
+*   **Destination Workload** (`destination_workload`): This identifies the name of destination workload,
     or `unknown` if the destination information is missing.
 
-*   **Destination Workload Namespace**: This identifies the namespace of the
+    See also workload label
+    [`service.istio.io/workload-name`](/docs/reference/config/labels/index.html)
+    and proxy env-var `ISTIO_META_WORKLOAD_NAME`.
+
+*   **Destination Workload Namespace** (`DESTINATION_WORKLOAD_NAMESPACE`): This identifies the namespace of the
     destination workload, or `unknown` if the destination information is
     missing.
 
-*   **Destination Principal**: This identifies the peer principal of the traffic destination.
+*   **Destination Principal** (`destination_principal`): This identifies the peer principal of the traffic destination.
     It is set when peer authentication is used.
 
-*   **Destination App**: This identifies the destination application based on
+*   **Destination App** (`destination_app`): This identifies the destination application based on
     `app` label of the destination workload, or `unknown` if the destination
     information is missing.
 
-*   **Destination Version**: This identifies the version of the destination workload,
+*   **Destination Version** (`destination_version`): This identifies the version of the destination workload,
     or `unknown` if the destination information is missing.
 
-*   **Destination Service**: This identifies destination service host responsible
+*   **Destination Service** (`destination_service`): This identifies destination service host responsible
     for an incoming request. Ex: `details.default.svc.cluster.local`.
 
-*   **Destination Service Name**: This identifies the destination service name.
+*   **Destination Service Name** (`destination_service_name`): This identifies the destination service name.
     Ex: `details`.
 
-*   **Destination Service Namespace**: This identifies the namespace of
+*   **Destination Service Namespace** (`destination_service_namespace`): This identifies the namespace of
     destination service.
 
-*   **Request Protocol**: This identifies the protocol of the request. It is set
+*   **Request Protocol** (`request_protocol`): This identifies the protocol of the request. It is set
     to request or connection protocol.
 
-*   **Response Code**: This identifies the response code of the request. This
+*   **Response Code** (`response_code`): This identifies the response code of the request. This
     label is present only on HTTP metrics.
 
-*   **Connection Security Policy**: This identifies the service authentication policy of
+*   **Connection Security Policy** (`connection_security_policy`): This identifies the service authentication policy of
     the request. It is set to `mutual_tls` when Istio is used to make communication
     secure and report is from destination. It is set to `unknown` when report is from
     source since security policy cannot be properly populated.
 
-*   **Response Flags**: Additional details about the response or connection from proxy.
+*   **Response Flags** (`response_flags`): Additional details about the response or connection from proxy.
     In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)
     for more detail.
 
@@ -117,11 +133,18 @@ For TCP traffic, Istio generates the following metrics:
     destination_canonical_revision
     {{< /text >}}
 
-*   **Destination Cluster**: This identifies the cluster of the destination workload.
+    See also labels
+    [`service.istio.io/canonical-name`](/docs/reference/config/labels/#ServiceCanonicalName)
+    and
+    [`service.istio.io/canonical-revision`](/docs/reference/config/labels/#ServiceCanonicalRevision).
+
+*   **Destination Cluster** (`destination_cluster`): This identifies the cluster of the destination workload.
     This is set by: `global.multiCluster.clusterName` at cluster install time.
 
-*   **Source Cluster**: This identifies the cluster of the source workload.
+*   **Source Cluster** (`source_cluster`): This identifies the cluster of the source workload.
     This is set by: `global.multiCluster.clusterName` at cluster install time.
 
-*   **gRPC Response Status**: This identifies the response status of the gRPC. This
+*   **gRPC Response Status** (`grpc_response_status`): This identifies the response status of the gRPC. This
     label is present only on gRPC metrics.
+
+Metric dimensions can be suppressed with [the `Telemetry` resource's `metricsOverrides.tagOverride` field](/docs/reference/config/telemetry/#MetricsOverrides); see [Telemetry API](/docs/tasks/observability/telemetry/). Labels may also be added or modified using [metric classification](docs/tasks/observability/metrics/classify-metrics/) filters.
