@@ -296,3 +296,20 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
     This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
+
+You can run Cilium with Istio in two ways:
+
+1.  **With kube-proxy present (recommended):**
+
+    - Set `kubeProxyReplacement: false` (the default).
+    - Cilium does not fully replace kube-proxy; kube-proxy continues to handle ClusterIP routing.
+    - This is the recommended setup for using Istio with minimal disruption, particularly in sidecar or ambient mode.
+
+1.  **With kube-proxy removed (full replacement):**
+
+    - Set `kubeProxyReplacement: true`, `socketLB.hostNamespaceOnly: true`, and `cni.exclusive: false`.
+    - These settings prevent Cilium’s socket-based load balancing from interfering with Istio’s proxying.
+    - kube-proxy can be removed in this mode, but these configurations are required to ensure compatibility.
+
+In summary, you can run Istio with Cilium and kube-proxy by setting `kubeProxyReplacement: false` (the default and recommended for most Istio installs);
+or you can run without kube-proxy by setting `kubeProxyReplacement: true`, but you must carefully configure Cilium to avoid conflicts with Istio.
