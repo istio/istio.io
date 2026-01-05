@@ -133,7 +133,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
 
 1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
     This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
-    for any route from a virtual host named `bookinfo.com:80` and sets the action domain through a [RateLimitPerRoute filter extension](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#extensions-filters-http-ratelimit-v3-ratelimitperroute).
+    for any route from a virtual host named `bookinfo.com:80` and sets the action domain through a [`RateLimitPerRoute` filter extension](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#extensions-filters-http-ratelimit-v3-ratelimitperroute).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -216,7 +216,7 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
     EOF
     {{< /text >}}
 
-1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product and override the ratelimit domain:
+1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product and override the `ratelimit` domain:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
