@@ -53,7 +53,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: ratelimit
+        domain: product
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -81,7 +81,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
     {{< /text >}}
 
-1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit filter.
+1. Apply an `EnvoyFilter` to the `ingressgateway` to enable global rate limiting using Envoy's global rate limit http filter.
 
     The patch inserts the `envoy.filters.http.ratelimit`
     [global envoy filter](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)
@@ -118,7 +118,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
               name: envoy.filters.http.ratelimit
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
-                # domain can be anything! Match it to the ratelimter service config
+                # domain can be anything! Either match it to the ratelimiter service config (single domain) or set the domain per route configuration (multiple domains). See examples below
                 domain: ratelimit
                 failure_mode_deny: true
                 timeout: 10s
@@ -133,7 +133,7 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
 
 1. Apply another `EnvoyFilter` to the `ingressgateway` that defines the route configuration on which to rate limit.
     This adds [rate limit actions](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)
-    for any route from a virtual host named `bookinfo.com:80`.
+    for any route from a virtual host named `bookinfo.com:80` and sets the action domain through a [`RateLimitPerRoute` filter extension](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#extensions-filters-http-ratelimit-v3-ratelimitperroute).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -159,6 +159,10 @@ A [reference implementation](https://github.com/envoyproxy/ratelimit) of the API
             operation: MERGE
             # Applies the rate limit rules.
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product # overrides 'ratelimit' domain
               rate_limits:
                 - actions: # any actions in here
                   - request_headers:
@@ -212,7 +216,7 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
     EOF
     {{< /text >}}
 
-1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product and override the product domain:
+1. Apply an EnvoyFilter to add the rate limits action at the route level on any 1 to 99 product and override the `ratelimit` domain:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -237,11 +241,11 @@ using the VirtualService http name. The PATH value `api` inserted in the prior e
           patch:
             operation: MERGE
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product
               route:
-                typed_per_filter_config:
-                  envoy.filters.http.ratelimit:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
-                    domain: product # domain override
                 rate_limits:
                 - actions:
                   - header_value_match:
