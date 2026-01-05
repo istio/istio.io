@@ -191,11 +191,11 @@ spec:
       patch:
         operation: MERGE
         value:
+          typed_per_filter_config:
+            envoy.filters.http.ratelimit:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+              domain: product
           route:
-            typed_per_filter_config:
-              envoy.filters.http.ratelimit:
-                "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
-                domain: product
             rate_limits:
             - actions:
               - header_value_match:
