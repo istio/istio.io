@@ -18,9 +18,9 @@ Istio 提供 [Telemetry API](/zh/docs/reference/config/telemetry/)，
 
 在 Istio 配置层次结构中，Telemetry API 资源从父级资源中继承配置：
 
-1.  根配置命名空间（例如 `istio-system`）
-1.  本地命名空间（不带工作负载 `selector` 的作用于命名空间的资源）
-1.  工作负载（带有工作负载 `selector` 的作用于命名空间的资源）
+1. 根配置命名空间（例如 `istio-system`）
+1. 本地命名空间（不带工作负载 `selector` 的作用于命名空间的资源）
+1. 工作负载（带有工作负载 `selector` 的作用于命名空间的资源）
 
 `istio-system` 这类根配置命名空间中的 Telemetry API 资源提供了网格范围的默认行为。
 根配置命名空间中的所有工作负载特定选择算符都将被忽略/拒绝。
@@ -64,11 +64,13 @@ data:
 
 为了方便，Istio 默认设置随附了几个开箱即用的提供程序：
 
-| 提供程序名称 | 功能                    |
-| ------------- | -------------------------------- |
-| `prometheus`  | 指标                          |
-| `stackdriver` | 指标、链路追踪、访问日志 |
-| `envoy`       | 访问日志                   |
+| 提供程序名称    | 功能                         |
+| ------------- | --------------------------- |
+| `prometheus`  | 指标                         |
+| `stackdriver` | 追踪追踪（传统 / 功能有限）     |
+| `envoy`       | 访问日志                     |
+
+`stackdriver` 提供程序保留用于旧版兼容性和有限的链路追踪用途。它不是 Telemetry v2 的指标后端，也不导出访问日志。
 
 此外，还可以设置[默认的提供程序](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders)，
 便于在 `Telemetry` 资源未指定提供程序时将使用这个默认的提供程序。
@@ -79,8 +81,8 @@ data:
 {{< /tip >}}
 
 {{< tip >}}
-提供程序不支持 `$(HOST_IP)`。如果您正以代理（agent）模式运行收集器，
-您可以使用[服务内部流量策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service-traffic-policy/#using-service-internal-traffic-policy)，
+提供商不支持 `$(HOST_IP)`。如果您以代理模式运行收集器，
+可以使用[服务内部流量策略](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service-traffic-policy/#using-service-internal-traffic-policy)，
 并将 `InternalTrafficPolicy` 设置为 `Local` 以获得更好的性能。
 {{< /tip >}}
 
@@ -137,6 +139,7 @@ spec:
 当用先前网格范围的示例配置部署到网格中时，这将造成 `myapp` 命名空间中的链路追踪行为，
 将链路 span 发送到 `localtrace` 提供程序并随机以 `100%` 的比率选择链路追踪请求，
 但这会使用名称 `userId` 和 `userId` 请求头中获取的值为每个 span 设置自定义标记。
+
 重要的是，在 `myapp` 命名空间中将不会使用来自父级配置的 `foo: bar` 标记。
 自定义标记行为将完全覆盖 `mesh-default.istio-system` 资源中配置的行为。
 
