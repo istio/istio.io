@@ -52,7 +52,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: ratelimit
+        domain: product
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -80,7 +80,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
     {{< /text >}}
 
-1. 对 `ingressgateway` 应用 `EnvoyFilter`，以使用 Envoy 的全局速率限制过滤器来启用全局速率限制。
+1. 对 `ingressgateway` 应用 `EnvoyFilter`，以使用 Envoy 的全局速率限制 HTTP 过滤器来启用全局速率限制。
 
     此 patch 将 `envoy.filters.http.ratelimit`
     [Envoy 全局限流过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)插入到
@@ -117,7 +117,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
               name: envoy.filters.http.ratelimit
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
-                # 域名可以是任何东西！将其与 ratelitter 服务配置相匹配
+                # 域名可以是任何值！您可以将其与限流服务配置（单个域名）匹配，也可以为每个路由配置设置不同的域名（多个域名）。请参见以下示例。
                 domain: ratelimit
                 failure_mode_deny: true
                 timeout: 10s
@@ -132,7 +132,8 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 
 1. 对定义限速路由配置的 `ingressgateway` 应用另一个 `EnvoyFilter`。
    对于来自名为 `bookinfo.com:80` 的虚拟主机的任何路由，这增加了
-   [速率限制动作](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)。
+   [速率限制动作](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)，
+   并通过 [`RateLimitPerRoute` 过滤器扩展](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#extensions-filters-http-ratelimit-v3-ratelimitperroute)设置操作域。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -158,6 +159,10 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
             operation: MERGE
             # 应用速率限制规则。
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product # overrides 'ratelimit' domain
               rate_limits:
                 - actions: # 此处的任何操作
                   - request_headers:
@@ -212,7 +217,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
     EOF
     {{< /text >}}
 
-1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作并覆盖产品域名：
+1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作并覆盖 `ratelimit` 域名：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -237,11 +242,11 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
           patch:
             operation: MERGE
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product
               route:
-                typed_per_filter_config:
-                  envoy.filters.http.ratelimit:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
-                    domain: product # 域名覆盖
                 rate_limits:
                 - actions:
                   - header_value_match:
