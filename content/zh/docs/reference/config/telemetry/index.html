@@ -77,8 +77,9 @@ metadata:
 spec:
   # no selector specified, applies to all workloads
   tracing:
-  - match: CLIENT
-  - providers:
+  - match:
+      mode: CLIENT
+    providers:
     - name: &quot;zipkin&quot;
 </code></pre>
 <p>Add a custom tag from a literal value:</p>
