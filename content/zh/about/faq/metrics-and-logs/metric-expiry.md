@@ -27,7 +27,7 @@ weight: 20
 * 禁用不必要的标签或整个指标系列。如果不需要基数较高的标签或指标，
   您可以通过使用 `Telemetry` 资源的 [`metricsOverrides`](/zh/docs/reference/config/telemetry/#MetricsOverrides) 字段，
   在指标生成过程中将其删除（参见[指标自定义](/zh/docs/tasks/observability/metrics/customize-metrics/)）。
-  有关示例，请参阅 [Telemetry API](/docs/tasks/observability/telemetry/)。
+  有关示例，请参阅 [Telemetry API](/zh/docs/tasks/observability/telemetry/)。
 * 通过联邦或分类来规范化标签值。如果需要标签提供的信息，
   可以使用 [Prometheus 联邦](/zh/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring)、
   Istio 工作负载 Kubernetes 标签（例如 [`service.istio.io/workload-name`](/zh/docs/reference/config/labels/index.html)）
