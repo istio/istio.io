@@ -1035,6 +1035,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If set to false, Istio will not add the absolute FQDN variant (e.g., my-service.my-ns.svc.cluster.local.) to the domains list for VirtualHost entries.</td>
 </tr>
+<tr id='pilot-enable-agentgateway'>
+<td><a href='#pilot-enable-agentgateway'><code>PILOT_ENABLE_AGENTGATEWAY</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the istio-agentgateway GatewayClass will be enabled.</td>
+</tr>
 <tr id='pilot-enable-alpha-gateway-api'>
 <td><a href='#pilot-enable-alpha-gateway-api'><code>PILOT_ENABLE_ALPHA_GATEWAY_API</code></a></td>
 <td>Boolean</td>
@@ -1274,6 +1280,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Enables the use of HTTP 1.0 in the outbound HTTP listeners, to support legacy applications.</td>
+</tr>
+<tr id='pilot-ignore-resources'>
+<td><a href='#pilot-ignore-resources'><code>PILOT_IGNORE_RESOURCES</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, the resources set on this list will be ignored and never reconciled.This value should be a comma-separated list of resources names.Items on this list can be prefixed with a &#39;*.&#39; meaning a whole group should be ignored.</td>
+</tr>
+<tr id='pilot-include-resources'>
+<td><a href='#pilot-include-resources'><code>PILOT_INCLUDE_RESOURCES</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, and combined with &#39;PILOT_IGNORE_RESOURCES&#39; the resources set on this list will not be ignored.This value should be a comma-separated list of resources names.Items on this list can be prefixed with a &#39;*.&#39; meaning a whole group should be included regardless of the ignore list.</td>
 </tr>
 <tr id='pilot-insecure-multicluster-kubeconfig-options'>
 <td><a href='#pilot-insecure-multicluster-kubeconfig-options'><code>PILOT_INSECURE_MULTICLUSTER_KUBECONFIG_OPTIONS</code></a></td>
