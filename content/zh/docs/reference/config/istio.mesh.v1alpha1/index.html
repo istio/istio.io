@@ -4001,17 +4001,18 @@ Note: currently all headers are enabled by default.</p>
 </tr>
 <tr id="ProxyConfig-file_flush_interval">
 <td><div class="field"><div class="name"><code><a href="#ProxyConfig-file_flush_interval">fileFlushInterval</a></code></div>
-<div class="type">uint32</div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
 </div></td>
 <td>
 <p>File flush interval for envoy flushes buffers to disk in milliseconds.
-Default is 1000.
+The duration needs to be set to a value greater than or equal to 1 millisecond.
+Default is 1000ms.
 Optional.</p>
 
 </td>
 </tr>
-<tr id="ProxyConfig-file_flush_min_size">
-<td><div class="field"><div class="name"><code><a href="#ProxyConfig-file_flush_min_size">fileFlushMinSize</a></code></div>
+<tr id="ProxyConfig-file_flush_min_size_kb">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-file_flush_min_size_kb">fileFlushMinSizeKb</a></code></div>
 <div class="type">uint32</div>
 </div></td>
 <td>
