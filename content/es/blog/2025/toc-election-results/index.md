@@ -23,7 +23,7 @@ En palabras del propio Rama:
 {{< quote >}}
 He trabajado con tecnologías de service mesh durante más de ocho años, contribuyendo a varios proyectos que construyeron la plataforma Managed Mesh para Salesforce. Istio y Envoy son la columna vertebral de la plataforma de service mesh de Salesforce, impulsando cargas de trabajo críticas. La mayoría del tráfico de Salesforce fluye a través de Istio y Envoy.
 
-He sido un contribuyente activo e impactante del proyecto Istio desde abril de 2019. Mis contribuciones abarcan tanto los componentes centrales del plano de control de Istio como Envoy, el proxy de alto rendimiento que sirve como plano de datos de Istio. Demostrando una profunda comprensión técnica y compromiso con el proyecto, fui reconocido como mantenedor del plano de control de Istio en enero de 2020. Basándome en esta experiencia en redes de service mesh, me convertí en líder del Grupo de Trabajo de Redes en julio de 2020.
+He sido un contribuyente activo e impactante del proyecto Istio desde abril de 2019. Mis contribuciones abarcan tanto los componentes centrales del control plane de Istio como Envoy, el proxy de alto rendimiento que sirve como data plane de Istio. Demostrando una profunda comprensión técnica y compromiso con el proyecto, fui reconocido como mantenedor del control plane de Istio en enero de 2020. Basándome en esta experiencia en redes de service mesh, me convertí en líder del Grupo de Trabajo de Redes en julio de 2020.
 
 A lo largo de mi mandato, he sido fundamental en dar forma al proyecto Istio a través del desarrollo e implementación de numerosas características significativas y diseños arquitectónicos.
 {{< /quote >}}

@@ -111,7 +111,7 @@ El EPP evalúa múltiples factores para seleccionar el backend óptimo:
 
 * **Optimización de profundidad de cola**: Al rastrear las longitudes de cola de solicitudes a través de los backends, el sistema evita crear puntos calientes que aumentarían la latencia general.
 
-Este enrutamiento inteligente opera de forma transparente dentro de la arquitectura existente de Istio, manteniendo compatibilidad con características como TLS mutuo, políticas de acceso y rastreo distribuido.
+Este enrutamiento inteligente opera de forma transparente dentro de la arquitectura existente de Istio, manteniendo compatibilidad con características como TLS mutuo, políticas de acceso y trazado distribuido.
 
 ### Flujo de solicitud de enrutamiento de inferencia
 

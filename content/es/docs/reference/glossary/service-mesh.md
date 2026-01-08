@@ -3,7 +3,7 @@ title: Service Mesh
 test: n/a
 ---
 
-Un *service mesh* o simplemente *malla* es una capa de infraestructura que permite
+Un *service mesh* (o simplemente *mesh*) es una capa de infraestructura que permite
 comunicación gestionada, observable y segura entre
 [instancias de workload](/es/docs/reference/glossary/#workload-instance).
 

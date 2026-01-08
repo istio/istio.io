@@ -86,7 +86,7 @@ Con la descripción anterior, el despliegue y las rutas de tráfico de red son:
 
 La ruta de tráfico de red de una solicitud desde el pod `sleep` (modo sidecar) al pod `httpbin` (modo ambient) se representa en la mitad superior del diagrama anterior.
 
-**(1) (2) (3) (4)** el contenedor `sleep` envía una solicitud a `httpbin`. La solicitud es interceptada por reglas de iptables y dirigida al puerto `15001` en el sidecar en el pod `sleep`. Luego, el sidecar maneja la solicitud y enruta el tráfico basándose en la configuración recibida de istiod (plano de control) reenviando el tráfico a una dirección IP correspondiente al pod `httpbin` en el nodo B.
+**(1) (2) (3) (4)** el contenedor `sleep` envía una solicitud a `httpbin`. La solicitud es interceptada por reglas de iptables y dirigida al puerto `15001` en el sidecar en el pod `sleep`. Luego, el sidecar maneja la solicitud y enruta el tráfico basándose en la configuración recibida de istiod (control plane) reenviando el tráfico a una dirección IP correspondiente al pod `httpbin` en el nodo B.
 
 **(5) (6)** Después de que la solicitud se envía al par de dispositivos (`veth httpbin <-> eth0 dentro del pod httpbin`), la solicitud es interceptada y reenviada usando las reglas de iptables y reglas de ruta al dispositivo `istioin` en el nodo B donde se está ejecutando el pod `httpbin` siguiendo sus reglas de iptables y reglas de ruta. El dispositivo `istioin` en el nodo B y el dispositivo `pistion` dentro del pod ztunnel en el mismo nodo están conectados por un túnel [Geneve](https://www.rfc-editor.org/rfc/rfc8926.html).
 
@@ -96,9 +96,9 @@ La ruta de tráfico de red de una solicitud desde el pod `sleep` (modo sidecar) 
 
 ### Análisis de la ruta de tráfico de red de `sleep` en modo sidecar a `httpbin` en modo ambient vía proxy waypoint
 
-Comparando con la parte superior del diagrama, la parte inferior inserta un proxy waypoint en la ruta entre los pods `sleep`, ztunnel y `httpbin`. El plano de control de Istio tiene toda la información de servicio y configuración del service mesh. Cuando el pod `helloworld` se despliega con un proxy waypoint, la configuración EDS del servicio `helloworld` recibida por el sidecar del pod `sleep` se cambiará al tipo de `envoy_internal_address`. Esto hace que el tráfico de solicitud que pasa por el sidecar se reenvíe al puerto 15008 del proxy waypoint en el nodo C a través del protocolo [HTTP Based Overlay Network (HBONE)](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit).
+Comparando con la parte superior del diagrama, la parte inferior inserta un proxy waypoint en la ruta entre los pods `sleep`, ztunnel y `httpbin`. El control plane de Istio tiene toda la información de servicio y configuración del service mesh. Cuando el pod `helloworld` se despliega con un proxy waypoint, la configuración EDS del servicio `helloworld` recibida por el sidecar del pod `sleep` se cambiará al tipo de `envoy_internal_address`. Esto hace que el tráfico de solicitud que pasa por el sidecar se reenvíe al puerto 15008 del proxy waypoint en el nodo C a través del protocolo [HTTP Based Overlay Network (HBONE)](https://docs.google.com/document/d/1Ofqtxqzk-c_wn0EgAXjaJXDHB9KhDuLe-W3YGG67Y8g/edit).
 
-El proxy Waypoint es una instancia del proxy Envoy y reenvía la solicitud al pod `helloworld` basándose en la configuración de enrutamiento recibida del plano de control. Una vez que el tráfico alcanza el `veth` en el nodo D, sigue el mismo camino que el escenario anterior.
+El proxy Waypoint es una instancia del proxy Envoy y reenvía la solicitud al pod `helloworld` basándose en la configuración de enrutamiento recibida del control plane. Una vez que el tráfico alcanza el `veth` en el nodo D, sigue el mismo camino que el escenario anterior.
 
 ## Conclusión
 

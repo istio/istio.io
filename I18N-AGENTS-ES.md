@@ -9,20 +9,6 @@ If an existing ES page conflicts with these conventions, **do not “mass-fix”
 
 - Terminology guide (docs contribution): `/es/docs/releases/contribute/terminology/` (**Guía de terminología**)
 
-## Notes from scanning the existing Spanish corpus
-
-The current ES corpus mixes some translations for historical reasons. **Do not mass-edit old pages** to enforce a new standard.
-Instead, when you touch a page, try to make terminology consistent *within that page* and prefer the conventions below.
-
-High-signal inconsistencies observed in `content/es/**`:
-
-- **mesh vs malla**: both appear. For new text, prefer **“mesh”** (“la mesh”) and avoid “malla” unless you are matching an existing page’s established terminology.
-- **namespace vs espacio de nombres**: “namespace” is dominant; “espacio de nombres” exists but is rare. Prefer **“namespace”** in technical contexts.
-- **control plane / data plane vs plano de control / plano de datos**: both appear. Prefer **“control plane”** / **“data plane”** in new text.
-- **gateway vs puerta(s) de enlace**: “gateway” is dominant; “puertas de enlace” appears. Prefer **“gateway”** in technical contexts.
-- **trazado vs rastreo** (distributed tracing): both appear (e.g., tasks use “trazado”, some conceptual docs use “rastreo”).
-  - For new content, prefer **“trazado”** for tracing (and “trazado distribuido” where appropriate), while keeping YAML keys like `tracing` unchanged.
-
 ## Core principle
 
 Prefer **technical accuracy and consistency** over literal translation. Many Istio/Kubernetes concepts are proper nouns or widely-used terms in English; translating them often reduces clarity.
@@ -69,6 +55,16 @@ These are safe and expected in Spanish:
 - **cluster** → “clúster” (plural “clústeres”)
 - **distributed tracing / tracing** → “trazado” (and “trazado distribuido” where helpful)
 - **trace** → “traza” (e.g., “spans de traza”)
+
+## Canonical term choices (use these consistently)
+
+Use these canonical choices across Spanish content for consistency:
+
+- **mesh**: “la mesh” (avoid “malla” and “malla de servicios”)
+- **namespace**: “namespace” (avoid “espacio de nombres” in technical contexts)
+- **control plane / data plane**: “control plane” / “data plane” (avoid “plano de control” / “plano de datos”)
+- **gateway**: “gateway” (avoid “puerta(s) de enlace”)
+- **distributed tracing**: “trazado” / “trazado distribuido” (avoid “rastreo” for tracing; keep YAML keys like `tracing` unchanged)
 
 ## Style guidelines (Spanish)
 

@@ -14,7 +14,7 @@ Queremos agradecer a la [Cloud Native Computing Foundation](https://cncf.io/) po
 
 ## Alcance y hallazgos generales
 
-[Istio recibió su primera evaluación de seguridad en 2020](/blog/2021/ncc-security-assessment/), y su plano de datos, el [proxy Envoy](https://envoyproxy.io/), fue [evaluado independientemente en 2018 y 2021](https://github.com/envoyproxy/envoy#security-audit). Por lo tanto, el Grupo de Trabajo de Seguridad de Productos de Istio y ADA Logics decidieron el siguiente alcance:
+[Istio recibió su primera evaluación de seguridad en 2020](/blog/2021/ncc-security-assessment/), y su data plane, el [proxy Envoy](https://envoyproxy.io/), fue [evaluado independientemente en 2018 y 2021](https://github.com/envoyproxy/envoy#security-audit). Por lo tanto, el Grupo de Trabajo de Seguridad de Productos de Istio y ADA Logics decidieron el siguiente alcance:
 
 * Producir un modelo de amenazas formal, para guiar esta y futuras auditorías de seguridad
 * Realizar una auditoría manual del código en busca de problemas de seguridad
@@ -61,7 +61,7 @@ Tanto los auditores como los mantenedores señalan que el Operador no se recomie
 
 Los problemas restantes encontrados fueron:
 
-* En algún código de prueba, o donde un componente del plano de control se conecta a otro componente a través de localhost, no se aplicaban las configuraciones mínimas de TLS (#6)
+* En algún código de prueba, o donde un componente del control plane se conecta a otro componente a través de localhost, no se aplicaban las configuraciones mínimas de TLS (#6)
 * Las operaciones que fallaban podrían no devolver códigos de error (#7)
 * Se estaba utilizando una biblioteca obsoleta (#8)
 * Condiciones de carrera [TOC/TOU](https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use) en una biblioteca utilizada para copiar archivos (#9)

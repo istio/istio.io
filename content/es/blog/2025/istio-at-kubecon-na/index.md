@@ -54,7 +54,7 @@ En [Istio: Set Sailing With Istio Without Sidecars](https://www.youtube.com/watc
 
 La sesión [Lecciones aplicadas construyendo un proxy de IA de próxima generación](https://www.youtube.com/watch?v=qa5vSE86z-s&pp=0gcJCRUKAYcqIYzv) llevó a la multitud detrás de escena de cómo las tecnologías de malla se adaptan a patrones de tráfico impulsados por IA—aplicando la malla no solo a servicios, sino al servicio de modelos, inferencia y flujo de datos.
 
-En **Dimensionamiento automático correcto para cargas de trabajo DaemonSet de Istio (Sesión de póster)**, los practicantes se reunieron para comparar estrategias para optimizar recursos del plano de control, ajustando para alta escala y reduciendo costos sin sacrificar el rendimiento.
+En **Dimensionamiento automático correcto para cargas de trabajo DaemonSet de Istio (Sesión de póster)**, los practicantes se reunieron para comparar estrategias para optimizar recursos del control plane, ajustando para alta escala y reduciendo costos sin sacrificar el rendimiento.
 
 La narrativa de la evolución de la gestión de tráfico apareció prominentemente en [Gateway API: Table Stakes](https://www.youtube.com/watch?v=RWFDjA6ZeWc) y su hermano más rápido [¡Conozca antes de ir! Introducción acelerada a Gateway API](https://www.youtube.com/watch?v=Cd0hGGydUGo). Estas sesiones trajeron caminos fundamentales e introductorios al ingress y control de malla modernos.
 
