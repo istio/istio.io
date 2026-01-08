@@ -45,6 +45,7 @@ C++ 实现 Wasm 扩展。
 - [Istio 生态 Wasm 扩展](https://github.com/istio-ecosystem/wasm-extensions)
 - [Proxy-Wasm ABI 说明](https://github.com/proxy-wasm/spec)
 - [Proxy-Wasm C++ SDK](https://github.com/proxy-wasm/proxy-wasm-cpp-sdk)
+- [Proxy-Wasm Go SDK](https://github.com/proxy-wasm/proxy-wasm-go-sdk)
 - [Proxy-Wasm Rust SDK](https://github.com/proxy-wasm/proxy-wasm-rust-sdk)
 - [Proxy-Wasm AssemblyScript SDK](https://github.com/solo-io/proxy-runtime)
 - [WebAssembly Hub](https://webassemblyhub.io/)
