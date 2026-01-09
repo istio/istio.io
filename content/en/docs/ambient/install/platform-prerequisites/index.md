@@ -28,17 +28,15 @@ On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/task
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: gcp-critical-pods
-  namespace: istio-system
+name: gcp-critical-pods
+namespace: istio-system
 spec:
-  hard:
-    pods: 1000
-  scopeSelector:
-    matchExpressions:
-    - operator: In
-      scopeName: PriorityClass
-      values:
-      - system-node-critical
+hard:
+pods: 1000
+scopeSelector:
+matchExpressions: - operator: In
+scopeName: PriorityClass
+values: - system-node-critical
 {{< /text >}}
 
 #### Platform profile
@@ -99,10 +97,10 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 
 When using [k3d](https://k3d.io/) with the default Flannel CNI, you must append the correct `platform` value to your installation commands, as k3d uses nonstandard locations for CNI configuration and binaries which requires some Helm overrides.
 
-1. Create a cluster with Traefik disabled so it doesn't conflict with Istio's ingress gateways:
+1.  Create a cluster with Traefik disabled so it doesn't conflict with Istio's ingress gateways:
 
     {{< text bash >}}
-    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:*'
+    $ k3d cluster create --api-port 6550 -p '9080:80@loadbalancer' -p '9443:443@loadbalancer' --agents 2 --k3s-arg '--disable=traefik@server:\*'
     {{< /text >}}
 
 1.  Set `global.platform=k3d` when installing Istio charts. For example:
@@ -269,47 +267,32 @@ The following configurations apply to all platforms, when certain {{< gloss "CNI
 
 ### Cilium
 
-1. Cilium currently defaults to proactively deleting other CNI plugins and their config, and must be configured with
-`cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
-1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
-1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
-applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
+1.  Cilium currently defaults to proactively deleting other CNI plugins and their config, and must be configured with
+    `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
+1.  Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
+1.  Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
+    applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
-    This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
+        This can be resolved by applying the following `CiliumClusterWideNetworkPolicy`:
 
-    {{< text syntax=yaml >}}
-    apiVersion: "cilium.io/v2"
-    kind: CiliumClusterwideNetworkPolicy
-    metadata:
-      name: "allow-ambient-hostprobes"
-    spec:
-      description: "Allows SNAT-ed kubelet health check probes into ambient pods"
-      enableDefaultDeny:
-        egress: false
-        ingress: false
-      endpointSelector: {}
-      ingress:
-      - fromCIDR:
-        - "169.254.7.127/32"
-    {{< /text >}}
+        {{< text syntax=yaml >}}
+        apiVersion: "cilium.io/v2"
+        kind: CiliumClusterwideNetworkPolicy
+        metadata:
+          name: "allow-ambient-hostprobes"
+        spec:
+          description: "Allows SNAT-ed kubelet health check probes into ambient pods"
+          enableDefaultDeny:
+            egress: false
+            ingress: false
+          endpointSelector: {}
+          ingress:
+          - fromCIDR:
+            - "169.254.7.127/32"
+        {{< /text >}}
 
-    This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
+        This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
-    Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
+        Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
 
-You can run Cilium with Istio in two ways:
-
-1.  **With kube-proxy present (recommended):**
-
-    - Set `kubeProxyReplacement: false` (the default).
-    - Cilium does not fully replace kube-proxy; kube-proxy continues to handle ClusterIP routing.
-    - This is the recommended setup for using Istio with minimal disruption, particularly in sidecar or ambient mode.
-
-1.  **With kube-proxy removed (full replacement):**
-
-    - Set `kubeProxyReplacement: true`, `socketLB.hostNamespaceOnly: true`, and `cni.exclusive: false`.
-    - These settings prevent Cilium’s socket-based load balancing from interfering with Istio’s proxying.
-    - kube-proxy can be removed in this mode, but these configurations are required to ensure compatibility.
-
-In summary, you can run Istio with Cilium and kube-proxy by setting `kubeProxyReplacement: false` (the default and recommended for most Istio installs);
-or you can run without kube-proxy by setting `kubeProxyReplacement: true`, but you must carefully configure Cilium to avoid conflicts with Istio.
+When Cilium is used to replace kube-proxy, take note of the additional configuration options required to ensure proper operation with Istio in ambient mode described in the [Cilium documentation](https://docs.cilium.io/en/stable/operations/istio/).
