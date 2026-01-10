@@ -8482,6 +8482,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </tr>
 </thead>
 <tbody>
+<tr id='ambient-enable-dry-run-authorization-policy'>
+<td><a href='#ambient-enable-dry-run-authorization-policy'><code>AMBIENT_ENABLE_DRY_RUN_AUTHORIZATION_POLICY</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, ztunnel will be configured with dry-run authorizationPolicies. Ensure ztunnel is 1.29 or above before enabling this feature. Older ztunnel will accept dry-run policies, but enforce them instead of only logging.</td>
+</tr>
 <tr id='ambient-enable-multi-network'>
 <td><a href='#ambient-enable-multi-network'><code>AMBIENT_ENABLE_MULTI_NETWORK</code></a></td>
 <td>Boolean</td>
@@ -9448,7 +9454,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><a href='#pilot-spawn-upstream-span-for-gateway'><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></a></td>
 <td>Boolean</td>
 <td><code>true</code></td>
-<td>If true, separate tracing span for each upstream request for gateway.</td>
+<td>If true, separate tracing span for each upstream request for gateway. This is only available when using Telemetry API.</td>
 </tr>
 <tr id='pilot-status-max-workers'>
 <td><a href='#pilot-status-max-workers'><code>PILOT_STATUS_MAX_WORKERS</code></a></td>
