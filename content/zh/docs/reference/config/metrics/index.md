@@ -53,48 +53,61 @@ aliases:
 * **TCP 已关闭连接数** (`istio_tcp_connections_closed_total`)：这是一个 `COUNTER`
   类型的指标，用于记录 TCP 已关闭的连接总数。
 
+Istio 发出的指标可以通过 [`Telemetry` 资源的 `metricsOverrides` 字段](/zh/docs/reference/config/telemetry/#MetricsOverrides)
+进行覆盖；详情请参阅 [Telemetry API](/zh/docs/tasks/observability/telemetry/)。
+
 ## 标签 {#label}
 
-* **Reporter**：标识请求指标的上报端。如果指标由服务端 Istio 代理上报，则设置为
+标签被添加到指标中，用于标识唯一的序列或提供辅助信息。
+
+在 Prometheus 抓取数据时显示的标签名称以及在配置中引用该标签时使用的名称，如下所示（括号内）。
+
+* **Reporter**（`reporter`）：标识请求指标的上报端。如果指标由服务端 Istio 代理上报，则设置为
   `destination`，如果指标由客户端 Istio 代理或网关上报，则设置为 `source`。
 
-* **Source Workload**：标识源工作负载的名称，如果缺少源信息，则标识为 `unknown`。
+* **Source Workload**（`source_workload`）：标识源工作负载的名称，如果缺少源信息，则标识为 `unknown`。
 
-* **Source Workload Namespace**：标识源工作负载的命名空间，如果缺少源信息，则标识为 `unknown`。
+  另请参阅工作负载标签 [`service.istio.io/workload-name`](/zh/docs/reference/config/labels/index.html)
+  和代理环境变量 `ISTIO_META_WORKLOAD_NAME`。
 
-* **Source Principal**：标识流量源的对等主体。当使用对等身份验证时设置。
+* **Source Workload Namespace**（`source_workload_namespace`）：标识源工作负载的命名空间，如果缺少源信息，则标识为 `unknown`。
 
-* **Source App**：根据源工作负载的 `app` 标签标识源应用程序，如果源信息丢失，则标识为 `unknown`。
+* **Source Principal**（`source_princpial`）：标识流量源的对等主体。当使用对等身份验证时设置。
 
-* **Source Version**：标识源工作负载的版本，如果源信息丢失，则标识为 `unknown`。
+* **Source App**（`source_app`）：根据源工作负载的 `app` 标签标识源应用程序，如果源信息丢失，则标识为 `unknown`。
 
-* **Destination Workload**：标识目标工作负载的名称，如果目标信息丢失，则标识为 `unknown`。
+* **Source Version**（`source_version`）：标识源工作负载的版本，如果源信息丢失，则标识为 `unknown`。
 
-* **Destination Workload Namespace**：标识目标工作负载的命名空间，
+* **Destination Workload**（`destination_workload`）：标识目标工作负载的名称，如果目标信息丢失，则标识为 `unknown`。
+
+  另请参阅工作负载标签 [`service.istio.io/workload-name`](/zh/docs/reference/config/labels/index.html)
+  和代理环境变量 `ISTIO_META_WORKLOAD_NAME`。
+
+* **Destination Workload Namespace**（`DESTINATION_WORKLOAD_NAMESPACE`）：标识目标工作负载的命名空间，
   如果目标信息丢失，则标识为 `unknown`。
 
-* **Destination Principal**：标识流量目标的对等主体。使用对等身份验证时设置。
+* **Destination Principal**（`destination_principal`）：标识流量目标的对等主体。使用对等身份验证时设置。
 
-* **Destination App**：它根据目标工作负载的 `app` 标签标识目标应用程序，
+* **Destination App**（`destination_app`）：它根据目标工作负载的 `app` 标签标识目标应用程序，
   如果目标信息丢失，则标识为 `unknown`。
 
-* **Destination Version**：标识目标工作负载的版本，如果目标信息丢失，则标识为 `unknown`。
+* **Destination Version**（`destination_version`）：标识目标工作负载的版本，如果目标信息丢失，则标识为 `unknown`。
 
-* **Destination Service**：标识负责传入请求的目标服务主机。例如 `details.default.svc.cluster.local`。
+* **Destination Service**（`destination_service`）：标识负责传入请求的目标服务主机。例如 `details.default.svc.cluster.local`。
 
-* **Destination Service Name**：标识目标服务名称。例如：`details`。
+* **Destination Service Name**（`destination_service_name`）：标识目标服务名称。例如：`details`。
 
-* **Destination Service Namespace**：标识目标服务的命名空间。
+* **Destination Service Namespace**（`destination_service_namespace`）：标识目标服务的命名空间。
 
-* **Request Protocol**：标识请求的协议。设置为请求或连接协议。
+* **Request Protocol**（`request_protocol`）：标识请求的协议。设置为请求或连接协议。
 
-* **Response Code**：标识请求的响应代码。此标签仅出现在 HTTP 指标上。
+* **Response Code**（`response_code`）：标识请求的响应代码。此标签仅出现在 HTTP 指标上。
 
-* **Connection Security Policy**：标识请求的服务认证策略。当 Istio
+* **Connection Security Policy**（`connection_security_policy`）：标识请求的服务认证策略。当 Istio
   使用安全策略来保证通信安全时，如果指标由服务端 Istio 代理上报，则将其设置为
   `mutual_tls`。如果指标由客户端 Istio 代理上报，由于无法正确填充安全策略，因此将其设置为 `unknown`。
 
-* **Response Flags**：有关来自代理的响应或连接的其他详细信息。如果是 Envoy，请参阅
+* **Response Flags**（`response_flags`）：有关来自代理的响应或连接的其他详细信息。如果是 Envoy，请参阅
   [Envoy 访问日志](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)中的
   `％RESPONSE_FLAGS％` 获取更多信息。
 
@@ -108,10 +121,17 @@ aliases:
     destination_canonical_revision
     {{< /text >}}
 
-* **Destination Cluster**：目标工作负载的集群名称。这是由集群安装时的
+  另请参阅标签 [`service.istio.io/canonical-name`](/zh/docs/reference/config/labels/#ServiceCanonicalName)
+  和 [`service.istio.io/canonical-revision`](/zh/docs/reference/config/labels/#ServiceCanonicalRevision)。
+
+* **Destination Cluster**（`destination_cluster`）：目标工作负载的集群名称。这是由集群安装时的
   `global.multiCluster.clusterName` 设置的。
 
-* **Source Cluster**：源工作负载的集群名称。这是由集群安装时的
+* **Source Cluster**（`source_cluster`）：源工作负载的集群名称。这是由集群安装时的
   `global.multiCluster.clusterName` 设置的。
 
-* **gRPC Response Status**：这标识了 gRPC 的响应状态。这个标签仅出现在 gRPC 指标上。
+* **gRPC Response Status**（`grpc_response_status`）：这标识了 gRPC 的响应状态。这个标签仅出现在 gRPC 指标上。
+
+可以使用 [`Telemetry` 资源的 `metricsOverrides.tagOverride` 字段](/zh/docs/reference/config/telemetry/#MetricsOverrides)来禁用指标维度；
+详情请参阅 [Telemetry API](/zh/docs/tasks/observability/telemetry/)。
+此外，还可以使用[指标分类](/zh/docs/tasks/observability/metrics/classify-metrics/)过滤器添加或修改标签。
