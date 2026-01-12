@@ -62,6 +62,21 @@ Default timeout is 10s.</p>
 
 </td>
 </tr>
+<tr id="MeshConfig-hbone_idle_timeout">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-hbone_idle_timeout">hboneIdleTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>Idle timeout configured on Envoy proxies for their connection pools to ztunnel via HBONE.
+This controls how long Envoy will keep idle connections to ztunnel before closing them.
+Note: This setting is applied only on the Envoy proxy side; ztunnel does not use it.
+Default timeout is 1 hour (3600s).
+For environments with aggressive IP address reuse, it is recommended to set
+this to a value less than the CNI IP cooldown period to prevent stale connection reuse.
+For example, if your CNI has a 30s cooldown period, setting this to 15s is recommended.</p>
+
+</td>
+</tr>
 <tr id="MeshConfig-tcp_keepalive">
 <td><div class="field"><div class="name"><code><a href="#MeshConfig-tcp_keepalive">tcpKeepalive</a></code></div>
 <div class="type"><a href="/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-TCPSettings-TcpKeepalive">TcpKeepalive</a></div>
