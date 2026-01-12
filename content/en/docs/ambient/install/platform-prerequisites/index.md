@@ -296,3 +296,5 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
     This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
+
+When Cilium is used to replace kube-proxy, take note of the additional configuration options required to ensure proper operation with Istio in ambient mode described in the [Cilium documentation](https://docs.cilium.io/en/stable/network/servicemesh/istio/).
