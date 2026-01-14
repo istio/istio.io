@@ -17,7 +17,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Added** `service.selectorLabels` field to gateway Helm chart for custom service selector labels during revision-based migrations.
 
-- **Fixed** an issue with a memory leak in ambient mode.
+- **Fixed** an issue with goroutine memory leaks in ambient mode.
   ([Issue #58478](https://github.com/istio/istio/issues/58478))
 
 - **Fixed** an issue in ambient multicluster where informer failures for remote clusters wouldn't be fixed until an istiod restart.
