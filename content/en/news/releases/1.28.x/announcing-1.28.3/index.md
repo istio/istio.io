@@ -25,5 +25,3 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue with crashing NFT operations and pod deletion failures.
   ([Issue #58492](https://github.com/istio/istio/issues/58492))
-
-
