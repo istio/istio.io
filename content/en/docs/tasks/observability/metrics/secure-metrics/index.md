@@ -44,7 +44,7 @@ To enable secure metrics scraping, Prometheus requires an Istio sidecar to authe
     The Istio sidecar injected into the Prometheus pod is used only to provision an Istio workload certificate for mTLS authentication. Traffic interception is explicitly disabled and Prometheus continues to operate as a standard Kubernetes workload. As an alternative, Istio can be integrated with [cert-manager](docs/ops/integrations/certmanager/) to provision certificates for Prometheus. In that model, an Istio sidecar is not required.
     {{< /tip >}}
 
-1. Update Prometheus Deployment pod template
+1. Update the Prometheus Deployment pod template
 
     Istio provides a sample Prometheus installation at `samples/addons/prometheus.yaml`. Modify `samples/addons/prometheus.yaml` to annotate the Prometheus deployment to enable sidecar injection, mount Istio certificates, and configure the proxy:
 
@@ -81,7 +81,7 @@ To enable secure metrics scraping, Prometheus requires an Istio sidecar to authe
     * `INBOUND_CAPTURE_PORTS: ""` prevents the sidecar from intercepting Prometheus traffic.
     * `userVolumeMount` mounts the certificates inside Prometheus.
 
-1. Modify Prometheus Scrape Job Configuration in `samples/addons/prometheus.yaml` to add an additional job for scraping secure metrics:
+1. Modify the Prometheus Scrape Job Configuration in `samples/addons/prometheus.yaml` to add an additional job for scraping secure metrics:
 
     {{< text yaml >}}
     - job_name: 'istio-secure-merged-metrics'
@@ -110,7 +110,7 @@ To enable secure metrics scraping, Prometheus requires an Istio sidecar to authe
         insecure_skip_verify: true
     {{< /text >}}
 
-1. Verify Prometheus pod has Istio sidecar
+1. Verify the Prometheus pod has an Istio sidecar
 
     {{< text bash >}}
     $ kubectl get pod <prometheus-pod> -n monitoring -o jsonpath='{.spec.containers[*].name}'
@@ -167,11 +167,11 @@ This task uses `httpbin` as the example workload to generate traffic and metrics
 
 ## Secure Metrics for Gateways
 
-Istio Gateways expose metrics that Prometheus can scrape. By default, these metrics are on ports `15020` for merged telemetry, and `15090` for Envoy-only telemetry and are not mTLS-protected. The following steps configure secure scraping over port 15091 using Istio mTLS.
+Istio Gateways expose metrics that Prometheus can scrape. By default, these metrics are on ports `15020` for merged telemetry and `15090` for Envoy-only telemetry, and they are not mTLS-protected. The following steps configure secure scraping over port 15091 using Istio mTLS.
 
-1. Create Gateway with secure listener on port `15091`.
+1. Create a `Gateway` with secure listener on port `15091`.
 
-    We create a Gateway to expose both standard HTTP traffic and a dedicated secure HTTPS port for metrics. The HTTPS server uses `ISTIO_MUTUAL` TLS mode so that only clients with Istio-issued certificates (like the Prometheus sidecar) can scrape metrics.
+    We create a `Gateway` to expose both standard HTTP traffic and a dedicated secure HTTPS port for metrics. The HTTPS server uses `ISTIO_MUTUAL` TLS mode so that only clients with Istio-issued certificates (like the Prometheus sidecar) can scrape metrics.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -199,9 +199,9 @@ Istio Gateways expose metrics that Prometheus can scrape. By default, these metr
     EOF
     {{< /text >}}
 
-1. ServiceEntry for Gateway telemetry port (15020 or 15090)
+1. Create a `ServiceEntry` for the `Gateway` telemetry port (15020 or 15090)
 
-    Prometheus cannot directly access the gateway’s internal ports unless they are exposed in the mesh. A ServiceEntry allows Prometheus to route requests inside the mesh to these ports. You can choose 15020 for merged telemetry or 15090 for Envoy-only telemetry.
+    Prometheus cannot directly access the gateway’s internal ports unless they are exposed in the mesh. A `ServiceEntry` allows Prometheus to route requests inside the mesh to these ports. You can choose 15020 for merged telemetry or 15090 for Envoy-only telemetry.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -223,9 +223,9 @@ Istio Gateways expose metrics that Prometheus can scrape. By default, these metr
     EOF
     {{< /text >}}
 
-1. VirtualService to route metrics
+1. Create a `VirtualService` to route metrics
 
-    The VirtualService maps requests from the secure listener (15091) to the ServiceEntry pointing to the telemetry port (15020 or 15090). This ensures that metrics requests sent to `https://<gateway-ip>:15091/stats/prometheus` are properly routed inside the mesh.
+    The `VirtualService` maps requests from the secure listener (15091) to the `ServiceEntry` pointing to the telemetry port (15020 or 15090). This ensures that metrics requests sent to `https://<gateway-ip>:15091/stats/prometheus` are properly routed inside the mesh.
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -249,7 +249,7 @@ Istio Gateways expose metrics that Prometheus can scrape. By default, these metr
     EOF
     {{< /text >}}
 
-1. Annotate the Gateway pod
+1. Annotate the `Gateway` pod
 
     {{< text bash >}}
     $ kubectl annotate pod -n istio-system <ingress-pod> prometheus.istio.io/secure-port=15091 --overwrite
