@@ -9,10 +9,6 @@ test: no
 
 This task demonstrates how to **securely scrape Istio sidecar and gateway metrics** using Prometheus over **Istio mTLS**. By default, Prometheus scrapes metrics from Istio workloads and gateways over HTTP. In this task, you configure Istio and Prometheus so that metrics are scraped securely over encrypted connections. This document focuses specifically on Envoy and Istio-generated telemetry exposed by sidecars and gateways. It does not cover application-level metrics emitted by workloads themselves. For general Prometheus integration with Istio, including application metrics, see the [Prometheus integration](/docs/ops/integrations/prometheus/) documentation.
 
-{{< warning >}}
-This configuration avoids scraping Istio telemetry ports (15020/15090) directly over HTTPS and uses a secure fronting port.
-{{< /warning >}}
-
 ## Understand default metrics scraping
 
 By default, Istio exposes metrics on the `/stats/prometheus` endpoint:
