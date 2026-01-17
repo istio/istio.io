@@ -66,7 +66,7 @@ HTTP/2 200
 ...
 ENDSNIP
 
-snip_apply_origination() {
+snip_apply_origination_serviceentry() {
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
@@ -84,7 +84,11 @@ spec:
     name: https-port
     protocol: HTTPS
   resolution: DNS
----
+EOF
+}
+
+snip_apply_origination_destinationrule() {
+kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
@@ -97,6 +101,24 @@ spec:
         number: 80
       tls:
         mode: SIMPLE # initiates HTTPS when accessing edition.cnn.com
+EOF
+}
+
+snip_apply_origination_backendtlspolicy() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: edition-cnn-com
+spec:
+  targetRefs:
+  - group: networking.istio.io
+    kind: ServiceEntry
+    name: edition-cnn-com
+    sectionName: http-port
+  validation:
+    hostname: edition.cnn.com
+    wellKnownCACertificates: System
 EOF
 }
 
@@ -121,6 +143,11 @@ ENDSNIP
 snip_cleanup_the_tls_origination_configuration_1() {
 kubectl delete serviceentry edition-cnn-com
 kubectl delete destinationrule edition-cnn-com
+}
+
+snip_cleanup_the_tls_origination_configuration_2() {
+kubectl delete serviceentry edition-cnn-com
+kubectl delete backendtlspolicy edition-cnn-com
 }
 
 snip_generate_client_and_server_certificates_and_keys_1() {
