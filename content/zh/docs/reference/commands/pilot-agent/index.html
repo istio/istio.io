@@ -751,6 +751,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 <td><code>false</code></td>
 <td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
 </tr>
+<tr id='blocked-cidrs-in-jwks-uris'>
+<td><a href='#blocked-cidrs-in-jwks-uris'><code>BLOCKED_CIDRS_IN_JWKS_URIS</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of CIDR ranges that are blocked in JWKS URIs (e.g., 10.0.0.0/8,192.168.1.0/24).</td>
+</tr>
 <tr id='ca-addr'>
 <td><a href='#ca-addr'><code>CA_ADDR</code></a></td>
 <td>String</td>
