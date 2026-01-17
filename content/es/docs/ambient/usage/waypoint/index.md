@@ -27,7 +27,7 @@ Cuando configuras la redirección a un waypoint, el tráfico será reenviado por
 
 * **Gestión del tráfico**: enrutamiento y balanceo de carga HTTP, interrupción de circuito, limitación de velocidad, inyección de fallas, reintentos, tiempos de espera
 * **Seguridad**: políticas de autorización enriquecidas basadas en primitivas L7 como el tipo de solicitud o el encabezado HTTP
-* **Observabilidad**: métricas HTTP, registro de acceso, rastreo
+* **Observabilidad**: métricas HTTP, registro de acceso, trazado
 
 ## Desplegar un proxy de waypoint
 

@@ -119,17 +119,17 @@ Para obtener más información sobre qué métricas se mantienen, consulte la [d
 
 ## Trazas distribuidas
 
-El rastreo distribuido proporciona una forma de monitorear y comprender el comportamiento al monitorear solicitudes individuales a medida que fluyen a través de un mesh.
+El trazado distribuido proporciona una forma de monitorear y comprender el comportamiento al monitorear solicitudes individuales a medida que fluyen a través de un mesh.
 Las trazas permiten a los operadores de la mesh comprender las dependencias del servicio y las fuentes de latencia dentro de su service mesh.
 
-Istio admite el rastreo distribuido a través de los proxies de Envoy. Los proxies generan automáticamente tramos de traza en nombre de las aplicaciones que representan,
+Istio admite el trazado distribuido a través de los proxies de Envoy. Los proxies generan automáticamente tramos de traza en nombre de las aplicaciones que representan,
 requiriendo solo que las aplicaciones reenvíen el contexto de solicitud apropiado.
 
-Istio admite una serie de backends de rastreo, incluidos [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/),
+Istio admite una serie de backends de trazado, incluidos [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/),
 [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/) y muchas herramientas y servicios que admiten [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/). Los operadores controlan la frecuencia de muestreo para la generación de trazas (es decir, la frecuencia con la
-que se generan los datos de rastreo por solicitud). Esto permite a los operadores controlar la cantidad y la velocidad de los datos de rastreo que se producen para su malla.
+que se generan los datos de trazado por solicitud). Esto permite a los operadores controlar la cantidad y la velocidad de los datos de trazado que se producen para su malla.
 
-Se puede encontrar más información sobre el rastreo distribuido con Istio en nuestras [Preguntas frecuentes sobre el rastreo distribuido](/es/about/faq/#distributed-tracing).
+Se puede encontrar más información sobre el trazado distribuido con Istio en nuestras [Preguntas frecuentes sobre el trazado distribuido](/es/about/faq/#distributed-tracing).
 
 Traza distribuida generada por Istio de ejemplo para una sola solicitud:
 

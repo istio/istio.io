@@ -10,7 +10,7 @@ keywords: [ambient,demo,guide]
 Consulta la última [documentación de primeros pasos con ambient mesh](/docs/ambient/getting-started/) para obtener instrucciones actualizadas.
 {{< /warning >}}
 
-Ambient mesh es [un nuevo modo de plano de datos para Istio presentado hoy](/blog/2022/introducing-ambient-mesh/). Siguiendo esta guía de primeros pasos, podrás ver cómo ambient mesh puede simplificar la incorporación de aplicaciones, ayudar en las operaciones continuas y reducir el consumo de recursos de la infraestructura del service mesh.
+Ambient mesh es [un nuevo modo de data plane para Istio presentado hoy](/blog/2022/introducing-ambient-mesh/). Siguiendo esta guía de primeros pasos, podrás ver cómo ambient mesh puede simplificar la incorporación de aplicaciones, ayudar en las operaciones continuas y reducir el consumo de recursos de la infraestructura del service mesh.
 
 ## Instalar Istio con modo Ambient
 
@@ -352,7 +352,7 @@ $ kubectl exec -it deploy/sleep -- sh -c 'for i in $(seq 1 100); do curl -s http
 
 ## Para terminar
 
-Los recursos existentes de Istio siguen funcionando, independientemente de si eliges usar el modo de plano de datos sidecar o ambient.
+Los recursos existentes de Istio siguen funcionando, independientemente de si eliges usar el modo de data plane sidecar o ambient.
 
 Echa un vistazo a este breve vídeo para ver a Lin recorriendo la demo de Istio ambient mesh en 5 minutos:
 
@@ -360,4 +360,4 @@ Echa un vistazo a este breve vídeo para ver a Lin recorriendo la demo de Istio 
 
 ## Qué sigue
 
-Estamos muy entusiasmados con el nuevo plano de datos ambient de Istio y su arquitectura "ambient" sencilla. Incorporar aplicaciones a un service mesh con el modo ambient ahora es tan simple como etiquetar un namespace. Tus aplicaciones obtendrán beneficios inmediatos como mTLS con identidad criptográfica para el tráfico del mesh y observabilidad L4. Si necesitas controlar acceso, rutas, aumentar resiliencia u obtener métricas L7 entre tus aplicaciones en ambient mesh, puedes aplicar waypoint proxies según lo necesites. Somos muy partidarios de pagar solo por lo que necesitamos: no solo ahorra recursos, sino que también reduce el coste operativo de tener que actualizar constantemente muchos proxies. Te invitamos a probar la nueva arquitectura de plano de datos ambient de Istio para experimentar lo sencilla que es. ¡Esperamos tu [feedback](http://slack.istio.io) en la comunidad de Istio!
+Estamos muy entusiasmados con el nuevo data plane ambient de Istio y su arquitectura "ambient" sencilla. Incorporar aplicaciones a un service mesh con el modo ambient ahora es tan simple como etiquetar un namespace. Tus aplicaciones obtendrán beneficios inmediatos como mTLS con identidad criptográfica para el tráfico del mesh y observabilidad L4. Si necesitas controlar acceso, rutas, aumentar resiliencia u obtener métricas L7 entre tus aplicaciones en ambient mesh, puedes aplicar waypoint proxies según lo necesites. Somos muy partidarios de pagar solo por lo que necesitamos: no solo ahorra recursos, sino que también reduce el coste operativo de tener que actualizar constantemente muchos proxies. Te invitamos a probar la nueva arquitectura de data plane ambient de Istio para experimentar lo sencilla que es. ¡Esperamos tu [feedback](http://slack.istio.io) en la comunidad de Istio!

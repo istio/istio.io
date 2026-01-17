@@ -1,6 +1,6 @@
 ---
-title: Terminology Standards
-description: Explains the terminology standards used in the Istio documentation.
+title: Estándares de terminología
+description: Explica los estándares de terminología utilizados en la documentación de Istio.
 weight: 12
 aliases:
     - /docs/welcome/contribute/style-guide.html
@@ -12,57 +12,57 @@ owner: istio/wg-docs-maintainers
 test: n/a
 ---
 
-To provide clarity to our users, use the standard terms in this section
-consistently within the documentation.
+Para ofrecer claridad a nuestros usuarios, usa de forma consistente en la documentación
+los términos estándar de esta sección.
 
 ## Service
 
-Avoid using the term **service**. Research shows that different folks understand
-different things under that term. The following table shows acceptable
-alternatives that provide greater specificity and clarity to readers:
+Evita usar el término **service**. La investigación muestra que distintas personas
+entienden cosas diferentes con ese término. La siguiente tabla muestra alternativas
+aceptables que aportan mayor especificidad y claridad a los lectores:
 
-|Do                                          | Don't
+|Haz                                         | No hagas
 |--------------------------------------------|-----------------------------------------
-| Workload A sends a request to Workload B.  | Service A sends a request to Service B.
-| New workload instances start when ...      | New service instances start when ...
-| The application consists of two workloads. | The service consists of two services.
+| El Workload A envía una solicitud al Workload B.  | El Service A envía una solicitud al Service B.
+| Las nuevas instancias de workload se inician cuando ...      | Las nuevas instancias de service se inician cuando ...
+| La aplicación consta de dos workloads. | El service consta de dos services.
 
-Our glossary establishes the agreed-upon terminology, and provides definitions to
-avoid confusion.
+El glosario establece la terminología acordada y proporciona definiciones para
+evitar confusiones.
 
 ## Envoy
 
-We prefer to use "Envoy” as it’s a more concrete term than "proxy" and
-resonates if used consistently throughout the docs.
+Es preferible usar “Envoy” porque es un término más concreto que “proxy” y resulta más
+claro si se utiliza de forma consistente en toda la documentación.
 
-Synonyms:
+Sinónimos:
 
 - "Envoy sidecar” - ok
 - "Envoy proxy” - ok
-- "The Istio proxy” -- best to avoid unless you’re talking about advanced
-  scenarios where another proxy might be used.
-- "Sidecar”  -- mostly restricted to conceptual docs
-- "Proxy" -- only if context is obvious
+- "The Istio proxy” -- mejor evitarlo salvo que estés hablando de escenarios avanzados
+  donde podría usarse otro proxy.
+- "Sidecar”  -- principalmente restringido a documentación conceptual
+- "Proxy" -- solo si el contexto es obvio
 
-Related Terms:
+Términos relacionados:
 
-- Proxy agent  - This is a minor infrastructural component and should only show
-  up in low-level detail documentation. It is not a proper noun.
+- Proxy agent  - Es un componente de infraestructura menor y solo debería aparecer
+  en documentación de bajo nivel/detalle. No es un nombre propio.
 
 ## Miscellaneous
 
-|Do              | Don't
+|Haz             | No hagas
 |----------------|------
 | addon          | `add-on`
 | Bookinfo       | `BookInfo`, `bookinfo`
-| certificate    | `cert`
-| colocate       | `co-locate`
-| configuration  | `config`
-| delete         | `kill`
+| certificado    | `cert`, `certificate`
+| ubicar / ubicado | `co-locate`, `co-located`
+| configuración  | `config`
+| eliminar       | `kill`
 | Kubernetes     | `kubernetes`, `k8s`
-| load balancing | `load-balancing`
+| balanceo de carga | `load-balancing`, `load balancing`
 | Mixer          | `mixer`
-| multicluster   | `multi-cluster`
-| mutual TLS     | `mtls`
+| multiclúster   | `multi-cluster`
+| TLS mutuo (mTLS) | `mtls`
 | service mesh   | `Service Mesh`
 | sidecar        | `side-car`, `Sidecar`

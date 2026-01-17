@@ -1,6 +1,6 @@
 ---
 title: "Presentamos Ambient Mesh"
-description: "Un nuevo modo de plano de datos para Istio sin sidecars."
+description: "Un nuevo modo de data plane para Istio sin sidecars."
 publishdate: 2022-09-07T07:00:00-06:00
 attribution: "John Howard (Google), Ethan J. Jackson (Google), Yuval Kohavi (Solo.io), Idit Levine (Solo.io), Justin Pettit (Google), Lin Sun (Solo.io)"
 keywords: [ambient]
@@ -10,7 +10,7 @@ keywords: [ambient]
 [¡El modo Ambient ya está disponible de forma general!](/blog/2024/ambient-reaches-ga/)
 {{< /tip >}}
 
-Hoy nos entusiasma presentar “ambient mesh” y su implementación de referencia: un nuevo modo de plano de datos de Istio diseñado para simplificar las operaciones, ampliar la compatibilidad con aplicaciones y reducir los costes de infraestructura. Ambient mesh ofrece a los usuarios la opción de prescindir de proxies sidecar en favor de un plano de datos integrado en su infraestructura, manteniendo las características principales de Istio: seguridad zero‑trust, telemetría y gestión del tráfico. Compartimos con la comunidad de Istio una vista previa de ambient mesh en la que estamos trabajando para llevarla a un nivel apto para producción en los próximos meses.
+Hoy nos entusiasma presentar “ambient mesh” y su implementación de referencia: un nuevo modo de data plane de Istio diseñado para simplificar las operaciones, ampliar la compatibilidad con aplicaciones y reducir los costes de infraestructura. Ambient mesh ofrece a los usuarios la opción de prescindir de proxies sidecar en favor de un data plane integrado en su infraestructura, manteniendo las características principales de Istio: seguridad zero‑trust, telemetría y gestión del tráfico. Compartimos con la comunidad de Istio una vista previa de ambient mesh en la que estamos trabajando para llevarla a un nivel apto para producción en los próximos meses.
 
 ## Istio y los sidecars
 
@@ -21,7 +21,7 @@ Desde sus inicios, una característica definitoria de la arquitectura de Istio h
     caption="El modelo tradicional de Istio despliega proxies Envoy como sidecars dentro de los pods de los workloads"
     >}}
 
-Aunque los sidecars tienen ventajas importantes frente a refactorizar aplicaciones, no proporcionan una separación perfecta entre las aplicaciones y el plano de datos de Istio. Esto conlleva algunas limitaciones:
+Aunque los sidecars tienen ventajas importantes frente a refactorizar aplicaciones, no proporcionan una separación perfecta entre las aplicaciones y el data plane de Istio. Esto conlleva algunas limitaciones:
 
 * **Invasividad** - Los sidecars deben “inyectarse” en las aplicaciones modificando el pod spec de Kubernetes y redirigiendo el tráfico dentro del pod. Como resultado, instalar o actualizar sidecars requiere reiniciar el pod de la aplicación, lo cual puede ser disruptivo para los workloads.
 * **Infrautilización de recursos** - Dado que el proxy sidecar está dedicado a su workload asociado, los recursos de CPU y memoria deben provisionarse para el peor caso de cada pod individual. Esto se acumula en grandes reservas que pueden llevar a infrautilización de recursos en todo el clúster.
@@ -31,12 +31,12 @@ Aunque los sidecars tienen su lugar — hablaremos más de esto más adelante �
 
 ## Dividir las capas
 
-Tradicionalmente, Istio implementa toda la funcionalidad del plano de datos — desde el cifrado básico hasta políticas L7 avanzadas — en un único componente arquitectónico: el sidecar.
+Tradicionalmente, Istio implementa toda la funcionalidad del data plane — desde el cifrado básico hasta políticas L7 avanzadas — en un único componente arquitectónico: el sidecar.
 En la práctica, esto convierte a los sidecars en una propuesta de “todo o nada”.
 Incluso si un workload solo necesita seguridad de transporte simple, los administradores deben pagar el coste operativo de desplegar y mantener un sidecar.
 Los sidecars tienen un coste operativo fijo por workload que no escala para ajustarse a la complejidad del caso de uso.
 
-El plano de datos ambient adopta un enfoque diferente.
+El data plane ambient adopta un enfoque diferente.
 Divide la funcionalidad de Istio en dos capas distintas.
 En la base, hay una capa segura (secure overlay) que gestiona el enrutamiento y la seguridad zero trust del tráfico.
 Encima, cuando se necesita, los usuarios pueden habilitar el procesamiento L7 para acceder a todo el conjunto de funcionalidades de Istio.
@@ -51,7 +51,7 @@ Este enfoque por capas permite a los usuarios adoptar Istio de manera más incre
 
 ## Construyendo una ambient mesh
 
-El modo de plano de datos ambient de Istio usa un agente compartido que se ejecuta en cada nodo del clúster Kubernetes. Este agente es un túnel zero‑trust (o **_ztunnel_**) y su responsabilidad principal es conectar y autenticar de forma segura los elementos dentro del mesh. La pila de red del nodo redirige todo el tráfico de los workloads participantes a través del agente ztunnel local. Esto separa completamente las preocupaciones del plano de datos de Istio de las de la aplicación, permitiendo que los operadores habiliten, deshabiliten, escalen y actualicen el plano de datos sin perturbar a las aplicaciones. El ztunnel no realiza procesamiento L7 en el tráfico de los workloads, lo que lo hace significativamente más ligero que los sidecars. Esta gran reducción en complejidad y en costes de recursos asociados hace que sea viable como infraestructura compartida.
+El modo de data plane ambient de Istio usa un agente compartido que se ejecuta en cada nodo del clúster Kubernetes. Este agente es un túnel zero‑trust (o **_ztunnel_**) y su responsabilidad principal es conectar y autenticar de forma segura los elementos dentro del mesh. La pila de red del nodo redirige todo el tráfico de los workloads participantes a través del agente ztunnel local. Esto separa completamente las preocupaciones del data plane de Istio de las de la aplicación, permitiendo que los operadores habiliten, deshabiliten, escalen y actualicen el data plane sin perturbar a las aplicaciones. El ztunnel no realiza procesamiento L7 en el tráfico de los workloads, lo que lo hace significativamente más ligero que los sidecars. Esta gran reducción en complejidad y en costes de recursos asociados hace que sea viable como infraestructura compartida.
 
 Los ztunnels habilitan la funcionalidad central de un service mesh: zero trust. Cuando se habilita el modo ambient para un namespace, se crea una capa segura. Proporciona a los workloads mTLS, telemetría, autenticación y autorización L4, sin terminar ni parsear HTTP.
 
@@ -63,7 +63,7 @@ Los ztunnels habilitan la funcionalidad central de un service mesh: zero trust. 
 Después de habilitar el modo ambient y crear la capa segura, un namespace puede configurarse para utilizar funcionalidades L7.
 Esto permite implementar el conjunto completo de capacidades de Istio, incluyendo la [API de Virtual Service](/docs/reference/config/networking/virtual-service/), la [telemetría L7](/docs/reference/config/telemetry/) y las [políticas de autorización L7](/docs/reference/config/security/authorization-policy/).
 Los namespaces que operan en este modo usan uno o más **_waypoint proxies_** basados en Envoy para manejar el procesamiento L7 de los workloads del namespace.
-El plano de control de Istio configura los ztunnels del clúster para pasar todo el tráfico que requiere procesamiento L7 a través del waypoint proxy.
+El control plane de Istio configura los ztunnels del clúster para pasar todo el tráfico que requiere procesamiento L7 a través del waypoint proxy.
 De forma importante, desde la perspectiva de Kubernetes, los waypoint proxies son pods normales que pueden autoescalarse como cualquier otro deployment de Kubernetes.
 Esperamos que esto genere ahorros significativos de recursos, ya que los waypoint proxies pueden autoescalarse para ajustarse a la demanda de tráfico en tiempo real de los namespaces a los que sirven, no al máximo “peor caso” que esperan los operadores.
 
@@ -74,7 +74,7 @@ Esperamos que esto genere ahorros significativos de recursos, ya que los waypoin
 
 Ambient mesh usa HTTP CONNECT sobre mTLS para implementar sus túneles seguros e insertar waypoint proxies en la ruta, un patrón que llamamos [HBONE (HTTP-Based Overlay Network Environment)](/docs/ambient/architecture/hbone/). HBONE proporciona una encapsulación de tráfico más limpia que TLS por sí solo, a la vez que permite interoperabilidad con infraestructura común de balanceadores de carga. Por defecto se usan builds FIPS para cumplir requisitos de conformidad. Se darán más detalles sobre HBONE, su enfoque basado en estándares y los planes para UDP y otros protocolos no TCP en un artículo futuro.
 
-Mezclar modos sidecar y ambient en un mismo mesh no introduce limitaciones en las capacidades ni en las propiedades de seguridad del sistema. El plano de control de Istio asegura que las políticas se apliquen correctamente independientemente del modelo de despliegue elegido. El modo ambient simplemente introduce una opción con mejor ergonomía y más flexibilidad.
+Mezclar modos sidecar y ambient en un mismo mesh no introduce limitaciones en las capacidades ni en las propiedades de seguridad del sistema. El control plane de Istio asegura que las políticas se apliquen correctamente independientemente del modelo de despliegue elegido. El modo ambient simplemente introduce una opción con mejor ergonomía y más flexibilidad.
 
 ## ¿Por qué no hay procesamiento L7 en el nodo local?
 
@@ -121,7 +121,7 @@ Esto hace que no sean peores que los sidecars de hoy; si un waypoint proxy se co
 ## ¿Es este el final del camino para el sidecar?
 
 Definitivamente no.
-Aunque creemos que ambient mesh será la mejor opción para muchos usuarios de mesh de aquí en adelante, los sidecars siguen siendo una buena elección para quienes necesitan recursos de plano de datos dedicados, por ejemplo por cumplimiento normativo o para ajuste fino de rendimiento.
+Aunque creemos que ambient mesh será la mejor opción para muchos usuarios de mesh de aquí en adelante, los sidecars siguen siendo una buena elección para quienes necesitan recursos de data plane dedicados, por ejemplo por cumplimiento normativo o para ajuste fino de rendimiento.
 Istio seguirá soportando sidecars y, de forma importante, permitirá que interoperan sin problemas con el modo ambient.
 De hecho, el código de modo ambient que publicamos hoy ya soporta interoperabilidad con Istio basado en sidecars.
 

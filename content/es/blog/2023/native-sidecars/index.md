@@ -193,7 +193,7 @@ Anteriormente, el pod estaría atascado en `Running`, mientras que ahora puede t
 
 ## ¿Qué hay del modo ambient?
 
-El año pasado, Istio anunció [modo ambient](/blog/2022/introducing-ambient-mesh/) - un nuevo modo de plano de datos para Istio que no depende de contenedores sidecar.
+El año pasado, Istio anunció [modo ambient](/blog/2022/introducing-ambient-mesh/) - un nuevo modo de data plane para Istio que no depende de contenedores sidecar.
 Entonces, con el modo ambient viniendo, ¿algo de esto importa?
 
 ¡Yo diría que un rotundo "Sí"!

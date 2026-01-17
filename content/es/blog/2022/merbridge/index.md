@@ -10,7 +10,7 @@ El secreto de las capacidades de Istio en gestión de tráfico, seguridad, obser
 
 Existen limitaciones al usar iptables para realizar esta interceptación. Dado que netfilter es una herramienta muy versátil para filtrar paquetes, se aplican varias reglas de enrutamiento y procesos de filtrado de datos antes de llegar al socket de destino. Por ejemplo, desde la capa de red hasta la capa de transporte, netfilter se usará varias veces con reglas predefinidas, como `pre_routing`, `post_routing`, etc. Cuando el paquete se convierte en un paquete TCP o UDP y se reenvía a espacio de usuario, se realizan pasos adicionales como validación del paquete, procesamiento de políticas de protocolo y búsqueda del socket de destino. Cuando un sidecar está configurado para interceptar tráfico, la ruta de datos original puede volverse muy larga, ya que se repiten pasos duplicados varias veces.
 
-Durante los últimos dos años, [eBPF](https://ebpf.io/) se ha convertido en una tecnología en tendencia, y muchos proyectos basados en eBPF se han publicado para la comunidad. Herramientas como [Cilium](https://cilium.io/) y [Pixie](http://px.dev) muestran grandes casos de uso de eBPF en observabilidad y procesamiento de paquetes de red. Con las capacidades `sockops` y `redir` de eBPF, los paquetes pueden procesarse eficientemente transportándose directamente desde un socket de entrada a un socket de salida. En una mesh de Istio, es posible usar eBPF para reemplazar reglas de iptables y acelerar el plano de datos acortando la ruta de datos.
+Durante los últimos dos años, [eBPF](https://ebpf.io/) se ha convertido en una tecnología en tendencia, y muchos proyectos basados en eBPF se han publicado para la comunidad. Herramientas como [Cilium](https://cilium.io/) y [Pixie](http://px.dev) muestran grandes casos de uso de eBPF en observabilidad y procesamiento de paquetes de red. Con las capacidades `sockops` y `redir` de eBPF, los paquetes pueden procesarse eficientemente transportándose directamente desde un socket de entrada a un socket de salida. En una mesh de Istio, es posible usar eBPF para reemplazar reglas de iptables y acelerar el data plane acortando la ruta de datos.
 
 Hemos creado un proyecto open source llamado Merbridge y, aplicando el siguiente comando a tu clúster gestionado por Istio, puedes usar eBPF para lograr esta aceleración de red.
 
@@ -40,7 +40,7 @@ Vamos a introducir los principios detallados de diseño e implementación de Mer
 
 Cuando el tráfico externo llega a los puertos de tu aplicación, será interceptado por una regla `PREROUTING` en iptables, reenviado al puerto 15006 del contenedor sidecar y entregado a Envoy para su procesamiento. Esto se muestra como los pasos 1-4 en la ruta roja del diagrama anterior.
 
-Envoy procesa el tráfico usando las políticas emitidas por el plano de control de Istio. Si se permite, el tráfico se enviará al puerto real del contenedor de la aplicación.
+Envoy procesa el tráfico usando las políticas emitidas por el control plane de Istio. Si se permite, el tráfico se enviará al puerto real del contenedor de la aplicación.
 
 Cuando la aplicación intenta acceder a otros servicios, será interceptada por una regla `OUTPUT` en iptables y luego se reenviará al puerto 15001 del contenedor sidecar, donde Envoy está escuchando. Esto corresponde a los pasos 9-12 en la ruta roja, de forma similar al procesamiento de tráfico entrante.
 
@@ -82,7 +82,7 @@ El procesamiento del tráfico entrante es básicamente similar al del tráfico d
 
 Cabe señalar que, como eBPF no puede aplicarse dentro de un namespace específico como iptables, el cambio será global; esto significa que si usamos un Pod que originalmente no está gestionado por Istio, o una dirección IP externa, pueden encontrarse problemas serios — como que la conexión no se establezca en absoluto.
 
-Como resultado, diseñamos un pequeño plano de control (desplegado como DaemonSet) que observa todos los pods — similar a cómo el kubelet observa pods en el nodo — para escribir en el mapa `local_pod_ips` las direcciones IP de los pods a los que se les ha inyectado el sidecar.
+Como resultado, diseñamos un pequeño control plane (desplegado como DaemonSet) que observa todos los pods — similar a cómo el kubelet observa pods en el nodo — para escribir en el mapa `local_pod_ips` las direcciones IP de los pods a los que se les ha inyectado el sidecar.
 
 Al procesar tráfico entrante, si la dirección de destino no está en el mapa, no haremos nada al tráfico.
 

@@ -19,7 +19,7 @@ que también se conoce como balanceo de conexiones.
 
 ## ¿Qué hace Istio para el balanceo de carga de conexiones?
 
-Istio utiliza Envoy como plano de datos.
+Istio utiliza Envoy como data plane.
 
 Envoy proporciona una implementación de balanceo de carga de conexiones llamada Exact connection balancer. Como su nombre lo indica, se mantiene un bloqueo durante el balanceo para que los recuentos de conexiones estén casi exactamente equilibrados entre los trabajadores. Es "casi" exacto en el sentido de que una conexión podría cerrarse en paralelo, haciendo que los recuentos sean incorrectos, pero esto debería rectificarse en la siguiente aceptación. Este balanceador sacrifica el rendimiento de aceptación por precisión y debe usarse cuando hay un pequeño número de conexiones que rara vez cambian, por ejemplo, salida gRPC de service mesh.
 

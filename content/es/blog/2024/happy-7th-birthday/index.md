@@ -57,7 +57,7 @@ de producción automatizadas. En última instancia, esto ha acelerado el proceso
 {{< /quote >}}
 
 {{< quote >}}
-**Istio mejora la seguridad de nuestra plataforma en la nube al tiempo que simplifica la observabilidad mediante la integración del rastreo
+**Istio mejora la seguridad de nuestra plataforma en la nube al tiempo que simplifica la observabilidad mediante la integración del trazado
 distribuido y OpenTelemetry. Esta combinación proporciona
 características de seguridad robustas y conocimientos profundos sobre el rendimiento del sistema, lo que permite un monitoreo y
 solución de problemas más efectivos de nuestros servicios distribuidos.**
@@ -68,7 +68,7 @@ solución de problemas más efectivos de nuestros servicios distribuidos.**
 {{< quote >}}
 **La adopción de Istio ha sido un cambio de juego para nuestra organización de ingeniería en nuestro viaje de adopción de una
 arquitectura basada en microservicios. Su enfoque de "baterías incluidas" nos ha permitido gestionar fácilmente el enrutamiento del tráfico, obtener una visibilidad profunda de nuestras interacciones de servicio a
-servicio con el rastreo distribuido y la extensibilidad a través de complementos WASM. Su completo conjunto de características
+servicio con el trazado distribuido y la extensibilidad a través de complementos WASM. Su completo conjunto de características
 lo ha convertido en una parte esencial de nuestra infraestructura y ha permitido a nuestros ingenieros desacoplar el código de la aplicación
 de la plomería de la infraestructura.**
 

@@ -64,7 +64,7 @@ El resultado del despliegue será así:
 
 Todos los microservicios estarán empaquetados con un sidecar de Envoy que intercepta
 llamadas entrantes y salientes para los servicios, proporcionando los ganchos necesarios para controlar externamente,
-a través del plano de control de Istio, la enrutamiento, la recopilación de métricas, y la aplicación de políticas.
+a través del control plane de Istio, la enrutamiento, la recopilación de métricas, y la aplicación de políticas.
 
 ### Iniciar los servicios de la aplicación
 
