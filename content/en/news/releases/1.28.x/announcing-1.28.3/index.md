@@ -3,7 +3,7 @@ title: Announcing Istio 1.28.3
 linktitle: 1.28.3
 subtitle: Patch Release
 description: Istio 1.28.3 patch release.
-publishdate: 2025-01-19
+publishdate: 2026-01-19
 release: 1.28.3
 aliases:
     - /news/announcing-1.28.3
