@@ -3,7 +3,7 @@ title: 发布 Istio 1.28.3
 linktitle: 1.28.3
 subtitle: 补丁发布
 description: Istio 1.28.3 补丁发布。
-publishdate: 2025-01-19
+publishdate: 2026-01-19
 release: 1.28.3
 aliases:
     - /zh/news/announcing-1.28.3
