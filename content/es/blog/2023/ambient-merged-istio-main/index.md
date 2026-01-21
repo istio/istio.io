@@ -6,7 +6,7 @@ attribution: "John Howard (Google), Lin Sun (Solo.io)"
 keywords: [istio,ambient]
 ---
 
-Ambient mesh de Istio fue [lanzado en septiembre de 2022](/blog/2022/introducing-ambient-mesh/) en una rama experimental, introduciendo un nuevo modo de plano de datos para Istio sin sidecars. A través de la colaboración con la comunidad de Istio, entre Google, Solo.io, Microsoft, Intel, Aviatrix, Huawei, IBM y otros, nos complace anunciar que Istio ambient mesh se ha graduado de la rama experimental y se ha fusionado con la rama principal de Istio. Este es un hito significativo para ambient mesh, allanando el camino para lanzar ambient en Istio 1.18 e instalarlo por defecto en las futuras versiones de Istio.
+Ambient mesh de Istio fue [lanzado en septiembre de 2022](/blog/2022/introducing-ambient-mesh/) en una rama experimental, introduciendo un nuevo modo de data plane para Istio sin sidecars. A través de la colaboración con la comunidad de Istio, entre Google, Solo.io, Microsoft, Intel, Aviatrix, Huawei, IBM y otros, nos complace anunciar que Istio ambient mesh se ha graduado de la rama experimental y se ha fusionado con la rama principal de Istio. Este es un hito significativo para ambient mesh, allanando el camino para lanzar ambient en Istio 1.18 e instalarlo por defecto en las futuras versiones de Istio.
 
 ## Cambios principales desde el lanzamiento inicial
 

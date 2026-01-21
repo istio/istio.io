@@ -6,7 +6,7 @@ attribution: "Mitch Connors, para el TOC de Istio"
 keywords: [Istio,roadmap,ambient]
 ---
 
-Durante los próximos 12 meses, nos enfocaremos en mejorar la paridad entre el modo sidecar y el modo ambient, proporcionando un camino soportado para que los usuarios de sidecar migren al plano de datos ambient cuando estén listos. También renovaremos nuestra experiencia de contribuyente, simplificando el proceso para proponer e implementar nuevas características, y dando reconocimiento a nuestros contribuyentes más valiosos. Planeamos hacer crecer nuestro ecosistema agregando o actualizando la integración de Istio con varios proyectos populares nativos de la nube y construir más casos de estudio para Istio.
+Durante los próximos 12 meses, nos enfocaremos en mejorar la paridad entre el modo sidecar y el modo ambient, proporcionando un camino soportado para que los usuarios de sidecar migren al data plane ambient cuando estén listos. También renovaremos nuestra experiencia de contribuyente, simplificando el proceso para proponer e implementar nuevas características, y dando reconocimiento a nuestros contribuyentes más valiosos. Planeamos hacer crecer nuestro ecosistema agregando o actualizando la integración de Istio con varios proyectos populares nativos de la nube y construir más casos de estudio para Istio.
 
 ## Mirando atrás
 
@@ -24,7 +24,7 @@ Como hemos declarado en años anteriores, no tenemos intención de terminar el s
 
 ### Mesh ambient multiclúster
 
-La gestión de tráfico multiclúster ha sido durante mucho tiempo una de las características empresariales más valoradas de Istio, y estamos trabajando arduamente para llevar este valor a los usuarios del modo ambient en 2025. Con una malla multiclúster, las interrupciones o anomalías de servicio en un clúster pueden causar dinámicamente que las solicitudes fallen a otros clústeres, potencialmente en otras regiones o nubes. Esto da a los usuarios la capacidad de ejecutar servicios de alta disponibilidad en configuración activo-activo, optimizando la utilización de cómputo y los costos de tráfico desde un único plano de control. La malla ambient multiclúster estará disponible como Alpha en Istio 1.27, que planeamos lanzar en agosto.
+La gestión de tráfico multiclúster ha sido durante mucho tiempo una de las características empresariales más valoradas de Istio, y estamos trabajando arduamente para llevar este valor a los usuarios del modo ambient en 2025. Con una malla multiclúster, las interrupciones o anomalías de servicio en un clúster pueden causar dinámicamente que las solicitudes fallen a otros clústeres, potencialmente en otras regiones o nubes. Esto da a los usuarios la capacidad de ejecutar servicios de alta disponibilidad en configuración activo-activo, optimizando la utilización de cómputo y los costos de tráfico desde un único control plane. La malla ambient multiclúster estará disponible como Alpha en Istio 1.27, que planeamos lanzar en agosto.
 
 ### El futuro de la extensibilidad
 

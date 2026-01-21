@@ -83,7 +83,7 @@ Aunque usamos proxies waypoint con alcance de namespace para ilustrar la simplif
 cuando lo aplica a proxies waypoint de cuenta de servicio.
 
 Esta configuración reducida significa menor uso de recursos (CPU, RAM y ancho de banda de red) tanto para el
-plano de control como para el plano de datos. Aunque los usuarios de hoy pueden ver mejoras similares con un uso cuidadoso de
+control plane como para el data plane. Aunque los usuarios de hoy pueden ver mejoras similares con un uso cuidadoso de
 `exportTo` en sus recursos de red de Istio o de la API [Sidecar](/docs/reference/config/networking/sidecar/),
 en modo ambient esto ya no es necesario, haciendo que el escalado sea muy sencillo.
 

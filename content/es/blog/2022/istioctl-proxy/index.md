@@ -1,13 +1,13 @@
 ---
 title: Configurar istioctl para un clúster remoto
-description: Usar un servidor proxy para soportar comandos de istioctl en un mesh con un plano de control externo.
+description: Usar un servidor proxy para soportar comandos de istioctl en un mesh con un control plane externo.
 publishdate: 2022-03-25
 attribution: Frank Budinsky (IBM)
 keywords: [istioctl, cli, external, remote, multicluster]
 ---
 
 Al usar la CLI `istioctl` en un {{< gloss >}}remote cluster{{< /gloss >}} de un despliegue de Istio con
-[plano de control externo](/docs/setup/install/external-controlplane/) o [multiclúster](/docs/setup/install/multicluster/),
+[control plane externo](/docs/setup/install/external-controlplane/) o [multiclúster](/docs/setup/install/multicluster/),
 algunos comandos no funcionarán por defecto. Por ejemplo, `istioctl proxy-status` requiere acceso al servicio `istiod` para
 obtener el estado y la configuración de los proxies que gestiona. Si intentas ejecutarlo en un clúster remoto, obtendrás un
 mensaje de error como este:
@@ -51,16 +51,16 @@ por turnos y agregar el resultado.
 
 Puedes encontrar un proyecto del ecosistema de Istio que incluye una implementación de este servidor proxy de `istioctl`
 [aquí](https://github.com/istio-ecosystem/istioctl-proxy-sample). Para probarlo, necesitarás dos clústeres, uno de los cuales esté
-configurado como clúster remoto usando un plano de control instalado en el otro clúster.
+configurado como clúster remoto usando un control plane instalado en el otro clúster.
 
 ## Instalar Istio con una topología de clúster remoto
 
 Para demostrar que `istioctl` funciona en un clúster remoto, comenzaremos usando las
-[instrucciones de instalación de plano de control externo](/docs/setup/install/external-controlplane/)
-para configurar un mesh con un único clúster remoto y un plano de control externo ejecutándose en un clúster externo separado.
+[instrucciones de instalación de control plane externo](/docs/setup/install/external-controlplane/)
+para configurar un mesh con un único clúster remoto y un control plane externo ejecutándose en un clúster externo separado.
 
 Tras completar la instalación, deberíamos tener dos variables de entorno, `CTX_REMOTE_CLUSTER` y `CTX_EXTERNAL_CLUSTER`,
-que contienen los nombres de contexto del clúster remoto (mesh) y del clúster externo (plano de control), respectivamente.
+que contienen los nombres de contexto del clúster remoto (mesh) y del clúster externo (control plane), respectivamente.
 
 También deberíamos tener los ejemplos `helloworld` y `sleep` ejecutándose en el mesh, es decir, en el clúster remoto:
 
@@ -81,7 +81,7 @@ Error: unable to find any Istiod instances
 ## Configurar istioctl para usar el servicio proxy de ejemplo
 
 Para configurar `istioctl`, primero necesitamos desplegar el servicio proxy junto a los pods `istiod` en ejecución.
-En nuestra instalación, hemos desplegado el plano de control en el namespace `external-istiod`, así que iniciamos el servicio proxy
+En nuestra instalación, hemos desplegado el control plane en el namespace `external-istiod`, así que iniciamos el servicio proxy
 en el clúster externo con el siguiente comando:
 
 {{< text bash >}}
@@ -132,7 +132,7 @@ $ export ISTIOCTL_ISTIONAMESPACE=external-istiod
 $ export ISTIOCTL_PREFER_EXPERIMENTAL=true
 {{< /text >}}
 
-Como nuestro plano de control se está ejecutando en el namespace `external-istiod`, en lugar del `istio-system` por defecto, también
+Como nuestro control plane se está ejecutando en el namespace `external-istiod`, en lugar del `istio-system` por defecto, también
 necesitamos establecer la variable de entorno `ISTIOCTL_ISTIONAMESPACE`.
 
 Establecer `ISTIOCTL_PREFER_EXPERIMENTAL` es opcional. Indica a `istioctl` que redirija llamadas `istioctl comando` a su equivalente experimental,
@@ -159,9 +159,9 @@ para que lo vea el operador del mesh.
 ## Resumen
 
 En este artículo usamos un [servidor proxy de ejemplo](https://github.com/istio-ecosystem/istioctl-proxy-sample) para configurar `istioctl` y que funcione
-con una [instalación de plano de control externo](/docs/setup/install/external-controlplane/).
-Hemos visto que algunos comandos de la CLI `istioctl` no funcionan “out of the box” en un clúster remoto gestionado por un plano de control externo. Comandos
+con una [instalación de control plane externo](/docs/setup/install/external-controlplane/).
+Hemos visto que algunos comandos de la CLI `istioctl` no funcionan “out of the box” en un clúster remoto gestionado por un control plane externo. Comandos
 como `istioctl proxy-status`, entre otros, necesitan acceso a las instancias del servicio `istiod` que gestionan el mesh, las cuales no están disponibles cuando
-el plano de control se ejecuta fuera del clúster del mesh.
-Para abordar este problema, `istioctl` se configuró para delegar en un servidor proxy, ejecutándose junto al plano de control externo, que accede a las instancias
+el control plane se ejecuta fuera del clúster del mesh.
+Para abordar este problema, `istioctl` se configuró para delegar en un servidor proxy, ejecutándose junto al control plane externo, que accede a las instancias
 de `istiod` en su nombre.

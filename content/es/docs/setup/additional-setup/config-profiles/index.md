@@ -80,7 +80,7 @@ más allá de lo que incluye el perfil de deployment, para sus necesidades espec
     {{< /warning >}}
 
 1. **minimal**: igual que el perfil por defecto, pero solo se instalan los componentes del control plane.
-    Esto te permite configurar los componentes del control plane y data plane (por ejemplo, puertas de enlace) usando [perfiles separados](/es/docs/setup/additional-setup/gateway/#deploying-a-gateway).
+    Esto te permite configurar los componentes del control plane y data plane (por ejemplo, gateways) usando [perfiles separados](/es/docs/setup/additional-setup/gateway/#deploying-a-gateway).
 
 1. **remote**: utilizado para configurar un {{< gloss >}}remote cluster{{< /gloss >}} que es administrado por un
     {{< gloss >}}external control plane{{< /gloss >}} o por un control plane en un {{< gloss >}}primary cluster{{< /gloss >}}

@@ -34,7 +34,7 @@ Los valores de configuración por defecto pueden ser cambiados usando uno o más
 Puedes mostrar los valores por defecto de los parámetros de configuración usando el comando `helm show values <chart>` o referirte a la documentación del chart en `artifacthub` en [Parámetros de definición de recursos personalizados](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Configuración del chart de istiod](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) y [Configuración del chart de gateway](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
-1. Instala el chart base de Istio que contiene las definiciones de recursos personalizados de nivel de cluster (CRDs) que deben ser instaladas antes de la implementación del plano de control de Istio:
+1. Instala el chart base de Istio que contiene las definiciones de recursos personalizados de nivel de cluster (CRDs) que deben ser instaladas antes de la implementación del control plane de Istio:
 
     {{< warning >}}
     Al realizar una instalación revisada, el chart base requiere el valor `--set defaultRevision=<revisión>` para que la validación de recursos funcione. A continuación instalamos la revisión `default`, por lo que `--set defaultRevision=default` está configurado.
@@ -140,7 +140,7 @@ por ejemplo `helm show values istio/gateway`.
 
 ### Migrar de instalaciones no-Helm
 
-Si estás migrando de una versión de Istio instalada usando `istioctl` a Helm (Istio 1.5 o anterior), necesitas eliminar los recursos actuales del plano de control de Istio y re-instalar Istio usando Helm tal como se describe anteriormente. Al eliminar la instalación actual de Istio, no debes eliminar las definiciones de recursos personalizados de Istio (CRDs) ya que eso puede llevar a la pérdida de tus recursos personalizados de Istio.
+Si estás migrando de una versión de Istio instalada usando `istioctl` a Helm (Istio 1.5 o anterior), necesitas eliminar los recursos actuales del control plane de Istio y re-instalar Istio usando Helm tal como se describe anteriormente. Al eliminar la instalación actual de Istio, no debes eliminar las definiciones de recursos personalizados de Istio (CRDs) ya que eso puede llevar a la pérdida de tus recursos personalizados de Istio.
 
 {{< warning >}}
 Se recomienda tomar una copia de tus recursos de Istio usando los pasos
@@ -195,7 +195,7 @@ instalados anteriormente.
 
 ## Desinstalar recursos de la etiqueta de revisión estable
 
-Si decides continuar usando el plano de control anterior, en lugar de completar la actualización,
+Si decides continuar usando el control plane anterior, en lugar de completar la actualización,
 puedes desinstalar la revisión más reciente y su etiqueta por primera vez
 `helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
 Luego, debes desinstalar la revisión de Istio que apuntaba siguiendo el procedimiento de desinstalación anterior.
