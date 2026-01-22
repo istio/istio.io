@@ -5,7 +5,7 @@
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
         <div class="main-navigation-header">
-            <a id="brand" href="{{ $home.Permalink }}" aria-label="logotype">
+            <a id="brand" href="{{ $home.Permalink }}" aria-label="Istio">
                 <span class="logo">{{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ .Content | safeHTML }}{{ end }}</span>
             </a>
 
