@@ -47,7 +47,7 @@ providers:
     logo: "/logos/hpe.svg"
     url: "https://docs.containerplatform.hpe.com/52/reference/kubernetes/kubernetes-administrator/clusters/cluster-add-ons/Istio_Service_Mesh.html"
   - name: "Rancher"
-    logo: "/logos/rancher.svg"
+    logo: "/logos/suse.svg"
     url: "https://apps.rancher.io/applications/istio"
   - name: "Mulesoft Anypoint Service Mesh"
     logo: "/logos/mulesoft.svg"
