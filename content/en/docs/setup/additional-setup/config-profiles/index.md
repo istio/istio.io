@@ -26,16 +26,16 @@ There are 2 kinds of configuration profiles: _deployment_ profiles and _platform
 - _deployment_ profiles are intended to provide good defaults for a given deployment topology (`default`, `remote`, `ambient`, etc).
 - _platform_ profiles are intended to provide necessary platform-specific defaults, for a given target platform (`eks`, `gke`, `openshift`, etc).
 
-For example, if you are installing `default` sidecar dataplane on GKE, we recommend using the following deployment and platform profiles to get started:
+For example, if you are installing the default sidecar dataplane on GKE, we recommend using the following platform profile to get started:
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
-    For Helm, supply the same `profile` and `platform` for every chart you install, for example `istiod`:
+    For Helm, supply the same `platform` for every chart you install, for example `istiod`. Note that Helm uses default settings when no deployment profile is specified:
 
     {{< text syntax=bash snip_id=install_istiod_helm_platform >}}
-    $ helm install istiod istio/istiod -n istio-system --set profile=default --set global.platform=gke --wait
+    $ helm install istiod istio/istiod -n istio-system --set global.platform=gke --wait
     {{< /text >}}
 
 {{< /tab >}}
@@ -57,12 +57,12 @@ Note that a key difference between `helm` and `istioctl` install mechanisms is t
 
 With `helm`, this is not the case - users are expected to install each required Istio component individually via `helm install`, and supply the desired configuration profile flags for each component manually.
 
-You can think of this as `istioctl` and `helm` sharing exactly the same configuration profiles with the same names, but when you use `istioctl`, it will additionally choose what components to install for you based on the configuration profile you select, so only one command is needed to achieve the same result.
+Note that `istioctl` supports more deployment profiles than `helm`. For `helm`, not all profiles have corresponding profile files in the chart - the chart's default `values.yaml` settings are used instead when no deployment profile is specified. When you use `istioctl`, it will additionally choose what components to install for you based on the configuration profile you select, so only one command is needed to achieve the same result.
 {{< /warning >}}
 
 ## Deployment Profiles
 
-The following built-in deployment profiles are currently available for both `istioctl` and `helm` install mechanisms. Note that as these are just sets of Helm values overrides, using them is not strictly required to install Istio, but they do provide a convenient baseline and are recommended for new installs. Additionally, you may [customize the configuration](/docs/setup/additional-setup/customize-installation/)
+For `helm`, not all profiles listed below have corresponding profile files in the chart; check the [helm-profiles directory]({{< github_tree >}}/manifests/helm-profiles) for available Helm profiles. Note that as these are just sets of Helm values overrides, using them is not strictly required to install Istio, but they do provide a convenient baseline and are recommended for new installs. Additionally, you may [customize the configuration](/docs/setup/additional-setup/customize-installation/)
 beyond what the deployment profile includes, for your specific needs. The following built-in deployment profiles are currently available:
 
 1. **default**: enables components according to the default settings of the
