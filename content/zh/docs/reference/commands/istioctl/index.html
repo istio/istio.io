@@ -8606,6 +8606,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>false</code></td>
 <td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
 </tr>
+<tr id='enable-debug-endpoint-auth'>
+<td><a href='#enable-debug-endpoint-auth'><code>ENABLE_DEBUG_ENDPOINT_AUTH</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enforce namespace-based authorization on debug endpoints. Non-system namespaces restricted to config_dump/ndsz/edsz for same-namespace proxies only.</td>
+</tr>
 <tr id='enable-debug-on-http'>
 <td><a href='#enable-debug-on-http'><code>ENABLE_DEBUG_ON_HTTP</code></a></td>
 <td>Boolean</td>

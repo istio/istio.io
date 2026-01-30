@@ -52,6 +52,10 @@ remove_toc_prefix: 'install-cni '
 <td>The IP port to use for the ControlZ introspection facility  (default `9876`)</td>
 </tr>
 <tr>
+<td><code>--enable-ambient-detection-retry</code></td>
+<td>Whether or not is ambient check is retried on error in the cni plugin </td>
+</tr>
+<tr>
 <td><code>--istio-owned-cni-config</code></td>
 <td>Whether an Istio owned CNI configuration is enabled </td>
 </tr>
@@ -631,6 +635,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>true</code></td>
 <td>If enabled, istiod will proxy 100-continue headers as is</td>
 </tr>
+<tr id='enable-ambient-detection-retry'>
+<td><a href='#enable-ambient-detection-retry'><code>ENABLE_AMBIENT_DETECTION_RETRY</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether or not is ambient check is retried on error in the cni plugin</td>
+</tr>
 <tr id='enable-ca-server'>
 <td><a href='#enable-ca-server'><code>ENABLE_CA_SERVER</code></a></td>
 <td>Boolean</td>
@@ -642,6 +652,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, uses the ClusterTrustBundle API instead of ConfigMaps to store the root certificate in the cluster.</td>
+</tr>
+<tr id='enable-debug-endpoint-auth'>
+<td><a href='#enable-debug-endpoint-auth'><code>ENABLE_DEBUG_ENDPOINT_AUTH</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>Enforce namespace-based authorization on debug endpoints. Non-system namespaces restricted to config_dump/ndsz/edsz for same-namespace proxies only.</td>
 </tr>
 <tr id='enable-debug-on-http'>
 <td><a href='#enable-debug-on-http'><code>ENABLE_DEBUG_ON_HTTP</code></a></td>
