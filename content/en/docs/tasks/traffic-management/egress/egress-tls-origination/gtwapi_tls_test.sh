@@ -18,6 +18,7 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
+# @setup profile=default
 source "content/en/docs/tasks/traffic-management/egress/egress-tls-origination/tls_test.sh"
 
 # @cleanup
