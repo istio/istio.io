@@ -18,17 +18,7 @@
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# @setup profile=none
-istioctl install --set profile=minimal --set values.pilot.env.PILOT_ENABLE_ALPHA_GATEWAY_API=true --set meshConfig.accessLogFile=/dev/stdout -y
-_wait_for_deployment istio-system istiod
-
 source "content/en/docs/tasks/traffic-management/egress/egress-tls-origination/tls_test.sh"
 
 # @cleanup
-kubectl label namespace default istio-injection-
-snip_cleanup_the_tls_origination_configuration_2
-cleanup_curl_sample
-
-istioctl uninstall --purge -y
-kubectl delete ns istio-system
 remove_gateway_api_crds

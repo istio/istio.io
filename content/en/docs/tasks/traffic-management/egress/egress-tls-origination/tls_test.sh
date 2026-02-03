@@ -57,6 +57,9 @@ _verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"
 # @cleanup
 if [ "$GATEWAY_API" != "true" ]; then
     snip_cleanup_the_tls_origination_configuration_1
-    cleanup_curl_sample
-    kubectl label namespace default istio-injection-
+else
+    snip_cleanup_the_tls_origination_configuration_2
 fi
+
+cleanup_curl_sample
+kubectl label namespace default istio-injection-
