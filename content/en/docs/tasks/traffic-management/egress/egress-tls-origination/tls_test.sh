@@ -19,6 +19,8 @@ set -e
 set -u
 set -o pipefail
 
+GATEWAY_API="${GATEWAY_API:-false}"
+
 source "tests/util/samples.sh"
 
 # @setup profile=default
@@ -38,15 +40,26 @@ _wait_for_resource serviceentry default edition-cnn-com
 _verify_elided snip_curl_simple "$snip_curl_simple_out"
 
 # Apply TLS origination config, check http and https content is correct
-snip_apply_origination
-
+snip_apply_origination_serviceentry
 _wait_for_resource serviceentry default edition-cnn-com
-_wait_for_resource destinationrule default edition-cnn-com
+
+if [ "$GATEWAY_API" == "true" ]; then
+    snip_apply_origination_backendtlspolicy
+    _wait_for_resource backendtlspolicy default edition-cnn-com
+else
+    snip_apply_origination_destinationrule
+    _wait_for_resource destinationrule default edition-cnn-com
+fi
 
 _verify_elided snip_curl_origination_http "$snip_curl_origination_http_out"
 _verify_elided snip_curl_origination_https "$snip_curl_origination_https_out"
 
 # @cleanup
-snip_cleanup_the_tls_origination_configuration_1
+if [ "$GATEWAY_API" != "true" ]; then
+    snip_cleanup_the_tls_origination_configuration_1
+else
+    snip_cleanup_the_tls_origination_configuration_2
+fi
+
 cleanup_curl_sample
 kubectl label namespace default istio-injection-
