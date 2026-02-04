@@ -16,16 +16,16 @@ This release contains bug fixes to improve robustness. This release note describ
 ## Changes
 
 - **Added** safeguards to the gateway deployment controller to validate object types, names, and namespaces,
-preventing creation of arbitrary Kubernetes resources through template injection.
+  preventing creation of arbitrary Kubernetes resources through template injection.
   ([Issue #58891](https://github.com/istio/istio/issues/58891))
 
 - **Added** namespace-based authorization for debug endpoints on port 15014.
-Non-system namespaces restricted to `config_dump/ndsz/edsz` endpoints and same-namespace proxies only.
-Disable with `ENABLE_DEBUG_ENDPOINT_AUTH=false` if needed for compatibility.
+  Non-system namespaces are now restricted to `config_dump/ndsz/edsz` endpoints and same-namespace proxies only.
+  If needed for compatability, this behavior can be disabled with `ENABLE_DEBUG_ENDPOINT_AUTH=false`.
 
-- **Added** `service.selectorLabels` field to gateway Helm chart for custom service selector labels during revision-based migrations.
+- **Added** `service.selectorLabels` field to the gateway Helm chart for custom service selector labels during revision-based migrations.
 
-- **Fixed** resource annotation validation to reject newlines and control characters that could inject containers into pod specs via template rendering.
+- **Fixed** resource annotation validation to reject newline and control characters that could inject containers into pod specs via template rendering.
   ([Issue #58889](https://github.com/istio/istio/issues/58889))
 
 - **Fixed** incorrect mapping of `meshConfig.tlsDefaults.minProtocolVersion` to `tls_minimum_protocol_version` in downstream TLS context.
