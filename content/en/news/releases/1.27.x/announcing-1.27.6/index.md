@@ -21,7 +21,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Added** namespace-based authorization for debug endpoints on port 15014.
   Non-system namespaces are now restricted to `config_dump/ndsz/edsz` endpoints and same-namespace proxies only.
-  If needed for compatability, this behavior can be disabled with `ENABLE_DEBUG_ENDPOINT_AUTH=false`.
+  If needed for compatibility, this behavior can be disabled with `ENABLE_DEBUG_ENDPOINT_AUTH=false`.
 
 - **Added** `service.selectorLabels` field to the gateway Helm chart for custom service selector labels during revision-based migrations.
 
