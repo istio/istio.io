@@ -34,13 +34,15 @@ For example, setting a `PeerAuthentication` policy with mTLS mode set to `STRICT
 
 ### Pods inside the mesh using sidecar mode
 
-Istio supports East-West interoperability between a pod with a sidecar and a pod using ambient mode, within the same mesh. The sidecar proxy knows to use the HBONE protocol since the destination has been discovered to be an HBONE destination.
-
-{{< tip >}}
-For sidecar proxies to use the HBONE/mTLS signaling option when communicating with ambient destinations, they need to be configured with `ISTIO_META_ENABLE_HBONE` set to `true` in the proxy metadata. This is the default in `MeshConfig` when using the `ambient` profile, hence you do not have to do anything else when using this profile.
-{{< /tip >}}
+When Istio is installed with the `ambient` profile, sidecar proxies gain support for the HBONE protocol.  This enables east-west interoperability between a pod with a sidecar and a pod using ambient mode, within the same mesh. The sidecar proxy knows to use the HBONE protocol since the destination has been discovered to be an HBONE destination.
 
 A `PeerAuthentication` policy with mTLS mode set to `STRICT` will allow traffic from a pod with an Istio sidecar proxy.
+
+{{< warning >}}
+Istio does not currently support waypoint discovery from sidecars. If you configure a pod in an ambient mesh to use a waypoint, and attempt to connect to that pod from an HBONE-enabled sidecar, the sidecar will ignore the instruction to use the waypoint and instead connect directly to the destination ztunnel. Depending on your configuration, this may allow you to bypass policy. Support for waypoint discovery is planned for an upcoming release.
+{{< /warning >}}
+
+For sidecar proxies to use the HBONE/mTLS signaling option when communicating with ambient destinations, they need to be configured with `ISTIO_META_ENABLE_HBONE` set to `true` in the proxy metadata. This is the default in `MeshConfig` when using the `ambient` profile.
 
 ### Ingress and egress gateways and ambient mode pods
 
