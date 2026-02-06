@@ -22,7 +22,7 @@ The Envoy `ext_proc` filter is used to route incoming requests to the endpoint p
 
 ## Setup
 
-1. As the Gateway APIs are a pre-requisite for Inference Extension APIs, install the Gateway API CRDs if they are not present:
+1. As the Gateway APIs are a prerequisite for Inference Extension APIs, install the Gateway API CRDs if they are not present:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
