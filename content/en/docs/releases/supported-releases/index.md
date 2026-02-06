@@ -73,7 +73,6 @@ Please keep up-to-date and use a supported version.
 | 1.29.x         | 1.29.0+                             |
 | 1.28.x         | 1.28.2+                             |
 | 1.27.x         | 1.27.5+                             |
-| 1.26.x         | 1.26.8+                             |
 
 ## Supported Envoy Versions
 
