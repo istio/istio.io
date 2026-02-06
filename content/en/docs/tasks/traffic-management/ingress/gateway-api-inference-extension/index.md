@@ -22,16 +22,11 @@ The Envoy `ext_proc` filter is used to route incoming requests to the endpoint p
 
 ## Setup
 
-1. As the Gateway APIs are a prerequisite for Inference Extension APIs, install the Gateway API CRDs if they are not present:
+1. As the Gateway APIs are a prerequisite for Inference Extension APIs, install both the Gateway API and Gateway API Inference Extension CRDs if they are not present:
 
     {{< text bash >}}
     $ kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
-    {{< /text >}}
-
-1. Install the Gateway API Inference Extension:
-
-    {{< text bash >}}
     $ kubectl get crd inference.networking.k8s.io &> /dev/null || \
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api-inference-extension/config/crd?ref={{< k8s_gateway_api_inference_extension_version >}}" | kubectl apply -f -; }
     {{< /text >}}
@@ -46,9 +41,9 @@ The Envoy `ext_proc` filter is used to route incoming requests to the endpoint p
 
 For a detailed guide on setting up a local test environment, see the [Gateway API Inference Extension documentation](https://gateway-api-inference-extension.sigs.k8s.io/guides/).
 
-In this example, we will deploy a mock inference model service and use an 'InferencePool' and the endpoint picker in order to route requests to individual backends.
+In this example, we will deploy a inference model service using a vLLM simulator, and use an 'InferencePool' and the endpoint picker in order to route requests to individual backends.
 
-1. Deploy a basic echo server to behave as our inference workload, and the essential Gateway API resources:
+1. Deploy a basic vLLM simulator to behave as our inference workload, and the essential Gateway API resources:
 
     {{< text bash >}}
     $ kubectl create namespace istio-ingress
@@ -76,17 +71,22 @@ In this example, we will deploy a mock inference model service and use an 'Infer
             app: inference-model-server
         spec:
           containers:
-          - name: echoserver
-            image: gcr.io/k8s-staging-gateway-api/echo-basic:v20251204-v1.4.1
+          - name: vllm-sim
+            image: ghcr.io/llm-d/llm-d-inference-sim:v0.7.1
+            imagePullPolicy: Always
+            args:
+            - --model
+            - meta-llama/Llama-3.1-8B-Instruct
+            - --port
+            - "8000"
+            - --max-loras
+            - "2"
+            - --lora-modules
+            - '{"name": "reviews-1"}'
             ports:
-            - containerPort: 3000
-            readinessProbe:
-              httpGet:
-                path: /
-                port: 3000
-              initialDelaySeconds: 3
-              periodSeconds: 5
-              failureThreshold: 2
+            - containerPort: 8000
+              name: http
+              protocol: TCP
             env:
             - name: POD_NAME
               valueFrom:
@@ -100,6 +100,9 @@ In this example, we will deploy a mock inference model service and use an 'Infer
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            resources:
+              requests:
+                cpu: 20m
     ---
     apiVersion: gateway.networking.k8s.io/v1
     kind: Gateway
@@ -139,7 +142,7 @@ In this example, we will deploy a mock inference model service and use an 'Infer
         matches:
         - path:
             type: PathPrefix
-            value: /get
+            value: /v1/completions
     EOF
     {{< /text >}}
 
@@ -264,7 +267,7 @@ In this example, we will deploy a mock inference model service and use an 'Infer
         matchLabels:
           app: inference-model-server
       targetPorts:
-        - number: 3000
+        - number: 8000
       endpointPickerRef:
         name: endpoint-picker-svc
         port:
@@ -309,23 +312,16 @@ In this example, we will deploy a mock inference model service and use an 'Infer
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
     {{< /text >}}
 
-1.  Access the `httpbin` service using _curl_:
+1.  Send an inference request using _curl_, you should see a succesful response from the backend model server:
 
     {{< text bash >}}
-    $ curl -s -I "http://$INGRESS_HOST/get"
+    $ curl -s -I "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
     ...
     HTTP/1.1 200 OK
     ...
     server: istio-envoy
     ...
-    {{< /text >}}
-
-1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
-
-    {{< text bash >}}
-    $ curl -s -I "http://$INGRESS_HOST/headers"
-    HTTP/1.1 404 Not Found
-    ...
+    {"choices":[{"finish_reason":"stop","index":0,"text":"Testing@, #testing 1$ ,2%,3^, [4"}],"created":1770406965,"id":"cmpl-5e508481-7c11-53e8-9587-972a3704724e","kv_transfer_params":null,"model":"reviews-1","object":"text_completion","usage":{"completion_tokens":16,"prompt_tokens":10,"total_tokens":26}}
     {{< /text >}}
 
 ## Cleanup
