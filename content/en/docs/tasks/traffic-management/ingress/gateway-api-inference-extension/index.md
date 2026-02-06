@@ -312,7 +312,7 @@ In this example, we will deploy a inference model service using a vLLM simulator
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
     {{< /text >}}
 
-1.  Send an inference request using _curl_, you should see a succesful response from the backend model server:
+1.  Send an inference request using _curl_, you should see a successful response from the backend model server:
 
     {{< text bash >}}
     $ curl -s -I "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
