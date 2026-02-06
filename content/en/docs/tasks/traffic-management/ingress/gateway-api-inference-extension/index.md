@@ -29,14 +29,14 @@ The Envoy `ext_proc` filter is used to route incoming requests to the endpoint p
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-2. Install the Gateway API Inference Extension:
+1. Install the Gateway API Inference Extension:
 
     {{< text bash >}}
     $ kubectl get crd inference.networking.k8s.io &> /dev/null || \
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api-inference-extension/config/crd?ref={{< k8s_gateway_api_inference_extension_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-3. Install Istio using the `minimal` profile:
+1. Install Istio using the `minimal` profile:
 
     {{< text bash >}}
     $ istioctl install --set profile=minimal --set values.pilot.env.SUPPORT_GATEWAY_API_INFERENCE_EXTENSION=true --set values.pilot.env.ENABLE_GATEWAY_API_INFERENCE_EXTENSION=true -y
@@ -143,8 +143,7 @@ In this example, we will deploy a mock inference model service and use an 'Infer
     EOF
     {{< /text >}}
 
-
-2. Deploy the endpoint picker service and create an InferencePool:
+1. Deploy the endpoint picker service and create an InferencePool:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -303,14 +302,14 @@ In this example, we will deploy a mock inference model service and use an 'Infer
     EOF
     {{< /text >}}
 
-3.  Set the Ingress Host environment variable:
+1.  Set the Ingress Host environment variable:
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
     {{< /text >}}
 
-4.  Access the `httpbin` service using _curl_:
+1.  Access the `httpbin` service using _curl_:
 
     {{< text bash >}}
     $ curl -s -I "http://$INGRESS_HOST/get"
@@ -321,7 +320,7 @@ In this example, we will deploy a mock inference model service and use an 'Infer
     ...
     {{< /text >}}
 
-5.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
+1.  Access any other URL that has not been explicitly exposed. You should see an HTTP 404 error:
 
     {{< text bash >}}
     $ curl -s -I "http://$INGRESS_HOST/headers"
@@ -341,14 +340,14 @@ In this example, we will deploy a mock inference model service and use an 'Infer
     $ kubectl delete ns istio-ingress inference-model-server
     {{< /text >}}
 
-2. Uninstall Istio:
+1. Uninstall Istio:
 
     {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
     {{< /text >}}
 
-3. Remove the Gateway API and Gateway API Inference Extension CRDs if they are no longer needed:
+1. Remove the Gateway API and Gateway API Inference Extension CRDs if they are no longer needed:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
