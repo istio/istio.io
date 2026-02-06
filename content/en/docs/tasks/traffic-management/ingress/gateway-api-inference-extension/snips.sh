@@ -23,14 +23,11 @@
 snip_setup_1() {
 kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.0" | kubectl apply -f -; }
-}
-
-snip_setup_2() {
 kubectl get crd inference.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api-inference-extension/config/crd?ref=v1.0.1" | kubectl apply -f -; }
 }
 
-snip_setup_3() {
+snip_setup_2() {
 istioctl install --set profile=minimal --set values.pilot.env.SUPPORT_GATEWAY_API_INFERENCE_EXTENSION=true --set values.pilot.env.ENABLE_GATEWAY_API_INFERENCE_EXTENSION=true -y
 }
 
@@ -60,17 +57,22 @@ spec:
         app: inference-model-server
     spec:
       containers:
-      - name: echoserver
-        image: gcr.io/k8s-staging-gateway-api/echo-basic:v20251204-v1.4.1
+      - name: vllm-sim
+        image: ghcr.io/llm-d/llm-d-inference-sim:v0.7.1
+        imagePullPolicy: Always
+        args:
+        - --model
+        - meta-llama/Llama-3.1-8B-Instruct
+        - --port
+        - "8000"
+        - --max-loras
+        - "2"
+        - --lora-modules
+        - '{"name": "reviews-1"}'
         ports:
-        - containerPort: 3000
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 3
-          periodSeconds: 5
-          failureThreshold: 2
+        - containerPort: 8000
+          name: http
+          protocol: TCP
         env:
         - name: POD_NAME
           valueFrom:
@@ -84,6 +86,9 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
+        resources:
+          requests:
+            cpu: 20m
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
@@ -123,7 +128,7 @@ spec:
     matches:
     - path:
         type: PathPrefix
-        value: /get
+        value: /v1/completions
 EOF
 }
 
@@ -246,7 +251,7 @@ spec:
     matchLabels:
       app: inference-model-server
   targetPorts:
-    - number: 3000
+    - number: 8000
   endpointPickerRef:
     name: endpoint-picker-svc
     port:
@@ -290,7 +295,7 @@ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n 
 }
 
 snip_configuring_an_inferencepool_4() {
-curl -s -I "http://$INGRESS_HOST/get"
+curl -s -I "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_an_inferencepool_4_out <<\ENDSNIP
@@ -299,15 +304,7 @@ HTTP/1.1 200 OK
 ...
 server: istio-envoy
 ...
-ENDSNIP
-
-snip_configuring_an_inferencepool_5() {
-curl -s -I "http://$INGRESS_HOST/headers"
-}
-
-! IFS=$'\n' read -r -d '' snip_configuring_an_inferencepool_5_out <<\ENDSNIP
-HTTP/1.1 404 Not Found
-...
+{"choices":[{"finish_reason":"stop","index":0,"text":"Testing@, #testing 1$ ,2%,3^, [4"}],"created":1770406965,"id":"cmpl-5e508481-7c11-53e8-9587-972a3704724e","kv_transfer_params":null,"model":"reviews-1","object":"text_completion","usage":{"completion_tokens":16,"prompt_tokens":10,"total_tokens":26}}
 ENDSNIP
 
 snip_cleanup_1() {
