@@ -93,6 +93,7 @@ try:
     istio_full_version_revision = istio_full_version.replace(".", "-")
     istio_previous_version_revision = istio_previous_version.replace(".", "-")
     k8s_gateway_api_version = docs_config['k8s_gateway_api_version']
+    k8s_gateway_api_inference_extension_version = docs_config['k8s_gateway_api_inference_extension_version']
 except:
     sys.stderr.write('failed to retrieve data from "data/args.yml"\n')
     sys.exit(1)
@@ -185,6 +186,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                 line = line.replace("{{< istio_full_version_revision >}}", istio_full_version_revision)
                 line = line.replace("{{< istio_previous_version_revision >}}", istio_previous_version_revision)
                 line = line.replace("{{< k8s_gateway_api_version >}}", k8s_gateway_api_version)
+                line = line.replace("{{< k8s_gateway_api_inference_extension_version >}}", k8s_gateway_api_inference_extension_version)
                 current_snip["script"].append(line)
 
 if len(boilerplates) > 0:
