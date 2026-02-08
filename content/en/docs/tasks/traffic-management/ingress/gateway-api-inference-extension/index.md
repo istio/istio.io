@@ -15,10 +15,10 @@ It utilizes CRDs from the [Kubernetes Gateway API](/docs/tasks/traffic-managemen
 
 The Gateway API Inference Extension introduces two API types in order to assist with the unique challenges of traffic routing for inference workloads:
 
-[InferencePool](https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferencepool/) represents a collection of backends for an inference workload, and contains a reference to an associated endpoint picker service.
+[`InferencePool`](https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferencepool/) represents a collection of backends for an inference workload, and contains a reference to an associated endpoint picker service.
 The Envoy `ext_proc` filter is used to route incoming requests to the endpoint picker service in order to make an informed routing decision to an optimal backend in the inference pool.
 
-[InferenceObjective](https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferenceobjective/) allows specifying the serving objectives of the request associated with it.
+[`InferenceObjective`](https://gateway-api-inference-extension.sigs.k8s.io/api-types/inferenceobjective/) allows specifying the serving objectives of the request associated with it.
 
 ## Setup
 
@@ -37,11 +37,11 @@ The Envoy `ext_proc` filter is used to route incoming requests to the endpoint p
     $ istioctl install --set profile=minimal --set values.pilot.env.SUPPORT_GATEWAY_API_INFERENCE_EXTENSION=true --set values.pilot.env.ENABLE_GATEWAY_API_INFERENCE_EXTENSION=true -y
     {{< /text >}}
 
-## Configuring an InferencePool
+## Configuring an `InferencePool`
 
 For a detailed guide on setting up a local test environment, see the [Gateway API Inference Extension documentation](https://gateway-api-inference-extension.sigs.k8s.io/guides/).
 
-In this example, we will deploy a inference model service using a vLLM simulator, and use an 'InferencePool' and the endpoint picker in order to route requests to individual backends.
+In this example, we will deploy a inference model service using a vLLM simulator, and use an `InferencePool` and the endpoint picker in order to route requests to individual backends.
 
 1. Deploy a basic vLLM simulator to behave as our inference workload, and the essential Gateway API resources:
 
@@ -146,7 +146,7 @@ In this example, we will deploy a inference model service using a vLLM simulator
     EOF
     {{< /text >}}
 
-1. Deploy the endpoint picker service and create an InferencePool:
+1. Deploy the endpoint picker service and create an `InferencePool`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
