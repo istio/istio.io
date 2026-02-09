@@ -229,6 +229,8 @@ data:
       - pluginRef: prefix-cache-scorer
         weight: 3
 ---
+# A DestinationRule is required to enable TLS between the gateway and
+# the endpoint picker.
 apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
@@ -263,9 +265,6 @@ metadata:
   name: inference-model-reader
   namespace: inference-model-server
 rules:
-- apiGroups: ["inference.networking.x-k8s.io"]
-  resources: ["inferenceobjectives", "inferencepools"]
-  verbs: ["get", "list", "watch"]
 - apiGroups: ["inference.networking.k8s.io"]
   resources: ["inferencepools"]
   verbs: ["get", "list", "watch"]
@@ -295,7 +294,7 @@ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n 
 }
 
 snip_configuring_an_inferencepool_4() {
-curl -s -I "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
+curl -s -i "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_configuring_an_inferencepool_4_out <<\ENDSNIP
