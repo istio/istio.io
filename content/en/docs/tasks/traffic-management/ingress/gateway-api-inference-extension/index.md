@@ -245,6 +245,8 @@ In this example, we will deploy a inference model service using a vLLM simulator
           - pluginRef: prefix-cache-scorer
             weight: 3
     ---
+    # A DestinationRule is required to enable TLS between the gateway and
+    # the endpoint picker.
     apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
@@ -279,9 +281,6 @@ In this example, we will deploy a inference model service using a vLLM simulator
       name: inference-model-reader
       namespace: inference-model-server
     rules:
-    - apiGroups: ["inference.networking.x-k8s.io"]
-      resources: ["inferenceobjectives", "inferencepools"]
-      verbs: ["get", "list", "watch"]
     - apiGroups: ["inference.networking.k8s.io"]
       resources: ["inferencepools"]
       verbs: ["get", "list", "watch"]
@@ -315,7 +314,7 @@ In this example, we will deploy a inference model service using a vLLM simulator
 1.  Send an inference request using _curl_, you should see a successful response from the backend model server:
 
     {{< text bash >}}
-    $ curl -s -I "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
+    $ curl -s -i "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
     ...
     HTTP/1.1 200 OK
     ...
