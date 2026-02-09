@@ -9,8 +9,6 @@ next: /docs/ambient/install/multicluster/multi-primary_multi-network
 prev: /docs/ambient/install/multicluster
 ---
 
-{{< boilerplate alpha >}}
-
 Before you begin a multicluster installation, review the
 [deployment models guide](/docs/ops/deployment/deployment-models)
 which describes the foundational concepts used throughout this guide.

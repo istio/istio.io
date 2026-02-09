@@ -16,14 +16,16 @@ that spans multiple {{< gloss "cluster" >}}clusters{{< /gloss >}}.
 ## Current Status and Limitations
 
 {{< warning >}}
-**Ambient multicluster is currently in alpha status** and has significant limitations.
-This feature is under active development and should not be used in production environments.
+While Ambient **multi-network multicluster** has reached beta status and considered production
+ready, there are still known limitations that apply to ambient multicluster deployment. We
+intend to address those limitations in the future Istio releases, in the meantime check the
+list below to see if the known limitations are applicable to your use case.
 {{< /warning >}}
 
 Before proceeding with ambient multicluster installation, it's critical to understand
 the current state and limitations of this feature.
 
-### Critical Limitations
+### Known Limitations
 
 #### Network Topology Restrictions
 
@@ -51,21 +53,25 @@ Universal waypoint deployments are assumed across clusters:
 
 Service scope configurations are not read from across clusters:
 
+- Only uniform service scope configurations are supported - service scope must match across all
+  clusters
 - Only the local cluster's service scope configuration is used as the source of truth
-- Remote cluster service scopes are not respected, which can lead to unexpected traffic behavior
+- Remote cluster service scopes are not respected, which can lead to unexpected traffic behavior when
+  the same service has different scopes in different clusters
 - Cross-cluster service discovery may not respect intended service boundaries
 
 If a service's waypoint is marked as global, that service will also be global:
 
-- This can lead to unintended cross-cluster traffic if not managed carefully
+- This can lead to unintended cross-cluster traffic in single-network multi-cluster deployments
 - The solution to this issue is tracked [here](https://github.com/istio/istio/issues/57710)
 
 #### Load Distribution on Remote Network
 
 Traffic going to a remote network is not equally distributed between endpoints:
 
-- When failing over to a remote network, a single endpoint on a remote network may get a disproportionate number of requests
-  due to multiplexing of HTTP requests and connection pooling
+- When failing over to a remote network, a single endpoint on a remote network may get a
+  disproportionate number of requests due to multiplexing of HTTP requests and connection pooling
+- A very similar issue currently exists for sidecar mode as well
 - The solution to this issue is tracked [here](https://github.com/istio/istio/issues/58039)
 
 #### Gateway Limitations
