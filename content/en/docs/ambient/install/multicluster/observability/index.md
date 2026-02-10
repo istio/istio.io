@@ -335,7 +335,7 @@ spec:
   deployment:
     remote_cluster_resources_only: true
 EOF
-$ kubectl --context="${CTX_CLUSTER2}" wait --for=condition=Successful kiali kiali -n kiali
+$ kubectl --context="${CTX_CLUSTER2}" wait --timeout=5m --for=condition=Successful kiali kiali -n kiali
 $ cat <<EOF | kubectl --context="${CTX_CLUSTER2}" apply -f - -n kiali
 apiVersion: v1
 kind: Secret
@@ -395,7 +395,7 @@ spec:
   server:
     web_root: "/kiali"
 EOF
-$ kubectl --context="${CTX_CLUSTER1}" wait --for=condition=Successful kiali kiali -n kiali
+$ kubectl --context="${CTX_CLUSTER1}" wait --timeout=5m --for=condition=Successful kiali kiali -n kiali
 {{< /text >}}
 
 Once the Kiali server is running, we can forward a local port to Kiali deployment to access it
