@@ -111,7 +111,7 @@ EOF
 snip_aggregate_metrics_1() {
 TARGET1="$(kubectl --context="${CTX_CLUSTER1}" get gtw prometheus-gateway -n istio-system -o jsonpath='{.status.addresses[0].value}')"
 TARGET2="$(kubectl --context="${CTX_CLUSTER2}" get gtw prometheus-gateway -n istio-system -o jsonpath='{.status.addresses[0].value}')"
-cat <<EOF > prometheus.yaml
+cat <<EOF > prometheus.yml
 global:
   scrape_interval: 15s
 
@@ -123,7 +123,7 @@ scrape_configs:
       'match[]':
         - '{job="kubernetes-pods"}'
     static_configs:
-      - targetrs:
+      - targets:
         - '${TARGET1}:9090'
         labels:
           cluster: 'cluster1'
@@ -134,12 +134,12 @@ scrape_configs:
       'match[]':
         - '{job="kubernetes-pods"}'
     static_configs:
-      - targetrs:
+      - targets:
         - '${TARGET2}:9090'
         labels:
           cluster: 'cluster2'
 EOF
-kubectl --context="${CTX_CLUSTER1}" create configmap prometheus-config -n kiali --from-file prometheus.yaml
+kubectl --context="${CTX_CLUSTER1}" create configmap prometheus-config -n kiali --from-file prometheus.yml
 }
 
 snip_aggregate_metrics_2() {
