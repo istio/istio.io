@@ -111,12 +111,11 @@ test: yes
 
 通过配置 `Istio` 执行 `TLS` 发起，则可以解决这两个问题。
 
-## 用于出口流量的 TLS 源   {#TLS-origination-for-egress-traffic}
+## 用于出口流量的 TLS 源   {#tls-origination-for-egress-traffic}
 
-1. 重新定义上一节的 `ServiceEntry` 和 `VirtualService` 以重写 HTTP 请求端口，
-   并添加一个 `DestinationRule` 以执行 TLS 发起。
+1. 重新定义上一节中的 `ServiceEntry`，将 HTTP 请求重定向到端口 443：
 
-    {{< text syntax=bash snip_id=apply_origination >}}
+    {{< text syntax=bash snip_id=apply_origination_serviceentry >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: ServiceEntry
@@ -134,7 +133,17 @@ test: yes
         name: https-port
         protocol: HTTPS
       resolution: DNS
-    ---
+    EOF
+    {{< /text >}}
+
+1. 添加执行 TLS 发起的策略：
+
+    {{< tabset category-name="tls-origination" >}}
+
+    {{< tab name="Istio API" category-value="istio-api" >}}
+
+    {{< text syntax=bash snip_id=apply_origination_destinationrule >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
@@ -152,6 +161,35 @@ test: yes
 
     上面的 `DestinationRule` 将对端口 80 和 `ServiceEntry` 上的 HTTP 请求执行 TLS 发起。
     然后将端口 80 上的请求重定向到目标端口 443。
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    {{< text syntax=bash snip_id=apply_origination_backendtlspolicy >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: BackendTLSPolicy
+    metadata:
+      name: edition-cnn-com
+    spec:
+      targetRefs:
+      - group: networking.istio.io
+        kind: ServiceEntry
+        name: edition-cnn-com
+        sectionName: http-port
+      validation:
+        hostname: edition.cnn.com
+        wellKnownCACertificates: System
+    EOF
+    {{< /text >}}
+
+    上述 `BackendTLSPolicy` 将对 `http` 端口上的 HTTP 请求执行 TLS 发起，
+    然后 `ServiceEntry` 会将端口 80 上的请求重定向到目标端口 443。
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 1. 如上一节一样，向 `http://edition.cnn.com/politics` 发送 HTTP 请求：
 
@@ -194,10 +232,27 @@ test: yes
 
 移除您创建的 Istio 配置项：
 
+{{< tabset category-name="cleanup-tls-origination" >}}
+
+{{< tab name="Istio API" category-value="istio-api" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry edition-cnn-com
 $ kubectl delete destinationrule edition-cnn-com
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry edition-cnn-com
+$ kubectl delete backendtlspolicy edition-cnn-com
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## 出口流量的双向 TLS 源   {#mutual-tls-origination-for-egress-traffic}
 
