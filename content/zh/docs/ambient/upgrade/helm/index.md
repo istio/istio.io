@@ -16,16 +16,6 @@ status: Experimental
 模式的安装进行升级和配置。本指南假设您已经使用之前的 Istio 版本执行了
 [Helm Ambient 模式安装](/zh/docs/ambient/install/helm/)。
 
-{{< warning >}}
-与 Sidecar 模式相比，Ambient 模式支持将应用程序 Pod
-移动到升级后的 ztunnel 代理，而无需强制重启或重新安排正在运行的应用程序 Pod。
-但是，**即使使用修订版**，升级 ztunnel 也**将**导致升级节点上所有长寿命 TCP 连接重置，
-并且 Istio 目前不支持 ztunnel 的金丝雀升级。
-
-建议使用节点封锁和蓝/绿节点池来限制生产升级期间应用程序流量重置的影响范围。
-有关详细信息，请参阅 Kubernetes 提供商文档。
-{{< /warning >}}
-
 ## 了解 Ambient 模式升级 {#understanding-ambient-mode-upgrades}
 
 所有 Istio 升级都涉及升级控制平面、数据平面和 Istio CRD。
