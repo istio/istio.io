@@ -206,7 +206,7 @@ function verify_failover
 
 function setup_kiali_helm_repo
 {
-	snip_prepare_for_kiali_deployment_1
+	snip_prepare_for_kiali_deployment_2
 }
 
 function create_kiali_namespace
