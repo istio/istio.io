@@ -258,7 +258,7 @@ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
 ENDSNIP
 
 snip_prepare_remote_cluster_1() {
-helm --kube-context="${CTX_CLUSTER2}" install --namespace kiali kiali-operator --wait
+helm --kube-context="${CTX_CLUSTER2}" install --namespace kiali kiali-operator kiali/kiali-operator --wait
 }
 
 snip_prepare_remote_cluster_2() {
@@ -287,7 +287,7 @@ EOF
 }
 
 snip_deploy_kiali_1() {
-helm --kube-context="${CTX_CLUSTER1}" install --namespace kiali kiali-operator --wait
+helm --kube-context="${CTX_CLUSTER1}" install --namespace kiali kiali-operator kiali/kiali-operator --wait
 }
 
 snip_deploy_kiali_2() {

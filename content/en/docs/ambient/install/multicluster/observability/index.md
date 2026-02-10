@@ -318,7 +318,7 @@ We will only deploy Kiali properly in one cluster - `cluster1`, however we still
 deploying Kiali Operator:
 
 {{< text bash >}}
-$ helm --kube-context="${CTX_CLUSTER2}" install --namespace kiali kiali-operator --wait
+$ helm --kube-context="${CTX_CLUSTER2}" install --namespace kiali kiali-operator kiali/kiali-operator --wait
 {{< /text >}}
 
 Once we have Kiali Operator deployed, we can prepare all the needed service accounts, role bindings and tokens. Kiali Operator will create the service account and role bindings, but we will have to create the token for the service account manually:
@@ -355,7 +355,7 @@ the address of the Prometheus endpoint and the secret to access the remote clust
 will start with deploying Kiali Operator:
 
 {{< text bash >}}
-$ helm --kube-context="${CTX_CLUSTER1}" install --namespace kiali kiali-operator --wait
+$ helm --kube-context="${CTX_CLUSTER1}" install --namespace kiali kiali-operator kiali/kiali-operator --wait
 {{< /text >}}
 
 Kiali project provides a script that we can use to create a secret need to access remote cluster
