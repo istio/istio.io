@@ -395,7 +395,7 @@ spec:
   server:
     web_root: "/kiali"
 EOF
-$ kubectl --context="${CTX_CLUSTER21}" wait --for=condition=Successful kiali kiali -n kiali
+$ kubectl --context="${CTX_CLUSTER1}" wait --for=condition=Successful kiali kiali -n kiali
 {{< /text >}}
 
 Once the Kiali server is running, we can forward a local port to Kiali deployment to access it

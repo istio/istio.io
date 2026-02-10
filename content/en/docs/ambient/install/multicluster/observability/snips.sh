@@ -322,7 +322,7 @@ spec:
   server:
     web_root: "/kiali"
 EOF
-kubectl --context="${CTX_CLUSTER21}" wait --for=condition=Successful kiali kiali -n kiali
+kubectl --context="${CTX_CLUSTER1}" wait --for=condition=Successful kiali kiali -n kiali
 }
 
 snip_cleanup_kiali_and_prometheus_1() {
