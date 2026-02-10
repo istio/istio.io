@@ -95,6 +95,11 @@ $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER
 生产系统可能需要添加额外的访问限制（即：通过防火墙规则）来防止外部攻击。
 咨询您的云服务商，了解可用的选择。
 
+{{< warning >}}
+七层负载均衡器会终止 TLS 连接，因此与 `AUTO_PASSTHROUGH` 不兼容，
+这可能导致 mTLS 握手失败和 503 错误。请勿使用七层负载均衡器来暴露东西向网关。
+{{< /warning >}}
+
 {{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}
