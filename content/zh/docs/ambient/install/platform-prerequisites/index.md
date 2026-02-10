@@ -334,3 +334,7 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
 
     更多细节请参阅 [Issue #49277](https://github.com/istio/istio/issues/49277)
     和 [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy)。
+
+当使用 Cilium 替换 kube-proxy 时，请注意需要进行额外的配置，
+以确保其在 Istio Ambient 模式下正常运行，具体配置方法请参阅
+[Cilium 文档](https://docs.cilium.io/en/stable/network/servicemesh/istio/)。
