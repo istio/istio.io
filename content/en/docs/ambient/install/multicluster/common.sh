@@ -20,6 +20,7 @@ _set_kube_vars
 
 source content/en/docs/ambient/install/multicluster/verify/snips.sh
 source content/en/docs/ambient/install/multicluster/failover/snips.sh
+source content/en/docs/ambient/install/multicluster/observability/snips.sh
 
 # set_single_network_vars initializes all variables for a single network config.
 function set_single_network_vars
@@ -201,6 +202,77 @@ function verify_failover
 
 	echo "Verifying that traffic from ${CTX_CLUSTER1} fails over to ${CTX_CLUSTER2}"
 	_verify_contains snip_verify_failover_to_another_cluster_2 "$EXPECTED_RESPONSE_FROM_CLUSTER2"
+}
+
+function setup_kiali_helm_repo
+{
+	snip_prepare_for_kiali_deployment_2
+}
+
+function create_kiali_namespace
+{
+	echo "Creating namespaces for multicluster Kiali deployment"
+	snip_prepare_for_kiali_deployment_1
+}
+
+function deploy_cluster_local_prometheus
+{
+	echo "Deploying Prometheus in each cluster"
+	snip_deploy_prometheus_in_each_cluster_1
+
+	echo "Expose cluster-local Prometheus instances"
+	snip_expose_prometheus_1
+	snip_expose_prometheus_2
+}
+
+function deploy_federated_prometheus
+{
+	echo "Creating federated Prometheus configuration"
+	snip_aggregate_metrics_1
+
+	echo "Deploying federated Prometheus instance"
+	snip_aggregate_metrics_2
+}
+
+function verify_federated_prometheus
+{
+	local EXPECT_METRIC_FROM_CLUSTER1="\"cluster\": \"cluster1\""
+	local EXPECT_METRIC_FROM_CLUSTER2="\"cluster\": \"cluster2\""
+	local EXPECT_SERVICE_HELLOWORLD="\"destination_canonical_service\": \"helloworld\""
+	local EXPECT_SERVICE_V1="\"destination_canonical_revision\": \"v1\""
+	local EXPECT_SERVICE_V2="\"destination_canonical_revision\": \"v2\""
+
+	_verify_lines snip_verify_federated_prometheus_3 "
+	+ \"cluster\": \"cluster1\"
+	+ \"cluster\": \"cluster2\"
+	+ \"destination_canonical_service\": \"helloworld\"
+	+ \"destination_canonical_revision\": \"v1\"
+	+ \"destination_canonical_revision\": \"v2\"
+	"
+}
+
+function deploy_kiali_remote
+{
+	snip_prepare_remote_cluster_1
+	snip_prepare_remote_cluster_2
+}
+
+function deploy_kiali
+{
+	snip_deploy_kiali_1
+	snip_deploy_kiali_2
+	snip_deploy_kiali_3
+}
+
+function cleanup_kiali_and_prometheus
+{
+	snip_cleanup_kiali_and_prometheus_1
+	snip_cleanup_kiali_and_prometheus_2
+	snip_cleanup_kiali_and_prometheus_3
+	snip_cleanup_kiali_and_prometheus_4
+
+	kubectl delete namespace kiali --context "${CTX_CLUSTER1}"
+	kubectl delete namespace kiali --context "${CTX_CLUSTER2}"
 }
 
 # For Helm multi-cluster installation steps

@@ -7,6 +7,7 @@ test: yes
 owner: istio/wg-environments-maintainers
 prev: /docs/ambient/install/multicluster/multi-primary_multi-network
 ---
+
 Follow this guide to verify that your ambient multicluster Istio installation is working
 properly.
 
@@ -220,3 +221,5 @@ clusters!
 ## Next steps
 
 Configure [locality failover](/docs/ambient/install/multicluster/failover) for your multicluster deployment.
+
+Deploy [Kiali](/docs/ambient/install/multicluster/observability) for your multicluster deployment.

@@ -37,6 +37,8 @@ spec:
         env:
           - name: AMBIENT_ENABLE_MULTI_NETWORK
             value: "true"
+          - name: AMBIENT_ENABLE_BAGGAGE
+            value: "true"
   values:
     global:
       meshID: mesh1
@@ -55,7 +57,7 @@ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER
 }
 
 snip_configure_cluster1_as_a_primary_4() {
-helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true" --set env.AMBIENT_ENABLE_BAGGAGE="true"
 }
 
 snip_install_cni_cluster1() {
@@ -125,6 +127,8 @@ spec:
         env:
           - name: AMBIENT_ENABLE_MULTI_NETWORK
             value: "true"
+          - name: AMBIENT_ENABLE_BAGGAGE
+            value: "true"
   values:
     global:
       meshID: mesh1
@@ -143,7 +147,7 @@ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUSTER
 }
 
 snip_configure_cluster2_as_a_primary_4() {
-helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true" --set env.AMBIENT_ENABLE_BAGGAGE="true"
 }
 
 snip_install_cni_cluster2() {

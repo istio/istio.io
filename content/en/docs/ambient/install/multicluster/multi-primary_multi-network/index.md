@@ -9,8 +9,6 @@ next: /docs/ambient/install/multicluster/verify
 prev: /docs/ambient/install/multicluster/before-you-begin
 ---
 
-{{< boilerplate alpha >}}
-
 {{< tip >}}
 This guide requires installation of the Gateway API CRDs.
 {{< boilerplate gateway-api-install-crds >}}
@@ -69,6 +67,8 @@ spec:
         env:
           - name: AMBIENT_ENABLE_MULTI_NETWORK
             value: "true"
+          - name: AMBIENT_ENABLE_BAGGAGE
+            value: "true"
   values:
     global:
       meshID: mesh1
@@ -98,7 +98,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Then, install the `istiod` chart in `cluster1` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true" --set env.AMBIENT_ENABLE_BAGGAGE="true"
 {{< /text >}}
 
 Next, install the CNI node agent in ambient mode:
@@ -222,6 +222,8 @@ spec:
         env:
           - name: AMBIENT_ENABLE_MULTI_NETWORK
             value: "true"
+          - name: AMBIENT_ENABLE_BAGGAGE
+            value: "true"
   values:
     global:
       meshID: mesh1
@@ -251,7 +253,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Then, install the `istiod` chart in `cluster2` with the following multi-cluster settings:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true" --set env.AMBIENT_ENABLE_BAGGAGE="true"
 {{< /text >}}
 
 Next, install the CNI node agent in ambient mode:

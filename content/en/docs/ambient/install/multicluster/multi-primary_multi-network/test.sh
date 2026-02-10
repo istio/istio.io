@@ -74,10 +74,17 @@ function enable_endpoint_discovery {
   snip_enable_endpoint_discovery_2
 }
 
+time setup_kiali_helm_repo
+time create_kiali_namespace
 time configure_trust
 time install_istio_istioctl
+time deploy_cluster_local_prometheus
+time deploy_federated_prometheus
 time enable_endpoint_discovery
+time deploy_kiali_remote
+time deploy_kiali
 time verify_load_balancing
+time verify_federated_prometheus
 time deploy_waypoints
 time configure_locality_failover
 time verify_traffic_local
@@ -87,6 +94,7 @@ time verify_failover
 # @cleanup
 source content/en/docs/ambient/install/multicluster/common.sh
 set_multi_network_vars
+time cleanup_kiali_and_prometheus
 time cleanup_istioctl
 time snip_delete_gateway_crds
 
