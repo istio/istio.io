@@ -1,5 +1,5 @@
 ---
-title: Change Notes
+title: Istio 1.29.0 Change Notes
 linktitle: 1.29.0
 subtitle: Minor Release
 description: Istio 1.29.0 release notes.
@@ -10,39 +10,34 @@ aliases:
     - /news/announcing-1.29.0
 ---
 
-# Deprecation Notices
-
-These notices describe functionality that will be removed in a future release according to [Istio's deprecation policy](/docs/releases/feature-stages/#feature-phase-definition). Please consider upgrading your environment to remove the deprecated functionality.
-
 ## Traffic Management
 
 - **Promoted** the `cni.ambient.dnsCapture` value to default to `true`.
-This enables the DNS proxying for workloads in ambient mesh by default, improving security, performance, and enabling
-a number of features. This can be disabled explicitly or with `compatibilityVersion=1.24`.
-Note: only new pods will have DNS enabled. To enable for existing pods, pods must be manually restarted, or the iptables reconcilation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=true`.
+This enables DNS proxying for workloads in ambient mesh by default, improving security and performance while enabling a number of features. This can be disabled explicitly or with `compatibilityVersion=1.24`.
+Note: only new pods will have DNS enabled. To enable DNS for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=true`.
 
 - **Promoted** `cni.ambient.reconcileIptablesOnStartup` to default to `true`.
 This enables automatic reconciliation of iptables/nftables rules for existing ambient pods when the `istio-cni` DaemonSet is upgraded,
-eliminating the need to manually restart pods to get updated networking configuration.
+eliminating the need to manually restart pods to receive updated networking configuration.
 This can be disabled explicitly or by using `compatibilityVersion=1.28`.
 
-- **Added** support for istio locality label `topology.istio.io/locality`, which take precedence over `istio-locality`.
+- **Added** support for Istio locality label `topology.istio.io/locality`, which takes precedence over `istio-locality`.
 
 - **Added** an option, `gateway.istio.io/tls-cipher-suites`, to specify the custom cipher suites on a Gateway. The value is a comma separated list of cipher suites.
   ([Issue #58366](https://github.com/istio/istio/issues/58366))
 
 - **Added** alpha support for a baggage-based telemetry system for ambient mesh. Users of multinetwork
-ambient will want to enable this feature via the `AMBIENT_ENABLE_BAGGAGE` pilot env var so that the
+ambient will want to enable this feature via the `AMBIENT_ENABLE_BAGGAGE` pilot environment variable so that
 metrics for cross-network traffic are properly attributed with source and destination labels. Note that
-ztunnel already sends baggage in requests; this feature just augments that functionality with waypoint
-generated baggage as well. As such, this feature is off by default for waypoints and on by default
+ztunnel already sends baggage in requests; this feature augments that functionality with waypoint-generated
+baggage as well. As such, this feature is off by default for waypoints and on by default
 in ztunnels (configurable via the `ENABLE_RESPONSE_BAGGAGE` environment variable in ztunnel).
 
-- **Added** logic to designate a Workload Discovery (WDS) Service as canonical. A canonical WDS Service is used by ztunnel during name resolution unless another WDS Service in the same namespace as the client exists to override. A canonical service will be configured from either (1) a Kubernetes Service resource or (2) the oldest Istio ServiceEntry resource which specifies that hostname.
+- **Added** logic to designate a Workload Discovery (WDS) Service as canonical. A canonical WDS Service is used by ztunnel during name resolution unless another WDS Service in the same namespace as the client exists to override it. A canonical service will be configured from either (1) a Kubernetes Service resource or (2) the oldest Istio ServiceEntry resource that specifies that hostname.
   ([Issue #58576](https://github.com/istio/istio/pull/58576))
 
 - **Added** a new feature flag `DISABLE_TRACK_REMAINING_CB_METRICS` to control circuit breaker remaining metrics tracking.
-When set to `false` (default), circuit breaker remaining metrics will not be tracked, which can improve performance.
+When set to `false` (default), circuit breaker remaining metrics will not be tracked, improving performance.
 When set to `true`, circuit breaker remaining metrics will be tracked (legacy behavior).
 This feature flag will be removed in a future release.
 
@@ -50,16 +45,16 @@ This feature flag will be removed in a future release.
 
 - **Added** support for circuit breaking (`http2MaxRequests`) in gRPC proxyless clients.
 
-- **Added** support for wildcard hosts in ServiceEntries with DYNAMIC_DNS resolution
-for TLS hosts. TLS `protocol` implies the connection will be routed based on the
+- **Added** support for wildcard hosts in ServiceEntries with `DYNAMIC_DNS` resolution
+for TLS hosts. The TLS protocol implies that connections will be routed based on the
 request's SNI (from the TLS handshake) without terminating the TLS connection to
 inspect the Host header for routing. The implementation relies on an alpha API
-and has significant security implications (i.e. SNI spoofing). Therefore, this
+and has significant security implications (i.e., SNI spoofing). Therefore, this
 feature is disabled by default and can be enabled by setting the feature flag
-`ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS` to true. Please consider the use of
+`ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS` to `true`. Please consider using
 this feature carefully and only with trusted clients.  ([Issue #54540](https://github.com/istio/istio/issues/54540))
 
-- **Fixed** the issue when sidecars try to route requests to ambient E/W gateways incorrectly.
+- **Fixed** an issue where sidecars tried to route requests to ambient E/W gateways incorrectly.
   ([Issue #57878](https://github.com/istio/istio/issues/57878))
 
 - **Fixed** Istio CNI node agent startup failure in MicroK8s environments when using ambient mode with nftables backend.
@@ -67,7 +62,7 @@ this feature carefully and only with trusted clients.  ([Issue #54540](https://g
 
 - **Fixed** an issue where InferencePool configurations were lost during VirtualService merging when multiple HTTPRoutes referencing different InferencePools were attached to the same Gateway.  ([Issue #58392](https://github.com/istio/istio/issues/58392))
 
-- **Fixed** an issue where setting `ambient.istio.io/bypass-inbound-capture: "true"` causes inbound HBONE traffic to timeout because the iptables rule for tracking the ztunnel mark on connections was not applied. This PR allows inbound HBONE connections to function normally while preserving the expected bypass behavior for inbound "passthrough" connections.
+- **Fixed** an issue where setting `ambient.istio.io/bypass-inbound-capture: "true"` caused inbound HBONE traffic to timeout because the iptables rule for tracking the ztunnel mark on connections was not applied. This change allows inbound HBONE connections to function normally while preserving the expected bypass behavior for inbound "passthrough" connections.
   ([Issue #58546](https://github.com/istio/istio/issues/58546))
 
 - **Fixed** an unreported bug where BackendTLSPolicy status could lose track of the Gateway ancestorRef due to internal index corruption.
@@ -83,8 +78,8 @@ this feature carefully and only with trusted clients.  ([Issue #54540](https://g
 - **Fixed** an issue where the overload manager resource monitor for global downstream max connections
 was hardcoded to the maximum integer value and could not be configured via Runtime Flags.
 Users can now configure the global downstream max connections limit via proxy metadata `ISTIO_META_GLOBAL_DOWNSTREAM_MAX_CONNECTIONS`.
-The runtime flag `overload.global_downstream_max_connections` is still honoured if specified for backwards compatibility but is deprecated in favor
-of this new approach of using proxy metadata.
+The runtime flag `overload.global_downstream_max_connections` is still honored if specified for backwards compatibility but is deprecated in favor
+of this new approach using proxy metadata.
 
 If `overload.global_downstream_max_connections` is specified, Envoy deprecated warnings will appear.
 
@@ -103,16 +98,16 @@ enabling compatibility across old and new gRPC clients (pre-1.66 and >=1.66).
 
 - **Improved** remote cluster trust domain handling by implementing watching of remote `meshConfig`.
 Istiod now automatically watches and updates trust domain information from remote clusters,
-ensuring accurate SAN matching for services, which belong to more than one trust domain.
+ensuring accurate SAN matching for services that belong to more than one trust domain.
 
-- **Added** an opt-in feature when using istio-cni in ambient mode to create a Istio owned CNI config
-file which contains the contents of the primary CNI config file and the Istio CNI plugin. This
+- **Added** an opt-in feature when using istio-cni in ambient mode to create an Istio-owned CNI config
+file that contains the contents of the primary CNI config file and the Istio CNI plugin. This
 opt-in feature is a solution to the issue of traffic bypassing the mesh on node restart when the
-istio cni deamonset is not ready, the Istio CNI plugin is not installed, or the plugin is not
-invoked to configure traffic redirection from pods their node ztunnels. This feature is enabled by
-setting cni.istioOwnedCNIConfig to true in the istio-cni Helm chart values. If no value is set for
-cni.istioOwnedCNIConfigFilename, the Istio owned CNI config file will be named 02-istio-cni.conflist.
-The istioOwnedCNIConfigFilename must have a higher lexicographical priority than the primary CNI.
+istio-cni DaemonSet is not ready, the Istio CNI plugin is not installed, or the plugin is not
+invoked to configure traffic redirection from pods to their node ztunnels. This feature is enabled by
+setting `cni.istioOwnedCNIConfig` to `true` in the istio-cni Helm chart values. If no value is set for
+`cni.istioOwnedCNIConfigFilename`, the Istio-owned CNI config file will be named `02-istio-cni.conflist`.
+The `istioOwnedCNIConfigFilename` must have a higher lexicographical priority than the primary CNI.
 Ambient and chained CNI plugins must be enabled for this feature to work.
 
 - **Added** optional NetworkPolicy deployment for istiod and istio-cni
@@ -124,9 +119,9 @@ We're planning to extend this to later also include NetworkPolicy for ztunnel.
 
 - **Added** support for watching symlinked secrets in the Istio node agent.
 
-- **Added** CRL support in zTunnel. When ca-crl.pen file is provided via plugged-in CA, Istiod automatically
+- **Added** CRL support in ztunnel. When a `ca-crl.pem` file is provided via plugged-in CA, Istiod automatically
 distributes Certificate Revocation Lists to all participating namespaces in the cluster. This enhancement allows
-zTunnel to validate and reject revoked certificates, strengthening the security posture of service mesh deployments
+ztunnel to validate and reject revoked certificates, strengthening the security posture of service mesh deployments
 using plugged-in CAs.
   ([Issue #58733](https://github.com/istio/istio/issues/58733))
 
@@ -155,8 +150,8 @@ You can set `global.networkPolicy.enabled=true` to deploy a default NetworkPolic
 
 ## Telemetry
 
-- **Added** introduce `statsCompression` option in proxyConfig to allow global configuration of HTTP compression for the Envoy stats endpoint exposing its metrics. This is enabled by default, offering `brotli`, `gzip` and `zstd` depending on the `Accept-Header` sent by the client.
-**Deprecated** remove the `sidecar.istio.io/statsCompression` annotation, which is replaced by the `statsCompression` proxyConfig option. Per Pod overrides are still possible via `proxy.istio.io/config` annotation.
+- **Added** `statsCompression` option in `proxyConfig` to allow global configuration of HTTP compression for the Envoy stats endpoint exposing its metrics. This is enabled by default, offering `brotli`, `gzip` and `zstd` depending on the `Accept-Header` sent by the client.
+**Deprecated** the `sidecar.istio.io/statsCompression` annotation, which is replaced by the `statsCompression` `proxyConfig` option. Per-pod overrides are still possible via `proxy.istio.io/config` annotation.
   ([Issue #48051](https://github.com/istio/istio/issues/48051))
 
 - **Added** source and destination workload identification to waypoint proxy traces.
@@ -188,17 +183,17 @@ to true for pilot.
 ## Installation
 
 - **Updated** `istiod` to set `GOMEMLIMIT` to 90% of the memory limit (previously 100%) to reduce the risk of OOM kills.
-This is now handled automatically via the `automemlimit` library. Users can override by setting the `GOMEMLIMIT`
+This is now handled automatically via the `automemlimit` library. Users can override this by setting the `GOMEMLIMIT`
 environment variable directly, or adjust the ratio using the `AUTOMEMLIMIT` environment variable (e.g., `AUTOMEMLIMIT=0.85` for 85%).
 
 - **Updated** Kiali addon to version v2.21.0.
 
 - **Added** support for filtering resources that Pilot will watch, based on the environment variable `PILOT_IGNORE_RESOURCES`.
-This variable is a comma-separated list of resources and prefixes that should be ignored by Istio CRD Watcher.
-In case there is a need to explicitly include a resource, even it being on the ignore list it can be done
+This variable is a comma-separated list of resources and prefixes that should be ignored by the Istio CRD Watcher.
+If there is a need to explicitly include a resource, even when it is on the ignore list, this can be done
 using the variable `PILOT_INCLUDE_RESOURCES`.
-This feature enables administrators that want to deploy Istio as a Gateway API only controller, ignoring mesh resources,
-or allowing the deployment of Istio with support only for Gateway API HTTPRoutes (eg.: GAMMA support).
+This feature enables administrators to deploy Istio as a Gateway API-only controller, ignoring mesh resources,
+or to deploy Istio with support only for Gateway API HTTPRoutes (e.g., GAMMA support).
   ([Issue #58425](https://github.com/istio/istio/issues/58425))
 
 - **Added** support for customize envoy file flush interval and buffer in `ProxyConfig`.
@@ -227,12 +222,12 @@ causing CNI config to be incorrectly left in place when a node no longer matched
 
 ## istioctl
 
-- **Added** `--wait` flag to `istioctl waypoint status` to specify whether to wait for the waypoint to become ready (default is true).
+- **Added** `--wait` flag to `istioctl waypoint status` to specify whether to wait for the waypoint to become ready (default is `true`).
 
-Specifying this flag with `--wait=false` will not wait for the waypoint to be ready, and will directly display the status of waypoint.
+Specifying this flag with `--wait=false` will not wait for the waypoint to be ready, and will directly display the status of the waypoint.
   ([Issue #57075](https://github.com/istio/istio/issues/57075))
 
-- **Added** support for `istioctl ztunnel-config all` and `istioctl pc all` to print headers
+- **Added** support for `istioctl ztunnel-config all` and `istioctl pc all` to print headers.
 
 - **Added** `--all-namespaces` flag for `istioctl waypoint status` to display the status of waypoints in all namespaces.
 
@@ -240,5 +235,3 @@ Specifying this flag with `--wait=false` will not wait for the waypoint to be re
 
 - **Fixed** translation function lookup errors for MeshConfig and MeshNetworks in istioctl
   ([Issue #57967](https://github.com/istio/istio/issues/57967))
-
-## Documentation changes

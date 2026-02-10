@@ -19,6 +19,10 @@ We would like to thank the Release Managers for this release, **Francisco Herrer
 Istio 1.29.0 is officially supported on Kubernetes versions 1.31 to 1.35.
 {{< /tip >}}
 
+## Security Update
+
+- [CVE-2025-61732](https://github.com/advisories/GHSA-8jvr-vh7g-f8gx) (CVSS score 8.6, High): A discrepancy between how Go and C/C++ comments were parsed allowed for code smuggling into the resulting cgo binary. 
+
 ## What’s new?
 
 TBD
