@@ -9,7 +9,7 @@ test: yes
 
 本任务描述了如何配置 Istio 以使用 Kubernetes [Gateway API 推理扩展](https://gateway-api-inference-extension.sigs.k8s.io/)。
 Gateway API 推理扩展旨在改进和标准化 Kubernetes 中自托管 AI 模型的路由。它利用 [Kubernetes Gateway API](/zh/docs/tasks/traffic-management/ingress/gateway-api-inference-extension) 中的 CRD，
-并借助 Envoy 的 [外部处理](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter) 过滤器，
+并借助 Envoy 的[外部处理](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter)过滤器，
 将任何 Gateway 扩展为推理网关。
 
 ## API 资源 {#api-resources}
@@ -340,7 +340,7 @@ Envoy 的 `ext_proc` 过滤器用于将传入请求路由到端点选择器服�
     $ kubectl delete ns istio-ingress inference-model-server
     {{< /text >}}
 
-1. 卸载 Istio:
+1. 卸载 Istio：
 
     {{< text bash >}}
     $ istioctl uninstall -y --purge
