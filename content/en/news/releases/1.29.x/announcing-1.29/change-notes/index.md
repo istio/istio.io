@@ -211,8 +211,8 @@ preventing creation of arbitrary Kubernetes resources through template injection
 - **Fixed** an issue where `iptables` command was not waiting to acquire a lock on
 `/run/xtables.lock`, causing some misleading errors in the logs.  ([Issue #58507](https://github.com/istio/istio/issues/58507))
 
-- **Fixed** an issue where the `istio-cni` DaemonSet treated nodeAffinity changes as upgrades,
-causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's nodeAffinity rules.
+- **Fixed** an issue where the `istio-cni` DaemonSet treated NodeAffinity changes as upgrades,
+causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's NodeAffinity rules.
   ([Issue #58768](https://github.com/istio/istio/issues/58768))
 
 - **Fixed** `istio-gateway` helm chart values schema to allow top-level `enabled` field.
