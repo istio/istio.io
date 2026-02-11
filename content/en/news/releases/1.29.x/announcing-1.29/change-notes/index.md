@@ -178,8 +178,6 @@ when baggage-based peer metadata discovery is enabled by setting `AMBIENT_ENABLE
 to true for pilot.
   ([Issue #58794](https://github.com/istio/istio/issues/58794)),([Issue #58476](https://github.com/istio/istio/issues/58476))
 
-## Extensibility
-
 ## Installation
 
 - **Updated** `istiod` to set `GOMEMLIMIT` to 90% of the memory limit (previously 100%) to reduce the risk of OOM kills.
@@ -211,7 +209,7 @@ preventing creation of arbitrary Kubernetes resources through template injection
 - **Fixed** an issue where `iptables` command was not waiting to acquire a lock on
 `/run/xtables.lock`, causing some misleading errors in the logs.  ([Issue #58507](https://github.com/istio/istio/issues/58507))
 
-- **Fixed** an issue where the `istio-cni` daemonSet treated NodeAffinity changes as upgrades,
+- **Fixed** an issue where the `istio-cni` DaemonSet treated NodeAffinity changes as upgrades,
 causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's NodeAffinity rules.
   ([Issue #58768](https://github.com/istio/istio/issues/58768))
 

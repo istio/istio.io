@@ -117,6 +117,7 @@ ACLs
 Acmeair
 addon
 addons
+advisories
 Aeraki
 AES-NI
 Agentic
@@ -142,6 +143,7 @@ ANDs
 Angaluri
 Aniszczyk
 Ansari
+ancestorRef
 Ansible
 Ant
 AntiAffinity
@@ -191,6 +193,7 @@ Babo
 backend
 backends
 backoff
+BackendTLSPolicy
 backport
 Bartosz
 base64
@@ -241,6 +244,7 @@ canaried
 canarying
 Careem
 CAs
+ClientCAs
 CDNs
 CentOS
 Cernich
@@ -293,6 +297,7 @@ Composability
 composability
 composable
 config
+config_dump
 ConfigMap
 configmap
 configmaps
@@ -436,12 +441,14 @@ CVE-2025-30157
 CVE-2025-46821
 CVE-2025-54588
 CVE-2025-55162
+CVE-2025-61732
 CVE-2025-62408
 CVE-2025-62409
 CVE-2025-62504
 CVE-2025-64527
 CVE-2025-64763
 CVE-2025-66220
+CVE-2025-68121
 CVEs
 cves
 cvss
@@ -514,6 +521,7 @@ e.g.
 e2e
 eBPF
 ECR
+edsz
 edition.cnn.com
 Eilers
 Eitan
@@ -624,6 +632,7 @@ Haidian
 Harri
 Harvey
 Hashicorp
+Herrera
 Hawton
 Hayk
 HBONE
@@ -667,6 +676,7 @@ Indo-Pacific
 InferenceModel
 InferenceObjective
 InferencePool
+InferencePools
 initContainer
 initializer
 initializers
@@ -883,6 +893,7 @@ Mansing
 Marshalers
 Mattix
 MB
+McAllister
 Meetup
 meetup
 meetups
@@ -893,6 +904,7 @@ Mengxue
 Merbridge
 merbridge
 MeshConfig
+MeshNetworks
 Mesika
 Mesos
 mesos-dns
@@ -946,6 +958,7 @@ namespaces
 Naser
 Nassi
 natively
+ndsz
 Neeraj
 NeoNephos
 netfilter
@@ -1164,6 +1177,7 @@ roadmap
 roadmaps
 RocketChat
 rollout
+RootCAs
 rollouts
 routable
 RPC
@@ -1316,6 +1330,7 @@ telemetry.istio.io
 telemetryv2_
 templated
 templating
+terminationGracePeriodSeconds
 Tencent
 test-api
 Tetrate
