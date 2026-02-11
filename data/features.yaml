@@ -478,10 +478,3 @@ features:
       checklist: features/ambient.md
       maturity: Beta
     area: Ambient mode
-  - name: "Multi-network"
-    link: "/docs/ambient/install/multicluster/"
-    id: "ambient.multi-network"
-    level:
-      checklist: features/ambient.md
-      maturity: Beta
-    area: Ambient mode
