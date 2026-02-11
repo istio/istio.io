@@ -4,12 +4,14 @@ description: Important changes to consider when upgrading to Istio 1.29.0.
 weight: 20
 ---
 
+# Upgrade Notes
+
 When you upgrade from Istio 1.28.x to Istio 1.29.0, you need to consider the changes on this page.
 These notes detail the changes which purposefully break backwards compatibility with Istio 1.28.x.
 The notes also mention changes which preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.28.x.
 
-# HTTP compression of Envoy metrics (`prometheus_stats`) enabled by default
+## HTTP compression of Envoy metrics (`prometheus_stats`) enabled by default
 
 The annotation `sidecar.istio.io/statsCompression` was deprecated and removed.
 
