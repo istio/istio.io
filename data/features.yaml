@@ -90,6 +90,7 @@ features:
       nextExpectedPromotion: "1.13"
     area: Traffic Management
   - name: "Kubernetes Gateway APIs for ingress (`Gateway` `parentRef`) "
+    id: "traffic.k8s_gateway_apis"
     link: "/docs/tasks/traffic-management/ingress/gateway-api/"
     level:
       checklist: features/k8s-gateway-apis.md
@@ -105,9 +106,10 @@ features:
       nextExpectedPromotion: ""
     area: Traffic Management
   - name: "Kubernetes Gateway API Inference Extension (`InferencePool`, `InferenceObjective`)"
+    id: "traffic.k8s_gateway_api_inference_extension"
     link: "/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/"
     level:
-      checklist: features/k8s-gateway-inference-extension-apis.md
+      checklist: features/k8s-gateway-api-inference-extension.md
       maturity: Beta
       nextExpectedPromotion: ""
     area: Traffic Management
