@@ -5,7 +5,7 @@ description: Istio 1.17 生命周期结束公告。
 publishdate: 2023-10-27
 ---
 
-正如[先前宣布](/zh/news/support/announcing-1.17-eol/)，对 Istio 1.17 的支持正式结束。
+正如[先前已公告](/zh/news/support/announcing-1.17-eol/)，对 Istio 1.17 的支持现已正式结束。
 
-此时，我们将不再将安全问题和严重错误的修复移植到 1.17，因此如果您还没有升级的话，
-我们衷心建议您升级到最新版本的 Istio ({{<istio_release_name>}})。
+自此，我们将不再为 Istio 1.17 提供任何安全漏洞或重大缺陷的修复支持。因此，如果您尚未升级，
+我们衷心建议您升级到最新版本的 Istio（{{<istio_release_name>}}）。
