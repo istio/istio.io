@@ -60,7 +60,7 @@ this feature carefully and only with trusted clients.  ([Issue #54540](https://g
 - **Fixed** Istio CNI node agent startup failure in MicroK8s environments when using ambient mode with nftables backend.
   ([Issue #58185](https://github.com/istio/istio/issues/58185))
 
-- **Fixed** an issue where InferencePool configurations were lost during VirtualService merging when multiple HTTPRoutes referencing different InferencePools were attached to the same Gateway.  ([Issue #58392](https://github.com/istio/istio/issues/58392))
+- **Fixed** an issue where InferencePool configurations were lost during VirtualService merging when multiple HTTPRoute referencing different InferencePools were attached to the same Gateway.  ([Issue #58392](https://github.com/istio/istio/issues/58392))
 
 - **Fixed** an issue where setting `ambient.istio.io/bypass-inbound-capture: "true"` caused inbound HBONE traffic to timeout because the iptables rule for tracking the ztunnel mark on connections was not applied. This change allows inbound HBONE connections to function normally while preserving the expected bypass behavior for inbound "passthrough" connections.
   ([Issue #58546](https://github.com/istio/istio/issues/58546))
@@ -71,12 +71,12 @@ this feature carefully and only with trusted clients.  ([Issue #54540](https://g
 - **Fixed** an issue where warmup aggression is not aligned with envoy configuration.
   ([Issue #3395](https://github.com/istio/api/issues/3395))
 
-- **Fixed** an issue where ingress gateways in ambient multi-cluster did not route requests to exposed remote backends. Also, a new feature flag `AMBIENT_ENABLE_MULTI_NETWORK_INGRESS` has been added and it's `true` by default. If the user wants to keep the old behaviour, it can be set to `false`.
+- **Fixed** an issue where ingress gateways in ambient multi-cluster did not route requests to exposed remote backends. Also, a new feature flag `AMBIENT_ENABLE_MULTI_NETWORK_INGRESS` has been added and it's `true` by default. If the user wants to keep the old behavior, it can be set to `false`.
 
 - **Fixed** an issue causing the ambient multicluster cluster registry to become unstable periodically, leading to incorrect configuration being pushed to proxies.
 
 - **Fixed** an issue where the overload manager resource monitor for global downstream max connections
-was hardcoded to the maximum integer value and could not be configured via Runtime Flags.
+was set to the maximum integer value and could not be configured via Runtime Flags.
 Users can now configure the global downstream max connections limit via proxy metadata `ISTIO_META_GLOBAL_DOWNSTREAM_MAX_CONNECTIONS`.
 The runtime flag `overload.global_downstream_max_connections` is still honored if specified for backwards compatibility but is deprecated in favor
 of this new approach using proxy metadata.
@@ -117,7 +117,7 @@ istio-cni and gateways.
 We're planning to extend this to later also include NetworkPolicy for ztunnel.
   ([Issue #56877](https://github.com/istio/api/issues/56877))
 
-- **Added** support for watching symlinked secrets in the Istio node agent.
+- **Added** support for watching symlink secrets in the Istio node agent.
 
 - **Added** CRL support in ztunnel. When a `ca-crl.pem` file is provided via plugged-in CA, Istiod automatically
 distributes Certificate Revocation Lists to all participating namespaces in the cluster. This enhancement allows
@@ -191,7 +191,7 @@ This variable is a comma-separated list of resources and prefixes that should be
 If there is a need to explicitly include a resource, even when it is on the ignore list, this can be done
 using the variable `PILOT_INCLUDE_RESOURCES`.
 This feature enables administrators to deploy Istio as a Gateway API-only controller, ignoring mesh resources,
-or to deploy Istio with support only for Gateway API HTTPRoutes (e.g., GAMMA support).
+or to deploy Istio with support only for Gateway API HTTPRoute (e.g., GAMMA support).
   ([Issue #58425](https://github.com/istio/istio/issues/58425))
 
 - **Added** support for customize envoy file flush interval and buffer in `ProxyConfig`.
@@ -209,8 +209,8 @@ preventing creation of arbitrary Kubernetes resources through template injection
 - **Fixed** an issue where `iptables` command was not waiting to acquire a lock on
 `/run/xtables.lock`, causing some misleading errors in the logs.  ([Issue #58507](https://github.com/istio/istio/issues/58507))
 
-- **Fixed** an issue where the `istio-cni` DaemonSet treated NodeAffinity changes as upgrades,
-causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's NodeAffinity rules.
+- **Fixed** an issue where the `istio-cni` DaemonSet treated nodeAffinity changes as upgrades,
+causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's nodeAffinity rules.
   ([Issue #58768](https://github.com/istio/istio/issues/58768))
 
 - **Fixed** `istio-gateway` helm chart values schema to allow top-level `enabled` field.

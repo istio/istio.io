@@ -322,6 +322,7 @@ CRD
 CRDs
 CRLs
 CRs
+crlConfigMapName
 crypto
 CryptoMB
 CryptoMbPrivateKeyMethodConfig
@@ -942,6 +943,7 @@ Multicloud
 multicloud
 Multicluster
 multicluster
+multinetwork
 Murthy
 mutex
 mutual-tls
@@ -1146,6 +1148,7 @@ Redis
 redis
 Redis-based
 referer
+referencing
 Registrator
 registrator
 Rego
@@ -1161,6 +1164,7 @@ repurposed
 Requena
 requires_any
 resized
+resumption
 Reskill
 ResourceQuota
 resources.limits.cpu
@@ -1250,6 +1254,7 @@ Sikka
 sinkInfo
 SkyWalking
 slack.istio.io
+smuggling
 SLOs
 SMEs
 SNAT
@@ -1310,6 +1315,7 @@ svc
 svc.com
 svg
 Swisscom
+symlinked
 Sysdig
 Taillefer
 Tanzu

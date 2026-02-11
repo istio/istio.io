@@ -50,7 +50,7 @@ While this feature has important security implications due to potential SNI spoo
 
 HTTP compression for Envoy metrics is now enabled by default, providing automatic compression (`brotli`, `gzip`, and `zstd`) for the Prometheus stats endpoint based on client `Accept-Header` values. This reduces network overhead for metrics collection while maintaining compatibility with existing monitoring infrastructure.
 
-Baggage based telemetry support has been added in alpha for ambient mesh, particularly benefiting multinetwork deployments. When enabled via the `AMBIENT_ENABLE_BAGGAGE` pilot environment variable, this feature ensures proper source and destination attribution for crossnetwork traffic metrics, improving observability in complex network topologies.
+Baggage based telemetry support has been added in alpha for ambient mesh, particularly benefiting multinetwork deployments. When enabled via the `AMBIENT_ENABLE_BAGGAGE` pilot environment variable, this feature ensures proper source and destination attribution for cross-network traffic metrics, improving observability in complex network topologies.
 
 ### Simplified Operations and Resource Management
 
