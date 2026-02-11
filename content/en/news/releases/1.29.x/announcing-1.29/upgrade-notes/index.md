@@ -46,7 +46,7 @@ To maintain the previous behavior where remaining metrics were tracked, you can:
 
 This change affects the `TrackRemaining` field in Envoy's circuit breaker configuration.
 
-## `base` Helm chart removals
+## Base Helm chart removals
 
 A number of configurations previously present in the `base` Helm chart were *copied* to the `istiod` chart in previous releases.
 
