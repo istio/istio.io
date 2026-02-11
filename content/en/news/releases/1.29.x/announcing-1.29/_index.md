@@ -28,13 +28,13 @@ Istio 1.29.0 is officially supported on Kubernetes versions 1.31 to 1.35.
 
 ### Ambient Mesh Production-Ready Enhancements
 
-Istio 1.29 significantly strengthens ambient mesh capabilities with two major operational improvements enabled by default. DNS capture is now enabled by default for ambient workloads, improving security and performance while enabling advanced features like better service discovery and traffic management. This enhancement ensures that DNS traffic from ambient workloads is properly proxied through the mesh infrastructure.
+Istio 1.29 adds two operational improvements enabled by default for ambient mesh: DNS capture is now enabled by default for ambient workloads, improving security and performance while enabling advanced features like better service discovery and traffic management. This enhancement ensures that DNS traffic from ambient workloads is properly proxied through the mesh infrastructure.
 
 Additionally, iptables reconciliation is now enabled by default, providing automatic network rule updates when the `istio-cni` DaemonSet is upgraded. This eliminates the manual intervention previously required to ensure existing ambient pods receive updated networking configuration, making ambient mesh operations more seamless and reliable for production environments.
 
 ### Enhanced Security Posture
 
-This release introduces comprehensive security enhancements across multiple components. Certificate Revocation List (CRL) support is now available in ztunnel, allowing validation and rejection of revoked certificates when using plugged in certificate authorities. This strengthens the security posture of service mesh deployments using external CAs.
+This release adds security enhancements across multiple components. Certificate Revocation List (CRL) support is now available in ztunnel, allowing validation and rejection of revoked certificates when using plugged in certificate authorities. This strengthens the security posture of service mesh deployments using external CAs.
 
 Debug endpoint authorization is enabled by default, providing namespace based access controls for debug endpoints on port 15014. Non system namespaces are now restricted to specific endpoints (`config_dump`, `ndsz`, `edsz`) and same namespace proxies only, improving security without impacting normal operations.
 
@@ -42,9 +42,9 @@ Optional NetworkPolicy deployment is now available for istiod, istio-cni, and zt
 
 ### TLS Traffic Management for Wildcard Hosts
 
-Istio 1.29 introduces alpha support for wildcard hosts in ServiceEntries with `DYNAMIC_DNS` resolution specifically for TLS traffic. This significant enhancement enables routing based on SNI (Server Name Indication) from TLS handshakes without terminating the TLS connection to inspect Host headers.
+Istio 1.29 introduces alpha support for wildcard hosts in ServiceEntries with `DYNAMIC_DNS` resolution specifically for TLS traffic. Enables routing based on SNI (Server Name Indication) from TLS handshakes without terminating the TLS connection to inspect Host headers.
 
-While this feature has important security implications due to potential SNI spoofing, it provides powerful capabilities for managing external TLS services when used with trusted clients. The feature requires explicit enablement via the `ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS` feature flag and represents an important step forward in external service mesh integration.
+While this feature has important security implications due to potential SNI spoofing, it provides powerful capabilities for managing external TLS services when used with trusted clients. The feature requires explicit enablement via the `ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS` feature flag.
 
 ### Performance and Observability Improvements
 
