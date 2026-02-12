@@ -58,6 +58,14 @@ Istio 1.29 introduces pilot resource filtering capabilities through the `PILOT_I
 
 Memory management has been improved with `istiod` now automatically setting `GOMEMLIMIT` to 90% of memory limits (via the `automemlimit` library), reducing the risk of OOM kills while maintaining optimal performance. Circuit breaker metrics tracking is now disabled by default, improving proxy memory usage while maintaining the option to enable legacy behavior when needed.
 
+### Inference Extension Support Promoted to Beta
+
+Support for the [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/) has been promoted to beta in Istio 1.29. The inference extension is an official Kubernetes project that utilizes a new `InferencePool` CRD object, along with existing Kubernetes Gateway API traffic management objects (`Gateway`, `HTTPRoute`), in order to optimize the serving of self-hosted Generative AI models in Kubernetes.
+
+Istio 1.29 is conformant with the v1.0.1 version of the inference extension, and is available to try by enabling the `ENABLE_GATEWAY_API_INFERENCE_EXTENSION` pilot environment variable. Future releases of Gateway API Inference Extension will be supported in upcoming versions of Istio.
+
+See [our guide](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/) and [original blog post](/blog/2025/inference-extension-support/) in order to get started.
+
 ### Plus Much More
 
 - **Enhanced istioctl capabilities**: New `--wait` flag for `istioctl waypoint status`, support for `--all-namespaces` flag, and improved proxy admin port specification
