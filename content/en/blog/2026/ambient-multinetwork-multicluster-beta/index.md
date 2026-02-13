@@ -39,7 +39,7 @@ And of course, we've also added a couple of smaller fixes making multi-network m
 
 ## Limitations and Next Steps
 
-All that said, we still acknowledge some gaps weren’t fully covered. Most of the work here was targeting multi-network support. Note that multicluster in single network deployments are still considered alpha stage.
+All that said, we still acknowledge some gaps weren’t fully covered. Most of the work here was targeting multi-network support. Note that multicluster in single network deployments is still considered alpha stage.
 
 Also, the E/W gateway may give preference to a specific endpoint during a certain time span. This may have some impact on how load from requests coming from a different network is distributed between endpoints. And this is a behavior that impacts both ambient and sidecar data-plane modes, and we have plans to address it for both cases.
 
