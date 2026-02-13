@@ -33,9 +33,7 @@ Note that this functionality is behind a feature flag at the moment. If you want
 
 ## Other Improvements and Fixes
 
-Ingress gateways now can route requests directly to remote clusters when no healthy endpoints are available locally. This sets the stage for easier resiliency, which we know is what lots of Istio users expect from their multicluster and multi-network designs.
-
-We also made improvements soaking the EDS content according to service scopes. This means that when clusters sit in different networks, remote endpoints that don’t belong to local clusters won’t be transmitted to local gateways and Ztunnel instances.
+Some welcomed improvements were made regarding connectivity. Ingress gateways and waypoints can now route requests directly to remote clusters. This sets the stage for easier resiliency and enables more flexible design patterns providing the benefits that Istio users expect in multicluster and multi-network deployments.
 
 And of course, we've also added a couple of smaller fixes making multi-network multicluster more stable and robust. We've updated the multicluster documentation to reflect some of these changes, including the addition of a [guide](/docs/ambient/install/multicluster/observability) on how to setup Kiali for an ambient multi-network deployment.
 
@@ -43,8 +41,8 @@ And of course, we've also added a couple of smaller fixes making multi-network m
 
 All that said, we still acknowledge some gaps weren’t fully covered. Most of the work here was targeting multi-network support. Note that multicluster in single network deployments are still considered alpha stage.
 
-Also, the E/W gateway may give preference to a specific endpoint during a certain timespan. This may have some impact on how load from requests coming from a different network is distributed between endpoints. And this is a behaviour that impacts both ambient and sidecar data-plane modes, and we have plans to address it for both cases.
+Also, the E/W gateway may give preference to a specific endpoint during a certain time span. This may have some impact on how load from requests coming from a different network is distributed between endpoints. And this is a behavior that impacts both ambient and sidecar data-plane modes, and we have plans to address it for both cases.
 
-We’re working with the fantastic Istio community to get these pendencies addressed. For now, we’re excited to get this beta out there, and eager to get your feedback. The future is looking bright for Istio multi-network multicluster.
+We’re working with the fantastic Istio community to get these limitations addressed. For now, we’re excited to get this beta out there, and eager to get your feedback. The future is looking bright for Istio multi-network multicluster.
 
-If you would like to try out ambient multinetwork multicluster, please follow [this guide](/docs/ambient/install/multicluster/multi-primary_multi-network/). Remember, this feature is in beta status and not ready for production use. We welcome your bug reports, thoughts, comments, and use cases. You can reach us on [GitHub](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
+If you would like to try out ambient multi-network multicluster, please follow [this guide](/docs/ambient/install/multicluster/multi-primary_multi-network/). Remember, this feature is in beta status and not ready for production use. We welcome your bug reports, thoughts, comments, and use cases. You can reach us on [GitHub](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
