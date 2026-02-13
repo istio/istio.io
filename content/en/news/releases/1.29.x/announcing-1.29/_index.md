@@ -66,6 +66,18 @@ Istio 1.29 is conformant with the v1.0.1 version of the inference extension, and
 
 See [our guide](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/) and [original blog post](/blog/2025/inference-extension-support/) in order to get started.
 
+### Multi-network multicluster ambient goes Beta
+
+This release also promotes multi-network multicluster in ambient to beta status. Lots of improvements were made for robustness and completeness. The main area of focus for this transition was telemetry, where important gaps were addressed, including the implementation of more advanced peer metadata exchange in the ambient data-plane.
+
+This means some confusing cases in multinetwork telemetry were addressed. In scenarios where Waypoints wouldn't be properly reported in L4 metrics to cases where peer information was not fully available for requests traversing different networks through an E/W Gateway.
+
+Also, we now have [a quick guide](/docs/ambient/install/multicluster/observability) showing how to deploy Prometheus and Kiali for multi-network multicluster in ambient mode.
+
+Note that some of these improvements may also be behind the `AMBIENT_ENABLE_BAGGAGE` feature flag mentioned in the sections above, so make sure to enable it if you want to try them out. If you need more information on how to deploy multi-network multicluster using the ambient data-plane, please follow [this guide](/docs/ambient/install/multicluster/multi-primary_multi-network/). You'll find more details about the feature on the [release notes](change-notes/).
+
+Don't forget to share your feedback with us!
+
 ### Plus Much More
 
 - **Enhanced istioctl capabilities**: New `--wait` flag for `istioctl waypoint status`, support for `--all-namespaces` flag, and improved proxy admin port specification
