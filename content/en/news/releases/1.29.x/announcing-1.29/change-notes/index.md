@@ -94,7 +94,7 @@ proxy metadata will take precedence over the runtime flag.
 - **Fixed** warning about `CONSISTENT_HASH` load balancing policy in gRPC proxyless clients.
 
 - **Fixed** gRPC xDS Listener to send both current and deprecated TLS certificate provider fields,
-enabling compatibility across old and new gRPC clients (pre-1.66 and >=1.66).
+enabling compatibility across old and new gRPC clients (`pre-1.66` and `1.66+`).
 
 - **Fixed** an issue where CNI initialization could fail when creating host iptables/nftables rules for health check probes. The initialization now retries up to 10 times with a 2-second delay between attempts to handle transient failures.
 
@@ -124,9 +124,7 @@ We're planning to extend this to later also include NetworkPolicy for ztunnel.
 - **Added** support for watching symlink secrets in the Istio node agent.
 
 - **Added** CRL support in ztunnel. When a `ca-crl.pem` file is provided via plugged-in CA, Istiod automatically
-distributes Certificate Revocation Lists to all participating namespaces in the cluster. This enhancement allows
-Added CRL support in ztunnel for certificate validation with plugged-in CAs.
-using plugged-in CAs.
+distributes Certificate Revocation Lists to all participating namespaces in the cluster.
   ([Issue #58733](https://github.com/istio/istio/issues/58733))
 
 - **Added** an experimental feature to allow dry-run AuthorizationPolicy in ztunnel. This feature will be disabled by default. See the Upgrade Note for details.
@@ -143,7 +141,7 @@ is disabled by default and can be enabled by setting `ambient.enableAmbientDetec
 
 - **Added** namespace-based authorization for debug endpoints on port 15014.
 Non-system namespaces restricted to config_dump/ndsz/edsz endpoints and same-namespace proxies only.
-Disable with ENABLE_DEBUG_ENDPOINT_AUTH=false if needed for compatibility.
+Disable with `ENABLE_DEBUG_ENDPOINT_AUTH=false` if needed for compatibility.
 
 - **Added** optional NetworkPolicy deployment for ztunnel.
 
@@ -188,7 +186,7 @@ to true for pilot.
 This is now handled automatically via the `automemlimit` library. Users can override this by setting the `GOMEMLIMIT`
 environment variable directly, or adjust the ratio using the `AUTOMEMLIMIT` environment variable (e.g., `AUTOMEMLIMIT=0.85` for 85%).
 
-- **Updated** Kiali addon to version v2.21.0.
+- **Updated** Kiali addon to version `v2.21.0`.
 
 - **Added** support for filtering resources that Pilot will watch, based on the environment variable `PILOT_IGNORE_RESOURCES`.
 This variable is a comma-separated list of resources and prefixes that should be ignored by the Istio CRD Watcher.
@@ -205,7 +203,7 @@ or to deploy Istio with support only for Gateway API HTTPRoute (e.g., GAMMA supp
 preventing creation of arbitrary Kubernetes resources through template injection.
   ([Issue #58891](https://github.com/istio/istio/issues/58891))
 
-- **Added** a setting values.pilot.crlConfigMapName that allows configuring the name of the ConfigMap that istiod uses to propagate its Certificate Revocation List (CRL) in the cluster. This allows running multiple control planes with overlapping namespaces in the same cluster.
+- **Added** a setting `values.pilot.crlConfigMapName` that allows configuring the name of the ConfigMap that istiod uses to propagate its Certificate Revocation List (CRL) in the cluster. This allows running multiple control planes with overlapping namespaces in the same cluster.
 
 - **Added** support for configuring terminationGracePeriodSeconds on the istio-cni pod, and updated the default value from 5 secs to 30 secs.
   ([Issue #58572](https://github.com/istio/istio/issues/58572))
