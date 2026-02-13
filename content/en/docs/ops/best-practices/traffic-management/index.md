@@ -279,7 +279,7 @@ caveats with this feature that must be considered carefully when using it.
    All such "catch-all" rules will be moved to the end of the list in the merged configuration, but
    since they catch all requests, whichever is applied first will essentially override and disable any others.
 1. A `VirtualService` can only be fragmented this way if it is bound to a gateway.
-   Host merging is not supported in sidecars.
+   Host merging is not supported in mesh routing (i.e. sidecars or waypoints).
 
 A `DestinationRule` can also be fragmented with similar merge semantics and restrictions.
 

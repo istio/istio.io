@@ -642,6 +642,7 @@ httpbin
 httpbin.foo.svc.cluster.local
 httpbin.org
 HTTPRoute
+HTTPRoutes
 HTTPS
 https
 Hu
@@ -664,6 +665,7 @@ Indo-Pacific
 InferenceModel
 InferenceObjective
 InferencePool
+ingress2gateway
 initContainer
 initializer
 initializers
