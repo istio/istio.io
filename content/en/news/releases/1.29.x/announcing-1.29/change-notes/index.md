@@ -125,7 +125,7 @@ We're planning to extend this to later also include NetworkPolicy for ztunnel.
 
 - **Added** CRL support in ztunnel. When a `ca-crl.pem` file is provided via plugged-in CA, Istiod automatically
 distributes Certificate Revocation Lists to all participating namespaces in the cluster. This enhancement allows
-ztunnel to validate and reject revoked certificates, strengthening the security posture of service mesh deployments
+Added CRL support in ztunnel for certificate validation with plugged-in CAs.
 using plugged-in CAs.
   ([Issue #58733](https://github.com/istio/istio/issues/58733))
 
