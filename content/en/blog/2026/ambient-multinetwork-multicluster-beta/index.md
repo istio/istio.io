@@ -25,9 +25,9 @@ Overcoming that problem, Istio 1.29 now ships with augmented discovery mechanism
 In the diagram above, focusing on L7 metrics, we show how the peer metadata flows through baggage headers across different clusters sitting in different networks.
 
 1. The client in Cluster A initiates a request, and Ztunnel starts to establish an HBONE connection through the Waypoint. This means Ztunnel sends a CONNECT request with a baggage header containing the peer metadata from downstream. That metadata is then stored in the Waypoint.
-2. The baggage header containing the metadata is removed, and the request is routed normally. In this case it goes to a different cluster.
-3. On the receiving side, the Ztunnel in Cluster B receives the HBONE request and replies with a successful status, appending a baggage header, now containing the upstream peer metadata.
-4. The upstream peer metadata is invisible to the East/West Gateway. And as the response reaches the Waypoint, it will now have all the information it needs to emit metrics about the two parties involved.
+1. The baggage header containing the metadata is removed, and the request is routed normally. In this case it goes to a different cluster.
+1. On the receiving side, the Ztunnel in Cluster B receives the HBONE request and replies with a successful status, appending a baggage header, now containing the upstream peer metadata.
+1. The upstream peer metadata is invisible to the East/West Gateway. And as the response reaches the Waypoint, it will now have all the information it needs to emit metrics about the two parties involved.
 
 Note that this functionality is behind a feature flag at the moment. If you want to try these telemetry enhancements, they need to be explicitly activated with the `AMBIENT_ENABLE_BAGGAGE` feature option.
 
@@ -37,7 +37,7 @@ Ingress gateways now can route requests directly to remote clusters when no heal
 
 We also made improvements soaking the EDS content according to service scopes. This means that when clusters sit in different networks, remote endpoints that don’t belong to local clusters won’t be transmitted to local gateways and Ztunnel instances.
 
-And of course, we've also added a couple of smaller fixes making multi-network multicluster more stable and robust. We've updated the multicluster documentation to reflect some of these changes, including the addition of a [guide](/docs/ambient/install/multicluster/observability) on how to setup Kiali for an ambient multi-network deployment. 
+And of course, we've also added a couple of smaller fixes making multi-network multicluster more stable and robust. We've updated the multicluster documentation to reflect some of these changes, including the addition of a [guide](/docs/ambient/install/multicluster/observability) on how to setup Kiali for an ambient multi-network deployment.
 
 ## Limitation and Next Steps
 
