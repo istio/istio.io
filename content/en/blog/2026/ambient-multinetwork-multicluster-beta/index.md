@@ -6,7 +6,7 @@ attribution: Gustavo Meira (Microsoft), Mikhail Krinkin (Microsoft)
 keywords: [ambient,multicluster]
 ---
 
-Our team of contributors has been busy throughout the transition to 2026. A lot of work was done to push the multi-network multicluster support for ambient into a beta release. Improvements were made in areas from our internal tests, up to the most popular multi-network multicluster asks in ambient, with a big focus on telemetry.  
+Our team of contributors has been busy throughout the transition to 2026. A lot of work was done to get the multi-network multicluster for ambient to production ready state. Improvements were made in areas from our internal tests, up to the most popular multi-network multicluster asks in ambient, with a big focus on telemetry.
 
 ## Gaps in Telemetry
 
@@ -14,7 +14,7 @@ For sure all the benefits from a multicluster system distributed across differen
 
 If you've deployed alpha multicluster capabilities before in multi-network scenarios, you might have had a few strange encounters with metrics that didn't make much sense. Requests crossing cluster boundaries could show up in a very confusing way. For example, some sources or destinations would show as "unknown".
 
-For context, in a local cluster (or clusters sharing the same network), Waypoint and Ztunnel are aware of all existing endpoints, and they acquire that information through XDS. Confusing metrics instead often occur in multi-network deployments where, given all the information that needs to be replicated across separate networks, the XDS peer discovery is unpractical. Unfortunately, that results in missing peer information when requests traverse network boundaries to reach a different Istio cluster.
+For context, in a local cluster (or clusters sharing the same network), Waypoint and Ztunnel are aware of all existing endpoints, and they acquire that information through xDS. Confusing metrics instead often occur in multi-network deployments where, given all the information that needs to be replicated across separate networks, the xDS peer discovery is unpractical. Unfortunately, that results in missing peer information when requests traverse network boundaries to reach a different Istio cluster.
 
 ## Telemetry Enhancements
 
@@ -41,14 +41,10 @@ And of course, we've also added a couple of smaller fixes making multi-network m
 
 ## Limitation and Next Steps
 
-All that said, we still acknowledge some gaps weren’t fully covered.
+All that said, we still acknowledge some gaps weren’t fully covered. Most of the work here was targeting multi-network support. Note that multicluster in single network deployments are still considered alpha stage.
 
-* Multicluster in single network deployments are still considered alpha stage.
-* In multi-network multicluster, the E/W gateway may give preference to a specific endpoint during a certain timespan. This may have some impact on how load from requests coming from a different network is distributed between endpoints.
-* In multi-network multicluster, services marked as cluster-local may answer to traffic from a remote cluster if they’re behind a global endpoint.
+Also, the E/W gateway may give preference to a specific endpoint during a certain timespan. This may have some impact on how load from requests coming from a different network is distributed between endpoints. And this is a behaviour that impacts both ambient and sidecar data-plane modes, and we have plans to address it for both cases.
 
-We’re working with the fantastic Istio community to get those addressed.
-
-For now, we’re excited to get this beta out there, and eager to get your feedback. The future is looking bright for Istio multi-network multicluster.
+We’re working with the fantastic Istio community to get these pendencies addressed. For now, we’re excited to get this beta out there, and eager to get your feedback. The future is looking bright for Istio multi-network multicluster.
 
 If you would like to try out ambient multinetwork multicluster, please follow [this guide](/docs/ambient/install/multicluster/multi-primary_multi-network/). Remember, this feature is in beta status and not ready for production use. We welcome your bug reports, thoughts, comments, and use cases. You can reach us on [GitHub](https://github.com/istio/istio) or [Slack](https://istio.slack.com/).
