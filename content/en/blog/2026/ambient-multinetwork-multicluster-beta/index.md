@@ -39,7 +39,7 @@ We also made improvements soaking the EDS content according to service scopes. T
 
 And of course, we've also added a couple of smaller fixes making multi-network multicluster more stable and robust. We've updated the multicluster documentation to reflect some of these changes, including the addition of a [guide](/docs/ambient/install/multicluster/observability) on how to setup Kiali for an ambient multi-network deployment.
 
-## Limitation and Next Steps
+## Limitations and Next Steps
 
 All that said, we still acknowledge some gaps weren’t fully covered. Most of the work here was targeting multi-network support. Note that multicluster in single network deployments are still considered alpha stage.
 
