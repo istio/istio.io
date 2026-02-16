@@ -160,6 +160,8 @@ This feature currently remains off by default and can be turned on with the `ENA
 
 - **Deprecated** the `sidecar.istio.io/statsCompression` annotation, which is replaced by the `statsCompression` `proxyConfig` option. Per-pod overrides are still possible via `proxy.istio.io/config` annotation.
   ([Issue #48051](https://github.com/istio/istio/issues/48051))
+- **Deprecated** the `sidecar.istio.io/statsCompression` annotation, which is replaced by the `statsCompression` `proxyConfig` option. Per-pod overrides are still possible via `proxy.istio.io/config` annotation.
+  ([Issue #48051](https://github.com/istio/istio/issues/48051))
 
 - **Added** `statsCompression` option in `proxyConfig` to allow global configuration of HTTP compression for the Envoy stats endpoint exposing its metrics. This is enabled by default, offering `brotli`, `gzip` and `zstd` depending on the `Accept-Header` sent by the client.
   ([Issue #48051](https://github.com/istio/istio/issues/48051))
