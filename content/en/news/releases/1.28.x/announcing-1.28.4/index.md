@@ -31,26 +31,26 @@ This release contains bug fixes to improve robustness. This release note describ
   Ambient and chained CNI plugins must be enabled for this feature to work.
 
 - **Added** safeguards to the gateway deployment controller to validate object types, names, and namespaces,
-preventing the creation of arbitrary Kubernetes resources through template injection.
+  preventing the creation of arbitrary Kubernetes resources through template injection.
   ([Issue #58891](https://github.com/istio/istio/issues/58891))
 
 - **Added** a retry mechanism when checking if a pod is ambient enabled in `istio-cni`.
-This is to address potential transient failures resulting in potential mesh bypassing. This feature
-is disabled by default and can be enabled by setting `ambient.enableAmbientDetectionRetry` in the
-`istio-cni` chart.
+  This is to address potential transient failures resulting in potential mesh bypassing. This feature
+  is disabled by default and can be enabled by setting `ambient.enableAmbientDetectionRetry` in the
+  `istio-cni` chart.
 
 - **Added** namespace-based authorization for debug endpoints on port 15014.
-Non-system namespaces are restricted to config_dump/ndsz/edsz endpoints and same-namespace proxies only.
-Disable with `ENABLE_DEBUG_ENDPOINT_AUTH=false` if needed for compatibility.
+  Non-system namespaces are restricted to `config_dump`/`ndsz`/`edsz` endpoints and same-namespace proxies only.
+  Disable with `ENABLE_DEBUG_ENDPOINT_AUTH=false` if needed for compatibility.
 
-- **Fixed** translation function lookup errors for MeshConfig and MeshNetworks in istioctl
+- **Fixed** translation function lookup errors for MeshConfig and MeshNetworks in istioctl.
   ([Issue #57967](https://github.com/istio/istio/issues/57967))
 
-- **Fixed** an unreported bug where BackendTLSPolicy status could lose track of the Gateway ancestorRef due to internal index corruption.
+- **Fixed** a bug where `BackendTLSPolicy` status could lose track of the Gateway `ancestorRef` due to internal index corruption.
   ([Issue #58731](https://github.com/istio/istio/pull/58731))
 
-- **Fixed** an issue where the `istio-cni` daemonSet treated NodeAffinity changes as upgrades,
-causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's NodeAffinity rules.
+- **Fixed** an issue where the istio-cni `DaemonSet` treated `NodeAffinity` changes as upgrades,
+  causing CNI config to be incorrectly left in place when a node no longer matched the `DaemonSet`'s `NodeAffinity` rules.
   ([Issue #58768](https://github.com/istio/istio/issues/58768))
 
 - **Fixed** resource annotation validation to reject newlines and control characters that could inject containers into pod specs via template rendering.
