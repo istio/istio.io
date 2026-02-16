@@ -64,7 +64,7 @@ Support for the [Gateway API Inference Extension](https://gateway-api-inference-
 
 Istio 1.29 is conformant with the `v1.0.1` version of the inference extension, and is available to try by enabling the `ENABLE_GATEWAY_API_INFERENCE_EXTENSION` pilot environment variable. Future releases of Gateway API Inference Extension will be supported in upcoming versions of Istio.
 
-See [our guide](/latest/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/) and [original blog post](/blog/2025/inference-extension-support/) in order to get started.
+See [our guide](/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/) and [original blog post](/blog/2025/inference-extension-support/) in order to get started.
 
 ### Multi-network multicluster ambient goes Beta
 
