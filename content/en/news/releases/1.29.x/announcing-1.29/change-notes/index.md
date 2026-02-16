@@ -75,7 +75,7 @@ aliases:
 - **Fixed** an issue where setting `ambient.istio.io/bypass-inbound-capture: "true"` caused inbound HBONE traffic to timeout because the iptables rule for tracking the ztunnel mark on connections was not applied. This change allows inbound HBONE connections to function normally while preserving the expected bypass behavior for inbound "passthrough" connections.
   ([Issue #58546](https://github.com/istio/istio/issues/58546))
 
-- **Fixed** an unreported bug where the `BackendTLSPolicy` status could lose track of the Gateway `ancestorRef` due to internal index corruption.
+- **Fixed** a bug where the `BackendTLSPolicy` status could lose track of the Gateway `ancestorRef` due to internal index corruption.
   ([Issue #58731](https://github.com/istio/istio/pull/58731))
 
 - **Fixed** an issue where warmup aggression is not aligned with Envoy configuration.
