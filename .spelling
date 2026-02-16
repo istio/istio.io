@@ -238,10 +238,12 @@ canaried
 canarying
 Careem
 CAs
+ClientCAs
 CDNs
 CentOS
 Cernich
 CFP
+cgo
 Chaand
 Chandrasekhara
 channel
@@ -433,12 +435,14 @@ CVE-2025-30157
 CVE-2025-46821
 CVE-2025-54588
 CVE-2025-55162
+CVE-2025-61732
 CVE-2025-62408
 CVE-2025-62409
 CVE-2025-62504
 CVE-2025-64527
 CVE-2025-64763
 CVE-2025-66220
+CVE-2025-68121
 CVEs
 cves
 cvss
@@ -1162,6 +1166,7 @@ roadmaps
 RocketChat
 rollout
 rollouts
+RootCAs
 routable
 RPC
 RPCs
