@@ -9,7 +9,7 @@ aliases:
     - /news/announcing-1.27.7
 ---
 
-This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.27.7 and 1.27.6.
+This release contains bug fixes to improve robustness. This release note describes what’s different between Istio 1.27.6 and 1.27.7.
 
 {{< relnote >}}
 
