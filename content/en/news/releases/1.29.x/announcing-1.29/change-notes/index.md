@@ -21,9 +21,9 @@ aliases:
   eliminating the need to manually restart pods to receive updated networking configuration.
   This can be disabled explicitly or by using `compatibilityVersion=1.28`.
 
-- **Promoted** support to beta for [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/).
-This feature currently remains off by default and can be turned on with the `ENABLE_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
-([usage](/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/)) ([Issue #58533](https://github.com/istio/istio/issues/58533))
+- **Promoted** support for [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/) to beta.
+  This feature currently remains off by default and can be turned on with the `ENABLE_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
+  ([usage](/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/)) ([Issue #58533](https://github.com/istio/istio/issues/58533))
 
 - **Added** support for Istio locality label `topology.istio.io/locality`, which takes precedence over `istio-locality`.
 
@@ -133,7 +133,7 @@ This feature currently remains off by default and can be turned on with the `ENA
   ([Issue #58733](https://github.com/istio/istio/issues/58733))
 
 - **Added** an experimental feature to allow dry-run of `AuthorizationPolicy` resources in ztunnel. This feature will be disabled by default. See the Upgrade Note for details.
- ([usage](https://istio.io/latest/docs/tasks/security/authorization/authz-dry-run/)) ([Issue #1933](https://github.com/istio/api/pull/1933))
+ ([usage](/docs/tasks/security/authorization/authz-dry-run/)) ([Issue #1933](https://github.com/istio/api/pull/1933))
 
 - **Added** support to block CIDRs in JWKS URIs when fetching public keys for JWT validation.
   If any resolved IP from a JWKS URI matches a blocked CIDR, Istio will skip fetching the public key
@@ -148,18 +148,11 @@ This feature currently remains off by default and can be turned on with the `ENA
   Non-system namespaces restricted to `config_dump`/`ndsz`/`edsz` endpoints and same-namespace proxies only.
   Disable with `ENABLE_DEBUG_ENDPOINT_AUTH=false` if needed for compatibility.
 
-- **Added** optional `NetworkPolicy` deployment for ztunnel.
-
-  You can set `global.networkPolicy.enabled=true` to deploy a default `NetworkPolicy` for ztunnel.
-  ([Issue #56877](https://github.com/istio/api/issues/56877))
-
 - **Fixed** resource annotation validation to reject newlines and control characters that could inject containers into pod specs via template rendering.
   ([Issue #58889](https://github.com/istio/istio/issues/58889))
 
 ## Telemetry
 
-- **Deprecated** the `sidecar.istio.io/statsCompression` annotation, which is replaced by the `statsCompression` `proxyConfig` option. Per-pod overrides are still possible via `proxy.istio.io/config` annotation.
-  ([Issue #48051](https://github.com/istio/istio/issues/48051))
 - **Deprecated** the `sidecar.istio.io/statsCompression` annotation, which is replaced by the `statsCompression` `proxyConfig` option. Per-pod overrides are still possible via `proxy.istio.io/config` annotation.
   ([Issue #48051](https://github.com/istio/istio/issues/48051))
 
@@ -171,58 +164,61 @@ This feature currently remains off by default and can be turned on with the `ENA
   other source peer tags in trace spans, matching the observability capabilities of sidecar proxies.
   ([Issue #58348](https://github.com/istio/istio/issues/58348))
 
-- **Added** support for `Formatter` type custom tag in Telemetry API.
+- **Added** support for `Formatter` type custom tag the in Telemetry API.
 
 - **Added** `istiod_remote_cluster_sync_status` gauge metric to Pilot to track the synchronization status of remote clusters.
 
-- **Added** waypoint span tags `istio.downstream.workload`, `istio.downstream.namespace`, `istio.upstream.workload`, `istio.upstream.namespace`,
-with the upstream and downstream workload and namespace.
+- **Added** waypoint span tags `istio.downstream.workload`, `istio.downstream.namespace`, `istio.upstream.workload`,
+  and `istio.upstream.namespace` to the upstream and downstream workload and namespace.
 
-- **Added** `timeout` and `headers` fields to `ZipkinTracingProvider` in MeshConfig extensionProviders.
-The `timeout` field configures the HTTP request timeout when sending spans to the Zipkin collector,
-providing better control over trace export reliability. The `headers` field allows including custom
-HTTP headers for authentication, authorization, and custom metadata use cases. Headers support both
-direct values and environment variable references for secure credential management.
- ([envoy]( https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto))([reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-ZipkinTracingProvider))([usage]( https://istio.io/latest/docs/tasks/observability/distributed-tracing/))
+- **Added** `timeout` and `headers` fields to `ZipkinTracingProvider` to the `MeshConfig`'s `extensionProviders`.
+  The `timeout` field configures the HTTP request timeout when sending spans to the Zipkin collector,
+  providing better control over trace export reliability. The `headers` field allows including custom
+  HTTP headers for authentication, authorization, and custom metadata use cases. Headers support both
+  direct values and environment variable references for secure credential management.
+ ([Envoy](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto)) ([reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider-ZipkinTracingProvider)) ([usage](/docs/tasks/observability/distributed-tracing/))
 
 - **Fixed** an issue causing metrics to be reported with unknown labels in ambient multi-network deployments even
-when baggage-based peer metadata discovery is enabled by setting `AMBIENT_ENABLE_BAGGAGE` environment variable
-to true for pilot.
+  when baggage-based peer metadata discovery was enabled by setting `AMBIENT_ENABLE_BAGGAGE` environment variable
+  to `true` for pilot.
   ([Issue #58794](https://github.com/istio/istio/issues/58794)),([Issue #58476](https://github.com/istio/istio/issues/58476))
 
 ## Installation
 
 - **Updated** `istiod` to set `GOMEMLIMIT` to 90% of the memory limit (previously 100%) to reduce the risk of OOM kills.
-This is now handled automatically via the `automemlimit` library. Users can override this by setting the `GOMEMLIMIT`
-environment variable directly, or adjust the ratio using the `AUTOMEMLIMIT` environment variable (e.g., `AUTOMEMLIMIT=0.85` for 85%).
+  This is now handled automatically via the `automemlimit` library. Users can override this by setting the `GOMEMLIMIT`
+  environment variable directly, or adjust the ratio using the `AUTOMEMLIMIT` environment variable (e.g., `AUTOMEMLIMIT=0.85` for 85%).
 
 - **Updated** Kiali addon to version `v2.21.0`.
 
 - **Added** support for filtering resources that Pilot will watch, based on the environment variable `PILOT_IGNORE_RESOURCES`.
-This variable is a comma-separated list of resources and prefixes that should be ignored by the Istio CRD Watcher.
-If there is a need to explicitly include a resource, even when it is on the ignore list, this can be done
-using the variable `PILOT_INCLUDE_RESOURCES`.
-This feature enables administrators to deploy Istio as a Gateway API-only controller, ignoring mesh resources,
-or to deploy Istio with support only for Gateway API HTTPRoute (e.g., GAMMA support).
+
+  This variable is a comma-separated list of resources and prefixes that should be ignored by the Istio CRD watcher.
+  If there is a need to explicitly include a resource, even when it is on the ignore list, this can be done
+  using the variable `PILOT_INCLUDE_RESOURCES`.
+
+  This feature enables administrators to deploy Istio as a Gateway API-only controller, ignoring mesh resources,
+  or to deploy Istio with support only for Gateway API `HTTPRoute` (e.g., GAMMA support).
   ([Issue #58425](https://github.com/istio/istio/issues/58425))
 
-- **Added** support for customize envoy file flush interval and buffer in `ProxyConfig`.
+- **Added** support to customize the Envoy file flush interval and buffer configurations in `ProxyConfig`.
   ([Issue #58545](https://github.com/istio/istio/issues/58545))
 
 - **Added** safeguards to the gateway deployment controller to validate object types, names, and namespaces,
-preventing creation of arbitrary Kubernetes resources through template injection.
+  to prevent the creation of arbitrary Kubernetes resources through template injection.
   ([Issue #58891](https://github.com/istio/istio/issues/58891))
 
-- **Added** a setting `values.pilot.crlConfigMapName` that allows configuring the name of the ConfigMap that istiod uses to propagate its Certificate Revocation List (CRL) in the cluster. This allows running multiple control planes with overlapping namespaces in the same cluster.
+- **Added** a setting `values.pilot.crlConfigMapName` that allows configuring the name of the `ConfigMap` that istiod uses to propagate its Certificate Revocation List (CRL) in the cluster. This allows running multiple control planes with overlapping namespaces in the same cluster.
 
-- **Added** support for configuring terminationGracePeriodSeconds on the istio-cni pod, and updated the default value from 5 secs to 30 secs.
+- **Added** support for configuring `terminationGracePeriodSeconds` on the istio-cni pod, and updated the default value from 5 secs to 30 secs.
   ([Issue #58572](https://github.com/istio/istio/issues/58572))
 
-- **Fixed** an issue where `iptables` command was not waiting to acquire a lock on
-`/run/xtables.lock`, causing some misleading errors in the logs.  ([Issue #58507](https://github.com/istio/istio/issues/58507))
+- **Fixed** an issue where `iptables` command was not waiting to acquire a lock on `/run/xtables.lock`,
+  causing some misleading errors in the logs.
+  ([Issue #58507](https://github.com/istio/istio/issues/58507))
 
-- **Fixed** an issue where the `istio-cni` DaemonSet treated nodeAffinity changes as upgrades,
-causing CNI config to be incorrectly left in place when a node no longer matched the DaemonSet's nodeAffinity rules.
+- **Fixed** an issue where the istio-cni `DaemonSet` treated `nodeAffinity` changes as upgrades,
+causing CNI config to be incorrectly left in place when a node no longer matched the `DaemonSet`'s `nodeAffinity` rules.
   ([Issue #58768](https://github.com/istio/istio/issues/58768))
 
 - **Fixed** `istio-gateway` helm chart values schema to allow top-level `enabled` field.
@@ -232,14 +228,14 @@ causing CNI config to be incorrectly left in place when a node no longer matched
 
 ## istioctl
 
-- **Added** `--wait` flag to `istioctl waypoint status` to specify whether to wait for the waypoint to become ready (default is `true`).
+- **Added** a `--wait` flag to the `istioctl waypoint status` command to specify whether to wait for the waypoint to become ready (default is `true`).
 
 Specifying this flag with `--wait=false` will not wait for the waypoint to be ready, and will directly display the status of the waypoint.
   ([Issue #57075](https://github.com/istio/istio/issues/57075))
 
-- **Added** support for `istioctl ztunnel-config all` and `istioctl pc all` to print headers.
+- **Added** the printing of headers to the `istioctl ztunnel-config all` and `istioctl proxy-config all` commands.
 
-- **Added** `--all-namespaces` flag for `istioctl waypoint status` to display the status of waypoints in all namespaces.
+- **Added** `--all-namespaces` flag for the `istioctl waypoint status` command to display the status of waypoints in all namespaces.
 
 - **Added** support for specifying the proxy admin port in `istioctl ztunnel-config`.
 

@@ -138,7 +138,6 @@ ambient.istio.io
 Ameer
 analytics
 Anantheswaran
-ancestorRef
 ANDed
 ANDs
 Angaluri
@@ -192,7 +191,6 @@ az
 Babo
 backend
 backends
-BackendTLSPolicy
 backoff
 backport
 Bartosz
@@ -269,7 +267,6 @@ Ciążyński
 Cleartext
 cleartext
 cli
-ClientCAs
 CloudNativeCon
 CloudWatch
 cluster.local
@@ -303,7 +300,6 @@ configmap
 configmaps
 configs
 configurability
-config_dump
 conformant
 CONNECT-IP
 CONNECT-UDP
@@ -321,7 +317,6 @@ cpuset
 CR
 CRD
 CRDs
-crlConfigMapName
 CRLs
 CRs
 crypto
@@ -880,6 +875,7 @@ LoRA-aware
 Lua
 lucavall.in
 Lukonde
+Luntry
 Luyao
 Lyft
 macOS
@@ -960,7 +956,6 @@ namespaces
 Naser
 Nassi
 natively
-ndsz
 Neeraj
 NeoNephos
 netfilter
@@ -1183,7 +1178,6 @@ roadmaps
 RocketChat
 rollout
 rollouts
-RootCAs
 routable
 RPC
 RPCs
@@ -1215,6 +1209,7 @@ SecurityGroupPolicy
 SecurityGroups
 security_bulletin
 selinux
+Sergey
 serverless
 service-apis
 serviceaccount
@@ -1339,7 +1334,6 @@ telemetryv2_
 templated
 templating
 Tencent
-terminationGracePeriodSeconds
 test-api
 Tetrate
 Tigera

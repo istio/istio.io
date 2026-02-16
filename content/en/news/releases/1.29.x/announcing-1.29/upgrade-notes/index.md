@@ -26,7 +26,7 @@ To enable this feature for existing pods, existing pods must either be manually 
 
 ## Upgrading in ambient mode with dry-run AuthorizationPolicy
 
-If you use dry-run AuthorizationPolicy and wish to enable this new feature, the upgrade to 1.29 includes some important considerations. Prior to Istio 1.29, ztunnel did not have any capability to handle dry-run AuthorizationPolicy. As a result, istiod would not send any dry-run policy to ztunnel. Istio 1.29 introduces experimental support for dry-run AuthorizationPolicy in ztunnel. Setting `AMBIENT_ENABLE_DRY_RUN_AUTHORIZATION_POLICY=true` will cause istiod to begin sending dry-run policies to ztunnel, using a new field in xDS. A ztunnel below version 1.29 will not support this field. As a result, older ztunnels will fully enforce these policies, which is likely to produce an unexpected result. To ensure a smooth upgrade, it is important to ensure that all ztunnel proxies connecting to an istiod with this feature enabled are new enough to correctly handle these policies.
+If you use dry-run `AuthorizationPolicy` and wish to enable this new feature, the upgrade to 1.29 includes some important considerations. Prior to Istio 1.29, ztunnel did not have any capability to handle dry-run `AuthorizationPolicy`. As a result, istiod would not send any dry-run policy to ztunnel. Istio 1.29 introduces experimental support for dry-run `AuthorizationPolicy` in ztunnel. Setting `AMBIENT_ENABLE_DRY_RUN_AUTHORIZATION_POLICY=true` will cause istiod to begin sending dry-run policies to ztunnel, using a new field in xDS. A ztunnel below version 1.29 will not support this field. As a result, older ztunnels will fully enforce these policies, which is likely to produce an unexpected result. To ensure a smooth upgrade, it is important to ensure that all ztunnel proxies connecting to an istiod with this feature enabled are new enough to correctly handle these policies.
 
 ## Debug endpoint authorization enabled by default
 
@@ -69,6 +69,6 @@ In the new chart it is `{{- if not (eq .Values.revision "") }}-{{ .Values.revisi
 
 ## Ambient iptables reconciliation enabled by default
 
-Iptables reconciliation is enabled by default for ambient workloads in release 1.29.0. When a new `istio-cni` DaemonSet pod starts up,
+Iptables reconciliation is enabled by default for ambient workloads in release 1.29.0. When a new istio-cni `DaemonSet` pod starts up,
 it will automatically inspect pods that were previously enrolled in the ambient mesh and upgrade their in-pod iptables/nftables rules to the current state
 if there are any differences. This feature can be disabled explicitly with `--set cni.ambient.reconcileIptablesOnStartup=false`.

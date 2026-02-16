@@ -3,7 +3,7 @@ title: Announcing Istio 1.29.0
 linktitle: 1.29.0
 subtitle: Major Release
 description: Istio 1.29 Release Announcement.
-publishdate: 2026-02-12
+publishdate: 2026-02-16
 release: 1.29.0
 aliases:
     - /news/announcing-1.29
@@ -11,7 +11,7 @@ aliases:
 ---
 
 We are pleased to announce the release of Istio 1.29. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.29.0 release published!
-We would like to thank the Release Managers for this release, **Francisco Herrera** from Red Hat, and **Petr McAllister** from Solo.io.
+We would like to thank the Release Managers for this release, **Francisco Herrera** from Red Hat, **Darrin Cecil** from Microsoft, and **Petr McAllister** from Solo.io.
 
 {{< relnote >}}
 
@@ -19,30 +19,25 @@ We would like to thank the Release Managers for this release, **Francisco Herrer
 Istio 1.29.0 is officially supported on Kubernetes versions 1.31 to 1.35.
 {{< /tip >}}
 
-## Security Update
-
-- [CVE-2025-61732](https://github.com/advisories/GHSA-8jvr-vh7g-f8gx) (CVSS score 8.6, High): A discrepancy between how Go and C/C++ comments were parsed allowed for code smuggling into the resulting cgo binary.
-- [CVE-2025-68121](https://github.com/advisories/GHSA-h355-32pf-p2xm) (CVSS score 4.8, Moderate): A flaw in `crypto/tls` session resumption allows resumed handshakes to succeed when they should fail if ClientCAs or RootCAs are mutated between the initial and resumed handshake. This can occur when using `Config.Clone` with mutations or `Config.GetConfigForClient`. As a result, clients may resume sessions with unintended servers, and servers may resume sessions with unintended clients.
-
 ## What's new?
 
 ### Ambient Mesh Production-Ready Enhancements
 
 Istio 1.29 adds two operational improvements enabled by default for ambient mesh: DNS capture is now enabled by default for ambient workloads, improving security and performance while enabling advanced features like better service discovery and traffic management. This enhancement ensures that DNS traffic from ambient workloads is properly proxied through the mesh infrastructure.
 
-Additionally, iptables reconciliation is now enabled by default, providing automatic network rule updates when the `istio-cni` DaemonSet is upgraded. This eliminates the manual intervention previously required to ensure existing ambient pods receive updated networking configuration, making ambient mesh operations more seamless and reliable for production environments.
+Additionally, iptables reconciliation is now enabled by default, providing automatic network rule updates when the istio-cni `DaemonSet` is upgraded. This eliminates the manual intervention previously required to ensure existing ambient pods receive updated networking configuration, making ambient mesh operations more seamless and reliable for production environments.
 
 ### Enhanced Security Posture
 
 This release adds security enhancements across multiple components. Certificate Revocation List (CRL) support is now available in ztunnel, allowing validation and rejection of revoked certificates when using plugged in certificate authorities. This strengthens the security posture of service mesh deployments using external CAs.
 
-Debug endpoint authorization is enabled by default, providing namespace based access controls for debug endpoints on port 15014. Non system namespaces are now restricted to specific endpoints (`config_dump`, `ndsz`, `edsz`) and same namespace proxies only, improving security without impacting normal operations.
+Debug endpoint authorization is enabled by default, providing namespace based access controls for debug endpoints on port 15014. Non system namespaces are now restricted to specific endpoints (`config_dump`, `ndsz`, `edsz`) and same namespace proxies only, improving security without impacting normal operations. _Special thanks to Sergey KANIBOR at Luntry for reporting the debug endpoint authorization issue._
 
 Optional NetworkPolicy deployment is now available for istiod, istio-cni, and ztunnel components, enabling users to deploy default `NetworkPolicies` with `global.networkPolicy.enabled=true` for enhanced network security.
 
 ### TLS Traffic Management for Wildcard Hosts
 
-Istio 1.29 introduces alpha support for wildcard hosts in ServiceEntries with `DYNAMIC_DNS` resolution specifically for TLS traffic. Enables routing based on SNI (Server Name Indication) from TLS handshakes without terminating the TLS connection to inspect Host headers.
+Istio 1.29 introduces alpha support for wildcard hosts in `ServiceEntry` resources with `DYNAMIC_DNS` resolution specifically for TLS traffic. Enables routing based on SNI (Server Name Indication) from TLS handshakes without terminating the TLS connection to inspect Host headers.
 
 While this feature has important security implications due to potential SNI spoofing, it provides powerful capabilities for managing external TLS services when used with trusted clients. The feature requires explicit enablement via the `ENABLE_WILDCARD_HOST_SERVICE_ENTRIES_FOR_TLS` feature flag.
 
@@ -81,7 +76,7 @@ Don't forget to share your feedback with us!
 ### Plus Much More
 
 - **Enhanced istioctl capabilities**: New `--wait` flag for `istioctl waypoint status`, support for `--all-namespaces` flag, and improved proxy admin port specification
-- **Installation improvements**: Configurable terminationGracePeriodSeconds for istio-cni pods, safeguards for gateway deployment controller, and support for custom envoy file flush intervals
+- **Installation improvements**: Configurable `terminationGracePeriodSeconds` for istio-cni pods, safeguards for gateway deployment controller, and support for custom envoy file flush intervals
 - **Traffic management enhancements**: Support for `LEAST_REQUEST` load balancing and circuit breaking in gRPC proxyless clients, improved ambient multicluster ingress routing
 - **Telemetry advances**: Source and destination workload identification in waypoint proxy traces, timeout and headers support for Zipkin tracing provider
 
