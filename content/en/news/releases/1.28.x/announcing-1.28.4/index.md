@@ -13,6 +13,11 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
+## Security update
+
+- [CVE-2025-61732](https://github.com/advisories/GHSA-8jvr-vh7g-f8gx) (CVSS score 8.6, High): A discrepancy between how Go and C/C++ comments were parsed allowed for code smuggling into the resulting cgo binary.
+- [CVE-2025-68121](https://github.com/advisories/GHSA-h355-32pf-p2xm) (CVSS score 4.8, Moderate): A flaw in crypto/tls session resumption allows resumed handshakes to succeed when they should fail if ClientCAs or RootCAs are mutated between the initial and resumed handshake. This can occur when using `Config.Clone` with mutations or `Config.GetConfigForClient`. As a result, clients may resume sessions with unintended servers, and servers may resume sessions with unintended clients.
+
 ## Changes
 
 - **Added** an opt-in feature when using `istio-cni` in ambient mode to create an Istio owned CNI config
@@ -54,8 +59,3 @@ causing CNI config to be incorrectly left in place when a node no longer matched
 - **Fixed** incorrect mapping of `meshConfig.tlsDefaults.minProtocolVersion` to `tls_minimum_protocol_version` in downstream TLS context.
 
 - **Fixed** an issue causing the ambient multicluster cluster registry to become unstable periodically, leading to incorrect configuration being pushed to proxies.
-
-## Security update
-
-- [CVE-2025-61732](https://github.com/advisories/GHSA-8jvr-vh7g-f8gx) (CVSS score 8.6, High): A discrepancy between how Go and C/C++ comments were parsed allowed for code smuggling into the resulting cgo binary.
-- [CVE-2025-68121](https://github.com/advisories/GHSA-h355-32pf-p2xm) (CVSS score 4.8, Moderate): A flaw in crypto/tls session resumption allows resumed handshakes to succeed when they should fail if ClientCAs or RootCAs are mutated between the initial and resumed handshake. This can occur when using `Config.Clone` with mutations or `Config.GetConfigForClient`. As a result, clients may resume sessions with unintended servers, and servers may resume sessions with unintended clients.
