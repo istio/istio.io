@@ -15,28 +15,28 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Added** an opt-in feature when using istio-cni in ambient mode to create a Istio owned CNI config
+- **Added** an opt-in feature when using `istio-cni` in ambient mode to create an Istio owned CNI config
 file which contains the contents of the primary CNI config file and the Istio CNI plugin. This
 opt-in feature is a solution to the issue of traffic bypassing the mesh on node restart when the
-istio cni deamonset is not ready, the Istio CNI plugin is not installed, or the plugin is not
-invoked to configure traffic redirection from pods their node ztunnels. This feature is enabled by
-setting cni.istioOwnedCNIConfig to true in the istio-cni Helm chart values. If no value is set for
-cni.istioOwnedCNIConfigFilename, the Istio owned CNI config file will be named 02-istio-cni.conflist.
-The istioOwnedCNIConfigFilename must have a higher lexicographical priority than the primary CNI.
+istio cni daemonset is not ready, the Istio CNI plugin is not installed, or the plugin is not
+invoked to configure traffic redirection from pods to their node ztunnels. This feature is enabled by
+setting `cni.istioOwnedCNIConfig` to `true` in the `istio-cni` Helm chart values. If no value is set for
+`cni.istioOwnedCNIConfigFilename`, the Istio owned CNI config file will be named `02-istio-cni.conflist`.
+The `istioOwnedCNIConfigFilename` must have a higher lexicographical priority than the primary CNI configuration filename.
 Ambient and chained CNI plugins must be enabled for this feature to work.
 
 - **Added** safeguards to the gateway deployment controller to validate object types, names, and namespaces,
-preventing creation of arbitrary Kubernetes resources through template injection.
+preventing the creation of arbitrary Kubernetes resources through template injection.
   ([Issue #58891](https://github.com/istio/istio/issues/58891))
 
-- **Added** a retry mechanism when checking if a pod is ambient enabled in istio-cni.
+- **Added** a retry mechanism when checking if a pod is ambient enabled in `istio-cni`.
 This is to address potential transient failures resulting in potential mesh bypassing. This feature
 is disabled by default and can be enabled by setting `ambient.enableAmbientDetectionRetry` in the
 `istio-cni` chart.
 
 - **Added** namespace-based authorization for debug endpoints on port 15014.
-Non-system namespaces restricted to config_dump/ndsz/edsz endpoints and same-namespace proxies only.
-Disable with ENABLE_DEBUG_ENDPOINT_AUTH=false if needed for compatibility.
+Non-system namespaces are restricted to config_dump/ndsz/edsz endpoints and same-namespace proxies only.
+Disable with `ENABLE_DEBUG_ENDPOINT_AUTH=false` if needed for compatibility.
 
 - **Fixed** translation function lookup errors for MeshConfig and MeshNetworks in istioctl
   ([Issue #57967](https://github.com/istio/istio/issues/57967))
