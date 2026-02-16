@@ -17,7 +17,7 @@ aliases:
   Note: only new pods will have DNS enabled. To enable DNS for existing pods, pods must be manually restarted, or the iptables reconciliation feature must be enabled with `--set cni.ambient.reconcileIptablesOnStartup=true`.
 
 - **Promoted** `cni.ambient.reconcileIptablesOnStartup` to default to `true`.
-  This enables automatic reconciliation of iptables/nftables rules for existing ambient pods when the `istio-cni` DaemonSet is upgraded,
+  This enables automatic reconciliation of iptables/nftables rules for existing ambient pods when the `istio-cni` `DaemonSet` is upgraded,
   eliminating the need to manually restart pods to receive updated networking configuration.
   This can be disabled explicitly or by using `compatibilityVersion=1.28`.
 
