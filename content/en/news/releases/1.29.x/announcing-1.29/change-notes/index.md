@@ -23,7 +23,7 @@ This can be disabled explicitly or by using `compatibilityVersion=1.28`.
 
 - **Promoted** support to beta for [Gateway API Inference Extension](https://gateway-api-inference-extension.sigs.k8s.io/).
 This feature currently remains off by default and can be turned on with the `ENABLE_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
-([usage]( https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/)) ([Issue #58533](https://github.com/istio/istio/issues/58533))
+([usage](/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/)) ([Issue #58533](https://github.com/istio/istio/issues/58533))
 
 - **Added** support for Istio locality label `topology.istio.io/locality`, which takes precedence over `istio-locality`.
 
