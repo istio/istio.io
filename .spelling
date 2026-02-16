@@ -266,6 +266,7 @@ Ciążyński
 Cleartext
 cleartext
 cli
+ClientCAs
 CloudNativeCon
 CloudWatch
 cluster.local
@@ -1177,6 +1178,7 @@ roadmaps
 RocketChat
 rollout
 rollouts
+RootCAs
 routable
 RPC
 RPCs
