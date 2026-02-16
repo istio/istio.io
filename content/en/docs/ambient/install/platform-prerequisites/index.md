@@ -298,3 +298,39 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
 
 When Cilium is used to replace kube-proxy, take note of the additional configuration options required to ensure proper operation with Istio in ambient mode described in the [Cilium documentation](https://docs.cilium.io/en/stable/network/servicemesh/istio/).
+
+### SELinux
+
+On systems with SELinux enabled (such as RHEL, Rocky Linux, AlmaLinux, or RKE2 nodes), the `istio-cni` DaemonSet pods require special SELinux configuration to function correctly. This is because the CNI plugin needs to interact with node-level resources and pod network namespaces.
+
+If you are running Istio on an SELinux-enabled system, you must configure `seLinuxOptions` with `type: spc_t` (Super Privileged Container) in the `istio-cni` Helm values. This allows the CNI plugin to run with the necessary permissions to manage pod networking.
+
+{{< tabset category-name="install-method" >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.seLinuxOptions.type=spc_t --wait
+    {{< /text >}}
+
+    Alternatively, you can set this in a values file:
+
+    {{< text syntax=yaml >}}
+    global:
+      seLinuxOptions:
+        type: spc_t
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.seLinuxOptions.type=spc_t
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+For RKE2 specifically, refer to the [RKE2 SELinux documentation](https://docs.rke2.io/security/selinux) for additional platform-specific SELinux configuration requirements.

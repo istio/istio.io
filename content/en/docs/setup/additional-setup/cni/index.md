@@ -122,6 +122,7 @@ In addition to the above basic configuration there are additional configuration 
 * `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
 * `values.cni.cniConfFileName` configures the name of the plugin configuration file.
 * `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
+* `values.global.seLinuxOptions` configures SELinux options for the CNI pods. On SELinux-enabled systems (such as RHEL, Rocky Linux, AlmaLinux, or RKE2 nodes), you must set `seLinuxOptions.type` to `spc_t` (Super Privileged Container) to allow the CNI plugin to manage pod networking. See the [SELinux configuration](/docs/ambient/install/platform-prerequisites#selinux) section for details.
 
 Normally, these do not need to be changed, but some platforms may use nonstandard paths. Please check the guidelines for your specific platform, if any, [here](/docs/ambient/install/platform-prerequisites).
 

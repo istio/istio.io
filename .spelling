@@ -131,6 +131,7 @@ Alexa
 Alibaba
 allowlist
 allow_missing
+AlmaLinux
 alt
 Amalgam8
 ambient.istio.io
@@ -1173,6 +1174,7 @@ Reviewer1
 Reviewer2
 revisioned
 Riskified
+RKE2
 roadmap
 roadmaps
 RocketChat
@@ -1210,6 +1212,7 @@ SecurityGroupPolicy
 SecurityGroups
 security_bulletin
 selinux
+seLinuxOptions
 Sergey
 serverless
 service-apis
@@ -1263,6 +1266,7 @@ SolarWinds
 Solo.io
 Solo.io.
 SongYang
+spc_t
 Specko
 Speedrun
 Speedscale
