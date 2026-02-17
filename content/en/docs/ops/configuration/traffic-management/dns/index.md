@@ -100,7 +100,7 @@ Istio offers a feature to [proxy DNS requests](/docs/ops/configuration/traffic-m
 This allows Istio to capture DNS requests sent by the application and return responses directly.
 
 DNS proxying can improve DNS latency, reduce load on upstream DNS servers, and allow
-`ServiceEntry` hostnames that would otherwise be unknown to `kube-dns` to be resolved.
+`ServiceEntry` hostnames that would otherwise be unknown to `kube-dns`/`core-dns` to be resolved.
 
 Note that DNS proxying only applies to DNS requests sent by user applications.
 When `resolution: DNS` type `ServiceEntries` are used, DNS proxying does not affect
