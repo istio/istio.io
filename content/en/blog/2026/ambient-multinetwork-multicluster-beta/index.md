@@ -10,9 +10,9 @@ Our team of contributors has been busy throughout the transition to 2026. A lot 
 
 ## Gaps in Telemetry
 
-For sure all the benefits from a multicluster system distributed across different networks don't come for free. With that, some complexity ends up in the mix, which makes good telemetry even more important. The Istio team understands that point and we were aware of some gaps that needed to be covered. Thankfully, on release 1.29, telemetry is now more robust and complete when our ambient data-plane operates over distributed clusters.
+The benefits of a multicluster distributed system are not without their tradeoffs. Some complexity is inevitable with larger scale, making good telemetry even more important. The Istio team understands that point and we were aware of some gaps that needed to be covered. Thankfully, on release 1.29, telemetry is now more robust and complete when our ambient data-plane operates over distributed clusters and networks.
 
-If you've deployed alpha multicluster capabilities before in multi-network scenarios, you might have had a few strange encounters with metrics that didn't make much sense. Requests crossing cluster boundaries could show up in a very confusing way. For example, some sources or destinations would show as "unknown".
+If you've deployed alpha multicluster capabilities before in multi-network scenarios, you might have noticed some source or destination labels would show as "unknown".
 
 For context, in a local cluster (or clusters sharing the same network), Waypoint and Ztunnel are aware of all existing endpoints, and they acquire that information through xDS. Confusing metrics instead often occur in multi-network deployments where, given all the information that needs to be replicated across separate networks, the xDS peer discovery is unpractical. Unfortunately, that results in missing peer information when requests traverse network boundaries to reach a different Istio cluster.
 
