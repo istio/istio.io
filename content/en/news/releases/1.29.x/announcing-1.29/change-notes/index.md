@@ -25,6 +25,8 @@ aliases:
   This feature currently remains off by default and can be turned on with the `ENABLE_GATEWAY_API_INFERENCE_EXTENSION` environment variable.
   ([usage](/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/)) ([Issue #58533](https://github.com/istio/istio/issues/58533))
 
+- **Promoted** multi-network multicluster support to Beta in ambient mode. Check out the [announcements](/news/releases/1.29.x/announcing-1.29/#multi-network-multicluster-ambient-goes-beta) for more details.
+
 - **Added** support for Istio locality label `topology.istio.io/locality`, which takes precedence over `istio-locality`.
 
 - **Added** an option, `gateway.istio.io/tls-cipher-suites`, to specify the custom cipher suites on a Gateway. The value is a comma separated list of cipher suites.
