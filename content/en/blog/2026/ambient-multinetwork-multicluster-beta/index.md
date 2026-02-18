@@ -33,7 +33,7 @@ Note that this functionality is behind a feature flag at the moment. If you want
 
 ## Other Improvements and Fixes
 
-Some welcomed improvements were made regarding connectivity. Ingress gateways and waypoint proxies can now route requests directly to remote clusters. This sets the stage for easier resiliency and enables more flexible design patterns providing the benefits that Istio users expect in multicluster and multi-network deployments.
+Some welcomed [improvements](/news/releases/1.29.x/announcing-1.29/change-notes/#traffic-management) were made regarding connectivity. Ingress gateways and waypoint proxies can now route requests directly to remote clusters. This sets the stage for easier resiliency and enables more flexible design patterns providing the benefits that Istio users expect in multicluster and multi-network deployments.
 
 And of course, we've also added a couple of smaller fixes making multi-network multicluster more stable and robust. We've updated the multicluster documentation to reflect some of these changes, including the addition of a [guide](/docs/ambient/install/multicluster/observability) on how to set up Kiali for an ambient multi-network deployment.
 
