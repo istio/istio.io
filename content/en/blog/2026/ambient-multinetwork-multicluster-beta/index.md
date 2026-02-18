@@ -18,7 +18,7 @@ For context, in a local cluster (or clusters sharing the same network), waypoint
 
 ## Telemetry Enhancements
 
-Overcoming that problem, Istio 1.29 now ships with augmented discovery mechanisms in its data-plane for exchanging peer metadata between endpoints and gateways sitting across different networks. The HBONE protocol is now enriched with baggage headers, allowing for Waypoints and Ztunnels to exchange peer information transparently through E/W gateways.
+Overcoming that problem, Istio 1.29 now ships with augmented discovery mechanisms in its data plane for exchanging peer metadata between endpoints and gateways sitting across different networks. The HBONE protocol is now enriched with baggage headers, allowing for waypoint and ztunnel to exchange peer information transparently through east-west gateways.
 
 {{< image link="./peer-metadata-exchange-diagram.png" caption="Diagram showing peer metadata exchange across different networks" >}}
 
