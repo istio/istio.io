@@ -1,7 +1,7 @@
 ---
 title: Ambient multi-network multicluster support is now Beta
 description: Istio 1.29 arrives with ambient multi-network multicluster in Beta, with improvements in telemetry, connectivity and reliability.
-date: 2025-02-16
+date: 2026-02-18
 attribution: Gustavo Meira (Microsoft), Mikhail Krinkin (Microsoft)
 keywords: [ambient,multicluster]
 ---
