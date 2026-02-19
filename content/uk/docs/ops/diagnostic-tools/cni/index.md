@@ -2,7 +2,7 @@
 title: Усунення неполадок втулка Istio CNI
 description: Описує інструменти та техніки для діагностики проблем за допомогою Istio з втулком CNI.
 weight: 95
-keywords: [debug,cni]
+keywords: [debug, cni]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
@@ -32,7 +32,7 @@ DaemonSet CNI [генерує метрики](/docs/reference/commands/install-c
 Стандартно, DaemonSet Istio CNI має [виправлення стану перегонів](/docs/setup/additional-setup/cni/#race-condition--mitigation), яке видаляє pod, що був запущений до того, як втулок CNI був готовий. Щоб зрозуміти, які podʼи були видалені, шукайте рядки в логах, подібні до наступних:
 
 {{< text plain >}}
-2021-07-21T08:32:17.362512Z     info   Deleting broken pod: service-graph00/svc00-0v1-95b5885bf-zhbzm
+2024-01-11T01:19:56.429220Z info Pod detected as broken, deleting: service-graph00/svc00-0v1-95b5885bf-zhbzm
 {{< /text >}}
 
 Ви також можете відстежувати podʼи, що були виправлені, через метрику `istio_cni_repair_pods_repaired_total`.
@@ -50,10 +50,10 @@ $ kubectl describe pod POD_NAME -n POD_NAMESPACE
 {{< text bash >}}
 $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 ...
-2021-07-20T05:30:17.111930Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
-2021-07-20T05:30:18.112503Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:17.111930Z error Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:18.112503Z error Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
 ...
-2021-07-20T05:30:22.111676Z     error   validation timeout
+2021-07-20T05:30:22.111676Z error validation timeout
 {{< /text >}}
 
 Контейнер ініціалізації `istio-validation` налаштовує локальний фальшивий сервер, який слухає порти перенаправлення трафіку на вході/виході, і перевіряє, чи тестовий трафік може бути перенаправлений на фальшивий сервер. Коли перенаправлення трафіку podʼа не налаштоване правильно втулком CNI, контейнер ініціалізації `istio-validation` блокує запуск podʼа, щоб запобігти обходу трафіку. Щоб перевірити, чи були помилки або несподівані поведінки налаштування мережі, пошукайте в `istio-cni-node` за ідентифікатором podʼа.
