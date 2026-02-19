@@ -19,7 +19,6 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
 - **Join the Maintainer Track:** [*Evolution or Revolution: Istio as the Network Platform for Cloud Native*](https://sched.co/2EF4C) — two maintainers explore how Istio's vision of a universal dataplane has guided the project's evolution, from powering global multicluster connectivity to enabling AI inference. Learn how you can contribute as an "Istio power user contributor" and share feedback on future improvements.
 - **Participate in the Cloud Native Novice Track:** [*From First Contribution to Leadership: Lessons on Becoming a CNCF Leader*](https://sched.co/2CW1i) — a perfect session for newcomers interested in growing within the ecosystem. Learn about overcoming early challenges, maintaining momentum in large communities, and how authenticity, curiosity, and community support can accelerate your journey to leadership.
 
-
 ## Recommended Sessions at KubeCon
 
 Here are recommended sessions from the main conference with strong Istio relevance:
