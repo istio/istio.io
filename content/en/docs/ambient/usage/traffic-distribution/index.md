@@ -13,7 +13,7 @@ The `networking.istio.io/traffic-distribution` annotation controls how {{< gloss
 | Value | Behavior |
 | --- | --- |
 | `PreferSameZone` | Prioritize endpoints by proximity: network, region, zone, then subzone. Traffic goes to the closest healthy endpoints first. |
-| `PreferClose` | Deprecated alias for `PreferSameZone`. See [KEP-3015](https://github.com/kubernetes/enhancements/tree/master/keps/sig-network/3015-prefer-same-node). |
+| `PreferClose` | Deprecated alias for `PreferSameZone`. See [Kubernetes enhancement proposal 3015](https://github.com/kubernetes/enhancements/tree/master/keps/sig-network/3015-prefer-same-node). |
 | `PreferSameNode` | Prefer endpoints on the same node as the client. |
 | (unset) | No locality preference. Traffic is distributed across all healthy endpoints. |
 
