@@ -103,7 +103,7 @@ of injected sidecar when it was.
     only applies if the webhook’s `namespaceSelector` matches the target
     namespace. Unrecognized policy causes injection to be disabled completely.
 
-1. Check the per-pod override annotation
+1. Check the per-pod override label
 
     The default policy can be overridden with the
     `sidecar.istio.io/inject` label in the _pod template spec’s metadata_.
