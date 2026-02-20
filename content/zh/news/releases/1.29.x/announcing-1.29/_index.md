@@ -91,9 +91,9 @@ Istio 1.29 符合推理扩展的 `v1.0.1` 版本，
 
 请参阅[我们的指南](/zh/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/)和[原始博客文章](/zh/blog/2025/inference-extension-support/)以开始使用。
 
-### 多网络多集群环境进入 Beta 测试阶段 {#multi-network-multicluster-ambient-goes-beta}
+### 多网络多集群 Ambient 进入 Beta 测试阶段 {#multi-network-multicluster-ambient-goes-beta}
 
-此次版本发布还将环境多网络多集群功能提升至 Beta 测试阶段。
+此次版本发布还将 Ambient 多网络多集群功能提升至 Beta 测试阶段。
 在增强稳健性和完整性方面进行了大量改进。此次升级的重点在于遥测功能，
 解决了其中的一些重要缺陷，包括在 Ambient 数据平面中实现更高级的对等元数据交换。
 
@@ -106,7 +106,7 @@ Istio 1.29 符合推理扩展的 `v1.0.1` 版本，
 Note that some of these improvements may also be behind the `AMBIENT_ENABLE_BAGGAGE` feature flag mentioned in the sections above, so make sure to enable it if you want to try them out. If you need more information on how to deploy multi-network multicluster using the ambient data-plane, please follow [this guide](/docs/ambient/install/multicluster/multi-primary_multi-network/). You'll find more details about the feature on the [release notes](change-notes/).
 请注意，上述部分改进可能也与 `AMBIENT_ENABLE_BAGGAGE` 功能标志有关，
 因此如果您想尝试这些改进，请务必启用该标志。
-如果您需要更多关于如何使用环境数据平面部署多网络多集群的信息，
+如果您需要更多关于如何使用 Ambient 数据平面部署多网络多集群的信息，
 请参阅[此指南](/zh/docs/ambient/install/multicluster/multi-primary_multi-network/)。
 您可以在[发行说明](change-notes/)中找到有关此功能的更多详细信息。
 
