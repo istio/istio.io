@@ -27,7 +27,7 @@ aliases:
 - **新增** 在基于版本的迁移期间，向网关 Helm Chart
   添加了 `service.selectorLabels` 字段，用于自定义服务选择器标签。
 
-- **修复** 修复了资源注解验证，拒绝换行符和控制字符，这些字符可能会通过模板渲染将容器注入到 Pod 规范中。
+- **修复** 修复了资源注解验证，拒绝换行符和控制字符，这些字符可能会通过模板渲染将容器注入到 Pod 规约中。
   ([Issue #58889](https://github.com/istio/istio/issues/58889))
 
 - **修复** 修复了下游 TLS 上下文中 `meshConfig.tlsDefaults.minProtocolVersion`
