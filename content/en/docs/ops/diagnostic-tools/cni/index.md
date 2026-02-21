@@ -2,7 +2,7 @@
 title: Troubleshooting the Istio CNI plugin
 description: Describes tools and techniques to diagnose issues using Istio with the CNI plugin.
 weight: 90
-keywords: [debug,cni]
+keywords: [debug, cni]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
@@ -33,7 +33,7 @@ You can collect the generated metrics via standard Prometheus configuration.
 ## DaemonSet readiness
 
 Readiness of the CNI DaemonSet indicates that the Istio CNI plugin is properly installed and configured.
-If Istio CNI DaemonSet is unready, it suggests something is wrong. Look at the  `istio-cni-node` DaemonSet logs to diagnose.
+If Istio CNI DaemonSet is unready, it suggests something is wrong. Look at the `istio-cni-node` DaemonSet logs to diagnose.
 You can also track CNI installation readiness via the `istio_cni_install_ready` metric.
 
 ## Race condition repair
@@ -43,7 +43,7 @@ which will evict a pod that was started before the CNI plugin was ready.
 To understand which pods were evicted, look for log lines like the following:
 
 {{< text plain >}}
-2021-07-21T08:32:17.362512Z     info   Deleting broken pod: service-graph00/svc00-0v1-95b5885bf-zhbzm
+2024-01-11T01:19:56.429220Z info Pod detected as broken, deleting: service-graph00/svc00-0v1-95b5885bf-zhbzm
 {{< /text >}}
 
 You can also track pods repaired via the `istio_cni_repair_pods_repaired_total` metric.
@@ -63,13 +63,13 @@ If a pod keeps getting init error, check the init container `istio-validation` l
 {{< text bash >}}
 $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 ...
-2021-07-20T05:30:17.111930Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
-2021-07-20T05:30:18.112503Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:17.111930Z error Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:18.112503Z error Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
 ...
-2021-07-20T05:30:22.111676Z     error   validation timeout
+2021-07-20T05:30:22.111676Z error validation timeout
 {{< /text >}}
 
-The  `istio-validation` init container sets up a local dummy server which
+The `istio-validation` init container sets up a local dummy server which
 listens on traffic redirection target inbound/outbound ports,
 and checks whether test traffic can be redirected to the dummy server.
 When pod traffic redirection is not set up correctly by the CNI plugin,
@@ -80,4 +80,4 @@ search the `istio-cni-node` for the pod ID.
 Another symptom of a malfunctioned CNI plugin is that the application pod is continuously evicted at start-up time.
 This is typically because the plugin is not properly installed, thus pod traffic redirection cannot be set up.
 CNI [race repair logic](/docs/setup/additional-setup/cni/#race-condition--mitigation) considers the pod is broken due to the race condition and evicts the pod continuously.
-When running into this issue,  check the CNI DaemonSet log for information on why the plugin could not be properly installed.
+When running into this issue, check the CNI DaemonSet log for information on why the plugin could not be properly installed.
