@@ -103,7 +103,6 @@ Istio 1.29 符合推理扩展的 `v1.0.1` 版本，
 此外，我们现在还有[快速指南](/zh/docs/ambient/install/multicluster/observability)，
 展示了如何在 Ambient 模式下为多网络多集群部署 Prometheus 和 Kiali。
 
-Note that some of these improvements may also be behind the `AMBIENT_ENABLE_BAGGAGE` feature flag mentioned in the sections above, so make sure to enable it if you want to try them out. If you need more information on how to deploy multi-network multicluster using the ambient data-plane, please follow [this guide](/docs/ambient/install/multicluster/multi-primary_multi-network/). You'll find more details about the feature on the [release notes](change-notes/).
 请注意，上述部分改进可能也与 `AMBIENT_ENABLE_BAGGAGE` 功能标志有关，
 因此如果您想尝试这些改进，请务必启用该标志。
 如果您需要更多关于如何使用 Ambient 数据平面部署多网络多集群的信息，
