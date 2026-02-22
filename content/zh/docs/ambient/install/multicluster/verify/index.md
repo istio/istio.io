@@ -7,6 +7,7 @@ test: yes
 owner: istio/wg-environments-maintainers
 prev: /zh/docs/ambient/install/multicluster/multi-primary_multi-network
 ---
+
 按照本指南验证您的 Ambient 多集群 Istio 安装是否正常工作。
 
 在继续之前，请务必完成[开始之前](/zh/docs/ambient/install/multicluster/before-you-begin)下的步骤，
@@ -207,3 +208,5 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ## 后续步骤 {#next-steps}
 
 为您的多集群部署配置[本地故障转移](/zh/docs/ambient/install/multicluster/failover)。
+
+为您的多集群部署部署 [Kiali](/zh/docs/ambient/install/multicluster/observability)。
