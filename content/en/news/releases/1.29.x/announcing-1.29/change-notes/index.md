@@ -83,7 +83,7 @@ aliases:
 - **Fixed** an issue where warmup aggression is not aligned with Envoy configuration.
   ([Issue #3395](https://github.com/istio/api/issues/3395))
 
-- **Fixed** an issue where ingress gateways in ambient multi-cluster did not route requests to exposed remote backends. This fix is behind a new feature flag `AMBIENT_ENABLE_MULTI_NETWORK_INGRESS`, which is `false` by default. If the user wants to avail from this change, they need to set it to `true`.
+- **Fixed** an issue where ingress gateways in ambient multi-cluster did not route requests to exposed remote backends. This fix is behind a new feature flag `AMBIENT_ENABLE_MULTI_NETWORK_INGRESS`, which is `false` by default. If the user wants to use this functionality, they need to set it to `true`.
 
 - **Fixed** an issue causing the ambient multicluster cluster registry to become unstable periodically, leading to incorrect configuration being pushed to proxies.
 
