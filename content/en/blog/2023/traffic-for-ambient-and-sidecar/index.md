@@ -10,6 +10,9 @@ keywords: [traffic,ambient,sidecar,coexistence]
 Ambient redirection no longer configures the host network namespace as of Istio 1.21.
 See [Ztunnel traffic redirection](/docs/ambient/architecture/traffic-redirection/) for details on the new approach.
 {{< /warning >}}
+{{< idea >}}
+Ambient mode now uses [in-Pod redirection](/blog/2024/inpod-traffic-redirection-ambient/) to redirect traffic between workload pods and ztunnel. The method described in this blog is no longer needed, and this post has been left for historical interest.
+{{< /idea >}}
 
 There are 2 deployment modes for Istio: ambient mode and sidecar mode. The former is still on the way, the latter is the classic one. Therefore, the coexistence of ambient mode and sidecar mode should be a normal deployment form and the reason why this blog may be helpful for Istio users.
 
