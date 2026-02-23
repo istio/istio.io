@@ -182,7 +182,7 @@ step1() {
     sed -i "
         s/^preliminary: .*$/preliminary: false/;
         s/^doc_branch_name: .*$/doc_branch_name: release-${CURR_MINOR}/;
-    " data/versions.yml
+    " data/args.yml
 
     if [[ $(git status --porcelain) ]]; then
         git add -A
@@ -221,8 +221,8 @@ step2() {
     " data/args.yml
 
     sed -i "
-        s/^export SOURCE_BRANCH_NAME ?=.*$/export SOURCE_BRANCH_NAME ?= master/;
-        s/^ISTIO_IMAGE_VERSION ?=.*$/ISTIO_IMAGE_VERSION ?= ${NEXT_MINOR}-alpha/
+        s/^export SOURCE_BRANCH_NAME [?]=.*$/export SOURCE_BRANCH_NAME ?= master/;
+        s/^ISTIO_IMAGE_VERSION [?]=.*$/ISTIO_IMAGE_VERSION ?= ${NEXT_MINOR}-alpha/
     " Makefile.core.mk
 
     go get istio.io/istio@master
