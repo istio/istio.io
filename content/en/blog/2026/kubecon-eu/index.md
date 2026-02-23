@@ -15,7 +15,11 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
 
 ## Cloud Native Theater Istio sessions and Key Sessions
 
-- **Join us at [Cloud Native Theater](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/program/schedule/)** on **Tuesday, March 24, 2026** — we will have 4 amazing sessions starting at 14:30 CET. These sessions will include insights from user companies and valuable information about Istio's latest developments. Attendees will also have opportunities to meet maintainers and contributors.
+- **Join us at [Cloud Native Theater](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/program/schedule/)** on **Tuesday, March 24, 2026** starting at 14:30 CET for 4 amazing Istio Day sessions:
+    - [**Tales From the Mesh: Horrors and Successes of Running Istio in Production**](https://sched.co/2EG0z) — A panel where real users of Istio share real world experiences, challenges, and wins with Istio service mesh.
+    - [**Zero-Downtime Migration from ingress-nginx to Istio in a Multi-Cluster Kubernetes Platform at Bloomberg**](https://sched.co/2EG0q) — Learn how Bloomberg migrated to Istio across multiple clusters without downtime.
+    - [**The Good, The Ugly, and The Bad: Leaving Sidecars Behind with Istio Ambient Mesh**](https://sched.co/2EG0t) — An honest look at migrating to ambient mesh architecture.
+    - [**Running State of the Art Inference with Istio and LLM-D**](https://sched.co/2EG0w) — Discover how Istio enables efficient AI inference serving.
 - **Join the Maintainer Track:** [*Evolution or Revolution: Istio as the Network Platform for Cloud Native*](https://sched.co/2EF4C) — two maintainers explore how Istio's vision of a universal dataplane has guided the project's evolution, from powering global multicluster connectivity to enabling AI inference. Learn how you can contribute as an "Istio power user contributor" and share feedback on future improvements.
 - **Participate in the Cloud Native Novice Track:** [*From First Contribution to Leadership: Lessons on Becoming a CNCF Leader*](https://sched.co/2CW1i) — a perfect session for newcomers interested in growing within the ecosystem. Learn about overcoming early challenges, maintaining momentum in large communities, and how authenticity, curiosity, and community support can accelerate your journey to leadership.
 
