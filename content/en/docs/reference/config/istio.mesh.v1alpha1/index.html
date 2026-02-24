@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 84
+number_of_entries: 85
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -586,7 +586,6 @@ For example, a user could enable min TLS version for ISTIO_MUTUAL traffic and sp
 </div></td>
 <td>
 <p>Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.
-Currently, this supports configuration of ecdhCurves and cipherSuites only.
 For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
 
 </td>
@@ -2365,6 +2364,30 @@ read the attributes from the environment variable <code>OTEL_RESOURCE_ATTRIBUTES
 
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-service_attribute_enrichment">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-service_attribute_enrichment">serviceAttributeEnrichment</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-ServiceAttributeEnrichment">ServiceAttributeEnrichment</a></div>
+</div></td>
+<td>
+<p>Controls how service resource attributes are enriched in
+exported trace spans. When set to <code>OTEL_SEMANTIC_CONVENTIONS</code>, the
+service attributes (<code>service.name</code>, <code>service.namespace</code>,
+<code>service.version</code>, <code>service.instance.id</code>) will be populated following
+the OpenTelemetry semantic conventions for Kubernetes:
+<a href="https://opentelemetry.io/docs/specs/semconv/non-normative/k8s-attributes/#service-attributes">https://opentelemetry.io/docs/specs/semconv/non-normative/k8s-attributes/#service-attributes</a></p>
+<p>When not set or set to <code>ISTIO_CANONICAL</code>, Istio&rsquo;s default enrichment
+logic is used (controlled by <code>TracingServiceName</code> in <code>ProxyConfig</code>).</p>
+<p>Example:</p>
+<pre><code class="language-yaml">extensionProviders:
+- name: otel-tracing
+  opentelemetry:
+    port: 443
+    service: my.olly-backend.com
+    serviceAttributeEnrichment: OTEL_SEMANTIC_CONVENTIONS
+</code></pre>
+
+</td>
+</tr>
 <tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-dynatrace_sampler" class="oneof oneof-start">
 <td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-dynatrace_sampler">dynatraceSampler</a></code></div>
 <div class="type"><a href="#MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-DynatraceSampler">DynatraceSampler (oneof)</a></div>
@@ -2706,6 +2729,66 @@ that does communication via GRPC.</p>
 <p>Additional metadata to include in streams initiated to the GrpcService. This can be used for
 scenarios in which additional ad hoc authorization headers (e.g. &ldquo;x-foo-bar: baz-key&rdquo;) are to
 be injected.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="MeshConfig-ExtensionProvider-ServiceAttributeEnrichment">ServiceAttributeEnrichment</h4>
+<section>
+<p>ServiceAttributeEnrichment controls how service resource attributes
+(such as <code>service.name</code>, <code>service.namespace</code>, <code>service.version</code>, and
+<code>service.instance.id</code>) are populated in exported trace spans.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-ServiceAttributeEnrichment-ISTIO_CANONICAL">
+<td><code><a href="#MeshConfig-ExtensionProvider-ServiceAttributeEnrichment-ISTIO_CANONICAL">ISTIO_CANONICAL</a></code></td>
+<td>
+<p>Use Istio&rsquo;s default service attribute enrichment logic.
+The service name is determined by the <code>TracingServiceName</code> setting in
+<code>ProxyConfig</code> (e.g., based on the <code>app</code> label, canonical name, etc.).</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ServiceAttributeEnrichment-OTEL_SEMANTIC_CONVENTIONS">
+<td><code><a href="#MeshConfig-ExtensionProvider-ServiceAttributeEnrichment-OTEL_SEMANTIC_CONVENTIONS">OTEL_SEMANTIC_CONVENTIONS</a></code></td>
+<td>
+<p>Follow the OpenTelemetry semantic conventions for Kubernetes service
+attributes. The service attributes are calculated following the fallback
+chain defined in:
+<a href="https://opentelemetry.io/docs/specs/semconv/non-normative/k8s-attributes/#service-attributes">https://opentelemetry.io/docs/specs/semconv/non-normative/k8s-attributes/#service-attributes</a></p>
+<p>The fallback chain for <code>service.name</code> is:</p>
+<ol>
+<li><code>resource.opentelemetry.io/service.name</code> annotation on the pod</li>
+<li><code>app.kubernetes.io/name</code> label</li>
+<li>Name of the owning Kubernetes resource (Deployment, StatefulSet, etc.)</li>
+<li>Pod name</li>
+<li>Container name (if single container in the pod)</li>
+<li><code>unknown_service</code></li>
+</ol>
+<p>The fallback chain for <code>service.namespace</code> is:</p>
+<ol>
+<li><code>resource.opentelemetry.io/service.namespace</code> annotation on the pod</li>
+<li>Kubernetes namespace name</li>
+</ol>
+<p>The fallback chain for <code>service.version</code> is:</p>
+<ol>
+<li><code>resource.opentelemetry.io/service.version</code> annotation on the pod</li>
+<li><code>app.kubernetes.io/version</code> label</li>
+</ol>
+<p>The fallback chain for <code>service.instance.id</code> is:</p>
+<ol>
+<li><code>resource.opentelemetry.io/service.instance.id</code> annotation on the pod</li>
+<li>Pod UID</li>
+</ol>
 
 </td>
 </tr>
@@ -4786,7 +4869,7 @@ inside a mesh and how to route to endpoints in each network. For example</p>
 <p>If <code>ENABLE_HCM_INTERNAL_NETWORKS</code> is set to true, MeshNetworks can be used to
 to explicitly define the networks in Envoy&rsquo;s internal address configuration.
 Envoy uses the IPs in the <code>internalAddressConfig</code> to decide whether or not to sanitize
-Envoy headers. If the IP address is listed an internal, the Envoy headers are not
+Envoy headers. If the IP address is listed as internal, the Envoy headers are not
 sanitized. As of Envoy 1.33, the default value for <code>internalAddressConfig</code> is set to
 an empty set. Previously, the default value was the set of all private IPs. Setting
 the <code>internalAddressConfig</code> to all private IPs (via Envoy&rsquo;s previous default behavior

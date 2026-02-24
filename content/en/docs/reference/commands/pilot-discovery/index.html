@@ -333,6 +333,11 @@ Preferred values: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384, TLS_CHACHA20_P
 Insecure values: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_RC4_128_SHA, TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_RC4_128_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_RC4_128_SHA.  (default `[]`)</td>
 </tr>
 <tr>
+<td><code>--tls-min-version &lt;string&gt;</code></td>
+<td></td>
+<td>Minimum TLS version for the istiod TLS server. Only 1.2 and 1.3 are supported.  (default `1.2`)</td>
+</tr>
+<tr>
 <td><code>--tlsCertFile &lt;string&gt;</code></td>
 <td></td>
 <td>File containing the x509 Server Certificate  (default ``)</td>
@@ -1185,6 +1190,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>EnableMongoFilter enables injection of `envoy.filters.network.mongo_proxy` in the filter chain.</td>
 </tr>
+<tr id='pilot-enable-multiple-custom-authz-providers'>
+<td><a href='#pilot-enable-multiple-custom-authz-providers'><code>PILOT_ENABLE_MULTIPLE_CUSTOM_AUTHZ_PROVIDERS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, allows multiple CUSTOM authorization providers per workload, enabling different authentication schemes (OAuth, LDAP, API keys) for different API paths. Each provider gets its own filter chain with provider-specific metadata matching.</td>
+</tr>
 <tr id='pilot-enable-mysql-filter'>
 <td><a href='#pilot-enable-mysql-filter'><code>PILOT_ENABLE_MYSQL_FILTER</code></a></td>
 <td>Boolean</td>
@@ -1304,6 +1315,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio</code></td>
 <td>Name of the default GatewayClass</td>
+</tr>
+<tr id='pilot-gateway-transport-socket-connect-timeout'>
+<td><a href='#pilot-gateway-transport-socket-connect-timeout'><code>PILOT_GATEWAY_TRANSPORT_SOCKET_CONNECT_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>15s</code></td>
+<td>The timeout for transport socket (e.g., TLS handshake) connections on gateway listeners. This helps protect against slow TLS handshake attacks. Set to 0s to disable.</td>
 </tr>
 <tr id='pilot-http10'>
 <td><a href='#pilot-http10'><code>PILOT_HTTP10</code></a></td>
