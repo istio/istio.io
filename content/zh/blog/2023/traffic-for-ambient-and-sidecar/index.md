@@ -6,6 +6,11 @@ attribution: "张怀龙 (Intel), John Howard (Google), 曾宇星 (Alibaba), Pete
 keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
+{{< idea >}}
+Ambient 模式现在使用 [InPod 重定向](/zh/blog/2024/inpod-traffic-redirection-ambient/)来重定向工作负载
+Pod 和 ztunnel 之间的流量。本博客中描述的方法已不再需要，此博文仅供历史参考。
+{{< /idea >}}
+
 Istio 有两种部署模式：Ambient 模式和 Sidecar 模式。
 前者还在持续开发中，后者是经典的网格方案。因此，Ambient 模式和 Sidecar
 模式并存应该是一种正常的部署形式，这也是这篇博客可能对 Istio 用户有所帮助的原因。
