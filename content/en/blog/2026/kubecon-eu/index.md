@@ -13,7 +13,7 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
     alt="KubeCon + CloudNativeCon Europe, March 23-26, 2026, Amsterdam, The Netherlands. #KubeCon"
     >}}
 
-## Cloud Native Theater Istio sessions and Key Sessions
+## Istio highlights at KubeCon EU 2026
 
 - **Join us at [Cloud Native Theater](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/program/schedule/)** on **Tuesday, March 24, 2026** starting at 14:30 CET for 4 amazing Istio Day sessions:
     - [**Tales From the Mesh: Horrors and Successes of Running Istio in Production**](https://sched.co/2EG0z) — A panel where real users of Istio share real world experiences, challenges, and wins with Istio service mesh.
