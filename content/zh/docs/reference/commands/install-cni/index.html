@@ -32,6 +32,10 @@ remove_toc_prefix: 'install-cni '
 <td>Location of the node agent writable path on the node (used for sockets, etc)  (default `/var/run/istio-cni`)</td>
 </tr>
 <tr>
+<td><code>--cni-conf-group-read</code></td>
+<td>Whether to enable group read on the CNI config file (0640 instead of default 0600) </td>
+</tr>
+<tr>
 <td><code>--cni-conf-name &lt;string&gt;</code></td>
 <td>Name of the CNI configuration file  (default ``)</td>
 </tr>
@@ -570,6 +574,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code>/var/run/istio-cni</code></td>
 <td>Location of the node agent writable path on the node (used for sockets, etc)</td>
+</tr>
+<tr id='cni-conf-group-read'>
+<td><a href='#cni-conf-group-read'><code>CNI_CONF_GROUP_READ</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>Whether to enable group read on the CNI config file (0640 instead of default 0600)</td>
 </tr>
 <tr id='cni-conf-name'>
 <td><a href='#cni-conf-name'><code>CNI_CONF_NAME</code></a></td>
@@ -1239,6 +1249,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>EnableMongoFilter enables injection of `envoy.filters.network.mongo_proxy` in the filter chain.</td>
 </tr>
+<tr id='pilot-enable-multiple-custom-authz-providers'>
+<td><a href='#pilot-enable-multiple-custom-authz-providers'><code>PILOT_ENABLE_MULTIPLE_CUSTOM_AUTHZ_PROVIDERS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, allows multiple CUSTOM authorization providers per workload, enabling different authentication schemes (OAuth, LDAP, API keys) for different API paths. Each provider gets its own filter chain with provider-specific metadata matching.</td>
+</tr>
 <tr id='pilot-enable-mysql-filter'>
 <td><a href='#pilot-enable-mysql-filter'><code>PILOT_ENABLE_MYSQL_FILTER</code></a></td>
 <td>Boolean</td>
@@ -1358,6 +1374,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code>istio</code></td>
 <td>Name of the default GatewayClass</td>
+</tr>
+<tr id='pilot-gateway-transport-socket-connect-timeout'>
+<td><a href='#pilot-gateway-transport-socket-connect-timeout'><code>PILOT_GATEWAY_TRANSPORT_SOCKET_CONNECT_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>15s</code></td>
+<td>The timeout for transport socket (e.g., TLS handshake) connections on gateway listeners. This helps protect against slow TLS handshake attacks. Set to 0s to disable.</td>
 </tr>
 <tr id='pilot-http10'>
 <td><a href='#pilot-http10'><code>PILOT_HTTP10</code></a></td>
