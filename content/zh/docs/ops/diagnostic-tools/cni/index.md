@@ -2,7 +2,7 @@
 title: Istio CNI 插件故障排除
 description: 描述使用 Istio 和 CNI 插件诊断问题的工具和技术。
 weight: 90
-keywords: [debug,cni]
+keywords: [debug, cni]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
@@ -44,7 +44,7 @@ Istio CNI DaemonSet 默认启用[竞争条件和缓解措施](/zh/docs/setup/add
 这将驱逐在 CNI 插件准备就绪之前启动的 Pod。要了解哪些 Pod 被驱逐，请查找如下所示的日志行：
 
 {{< text plain >}}
-2021-07-21T08:32:17.362512Z     info   Deleting broken pod: service-graph00/svc00-0v1-95b5885bf-zhbzm
+2024-01-11T01:19:56.429220Z info Pod detected as broken, deleting: service-graph00/svc00-0v1-95b5885bf-zhbzm
 {{< /text >}}
 
 您还可以通过 `istio_cni_repair_pods_repaired_total` 指标追踪修复的 Pod。
@@ -64,10 +64,10 @@ $ kubectl describe pod POD_NAME -n POD_NAMESPACE
 {{< text bash >}}
 $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 ...
-2021-07-20T05:30:17.111930Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
-2021-07-20T05:30:18.112503Z     error   Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:17.111930Z error Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
+2021-07-20T05:30:18.112503Z error Error connecting to 127.0.0.6:15002: dial tcp 127.0.0.1:0->127.0.0.6:15002: connect: connection refused
 ...
-2021-07-20T05:30:22.111676Z     error   validation timeout
+2021-07-20T05:30:22.111676Z error validation timeout
 {{< /text >}}
 
 `istio-validation` Init 容器设置一个本地虚拟服务器，该服务器监听流量重定向目标的出入端口，
