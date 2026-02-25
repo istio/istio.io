@@ -87,8 +87,8 @@ aliases:
   ([Issue #3395](https://github.com/istio/api/issues/3395))
 
 - **修复** 修复了 Ambient 多集群中的入口网关无法将请求路由到暴露的远程后端的问题。
-  此外，新增了一个特性标志 `AMBIENT_ENABLE_MULTI_NETWORK_INGRESS`，
-  默认值为 `true`。如果用户希望保留旧的行为，可以将其设置为 `false`。
+  此修复依赖于一个新的功能标志 `AMBIENT_ENABLE_MULTI_NETWORK_INGRESS`，
+  该标志默认值为 `false`。如果用户想要使用此功能，需要将其设置为 `true`。
 
 - **修复** 修复了一个导致 Ambient 多集群集群注册表周期性不稳定的问题，从而导致错误的配置被推送到代理。
 
