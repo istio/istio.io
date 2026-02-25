@@ -860,6 +860,7 @@ ListenerSets
 list_by_publishdate
 Liu
 liveness
+LLM-D
 LoadBalancer
 loadimpact
 LoadReportingService
@@ -1249,6 +1250,7 @@ Signout
 sigstore
 Sikka
 sinkInfo
+Skyscanner
 SkyWalking
 slack.istio.io
 SLOs
