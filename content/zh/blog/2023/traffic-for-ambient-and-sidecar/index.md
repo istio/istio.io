@@ -7,7 +7,7 @@ keywords: [traffic,ambient,sidecar,coexistence]
 ---
 
 {{< idea >}}
-Ambient 模式现在使用 [InPod 重定向](/zh/blog/2024/inpod-traffic-redirection-ambient/)来重定向工作负载
+Ambient 模式现在使用 [Pod 内部重定向](/zh/blog/2024/inpod-traffic-redirection-ambient/)来重定向工作负载
 Pod 和 ztunnel 之间的流量。本博客中描述的方法已不再需要，此博文仅供历史参考。
 {{< /idea >}}
 
