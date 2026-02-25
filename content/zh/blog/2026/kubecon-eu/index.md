@@ -1,6 +1,6 @@
 ---
 title: "Istio 亮相 2026 年欧洲 KubeCon 大会：让我们在阿姆斯特丹相聚！"
-description: Celebrate Istio at KubeCon + CloudNativeCon Europe 2026.
+description: 在 2026 年欧洲 KubeCon + CloudNativeCon 大会中共庆 Istio。
 publishdate: 2026-02-23
 attribution: "Francisco Herrera，代表 Istio 产品安全工作组; Translated by Wilson Wu (DaoCloud)"
 keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
