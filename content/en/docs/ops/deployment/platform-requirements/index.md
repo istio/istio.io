@@ -33,7 +33,7 @@ When using the `iptables` backend (the default), the following kernel modules ar
 | `xt_REDIRECT` |  |
 | `xt_connmark` | Needed for ambient dataplane mode, and sidecar dataplane mode with `TPROXY` interception (default) |
 | `xt_conntrack` |  |
-| `xt_CT` | Needed for sidecar dataplane mode with `DNS` interception |
+| `xt_CT` | Needed for `DNS` interception with the `iptables` backend |
 | `xt_mark` | Needed for ambient dataplane mode, and sidecar dataplane mode with `TPROXY` interception (default) |
 | `xt_owner` |  |
 | `xt_tcpudp` |  |
