@@ -49,7 +49,6 @@ keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 KubeCon + CloudNativeCon 一直是与 Istio 社区成员交流、
 学习和庆祝其卓越成果的绝佳时机。敬请关注活动临近时的更多更新信息。
 
-Follow us on [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/), or [Bluesky](https://bsky.app/profile/istio.io) to get live updates from the event.
 关注我们的 [X](https://x.com/istiomesh)、[LinkedIn](https://www.linkedin.com/company/istio/)
 或 [Bluesky](https://bsky.app/profile/istio.io) 账号，
 即可获取活动的最新动态。**阿姆斯特丹见！**
