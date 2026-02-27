@@ -3,8 +3,8 @@ title: Install the Istio CNI node agent
 description: Install and use the Istio CNI node agent, allowing operators to deploy workloads with lower privilege.
 weight: 70
 aliases:
-  - /docs/setup/kubernetes/additional-setup/cni
-  - /docs/setup/additional-setup/cni
+    - /docs/setup/kubernetes/additional-setup/cni
+    - /docs/setup/additional-setup/cni
 keywords: [cni]
 owner: istio/wg-networking-maintainers
 test: yes
@@ -51,19 +51,19 @@ for users and pod deployments.
 ## Prerequisites for use
 
 1. Install Kubernetes with a correctly-configured primary interface CNI plugin. As [supporting CNI plugins is required to implement the Kubernetes network model](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/), you probably already have this if you have a reasonably recent Kubernetes cluster with functional pod networking.
-   - AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
-   - Google Cloud GKE clusters have CNI enabled when any of the following features are enabled:
-     [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
-     [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
-     [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
-     [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview),
-     or [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
-   - Kind has CNI enabled by default.
-   - OpenShift has CNI enabled by default.
+    * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
+    * Google Cloud GKE clusters have CNI enabled when any of the following features are enabled:
+       [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
+       [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
+       [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
+       [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview),
+       or [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
+    * Kind has CNI enabled by default.
+    * OpenShift has CNI enabled by default.
 
 1. Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
-   - The Kubernetes documentation highly recommends this for all Kubernetes installations
-     where `ServiceAccounts` are utilized.
+    * The Kubernetes documentation highly recommends this for all Kubernetes installations
+      where `ServiceAccounts` are utilized.
 
 ## Installing the CNI node agent
 
@@ -80,10 +80,10 @@ $ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-components:
-cni:
-namespace: istio-system
-enabled: true
+  components:
+    cni:
+      namespace: istio-system
+      enabled: true
 EOF
 $ istioctl install -f istio-cni.yaml -y
 {{< /text >}}
@@ -142,13 +142,13 @@ When installing revisioned control planes with the CNI component enabled,
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-revision: REVISION_NAME
-...
-values:
-pilot:
-cni:
-enabled: true
-...
+  revision: REVISION_NAME
+  ...
+  values:
+    pilot:
+      cni:
+        enabled: true
+  ...
 {{< /text >}}
 
 The CNI plugin at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
@@ -170,13 +170,14 @@ The following `IstioOperator` can be used to upgrade the CNI component independe
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-profile: empty # Do not include other components
-components:
-cni:
-enabled: true
-values:
-cni:
-excludeNamespaces: - istio-system
+  profile: empty # Do not include other components
+  components:
+    cni:
+      enabled: true
+  values:
+    cni:
+      excludeNamespaces:
+        - istio-system
 {{< /text >}}
 
 This is not a problem for Helm as the istio-cni is installed separately, and can be upgraded via Helm:
@@ -248,12 +249,12 @@ chart, and enabling the controller in `istiod`:
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-values:
-pilot:
-taint:
-enabled: true
-env:
-PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS: "true"
+  values:
+    pilot:
+      taint:
+        enabled: true
+      env:
+        PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS: "true"
 {{< /text >}}
 
 {{< /tab >}}
