@@ -1,0 +1,54 @@
+# markdownlint-cli2 configuration for istio.io
+# Migrated from mdl.rb (Ruby markdownlint) to markdownlint-cli2 (Node.js)
+# Equivalent rules to the previous mdl.rb configuration:
+#   all
+#   rule 'MD002', :level => 2
+#   rule 'MD007', :indent => 4
+#   rule 'MD013', :line_length => 160, :code_blocks => false, :tables => false
+#   rule 'MD026', :punctuation => ".,;:!"
+#   exclude_rule 'MD013'
+#   exclude_rule 'MD014'
+#   exclude_rule 'MD030'
+#   exclude_rule 'MD032'
+#   exclude_rule 'MD033'
+#   exclude_rule 'MD041'
+#   exclude_rule 'MD046'
+
+default: true
+
+# MD002: First heading should be a top-level heading (level 2)
+# Note: MD002 is deprecated in markdownlint; MD041 replacement is disabled below
+MD002:
+  level: 2
+
+# MD007: Unordered list indentation (4 spaces)
+MD007:
+  indent: 4
+
+# MD013: Line length - disabled (was excluded in mdl.rb)
+MD013: false
+
+# MD014: Dollar signs used before commands without showing output - disabled
+MD014: false
+
+# MD026: Trailing punctuation in heading
+MD026:
+  punctuation: ".,;:!"
+
+# MD030: Spaces after list markers - disabled
+MD030: false
+
+# MD032: Blanks around lists - disabled
+MD032: false
+
+# MD033: Inline HTML - disabled (Istio docs use Hugo shortcodes and HTML)
+MD033: false
+
+# MD041: First line in file should be a top-level heading - disabled
+MD041: false
+
+# MD046: Code block style - disabled
+MD046: false
+
+# Ignore front matter (Hugo YAML front matter between --- delimiters)
+# markdownlint-cli2 handles this via the --no-globs or ignores section below
