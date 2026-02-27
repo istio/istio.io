@@ -3,8 +3,8 @@ title: Install the Istio CNI node agent
 description: Install and use the Istio CNI node agent, allowing operators to deploy workloads with lower privilege.
 weight: 70
 aliases:
-    - /docs/setup/kubernetes/additional-setup/cni
-    - /docs/setup/additional-setup/cni
+  - /docs/setup/kubernetes/additional-setup/cni
+  - /docs/setup/additional-setup/cni
 keywords: [cni]
 owner: istio/wg-networking-maintainers
 test: yes
@@ -51,19 +51,19 @@ for users and pod deployments.
 ## Prerequisites for use
 
 1. Install Kubernetes with a correctly-configured primary interface CNI plugin. As [supporting CNI plugins is required to implement the Kubernetes network model](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/), you probably already have this if you have a reasonably recent Kubernetes cluster with functional pod networking.
-    * AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
-    * Google Cloud GKE clusters have CNI enabled when any of the following features are enabled:
-       [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
-       [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
-       [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
-       [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview),
-       or [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
-    * Kind has CNI enabled by default.
-    * OpenShift has CNI enabled by default.
+   - AWS EKS, Azure AKS, and IBM Cloud IKS clusters have this capability.
+   - Google Cloud GKE clusters have CNI enabled when any of the following features are enabled:
+     [network policy](https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy),
+     [intranode visibility](https://cloud.google.com/kubernetes-engine/docs/how-to/intranode-visibility),
+     [workload identity](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity),
+     [pod security policy](https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies#overview),
+     or [dataplane v2](https://cloud.google.com/kubernetes-engine/docs/concepts/dataplane-v2).
+   - Kind has CNI enabled by default.
+   - OpenShift has CNI enabled by default.
 
 1. Install Kubernetes with the [ServiceAccount admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#serviceaccount) enabled.
-    * The Kubernetes documentation highly recommends this for all Kubernetes installations
-      where `ServiceAccounts` are utilized.
+   - The Kubernetes documentation highly recommends this for all Kubernetes installations
+     where `ServiceAccounts` are utilized.
 
 ## Installing the CNI node agent
 
@@ -80,10 +80,10 @@ $ cat <<EOF > istio-cni.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  components:
-    cni:
-      namespace: istio-system
-      enabled: true
+components:
+cni:
+namespace: istio-system
+enabled: true
 EOF
 $ istioctl install -f istio-cni.yaml -y
 {{< /text >}}
@@ -119,9 +119,9 @@ $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true 
 
 In addition to the above basic configuration there are additional configuration flags that can be set:
 
-* `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
-* `values.cni.cniConfFileName` configures the name of the plugin configuration file.
-* `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
+- `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
+- `values.cni.cniConfFileName` configures the name of the plugin configuration file.
+- `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
 
 Normally, these do not need to be changed, but some platforms may use nonstandard paths. Please check the guidelines for your specific platform, if any, [here](/docs/ambient/install/platform-prerequisites).
 
@@ -142,13 +142,13 @@ When installing revisioned control planes with the CNI component enabled,
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  revision: REVISION_NAME
-  ...
-  values:
-    pilot:
-      cni:
-        enabled: true
-  ...
+revision: REVISION_NAME
+...
+values:
+pilot:
+cni:
+enabled: true
+...
 {{< /text >}}
 
 The CNI plugin at version `1.x` is compatible with control plane at version `1.x-1`, `1.x`, and `1.x+1`,
@@ -170,14 +170,13 @@ The following `IstioOperator` can be used to upgrade the CNI component independe
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  profile: empty # Do not include other components
-  components:
-    cni:
-      enabled: true
-  values:
-    cni:
-      excludeNamespaces:
-        - istio-system
+profile: empty # Do not include other components
+components:
+cni:
+enabled: true
+values:
+cni:
+excludeNamespaces: - istio-system
 {{< /text >}}
 
 This is not a problem for Helm as the istio-cni is installed separately, and can be upgraded via Helm:
@@ -199,13 +198,93 @@ which detects if traffic redirection is set up correctly, and blocks the pod sta
 The CNI DaemonSet will detect and handle any pod stuck in such state; how the pod is handled is dependent on configuration described below.
 This mitigation is enabled by default and can be turned off by setting `values.cni.repair.enabled` to false.
 
-This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005/).  By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
+This repair capability can be further configured with different RBAC permissions to help mitigate the theoretical attack vector detailed in [`ISTIO-SECURITY-2023-005`](/news/security/istio-security-2023-005/). By setting the below fields to true/false as required, you can select the Kubernetes RBAC permissions granted to the Istio CNI.
 
-|Configuration                    | Roles       | Behavior on Error                                                                                                                           | Notes
-|---------------------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------
-|`values.cni.repair.deletePods`   | DELETE pods | Pods are deleted, when rescheduled they will have the correct configuration.                                                                  | Default in 1.20 and older
-|`values.cni.repair.labelPods`    | UPDATE pods | Pods are only labeled.  User will need to take manual action to resolve.                                                                      |
-|`values.cni.repair.repairPods`   | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution.     | Default in 1.21 and newer
+| Configuration                  | Roles       | Behavior on Error                                                                                                                         | Notes                     |
+| ------------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `values.cni.repair.deletePods` | DELETE pods | Pods are deleted, when rescheduled they will have the correct configuration.                                                              | Default in 1.20 and older |
+| `values.cni.repair.labelPods`  | UPDATE pods | Pods are only labeled. User will need to take manual action to resolve.                                                                   |
+| `values.cni.repair.repairPods` | None        | Pods are dynamically reconfigured to have appropriate configuration. When the container restarts, the pod will continue normal execution. | Default in 1.21 and newer |
+
+### Untaint controller
+
+The repair mechanism described above addresses pods already scheduled on a node when the CNI
+agent is not yet ready. However, in some environments (particularly when using node autoscalers
+like [Karpenter](https://karpenter.sh/) or cloud provider node groups), new nodes may become
+schedulable before the `istio-cni` DaemonSet pod has been scheduled _at all_ on that node. Pods
+that start on such nodes — especially those with `restartPolicy: Never` like Kubernetes `Job`
+pods — may fail permanently before the repair mechanism can intervene.
+
+The **untaint controller** addresses this root cause by proactively controlling when new nodes
+accept workload pods. When enabled, it instructs `istiod` to automatically apply a
+[`NoExecute` taint](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+(`cni.istio.io/not-ready`) to new nodes as they join the cluster. The taint is automatically
+removed once the `istio-cni` node agent on that node reports ready, guaranteeing that no
+workload pods are scheduled before CNI redirection is available.
+
+{{< tip >}}
+The untaint controller is complementary to, not a replacement for, the repair mechanism.
+Use both for complete coverage: the untaint controller prevents the race on new nodes,
+and the repair mechanism handles edge cases on already-running nodes.
+{{< /tip >}}
+
+#### When to use the untaint controller
+
+Enable the untaint controller if your cluster uses **node autoscaling** (e.g., Karpenter,
+Cluster Autoscaler, cloud provider node groups) and you have workloads that are sensitive to
+pod startup failures caused by missing CNI network configuration — especially `Job` pods with
+`restartPolicy: Never`.
+
+#### Enabling the untaint controller
+
+The untaint controller requires two settings: enabling the taint/untaint behavior in the CNI
+chart, and enabling the controller in `istiod`:
+
+{{< tabset category-name="gateway-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+{{< text yaml >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+values:
+pilot:
+taint:
+enabled: true
+env:
+PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS: "true"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+When installing `istiod` with Helm, pass the following values:
+
+{{< text syntax=bash snip_id=none >}}
+$ helm install istiod istio/istiod -n istio-system \
+ --set pilot.taint.enabled=true \
+ --set pilot.env.PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS=true \
+ --wait
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+#### Configuration reference
+
+| Setting                                                  | Description                                                                                                                                       | Default         |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| `values.pilot.taint.enabled`                             | Installs RBAC rules required for `istiod` to taint and untaint nodes.                                                                             | `false`         |
+| `values.pilot.env.PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` | Activates the untaint controller in `istiod`. Must be set alongside `taint.enabled`.                                                              | `""` (disabled) |
+| `values.pilot.taint.namespace`                           | The namespace where `istio-cni` is running; used to watch the CNI DaemonSet for readiness. Defaults to the same namespace as `istiod` if not set. | `""`            |
+
+{{< warning >}}
+Both `pilot.taint.enabled` and `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` must be set together.
+Setting only one of them will have no effect.
+{{< /warning >}}
 
 ### Traffic redirection parameters
 
@@ -229,7 +308,7 @@ Init containers execute before the sidecar proxy starts, which can result in tra
 Avoid this traffic loss with one of the following settings:
 
 1. Set the `uid` of the init container to `1337` using `runAsUser`.
-  `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/application-requirements/#pod-requirements).
+   `1337` is the [`uid` used by the sidecar proxy](/docs/ops/deployment/application-requirements/#pod-requirements).
    Traffic sent by this `uid` is not captured by the Istio's `iptables` rule.
    Application container traffic will still be captured as usual.
 1. Set the `traffic.sidecar.istio.io/excludeOutboundIPRanges` annotation to disable redirecting traffic to any
