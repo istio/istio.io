@@ -226,13 +226,16 @@ Note: When using docker-in-docker container, the default bridge interface name i
     </tr>
     <tr>
       <th>Resource Types</th>
-      <td>[Service ServiceEntry]</td>
+      <td>[Namespace Service ServiceEntry]</td>
     </tr>
     <tr>
       <th>Description</th>
       <td><p>Controls how traffic is distributed across the set of available endpoints.</p>
 
 <p>At this time, this annotation only impacts routing done by Ztunnel.</p>
+
+<p>When applied to a Namespace, Services and ServiceEntries in that namespace inherit the setting
+unless they have their own annotation.</p>
 
 <p>Accepted values:</p>
 

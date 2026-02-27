@@ -9,8 +9,6 @@ next: /zh/docs/ambient/install/multicluster/multi-primary_multi-network
 prev: /zh/docs/ambient/install/multicluster
 ---
 
-{{< boilerplate alpha >}}
-
 在开始多集群安装之前，请查看[部署模型指南](/zh/docs/ops/deployment/deployment-models)，
 其中介绍了本指南中使用的基础概念。
 
