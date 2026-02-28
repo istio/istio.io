@@ -881,7 +881,6 @@ Luyao
 Lyft
 macOS
 Maertens
-Maertens
 Maglev
 maintainership
 Makefile
@@ -1085,6 +1084,9 @@ pre-specified
 precheck
 preconfigured
 Predibase
+PreferClose
+PreferSameNode
+PreferSameZone
 prefetching
 preformatted
 preload
@@ -1198,7 +1200,6 @@ Savcı
 sayin
 Schaaf
 Schade
-Schade
 schedulable
 schemas
 SDKs
@@ -1235,7 +1236,6 @@ Shilin
 Shivanshu
 shortcode
 shortcodes
-Shray
 Shray
 Shriram
 Shrivastava
@@ -1356,6 +1356,7 @@ TPUs
 tradeoff
 tradeoffs
 Traefik
+trafficDistribution
 TrafficPolicy
 Trendyol
 Trino
