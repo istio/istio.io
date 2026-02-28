@@ -29,6 +29,7 @@ esbuild ./src/ts/entrypoint.ts \
   --outfile=generated/js/all.min.js
 
 esbuild ./src/ts/headerAnimation.js \
+  -- bundle \
   --minify \
   --sourcemap \
   --target=es6 \
