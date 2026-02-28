@@ -119,9 +119,9 @@ $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true 
 
 In addition to the above basic configuration there are additional configuration flags that can be set:
 
-- `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
-- `values.cni.cniConfFileName` configures the name of the plugin configuration file.
-- `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
+* `values.cni.cniBinDir` and `values.cni.cniConfDir` configure the directory paths to install the plugin binary and create plugin configuration.
+* `values.cni.cniConfFileName` configures the name of the plugin configuration file.
+* `values.cni.chained` controls whether to configure the plugin as a chained CNI plugin.
 
 Normally, these do not need to be changed, but some platforms may use nonstandard paths. Please check the guidelines for your specific platform, if any, [here](/docs/ambient/install/platform-prerequisites).
 
@@ -245,7 +245,7 @@ chart, and enabling the controller in `istiod`:
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-{{< text yaml >}}
+{{< text yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
