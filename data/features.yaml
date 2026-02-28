@@ -113,6 +113,21 @@ features:
        maturity: Alpha
        nextExpectedPromotion: ""
     area: Traffic Management
+  - name: "Kubernetes Gateway API Inference Extension (`InferencePool`)"
+    id: "traffic.k8s_gateway_api_inference_extension"
+    link: "/docs/tasks/traffic-management/ingress/gateway-api-inference-extension/"
+    level:
+      checklist: features/k8s-gateway-api-inference-extension.md
+      maturity: Beta
+      nextExpectedPromotion: ""
+    area: Traffic Management
+  - name: "Wildcard hosts in ServiceEntry for TLS traffic"
+    id: "traffic.serviceentry_wildcard_tls"
+    level:
+      checklist: ""
+      maturity: Alpha
+      nextExpectedPromotion: ""
+    area: Traffic Management
   - name: "Kubernetes Multi-Cluster Service (MCS) Discovery"
     id: "traffic.kubernetes_mcs"
     level:
@@ -327,6 +342,14 @@ features:
       maturity: Beta
       nextExpectedPromotion: ""
     area: Core
+  - name: "ClusterTrustBundle resource support"
+    id: "core.cluster_trust_bundle"
+    link: "/docs/concepts/security/#cluster-trust-bundles"
+    level:
+      checklist: ""
+      maturity: Experimental
+      nextExpectedPromotion: ""
+    area: Core
   - name: "Istio CNI Plugin"
     id: "core.cni"
     link: "/docs/setup/additional-setup/cni/"
@@ -477,4 +500,20 @@ features:
     level:
       checklist: features/ambient.md
       maturity: Beta
+    area: Ambient mode
+  - name: "Multi-network multicluster"
+    id: "ambient.multinetwork_multicluster"
+    link: "/docs/ambient/install/multicluster/multi-primary_multi-network/"
+    level:
+      checklist: features/ambient.md
+      maturity: Beta
+      nextExpectedPromotion: ""
+    area: Ambient mode
+  - name: "Baggage based telemetry"
+    id: "ambient.baggage_telemetry"
+    link: "/news/releases/1.29.x/announcing-1.29/#performance-and-observability-improvements"
+    level:
+      checklist: features/ambient.md
+      maturity: Alpha
+      nextExpectedPromotion: ""
     area: Ambient mode
