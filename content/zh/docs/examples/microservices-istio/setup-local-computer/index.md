@@ -21,7 +21,7 @@ test: no
 1. 为您从教程中收到的配置文件或者在上一个模块自己创建的配置文件设置环境变量 `KUBECONFIG`。
 
     {{< text bash >}}
-    $ export KUBECONFIG=<the file you recieved or created in the previous module>
+    $ export KUBECONFIG=<the file you received or created in the previous module>
     {{< /text >}}
 
 1. 通过打印当前命名空间来验证配置是否生效：
