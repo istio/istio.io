@@ -245,7 +245,7 @@ chart, and enabling the controller in `istiod`:
 
 {{< tab name="IstioOperator" category-value="iop" >}}
 
-{{< text yaml snip_id=none >}}
+{{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
