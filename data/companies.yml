@@ -362,6 +362,13 @@ pro_services:
       - "We’ve been using Kubernetes in production since 2017. To deliver advanced networking capabilities to our customers, we opted for Istio as a service mesh solution that provides everything needed and that we can trust."
       - "One of the prominent features we’ve implemented is automating the multi-cluster communication for Istio deployed in different Kubernetes clusters."
       - "Having vast experience integrating Istio into our Kubernetes platform and digging deep into its features and configuration peculiarities, Palark can help you to get the most out of Istio for your business needs."
+  - name: "Procedure"
+    logo: "/logos/procedure.png"
+    url: "https://procedure.tech/services/istio-consulting"
+    description: "Procedure provides Istio consulting, implementation, and enterprise support for teams running microservices on Kubernetes, with expertise in ambient mode migration and traffic management."
+    details:
+      - "Procedure is a software engineering consultancy that helps teams adopt and operate Istio service mesh on Kubernetes. From initial assessment and architecture design to production rollout and ongoing support, we partner with engineering teams to build reliable, secure service networking."
+      - "Our expertise includes ambient mode migration, traffic management, multi-cluster deployments, and integrating Istio with observability and security tooling. We work as embedded partners alongside your team to accelerate adoption and build internal capability."
   - name: "Stackgenie"
     logo: "/logos/stackgenie.svg"
     url: "https://stackgenie.io"
