@@ -37,6 +37,7 @@ Istio 支持两种流量管理后端：`iptables`（默认）和 `nftables`。
 | `xt_REDIRECT`         |                          |
 | `xt_connmark`         | Ambient 数据平面模式和带有 `TPROXY` 拦截的 Sidecar 数据平面模式需要（默认）  |
 | `xt_conntrack`        |                          |
+| `xt_CT` | 需要使用 `iptables` 后端进行 `DNS` 拦截 |
 | `xt_mark`             | Ambient 数据平面模式和带有 `TPROXY` 拦截的 Sidecar 数据平面模式需要（默认）  |
 | `xt_owner`            |                          |
 | `xt_tcpudp`           |                          |
