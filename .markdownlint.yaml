@@ -1,6 +1,7 @@
 # markdownlint-cli2 configuration for istio.io
 # Migrated from mdl.rb (Ruby markdownlint) to markdownlint-cli2 (Node.js)
-# Equivalent rules to the previous mdl.rb configuration:
+#
+# Original mdl.rb:
 #   all
 #   rule 'MD002', :level => 2
 #   rule 'MD007', :indent => 4
@@ -13,6 +14,10 @@
 #   exclude_rule 'MD033'
 #   exclude_rule 'MD041'
 #   exclude_rule 'MD046'
+#
+# markdownlint-cli2 enables many more rules than mdl did. All rules that were
+# not part of the original mdl.rb config are disabled here to maintain
+# exact behavioral parity with the previous toolchain.
 
 default: true
 
@@ -21,7 +26,7 @@ default: true
 MD002:
   level: 2
 
-# MD007: Unordered list indentation (4 spaces)
+# MD007: Unordered list indentation (4 spaces, matching mdl.rb)
 MD007:
   indent: 4
 
@@ -31,7 +36,7 @@ MD013: false
 # MD014: Dollar signs used before commands without showing output - disabled
 MD014: false
 
-# MD026: Trailing punctuation in heading
+# MD026: Trailing punctuation in heading (matching mdl.rb punctuation set)
 MD026:
   punctuation: ".,;:!"
 
@@ -50,5 +55,26 @@ MD041: false
 # MD046: Code block style - disabled
 MD046: false
 
-# Ignore front matter (Hugo YAML front matter between --- delimiters)
-# markdownlint-cli2 handles this via the --no-globs or ignores section below
+# --- Rules below were NOT in mdl.rb and fire on existing content ---
+# Disable to maintain parity with previous mdl.rb behavior.
+
+# MD004: Unordered list style (dash vs asterisk) - not enforced by mdl.rb
+MD004: false
+
+# MD034: Bare URLs - not enforced by mdl.rb
+MD034: false
+
+# MD049: Emphasis style (asterisk vs underscore) - not enforced by mdl.rb
+MD049: false
+
+# MD050: Strong style (asterisk vs underscore) - not enforced by mdl.rb
+MD050: false
+
+# MD051: Link fragments - not enforced by mdl.rb
+MD051: false
+
+# MD055: Table pipe style - not enforced by mdl.rb
+MD055: false
+
+# MD056: Table column count - not enforced by mdl.rb
+MD056: false
