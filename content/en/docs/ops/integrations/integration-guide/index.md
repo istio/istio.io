@@ -16,8 +16,8 @@ Istiod exposes debug endpoints (e.g., `/debug/syncz`, `/debug/registryz`, `/debu
 ### Ports and protocols
 
 - **Port 15014**: HTTP debug endpoints (plaintext)
-- **Port 15010**: XDS debug endpoints via plaintext gRPC (syncz, config_dump)
-- **Port 15012**: XDS debug endpoints via TLS/mTLS gRPC (syncz, config_dump) - recommended for production
+- **Port 15010**: XDS debug endpoints via plaintext gRPC (`syncz`, `config_dump`)
+- **Port 15012**: XDS debug endpoints via TLS/mTLS gRPC (`syncz`, `config_dump`) - recommended for production
 
 ### Authentication requirements
 
@@ -37,8 +37,8 @@ When authentication is enabled:
 
 - Service accounts from the **system namespace** (typically `istio-system`) have full access to all debug endpoints for all proxies across all namespaces.
 - Service accounts from **non-system namespaces** are restricted to:
-  - Specific endpoints only: `/debug/config_dump`, `/debug/ndsz`, `/debug/edsz`
-  - Same-namespace proxies only (cannot view proxies from other namespaces)
+    - Specific endpoints only: `/debug/config_dump`, `/debug/ndsz`, `/debug/edsz`
+    - Same-namespace proxies only (cannot view proxies from other namespaces)
 - To grant additional namespaces the same full access as the system namespace, set the `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` environment variable on istiod to a comma-separated list of namespaces.
   {{< tip >}}
   `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` is available in Istio 1.29.1+, 1.28.5+, and 1.27.8+ (upcoming patch releases).

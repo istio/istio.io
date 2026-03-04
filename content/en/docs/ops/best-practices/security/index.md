@@ -661,7 +661,7 @@ Istiod exposes several ports for debugging and monitoring. By default, debug end
 * Port `8080` exposes the debug interface, which offers read access to a variety of details about the clusters state.
   This can be disabled by set the environment variable `ENABLE_DEBUG_ON_HTTP=false` on Istiod. Warning: many `istioctl` commands
   depend on this interface and will not function if it is disabled.
-* Port `15010` exposes the XDS service over plaintext gRPC. XDS debug endpoints (syncz, config_dump) on this port require authentication by default,
+* Port `15010` exposes the XDS service over plaintext gRPC. XDS debug endpoints (`syncz`, `config_dump`) on this port require authentication by default,
   which effectively blocks plaintext access when enabled. Use port 15012 (TLS) for authenticated XDS debug access.
   The plaintext XDS service itself can be disabled by adding the `--grpcAddr=""` flag to the Istiod Deployment.
   Note: highly sensitive services, such as the certificate signing and distribution services, are never served over plaintext.
