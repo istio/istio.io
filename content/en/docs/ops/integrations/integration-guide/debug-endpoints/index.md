@@ -11,19 +11,19 @@ Istiod exposes debug endpoints (e.g., `/debug/syncz`, `/debug/registryz`, `/debu
 
 ## Ports and protocols
 
-- **Port 15014**: HTTP debug endpoints (plaintext)
 - **Port 15010**: XDS debug endpoints via plaintext gRPC (`syncz`, `config_dump`)
 - **Port 15012**: XDS debug endpoints via TLS/mTLS gRPC (`syncz`, `config_dump`) - recommended for production
+- **Port 15014**: HTTP debug endpoints (plaintext)
 
 ## Authentication requirements
 
 Debug endpoints require authentication via Kubernetes service account tokens or valid JWT credentials. The token must have audience `istio-ca` (configurable via the `TOKEN_AUDIENCES` environment variable on istiod).
 
-**Port 15014 (HTTP):** Authentication via bearer token in Authorization header or localhost bypass.
-
 **Port 15010 (plaintext gRPC):** When `ENABLE_DEBUG_ENDPOINT_AUTH=true`, debug endpoints require authentication. Since this port is plaintext (no TLS), the authentication check effectively blocks access unless disabled. Use port 15012 instead for authenticated XDS debug access.
 
 **Port 15012 (TLS gRPC):** XDS debug endpoints are available via the secure TLS port. Authentication is performed via mTLS certificate validation automatically.
+
+**Port 15014 (HTTP):** Authentication via bearer token in Authorization header or localhost bypass.
 
 Authentication is controlled by `ENABLE_DEBUG_ENDPOINT_AUTH` (enabled by default). To disable authentication entirely and restore legacy plaintext behavior, set `ENABLE_DEBUG_ENDPOINT_AUTH=false` on istiod. Note that disabling authentication may expose sensitive cluster information.
 
