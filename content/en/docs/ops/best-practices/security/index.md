@@ -674,7 +674,7 @@ Istiod exposes several ports for debugging and monitoring. By default, debug end
 When enabled, namespace-based authorization restricts non-system namespaces to specific endpoints (`config_dump`, `ndsz`, `edsz`) for same-namespace proxies only.
 To disable authentication and restore legacy behavior, set `ENABLE_DEBUG_ENDPOINT_AUTH=false` on istiod.
 
-See the [Integration Guide](/docs/ops/integrations/integration-guide/) for details on accessing debug endpoints from integrations.
+See the [Integration Guide](/docs/ops/integrations/integration-guide/debug-endpoints/) for details on accessing debug endpoints from integrations.
 
 ### Data Plane
 

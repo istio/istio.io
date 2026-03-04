@@ -1,25 +1,21 @@
 ---
-title: Integration Guide
-description: Technical notes for building integrations with Istio.
-weight: 28
-keywords: [integration,debug,api,authentication]
+title: Debug Endpoints
+description: Accessing istiod debug endpoints for monitoring and troubleshooting.
+weight: 30
+keywords: [integration,debug,authentication,istiod]
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-This guide provides technical information for building tools and services that integrate with Istio.
-
-## Accessing debug endpoints
-
 Istiod exposes debug endpoints (e.g., `/debug/syncz`, `/debug/registryz`, `/debug/config_dump`) on multiple ports that provide monitoring and status information useful for integrations.
 
-### Ports and protocols
+## Ports and protocols
 
 - **Port 15014**: HTTP debug endpoints (plaintext)
 - **Port 15010**: XDS debug endpoints via plaintext gRPC (`syncz`, `config_dump`)
 - **Port 15012**: XDS debug endpoints via TLS/mTLS gRPC (`syncz`, `config_dump`) - recommended for production
 
-### Authentication requirements
+## Authentication requirements
 
 Debug endpoints require authentication via Kubernetes service account tokens or valid JWT credentials. The token must have audience `istio-ca` (configurable via the `TOKEN_AUDIENCES` environment variable on istiod).
 
@@ -31,7 +27,7 @@ Debug endpoints require authentication via Kubernetes service account tokens or 
 
 Authentication is controlled by `ENABLE_DEBUG_ENDPOINT_AUTH` (enabled by default). To disable authentication entirely and restore legacy plaintext behavior, set `ENABLE_DEBUG_ENDPOINT_AUTH=false` on istiod. Note that disabling authentication may expose sensitive cluster information.
 
-### Namespace-based access control
+## Namespace-based access control
 
 When authentication is enabled:
 
@@ -44,7 +40,7 @@ When authentication is enabled:
   `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` is available in Istio 1.29.1+, 1.28.5+, and 1.27.8+ (upcoming patch releases).
   {{< /tip >}}
 
-### Access methods
+## Access methods
 
 **Via localhost (recommended):**
 
@@ -72,7 +68,7 @@ $ curl -H "Authorization: Bearer $TOKEN" https://istiod.istio-system:15014/debug
 Standard in-cluster service account tokens have audience `https://kubernetes.default.svc.cluster.local` and will not work for direct access without explicitly requesting the `istio-ca` audience.
 {{< /warning >}}
 
-### Example: Configuring namespace access
+## Example: Configuring namespace access
 
 To allow a monitoring tool running in the `monitoring` namespace to access debug endpoints, add the namespace to istiod's configuration:
 
