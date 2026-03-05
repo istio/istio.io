@@ -1083,9 +1083,6 @@ pre-specified
 precheck
 preconfigured
 Predibase
-PreferClose
-PreferSameNode
-PreferSameZone
 prefetching
 preformatted
 preload
@@ -1354,7 +1351,6 @@ TPUs
 tradeoff
 tradeoffs
 Traefik
-trafficDistribution
 TrafficPolicy
 Trendyol
 Trino
