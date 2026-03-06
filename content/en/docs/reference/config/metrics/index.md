@@ -69,7 +69,7 @@ label in configuration is shown in parentheses below.
 *   **Source Workload Namespace** (`source_workload_namespace`): This identifies the namespace of the source
     workload, or `unknown` if the source information is missing.
 
-*   **Source Principal** (`source_princpial`): This identifies the peer principal of the traffic source.
+*   **Source Principal** (`source_principal`): This identifies the peer principal of the traffic source.
     It is set when peer authentication is used.
 
 *   **Source App** (`source_app`): This identifies the source application based on `app` label
