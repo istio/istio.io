@@ -43,7 +43,7 @@ spec:
 
 #### Platform profile
 
-When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
+When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides. This will also automatically add the necessary ResourceQuota mentioned above.
 
 {{< tabset category-name="install-method" >}}
 
