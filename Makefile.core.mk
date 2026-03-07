@@ -152,7 +152,8 @@ netlify_install:
 	    sass@v1.89.1 \
 	    typescript@v5.8.3 \
 	    svg-symbol-sprite@v1.5.2 \
-	    esbuild@v0.25.5
+	    esbuild@v0.25.5 \
+	    markdownlint-cli2@v0.17.2
 
 netlify: netlify_install
 	@scripts/gen_site.sh
