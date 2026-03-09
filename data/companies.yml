@@ -132,7 +132,7 @@ integrations:
       - "Argo Rollouts uses Istio to provide advanced traffic shaping capabilities to the different versions of the Rollout during an update."
   - name: "Calico"
     logo: "/logos/project-calico.svg"
-    url: "https://docs.projectcalico.org/security/app-layer-policy#installing-istio"
+    url: "https://docs.tigera.io/calico/latest/network-policy/istio/"
     description: "Calico integrates seamlessly with Istio to enforce network policy within the Istio service mesh."
     details:
       - "Calico network policy for Istio lets you enforce application layer attributes like HTTP methods or paths, and cryptographically secure identities for Istio-enabled apps."
