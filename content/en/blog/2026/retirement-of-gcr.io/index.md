@@ -1,0 +1,76 @@
+---
+title: "Istio is Migrating Container Registries"
+description: What you can do today to ensure your clusters are not impacted by the retirement of `gcr.io/istio-release`.
+publishdate: 2026-03-23
+attribution: Steven Jin (Microsoft), John Howard (Google)
+keywords: [Istio,Helm,Container Registry]
+---
+
+Due to changes in Istio's funding model, Istio images will no longer be available at `gcr.io/istio-release` starting January 1st, 2027.
+That is, clusters that reference images hosted on `gcr.io/istio-release` might fail to create new pods in 2027.
+
+## Am I affected?
+
+By default, Istio installations use Docker Hub (`docker.io/istio`) as their container registry, but many users choose to use the `gcr.io/istio-release` mirror.
+You can check whether you are using the mirror using the following command.
+
+```bash
+kubectl get pods --all-namespaces -o json \
+    | jq -r '.items[] | select(.spec.containers[].image | startswith("gcr.io/istio-release")) | "\(.metadata.namespace)/\(.metadata.name)"'
+```
+
+The above command will list all the pods that use images hosted on `gcr.io/istio-release`.
+If there are any such pods, you will likely need to migrate.
+
+{{< tip >}}
+Even if you are using Docker Hub as your registry, we suggest that you migrate to `registry.istio.io` in case Istio images are no longer available on Docker Hub in the future.
+{{< /tip >}}
+
+## Migrating today
+
+Although we do not plan on retiring `gcr.io/istio-release` until January 1st, 2027, **you can migrate container registries today** by moving to the `registry.istio.io` registry.
+
+### Using `istioctl`
+
+If you install Istio using `istioctl`, you can update your IstioOperator configuration as follows
+
+```yaml
+# istiooperator.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  # ...
+  hub: registry.istio.io/release
+  # Everything else can stay the same unless you reference `gcr.io/istio-release` images elsewhere
+```
+
+and install Istio using this configuration
+
+```bash
+istioctl install -f istiooperator.yaml
+```
+
+Alternatively, you can pass in the registry as a command line argument
+
+```bash
+istioctl install --set hub=registry.istio.io/release # the rest of your arguments
+```
+
+### Using Helm
+
+If you use Helm to install Istio, update your values file to have the following
+
+```yaml
+# ...
+hub: registry.istio.io/release
+global:
+  hub: registry.istio.io/release
+# Everything else can stay the same unless you reference `gcr.io/istio-release` images elsewhere
+```
+
+Then, update your Helm installation with your new values file.
+
+### Private mirrors
+
+Your organization might pull images from `gcr.io/istio-release`, push them to a private registry, and reference the private registry in their Istio installation.
+This process will still work, but you will have to pull from `registry.istio.io/release` instead of `gcr.io/istio-release`.
