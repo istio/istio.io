@@ -14,10 +14,10 @@ That is, clusters that reference images hosted on `gcr.io/istio-release` might f
 By default, Istio installations use Docker Hub (`docker.io/istio`) as their container registry, but many users choose to use the `gcr.io/istio-release` mirror.
 You can check whether you are using the mirror using the following command.
 
-```bash
-kubectl get pods --all-namespaces -o json \
+{{< text bash >}}
+$ kubectl get pods --all-namespaces -o json \
     | jq -r '.items[] | select(.spec.containers[].image | startswith("gcr.io/istio-release")) | "\(.metadata.namespace)/\(.metadata.name)"'
-```
+{{< /text >}}
 
 The above command will list all the pods that use images hosted on `gcr.io/istio-release`.
 If there are any such pods, you will likely need to migrate.
@@ -34,7 +34,7 @@ Although we do not plan on retiring `gcr.io/istio-release` until January 1st, 20
 
 If you install Istio using `istioctl`, you can update your IstioOperator configuration as follows
 
-```yaml
+{{< text yaml >}}
 # istiooperator.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
@@ -42,31 +42,31 @@ spec:
   # ...
   hub: registry.istio.io/release
   # Everything else can stay the same unless you reference `gcr.io/istio-release` images elsewhere
-```
+{{< /text >}}
 
 and install Istio using this configuration
 
-```bash
-istioctl install -f istiooperator.yaml
-```
+{{< text bash >}}
+$ istioctl install -f istiooperator.yaml
+{{< /text >}}
 
 Alternatively, you can pass in the registry as a command line argument
 
-```bash
-istioctl install --set hub=registry.istio.io/release # the rest of your arguments
-```
+{{< text bash >}}
+$ istioctl install --set hub=registry.istio.io/release # the rest of your arguments
+{{< /text >}}
 
 ### Using Helm
 
 If you use Helm to install Istio, update your values file to have the following
 
-```yaml
+{{< text yaml >}}
 # ...
 hub: registry.istio.io/release
 global:
   hub: registry.istio.io/release
 # Everything else can stay the same unless you reference `gcr.io/istio-release` images elsewhere
-```
+{{< /text >}}
 
 Then, update your Helm installation with your new values file.
 
