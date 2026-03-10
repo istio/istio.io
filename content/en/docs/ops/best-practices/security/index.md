@@ -656,13 +656,25 @@ Istio configures a [variety of ports](/docs/ops/deployment/application-requireme
 
 ### Control Plane
 
-Istiod exposes a few unauthenticated plaintext ports for convenience by default. If desired, these can be closed:
+Istiod exposes several ports for debugging and monitoring. By default, debug endpoints now require authentication:
 
 * Port `8080` exposes the debug interface, which offers read access to a variety of details about the clusters state.
   This can be disabled by set the environment variable `ENABLE_DEBUG_ON_HTTP=false` on Istiod. Warning: many `istioctl` commands
   depend on this interface and will not function if it is disabled.
-* Port `15010` exposes the XDS service over plaintext. This can be disabled by adding the `--grpcAddr=""` flag to the Istiod Deployment.
+* Port `15010` exposes the XDS service over plaintext gRPC. XDS debug endpoints (`syncz`, `config_dump`) on this port require authentication by default,
+  which effectively blocks plaintext access when enabled. Use port 15012 (TLS) for authenticated XDS debug access.
+  The plaintext XDS service itself can be disabled by adding the `--grpcAddr=""` flag to the istiod deployment.
   Note: highly sensitive services, such as the certificate signing and distribution services, are never served over plaintext.
+* Port `15012` exposes the XDS service over TLS/mTLS gRPC (recommended for production). XDS debug endpoints are available via this port
+  with automatic mTLS authentication.
+* Port `15014` exposes debug endpoints (`/debug/syncz`, `/debug/registryz`, `/debug/config_dump`, etc.) over HTTP (plaintext).
+  These endpoints require authentication via service account tokens with `istio-ca` audience by default.
+
+Debug endpoint authentication is controlled by the `ENABLE_DEBUG_ENDPOINT_AUTH` environment variable (enabled by default).
+When enabled, namespace-based authorization restricts non-system namespaces to specific endpoints (`config_dump`, `ndsz`, `edsz`) for same-namespace proxies only.
+To disable authentication and restore legacy behavior, set `ENABLE_DEBUG_ENDPOINT_AUTH=false` on istiod.
+
+See the [Integration Guide](/docs/ops/integrations/integration-guide/debug-endpoints/) for details on accessing debug endpoints from integrations.
 
 ### Data Plane
 
