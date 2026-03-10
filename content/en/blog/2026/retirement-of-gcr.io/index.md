@@ -72,5 +72,5 @@ Then, update your Helm installation with your new values file.
 
 ### Private mirrors
 
-Your organization might pull images from `gcr.io/istio-release`, push them to a private registry, and reference the private registry in their Istio installation.
+Your organization might pull images from `gcr.io/istio-release`, push them to a private registry, and reference the private registry in your Istio installation.
 This process will still work, but you will have to pull from `registry.istio.io/release` instead of `gcr.io/istio-release`.
