@@ -69,6 +69,7 @@
 1ms
 1qps
 1s
+1seal
 1xx
 2.5s
 2010s
@@ -446,6 +447,13 @@ CVE-2025-64527
 CVE-2025-64763
 CVE-2025-66220
 CVE-2025-68121
+CVE-2026-26308
+CVE-2026-26309
+CVE-2026-26310
+CVE-2026-26311
+CVE-2026-26330
+CVE-2026-31837
+CVE-2026-31838
 CVEs
 cves
 cvss
@@ -599,6 +607,8 @@ Geneve
 GEP-91
 Gergely
 GHSA-8mq4-c2v5-3h39
+GHSA-974c-2wxh-g4ww
+GHSA-v75c-crr9-733c
 GiB
 GIDs
 GIE
@@ -625,6 +635,7 @@ grpc
 Gyanesh
 h2c
 Haidian
+Hardcoded
 Harri
 Harvey
 Hashicorp
@@ -739,6 +750,7 @@ ISTIO-SECURITY-2023-004
 ISTIO-SECURITY-2024-006
 ISTIO-SECURITY-2024-007
 ISTIO-SECURITY-2025-001
+ISTIO-SECURITY-2026-001
 istio-system
 istio.io
 istio.io.
@@ -786,6 +798,7 @@ K8gb
 k8s
 Kafka
 kagent
+Kanibor
 Karim
 Karma's
 katacoda
@@ -940,6 +953,7 @@ multicloud
 Multicluster
 multicluster
 multinetwork
+multivalue
 Murthy
 mutex
 mutual-tls
@@ -1085,6 +1099,7 @@ precheck
 preconfigured
 Predibase
 prefetching
+preflights
 preformatted
 preload
 prepend
@@ -1124,6 +1139,7 @@ Raghunath
 Rahul
 Rajagopalan
 Rappi
+Ratelimit
 ratelimit-handler
 RawVM
 rbac
@@ -1274,6 +1290,7 @@ src
 SREs
 Srihari
 Srinath
+SSRF
 Stackdriver
 Stackgenie
 Standard_D4ds_v5
@@ -1368,6 +1385,7 @@ uint32
 ulimit
 un-injecting
 un-trust
+unauthenticated
 uncaptured
 uncomment
 uncommented
