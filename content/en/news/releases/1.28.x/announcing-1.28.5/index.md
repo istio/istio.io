@@ -37,9 +37,9 @@ For more information, see [ISTIO-SECURITY-2026-001](/news/security/istio-securit
 - **Fixed** XDS debug endpoints on plaintext port 15010 to require authentication, preventing unauthenticated access to proxy configuration.
   Reported by [1seal](https://github.com/1seal).
 - **Fixed** potential SSRF in `WasmPlugin` image fetching by validating bearer token realm URLs.
-  Reported by Sergey Kanibor (Luntry).
+  Reported by [Sergey Kanibor (Luntry)](https://github.com/r0binak).
 - **Fixed** HTTP debug endpoints on port 15014 to enforce namespace-based authorization, preventing cross-namespace proxy data access.
-  Reported by Sergey Kanibor (Luntry).
+  Reported by [Sergey Kanibor (Luntry)](https://github.com/r0binak).
 - **Added** the ability to specify authorized namespaces for debug endpoints when `ENABLE_DEBUG_ENDPOINT_AUTH=true`. Enable by
   setting `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` to a comma separated list of authorized namespaces. The system namespace
   (typically `istio-system`) is always authorized.
