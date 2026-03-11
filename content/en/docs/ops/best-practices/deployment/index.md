@@ -54,7 +54,7 @@ autoscaleMin: 2
 Combine this with pod anti-affinity to spread replicas across nodes and zones.
 Use `requiredDuringSchedulingIgnoredDuringExecution` for node-level separation
 to guarantee replicas run on different nodes. If capacity is insufficient, the
-unschedulable pod surfaces the issue instead of silently co-locating both
+unschedulable pod surfaces the issue instead of silently colocating both
 replicas on a single node. Use `preferredDuringSchedulingIgnoredDuringExecution`
 for zone-level spreading to avoid blocking scheduling in clusters with fewer
 zones than replicas:
