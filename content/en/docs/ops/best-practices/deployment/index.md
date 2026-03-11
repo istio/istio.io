@@ -51,13 +51,25 @@ least one replica remains available during disruptions:
 autoscaleMin: 2
 {{< /text >}}
 
-Combine this with pod anti-affinity to spread replicas across zones and nodes.
-This prevents both replicas from being disrupted by the same node drain or
-zone failure:
+Combine this with pod anti-affinity to spread replicas across nodes and zones.
+Use `requiredDuringSchedulingIgnoredDuringExecution` for node-level separation
+to guarantee replicas run on different nodes. If capacity is insufficient, the
+unschedulable pod surfaces the issue instead of silently co-locating both
+replicas on a single node. Use `preferredDuringSchedulingIgnoredDuringExecution`
+for zone-level spreading to avoid blocking scheduling in clusters with fewer
+zones than replicas:
 
 {{< text yaml >}}
 affinity:
   podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - istiod
+      topologyKey: kubernetes.io/hostname
     preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 100
       podAffinityTerm:
@@ -68,17 +80,4 @@ affinity:
             values:
             - istiod
         topologyKey: topology.kubernetes.io/zone
-    - weight: 80
-      podAffinityTerm:
-        labelSelector:
-          matchExpressions:
-          - key: app
-            operator: In
-            values:
-            - istiod
-        topologyKey: kubernetes.io/hostname
 {{< /text >}}
-
-Use `preferredDuringSchedulingIgnoredDuringExecution` (soft anti-affinity)
-to ensure `istiod` can still be scheduled in clusters with a limited number of
-nodes or zones.
