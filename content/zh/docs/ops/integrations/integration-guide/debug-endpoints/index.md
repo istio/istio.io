@@ -50,7 +50,7 @@ Istiod 在多个端口上公开调试端点（例如，`/debug/syncz`、`/debug/
 
 ## 访问方法 {#access-methods}
 
-**通过 localhost（推荐）：**
+通过 localhost（推荐）：
 
 将端口转发到 istiod 可以绕过身份验证，因为请求来自本地主机。
 这就是 istioctl 的工作原理，也是大多数集成推荐的方法：
@@ -60,7 +60,7 @@ $ kubectl port-forward -n istio-system deploy/istiod 15014:15014
 $ curl http://localhost:15014/debug/syncz
 {{< /text >}}
 
-**直接网络访问（用于集群内工具）：**
+直接网络访问（用于集群内工具）：
 
 对于在集群内部运行并通过 Kubernetes 服务网络直接访问 istiod 的工具
 （例如 Kiali、自定义监控工具），服务帐户令牌必须：
