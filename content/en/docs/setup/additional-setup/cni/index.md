@@ -230,10 +230,9 @@ and the repair mechanism handles edge cases on already-running nodes.
 
 #### When to use the untaint controller
 
-Enable the untaint controller if your cluster uses **node autoscaling** (e.g., Karpenter,
-Cluster Autoscaler, cloud provider node groups) and you have workloads that are sensitive to
-pod startup failures caused by missing CNI network configuration — especially `Job` pods with
-`restartPolicy: Never`.
+Enable the untaint controller if your cluster uses node autoscaling and you have workloads that
+are sensitive to pod startup failures caused by missing CNI network configuration, especially `Job`
+pods with `restartPolicy: Never`.
 
 #### Enabling the untaint controller
 
