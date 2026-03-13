@@ -210,8 +210,7 @@ This repair capability can be further configured with different RBAC permissions
 ### Untaint controller
 
 The repair mechanism described above addresses pods already scheduled on a node when the CNI
-agent is not yet ready. However, in some environments (particularly when using node autoscalers
-like [Karpenter](https://karpenter.sh/) or cloud provider node groups), new nodes may become
+agent is not yet ready. However, in some environments (particularly when using autoscalers), new nodes may become
 schedulable before the `istio-cni` DaemonSet pod has been scheduled _at all_ on that node. Pods
 that start on such nodes — especially those with `restartPolicy: Never` like Kubernetes `Job`
 pods — may fail permanently before the repair mechanism can intervene.
