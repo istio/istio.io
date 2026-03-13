@@ -217,11 +217,10 @@ that start on such nodes — especially those with `restartPolicy: Never` like K
 pods — may fail permanently before the repair mechanism can intervene.
 
 The **untaint controller** addresses this root cause by proactively controlling when new nodes
-accept workload pods. When enabled, it instructs `istiod` to automatically apply a
-[`NoExecute` taint](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
-(`cni.istio.io/not-ready`) to new nodes as they join the cluster. The taint is automatically
-removed once the `istio-cni` node agent on that node reports ready, guaranteeing that no
-workload pods are scheduled before CNI redirection is available.
+accept workload pods. When enabled, it instructs `istiod` to automatically remove the
+[`NoSchedule` taint](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+(`cni.istio.io/not-ready`) from nodes once the `istio-cni` node agent on that node reports ready,
+guaranteeing that no workload pods are scheduled before CNI redirection is available.
 
 {{< tip >}}
 The untaint controller is complementary to, not a replacement for, the repair mechanism.
@@ -278,14 +277,9 @@ $ helm install istiod istio/istiod -n istio-system \
 
 | Setting                                                  | Description                                                                                                                                       | Default         |
 | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `values.pilot.taint.enabled`                             | Installs RBAC rules required for `istiod` to taint and untaint nodes.                                                                             | `false`         |
-| `values.pilot.env.PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` | Activates the untaint controller in `istiod`. Must be set alongside `taint.enabled`.                                                              | `""` (disabled) |
+| `values.pilot.taint.enabled`                             | Installs RBAC rules required for `istiod` to untaint nodes.                                                                             | `false`         |
+| `values.pilot.env.PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` | Activates the untaint controller in `istiod`.                                                              | `""` (disabled) |
 | `values.pilot.taint.namespace`                           | The namespace where `istio-cni` is running; used to watch the CNI DaemonSet for readiness. Defaults to the same namespace as `istiod` if not set. | `""`            |
-
-{{< warning >}}
-Both `pilot.taint.enabled` and `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` must be set together.
-Setting only one of them will have no effect.
-{{< /warning >}}
 
 ### Traffic redirection parameters
 
