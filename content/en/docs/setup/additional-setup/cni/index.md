@@ -218,7 +218,7 @@ pods — may fail permanently before the repair mechanism can intervene.
 The untaint controller addresses this root cause by proactively controlling when new nodes
 accept workload pods. The cluster operator/owner is responsible for having the taint set by their infrastructure provider when new nodes are added to the cluster. When enabled, the untaint controller instructs `istiod` to automatically remove the
 [`NoSchedule` taint](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
-(`cni.istio.io/not-ready`) from nodes once the `istio-cni` node agent on that node reports ready,
+, `cni.istio.io/not-ready`, from nodes once the `istio-cni` node agent on that node reports ready,
 guaranteeing that no workload pods are scheduled before CNI redirection is available.
 
 {{< tip >}}
