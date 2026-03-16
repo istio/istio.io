@@ -7,6 +7,10 @@ export GO111MODULE ?= on
 export GOPROXY ?= https://proxy.golang.org
 export GOSUMDB ?= sum.golang.org
 
+# Memory optimization for Go operations to prevent OOM in CI
+export GOGC ?= 50
+export GOMEMLIMIT ?= 20GiB
+
 # If GOPATH is not set by the env, set it to a sane value
 GOPATH ?= $(shell cd ${ISTIOIO_GO}/../../..; pwd)
 export GOPATH
@@ -178,7 +182,13 @@ update_ref_docs:
 update_test_reference: get_istio_sha gen
 
 get_istio_sha:
-	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
+	@go get istio.io/istio@$(SOURCE_BRANCH_NAME)
+	@API_VERSION=$$(go mod graph | grep "istio.io/istio@.*istio.io/api@" | head -1 | sed 's/.*istio.io\/api@//'); \
+	if [ -n "$$API_VERSION" ]; then \
+		echo "Updating istio.io/api to $$API_VERSION"; \
+		go get istio.io/api@$$API_VERSION; \
+	fi
+	@go mod tidy
 
 update_all: update_ref_docs update_test_reference
 
