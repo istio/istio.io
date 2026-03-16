@@ -73,11 +73,6 @@ $ export OLD_REVISION=istio-1-21-2
 
 ## Upgrade the control plane
 
-{{< tip >}}
-Helm 4 uses server-side apply by default. The Istio charts handle this automatically —
-no special flags or workarounds are needed for `helm upgrade` with Helm 4.
-{{< /tip >}}
-
 ### Base components
 
 {{< boilerplate crd-upgrade-123 >}}
