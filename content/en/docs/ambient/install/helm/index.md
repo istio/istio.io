@@ -23,7 +23,7 @@ We encourage the use of Helm to install Istio for production use in ambient mode
 
 1. Check the [Platform-Specific Prerequisites](/docs/ambient/install/platform-prerequisites).
 
-1. [Install the Helm client](https://helm.sh/docs/intro/install/), version 3.6 or above.
+1. [Install the Helm client](https://helm.sh/docs/intro/install/), version 3.6 or above. Helm 4 is also supported.
 
 1. Configure the Helm repository:
 
@@ -249,5 +249,12 @@ cluster in the correct order.
 1. `helm install` automatically prunes any resources that should be removed when the configuration changes (e.g.
 if you remove a gateway). This does not happen when you use `helm template` with `kubectl`, and these
 resources must be removed manually.
+
+1. If you apply generated manifests using `kubectl apply --server-side` — including GitOps tools
+such as Argo CD and Flux that use `helm template` with server-side apply — you must set
+`base.validationFailurePolicy=Fail` when rendering the templates. This avoids a field manager conflict
+on the `ValidatingWebhookConfiguration`, where both the chart and the istiod webhook controller attempt to
+manage the `failurePolicy` field. This is not needed when using `helm install` or `helm upgrade` directly
+(including Helm 4, which uses server-side apply by default), as the chart handles this automatically.
 
 {{< /warning >}}
