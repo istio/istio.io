@@ -140,11 +140,6 @@ $ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set re
 You can perform an in place upgrade of Istio in your cluster using the Helm
 upgrade workflow.
 
-{{< tip >}}
-Helm 4 uses server-side apply by default. The Istio charts handle this automatically —
-no special flags or workarounds are needed for `helm upgrade` with Helm 4.
-{{< /tip >}}
-
 {{< warning >}}
 Add your override values file or custom options to the commands below to
 preserve your custom configuration during Helm upgrades.
