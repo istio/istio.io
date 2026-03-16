@@ -261,4 +261,11 @@ cluster in the correct order.
 if you remove a gateway). This does not happen when you use `helm template` with `kubectl`, and these
 resources must be removed manually.
 
+1. If you apply generated manifests using `kubectl apply --server-side` — including GitOps tools
+such as Argo CD and Flux that use `helm template` with server-side apply — you must set
+`base.validationFailurePolicy=Fail` when rendering the templates. This avoids a field manager conflict
+on the `ValidatingWebhookConfiguration`, where both the chart and the istiod webhook controller attempt to
+manage the `failurePolicy` field. This is not needed when using `helm install` or `helm upgrade` directly
+(including Helm 4, which uses server-side apply by default), as the chart handles this automatically.
+
 {{< /warning >}}
