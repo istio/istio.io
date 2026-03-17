@@ -12,80 +12,95 @@ Istio 以不同的方式与 DNS 交互，这可能会让人感到困惑。本文
 Istio 和 DNS 的交互方式。
 
 {{< warning >}}
-
 本文档描述了底层实施细节。要了解更高层次的概述，
 请查看流量管理[概念](/zh/docs/concepts/traffic-management/)或
 [任务](/zh/docs/tasks/traffic-management/)页面。
-
 {{< /warning >}}
+
+## 范围与视角 {#scope-and-perspective}
+
+本文档描述了在 Istio 服务网格内部运行的应用工作负载（已启用 Envoy 边车代理）的 DNS 行为。
+
+在本文档中，术语 `client` 指代网格内部的工作负载。
 
 ## 请求过程 {#life-of-a-request}
 
-下面我们将以一个应用程序运行 `curl example.com` 为例来看一个请求的全过程。
-这里的 `curl` 请求过程适用于几乎所有客户端。
+在这些示例中，我们将逐步演示网格内的应用程序执行 `curl example.com`
+命令时所发生的过程。虽然此处为了简化起见使用了 `curl`，
+但这一原理同样适用于网格内运行的几乎所有 HTTP 客户端。
 
-当您向一个域名发送请求时，客户端会进行 DNS 解析，将其解析为一个 IP 地址。
-不管 Istio 如何设置，这都会发生，因为 Istio 只是拦截网络流量；
-它不能改变应用程序的行为或决定是否发送 DNS 请求。在下面的例子中，
-`example.com` 被解析为 `192.0.2.0`。
+当您向某个域名发送请求时，客户端会首先执行 DNS 解析，
+将主机名解析为 IP 地址。无论 Istio 的设置如何，
+这一过程都会发生；因为 Istio 仅负责拦截网络流量，
+而无法改变应用程序执行 DNS 查找的决定。
+在下方的示例中，`example.com` 被解析为 `192.0.2.0`。
 
 {{< text bash >}}
 $ curl example.com -v
 *   Trying 192.0.2.0:80...
 {{< /text >}}
 
-接下来，该请求将被 Istio 拦截。这时，Istio 将看到主机名（来自
-`Host: example.com` 头）和目标地址（`192.0.2.0:80`）。Istio
-使用这些信息来确定预定目的地。
-[理解流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)对这种行为的工作原理进行了深入探讨。
+只有在 DNS 解析成功后，应用程序才会尝试建立网络连接；
+而这正是 Istio 能够拦截流量的时机。
 
-如果客户端无法解析 DNS 请求，在 Istio 收到请求之前就会终止。
-这意味着，即使一个请求发送到一个 Istio 已知的主机名（例如，通过
-`ServiceEntry` 配置），但是无法通过 DNS 解析，该请求也会失败。
-不过 Istio 的 [DNS 代理](#dns-proxing)可以改变这种行为。
+接下来，该请求会被 Istio 拦截。此时，Istio 能够同时获取主机名（来自 `Host: example.com` 标头）
+和目标地址（`192.0.2.0:80`）。Istio 利用这些信息来确定预期的目标。
 
-一旦 Istio 确定了预期的目的地，它必须选择要发送到的地址。由于
-Istio 的高级[负载均衡能力](/zh/docs/concepts/traffic-management/#load-balancing-options)，
-这个地址往往不是客户端发送的原始 IP 地址。根据服务配置的不同，Istio
-有几种不同的方式来实现：
+[理解流量路由](/zh/docs/ops/configuration/traffic-management/traffic-routing/)深入探讨了这一行为的工作原理。
 
-* 使用客户端的原始 IP 地址（上例中为 `192.0.2.0`）。
-  这种情况适用于 `resolution: NONE` 类型的 `ServiceEntry`
-  和[无头服务](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#headless-services)。
-* 在一组静态 IP 地址上进行负载均衡。这种情况适用于 `resolution: STATIC`
-  类型的 `ServiceEntry`，这将使用 `spec.endpoints` 中的所有地址，
-  或者对于标准 `Services` 将使用其所有 `Endpoints` 地址。
+如果网格工作负载无法使用其配置的 DNS 解析器解析 DNS 名称，则连接将永远不会被发起。
+
+Istio 的 [DNS 代理](#dns-proxying)功能可以通过拦截来自应用程序的
+DNS 请求并直接返回响应，来改变这一行为。
+
+一旦 Istio 确定了预期的目标地址，它必须选择具体将流量发送至哪一个地址。
+得益于 Istio 先进的[负载均衡能力](/zh/docs/concepts/traffic-management/#load-balancing-options)，
+该地址往往并非客户端最初发送的那个 IP 地址。
+根据具体的服务配置，Istio 实现这一过程的方式主要有几种。
+
+* 使用客户端的原始 IP 地址（在上述示例中为 `192.0.2.0`）。
+  对于类型为 `resolution: NONE`（默认值）的 `ServiceEntry`
+  以及[无头（Headless）`Services`](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#headless-services) 而言，
+  情况正是如此。
+* 在一组静态 IP 地址上执行负载均衡。这种情况适用于 `resolution: STATIC`
+  类型的 `ServiceEntry`（此时将使用所有的 `spec.endpoints`），
+  或标准 `Service`（此时将使用所有的 `Endpoints`）。
 * 使用 DNS 定期解析地址，并在所有结果中进行负载均衡。这种情况适用于
   `resolution: DNS` 类型的 `ServiceEntry`。
 
-请注意，在任何情况下，Istio 代理内部的 DNS 解析与用户应用程序中的
-DNS 解析是正交（orthogonal）的。即使客户端进行了 DNS 解析，
-代理也可能忽略已解析的 IP 地址，而使用自己的地址，这些地址可能来自静态的
-IP 列表或通过代理的 DNS 解析（可能是同一主机名或不同的主机名）。
+请注意，在所有情况下，Istio 代理内部的 DNS 解析均独立于用户应用程序执行的 DNS 解析。
+即使客户端已执行了 DNS 解析，代理仍可能忽略解析出的 IP 地址，
+转而使用其自身的 IP 地址——该地址可能源自静态 IP 列表，
+也可能源自代理自身执行的 DNS 解析（解析对象可能是同一主机名，也可能是另一主机名）。
 
 ## 代理 DNS 解析 {#proxying-dns-resolution}
 
-与大多数客户端在请求时按需执行 DNS 请求（然后通常缓存结果）不同，
-Istio 代理从不执行同步 DNS 请求。配置 `resolution: DNS`
-类型的 `ServiceEntry` 后，代理将定期解析配置的主机名并将其用于所有请求。
-此间隔固定为 30 秒，目前无法更改。
-即使代理从未向这些应用程序发送任何请求，该情况也会发生。
+与大多数客户端不同（大多数客户端通常会在发出请求时按需执行 DNS 查询，随后缓存查询结果），
+Istio 代理绝不会执行同步 DNS 查询。当配置了 `resolution: DNS`
+类型的 `ServiceEntry` 时，代理会周期性地解析所配置的主机名，
+并将解析结果应用于所有的请求。此解析周期固定为 30 秒，
+目前尚无法进行修改。即使代理从未向关联的服务发送过任何请求，
+DNS 解析过程依然会照常执行。
 
-对于具有许多代理或许多 `resolution: DNS` 类型 `ServiceEntry`
-的网格而言，尤其是在使用较低 `TTL` 时，可能会导致 DNS 服务器的负载很高。
-在这些情况下，以下行为有助于减轻负载：
+对于包含大量代理或大量 `resolution: DNS` 类型 `ServiceEntry` 的网格，
+尤其是当使用较低的 DNS `TTL` 值时，这可能会给 DNS 服务器造成较高的负载。
+在这种情况下，采取以下措施有助于减轻负载：
 
 * 将 `ServiceEntries` 切换为 `resolution: NONE` 类型以完全避免代理 DNS 查找，
   这适用于许多使用场景。
-* 如果您可以控制正在解析的域，请适当增加它们的 TTL。
-* 如果您的 `ServiceEntry` 只有少量工作负载，请使用 `exportTo`
-  或 [`Sidecar`](/zh/docs/reference/config/networking/sidecar/) 限制其范围。
+* 如果您控制着正在被解析的域名，请增加它们的 `TTL` 值。
+* 如果某个 `ServiceEntry` 仅被少量工作负载所需要，请使用 `exportTo`
+  或 [`Sidecar`](/zh/docs/reference/config/networking/sidecar/) 来限制其作用域。
 
-## DNS 代理 {#dns-proxing}
+## DNS 代理 {#dns-proxying}
 
-Istio 提供了[代理 DNS 请求](/zh/docs/ops/configuration/traffic-management/dns-proxy/)的功能。
-这允许 Istio 捕获客户端发送的 DNS 请求并直接返回响应。这可以改善 DNS 延迟，
-减少负载，并解决了 `ServiceEntries` 无法通过 `kube-dns` 解析的问题。
+Istio 提供了一项用于[代理 DNS 请求](/zh/docs/ops/configuration/traffic-management/dns-proxy/)的功能。
+借此，Istio 能够捕获应用程序发出的 DNS 请求，并直接返回响应。
 
-请注意，此代理仅适用于用户应用程序发送的 DNS 请求；当使用 `resolution: DNS`
-类型的 `ServiceEntries` 时，DNS 代理对 Istio 代理的 DNS 解析没有影响。
+DNS 代理能够改善 DNS 延迟、减轻上游 DNS 服务器的负载，
+并允许解析那些原本对 `kube-dns` 或 `core-dns`
+而言属于未知的主机名（即 `ServiceEntry` 中的主机名）。
+
+请注意，DNS 代理仅适用于由用户应用程序发出的 DNS 请求。
+当使用类型为 `resolution: DNS` 的 `ServiceEntry` 时，
+DNS 代理不会影响 Istio 代理自身执行 DNS 解析的方式。
