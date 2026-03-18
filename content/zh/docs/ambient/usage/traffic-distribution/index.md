@@ -27,7 +27,6 @@ test: no
 - **`Namespace`**：为该命名空间内的所有服务设置默认配置
 - **`ServiceEntry`**：影响流向外部服务的流量
 
-### Precedence
 ### 优先级 {#precedence}
 
 当配置了多个层级时，最具体的层级优先。
