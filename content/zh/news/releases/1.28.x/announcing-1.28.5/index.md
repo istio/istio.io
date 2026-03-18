@@ -28,7 +28,7 @@ aliases:
 - [CVE-2026-26310](https://nvd.nist.gov/vuln/detail/CVE-2026-26310) (CVSS score 5.9, Medium)：
   修复 `getAddressWithPort()` 处理带作用域 IPv6 地址时发生的崩溃问题。
 - [CVE-2026-26309](https://nvd.nist.gov/vuln/detail/CVE-2026-26309) (CVSS score 5.3, Medium)：
-  修复 JSON 写入“off-by-one”错误。
+  修复 JSON 写入 "off-by-one" 错误。
 - [CVE-2026-26330](https://nvd.nist.gov/vuln/detail/CVE-2026-26330) (CVSS score 5.3, Medium)：
   修复限流响应阶段崩溃问题。
 
