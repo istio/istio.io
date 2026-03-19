@@ -10,7 +10,7 @@ Nuestro equipo de colaboradores ha estado muy activo durante la transición a 20
 
 ## Brechas en la telemetría
 
-Los beneficios de un sistema distribuido multiclúster no están exentos de compromisos. Cierta complejidad es inevitable a mayor escala, lo que hace que una buena telemetría sea aún más importante. El equipo de Istio entiende ese punto y éramos conscientes de algunas brechas que necesitaban cubrirse. Afortunadamente, en la versión 1.29, la telemetría es ahora más robusta y completa cuando nuestro data plane ambient opera sobre clústeres y redes distribuidos.
+Los beneficios de un sistema distribuido multiclúster no están exentos de compromisos. Cierta complejidad es inevitable a mayor escala, lo que hace que una buena telemetría sea aún más importante. El equipo de Istio entendimos ese punto y éramos conscientes de algunas brechas que necesitaban cubrirse. Afortunadamente, en la versión 1.29, la telemetría es ahora más robusta y completa cuando nuestro data plane ambient opera sobre clústeres y redes distribuidos.
 
 Si has desplegado capacidades multiclúster en fase alfa en escenarios multi-red, puede que hayas notado que algunas etiquetas de origen o destino aparecían como "unknown".
 
