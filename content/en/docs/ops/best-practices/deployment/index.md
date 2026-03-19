@@ -42,16 +42,18 @@ mutating webhook for sidecar injection (`failurePolicy: Fail`) rejects all pod
 creation requests cluster-wide. This effectively makes a single `istiod`
 replica a single point of failure for any operation that creates pods.
 
-To avoid this, set `autoscaleMin: 2` in your Helm values. The `istiod` chart
-ships with `autoscaleEnabled: true` by default, so the Horizontal Pod
-Autoscaler controls the replica count. Setting the minimum to 2 ensures at
-least one replica remains available during disruptions:
+To avoid this, set `autoscaleMin` to at least `2` in your Helm values
+override for the `istio/istiod` chart. The chart ships with
+`autoscaleEnabled: true` by default, so the Horizontal Pod Autoscaler
+controls the replica count. Setting the minimum to 2 ensures at least one
+replica remains available during disruptions:
 
 {{< text yaml >}}
 autoscaleMin: 2
 {{< /text >}}
 
-Combine this with pod anti-affinity to spread replicas across nodes and zones.
+Add the following to your Helm values override for the `istio/istiod` chart
+to spread replicas across nodes and zones.
 Use `requiredDuringSchedulingIgnoredDuringExecution` for node-level separation
 to guarantee replicas run on different nodes. If capacity is insufficient, the
 unschedulable pod surfaces the issue instead of silently colocating both
