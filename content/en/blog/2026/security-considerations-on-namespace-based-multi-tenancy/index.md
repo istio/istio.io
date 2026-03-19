@@ -1,6 +1,6 @@
 ---
 title: "Security Considerations on Istio's CRDs with Namespace-based Multi-Tenancy"
-description: Addressing Man-in-the-Middle weaknesses in Namespace-based Multi-Tenant Setups
+description: Addressing Man-in-the-Middle weaknesses in Namespace-based Multi-Tenant Setups.
 publishdate: 2026-03-19
 attribution: "Lorin Lehawany (ERNW), Sven Nobis (ERNW)"
 keywords: [Istio,Security,Multi-Tenancy,MitM,Man-in-the-Middle]
