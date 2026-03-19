@@ -2,7 +2,7 @@
 title: "Istio is Migrating Container Registries"
 description: What you can do today to ensure your clusters are not impacted by the retirement of `gcr.io/istio-release`.
 publishdate: 2026-03-23
-attribution: Steven Jin (Microsoft), John Howard (Google)
+attribution: Steven Jin (Microsoft), John Howard (Solo.io)
 keywords: [Istio,Helm,Container Registry]
 ---
 
@@ -32,7 +32,7 @@ Although we do not plan on retiring `gcr.io/istio-release` until January 1st, 20
 
 ### Using `istioctl`
 
-If you install Istio using `istioctl`, you can update your IstioOperator configuration as follows
+If you install Istio using `istioctl`, you can update your `IstioOperator` configuration as follows:
 
 {{< text yaml >}}
 # istiooperator.yaml
@@ -58,7 +58,7 @@ $ istioctl install --set hub=registry.istio.io/release # the rest of your argume
 
 ### Using Helm
 
-If you use Helm to install Istio, update your values file to have the following
+If you use Helm to install Istio, update your values file to have the following:
 
 {{< text yaml >}}
 # ...
