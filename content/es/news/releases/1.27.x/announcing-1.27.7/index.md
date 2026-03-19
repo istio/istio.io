@@ -15,8 +15,8 @@ Esta versión contiene correcciones de errores para mejorar la robustez. Estas n
 
 ## Actualización de seguridad
 
-- [CVE-2025-61732](https://github.com/advisories/GHSA-8jvr-vh7g-f8gx) (CVSS score 8.6, High): A discrepancy between how Go and C/C++ comments were parsed allowed for code smuggling into the resulting cgo binary.
-- [CVE-2025-68121](https://github.com/advisories/GHSA-h355-32pf-p2xm) (CVSS score 4.8, Moderate): A flaw in `crypto/tls` session resumption allows resumed handshakes to succeed when they should fail if ClientCAs or RootCAs are mutated between the initial and resumed handshake. This can occur when using `Config.Clone` with mutations or `Config.GetConfigForClient`. As a result, clients may resume sessions with unintended servers, and servers may resume sessions with unintended clients.
+- [CVE-2025-61732](https://github.com/advisories/GHSA-8jvr-vh7g-f8gx) (CVSS score 8.6, High): Una discrepancia en el análisis de comentarios entre Go y C/C++ permitía la introducción de código malicioso en el binario cgo resultante.
+- [CVE-2025-68121](https://github.com/advisories/GHSA-h355-32pf-p2xm) (CVSS score 4.8, Moderate): Un fallo en la reanudación de sesiones de `crypto/tls` permite que los handshakes reanudados tengan éxito cuando deberían fallar si ClientCAs o RootCAs se modifican entre el handshake inicial y el reanudado. Esto puede ocurrir al usar `Config.Clone` con mutaciones o `Config.GetConfigForClient`. Como resultado, los clientes pueden reanudar sesiones con servidores no previstos, y los servidores pueden reanudar sesiones con clientes no previstos.
 
 ## Cambios
 
