@@ -9,6 +9,10 @@ keywords: [Istio,Helm,Container Registry]
 Due to changes in Istio's funding model, Istio images will no longer be available at `gcr.io/istio-release` starting January 1st, 2027.
 That is, clusters that reference images hosted on `gcr.io/istio-release` might fail to create new pods in 2027.
 
+In fact, we are fully migrating all Istio artifacts out of Google Cloud, including Helm charts.
+Future communications will cover the migraion of Helm charts and other artifacts.
+This post will focus on what you can do today in response to the 2027 container registry migration.
+
 ## Am I affected?
 
 By default, Istio installations use Docker Hub (`docker.io/istio`) as their container registry, but many users choose to use the `gcr.io/istio-release` mirror.
