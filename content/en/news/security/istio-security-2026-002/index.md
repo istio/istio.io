@@ -6,7 +6,7 @@ cves: []
 cvss: "5.9"
 vector: "AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:L"
 releases: ["All releases since the introduction of the mesh gateway option in the `VirtualService` resource"]
-publishdate: 2026-03-19
+publishdate: 2026-03-20
 skip_seealso: true
 ---
 
