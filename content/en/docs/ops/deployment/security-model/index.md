@@ -237,4 +237,6 @@ For instance, a `VirtualService` deployed with the [mesh gateway option](/docs/r
 * redirect traffic to alternative destinations.
 * drop requests to disrupt communication.
 
+However, the attacker cannot bypass [Authorization Policies](https://istio.io/latest/docs/reference/config/security/authorization-policy/) and mutual TLS authentication.
+
 Further details and potential mitigations can be found in the [blog post about _Security Considerations on Istio's CRDs with Namespace-based Multi-Tenancy_](/blog/2026/security-considerations-on-namespace-based-multi-tenancy/).
