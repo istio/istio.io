@@ -46,10 +46,10 @@ This allows an attacker to create a malicious `VirtualService` that matches requ
 This behavior enables MITM attacks within the service mesh. The attacker-controlled service can:
 
 1. intercept, modify, and read the traffic communicated between services.
-2. redirect traffic to alternative destinations.
-3. drop requests to disrupt communication.
+1. redirect traffic to alternative destinations.
+1. drop requests to disrupt communication.
 
-The first two attacks will only work if the [Authorization Policies](https://istio.io/latest/docs/reference/config/security/authorization-policy/) allow requests from the source workload to the attacker-controlled service, and in case of #1, also from the attacker-controlled service to the destination service. A denial-of-service (#3) is even possible if the [Authorization Policies](https://istio.io/latest/docs/reference/config/security/authorization-policy/) deny all requests.
+The first two attacks will only work if the [Authorization Policies](/docs/reference/config/security/authorization-policy/) allow requests from the source workload to the attacker-controlled service, and in case of #1, also from the attacker-controlled service to the destination service. A denial-of-service (#3) is even possible if the [Authorization Policies](/docs/reference/config/security/authorization-policy/) deny all requests.
 
 Also, the attacker cannot bypass mutual TLS authentication. Thus, the target service will see the attacker-controlled service identity in the ``X-Forwarded-Client-Cert`` header, rather than the source identity of the intercepted communication.
 
@@ -67,13 +67,13 @@ When a `VirtualService` is configured as a mesh gateway, its routing rules apply
 
 Operators running Istio in Namespace-based Multi-Tenancy setups or operating a single mesh across multiple clusters should apply additional safeguards to maintain strong isolation. Without these controls, unintended Cross-Namespace traffic manipulation can occur at the data plane level.
 
-**Recommended Mitigation: Migrate to the Newer Gateway API**
+### Recommended Mitigation: Migrate to the Newer Gateway API
 
 Ideally, permissions to create or modify Istio networking resources (``networking.istio.io/v1`` as well as ``security.istio.io/v1``) should be limited to platform operators responsible for global routing.
 
 As an alternative, operators can offer tenants access to the newer [Gateway API](https://gateway-api.sigs.k8s.io/), which was designed with safe Cross-Namespace support in mind. However, the platform operators still need to control access to shared resources such as gateways.
 
-**Mitigation in Legacy Setups**
+### Mitigation in Legacy Setups
 
 When such changes and restrictions aren’t feasible due to business or organizational requirements, routing configurations should be scoped to specific Services or Namespaces. Broad rules that affect the entire mesh should be avoided unless explicitly intended, and their implications are well understood.
 
