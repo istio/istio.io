@@ -6,10 +6,10 @@
     # Specifically, the version here should match docker/build-tools/Dockerfile in istio/tools,
     # and the new build container should have been updated by Automator in istio/test-infra
     # before manually updating the version used by Netlify.
-    HUGO_VERSION = "0.147.8"
-    NODE_VERSION = "22.14.0"
+    HUGO_VERSION = "0.157.0"
+    NODE_VERSION = "22.21.1"
     BUILD_WITH_CONTAINER = "0"
-    GO_VERSION = "1.24.2"
+    GO_VERSION = "1.26.0"
     PYTHON_VERSION = "3.12.3"
     RUBY_VERSION = "3.2.3"
 
