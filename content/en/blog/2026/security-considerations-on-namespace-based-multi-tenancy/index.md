@@ -1,12 +1,12 @@
 ---
 title: "Security Considerations on Istio's CRDs with Namespace-based Multi-Tenancy"
-description: Addressing Man-in-the-Middle weaknesses in Namespace-based Multi-Tenant Setups.
+description: Addressing man-in-the-middle weaknesses in namespace-based multi-tenant aetups.
 publishdate: 2026-03-20
 attribution: "Lorin Lehawany - ERNW, Sven Nobis - ERNW"
 keywords: [Istio,Security,Multi-Tenancy,MITM,Man-in-the-Middle]
 ---
 
-The Istio project was recently made aware of a possible Man-in-the-Middle (MITM) attack scenario in which a `VirtualService` can redirect or intercept traffic within the service mesh. This affects Namespace-based Multi-Tenancy clusters where tenants have the permissions to deploy Istio resources (``networking.istio.io/v1``).
+The Istio project was recently made aware of a possible Man-in-the-Middle (MITM) attack scenario in which a `VirtualService` can redirect or intercept traffic within the service mesh. This affects namespace-based multi-tenancy clusters where tenants have the permissions to deploy Istio resources (``networking.istio.io/v1``).
 
 This blog post highlights the risks of using Istio in multi-tenant clusters and explains how users can mitigate these risks and safely operate Istio in their deployments.
 
@@ -20,7 +20,7 @@ The behavior described in this post applies to Istio version 1.29.0 and to all v
 
 Namespaces in Kubernetes provide a mechanism for organizing groups of resources within a cluster. Namespaces provide a logical abstraction that allows teams, applications, or environments to share a single cluster while isolating their resources via controls such as Network Policies, RBAC, and so on.
 
-In this blog post, we focus on running Istio in clusters where multiple tenants share the same cluster and service mesh, and can deploy Istio resources (``networking.istio.io/v1``) in their Namespaces while relying on Namespace boundaries for isolation.
+In this blog post, we focus on running Istio in clusters where multiple tenants share the same cluster and service mesh, and can deploy Istio resources (``networking.istio.io/v1``) in their namespaces while relying on namespace boundaries for isolation.
 
 ### Traffic Routing in Istio
 
@@ -29,15 +29,15 @@ It introduces additional configuration resources through CRDs that allow operato
 
 One of the central resources for this purpose is the `VirtualService`. A `VirtualService` defines a set of routing rules that determine how requests to hosts specified in `spec.hosts.[]` are handled. These rules can match requests based on properties such as HTTP headers, paths, or ports, and can then direct the traffic to one or more destination services.
 
-Routing decisions defined in a `VirtualService` are not limited to a single workload or Namespace. Depending on how the resource is configured, these rules can affect traffic routing across the entire mesh.
+Routing decisions defined in a `VirtualService` are not limited to a single workload or namespace. Depending on how the resource is configured, these rules can affect traffic routing across the entire mesh.
 
-In contrast to the newer [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/), these CRDs were created and effectively stabilized before Namespace-based RBAC even made its way to Kubernetes. Thus, Namespace-based Multi-Tenancy that shares the same service mesh was not part of the threat model at the time. With the introduction of RBAC, such multi-tenant environments emerged. It is therefore important to highlight and address the security risks associated with those architectures.
+In contrast to the newer [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/), these CRDs were created and effectively stabilized before namespace-based RBAC even made its way to Kubernetes. Thus, namespace-based multi-tenancy that shares the same service mesh was not part of the threat model at the time. With the introduction of RBAC, such multi-tenant environments emerged. It is therefore important to highlight and address the security risks associated with those architectures.
 
-In the following section, we demonstrate those risks and show that this mechanism can be abused to intercept traffic in a Namespace-based multi-tenant cluster. Later, we introduce ways to mitigate those risks.
+In the following section, we demonstrate those risks and show that this mechanism can be abused to intercept traffic in a namespace-based multi-tenant cluster. Later, we introduce ways to mitigate those risks.
 
 ## Man-in-the-Middle Attacks through VirtualService
 
-In a Namespace-based multi-tenant environment, it is often assumed that Namespaces provide sufficient trust boundaries between resources across different Namespaces. However, Istio’s traffic routing configuration operates at the mesh level, meaning that routing rules defined in one Namespace will influence traffic originating from workloads in other Namespaces.
+In a namespace-based multi-tenant environment, it is often assumed that namespaces provide sufficient trust boundaries between resources across different namespaces. However, Istio’s traffic routing configuration operates at the mesh level, meaning that routing rules defined in one namespace will influence traffic originating from workloads in other namespaces.
 
 An attacker who has permission to create or modify `VirtualService` resources can abuse this behavior by defining routing rules for arbitrary hosts. When the service mesh parameter ``mesh`` is set in the `gateways` section of the spec, the routing rules are applied to all sidecar proxies in the mesh (independent of their namespace).
 
@@ -61,21 +61,21 @@ This behavior results from how Istio distributes and evaluates traffic routing c
 
 Istio service mesh is logically split into a data plane and a control plane. Istio’s control plane aggregates routing configuration from all `VirtualService` resources and distributes the resulting configuration to the Envoy sidecar proxies that make up the data plane. These proxies then enforce routing rules locally for the traffic they handle, see also [Istio Architecture](/docs/ops/deployment/architecture/).
 
-When a `VirtualService` is configured as a mesh gateway, its routing rules apply to all sidecars in the mesh, including internal service-to-service traffic. Since the effects of this configuration are not limited to the Namespace in which the `VirtualService` resides, a configuration created in one Namespace can match requests originating from workloads in other Namespaces.
+When a `VirtualService` is configured as a mesh gateway, its routing rules apply to all sidecars in the mesh, including internal service-to-service traffic. Since the effects of this configuration are not limited to the namespace in which the `VirtualService` resides, a configuration created in one namespace can match requests originating from workloads in other namespaces.
 
 ## Mitigation and Best Practices
 
-Operators running Istio in Namespace-based Multi-Tenancy setups or operating a single mesh across multiple clusters should apply additional safeguards to maintain strong isolation. Without these controls, unintended Cross-Namespace traffic manipulation can occur at the data plane level.
+Operators running Istio in namespace-based multi-tenancy setups or operating a single mesh across multiple clusters should apply additional safeguards to maintain strong isolation. Without these controls, unintended cross-namespace traffic manipulation can occur at the data plane level.
 
 ### Recommended Mitigation: Migrate to the Newer Gateway API
 
 Ideally, permissions to create or modify Istio networking resources (``networking.istio.io/v1`` as well as ``security.istio.io/v1``) should be limited to platform operators responsible for global routing.
 
-As an alternative, operators can offer tenants access to the newer [Gateway API](https://gateway-api.sigs.k8s.io/), which was designed with safe Cross-Namespace support in mind. However, the platform operators still need to control access to shared resources such as gateways.
+As an alternative, operators can offer tenants access to the newer [Gateway API](https://gateway-api.sigs.k8s.io/), which was designed with safe cross-namespace support in mind. However, the platform operators still need to control access to shared resources such as gateways.
 
 ### Mitigation in Legacy Setups
 
-When such changes and restrictions aren’t feasible due to business or organizational requirements, routing configurations should be scoped to specific Services or Namespaces. Broad rules that affect the entire mesh should be avoided unless explicitly intended, and their implications are well understood.
+When such changes and restrictions aren’t feasible due to business or organizational requirements, routing configurations should be scoped to specific services or namespaces. Broad rules that affect the entire mesh should be avoided unless explicitly intended, and their implications are well understood.
 
 One way to mitigate this kind of attack is to restrict the [Egress listener in every namespace](/docs/reference/config/networking/sidecar/#IstioEgressListener) to trusted namespaces. However, this would only mitigate the issue in sidecar mode, but not [in ambient mode (using the per-node Layer 4 (L4) proxy)](/docs/ambient/overview/), and also not for hosts configured when an [Istio Gateway](/docs/reference/config/networking/gateway/) is used.
 
@@ -83,9 +83,9 @@ Another way to mitigate this kind of attack is to implement an [admission policy
 
 ## Conclusion
 
-As shown in this post, Istio’s mesh gateway option allows rules defined in one Namespace to affect the traffic of other namespaces. In Namespace-based Multi-Tenancy setups or when running a single mesh across multiple clusters, this behavior may expose the service mesh to malicious actors, e.g., enabling MITM attacks, as explained in this blog post.
+As shown in this post, Istio’s mesh gateway option allows rules defined in one namespace to affect the traffic of other namespaces. In namespace-based multi-tenancy setups or when running a single mesh across multiple clusters, this behavior may expose the service mesh to malicious actors, e.g., enabling MITM attacks, as explained in this blog post.
 
-Istio does not claim (nor seek to claim) hard Namespace-based Multi-Tenancy as the project chose the tradeoff that eases adoption. Thus, operators who rely on this kind of Multi-Tenancy should assess the risks involved in their architecture and address the weaknesses, e.g., by removing unnecessary RBAC permissions and enforcing strict admission controls.
+Istio does not claim (nor seek to claim) hard namespace-based multi-tenancy as the project chose the tradeoff that eases adoption. Thus, operators who rely on this kind of multi-tenancy should assess the risks involved in their architecture and address the weaknesses, e.g., by removing unnecessary RBAC permissions and enforcing strict admission controls.
 
 ## References
 
