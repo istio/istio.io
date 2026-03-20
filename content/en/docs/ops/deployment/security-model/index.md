@@ -109,7 +109,7 @@ that is detected to support mTLS. This can also be [explicitly configured](/docs
 Note that this automatic detection relies on Istio associating the traffic to a Service.
 [Unsupported traffic types](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic) or [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping/) can prevent this.
 
-When [connecting to a backend](/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the Service level, based on the union of all backend's identities.
+When [connecting to a backend](/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the service level, based on the union of all backend's identities.
 {{< /tab >}}
 
 {{< tab name="Ambient mode" category-value="ambient" >}}
@@ -229,7 +229,7 @@ Following the [security best practices](/docs/ops/best-practices/security) is cr
 
 In this scenario, a Kubernetes account with permissions to deploy Istio resources (``networking.istio.io/v1``) is compromised.
 
-Such a compromised account gives the attacker control to deploy resources to manage traffic in the service mesh. While traffic management CRDs are _namespaced resources_, they affect the routing behavior of traffic from services outside the Namespace and thus the security of the service mesh.
+Such a compromised account gives the attacker control to deploy resources to manage traffic in the service mesh. While traffic management CRDs are _namespaced resources_, they affect the routing behavior of traffic from services outside the namespace and thus the security of the service mesh.
 
 For instance, a `VirtualService` deployed with the [mesh gateway option](/docs/reference/config/networking/virtual-service/#VirtualService-gateways) enables Man-in-the-Middle attacks within the service mesh. The attacker-controlled service can:
 
