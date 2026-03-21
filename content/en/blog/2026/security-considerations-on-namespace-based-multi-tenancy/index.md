@@ -88,7 +88,7 @@ Istio does not claim (nor seek to claim) hard namespace-based multi-tenancy as t
 
 ## References
 
-- [Istio Documentation — Security Model](/docs/ops/deployment/security-model/#k8s-account-compromise)
-- [Security Bulletin ISTIO-SECURITY-2026-002](/news/security/istio-security-2026-002/)
-- [Istio Documentation — Traffic Management](/docs/concepts/traffic-management/)
-- [Istio Documentation — VirtualService](/docs/reference/config/networking/virtual-service/)
+* [Istio Documentation — Security Model](/docs/ops/deployment/security-model/#k8s-account-compromise)
+* [Security Bulletin ISTIO-SECURITY-2026-002](/news/security/istio-security-2026-002/)
+* [Istio Documentation — Traffic Management](/docs/concepts/traffic-management/)
+* [Istio Documentation — VirtualService](/docs/reference/config/networking/virtual-service/)
