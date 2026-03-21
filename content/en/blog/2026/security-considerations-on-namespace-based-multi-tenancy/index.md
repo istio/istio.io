@@ -6,7 +6,7 @@ attribution: "Lorin Lehawany - ERNW, Sven Nobis - ERNW"
 keywords: [Istio,Security,Multi-Tenancy,MITM,Man-in-the-Middle]
 ---
 
-The Istio project was recently made aware of a possible Man-in-the-Middle (MITM) attack scenario in which a `VirtualService` can redirect or intercept traffic within the service mesh. This affects namespace-based multi-tenancy clusters where tenants have the permissions to deploy Istio resources (``networking.istio.io/v1``).
+The Istio project wants to address a possible Man-in-the-Middle (MITM) attack scenario in which a `VirtualService` can redirect or intercept traffic within the service mesh. This affects namespace-based multi-tenancy clusters where tenants have the permissions to deploy Istio resources (``networking.istio.io/v1``).
 
 This blog post highlights the risks of using Istio in multi-tenant clusters and explains how users can mitigate these risks and safely operate Istio in their deployments.
 
