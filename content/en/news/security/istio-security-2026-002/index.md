@@ -6,15 +6,15 @@ cves: []
 cvss: "5.9"
 vector: "AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:L"
 releases: ["All releases since the introduction of the mesh gateway option in the `VirtualService` resource"]
-publishdate: 2026-03-20
+publishdate: 2026-03-21
 skip_seealso: true
 ---
 
 {{< security_bulletin >}}
 
-The Istio Security Committee was recently made aware of a possible Man-in-the-Middle attack scenario in which a `VirtualService` can redirect or intercept traffic within the service mesh. It affects only namespace-based Multi-Tenant environments.
+The Istio Security Committee wants to address a possible Man-in-the-Middle attack scenario in which a `VirtualService` can redirect or intercept traffic within the service mesh. It affects only namespace-based Multi-Tenant environments.
 
-This attack allows an attacker with the `VirtualService` permission in one namespace to redirect traffic from any Pod in the Istio service mesh to an attacker-controlled service. The attack scenario abuses the ability to set arbitrary hostnames in the `spec.hosts.[]` field of the `VirtualService` resource when the ``mesh`` gateway is set. This affects traffic to both external services and cluster-internal services. An attacker can intercept, modify, and read the traffic communicated between services. However, the attacker cannot bypass [Authorization Policies](/docs/reference/config/security/authorization-policy/) and mutual TLS authentication.
+This attack allows an attacker with the `VirtualService` permission in one namespace to redirect traffic from any Pod in the Istio service mesh to an attacker-controlled service. The attack scenario abuses the ability to set arbitrary hostnames in the `spec.hosts.[]` field of the `VirtualService` resource when the ``mesh`` gateway is set. An attacker can intercept, redirect, and drop the traffic communicated between services. This affects traffic to other services in the mesh and to external services. However, the attacker cannot bypass the [Authorization Policies](/docs/reference/config/security/authorization-policy/) or the mutual TLS authentication configured on the destination service.
 
 Please note that the issues even extend beyond the cluster scope in a [_"single mesh with multiple clusters"_ deployment](/docs/ops/deployment/deployment-models/#multiple-clusters).
 

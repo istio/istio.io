@@ -1,7 +1,7 @@
 ---
 title: "Security Considerations on Istio's CRDs with Namespace-based Multi-Tenancy"
-description: Addressing man-in-the-middle weaknesses in namespace-based multi-tenant aetups.
-publishdate: 2026-03-20
+description: Addressing man-in-the-middle weaknesses in namespace-based multi-tenant setups.
+publishdate: 2026-03-21
 attribution: "Lorin Lehawany - ERNW, Sven Nobis - ERNW"
 keywords: [Istio,Security,Multi-Tenancy,MITM,Man-in-the-Middle]
 ---
@@ -43,17 +43,13 @@ An attacker who has permission to create or modify `VirtualService` resources ca
 
 This allows an attacker to create a malicious `VirtualService` that matches requests for specific hostnames and redirects them to an attacker-controlled service. As a result, traffic from other workloads in the mesh can be transparently routed through the attacker’s service before reaching its intended destination.
 
-This behavior enables MITM attacks within the service mesh. The attacker-controlled service can:
+This behavior enables MITM attacks within the service mesh. The attacker-controlled service can intercept traffic from services in the mesh. This includes traffic to other services in the mesh as well as traffic to the external services. This allows the attacker to:
 
-1. intercept, modify, and read the traffic communicated between services.
-1. redirect traffic to alternative destinations.
-1. drop requests to disrupt communication.
+* act as the destination service.
+* redirect traffic to alternative destinations.
+* drop requests to disrupt the communication (denial-of-service).
 
-The first two attacks will only work if the [Authorization Policies](/docs/reference/config/security/authorization-policy/) allow requests from the source workload to the attacker-controlled service, and in case of #1, also from the attacker-controlled service to the destination service. A denial-of-service (#3) is even possible if the [Authorization Policies](/docs/reference/config/security/authorization-policy/) deny all requests.
-
-Also, the attacker cannot bypass mutual TLS authentication. Thus, the target service will see the attacker-controlled service identity in the ``X-Forwarded-Client-Cert`` header, rather than the source identity of the intercepted communication.
-
-Depending on the targeted host, the attack can even affect both cluster-internal services and external services accessed by workloads in the mesh.
+The source service will authenticate the attacker-controlled service as the destination service despite Istio's mutual TLS authentication. However, forwarding this traffic to the destination service to read or modify communication between the two services is more challenging for the attacker, as they cannot bypass Istio's [Layer 4 and Layer 7 security features](/docs/overview/dataplane-modes/#layer-4-vs-layer-7-features). As the attacker intercepts the communication, the end-to-end encryption and authentication between the source and the destination service are broken. Thus, the request forwarded from the attacker-controlled service to the destination service is authenticated as a request from the attacker-controlled service. As a result, [Authorization Policies](/docs/reference/config/security/authorization-policy/) configured on the destination service may deny the request. In addition, destination service will see the attacker-controlled service identity in the ``X-Forwarded-Client-Cert`` header, and the authentication from the source service is lost.
 
 ## Why does this behavior occur?
 

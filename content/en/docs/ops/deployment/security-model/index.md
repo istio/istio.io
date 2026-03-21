@@ -109,7 +109,7 @@ that is detected to support mTLS. This can also be [explicitly configured](/docs
 Note that this automatic detection relies on Istio associating the traffic to a Service.
 [Unsupported traffic types](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic) or [configuration scoping](/docs/ops/configuration/mesh/configuration-scoping/) can prevent this.
 
-When [connecting to a backend](/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the service level, based on the union of all backend's identities.
+When [connecting to a backend](/docs/concepts/security/#secure-naming), the set of allowed identities is computed, at the Service level, based on the union of all backend's identities.
 {{< /tab >}}
 
 {{< tab name="Ambient mode" category-value="ambient" >}}
@@ -233,10 +233,10 @@ Such a compromised account gives the attacker control to deploy resources to man
 
 For instance, a `VirtualService` deployed with the [mesh gateway option](/docs/reference/config/networking/virtual-service/#VirtualService-gateways) enables Man-in-the-Middle attacks within the service mesh. The attacker-controlled service can:
 
-* intercept, modify, and read the traffic communicated between services.
+* act as the destination service.
 * redirect traffic to alternative destinations.
-* drop requests to disrupt communication.
+* drop requests to disrupt the communication (denial-of-service).
 
-However, the attacker cannot bypass [Authorization Policies](/docs/reference/config/security/authorization-policy/) and mutual TLS authentication.
+While the attacker can try to forward traffic to the destination service to read or modify communication between the two services, they may fail as they cannot bypass Istio's [Layer 4 and Layer 7 security features](/docs/overview/dataplane-modes/#layer-4-vs-layer-7-features) depending on the mesh configuration.
 
 Further details and potential mitigations can be found in the [blog post about _Security Considerations on Istio's CRDs with Namespace-based Multi-Tenancy_](/blog/2026/security-considerations-on-namespace-based-multi-tenancy/).
