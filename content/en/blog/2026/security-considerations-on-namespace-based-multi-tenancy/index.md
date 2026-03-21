@@ -49,7 +49,7 @@ This behavior enables MITM attacks within the service mesh. The attacker-control
 * redirect traffic to alternative destinations.
 * drop requests to disrupt the communication (denial-of-service).
 
-The source service will authenticate the attacker-controlled service as the destination service despite Istio's mutual TLS authentication. However, forwarding this traffic to the destination service to read or modify communication between the two services is more challenging for the attacker, as they cannot bypass Istio's [Layer 4 and Layer 7 security features](/docs/overview/dataplane-modes/#layer-4-vs-layer-7-features). As the attacker intercepts the communication, the end-to-end encryption and authentication between the source and the destination service are broken. Thus, the request forwarded from the attacker-controlled service to the destination service is authenticated as a request from the attacker-controlled service. As a result, [Authorization Policies](/docs/reference/config/security/authorization-policy/) configured on the destination service may deny the request. In addition, destination service will see the attacker-controlled service identity in the ``X-Forwarded-Client-Cert`` header, and the authentication from the source service is lost.
+The source service will send the request to the attacker-controlled service instead of the destination service as the `VirtualService` overrides the default behavior. Istio's mutual TLS authentication does not help here, because the proxy identifies the attacker-controlled service as the legitimate destination of the overwritten hostname. However, forwarding this traffic to the destination service to read or modify communication between the two services is more challenging for the attacker, as they cannot bypass Istio's [Layer 4 and Layer 7 security features](/docs/overview/dataplane-modes/#layer-4-vs-layer-7-features). As the attacker intercepts the communication, the end-to-end encryption and authentication between the source and the destination service are broken. Thus, the request forwarded from the attacker-controlled service to the destination service is authenticated as a request from the attacker-controlled service. As a result, [Authorization Policies](/docs/reference/config/security/authorization-policy/) configured on the destination service may deny the request. In addition, destination service will see the attacker-controlled service identity in the ``X-Forwarded-Client-Cert`` header, and the authentication from the source service is lost.
 
 ## Why does this behavior occur?
 
@@ -69,15 +69,14 @@ Ideally, permissions to create or modify Istio networking resources (``networkin
 
 As an alternative, operators can offer tenants access to the newer [Gateway API](https://gateway-api.sigs.k8s.io/), which was designed with safe cross-namespace support in mind. However, the platform operators still need to control access to shared resources such as gateways.
 
-[Configuration Scoping](https://istio.io/latest/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms) can be implemented as an additional control.
+[Configuration Scoping](/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms) can be implemented as an additional control.
 
 ### Mitigation in Legacy Setups
 
 When such changes and restrictions aren’t feasible due to business or organizational requirements, routing configurations should be scoped to specific services or namespaces. Broad rules that affect the entire mesh should be avoided unless explicitly intended, and their implications are well understood.
 
-One way to mitigate this kind of attack is to configure [Scoping](https://istio.io/latest/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms). For instance, to restrict the [Egress listener in every namespace](/docs/reference/config/networking/sidecar/#IstioEgressListener) to trusted namespaces. However, this would only mitigate the issue in sidecar mode and ambient mode with waypoints, but not [in L4-proxy-only ambient mode](/docs/ambient/overview/), and also not for hosts configured when an [Istio Gateway](/docs/reference/config/networking/gateway/) is used.
+One way to mitigate this kind of attack is to configure [Scoping](/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms). For instance, to restrict the [Egress listener in every namespace](/docs/reference/config/networking/sidecar/#IstioEgressListener) to trusted namespaces. However, this would only mitigate the issue in sidecar mode and ambient mode with waypoints, but not [in L4-only ambient mode](/docs/ambient/overview/), and also not for hosts configured when an [Istio Gateway](/docs/reference/config/networking/gateway/) is used.
 
-Another way to mitigate this kind of attack is to implement an [admission policy](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) that limits which hosts can be used in the ``host`` section for each tenant. This will also mitigate the issue in ambient mode.
 Another way to mitigate this kind of attack is to implement an [admission policy](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) that limits which hosts can be used in the ``host`` section for each tenant. This will also mitigate the issue in ambient mode.
 
 ## Conclusion
