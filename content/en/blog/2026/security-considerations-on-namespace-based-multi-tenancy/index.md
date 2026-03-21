@@ -69,12 +69,15 @@ Ideally, permissions to create or modify Istio networking resources (``networkin
 
 As an alternative, operators can offer tenants access to the newer [Gateway API](https://gateway-api.sigs.k8s.io/), which was designed with safe cross-namespace support in mind. However, the platform operators still need to control access to shared resources such as gateways.
 
+[Configuration Scoping](https://istio.io/latest/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms) can be implemented as an additional control.
+
 ### Mitigation in Legacy Setups
 
 When such changes and restrictions aren’t feasible due to business or organizational requirements, routing configurations should be scoped to specific services or namespaces. Broad rules that affect the entire mesh should be avoided unless explicitly intended, and their implications are well understood.
 
-One way to mitigate this kind of attack is to restrict the [Egress listener in every namespace](/docs/reference/config/networking/sidecar/#IstioEgressListener) to trusted namespaces. However, this would only mitigate the issue in sidecar mode, but not [in ambient mode (using the per-node Layer 4 (L4) proxy)](/docs/ambient/overview/), and also not for hosts configured when an [Istio Gateway](/docs/reference/config/networking/gateway/) is used.
+One way to mitigate this kind of attack is to configure [Scoping](https://istio.io/latest/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms). For instance, to restrict the [Egress listener in every namespace](/docs/reference/config/networking/sidecar/#IstioEgressListener) to trusted namespaces. However, this would only mitigate the issue in sidecar mode and ambient mode with waypoints, but not [in L4-proxy-only ambient mode](/docs/ambient/overview/), and also not for hosts configured when an [Istio Gateway](/docs/reference/config/networking/gateway/) is used.
 
+Another way to mitigate this kind of attack is to implement an [admission policy](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) that limits which hosts can be used in the ``host`` section for each tenant. This will also mitigate the issue in ambient mode.
 Another way to mitigate this kind of attack is to implement an [admission policy](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) that limits which hosts can be used in the ``host`` section for each tenant. This will also mitigate the issue in ambient mode.
 
 ## Conclusion
