@@ -12,7 +12,7 @@ This blog post highlights the risks of using Istio in multi-tenant clusters and 
 
 Please note that the issues even extend beyond the cluster scope in a [_"single mesh with multiple clusters"_ deployment](/docs/ops/deployment/deployment-models/#multiple-clusters).
 
-The behavior described in this post applies to Istio version 1.29.0 and to all versions since the introduction of the mesh gateway option in the `VirtualService` resource.
+The behavior described in this post applies to Istio version 1.29 and to all versions since the introduction of the mesh gateway option in the `VirtualService` resource.
 
 ## Background
 
