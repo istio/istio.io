@@ -38,7 +38,7 @@ we have set up `registry.istio.io` as the new home for Istio images.
 `registry.istio.io` works today, but **it is not ready for production use**.
 We expect it to be ready by May 2026, and we will update this post when it is production ready.
 
-For now, **please update your test and development clusters to pull from `registry.istio.io` so that we can catch any issues before labeling it as production-ready.**
+For now, **please update your test and development clusters to pull from `registry.istio.io` so we can catch any issues before labeling it as production-ready.**
 
 ### Using `istioctl`
 
