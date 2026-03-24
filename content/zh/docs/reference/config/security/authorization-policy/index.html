@@ -625,6 +625,28 @@ This is the same as the <code>remote.ip</code> attribute.</p>
 
 </td>
 </tr>
+<tr id="Source-trust_domains">
+<td><div class="field"><div class="name"><code><a href="#Source-trust_domains">trustDomains</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+<p>A list of trust domains derived from the peer certificate.
+Can be exact, prefix, suffix and presence.
+This field requires mTLS enabled and is the same as the <code>source.trustDomain</code> attribute.</p>
+<p>If not set, any trust domain is allowed.</p>
+
+</td>
+</tr>
+<tr id="Source-not_trust_domains">
+<td><div class="field"><div class="name"><code><a href="#Source-not_trust_domains">notTrustDomains</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+<p>A list of negative match of trust domains.
+Can be exact, prefix, suffix and presence.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
