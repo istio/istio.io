@@ -88,8 +88,8 @@ kubectl get deployments -n istio-system --output wide
 }
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
-NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                                   SELECTOR
-istiod   1/1     1            1           10m   discovery    registry.istio.io/release/pilot:1.29.0   istio=pilot
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
+istiod   1/1     1            1           10m   discovery    registry.istio.io/release/pilot:1.30.0   istio=pilot
 ENDSNIP
 
 snip_install_ingressgateway() {
