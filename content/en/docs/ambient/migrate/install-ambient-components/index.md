@@ -93,7 +93,7 @@ $ kubectl get pod <pod-name> -n <namespace> -o json | \
 
 The output should show:
 
-{{< text syntax=bash snip_id=none >}}
+{{< text syntax=json snip_id=none >}}
 {
   "name": "ISTIO_META_ENABLE_HBONE",
   "value": "true"
