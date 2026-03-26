@@ -268,6 +268,7 @@ Cleartext
 cleartext
 cli
 ClientCAs
+ClientHello
 CloudNativeCon
 CloudWatch
 cluster.local
@@ -520,6 +521,7 @@ Drucker
 dual-stack
 Dubbo
 Duggirala
+DYNAMIC_DNS
 DynamoDB
 Dynatrace
 e.g.
