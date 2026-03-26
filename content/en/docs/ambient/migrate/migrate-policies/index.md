@@ -10,8 +10,9 @@ next: /docs/ambient/migrate/enable-ambient-mode
 
 {{< tip >}}
 **You may be able to skip this page.** If you only use L4 `AuthorizationPolicy` rules
-(with no `methods`, `paths`, or `headers` matching) and have no `VirtualService` or
-`DestinationRule` resources, your existing policies will work in ambient mode without
+(with no `methods`, `paths`, or `headers` matching), have no `VirtualService` or
+`DestinationRule` resources, and have no `EnvoyFilter`, `WasmPlugin`, or
+`RequestAuthentication` resources, your existing policies will work in ambient mode without
 changes. Go directly to [Enable ambient mode](/docs/ambient/migrate/enable-ambient-mode/).
 {{< /tip >}}
 
@@ -23,8 +24,11 @@ proxies rather than sidecar proxies. This changes how policies are expressed and
   `HTTPRoute` for the same workload is not supported and leads to undefined behavior.
 - **`DestinationRule`** subset-based routing is not supported by waypoints. Subsets must be
   replaced with individual Kubernetes Services per version.
-- **`AuthorizationPolicy`** resources that use L7 rules must target waypoint proxies via
+- **`AuthorizationPolicy`** resources that use L7 rules (HTTP methods, paths, or headers),
+  or that use `action: CUSTOM` or `action: AUDIT`, must target waypoint proxies via
   `targetRefs` rather than using workload `selector`.
+- **`RequestAuthentication`**, **`EnvoyFilter`**, and **`WasmPlugin`** resources require
+  a waypoint proxy and may need updates to target the waypoint correctly.
 
 ## Audit your existing policies
 

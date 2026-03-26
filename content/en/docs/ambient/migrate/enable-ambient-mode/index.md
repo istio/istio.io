@@ -128,7 +128,7 @@ $ kubectl delete virtualservice <name> -n <namespace>
 $ kubectl delete destinationrule <name> -n <namespace>
 {{< /text >}}
 
-L4 `AuthorizationPolicy` resources using `selector` (with no L7 rules) are safe to keep, 
+L4 `AuthorizationPolicy` resources using `selector` (with no L7 rules) are safe to keep,
 ztunnel enforces them correctly.
 
 ## Step 6: Validate
@@ -188,5 +188,6 @@ per waypoint. Update trace-based SLOs accordingly.
 `istioctl ztunnel-config workloads` instead to inspect ambient proxy state.
 
 For more information, see:
+
 - [Troubleshooting ztunnel](/docs/ambient/usage/troubleshoot-ztunnel/)
 - [Troubleshooting waypoints](/docs/ambient/usage/troubleshoot-waypoint/)
