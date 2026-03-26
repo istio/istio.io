@@ -13,7 +13,7 @@ requirements and create a backup of your current configuration.
 
 ## Requirements
 
-- Istio {{< istio_version >}} or later
+- A [supported Istio release](/docs/releases/supported-releases/)
 - Kubernetes [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) ({{< supported_kubernetes_versions >}})
 - Gateway API CRDs installed (required for waypoint proxies)
 

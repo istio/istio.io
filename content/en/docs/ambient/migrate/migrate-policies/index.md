@@ -38,11 +38,12 @@ Start by listing all L7 resources in your cluster:
 $ kubectl get virtualservice,destinationrule -A
 {{< /text >}}
 
-Identify `AuthorizationPolicy` resources with L7 rules that will require a waypoint:
+Identify `AuthorizationPolicy` resources that will require a waypoint (L7 rules or
+`CUSTOM`/`AUDIT` actions):
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl get authorizationpolicy -A --no-headers | while read ns name rest; do
-    if kubectl get authorizationpolicy "$name" -n "$ns" -o yaml | grep -qE "(methods:|paths:|headers:)"; then
+    if kubectl get authorizationpolicy "$name" -n "$ns" -o yaml | grep -qE "(methods:|paths:|headers:|action: CUSTOM|action: AUDIT)"; then
       echo "$ns/$name"
     fi
   done
@@ -190,10 +191,11 @@ spec:
         principals: ["cluster.local/ns/bookinfo/sa/productpage"]
 {{< /text >}}
 
-### L7 policies (must use targetRefs)
+### L7 policies
 
-Policies that match on HTTP methods, paths, or headers must target a waypoint proxy.
-Replace `selector` with `targetRefs` pointing to the `Service` the waypoint protects:
+Policies that match on HTTP methods, paths, or headers, or that use `action: CUSTOM` or
+`action: AUDIT`, must target a waypoint proxy. Replace `selector` with `targetRefs`
+pointing to the `Service` the waypoint protects:
 
 {{< text syntax=yaml snip_id=none >}}
 # Before: sidecar-style (selector-based)
