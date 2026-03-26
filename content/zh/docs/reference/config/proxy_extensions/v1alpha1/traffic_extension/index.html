@@ -1,0 +1,613 @@
+---
+WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL SOURCE IN THE 'https://github.com/istio/api' REPO
+source_repo: https://github.com/istio/api
+title: Traffic Extension
+description: Extend the functionality provided by the Istio proxy through WebAssembly or Lua filters.
+location: https://istio.io/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension.html
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+schema: istio.extensions.v1alpha1.TrafficExtension
+aliases: [/zh/docs/reference/config/extensions/v1alpha1/traffic_extension]
+number_of_entries: 5
+---
+<p>TrafficExtension provides a mechanism to extend the functionality provided by
+the Istio proxy through WebAssembly or Lua filters.</p>
+<p>This API supersedes WasmPlugin by providing a unified mechanism for configuring
+multiple extension types (WebAssembly and Lua) while maintaining consistent
+targeting and configuration patterns.</p>
+<p>The order of execution (as part of Envoy&rsquo;s filter chain) is determined by
+phase and priority settings, allowing the configuration of complex
+interactions between user-supplied WebAssembly or Lua and Istio&rsquo;s internal
+filters.</p>
+<p>Examples:</p>
+<p>AuthN Filter deployed to ingress-gateway that implements an OpenID flow
+and populates the <code>Authorization</code> header with a JWT to be consumed by
+Istio AuthN.</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHN
+  wasm:
+    url: file:///opt/filters/openid.wasm
+    sha256: 1ef0c9a92b0420cf25f7fe5d481b231464bc88f486ca3b9c83ed5cc21d2f6210
+    pluginConfig:
+      openid_server: authn
+      openid_realm: ingress
+</code></pre>
+<p>This is the same as the last example, but using an OCI image.</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHN
+  wasm:
+    url: oci://private-registry:5000/openid-connect/openid:latest
+    imagePullPolicy: IfNotPresent
+    imagePullSecret: private-registry-pull-secret
+    pluginConfig:
+      openid_server: authn
+      openid_realm: ingress
+</code></pre>
+<p>This is the same as the last example, but using VmConfig to configure environment variables in the VM.</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHN
+  wasm:
+    url: oci://private-registry:5000/openid-connect/openid:latest
+    imagePullPolicy: IfNotPresent
+    imagePullSecret: private-registry-pull-secret
+    pluginConfig:
+      openid_server: authn
+      openid_realm: ingress
+    vmConfig:
+      env:
+      - name: POD_NAME
+        valueFrom: HOST
+      - name: TRUST_DOMAIN
+        value: &quot;cluster.local&quot;
+</code></pre>
+<p>This is also the same as the last example, but the Wasm module is pulled via https and updated for each time when this plugin resource is changed.</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHN
+  wasm:
+    url: https://private-bucket/filters/openid.wasm
+    imagePullPolicy: Always
+    pluginConfig:
+      openid_server: authn
+      openid_realm: ingress
+    vmConfig:
+      env:
+      - name: POD_NAME
+        valueFrom: HOST
+      - name: TRUST_DOMAIN
+        value: &quot;cluster.local&quot;
+</code></pre>
+<p>And a more complex example that deploys three TrafficExtensions and orders them
+using <code>phase</code> and <code>priority</code>. The (hypothetical) setup is that the
+<code>openid-connect</code> filter performs an OpenID Connect flow to authenticate the
+user, writing a signed JWT into the Authorization header of the request,
+which can be verified by the Istio authn plugin. Then, the <code>acl-check</code> plugin
+kicks in, passing the JWT to a policy server, which in turn responds with a
+signed token that contains information about which files and functions of the
+system are available to the user that was previously authenticated. The
+<code>acl-check</code> filter writes this token to a header. Finally, the <code>check-header</code>
+filter verifies the token in that header and makes sure that the token&rsquo;s
+contents (the permitted &lsquo;function&rsquo;) matches its plugin configuration.</p>
+<p>The resulting filter chain looks like this:
+-&gt; openid-connect -&gt; istio.authn -&gt; acl-check -&gt; check-header -&gt; router</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: openid-connect
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHN
+  wasm:
+    url: oci://private-registry:5000/openid-connect/openid:latest
+    imagePullPolicy: IfNotPresent
+    imagePullSecret: private-registry-pull-secret
+    pluginConfig:
+      openid_server: authn
+      openid_realm: ingress
+</code></pre>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: acl-check
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHZ
+  priority: 1000
+  wasm:
+    url: oci://private-registry:5000/acl-check/acl:latest
+    imagePullPolicy: Always
+    imagePullSecret: private-registry-pull-secret
+    pluginConfig:
+      acl_server: some_server
+      set_header: authz_complete
+</code></pre>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: check-header
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHZ
+  priority: 10
+  wasm:
+    url: oci://private-registry:5000/check-header:latest
+    imagePullPolicy: IfNotPresent
+    imagePullSecret: private-registry-pull-secret
+    pluginConfig:
+      read_header: authz_complete
+      verification_key: a89gAzxvls0JKAKIJSBnnvvvkIO
+      function: read_data
+</code></pre>
+<p>Gateway with Lua filter for conditional header modification:</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: conditional-header-modifier
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  match:
+  - mode: CLIENT
+    ports:
+    - number: 8080
+    - number: 8081
+  phase: AUTHN
+  priority: 1000
+  lua:
+    inlineCode: |
+      function envoy_on_request(request_handle)
+        local domain = &quot;foo.com&quot;
+        local headers = request_handle:headers()
+        local host = headers:get(&quot;:authority&quot;)
+        local existing_auth_header = headers:get(&quot;Authorization&quot;)
+        if (domain ~= nil and host ~= nil and existing_auth_header == nil and domain == host) then
+          local bearer_token = headers:get(&quot;cookie&quot;):match(&quot;foo&quot;)
+          if (bearer_token ~= nil) then
+            headers:add(&quot;Authorization&quot;, &quot;Bearer &quot; .. bearer_token)
+          end
+        end
+      end
+</code></pre>
+<p>Waypoint with Lua filter for header count logging:</p>
+<pre><code class="language-yaml">apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: reviews-header-logger
+  namespace: default
+spec:
+  targetRefs:
+  - kind: Service
+    name: reviews
+  match:
+  - mode: SERVER
+  phase: STATS
+  lua:
+    inlineCode: |
+      function envoy_on_request(request_handle)
+        local headers = request_handle:headers()
+        local num_headers = 0
+        for key, value in pairs(headers) do
+          num_headers = num_headers + 1
+        end
+        request_handle:logInfo(&quot;Request to reviews service has &quot; .. num_headers .. &quot; headers&quot;)
+      end
+</code></pre>
+
+<h2 id="TrafficExtension">TrafficExtension</h2>
+<section>
+<p>+kubebuilder:validation:XValidation:message=&ldquo;only one of targetRefs or selector can be set&rdquo;,rule=&quot;(has(self.selector)?1:0)+(has(self.targetRefs)?1:0)&lt;=1&quot;
++kubebuilder:validation:XValidation:message=&ldquo;exactly one of wasm or lua must be set&rdquo;,rule=&ldquo;has(self.wasm) != has(self.lua)&rdquo;</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficExtension-selector">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-selector">selector</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+</div></td>
+<td>
+<p>Criteria used to select the specific set of pods/VMs on which
+this configuration should be applied. If omitted, this
+configuration will be applied to all workload instances in the same
+namespace. If the <code>TrafficExtension</code> is present in the config root
+namespace, it will be applied to all applicable workloads in any
+namespace.</p>
+<p>At most, only one of <code>selector</code> or <code>targetRefs</code> can be set for a given policy.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-targetRefs">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-targetRefs">targetRefs</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></div>
+</div></td>
+<td>
+<p>The targetRefs specifies a list of resources the policy should be
+applied to. The targeted resources specified will determine which workloads
+the policy applies to.</p>
+<p>Currently, the following resource attachment types are supported:</p>
+<ul>
+<li><code>kind: Gateway</code> with <code>group: gateway.networking.k8s.io</code> in the same namespace.</li>
+<li><code>kind: GatewayClass</code> with <code>group: gateway.networking.k8s.io</code> in the root namespace.</li>
+<li><code>kind: Service</code> with <code>group: &quot;&quot;</code> or <code>group: &quot;core&quot;</code> in the same namespace. This type is only supported for waypoints.</li>
+<li><code>kind: ServiceEntry</code> with <code>group: networking.istio.io</code> in the same namespace.</li>
+</ul>
+<p>If not set, the policy is applied as defined by the selector.
+At most one of the selector and targetRefs can be set.</p>
+<p>NOTE: Waypoint proxies are required to use this field for policies to apply; <code>selector</code> policies will be ignored.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-phase">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-phase">phase</a></code></div>
+<div class="type"><a href="#ExecutionPhase">ExecutionPhase</a></div>
+</div></td>
+<td>
+<p>Determines where in the filter chain this <code>TrafficExtension</code> is to be injected.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-priority">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-priority">priority</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>Determines ordering of <code>TrafficExtensions</code> in the same <code>phase</code>.
+When multiple <code>TrafficExtensions</code> are applied to the same workload in the
+same <code>phase</code>, they will be applied by priority, in descending order.
+If <code>priority</code> is not set, or two <code>TrafficExtensions</code> exist with the same
+value, the ordering will be deterministically derived from the
+<code>creationTimestamp</code>, then name and namespace of the <code>TrafficExtensions</code>.
+Defaults to <code>0</code>.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-match">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-match">match</a></code></div>
+<div class="type"><a href="#TrafficSelector">TrafficSelector[]</a></div>
+</div></td>
+<td>
+<p>Specifies the criteria to determine which traffic is passed to TrafficExtension.
+If a traffic satisfies any of TrafficSelectors,
+the traffic passes the TrafficExtension.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-wasm" class="oneof oneof-start">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-wasm">wasm</a></code></div>
+<div class="type"><a href="#WasmConfig">WasmConfig (oneof)</a></div>
+</div></td>
+<td>
+<p>WebAssembly filter configuration.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-lua" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#TrafficExtension-lua">lua</a></code></div>
+<div class="type"><a href="#LuaConfig">LuaConfig (oneof)</a></div>
+</div></td>
+<td>
+<p>Lua filter configuration.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="WasmConfig">WasmConfig</h2>
+<section>
+<p>WasmConfig configures a WebAssembly filter.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">wasm:
+  url: oci://gcr.io/myproject/filter:v1.0.0
+  sha256: abc123...
+  imagePullPolicy: IfNotPresent
+  imagePullSecret: gcr-secret
+  pluginName: my-filter
+  pluginConfig:
+    key1: value1
+    key2: value2
+  failStrategy: FAIL_CLOSE
+  vmConfig:
+    env:
+    - name: SOME_ENV_VAR
+      value: some_value
+  type: HTTP
+</code></pre>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="WasmConfig-url">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-url">url</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
+<td>
+<p>URL of a Wasm module or OCI container. If no scheme is present,
+defaults to <code>oci://</code>, referencing an OCI image. Other valid schemes
+are <code>file://</code> for referencing .wasm module files present locally
+within the proxy container, and <code>http[s]://</code> for .wasm module files
+hosted remotely.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-sha256">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-sha256">sha256</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>SHA256 checksum that will be used to verify Wasm module or OCI container.
+If the <code>url</code> field already references a SHA256 (using the <code>@sha256:</code>
+notation), it must match the value of this field. If an OCI image is
+referenced by tag and this field is set, its checksum will be verified
+against the contents of this field after pulling.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-image_pull_policy">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-image_pull_policy">imagePullPolicy</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#PullPolicy">PullPolicy</a></div>
+</div></td>
+<td>
+<p>The pull behaviour to be applied when fetching Wasm module by either
+OCI image or <code>http/https</code>. Only relevant when referencing Wasm module without
+any digest, including the digest in OCI image URL or <code>sha256</code> field in <code>vm_config</code>.
+Defaults to <code>IfNotPresent</code>, except when an OCI image is referenced in the <code>url</code>
+and the <code>latest</code> tag is used, in which case <code>Always</code> is the default,
+mirroring Kubernetes behaviour.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-image_pull_secret">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-image_pull_secret">imagePullSecret</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>Credentials to use for OCI image pulling.
+Name of a Kubernetes Secret in the same namespace as the <code>TrafficExtension</code> that
+contains a Docker pull secret which is to be used to authenticate
+against the registry when pulling the image.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-plugin_config">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-plugin_config">pluginConfig</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#struct">Struct</a></div>
+</div></td>
+<td>
+<p>The configuration that will be passed on to the plugin.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-plugin_name">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-plugin_name">pluginName</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>The plugin name to be used in the Envoy configuration (used to be called
+<code>rootID</code>). Some .wasm modules might require this value to select the Wasm
+plugin to execute.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-fail_strategy">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-fail_strategy">failStrategy</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#FailStrategy">FailStrategy</a></div>
+</div></td>
+<td>
+<p>Specifies the failure behavior for the plugin due to fatal errors.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-vm_config">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-vm_config">vmConfig</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#VmConfig">VmConfig</a></div>
+</div></td>
+<td>
+<p>Configuration for a Wasm VM.
+More details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/wasm/v3/wasm.proto#extensions-wasm-v3-vmconfig">here</a>.</p>
+
+</td>
+</tr>
+<tr id="WasmConfig-type">
+<td><div class="field"><div class="name"><code><a href="#WasmConfig-type">type</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#PluginType">PluginType</a></div>
+</div></td>
+<td>
+<p>Specifies the type of Wasm Extension to be used.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LuaConfig">LuaConfig</h2>
+<section>
+<p>LuaConfig configures a Lua filter.</p>
+<p>Lua filters provide a lightweight alternative to WebAssembly for simple
+request/response transformations. The Lua code is executed inline within
+the Envoy proxy.</p>
+<p>Example: Simple header manipulation</p>
+<pre><code class="language-yaml">lua:
+  inlineCode: |
+    function envoy_on_request(request_handle)
+      request_handle:headers():add(&quot;x-custom-header&quot;, &quot;custom-value&quot;)
+    end
+</code></pre>
+<p>The Lua script must define one or both of the following functions:</p>
+<ul>
+<li><code>envoy_on_request(request_handle)</code>: Called when a request is received</li>
+<li><code>envoy_on_response(response_handle)</code>: Called when a response is received</li>
+</ul>
+<p>The request_handle and response_handle provide access to headers, body,
+metadata, and other request/response attributes. See the Envoy Lua filter
+documentation for the complete API:
+<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter">https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter</a></p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LuaConfig-inline_code">
+<td><div class="field"><div class="name"><code><a href="#LuaConfig-inline_code">inlineCode</a></code></div>
+<div class="type">string</div>
+<div class="required">Required</div>
+</div></td>
+<td>
+<p>The inline Lua code to be executed. The code must be a valid Lua script
+that defines the appropriate callback functions (<code>envoy_on_request</code> and/or
+<code>envoy_on_response</code>).</p>
+<p>The maximum size is 64KB. For larger or more complex filters, use a
+WebAssembly filter instead.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TrafficSelector">TrafficSelector</h2>
+<section>
+<p>TrafficSelector provides a mechanism to select a specific traffic flow
+for which a TrafficExtension will be enabled.
+When all the sub conditions in the TrafficSelector are satisfied, the
+traffic will be selected.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficSelector-mode">
+<td><div class="field"><div class="name"><code><a href="#TrafficSelector-mode">mode</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></div>
+</div></td>
+<td>
+<p>Criteria for selecting traffic by their direction.
+Note that <code>CLIENT</code> and <code>SERVER</code> are analogous to OUTBOUND and INBOUND,
+respectively.
+For the gateway, the field should be <code>CLIENT</code> or <code>CLIENT_AND_SERVER</code>.
+If not specified, the default value is <code>CLIENT_AND_SERVER</code>.</p>
+
+</td>
+</tr>
+<tr id="TrafficSelector-ports">
+<td><div class="field"><div class="name"><code><a href="#TrafficSelector-ports">ports</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></div>
+</div></td>
+<td>
+<p>Criteria for selecting traffic by their destination port.
+More specifically, for the outbound traffic, the destination port would be
+the port of the target service. On the other hand, for the inbound traffic,
+the destination port is the port bound by the server process in the same Pod.</p>
+<p>If one of the given <code>ports</code> is matched, this condition is evaluated to true.
+If not specified, this condition is evaluated to true for any port.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ExecutionPhase">ExecutionPhase</h2>
+<section>
+<p>ExecutionPhase specifies where in the filter chain a <code>TrafficExtension</code> is injected.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ExecutionPhase-EXECUTION_PHASE_UNSPECIFIED">
+<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_UNSPECIFIED">EXECUTION_PHASE_UNSPECIFIED</a></code></td>
+<td>
+<p>Control plane decides where to insert the extension. This will generally
+be at the end of the filter chain, right before the Router.
+Do not specify <code>ExecutionPhase</code> if the extension is independent of others.</p>
+
+</td>
+</tr>
+<tr id="ExecutionPhase-EXECUTION_PHASE_AUTHN">
+<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_AUTHN">EXECUTION_PHASE_AUTHN</a></code></td>
+<td>
+<p>Insert before Istio authentication filters.</p>
+
+</td>
+</tr>
+<tr id="ExecutionPhase-EXECUTION_PHASE_AUTHZ">
+<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_AUTHZ">EXECUTION_PHASE_AUTHZ</a></code></td>
+<td>
+<p>Insert before Istio authorization filters and after Istio authentication filters.</p>
+
+</td>
+</tr>
+<tr id="ExecutionPhase-EXECUTION_PHASE_STATS">
+<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_STATS">EXECUTION_PHASE_STATS</a></code></td>
+<td>
+<p>Insert before Istio stats filters and after Istio authorization filters.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
