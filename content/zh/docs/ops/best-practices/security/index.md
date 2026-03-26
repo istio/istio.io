@@ -669,13 +669,27 @@ Istio 配置了[一系列锁定的端口](/zh/docs/ops/deployment/application-re
 
 ### 控制面 {#control-plane}
 
-Istiod 为了便利暴露了几个未认证的明文端口。理想情况下，这些端口应该被关闭：
+Istiod 公开了多个用于调试和监控的端口。默认情况下，调试端点现在需要身份验证：
 
 * 端口 `8080` 暴露了调试接口，提供了针对集群状态细节的读取权限。
   这可以通过在 Istiod 设置环境变量 `ENABLE_DEBUG_ON_HTTP=false` 来关闭。
   警告：许多 `istioctl` 命令依赖该接口，如果该接口被关闭这些命令可能无法运行。
-* 端口 `15010` 将 XDS 服务暴露为明文。这可以通过在 Istiod 部署中添加 `--grpcAddr=""` 标志来关闭。
+* 端口 `15010` 通过明文 gRPC 公开 XDS 服务。此端口上的 XDS
+  调试端点（`syncz`、`config_dump`）默认需要身份验证，
+  启用后会有效地阻止明文访问。请使用端口 15012（TLS）进行经过身份验证的 XDS 调试访问。
+  可以通过在 istiod 部署中添加 `--grpcAddr=""` 标志来禁用明文 XDS 服务本身。
   注释：证书签发和分发服务这类高度敏感的服务绝不允许以明文运行。
+* 端口 `15012` 通过 TLS/mTLS gRPC 协议公开 XDS 服务（推荐用于生产环境）。
+  XDS 调试端点可通过此端口访问，并支持自动 mTLS 身份验证。
+* 端口 `15014` 通过 HTTP（明文）协议暴露调试端点（`/debug/syncz`、`/debug/registryz`、`/debug/config_dump` 等）。
+  默认情况下，这些端点需要使用具有 `istio-ca` 受众的服务帐户令牌进行身份验证。
+
+调试端点身份验证由环境变量 `ENABLE_DEBUG_ENDPOINT_AUTH` 控制（默认启用）。
+启用后，基于命名空间的授权会将非系统命名空间限制为仅对同一命名空间代理使用特定的端点（`config_dump`、`ndsz`、`edsz`）。
+要禁用身份验证并恢复旧版行为，请在 istiod 上设置 `ENABLE_DEBUG_ENDPOINT_AUTH=false`。
+
+有关如何从集成中访问调试端点的详细信息。
+请参阅[集成指南](/zh/docs/ops/integrations/integration-guide/debug-endpoints/)。
 
 ### 数据面 {#data-plane}
 
