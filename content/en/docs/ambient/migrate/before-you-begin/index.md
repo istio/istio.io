@@ -13,7 +13,7 @@ requirements and create a backup of your current configuration.
 
 ## Requirements
 
-- Istio 1.24 or later (1.25+ recommended for full feature support)
+- Istio {{< istio_version >}} or later
 - Kubernetes [supported version](/docs/releases/supported-releases#support-status-of-istio-releases) ({{< supported_kubernetes_versions >}})
 - Gateway API CRDs installed (required for waypoint proxies)
 
@@ -43,7 +43,7 @@ $ kubectl get namespaces -l 'istio.io/rev'
 List the Istio resources in use across your cluster:
 
 {{< text syntax=bash snip_id=none >}}
-$ kubectl get virtualservice,destinationrule,authorizationpolicy,requestauthentication,peerauthentication -A
+$ kubectl get virtualservice,destinationrule,authorizationpolicy,requestauthentication,peerauthentication,envoyfilter,wasmplugin -A
 {{< /text >}}
 
 Check which `AuthorizationPolicy` resources contain L7 rules. These will require waypoint
