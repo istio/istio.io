@@ -24,7 +24,7 @@ Five candidates stood for our four open seats. Using Condorcet-method ranked vot
 - [Tyler Schade](https://github.com/istio/community/blob/master/steering/elections/2026/candidate-tjons.md), GEICO Tech
 - [Zhonghu Xu](https://github.com/istio/community/blob/master/steering/elections/2026/candidate-hzxuzhonghu.md), Huawei
 
-We're excited to welcome this fantastic group of community leaders. Faseela is returning for her fourth term on Steering and also serves on the CNCF Technical Oversight Committee. Craig has been on the Steering Committee since 2020 and serves as the maintainer representative on the CNCF Governing Board. Tyler is a new face on Steering, bringing an end-user perspective from GEICO Tech, where he leads a team building a custom service mesh on Istio. Zhonghu has been an Istio contributor since the project's early days, is a core maintainer in multiple working groups, and is transitioning this year from a Contribution Seat to a Community Seat.
+We're excited to welcome this fantastic group of community leaders. Faseela is returning for her fourth term on Steering and also serves on the CNCF Technical Oversight Committee. Craig has been on the Steering Committee since 2020 and recently ended his term as the maintainer representative on the CNCF Governing Board. Tyler is a new face on Steering, bringing an end-user perspective from GEICO Tech, where he leads a team building a custom service mesh on Istio. Zhonghu has been an Istio contributor since the project's early days, is a core maintainer in multiple working groups, and is transitioning this year from a Contribution Seat to a Community Seat.
 
 ## Contribution Seats
 
