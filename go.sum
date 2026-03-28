@@ -20,6 +20,8 @@ github.com/Masterminds/sprig/v3 v3.3.0 h1:mQh0Yrg1XPo6vjYXgtf5OtijNAKJRNcTdOOGZe
 github.com/Masterminds/sprig/v3 v3.3.0/go.mod h1:Zy1iXRYNqNLUolqCpL4uhk6SHUMAOSCzdgBfDb35Lz0=
 github.com/VividCortex/ewma v1.2.0 h1:f58SaIzcDXrSy3kWaHNvuJgJ3Nmz59Zji6XoJR/q1ow=
 github.com/VividCortex/ewma v1.2.0/go.mod h1:nz4BbCtbLyFDeC9SUHbtcT5644juEuWfUAUnGx7j5l4=
+github.com/agentgateway/agentgateway v0.12.0 h1:7v9QhhMMr/eYref4aVYdvSlgCfneGBDk+ogx8I6kgNs=
+github.com/agentgateway/agentgateway v0.12.0/go.mod h1:l9WCU03Z5t1wRihwCV0nEx4s2e2oyYgE1jlCj2J6dNY=
 github.com/alecholmes/xfccparser v0.4.0 h1:IFB4bP34oorjcV3n8utZtBhEwlAw9rZ43pb4LgT23Vo=
 github.com/alecholmes/xfccparser v0.4.0/go.mod h1:J9fzzUOtjw74IwNdGVbjnOVj1UDlwGQj1zZzgQRlRDY=
 github.com/alecthomas/participle/v2 v2.1.4 h1:W/H79S8Sat/krZ3el6sQMvMaahJ+XcM9WSI2naI7w2U=
@@ -490,8 +492,8 @@ istio.io/api v1.29.0-alpha.0.0.20260315093121-ce7e56c13e1d h1:4r9B7Ji85KizCHiVj6
 istio.io/api v1.29.0-alpha.0.0.20260315093121-ce7e56c13e1d/go.mod h1:+brQWcBHoROuyA6fv8rbgg8Kfn0RCGuqoY0duCMuSLA=
 istio.io/client-go v1.29.0-beta.0 h1:yaLexdKFAZPOAsFLA0BgbMeEAp1o5pFgzsKBOeVfjrI=
 istio.io/client-go v1.29.0-beta.0/go.mod h1:7jLit8le73RV0mkDGtb5P42WCghCsiBXSEd9hEE8m2w=
-istio.io/istio v0.0.0-20260315105917-2137ab0de6ff h1:j/m0hjCaowJWRVuklxMBM5r7rHxNv2z5lWP+3NJStag=
-istio.io/istio v0.0.0-20260315105917-2137ab0de6ff/go.mod h1:8SEkxbVpdErtMpOt9oI1sDOemaUkyb4KHIk9b17YE7s=
+istio.io/istio v0.0.0-20260321172513-28c83112477b h1:XTr3F5byBaGUIjCKSbY9lpJqjZR0qD+9mG1AAf+FcDA=
+istio.io/istio v0.0.0-20260321172513-28c83112477b/go.mod h1:VqKLhiCPT5ckI/FpEwyJ8aB4fMq/cYBIDx3tFcSjR80=
 k8s.io/api v0.35.1 h1:0PO/1FhlK/EQNVK5+txc4FuhQibV25VLSdLMmGpDE/Q=
 k8s.io/api v0.35.1/go.mod h1:28uR9xlXWml9eT0uaGo6y71xK86JBELShLy4wR1XtxM=
 k8s.io/apiextensions-apiserver v0.35.1 h1:p5vvALkknlOcAqARwjS20kJffgzHqwyQRM8vHLwgU7w=
