@@ -286,7 +286,7 @@ At most one of the selector and targetRefs can be set.</p>
 </tr>
 <tr id="TrafficExtension-phase">
 <td><div class="field"><div class="name"><code><a href="#TrafficExtension-phase">phase</a></code></div>
-<div class="type"><a href="#ExecutionPhase">ExecutionPhase</a></div>
+<div class="type"><a href="#TrafficExtension-ExecutionPhase">ExecutionPhase</a></div>
 </div></td>
 <td>
 <p>Determines where in the filter chain this <code>TrafficExtension</code> is to be injected.</p>
@@ -334,6 +334,51 @@ the traffic passes the TrafficExtension.</p>
 </div></td>
 <td>
 <p>Lua filter configuration.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="TrafficExtension-ExecutionPhase">ExecutionPhase</h3>
+<section>
+<p>ExecutionPhase specifies where in the filter chain a <code>TrafficExtension</code> is injected.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficExtension-ExecutionPhase-UNSPECIFIED">
+<td><code><a href="#TrafficExtension-ExecutionPhase-UNSPECIFIED">UNSPECIFIED</a></code></td>
+<td>
+<p>Control plane decides where to insert the extension. This will generally
+be at the end of the filter chain, right before the Router.
+Do not specify <code>ExecutionPhase</code> if the extension is independent of others.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-ExecutionPhase-AUTHN">
+<td><code><a href="#TrafficExtension-ExecutionPhase-AUTHN">AUTHN</a></code></td>
+<td>
+<p>Insert before Istio authentication filters.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-ExecutionPhase-AUTHZ">
+<td><code><a href="#TrafficExtension-ExecutionPhase-AUTHZ">AUTHZ</a></code></td>
+<td>
+<p>Insert before Istio authorization filters and after Istio authentication filters.</p>
+
+</td>
+</tr>
+<tr id="TrafficExtension-ExecutionPhase-STATS">
+<td><code><a href="#TrafficExtension-ExecutionPhase-STATS">STATS</a></code></td>
+<td>
+<p>Insert before Istio stats filters and after Istio authorization filters.</p>
 
 </td>
 </tr>
@@ -560,51 +605,6 @@ the port of the target service. On the other hand, for the inbound traffic,
 the destination port is the port bound by the server process in the same Pod.</p>
 <p>If one of the given <code>ports</code> is matched, this condition is evaluated to true.
 If not specified, this condition is evaluated to true for any port.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h2 id="ExecutionPhase">ExecutionPhase</h2>
-<section>
-<p>ExecutionPhase specifies where in the filter chain a <code>TrafficExtension</code> is injected.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="ExecutionPhase-EXECUTION_PHASE_UNSPECIFIED">
-<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_UNSPECIFIED">EXECUTION_PHASE_UNSPECIFIED</a></code></td>
-<td>
-<p>Control plane decides where to insert the extension. This will generally
-be at the end of the filter chain, right before the Router.
-Do not specify <code>ExecutionPhase</code> if the extension is independent of others.</p>
-
-</td>
-</tr>
-<tr id="ExecutionPhase-EXECUTION_PHASE_AUTHN">
-<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_AUTHN">EXECUTION_PHASE_AUTHN</a></code></td>
-<td>
-<p>Insert before Istio authentication filters.</p>
-
-</td>
-</tr>
-<tr id="ExecutionPhase-EXECUTION_PHASE_AUTHZ">
-<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_AUTHZ">EXECUTION_PHASE_AUTHZ</a></code></td>
-<td>
-<p>Insert before Istio authorization filters and after Istio authentication filters.</p>
-
-</td>
-</tr>
-<tr id="ExecutionPhase-EXECUTION_PHASE_STATS">
-<td><code><a href="#ExecutionPhase-EXECUTION_PHASE_STATS">EXECUTION_PHASE_STATS</a></code></td>
-<td>
-<p>Insert before Istio stats filters and after Istio authorization filters.</p>
 
 </td>
 </tr>
