@@ -122,7 +122,7 @@ The Istio CNI node agent is a [system-node-critical](https://kubernetes.io/docs/
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
-$ helm upgrade istio-cni istio/cni -n istio-system
+$ helm upgrade istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
 ## Upgrade the data plane
