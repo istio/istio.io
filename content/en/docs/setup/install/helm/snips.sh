@@ -97,6 +97,15 @@ kubectl create namespace istio-ingress
 helm install istio-ingress istio/gateway -n istio-ingress --wait
 }
 
+snip_migrating_from_nonhelm_installations_1() {
+helm install istio-base istio/base -n istio-system --take-ownership
+helm install istiod istio/istiod -n istio-system --take-ownership
+}
+
+snip_migrating_from_nonhelm_installations_2() {
+helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
+}
+
 snip_helm_ls() {
 helm ls -n istio-system
 }
