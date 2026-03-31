@@ -27,6 +27,24 @@ $ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254
 $ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
 {{< /text >}}
 
+For single network deployments, you must configure non-overlapping pod and service CIDRs, and set up cross-cluster routing:
+
+{{< text bash >}}
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254 --pod-subnet 10.10.0.0/16 --service-subnet 10.96.0.0/20
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255 --pod-subnet 10.20.0.0/16 --service-subnet 10.96.16.0/20
+{{< /text >}}
+
+Then configure routes for pod-to-pod and pod-to-service connectivity:
+
+{{< text bash >}}
+$ CLUSTER1_NODE_IP=$(docker inspect cluster-1-control-plane --format '{{.NetworkSettings.Networks.kind.IPAddress}}')
+$ CLUSTER2_NODE_IP=$(docker inspect cluster-2-control-plane --format '{{.NetworkSettings.Networks.kind.IPAddress}}')
+$ docker exec cluster-1-control-plane ip route add 10.20.0.0/16 via $CLUSTER2_NODE_IP
+$ docker exec cluster-1-control-plane ip route add 10.96.16.0/20 via $CLUSTER2_NODE_IP
+$ docker exec cluster-2-control-plane ip route add 10.10.0.0/16 via $CLUSTER1_NODE_IP
+$ docker exec cluster-2-control-plane ip route add 10.96.0.0/20 via $CLUSTER1_NODE_IP
+{{< /text >}}
+
 {{< /tip >}}
 
 ### API Server Access
