@@ -180,6 +180,14 @@ After migrating to ambient mode, be aware of the following changes to telemetry:
 while metrics from waypoint proxies use `reporter="waypoint"`. Update any dashboards or
 alerting rules that rely on the `reporter` label.
 
+**Metrics merging**: In sidecar mode, the proxy agent supports
+[metrics merging](/docs/ops/integrations/prometheus/#option-1-metrics-merging), which
+combines Istio and application metrics into a single scrape target using the standard
+`prometheus.io` annotations. This feature is not available in ambient mode. After
+migration, you must configure Prometheus to scrape Istio components (ztunnel and waypoint
+pods) and your application pods as separate targets. Update any `PodMonitor` or
+`ServiceMonitor` resources that relied on a single merged endpoint.
+
 **Tracing**: In sidecar mode, each hop generates two spans (one from the source sidecar,
 one from the destination sidecar). In ambient mode with waypoints, one span is generated
 per waypoint. Update trace-based SLOs accordingly.
