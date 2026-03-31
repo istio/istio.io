@@ -158,6 +158,7 @@ resources are managed by `istio-operator`. To work around this, disable SSA:
 {{< text syntax=bash >}}
 $ helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
 {{< /text >}}
+
 {{< /tip >}}
 
 {{< warning >}}
