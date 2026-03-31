@@ -309,7 +309,7 @@ spec:
         - "cluster.local/ns/bookinfo/sa/productpage"
 {{< /text >}}
 
-Remove each sidecar principal from the exception list as it is migrated to ambient mode. Once all callers are in ambient mode, 
+Remove each sidecar principal from the exception list as it is migrated to ambient mode. Once all callers are in ambient mode,
 only the waypoint principal needs to remain.
 
 {{< warning >}}
