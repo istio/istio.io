@@ -106,6 +106,27 @@ activates when a destination is discovered to be an ambient mode workload, so re
 pods has no observable impact on traffic. If you run behavioral tests at this point, you should see no changes in functionality.
 {{< /tip >}}
 
+## Sidecar and ambient interoperability during migration
+
+When a sidecar-injected pod communicates with a workload that has already been moved to
+ambient mode, the sidecar uses the HBONE protocol to tunnel traffic directly to the
+destination pod's ztunnel. 
+
+The practical consequence is that L7 policies on the waypoint (such as `HTTPRoute` rules or
+`AuthorizationPolicy` with `targetRefs`) are **not enforced** for traffic coming from sidecar
+mode workloads during the migration period. The sidecar applies its own L7 logic before
+sending, but the waypoint never routes this traffic. This means L7 policies will not be 
+applied twice because the sidecar handles its own routing decisions and the HBONE tunnel 
+delivers traffic directly to the destination without processing again at the waypoint.
+
+{{< warning >}}
+If you use a waypoint bypass prevention policy (a DENY policy that rejects traffic not
+originating from the waypoint), that policy will also reject traffic from sidecar mode
+workloads, since they bypass the waypoint. See
+[Prevent waypoint bypass](/docs/ambient/migrate/migrate-policies/#prevent-waypoint-bypass)
+for guidance on handling this during an incremental migration.
+{{< /warning >}}
+
 ## Deploy waypoint proxies (optional)
 
 {{< tip >}}
