@@ -110,13 +110,13 @@ pods has no observable impact on traffic. If you run behavioral tests at this po
 
 When a sidecar-injected pod communicates with a workload that has already been moved to
 ambient mode, the sidecar uses the HBONE protocol to tunnel traffic directly to the
-destination pod's ztunnel. 
+destination pod's ztunnel.
 
 The practical consequence is that L7 policies on the waypoint (such as `HTTPRoute` rules or
 `AuthorizationPolicy` with `targetRefs`) are **not enforced** for traffic coming from sidecar
 mode workloads during the migration period. The sidecar applies its own L7 logic before
-sending, but the waypoint never routes this traffic. This means L7 policies will not be 
-applied twice because the sidecar handles its own routing decisions and the HBONE tunnel 
+sending, but the waypoint never routes this traffic. This means L7 policies will not be
+applied twice because the sidecar handles its own routing decisions and the HBONE tunnel
 delivers traffic directly to the destination without processing again at the waypoint.
 
 {{< warning >}}
