@@ -273,6 +273,45 @@ the waypoint, which sees the original client identity not the waypoint's own ide
 This would cause the waypoint to deny all client traffic before the ALLOW policy can run.
 {{< /warning >}}
 
+### Bypass prevention during incremental migration
+
+During a migration where some source workloads are still in sidecar mode, a strict
+waypoint-only DENY policy will reject their traffic. Sidecar mode workloads use HBONE to
+route traffic directly to ztunnel at the destination, bypassing the waypoint, so ztunnel sees
+the sidecar identity as the source principal, not the waypoint.
+
+At this point there are two options:
+
+**Option 1: Delay bypass prevention until all sources are migrated.**
+Do not apply the DENY policy until every workload that calls this service has been moved to
+ambient mode. This is the simpler approach when you control all callers.
+
+**Option 2: Allow traffic from both the waypoint and sidecar principals.**
+Add the service accounts of the remaining sidecar workloads to the `notPrincipals`
+exception list alongside the waypoint:
+
+{{< text syntax=yaml snip_id=none >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-waypoint-bypass
+  namespace: bookinfo
+spec:
+  selector:
+    matchLabels:
+      app: reviews
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notPrincipals:
+        - "cluster.local/ns/bookinfo/sa/waypoint"
+        - "cluster.local/ns/bookinfo/sa/productpage"
+{{< /text >}}
+
+Remove each sidecar principal from the exception list as it is migrated to ambient mode. Once all callers are in ambient mode, 
+only the waypoint principal needs to remain.
+
 {{< warning >}}
 Keep your existing sidecar `AuthorizationPolicy` resources active until pods have been
 restarted without sidecars. However, **delete them immediately after the pod restart** —
