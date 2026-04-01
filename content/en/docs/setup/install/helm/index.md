@@ -142,17 +142,33 @@ for example `helm show values istio/gateway`.
 
 ### Migrating from non-Helm installations
 
-If you're migrating from a version of Istio installed using `istioctl` to Helm (Istio 1.5 or earlier), you need to delete your current Istio
-control plane resources and re-install Istio using Helm as described above. When
-deleting your current Istio installation, you must not remove the Istio Custom Resource
-Definitions (CRDs) as that can lead to loss of your custom Istio resources.
+If you're migrating from a version of Istio installed using `istioctl` to Helm, you can have Helm adopt the existing
+resources in-place using the `--take-ownership` flag. This avoids the need to uninstall and reinstall Istio:
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --take-ownership
+$ helm install istiod istio/istiod -n istio-system --take-ownership
+{{< /text >}}
+
+{{< tip >}}
+Helm 4 uses [server-side apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) (SSA) by default.
+If your Istio resources were created by `istioctl`, Helm 4 will fail with field ownership conflicts because the
+resources are managed by `istio-operator`. To work around this, disable SSA:
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< warning >}}
-It is highly recommended to take a backup of your Istio resources using steps
-described above before deleting current Istio installation in your cluster.
+It is highly recommended to back up your Istio resources before migrating.
 {{< /warning >}}
 
-You can follow steps mentioned in the [Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio).
+Alternatively, you can uninstall your current Istio installation and reinstall using Helm as described above.
+When uninstalling, do not remove the Istio CRDs — deleting CRDs causes Kubernetes to cascade-delete all
+resources of those types (your `VirtualService`, `DestinationRule`, `AuthorizationPolicy`, etc.).
+See the [Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio).
 
 ## Uninstall
 
