@@ -567,7 +567,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>End time for the range of log entries to include in the archive. Default is now.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--exclude &lt;stringSlice&gt;</code></td>
+<td><code>--exclude &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,kube-public,kube-system,local-path-storage"]`)</td>
 </tr>
@@ -587,7 +587,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>List of comma separated glob patterns to match against log error strings. Any error matching these patterns is ignored when calculating the log importance heuristic.  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--include &lt;stringSlice&gt;</code></td>
+<td><code>--include &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
@@ -632,9 +632,39 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Set the concurrency limit of requests to the Kubernetes API server, defaults to 32.  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--skip-analyze</code></td>
+<td></td>
+<td>Skip running istioctl analyze. </td>
+</tr>
+<tr>
+<td><code>--skip-cluster-dump</code></td>
+<td></td>
+<td>Skip fetching cluster-wide resources (K8s resources, CRs, node info, secrets). </td>
+</tr>
+<tr>
+<td><code>--skip-coredumps</code></td>
+<td></td>
+<td>Skip collecting coredumps from proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-netstat</code></td>
+<td></td>
+<td>Skip running netstat in proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-proxy-debug</code></td>
+<td></td>
+<td>Skip fetching envoy admin debug info from proxy pods. </td>
+</tr>
+<tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
 <td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tail &lt;int&gt;</code></td>
+<td></td>
+<td>Maximum number of log lines to fetch per container. Set to 0 for unlimited.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -707,7 +737,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>End time for the range of log entries to include in the archive. Default is now.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--exclude &lt;stringSlice&gt;</code></td>
+<td><code>--exclude &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,kube-public,kube-system,local-path-storage"]`)</td>
 </tr>
@@ -727,7 +757,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>List of comma separated glob patterns to match against log error strings. Any error matching these patterns is ignored when calculating the log importance heuristic.  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--include &lt;stringSlice&gt;</code></td>
+<td><code>--include &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
@@ -782,9 +812,39 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Use --short=false to generate full version information </td>
 </tr>
 <tr>
+<td><code>--skip-analyze</code></td>
+<td></td>
+<td>Skip running istioctl analyze. </td>
+</tr>
+<tr>
+<td><code>--skip-cluster-dump</code></td>
+<td></td>
+<td>Skip fetching cluster-wide resources (K8s resources, CRs, node info, secrets). </td>
+</tr>
+<tr>
+<td><code>--skip-coredumps</code></td>
+<td></td>
+<td>Skip collecting coredumps from proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-netstat</code></td>
+<td></td>
+<td>Skip running netstat in proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-proxy-debug</code></td>
+<td></td>
+<td>Skip fetching envoy admin debug info from proxy pods. </td>
+</tr>
+<tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
 <td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tail &lt;int&gt;</code></td>
+<td></td>
+<td>Maximum number of log lines to fetch per container. Set to 0 for unlimited.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
