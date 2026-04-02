@@ -42,7 +42,7 @@ export OLD_REVISION=istio-1-21-2
 }
 
 snip_upgrade_crds() {
-helm upgrade istio-base istio/base -n istio-system --force-conflicts
+helm upgrade istio-base istio/base -n istio-system
 }
 
 snip_upgrade_istiod_inplace() {
