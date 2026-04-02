@@ -46,11 +46,11 @@ helm upgrade istio-base istio/base -n istio-system --force-conflicts
 }
 
 snip_upgrade_istiod_inplace() {
-helm upgrade istiod istio/istiod -n istio-system --wait
+helm upgrade istiod istio/istiod -n istio-system --wait --force-conflicts
 }
 
 snip_upgrade_istiod_revisioned() {
-helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait
+helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$REVISION" --set profile=ambient --wait --force-conflicts
 }
 
 snip_upgrade_cni() {
