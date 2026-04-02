@@ -29,6 +29,24 @@ $ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254
 $ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255
 {{< /text >}}
 
+对于单网络部署，您必须配置互不重叠的 Pod 和 Service CIDR，并设置跨集群路由：
+
+{{< text bash >}}
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-1 --ip-space 254 --pod-subnet 10.10.0.0/16 --service-subnet 10.96.0.0/20
+$ @samples/kind-lb/setupkind.sh@ --cluster-name cluster-2 --ip-space 255 --pod-subnet 10.20.0.0/16 --service-subnet 10.96.16.0/20
+{{< /text >}}
+
+然后，配置用于 Pod 到 Pod 以及 Pod 到 Service 连接的路由：
+
+{{< text bash >}}
+$ CLUSTER1_NODE_IP=$(docker inspect cluster-1-control-plane --format '{{.NetworkSettings.Networks.kind.IPAddress}}')
+$ CLUSTER2_NODE_IP=$(docker inspect cluster-2-control-plane --format '{{.NetworkSettings.Networks.kind.IPAddress}}')
+$ docker exec cluster-1-control-plane ip route add 10.20.0.0/16 via $CLUSTER2_NODE_IP
+$ docker exec cluster-1-control-plane ip route add 10.96.16.0/20 via $CLUSTER2_NODE_IP
+$ docker exec cluster-2-control-plane ip route add 10.10.0.0/16 via $CLUSTER1_NODE_IP
+$ docker exec cluster-2-control-plane ip route add 10.96.0.0/20 via $CLUSTER1_NODE_IP
+{{< /text >}}
+
 {{< /tip >}}
 
 ### API 服务器访问 {#api-server-access}
