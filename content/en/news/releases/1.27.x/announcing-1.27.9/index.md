@@ -24,11 +24,11 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** an issue where all Gateways were restarted after istiod was restarted.
   ([Issue #59709](https://github.com/istio/istio/issues/59709))
 
-- **Fixed** TLSRoute hostnames not being constrained to the intersection with the Gateway listener hostname.
-Previously, a TLSRoute with a broad hostname (e.g. `*.com`) attached to a listener with a narrower hostname
+- **Fixed** `TLSRoute` hostnames not being constrained to the intersection with the `Gateway` listener hostname.
+Previously, a `TLSRoute` with a broad hostname (e.g. `*.com`) attached to a listener with a narrower hostname
 (e.g. `*.example.com`) would incorrectly match the full route hostname instead of only the intersection
 (`*.example.com`), as required by the Gateway API spec.
   ([Issue #59229](https://github.com/istio/istio/issues/59229))
 
-- **Fixed** a race condition that caused intermittent "proxy::h2 ping error: broken pipe" error logs.
+- **Fixed** a race condition that caused intermittent `proxy::h2 ping error: broken pipe` error logs.
   ([Issue #59192](https://github.com/istio/istio/issues/59192)),([Issue #1346](https://github.com/istio/ztunnel/issues/1346))
