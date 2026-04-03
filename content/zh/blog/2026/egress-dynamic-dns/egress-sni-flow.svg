@@ -6,7 +6,7 @@
    version="1.1"
    id="svg17"
    sodipodi:docname="egress-sni-flow.svg"
-   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   inkscape:version="1.4.3 (0d15f750, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,15 +23,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.66572638"
-     inkscape:cx="532.50106"
-     inkscape:cy="371.0233"
-     inkscape:window-width="1328"
-     inkscape:window-height="451"
+     inkscape:zoom="0.47073964"
+     inkscape:cx="828.48345"
+     inkscape:cy="227.30187"
+     inkscape:window-width="1920"
+     inkscape:window-height="1147"
      inkscape:window-x="0"
      inkscape:window-y="25"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="页面-1" />
+     inkscape:window-maximized="1"
+     inkscape:current-layer="页面-1"
+     showgrid="false" />
   <title
      id="title1">未命名</title>
   <g
@@ -50,88 +51,87 @@
     <text
        id="Egress-gateway-Pod"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="700"
          y="210"
-         id="tspan1">Egress gateway Pod</tspan></text>
+         id="tspan1">出站网关 Pod</tspan></text>
     <text
        id="Istio-Mesh"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="35"
          y="53"
-         id="tspan2">Istio Mesh</tspan></text>
+         id="tspan2">Istio 网格</tspan></text>
     <text
        id="Application-Pod"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="72"
          y="210"
-         id="tspan3">Application Pod</tspan></text>
+         id="tspan3">应用 Pod</tspan></text>
     <text
        id="Sidecar-proxy-contai"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="92"
          y="439"
-         id="tspan6">Sidecar proxy</tspan><tspan
-         x="92"
-         y="467"
-         id="tspan7">container</tspan></text>
+         id="tspan6">边车代理容器</tspan></text>
     <text
        id="Application-containe"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="92"
          y="272"
-         id="tspan8">Application container</tspan><tspan
+         id="tspan8">应用容器r</tspan><tspan
          x="92"
          y="310"
-         font-family="RobotoCondensed-Regular, Roboto Condensed"
+         font-family="RobotoCondensed-Regular, 'Roboto Condensed'"
          id="tspan9">curl https://en.wikipedia.org/</tspan></text>
     <text
        id="Gateway-proxy-contai"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="714"
          y="272"
-         id="tspan10">Gateway proxy container</tspan></text>
+         id="tspan10">网关代理容器</tspan></text>
     <text
        id="Mesh-listener:-0.0.0"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
        fill="#070707"><tspan
          x="813"
          y="329"
-         id="tspan11">Mesh listener:</tspan><tspan
+         id="tspan11">网格侦听器:</tspan><tspan
          x="813"
          y="357"
          id="tspan12">0.0.0.0:8443</tspan></text>
     <text
        id="SNI-forwarder:-inter"
        font-family="ArialMT, Arial"
-       font-size="25"
+       font-size="25px"
        font-weight="normal"
-       fill="#070707"><tspan
-         x="1058"
-         y="334"
-         id="tspan13">SNI forwarder:</tspan><tspan
-         x="1058"
-         y="362"
-         id="tspan14">internal</tspan></text>
+       fill="#070707"
+       y="14"
+       x="-8"><tspan
+         x="1050"
+         y="348"
+         id="tspan13">SNI 转发器: 内部</tspan><tspan
+         x="1050"
+         y="376"
+         id="tspan14" /></text>
     <text
        id="External-peer-hostin"
        font-family="ArialMT, Arial"
@@ -140,7 +140,7 @@
        fill="#070707"><tspan
          x="1373"
          y="285"
-         id="tspan15">External peer hosting</tspan></text>
+         id="tspan15">外部对等方托管</tspan></text>
     <text
        id="External-peer-hostin-9"
        font-family="ArialMT, Arial"
