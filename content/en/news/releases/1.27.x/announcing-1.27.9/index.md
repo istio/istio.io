@@ -25,9 +25,9 @@ This release contains bug fixes to improve robustness. This release note describ
   ([Issue #59709](https://github.com/istio/istio/issues/59709))
 
 - **Fixed** `TLSRoute` hostnames not being constrained to the intersection with the `Gateway` listener hostname.
-Previously, a `TLSRoute` with a broad hostname (e.g. `*.com`) attached to a listener with a narrower hostname
-(e.g. `*.example.com`) would incorrectly match the full route hostname instead of only the intersection
-(`*.example.com`), as required by the Gateway API spec.
+  Previously, a `TLSRoute` with a broad hostname (e.g. `*.com`) attached to a listener with a narrower hostname
+  (e.g. `*.example.com`) would incorrectly match the full route hostname instead of only the intersection
+  (`*.example.com`), as required by the Gateway API spec.
   ([Issue #59229](https://github.com/istio/istio/issues/59229))
 
 - **Fixed** a race condition that caused intermittent `proxy::h2 ping error: broken pipe` error logs.
