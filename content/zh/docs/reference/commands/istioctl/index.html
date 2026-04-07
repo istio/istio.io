@@ -9546,6 +9546,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>false</code></td>
 <td>If enabled, Pilot will include unhealthy endpoints in EDS pushes and even if they are sent Envoy does not use them for load balancing.  To avoid, sending traffic to non ready endpoints, enabling this flag, disables panic threshold in Envoy i.e. Envoy does not load balance requests to unhealthy/non-ready hosts even if the percentage of healthy hosts fall below minimum health percentage(panic threshold).</td>
 </tr>
+<tr id='pilot-sidecar-pick-best-service-namespace'>
+<td><a href='#pilot-sidecar-pick-best-service-namespace'><code>PILOT_SIDECAR_PICK_BEST_SERVICE_NAMESPACE</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, when a sidecar needs to pick a service namespace for a hostname, it will prefer Kubernetes services and fall back to the oldest non-Kubernetes service. When disabled, the first visible namespace alphabetically is used.</td>
+</tr>
 <tr id='pilot-sidecar-use-remote-address'>
 <td><a href='#pilot-sidecar-use-remote-address'><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></a></td>
 <td>Boolean</td>
