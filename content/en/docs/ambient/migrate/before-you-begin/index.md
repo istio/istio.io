@@ -51,7 +51,7 @@ proxies to function in ambient mode:
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl get authorizationpolicy -A --no-headers | while read ns name rest; do
-    if kubectl get authorizationpolicy "$name" -n "$ns" -o yaml | grep -qE "(methods:|paths:|headers:)"; then
+    if kubectl get authorizationpolicy "$name" -n "$ns" -o yaml | grep -qE "(methods:|paths:|headers:|action: CUSTOM|action: AUDIT)"; then
       echo "$ns/$name"
     fi
   done
