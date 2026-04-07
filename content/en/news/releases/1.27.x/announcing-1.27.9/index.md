@@ -18,7 +18,7 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** istiod errors on startup when a CRD version greater than the maximum supported version is installed on a cluster. TLS route versions v1.4 and below are supported; v1.5 and above will be ignored.
   ([Issue #59443](https://github.com/istio/istio/issues/59443))
 
-- **Fixed** serviceAccount matcher regex in AuthorizationPolicy to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names.
+- **Fixed** `serviceAccount` matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names.
   ([Issue #59700](https://github.com/istio/istio/issues/59700))
 
 - **Fixed** an issue where all Gateways were restarted after istiod was restarted.
