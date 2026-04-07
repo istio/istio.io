@@ -678,8 +678,8 @@ See the [Integration Guide](/docs/ops/integrations/integration-guide/debug-endpo
 
 ### Data Plane
 
-The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry) and port `15021` (health check).
-Ports `15020` and `15000` provide debugging endpoints. These are exposed over `localhost` only.
+The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry), port `15021` (health check), and port `15020` (merged Prometheus telemetry from Istio agent, Envoy, and the application).
+Port `15000` provides debugging endpoints and is exposed over `localhost` only.
 As a result, the applications running in the same pod as the proxy have access; there is no trust boundary between the sidecar and application.
 
 ## Configure third party service account tokens
