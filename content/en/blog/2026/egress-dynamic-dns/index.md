@@ -1,7 +1,7 @@
 ---
 title: "Simplifying Egress Routing to Wildcard Destinations"
 description: "Istio now supports wildcard ServiceEntry with DYNAMIC_DNS resolution, allowing sidecars to route traffic directly to wildcard HTTPS destinations while simplifying egress configuration."
-publishdate: 2026-03-20
+publishdate: 2026-04-09
 attribution: "Rudrakh Panigrahi (Salesforce)"
 keywords: [traffic-management,gateway,mesh,egress,wildcard,service-entry,ambient,waypoint]
 ---
