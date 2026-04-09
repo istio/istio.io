@@ -10,7 +10,7 @@ prev: /docs/ambient/migrate/migrate-policies
 Enable ambient mode one namespace at a time. This lets you validate each namespace before
 moving on, and roll back a single namespace if something goes wrong.
 
-## L7 policy enforcement during incremental migration
+## Before you begin: L7 enforcement strategy
 
 When a sidecar mode workload sends traffic to an ambient workload that has a waypoint, the
 sidecar routes directly to ztunnel at the destination, bypassing the waypoint entirely.
@@ -18,7 +18,7 @@ L7 `AuthorizationPolicy` rules, `HTTPRoute` transformations, and `RequestAuthent
 policies attached to the waypoint are **not enforced** for that traffic path.
 
 The recommended approach to close this gap is to treat each client namespace as a
-two phase migration: first make the sidecar passive by moving all L7 logic to the
+two-phase migration: first make the sidecar passive by moving all L7 logic to the
 server-side waypoint, then convert the client to ambient. Once the client is ambient, its
 traffic is handled by ztunnel, which automatically routes through the destination's waypoint
 and enforces all L7 policies from the first request.
@@ -61,21 +61,24 @@ enforced as soon as the client moves to ambient.
 
 ### Phase 2: Migrate the client namespace to ambient
 
-Apply Steps 1 to 6 below to the client namespace. Once the client is in ambient mode, ztunnel
-replaces the sidecar and automatically routes traffic through the server's waypoint.
-L7 enforcement at the waypoint is now continuous for this traffic path.
+Apply the steps in [Migrating a namespace](#migrating-a-namespace) below to the client
+namespace. Once the client is in ambient mode, ztunnel replaces the sidecar and
+automatically routes traffic through the server's waypoint. L7 enforcement at the waypoint
+is now continuous for this traffic path.
 
 Repeat Phase 1 and Phase 2 for each client namespace before migrating the server namespace.
 
 {{< tip >}}
 If you cannot control the migration order (for example, because client namespaces are
 owned by other teams), accept that sidecar clients will bypass the waypoint until they
-are migrated. Avoid applying strict waypoint only `DENY` policies until all callers are
+are migrated. Avoid applying strict waypoint-only `DENY` policies until all callers are
 in ambient mode. See
 [Bypass prevention during incremental migration](/docs/ambient/migrate/migrate-policies/#bypass-prevention-during-incremental-migration).
 {{< /tip >}}
 
-## Ordering requirements
+## Migrating a namespace
+
+### Ordering requirements
 
 {{< warning >}}
 The order of operations in this step is critical. Follow the sequence below exactly:
@@ -89,7 +92,7 @@ The order of operations in this step is critical. Follow the sequence below exac
 Failing to follow this sequence can result in traffic being processed by neither sidecar nor
 ztunnel, causing disruption in your workloads.
 
-## Step 1: Activate waypoints
+### Step 1: Activate waypoints
 
 {{< tip >}}
 Skip this step if you are not using waypoints.
@@ -118,7 +121,7 @@ $ kubectl get gateway waypoint -n <namespace>
 
 The `READY` column should show `True`.
 
-## Step 2: Enable ambient mode for the namespace
+### Step 2: Enable ambient mode for the namespace
 
 Add the `istio.io/dataplane-mode=ambient` label to the namespace. This tells the CNI
 plugin that new and restarted pods in this namespace should use ztunnel instead of
@@ -138,7 +141,7 @@ Workloads in the namespace will appear with `HBONE` as their protocol. The pods 
 have their sidecars at this point. The sidecar takes precedence over ztunnel for pods
 that have both.
 
-## Step 3: Remove sidecar injection
+### Step 3: Remove sidecar injection
 
 Remove the sidecar injection label from the namespace:
 
@@ -160,7 +163,7 @@ restarted for the change to take effect. Do not restart pods until you have conf
 that ambient mode is active (Step 2 above).
 {{< /warning >}}
 
-## Step 4: Restart pods
+### Step 4: Restart pods
 
 Restart the workloads in the namespace. As pods restart, they will come up without sidecar
 containers and will use ztunnel (and waypoint, if configured) instead:
@@ -170,7 +173,7 @@ $ kubectl rollout restart deployment -n <namespace>
 $ kubectl rollout status deployment -n <namespace>
 {{< /text >}}
 
-## Step 5: Remove old sidecar policies
+### Step 5: Remove old sidecar policies
 
 {{< warning >}}
 Do this immediately after the pod restart, before running any validation. Once sidecars
@@ -180,14 +183,14 @@ from `AuthorizationPolicy` rules. The effect depends on the policy action:
 
 - **`ALLOW` policy with L7 rules**: ztunnel drops the L7 conditions. If every rule in the
   policy relied solely on L7 attributes, the resulting policy has no rules and matches
-  nothing which causes ztunnel to **deny all traffic** to that workload (an `ALLOW`
+  nothing, which causes ztunnel to **deny all traffic** to that workload (an `ALLOW`
   policy with no matching rules allows nothing).
 - **`DENY` policy with L7 rules**: ztunnel drops the L7 conditions. If a rule had no L4
   conditions to begin with (for example, it only matched on request principals or HTTP
   paths), removing the L7 parts leaves an empty match that applies to all traffic,
   effectively **denying all traffic** to that workload.
 
-In both cases, leaving old selector based L7 policies active after sidecars are removed
+In both cases, leaving old selector-based L7 policies active after sidecars are removed
 will block traffic. Delete them immediately.
 {{< /warning >}}
 
@@ -208,7 +211,7 @@ $ kubectl delete destinationrule <name> -n <namespace>
 L4 `AuthorizationPolicy` resources using `selector` (with no L7 rules) are safe to keep,
 ztunnel enforces them correctly.
 
-## Step 6: Validate
+### Step 6: Validate
 
 Verify that pods are running without sidecar containers:
 
@@ -228,8 +231,9 @@ your `HTTPRoute` and `AuthorizationPolicy` resources define.
 
 ## Repeat for each namespace
 
-Repeat Steps 1–6 for each namespace you want to migrate. Namespaces not labeled with
-`istio.io/dataplane-mode=ambient` continue to use their sidecars and are not affected.
+Repeat the [Migrating a namespace](#migrating-a-namespace) steps for each namespace you
+want to migrate. Namespaces not labeled with `istio.io/dataplane-mode=ambient` continue to
+use their sidecars and are not affected.
 
 ## Rollback
 
