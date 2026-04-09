@@ -10,6 +10,71 @@ prev: /docs/ambient/migrate/migrate-policies
 Enable ambient mode one namespace at a time. This lets you validate each namespace before
 moving on, and roll back a single namespace if something goes wrong.
 
+## L7 policy enforcement during incremental migration
+
+When a sidecar mode workload sends traffic to an ambient workload that has a waypoint, the
+sidecar routes directly to ztunnel at the destination, bypassing the waypoint entirely.
+L7 `AuthorizationPolicy` rules, `HTTPRoute` transformations, and `RequestAuthentication`
+policies attached to the waypoint are **not enforced** for that traffic path.
+
+The recommended approach to close this gap is to treat each client namespace as a
+two phase migration: first make the sidecar passive by moving all L7 logic to the
+server-side waypoint, then convert the client to ambient. Once the client is ambient, its
+traffic is handled by ztunnel, which automatically routes through the destination's waypoint
+and enforces all L7 policies from the first request.
+
+This strategy also frontloads breaking changes. Any client-side policies that are
+incompatible with ambient mode (such as egress `VirtualService` rules or `EnvoyFilter`
+resources) are discovered and resolved while migrating the client namespace, before
+the server is touched.
+
+### Phase 1: Make the client sidecar passive
+
+Before migrating a client namespace to ambient, remove its L7 egress responsibilities
+by consolidating all routing and policy logic at the server-side waypoint.
+
+**Step A: Identify client-side egress policies.**
+List `VirtualService` and `DestinationRule` resources in the client namespace that control
+outbound traffic to the target service:
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl get virtualservice,destinationrule -n <client-namespace>
+{{< /text >}}
+
+**Step B: Migrate egress routing to the server-side waypoint.**
+For each `VirtualService` that routes outbound traffic to the target service, create an
+equivalent `HTTPRoute` in the server namespace attached to the destination `Service`.
+See [Migrate VirtualService to HTTPRoute](/docs/ambient/migrate/migrate-policies/#migrate-virtualservice-to-httproute)
+for the conversion pattern.
+
+Delete the client-side `VirtualService` once the `HTTPRoute` is in place and validated.
+
+**Step C: Migrate client-side `AuthorizationPolicy` egress rules.**
+Any `AuthorizationPolicy` in the client namespace that controls outbound traffic using L7
+rules (methods, paths, headers) should be re-expressed as a server-side `AuthorizationPolicy`
+using `targetRefs` pointing at the waypoint. See
+[Migrate AuthorizationPolicy for L7 rules](/docs/ambient/migrate/migrate-policies/#migrate-authorizationpolicy-for-l7-rules).
+
+After these steps, the client sidecar has no L7 rules to apply at egress. It forwards
+traffic as a passthrough. All L7 logic now lives at the server's waypoint, ready to be
+enforced as soon as the client moves to ambient.
+
+### Phase 2: Migrate the client namespace to ambient
+
+Apply Steps 1 to 6 below to the client namespace. Once the client is in ambient mode, ztunnel
+replaces the sidecar and automatically routes traffic through the server's waypoint.
+L7 enforcement at the waypoint is now continuous for this traffic path.
+
+Repeat Phase 1 and Phase 2 for each client namespace before migrating the server namespace.
+
+{{< tip >}}
+If you cannot control the migration order (for example, because client namespaces are
+owned by other teams), accept that sidecar clients will bypass the waypoint until they
+are migrated. Avoid applying strict waypoint only `DENY` policies until all callers are
+in ambient mode. See
+[Bypass prevention during incremental migration](/docs/ambient/migrate/migrate-policies/#bypass-prevention-during-incremental-migration).
+{{< /tip >}}
+
 ## Ordering requirements
 
 {{< warning >}}
@@ -70,7 +135,7 @@ $ istioctl ztunnel-config workloads -n istio-system | grep <namespace>
 {{< /text >}}
 
 Workloads in the namespace will appear with `HBONE` as their protocol. The pods still
-have their sidecars at this point , note that the sidecar takes precedence over ztunnel for pods
+have their sidecars at this point. The sidecar takes precedence over ztunnel for pods
 that have both.
 
 ## Step 3: Remove sidecar injection
@@ -108,10 +173,22 @@ $ kubectl rollout status deployment -n <namespace>
 ## Step 5: Remove old sidecar policies
 
 {{< warning >}}
-Do this immediately after the pod restart, before running any validation. Any
-`AuthorizationPolicy` using a workload `selector` with L7 rules that remains active
-after sidecars are removed will be enforced by ztunnel as a `DENY` policy for all
-traffic to that workload, regardless of the HTTP method or path.
+Do this immediately after the pod restart, before running any validation. Once sidecars
+are removed, ztunnel takes over policy enforcement. ztunnel only understands L4 attributes
+and silently drops any L7 conditions (HTTP methods, paths, headers, request principals)
+from `AuthorizationPolicy` rules. The effect depends on the policy action:
+
+- **`ALLOW` policy with L7 rules**: ztunnel drops the L7 conditions. If every rule in the
+  policy relied solely on L7 attributes, the resulting policy has no rules and matches
+  nothing which causes ztunnel to **deny all traffic** to that workload (an `ALLOW`
+  policy with no matching rules allows nothing).
+- **`DENY` policy with L7 rules**: ztunnel drops the L7 conditions. If a rule had no L4
+  conditions to begin with (for example, it only matched on request principals or HTTP
+  paths), removing the L7 parts leaves an empty match that applies to all traffic,
+  effectively **denying all traffic** to that workload.
+
+In both cases, leaving old selector based L7 policies active after sidecars are removed
+will block traffic. Delete them immediately.
 {{< /warning >}}
 
 Delete any `AuthorizationPolicy` resources that used a workload `selector` with L7 rules,
@@ -170,6 +247,15 @@ have progressed:
 After any rollback that involves pod restarts, verify that pods show 2/2 containers
 (indicating the sidecar has been re-injected) and confirm traffic is flowing before
 proceeding.
+
+{{< warning >}}
+Rolling back after Step 5 using `kubectl apply -f istio-config-backup.yaml` restores the
+original sidecar-style resources, but also **overwrites any new ambient resources** created
+during the migration (such as `HTTPRoute` rules and `targetRefs`-based `AuthorizationPolicy`
+resources) that share the same name. Before applying the backup, delete the ambient
+resources first, or use selective `kubectl apply` on individual resources rather than the
+full backup file.
+{{< /warning >}}
 
 ## Post-migration observability changes
 

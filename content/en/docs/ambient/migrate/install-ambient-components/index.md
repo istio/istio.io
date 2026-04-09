@@ -42,7 +42,7 @@ If you installed Istio with Helm, upgrade each component to add ambient support:
 $ helm upgrade istio-base istio/base -n istio-system
 $ helm upgrade istiod istio/istiod -n istio-system --set profile=ambient
 $ helm upgrade istio-cni istio/cni -n istio-system --set profile=ambient
-$ helm install ztunnel istio/ztunnel -n istio-system
+$ helm install ztunnel istio/ztunnel -n istio-system  # new component, not previously installed
 {{< /text >}}
 
 ## Verify the ambient components
@@ -101,9 +101,8 @@ The output should show:
 {{< /text >}}
 
 {{< tip >}}
-At this stage your sidecars are still handling all traffic. The HBONE capability only
-activates when a destination is discovered to be an ambient mode workload, so restarting
-pods has no observable impact on traffic. If you run behavioral tests at this point, you should see no changes in functionality.
+Restarting pods at this stage has no observable impact on traffic. HBONE only activates
+when a destination is an ambient mode workload, and no namespaces have been enrolled yet.
 {{< /tip >}}
 
 ## Sidecar and ambient interoperability during migration

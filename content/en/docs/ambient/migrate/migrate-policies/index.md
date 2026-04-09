@@ -22,13 +22,23 @@ proxies rather than sidecar proxies. This changes how policies are expressed and
 - **`VirtualService`** support with waypoints is **Alpha**. While it may work in limited
   cases, migrating to `HTTPRoute` is strongly recommended. Mixing `VirtualService` and
   `HTTPRoute` for the same workload is not supported and leads to undefined behavior.
-- **`DestinationRule`** subset-based routing is not supported by waypoints. Subsets must be
-  replaced with individual Kubernetes Services per version.
+- **`DestinationRule`** traffic policies (connection pool settings, outlier detection, TLS)
+  are supported by waypoints and require no changes. However, `HTTPRoute` uses Kubernetes
+  Services as `backendRefs` for routing rather than DestinationRule subsets, so
+  version based traffic splitting in `HTTPRoute` requires separate Services per version.
 - **`AuthorizationPolicy`** resources that use L7 rules (HTTP methods, paths, or headers),
   or that use `action: CUSTOM` or `action: AUDIT`, must target waypoint proxies via
   `targetRefs` rather than using workload `selector`.
-- **`RequestAuthentication`**, **`EnvoyFilter`**, and **`WasmPlugin`** resources require
-  a waypoint proxy and may need updates to target the waypoint correctly.
+- **`RequestAuthentication`** and **`WasmPlugin`** resources require a waypoint proxy and
+  must be retargeted using `targetRefs` to point at the waypoint.
+- **`EnvoyFilter`** resources are **not supported on waypoints**. If you have `EnvoyFilter`
+  resources that configure sidecar proxy behavior, they will be silently ignored after
+  migration and must be handled before proceeding:
+  - If the filter adds custom Envoy functionality, evaluate whether a `WasmPlugin` can
+    provide equivalent behavior on the waypoint.
+  - If the filter is no longer needed, delete it.
+  - If there is no ambient-compatible alternative, this is a migration blocker. Do not
+    proceed until the dependency is resolved.
 
 ## Audit your existing policies
 
@@ -276,7 +286,7 @@ This would cause the waypoint to deny all client traffic before the ALLOW policy
 ### Bypass prevention during incremental migration
 
 During a migration where some source workloads are still in sidecar mode, a strict
-waypoint-only DENY policy will reject their traffic. Sidecar mode workloads use HBONE to
+waypoint only DENY policy will reject their traffic. Sidecar mode workloads use HBONE to
 route traffic directly to ztunnel at the destination, bypassing the waypoint, so ztunnel sees
 the sidecar identity as the source principal, not the waypoint.
 
