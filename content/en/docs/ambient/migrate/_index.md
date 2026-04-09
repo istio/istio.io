@@ -21,7 +21,7 @@ The migration follows a step-by-step approach:
 1. **Install ambient components:** Add ztunnel and update the CNI to support ambient mode,
    while leaving all existing sidecar workloads unchanged.
 1. **Migrate policies:** Convert `VirtualService` resources to `HTTPRoute`, update
-   `AuthorizationPolicy` resources to target waypoints where needed, and retarget
+   `AuthorizationPolicy` resources to target waypoints where needed, and attach
    `RequestAuthentication` and `WasmPlugin` resources to waypoints. This step should be
    skipped if you only use L4 policies.
 1. **Enable ambient mode per namespace:** Label namespaces to join the ambient mesh,
@@ -40,10 +40,10 @@ The following table summarizes how sidecar-mode resources map to their ambient e
 | `DestinationRule` (traffic policies: connection pool, outlier detection, TLS) | No change; waypoints apply traffic policies |
 | `DestinationRule` (routing subsets used with `HTTPRoute`) | Create version-specific Kubernetes Services as `backendRefs` for `HTTPRoute` |
 | `AuthorizationPolicy` with L4 rules | No change; ztunnel enforces L4 policies directly |
-| `AuthorizationPolicy` with L7 rules | Retarget to waypoint using `targetRefs` |
-| `RequestAuthentication` | Retarget to waypoint using `targetRefs` |
+| `AuthorizationPolicy` with L7 rules | Attach to waypoint using `targetRefs` |
+| `RequestAuthentication` | Attach to waypoint using `targetRefs` |
 | `EnvoyFilter` | Not supported on waypoints |
-| `WasmPlugin` | Retarget to waypoint using `targetRefs` |
+| `WasmPlugin` | Attach to waypoint using `targetRefs` |
 | `Gateway` (networking.istio.io/v1) | No change required; Istio Gateway resources continue to work in ambient mode. Add `istio.io/ingress-use-waypoint` to route ingress traffic through a waypoint. |
 
 ## Do you need waypoint proxies?

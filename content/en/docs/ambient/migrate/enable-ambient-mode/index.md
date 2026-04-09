@@ -23,7 +23,7 @@ server-side waypoint, then convert the client to ambient. Once the client is amb
 traffic is handled by ztunnel, which automatically routes through the destination's waypoint
 and enforces all L7 policies from the first request.
 
-This strategy also frontloads breaking changes. Any client-side policies that are
+This strategy also anticipates breaking changes. Any client-side policies that are
 incompatible with ambient mode (such as egress `VirtualService` rules or `EnvoyFilter`
 resources) are discovered and resolved while migrating the client namespace, before
 the server is touched.
