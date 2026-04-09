@@ -64,6 +64,13 @@ with ambient mode:
 $ kubectl get peerauthentication -A -o yaml | grep -A2 "mtls:"
 {{< /text >}}
 
+Any `PeerAuthentication` with `mode: DISABLE` must be removed or changed before migration,
+as ambient mode always enforces mTLS between mesh workloads.
+
+`PeerAuthentication` resources with `mode: STRICT` or `mode: PERMISSIVE` are not blockers,
+but they become redundant after migration: ambient mode enforces mTLS via ztunnel regardless
+of these policies. You can safely remove them after migration is complete.
+
 ## Back up your configuration
 
 Before making any changes, export your current Istio configuration:
