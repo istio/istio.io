@@ -30,15 +30,15 @@ proxies rather than sidecar proxies. This changes how policies are expressed and
   or that use `action: CUSTOM` or `action: AUDIT`, must target waypoint proxies via
   `targetRefs` rather than using workload `selector`.
 - **`RequestAuthentication`** and **`WasmPlugin`** resources require a waypoint proxy and
-  must be retargeted using `targetRefs` to point at the waypoint.
+  must be targeted using `targetRefs` to point at the waypoint.
 - **`EnvoyFilter`** resources are **not supported on waypoints**. If you have `EnvoyFilter`
   resources that configure sidecar proxy behavior, they will be silently ignored after
   migration and must be handled before proceeding:
-  - If the filter adds custom Envoy functionality, evaluate whether a `WasmPlugin` can
-    provide equivalent behavior on the waypoint.
-  - If the filter is no longer needed, delete it.
-  - If there is no ambient-compatible alternative, this is a migration blocker. Do not
-    proceed until the dependency is resolved.
+    - If the filter adds custom Envoy functionality, evaluate whether a `WasmPlugin` can
+      provide equivalent behavior on the waypoint.
+    - If the filter is no longer needed, delete it.
+    - If there is no ambient-compatible alternative, this is a migration blocker. Do not
+      proceed until the dependency is resolved.
 
 ## Audit your existing policies
 
