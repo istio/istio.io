@@ -1815,6 +1815,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>0</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
+<tr id='pilot-multicluster-kubeconfig-path'>
+<td><a href='#pilot-multicluster-kubeconfig-path'><code>PILOT_MULTICLUSTER_KUBECONFIG_PATH</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, istiod reads remote cluster kubeconfigs from this local directory. If both `PILOT_MULTICLUSTER_KUBECONFIG_PATH` and `LOCAL_CLUSTER_SECRET_WATCHER` are set, `PILOT_MULTICLUSTER_KUBECONFIG_PATH` takes precedence.</td>
+</tr>
 <tr id='pilot-multi-network-discover-gateway-api'>
 <td><a href='#pilot-multi-network-discover-gateway-api'><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></a></td>
 <td>Boolean</td>
