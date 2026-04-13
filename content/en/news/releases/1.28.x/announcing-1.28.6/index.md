@@ -19,12 +19,6 @@ This release contains security fixes. This release note describes what's differe
   conflict that caused `helm upgrade` with SSA to fail.
   ([Issue #58302](https://github.com/istio/istio/issues/58302)) ([Issue #59367](https://github.com/istio/istio/issues/59367))
 
-- **Fixed** a field manager conflict on `ValidatingWebhookConfiguration` during `helm upgrade` with
-  server-side apply in tools that respect `.Release.IsUpgrade` (Helm 4, Flux). The `failurePolicy`
-  field is now omitted from the webhook template on upgrade, preserving the value set at runtime
-  by the webhook controller. For tools that use `helm template` with SSA, set
-  `base.validationFailurePolicy: Fail` to avoid the conflict.
-
 - **Added** the ability to specify authorized namespaces for debug endpoints when `ENABLE_DEBUG_ENDPOINT_AUTH=true`. Enable by
   setting `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` to a comma-separated list of authorized namespaces. The system namespace
   (typically `istio-system`) is always authorized.
@@ -32,6 +26,12 @@ This release contains security fixes. This release note describes what's differe
 - **Added** support to block CIDRs in JWKS URIs when fetching public keys for JWT validation.
   If any resolved IP from a JWKS URI matches a blocked CIDR, Istio will skip fetching the public key
   and use a fake JWKS instead to reject requests with JWT tokens.
+
+- **Fixed** a field manager conflict on `ValidatingWebhookConfiguration` during `helm upgrade` with
+  server-side apply in tools that respect `.Release.IsUpgrade` (Helm 4, Flux). The `failurePolicy`
+  field is now omitted from the webhook template on upgrade, preserving the value set at runtime
+  by the webhook controller. For tools that use `helm template` with SSA, set
+  `base.validationFailurePolicy: Fail` to avoid the conflict.
 
 - **Fixed** JWKS URI CIDR blocking by using a custom control function in a custom `DialContext`.
   The control function filters connections after DNS resolution but before dialing, allowing
