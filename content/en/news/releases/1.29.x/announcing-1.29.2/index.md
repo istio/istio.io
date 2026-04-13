@@ -19,6 +19,20 @@ This release contains security fixes. This release note describes what's differe
   conflict that caused `helm upgrade` with SSA to fail.
   ([Issue #58302](https://github.com/istio/istio/issues/58302)) ([Issue #59367](https://github.com/istio/istio/issues/59367))
 
+- **Fixed** a field manager conflict on `ValidatingWebhookConfiguration` during `helm upgrade` with
+  server-side apply in tools that respect `.Release.IsUpgrade` (Helm 4, Flux). The `failurePolicy`
+  field is now omitted from the webhook template on upgrade, preserving the value set at runtime
+  by the webhook controller. For tools that use `helm template` with SSA, set
+  `base.validationFailurePolicy: Fail` to avoid the conflict.
+
+- **Fixed** `serviceAccount` matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names.
+  ([Issue #59700](https://github.com/istio/istio/issues/59700))
+
+- **Fixed** JWKS URI CIDR blocking by using a custom control function in a custom `DialContext`.
+  The control function filters connections after DNS resolution but before dialing, allowing
+  the block to follow redirects and the issuer discovery path. This also preserves features
+  in the default `DialContext` like happy eyeballs and `dialSerial` (trying each resolved IP in order).
+
 - **Fixed** istiod errors on startup when a CRD version greater than the maximum supported version is installed on a cluster. `TLSRoute` versions v1.4 and below are supported; v1.5 and above will be ignored.
   ([Issue #59443](https://github.com/istio/istio/issues/59443))
 
@@ -38,9 +52,6 @@ This release contains security fixes. This release note describes what's differe
   incorrect connection pooling in Envoy.
   ([Issue #58630](https://github.com/istio/istio/issues/58630))
 
-- **Fixed** `serviceAccount` matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names.
-  ([Issue #59700](https://github.com/istio/istio/issues/59700))
-
 - **Fixed** an issue where all `Gateways` were restarted after istiod was restarted.
   ([Issue #59709](https://github.com/istio/istio/issues/59709))
 
@@ -49,11 +60,6 @@ This release contains security fixes. This release note describes what's differe
   (e.g. `*.example.com`) would incorrectly match the full route hostname instead of only the intersection
   (`*.example.com`), as required by the Gateway API spec.
   ([Issue #59229](https://github.com/istio/istio/issues/59229))
-
-- **Fixed** JWKS URI CIDR blocking by using a custom control function in a custom `DialContext`.
-  The control function filters connections after DNS resolution but before dialing, allowing
-  the block to follow redirects and the issuer discovery path. This also preserves features
-  in the default `DialContext` like happy eyeballs and `dialSerial` (trying each resolved IP in order).
 
 - **Fixed** a bug where the default `percent` for `retryBudget` in `DestinationRule` was
   incorrectly set to 0.2% instead of the intended 20%.
@@ -66,12 +72,6 @@ This release contains security fixes. This release note describes what's differe
 
 - **Fixed** missing size limit on `gzip` decompressed WASM binaries fetched over HTTP, consistent with
   the limits already applied to other fetch paths.
-
-- **Fixed** a field manager conflict on `ValidatingWebhookConfiguration` during `helm upgrade` with
-  server-side apply in tools that respect `.Release.IsUpgrade` (Helm 4, Flux). The `failurePolicy`
-  field is now omitted from the webhook template on upgrade, preserving the value set at runtime
-  by the webhook controller. For tools that use `helm template` with SSA, set
-  `base.validationFailurePolicy: Fail` to avoid the conflict.
 
 - **Fixed** missing `ReadHeaderTimeout` and `IdleTimeout` on the istiod webhook HTTPS server (port 15017),
   aligning it with the existing timeouts on the HTTP server (port 8080).
