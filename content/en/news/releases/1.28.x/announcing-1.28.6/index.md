@@ -3,7 +3,7 @@ title: Announcing Istio 1.28.6
 linktitle: 1.28.6
 subtitle: Patch Release
 description: Istio 1.28.6 patch release.
-publishdate: 2026-03-10
+publishdate: 2026-04-13
 release: 1.28.6
 aliases:
     - /news/announcing-1.28.6
@@ -27,7 +27,7 @@ This release contains security fixes. This release note describes what's differe
   If any resolved IP from a JWKS URI matches a blocked CIDR, Istio will skip fetching the public key
   and use a fake JWKS instead to reject requests with JWT tokens.
 
-- **Fixed** an issue where `iptables` command was not waiting to acquire a lock on
+- **Fixed** an issue where the `iptables` command was not waiting to acquire a lock on
   `/run/xtables.lock`, causing some misleading errors in the logs.
   ([Issue #58507](https://github.com/istio/istio/issues/58507))
 
@@ -38,23 +38,23 @@ This release contains security fixes. This release note describes what's differe
 - **Fixed** istiod crashing when `PILOT_ENABLE_AMBIENT=true`, but `AMBIENT_ENABLE_MULTI_NETWORK` is not set
   and a `WorkloadEntry` resource exists with a different network than the local cluster.
 
-- **Fixed** istiod errors on startup when a CRD version greater than the maximum supported version is installed on a cluster. TLS route versions v1.4 and below are supported; v1.5 and above will be ignored.
+- **Fixed** istiod errors on startup when a CRD version greater than the maximum supported version is installed on a cluster. `TLSRoute` versions v1.4 and below are supported; v1.5 and above will be ignored.
   ([Issue #59443](https://github.com/istio/istio/issues/59443))
 
-- **Fixed** applying multiple `VirtualService` for the same hostname to waypoints.
+- **Fixed** applying multiple `VirtualService` resources for the same hostname to waypoints.
   ([Issue #59483](https://github.com/istio/istio/issues/59483))
 
 - **Fixed** `serviceAccount` matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names.
   ([Issue #59700](https://github.com/istio/istio/issues/59700))
 
-- **Fixed** an issue where all Gateways were restarted after istiod was restarted.
+- **Fixed** an issue where all `Gateways` were restarted after istiod was restarted.
   ([Issue #59709](https://github.com/istio/istio/issues/59709))
 
 - **Fixed** an issue where setting resource limits or requests to `null` would cause validation errors
   (`cpu request must be less than or equal to cpu limit of 0`). This affected proxy injection, gateway generation, and Helm chart deployments.
   ([Issue #58805](https://github.com/istio/istio/issues/58805))
 
-- **Fixed** `TLSRoute` hostnames not being constrained to the intersection with the Gateway listener hostname.
+- **Fixed** `TLSRoute` hostnames not being constrained to the intersection with the `Gateway` listener hostname.
   Previously, a `TLSRoute` with a broad hostname (e.g. `*.com`) attached to a listener with a narrower hostname
   (e.g. `*.example.com`) would incorrectly match the full route hostname instead of only the intersection
   (`*.example.com`), as required by the Gateway API spec.
@@ -62,7 +62,7 @@ This release contains security fixes. This release note describes what's differe
 
 - **Fixed** JWKS URI CIDR blocking by using a custom control function in a custom `DialContext`.
   The control function filters connections after DNS resolution but before dialing, allowing
-  the block to follow redirects and issuer discovery path. This also preserves features
+  the block to follow redirects and the issuer discovery path. This also preserves features
   in the default `DialContext` like happy eyeballs and `dialSerial` (trying each resolved IP in order).
 
 - **Fixed** a bug where the default `percent` for `retryBudget` in `DestinationRule` was
