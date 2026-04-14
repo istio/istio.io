@@ -3,6 +3,8 @@ title: Extensibility
 description: Describes Istio's proxy extension mechanisms including WebAssembly and Lua filters.
 weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter,lua,TrafficExtension]
+aliases:
+  - /docs/concepts/wasm/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---

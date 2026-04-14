@@ -27,12 +27,12 @@ _set_ingress_environment_variables
 
 startup_bookinfo_sample
 
-snip_configure_wasm_modules_1
+snip_configure_a_wasm_module_1
 
-_verify_same snip_check_the_configured_wasm_module_1 "$snip_check_the_configured_wasm_module_1_out"
-                                                       
-_verify_same snip_check_the_configured_wasm_module_2 "$snip_check_the_configured_wasm_module_2_out"
+_verify_same snip_verify_the_wasm_module_1 "$snip_verify_the_wasm_module_1_out"
+
+_verify_same snip_verify_the_wasm_module_2 "$snip_verify_the_wasm_module_2_out"
 
 # @cleanup
-snip_clean_up_wasm_modules_1
+snip_clean_up_1
 cleanup_bookinfo_sample
