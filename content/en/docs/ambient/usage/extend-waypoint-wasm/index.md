@@ -10,7 +10,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio provides the ability to extend waypoint proxies using [WebAssembly (Wasm)](https://webassembly.org/)
+Istio provides the ability to extend waypoint proxies using [WebAssembly (Wasm)](/docs/concepts/extensibility/trafficextension/#webassembly-filters)
 modules via the [`TrafficExtension`](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API.
 In ambient mode, `TrafficExtension` resources must be attached to a waypoint proxy using `targetRefs`.
 

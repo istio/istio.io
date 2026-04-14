@@ -11,14 +11,22 @@ Istio provides two mechanisms for extending the Istio proxy: WebAssembly (Wasm) 
 Both are configured using the [`TrafficExtension`](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API,
 which provides a unified way to attach extensions to workloads with consistent targeting and phase/priority ordering.
 
-## Lua filters
+## Choosing a filter type
 
-Lua filters provide a lightweight, inline scripting approach for simple request and response transformations.
-Lua code is inlined directly in the `TrafficExtension` resource and executed within the Envoy proxy, no
-module distribution is required. Lua filters are best suited for straightforward header manipulation,
-logging, or conditional logic. For more complex processing, WebAssembly filters are recommended.
+| | WebAssembly | Lua |
+|---|---|---|
+| **Languages** | C++, Rust, Go, AssemblyScript, and more | Lua only |
+| **Distribution** | Pulled from OCI registries, HTTP URLs, or local files | Inlined directly in the resource |
+| **Memory** | Higher — each plugin runs in its own sandbox | ~10x lower than WebAssembly |
+| **Isolation** | Full VM sandbox — a crash is contained to the plugin | Runs in-process; a crash can kill the worker thread |
+| **Failure policy** | Configurable — fail-closed by default | Fail-open only — no configuration option |
+| **SDLC** | Full ecosystem: unit tests, CI, versioned releases | Limited — script lives in the resource itself |
+| **Best for** | Complex logic, reusable plugins, production extensions | Simple one-off transforms, temporary workarounds |
 
-## WebAssembly filters
+In general, prefer WebAssembly for production extensions that need testing, versioning, and reuse.
+Prefer Lua for lightweight, localized changes where the simplicity of inline code outweighs the lack of tooling.
+
+## WebAssembly Plugins
 
 WebAssembly is a sandboxing technology for more complex extensions. The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio.
 
@@ -33,7 +41,7 @@ WebAssembly sandbox goals:
 
 This [video talk](https://youtu.be/XdWmm_mtVXI) is an introduction about architecture of WebAssembly integration.
 
-## High-level architecture
+### High-level architecture
 
 Istio extensions (Proxy-Wasm plugins) have several components:
 
@@ -45,13 +53,13 @@ Istio extensions (Proxy-Wasm plugins) have several components:
 
 {{< image width="80%" link="./extending.svg" caption="Extending Istio/Envoy" >}}
 
-## Example
+### Example
 
 An example C++ Proxy-Wasm plugin for a filter can be found
 [here](https://github.com/istio-ecosystem/wasm-extensions/tree/master/example).
 You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) to implement a Wasm extension with C++.
 
-## Ecosystem
+### Ecosystem
 
 - [Istio Ecosystem Wasm Extensions](https://github.com/istio-ecosystem/wasm-extensions)
 - [Proxy-Wasm ABI specification](https://github.com/proxy-wasm/spec)
@@ -61,3 +69,22 @@ You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/b
 - [Proxy-Wasm AssemblyScript SDK](https://github.com/solo-io/proxy-runtime)
 - [WebAssembly Hub](https://webassemblyhub.io/)
 - [WebAssembly Extensions For Network Proxies (video)](https://www.youtube.com/watch?v=OIUPf8m7CGA)
+
+## Lua Scripts
+
+Lua filters provide a lightweight, inline scripting approach for simple request and response transformations.
+Lua code is inlined directly in the `TrafficExtension` resource and executed within the Envoy proxy, no
+module distribution is required. Lua filters are best suited for straightforward header manipulation,
+logging, or conditional logic. For more complex processing, WebAssembly filters are recommended.
+
+The memory footprint of Lua is significantly smaller than WebAssembly. [Benchmarks](https://github.com/liamawhite/lua-vs-wasm-envoy)
+show Lua consuming roughly 20–26 MiB regardless of concurrency, while WebAssembly ranges from ~110 MiB
+at low concurrency to ~290 MiB at high concurrency:
+
+| Concurrency | Lua (MiB) | Wasm (MiB) |
+|---|---|---|
+| 1 | 19.79 | 117.7 |
+| 2 | 23.07 | 132.5 |
+| 4 | 22.63 | 152.0 |
+| 8 | 23.97 | 190.9 |
+| 16 | 25.66 | 291.8 |
