@@ -60,8 +60,8 @@
 1.x
 1.x.
 10ms
-10x
 10s
+10x
 123456789012.my
 12ms
 14.60
@@ -692,9 +692,9 @@ InferencePools
 initContainer
 initializer
 initializers
-inlined
 injector
 Inkscape
+inlined
 int64
 Interdependencies
 interdependencies
