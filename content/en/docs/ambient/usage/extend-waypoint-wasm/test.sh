@@ -55,8 +55,8 @@ _verify_like snip_get_gateway_waypoint "$snip_get_gateway_waypoint_out"
 # apply wasmplugin at waypoint proxy
 snip_apply_wasmplugin_waypoint_all
 
-# Display applied wasmplugins and verify output
-_verify_like snip_get_wasmplugin "$snip_get_wasmplugin_out"
+# Display applied trafficextensions and verify output
+_verify_like snip_get_trafficextension "$snip_get_trafficextension_out"
 
 # verify the traffic via waypoint proxy
 _verify_same snip_test_waypoint_productpage_without_credentials "$snip_test_waypoint_productpage_without_credentials_out"
