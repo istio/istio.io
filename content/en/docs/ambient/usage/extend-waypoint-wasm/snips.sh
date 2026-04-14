@@ -36,25 +36,26 @@ ENDSNIP
 snip_apply_wasmplugin_gateway() {
 kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth-at-gateway
 spec:
   targetRefs:
     - kind: Gateway
       group: gateway.networking.k8s.io
-      name: bookinfo-gateway # gateway name retrieved from previous step
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+      name: bookinfo-gateway
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/productpage"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "YWRtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/productpage"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "YWRtaW4zOmFkbWluMw=="
 EOF
 }
 
@@ -99,33 +100,34 @@ ENDSNIP
 snip_apply_wasmplugin_waypoint_all() {
 kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth-at-waypoint
 spec:
   targetRefs:
     - kind: Gateway
       group: gateway.networking.k8s.io
-      name: waypoint # gateway name retrieved from previous step
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+      name: waypoint
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/productpage"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "YWRtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/productpage"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "YWRtaW4zOmFkbWluMw=="
 EOF
 }
 
-snip_get_wasmplugin() {
-kubectl get wasmplugin
+snip_get_trafficextension() {
+kubectl get trafficextension
 }
 
-! IFS=$'\n' read -r -d '' snip_get_wasmplugin_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_get_trafficextension_out <<\ENDSNIP
 NAME                     AGE
 basic-auth-at-gateway    28m
 basic-auth-at-waypoint   14m
@@ -150,7 +152,7 @@ ENDSNIP
 snip_apply_wasmplugin_waypoint_service() {
 kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth-for-service
 spec:
@@ -158,17 +160,18 @@ spec:
     - kind: Service
       group: ""
       name: reviews
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/reviews"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "MXQtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/reviews"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "MXQtaW4zOmFkbWluMw=="
 EOF
 }
 
@@ -197,5 +200,5 @@ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://review
 ENDSNIP
 
 snip_remove_wasmplugin() {
-kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
+kubectl delete trafficextension basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
 }

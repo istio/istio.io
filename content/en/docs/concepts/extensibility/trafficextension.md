@@ -1,13 +1,26 @@
 ---
 title: Extensibility
-description: Describes Istio's WebAssembly Plugin system.
+description: Describes Istio's proxy extension mechanisms including WebAssembly and Lua filters.
 weight: 50
-keywords: [wasm,webassembly,emscripten,extension,plugin,filter]
+keywords: [wasm,webassembly,emscripten,extension,plugin,filter,lua,TrafficExtension]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-WebAssembly is a sandboxing technology which can be used to extend the Istio proxy (Envoy).  The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio.
+Istio provides two mechanisms for extending the Istio proxy: WebAssembly (Wasm) and Lua.
+Both are configured using the [`TrafficExtension`](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API,
+which provides a unified way to attach extensions to workloads with consistent targeting and phase/priority ordering.
+
+## Lua filters
+
+Lua filters provide a lightweight, inline scripting approach for simple request and response transformations.
+Lua code is inlined directly in the `TrafficExtension` resource and executed within the Envoy proxy, no
+module distribution is required. Lua filters are best suited for straightforward header manipulation,
+logging, or conditional logic. For more complex processing, WebAssembly filters are recommended.
+
+## WebAssembly filters
+
+WebAssembly is a sandboxing technology for more complex extensions. The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio.
 
 WebAssembly sandbox goals:
 

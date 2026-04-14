@@ -9,7 +9,7 @@ test: n/a
 
 Istio pioneered the concept of a sidecar-based service mesh when it launched in 2017. Out of the gate, the project included the features that would come to define a service mesh, including standards-based mutual TLS for zero-trust networking, smart traffic routing, and observability through metrics, logs and tracing.
 
-Since then, the project has driven advances in the mesh space including [multi-cluster & multi-network topologies](/docs/ops/deployment/deployment-models/), [extensibility via WebAssembly](/docs/concepts/wasm/), the [development of the Kubernetes Gateway API](/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
+Since then, the project has driven advances in the mesh space including [multi-cluster & multi-network topologies](/docs/ops/deployment/deployment-models/), [extensibility via WebAssembly & Lua](/docs/concepts/extensibility/trafficextension/), the [development of the Kubernetes Gateway API](/blog/2022/gateway-api-beta/), and moving the mesh infrastructure away from application developers with [ambient mode](/docs/ambient/overview/).
 
 Here are a few reasons we think you should use Istio as your service mesh.
 
