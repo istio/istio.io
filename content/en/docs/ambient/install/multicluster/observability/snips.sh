@@ -30,8 +30,8 @@ helm repo add kiali https://kiali.org/helm-charts
 }
 
 snip_deploy_prometheus_in_each_cluster_1() {
-kubectl --context="${CTX_CLUSTER1}" apply -f https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/prometheus.yaml
-kubectl --context="${CTX_CLUSTER2}" apply -f https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/prometheus.yaml
+kubectl --context="${CTX_CLUSTER1}" apply -f https://raw.githubusercontent.com/istio/istio/release-1.30/samples/addons/prometheus.yaml
+kubectl --context="${CTX_CLUSTER2}" apply -f https://raw.githubusercontent.com/istio/istio/release-1.30/samples/addons/prometheus.yaml
 }
 
 snip_expose_prometheus_1() {
@@ -340,6 +340,6 @@ kubectl --context="${CTX_CLUSTER1}" delete crd kialis.kiali.io
 }
 
 snip_cleanup_kiali_and_prometheus_4() {
-kubectl --context="${CTX_CLUSTER1}" delete -f https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/prometheus.yaml
-kubectl --context="${CTX_CLUSTER2}" delete -f https://raw.githubusercontent.com/istio/istio/release-1.29/samples/addons/prometheus.yaml
+kubectl --context="${CTX_CLUSTER1}" delete -f https://raw.githubusercontent.com/istio/istio/release-1.30/samples/addons/prometheus.yaml
+kubectl --context="${CTX_CLUSTER2}" delete -f https://raw.githubusercontent.com/istio/istio/release-1.30/samples/addons/prometheus.yaml
 }
