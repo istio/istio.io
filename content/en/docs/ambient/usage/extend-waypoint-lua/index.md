@@ -198,7 +198,7 @@ x-parity: odd
 1. Remove `TrafficExtension` resources:
 
     {{< text syntax=bash snip_id=remove_traffic_extensions >}}
-    $ kubectl delete trafficextension parity-at-gateway parity-at-waypoint parity-for-reviews
+    $ kubectl delete trafficextension parity-at-gateway parity-for-reviews
     {{< /text >}}
 
 1. Follow [the ambient mode uninstall guide](/docs/ambient/getting-started/#uninstall) to remove
