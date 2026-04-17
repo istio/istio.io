@@ -61,6 +61,7 @@
 1.x.
 10ms
 10s
+10x
 123456789012.my
 12ms
 14.60
@@ -693,6 +694,7 @@ initializer
 initializers
 injector
 Inkscape
+inlined
 int64
 Interdependencies
 interdependencies
@@ -1380,6 +1382,7 @@ TPUs
 tradeoff
 tradeoffs
 Traefik
+TrafficExtension
 TrafficPolicy
 Trendyol
 Trino

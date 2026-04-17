@@ -27,12 +27,12 @@ _set_ingress_environment_variables
 
 startup_bookinfo_sample
 
-snip_configure_wasm_modules_1
+snip_apply_parity
 
-_verify_same snip_check_the_configured_wasm_module_1 "$snip_check_the_configured_wasm_module_1_out"
-                                                       
-_verify_same snip_check_the_configured_wasm_module_2 "$snip_check_the_configured_wasm_module_2_out"
+_verify_same snip_verify_parity_even "$snip_verify_parity_even_out"
+
+_verify_same snip_verify_parity_odd "$snip_verify_parity_odd_out"
 
 # @cleanup
-snip_clean_up_wasm_modules_1
+snip_clean_up
 cleanup_bookinfo_sample

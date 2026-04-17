@@ -17,13 +17,13 @@
 
 ####################################################################################################
 # WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
-#          docs/tasks/extensibility/wasm-module-distribution/index.md
+#          docs/tasks/extensibility/wasm-modules/index.md
 ####################################################################################################
 
-snip_configure_wasm_modules_1() {
+snip_configure_a_wasm_module_1() {
 kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth
   namespace: istio-system
@@ -31,36 +31,45 @@ spec:
   selector:
     matchLabels:
       istio: ingressgateway
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/productpage"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "YWRtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/productpage"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "YWRtaW4zOmFkbWluMw=="
 EOF
 }
 
-snip_check_the_configured_wasm_module_1() {
+snip_verify_the_wasm_module_1() {
 curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
 }
 
-! IFS=$'\n' read -r -d '' snip_check_the_configured_wasm_module_1_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_wasm_module_1_out <<\ENDSNIP
 401
 ENDSNIP
 
-snip_check_the_configured_wasm_module_2() {
+snip_verify_the_wasm_module_2() {
 curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
 }
 
-! IFS=$'\n' read -r -d '' snip_check_the_configured_wasm_module_2_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_verify_the_wasm_module_2_out <<\ENDSNIP
 200
 ENDSNIP
 
-snip_clean_up_wasm_modules_1() {
-kubectl delete wasmplugins.extensions.istio.io -n istio-system basic-auth
+! IFS=$'\n' read -r -d '' snip_ordering_and_scoping_1 <<\ENDSNIP
+spec:
+  match:
+  - mode: CLIENT
+    ports:
+    - number: 8080
+ENDSNIP
+
+snip_clean_up_1() {
+kubectl delete trafficextension -n istio-system basic-auth
 }

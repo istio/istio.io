@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034,SC2154
 
-# Copyright 2023 Istio Authors
+# Copyright Istio Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,12 +22,10 @@ GATEWAY_API=true
 source "tests/util/gateway-api.sh"
 install_gateway_api_crds
 
-# deploy test application
 source "tests/util/samples.sh"
 startup_bookinfo_sample
 startup_curl_sample
 
-# snip_annotate_bookinfo_gateway
 kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
 _wait_for_gateway default bookinfo-gateway
 
@@ -36,42 +34,38 @@ kubectl label namespace default istio.io/dataplane-mode=ambient
 # Display existing gateways and verify output
 _verify_like snip_get_gateway "$snip_get_gateway_out"
 
-# Configure WASM plugin for gateway
-snip_apply_wasmplugin_gateway
+# Apply Lua parity filter at gateway
+snip_apply_lua_gateway
 
-# verify traffic via gateway
-_verify_same snip_test_gateway_productpage_without_credentials "$snip_test_gateway_productpage_without_credentials_out"
-_verify_same snip_test_gateway_productpage_with_credentials "$snip_test_gateway_productpage_with_credentials_out"
+# Verify parity header via gateway
+_verify_same snip_test_gateway_parity "$snip_test_gateway_parity_out"
 
 # Deploy a waypoint proxy
 snip_create_waypoint
 
-# verify traffic_without wasmplugin at the waypoint
+# Verify traffic reaches the service without filter
 _verify_same snip_verify_traffic "$snip_verify_traffic_out"
 
 # Display existing gateways and verify output
 _verify_like snip_get_gateway_waypoint "$snip_get_gateway_waypoint_out"
 
-# apply wasmplugin at waypoint proxy
-snip_apply_wasmplugin_waypoint_all
+# Apply Lua parity filter at waypoint
+snip_apply_lua_waypoint_all
 
-# Display applied trafficextensions and verify output
-_verify_like snip_get_trafficextension "$snip_get_trafficextension_out"
+# Verify parity header via waypoint
+_verify_same snip_test_waypoint_parity "$snip_test_waypoint_parity_out"
 
-# verify the traffic via waypoint proxy
-_verify_same snip_test_waypoint_productpage_without_credentials "$snip_test_waypoint_productpage_without_credentials_out"
-_verify_same snip_test_waypoint_productpage_with_credentials "$snip_test_waypoint_productpage_with_credentials_out"
+# Remove namespace-wide filter before applying service-specific one
+snip_remove_waypoint_parity
 
-# apply wasmplugin for one specific service through the waypoint
-snip_apply_wasmplugin_waypoint_service
+# Apply Lua parity filter for specific service
+snip_apply_lua_waypoint_service
 
-# verify the traffic targeting the service
-_verify_same snip_test_waypoint_service_productpage_with_credentials "$snip_test_waypoint_service_productpage_with_credentials_out"
-_verify_same snip_test_waypoint_service_reviews_with_credentials "$snip_test_waypoint_service_reviews_with_credentials_out"
-_verify_same snip_test_waypoint_service_reviews_without_credentials "$snip_test_waypoint_service_reviews_without_credentials_out"
+# Verify parity header for the reviews service
+_verify_same snip_test_waypoint_service_parity "$snip_test_waypoint_service_parity_out"
 
 # @cleanup
-snip_remove_wasmplugin
+snip_remove_traffic_extensions
 
 kubectl label namespace default istio.io/dataplane-mode-
 kubectl label namespace default istio.io/use-waypoint-
