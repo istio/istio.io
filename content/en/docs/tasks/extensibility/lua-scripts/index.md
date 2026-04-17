@@ -68,6 +68,8 @@ EOF
 
 ## Verify the Lua script
 
+[Determine the ingress IP and port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
+
 Send a request with an `x-number` header and check that `x-parity` is set in the response:
 
 {{< text syntax=bash snip_id=verify_parity_even >}}

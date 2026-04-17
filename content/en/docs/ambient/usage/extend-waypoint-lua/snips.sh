@@ -131,6 +131,10 @@ kubectl exec deploy/curl -- curl -s -o /dev/null -D - -H "x-number: 7" http://pr
 x-parity: odd
 ENDSNIP
 
+snip_remove_waypoint_parity() {
+kubectl delete trafficextension parity-at-waypoint
+}
+
 snip_apply_lua_waypoint_service() {
 kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
@@ -172,5 +176,5 @@ x-parity: odd
 ENDSNIP
 
 snip_remove_traffic_extensions() {
-kubectl delete trafficextension parity-at-gateway parity-at-waypoint parity-for-reviews
+kubectl delete trafficextension parity-at-gateway parity-for-reviews
 }

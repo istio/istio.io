@@ -70,6 +70,8 @@ will be affected.
 
 ## Verify the Wasm module
 
+[Determine the ingress IP and port](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
+
 1. Test `/productpage` without credentials:
 
     {{< text bash >}}

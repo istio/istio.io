@@ -145,6 +145,12 @@ x-parity: odd
 
 ## At a waypoint, for a specific service
 
+Remove the namespace-wide filter and replace it with one that targets only the `reviews` service:
+
+{{< text syntax=bash snip_id=remove_waypoint_parity >}}
+$ kubectl delete trafficextension parity-at-waypoint
+{{< /text >}}
+
 Create a `TrafficExtension` targeting the `reviews` service directly so that the filter applies
 only to traffic destined for that service:
 

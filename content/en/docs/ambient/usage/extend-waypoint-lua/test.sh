@@ -55,6 +55,9 @@ snip_apply_lua_waypoint_all
 # Verify parity header via waypoint
 _verify_same snip_test_waypoint_parity "$snip_test_waypoint_parity_out"
 
+# Remove namespace-wide filter before applying service-specific one
+snip_remove_waypoint_parity
+
 # Apply Lua parity filter for specific service
 snip_apply_lua_waypoint_service
 
