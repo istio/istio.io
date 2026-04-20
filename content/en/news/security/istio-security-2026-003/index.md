@@ -17,10 +17,10 @@ skip_seealso: true
 
 ### Istio CVEs
 
-- __[CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350)__ / __[GHSA-9gcg-w975-3rjh](https://github.com/istio/istio/security/advisories/GHSA-9gcg-w975-3rjh)__: (CVSS score 5.4, High): AuthorizationPolicy serviceAccounts regex injection via unescaped dots.
+- __[CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350)__ / __[GHSA-9gcg-w975-3rjh](https://github.com/istio/istio/security/advisories/GHSA-9gcg-w975-3rjh)__: (CVSS score 5.4, Moderate): AuthorizationPolicy serviceAccounts regex injection via unescaped dots.  
   Reported by [Wernerina](https://github.com/Wernerina).
 
-- __[CVE-2026-XXXXX](https://nvd.nist.gov/vuln/detail/CVE-2026-XXXXX)__ / __[GHSA-fgw5-hp8f-xfhc](https://github.com/istio/istio/security/advisories/GHSA-fgw5-hp8f-xfhc)__: (CVSS score 5.0, Moderate): SSRF via RequestAuthentication jwksUri.
+- __[CVE-2026-XXXXX](https://nvd.nist.gov/vuln/detail/CVE-2026-XXXXX)__ / __[GHSA-fgw5-hp8f-xfhc](https://github.com/istio/istio/security/advisories/GHSA-fgw5-hp8f-xfhc)__: (CVSS score 5.0, Moderate): SSRF via RequestAuthentication jwksUri.  
   Reported by [KoreaSecurity](https://github.com/KoreaSecurity), [1seal](https://github.com/1seal), [AKiileX](https://github.com/AKiileX).
 
 ## Am I Impacted?
