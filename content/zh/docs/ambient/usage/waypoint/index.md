@@ -178,6 +178,35 @@ namespace/default labeled
 同样，Pod 上的标签优先级也高于命名空间标签。
 {{< /tip >}}
 
+### 入口网关与 waypoint {#ingress-and-waypoints}
+
+`istio.io/use-waypoint` 标签用于管控**东西向**流量：
+来自网格内其他 Pod、发往带有该标签的命名空间、服务或工作负载的请求，
+将通过目标 waypoint 进行七层策略处理与遥测。
+
+从 **Istio 入口网关**流向该 `Service` 的流量是单独建模的。
+默认情况下，源自入口网关的流量**不会**使用目标服务的 waypoint，
+即使该服务或命名空间上已设置了 `istio.io/use-waypoint` 标签。
+
+若要将入口流量（Ingress traffic）导向与网格流量（Mesh traffic）相同的 waypoint，
+请在 Kubernetes `Service` 上，或在 `Namespace` 上（以便应用于该命名空间内的所有服务）将
+**`istio.io/ingress-use-waypoint`** 标签设置为 `true`（此功能自 Istio 1.25 版本起受支持）。
+有关支持的资源类型，请参阅[资源标签](/zh/docs/reference/config/labels/#IoIstioIngressUseWaypoint)参考文档。
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/ingress-use-waypoint=true
+service/reviews labeled
+{{< /text >}}
+
+{{< tip >}}
+启用此路径将导致**在入口网关和 waypoint 处均执行七层处理**（即双层网关模式）。
+请务必考量这两个跳点（hops）的授权规则、延迟以及指标。
+{{< /tip >}}
+
+控制平面仅在 istiod 启用了 **`ENABLE_INGRESS_WAYPOINT_ROUTING`** 时才会应用此行为；
+该参数默认为 `false`。详见 pilot-discovery 环境变量参考中的
+[`ENABLE_INGRESS_WAYPOINT_ROUTING`](/zh/docs/reference/commands/pilot-discovery/#enable-ingress-waypoint-routing)。
+
 ### 配置服务以使用特定 waypoint {#configure-a-service-to-use-a-specific-waypoint}
 
 使用示例 [Bookinfo 应用](/zh/docs/examples/bookinfo/)中的服务，
