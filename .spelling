@@ -456,6 +456,8 @@ CVE-2026-26311
 CVE-2026-26330
 CVE-2026-31837
 CVE-2026-31838
+CVE-2026-39350
+CVE-2026-XXXXX
 CVEs
 cves
 cvss
@@ -612,6 +614,8 @@ GEP-91
 Gergely
 GHSA-8mq4-c2v5-3h39
 GHSA-974c-2wxh-g4ww
+GHSA-9gcg-w975-3rjh
+GHSA-fgw5-hp8f-xfhc
 GHSA-v75c-crr9-733c
 GiB
 GIDs
@@ -791,9 +795,9 @@ json
 JSON-formatted
 json-transcoder
 jwcrypto
-jwksUri
 JWKs
 JWKS-URI
+jwksUri
 JWT
 jwt.io
 JWTs
@@ -1186,6 +1190,7 @@ remoteIpBlocks
 repo
 repurposed
 Requena
+RequestAuthentication
 requires_any
 resized
 Reskill
@@ -1411,6 +1416,7 @@ undeployed
 Underutilization
 underutilization
 unencrypted
+unescaped
 unforgeable
 unmanaged
 Unmarshalers
