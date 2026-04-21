@@ -457,7 +457,7 @@ CVE-2026-26330
 CVE-2026-31837
 CVE-2026-31838
 CVE-2026-39350
-CVE-2026-XXXXX
+CVE-2026-41413
 CVEs
 cves
 cvss
@@ -797,7 +797,6 @@ json-transcoder
 jwcrypto
 JWKs
 JWKS-URI
-jwksUri
 JWT
 jwt.io
 JWTs
@@ -1190,7 +1189,6 @@ remoteIpBlocks
 repo
 repurposed
 Requena
-RequestAuthentication
 requires_any
 resized
 Reskill
@@ -1247,7 +1245,6 @@ Sergey
 serverless
 service-apis
 serviceaccount
-serviceAccounts
 ServiceEntries
 ServiceEntry
 ServiceGraph
