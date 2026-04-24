@@ -45,3 +45,13 @@ test: n/a
 这意味着，在 `foo` 地区的 `bar` 区域中运行 Pod **不会** 被视为在 `baz` 地区的 `bar` 区域中运行的 Pod。
 
 Istio 使用地域信息来控制负载均衡行为。参照本系列的某个任务，为您的网格配置地域负载均衡。
+
+{{< tip >}}
+Istio 的默认网格配置启用了区域性负载均衡（即 `localityLbSetting.enabled: true`）。
+这意味着，只要在 `DestinationRule` 中配置了
+[`OutlierDetection`](/zh/docs/reference/config/networking/destination-rule/#OutlierDetection)，
+系统就会**自动激活区域感知故障转移**，即便您并未在该规则中显式设置
+`localityLbSetting` 也是如此。Envoy 依赖于异常点检测机制来识别不健康的端点，
+并触发向下一个区域的故障转移。若要禁用这一隐式行为，请在 `DestinationRule`
+的负载均衡设置中将 `localityLbSetting.enabled` 设置为 `false`。
+{{< /tip >}}
