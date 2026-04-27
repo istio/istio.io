@@ -70,7 +70,7 @@ istio-agent 拦截来自 istiod 的扩展配置资源更新，
 从中读取远程获取提示，下载 Wasm 模块，并使用已下载的 Wasm
 模块路径重写 ECDS 配置。如果下载失败，istio-agent 将拒绝
 ECDS 更新并阻止错误配置到达 Envoy。有关更多详细信息，
-请参见[我们的 Wasm 模块分发文档](/zh/docs/tasks/extensibility/wasm-module-distribution/)。
+请参见[我们的 Wasm 模块分发文档](/zh/docs/tasks/extensibility/wasm-modules/)。
 
 {{< image width="75%"
     link="./architecture-istio-agent-downloading-wasm-module.svg"
