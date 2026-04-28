@@ -11,8 +11,17 @@ next: /docs/ambient/migrate/before-you-begin
 This guide walks you through migrating an existing Istio deployment from
 {{< gloss >}}sidecar{{< /gloss >}} mode to {{< gloss "ambient" >}}ambient mode{{< /gloss >}}.
 The migration is designed to be gradual and reversible: sidecar and ambient workloads can
-coexist in the same mesh during the process, allowing you to migrate one namespace at
-a time with no downtime.
+coexist in the same mesh during the process, allowing you to migrate one namespace at a time.
+
+{{< warning >}}
+**If you have L7 policies, zero-downtime migration is not currently possible.** During
+the transition, there is a window where L7 policies are unenforced: old
+selector based policies must be removed from the sidecar side, and new waypoint based
+equivalents must take their place. Between those two operations, L7 rules are not applied.
+This is a known gap. Plan a maintenance window if L7 policy enforcement must be
+continuous. Istio community is currently working into make zero downtime migration possible,
+please check the current issues and discussion around this in our slack.
+{{< /warning >}}
 
 ## Migration strategy
 
@@ -22,8 +31,9 @@ The migration follows a step-by-step approach:
    while leaving all existing sidecar workloads unchanged.
 1. **Migrate policies:** Convert `VirtualService` resources to `HTTPRoute`, update
    `AuthorizationPolicy` resources to target waypoints where needed, and attach
-   `RequestAuthentication` and `WasmPlugin` resources to waypoints. This step should be
-   skipped if you only use L4 policies.
+   `RequestAuthentication` and `WasmPlugin` resources to waypoints. **Skip this step if
+   you only use L4 policies.** If you have L7 policies, be aware there is a brief
+   enforcement gap during migration, see the warning above.
 1. **Enable ambient mode per namespace:** Label namespaces to join the ambient mesh,
    activate waypoints, remove sidecar injection, and restart pods.
 
