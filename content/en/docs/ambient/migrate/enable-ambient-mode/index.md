@@ -10,71 +10,15 @@ prev: /docs/ambient/migrate/migrate-policies
 Enable ambient mode one namespace at a time. This lets you validate each namespace before
 moving on, and roll back a single namespace if something goes wrong.
 
-## Before you begin: L7 enforcement strategy
-
-When a sidecar mode workload sends traffic to an ambient workload that has a waypoint, the
-sidecar routes directly to ztunnel at the destination, bypassing the waypoint entirely.
-L7 `AuthorizationPolicy` rules, `HTTPRoute` transformations, and `RequestAuthentication`
-policies attached to the waypoint are **not enforced** for that traffic path.
-
-The recommended approach to close this gap is to treat each client namespace as a
-two-phase migration: first make the sidecar passive by moving all L7 logic to the
-server-side waypoint, then convert the client to ambient. Once the client is ambient, its
-traffic is handled by ztunnel, which automatically routes through the destination's waypoint
-and enforces all L7 policies from the first request.
-
-This strategy also anticipates breaking changes. Any client-side policies that are
-incompatible with ambient mode (such as egress `VirtualService` rules or `EnvoyFilter`
-resources) are discovered and resolved while migrating the client namespace, before
-the server is touched.
-
-### Phase 1: Make the client sidecar passive
-
-Before migrating a client namespace to ambient, remove its L7 egress responsibilities
-by consolidating all routing and policy logic at the server-side waypoint.
-
-**Step A: Identify client-side egress policies.**
-List `VirtualService` and `DestinationRule` resources in the client namespace that control
-outbound traffic to the target service:
-
-{{< text syntax=bash snip_id=none >}}
-$ kubectl get virtualservice,destinationrule -n <client-namespace>
-{{< /text >}}
-
-**Step B: Migrate egress routing to the server-side waypoint.**
-For each `VirtualService` that routes outbound traffic to the target service, create an
-equivalent `HTTPRoute` in the server namespace attached to the destination `Service`.
-See [Migrate VirtualService to HTTPRoute](/docs/ambient/migrate/migrate-policies/#migrate-virtualservice-to-httproute)
-for the conversion pattern.
-
-Delete the client-side `VirtualService` once the `HTTPRoute` is in place and validated.
-
-**Step C: Migrate client-side `AuthorizationPolicy` egress rules.**
-Any `AuthorizationPolicy` in the client namespace that controls outbound traffic using L7
-rules (methods, paths, headers) should be re-expressed as a server-side `AuthorizationPolicy`
-using `targetRefs` pointing at the waypoint. See
-[Migrate AuthorizationPolicy for L7 rules](/docs/ambient/migrate/migrate-policies/#migrate-authorizationpolicy-for-l7-rules).
-
-After these steps, the client sidecar has no L7 rules to apply at egress. It forwards
-traffic as a passthrough. All L7 logic now lives at the server's waypoint, ready to be
-enforced as soon as the client moves to ambient.
-
-### Phase 2: Migrate the client namespace to ambient
-
-Apply the steps in [Migrating a namespace](#migrating-a-namespace) below to the client
-namespace. Once the client is in ambient mode, ztunnel replaces the sidecar and
-automatically routes traffic through the server's waypoint. L7 enforcement at the waypoint
-is now continuous for this traffic path.
-
-Repeat Phase 1 and Phase 2 for each client namespace before migrating the server namespace.
-
-{{< tip >}}
-If you cannot control the migration order (for example, because client namespaces are
-owned by other teams), accept that sidecar clients will bypass the waypoint until they
-are migrated. Avoid applying strict waypoint-only `DENY` policies until all callers are
-in ambient mode. See
-[Bypass prevention during incremental migration](/docs/ambient/migrate/migrate-policies/#bypass-prevention-during-incremental-migration).
-{{< /tip >}}
+{{< warning >}}
+**If you have L7 policies, there is no zero-downtime migration path at this time.** During
+the transition, sidecar clients bypass waypoints entirely, so L7 policies attached to the
+waypoint are not enforced for traffic from sidecar sources. Additionally, old
+selector based L7 policies must be removed at pod restart and replaced by waypoint based
+equivalents — there is a brief window between these two operations where L7 rules are
+unenforced. This is a known gap. Plan a maintenance window if continuous L7 policy
+enforcement is required. Note that Istio community is actively working on improvements to reduce this gap in future releases.
+{{< /warning >}}
 
 ## Migrating a namespace
 
@@ -190,7 +134,7 @@ from `AuthorizationPolicy` rules. The effect depends on the policy action:
   paths), removing the L7 parts leaves an empty match that applies to all traffic,
   effectively **denying all traffic** to that workload.
 
-In both cases, leaving old selector-based L7 policies active after sidecars are removed
+In both cases, leaving old selector based L7 policies active after sidecars are removed
 will block traffic. Delete them immediately.
 {{< /warning >}}
 

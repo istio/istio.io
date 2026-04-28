@@ -11,6 +11,30 @@ next: /docs/ambient/migrate/install-ambient-components
 Before migrating from sidecar to ambient mode, verify that your environment meets the
 requirements and create a backup of your current configuration.
 
+## Background: how policy enforcement changes
+
+Understanding the key differences between sidecar and ambient policy enforcement will help
+you understand the migration steps and anticipate where changes are needed.
+
+**In sidecar mode:**
+- Policies use a `selector` to target pods by label.
+- The destination sidecar proxy enforces both L4 and L7 policies.
+- A single `AuthorizationPolicy` can match on source principal, HTTP method, path, or header
+  and be enforced at the destination pod.
+
+**In ambient mode:**
+- L4 enforcement is handled by **ztunnel**, which runs on every node.
+- L7 enforcement requires a **waypoint proxy** deployed per namespace or service.
+- Policies enforced by a waypoint must use `targetRefs` pointing to a `Service` or
+  `Gateway`, not a pod `selector`. You cannot reuse selector based L7 policies as is.
+- `VirtualService` is Alpha in ambient mode. Migrating to `HTTPRoute` is required for
+  stable L7 traffic management.
+
+**Important:** If your workloads only use L4 `AuthorizationPolicy` rules (matching on source principal,
+namespace, or IP with no HTTP methods, paths, or headers), the migration requires **no policy
+changes**. If you have L7 policies or `VirtualService` resources, see
+[Migrate policies](/docs/ambient/migrate/migrate-policies/) before enabling ambient mode.
+
 ## Requirements
 
 - A [supported Istio release](/docs/releases/supported-releases/)

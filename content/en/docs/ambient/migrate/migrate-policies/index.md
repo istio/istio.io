@@ -27,8 +27,9 @@ proxies rather than sidecar proxies. This changes how policies are expressed and
   Services as `backendRefs` for routing rather than DestinationRule subsets, so
   version based traffic splitting in `HTTPRoute` requires separate Services per version.
 - **`AuthorizationPolicy`** resources that use L7 rules (HTTP methods, paths, or headers),
-  or that use `action: CUSTOM` or `action: AUDIT`, must target waypoint proxies via
-  `targetRefs` rather than using workload `selector`.
+  or that use `action: CUSTOM` or `action: AUDIT`, must use `targetRefs` (instead of
+  workload `selector`) to attach the policy to supported resources, for more information check the
+  [AuthorizationPolicy documentation](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-targetRefs).
 - **`RequestAuthentication`** and **`WasmPlugin`** resources require a waypoint proxy and
   must be targeted using `targetRefs` to point at the waypoint.
 - **`EnvoyFilter`** resources are **not supported on waypoints**. If you have `EnvoyFilter`
@@ -203,12 +204,20 @@ spec:
 
 ### L7 policies
 
+{{< warning >}}
+Migrating L7 policies involves a brief enforcement gap. Old selector based policies must
+be removed before or at pod restart, and new waypoint based policies take effect
+immediately once created. Between these two operations, L7 rules are not applied. If
+continuous L7 policy enforcement is required, plan a maintenance window. Note that Istio community is actively working on improvements to reduce this gap in future releases.
+{{< /warning >}}
+
 Policies that match on HTTP methods, paths, or headers, or that use `action: CUSTOM` or
 `action: AUDIT`, must target a waypoint proxy. Replace `selector` with `targetRefs`
-pointing to the `Service` the waypoint protects:
+pointing to the `Service` the waypoint protects, or to the waypoint `Gateway` resource
+itself:
 
 {{< text syntax=yaml snip_id=none >}}
-# Before: sidecar-style (selector-based)
+# Before: sidecar-style (selector based)
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -244,13 +253,74 @@ spec:
         methods: ["GET"]
 {{< /text >}}
 
+Alternatively, you can target the waypoint `Gateway` resource directly. This applies the
+policy to all traffic processed by the waypoint, regardless of the destination Service:
+
+{{< text syntax=yaml snip_id=none >}}
+# After: ambient-style (targetRefs to waypoint Gateway)
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-get-reviews
+  namespace: bookinfo
+spec:
+  targetRefs:
+  - kind: Gateway
+    group: gateway.networking.k8s.io
+    name: waypoint
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+{{< /text >}}
+
+Targeting a `Service` is the more precise option and is recommended when the policy
+should apply to a single service. Targeting the `Gateway` is useful when the policy
+should apply to all services in the namespace.
+
 ## Prevent waypoint bypass
 
-When a waypoint is used, ensure that workloads cannot be reached by bypassing it. This
-policy must be enforced by **ztunnel** (at the destination pod), not by the waypoint itself.
-Use a workload `selector` so that ztunnel denies any traffic that did not come from the
-waypoint. Since this only checks the source principal (an L4 attribute), ztunnel can
-enforce it correctly.
+When a waypoint is used, ensure that workloads cannot be reached by bypassing it. Use a
+workload `selector` DENY policy enforced by **ztunnel** (at the destination pod). Since
+this policy only checks the source principal (an L4 attribute), ztunnel can enforce it
+correctly.
+
+{{< warning >}}
+Do not use `targetRefs` for this policy. A `targetRefs` based DENY policy is enforced by
+the waypoint, which sees the original client identity, not the waypoint's own identity.
+This would cause the waypoint to deny all client traffic before the ALLOW policy can run.
+{{< /warning >}}
+
+### Decide when to apply bypass prevention
+
+During an incremental migration, some source workloads may still be in sidecar mode.
+Sidecar mode workloads bypass the waypoint and connect directly to ztunnel at the
+destination, so ztunnel sees the sidecar identity as the source principal, not the
+waypoint identity. A strict waypoint only DENY policy will reject their traffic.
+
+Choose one of the following options before applying the policy:
+
+**Option 1: Delay bypass prevention until all sources are migrated.**
+Do not apply the DENY policy until every workload that calls this service has moved to
+ambient mode. This is the simpler approach when you control all callers.
+
+**Option 2: Allow traffic from both the waypoint and sidecar principals.**
+Apply the policy immediately, but add the service accounts of the remaining sidecar
+workloads to the `notPrincipals` exception list alongside the waypoint. Remove each
+sidecar principal from the list as it is migrated. Once all callers are in ambient mode,
+only the waypoint principal needs to remain.
+
+### Apply the bypass prevention policy
+
+Look up the service account used by your waypoint:
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl get pod -n <namespace> -l gateway.istio.io/managed=istio.io-mesh-controller \
+    -o jsonpath='{.items[0].spec.serviceAccountName}'
+{{< /text >}}
+
+For Option 1, apply the policy only after all callers are migrated:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: security.istio.io/v1
@@ -270,35 +340,7 @@ spec:
         - "cluster.local/ns/bookinfo/sa/waypoint"
 {{< /text >}}
 
-Replace `bookinfo/sa/waypoint` with the actual service account used by your waypoint:
-
-{{< text syntax=bash snip_id=none >}}
-$ kubectl get pod -n <namespace> -l gateway.istio.io/managed=istio.io-mesh-controller \
-    -o jsonpath='{.items[0].spec.serviceAccountName}'
-{{< /text >}}
-
-{{< warning >}}
-Do not use `targetRefs` for this policy. A `targetRefs` based DENY policy is enforced by
-the waypoint, which sees the original client identity not the waypoint's own identity.
-This would cause the waypoint to deny all client traffic before the ALLOW policy can run.
-{{< /warning >}}
-
-### Bypass prevention during incremental migration
-
-During a migration where some source workloads are still in sidecar mode, a strict
-waypoint only DENY policy will reject their traffic. Sidecar mode workloads use HBONE to
-route traffic directly to ztunnel at the destination, bypassing the waypoint, so ztunnel sees
-the sidecar identity as the source principal, not the waypoint.
-
-At this point there are two options:
-
-**Option 1: Delay bypass prevention until all sources are migrated.**
-Do not apply the DENY policy until every workload that calls this service has been moved to
-ambient mode. This is the simpler approach when you control all callers.
-
-**Option 2: Allow traffic from both the waypoint and sidecar principals.**
-Add the service accounts of the remaining sidecar workloads to the `notPrincipals`
-exception list alongside the waypoint:
+For Option 2, include sidecar principals in the exception list during migration:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: security.istio.io/v1
@@ -318,9 +360,6 @@ spec:
         - "cluster.local/ns/bookinfo/sa/waypoint"
         - "cluster.local/ns/bookinfo/sa/productpage"
 {{< /text >}}
-
-Remove each sidecar principal from the exception list as it is migrated to ambient mode. Once all callers are in ambient mode,
-only the waypoint principal needs to remain.
 
 {{< warning >}}
 Keep your existing sidecar `AuthorizationPolicy` resources active until pods have been
