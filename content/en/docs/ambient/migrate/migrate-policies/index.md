@@ -208,7 +208,7 @@ spec:
 Migrating L7 policies involves a brief enforcement gap. Old selector based policies must
 be removed before or at pod restart, and new waypoint based policies take effect
 immediately once created. Between these two operations, L7 rules are not applied. If
-continuous L7 policy enforcement is required, plan a maintenance window. Note that Istio community is actively working on improvements to reduce this gap in future releases.
+continuous L7 policy enforcement is required, plan a maintenance window. This gap is a known limitation and is being tracked for improvement in future releases.
 {{< /warning >}}
 
 Policies that match on HTTP methods, paths, or headers, or that use `action: CUSTOM` or
