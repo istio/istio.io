@@ -17,7 +17,7 @@ waypoint are not enforced for traffic from sidecar sources. Additionally, old
 selector based L7 policies must be removed at pod restart and replaced by waypoint based
 equivalents — there is a brief window between these two operations where L7 rules are
 unenforced. This is a known gap. Plan a maintenance window if continuous L7 policy
-enforcement is required. Note that Istio community is actively working on improvements to reduce this gap in future releases.
+enforcement is required. This gap is a known limitation and is being tracked for improvement in future releases.
 {{< /warning >}}
 
 ## Migrating a namespace
