@@ -11,6 +11,26 @@ next: /docs/ambient/migrate/install-ambient-components
 Before migrating from sidecar to ambient mode, verify that your environment meets the
 requirements and create a backup of your current configuration.
 
+{{< warning >}}
+**If your workloads use L7 policies, migration is not straightforward and currently has
+known limitations:**
+
+- During migration, there is a window where L7 policies may not be enforced, old
+  selector-based policies must be removed, and new waypoint-based equivalents must take
+  their place. There is no atomic handoff between the two.
+- While some source workloads are still in sidecar mode, traffic from those workloads
+  bypasses waypoints entirely. L7 policies on the waypoint are not enforced for that
+  traffic path until the source is also migrated.
+
+**Zero-downtime migration with L7 policies is not currently supported.** Plan a
+maintenance window. This is a known limitation being tracked for improvement in a future
+release.
+
+If your workloads only use L4 `AuthorizationPolicy` rules (source principal, namespace,
+or IP matching — no HTTP methods, paths, or headers), this does not apply and the
+migration requires no policy changes.
+{{< /warning >}}
+
 ## Background: how policy enforcement changes
 
 Understanding the key differences between sidecar and ambient policy enforcement will help
@@ -29,11 +49,6 @@ you understand the migration steps and anticipate where changes are needed.
   `Gateway`, not a pod `selector`. You cannot reuse selector based L7 policies as is.
 - `VirtualService` is Alpha in ambient mode. Migrating to `HTTPRoute` is required for
   stable L7 traffic management.
-
-**Important:** If your workloads only use L4 `AuthorizationPolicy` rules (matching on source principal,
-namespace, or IP with no HTTP methods, paths, or headers), the migration requires **no policy
-changes**. If you have L7 policies or `VirtualService` resources, see
-[Migrate policies](/docs/ambient/migrate/migrate-policies/) before enabling ambient mode.
 
 ## Requirements
 
