@@ -497,6 +497,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td><code>false</code></td>
 <td>Whether ambient controller is enabled</td>
 </tr>
+<tr id='ambient-enable-aws-branch-eni-probe'>
+<td><a href='#ambient-enable-aws-branch-eni-probe'><code>AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, detect AWS VPC CNI branch ENI pods and add ip rules to route probe traffic via veth</td>
+</tr>
 <tr id='ambient-enable-baggage'>
 <td><a href='#ambient-enable-baggage'><code>AMBIENT_ENABLE_BAGGAGE</code></a></td>
 <td>Boolean</td>
