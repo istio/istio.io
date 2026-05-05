@@ -82,6 +82,16 @@ this leads to undefined behavior.
 
 `HTTPRoute` is the stable, supported L7 routing API for ambient mode.
 
+{{< tip >}}
+The community tool [ingress2gateway](https://github.com/kubernetes-sigs/ingress2gateway)
+can automate part of this conversion. Its
+[Istio provider](https://github.com/kubernetes-sigs/ingress2gateway/blob/main/pkg/i2gw/providers/istio/README.md)
+translates `VirtualService` resources to `HTTPRoute`, `TLSRoute`, and `TCPRoute`, and
+generates `ReferenceGrant` resources for cross-namespace references. Fields that cannot
+be translated directly are logged and skipped, so always review the generated output
+before applying it to your cluster. Note that also IngressGateway resources are translated to Gateway API Gateway resources, so this tool can be used for the migration of both VirtualService and Gateway resources.
+{{< /tip >}}
+
 ### Example: Header-based routing
 
 The following `VirtualService` routes requests with `end-user: jason` to `reviews` version 2,

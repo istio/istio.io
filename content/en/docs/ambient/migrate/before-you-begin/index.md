@@ -27,7 +27,7 @@ maintenance window. This is a known limitation being tracked for improvement in 
 release.
 
 If your workloads only use L4 `AuthorizationPolicy` rules (source principal, namespace,
-or IP matching — no HTTP methods, paths, or headers), this does not apply and the
+or IP matching, no HTTP methods, paths, or headers), this does not apply and the
 migration requires no policy changes.
 {{< /warning >}}
 
