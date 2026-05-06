@@ -89,7 +89,7 @@ can automate part of this conversion. Its
 translates `VirtualService` resources to `HTTPRoute`, `TLSRoute`, and `TCPRoute`, and
 generates `ReferenceGrant` resources for cross-namespace references. Fields that cannot
 be translated directly are logged and skipped, so always review the generated output
-before applying it to your cluster. Note that also IngressGateway resources are translated to Gateway API Gateway resources, so this tool can be used for the migration of both VirtualService and Gateway resources.
+before applying it to your cluster. Note that also `IngressGateway` resources are translated to Gateway API Gateway resources, so this tool can be used for the migration of both VirtualService and Gateway resources.
 {{< /tip >}}
 
 ### Example: Header-based routing
