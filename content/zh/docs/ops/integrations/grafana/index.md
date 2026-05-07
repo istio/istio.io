@@ -20,6 +20,7 @@ test: no
 * [性能仪表盘](https://grafana.com/grafana/dashboards/11829) 监控网格资源使用情况。
 * [控制平面仪表盘](https://grafana.com/grafana/dashboards/7645) 监控控制面的健康状况及性能指标。
 * [WASM 扩展仪表盘](https://grafana.com/grafana/dashboards/13277) 提供了网格范围的 WebAssembly 扩展运行时和加载状态的概述。
+* [Ztunnel 仪表盘](https://grafana.com/grafana/dashboards/21306) 用于监控 Istio Ambient 模式中使用的 ztunnel 组件。
 
 可以通过多种方法来配置 Grafana 来使用这些仪表盘：
 
@@ -53,7 +54,7 @@ $ GRAFANA_DATASOURCE="Prometheus"
 $ # The version of Istio to deploy
 $ VERSION={{< istio_full_version >}}
 $ # Import all Istio dashboards
-$ for DASHBOARD in 7639 11829 7636 7630 7645 13277; do
+$ for DASHBOARD in 7639 11829 7636 7630 7645 13277 21306; do
 $     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}\")) | .revision" | tail -n 1)"
 $     curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions/${REVISION}/download > /tmp/dashboard.json
 $     echo "Importing $(cat /tmp/dashboard.json | jq -r '.title') (revision ${REVISION}, id ${DASHBOARD})..."
