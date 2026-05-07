@@ -57,7 +57,7 @@ spec:
 
 ### WebAssembly
 
-Wasm modules are loaded from OCI registries. The following example applies basic authentication to the `/productpage` path using a pre-built Wasm plugin:
+Wasm modules are loaded from OCI registries. The following example applies basic authentication to the `/productpage` path using a prebuilt Wasm plugin:
 
 {{< text yaml >}}
 apiVersion: extensions.istio.io/v1alpha1
@@ -79,7 +79,7 @@ spec:
           credentials: ["ok:test"]
 {{< /text >}}
 
-Pre-built Wasm extensions are available in the [Istio ecosystem repository](https://github.com/istio-ecosystem/wasm-extensions). To build your own, see the [Proxy-Wasm SDKs](https://github.com/proxy-wasm).
+Prebuilt Wasm extensions are available in the [Istio ecosystem repository](https://github.com/istio-ecosystem/wasm-extensions). To build your own, see the [Proxy-Wasm SDKs](https://github.com/proxy-wasm).
 
 ## Targeting
 
