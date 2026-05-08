@@ -7,13 +7,13 @@ keywords: [istio, wasm, lua, extensibility, ambient, traffic extension]
 target_release: 1.30
 ---
 
-Mesh extensibility has always been a core tenet of Istio's design. By allowing users to inject custom logic directly into the data plane, Istio enables a wide range of use cases for performing custom authentication, collecting specialized telemetry, or transforming requests and responses on-the-fly. Until now Istio's only dedicated extensibility API was `WasmPlugin` which served Wasm-based extensions. However, users leveraging Lua scripts could only do so indirectly via `EnvoyFilter`, a powerful but complex and error-prone mechanism.
+Mesh extensibility has always been a core tenet of Istio's design. By allowing users to inject custom logic directly into the data plane, Istio enables a wide range of use cases for performing custom authentication, collecting specialized telemetry, or transforming requests and responses on-the-fly. Until now Istio's only supported extensibility API was `WasmPlugin`, which served WebAssembly-based extensions. Users who wanted to leverage Lua scripts could only do so indirectly via `EnvoyFilter`, a low-level mechanism that is powerful but easy to misconfigure.
 
-Istio 1.30 introduces the `TrafficExtension` API — a single, unified API for Wasm and Lua extensions across both sidecar and ambient deployments.
+Istio 1.30 introduces the `TrafficExtension` API — a single, unified API for configuring Wasm and Lua extensions across both sidecar and ambient mode deployments.
 
 ## What is TrafficExtension?
 
-`TrafficExtension` is a new Kubernetes CRD (`extensions.istio.io/v1alpha1`) that is recommended over `WasmPlugin` as the primary extensibility mechanism. It supports two extension types:
+`TrafficExtension` is a new Istio API that replaces `WasmPlugin` as the primary proxy extensibility mechanism. It supports two extension types:
 
 - **Lua scripts** — inline Lua scripts embedded directly in the resource, executed within Envoy with no module distribution required. Best for simple header manipulation, logging, and conditional logic.
 - **WebAssembly plugins** — Proxy-Wasm sandbox modules loaded dynamically from OCI image registries. Supports multiple languages (Go, Rust, C++, AssemblyScript) and is recommended for complex processing, policy enforcement, telemetry collection, and payload mutations.
@@ -87,7 +87,7 @@ Prebuilt Wasm extensions are available in the [Istio ecosystem repository](https
 
 **`selector`** targets sidecar proxies using label selectors. A resource created in `istio-system` applies cluster-wide; a resource in any other namespace applies only to workloads in that namespace.
 
-**`targetRefs`** targets Gateways or Services directly — required for ambient mode waypoint proxies, which do not use label-based injection. The same basic-auth extension applied to an ambient Gateway looks like this:
+**`targetRefs`** targets Gateways or Services directly — required for ambient mode waypoint proxies, which do not use map to workloads using label-based selectors. The same `basic-auth` extension applied to an ambient Gateway looks like this:
 
 {{< text yaml >}}
 apiVersion: extensions.istio.io/v1alpha1
