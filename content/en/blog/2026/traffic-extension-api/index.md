@@ -1,13 +1,15 @@
 ---
 title: "Introducing the TrafficExtension API"
-description: A new unified API for extending Istio proxies with WebAssembly and Lua, supporting both sidecar and ambient mode.
-publishdate: 2026-05-07
+description: A new unified API for extending Envoy proxies in Istio with WebAssembly and Lua, supporting both sidecar and ambient mode.
+publishdate: 2026-05-14
 attribution: "Liam White - Docusign"
 keywords: [istio, wasm, lua, extensibility, ambient, traffic extension]
-target_release: 1.30
+target_release: "1.30"
 ---
 
-Mesh extensibility has always been a core tenet of Istio's design. By allowing users to inject custom logic directly into the data plane, Istio enables a wide range of use cases for performing custom authentication, collecting specialized telemetry, or transforming requests and responses on-the-fly. Until now Istio's only supported extensibility API was `WasmPlugin`, which served WebAssembly-based extensions. Users who wanted to leverage Lua scripts could only do so indirectly via `EnvoyFilter`, a low-level mechanism that is powerful but easy to misconfigure.
+Mesh extensibility has always been a core tenet of Istio's design. By allowing users to inject custom logic directly into the data plane, Istio enables a wide range of use cases for performing custom authentication, collecting specialized telemetry, or transforming requests and responses on-the-fly. 
+
+Until now Istio's only supported extensibility API was `WasmPlugin`, which served WebAssembly-based extensions. Users who wanted to leverage Lua scripts could only do so indirectly via `EnvoyFilter`, a low-level mechanism that is powerful but easy to misconfigure.
 
 Istio 1.30 introduces the `TrafficExtension` API — a single, unified API for configuring Wasm and Lua extensions for Envoy-based sidecars, gateways and waypoints.
 
@@ -15,12 +17,10 @@ Istio 1.30 introduces the `TrafficExtension` API — a single, unified API for c
 
 `TrafficExtension` is a new Istio API that replaces `WasmPlugin` as the primary proxy extensibility mechanism. It supports two extension types:
 
-- **Lua scripts** — inline Lua scripts embedded directly in the resource, executed within Envoy with no module distribution required. Best for simple header manipulation, logging, and conditional logic. Only supports layer 7 (HTTP) traffic.
-- **WebAssembly plugins** — Proxy-Wasm sandbox modules loaded dynamically from OCI image registries. Supports multiple languages (Go, Rust, C++, AssemblyScript) and is recommended for complex processing, policy enforcement, telemetry collection, and payload mutations. Supports both layer 7 (HTTP) and layer 4 (TCP) traffic.
+- **Lua scripts** — inline Lua scripts embedded directly in the resource, executed within Envoy with no module distribution required. Best for simple header manipulation, logging, and conditional logic. Applied to Layer 7 (HTTP) traffic only.
+- **WebAssembly plugins** — Proxy-Wasm sandbox modules loaded dynamically from OCI image registries. Supports multiple languages (Go, Rust, C++, AssemblyScript) and is recommended for complex processing, policy enforcement, telemetry collection, and payload mutations. Applied to Layer 7 (HTTP) or layer 4 (TCP) traffic.
 
 See the [TrafficExtension concepts page](/docs/concepts/extensibility/) for detailed guidance on choosing between Lua and Wasm for your use case.
-
-Note: `TrafficExtension` is currently **alpha** — the API may change before stabilization. Feedback is welcome.
 
 ## Writing extensions
 
@@ -126,7 +126,7 @@ Within a phase, `priority` breaks ties — higher values run earlier in the requ
 
 ## Migrating from WasmPlugin
 
-`TrafficExtension` supersedes `WasmPlugin` as the recommended extensibility API. Existing `WasmPlugin` resources are fully compatible with the new API — in fact, Istio now internally transforms all `WasmPlugin` resources into `TrafficExtension` resources before distributing configuration to Envoy.
+`TrafficExtension` supersedes `WasmPlugin` as the recommended extensibility API. Existing `WasmPlugin` resources are fully compatible with the new API — in fact, Istio now internally transforms all `WasmPlugin` resources into `TrafficExtension` resources before generating configuration to distribute to Envoy.
 
 There is no forced migration in Istio 1.30. When you are ready to migrate, the [TrafficExtension API reference](/docs/reference/config/proxy_extensions/traffic_extension/) documents the full spec.
 
