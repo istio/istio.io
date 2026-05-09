@@ -128,7 +128,7 @@ Within a phase, `priority` breaks ties — higher values run earlier in the requ
 
 `TrafficExtension` supersedes `WasmPlugin` as the recommended extensibility API. Existing `WasmPlugin` resources are fully compatible with the new API — in fact, Istio now internally transforms all `WasmPlugin` resources into `TrafficExtension` resources before distributing configuration to Envoy.
 
-There is no forced migration in Istio 1.30. When you are ready to migrate, the [TrafficExtension API reference](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) documents the full spec.
+There is no forced migration in Istio 1.30. When you are ready to migrate, the [TrafficExtension API reference](/docs/reference/config/proxy_extensions/traffic_extension/) documents the full spec.
 
 ## Get started
 
