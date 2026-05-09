@@ -7,7 +7,7 @@ keywords: [istio, wasm, lua, extensibility, ambient, traffic extension]
 target_release: "1.30"
 ---
 
-Mesh extensibility has always been a core tenet of Istio's design. By allowing users to inject custom logic directly into the data plane, Istio enables a wide range of use cases for performing custom authentication, collecting specialized telemetry, or transforming requests and responses on-the-fly. 
+Mesh extensibility has always been a core tenet of Istio's design. By allowing users to inject custom logic directly into the data plane, Istio enables a wide range of use cases for performing custom authentication, collecting specialized telemetry, or transforming requests and responses on-the-fly.
 
 Until now Istio's only supported extensibility API was `WasmPlugin`, which served WebAssembly-based extensions. Users who wanted to leverage Lua scripts could only do so indirectly via `EnvoyFilter`, a low-level mechanism that is powerful but easy to misconfigure.
 
