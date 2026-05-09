@@ -15,7 +15,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio provides the ability to extend proxy functionality using [WebAssembly (Wasm)](/docs/concepts/extensibility/trafficextension/).
+Istio provides the ability to extend proxy functionality using [WebAssembly (Wasm)](/docs/concepts/extensibility/).
 One of the key advantages of Wasm extensibility is that extensions can be loaded dynamically at runtime.
 These extensions must first be distributed to the Envoy proxy.
 Istio makes this possible by allowing the proxy agent to dynamically download Wasm modules.
