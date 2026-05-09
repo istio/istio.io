@@ -9,7 +9,7 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-Istio provides two mechanisms for extending the Istio proxy: WebAssembly (Wasm) and Lua.
+Istio provides two mechanisms for extending the Envoy-based proxies: WebAssembly (Wasm) and Lua.
 Both are configured using the [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/) API,
 which provides a unified way to attach extensions to workloads with consistent targeting and phase/priority ordering.
 
