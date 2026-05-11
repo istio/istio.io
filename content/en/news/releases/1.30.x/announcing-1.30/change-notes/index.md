@@ -27,7 +27,7 @@ can see the originating client. Any inbound XFCC value is replaced. Waypoints wi
 annotation are unaffected.
   ([Issue #54995](https://github.com/istio/istio/issues/54995))
 
-- **Added** Support for TLSRoute termination and mixed mode
+- **Added** support for TLSRoute termination and mixed mode
   ([Issue #55728](https://github.com/istio/istio/issues/55728))
 
 - **Added** `PILOT_GATEWAY_TRANSPORT_SOCKET_CONNECT_TIMEOUT` environment variable to configure the
@@ -36,7 +36,7 @@ to disable the timeout for workloads that require longer TLS handshake times.
   ([Issue #56320](https://github.com/istio/istio/issues/56320))
 
 - **Added** HTTP compression capability (gzip, zstd) to HTTP server of pilot-agent.
-  ([Issue #5869](https://github.com/istio/istio/issues/5869))
+  ([Issue #58697](https://github.com/istio/istio/issues/58697))
 
 - **Added** input validation for `traffic.sidecar.istio.io/excludeInterfaces` annotation
 to ensure only valid Linux interface names are accepted, preventing iptables parameter injection.
@@ -61,7 +61,7 @@ routing for traffic destined to IP ranges.
 
 - **Added** Initial HTTP/2 stream and connection window sizes for HBONE CONNECT upstream clusters (generated for
 waypoints and east-west gateways) can be configured using feature flags
-PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE and PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE. These may be used to
+`PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` and `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`. These may be used to
 reduce unwanted buffering.
   ([Issue #59961](https://github.com/istio/istio/issues/59961))
 
@@ -168,7 +168,7 @@ versa) in multi-network meshes with dualstack east-west gateway load balancers.
 
 - **Fixed** ReferenceGrant `to` field to handle multiple entries; previously only the last entry was effective, causing incorrect `RefNotPermitted` for references that matched an earlier entry.
 
-- **Fixed**: status reporting for Gateway and ListenerSet resources to comply with the Gateway API specification `v1.5.0`.
+- **Fixed** status reporting for Gateway and ListenerSet resources to comply with the Gateway API specification `v1.5.0`.
 It changes Gateway status reporting to report the number of ListenerSets to be reported in AttachedListenerSets field
 of the Gateway resource, instead of the number of Listeners. It also changes status reporting for ListenerSets to
 report the number of routes attached to each listener in the ListenerSet.
@@ -241,7 +241,7 @@ Controlled by `ENABLE_DEBUG_ENDPOINT_AUTH` (same flag as HTTP debug endpoints). 
 same-namespace authorization for non-system callers. Previously an authenticated workload from any namespace could
 enumerate proxies and retrieve config dumps for workloads in other namespaces.
 
-**Credit**: This vulnerability was discovered and reported by 1seal (<https://github.com/1seal>).
+  **Credit**: This vulnerability was discovered and reported by 1seal (<https://github.com/1seal>).
 
 - **Fixed** potential SSRF in WasmPlugin image fetching by validating bearer token realm URLs.
 
@@ -329,7 +329,7 @@ successfully attached to its waypoint proxy or if there was an error binding.
 
 - **Added** `--tls-min-version` flag to `pilot-discovery` to configure the minimum TLS version
 for the istiod server and webhook. Supported values are `1.2` (default) and `1.3`.
-  ([Issue #58789](https://github.com/istio/istio/issues/58789)),([Issue #58789](https://github.com/istio/istio/issues/58789))
+  ([Issue #58789](https://github.com/istio/istio/issues/58789))
 
 - **Added** `registry.istio.io` as the default registry for istio images.
 
@@ -361,9 +361,12 @@ by the webhook controller. For tools that use `helm template` with SSA, set
 ## istioctl
 
 - **Improved** the `istioctl bug-report` command's performance.
-**Added** `--skip-cluster-dump`, `--skip-analyze`,  `--skip-proxy-debug`, `--skip-netstat`, and `--skip-coredumps` flags to the `istioctl bug-report` command to allow skipping expensive sections of the report.
-**Fixed** log fetching with support for include and exclude filtering for pod selection.
-**Added** `--tail` flag to set the maximum number of log lines to fetch per container. The default is still unlimited.
+
+- **Added** `--skip-cluster-dump`, `--skip-analyze`,  `--skip-proxy-debug`, `--skip-netstat`, and `--skip-coredumps` flags to the `istioctl bug-report` command to allow skipping expensive sections of the report.
+
+- **Fixed** log fetching with support for include and exclude filtering for pod selection.
+
+- **Added** `--tail` flag to set the maximum number of log lines to fetch per container. The default is still unlimited.
 
 - **Updated** minimum supported Kubernetes version to `1.32.x`.
 
@@ -374,7 +377,7 @@ by the webhook controller. For tools that use `helm template` with SSA, set
 status of a single namespace.
   ([Issue #59377](https://github.com/istio/istio/issues/59377))
 
-- **Added** an `istioctl analyze` warning (IST0175) when RequestAuthentication resources exist
+- **Added** an `istioctl analyze` warning (IST0175) when `RequestAuthentication` resources exist
 but `BLOCKED_CIDRS_IN_JWKS_URIS` is not configured on istiod.
   ([Issue #59523](https://github.com/istio/istio/issues/59523))
 
