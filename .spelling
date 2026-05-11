@@ -688,6 +688,7 @@ InferenceModel
 InferenceObjective
 InferencePool
 InferencePools
+ingress2gateway
 initContainer
 initializer
 initializers
