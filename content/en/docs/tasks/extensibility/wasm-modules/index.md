@@ -135,7 +135,7 @@ which is maintained by the Istio community and used to develop Istio's Telemetry
 - [Write unit tests for C++ Wasm extensions](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
 - [Write integration tests for Wasm extensions](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
 
-For more details on the API, see the [`TrafficExtension` reference](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/).
+For more details on the API, see the [`TrafficExtension` reference](/docs/reference/config/proxy_extensions/traffic_extension/).
 
 ## Limitations
 

@@ -10,7 +10,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio 提供了通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API，
+Istio 提供了通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/traffic_extension/) API，
 利用 [WebAssembly (Wasm)](/zh/docs/concepts/extensibility/trafficextension/#webassembly-filters) 模块来扩展 waypoint 代理的能力。
 在 Ambient 模式下，必须使用 `targetRefs` 将 `TrafficExtension` 资源关联至 waypoint 代理。
 

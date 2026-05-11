@@ -10,7 +10,7 @@ test: n/a
 ---
 
 Istio 提供了两种用于扩展 Istio 代理的机制：WebAssembly (Wasm) 和 Lua。
-两者均通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API 进行配置；
+两者均通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/traffic_extension/) API 进行配置；
 该 API 提供了一种统一的方式，允许以一致的定位规则以及阶段/优先级顺序，
 将扩展附加到工作负载上。
 

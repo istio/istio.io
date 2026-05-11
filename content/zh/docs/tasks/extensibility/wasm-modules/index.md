@@ -138,7 +138,7 @@ $ kubectl delete trafficextension -n istio-system basic-auth
 - [为 C++ Wasm 扩展编写单元测试](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
 - [为 Wasm 扩展编写集成测试](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
 
-有关该 API 的更多详情，请参阅 [`TrafficExtension` 参考文档](/zh/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/)。
+有关该 API 的更多详情，请参阅 [`TrafficExtension` 参考文档](/zh/docs/reference/config/proxy_extensions/traffic_extension/)。
 
 ## 限制 {#limitations}
 

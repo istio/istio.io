@@ -3,11 +3,11 @@ WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL
 source_repo: https://github.com/istio/api
 title: Traffic Extension
 description: Extend the functionality provided by the Istio proxy through WebAssembly or Lua filters.
-location: https://istio.io/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension.html
+location: https://istio.io/docs/reference/config/proxy_extensions/traffic_extension.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.extensions.v1alpha1.TrafficExtension
-aliases: [/docs/reference/config/extensions/v1alpha1/traffic_extension]
+aliases: [/zh/docs/reference/config/extensions/v1alpha1/traffic_extension]
 number_of_entries: 5
 ---
 <p>TrafficExtension provides a mechanism to extend the functionality provided by
@@ -250,7 +250,7 @@ spec:
 <tbody>
 <tr id="TrafficExtension-selector">
 <td><div class="field"><div class="name"><code><a href="#TrafficExtension-selector">selector</a></code></div>
-<div class="type"><a href="/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadSelector">WorkloadSelector</a></div>
 </div></td>
 <td>
 <p>Criteria used to select the specific set of pods/VMs on which
@@ -265,7 +265,7 @@ namespace.</p>
 </tr>
 <tr id="TrafficExtension-targetRefs">
 <td><div class="field"><div class="name"><code><a href="#TrafficExtension-targetRefs">targetRefs</a></code></div>
-<div class="type"><a href="/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference">PolicyTargetReference[]</a></div>
 </div></td>
 <td>
 <p>The targetRefs specifies a list of resources the policy should be
@@ -443,7 +443,7 @@ against the contents of this field after pulling.</p>
 </tr>
 <tr id="WasmConfig-image_pull_policy">
 <td><div class="field"><div class="name"><code><a href="#WasmConfig-image_pull_policy">imagePullPolicy</a></code></div>
-<div class="type"><a href="/docs/reference/config/proxy_extensions/wasm-plugin/#PullPolicy">PullPolicy</a></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#PullPolicy">PullPolicy</a></div>
 </div></td>
 <td>
 <p>The pull behaviour to be applied when fetching Wasm module by either
@@ -489,7 +489,7 @@ plugin to execute.</p>
 </tr>
 <tr id="WasmConfig-fail_strategy">
 <td><div class="field"><div class="name"><code><a href="#WasmConfig-fail_strategy">failStrategy</a></code></div>
-<div class="type"><a href="/docs/reference/config/proxy_extensions/wasm-plugin/#FailStrategy">FailStrategy</a></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#FailStrategy">FailStrategy</a></div>
 </div></td>
 <td>
 <p>Specifies the failure behavior for the plugin due to fatal errors.</p>
@@ -498,7 +498,7 @@ plugin to execute.</p>
 </tr>
 <tr id="WasmConfig-vm_config">
 <td><div class="field"><div class="name"><code><a href="#WasmConfig-vm_config">vmConfig</a></code></div>
-<div class="type"><a href="/docs/reference/config/proxy_extensions/wasm-plugin/#VmConfig">VmConfig</a></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#VmConfig">VmConfig</a></div>
 </div></td>
 <td>
 <p>Configuration for a Wasm VM.
@@ -508,7 +508,7 @@ More details can be found <a href="https://www.envoyproxy.io/docs/envoy/latest/a
 </tr>
 <tr id="WasmConfig-type">
 <td><div class="field"><div class="name"><code><a href="#WasmConfig-type">type</a></code></div>
-<div class="type"><a href="/docs/reference/config/proxy_extensions/wasm-plugin/#PluginType">PluginType</a></div>
+<div class="type"><a href="/zh/docs/reference/config/proxy_extensions/wasm-plugin/#PluginType">PluginType</a></div>
 </div></td>
 <td>
 <p>Specifies the type of Wasm Extension to be used.</p>
@@ -583,7 +583,7 @@ traffic will be selected.</p>
 <tbody>
 <tr id="TrafficSelector-mode">
 <td><div class="field"><div class="name"><code><a href="#TrafficSelector-mode">mode</a></code></div>
-<div class="type"><a href="/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#WorkloadMode">WorkloadMode</a></div>
 </div></td>
 <td>
 <p>Criteria for selecting traffic by their direction.
@@ -596,7 +596,7 @@ If not specified, the default value is <code>CLIENT_AND_SERVER</code>.</p>
 </tr>
 <tr id="TrafficSelector-ports">
 <td><div class="field"><div class="name"><code><a href="#TrafficSelector-ports">ports</a></code></div>
-<div class="type"><a href="/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></div>
+<div class="type"><a href="/zh/docs/reference/config/type/workload-selector/#PortSelector">PortSelector[]</a></div>
 </div></td>
 <td>
 <p>Criteria for selecting traffic by their destination port.
