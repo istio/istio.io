@@ -23,7 +23,7 @@ Istio 1.30.0 is officially supported on Kubernetes versions 1.32 to 1.36.
 
 ### Agentgateway: experimental new gateway implementation
 
-Istio 1.30 ships experimental support for [agentgateway](https://github.com/istio/istio) as a Gateway API implementation. Agentgateway is a new gateway data plane built specifically for AI inference and agent traffic patterns. Try it by setting the relevant Gateway class. This is early-access functionality, expect rough edges, feedback is welcome.
+Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new gateway data plane built specifically for AI agents and MCP servers, and integrates with Istio via the `EnableAgentGateway` feature flag. This is early-access functionality, expect rough edges, feedback is welcome.
 
 ### Gateway API and TLSRoute improvements
 
@@ -35,7 +35,7 @@ Several ambient features land in 1.30:
 
 - **CIDR address support in `ServiceEntry`**. `ServiceEntry` resources can now use CIDR addresses for endpoints, enabling ambient routing for ranges of IPs without enumerating individual workloads.
 - **Optional XFCC synthesis at waypoints**. With the annotation `ambient.istio.io/xfcc-include-client-identity: "true"` on a waypoint Gateway, the waypoint synthesizes `x-forwarded-client-cert` from the ztunnel-provided source workload SPIFFE identity, so upstream apps can see the originating client.
-- **Configurable HBONE window sizing**. New environment variables let operators tune initial HTTP/2 stream and connection window sizes for HBONE CONNECT clusters, useful for high-throughput ambient workloads.
+- **Configurable HBONE window sizing** via `PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` and `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`, useful for tuning HBONE CONNECT clusters for high-throughput ambient workloads.
 - **Tokio runtime metrics in ztunnel** for clearer per-instance resource visibility.
 
 ### Traffic management additions
@@ -45,15 +45,15 @@ Several ambient features land in 1.30:
 - **DNS upstream timeout** is now configurable via `DNS_FORWARD_TIMEOUT`, with the existing `5s` default preserved.
 - **DNS failover priority** support for DNS clusters.
 - **Multiple CUSTOM authorization providers per workload**, enabling different authentication schemes (OAuth, LDAP, API keys) on different API paths.
-- **`TrafficExtension` API** in the extensions package, providing first-class support for Lua extensibility.
+- **`TrafficExtension` API**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
 
 ### Helm v4 support
 
-Istio 1.30 adds support for Helm v4 (server-side apply). A long-standing issue with webhook `failurePolicy` field ownership during upgrades has also been fixed. Users running Helm v4 should upgrade smoothly without the previous workarounds.
+Istio 1.30 adds support for Helm v4 (server-side apply). A long-standing issue with webhook `failurePolicy` field ownership during upgrades has also been addressed. Users running Helm v4 should upgrade smoothly without the previous workarounds.
 
 ### Security
 
-- **Authorized namespaces for debug endpoints** when `ENABLE_DEBUG_ENDPOINT_AUTH=true`, layering on top of 1.29's debug endpoint auth defaults.
+- **Debug endpoint authentication tightened.** XDS debug endpoints (`syncz`, `config_dump`) on port 15010 now require authentication when `ENABLE_DEBUG_ENDPOINT_AUTH=true` (default). A new `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` setting lets operators allow specific namespaces beyond the system namespace. See the [upgrade notes](upgrade-notes/) for the breaking-change details.
 - **TLS minimum version flag** for `pilot-discovery` (`--tls-min-version`), letting operators raise the floor for control-plane TLS.
 - **Default registry** for Istio images is now `registry.istio.io`. The previous registry remains accessible, but new installs default to the new location.
 
@@ -74,7 +74,7 @@ Istio 1.30 adds support for Helm v4 (server-side apply). A long-standing issue w
 ### Plus much more
 
 - **istioctl** improvements including a `--tls-min-version` plumbed through, sorting fixes for connection output, distroless istioctl image, and zc command refinements
-- **CNI** improvements: input validation for `excludeInterfaces`, `terminationGracePeriodSeconds` already present from 1.29 expanded with reconciliation tweaks
+- **CNI** improvements: kubelet probe fix for AWS EKS ambient pods using Security Groups for Pods (branch ENI), gated behind `AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE` (default on); input validation for `excludeInterfaces`; reconciliation tweaks
 - **Wasm**: configurable binary size limit, gzip decompression limit configurable, SSRF protection on Wasm fetches
 - **Multicluster**: support for loading remote secrets from a local filesystem path
 
