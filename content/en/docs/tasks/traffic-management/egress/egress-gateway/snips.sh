@@ -573,11 +573,11 @@ kubectl apply -f samples/curl/curl.yaml -n test-egress
 }
 
 snip_apply_kubernetes_network_policies_13() {
-kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}{" "}{.spec.initContainers[*].name}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_13_out <<\ENDSNIP
-curl istio-proxy
+curl istio-validation istio-proxy
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_14() {
@@ -594,11 +594,11 @@ EOF
 }
 
 snip_apply_kubernetes_network_policies_15() {
-kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
+kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}{" "}{.spec.initContainers[*].name}'
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_kubernetes_network_policies_15_out <<\ENDSNIP
-curl istio-proxy
+curl istio-validation istio-proxy
 ENDSNIP
 
 snip_apply_kubernetes_network_policies_16() {

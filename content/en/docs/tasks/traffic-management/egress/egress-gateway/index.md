@@ -883,15 +883,17 @@ EOF
     $ kubectl apply -f @samples/curl/curl.yaml@ -n test-egress
     {{< /text >}}
 
-12) Check that the deployed pod has two containers, including the Istio sidecar proxy (`istio-proxy`):
+12) Check that the deployed pod includes the Istio sidecar proxy (`istio-proxy`). On Kubernetes 1.33+, sidecars are injected as
+    [native sidecars](/blog/2023/native-sidecars/) (initContainers with `restartPolicy: Always`), so list both
+    `containers` and `initContainers`:
 
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-curl istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}{" "}{.spec.initContainers[*].name}'
+curl istio-validation istio-proxy
 {{< /text >}}
 
 Before proceeding, you'll need to create a similar destination rule as the one used for the `curl` pod in the `default` namespace,
@@ -915,8 +917,8 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-curl istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}{" "}{.spec.initContainers[*].name}'
+curl istio-validation istio-proxy
 {{< /text >}}
 
 {{< /tab >}}
