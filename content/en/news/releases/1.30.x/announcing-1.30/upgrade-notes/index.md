@@ -27,7 +27,7 @@ new, ambient-labeled pods in an excluded namespace will not be enrolled.
 
 ## Untaint controller
 
-If you enabled untaint controller using `taint.enabled` Helm value when deploying `istiod` chart, you previously also had to set the `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` environment variable in the `istiod` deployment to `true`. This is no longer required, as the variable is now set automatically when the untaint controller is enabled.
+The `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` environment variable is now automatically configured when `taint.enabled` is set in the Helm chart when deploying `istiod` chart. Manual activation of this variable in the istiod deployment is no longer necessary.
 
 ## Sidecar proxy service namespace selection changed
 

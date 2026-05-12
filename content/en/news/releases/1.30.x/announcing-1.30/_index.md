@@ -23,7 +23,7 @@ Istio 1.30.0 is officially supported on Kubernetes versions 1.32 to 1.36.
 
 ### Agentgateway: experimental new gateway implementation
 
-Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new gateway data plane built specifically for AI agents and MCP servers, and integrates with Istio via the `EnableAgentGateway` feature flag. This is early-access functionality, expect rough edges, feedback is welcome.
+Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new gateway data plane built specifically for AI agents and MCP servers, and integrates with Istio via the `PILOT_ENABLE_AGENTGATEWAY` env var. This is early-access functionality, expect rough edges, feedback is welcome.
 
 ### Gateway API and TLSRoute improvements
 

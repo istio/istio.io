@@ -35,7 +35,7 @@ transport socket connect timeout on gateway listeners. The default remains 15 se
 to disable the timeout for workloads that require longer TLS handshake times.
   ([Issue #56320](https://github.com/istio/istio/issues/56320))
 
-- **Added** HTTP compression capability (gzip, zstd) to HTTP server of pilot-agent.
+- **Added** HTTP compression capability (`gzip`, `zstd`) to HTTP server of pilot-agent.
   ([Issue #58697](https://github.com/istio/istio/issues/58697))
 
 - **Added** input validation for `traffic.sidecar.istio.io/excludeInterfaces` annotation
@@ -50,7 +50,7 @@ to ensure only valid Linux interface names are accepted, preventing iptables par
   ([Issue #58927](https://github.com/istio/istio/issues/58927))
 
 - **Added** experimental support for agentgateway in istio. Agentgateway
-configuration can be enabled through the `EnableAgentGateway` feature flag.
+configuration can be enabled through the `PILOT_ENABLE_AGENTGATEWAY` feature flag.
 Istio supports agentgateway configuration via the gateway API resources.
   ([Issue #59209](https://github.com/istio/istio/issues/59209))
 
@@ -119,7 +119,7 @@ propagation with `errors.Is()` and `errors.As()`.
   ([Issue #59295](https://github.com/istio/istio/issues/59295))
 
 - **Fixed** istiod crashing when `PILOT_ENABLE_AMBIENT=true`, but not
-`AMBIENT_ENABLE_MULTI_NETWORK` is set and a WorkloadEntry resource exists
+`AMBIENT_ENABLE_MULTI_NETWORK` is set and a `WorkloadEntry` resource exists
 with a different network than the local cluster.
   ([Issue #59321](https://github.com/istio/istio/issues/59321))
 
@@ -132,7 +132,7 @@ should return 500.
   ([Issue #59356](https://github.com/istio/istio/issues/59356))
 
 - **Fixed** multi-cluster installations trying to validate the wrong trust domain when the
-control plane does not have an updated `istio-reader` ClusterRole, failing to read the
+control plane does not have an updated `istio-reader` `ClusterRole`, failing to read the
 trust domain from the remote ConfigMap. Now, istiod will fallback to using the
 trust domain specified in the local mesh config until it can read the remote one.
   ([Issue #59474](https://github.com/istio/istio/issues/59474))
@@ -169,7 +169,7 @@ versa) in multi-network meshes with dualstack east-west gateway load balancers.
 - **Fixed** ReferenceGrant `to` field to handle multiple entries; previously only the last entry was effective, causing incorrect `RefNotPermitted` for references that matched an earlier entry.
 
 - **Fixed** status reporting for Gateway and ListenerSet resources to comply with the Gateway API specification `v1.5.0`.
-It changes Gateway status reporting to report the number of ListenerSets to be reported in AttachedListenerSets field
+It changes Gateway status reporting to report the number of ListenerSets to be reported in `AttachedListenerSets` field
 of the Gateway resource, instead of the number of Listeners. It also changes status reporting for ListenerSets to
 report the number of routes attached to each listener in the ListenerSet.
 
@@ -200,7 +200,7 @@ setting `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` to a comma separated list of au
 - **Fixed** incorrect mapping of `meshConfig.tlsDefaults.minProtocolVersion` to `tls_minimum_protocol_version` in downstream TLS context.
   ([Issue #58912](https://github.com/istio/istio/issues/58912))
 
-- **Fixed** serviceAccount matcher regex in AuthorizationPolicy to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names. ([CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350))
+- **Fixed** serviceAccount matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names. ([CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350))
   ([Issue #59700](https://github.com/istio/istio/issues/59700))
 
   **Credit**: This vulnerability was discovered and reported by Wernerina (<https://github.com/Wernerina>).
@@ -300,11 +300,11 @@ Otherwise, `appArmorProfile` field in `securityContext` is used.
   ([Issue #54721](https://github.com/istio/istio/issues/54721))
 
 - **Added** `values.global.enableReaderRBAC` (default: `true`) to control installation of
-`istio-reader-service-account` and its related `istio-reader` ClusterRole/ClusterRoleBinding
+`istio-reader-service-account` and its related `istio-reader` `ClusterRole`/`ClusterRoleBinding`
 for multicluster remote-secret workflows. Set it to `false` to disable installing these
 resources. When installing with Helm, set `global.enableReaderRBAC=false` on both the base and
 istiod charts, since the ServiceAccount is rendered by the base chart while the related
-ClusterRole/ClusterRoleBinding are rendered by the istiod chart.
+`ClusterRole`/`ClusterRoleBinding` are rendered by the `istiod` chart.
   ([Issue #56326](https://github.com/istio/istio/issues/56326))
 
 - **Added** Helm v4 (server-side apply) support. Fixed a webhook `failurePolicy` field ownership
