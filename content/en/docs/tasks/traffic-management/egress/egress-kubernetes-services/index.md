@@ -169,7 +169,7 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1.  Create endpoints for your service. Wikipedia uses Anycast, so the appropriate IP varies by
+1.  Create endpoints for your service. The appropriate IP varies by
     network location. The commands below resolve it dynamically:
 
     {{< text bash >}}
