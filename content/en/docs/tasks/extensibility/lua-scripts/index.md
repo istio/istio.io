@@ -11,7 +11,7 @@ status: Alpha
 {{< boilerplate alpha >}}
 
 Istio provides the ability to extend proxy functionality using inline [Lua](https://www.lua.org/) scripts
-via the [`TrafficExtension`](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API.
+via the [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/) API.
 Lua filters are a lightweight alternative to [WebAssembly](/docs/tasks/extensibility/wasm-modules/)
 for simple request and response transformations — the script is embedded directly in the resource and
 executed within the Envoy proxy, with no module distribution required.

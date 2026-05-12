@@ -10,7 +10,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio 提供了通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API，
+Istio 提供了通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/traffic_extension/) API，
 利用内联 [Lua](https://www.lua.org/) 脚本来扩展代理功能的能力。
 对于简单的请求和响应转换场景，Lua 过滤器是 [WebAssembly](/zh/docs/tasks/extensibility/wasm-modules/)
 的一种轻量级替代方案——脚本直接嵌入到资源配置中，并在 Envoy 代理内部执行，无需进行模块分发。

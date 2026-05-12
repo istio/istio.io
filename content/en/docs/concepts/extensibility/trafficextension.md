@@ -10,7 +10,7 @@ test: n/a
 ---
 
 Istio provides two mechanisms for extending the Istio proxy: WebAssembly (Wasm) and Lua.
-Both are configured using the [`TrafficExtension`](/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/) API,
+Both are configured using the [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/) API,
 which provides a unified way to attach extensions to workloads with consistent targeting and phase/priority ordering.
 
 ## Choosing a filter type

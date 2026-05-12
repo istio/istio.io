@@ -10,7 +10,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio 提供了通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/v1alpha1/traffic_extension/)
+Istio 提供了通过 [`TrafficExtension`](/zh/docs/reference/config/proxy_extensions/traffic_extension/)
 API 使用内联 [Lua](https://www.lua.org/) 脚本来扩展 waypoint 代理的能力。在 Ambient 模式下，
 `TrafficExtension` 资源必须通过 `targetRefs` 绑定到 waypoint 代理。
 
