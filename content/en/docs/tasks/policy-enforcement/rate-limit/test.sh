@@ -51,14 +51,18 @@ snip_global_rate_limit_advanced_case_2
 # verify global ratelimit
 _verify_same snip_verify_global_rate_limit_1 "$snip_verify_global_rate_limit_1_out"
 
-# verify global ratelimit advanced case
+# verify global ratelimit advanced case (/productpage and api use independent buckets)
 _verify_same snip_verify_global_rate_limit_2 "$snip_verify_global_rate_limit_2_out"
 
 # apply local ratelimit envoyfilter
 snip_local_rate_limit_2
 
-# verify local ratelimit
-_verify_same snip_verify_local_rate_limit_1 "$snip_verify_local_rate_limit_1_out"
+# Wait until the local rate limit filter has propagated to the productpage sidecar
+_verify_contains snip_verify_local_rate_limit_1 "$snip_verify_local_rate_limit_1_out"
+
+# verify local ratelimit: propagation gate above ensures bucket is full, so first
+# call should produce exactly 200 200 200 200 429
+_verify_same snip_verify_local_rate_limit_2 "$snip_verify_local_rate_limit_2_out"
 
 # @cleanup
 snip_cleanup_1

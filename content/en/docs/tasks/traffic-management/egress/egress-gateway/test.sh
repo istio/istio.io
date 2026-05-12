@@ -145,6 +145,12 @@ snip_apply_kubernetes_network_policies_11
 snip_apply_kubernetes_network_policies_12
 _wait_for_deployment test-egress curl
 
+# Restart the deployment to ensure sidecar is injected; there is a timing race
+# where the pod may be created before the admission webhook processes the new
+# istio-injection label on the namespace.
+kubectl rollout restart deployment/curl -n test-egress
+_wait_for_deployment test-egress curl
+
 if [ "$GATEWAY_API" == "true" ]; then
     # verify containers
     _verify_contains snip_apply_kubernetes_network_policies_15 "curl istio-proxy"
