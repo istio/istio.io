@@ -35,7 +35,7 @@ aliases:
   to disable the timeout for workloads that require longer TLS handshake times.
   ([Issue #56320](https://github.com/istio/istio/issues/56320))
 
-- **Added** HTTP compression capability (`gzip`, `zstd`) to HTTP server of pilot-agent.
+- **Added** HTTP compression capability (`gzip`, `zstd`) to the HTTP server of pilot-agent.
   ([Issue #58697](https://github.com/istio/istio/issues/58697))
 
 - **Added** input validation for `traffic.sidecar.istio.io/excludeInterfaces` annotation
