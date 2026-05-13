@@ -248,67 +248,67 @@ aliases:
   **Credit**: This vulnerability was discovered and reported by Sergey Kanibor at Luntry (<https://github.com/r0binak>).
 
 - **Fixed** missing `ReadHeaderTimeout` and `IdleTimeout` on the istiod webhook HTTPS server (port 15017),
-aligning it with the existing timeouts on the HTTP server (port 8080).
+  aligning it with the existing timeouts on the HTTP server (port 8080).
 
 - **Fixed** XDS debug endpoint to pass caller namespace for proper authorization checks.
 
 ## Telemetry
 
 - **Added** support for `app.kubernetes.io/name` and `service.istio.io/canonical-name` labels
-when populating `source_app` and `destination_app` metric labels. The priority order is:
-`app` (for backward compatibility), then `app.kubernetes.io/name`, then `service.istio.io/canonical-name`.
-This allows users who only have `app.kubernetes.io/name` labels to have their metrics properly populated.
+  when populating `source_app` and `destination_app` metric labels. The priority order is:
+  `app` (for backward compatibility), then `app.kubernetes.io/name`, then `service.istio.io/canonical-name`.
+  This allows users who only have `app.kubernetes.io/name` labels to have their metrics properly populated.
   ([Issue #58436](https://github.com/istio/istio/issues/58436))
 
 - **Added** `disableContextPropagation` field to the Telemetry Tracing API, allowing users to disable
-trace context header propagation (e.g., `X-B3-*`, `traceparent`) independently from span reporting.
-This is useful for preventing trace context leakage at egress gateways while maintaining internal observability.
+  trace context header propagation (e.g., `X-B3-*`, `traceparent`) independently from span reporting.
+  This is useful for preventing trace context leakage at egress gateways while maintaining internal observability.
   ([Issue #58871](https://github.com/istio/istio/issues/58871))
 
 - **Added** support for OpenTelemetry semantic convention-aligned service attribute enrichment
-for trace spans. When `serviceAttributeEnrichment: OTEL_SEMANTIC_CONVENTIONS` is set on the
-`OpenTelemetryTracingProvider` in `MeshConfig`, `service.name` is computed following the
-OTel K8s service attributes specification fallback chain. Additionally, `service.namespace`,
-`service.version`, and `service.instance.id` are injected as `OTEL_RESOURCE_ATTRIBUTES` on
-the sidecar at injection time, and the Environment resource detector is auto-enabled so
-Envoy picks up these attributes at startup.
+  for trace spans. When `serviceAttributeEnrichment: OTEL_SEMANTIC_CONVENTIONS` is set on the
+  `OpenTelemetryTracingProvider` in `MeshConfig`, `service.name` is computed following the
+  OTel K8s service attributes specification fallback chain. Additionally, `service.namespace`,
+  `service.version`, and `service.instance.id` are injected as `OTEL_RESOURCE_ATTRIBUTES` on
+  the sidecar at injection time, and the Environment resource detector is auto-enabled so
+  Envoy picks up these attributes at startup.
   ([Issue #55026](https://github.com/istio/istio/issues/55026))
 
 - **Added** a Resource Usage panel to the Ztunnel Grafana dashboard overlaying active TCP connections, open file descriptors, and open sockets per instance.
 
 - **Fixed** an issue where baggage-based peer metadata discovery interfered with TLS or
-PROXY traffic policies. As a short term fix we disable baggage-based metadata discovery
-for routes with TLS or PROXY traffic policies configured which may result in incomplete
-telemetry in multicluster deployments. We are working on addressing this limitation in
-the future releases.
+  PROXY traffic policies. As a short-term fix we disable baggage-based metadata discovery
+  for routes with TLS or PROXY traffic policies configured, which may result in incomplete
+  telemetry in multicluster deployments. We are working on addressing this limitation in
+  future releases.
   ([Issue #59117](https://github.com/istio/istio/issues/59117))
 
 ## Extensibility
 
 - **Added** support for configuring the Wasm binary size limit via the
-`ISTIO_WASM_MAX_BINARY_SIZE_BYTES` environment variable.
+  `ISTIO_WASM_MAX_BINARY_SIZE_BYTES` environment variable.
   ([Issue #59322](https://github.com/istio/istio/issues/59322))
 
 - **Fixed** missing size limit on gzip-decompressed WASM binaries fetched over HTTP, consistent with
-the limits already applied to other fetch paths.
+  the limits already applied to other fetch paths.
 
 ## Installation
 
-- **Added** value `useAppArmorAnnotation` to istio-cni helm chart. Defaults to `true`.
-When it is `true`, appArmor profile is set with `container.apparmor.security.beta.kubernetes.io` annotation (deprecated in Kubernetes 1.30).
-Otherwise, `appArmorProfile` field in `securityContext` is used.
+- **Added** value `useAppArmorAnnotation` to istio-cni Helm chart. Defaults to `true`.
+  When it is `true`, appArmor profile is set with `container.apparmor.security.beta.kubernetes.io` annotation (deprecated in Kubernetes 1.30).
+  Otherwise, `appArmorProfile` field in `securityContext` is used.
   ([Issue #54721](https://github.com/istio/istio/issues/54721))
 
 - **Added** `values.global.enableReaderRBAC` (default: `true`) to control installation of
-`istio-reader-service-account` and its related `istio-reader` `ClusterRole`/`ClusterRoleBinding`
-for multicluster remote-secret workflows. Set it to `false` to disable installing these
-resources. When installing with Helm, set `global.enableReaderRBAC=false` on both the base and
-istiod charts, since the ServiceAccount is rendered by the base chart while the related
-`ClusterRole`/`ClusterRoleBinding` are rendered by the `istiod` chart.
+  `istio-reader-service-account` and its related `istio-reader` `ClusterRole`/`ClusterRoleBinding`
+  for multicluster remote-secret workflows. Set it to `false` to disable installing these
+  resources. When installing with Helm, set `global.enableReaderRBAC=false` on both the base and
+  istiod charts, since the `ServiceAccount` is rendered by the base chart while the related
+  `ClusterRole`/`ClusterRoleBinding` are rendered by the `istiod` chart.
   ([Issue #56326](https://github.com/istio/istio/issues/56326))
 
 - **Added** Helm v4 (server-side apply) support. Fixed a webhook `failurePolicy` field ownership
-conflict that caused `helm upgrade` with SSA to fail.
+  conflict that caused `helm upgrade` with SSA to fail.
   ([Issue #58302](https://github.com/istio/istio/issues/58302)),([Issue #59367](https://github.com/istio/istio/issues/59367))
 
 - **Added** configurable port overrides for the network gateway service via `networkGatewayPorts` values.
@@ -318,51 +318,51 @@ conflict that caused `helm upgrade` with SSA to fail.
   ([Issue #59072](https://github.com/istio/istio/issues/59072))
 
 - **Added** logging of configuration analysis warnings and errors in istiod logs
-for all Istio resource types (DestinationRule, EnvoyFilter, Sidecar, etc.),
-so operators no longer need to inspect individual resource status fields to
-discover misconfigurations.
+  for all Istio resource types (`DestinationRule`, `EnvoyFilter`, `Sidecar`, etc.),
+  so operators no longer need to inspect individual resource status fields to
+  discover misconfigurations.
   ([Issue #59105](https://github.com/istio/istio/issues/59105))
 
 - **Added** `WaypointBound` status condition to `WorkloadEntry` resources, reporting whether the workload is
-successfully attached to its waypoint proxy or if there was an error binding.
+  successfully attached to its waypoint proxy or if there was an error binding.
   ([Issue #59993](https://github.com/istio/istio/issues/59993))
 
 - **Added** `--tls-min-version` flag to `pilot-discovery` to configure the minimum TLS version
-for the istiod server and webhook. Supported values are `1.2` (default) and `1.3`.
+  for the istiod server and webhook. Supported values are `1.2` (default) and `1.3`.
   ([Issue #58789](https://github.com/istio/istio/issues/58789))
 
-- **Added** `registry.istio.io` as the default registry for istio images.
+- **Added** `registry.istio.io` as the default registry for Istio images.
 
-- **Added** `dnsPolicy` and `dnsConfig` fields to ztunnel Helm chart for custom DNS configuration in environments with non-standard DNS requirements.
+- **Added** `dnsPolicy` and `dnsConfig` fields to the ztunnel Helm chart for custom DNS configuration in environments with non-standard DNS requirements.
 
 - **Fixed** CNI config file permissions to default to 0600 instead of 0644 for CIS Kubernetes benchmark `v1.12`
-compliance. Group read access can be enabled by
-setting `values.cni.env.CNI_CONF_GROUP_READ=true` environment variable on the
-istio-cni-node DaemonSet, which sets permissions to 0640.
+  compliance. Group read access can be enabled by
+  setting `values.cni.env.CNI_CONF_GROUP_READ=true` environment variable on the
+  istio-cni-node `DaemonSet`, which sets permissions to 0640.
   ([Issue #59071](https://github.com/istio/istio/issues/59071))
 
-- **Fixed** a nil pointer dereference that occurs during the upgrade process in multi-primary deployment.
+- **Fixed** a nil pointer dereference that occurred during the upgrade process in a multi-primary deployment.
   ([Issue #59153](https://github.com/istio/istio/issues/59153))
 
 - **Fixed** an issue where setting resource limits or requests to `null` would cause validation errors (`cpu request must be less than or equal to cpu limit of 0`). This affected proxy injection, gateway generation, and Helm chart deployments.
   ([Issue #58805](https://github.com/istio/istio/issues/58805))
 
-- **Fixed** missing `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` environment variable in `istiod` deployment when enabling untaint controller.
+- **Fixed** missing `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` environment variable in `istiod` deployment when enabling the untaint controller.
   ([Issue #52050](https://github.com/istio/istio/issues/52050))
 
-- **Fixed** unnecessary Helm reconciliations caused by `from: []` in NetworkPolicy ingress rules.
+- **Fixed** unnecessary Helm reconciliations caused by `from: []` in `NetworkPolicy` ingress rules.
 
 - **Fixed** a field manager conflict on `ValidatingWebhookConfiguration` during `helm upgrade` with
-server-side apply in tools that respect `.Release.IsUpgrade` (Helm 4, Flux). The `failurePolicy`
-field is now omitted from the webhook template on upgrade, preserving the value set at runtime
-by the webhook controller. For tools that use `helm template` with SSA, set
-`base.validationFailurePolicy: Fail` to avoid the conflict.
+  server-side apply in tools that respect `.Release.IsUpgrade` (Helm 4, Flux). The `failurePolicy`
+  field is now omitted from the webhook template on upgrade, preserving the value set at runtime
+  by the webhook controller. For tools that use `helm template` with SSA, set
+  `base.validationFailurePolicy: Fail` to avoid the conflict.
 
 ## istioctl
 
 - **Improved** the `istioctl bug-report` command's performance.
 
-- **Added** `--skip-cluster-dump`, `--skip-analyze`,  `--skip-proxy-debug`, `--skip-netstat`, and `--skip-coredumps` flags to the `istioctl bug-report` command to allow skipping expensive sections of the report.
+- **Added** `--skip-cluster-dump`, `--skip-analyze`, `--skip-proxy-debug`, `--skip-netstat`, and `--skip-coredumps` flags to the `istioctl bug-report` command to allow skipping expensive sections of the report.
 
 - **Fixed** log fetching with support for include and exclude filtering for pod selection.
 
