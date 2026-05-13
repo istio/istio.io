@@ -14,175 +14,175 @@ aliases:
 
 - **Improved** endpoint selection for multi-network environments to use the gateway for network-specific endpoints when the local proxy network is unset.
 
-- **Improved** sidecar proxy service namespace selection. When configuring sidecar proxies if a hostname exists
-in multiple namespaces, Istio now prefers Kubernetes services and falls back to the oldest non-Kubernetes
-service (e.g. `ServiceEntry`) by creation time. Previously, the first visible namespace alphabetically was
-chosen.
+- **Improved** sidecar proxy service namespace selection. When configuring sidecar proxies, if a hostname exists
+  in multiple namespaces, Istio now prefers Kubernetes services and falls back to the oldest non-Kubernetes
+  service (e.g. `ServiceEntry`) by creation time. Previously, the first visible namespace alphabetically was
+  chosen.
 
 - **Added** opt-in synthesis of `x-forwarded-client-cert` at ambient waypoints. Setting the
-annotation `ambient.istio.io/xfcc-include-client-identity: "true"` on a waypoint `Gateway`
-(or its `GatewayClass`) causes the waypoint to overwrite XFCC on forwarded requests with an
-entry populated from the ztunnel-provided source workload SPIFFE identity, so upstream apps
-can see the originating client. Any inbound XFCC value is replaced. Waypoints without the
-annotation are unaffected.
+  annotation `ambient.istio.io/xfcc-include-client-identity: "true"` on a waypoint `Gateway`
+  (or its `GatewayClass`) causes the waypoint to overwrite XFCC on forwarded requests with an
+  entry populated from the ztunnel-provided source workload SPIFFE identity, so upstream apps
+  can see the originating client. Any inbound XFCC value is replaced. Waypoints without the
+  annotation are unaffected.
   ([Issue #54995](https://github.com/istio/istio/issues/54995))
 
-- **Added** support for TLSRoute termination and mixed mode
+- **Added** support for `TLSRoute` termination and mixed mode.
   ([Issue #55728](https://github.com/istio/istio/issues/55728))
 
 - **Added** `PILOT_GATEWAY_TRANSPORT_SOCKET_CONNECT_TIMEOUT` environment variable to configure the
-transport socket connect timeout on gateway listeners. The default remains 15 seconds. Set to `0s`
-to disable the timeout for workloads that require longer TLS handshake times.
+  transport socket connect timeout on gateway listeners. The default remains 15 seconds. Set to `0s`
+  to disable the timeout for workloads that require longer TLS handshake times.
   ([Issue #56320](https://github.com/istio/istio/issues/56320))
 
-- **Added** HTTP compression capability (`gzip`, `zstd`) to HTTP server of pilot-agent.
+- **Added** HTTP compression capability (`gzip`, `zstd`) to the HTTP server of pilot-agent.
   ([Issue #58697](https://github.com/istio/istio/issues/58697))
 
 - **Added** input validation for `traffic.sidecar.istio.io/excludeInterfaces` annotation
-to ensure only valid Linux interface names are accepted, preventing iptables parameter injection.
+  to ensure only valid Linux interface names are accepted, preventing `iptables` parameter injection.
   ([Issue #58781](https://github.com/istio/istio/issues/58781))
 
 - **Added** support for loading multicluster remote secrets from a local filesystem path specified by
-`PILOT_MULTICLUSTER_KUBECONFIG_PATH`. When set, Istiod watches the mounted directory (for
-`.yaml` or `.yml` keys) and dynamically updates remote cluster registrations. If both
-`PILOT_MULTICLUSTER_KUBECONFIG_PATH` and `LOCAL_CLUSTER_SECRET_WATCHER` are set,
-`PILOT_MULTICLUSTER_KUBECONFIG_PATH` takes precedence.
+  `PILOT_MULTICLUSTER_KUBECONFIG_PATH`. When set, Istiod watches the mounted directory (for
+  `.yaml` or `.yml` keys) and dynamically updates remote cluster registrations. If both
+  `PILOT_MULTICLUSTER_KUBECONFIG_PATH` and `LOCAL_CLUSTER_SECRET_WATCHER` are set,
+  `PILOT_MULTICLUSTER_KUBECONFIG_PATH` takes precedence.
   ([Issue #58927](https://github.com/istio/istio/issues/58927))
 
-- **Added** experimental support for agentgateway in istio. Agentgateway
-configuration can be enabled through the `PILOT_ENABLE_AGENTGATEWAY` feature flag.
-Istio supports agentgateway configuration via the gateway API resources.
+- **Added** experimental support for agentgateway in Istio. Agentgateway
+  configuration can be enabled through the `PILOT_ENABLE_AGENTGATEWAY` feature flag.
+  Istio supports agentgateway configuration via the Gateway API resources.
   ([Issue #59209](https://github.com/istio/istio/issues/59209))
 
-- **Added** CIDR address support for ServiceEntry in ambient mode. ServiceEntries with CIDR
-addresses (e.g., `10.0.0.0/24`) are now propagated to ztunnel, enabling longest-prefix-match
-routing for traffic destined to IP ranges.
+- **Added** CIDR address support for `ServiceEntry` in ambient mode. `ServiceEntries` with CIDR
+  addresses (e.g., `10.0.0.0/24`) are now propagated to ztunnel, enabling longest-prefix-match
+  routing for traffic destined to IP ranges.
   ([Issue #59797](https://github.com/istio/istio/issues/59797))
 
-- **Added** Initial HTTP/2 stream and connection window sizes for HBONE CONNECT upstream clusters (generated for
-waypoints and east-west gateways) can be configured using feature flags
-`PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` and `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`. These may be used to
-reduce unwanted buffering.
+- **Added** the ability to configure initial HTTP/2 stream and connection window sizes for HBONE CONNECT upstream clusters
+  (generated for waypoints and east-west gateways) via feature flags
+  `PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` and `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`. These may be used to
+  reduce unwanted buffering.
   ([Issue #59961](https://github.com/istio/istio/issues/59961))
 
-- **Added** an `istio.io/connect-strategy` annotation to ServiceEntries to allow different DNS connection semantics. Users can set this to `RACE_FIRST_TCP_CONNECT` when DNS servers return multiple A records and the client should test each endpoint and pick the first one that results in a successful TCP connection.
+- **Added** an `istio.io/connect-strategy` annotation to `ServiceEntries` to allow different DNS connection semantics. Users can set this to `RACE_FIRST_TCP_CONNECT` when DNS servers return multiple A records and the client should test each endpoint and pick the first one that results in a successful TCP connection.
   ([Issue #59083](https://github.com/istio/istio/issues/59083))
 
 - **Added** failover priority support for DNS clusters.
   ([Issue #58674](https://github.com/istio/istio/issues/58674))
 
-- **Added** configurable DNS upstream timeout via `DNS_FORWARD_TIMEOUT` environment variable. The default timeout remains 5 seconds. Users can increase the timeout for high-latency DNS servers or decrease it to reduce user-impacting latency when DNS servers are unresponsive (fail faster to try next server sooner). Set via `DNS_FORWARD_TIMEOUT=10s` in istio-proxy container or mesh-wide via `proxyMetadata`.
+- **Added** configurable DNS upstream timeout via `DNS_FORWARD_TIMEOUT` environment variable. The default timeout remains 5 seconds. Users can increase the timeout for high-latency DNS servers or decrease it to reduce user-impacting latency when DNS servers are unresponsive (fail faster to try next server sooner). Set via `DNS_FORWARD_TIMEOUT=10s` in the `istio-proxy` container or mesh-wide via `proxyMetadata`.
   ([Issue #59813](https://github.com/istio/istio/issues/59813))
 
 - **Added** support for TLS passthrough listeners on east-west gateways, allowing
-non-HBONE ports to be exposed via the Gateway API (e.g., to route traffic to
-the Kubernetes API server across network boundaries). This requires
-`AMBIENT_ENABLE_MULTI_NETWORK` to be enabled.
+  non-HBONE ports to be exposed via the Gateway API (e.g., to route traffic to
+  the Kubernetes API server across network boundaries). This requires
+  `AMBIENT_ENABLE_MULTI_NETWORK` to be enabled.
   ([Issue #59223](https://github.com/istio/istio/issues/59223))
 
-- **Added** namespace-level traffic distribution annotation. Services inherit traffic distribution from namespace annotation when not explicitly set on the service.
+- **Added** namespace-level traffic distribution annotation. Services inherit traffic distribution from the namespace annotation when not explicitly set on the service.
   ([Issue #58701](https://github.com/istio/istio/issues/58701))
 
-- **Added** DYNAMIC_DNS wildcard ServiceEntry support for sidecar proxies for both MESH_INTERNAL and MESH_EXTERNAL locations.
-Enables L7 HTTP routing (via Host header) and L4 TLS routing (via SNI) with observability for wildcard hosts (e.g., `*.example.com`)
-in traditional sidecar mode. Note that it is possible to spoof SNI for TLS connections that match the wildcard host.
-E.g. a client connecting to `foo.example.com` could connect via SE `*.example.com`  while having SNI set to `bar.example.com`.
+- **Added** `DYNAMIC_DNS` wildcard `ServiceEntry` support for sidecar proxies for both `MESH_INTERNAL` and `MESH_EXTERNAL` locations.
+  Enables L7 HTTP routing (via Host header) and L4 TLS routing (via SNI) with observability for wildcard hosts (e.g., `*.example.com`)
+  in traditional sidecar mode. Note that it is possible to spoof SNI for TLS connections that match the wildcard host.
+  E.g. a client connecting to `foo.example.com` could connect via `ServiceEntry` `*.example.com` while having SNI set to `bar.example.com`.
   ([Issue #58244](https://github.com/istio/istio/issues/58244))
 
 - **Added** `TrafficExtension` API to the extensions package, enabling first-class support for Lua extensibility.
 
-- **Enabled** `protocol: TLS` Gateway listeners by default.** Gateway listeners with `protocol:
-TLS` (used for TLS passthrough via `TLSRoute`) are now accepted without requiring
-`PILOT_ENABLE_ALPHA_GATEWAY_API=true`, since TLSRoute graduated to GA in Gateway API `v1.5.0`.
+- **Enabled** `protocol: TLS` Gateway listeners by default. Gateway listeners with `protocol:
+  TLS` (used for TLS passthrough via `TLSRoute`) are now accepted without requiring
+  `PILOT_ENABLE_ALPHA_GATEWAY_API=true`, since `TLSRoute` graduated to GA in Gateway API `v1.5.0`.
 
-- **Fixed** an issue preventing the usage of Kubernetes User Namespaces (hostUsers: false) pods together with istio-cni, support is limited to operating systems with nsenter binary.  ([Issue #58750](https://github.com/istio/istio/issues/58750))
+- **Fixed** an issue preventing the usage of Kubernetes User Namespaces (`hostUsers: false`) pods together with istio-cni. Support is limited to operating systems with the `nsenter` binary. ([Issue #58750](https://github.com/istio/istio/issues/58750))
 
 - **Fixed** Gateway API CORS handling: properly parse the `Origin` header when wildcard origins are used, ignore unmatched preflights, and apply stricter `Origin` header parsing overall.
   ([Issue #59018](https://github.com/istio/istio/issues/59018), [Issue #59026](https://github.com/istio/istio/issues/59026))
 
 - **Fixed** an issue where waypoints failed to add the TLS inspector
-listener filter when only TLS ports existed, causing SNI-based routing
-to fail for wildcard ServiceEntry with `resolution: DYNAMIC_DNS`.
+  listener filter when only TLS ports existed, causing SNI-based routing
+  to fail for wildcard `ServiceEntry` resources with `resolution: DYNAMIC_DNS`.
   ([Issue #59024](https://github.com/istio/istio/issues/59024))
 
 - **Fixed** error wrapping in file-based config store to use `%w` verb, enabling proper error chain
-propagation with `errors.Is()` and `errors.As()`.
+  propagation with `errors.Is()` and `errors.As()`.
   ([Issue #59078](https://github.com/istio/istio/issues/59078))
 
-- **Fixed** Gateway API `tls.Options[gateway.istio.io/tls-terminate-mode]` to properly override TLS mode after CACertificateRefs processing.
+- **Fixed** Gateway API `tls.Options[gateway.istio.io/tls-terminate-mode]` to properly override TLS mode after `CACertificateRefs` processing.
   ([Issue #59098](https://github.com/istio/istio/issues/59098))
 
-- **Fixed** a nil pointer dereference in ServiceEntry validation for DYNAMIC_DNS resolution that could crash istiod.
+- **Fixed** a nil pointer dereference in `ServiceEntry` validation for `DYNAMIC_DNS` resolution that could crash istiod.
   ([Issue #59171](https://github.com/istio/istio/issues/59171))
 
-- **Fixed** `cni` agent behavior to respect excludeNamespaces config so that behavior is consistent between the plugin and agent.
+- **Fixed** `cni` agent behavior to respect `excludeNamespaces` config so that behavior is consistent between the plugin and agent.
   ([Issue #59295](https://github.com/istio/istio/issues/59295))
 
-- **Fixed** istiod crashing when `PILOT_ENABLE_AMBIENT=true`, but not
-`AMBIENT_ENABLE_MULTI_NETWORK` is set and a `WorkloadEntry` resource exists
-with a different network than the local cluster.
+- **Fixed** istiod crashing when `PILOT_ENABLE_AMBIENT=true` but
+  `AMBIENT_ENABLE_MULTI_NETWORK` is not set and a `WorkloadEntry` resource exists
+  with a different network than the local cluster.
   ([Issue #59321](https://github.com/istio/istio/issues/59321))
 
-- **Fixed** an issue preventing multi-cluster waypoint routing with single network (no east-west gateway).  ([Issue #58133](https://github.com/istio/istio/issues/58133))
+- **Fixed** an issue preventing multi-cluster waypoint routing with single network (no east-west gateway). ([Issue #58133](https://github.com/istio/istio/issues/58133))
 
 - **Fixed** an issue where an `HTTPRoute` with no `backendRefs` returned an HTTP 500 status code
-instead of the expected 404. Per the Gateway API specification, routes without any backend
-references should return 404, while routes with backend references that all have zero weight
-should return 500.
+  instead of the expected 404. Per the Gateway API specification, routes without any backend
+  references should return 404, while routes with backend references that all have zero weight
+  should return 500.
   ([Issue #59356](https://github.com/istio/istio/issues/59356))
 
 - **Fixed** multi-cluster installations trying to validate the wrong trust domain when the
-control plane does not have an updated `istio-reader` `ClusterRole`, failing to read the
-trust domain from the remote ConfigMap. Now, istiod will fallback to using the
-trust domain specified in the local mesh config until it can read the remote one.
+  control plane does not have an updated `istio-reader` `ClusterRole`, failing to read the
+  trust domain from the remote `ConfigMap`. Now, istiod will fall back to using the
+  trust domain specified in the local mesh config until it can read the remote one.
   ([Issue #59474](https://github.com/istio/istio/issues/59474))
 
-- **Fixed** applying multiple VirtualService for the same hostname to waypoints.
+- **Fixed** applying multiple `VirtualService` resources for the same hostname to waypoints.
   ([Issue #59483](https://github.com/istio/istio/issues/59483))
 
-- **Fixed** a bug when E/W gateway occasionally routed HBONE connections to a wrong service due to
-incorrect connection pooling in Envoy.
+- **Fixed** a bug where E/W gateway occasionally routed HBONE connections to a wrong service due to
+  incorrect connection pooling in Envoy.
   ([Issue #58630](https://github.com/istio/istio/issues/58630))
 
-- **Fixed** gateway deployment controller rejecting DaemonSet kind during reconciliation.
+- **Fixed** gateway deployment controller rejecting `DaemonSet` kind during reconciliation.
   ([Issue #59498](https://github.com/istio/istio/issues/59498))
 
-- **Fixed** an issue where all Gateways were restarted after istiod was restarted.
+- **Fixed** an issue where all `Gateways` were restarted after istiod was restarted.
   ([Issue #59709](https://github.com/istio/istio/issues/59709))
 
 - **Fixed** kubelet health probe failures for ambient mesh pods on AWS EKS when using
-Security Groups for Pods (branch ENI). istio-cni now detects branch ENI pods and
-adds ip rules to route probe traffic via the veth pair instead of VPC fabric.
-Gated behind `AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE` (enabled by default).
+  Security Groups for Pods (branch ENI). istio-cni now detects branch ENI pods and
+  adds IP rules to route probe traffic via the veth pair instead of VPC fabric.
+  Gated behind `AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE` (enabled by default).
 
 - **Fixed** istiod pushing unreachable IPv6 gateway endpoints to IPv4-only proxies (and vice
-versa) in multi-network meshes with dualstack east-west gateway load balancers.
+  versa) in multi-network meshes with dualstack east-west gateway load balancers.
 
-- **Fixed** a race condition that caused a panic when HTTPRoutes where added then immediately removed. This could occur when a user applied an HTTPRoute, then deleted it before the controller had a chance to process it.
+- **Fixed** a race condition that caused a panic when `HTTPRoutes` were added then immediately removed. This could occur when a user applied an `HTTPRoute`, then deleted it before the controller had a chance to process it.
 
-- **Fixed** HTTPRoute and GRPCRoute can now coexist on the same gateway hostname without conflicts.
+- **Fixed** an issue preventing `HTTPRoute` and `GRPCRoute` from coexisting on the same gateway hostname without conflicts.
   ([Issue #59222](https://github.com/istio/istio/issues/59222))
 
 - **Fixed** `GetAllAddressesForProxy` returning unreachable service addresses to proxies when the
-`DefaultAddress` IP family does not match the proxy's supported IP family.
+  `DefaultAddress` IP family does not match the proxy's supported IP family.
 
-- **Fixed** ReferenceGrant `to` field to handle multiple entries; previously only the last entry was effective, causing incorrect `RefNotPermitted` for references that matched an earlier entry.
+- **Fixed** `ReferenceGrant` `to` field to handle multiple entries; previously only the last entry was effective, causing incorrect `RefNotPermitted` for references that matched an earlier entry.
 
-- **Fixed** status reporting for Gateway and ListenerSet resources to comply with the Gateway API specification `v1.5.0`.
-It changes Gateway status reporting to report the number of ListenerSets to be reported in `AttachedListenerSets` field
-of the Gateway resource, instead of the number of Listeners. It also changes status reporting for ListenerSets to
-report the number of routes attached to each listener in the ListenerSet.
+- **Fixed** status reporting for `Gateway` and `ListenerSet` resources to comply with the Gateway API specification `v1.5.0`.
+  It changes `Gateway` status reporting to include the number of `ListenerSets` in the `AttachedListenerSets` field
+  of the `Gateway` resource, instead of the number of Listeners. It also changes status reporting for `ListenerSets` to
+  report the number of routes attached to each listener in the `ListenerSet`.
 
 - **Fixed** a bug where the default `percent` for `retryBudget` in `DestinationRule` was
-incorrectly set to 0.2% instead of the intended 20%.  ([Issue #59504](https://github.com/istio/istio/issues/59504))
+  incorrectly set to 0.2% instead of the intended 20%. ([Issue #59504](https://github.com/istio/istio/issues/59504))
 
-- **Fixed** a bug where `retryBudget` set in a DestinationRule's top-level `trafficPolicy`
-was silently dropped when the destination also had a subset with its own `trafficPolicy`.
-Additionally, the `retryBudget` defined at the subset level was also ignored.
+- **Fixed** a bug where `retryBudget` set in a `DestinationRule`'s top-level `trafficPolicy`
+  was silently dropped when the destination also had a subset with its own `trafficPolicy`.
+  Additionally, the `retryBudget` defined at the subset level was also ignored.
   ([Issue #59667](https://github.com/istio/istio/issues/59667))
 
-- **Fixed** stale `status.addresses` not being cleared when a ServiceEntry is updated
-such that it no longer qualifies for IP auto-allocation.
+- **Fixed** stale `status.addresses` not being cleared when a `ServiceEntry` is updated
+  such that it no longer qualifies for IP auto-allocation.
   ([Issue #58974](https://github.com/istio/istio/issues/58974))
 
 - **Fixed** a race condition that caused intermittent "proxy::h2 ping error: broken pipe" error logs.
@@ -194,19 +194,19 @@ such that it no longer qualifies for IP auto-allocation.
   ([Issue #57933](https://github.com/istio/istio/issues/57933)),([Issue #55142](https://github.com/istio/istio/issues/55142)),([Issue #34041](https://github.com/istio/istio/issues/34041))
 
 - **Added** the ability to specify authorized namespaces for debug endpoints when `ENABLE_DEBUG_ENDPOINT_AUTH=true`. Enable by
-setting `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` to a comma separated list of authorized namespaces. The system namespace
-(typically `istio-system`) is always authorized.
+  setting `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` to a comma-separated list of authorized namespaces. The system namespace
+  (typically `istio-system`) is always authorized.
 
-- **Fixed** incorrect mapping of `meshConfig.tlsDefaults.minProtocolVersion` to `tls_minimum_protocol_version` in downstream TLS context.
+- **Fixed** incorrect mapping of `meshConfig.tlsDefaults.minProtocolVersion` to `tls_minimum_protocol_version` in the downstream TLS context.
   ([Issue #58912](https://github.com/istio/istio/issues/58912))
 
-- **Fixed** serviceAccount matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names. ([CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350))
+- **Fixed** `serviceAccount` matcher regex in `AuthorizationPolicy` to properly quote the service account name, allowing for correct matching of service accounts with special characters in their names. ([CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350))
   ([Issue #59700](https://github.com/istio/istio/issues/59700))
 
   **Credit**: This vulnerability was discovered and reported by Wernerina (<https://github.com/Wernerina>).
 
 - **Fixed** an issue where Istiod could issue leaf certificates with a `NotAfter` time beyond
-the signing certificate's expiration.
+  the signing certificate's expiration.
   ([Issue #59768](https://github.com/istio/istio/issues/59768))
 
 - **Fixed** an authorization bypass in `AuthorizationPolicy` matching for SPIFFE identities and namespaces. Regex metacharacters in fields like `source.principals` (suffix matching) and `source.namespaces` were not properly escaped in the generated Envoy configuration, potentially allowing unintended identities to match policy rules.
@@ -215,8 +215,8 @@ the signing certificate's expiration.
   **Credit**: This vulnerability was discovered and reported by Alex (<https://github.com/Alex0Young>).
 
 - **Fixed** a bug where CA bundle rotation would not occur when certificates appeared in different orders.
-Only standard `CERTIFICATE` PEM blocks are considered during comparison; other block types
-(e.g., `TRUSTED CERTIFICATE`) are ignored, consistent with existing CA bundle handling in Istio.
+  Only standard `CERTIFICATE` PEM blocks are considered during comparison; other block types
+  (e.g., `TRUSTED CERTIFICATE`) are ignored, consistent with existing CA bundle handling in Istio.
   ([Issue #59909](https://github.com/istio/istio/issues/59909))
 
 - **Fixed** a critical security vulnerability where Istio's JWKS fallback mechanism leaked an RSA private key, allowing attackers to forge JWT tokens and bypass authentication when JWKS fetch fails. See [CVE-2026-31837](https://nvd.nist.gov/vuln/detail/CVE-2026-31837) for details.
@@ -224,26 +224,26 @@ Only standard `CERTIFICATE` PEM blocks are considered during comparison; other b
 
   **Credit**: This vulnerability was discovered and reported by 1seal (<https://github.com/1seal>).
 
-- **Fixed** JWKS URI CIDR blocking by using a custom control function in a custom DialContext.
-The control function filters connections after DNS resolution but before dialing, allowing
-the block to follow redirects and issuer discovery path. This also preserves features
-in the default DialContext like happy eyeballs and dialSerial (trying each resolved IP in order). ([CVE-2026-41413](https://nvd.nist.gov/vuln/detail/CVE-2026-41413))
+- **Fixed** JWKS URI CIDR blocking by using a custom control function in a custom `DialContext`.
+  The control function filters connections after DNS resolution but before dialing, allowing
+  the block to follow redirects and the issuer discovery path. This also preserves features
+  in the default `DialContext` like happy eyeballs and `dialSerial` (trying each resolved IP in order). ([CVE-2026-41413](https://nvd.nist.gov/vuln/detail/CVE-2026-41413))
 
   **Credit**: This vulnerability was discovered and reported by KoreaSecurity (<https://github.com/KoreaSecurity>), 1seal (<https://github.com/1seal>), and AKiileX (<https://github.com/AKiileX>).
 
-- **Fixed** XDS debug endpoints (syncz, config_dump) to require authentication.
-Previously accessible without authentication on plaintext XDS port 15010.
-Controlled by `ENABLE_DEBUG_ENDPOINT_AUTH` (same flag as HTTP debug endpoints). ([CVE-2026-31838](https://nvd.nist.gov/vuln/detail/CVE-2026-31838))
+- **Fixed** XDS debug endpoints (`syncz`, `config_dump`) to require authentication.
+  Previously accessible without authentication on plaintext XDS port 15010.
+  Controlled by `ENABLE_DEBUG_ENDPOINT_AUTH` (same flag as HTTP debug endpoints). ([CVE-2026-31838](https://nvd.nist.gov/vuln/detail/CVE-2026-31838))
 
   **Credit**: This vulnerability was discovered and reported by 1seal (<https://github.com/1seal>).
 
-- **Fixed** XDS debug endpoints (`istio.io/debug/syncz`, `istio.io/debug/config_dump`) served by StatusGen to enforce
-same-namespace authorization for non-system callers. Previously an authenticated workload from any namespace could
-enumerate proxies and retrieve config dumps for workloads in other namespaces.
+- **Fixed** XDS debug endpoints (`istio.io/debug/syncz`, `istio.io/debug/config_dump`) served by `StatusGen` to enforce
+  same-namespace authorization for non-system callers. Previously an authenticated workload from any namespace could
+  enumerate proxies and retrieve config dumps for workloads in other namespaces.
 
   **Credit**: This vulnerability was discovered and reported by 1seal (<https://github.com/1seal>).
 
-- **Fixed** potential SSRF in WasmPlugin image fetching by validating bearer token realm URLs.
+- **Fixed** potential SSRF in `WasmPlugin` image fetching by validating bearer token realm URLs.
 
   **Credit**: This vulnerability was discovered and reported by Sergey Kanibor at Luntry (<https://github.com/r0binak>).
 
