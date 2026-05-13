@@ -374,22 +374,22 @@ aliases:
   ([Issue #58584](https://github.com/istio/istio/issues/58584))
 
 - **Added** support for `istioctl proxy-status -oyaml/json` to list proxy
-status of a single namespace.
+  status of a single namespace.
   ([Issue #59377](https://github.com/istio/istio/issues/59377))
 
 - **Added** an `istioctl analyze` warning (IST0175) when `RequestAuthentication` resources exist
-but `BLOCKED_CIDRS_IN_JWKS_URIS` is not configured on istiod.
+  but `BLOCKED_CIDRS_IN_JWKS_URIS` is not configured on istiod.
   ([Issue #59523](https://github.com/istio/istio/issues/59523))
 
-- **Added** JSON and YAML output options to `istioctl proxy-status` subcommand.
+- **Added** JSON and YAML output options to the `istioctl proxy-status` subcommand.
   ([Issue #56880](https://github.com/istio/istio/issues/56880))
 
 - **Added** support for filtering `istioctl ztunnel-config workload` and `istioctl ztunnel-config connections` output by workload pod name.
 
-- **Fixed** an issue that `istioctl` falsely reported error on `EnvoyFilter` with `REPLACE` operation on `VIRTUAL_HOST`.
+- **Fixed** an issue where `istioctl` falsely reported an error on `EnvoyFilter` with `REPLACE` operation on `VIRTUAL_HOST`.
   ([Issue #59495](https://github.com/istio/istio/issues/59495))
 
-- **Fixed** a sorting bug in `istioctl ztunnel-config` connections which caused the output sorting to be non-deterministic.
+- **Fixed** a sorting bug in `istioctl ztunnel-config connections` which caused the output sorting to be non-deterministic.
   ([Issue #59775](https://github.com/istio/istio/pull/59775))
 
 - **Fixed** an issue where `istioctl ztunnel-config service` JSON and YAML output did not include the `canonical` field from the ztunnel config dump.
@@ -398,10 +398,10 @@ but `BLOCKED_CIDRS_IN_JWKS_URIS` is not configured on istiod.
 - **Fixed** an issue where `istioctl ztunnel-config service` JSON and YAML output did not include `cidrVips` from the ztunnel config dump.
   ([Issue #59962](https://github.com/istio/istio/issues/59962))
 
-- **Fixed** an issue where the distroless istioctl containers were being built with the wrong base
-image.
+- **Fixed** an issue where the distroless `istioctl` containers were being built with the wrong base
+  image.
 
 ## Documentation changes
 
-- **Updated** Gateway API Inference Extension documentation is now located in the architecture section.
+- **Updated** the location of the Gateway API Inference Extension documentation; it is now in the architecture section.
   ([Issue #56948](https://github.com/istio/istio/issues/56948))
