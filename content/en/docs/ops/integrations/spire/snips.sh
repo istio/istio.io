@@ -107,13 +107,15 @@ spec:
     # This is used to customize the sidecar template.
     # It adds both the label to indicate that SPIRE should manage the
     # identity of this pod, as well as the CSI driver mounts.
+    # With native sidecars (default on Kubernetes 1.33+), istio-proxy is
+    # injected as an initContainer, so patch it there.
     sidecarInjectorWebhook:
       templates:
         spire: |
           labels:
             spiffe.io/spire-managed-identity: "true"
           spec:
-            containers:
+            initContainers:
             - name: istio-proxy
               volumeMounts:
               - name: workload-socket

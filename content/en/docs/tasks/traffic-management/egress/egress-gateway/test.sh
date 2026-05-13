@@ -153,10 +153,10 @@ _wait_for_deployment test-egress curl
 
 if [ "$GATEWAY_API" == "true" ]; then
     # verify containers
-    _verify_contains snip_apply_kubernetes_network_policies_15 "curl istio-proxy"
+    _verify_contains snip_apply_kubernetes_network_policies_15 "istio-proxy"
 else
     # verify containers
-    _verify_contains snip_apply_kubernetes_network_policies_13 "curl istio-proxy"
+    _verify_contains snip_apply_kubernetes_network_policies_13 "istio-proxy"
 
     # configure DR
     snip_apply_kubernetes_network_policies_14

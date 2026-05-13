@@ -211,7 +211,7 @@ Code 503 : 19 (63.3 %)
 ENDSNIP
 
 snip_tripping_the_circuit_breaker_5() {
-kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
+kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats 2>/dev/null | grep httpbin | grep pending
 }
 
 ! IFS=$'\n' read -r -d '' snip_tripping_the_circuit_breaker_5_out <<\ENDSNIP
