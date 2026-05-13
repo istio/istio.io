@@ -884,7 +884,7 @@ EOF
     {{< /text >}}
 
 12) Check that the deployed pod includes the Istio sidecar proxy (`istio-proxy`). On Kubernetes 1.33+, sidecars are injected as
-    [native sidecars](/blog/2023/native-sidecars/) (initContainers with `restartPolicy: Always`), so list both
+    [native sidecars](/blog/2023/native-sidecars/) (`initContainers` with `restartPolicy: Always`), so list both
     `containers` and `initContainers`:
 
 {{< tabset category-name="config-api" >}}
