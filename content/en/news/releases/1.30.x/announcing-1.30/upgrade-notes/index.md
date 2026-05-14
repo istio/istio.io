@@ -18,7 +18,7 @@ that needs to read CNI config files as a non-root group member, you can set perm
 setting `values.cni.env.CNI_CONF_GROUP_READ=true` environment variable on the
 `istio-cni-node` `DaemonSet`.
 
-## CNI Agent respects excludeNamespaces configuration
+## CNI Agent respects `excludeNamespaces` configuration
 
 Previously, only the CNI Plugin respected the `excludeNamespaces` config by skipping the processing of excluded namespace's pods,
 while the CNI Agent would still reconcile and add ambient-labeled Pods in an excluded namespace to the mesh.
