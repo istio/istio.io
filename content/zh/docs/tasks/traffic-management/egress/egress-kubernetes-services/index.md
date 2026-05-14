@@ -163,10 +163,10 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-1. 为您的服务创建 endpoints。
-   从 [Wikipedia 范围列表](https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses)中选择几个 IP。
+1.  为您的服务创建端点。适用的 IP 地址因网络位置而异。以下命令将动态解析该地址：
 
     {{< text bash >}}
+    $ export WIKI_IP=$(getent ahostsv4 en.wikipedia.org | awk 'NR==1{print $1}')
     $ kubectl apply -f - <<EOF
     kind: Endpoints
     apiVersion: v1
@@ -174,8 +174,7 @@ $ kubectl delete service my-httpbin
       name: my-wikipedia
     subsets:
       - addresses:
-          - ip: 198.35.26.96
-          - ip: 208.80.153.224
+          - ip: $WIKI_IP
         ports:
           - port: 443
             name: tls
