@@ -3,7 +3,7 @@ title: Announcing Istio 1.30.0
 linktitle: 1.30.0
 subtitle: Major Release
 description: Istio 1.30 Release Announcement.
-publishdate: 2026-05-14
+publishdate: 2026-05-18
 release: 1.30.0
 aliases:
     - /news/announcing-1.30
@@ -23,7 +23,7 @@ Istio 1.30.0 is officially supported on Kubernetes versions 1.32 to 1.36.
 
 ### Agentgateway: experimental new gateway implementation
 
-Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new gateway data plane built specifically for AI agents and MCP servers, and integrates with Istio via the `PILOT_ENABLE_AGENTGATEWAY` env var. This is early-access functionality, expect rough edges, feedback is welcome.
+Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new data plane proxy built for AI agent and MCP server traffic; when enabled it replaces Envoy on the gateway pod. In this release it is wired in as a single `GatewayClass` (`istio-agentgateway`) and is supported only as a Gateway API gateway, not as a sidecar or waypoint. Enable it by setting `PILOT_ENABLE_AGENTGATEWAY=true` on istiod. See the [agentgateway Kubernetes documentation](https://agentgateway.dev/docs/kubernetes/latest/) for installation and configuration details. This is early-access functionality, expect rough edges, feedback is welcome.
 
 ### Gateway API and TLSRoute improvements
 
