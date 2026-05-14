@@ -40,6 +40,14 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。
 下面的命令使用 [openssl](https://man.openbsd.org/openssl.1)。
 
+{{< tip >}}
+下方生成的证书仅供测试使用。相关命令中包含了 `-extfile` 标志，
+用于添加“主体备用名称”（SAN）扩展；这是 Chrome 等现代浏览器所必需的配置。
+若缺少 SAN，浏览器将拒绝接受该证书，并报错 `ERR_CERT_COMMON_NAME_INVALID`。
+由于这些是自签名证书，浏览器不会自动将其视为可信；因此，
+您需要将其手动添加到浏览器的信任存储中，或者在进行测试时配合 `curl` 命令并使用 `--cacert` 标志。
+{{< /tip >}}
+
 1.  创建用于服务签名的根证书和私钥：
 
     {{< text bash >}}
@@ -51,7 +59,7 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
 
     {{< text bash >}}
     $ openssl req -out example_certs1/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  创建第二组相同类型的证书和密钥：
@@ -60,21 +68,21 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
     $ mkdir example_certs2
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs2/example.com.key -out example_certs2/example.com.crt
     $ openssl req -out example_certs2/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs2/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  为 `helloworld.example.com` 生成证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out example_certs1/helloworld.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/helloworld.example.com.key -subj "/CN=helloworld.example.com/O=helloworld organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt -extfile <(printf "subjectAltName=DNS:helloworld.example.com")
     {{< /text >}}
 
 1.  生成客户端证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out example_certs1/client.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/client.example.com.key -subj "/CN=client.example.com/O=client organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt -extfile <(printf "subjectAltName=DNS:client.example.com")
     {{< /text >}}
 
 {{< tip >}}
