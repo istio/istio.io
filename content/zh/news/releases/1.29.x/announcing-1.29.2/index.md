@@ -27,6 +27,25 @@ aliases:
   v1.5 及以上版本将被忽略。
   ([Issue #59443](https://github.com/istio/istio/issues/59443))
 
+- **修复** 修复了一个问题：在使用支持 `.Release.IsUpgrade`
+  的工具（如 Helm 4 和 Flux）执行 `helm upgrade` 并启用服务器端应用（SSA）时，
+  `ValidatingWebhookConfiguration` 资源上出现的字段管理器冲突。
+  现在，在执行升级操作时，Webhook 模板中将省略 `failurePolicy` 字段，
+  从而保留 Webhook 控制器在运行时设置的实际值。
+  对于那些结合 SSA 使用 `helm template` 的工具，
+  请将配置项 `base.validationFailurePolicy` 设置为 `Fail`，以避免此类冲突。
+
+- **修复** 修复了 JWKS URI 的 CIDR 阻断问题：
+  通过在自定义的 `DialContext` 中使用自定义控制函数来实现。
+  该控制函数会在 DNS 解析完成后、实际发起连接（dialing）之前对连接进行过滤，
+  从而确保阻断策略能够跟随重定向及签发者（issuer）的发现路径。
+  此外，此方案还保留了默认 `DialContext` 中的各项特性，
+  例如“Happy Eyeballs”机制以及 `dialSerial`（按顺序逐一尝试已解析的 IP 地址）功能。
+
+- **修复** 修复了 `AuthorizationPolicy` 中的 `serviceAccount` 匹配正则表达式，
+  现已能正确引用服务账号名称，从而确保能够正确匹配名称中包含特殊字符的服务账号。
+  ([Issue #59700](https://github.com/istio/istio/issues/59700))
+
 - **修复** 修复了在控制平面未更新 `istio-reader` `ClusterRole`
   导致无法从远程 `ConfigMap` 读取信任域时，
   多集群安装过程中会尝试验证错误的信任域的问题。现在，
@@ -44,10 +63,6 @@ aliases:
   东西向网关偶尔会将 HBONE 连接路由至错误的服务。
   ([Issue #58630](https://github.com/istio/istio/issues/58630))
 
-- **修复** 修复了 `AuthorizationPolicy` 中的 `serviceAccount` 匹配正则表达式，
-  现已能正确引用服务账号名称，从而确保能够正确匹配名称中包含特殊字符的服务账号。
-  ([Issue #59700](https://github.com/istio/istio/issues/59700))
-
 - **修复** 修复了 istiod 重启后，所有 `Gateways` 均被重启的问题。
   ([Issue #59709](https://github.com/istio/istio/issues/59709))
 
@@ -57,13 +72,6 @@ aliases:
   系统会错误地匹配该路由的完整主机名，而非仅匹配其交集（即 `*.example.com`），
   这与 Gateway API 规范的要求相悖。
   ([Issue #59229](https://github.com/istio/istio/issues/59229))
-
-- **修复** 修复了 JWKS URI 的 CIDR 阻断问题：
-  通过在自定义的 `DialContext` 中使用自定义控制函数来实现。
-  该控制函数会在 DNS 解析完成后、实际发起连接（dialing）之前对连接进行过滤，
-  从而确保阻断策略能够跟随重定向及签发者（issuer）的发现路径。
-  此外，此方案还保留了默认 `DialContext` 中的各项特性，
-  例如“Happy Eyeballs”机制以及 `dialSerial`（按顺序逐一尝试已解析的 IP 地址）功能。
 
 - **修复** 修复了一个在 `DestinationRule` 中 `retryBudget`
   的默认 `percent` 值被错误地设置为 0.2% 的问题，而非预期的 20%。
@@ -76,14 +84,6 @@ aliases:
 
 - **修复** 修复了针对通过 HTTP 获取的经 `gzip` 解压后的 WASM 二进制文件，
   修复了缺失大小限制的问题，使其与已应用于其他获取路径的限制保持一致。
-
-- **修复** 修复了一个问题：在使用支持 `.Release.IsUpgrade`
-  的工具（如 Helm 4 和 Flux）执行 `helm upgrade` 并启用服务器端应用（SSA）时，
-  `ValidatingWebhookConfiguration` 资源上出现的字段管理器冲突。
-  现在，在执行升级操作时，Webhook 模板中将省略 `failurePolicy` 字段，
-  从而保留 Webhook 控制器在运行时设置的实际值。
-  对于那些结合 SSA 使用 `helm template` 的工具，
-  请将配置项 `base.validationFailurePolicy` 设置为 `Fail`，以避免此类冲突。
 
 - **修复** 修复了 istiod webhook HTTPS 服务器（端口 15017）缺失
   `ReadHeaderTimeout` 和 `IdleTimeout` 的问题，
