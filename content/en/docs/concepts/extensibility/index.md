@@ -9,11 +9,15 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
+Istio provides two primary extension mechanisms. Envoy extensions, described below, and [Extension Providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-extension_providers).
+
+## Extending Envoy Proxies
+
 Istio provides two mechanisms for extending the Envoy-based proxies: WebAssembly (Wasm) and Lua.
 Both are configured using the [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/) API,
 which provides a unified way to attach extensions to workloads with consistent targeting and phase/priority ordering.
 
-## Choosing a filter type
+### Choosing a filter type
 
 | | WebAssembly | Lua |
 |---|---|---|
@@ -28,7 +32,7 @@ which provides a unified way to attach extensions to workloads with consistent t
 In general, prefer WebAssembly for production extensions that need testing, versioning, and reuse.
 Prefer Lua for lightweight, localized changes where the simplicity of inline code outweighs the lack of tooling.
 
-## WebAssembly Plugins
+### WebAssembly Plugins
 
 WebAssembly is a sandboxing technology for more complex extensions. The Proxy-Wasm sandbox API replaces Mixer as the primary extension mechanism in Istio.
 
@@ -43,7 +47,7 @@ WebAssembly sandbox goals:
 
 This [video talk](https://youtu.be/XdWmm_mtVXI) is an introduction about architecture of WebAssembly integration.
 
-### High-level architecture
+#### High-level architecture
 
 Istio extensions (Proxy-Wasm plugins) have several components:
 
@@ -55,13 +59,13 @@ Istio extensions (Proxy-Wasm plugins) have several components:
 
 {{< image width="80%" link="./extending.svg" caption="Extending Istio/Envoy" >}}
 
-### Example
+#### Example
 
 An example C++ Proxy-Wasm plugin for a filter can be found
 [here](https://github.com/istio-ecosystem/wasm-extensions/tree/master/example).
 You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md) to implement a Wasm extension with C++.
 
-### Ecosystem
+#### Ecosystem
 
 - [Istio Ecosystem Wasm Extensions](https://github.com/istio-ecosystem/wasm-extensions)
 - [Proxy-Wasm ABI specification](https://github.com/proxy-wasm/spec)
@@ -72,7 +76,7 @@ You can follow [this guide](https://github.com/istio-ecosystem/wasm-extensions/b
 - [WebAssembly Hub](https://webassemblyhub.io/)
 - [WebAssembly Extensions For Network Proxies (video)](https://www.youtube.com/watch?v=OIUPf8m7CGA)
 
-## Lua Scripts
+### Lua Scripts
 
 Lua filters provide a lightweight, inline scripting approach for simple request and response transformations.
 Lua code is inlined directly in the `TrafficExtension` resource and executed within the Envoy proxy, no
