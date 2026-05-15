@@ -89,7 +89,7 @@ aliases:
   E.g. a client connecting to `foo.example.com` could connect via `ServiceEntry` `*.example.com` while having SNI set to `bar.example.com`.
   ([Issue #58244](https://github.com/istio/istio/issues/58244))
 
-- **Added** `TrafficExtension` API to the extensions package, enabling first-class support for Lua extensibility.
+- **Added** [`TrafficExtension` API](/blog/2026/traffic-extension-api/) to the extensions package, enabling first-class support for Lua extensibility.
 
 - **Enabled** `protocol: TLS` Gateway listeners by default. Gateway listeners with `protocol:
   TLS` (used for TLS passthrough via `TLSRoute`) are now accepted without requiring

@@ -45,7 +45,7 @@ Several ambient features land in 1.30:
 - **DNS upstream timeout** is now configurable via `DNS_FORWARD_TIMEOUT`, with the existing `5s` default preserved.
 - **DNS failover priority** support for DNS clusters.
 - **Multiple CUSTOM authorization providers per workload**, enabling different authentication schemes (OAuth, LDAP, API keys) on different API paths.
-- **`TrafficExtension` API**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
+- **[`TrafficExtension` API](/blog/2026/traffic-extension-api/)**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
 
 ### Helm v4 support
 
