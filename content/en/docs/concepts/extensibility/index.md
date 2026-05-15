@@ -5,6 +5,7 @@ weight: 50
 keywords: [wasm,webassembly,emscripten,extension,plugin,filter,lua,TrafficExtension]
 aliases:
   - /docs/concepts/wasm/
+  - /latest/docs/concepts/wasm/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
