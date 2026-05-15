@@ -25,7 +25,7 @@ Istio 1.12.0 在 Kubernetes `1.19` 到 `1.22` 版本上得到了官方支持。
 
 ## WebAssembly API
 
-[WebAssembly](/zh/docs/concepts/extensibility/trafficextension/)
+[WebAssembly](/zh/docs/concepts/extensibility/)
 是一项自 [2020 年](/zh/blog/2020/wasm-announce/)以来便处于开发阶段的重要项目，
 旨在通过允许用户在运行时动态加载自定义扩展，为 Istio 引入高级的可扩展能力。
 然而，在此之前，WebAssembly 插件的配置一直处于实验阶段，且使用起来较为繁琐。

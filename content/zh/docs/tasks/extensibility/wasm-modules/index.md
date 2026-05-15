@@ -15,7 +15,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio 提供了使用 [WebAssembly（Wasm）](/zh/docs/concepts/extensibility/trafficextension/))扩展代理功能的能力。
+Istio 提供了使用 [WebAssembly（Wasm）](/zh/docs/concepts/extensibility/))扩展代理功能的能力。
 Wasm 可扩展性的关键优势之一是扩展可以在运行时动态加载。
 这些扩展必须首先分发到 Envoy 代理。
 Istio 通过允许代理动态下载 Wasm 模块来实现这一点。
