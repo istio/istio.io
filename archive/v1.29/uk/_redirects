@@ -1,0 +1,466 @@
+###############################################
+# set server-side redirects in this file      #
+# see https://www.netlify.com/docs/redirects/ #
+# test at https://play.netlify.com/redirects  #
+###############################################
+
+# archive site
+http://archive.istio.io/ http://istio.io/archive/ 301!
+http://archive.istio.io/* http://istio.io/:splat 301!
+https://archive.istio.io/ https://istio.io/archive/ 301!
+https://archive.istio.io/* https://istio.io/:splat 301!
+
+# Redirect golang vanity imports for istio.io
+/istio/* go-get=1 /latest/golang/istio.html 200
+/pkg/* go-get=1 /latest/golang/pkg.html 200
+/api/* go-get=1 /latest/golang/api.html 200
+/gogo-genproto/* go-get=1 /latest/golang/gogo-genproto.html 200
+/test-infra/* go-get=1 /latest/golang/test-infra.html 200
+/tools/* go-get=1 /latest/golang/tools.html 200
+/operator/* go-get=1 /latest/golang/operator.html 200
+/client-go/* go-get=1 /latest/golang/client-go.html 200
+/release-builder/* go-get=1 /latest/golang/release-builder.html 200
+/proxy/*  go-get=1 /latest/golang/proxy.html 200
+
+# Redirect default Netlify subdomain to primary domain
+https://istio.netlify.com/* https://istio.io/:splat 301!
+
+# Redirect to translated sites
+/  /latest/zh   302  Language=zh
+/zh /latest/zh
+/zh/* /latest/zh/:splat
+
+/  /latest/es   302  Language=es
+/es /latest/es
+/es/* /latest/es/:splat
+
+/  /latest/uk   302  Language=uk
+/uk /latest/uk
+/uk/* /latest/uk/:splat
+
+# Redirect for the helm charts
+/charts/ https://storage.googleapis.com/istio-release/releases/1.29.2/charts/ 301
+
+# Redirects for all aliases
+/uk/uk/docs/setup/platform-setup/prerequisites	/v1.29/uk/docs/ops/deployment/platform-requirements/
+/uk/uk/docs/tasks/telemetry/metrics	/v1.29/uk/docs/tasks/observability/metrics/
+/uk/uk/docs/tasks/telemetry/distributed-tracing/overview	/v1.29/uk/docs/tasks/observability/distributed-tracing/overview/
+/uk/uk/docs/welcome/faq.html       	/v1.29/uk/about/faq/
+/uk/uk/docs/reference/faq.html     	/v1.29/uk/about/faq/
+/uk/uk/help/faq                    	/v1.29/uk/about/faq/
+/uk/uk/faq.html                    	/v1.29/uk/about/faq/
+/uk/uk/docs/ops/ambient/install/platform-prerequisites	/v1.29/uk/docs/ambient/install/platform-prerequisites/
+/uk/latest/uk/docs/ops/ambient/install/platform-prerequisites	/v1.29/uk/docs/ambient/install/platform-prerequisites/
+/uk/uk/docs/welcome/contribute/creating-a-pull-request.html	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/docs/welcome/contribute/staging-your-changes.html	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/docs/welcome/contribute/editing.html	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/about/contribute/creating-a-pull-request	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/about/contribute/editing    	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/about/contribute/staging-your-changes	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/about/contribute/github     	/v1.29/uk/docs/releases/contribute/github/
+/uk/latest/uk/about/contribute/github	/v1.29/uk/docs/releases/contribute/github/
+/uk/uk/docs/ops/ambient/getting-started	/v1.29/uk/docs/ambient/getting-started/
+/uk/latest/uk/docs/ops/ambient/getting-started	/v1.29/uk/docs/ambient/getting-started/
+/uk/uk/docs/welcome/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/add-content/
+/uk/uk/docs/reference/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/add-content/
+/uk/uk/about/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/add-content/
+/uk/uk/create                      	/v1.29/uk/docs/releases/contribute/add-content/
+/uk/uk/about/contribute/add-content	/v1.29/uk/docs/releases/contribute/add-content/
+/uk/latest/uk/about/contribute/add-content	/v1.29/uk/docs/releases/contribute/add-content/
+/uk/uk/docs/tasks/observability/distributed-tracing/configurability	/v1.29/uk/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/
+/uk/uk/docs/tasks/observability/distributed-tracing/configurability/mesh-and-proxy-config	/v1.29/uk/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/
+/uk/uk/about/contribute/remove-content	/v1.29/uk/docs/releases/contribute/remove-content/
+/uk/latest/uk/about/contribute/remove-content	/v1.29/uk/docs/releases/contribute/remove-content/
+/uk/uk/docs/ops/ambient/install/helm-installation	/v1.29/uk/docs/ambient/install/helm/
+/uk/latest/uk/docs/ops/ambient/install/helm-installation	/v1.29/uk/docs/ambient/install/helm/
+/uk/uk/docs/ambient/install/helm-installation	/v1.29/uk/docs/ambient/install/helm/
+/uk/latest/uk/docs/ambient/install/helm-installation	/v1.29/uk/docs/ambient/install/helm/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/alicloud	/v1.29/uk/docs/setup/platform-setup/alicloud/
+/uk/uk/docs/setup/kubernetes/platform-setup/alicloud	/v1.29/uk/docs/setup/platform-setup/alicloud/
+/uk/uk/docs/tasks/telemetry/distributed-tracing/opentelemetry	/v1.29/uk/docs/tasks/observability/distributed-tracing/opentelemetry/
+/uk/uk/docs/tasks/observability/distributed-tracing/lightstep	/v1.29/uk/docs/tasks/observability/distributed-tracing/opentelemetry/
+/uk/latest/uk/docs/tasks/observability/distributed-tracing/lightstep	/v1.29/uk/docs/tasks/observability/distributed-tracing/opentelemetry/
+/uk/uk/docs/ops/ambient/install    	/v1.29/uk/docs/ambient/install/
+/uk/latest/uk/docs/ops/ambient/install	/v1.29/uk/docs/ambient/install/
+/uk/uk/about/contribute/build      	/v1.29/uk/docs/releases/contribute/build/
+/uk/latest/uk/about/contribute/build	/v1.29/uk/docs/releases/contribute/build/
+/uk/uk/docs/ops/ambient/upgrade/helm-upgrade	/v1.29/uk/docs/ambient/upgrade/helm/
+/uk/latest/uk/docs/ops/ambient/upgrade/helm-upgrade	/v1.29/uk/docs/ambient/upgrade/helm/
+/uk/uk/docs/ambient/upgrade/helm   	/v1.29/uk/docs/ambient/upgrade/helm/
+/uk/latest/uk/docs/ambient/upgrade/helm	/v1.29/uk/docs/ambient/upgrade/helm/
+/uk/uk/docs/ops/ambient/usage/traffic-redirection	/v1.29/uk/docs/ambient/architecture/traffic-redirection/
+/uk/latest/uk/docs/ops/ambient/usage/traffic-redirection	/v1.29/uk/docs/ambient/architecture/traffic-redirection/
+/uk/uk/docs/setup/additional-setup/getting-started	/v1.29/uk/docs/setup/getting-started/
+/uk/latest/uk/docs/setup/additional-setup/getting-started	/v1.29/uk/docs/setup/getting-started/
+/uk/uk/about/contribute/front-matter	/v1.29/uk/docs/releases/contribute/front-matter/
+/uk/latest/uk/about/contribute/front-matter	/v1.29/uk/docs/releases/contribute/front-matter/
+/uk/uk/docs/tasks/telemetry/distributed-tracing/jaeger	/v1.29/uk/docs/tasks/observability/distributed-tracing/jaeger/
+/uk/uk/docs/tasks/zipkin-tracing.html	/v1.29/uk/docs/tasks/observability/distributed-tracing/zipkin/
+/uk/uk/about/contribute/review     	/v1.29/uk/docs/releases/contribute/review/
+/uk/latest/uk/about/contribute/review	/v1.29/uk/docs/releases/contribute/review/
+/uk/uk/about/contribute/code-blocks	/v1.29/uk/docs/releases/contribute/code-blocks/
+/uk/latest/uk/about/contribute/code-blocks	/v1.29/uk/docs/releases/contribute/code-blocks/
+/uk/uk/docs/welcome/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/shortcodes/
+/uk/uk/docs/reference/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/shortcodes/
+/uk/uk/about/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/shortcodes/
+/uk/uk/create                      	/v1.29/uk/docs/releases/contribute/shortcodes/
+/uk/uk/about/contribute/shortcodes 	/v1.29/uk/docs/releases/contribute/shortcodes/
+/uk/latest/uk/about/contribute/shortcodes	/v1.29/uk/docs/releases/contribute/shortcodes/
+/uk/news/announcing-1.27.0         	/v1.29/uk/news/releases/1.27.x/announcing-1.27/change-notes/
+/uk/news/announcing-1.27.x         	/v1.29/uk/news/releases/1.27.x/announcing-1.27/change-notes/
+/uk/uk/news/announcing-1.26.0      	/v1.29/uk/news/releases/1.26.x/announcing-1.26/change-notes/
+/uk/uk/news/announcing-1.26.x      	/v1.29/uk/news/releases/1.26.x/announcing-1.26/change-notes/
+/uk/uk/news/announcing-1.25.0      	/v1.29/uk/news/releases/1.25.x/announcing-1.25/change-notes/
+/uk/uk/news/announcing-1.24.0      	/v1.29/uk/news/releases/1.24.x/announcing-1.24/change-notes/
+/uk/uk/news/announcing-1.23.0      	/v1.29/uk/news/releases/1.23.x/announcing-1.23/change-notes/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/azure	/v1.29/uk/docs/setup/platform-setup/azure/
+/uk/uk/docs/setup/kubernetes/platform-setup/azure	/v1.29/uk/docs/setup/platform-setup/azure/
+/uk/uk/docs/tasks/ingress.html     	/v1.29/uk/docs/tasks/traffic-management/ingress/ingress-control/
+/uk/uk/docs/tasks/ingress          	/v1.29/uk/docs/tasks/traffic-management/ingress/ingress-control/
+/uk/uk/docs/concepts/architecture  	/v1.29/uk/docs/ops/deployment/architecture/
+/uk/uk/docs/ops/architecture       	/v1.29/uk/docs/ops/deployment/architecture/
+/uk/uk/help/ops/traffic-management/protocol-selection	/v1.29/uk/docs/ops/configuration/traffic-management/protocol-selection/
+/uk/uk/help/ops/protocol-selection 	/v1.29/uk/docs/ops/configuration/traffic-management/protocol-selection/
+/uk/uk/help/tasks/traffic-management/protocol-selection	/v1.29/uk/docs/ops/configuration/traffic-management/protocol-selection/
+/uk/uk/docs/ops/traffic-management/protocol-selection	/v1.29/uk/docs/ops/configuration/traffic-management/protocol-selection/
+/uk/uk/help/ops/component-debugging	/v1.29/uk/docs/ops/diagnostic-tools/istioctl/
+/uk/uk/docs/ops/troubleshooting/istioctl	/v1.29/uk/docs/ops/diagnostic-tools/istioctl/
+/uk/uk/docs/tasks/egress.html      	/v1.29/uk/docs/tasks/traffic-management/egress/egress-control/
+/uk/uk/docs/tasks/egress           	/v1.29/uk/docs/tasks/traffic-management/egress/egress-control/
+/uk/uk/about/contribute/formatting 	/v1.29/uk/docs/releases/contribute/formatting/
+/uk/latest/uk/about/contribute/formatting	/v1.29/uk/docs/releases/contribute/formatting/
+/uk/uk/help/faq/general            	/v1.29/uk/about/faq/general/
+/uk/uk/docs/samples/bookinfo.html  	/v1.29/uk/docs/examples/bookinfo/
+/uk/uk/docs/guides/bookinfo/index.html	/v1.29/uk/docs/examples/bookinfo/
+/uk/uk/docs/guides/bookinfo.html   	/v1.29/uk/docs/examples/bookinfo/
+/uk/uk/docs/tasks/request-routing.html	/v1.29/uk/docs/tasks/traffic-management/request-routing/
+/uk/uk/docs/setup/kubernetes/platform-setup	/v1.29/uk/docs/setup/platform-setup/
+/uk/uk/help/ops/setup/webhook      	/v1.29/uk/docs/ops/configuration/mesh/webhook/
+/uk/uk/docs/ops/setup/webhook      	/v1.29/uk/docs/ops/configuration/mesh/webhook/
+/uk/uk/docs/ops/ambient/upgrade    	/v1.29/uk/docs/ambient/upgrade/
+/uk/latest/uk/docs/ops/ambient/upgrade	/v1.29/uk/docs/ambient/upgrade/
+/uk/uk/docs/tasks/security/istio-auth.html	/v1.29/uk/docs/tasks/security/authentication/authn-policy/
+/uk/uk/docs/tasks/security/authn-policy	/v1.29/uk/docs/tasks/security/authentication/authn-policy/
+/uk/uk/docs/ops/prep/deployment    	/v1.29/uk/docs/ops/best-practices/deployment/
+/uk/uk/help/ops/traffic-management/troubleshooting	/v1.29/uk/docs/ops/common-problems/network-issues/
+/uk/uk/help/ops/troubleshooting/network-issues	/v1.29/uk/docs/ops/common-problems/network-issues/
+/uk/uk/docs/ops/troubleshooting/network-issues	/v1.29/uk/docs/ops/common-problems/network-issues/
+/uk/uk/help/ops/extensibility/distribute-remote-wasm-module	/v1.29/uk/docs/tasks/extensibility/wasm-module-distribution/
+/uk/uk/docs/ops/extensibility/distribute-remote-wasm-module	/v1.29/uk/docs/tasks/extensibility/wasm-module-distribution/
+/uk/uk/ops/configuration/extensibility/wasm-module-distribution	/v1.29/uk/docs/tasks/extensibility/wasm-module-distribution/
+/uk/uk/docs/reference/release-roadmap.html	/v1.29/uk/docs/releases/feature-stages/
+/uk/uk/docs/reference/feature-stages.html	/v1.29/uk/docs/releases/feature-stages/
+/uk/uk/docs/welcome/feature-stages.html	/v1.29/uk/docs/releases/feature-stages/
+/uk/uk/docs/home/roadmap.html      	/v1.29/uk/docs/releases/feature-stages/
+/uk/uk/about/feature-stages        	/v1.29/uk/docs/releases/feature-stages/
+/uk/latest/uk/about/feature-stages 	/v1.29/uk/docs/releases/feature-stages/
+/uk/uk/help/ops/telemetry/envoy-stats	/v1.29/uk/docs/ops/configuration/telemetry/envoy-stats/
+/uk/uk/docs/ops/telemetry/envoy-stats	/v1.29/uk/docs/ops/configuration/telemetry/envoy-stats/
+/uk/uk/docs/tasks/security/role-based-access-control.html	/v1.29/uk/docs/tasks/security/authorization/authz-http/
+/uk/uk/docs/tasks/security/authz-http	/v1.29/uk/docs/tasks/security/authorization/authz-http/
+/uk/uk/docs/welcome/contribute/style-guide.html	/v1.29/uk/docs/releases/contribute/style-guide/
+/uk/uk/docs/reference/contribute/style-guide.html	/v1.29/uk/docs/releases/contribute/style-guide/
+/uk/uk/about/contribute/style-guide	/v1.29/uk/docs/releases/contribute/style-guide/
+/uk/latest/uk/about/contribute/style-guide	/v1.29/uk/docs/releases/contribute/style-guide/
+/uk/uk/docs/welcome/contribute/style-guide.html	/v1.29/uk/docs/releases/contribute/terminology/
+/uk/uk/docs/reference/contribute/style-guide.html	/v1.29/uk/docs/releases/contribute/terminology/
+/uk/uk/about/contribute/terminology	/v1.29/uk/docs/releases/contribute/terminology/
+/uk/latest/uk/about/contribute/terminology	/v1.29/uk/docs/releases/contribute/terminology/
+/uk/uk/about/contribute/diagrams   	/v1.29/uk/docs/releases/contribute/diagrams/
+/uk/latest/uk/about/contribute/diagrams	/v1.29/uk/docs/releases/contribute/diagrams/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/docker-for-desktop	/v1.29/uk/docs/setup/platform-setup/docker/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/docker	/v1.29/uk/docs/setup/platform-setup/docker/
+/uk/uk/docs/setup/kubernetes/platform-setup/docker	/v1.29/uk/docs/setup/platform-setup/docker/
+/uk/uk/community                   	/v1.29/uk/get-involved/
+/uk/uk/about/community             	/v1.29/uk/get-involved/
+/uk/latest/uk/about/community      	/v1.29/uk/get-involved/
+/uk/uk/about/community/join        	/v1.29/uk/get-involved/
+/uk/latest/uk/about/community/join 	/v1.29/uk/get-involved/
+/uk/docs/examples/intelligent-routing	/v1.29/uk/docs/tasks/traffic-management/
+/uk/uk/docs/ops/ambient/usage      	/v1.29/uk/docs/ambient/usage/
+/uk/latest/uk/docs/ops/ambient/usage	/v1.29/uk/docs/ambient/usage/
+/uk/uk/docs/tasks/installing-istio.html	/v1.29/uk/docs/setup/
+/uk/uk/docs/setup/install-kubernetes.html	/v1.29/uk/docs/setup/
+/uk/uk/docs/setup/kubernetes/quick-start.html	/v1.29/uk/docs/setup/
+/uk/uk/docs/setup/kubernetes/download-release	/v1.29/uk/docs/setup/
+/uk/uk/docs/setup/kubernetes/download	/v1.29/uk/docs/setup/
+/uk/uk/docs/setup/install/operator 	/v1.29/uk/docs/setup/
+/uk/latest/uk/docs/setup/install/operator	/v1.29/uk/docs/setup/
+/uk/uk/docs/ops/ambient            	/v1.29/uk/docs/ambient/
+/uk/latest/uk/docs/ops/ambient     	/v1.29/uk/docs/ambient/
+/uk/uk/docs/tasks/istio-auth.html  	/v1.29/uk/docs/tasks/security/
+/uk/uk/docs/tasks/security/authz-permissive	/v1.29/uk/docs/tasks/security/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/gke	/v1.29/uk/docs/setup/platform-setup/gke/
+/uk/uk/docs/setup/kubernetes/platform-setup/gke	/v1.29/uk/docs/setup/platform-setup/gke/
+/uk/uk/docs/ops/ambient/architecture	/v1.29/uk/docs/ambient/architecture/
+/uk/latest/uk/docs/ops/ambient/architecture	/v1.29/uk/docs/ambient/architecture/
+/uk/uk/help/faq/setup              	/v1.29/uk/about/faq/setup/
+/uk/uk/docs/setup/kubernetes/install	/v1.29/uk/docs/setup/install/
+/uk/uk/docs/tasks/traffic-management/ingress/secure-ingress-sds	/v1.29/uk/docs/tasks/traffic-management/ingress/secure-ingress/
+/uk/uk/docs/tasks/traffic-management/ingress/secure-ingress-mount	/v1.29/uk/docs/tasks/traffic-management/ingress/secure-ingress/
+/uk/uk/docs/tasks/telemetry/tcp-metrics	/v1.29/uk/docs/tasks/observability/metrics/tcp-metrics/
+/uk/uk/docs/tasks/telemetry/metrics/tcp-metrics	/v1.29/uk/docs/tasks/observability/metrics/tcp-metrics/
+/uk/uk/docs/tasks/fault-injection.html	/v1.29/uk/docs/tasks/traffic-management/fault-injection/
+/uk/uk/help/ops/setup              	/v1.29/uk/docs/ops/configuration/
+/uk/uk/docs/tasks/telemetry/logs   	/v1.29/uk/docs/tasks/observability/logs/
+/uk/uk/docs/tasks/telemetry/access-log	/v1.29/uk/docs/tasks/observability/logs/access-log/
+/uk/uk/docs/tasks/telemetry/logs/access-log	/v1.29/uk/docs/tasks/observability/logs/access-log/
+/uk/uk/docs/concepts/multicluster-deployments	/v1.29/uk/docs/ops/deployment/deployment-models/
+/uk/uk/docs/concepts/deployment-models	/v1.29/uk/docs/ops/deployment/deployment-models/
+/uk/uk/docs/ops/prep/deployment-models	/v1.29/uk/docs/ops/deployment/deployment-models/
+/uk/uk/help/ops/telemetry/monitoring-multicluster-prometheus	/v1.29/uk/docs/ops/configuration/telemetry/monitoring-multicluster-prometheus/
+/uk/uk/docs/ops/telemetry/monitoring-multicluster-prometheus	/v1.29/uk/docs/ops/configuration/telemetry/monitoring-multicluster-prometheus/
+/uk/uk/help/ops/traffic-management/proxy-cmd	/v1.29/uk/docs/ops/diagnostic-tools/proxy-cmd/
+/uk/uk/help/ops/misc               	/v1.29/uk/docs/ops/diagnostic-tools/proxy-cmd/
+/uk/uk/help/ops/troubleshooting/proxy-cmd	/v1.29/uk/docs/ops/diagnostic-tools/proxy-cmd/
+/uk/uk/help/ops/traffic-management/deploy-guidelines	/v1.29/uk/docs/ops/best-practices/traffic-management/
+/uk/uk/help/ops/deploy-guidelines  	/v1.29/uk/docs/ops/best-practices/traffic-management/
+/uk/uk/docs/ops/traffic-management/deploy-guidelines	/v1.29/uk/docs/ops/best-practices/traffic-management/
+/uk/uk/help/ops/security/repairing-citadel	/v1.29/uk/docs/ops/common-problems/security-issues/
+/uk/uk/help/ops/troubleshooting/repairing-citadel	/v1.29/uk/docs/ops/common-problems/security-issues/
+/uk/uk/docs/ops/troubleshooting/repairing-citadel	/v1.29/uk/docs/ops/common-problems/security-issues/
+/uk/uk/docs/examples/advanced-gateways/egress-tls-origination	/v1.29/uk/docs/tasks/traffic-management/egress/egress-tls-origination/
+/uk/uk/docs/tasks/security/authz-tcp	/v1.29/uk/docs/tasks/security/authorization/authz-tcp/
+/uk/uk/docs/concepts/traffic-management/pilot	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/rules-configuration	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/fault-injection	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/handling-failures	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/load-balancing	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/request-routing	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/pilot.html	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/docs/concepts/traffic-management/overview.html	/v1.29/uk/docs/concepts/traffic-management/
+/uk/uk/help/ops/traffic-management 	/v1.29/uk/docs/ops/configuration/traffic-management/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/huaweicloud	/v1.29/uk/docs/setup/platform-setup/huaweicloud/
+/uk/uk/docs/setup/kubernetes/platform-setup/huaweicloud	/v1.29/uk/docs/setup/platform-setup/huaweicloud/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/ibm	/v1.29/uk/docs/setup/platform-setup/ibm/
+/uk/uk/docs/setup/kubernetes/platform-setup/ibm	/v1.29/uk/docs/setup/platform-setup/ibm/
+/uk/docs/tasks/traffic-management/ingress/ingress-certmgr	/v1.29/uk/docs/ops/integrations/certmanager/
+/uk/docs/examples/advanced-gateways/ingress-certmgr	/v1.29/uk/docs/ops/integrations/certmanager/
+/uk/uk/docs/examples/advanced-gateways/egress-gateway	/v1.29/uk/docs/tasks/traffic-management/egress/egress-gateway/
+/uk/docs/examples/advanced-gateways/ingress-sni-passthrough	/v1.29/uk/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/
+/uk/uk/docs/concepts/network-and-auth/auth.html	/v1.29/uk/docs/concepts/security/
+/uk/uk/docs/concepts/security/authn-policy	/v1.29/uk/docs/concepts/security/
+/uk/uk/docs/concepts/security/mutual-tls	/v1.29/uk/docs/concepts/security/
+/uk/uk/docs/concepts/security/rbac 	/v1.29/uk/docs/concepts/security/
+/uk/uk/docs/concepts/security/mutual-tls.html	/v1.29/uk/docs/concepts/security/
+/uk/uk/docs/concepts/policies      	/v1.29/uk/docs/concepts/security/
+/uk/uk/help/ops/security           	/v1.29/uk/docs/ops/configuration/security/
+/uk/uk/glossary                    	/v1.29/uk/docs/reference/glossary/
+/uk/uk/docs/welcome/glossary.html  	/v1.29/uk/docs/reference/glossary/
+/uk/uk/help/glossary               	/v1.29/uk/docs/reference/glossary/
+/uk/docs/ops/troubleshooting/istioctl-describe	/v1.29/uk/docs/ops/diagnostic-tools/istioctl-describe/
+/uk/uk/docs/tasks/security/istio-auth.html	/v1.29/uk/docs/tasks/security/authentication/claim-to-header/
+/uk/uk/docs/tasks/security/authn-policy	/v1.29/uk/docs/tasks/security/authentication/claim-to-header/
+/uk/uk/docs/ops/ambient/usage/waypoint	/v1.29/uk/docs/ambient/usage/waypoint/
+/uk/latest/uk/docs/ops/ambient/usage/waypoint	/v1.29/uk/docs/ambient/usage/waypoint/
+/uk/uk/docs/tasks/telemetry/querying-metrics	/v1.29/uk/docs/tasks/observability/metrics/querying-metrics/
+/uk/uk/docs/tasks/telemetry/metrics/querying-metrics	/v1.29/uk/docs/tasks/observability/metrics/querying-metrics/
+/uk/uk/docs/tasks/traffic-management/version-migration.html	/v1.29/uk/docs/tasks/traffic-management/traffic-shifting/
+/uk/uk/help/ops/troubleshooting    	/v1.29/uk/docs/ops/best-practices/
+/uk/uk/help/ops/traffic-management/troubleshooting	/v1.29/uk/docs/ops/best-practices/
+/uk/uk/help/ops/setup              	/v1.29/uk/docs/ops/best-practices/
+/uk/uk/docs/samples/index.html     	/v1.29/uk/docs/examples/
+/uk/uk/docs/guides/index.html      	/v1.29/uk/docs/examples/
+/uk/uk/docs/ops/troubleshooting/grafana	/v1.29/uk/docs/ops/common-problems/observability-issues/
+/uk/uk/docs/ops/troubleshooting/missing-traces	/v1.29/uk/docs/ops/common-problems/observability-issues/
+/uk/uk/docs/performance-and-scalability/overview	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/performance-and-scalability/microbenchmarks	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/performance-and-scalability/performance-testing-automation	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/performance-and-scalability/realistic-app-benchmark	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/performance-and-scalability/scalability	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/performance-and-scalability/scenarios	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/performance-and-scalability/synthetic-benchmarks	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/concepts/performance-and-scalability	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/docs/ops/performance-and-scalability	/v1.29/uk/docs/ops/deployment/performance-and-scalability/
+/uk/uk/help/faq/ambient-mode       	/v1.29/uk/about/faq/ambient-mode/
+/uk/uk/docs/tasks/telemetry/distributed-tracing	/v1.29/uk/docs/tasks/observability/distributed-tracing/
+/uk/uk/docs/examples/telemetry     	/v1.29/uk/docs/tasks/observability/
+/uk/uk/docs/tasks/telemetry        	/v1.29/uk/docs/tasks/observability/
+/uk/uk/docs/tasks/security/rbac-groups	/v1.29/uk/docs/tasks/security/authorization/authz-jwt/
+/uk/uk/docs/tasks/security/authorization/rbac-groups	/v1.29/uk/docs/tasks/security/authorization/authz-jwt/
+/uk/uk/help/faq/security           	/v1.29/uk/about/faq/security/
+/uk/uk/docs/tasks/traffic-management/tcp-version-migration.html	/v1.29/uk/docs/tasks/traffic-management/tcp-traffic-shifting/
+/uk/uk/troubleshooting.html        	/v1.29/uk/docs/ops/
+/uk/uk/troubleshooting/index.html  	/v1.29/uk/docs/ops/
+/uk/uk/help/troubleshooting/index.html	/v1.29/uk/docs/ops/
+/uk/uk/help/ops                    	/v1.29/uk/docs/ops/
+/uk/uk/help                        	/v1.29/uk/docs/ops/
+/uk/uk/about/community/partners    	/v1.29/uk/about/ecosystem/
+/uk/latest/uk/about/community/partners	/v1.29/uk/about/ecosystem/
+/uk/uk/bugs.html                   	/v1.29/uk/docs/releases/bugs/
+/uk/uk/bugs/index.html             	/v1.29/uk/docs/releases/bugs/
+/uk/uk/help/bugs                   	/v1.29/uk/docs/releases/bugs/
+/uk/uk/about/bugs                  	/v1.29/uk/docs/releases/bugs/
+/uk/latest/uk/about/bugs           	/v1.29/uk/docs/releases/bugs/
+/uk/deployment.html                	/v1.29/uk/about/deployment/
+/uk/uk/service-mesh.html           	/v1.29/uk/about/service-mesh/
+/uk/uk/docs/concepts/what-is-istio/overview	/v1.29/uk/about/service-mesh/
+/uk/uk/docs/concepts/what-is-istio/goals	/v1.29/uk/about/service-mesh/
+/uk/uk/about/intro                 	/v1.29/uk/about/service-mesh/
+/uk/uk/docs/concepts/what-is-istio 	/v1.29/uk/about/service-mesh/
+/uk/latest/uk/docs/concepts/what-is-istio	/v1.29/uk/about/service-mesh/
+/uk/uk/docs/setup/kubernetes/platform-setup/gardener	/v1.29/uk/docs/setup/platform-setup/gardener/
+/uk/uk/about/security-vulnerabilities	/v1.29/uk/docs/releases/security-vulnerabilities/
+/uk/latest/uk/about/security-vulnerabilities	/v1.29/uk/docs/releases/security-vulnerabilities/
+/uk/uk/docs/setup/kubernetes/additional-setup/config-profiles	/v1.29/uk/docs/setup/additional-setup/config-profiles/
+/uk/uk/about/supported-releases    	/v1.29/uk/docs/releases/supported-releases/
+/uk/latest/uk/about/supported-releases	/v1.29/uk/docs/releases/supported-releases/
+/uk/uk/docs/examples/advanced-gateways/egress-gateway-tls-origination	/v1.29/uk/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/
+/uk/uk/docs/examples/advanced-gateways/egress-gateway-tls-origination-sds	/v1.29/uk/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/
+/uk/uk/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds	/v1.29/uk/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/
+/uk/uk/docs/setup/kubernetes/spec-requirements	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/setup/kubernetes/prepare/spec-requirements	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/setup/kubernetes/prepare/requirements	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/setup/kubernetes/additional-setup/requirements	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/setup/additional-setup/requirements	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/ops/setup/required-pod-capabilities	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/help/ops/setup/required-pod-capabilities	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/ops/prep/requirements  	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/ops/deployment/requirements	/v1.29/uk/docs/ops/deployment/application-requirements/
+/uk/uk/docs/tasks/telemetry/using-istio-dashboard	/v1.29/uk/docs/tasks/observability/metrics/using-istio-dashboard/
+/uk/uk/docs/tasks/telemetry/metrics/using-istio-dashboard	/v1.29/uk/docs/tasks/observability/metrics/using-istio-dashboard/
+/uk/uk/docs/setup/kubernetes/multicluster-install	/v1.29/uk/docs/setup/install/multicluster/
+/uk/uk/docs/setup/kubernetes/multicluster	/v1.29/uk/docs/setup/install/multicluster/
+/uk/uk/docs/setup/kubernetes/install/multicluster	/v1.29/uk/docs/setup/install/multicluster/
+/uk/uk/docs/setup/install/multicluster/gateways	/v1.29/uk/docs/setup/install/multicluster/
+/uk/uk/docs/setup/install/multicluster/shared	/v1.29/uk/docs/setup/install/multicluster/
+/uk/uk/docs/tasks/security/mtls-migration	/v1.29/uk/docs/tasks/security/authentication/mtls-migration/
+/uk/uk/help/ops/troubleshooting    	/v1.29/uk/docs/ops/common-problems/
+/uk/uk/help/ops/traffic-management/troubleshooting	/v1.29/uk/docs/ops/common-problems/
+/uk/uk/help/ops/setup              	/v1.29/uk/docs/ops/common-problems/
+/uk/uk/docs/ops/troubleshooting/injection	/v1.29/uk/docs/ops/common-problems/injection/
+/uk/uk/docs/concepts/policy-and-control/mixer.html	/v1.29/uk/docs/concepts/observability/
+/uk/uk/docs/concepts/policy-and-control/mixer-config.html	/v1.29/uk/docs/concepts/observability/
+/uk/uk/docs/concepts/policy-and-control/attributes.html	/v1.29/uk/docs/concepts/observability/
+/uk/uk/docs/concepts/policies-and-telemetry/overview	/v1.29/uk/docs/concepts/observability/
+/uk/uk/docs/concepts/policies-and-telemetry/config	/v1.29/uk/docs/concepts/observability/
+/uk/uk/docs/concepts/policies-and-telemetry	/v1.29/uk/docs/concepts/observability/
+/uk/uk/help/ops/telemetry          	/v1.29/uk/docs/ops/configuration/telemetry/
+/uk/docs/tasks/request-timeouts.html	/v1.29/uk/docs/tasks/traffic-management/request-timeouts/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/MicroK8s	/v1.29/uk/docs/setup/platform-setup/microk8s/
+/uk/uk/docs/setup/kubernetes/platform-setup/MicroK8s	/v1.29/uk/docs/setup/platform-setup/microk8s/
+/uk/uk/docs/setup/kubernetes/automatic-sidecar-inject.html	/v1.29/uk/docs/setup/additional-setup/sidecar-injection/
+/uk/uk/docs/setup/kubernetes/sidecar-injection	/v1.29/uk/docs/setup/additional-setup/sidecar-injection/
+/uk/uk/docs/setup/kubernetes/additional-setup/sidecar-injection	/v1.29/uk/docs/setup/additional-setup/sidecar-injection/
+/uk/uk/help/faq/telemetry          	/v1.29/uk/about/faq/metrics-and-logs/
+/uk/uk/help/faq/metrics-and-logs   	/v1.29/uk/about/faq/metrics-and-logs/
+/uk/uk/help/ops/extensibility      	/v1.29/uk/docs/ops/configuration/extensibility/
+/uk/uk/help/faq/distributed-tracing	/v1.29/uk/about/faq/distributed-tracing/
+/uk/uk/docs/tasks/telemetry/kiali  	/v1.29/uk/docs/tasks/observability/kiali/
+/uk/docs/examples/advanced-gateways/wildcard-egress-hosts	/v1.29/uk/docs/tasks/traffic-management/egress/wildcard-egress-hosts/
+/uk/uk/docs/tasks/traffic-management/ingress/service-apis	/v1.29/uk/docs/tasks/traffic-management/ingress/gateway-api/
+/uk/latest/uk/docs/tasks/traffic-management/ingress/service-apis	/v1.29/uk/docs/tasks/traffic-management/ingress/gateway-api/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/minikube	/v1.29/uk/docs/setup/platform-setup/minikube/
+/uk/uk/docs/setup/kubernetes/platform-setup/minikube	/v1.29/uk/docs/setup/platform-setup/minikube/
+/uk/uk/docs/setup/additional-setup/external-controlplane	/v1.29/uk/docs/setup/install/external-controlplane/
+/uk/latest/uk/docs/setup/additional-setup/external-controlplane	/v1.29/uk/docs/setup/install/external-controlplane/
+/uk/uk/docs/ops/troubleshooting/proxy-cmd	/v1.29/uk/docs/ops/diagnostic-tools/
+/uk/uk/help/faq/traffic-management 	/v1.29/uk/about/faq/traffic-management/
+/uk/uk/docs/tasks/traffic-management/app-health-check	/v1.29/uk/docs/ops/configuration/mesh/app-health-check/
+/uk/uk/docs/ops/security/health-checks-and-mtls	/v1.29/uk/docs/ops/configuration/mesh/app-health-check/
+/uk/uk/help/ops/setup/app-health-check	/v1.29/uk/docs/ops/configuration/mesh/app-health-check/
+/uk/uk/help/ops/app-health-check   	/v1.29/uk/docs/ops/configuration/mesh/app-health-check/
+/uk/uk/docs/ops/app-health-check   	/v1.29/uk/docs/ops/configuration/mesh/app-health-check/
+/uk/uk/docs/ops/setup/app-health-check	/v1.29/uk/docs/ops/configuration/mesh/app-health-check/
+/uk/uk/help/ops/setup/validation   	/v1.29/uk/docs/ops/common-problems/validation/
+/uk/uk/help/ops/troubleshooting/validation	/v1.29/uk/docs/ops/common-problems/validation/
+/uk/uk/docs/ops/troubleshooting/validation	/v1.29/uk/docs/ops/common-problems/validation/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/openshift	/v1.29/uk/docs/setup/platform-setup/openshift/
+/uk/uk/docs/setup/kubernetes/platform-setup/openshift	/v1.29/uk/docs/setup/platform-setup/openshift/
+/uk/uk/docs/examples/integrating-vms	/v1.29/uk/docs/examples/virtual-machines/
+/uk/uk/docs/examples/mesh-expansion/bookinfo-expanded	/v1.29/uk/docs/examples/virtual-machines/
+/uk/uk/docs/examples/virtual-machines/bookinfo	/v1.29/uk/docs/examples/virtual-machines/
+/uk/uk/docs/examples/vm-bookinfo   	/v1.29/uk/docs/examples/virtual-machines/
+/uk/uk/docs/setup/kubernetes/prepare/platform-setup/oci	/v1.29/uk/docs/setup/platform-setup/oci/
+/uk/uk/docs/setup/kubernetes/platform-setup/oci	/v1.29/uk/docs/setup/platform-setup/oci/
+/uk/uk/help/ops/controlz           	/v1.29/uk/docs/ops/diagnostic-tools/controlz/
+/uk/uk/docs/ops/troubleshooting/controlz	/v1.29/uk/docs/ops/diagnostic-tools/controlz/
+/uk/uk/help/ops/traffic-management/locality-load-balancing	/v1.29/uk/docs/tasks/traffic-management/locality-load-balancing/
+/uk/uk/help/ops/locality-load-balancing	/v1.29/uk/docs/tasks/traffic-management/locality-load-balancing/
+/uk/uk/help/tasks/traffic-management/locality-load-balancing	/v1.29/uk/docs/tasks/traffic-management/locality-load-balancing/
+/uk/uk/docs/ops/traffic-management/locality-load-balancing	/v1.29/uk/docs/tasks/traffic-management/locality-load-balancing/
+/uk/uk/docs/ops/configuration/traffic-management/locality-load-balancing	/v1.29/uk/docs/tasks/traffic-management/locality-load-balancing/
+/uk/uk/docs/setup/kubernetes/install/pod-security-admission	/v1.29/uk/docs/setup/additional-setup/pod-security-admission/
+/uk/uk/docs/setup/kubernetes/additional-setup/pod-security-admission	/v1.29/uk/docs/setup/additional-setup/pod-security-admission/
+/uk/uk/docs/examples/advanced-gateways/http-proxy	/v1.29/uk/docs/tasks/traffic-management/egress/http-proxy/
+/uk/uk/docs/setup/kubernetes/additional-setup/cni	/v1.29/uk/docs/setup/additional-setup/cni/
+/uk/uk/docs/setup/additional-setup/cni	/v1.29/uk/docs/setup/additional-setup/cni/
+/uk/uk/help/ops/component-logging  	/v1.29/uk/docs/ops/diagnostic-tools/component-logging/
+/uk/uk/docs/ops/troubleshooting/component-logging	/v1.29/uk/docs/ops/diagnostic-tools/component-logging/
+/uk/uk/help/ops/security/harden-docker-images	/v1.29/uk/docs/ops/configuration/security/harden-docker-images/
+/uk/uk/docs/ops/security/harden-docker-images	/v1.29/uk/docs/ops/configuration/security/harden-docker-images/
+/uk/uk/docs/tasks/security/plugin-ca-cert	/v1.29/uk/docs/tasks/security/cert-management/plugin-ca-cert/
+/uk/docs/tasks/security/workload-min-tls-version	/v1.29/uk/docs/tasks/security/tls-configuration/workload-min-tls-version/
+/uk/uk/docs/tasks/telemetry/gateways	/v1.29/uk/docs/tasks/observability/gateways/
+/uk/uk/docs/welcome/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/
+/uk/uk/docs/welcome/contribute/index.html	/v1.29/uk/docs/releases/contribute/
+/uk/uk/docs/reference/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/
+/uk/uk/about/contribute/writing-a-new-topic.html	/v1.29/uk/docs/releases/contribute/
+/uk/uk/about/contribute/creating-and-editing-pages	/v1.29/uk/docs/releases/contribute/
+/uk/uk/create                      	/v1.29/uk/docs/releases/contribute/
+/uk/uk/about/contribute            	/v1.29/uk/docs/releases/contribute/
+/uk/latest/uk/about/contribute     	/v1.29/uk/docs/releases/contribute/
+/uk/uk/docs/tasks/installing-istio.html	/v1.29/uk/docs/setup/additional-setup/
+/uk/uk/docs/setup/install-kubernetes.html	/v1.29/uk/docs/setup/additional-setup/
+/uk/uk/docs/setup/kubernetes/additional-setup	/v1.29/uk/docs/setup/additional-setup/
+/uk/uk/docs/tasks/security/custom-ca-k8s	/v1.29/uk/docs/tasks/security/cert-management/custom-ca-k8s/
+/uk/uk/about/log                   	/v1.29/uk/docs/releases/log/
+/uk/latest/uk/about/log            	/v1.29/uk/docs/releases/log/
+/uk/news/announcing-1.27           	/v1.29/uk/news/releases/1.27.x/announcing-1.27/
+/uk/news/announcing-1.27.0         	/v1.29/uk/news/releases/1.27.x/announcing-1.27/
+/uk/news/announcing-1.26.3         	/v1.29/uk/news/releases/1.26.x/announcing-1.26.3/
+/uk/news/announcing-1.26.2         	/v1.29/uk/news/releases/1.26.x/announcing-1.26.2/
+/uk/uk/news/announcing-1.26        	/v1.29/uk/news/releases/1.26.x/announcing-1.26/
+/uk/uk/news/announcing-1.26.0      	/v1.29/uk/news/releases/1.26.x/announcing-1.26/
+/uk/uk/news/announcing-1.23.6      	/v1.29/uk/news/releases/1.23.x/announcing-1.23.6/
+/uk/uk/news/announcing-1.25        	/v1.29/uk/news/releases/1.25.x/announcing-1.25/
+/uk/uk/news/announcing-1.25.0      	/v1.29/uk/news/releases/1.25.x/announcing-1.25/
+/uk/uk/news/announcing-1.24        	/v1.29/uk/news/releases/1.24.x/announcing-1.24/
+/uk/uk/news/announcing-1.24.0      	/v1.29/uk/news/releases/1.24.x/announcing-1.24/
+/uk/uk/news/announcing-1.23        	/v1.29/uk/news/releases/1.23.x/announcing-1.23/
+/uk/uk/news/announcing-1.23.0      	/v1.29/uk/news/releases/1.23.x/announcing-1.23/
+/uk/uk/blog/posts/index.html       	/v1.29/uk/blog/
+/uk/uk/case-studies                	/v1.29/uk/about/case-studies/
+/uk/uk/about/community/customers   	/v1.29/uk/about/case-studies/
+/uk/latest/uk/about/community/customers	/v1.29/uk/about/case-studies/
+/uk/uk/solutions                   	/v1.29/uk/about/solutions/
+
+# Download scripts
+/downloadIstio https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCtl.sh
+
+# Redirect static folder
+/img/* /latest/img/:splat
+/misc/* /latest/misc/:splat
+/talks/* /latest/talks/:splat
+/favicons/* /latest/favicons/:splat
+/favicon.ico /latest/favicons/favicon.ico 200
+/logos/* /latest/logos/:splat
+
+# Redirect root paths without /latest
+/about/* /latest/about/:splat
+/blog/* /latest/blog/:splat
+/docs/* /latest/docs/:splat
+/get-involved/* /latest/get-involved/:splat
+/news/* /latest/news/:splat
+/search/* /latest/search/:splat
+/test/* /latest/test/:splat
+
+# redirect current version to /latest
+/v1.29/* /latest/:splat
+
+#redirect next version to preliminary
+/vfalse/* https://preliminary.istio.io/latest/:splat
+
+# migration from old design to new
+/about / 301!
+/latest/about /latest 301!
+/faq/* /latest/about/faq/
+/latest/faq/* /latest/about/faq/
+/about/faq/* /latest/about/faq/
+
+# media-resources page
+/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/latest/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/about/zh/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/latest/zh/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
