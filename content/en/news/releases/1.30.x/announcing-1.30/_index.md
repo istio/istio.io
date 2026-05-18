@@ -10,7 +10,7 @@ aliases:
     - /news/announcing-1.30.0
 ---
 
-We are pleased to announce the release of Istio 1.30. Thank you to all our contributors, testers, users and enthusiasts for helping us get the 1.30.0 release published!
+We are pleased to announce the release of Istio 1.30. Thank you to all our contributors, testers, users, and enthusiasts for helping us get the 1.30.0 release published!
 We would like to thank the Release Managers for this release, **Petr McAllister** from Solo.io, **Jacek Ewertowski** from Red Hat, and **Jackson Greer** from Microsoft.
 
 {{< relnote >}}
@@ -23,7 +23,7 @@ Istio 1.30.0 is officially supported on Kubernetes versions 1.32 to 1.36.
 
 ### Agentgateway: experimental new gateway implementation
 
-Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new data plane proxy built for AI agent and MCP server traffic; when enabled it replaces Envoy on the gateway pod. In this release it is wired in as a single `GatewayClass` (`istio-agentgateway`) and is supported only as a Gateway API gateway, not as a sidecar or waypoint. Enable it by setting `PILOT_ENABLE_AGENTGATEWAY=true` on istiod. See the [agentgateway Kubernetes documentation](https://agentgateway.dev/docs/kubernetes/latest/) for installation and configuration details. This is early-access functionality, expect rough edges, feedback is welcome.
+Istio 1.30 ships experimental support for [agentgateway](https://agentgateway.dev) as a Gateway API implementation. Agentgateway is a new data plane proxy built for AI agent and MCP server traffic; when enabled, it replaces Envoy on the gateway pod. In this release it is wired in as a single `GatewayClass` (`istio-agentgateway`) and is supported only as a Gateway API gateway, not as a sidecar or waypoint. Enable it by setting `PILOT_ENABLE_AGENTGATEWAY=true` on istiod. See the [agentgateway Kubernetes documentation](https://agentgateway.dev/docs/kubernetes/latest/) for installation and configuration details. This is early-access functionality. Expect rough edges; feedback is welcome.
 
 ### Gateway API and TLSRoute improvements
 
@@ -45,7 +45,7 @@ Several ambient features land in 1.30:
 - **DNS upstream timeout** is now configurable via `DNS_FORWARD_TIMEOUT`, with the existing `5s` default preserved.
 - **DNS failover priority** support for DNS clusters.
 - **Multiple CUSTOM authorization providers per workload**, enabling different authentication schemes (OAuth, LDAP, API keys) on different API paths.
-- **[`TrafficExtension` API](/blog/2026/traffic-extension-api/)**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
+- **[`TrafficExtension` API](/blog/2026/traffic-extension-api/)**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways, and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
 
 ### Helm v4 support
 
@@ -73,10 +73,10 @@ Istio 1.30 adds support for Helm v4 (server-side apply). A long-standing issue w
 
 ### Plus much more
 
-- **istioctl** improvements including a `--tls-min-version` plumbed through, sorting fixes for connection output, distroless istioctl image, and zc command refinements
+- **istioctl** improvements including a `--tls-min-version` plumbed through, sorting fixes for connection output, distroless istioctl image, and `ztunnel-config` command refinements
 - **CNI** improvements: kubelet probe fix for AWS EKS ambient pods using Security Groups for Pods (branch ENI), gated behind `AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE` (default on); input validation for `excludeInterfaces`; reconciliation tweaks
 - **Wasm**: configurable binary size limit, gzip decompression limit configurable, SSRF protection on Wasm fetches
-- **Multicluster**: support for loading remote secrets from a local filesystem path
+- **Multicluster**: support for loading remote `Secret` resources from a local filesystem path
 
 Read about these and more in the full [release notes](change-notes/).
 
