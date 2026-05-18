@@ -819,9 +819,15 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 settings, including in-mesh mTLS and external TLS. Valid values are:
 
 * &#39;&#39; or unset places no additional restrictions.
-* &#39;fips-140-2&#39; which enforces a version of the TLS protocol and a subset
-of cipher suites overriding any user preferences or defaults for all runtime
-components, including Envoy, gRPC Go SDK, and gRPC C++ SDK.
+* &#39;fips-140-2&#39; which enforces TLS v1.2 and a subset of cipher suites
+overriding any user preferences or defaults for all runtime components,
+including Envoy, gRPC Go SDK, and gRPC C++ SDK.
+* &#39;fips-140-3&#39; which enforces TLS v1.2 or v1.3, FIPS-compliant cipher
+suites (ECDHE_[RSA|ECDSA]_WITH_AES_*_GCM_SHA* for TLS 1.2, AES-GCM for
+TLS 1.3), and P-256 or P-384 curves. On the Envoy proxy side, this uses
+the native FIPS_202205 compliance policy. Overrides any user preferences
+or defaults for all runtime components, including Envoy, gRPC Go SDK,
+and gRPC C++ SDK.
 * &#39;pqc&#39; which enforces post-quantum-safe key exchange X25519MLKEM768, TLS v1.3
 and cipher suites TLS_AES_128_GCM_SHA256 and TLS_AES_256_GCM_SHA384 overriding
 any user preferences or defaults for all runtime components, including Envoy,
@@ -1676,6 +1682,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>EnableRedisFilter enables injection of `envoy.filters.network.redis_proxy` in the filter chain.</td>
+</tr>
+<tr id='pilot-enable-remote-credentials-controller'>
+<td><a href='#pilot-enable-remote-credentials-controller'><code>PILOT_ENABLE_REMOTE_CREDENTIALS_CONTROLLER</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, pilot will start the credentials controller for remote clusters. Default is true.</td>
 </tr>
 <tr id='pilot-enable-route-collapse-optimization'>
 <td><a href='#pilot-enable-route-collapse-optimization'><code>PILOT_ENABLE_ROUTE_COLLAPSE_OPTIMIZATION</code></a></td>
