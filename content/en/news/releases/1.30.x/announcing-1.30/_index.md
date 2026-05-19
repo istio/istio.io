@@ -37,6 +37,7 @@ Several ambient features land in 1.30:
 - **Optional XFCC synthesis at waypoints**. With the annotation `ambient.istio.io/xfcc-include-client-identity: "true"` on a waypoint Gateway, the waypoint synthesizes `x-forwarded-client-cert` from the ztunnel-provided source workload SPIFFE identity, so upstream apps can see the originating client.
 - **Configurable HBONE window sizing** via `PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` and `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`, useful for tuning HBONE CONNECT clusters for high-throughput ambient workloads.
 - **Tokio runtime metrics in ztunnel** for clearer per-instance resource visibility.
+- **New [sidecar-to-ambient migration guide](/docs/ambient/migrate/)**. A step-by-step guide for migrating an existing sidecar-based mesh to ambient mode, covering ambient component installation, policy migration, and per-namespace enablement. The migration is designed to be gradual and reversible, sidecar and ambient workloads can coexist during the process.
 
 ### Traffic management additions
 
