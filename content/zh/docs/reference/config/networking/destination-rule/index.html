@@ -1113,14 +1113,21 @@ is reached the connection will be closed. Duration must be at least 1ms.</p>
 <div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
 </div></td>
 <td>
-<p>The idle timeout for TCP connections.
-The idle timeout is defined as the period in which there are no bytes sent or received on either
-the upstream or downstream connection.
+<p>The idle timeout for TCP connections. This is applied to the outbound connections to the upstream service.
+The idle timeout is defined as the period in which there are no bytes sent or received on the
+upstream connection.
 If not set, the default idle timeout is 1 hour. If set to 0s, the timeout will be disabled.
 Idle timeout is not configured per each cluster individually when weighted destinations are used,
 because idleTimeout is a property of a listener, not a cluster. In that case, idleTimeout
 specified in a destination rule for the first weighted route is configured in the listener,
-which means also for all weighted routes.</p>
+which means also for all weighted routes.
+To set the idle timeout for downstream (inbound) connections, use the
+<code>ISTIO_META_IDLE_TIMEOUT</code> field in the proxy configuration (e.g., via the <code>proxy.istio.io/config</code>
+annotation) which applies to all inbound connections.</p>
+<pre><code>proxy.istio.io/config: |-
+   proxyMetadata:
+      ISTIO_META_IDLE_TIMEOUT: &quot;100s&quot;
+</code></pre>
 
 </td>
 </tr>
@@ -1328,6 +1335,14 @@ failures to a given host counts as an error when measuring the
 consecutive errors metric. See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">outlier
 detection</a>
 for more details.</p>
+<p><strong>Note:</strong> Istio&rsquo;s default mesh configuration enables locality load balancing
+(<code>localityLbSetting.enabled: true</code>). As a result, configuring
+<code>OutlierDetection</code> in a <code>DestinationRule</code> will automatically activate
+locality-aware failover behavior — Envoy uses the outlier detection state to
+determine when endpoints are unhealthy and should be failed over to the next
+locality. To suppress this implicit failover, explicitly set
+<code>localityLbSetting.enabled: false</code> in the <code>DestinationRule</code>&rsquo;s load balancer
+settings.</p>
 <p>The following rule sets a connection pool size of 100 HTTP1 connections
 with no more than 10 req/connection to the &ldquo;reviews&rdquo; service. In addition,
 it sets a limit of 1000 concurrent HTTP/2 requests and configures upstream

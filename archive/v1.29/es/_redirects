@@ -1,0 +1,468 @@
+###############################################
+# set server-side redirects in this file      #
+# see https://www.netlify.com/docs/redirects/ #
+# test at https://play.netlify.com/redirects  #
+###############################################
+
+# archive site
+http://archive.istio.io/ http://istio.io/archive/ 301!
+http://archive.istio.io/* http://istio.io/:splat 301!
+https://archive.istio.io/ https://istio.io/archive/ 301!
+https://archive.istio.io/* https://istio.io/:splat 301!
+
+# Redirect golang vanity imports for istio.io
+/istio/* go-get=1 /latest/golang/istio.html 200
+/pkg/* go-get=1 /latest/golang/pkg.html 200
+/api/* go-get=1 /latest/golang/api.html 200
+/gogo-genproto/* go-get=1 /latest/golang/gogo-genproto.html 200
+/test-infra/* go-get=1 /latest/golang/test-infra.html 200
+/tools/* go-get=1 /latest/golang/tools.html 200
+/operator/* go-get=1 /latest/golang/operator.html 200
+/client-go/* go-get=1 /latest/golang/client-go.html 200
+/release-builder/* go-get=1 /latest/golang/release-builder.html 200
+/proxy/*  go-get=1 /latest/golang/proxy.html 200
+
+# Redirect default Netlify subdomain to primary domain
+https://istio.netlify.com/* https://istio.io/:splat 301!
+
+# Redirect to translated sites
+/  /latest/zh   302  Language=zh
+/zh /latest/zh
+/zh/* /latest/zh/:splat
+
+/  /latest/es   302  Language=es
+/es /latest/es
+/es/* /latest/es/:splat
+
+/  /latest/uk   302  Language=uk
+/uk /latest/uk
+/uk/* /latest/uk/:splat
+
+# Redirect for the helm charts
+/charts/ https://storage.googleapis.com/istio-release/releases/1.29.2/charts/ 301
+
+# Redirects for all aliases
+/es/docs/tasks/telemetry/distributed-tracing/overview	/v1.29/es/docs/tasks/observability/distributed-tracing/overview/
+/es/docs/tasks/telemetry/metrics   	/v1.29/es/docs/tasks/observability/metrics/
+/es/docs/ops/deployment/docs/setup/platform-setup/prerequisites	/v1.29/es/docs/ops/deployment/platform-requirements/
+/es/docs/welcome/faq.html          	/v1.29/es/about/faq/
+/es/docs/reference/faq.html        	/v1.29/es/about/faq/
+/es/help/faq                       	/v1.29/es/about/faq/
+/es/faq.html                       	/v1.29/es/about/faq/
+/es/docs/ops/ambient/install/platform-prerequisites	/v1.29/es/docs/ambient/install/platform-prerequisites/
+/es/latest/docs/ops/ambient/install/platform-prerequisites	/v1.29/es/docs/ambient/install/platform-prerequisites/
+/es/docs/ops/ambient/getting-started	/v1.29/es/docs/ambient/getting-started/
+/es/latest/docs/ops/ambient/getting-started	/v1.29/es/docs/ambient/getting-started/
+/es/docs/ops/ambient/usage/traffic-redirection	/v1.29/es/docs/ambient/architecture/traffic-redirection/
+/es/latest/docs/ops/ambient/usage/traffic-redirection	/v1.29/es/docs/ambient/architecture/traffic-redirection/
+/es/docs/welcome/contribute/creating-a-pull-request.html	/v1.29/es/docs/releases/contribute/github/
+/es/docs/welcome/contribute/staging-your-changes.html	/v1.29/es/docs/releases/contribute/github/
+/es/docs/welcome/contribute/editing.html	/v1.29/es/docs/releases/contribute/github/
+/es/about/contribute/creating-a-pull-request	/v1.29/es/docs/releases/contribute/github/
+/es/about/contribute/editing       	/v1.29/es/docs/releases/contribute/github/
+/es/about/contribute/staging-your-changes	/v1.29/es/docs/releases/contribute/github/
+/es/about/contribute/github        	/v1.29/es/docs/releases/contribute/github/
+/es/latest/about/contribute/github 	/v1.29/es/docs/releases/contribute/github/
+/es/docs/welcome/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/add-content/
+/es/docs/reference/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/add-content/
+/es/about/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/add-content/
+/es/create                         	/v1.29/es/docs/releases/contribute/add-content/
+/es/about/contribute/add-content   	/v1.29/es/docs/releases/contribute/add-content/
+/es/latest/about/contribute/add-content	/v1.29/es/docs/releases/contribute/add-content/
+/es/docs/tasks/observability/distributed-tracing/configurability	/v1.29/es/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/
+/es/docs/tasks/observability/distributed-tracing/configurability/mesh-and-proxy-config	/v1.29/es/docs/tasks/observability/distributed-tracing/mesh-and-proxy-config/
+/es/docs/ops/ambient/install/helm-installation	/v1.29/es/docs/ambient/install/helm/
+/es/latest/docs/ops/ambient/install/helm-installation	/v1.29/es/docs/ambient/install/helm/
+/es/docs/ambient/install/helm-installation	/v1.29/es/docs/ambient/install/helm/
+/es/latest/docs/ambient/install/helm-installation	/v1.29/es/docs/ambient/install/helm/
+/es/about/contribute/remove-content	/v1.29/es/docs/releases/contribute/remove-content/
+/es/latest/about/contribute/remove-content	/v1.29/es/docs/releases/contribute/remove-content/
+/es/docs/ops/ambient/upgrade/helm-upgrade	/v1.29/es/docs/ambient/upgrade/helm/
+/es/latest/docs/ops/ambient/upgrade/helm-upgrade	/v1.29/es/docs/ambient/upgrade/helm/
+/es/docs/ambient/upgrade/helm      	/v1.29/es/docs/ambient/upgrade/helm/
+/es/latest/docs/ambient/upgrade/helm	/v1.29/es/docs/ambient/upgrade/helm/
+/es/docs/setup/kubernetes/prepare/platform-setup/alicloud	/v1.29/es/docs/setup/platform-setup/alicloud/
+/es/docs/setup/kubernetes/platform-setup/alicloud	/v1.29/es/docs/setup/platform-setup/alicloud/
+/es/about/contribute/build         	/v1.29/es/docs/releases/contribute/build/
+/es/latest/about/contribute/build  	/v1.29/es/docs/releases/contribute/build/
+/es/docs/setup/additional-setup/getting-started	/v1.29/es/docs/setup/getting-started/
+/es/latest/docs/setup/additional-setup/getting-started	/v1.29/es/docs/setup/getting-started/
+/es/docs/ops/ambient/install       	/v1.29/es/docs/ambient/install/
+/es/latest/docs/ops/ambient/install	/v1.29/es/docs/ambient/install/
+/es/docs/tasks/telemetry/distributed-tracing/opentelemetry	/v1.29/es/docs/tasks/observability/distributed-tracing/opentelemetry/
+/es/docs/tasks/observability/distributed-tracing/lightstep	/v1.29/es/docs/tasks/observability/distributed-tracing/opentelemetry/
+/es/latest/docs/tasks/observability/distributed-tracing/lightstep	/v1.29/es/docs/tasks/observability/distributed-tracing/opentelemetry/
+/es/about/contribute/front-matter  	/v1.29/es/docs/releases/contribute/front-matter/
+/es/latest/about/contribute/front-matter	/v1.29/es/docs/releases/contribute/front-matter/
+/es/docs/tasks/telemetry/distributed-tracing/jaeger	/v1.29/es/docs/tasks/observability/distributed-tracing/jaeger/
+/es/about/contribute/review        	/v1.29/es/docs/releases/contribute/review/
+/es/latest/about/contribute/review 	/v1.29/es/docs/releases/contribute/review/
+/es/docs/tasks/zipkin-tracing.html 	/v1.29/es/docs/tasks/observability/distributed-tracing/zipkin/
+/es/about/contribute/code-blocks   	/v1.29/es/docs/releases/contribute/code-blocks/
+/es/latest/about/contribute/code-blocks	/v1.29/es/docs/releases/contribute/code-blocks/
+/es/docs/welcome/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/shortcodes/
+/es/docs/reference/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/shortcodes/
+/es/about/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/shortcodes/
+/es/create                         	/v1.29/es/docs/releases/contribute/shortcodes/
+/es/about/contribute/shortcodes    	/v1.29/es/docs/releases/contribute/shortcodes/
+/es/latest/about/contribute/shortcodes	/v1.29/es/docs/releases/contribute/shortcodes/
+/es/docs/tasks/egress.html         	/v1.29/es/docs/tasks/traffic-management/egress/egress-control/
+/es/docs/tasks/egress              	/v1.29/es/docs/tasks/traffic-management/egress/egress-control/
+/es/docs/samples/bookinfo.html     	/v1.29/es/docs/examples/bookinfo/
+/es/docs/guides/bookinfo/index.html	/v1.29/es/docs/examples/bookinfo/
+/es/docs/guides/bookinfo.html      	/v1.29/es/docs/examples/bookinfo/
+/es/docs/concepts/architecture     	/v1.29/es/docs/ops/deployment/architecture/
+/es/docs/ops/architecture          	/v1.29/es/docs/ops/deployment/architecture/
+/es/docs/setup/kubernetes/prepare/platform-setup/azure	/v1.29/es/docs/setup/platform-setup/azure/
+/es/docs/setup/kubernetes/platform-setup/azure	/v1.29/es/docs/setup/platform-setup/azure/
+/es/docs/setup/kubernetes/platform-setup	/v1.29/es/docs/setup/platform-setup/
+/es/docs/ops/prep/deployment       	/v1.29/es/docs/ops/best-practices/deployment/
+/es/help/ops/extensibility/distribute-remote-wasm-module	/v1.29/es/docs/tasks/extensibility/wasm-module-distribution/
+/es/docs/ops/extensibility/distribute-remote-wasm-module	/v1.29/es/docs/tasks/extensibility/wasm-module-distribution/
+/es/ops/configuration/extensibility/wasm-module-distribution	/v1.29/es/docs/tasks/extensibility/wasm-module-distribution/
+/es/docs/tasks/request-routing.html	/v1.29/es/docs/tasks/traffic-management/request-routing/
+/es/help/ops/telemetry/envoy-stats 	/v1.29/es/docs/ops/configuration/telemetry/envoy-stats/
+/es/docs/ops/telemetry/envoy-stats 	/v1.29/es/docs/ops/configuration/telemetry/envoy-stats/
+/es/docs/reference/release-roadmap.html	/v1.29/es/docs/releases/feature-stages/
+/es/docs/reference/feature-stages.html	/v1.29/es/docs/releases/feature-stages/
+/es/docs/welcome/feature-stages.html	/v1.29/es/docs/releases/feature-stages/
+/es/docs/home/roadmap.html         	/v1.29/es/docs/releases/feature-stages/
+/es/about/feature-stages           	/v1.29/es/docs/releases/feature-stages/
+/es/latest/about/feature-stages    	/v1.29/es/docs/releases/feature-stages/
+/es/about/contribute/formatting    	/v1.29/es/docs/releases/contribute/formatting/
+/es/latest/about/contribute/formatting	/v1.29/es/docs/releases/contribute/formatting/
+/es/docs/tasks/ingress.html        	/v1.29/es/docs/tasks/traffic-management/ingress/ingress-control/
+/es/docs/tasks/ingress             	/v1.29/es/docs/tasks/traffic-management/ingress/ingress-control/
+/es/help/faq/general               	/v1.29/es/about/faq/general/
+/es/help/ops/telemetry/monitoring-multicluster-prometheus	/v1.29/es/docs/ops/configuration/telemetry/monitoring-multicluster-prometheus/
+/es/docs/ops/telemetry/monitoring-multicluster-prometheus	/v1.29/es/docs/ops/configuration/telemetry/monitoring-multicluster-prometheus/
+/es/docs/tasks/security/istio-auth.html	/v1.29/es/docs/tasks/security/authentication/authn-policy/
+/es/docs/tasks/security/authn-policy	/v1.29/es/docs/tasks/security/authentication/authn-policy/
+/es/help/ops/traffic-management/protocol-selection	/v1.29/es/docs/ops/configuration/traffic-management/protocol-selection/
+/es/help/ops/protocol-selection    	/v1.29/es/docs/ops/configuration/traffic-management/protocol-selection/
+/es/help/tasks/traffic-management/protocol-selection	/v1.29/es/docs/ops/configuration/traffic-management/protocol-selection/
+/es/docs/ops/traffic-management/protocol-selection	/v1.29/es/docs/ops/configuration/traffic-management/protocol-selection/
+/es/docs/tasks/telemetry/access-log	/v1.29/es/docs/tasks/observability/logs/access-log/
+/es/docs/tasks/telemetry/logs/access-log	/v1.29/es/docs/tasks/observability/logs/access-log/
+/es/help/ops/traffic-management/troubleshooting	/v1.29/es/docs/ops/common-problems/network-issues/
+/es/help/ops/troubleshooting/network-issues	/v1.29/es/docs/ops/common-problems/network-issues/
+/es/docs/ops/troubleshooting/network-issues	/v1.29/es/docs/ops/common-problems/network-issues/
+/es/docs/tasks/security/role-based-access-control.html	/v1.29/es/docs/tasks/security/authorization/authz-http/
+/es/docs/tasks/security/authz-http 	/v1.29/es/docs/tasks/security/authorization/authz-http/
+/es/docs/ops/ambient/upgrade       	/v1.29/es/docs/ambient/upgrade/
+/es/latest/docs/ops/ambient/upgrade	/v1.29/es/docs/ambient/upgrade/
+/es/help/ops/component-debugging   	/v1.29/es/docs/ops/diagnostic-tools/istioctl/
+/es/docs/ops/troubleshooting/istioctl	/v1.29/es/docs/ops/diagnostic-tools/istioctl/
+/es/help/ops/setup/webhook         	/v1.29/es/docs/ops/configuration/mesh/webhook/
+/es/docs/ops/setup/webhook         	/v1.29/es/docs/ops/configuration/mesh/webhook/
+/es/docs/welcome/contribute/style-guide.html	/v1.29/es/docs/releases/contribute/style-guide/
+/es/docs/reference/contribute/style-guide.html	/v1.29/es/docs/releases/contribute/style-guide/
+/es/about/contribute/style-guide   	/v1.29/es/docs/releases/contribute/style-guide/
+/es/latest/about/contribute/style-guide	/v1.29/es/docs/releases/contribute/style-guide/
+/es/docs/welcome/contribute/style-guide.html	/v1.29/es/docs/releases/contribute/terminology/
+/es/docs/reference/contribute/style-guide.html	/v1.29/es/docs/releases/contribute/terminology/
+/es/about/contribute/terminology   	/v1.29/es/docs/releases/contribute/terminology/
+/es/latest/about/contribute/terminology	/v1.29/es/docs/releases/contribute/terminology/
+/es/about/contribute/diagrams      	/v1.29/es/docs/releases/contribute/diagrams/
+/es/latest/about/contribute/diagrams	/v1.29/es/docs/releases/contribute/diagrams/
+/es/docs/setup/kubernetes/prepare/platform-setup/docker-for-desktop	/v1.29/es/docs/setup/platform-setup/docker/
+/es/docs/setup/kubernetes/prepare/platform-setup/docker	/v1.29/es/docs/setup/platform-setup/docker/
+/es/docs/setup/kubernetes/platform-setup/docker	/v1.29/es/docs/setup/platform-setup/docker/
+/es/docs/examples/intelligent-routing	/v1.29/es/docs/tasks/traffic-management/
+/es/docs/ops/ambient/usage         	/v1.29/es/docs/ambient/usage/
+/es/latest/docs/ops/ambient/usage  	/v1.29/es/docs/ambient/usage/
+/es/community                      	/v1.29/es/get-involved/
+/es/about/community                	/v1.29/es/get-involved/
+/es/latest/about/community         	/v1.29/es/get-involved/
+/es/about/community/join           	/v1.29/es/get-involved/
+/es/latest/about/community/join    	/v1.29/es/get-involved/
+/es/docs/tasks/installing-istio.html	/v1.29/es/docs/setup/
+/es/docs/setup/install-kubernetes.html	/v1.29/es/docs/setup/
+/es/docs/setup/kubernetes/quick-start.html	/v1.29/es/docs/setup/
+/es/docs/setup/kubernetes/download-release	/v1.29/es/docs/setup/
+/es/docs/setup/kubernetes/download 	/v1.29/es/docs/setup/
+/es/docs/setup/install/operator    	/v1.29/es/docs/setup/
+/es/latest/docs/setup/install/operator	/v1.29/es/docs/setup/
+/es/docs/ops/ambient               	/v1.29/es/docs/ambient/
+/es/latest/docs/ops/ambient        	/v1.29/es/docs/ambient/
+/es/docs/tasks/istio-auth.html     	/v1.29/es/docs/tasks/security/
+/es/docs/tasks/security/authz-permissive	/v1.29/es/docs/tasks/security/
+/es/docs/ops/ambient/architecture  	/v1.29/es/docs/ambient/architecture/
+/es/latest/docs/ops/ambient/architecture	/v1.29/es/docs/ambient/architecture/
+/es/docs/reference/config/authorization/authorization-policy	/v1.29/es/docs/reference/config/security/authorization-policy/
+/es/help/faq/setup                 	/v1.29/es/about/faq/setup/
+/es/help/ops/setup                 	/v1.29/es/docs/ops/configuration/
+/es/help/ops/traffic-management/proxy-cmd	/v1.29/es/docs/ops/diagnostic-tools/proxy-cmd/
+/es/help/ops/misc                  	/v1.29/es/docs/ops/diagnostic-tools/proxy-cmd/
+/es/help/ops/troubleshooting/proxy-cmd	/v1.29/es/docs/ops/diagnostic-tools/proxy-cmd/
+/es/docs/concepts/multicluster-deployments	/v1.29/es/docs/ops/deployment/deployment-models/
+/es/docs/concepts/deployment-models	/v1.29/es/docs/ops/deployment/deployment-models/
+/es/docs/ops/prep/deployment-models	/v1.29/es/docs/ops/deployment/deployment-models/
+/es/docs/examples/advanced-gateways/egress-tls-origination	/v1.29/es/docs/tasks/traffic-management/egress/egress-tls-origination/
+/es/docs/tasks/traffic-management/ingress/secure-ingress-sds	/v1.29/es/docs/tasks/traffic-management/ingress/secure-ingress/
+/es/docs/tasks/traffic-management/ingress/secure-ingress-mount	/v1.29/es/docs/tasks/traffic-management/ingress/secure-ingress/
+/es/docs/concepts/traffic-management/pilot	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/rules-configuration	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/fault-injection	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/handling-failures	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/load-balancing	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/request-routing	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/pilot.html	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/concepts/traffic-management/overview.html	/v1.29/es/docs/concepts/traffic-management/
+/es/docs/setup/kubernetes/prepare/platform-setup/gke	/v1.29/es/docs/setup/platform-setup/gke/
+/es/docs/setup/kubernetes/platform-setup/gke	/v1.29/es/docs/setup/platform-setup/gke/
+/es/docs/setup/kubernetes/install  	/v1.29/es/docs/setup/install/
+/es/docs/tasks/fault-injection.html	/v1.29/es/docs/tasks/traffic-management/fault-injection/
+/es/docs/tasks/telemetry/logs      	/v1.29/es/docs/tasks/observability/logs/
+/es/docs/tasks/telemetry/tcp-metrics	/v1.29/es/docs/tasks/observability/metrics/tcp-metrics/
+/es/docs/tasks/telemetry/metrics/tcp-metrics	/v1.29/es/docs/tasks/observability/metrics/tcp-metrics/
+/es/help/ops/security/repairing-citadel	/v1.29/es/docs/ops/common-problems/security-issues/
+/es/help/ops/troubleshooting/repairing-citadel	/v1.29/es/docs/ops/common-problems/security-issues/
+/es/docs/ops/troubleshooting/repairing-citadel	/v1.29/es/docs/ops/common-problems/security-issues/
+/es/help/ops/traffic-management    	/v1.29/es/docs/ops/configuration/traffic-management/
+/es/help/ops/traffic-management/deploy-guidelines	/v1.29/es/docs/ops/best-practices/traffic-management/
+/es/help/ops/deploy-guidelines     	/v1.29/es/docs/ops/best-practices/traffic-management/
+/es/docs/ops/traffic-management/deploy-guidelines	/v1.29/es/docs/ops/best-practices/traffic-management/
+/es/docs/tasks/security/authz-tcp  	/v1.29/es/docs/tasks/security/authorization/authz-tcp/
+/es/docs/setup/kubernetes/prepare/platform-setup/huaweicloud	/v1.29/es/docs/setup/platform-setup/huaweicloud/
+/es/docs/setup/kubernetes/platform-setup/huaweicloud	/v1.29/es/docs/setup/platform-setup/huaweicloud/
+/es/docs/setup/kubernetes/prepare/platform-setup/ibm	/v1.29/es/docs/setup/platform-setup/ibm/
+/es/docs/setup/kubernetes/platform-setup/ibm	/v1.29/es/docs/setup/platform-setup/ibm/
+/es/docs/tasks/traffic-management/ingress/ingress-certmgr	/v1.29/es/docs/ops/integrations/certmanager/
+/es/docs/examples/advanced-gateways/ingress-certmgr	/v1.29/es/docs/ops/integrations/certmanager/
+/es/docs/reference/config/security/conditions	/v1.29/es/docs/reference/config/security/conditions/
+/es/docs/reference/config/security/constraints-and-properties	/v1.29/es/docs/reference/config/security/conditions/
+/es/help/ops/troubleshooting       	/v1.29/es/docs/ops/best-practices/
+/es/help/ops/traffic-management/troubleshooting	/v1.29/es/docs/ops/best-practices/
+/es/help/ops/setup                 	/v1.29/es/docs/ops/best-practices/
+/es/docs/ops/ambient/usage/waypoint	/v1.29/es/docs/ambient/usage/waypoint/
+/es/latest/docs/ops/ambient/usage/waypoint	/v1.29/es/docs/ambient/usage/waypoint/
+/es/docs/tasks/telemetry/querying-metrics	/v1.29/es/docs/tasks/observability/metrics/querying-metrics/
+/es/docs/tasks/telemetry/metrics/querying-metrics	/v1.29/es/docs/tasks/observability/metrics/querying-metrics/
+/es/docs/tasks/security/istio-auth.html	/v1.29/es/docs/tasks/security/authentication/claim-to-header/
+/es/docs/tasks/security/authn-policy	/v1.29/es/docs/tasks/security/authentication/claim-to-header/
+/es/docs/tasks/traffic-management/version-migration.html	/v1.29/es/docs/tasks/traffic-management/traffic-shifting/
+/es/docs/examples/advanced-gateways/egress-gateway	/v1.29/es/docs/tasks/traffic-management/egress/egress-gateway/
+/es/docs/samples/index.html        	/v1.29/es/docs/examples/
+/es/docs/guides/index.html         	/v1.29/es/docs/examples/
+/es/glossary                       	/v1.29/es/docs/reference/glossary/
+/es/docs/welcome/glossary.html     	/v1.29/es/docs/reference/glossary/
+/es/help/glossary                  	/v1.29/es/docs/reference/glossary/
+/es/docs/examples/advanced-gateways/ingress-sni-passthrough	/v1.29/es/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/
+/es/help/faq/ambient-mode          	/v1.29/es/about/faq/ambient-mode/
+/es/docs/examples/telemetry        	/v1.29/es/docs/tasks/observability/
+/es/docs/tasks/telemetry           	/v1.29/es/docs/tasks/observability/
+/es/docs/ops/troubleshooting/grafana	/v1.29/es/docs/ops/common-problems/observability-issues/
+/es/docs/ops/troubleshooting/missing-traces	/v1.29/es/docs/ops/common-problems/observability-issues/
+/es/docs/performance-and-scalability/overview	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/performance-and-scalability/microbenchmarks	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/performance-and-scalability/performance-testing-automation	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/performance-and-scalability/realistic-app-benchmark	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/performance-and-scalability/scalability	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/performance-and-scalability/scenarios	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/performance-and-scalability/synthetic-benchmarks	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/concepts/performance-and-scalability	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/ops/performance-and-scalability	/v1.29/es/docs/ops/deployment/performance-and-scalability/
+/es/docs/reference/config/proxy_extensions	/v1.29/es/docs/reference/config/proxy_extensions/
+/es/help/ops/security              	/v1.29/es/docs/ops/configuration/security/
+/es/help/faq/security              	/v1.29/es/about/faq/security/
+/es/docs/concepts/network-and-auth/auth.html	/v1.29/es/docs/concepts/security/
+/es/docs/concepts/security/authn-policy	/v1.29/es/docs/concepts/security/
+/es/docs/concepts/security/mutual-tls	/v1.29/es/docs/concepts/security/
+/es/docs/concepts/security/rbac    	/v1.29/es/docs/concepts/security/
+/es/docs/concepts/security/mutual-tls.html	/v1.29/es/docs/concepts/security/
+/es/docs/concepts/policies         	/v1.29/es/docs/concepts/security/
+/es/docs/tasks/security/rbac-groups	/v1.29/es/docs/tasks/security/authorization/authz-jwt/
+/es/docs/tasks/security/authorization/rbac-groups	/v1.29/es/docs/tasks/security/authorization/authz-jwt/
+/es/docs/reference/config/istio.routing.v1alpha1	/v1.29/es/docs/reference/config/networking/
+/es/docs/reference/config/networking	/v1.29/es/docs/reference/config/networking/
+/es/docs/tasks/telemetry/distributed-tracing	/v1.29/es/docs/tasks/observability/distributed-tracing/
+/es/docs/ops/troubleshooting/istioctl-describe	/v1.29/es/docs/ops/diagnostic-tools/istioctl-describe/
+/es/docs/tasks/traffic-management/tcp-version-migration.html	/v1.29/es/docs/tasks/traffic-management/tcp-traffic-shifting/
+/es/troubleshooting.html           	/v1.29/es/docs/ops/
+/es/troubleshooting/index.html     	/v1.29/es/docs/ops/
+/es/help/troubleshooting/index.html	/v1.29/es/docs/ops/
+/es/help/ops                       	/v1.29/es/docs/ops/
+/es/help                           	/v1.29/es/docs/ops/
+/es/about/community/partners       	/v1.29/es/about/ecosystem/
+/es/latest/about/community/partners	/v1.29/es/about/ecosystem/
+/es/deployment.html                	/v1.29/es/about/deployment/
+/es/service-mesh.html              	/v1.29/es/about/service-mesh/
+/es/docs/concepts/what-is-istio/overview	/v1.29/es/about/service-mesh/
+/es/docs/concepts/what-is-istio/goals	/v1.29/es/about/service-mesh/
+/es/about/intro                    	/v1.29/es/about/service-mesh/
+/es/docs/concepts/what-is-istio    	/v1.29/es/about/service-mesh/
+/es/latest/docs/concepts/what-is-istio	/v1.29/es/about/service-mesh/
+/es/bugs.html                      	/v1.29/es/docs/releases/bugs/
+/es/bugs/index.html                	/v1.29/es/docs/releases/bugs/
+/es/help/bugs                      	/v1.29/es/docs/releases/bugs/
+/es/about/bugs                     	/v1.29/es/docs/releases/bugs/
+/es/latest/about/bugs              	/v1.29/es/docs/releases/bugs/
+/es/docs/setup/kubernetes/platform-setup/gardener	/v1.29/es/docs/setup/platform-setup/gardener/
+/es/docs/setup/kubernetes/additional-setup/config-profiles	/v1.29/es/docs/setup/additional-setup/config-profiles/
+/es/about/security-vulnerabilities 	/v1.29/es/docs/releases/security-vulnerabilities/
+/es/latest/about/security-vulnerabilities	/v1.29/es/docs/releases/security-vulnerabilities/
+/es/about/supported-releases       	/v1.29/es/docs/releases/supported-releases/
+/es/latest/about/supported-releases	/v1.29/es/docs/releases/supported-releases/
+/es/docs/setup/kubernetes/spec-requirements	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/setup/kubernetes/prepare/spec-requirements	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/setup/kubernetes/prepare/requirements	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/setup/kubernetes/additional-setup/requirements	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/setup/additional-setup/requirements	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/ops/setup/required-pod-capabilities	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/help/ops/setup/required-pod-capabilities	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/ops/prep/requirements     	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/docs/ops/deployment/requirements	/v1.29/es/docs/ops/deployment/application-requirements/
+/es/help/ops/troubleshooting       	/v1.29/es/docs/ops/common-problems/
+/es/help/ops/traffic-management/troubleshooting	/v1.29/es/docs/ops/common-problems/
+/es/help/ops/setup                 	/v1.29/es/docs/ops/common-problems/
+/es/docs/examples/advanced-gateways/egress-gateway-tls-origination	/v1.29/es/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/
+/es/docs/examples/advanced-gateways/egress-gateway-tls-origination-sds	/v1.29/es/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/
+/es/docs/tasks/traffic-management/egress/egress-gateway-tls-origination-sds	/v1.29/es/docs/tasks/traffic-management/egress/egress-gateway-tls-origination/
+/es/docs/setup/kubernetes/multicluster-install	/v1.29/es/docs/setup/install/multicluster/
+/es/docs/setup/kubernetes/multicluster	/v1.29/es/docs/setup/install/multicluster/
+/es/docs/setup/kubernetes/install/multicluster	/v1.29/es/docs/setup/install/multicluster/
+/es/docs/setup/install/multicluster/gateways	/v1.29/es/docs/setup/install/multicluster/
+/es/docs/setup/install/multicluster/shared	/v1.29/es/docs/setup/install/multicluster/
+/es/docs/tasks/security/mtls-migration	/v1.29/es/docs/tasks/security/authentication/mtls-migration/
+/es/docs/concepts/policy-and-control/mixer.html	/v1.29/es/docs/concepts/observability/
+/es/docs/concepts/policy-and-control/mixer-config.html	/v1.29/es/docs/concepts/observability/
+/es/docs/concepts/policy-and-control/attributes.html	/v1.29/es/docs/concepts/observability/
+/es/docs/concepts/policies-and-telemetry/overview	/v1.29/es/docs/concepts/observability/
+/es/docs/concepts/policies-and-telemetry/config	/v1.29/es/docs/concepts/observability/
+/es/docs/concepts/policies-and-telemetry	/v1.29/es/docs/concepts/observability/
+/es/help/ops/telemetry             	/v1.29/es/docs/ops/configuration/telemetry/
+/es/docs/ops/troubleshooting/injection	/v1.29/es/docs/ops/common-problems/injection/
+/es/docs/tasks/request-timeouts.html	/v1.29/es/docs/tasks/traffic-management/request-timeouts/
+/es/docs/tasks/telemetry/using-istio-dashboard	/v1.29/es/docs/tasks/observability/metrics/using-istio-dashboard/
+/es/docs/tasks/telemetry/metrics/using-istio-dashboard	/v1.29/es/docs/tasks/observability/metrics/using-istio-dashboard/
+/es/help/ops/extensibility         	/v1.29/es/docs/ops/configuration/extensibility/
+/es/docs/setup/kubernetes/automatic-sidecar-inject.html	/v1.29/es/docs/setup/additional-setup/sidecar-injection/
+/es/docs/setup/kubernetes/sidecar-injection	/v1.29/es/docs/setup/additional-setup/sidecar-injection/
+/es/docs/setup/kubernetes/additional-setup/sidecar-injection	/v1.29/es/docs/setup/additional-setup/sidecar-injection/
+/es/help/faq/telemetry             	/v1.29/es/about/faq/metrics-and-logs/
+/es/help/faq/metrics-and-logs      	/v1.29/es/about/faq/metrics-and-logs/
+/es/docs/setup/kubernetes/prepare/platform-setup/MicroK8s	/v1.29/es/docs/setup/platform-setup/microk8s/
+/es/docs/setup/kubernetes/platform-setup/MicroK8s	/v1.29/es/docs/setup/platform-setup/microk8s/
+/es/docs/reference/config/telemetry/v1alpha1/telemetry	/v1.29/es/docs/reference/config/telemetry/
+/es/help/faq/distributed-tracing   	/v1.29/es/about/faq/distributed-tracing/
+/es/docs/tasks/telemetry/kiali     	/v1.29/es/docs/tasks/observability/kiali/
+/es/help/ops/setup/validation      	/v1.29/es/docs/ops/common-problems/validation/
+/es/help/ops/troubleshooting/validation	/v1.29/es/docs/ops/common-problems/validation/
+/es/docs/ops/troubleshooting/validation	/v1.29/es/docs/ops/common-problems/validation/
+/es/docs/ops/troubleshooting/proxy-cmd	/v1.29/es/docs/ops/diagnostic-tools/
+/es/help/faq/traffic-management    	/v1.29/es/about/faq/traffic-management/
+/es/docs/setup/additional-setup/external-controlplane	/v1.29/es/docs/setup/install/external-controlplane/
+/es/latest/docs/setup/additional-setup/external-controlplane	/v1.29/es/docs/setup/install/external-controlplane/
+/es/docs/reference/config/telemetry/metrics	/v1.29/es/docs/reference/config/metrics/
+/es/docs/tasks/traffic-management/ingress/service-apis	/v1.29/es/docs/tasks/traffic-management/ingress/gateway-api/
+/es/latest/docs/tasks/traffic-management/ingress/service-apis	/v1.29/es/docs/tasks/traffic-management/ingress/gateway-api/
+/es/docs/setup/kubernetes/prepare/platform-setup/minikube	/v1.29/es/docs/setup/platform-setup/minikube/
+/es/docs/setup/kubernetes/platform-setup/minikube	/v1.29/es/docs/setup/platform-setup/minikube/
+/es/docs/examples/advanced-gateways/wildcard-egress-hosts	/v1.29/es/docs/tasks/traffic-management/egress/wildcard-egress-hosts/
+/es/docs/tasks/traffic-management/app-health-check	/v1.29/es/docs/ops/configuration/mesh/app-health-check/
+/es/docs/ops/security/health-checks-and-mtls	/v1.29/es/docs/ops/configuration/mesh/app-health-check/
+/es/help/ops/setup/app-health-check	/v1.29/es/docs/ops/configuration/mesh/app-health-check/
+/es/help/ops/app-health-check      	/v1.29/es/docs/ops/configuration/mesh/app-health-check/
+/es/docs/ops/app-health-check      	/v1.29/es/docs/ops/configuration/mesh/app-health-check/
+/es/docs/ops/setup/app-health-check	/v1.29/es/docs/ops/configuration/mesh/app-health-check/
+/es/docs/setup/kubernetes/prepare/platform-setup/openshift	/v1.29/es/docs/setup/platform-setup/openshift/
+/es/docs/setup/kubernetes/platform-setup/openshift	/v1.29/es/docs/setup/platform-setup/openshift/
+/es/docs/examples/integrating-vms  	/v1.29/es/docs/examples/virtual-machines/
+/es/docs/examples/mesh-expansion/bookinfo-expanded	/v1.29/es/docs/examples/virtual-machines/
+/es/docs/examples/virtual-machines/bookinfo	/v1.29/es/docs/examples/virtual-machines/
+/es/docs/examples/vm-bookinfo      	/v1.29/es/docs/examples/virtual-machines/
+/es/help/ops/controlz              	/v1.29/es/docs/ops/diagnostic-tools/controlz/
+/es/docs/ops/troubleshooting/controlz	/v1.29/es/docs/ops/diagnostic-tools/controlz/
+/es/docs/setup/kubernetes/prepare/platform-setup/oci	/v1.29/es/docs/setup/platform-setup/oci/
+/es/docs/setup/kubernetes/platform-setup/oci	/v1.29/es/docs/setup/platform-setup/oci/
+/es/docs/examples/advanced-gateways/http-proxy	/v1.29/es/docs/tasks/traffic-management/egress/http-proxy/
+/es/help/ops/traffic-management/locality-load-balancing	/v1.29/es/docs/tasks/traffic-management/locality-load-balancing/
+/es/help/ops/locality-load-balancing	/v1.29/es/docs/tasks/traffic-management/locality-load-balancing/
+/es/help/tasks/traffic-management/locality-load-balancing	/v1.29/es/docs/tasks/traffic-management/locality-load-balancing/
+/es/docs/ops/traffic-management/locality-load-balancing	/v1.29/es/docs/tasks/traffic-management/locality-load-balancing/
+/es/docs/ops/configuration/traffic-management/locality-load-balancing	/v1.29/es/docs/tasks/traffic-management/locality-load-balancing/
+/es/help/ops/component-logging     	/v1.29/es/docs/ops/diagnostic-tools/component-logging/
+/es/docs/ops/troubleshooting/component-logging	/v1.29/es/docs/ops/diagnostic-tools/component-logging/
+/es/docs/setup/kubernetes/install/pod-security-admission	/v1.29/es/docs/setup/additional-setup/pod-security-admission/
+/es/docs/setup/kubernetes/additional-setup/pod-security-admission	/v1.29/es/docs/setup/additional-setup/pod-security-admission/
+/es/docs/setup/kubernetes/additional-setup/cni	/v1.29/es/docs/setup/additional-setup/cni/
+/es/docs/setup/additional-setup/cni	/v1.29/es/docs/setup/additional-setup/cni/
+/es/docs/tasks/security/plugin-ca-cert	/v1.29/es/docs/tasks/security/cert-management/plugin-ca-cert/
+/es/help/ops/security/harden-docker-images	/v1.29/es/docs/ops/configuration/security/harden-docker-images/
+/es/docs/ops/security/harden-docker-images	/v1.29/es/docs/ops/configuration/security/harden-docker-images/
+/es/docs/tasks/security/workload-min-tls-version	/v1.29/es/docs/tasks/security/tls-configuration/workload-min-tls-version/
+/es/docs/tasks/telemetry/gateways  	/v1.29/es/docs/tasks/observability/gateways/
+/es/docs/welcome/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/
+/es/docs/welcome/contribute/index.html	/v1.29/es/docs/releases/contribute/
+/es/docs/reference/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/
+/es/about/contribute/writing-a-new-topic.html	/v1.29/es/docs/releases/contribute/
+/es/about/contribute/creating-and-editing-pages	/v1.29/es/docs/releases/contribute/
+/es/create                         	/v1.29/es/docs/releases/contribute/
+/es/about/contribute               	/v1.29/es/docs/releases/contribute/
+/es/latest/about/contribute        	/v1.29/es/docs/releases/contribute/
+/es/docs/tasks/security/custom-ca-k8s	/v1.29/es/docs/tasks/security/cert-management/custom-ca-k8s/
+/es/docs/tasks/installing-istio.html	/v1.29/es/docs/setup/additional-setup/
+/es/docs/setup/install-kubernetes.html	/v1.29/es/docs/setup/additional-setup/
+/es/docs/setup/kubernetes/additional-setup	/v1.29/es/docs/setup/additional-setup/
+/es/about/log                      	/v1.29/es/docs/releases/log/
+/es/latest/about/log               	/v1.29/es/docs/releases/log/
+/es/blog/posts/index.html          	/v1.29/es/blog/
+/es/case-studies                   	/v1.29/es/about/case-studies/
+/es/about/community/customers      	/v1.29/es/about/case-studies/
+/es/latest/about/community/customers	/v1.29/es/about/case-studies/
+/es/docs/reference/config/networking/v1alpha3/destination-rule	/v1.29/es/docs/reference/config/networking/destination-rule/
+/es/docs/reference/config/networking/v1alpha3/envoy-filter	/v1.29/es/docs/reference/config/networking/envoy-filter/
+/es/docs/reference/config/networking/v1alpha3/gateway	/v1.29/es/docs/reference/config/networking/gateway/
+/es/docs/reference/config/security/v1beta1/peer_authentication	/v1.29/es/docs/reference/config/security/peer_authentication/
+/es/docs/reference/config/networking/v1beta1/proxy-config	/v1.29/es/docs/reference/config/networking/proxy-config/
+/es/docs/reference/config/security/v1beta1/request_authentication	/v1.29/es/docs/reference/config/security/request_authentication/
+/es/docs/reference/config/security/v1beta1/jwt	/v1.29/es/docs/reference/config/security/request_authentication/
+/es/docs/reference/config/security/v1beta1/jwt.html	/v1.29/es/docs/reference/config/security/request_authentication/
+/es/docs/reference/config/networking/v1alpha3/service-entry	/v1.29/es/docs/reference/config/networking/service-entry/
+/es/docs/reference/config/networking/v1alpha3/sidecar	/v1.29/es/docs/reference/config/networking/sidecar/
+/es/solutions                      	/v1.29/es/about/solutions/
+/es/docs/reference/config/networking/v1alpha3/virtual-service	/v1.29/es/docs/reference/config/networking/virtual-service/
+/es/docs/reference/config/extensions/v1alpha1/wasm-plugin	/v1.29/es/docs/reference/config/proxy_extensions/wasm-plugin/
+/es/docs/reference/config/networking/v1alpha3/workload-entry	/v1.29/es/docs/reference/config/networking/workload-entry/
+/es/docs/reference/config/networking/v1alpha3/workload-group	/v1.29/es/docs/reference/config/networking/workload-group/
+
+# Download scripts
+/downloadIstio https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCandidate.sh
+/downloadIstioctl https://raw.githubusercontent.com/istio/istio/master/release/downloadIstioCtl.sh
+
+# Redirect static folder
+/img/* /latest/img/:splat
+/misc/* /latest/misc/:splat
+/talks/* /latest/talks/:splat
+/favicons/* /latest/favicons/:splat
+/favicon.ico /latest/favicons/favicon.ico 200
+/logos/* /latest/logos/:splat
+
+# Redirect root paths without /latest
+/about/* /latest/about/:splat
+/blog/* /latest/blog/:splat
+/docs/* /latest/docs/:splat
+/get-involved/* /latest/get-involved/:splat
+/news/* /latest/news/:splat
+/search/* /latest/search/:splat
+/test/* /latest/test/:splat
+
+# redirect current version to /latest
+/v1.29/* /latest/:splat
+
+#redirect next version to preliminary
+/vfalse/* https://preliminary.istio.io/latest/:splat
+
+# migration from old design to new
+/about / 301!
+/latest/about /latest 301!
+/faq/* /latest/about/faq/
+/latest/faq/* /latest/about/faq/
+/about/faq/* /latest/about/faq/
+
+# media-resources page
+/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/latest/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/about/zh/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
+/latest/zh/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
