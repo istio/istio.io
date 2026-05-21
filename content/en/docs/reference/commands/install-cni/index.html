@@ -497,6 +497,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td><code>false</code></td>
 <td>Whether ambient controller is enabled</td>
 </tr>
+<tr id='ambient-enable-aws-branch-eni-probe'>
+<td><a href='#ambient-enable-aws-branch-eni-probe'><code>AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If true, detect AWS VPC CNI branch ENI pods and add ip rules to route probe traffic via veth</td>
+</tr>
 <tr id='ambient-enable-baggage'>
 <td><a href='#ambient-enable-baggage'><code>AMBIENT_ENABLE_BAGGAGE</code></a></td>
 <td>Boolean</td>
@@ -1393,6 +1399,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>15s</code></td>
 <td>The timeout for transport socket (e.g., TLS handshake) connections on gateway listeners. This helps protect against slow TLS handshake attacks. Set to 0s to disable.</td>
 </tr>
+<tr id='pilot-hbone-initial-connection-window-size'>
+<td><a href='#pilot-hbone-initial-connection-window-size'><code>PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE</code></a></td>
+<td>String</td>
+<td><code>0</code></td>
+<td>Sets the HTTP/2 initial_connection_window_size on HBONE CONNECT upstream clusters generated for waypoints and east-west gateways. If 0 (the default), the field is left unset so Envoy&#39;s built-in default applies.</td>
+</tr>
+<tr id='pilot-hbone-initial-stream-window-size'>
+<td><a href='#pilot-hbone-initial-stream-window-size'><code>PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE</code></a></td>
+<td>String</td>
+<td><code>0</code></td>
+<td>Sets the HTTP/2 initial_stream_window_size on HBONE CONNECT upstream clusters generated for waypoints and east-west gateways. If 0 (the default), the field is left unset so Envoy&#39;s built-in default applies.</td>
+</tr>
 <tr id='pilot-http10'>
 <td><a href='#pilot-http10'><code>PILOT_HTTP10</code></a></td>
 <td>Boolean</td>
@@ -1447,6 +1465,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>0</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
+<tr id='pilot-multicluster-kubeconfig-path'>
+<td><a href='#pilot-multicluster-kubeconfig-path'><code>PILOT_MULTICLUSTER_KUBECONFIG_PATH</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, istiod reads remote cluster kubeconfigs from this local directory. If both `PILOT_MULTICLUSTER_KUBECONFIG_PATH` and `LOCAL_CLUSTER_SECRET_WATCHER` are set, `PILOT_MULTICLUSTER_KUBECONFIG_PATH` takes precedence.</td>
+</tr>
 <tr id='pilot-multi-network-discover-gateway-api'>
 <td><a href='#pilot-multi-network-discover-gateway-api'><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></a></td>
 <td>Boolean</td>
@@ -1500,6 +1524,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will include unhealthy endpoints in EDS pushes and even if they are sent Envoy does not use them for load balancing.  To avoid, sending traffic to non ready endpoints, enabling this flag, disables panic threshold in Envoy i.e. Envoy does not load balance requests to unhealthy/non-ready hosts even if the percentage of healthy hosts fall below minimum health percentage(panic threshold).</td>
+</tr>
+<tr id='pilot-sidecar-pick-best-service-namespace'>
+<td><a href='#pilot-sidecar-pick-best-service-namespace'><code>PILOT_SIDECAR_PICK_BEST_SERVICE_NAMESPACE</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, when a sidecar needs to pick a service namespace for a hostname, it will prefer Kubernetes services and fall back to the oldest non-Kubernetes service. When disabled, the first visible namespace alphabetically is used.</td>
 </tr>
 <tr id='pilot-sidecar-use-remote-address'>
 <td><a href='#pilot-sidecar-use-remote-address'><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></a></td>

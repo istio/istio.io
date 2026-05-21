@@ -149,6 +149,25 @@ If you prefer more granularity than using a waypoint for an entire namespace, yo
 If the `istio.io/use-waypoint` label exists on both a namespace and a service, the service waypoint takes precedence over the namespace waypoint as long as the service waypoint can handle `service` or `all` traffic. Similarly, a label on a pod will take precedence over a namespace label.
 {{< /tip >}}
 
+### Ingress gateways and waypoints {#ingress-and-waypoints}
+
+The `istio.io/use-waypoint` label governs **east-west** traffic: requests from other pods in the mesh to the labeled namespace, service, or workload are sent through the destination waypoint for Layer 7 policy and telemetry.
+
+Traffic from an **Istio ingress gateway** to that `Service` is modeled separately. By default, ingress-originated traffic will **not** use the destination service waypoint, even when `istio.io/use-waypoint` is set on the service or namespace.
+
+To direct ingress traffic through the same waypoint as mesh traffic, set **`istio.io/ingress-use-waypoint`** to `true` on the Kubernetes `Service`, or on the `Namespace` to apply to all services in that namespace (supported starting with Istio 1.25). See the [resource labels](/docs/reference/config/labels/#IoIstioIngressUseWaypoint) reference for supported resource types.
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/ingress-use-waypoint=true
+service/reviews labeled
+{{< /text >}}
+
+{{< tip >}}
+Enabling this path results in **Layer 7 processing at both the ingress gateway and the waypoint** (a two-tier gateway pattern). Consider authorization rules, latency, and metrics for both hops.
+{{< /tip >}}
+
+The control plane only applies this behavior when **`ENABLE_INGRESS_WAYPOINT_ROUTING`** is enabled for istiod; it defaults to `false`. See [`ENABLE_INGRESS_WAYPOINT_ROUTING`](/docs/reference/commands/pilot-discovery/#enable-ingress-waypoint-routing) in the pilot-discovery environment reference.
+
 ### Configure a service to use a specific waypoint
 
 Using the services from the sample [bookinfo application](/docs/examples/bookinfo/), we can deploy a waypoint called `reviews-svc-waypoint` for the `reviews` service:

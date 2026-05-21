@@ -613,6 +613,15 @@ handling unknown outbound traffic from the application.</p>
 <td>
 </td>
 </tr>
+<tr id="MeshConfig-OutboundTrafficPolicy-tls">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-OutboundTrafficPolicy-tls">tls</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/networking/destination-rule/#ClientTLSSettings">ClientTLSSettings</a></div>
+</div></td>
+<td>
+<p>TLS settings for client connections to unknown destinations. Applicable only when mode is set to <code>ALLOW_ANY_DYNAMIC_DNS</code>.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -644,6 +653,15 @@ Instead, this option exists primarily to offer users a way to detect missing <co
 Unknown destination traffic will have limited functionality, however, such as reduced observability.
 This mode allows users that do not have all possible egress destinations registered through <code>ServiceEntry</code> configurations to still connect
 to arbitrary destinations.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-OutboundTrafficPolicy-Mode-ALLOW_ANY_DYNAMIC_DNS">
+<td><code><a href="#MeshConfig-OutboundTrafficPolicy-Mode-ALLOW_ANY_DYNAMIC_DNS">ALLOW_ANY_DYNAMIC_DNS</a></code></td>
+<td>
+<p>In <code>ALLOW_ANY_DYNAMIC_DNS</code> mode, traffic to unknown destinations will be allowed via dynamic DNS resolution.
+This mode allows users that do not have all possible egress destinations registered through <code>ServiceEntry</code> configurations to still connect
+to arbitrary destinations. Client TLS settings can be configured for connections to such destinations.</p>
 
 </td>
 </tr>

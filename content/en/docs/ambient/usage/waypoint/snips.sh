@@ -95,6 +95,14 @@ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 ENDSNIP
 
+snip_ingress_gateways_and_waypoints_1() {
+kubectl label service reviews istio.io/ingress-use-waypoint=true
+}
+
+! IFS=$'\n' read -r -d '' snip_ingress_gateways_and_waypoints_1_out <<\ENDSNIP
+service/reviews labeled
+ENDSNIP
+
 snip_configure_a_service_to_use_a_specific_waypoint_1() {
 istioctl waypoint apply -n default --name reviews-svc-waypoint
 }

@@ -64,8 +64,10 @@ As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, some 
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
+| `TrafficExtension` ‡ | Alpha | `targetRefs` |
 | `WasmPlugin` † | Alpha | `targetRefs` |
 
+‡ [Read more on how to extend waypoints with Lua scripts](/docs/ambient/usage/extend-waypoint-lua/).
 † [Read more on how to extend waypoints with WebAssembly plugins](/docs/ambient/usage/extend-waypoint-wasm/).
 
 Extension configurations are considered policy by the Gateway API definition.

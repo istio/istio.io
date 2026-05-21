@@ -224,3 +224,19 @@ removing any Istio `AuthorizationPolicies`, or even uninstalling Istio entirely.
 A compromise of Istiod generally leads to the same result as an [API Server compromise](#cluster-api-server-compromise).
 Istiod is a highly privileged component that should be strongly protected.
 Following the [security best practices](/docs/ops/best-practices/security) is crucial to maintaining a secure cluster.
+
+### K8s account compromise
+
+In this scenario, a Kubernetes account with permissions to deploy Istio resources (``networking.istio.io/v1``) is compromised.
+
+Such a compromised account gives the attacker control to deploy resources to manage traffic in the service mesh. While traffic management CRDs are _namespaced resources_, they affect the routing behavior of traffic from services outside the namespace and thus the security of the service mesh.
+
+For instance, a `VirtualService` deployed with the [mesh gateway option](/docs/reference/config/networking/virtual-service/#VirtualService-gateways) enables Man-in-the-Middle attacks within the service mesh. The attacker-controlled service can:
+
+* act as the destination service.
+* redirect traffic to alternative destinations.
+* drop requests to disrupt the communication (denial-of-service).
+
+While the attacker can try to forward traffic to the destination service to read or modify communication between the two services, they may fail as they cannot bypass Istio's [Layer 4 and Layer 7 security features](/docs/overview/dataplane-modes/#layer-4-vs-layer-7-features) depending on the mesh configuration.
+
+Further details and potential mitigations can be found in the [blog post about _Security Considerations on Istio's CRDs with Namespace-based Multi-Tenancy_](/blog/2026/security-considerations-on-namespace-based-multi-tenancy/).

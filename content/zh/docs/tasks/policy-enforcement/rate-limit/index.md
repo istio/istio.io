@@ -443,10 +443,18 @@ $ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev
 
 ### 验证本地速率限制  {#verify-local-rate-limit}
 
-虽然入口网关的全局速率限制将对 `productpage` 服务的请求限制在每分钟 1 个请求，但
-`productpage` 实例的本地速率限制允许每分钟 4 个请求。
+尽管入口网关（Ingress Gateway）处的全局限流策略将发往 `productpage` 服务的请求限制为 1 次/分钟，
+但针对 `productpage` 实例的本地限流策略却允许 4 次/分钟。
+为了验证这一点，请首先等待 `EnvoyFilter` 配置传播至 `productpage` 服务的 Sidecar 代理。
+您可以通过检查监听器配置中是否出现了 `local_ratelimit` 字段来确认配置已成功传播：
 
-为了确认这一点，使用下面的 `curl` 命令从 `ratings` Pod 发送内部 `productpage` 请求：
+{{< text bash >}}
+$ PRODUCTPAGE_POD=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
+$ istioctl proxy-config listener "$PRODUCTPAGE_POD" -o json | grep local_ratelimit
+                    "name": "envoy.filters.http.local_ratelimit",
+{{< /text >}}
+
+接着，从 `ratings` Pod 发送内部 `productpage` 请求，使用以下 `curl` 命令：
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'

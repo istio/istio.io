@@ -567,7 +567,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>End time for the range of log entries to include in the archive. Default is now.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--exclude &lt;stringSlice&gt;</code></td>
+<td><code>--exclude &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,kube-public,kube-system,local-path-storage"]`)</td>
 </tr>
@@ -587,7 +587,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>List of comma separated glob patterns to match against log error strings. Any error matching these patterns is ignored when calculating the log importance heuristic.  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--include &lt;stringSlice&gt;</code></td>
+<td><code>--include &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
@@ -632,9 +632,39 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Set the concurrency limit of requests to the Kubernetes API server, defaults to 32.  (default `0`)</td>
 </tr>
 <tr>
+<td><code>--skip-analyze</code></td>
+<td></td>
+<td>Skip running istioctl analyze. </td>
+</tr>
+<tr>
+<td><code>--skip-cluster-dump</code></td>
+<td></td>
+<td>Skip fetching cluster-wide resources (K8s resources, CRs, node info, secrets). </td>
+</tr>
+<tr>
+<td><code>--skip-coredumps</code></td>
+<td></td>
+<td>Skip collecting coredumps from proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-netstat</code></td>
+<td></td>
+<td>Skip running netstat in proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-proxy-debug</code></td>
+<td></td>
+<td>Skip fetching envoy admin debug info from proxy pods. </td>
+</tr>
+<tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
 <td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tail &lt;int&gt;</code></td>
+<td></td>
+<td>Maximum number of log lines to fetch per container. Set to 0 for unlimited.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -707,7 +737,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>End time for the range of log entries to include in the archive. Default is now.  (default ``)</td>
 </tr>
 <tr>
-<td><code>--exclude &lt;stringSlice&gt;</code></td>
+<td><code>--exclude &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to exclude from the archive, after the include spec is processed. See above for format and examples.  (default `["kube-node-lease,kube-public,kube-system,local-path-storage"]`)</td>
 </tr>
@@ -727,7 +757,7 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>List of comma separated glob patterns to match against log error strings. Any error matching these patterns is ignored when calculating the log importance heuristic.  (default `[]`)</td>
 </tr>
 <tr>
-<td><code>--include &lt;stringSlice&gt;</code></td>
+<td><code>--include &lt;stringArray&gt;</code></td>
 <td></td>
 <td>Spec for which pod&#39;s proxy logs to include in the archive. See above for format and examples.  (default `[]`)</td>
 </tr>
@@ -782,9 +812,39 @@ All names except label and annotation keys support &#39;*&#39; glob matching pat
 <td>Use --short=false to generate full version information </td>
 </tr>
 <tr>
+<td><code>--skip-analyze</code></td>
+<td></td>
+<td>Skip running istioctl analyze. </td>
+</tr>
+<tr>
+<td><code>--skip-cluster-dump</code></td>
+<td></td>
+<td>Skip fetching cluster-wide resources (K8s resources, CRs, node info, secrets). </td>
+</tr>
+<tr>
+<td><code>--skip-coredumps</code></td>
+<td></td>
+<td>Skip collecting coredumps from proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-netstat</code></td>
+<td></td>
+<td>Skip running netstat in proxy containers. </td>
+</tr>
+<tr>
+<td><code>--skip-proxy-debug</code></td>
+<td></td>
+<td>Skip fetching envoy admin debug info from proxy pods. </td>
+</tr>
+<tr>
 <td><code>--start-time &lt;string&gt;</code></td>
 <td></td>
 <td>Start time for the range of log entries to include in the archive. Default is the infinite past. If set, --duration must be unset.  (default ``)</td>
+</tr>
+<tr>
+<td><code>--tail &lt;int&gt;</code></td>
+<td></td>
+<td>Maximum number of log lines to fetch per container. Set to 0 for unlimited.  (default `0`)</td>
 </tr>
 <tr>
 <td><code>--timeout &lt;duration&gt;</code></td>
@@ -8049,6 +8109,9 @@ istioctl ztunnel-config cert [flags]
   # Retrieve summary of connections for a given Ztunnel instance.
   istioctl ztunnel-config connections &lt;ztunnel-name[.namespace]&gt;
 
+  # Retrieve connections for a specific workload pod (auto-resolves to its ztunnel).
+  istioctl ztunnel-config connections &lt;workload-pod-name[.namespace]&gt;
+
 </code></pre>
 <h3 id="istioctl-ztunnel-config-log">istioctl ztunnel-config log</h3>
 <p>Retrieve information about logging levels of the Ztunnel instance in the specified pod, and update optionally.</p>
@@ -8469,6 +8532,9 @@ istioctl ztunnel-config workloads [&lt;type&gt;/]&lt;name&gt;[.&lt;namespace&gt;
   # Retrieve workload summary for a specific namespace
   istioctl ztunnel-config workloads &lt;ztunnel-name[.namespace]&gt; --workload-namespace foo
 
+  # Retrieve workload info for a specific workload pod (auto-resolves to its ztunnel).
+  istioctl ztunnel-config workload &lt;workload-pod-name[.namespace]&gt;
+
 </code></pre>
 <h2 id="envvars">Environment variables</h2>
 These environment variables affect the behavior of the <code>istioctl</code> command. 
@@ -8541,12 +8607,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td>String</td>
 <td><code></code></td>
 <td>The cert signer domain info</td>
-</tr>
-<tr id='cloud-platform'>
-<td><a href='#cloud-platform'><code>CLOUD_PLATFORM</code></a></td>
-<td>String</td>
-<td><code></code></td>
-<td>Cloud Platform on which proxy is running, if not specified, Istio will try to discover the platform. Valid platform values are aws, azure, gcp, none</td>
 </tr>
 <tr id='cluster-id'>
 <td><a href='#cluster-id'><code>CLUSTER_ID</code></a></td>
@@ -8762,24 +8822,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>false</code></td>
 <td>If this is set to true, one Istiod will control remote clusters including CA.</td>
 </tr>
-<tr id='gcp-metadata'>
-<td><a href='#gcp-metadata'><code>GCP_METADATA</code></a></td>
-<td>String</td>
-<td><code></code></td>
-<td>Pipe separated GCP metadata, schemed as PROJECT_ID|PROJECT_NUMBER|CLUSTER_NAME|CLUSTER_ZONE</td>
-</tr>
-<tr id='gcp-quota-project'>
-<td><a href='#gcp-quota-project'><code>GCP_QUOTA_PROJECT</code></a></td>
-<td>String</td>
-<td><code></code></td>
-<td>Allows specification of a quota project to be used in requests to GCP APIs.</td>
-</tr>
-<tr id='gcp-zone'>
-<td><a href='#gcp-zone'><code>GCP_ZONE</code></a></td>
-<td>String</td>
-<td><code></code></td>
-<td>GCP Zone where the workload is running on.</td>
-</tr>
 <tr id='grpc-keepalive-interval'>
 <td><a href='#grpc-keepalive-interval'><code>GRPC_KEEPALIVE_INTERVAL</code></a></td>
 <td>Time Duration</td>
@@ -8791,12 +8833,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Time Duration</td>
 <td><code>10s</code></td>
 <td>gRPC Keepalive Timeout</td>
-</tr>
-<tr id='http-strip-fragment-from-path-unsafe-if-disabled'>
-<td><a href='#http-strip-fragment-from-path-unsafe-if-disabled'><code>HTTP_STRIP_FRAGMENT_FROM_PATH_UNSAFE_IF_DISABLED</code></a></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td></td>
 </tr>
 <tr id='inbound-interception-mode'>
 <td><a href='#inbound-interception-mode'><code>INBOUND_INTERCEPTION_MODE</code></a></td>
@@ -8881,12 +8917,6 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, Istio agent will intercept ECDS resource update, downloads Wasm module, and replaces Wasm module remote load with downloaded local module file.</td>
-</tr>
-<tr id='istio-bootstrap'>
-<td><a href='#istio-bootstrap'><code>ISTIO_BOOTSTRAP</code></a></td>
-<td>String</td>
-<td><code></code></td>
-<td></td>
 </tr>
 <tr id='istio-delta-xds'>
 <td><a href='#istio-delta-xds'><code>ISTIO_DELTA_XDS</code></a></td>
@@ -9378,6 +9408,18 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>15s</code></td>
 <td>The timeout for transport socket (e.g., TLS handshake) connections on gateway listeners. This helps protect against slow TLS handshake attacks. Set to 0s to disable.</td>
 </tr>
+<tr id='pilot-hbone-initial-connection-window-size'>
+<td><a href='#pilot-hbone-initial-connection-window-size'><code>PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE</code></a></td>
+<td>String</td>
+<td><code>0</code></td>
+<td>Sets the HTTP/2 initial_connection_window_size on HBONE CONNECT upstream clusters generated for waypoints and east-west gateways. If 0 (the default), the field is left unset so Envoy&#39;s built-in default applies.</td>
+</tr>
+<tr id='pilot-hbone-initial-stream-window-size'>
+<td><a href='#pilot-hbone-initial-stream-window-size'><code>PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE</code></a></td>
+<td>String</td>
+<td><code>0</code></td>
+<td>Sets the HTTP/2 initial_stream_window_size on HBONE CONNECT upstream clusters generated for waypoints and east-west gateways. If 0 (the default), the field is left unset so Envoy&#39;s built-in default applies.</td>
+</tr>
 <tr id='pilot-http10'>
 <td><a href='#pilot-http10'><code>PILOT_HTTP10</code></a></td>
 <td>Boolean</td>
@@ -9432,6 +9474,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>0</code></td>
 <td>Limits the number of incoming XDS requests per second. On larger machines this can be increased to handle more proxies concurrently. If set to 0 or unset, the max will be automatically determined based on the machine size</td>
 </tr>
+<tr id='pilot-multicluster-kubeconfig-path'>
+<td><a href='#pilot-multicluster-kubeconfig-path'><code>PILOT_MULTICLUSTER_KUBECONFIG_PATH</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>If set, istiod reads remote cluster kubeconfigs from this local directory. If both `PILOT_MULTICLUSTER_KUBECONFIG_PATH` and `LOCAL_CLUSTER_SECRET_WATCHER` are set, `PILOT_MULTICLUSTER_KUBECONFIG_PATH` takes precedence.</td>
+</tr>
 <tr id='pilot-multi-network-discover-gateway-api'>
 <td><a href='#pilot-multi-network-discover-gateway-api'><code>PILOT_MULTI_NETWORK_DISCOVER_GATEWAY_API</code></a></td>
 <td>Boolean</td>
@@ -9485,6 +9533,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>If enabled, Pilot will include unhealthy endpoints in EDS pushes and even if they are sent Envoy does not use them for load balancing.  To avoid, sending traffic to non ready endpoints, enabling this flag, disables panic threshold in Envoy i.e. Envoy does not load balance requests to unhealthy/non-ready hosts even if the percentage of healthy hosts fall below minimum health percentage(panic threshold).</td>
+</tr>
+<tr id='pilot-sidecar-pick-best-service-namespace'>
+<td><a href='#pilot-sidecar-pick-best-service-namespace'><code>PILOT_SIDECAR_PICK_BEST_SERVICE_NAMESPACE</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, when a sidecar needs to pick a service namespace for a hostname, it will prefer Kubernetes services and fall back to the oldest non-Kubernetes service. When disabled, the first visible namespace alphabetically is used.</td>
 </tr>
 <tr id='pilot-sidecar-use-remote-address'>
 <td><a href='#pilot-sidecar-use-remote-address'><code>PILOT_SIDECAR_USE_REMOTE_ADDRESS</code></a></td>
@@ -9710,11 +9764,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>sidecar_injection_success_total</code></td><td><code>Sum</code></td><td>Total number of successful sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_time_seconds</code></td><td><code>Distribution</code></td><td>Total time taken for injection in seconds.</td></tr>
 <tr><td><code>startup_duration_seconds</code></td><td><code>LastValue</code></td><td>The time from the process starting to being marked ready.</td></tr>
-<tr><td><code>wasm_cache_entries</code></td><td><code>LastValue</code></td><td>number of Wasm remote fetch cache entries.</td></tr>
-<tr><td><code>wasm_cache_lookup_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetch cache lookups.</td></tr>
-<tr><td><code>wasm_config_conversion_count</code></td><td><code>Sum</code></td><td>number of Wasm config conversions and results, including success, no remote load, marshal failure, remote fetch failure, miss remote fetch hint.</td></tr>
-<tr><td><code>wasm_config_conversion_duration</code></td><td><code>Distribution</code></td><td>Total time in milliseconds istio-agent spends on converting remote load in Wasm config.</td></tr>
-<tr><td><code>wasm_remote_fetch_count</code></td><td><code>Sum</code></td><td>number of Wasm remote fetches and results, including success, download failure, and checksum mismatch.</td></tr>
 <tr><td><code>webhook_patch_attempts_total</code></td><td><code>Sum</code></td><td>Webhook patching attempts</td></tr>
 <tr><td><code>webhook_patch_failures_total</code></td><td><code>Sum</code></td><td>Webhook patching total failures</td></tr>
 <tr><td><code>webhook_patch_retries_total</code></td><td><code>Sum</code></td><td>Webhook patching retries</td></tr>

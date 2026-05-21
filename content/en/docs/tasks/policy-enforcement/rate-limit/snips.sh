@@ -357,10 +357,19 @@ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev/n
 ENDSNIP
 
 snip_verify_local_rate_limit_1() {
-kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'
+PRODUCTPAGE_POD=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
+istioctl proxy-config listener "$PRODUCTPAGE_POD" -o json | grep local_ratelimit
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_local_rate_limit_1_out <<\ENDSNIP
+                    "name": "envoy.filters.http.local_ratelimit",
+ENDSNIP
+
+snip_verify_local_rate_limit_2() {
+kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'
+}
+
+! IFS=$'\n' read -r -d '' snip_verify_local_rate_limit_2_out <<\ENDSNIP
 
 200
 200

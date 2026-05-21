@@ -29,7 +29,7 @@ previousVersionRevision1="${bpsnip_args_istio_previous_version//./-}-1"
 
 _install_istio_helm
 
-snip_canary_upgrade_recommended_1
+_rewrite_helm_repo snip_canary_upgrade_recommended_1
 _rewrite_helm_repo snip_canary_upgrade_recommended_2
 _wait_for_deployment istio-system istiod-canary
 

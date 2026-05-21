@@ -165,7 +165,7 @@ DaemonSet。它**必须**在每个节点上运行，才能在该节点上维护 
 {{< /warning >}}
 
 {{< text syntax=bash snip_id=upgrade_cni >}}
-$ helm upgrade istio-cni istio/cni -n istio-system
+$ helm upgrade istio-cni istio/cni -n istio-system --set profile=ambient --wait
 {{< /text >}}
 
 ## 升级数据平面 {#upgrade-the-data-plane}

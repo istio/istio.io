@@ -64,8 +64,12 @@ Istio 支持同一网格内带有 Sidecar 的 Pod 和使用 Ambient 模式的 Po
 
 ### 入口和出口网关以及 Ambient 模式 Pod {#ingress-and-egress-gateways-and-ambient-mode-pods}
 
-入口网关可以在非 Ambient 命名空间中运行，并暴露由 Ambient 模式、Sidecar 模式或非网格 Pod 提供的服务。
-Ambient 模式下的 Pod 与 Istio 出口网关之间也支持互操作性。
+入口网关（Ingress Gateway）可以运行在非 Ambient 模式的命名空间中，
+并对外暴露由 Ambient 模式、Sidecar 模式或非网格 Pod 所提供的服务。
+此外，Ambient 模式下的 Pod 与 Istio 出口网关（Egress Gateway）之间也支持互操作。
+若要将入口流量通过 Ambient 模式下的目标 **waypoint** 进行转发，
+请使用 `istio.io/ingress-use-waypoint` 标签，
+具体用法详见文档[入口网关与 waypoint](/zh/docs/ambient/usage/waypoint/#ingress-and-waypoints)。
 
 ## Ambient 模式和 Sidecar 模式的 Pod 选择逻辑 {#pod-selection-logic-for-ambient-and-sidecar-modes}
 
@@ -99,8 +103,9 @@ Sidecar 注入标签（`istio-injection=enabled`），
 | --- | --- | --- | --- |
 | `istio.io/dataplane-mode` | Beta | `Namespace` 或 `Pod`（后者优先） |  将您的资源添加到 Ambient 网格中。<br><br>有效值：`ambient` 或 `none`。 |
 | `istio.io/use-waypoint` | Beta | `Namespace`、`Service` 或 `Pod` | 使用流向标记资源的 waypoint 来实施 L7 策略。<br><br>有效值：`{waypoint-name}` 或 `none`。 |
+| `istio.io/ingress-use-waypoint` | Beta | `Namespace`、`Service` 或 `ServiceEntry` | 当设置为 `true` 时，将带有该标签的资源的**入站**流量纳入目标 waypoint 路径（作为对由 `istio.io/use-waypoint` 控制的东西向流量的补充）。要求控制平面启用 `ENABLE_INGRESS_WAYPOINT_ROUTING`。 <br><br> 有效值：`true` 或 `false`。参见[入口网关与 waypoint](/zh/docs/ambient/usage/waypoint/#ingress-and-waypoints)。 |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | 指定 waypoint 将处理流量的端点类型。<br><br>有效值：`service`、`workload`、`none` 或 `all`。该标签是可选的，默认值为 `service`。 |
 
 为了使您的 `istio.io/use-waypoint` 标签值有效，您必须确保为处理流量的资源类型配置 waypoint。
 默认情况下，waypoint 接受服务流量。例如，当您通过 `istio.io/use-waypoint` 标签将
-Pod 标记为使用特定 waypoint 时，该 waypoint 应打上 `istio.io./waypoint-for` 标签，取值为 `workload` 或 `all`。
+Pod 标记为使用特定 waypoint 时，该 waypoint 应打上 `istio.io/waypoint-for` 标签，取值为 `workload` 或 `all`。
