@@ -213,7 +213,7 @@ On Kubernetes, this can be overridden on individual pods with the <code>proxy.is
 </div></td>
 <td>
 <p>Set the default behavior of the sidecar for handling outbound
-traffic from the application.</p>
+traffic from the application. This does not apply to gateways.</p>
 <p>Can be overridden at a Sidecar level by setting the <code>OutboundTrafficPolicy</code> in the
 <a href="/zh/docs/reference/config/networking/sidecar/#OutboundTrafficPolicy">Sidecar API</a>.</p>
 <p>Default mode is <code>ALLOW_ANY</code>, which means outbound traffic to unknown destinations will be allowed.</p>
@@ -661,7 +661,8 @@ to arbitrary destinations.</p>
 <td>
 <p>In <code>ALLOW_ANY_DYNAMIC_DNS</code> mode, traffic to unknown destinations will be allowed via dynamic DNS resolution.
 This mode allows users that do not have all possible egress destinations registered through <code>ServiceEntry</code> configurations to still connect
-to arbitrary destinations. Client TLS settings can be configured for connections to such destinations.</p>
+to arbitrary destinations. Client TLS settings can be configured for connections to such destinations.
+This mode cannot be used at the Sidecar level.</p>
 
 </td>
 </tr>
