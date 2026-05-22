@@ -443,7 +443,16 @@ with any number in between 1-99, until you get the 429 response within a minute.
 
 Although the global rate limit at the ingress gateway limits requests to the `productpage` service at 1 req/min,
 the local rate limit for `productpage` instances allows 4 req/min.
-To confirm this, send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
+To confirm this, first wait for the `EnvoyFilter` to propagate to the `productpage` sidecar proxy.
+You can verify propagation by checking that `local_ratelimit` appears in the listener config:
+
+{{< text bash >}}
+$ PRODUCTPAGE_POD=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
+$ istioctl proxy-config listener "$PRODUCTPAGE_POD" -o json | grep local_ratelimit
+                    "name": "envoy.filters.http.local_ratelimit",
+{{< /text >}}
+
+Then send internal `productpage` requests, from the `ratings` pod, using the following `curl` command:
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'

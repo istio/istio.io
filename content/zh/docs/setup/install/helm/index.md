@@ -147,16 +147,35 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
 ### 从非 Helm 安装迁移 {#migrating-from-non-helm-installations}
 
-如果你要从使用 `istioctl` 安装的 Istio 版本迁移到 Helm（Istio 1.5 或更早版本），
-则需要删除当前的 Istio 控制平面资源，并根据上面的说明，
-使用 Helm 重新安装 Istio。在删除当前 Istio 时，
-千万不能删掉 Istio 的自定义资源定义（CRD），以免丢掉您的自定义 Istio 资源。
+如果您正从使用 `istioctl` 安装的 Istio 版本迁移至 Helm，
+可以使用 `--take-ownership` 标志让 Helm 就地接管现有的资源。
+这样便无需卸载并重新安装 Istio：
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --take-ownership
+$ helm install istiod istio/istiod -n istio-system --take-ownership
+{{< /text >}}
+
+{{< tip >}}
+Helm 4 默认使用[服务端应用](https://kubernetes.io/docs/reference/using-api/server-side-apply/)（SSA）。
+如果您的 Istio 资源是由 `istioctl` 创建的，Helm 4 将因字段所有权冲突而执行失败，
+因为这些资源实际上是由 `istio-operator` 管理的。为了解决这一问题，请禁用 SSA：
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< warning >}}
-建议：从集群中删除 Istio 前，使用上面的说明备份您的 Istio 资源。
+强烈建议在迁移前备份您的 Istio 资源。
 {{< /warning >}}
 
-您可以按照 [Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio)中提到的步骤进行操作。
+或者，您可以卸载当前的 Istio 安装，并按照上述说明使用 Helm 进行重新安装。
+在卸载时，请勿移除 Istio 的 CRD；删除 CRD 会导致 Kubernetes
+级联删除属于这些类型的所有资源（包括您的 `VirtualService`、
+`DestinationRule`、`AuthorizationPolicy` 等）。
+详情请参阅 [Istioctl 卸载指南](/zh/docs/setup/install/istioctl#uninstall-istio)。
 
 ## 卸载 {#uninstall}
 

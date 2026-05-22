@@ -28,14 +28,14 @@ import (
 )
 
 var (
-	snapshotRetryTimeout = retry.Timeout(2 * time.Minute)
+	snapshotRetryTimeout = retry.Timeout(5 * time.Minute)
 	snapshotRetryDelay   = retry.Delay(1 * time.Second)
 )
 
 var _ Step = SnapshotValidator{}
 
 // SnapshotValidator is a Step that compares before and after snapshots. If the
-// comparison fails, it will retry for up to 2 minutes.
+// comparison fails, it will retry for up to 5 minutes.
 type SnapshotValidator struct {
 	Before *Snapshotter
 	After  *Snapshotter

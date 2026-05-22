@@ -165,13 +165,15 @@ Below are the equivalent manual registrations based off the automatic registrati
         # This is used to customize the sidecar template.
         # It adds both the label to indicate that SPIRE should manage the
         # identity of this pod, as well as the CSI driver mounts.
+        # With native sidecars (default on Kubernetes 1.33+), istio-proxy is
+        # injected as an initContainer, so patch it there.
         sidecarInjectorWebhook:
           templates:
             spire: |
               labels:
                 spiffe.io/spire-managed-identity: "true"
               spec:
-                containers:
+                initContainers:
                 - name: istio-proxy
                   volumeMounts:
                   - name: workload-socket
@@ -212,8 +214,8 @@ Below are the equivalent manual registrations based off the automatic registrati
     {{< /text >}}
 
     {{< warning >}}
-    If you are using Kubernetes 1.33 **and** have not disabled support for [native sidecars](/blog/2023/native-sidecars/) in the Istio control plane, you must use `initContainers` in the injection template for sidecars. This is required because native sidecar support changes how sidecars are injected.
-    **NOTE:** The SPIRE injection template for gateways should continue to use regular `containers` as before.
+    The sidecar template above patches `initContainers` because [native sidecars](/blog/2023/native-sidecars/) (the default on Kubernetes 1.33+) inject `istio-proxy` as an initContainer. If you have explicitly disabled native sidecar support in the Istio control plane, change `initContainers` back to `containers` in the `spire` template.
+    **NOTE:** The SPIRE template for gateways should continue to use regular `containers` regardless of native sidecar mode.
     {{< /warning >}}
 
 1. Apply the configuration:

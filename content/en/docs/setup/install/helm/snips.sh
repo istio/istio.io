@@ -31,7 +31,7 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_3_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
-istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.30.0  1.30.0
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.31.0  1.31.0
 ENDSNIP
 
 snip_install_discovery() {
@@ -44,8 +44,8 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_5_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
-istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.30.0   1.30.0
-istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.30.0 1.30.0
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.31.0   1.31.0
+istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.31.0 1.31.0
 ENDSNIP
 
 snip_installation_steps_6() {
@@ -88,7 +88,7 @@ kubectl get deployments -n istio-system --output wide
 }
 
 ! IFS=$'\n' read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
-NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                                   SELECTOR
 istiod   1/1     1            1           10m   discovery    registry.istio.io/release/pilot:1.30.0   istio=pilot
 ENDSNIP
 
@@ -97,14 +97,23 @@ kubectl create namespace istio-ingress
 helm install istio-ingress istio/gateway -n istio-ingress --wait
 }
 
+snip_migrating_from_nonhelm_installations_1() {
+helm install istio-base istio/base -n istio-system --take-ownership
+helm install istiod istio/istiod -n istio-system --take-ownership
+}
+
+snip_migrating_from_nonhelm_installations_2() {
+helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
+}
+
 snip_helm_ls() {
 helm ls -n istio-system
 }
 
 ! IFS=$'\n' read -r -d '' snip_helm_ls_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
-istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.30.0   1.30.0
-istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.30.0 1.30.0
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.31.0   1.31.0
+istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.31.0 1.31.0
 ENDSNIP
 
 snip_delete_delete_gateway_charts() {

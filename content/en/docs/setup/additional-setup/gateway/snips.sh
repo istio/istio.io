@@ -174,7 +174,7 @@ spec:
 ENDSNIP
 
 snip_canary_upgrade_advanced_2() {
-kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name" 2>/dev/null
 }
 
 ! IFS=$'\n' read -r -d '' snip_canary_upgrade_advanced_2_out <<\ENDSNIP
