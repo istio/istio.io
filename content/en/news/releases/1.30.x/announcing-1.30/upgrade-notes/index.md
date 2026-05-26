@@ -9,6 +9,28 @@ These notes detail the changes that purposefully break backwards compatibility w
 The notes also mention changes that preserve backwards compatibility while introducing new behavior.
 Changes are only included if the new behavior would be unexpected to a user of Istio 1.29.x.
 
+## Gateway API CRDs must be upgraded to `v1.5.x`
+
+Istio 1.30 upgrades its Gateway API dependency to `v1.5.1` and reads `TLSRoute` and
+`ReferenceGrant` from the Standard channel (`gateway.networking.k8s.io/v1`).
+
+If you upgrade Istio to 1.30 without also upgrading the Gateway API CRDs in your cluster to
+`v1.5.x`, `TLSRoute` and `ReferenceGrant` resources will become invisible to istiod. Existing
+TLS passthrough `Gateway` listeners will silently report
+`status.listeners[].attachedRoutes: 0` and the Envoy listener will not be programmed.
+
+Before upgrading to Istio 1.30, install Gateway API `v1.5.x` CRDs from the Standard channel:
+
+{{< text bash >}}
+$ kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.5.1"
+{{< /text >}}
+
+Or, if you use the experimental channel:
+
+{{< text bash >}}
+$ kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.5.1"
+{{< /text >}}
+
 ## CNI config file permissions changed to 0600
 
 The default file permissions for CNI config files written by Istio have changed from 0644 to 0600.
