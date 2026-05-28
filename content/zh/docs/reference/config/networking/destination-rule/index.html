@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/zh/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 28
+number_of_entries: 29
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -1280,6 +1280,50 @@ connections will not be upgraded to http2.</p>
 <td>
 <p>The maximum number of concurrent streams allowed for a peer on one HTTP/2 connection.
 Defaults to 2^31-1.</p>
+
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-http2_keep_alive">
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-http2_keep_alive">http2KeepAlive</a></code></div>
+<div class="type"><a href="#ConnectionPoolSettings-HTTPSettings-ConnectionKeepalive">ConnectionKeepalive</a></div>
+</div></td>
+<td>
+<p>Configure HTTP/2 PING frames for upstream connections.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="ConnectionPoolSettings-HTTPSettings-ConnectionKeepalive">ConnectionKeepalive</h4>
+<section>
+<p>Settings for HTTP/2 PING frames.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ConnectionPoolSettings-HTTPSettings-ConnectionKeepalive-interval">
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-ConnectionKeepalive-interval">interval</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>Send HTTP/2 PING frames at this interval. Required when
+<code>http2KeepAlive</code> is set.</p>
+
+</td>
+</tr>
+<tr id="ConnectionPoolSettings-HTTPSettings-ConnectionKeepalive-timeout">
+<td><div class="field"><div class="name"><code><a href="#ConnectionPoolSettings-HTTPSettings-ConnectionKeepalive-timeout">timeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>How long to wait for a response to an HTTP/2 PING frame before
+closing the connection. Required when <code>http2KeepAlive</code> is set.</p>
 
 </td>
 </tr>
