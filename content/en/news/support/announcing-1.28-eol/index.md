@@ -2,7 +2,7 @@
 title: Support for Istio 1.28 ends on the 28th of June, 2026
 subtitle: Support Announcement
 description: Upcoming Istio 1.28 end of life announcement.
-publishdate: 2026-29-05
+publishdate: 2026-05-29
 ---
 
 According to Istio's [support policy](/docs/releases/supported-releases#support-policy), minor releases like 1.28 are supported until six weeks after the N+2 minor release (1.30 in this case). [Istio 1.30 was released on the 18th of May, 2026](/news/releases/1.30.x/announcing-1.30/), and support for 1.28 will end on the 28th of June, 2026.
