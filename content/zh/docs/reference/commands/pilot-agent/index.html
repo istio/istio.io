@@ -727,6 +727,12 @@ These environment variables affect the behavior of the <code>pilot-agent</code> 
 </tr>
 </thead>
 <tbody>
+<tr id='agent-merge-envoy-stats'>
+<td><a href='#agent-merge-envoy-stats'><code>AGENT_MERGE_ENVOY_STATS</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If false, pilot agent will not merge Envoy stats in the agent stats endpoint.</td>
+</tr>
 <tr id='ambient-enable-baggage'>
 <td><a href='#ambient-enable-baggage'><code>AMBIENT_ENABLE_BAGGAGE</code></a></td>
 <td>Boolean</td>
@@ -1072,6 +1078,18 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td>Integer</td>
 <td><code>15090</code></td>
 <td>Envoy prometheus redirection port value</td>
+</tr>
+<tr id='envoy-secure-merged-metrics-port'>
+<td><a href='#envoy-secure-merged-metrics-port'><code>ENVOY_SECURE_MERGED_METRICS_PORT</code></a></td>
+<td>Integer</td>
+<td><code>0</code></td>
+<td>Envoy mTLS merged metrics port value (Envoy + app + agent stats)</td>
+</tr>
+<tr id='envoy-secure-metrics-port'>
+<td><a href='#envoy-secure-metrics-port'><code>ENVOY_SECURE_METRICS_PORT</code></a></td>
+<td>Integer</td>
+<td><code>0</code></td>
+<td>Envoy mTLS metrics port value (Envoy stats only)</td>
 </tr>
 <tr id='envoy-skip-deprecated-logs'>
 <td><a href='#envoy-skip-deprecated-logs'><code>ENVOY_SKIP_DEPRECATED_LOGS</code></a></td>
