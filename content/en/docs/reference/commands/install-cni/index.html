@@ -491,12 +491,6 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 </tr>
 </thead>
 <tbody>
-<tr id='agent-merge-envoy-stats'>
-<td><a href='#agent-merge-envoy-stats'><code>AGENT_MERGE_ENVOY_STATS</code></a></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If false, pilot agent will not merge Envoy stats in the agent stats endpoint.</td>
-</tr>
 <tr id='ambient-enabled'>
 <td><a href='#ambient-enabled'><code>AMBIENT_ENABLED</code></a></td>
 <td>Boolean</td>
@@ -1074,6 +1068,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>String</td>
 <td><code></code></td>
 <td></td>
+</tr>
+<tr id='pilot-agent-merge-envoy-stats'>
+<td><a href='#pilot-agent-merge-envoy-stats'><code>PILOT_AGENT_MERGE_ENVOY_STATS</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If false, pilot agent will not merge Envoy stats in the agent stats endpoint.</td>
 </tr>
 <tr id='pilot-allow-sidecar-service-inbound-listener-merge'>
 <td><a href='#pilot-allow-sidecar-service-inbound-listener-merge'><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></a></td>
