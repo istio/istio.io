@@ -220,7 +220,7 @@ init: preinit
 	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
 	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
 ifndef TAG
-	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
+	$(eval TAG := ${ISTIO_IMAGE_VERSION}.0.${ISTIO_LONG_SHA})
 endif
 # If a variant is defined, update the tag accordingly
 ifdef VARIANT
