@@ -54,14 +54,14 @@ This process will work for any released image or release candidate built with th
 An example with output:
 
 {{< text bash >}}
-$ cosign verify --key "https://istio.io/misc/istio-key.pub" gcr.io/istio-release/pilot:1.12.0
+$ cosign verify --key "https://istio.io/misc/istio-key.pub" registry.istio.io/release/pilot:1.12.0
 
 
-Verification for gcr.io/istio-release/pilot:1.12.0 --
+Verification for registry.istio.io/release/pilot:1.12.0 --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - The signatures were verified against the specified public key
   - Any certificates were verified against the Fulcio roots.
 
-[{"critical":{"identity":{"docker-reference":"gcr.io/istio-release/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
+[{"critical":{"identity":{"docker-reference":"registry.istio.io/release/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
 {{< /text >}}

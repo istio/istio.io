@@ -330,7 +330,7 @@ The topology file is a copy of the [multicluster.json](/prow/config/topology/mul
 Then to run tests, trigger the desired suite(s) via the command-line or your IDE:
 
 ```bash
-HUB=gcr.io/istio-testing TAG=latest DOCTEST_KUBECONFIG='/work/artifacts/kubeconfig/primary,/work/artifacts/kubeconfig/remote,/work/artifacts/kubeconfig/cross-network-primary' make doc.test.multicluster TEST=./setup/install/external-controlplane/gtwapi_test.sh
+HUB=registry.istio.io/testing TAG=latest DOCTEST_KUBECONFIG='/work/artifacts/kubeconfig/primary,/work/artifacts/kubeconfig/remote,/work/artifacts/kubeconfig/cross-network-primary' make doc.test.multicluster TEST=./setup/install/external-controlplane/gtwapi_test.sh
 ```
 
 ### Relation to `istio/istio` repository

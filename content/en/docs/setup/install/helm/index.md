@@ -111,7 +111,7 @@ You can display the default values of configuration parameters using the `helm s
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
     NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:{{< istio_full_version >}}   istio=pilot
+    istiod   1/1     1            1           10m   discovery    registry.istio.io/release/pilot:{{< istio_full_version >}}   istio=pilot
     {{< /text >}}
 
 1. (Optional) Install an ingress gateway:

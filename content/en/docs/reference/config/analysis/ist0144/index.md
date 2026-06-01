@@ -39,7 +39,7 @@ spec:
         runAsUser: 1337
       containers:
       - name: helloworld
-        image: docker.io/istio/examples-helloworld-v1
+        image: registry.istio.io/release/examples-helloworld-v1
         securityContext:
           runAsUser: 1337
         resources:
@@ -78,7 +78,7 @@ spec:
         runAsUser: 1338
       containers:
       - name: helloworld
-        image: docker.io/istio/examples-helloworld-v1
+        image: registry.istio.io/release/examples-helloworld-v1
         securityContext:
           runAsUser: 1338
         resources:

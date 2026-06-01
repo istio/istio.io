@@ -22,7 +22,7 @@ when you select a very long date range in Zipkin you will see the traces appeari
 You can also confirm this problem by comparing the date inside a Docker container to outside:
 
 {{< text bash >}}
-$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+$ docker run --entrypoint date registry.istio.io/testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
 {{< /text >}}
 
