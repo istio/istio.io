@@ -31,9 +31,9 @@ of the remote cluster.
 
 {{< text bash >}}
 $ istioctl remote-clusters --context="${CTX_CLUSTER1}"
-NAME         SECRET                                        STATUS      ISTIOD
-cluster1                                                   synced      istiod-7b74b769db-kb4kj
-cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
+NAME         SECRET                                        STATUS      ISTIOD                      REVISION
+cluster1                                                   synced      istiod-7b74b769db-kb4kj     default
+cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj     default
 {{< /text >}}
 
 All clusters should indicate their status as `synced`. If a cluster is listed with
