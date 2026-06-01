@@ -8548,12 +8548,6 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 </tr>
 </thead>
 <tbody>
-<tr id='agent-merge-envoy-stats'>
-<td><a href='#agent-merge-envoy-stats'><code>AGENT_MERGE_ENVOY_STATS</code></a></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If false, pilot agent will not merge Envoy stats in the agent stats endpoint.</td>
-</tr>
 <tr id='ambient-enable-baggage'>
 <td><a href='#ambient-enable-baggage'><code>AMBIENT_ENABLE_BAGGAGE</code></a></td>
 <td>Boolean</td>
@@ -9083,6 +9077,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Integer</td>
 <td><code>1000</code></td>
 <td>If set to a non-zero value, enables mutex profiling a rate of 1/MUTEX_PROFILE_FRACTION events. For example, &#39;1000&#39; will record 0.1% of events. Set to 0 to disable entirely.</td>
+</tr>
+<tr id='pilot-agent-merge-envoy-stats'>
+<td><a href='#pilot-agent-merge-envoy-stats'><code>PILOT_AGENT_MERGE_ENVOY_STATS</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If false, pilot agent will not merge Envoy stats in the agent stats endpoint.</td>
 </tr>
 <tr id='pilot-allow-sidecar-service-inbound-listener-merge'>
 <td><a href='#pilot-allow-sidecar-service-inbound-listener-merge'><code>PILOT_ALLOW_SIDECAR_SERVICE_INBOUND_LISTENER_MERGE</code></a></td>
