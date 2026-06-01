@@ -30,8 +30,8 @@ export GOOS_LOCAL := $(TARGET_OS)
 export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
-# For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.31-alpha
+# For example, a value of 1.6.0-alpha will assume a default TAG value of 1.6.0-alpha.<SHA>
+ISTIO_IMAGE_VERSION ?= 1.31.0-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -220,7 +220,7 @@ init: preinit
 	$(eval ISTIO_LONG_SHA := $(shell cd ${ISTIO_GO} && git rev-parse ${ISTIO_SHA}))
 	@echo "ISTIO_LONG_SHA=${ISTIO_LONG_SHA}"
 ifndef TAG
-	$(eval TAG := ${ISTIO_IMAGE_VERSION}.0.${ISTIO_LONG_SHA})
+	$(eval TAG := ${ISTIO_IMAGE_VERSION}.${ISTIO_LONG_SHA})
 endif
 # If a variant is defined, update the tag accordingly
 ifdef VARIANT
