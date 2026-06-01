@@ -223,7 +223,7 @@ step2() {
 
     sed -i "
         s/^export SOURCE_BRANCH_NAME [?]=.*$/export SOURCE_BRANCH_NAME ?= master/;
-        s/^ISTIO_IMAGE_VERSION [?]=.*$/ISTIO_IMAGE_VERSION ?= ${NEXT_MINOR}-alpha/
+        s/^ISTIO_IMAGE_VERSION [?]=.*$/ISTIO_IMAGE_VERSION ?= ${NEXT_MINOR}.0-alpha/
     " Makefile.core.mk
 
     go get istio.io/istio@master
