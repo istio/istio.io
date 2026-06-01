@@ -1,6 +1,6 @@
 ---
 title: Securing Prometheus Scraping for Istio Sidecar and Gateway
-description: This task shows how to securely scrape Istio workload and gateway metrics using Prometheus and Istio mutual TLS (mTLS).
+description: This task shows how to securely scrape Istio workload and gateway metrics in sidecar mode using Prometheus and Istio mutual TLS (mTLS).
 weight: 50
 keywords: [telemetry,metrics,prometheus,istio,mtls,secure-metrics]
 owner: istio/wg-policies-and-telemetry-maintainers
