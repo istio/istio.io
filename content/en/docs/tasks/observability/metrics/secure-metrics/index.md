@@ -10,7 +10,7 @@ test: no
 This task demonstrates how to **securely scrape Istio sidecar and gateway metrics** using Prometheus over **Istio mTLS**. By default, Prometheus scrapes metrics from Istio workloads and gateways over plain HTTP. In this task, you configure Istio and Prometheus so that metrics are scraped securely over mutually-authenticated TLS connections. This document focuses on Envoy and Istio-generated telemetry exposed by sidecars and gateways. For general Prometheus integration with Istio, including application metrics, see the [Prometheus integration](/docs/ops/integrations/prometheus/) documentation.
 
 {{< tip >}}
-Starting with Istio 1.31, secure mTLS metrics ports can be enabled natively. For older versions of Istio, see the [legacy workaround](#legacy-workaround-pre-istio-131) section.
+Starting with Istio 1.31, secure mTLS metrics ports can be enabled natively. For older versions of Istio, see the [legacy workaround](#legacy-workaround-istio--131) section.
 {{< /tip >}}
 
 ## Understand default metrics scraping
@@ -349,9 +349,9 @@ After completing the configuration, verify that Prometheus is successfully scrap
 
 This confirms that Prometheus is scraping metrics using **HTTPS over Istio mTLS** via the native secure ports, rather than directly accessing the plaintext telemetry ports (`15020` or `15090`).
 
-## Legacy workaround (pre-Istio 1.31)
+## Legacy workaround (Istio < 1.31)
 
-If you are running Istio older than 1.31, the native env-var approach is not available. The steps below demonstrate one way to achieve secure metrics scraping using Istio CRDs: a secure TLS frontend is created on port `15091` (exposed to Prometheus) that routes internally to either port `15020` (merged metrics — Envoy + application + agent) or `15090` (Envoy-only metrics). Scrapers connect to `15091` over ISTIO_MUTUAL TLS; the `ServiceEntry` and `VirtualService` handle the internal routing to the plaintext backend.
+If you are running Istio older than 1.31, the native env-var approach is not available. The steps below demonstrate one way to achieve secure metrics scraping using Istio CRDs: a secure TLS frontend is created on port `15091` (exposed to Prometheus) that routes internally to either port `15020` (merged metrics — Envoy + application + agent) or `15090` (Envoy-only metrics). Scrapers connect to `15091` over `ISTIO_MUTUAL` TLS; the `ServiceEntry` and `VirtualService` handle the internal routing to the plaintext backend.
 
 ### Legacy: Secure metrics for sidecars
 
@@ -393,7 +393,6 @@ If you are running Istio older than 1.31, the native env-var approach is not ava
 ### Legacy: Secure metrics for gateways
 
 1. Create a `Gateway` with a secure HTTPS listener on port `15091`:
-
 
     {{< text bash >}}
     $ cat <<EOF | kubectl apply -f -
@@ -500,7 +499,7 @@ $ killall istioctl
 
 {{< /tabset >}}
 
-### Cleanup: legacy workaround (pre-Istio 1.31)
+### Cleanup: legacy workaround (Istio < 1.31)
 
 {{< text bash >}}
 $ kubectl delete sidecar secure-metrics -n default
