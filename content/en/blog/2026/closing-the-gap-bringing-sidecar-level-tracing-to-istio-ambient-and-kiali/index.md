@@ -13,17 +13,17 @@ Istio ambient mode has been steadily evolving across recent releases. This evolu
 
 First, it is important to clarify that L7 telemetry - both metrics and traces - in ambient mode is provided by **Waypoint proxies**. Unlike sidecar mode, where the proxy resides within the same pod as the application, a Waypoint is a shared, decoupled resource that can be scoped to a namespace, a service, or even specific workloads. It acts as the “gatekeeper” for the traffic it handles, processing all Layer 7 logic.
 
-{{< image width="90%" link="./waypoint-traffic-graph.png" caption="The waypoint handling the traffic - view from Kiali's traffic graph" >}}
+{{< image width="90%" link="./waypoint-traffic-graph.png" caption="The Waypoint handling the traffic - view from Kiali's traffic graph" >}}
 
 ### The Shift in Identity: From Service to Waypoint
 
-Because Waypoint proxies are external to the workload, identifying the “owner” of a trace has been an architectural challenge. In Istio 1.27, it was the waypoint proxy that created the trace using the waypoint name as the service.
+Because Waypoint proxies are external to the workload, identifying the “owner” of a trace has been an architectural challenge. In Istio 1.27, it was the Waypoint proxy that created the trace using the Waypoint name as the service.
 
 {{< image width="90%" link="./service-traces-istio-127.png" caption="Service traces with Istio 1.27" >}}
 
 In **Istio 1.28**, a change was introduced to attribute the trace directly to the destination service instead of the Waypoint. This behavior remained in **Istio 1.29**.
 
-> Note that this shift was exclusive to the OpenTelemetry (OTel) provider; traditional formats like Zipkin continued to use the waypoint identity.
+> Note that this shift was exclusive to the OpenTelemetry (OTel) provider; traditional formats like Zipkin continued to use the Waypoint identity.
 
 {{< image width="90%" link="./service-traces-istio-129.png" caption="Service traces with Istio 1.29" >}}
 
