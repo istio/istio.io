@@ -7,11 +7,11 @@ keywords: [istio, ambient, tracing, kiali, telemetry, observability]
 target_release: "1.30"
 ---
 
-Istio Ambient has been steadily evolving across recent releases. This evolution hasn’t always been linear; behaviors have shifted, and certain features only recently reached stability. Although Ambient became **GA in version 1.24**, we can now confidently state that **tracing parity** between Ambient and Sidecar modes is a reality, specifically starting with **Istio 1.29 and Kiali 2.25 in regards to tracing.**
+Istio ambient mode has been steadily evolving across recent releases. This evolution hasn’t always been linear; behaviors have shifted, and certain features only recently reached stability. Although ambient mode became **GA in version 1.24**, we can now confidently state that **tracing parity** between ambient mode and sidecar mode is a reality, specifically starting with **Istio 1.29 and Kiali 2.25 in regards to tracing.**
 
 ### The Role of Waypoint Proxies
 
-First, it is important to clarify that L7 telemetry - both (L7) metrics and traces - in Ambient mode is provided by **Waypoint proxies**. Unlike the sidecar model, where the proxy resides within the same pod as the application, Waypoints are shared, decoupled resources. They act as the “gatekeepers” for a namespace or service, processing all Layer 7 logic.
+First, it is important to clarify that L7 telemetry - both metrics and traces - in ambient mode is provided by **Waypoint proxies**. Unlike sidecar mode, where the proxy resides within the same pod as the application, a Waypoint is a shared, decoupled resource that can be scoped to a namespace, a service, or even specific workloads. It acts as the “gatekeeper” for the traffic it handles, processing all Layer 7 logic.
 
 {{< image width="90%" link="./waypoint-traffic-graph.png" caption="The waypoint handling the traffic - view from Kiali's traffic graph" >}}
 
@@ -33,7 +33,7 @@ However, **Istio 1.30** refined this by treating the Waypoint as a **“first-cl
 
 ### The Missing Link: Workload Visibility
 
-While service-to-service tracing was functional, there was a significant gap: **Workload-level granularity.** In sidecar mode, we rely on the _node_id_ attribute to identify specific pods. In Ambient, this was the missing piece. If a service routed traffic to multiple versions of a workload (e.g., v1, v2, and v3), we could see the service hop, but we lost the ability to pinpoint which specific workload was processing the request — losing important information for debugging.
+While service-to-service tracing was functional, there was a significant gap: **Workload-level granularity.** In sidecar mode, we rely on the _node_id_ attribute to identify specific pods. In ambient mode, this was the missing piece. If a service routed traffic to multiple versions of a workload (e.g., v1, v2, and v3), we could see the service hop, but we lost the ability to pinpoint which specific workload was processing the request - losing important information for debugging.
 
 {{< image width="90%" link="./workload-visibility-gap.png" caption="Incomplete traceability without the workloads information" >}}
 
@@ -44,6 +44,10 @@ This gap was closed in **Istio 1.29**. By introducing explicit attributes such a
 ### Kiali: The Unified Observability Plane
 
 How does this look in **Kiali**? Thanks to these new attributes, Kiali’s **Trace Overlay** feature is now more powerful than ever with Istio Ambient Mesh. When selecting a trace, Kiali highlights the entire request path, including both services and the specific workloads involved, completing the view for a trace in the versioned app graph.
+
+Kiali builds the traffic graph from metrics data, which provides the topology and a visual representation of how requests flow through the mesh. The **Trace Overlay** feature then uses the selected trace to highlight the nodes and edges that belong to that specific request path. In other words, metrics provide the structure of the graph, and tracing identifies the exact route taken by the request within that structure.
+
+This works hop by hop. The selected trace provides a sequence of spans, and each span now includes attributes that identify both the service and the workload involved in that hop. With that information, Kiali can match each span to the corresponding elements in the versioned app graph and reconstruct the full path of the request, including the exact workload versions that actually processed the traffic.
 
 {{< image width="90%" link="./kiali-trace-overlay.png" caption="Kiali trace overlay" >}}
 
