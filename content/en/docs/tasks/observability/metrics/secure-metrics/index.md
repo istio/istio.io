@@ -111,21 +111,12 @@ The steps below use the Istio sample Prometheus addon (`samples/addons/prometheu
         insecure_skip_verify: true
     {{< /text >}}
 
-1. Verify the Prometheus pod has an Istio sidecar
-
-    With native sidecars enabled by default in Istio 1.31+, `istio-proxy` is injected as an init container. Verify the pod is running and ready:
+1. Verify the Prometheus pod has an Istio sidecar injected and is running:
 
     {{< text bash >}}
     $ kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus
     NAME                          READY   STATUS    RESTARTS   AGE
     prometheus-6c647c84c8-gpxt4   3/3     Running   0          75s
-    {{< /text >}}
-
-    The `3/3` in the `READY` column confirms that `prometheus`, `prometheus-configmap-reloader`, and the `istio-proxy` sidecar are all running. To confirm the sidecar identity:
-
-    {{< text bash >}}
-    $ kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].spec.initContainers[*].name}'
-    istio-init istio-proxy
     {{< /text >}}
 
 ## Enable native mTLS metrics ports (Istio 1.31+)
