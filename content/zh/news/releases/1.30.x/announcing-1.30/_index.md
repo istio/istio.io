@@ -71,7 +71,7 @@ Istio 1.30 版本新增了对 [agentgateway](https://agentgateway.dev) 的实验
 - **DNS 上游超时**现可通过 `DNS_FORWARD_TIMEOUT` 进行配置，并保留了现有的 `5s` 默认值。
 - 支持 DNS 集群的**DNS 故障转移优先级**。
 - **每个工作负载支持多个自定义授权提供程序**，从而能够在不同的 API 路径上启用不同的身份验证方案（OAuth、LDAP、API 密钥）。
-- **[`TrafficExtension` API](/blog/2026/traffic-extension-api/)**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways, and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
+- **[`TrafficExtension` API](/zh/blog/2026/traffic-extension-api/)**, a single unified API for configuring Wasm and Lua extensions on Envoy-based sidecars, gateways, and waypoints, replacing `WasmPlugin` as the primary proxy extensibility mechanism.
 - **[`TrafficExtension` API](/zh/blog/2026/traffic-extension-api/)**：一套统一的 API，
   用于在基于 Envoy 的 Sidecar、网关和 waypoint 上配置 Wasm 和 Lua 扩展，
   取代 `WasmPlugin` 成为主要的代理扩展机制。
