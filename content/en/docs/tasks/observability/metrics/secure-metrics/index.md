@@ -184,7 +184,7 @@ The same variables work identically on gateway proxies since they use the same `
 1. Patch the ingress gateway Deployment:
 
     {{< text bash >}}
-    $ cat <<EOF > /tmp/gateway-secure-metrics-patch.yaml
+    $ cat <<'EOF' > /tmp/gateway-secure-metrics-patch.yaml
     spec:
       template:
         metadata:
