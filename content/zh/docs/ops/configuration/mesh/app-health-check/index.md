@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
       - name: liveness-http
-        image: docker.io/istio/health:example
+        image: registry.istio.io/release/health:example
         ports:
         - containerPort: 8001
         livenessProbe:
@@ -184,7 +184,7 @@ spec:
     spec:
       containers:
       - name: liveness-http
-        image: docker.io/istio/health:example
+        image: registry.istio.io/release/health:example
         ports:
         - containerPort: 8001
         livenessProbe:

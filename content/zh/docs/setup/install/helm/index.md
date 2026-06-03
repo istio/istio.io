@@ -116,7 +116,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
     {{< text syntax=bash >}}
     $ kubectl get deployments -n istio-system --output wide
     NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-    istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:{{< istio_full_version >}}   istio=pilot
+    istiod   1/1     1            1           10m   discovery    registry.istio.io/release/pilot:{{< istio_full_version >}}   istio=pilot
     {{< /text >}}
 
 1. （可选）安装 Istio 的入站网关：

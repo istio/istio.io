@@ -122,7 +122,7 @@ LISTEN 0      128                *:15008            *:*
 要查看应用程序中一个 Pod 内的 iptables 规则设置，请执行以下命令：
 
 {{< text bash >}}
-$ kubectl debug $(kubectl get pod -l app=curl -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it --image gcr.io/istio-release/base --profile=netadmin -n ambient-demo -- iptables-save
+$ kubectl debug $(kubectl get pod -l app=curl -n ambient-demo -o jsonpath='{.items[0].metadata.name}') -it --image registry.istio.io/release/base --profile=netadmin -n ambient-demo -- iptables-save
 
 Defaulting debug container name to debugger-m44qc.
 # 由 iptables-save 生成
