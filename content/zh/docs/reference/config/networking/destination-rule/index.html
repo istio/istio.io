@@ -479,6 +479,23 @@ allowed because of the minimum retry concurrency.</p>
 
 </td>
 </tr>
+<tr id="TrafficPolicy-RetryBudget-budget_interval">
+<td><div class="field"><div class="name"><code><a href="#TrafficPolicy-RetryBudget-budget_interval">budgetInterval</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>Specifies the duration in which requests will be considered when calculating
+the budget for retries. This parameter alters the way in which the retry budget
+is calculated, overriding the default behavior when specified.</p>
+<p>By default, when budget_interval is set to 0ms, only presently active
+and pending requests are considered when calculating the retry budget.</p>
+<p>When a non-zero budget_interval is specified, new requests are
+considered for the duration of budget_interval when calculating
+the retry budget.</p>
+<p>Defaults to 0ms.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
