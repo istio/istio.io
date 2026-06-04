@@ -19,11 +19,11 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** an issue where HTTPS listeners defined via `ListenerSet` failed to deliver TLS certificates when the parent Gateway used manual deployment.
+- **Fixed** an issue where HTTPS listeners defined via `ListenerSet` failed to deliver TLS certificates when the parent `Gateway` used manual deployment.
   ([Issue #59535](https://github.com/istio/istio/issues/59535))
 
-- **Fixed** an issue where HTTPRoute and GRPCRoute filters with invalid header values were silently dropped from the Envoy config instead of reporting an invalid filter status.
+- **Fixed** an issue where `HTTPRoute` and `GRPCRoute` filters with invalid header values were silently dropped from the Envoy config instead of reporting an invalid filter status.
   ([Issue #59933](https://github.com/istio/istio/issues/59933))
 
-- **Fixed** an ambient mode bug where a single Service combining `publishNotReadyAddresses: true` with a `PreferSameZone` or `PreferSameNode` traffic distribution caused ztunnel to receive `healthPolicy: AllowAll` for every other Service using the same traffic-distribution preset, leading to traffic being routed to not-ready endpoints cluster-wide.
+- **Fixed** an ambient mode bug where a single `Service` combining `publishNotReadyAddresses: true` with a `PreferSameZone` or `PreferSameNode` traffic distribution caused ztunnel to receive `healthPolicy: AllowAll` for every other `Service` using the same traffic-distribution preset, leading to traffic being routed to not-ready endpoints cluster-wide.
   ([Issue #60422](https://github.com/istio/istio/issues/60422))

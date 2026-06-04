@@ -44,26 +44,26 @@ This release contains bug fixes to improve robustness. This release note describ
 - **Fixed** `BackendTLSPolicy` conflict resolution on Gateway API.
   ([Issue #57817](https://github.com/istio/istio/issues/57817))
 
-- **Fixed** an issue where HTTPS listeners defined via `ListenerSet` failed to deliver TLS certificates when the parent Gateway used manual deployment.
+- **Fixed** an issue where HTTPS listeners defined via `ListenerSet` failed to deliver TLS certificates when the parent `Gateway` used manual deployment.
   ([Issue #59535](https://github.com/istio/istio/issues/59535))
 
-- **Fixed** an issue where HTTPRoute and GRPCRoute filters with invalid header values were silently dropped from the Envoy config instead of reporting an invalid filter status.
+- **Fixed** an issue where `HTTPRoute` and `GRPCRoute` filters with invalid header values were silently dropped from the Envoy config instead of reporting an invalid filter status.
   ([Issue #59933](https://github.com/istio/istio/issues/59933))
 
 - **Fixed** an issue where multi-network ambient did not route to the waypoint
   when the ingress on one network called a service on a different network, even
-  when the Service was configured with `istio.io/ingress-use-waypoint`.
+  when the `Service` was configured with `istio.io/ingress-use-waypoint`.
 
 - **Fixed** an issue where `consistentHash` load balancing in `DestinationRule` would not send traffic
-to new endpoints after scaling, due to an Envoy regression (`envoyproxy/envoy#45212`) where the
-`RING_HASH` ring was not rebuilt on endpoint changes during batched updates.
+  to new endpoints after scaling, due to an Envoy regression (`envoyproxy/envoy#45212`) where the
+  `RING_HASH` ring was not rebuilt on endpoint changes during batched updates.
   ([Issue #60312](https://github.com/istio/istio/issues/60312))
 
 - **Fixed** a fatal `concurrent map writes` panic in the istio-cni agent when
-two pods were added to the ambient mesh on the same node at the same time.
+  two pods were added to the ambient mesh on the same node at the same time.
   ([Issue #60328](https://github.com/istio/istio/issues/60328))
 
-- **Fixed** an ambient mode bug where a single Service combining `publishNotReadyAddresses: true` with a `PreferSameZone` or `PreferSameNode` traffic distribution caused ztunnel to receive `healthPolicy: AllowAll` for every other Service using the same traffic-distribution preset, leading to traffic being routed to not-ready endpoints cluster-wide.
+- **Fixed** an ambient mode bug where a single `Service` combining `publishNotReadyAddresses: true` with a `PreferSameZone` or `PreferSameNode` traffic distribution caused ztunnel to receive `healthPolicy: AllowAll` for every other `Service` using the same traffic-distribution preset, leading to traffic being routed to not-ready endpoints cluster-wide.
   ([Issue #60422](https://github.com/istio/istio/issues/60422))
 
 - **Fixed** an issue where pilot generated configuration for the agentgateway ignored
@@ -72,7 +72,7 @@ two pods were added to the ambient mesh on the same node at the same time.
   to handle `ListenerSet` resources properly.
 
 - **Fixed** `ListenerSet` status reporting when `ListenerSet` is not allowed by the parent
-  Gateway resource for agentgateway. When `ListenerSet` is not allowed by the parent Gateway,
+  `Gateway` resource for agentgateway. When `ListenerSet` is not allowed by the parent `Gateway`,
   the `Accepted` condition status is now correctly reported as `False`. Additionally, given
   that the `ListenerSet` feature is not experimental as of Gateway API `v1.5.0`, it is no
   longer guarded by the `PILOT_ENABLE_ALPHA_GATEWAY_API` feature flag.
@@ -81,7 +81,7 @@ two pods were added to the ambient mesh on the same node at the same time.
   prefix) as the SDS resource name instead of the provider name. This allows multiple gateways using the
   same SDS provider to request different certificates. For mutual TLS, the CA certificate resource name
   is correctly derived as `<credential-name>-cacert`. When neither a UDS socket nor an SDS extension
-  provider is configured, the gateway now falls back to fetching certificates via ADS (Kubernetes Secrets)
+  provider is configured, the gateway now falls back to fetching certificates via ADS (Kubernetes `Secrets`)
   instead of failing silently.
   ([Issue #57080](https://github.com/istio/istio/issues/57080))
 
