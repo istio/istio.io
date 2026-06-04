@@ -1501,6 +1501,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code></code></td>
 <td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
 </tr>
+<tr id='pilot-node-untaint-controllers-taint-name'>
+<td><a href='#pilot-node-untaint-controllers-taint-name'><code>PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME</code></a></td>
+<td>String</td>
+<td><code>cni.istio.io/not-ready</code></td>
+<td>The taint key used by the node-untaint controller to identify nodes that should be untainted.</td>
+</tr>
 <tr id='pilot-persistent-session-header-label'>
 <td><a href='#pilot-persistent-session-header-label'><code>PILOT_PERSISTENT_SESSION_HEADER_LABEL</code></a></td>
 <td>String</td>
@@ -1560,12 +1566,6 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>false</code></td>
 <td>Skip validating the peer is from the same trust domain when mTLS is enabled in authentication policy</td>
-</tr>
-<tr id='pilot-spawn-upstream-span-for-gateway'>
-<td><a href='#pilot-spawn-upstream-span-for-gateway'><code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code></a></td>
-<td>Boolean</td>
-<td><code>true</code></td>
-<td>If true, separate tracing span for each upstream request for gateway. This is only available when using Telemetry API.</td>
 </tr>
 <tr id='pilot-status-max-workers'>
 <td><a href='#pilot-status-max-workers'><code>PILOT_STATUS_MAX_WORKERS</code></a></td>
