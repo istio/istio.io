@@ -63,6 +63,10 @@ _set_ingress_environment_variables() {
         export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
         export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
     fi
+    # Wrap IPv6 addresses in brackets for correct URL and curl --resolve formatting
+    if [[ "$INGRESS_HOST" == *:* ]]; then
+        export INGRESS_HOST="[$INGRESS_HOST]"
+    fi
 }
 
 # TODO: should we have functions for these?
