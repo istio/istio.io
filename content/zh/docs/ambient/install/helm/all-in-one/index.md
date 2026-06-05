@@ -92,13 +92,13 @@ Ambient 包装器 Chart 由以下组件 Helm Chart 组成
 例如：
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istiod istio/istiod --set hub=gcr.io/istio-testing
+$ helm install istiod istio/istiod --set hub=registry.istio.io/testing
 {{< /text >}}
 
 变为：
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istio-ambient istio/ambient --set istiod.hub=gcr.io/istio-testing
+$ helm install istio-ambient istio/ambient --set istiod.hub=registry.istio.io/testing
 {{< /text >}}
 
 当通过包装 Chart 设置时。

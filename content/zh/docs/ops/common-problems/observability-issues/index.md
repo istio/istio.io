@@ -21,7 +21,7 @@ Istio 已经完成安装且正常工作，但是 Zipkin 中没有显示任何 tr
 您还可以通过对比 Docker 容器内和容器外的日期来确认此问题：
 
 {{< text bash >}}
-$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+$ docker run --entrypoint date registry.istio.io/testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
 {{< /text >}}
 
