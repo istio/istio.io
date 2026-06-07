@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 85
+number_of_entries: 89
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -4150,6 +4150,17 @@ Optional.</p>
 
 </td>
 </tr>
+<tr id="ProxyConfig-connection_settings">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-connection_settings">connectionSettings</a></code></div>
+<div class="type"><a href="#ProxyConfig-ConnectionSettings">ConnectionSettings</a></div>
+</div></td>
+<td>
+<p>Connection handling settings for this proxy, including buffer limits, timeouts,
+HTTP/2 tuning, header/path normalization, and connection limits.
+Use <code>profile</code> within this message to apply a recommended set of defaults.</p>
+
+</td>
+</tr>
 <tr id="ProxyConfig-zipkin_address" class="deprecated ">
 <td><div class="field"><div class="name"><code><a href="#ProxyConfig-zipkin_address">zipkinAddress</a></code></div>
 <div class="type">string</div>
@@ -4577,6 +4588,358 @@ true.</p>
 <td>
 <p>Only append the istio metadata exchange headers for services considered in-mesh.
 Traffic is considered in-mesh if it is secured with Istio mutual TLS. This means that <code>MESH_EXTERNAL</code> services, unmatched passthrough traffic, and requests to workloads without Istio enabled will be considered out of mesh.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="ProxyConfig-ConnectionSettings">ConnectionSettings</h3>
+<section>
+<p>Settings that control proxy connection handling, buffering, timeouts,
+HTTP/2 tuning, header/path normalization, and connection limits.</p>
+<p>The <code>profile</code> field selects a set of recommended defaults for these settings.
+Any field explicitly set always takes precedence over profile defaults.</p>
+<p>These settings primarily configure the downstream side of the proxy —
+listeners and the HTTP Connection Manager. The exception is
+<code>cluster_per_connection_buffer_limit_bytes</code>, which applies at the
+cluster level.</p>
+<p>Where DestinationRule configures behavior at the upstream cluster level
+(notably <code>connectionPoolSettings.tcp.idleTimeout</code>), both apply
+independently at different hops rather than one overriding the other:
+DestinationRule governs Envoy → upstream connections, while these
+settings govern downstream → Envoy connections. For per-destination
+connection pool configuration, use DestinationRule&rsquo;s
+<code>connectionPoolSettings</code>.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ConnectionSettings-profile">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-profile">profile</a></code></div>
+<div class="type"><a href="#ProxyConfig-ConnectionSettings-Profile">Profile</a></div>
+</div></td>
+<td>
+<p>The config profile to use. Determines default values for all fields in this message.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-listener_per_connection_buffer_limit_bytes">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-listener_per_connection_buffer_limit_bytes">listenerPerConnectionBufferLimitBytes</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>Soft limit on size of the listener&rsquo;s new connection read and write buffers in bytes.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/listener/v3/listener.proto#envoy-v3-api-field-config-listener-v3-listener-per-connection-buffer-limit-bytes">per_connection_buffer_limit_bytes</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-cluster_per_connection_buffer_limit_bytes">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-cluster_per_connection_buffer_limit_bytes">clusterPerConnectionBufferLimitBytes</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>Soft limit on size of the cluster&rsquo;s new connection read and write buffers in bytes.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/cluster.proto#envoy-v3-api-field-config-cluster-v3-cluster-per-connection-buffer-limit-bytes">per_connection_buffer_limit_bytes</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_idle_timeout">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_idle_timeout">httpIdleTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The idle timeout for HTTP connections. The idle timeout is defined as the period in which there are no active requests.
+When the idle timeout is reached, the connection will be closed.
+Note that request-based timeouts mean that HTTP/2 PINGs will not keep the connection alive.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-httpprotocoloptions-idle-timeout">idle_timeout</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_max_connection_duration">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_max_connection_duration">httpMaxConnectionDuration</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The maximum duration of a connection.
+When this duration is reached, a drain sequence will begin and the connection will be closed
+after the drain timeout period if there are no active streams.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-httpprotocoloptions-max-connection-duration">max_connection_duration</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_drain_timeout">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_drain_timeout">httpDrainTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The time that Envoy will wait between sending an HTTP/2 shutdown notification (GOAWAY frame with max stream ID)
+and a final GOAWAY frame. This is used so that Envoy can drain in-flight requests.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-drain-timeout">drain_timeout</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_request_timeout">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_request_timeout">httpRequestTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The amount of time that Envoy will wait for the entire request to be received.
+The timer is activated when the request is initiated, and is disarmed when the last byte of
+the request is sent upstream or when the response is initiated.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-request-timeout">request_timeout</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_request_headers_timeout">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_request_headers_timeout">httpRequestHeadersTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The amount of time Envoy will wait for the request headers to be received.
+The timer is activated when the first byte of the headers is received and is disarmed when the last byte of the headers has been received.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-request-headers-timeout">request_headers_timeout</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_stream_idle_timeout">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_stream_idle_timeout">httpStreamIdleTimeout</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>The amount of time that Envoy will allow a stream to exist with no activity.
+The timer is reset each time an encode/decode event for headers or data is processed for the stream.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-stream-idle-timeout">stream_idle_timeout</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_max_stream_duration">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_max_stream_duration">httpMaxStreamDuration</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></div>
+</div></td>
+<td>
+<p>Total duration to keep alive an HTTP request/response stream.
+If the time limit is reached, the stream will be reset independent of any other timeouts.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-httpprotocoloptions-max-stream-duration">max_stream_duration</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_max_concurrent_streams">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_max_concurrent_streams">httpMaxConcurrentStreams</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>Maximum number of concurrent streams allowed for HTTP/2 connections.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-http2protocoloptions-max-concurrent-streams">max_concurrent_streams</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http2_initial_stream_window_size">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http2_initial_stream_window_size">http2InitialStreamWindowSize</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>Initial stream-level flow-control window size for HTTP/2 connections.
+Valid values range from 65535 (2^16 - 1, HTTP/2 default) to 2147483647 (2^31 - 1, HTTP/2 maximum).
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-http2protocoloptions-initial-stream-window-size">initial_stream_window_size</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http2_initial_connection_window_size">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http2_initial_connection_window_size">http2InitialConnectionWindowSize</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>Initial connection-level flow-control window size for HTTP/2 connections.
+Valid values range from 65535 (2^16 - 1, HTTP/2 default) to 2147483647 (2^31 - 1, HTTP/2 maximum).
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-http2protocoloptions-initial-connection-window-size">initial_connection_window_size</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_headers_with_underscores_action">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_headers_with_underscores_action">httpHeadersWithUnderscoresAction</a></code></div>
+<div class="type"><a href="#ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction">HeadersWithUnderscoresAction</a></div>
+</div></td>
+<td>
+<p>Action to take when a client request contains header names with underscore characters.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/protocol.proto#envoy-v3-api-field-config-core-v3-httpprotocoloptions-headers-with-underscores-action">headers_with_underscores_action</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_merge_slashes">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_merge_slashes">httpMergeSlashes</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
+<td>
+<p>Determines if adjacent slashes in the path are merged into a single slash.
+This is useful for protecting against path confusion attacks where different backend services
+interpret paths with multiple slashes differently.
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-merge-slashes">merge_slashes</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-http_path_with_escaped_slashes_action">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-http_path_with_escaped_slashes_action">httpPathWithEscapedSlashesAction</a></code></div>
+<div class="type"><a href="#ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction">PathWithEscapedSlashesAction</a></div>
+</div></td>
+<td>
+<p>Action to take when a request path contains escaped slash sequences (%2F, %5C).
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-path-with-escaped-slashes-action">path_with_escaped_slashes_action</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-listener_connection_limit">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-listener_connection_limit">listenerConnectionLimit</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>The maximum number of connections that a single listener will accept.
+Maps to Envoy&rsquo;s per-listener connection limit via runtime configuration
+(<code>envoy.resource_limits.listener.&lt;listener_name&gt;.connection_limit</code>).
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge">edge best practices</a>.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-global_downstream_connection_limit">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-ConnectionSettings-global_downstream_connection_limit">globalDownstreamConnectionLimit</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#int32value">Int32Value</a></div>
+</div></td>
+<td>
+<p>The maximum number of downstream connections allowed across all listeners.
+Maps to Envoy&rsquo;s global downstream max connections via runtime configuration
+(<code>overload.global_downstream_max_connections</code>).
+See Envoy&rsquo;s <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge">edge best practices</a>.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="ProxyConfig-ConnectionSettings-Profile">Profile</h4>
+<section>
+<p>Profile selects a default value set for the fields in this message.
+Explicitly setting any field always takes precedence over profile defaults.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ConnectionSettings-Profile-SIDECAR">
+<td><code><a href="#ProxyConfig-ConnectionSettings-Profile-SIDECAR">SIDECAR</a></code></td>
+<td>
+<p>SIDECAR profile preserves existing Istio behavior.
+This is the default profile. No additional defaults are applied.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-Profile-EDGE">
+<td><code><a href="#ProxyConfig-ConnectionSettings-Profile-EDGE">EDGE</a></code></td>
+<td>
+<p>EDGE profile applies Envoy&rsquo;s recommended defaults for edge gateway deployments.
+See <a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge">https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge</a>
+Explicitly setting any field overrides the corresponding profile default.</p>
+<p>Defaults applied by this profile:
+listener_per_connection_buffer_limit_bytes: 32768 (32 KiB)
+cluster_per_connection_buffer_limit_bytes:  32768 (32 KiB)
+http_idle_timeout:                          3600s (1 hour)
+http_request_timeout:                       300s  (5 minutes)
+http_stream_idle_timeout:                   300s  (5 minutes)
+http_max_concurrent_streams:                100
+http2_initial_stream_window_size:           65536 (64 KiB)
+http2_initial_connection_window_size:       1048576 (1 MiB)
+http_headers_with_underscores_action:       HEADERS_WITH_UNDERSCORES_REJECT_REQUEST
+http_merge_slashes:                         true
+http_path_with_escaped_slashes_action:      UNESCAPE_AND_REDIRECT</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction">HeadersWithUnderscoresAction</h4>
+<section>
+<p>Action to take when Envoy receives client request with header names containing underscore characters.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction-HEADERS_WITH_UNDERSCORES_ALLOW">
+<td><code><a href="#ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction-HEADERS_WITH_UNDERSCORES_ALLOW">HEADERS_WITH_UNDERSCORES_ALLOW</a></code></td>
+<td>
+<p>Allow headers with underscores.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction-HEADERS_WITH_UNDERSCORES_REJECT_REQUEST">
+<td><code><a href="#ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction-HEADERS_WITH_UNDERSCORES_REJECT_REQUEST">HEADERS_WITH_UNDERSCORES_REJECT_REQUEST</a></code></td>
+<td>
+<p>Reject client request with 400 status. HTTP/1 requests are rejected with the &ldquo;underscore_in_headers&rdquo; response code.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction-HEADERS_WITH_UNDERSCORES_DROP_HEADER">
+<td><code><a href="#ProxyConfig-ConnectionSettings-HeadersWithUnderscoresAction-HEADERS_WITH_UNDERSCORES_DROP_HEADER">HEADERS_WITH_UNDERSCORES_DROP_HEADER</a></code></td>
+<td>
+<p>Drop the header with name containing underscores. The header is dropped before the filter chain is invoked
+and as such filters will not see the header.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction">PathWithEscapedSlashesAction</h4>
+<section>
+<p>Determines the action for request paths that contain escaped slashes (%2F, %2f, %5C, %5c).</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-KEEP_UNCHANGED">
+<td><code><a href="#ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-KEEP_UNCHANGED">KEEP_UNCHANGED</a></code></td>
+<td>
+<p>Keep escaped slashes as they are.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-REJECT_REQUEST">
+<td><code><a href="#ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-REJECT_REQUEST">REJECT_REQUEST</a></code></td>
+<td>
+<p>Reject client request with 400 status.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-UNESCAPE_AND_REDIRECT">
+<td><code><a href="#ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-UNESCAPE_AND_REDIRECT">UNESCAPE_AND_REDIRECT</a></code></td>
+<td>
+<p>Unescape %2F and %5C sequences and redirect the request to the new path if the result path is different.</p>
+
+</td>
+</tr>
+<tr id="ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-UNESCAPE_AND_FORWARD">
+<td><code><a href="#ProxyConfig-ConnectionSettings-PathWithEscapedSlashesAction-UNESCAPE_AND_FORWARD">UNESCAPE_AND_FORWARD</a></code></td>
+<td>
+<p>Unescape %2F and %5C sequences and forward the request. Note that this option may introduce path confusion
+vulnerabilities if the backend service does not expect unescaped slashes.</p>
 
 </td>
 </tr>
