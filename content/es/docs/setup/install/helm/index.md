@@ -94,7 +94,6 @@ Puedes mostrar los valores por defecto de los parámetros de configuración usan
         * https://istio.io/latest/docs/tasks/traffic-management
         * https://istio.io/latest/docs/tasks/security/
         * https://istio.io/latest/docs/tasks/policy-enforcement/
-        * https://istio.io/latest/docs/tasks/policy-enforcement/
       * Revisa la lista de releases soportados, publicaciones de CVE y nuestra guía de fortalecimiento:
         * https://istio.io/latest/docs/releases/supported-releases/
         * https://istio.io/latest/news/security/
