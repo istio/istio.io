@@ -29,18 +29,12 @@ snip_before_you_begin_1
 _wait_for_deployment foo httpbin
 _wait_for_deployment foo curl
 
-# Pull the Istio branch from the docs configuration file.
-ISTIO_BRANCH=$(yq '.source_branch_name' "${REPO_ROOT}"/data/args.yml)
-
-TOKEN_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/demo.jwt"
-TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/groups-scope.jwt"
-
 export TOKEN
 export TOKEN_GROUP
 
 _verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
-snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
+_rewrite_jwks_uri snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
 _wait_for_resource requestauthentication foo jwt-example
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out"
@@ -53,7 +47,7 @@ _wait_for_resource authorizationpolicy foo require-jwt
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_5 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_5_out"
 
 # The previous step stored the JWT in TOKEN, and it's needed in the next step.
-TOKEN=$(curl "${TOKEN_URL}" -s)
+TOKEN="${_DOCS_DEMO_JWT}"
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_6 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_6_out"
 
@@ -66,7 +60,7 @@ _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_9 "$snip_al
 
 # The previous step stored the JWT group in TOKEN_GROUP, and it's needed in
 # the next step.
-TOKEN_GROUP=$(curl "${TOKEN_GROUP_URL}" -s)
+TOKEN_GROUP="${_DOCS_GROUPS_SCOPE_JWT}"
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_10 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_10_out"
 

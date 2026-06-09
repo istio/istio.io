@@ -26,6 +26,8 @@ samples/**
 # copied from istio repository
 tests/integration/**
 manifests/**
+tests/util/gen-jwt.py
+tests/util/key.pem
 
 # certs for test framework
 tools/certs/**
