@@ -29,10 +29,10 @@ set -u
 # Print commands
 set -x
 
-# shellcheck source=common/scripts/kind_provisioner.sh
-source "${ROOT}/common/scripts/kind_provisioner.sh"
 # shellcheck source=prow/lib.sh
 source "${WD}/lib.sh"
+# shellcheck source=common/scripts/kind_provisioner.sh
+source "${ROOT}/common/scripts/kind_provisioner.sh"
 
 # KinD will not have a LoadBalancer, so we need to disable it
 export TEST_ENV=kind
