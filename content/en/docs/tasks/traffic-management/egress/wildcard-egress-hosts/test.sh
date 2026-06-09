@@ -21,8 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-# Skip on IPv6-only Kind clusters: external hosts are IPv4-only, no outbound IPv4 in cluster.
-[[ "${KIND_IP_FAMILY:-}" == "ipv6" ]] && { echo "Skipping (KIND_IP_FAMILY=ipv6): test requires IPv4 internet egress"; exit 0; }
+_skip_if_kind_ipv6 "test connects to wikipedia.org via wildcard egress"
 
 GATEWAY_API="${GATEWAY_API:-false}"
 
