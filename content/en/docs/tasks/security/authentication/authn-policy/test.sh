@@ -85,19 +85,22 @@ fi
 _verify_same  snip_enduser_authentication_4 "$snip_enduser_authentication_4_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
-    snip_enduser_authentication_6
+    _rewrite_jwks_uri snip_enduser_authentication_6
     _wait_for_resource requestauthentication foo jwt-example
 else
-    snip_enduser_authentication_5
+    _rewrite_jwks_uri snip_enduser_authentication_5
     _wait_for_resource requestauthentication istio-system jwt-example
 fi
 
 _verify_same  snip_enduser_authentication_7 "$snip_enduser_authentication_7_out"
 _verify_same  snip_enduser_authentication_8 "$snip_enduser_authentication_8_out"
-_verify_same  snip_enduser_authentication_9 "$snip_enduser_authentication_9_out"
+# snip_enduser_authentication_9 fetches demo.jwt from raw.githubusercontent.com;
+# use _rewrite_jwks_uri to substitute the pre-generated token for offline environments.
+_snip_enduser_authentication_9() { _rewrite_jwks_uri snip_enduser_authentication_9; }
+_verify_same  _snip_enduser_authentication_9 "$snip_enduser_authentication_9_out"
 
-snip_enduser_authentication_10
-snip_enduser_authentication_11
+_rewrite_jwks_uri snip_enduser_authentication_10
+_rewrite_jwks_uri snip_enduser_authentication_11
 
 # snip_enduser_authentication_12 is highly timing dependent, so just check
 # that the token times out during the run.
