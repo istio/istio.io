@@ -143,10 +143,10 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
     DOCTEST_NETWORK_TOPOLOGY=$(IFS=','; echo "${NETWORK_TOPOLOGIES[*]}")
   fi
 
-  # On IPv6-only clusters, ghcr.io is unreachable (no AAAA records), so set up a
-  # local registry, pre-load the wasm image, and patch CoreDNS so in-cluster
-  # workloads can resolve "kind-registry" (Docker embedded DNS is IPv4-only;
-  # moby#48125 is closed as not planned).
+  # On IPv6-only clusters, ghcr.io is unreachable because Docker's embedded DNS is
+  # IPv4-only (kubernetes-sigs/kind#3114, moby#48125). Set up a local registry,
+  # pre-load the wasm image, and patch CoreDNS so in-cluster workloads can
+  # resolve "kind-registry".
   if [[ "${KIND_IP_FAMILY:-}" == "ipv6" ]]; then
     setup_kind_registry
 

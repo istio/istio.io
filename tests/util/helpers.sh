@@ -178,6 +178,8 @@ _DOCS_GROUPS_SCOPE_JWT="eyJhbGciOiJSUzI1NiIsImtpZCI6IkRIRmJwb0lVcXJZOHQyenBBMnFY
 # Rewrite a snip to replace external jwksUri with an inline jwks value, avoiding
 # external network fetches for JWT public keys. Also rewrites inline curl calls
 # that fetch static JWT token files from raw.githubusercontent.com.
+# raw.githubusercontent.com is unreachable in IPv6-only Kind clusters because
+# Docker's embedded DNS is IPv4-only (kubernetes-sigs/kind#3114).
 # usage: _rewrite_jwks_uri <snip_function>
 # shellcheck disable=SC2001
 _rewrite_jwks_uri() {
@@ -194,8 +196,21 @@ _rewrite_jwks_uri() {
   eval "${cmd}"
 }
 
+# Skip the current test if running on an IPv6-only Kind cluster. In such clusters
+# there is no IPv6 internet connectivity because Docker's embedded DNS is IPv4-only
+# (kubernetes-sigs/kind#3114). Pass a short reason string to describe what the
+# test requires (e.g. "test requires internet egress").
+# usage: _skip_if_kind_ipv6 <reason>
+_skip_if_kind_ipv6() {
+  if [[ "${KIND_IP_FAMILY:-}" == "ipv6" ]]; then
+    echo "Skipping (KIND_IP_FAMILY=ipv6): ${1:?reason} (no IPv6 internet connectivity in Kind; kubernetes-sigs/kind#3114)"
+    exit 0
+  fi
+}
+
 # Rewrite a snip to replace oci://ghcr.io/ OCI registry URLs with the local
-# kind-registry when running in IPv6-only Kind CI (ghcr.io has no AAAA records).
+# kind-registry when running in IPv6-only Kind CI. ghcr.io is unreachable because
+# Docker's embedded DNS is IPv4-only (kubernetes-sigs/kind#3114).
 # The kind-registry must be pre-seeded with the required images via crane copy
 # in prow/integ-suite-kind.sh before tests run.
 # usage: _rewrite_oci_registry <snip_function>
