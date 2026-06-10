@@ -37,6 +37,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway --timeout=90s
     _verify_contains snip_before_you_begin_6 "rbac: debug"
     snip_before_you_begin_7
+    _normalize_ingress_host
 else
     snip_before_you_begin_2
     _verify_contains snip_before_you_begin_3 "rbac: debug"
