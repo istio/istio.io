@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-gamma-experimental.sh"
 
 snip_generate_client_and_server_certificates_and_keys_1() {
-mkdir example_certs
+mkdir -p example_certs
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs/example.com.key -out example_certs/example.com.crt
 }
 
@@ -51,6 +51,7 @@ http {
 
   server {
     listen 443 ssl;
+    listen [::]:443 ssl;
 
     root /usr/share/nginx/html;
     index index.html;

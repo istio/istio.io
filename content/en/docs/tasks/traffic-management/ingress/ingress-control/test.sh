@@ -55,6 +55,7 @@ else
 
     # set INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
     snip_determining_the_ingress_ip_and_ports_5
+    _normalize_ingress_host
 fi
 
 # access the httpbin service
