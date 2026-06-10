@@ -73,6 +73,7 @@ snip_cleanup_part_2_1
 if [ "$GATEWAY_API" == "true" ]; then
     snip_enduser_authentication_2
     snip_enduser_authentication_3
+    _normalize_ingress_host
 else
     snip_enduser_authentication_1
     _wait_for_resource gateway foo httpbin-gateway

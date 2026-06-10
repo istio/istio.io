@@ -46,6 +46,14 @@ function _set_kube_vars()
   echo "KUBE_CONTEXTS=${KUBE_CONTEXTS[*]}"
 }
 
+# Normalize INGRESS_HOST for IPv6: wrap bare IPv6 addresses in brackets for correct
+# URL and curl --resolve formatting.
+_normalize_ingress_host() {
+    if [[ -n "${INGRESS_HOST:-}" && "$INGRESS_HOST" == *:* && "$INGRESS_HOST" != \[* ]]; then
+        export INGRESS_HOST="[$INGRESS_HOST]"
+    fi
+}
+
 # Set the INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 _set_ingress_environment_variables() {
     # check for external load balancer
@@ -63,10 +71,7 @@ _set_ingress_environment_variables() {
         export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
         export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
     fi
-    # Wrap IPv6 addresses in brackets for correct URL and curl --resolve formatting
-    if [[ "$INGRESS_HOST" == *:* ]]; then
-        export INGRESS_HOST="[$INGRESS_HOST]"
-    fi
+    _normalize_ingress_host
 }
 
 # TODO: should we have functions for these?

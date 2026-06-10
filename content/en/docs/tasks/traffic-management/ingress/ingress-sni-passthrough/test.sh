@@ -51,6 +51,7 @@ if [ "$GATEWAY_API" == "true" ]; then
 
     snip_configure_an_ingress_gateway_4
     snip_configure_an_ingress_gateway_5
+    _normalize_ingress_host
 
     echo "addr: ${INGRESS_HOST}:${SECURE_INGRESS_PORT}"
 else

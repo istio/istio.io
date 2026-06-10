@@ -39,6 +39,7 @@ if [ "$GATEWAY_API" == "true" ]; then
 
     # set INGRESS_HOST and INGRESS_PORT environment variables
     snip_determining_the_ingress_ip_and_ports_7
+    _normalize_ingress_host
 else
     # create the gateway and routes
     snip_configuring_ingress_using_a_gateway_1
