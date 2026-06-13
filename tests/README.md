@@ -237,7 +237,7 @@ expected output. The framework includes the following built-in verify functions:
    Like implies:
 
    - Same number of lines
-   - Same number of whitespace-seperated tokens per line
+   - Same number of whitespace-separated tokens per line
    - Tokens can only differ in the following ways:
 
      1. different elapsed time values (e.g., `30s` is like `5m`)
