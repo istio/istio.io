@@ -27,7 +27,7 @@ _set_ingress_environment_variables
 
 startup_bookinfo_sample
 
-snip_configure_a_wasm_module_1
+_rewrite_oci_registry snip_configure_a_wasm_module_1
 
 _verify_same snip_verify_the_wasm_module_1 "$snip_verify_the_wasm_module_1_out"
 

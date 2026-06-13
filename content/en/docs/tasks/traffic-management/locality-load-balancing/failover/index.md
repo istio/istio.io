@@ -105,7 +105,7 @@ for `HelloWorld` in `region1.zone1`:
 $ kubectl --context="${CTX_R1_Z1}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app=helloworld \
   -l version=region1.zone1 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 Call the `HelloWorld` service from the `curl` pod:
@@ -131,7 +131,7 @@ the `HelloWorld` in `region1.zone2` to fail when called:
 $ kubectl --context="${CTX_R1_Z2}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app=helloworld \
   -l version=region1.zone2 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 Call the `HelloWorld` service from the `curl` pod:
@@ -157,7 +157,7 @@ the `HelloWorld` in `region2.zone3` to fail when called:
 $ kubectl --context="${CTX_R2_Z3}" exec \
   "$(kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app=helloworld \
   -l version=region2.zone3 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 Call the `HelloWorld` service from the `curl` pod:

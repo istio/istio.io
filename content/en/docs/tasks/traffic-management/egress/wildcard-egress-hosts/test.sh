@@ -21,6 +21,8 @@ set -e
 set -u
 set -o pipefail
 
+_skip_if_kind_ipv6 "test connects to wikipedia.org via wildcard egress"
+
 GATEWAY_API="${GATEWAY_API:-false}"
 
 if [ "$GATEWAY_API" == "true" ]; then
