@@ -34,6 +34,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
 ## Before you begin
 
 1. Set up Istio by following the [Installation guide](/docs/setup/).
+
 1. Start by deploying two versions of the [httpbin]({{< github_tree >}}/samples/httpbin) service that have access logging enabled:
 
     1. Deploy `httpbin-v1`:
@@ -155,33 +156,33 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-        - httpbin
-      http:
-      - route:
-        - destination:
-            host: httpbin
-            subset: v1
-          weight: 100
-    ---
-    apiVersion: networking.istio.io/v1
-    kind: DestinationRule
-    metadata:
-      name: httpbin
-    spec:
-      host: httpbin
-      subsets:
-      - name: v1
-        labels:
-          version: v1
-      - name: v2
-        labels:
-          version: v2
+        apiVersion: networking.istio.io/v1
+        kind: VirtualService
+        metadata:
+          name: httpbin
+        spec:
+          hosts:
+            - httpbin
+          http:
+          - route:
+            - destination:
+                host: httpbin
+                subset: v1
+              weight: 100
+        ---
+        apiVersion: networking.istio.io/v1
+        kind: DestinationRule
+        metadata:
+          name: httpbin
+        spec:
+          host: httpbin
+          subsets:
+          - name: v1
+            labels:
+              version: v1
+          - name: v2
+            labels:
+              version: v2
     EOF
     {{< /text >}}
 
@@ -191,44 +192,44 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: httpbin-v1
-    spec:
-      ports:
-      - port: 80
-        name: http
-      selector:
-        app: httpbin
-        version: v1
-    ---
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: httpbin-v2
-    spec:
-      ports:
-      - port: 80
-        name: http
-      selector:
-        app: httpbin
-        version: v2
-    ---
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: HTTPRoute
-    metadata:
-      name: httpbin
-    spec:
-      parentRefs:
-      - group: ""
+        apiVersion: v1
         kind: Service
-        name: httpbin
-        port: 8000
-      rules:
-      - backendRefs:
-        - name: httpbin-v1
-          port: 80
+        metadata:
+          name: httpbin-v1
+        spec:
+          ports:
+          - port: 80
+            name: http
+          selector:
+            app: httpbin
+            version: v1
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: httpbin-v2
+        spec:
+          ports:
+          - port: 80
+            name: http
+          selector:
+            app: httpbin
+            version: v2
+        ---
+        apiVersion: gateway.networking.k8s.io/v1
+        kind: HTTPRoute
+        metadata:
+          name: httpbin
+        spec:
+          parentRefs:
+          - group: ""
+            kind: Service
+            name: httpbin
+            port: 8000
+          rules:
+          - backendRefs:
+            - name: httpbin-v1
+              port: 80
     EOF
     {{< /text >}}
 
@@ -271,31 +272,30 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 ## Mirroring traffic to `httpbin-v2`
 
 1. Change the route rule to mirror traffic to `httpbin-v2`:
-
     {{< tabset category-name="config-api" >}}
 
     {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: networking.istio.io/v1
-    kind: VirtualService
-    metadata:
-      name: httpbin
-    spec:
-      hosts:
-        - httpbin
-      http:
-      - route:
-        - destination:
+      apiVersion: networking.istio.io/v1
+      kind: VirtualService
+      metadata:
+        name: httpbin
+      spec:
+        hosts:
+          - httpbin
+        http:
+        - route:
+          - destination:
+              host: httpbin
+              subset: v1
+            weight: 100
+          mirror:
             host: httpbin
-            subset: v1
-          weight: 100
-        mirror:
-          host: httpbin
-          subset: v2
-        mirrorPercentage:
-          value: 100.0
+            subset: v2
+          mirrorPercentage:
+            value: 100.0
     EOF
     {{< /text >}}
 
@@ -317,25 +317,25 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: HTTPRoute
-    metadata:
-      name: httpbin
-    spec:
-      parentRefs:
-      - group: ""
-        kind: Service
-        name: httpbin
-        port: 8000
-      rules:
-      - filters:
-        - type: RequestMirror
-          requestMirror:
-            backendRef:
-              name: httpbin-v2
-              port: 80
-        backendRefs:
-        - name: httpbin-v1
+        apiVersion: gateway.networking.k8s.io/v1
+        kind: HTTPRoute
+        metadata:
+          name: httpbin
+        spec:
+          parentRefs:
+          - group: ""
+            kind: Service
+            name: httpbin
+            port: 8000
+          rules:
+          - filters:
+            - type: RequestMirror
+              requestMirror:
+                backendRef:
+                  name: httpbin-v2
+                  port: 80
+            backendRefs:
+            - name: httpbin-v1
           port: 80
     EOF
     {{< /text >}}
