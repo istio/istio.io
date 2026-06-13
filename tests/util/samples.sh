@@ -72,7 +72,8 @@ cleanup_httpbin_sample() {
 # Example:
 #   response=$(sample_http_request "/productpage" "jason")
 sample_http_request() {
-    local path=$1
+    local path="$1"
+
 
     local user=""
 	if [[ $# -gt 1 ]]; then
