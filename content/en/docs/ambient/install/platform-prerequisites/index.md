@@ -17,12 +17,29 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 ### Google Kubernetes Engine (GKE)
 
+#### Platform profile
+
+When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
+
+#### istioctl ambient
+
+{{< text syntax=bash >}}
+$ istioctl install --set profile=ambient --set values.cni.platform=gke
+{{< /text >}}
+
+#### Helm ambient
+
+{{< text syntax=bash >}}
+$ helm install istio-cni charts/cni --set profile=ambient --set values.cni.platform=gke
+{{< /text >}}
+
 #### Namespace restrictions
 
-On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. The Istio CNI node agent and `ztunnel` both require the `node-critical` class, and so in GKE, both components must either:
+On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. The Istio CNI node agent and `ztunnel` both require the `node-critical` class.
 
-- Be installed into `kube-system` (_not_ `istio-system`)
-- Be installed into another namespace (such as `istio-system`) in which a ResourceQuota has been manually created, for example:
+By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. Installing Istio with the `ambient` profile creates a ResourceQuota in the `istio-system` namespace.
+
+To install Istio in any other namespace, you must manually create a ResourceQuota:
 
 {{< text syntax=yaml >}}
 apiVersion: v1
@@ -40,30 +57,6 @@ spec:
       values:
       - system-node-critical
 {{< /text >}}
-
-#### Platform profile
-
-When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
-
-{{< tabset category-name="install-method" >}}
-
-{{< tab name="Helm" category-value="helm" >}}
-
-    {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="istioctl" category-value="istioctl" >}}
-
-    {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=gke
-    {{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
 
 ### Amazon Elastic Kubernetes Service (EKS)
 
@@ -271,7 +264,9 @@ The following configurations apply to all platforms, when certain {{< gloss "CNI
 
 1. Cilium currently defaults to proactively deleting other CNI plugins and their config, and must be configured with
 `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
+
 1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
+
 1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
 applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
