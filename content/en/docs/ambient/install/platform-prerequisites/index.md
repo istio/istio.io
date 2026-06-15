@@ -21,17 +21,25 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
 
-#### istioctl ambient
+{{< tabset category-name="install-method" >}}
 
-{{< text syntax=bash >}}
-$ istioctl install --set profile=ambient --set values.cni.platform=gke
-{{< /text >}}
+{{< tab name="Helm" category-value="helm" >}}
 
-#### Helm ambient
+    {{< text syntax=bash >}}
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=gke --wait
+    {{< /text >}}
 
-{{< text syntax=bash >}}
-$ helm install istio-cni charts/cni --set profile=ambient --set values.cni.platform=gke
-{{< /text >}}
+{{< /tab >}}
+
+{{< tab name="istioctl" category-value="istioctl" >}}
+
+    {{< text syntax=bash >}}
+    $ istioctl install --set profile=ambient --set values.global.platform=gke
+    {{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 #### Namespace restrictions
 
@@ -221,6 +229,12 @@ For example:
 
 OpenShift requires that `ztunnel` and `istio-cni` components are installed in the `kube-system` namespace, and that you set `global.platform=openshift` for all charts.
 
+While deploying Ambient dataplane mode on OpenShift, set `routingViaHost: true` in the `gatewayConfig` spec to enable OVN-Kubernetes
+`local` gateway mode. This one-time configuration is required if your pod manifests include liveness or readiness probes, as it ensures
+that probe traffic is routed through the host and applied to the host’s routing table, which is necessary for the probes to function
+correctly. To configure the gateway mode at runtime, follow the steps described
+[here](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway).
+
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
@@ -258,9 +272,7 @@ The following configurations apply to all platforms, when certain {{< gloss "CNI
 
 1. Cilium currently defaults to proactively deleting other CNI plugins and their config, and must be configured with
 `cni.exclusive = false` to properly support chaining. See [the Cilium documentation](https://docs.cilium.io/en/stable/helm-reference/) for more details.
-
 1. Cilium's BPF masquerading is currently disabled by default, and has issues with Istio's use of link-local IPs for Kubernetes health checking. Enabling BPF masquerading via `bpf.masquerade=true` is not currently supported, and results in non-functional pod health checks in Istio ambient. Cilium's default iptables masquerading implementation should continue to function correctly.
-
 1. Due to how Cilium manages node identity and internally allow-lists node-level health probes to pods,
 applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Istio in ambient mode will cause `kubelet` health probes (which are by-default silently exempted from all policy enforcement by Cilium) to be blocked. This is because Istio uses a link-local SNAT address for kubelet health probes, which Cilium is not aware of, and Cilium does not have an option to exempt link-local addresses from policy enforcement.
 
@@ -285,3 +297,5 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
     This policy override is *not* required unless you already have other default-deny `NetworkPolicies` or `CiliumNetworkPolicies` applied in your cluster.
 
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
+
+When Cilium is used to replace kube-proxy, take note of the additional configuration options required to ensure proper operation with Istio in ambient mode described in the [Cilium documentation](https://docs.cilium.io/en/stable/network/servicemesh/istio/).
