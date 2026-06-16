@@ -17,30 +17,6 @@ Certain Kubernetes environments require you to set various Istio configuration o
 
 ### Google Kubernetes Engine (GKE)
 
-#### Namespace restrictions
-
-On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. The Istio CNI node agent and `ztunnel` both require the `node-critical` class, and so in GKE, both components must either:
-
-- Be installed into `kube-system` (_not_ `istio-system`)
-- Be installed into another namespace (such as `istio-system`) in which a ResourceQuota has been manually created, for example:
-
-{{< text syntax=yaml >}}
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: gcp-critical-pods
-  namespace: istio-system
-spec:
-  hard:
-    pods: 1000
-  scopeSelector:
-    matchExpressions:
-    - operator: In
-      scopeName: PriorityClass
-      values:
-      - system-node-critical
-{{< /text >}}
-
 #### Platform profile
 
 When using GKE you must append the correct `platform` value to your installation commands, as GKE uses nonstandard locations for CNI binaries which requires Helm overrides.
@@ -64,6 +40,31 @@ When using GKE you must append the correct `platform` value to your installation
 {{< /tab >}}
 
 {{< /tabset >}}
+
+#### Namespace restrictions
+
+On GKE, any pods with the [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) `priorityClassName` can only be installed in namespaces that have a [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/) defined. The Istio CNI node agent and `ztunnel` both require the `node-critical` class.
+
+By default in GKE, only `kube-system` has a defined ResourceQuota for the `node-critical` class. Installing Istio with the `ambient` profile creates a ResourceQuota in the `istio-system` namespace.
+
+To install Istio in any other namespace, you must manually create a ResourceQuota:
+
+{{< text syntax=yaml >}}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: gcp-critical-pods
+  namespace: istio-system
+spec:
+  hard:
+    pods: 1000
+  scopeSelector:
+    matchExpressions:
+    - operator: In
+      scopeName: PriorityClass
+      values:
+      - system-node-critical
+{{< /text >}}
 
 ### Amazon Elastic Kubernetes Service (EKS)
 
