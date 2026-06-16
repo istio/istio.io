@@ -31,7 +31,7 @@ The approach in this task adds dedicated mTLS-protected listeners so that Promet
 
 Prometheus must present a valid certificate trusted by the mesh CA when scraping the secure ports. The simplest way to provision those credentials is to inject an Istio sidecar into the Prometheus pod and use `OUTPUT_CERTS` to write the workload certificate to a shared volume.
 
-The `prometheus-secure-metrics` sample (`samples/addons/extras/prometheus-secure-metrics.yaml`) is a standalone Prometheus deployment with sidecar injection, certificate export, and the mTLS scrape jobs pre-configured. Use it **instead of** `samples/addons/prometheus.yaml` - do not apply both files, as they define the same resource names.
+The `prometheus-secure-metrics` sample (`samples/addons/extras/prometheus-secure-metrics.yaml`) is a standalone replacement for `samples/addons/prometheus.yaml` with sidecar injection, certificate export, and the mTLS scrape jobs pre-configured.
 
 1. Deploy Prometheus with mTLS scraping pre-configured:
 
@@ -102,10 +102,17 @@ This example uses `httpbin` as the workload.
     * The value of `ENVOY_SECURE_METRICS_PORT` (`15091`) is the mTLS listener port for **Envoy-only** stats.
     * The value of `ENVOY_SECURE_MERGED_METRICS_PORT` (`15092`) is the mTLS listener port for **merged** metrics (Envoy + application + agent).
 
-1. Verify the secure listeners are configured on the `httpbin` sidecar:
+1. Set environment variables used in the following verification steps:
 
     {{< text bash >}}
     $ export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].metadata.name}')
+    $ export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
+    $ export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
+    {{< /text >}}
+
+1. Verify the secure listeners are configured on the `httpbin` sidecar:
+
+    {{< text bash >}}
     $ istioctl proxy-config listeners $HTTPBIN_POD -n default | grep -E "15090|15091|15092"
     0.0.0.0       15090 ALL                                                                                     Inline Route: /stats/prometheus*
     0.0.0.0       15091 Trans: tls                                                                              Inline Route: /stats/prometheus*
@@ -256,8 +263,6 @@ After completing the configuration, verify that Prometheus is successfully scrap
 1. Verify mTLS scraping succeeds by curling the secure port from the Prometheus pod using its workload certificate:
 
     {{< text bash >}}
-    $ export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
-    $ export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
     $ kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
         curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
         --cacert /etc/istio-certs/root-cert.pem \
@@ -277,8 +282,6 @@ After completing the configuration, verify that Prometheus is successfully scrap
 1. Verify mTLS is enforced by confirming that a plain HTTP request to the secure port is rejected:
 
     {{< text bash >}}
-    $ export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].metadata.name}')
-    $ export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
     $ kubectl exec -n default $HTTPBIN_POD -c istio-proxy -- curl -s --max-time 3 http://$HTTPBIN_IP:15091/stats/prometheus
     upstream connect error or disconnect/reset before headers. reset reason: connection termination
     {{< /text >}}

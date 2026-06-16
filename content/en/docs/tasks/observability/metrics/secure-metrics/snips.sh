@@ -56,10 +56,15 @@ kubectl patch deployment httpbin -n default --type=merge --patch-file=/tmp/httpb
 
 snip_enable_on_a_sidecar_workload_3() {
 export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].metadata.name}')
+export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
+export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
+}
+
+snip_enable_on_a_sidecar_workload_4() {
 istioctl proxy-config listeners $HTTPBIN_POD -n default | grep -E "15090|15091|15092"
 }
 
-! IFS=$'\n' read -r -d '' snip_enable_on_a_sidecar_workload_3_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enable_on_a_sidecar_workload_4_out <<\ENDSNIP
 0.0.0.0       15090 ALL                                                                                     Inline Route: /stats/prometheus*
 0.0.0.0       15091 Trans: tls                                                                              Inline Route: /stats/prometheus*
 0.0.0.0       15092 Trans: tls                                                                              Inline Route: /stats/prometheus*, /metrics*
@@ -163,8 +168,6 @@ istioctl install -f ./istio-secure-metrics.yaml
 }
 
 snip_verify_secure_metrics_scraping_with_prometheus_1() {
-export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
-export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
 kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
     curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
     --cacert /etc/istio-certs/root-cert.pem \
@@ -179,8 +182,6 @@ kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
 ENDSNIP
 
 snip_verify_secure_metrics_scraping_with_prometheus_2() {
-export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].metadata.name}')
-export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
 kubectl exec -n default $HTTPBIN_POD -c istio-proxy -- curl -s --max-time 3 http://$HTTPBIN_IP:15091/stats/prometheus
 }
 

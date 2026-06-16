@@ -37,15 +37,13 @@ _wait_for_deployment default httpbin
 snip_enable_on_a_sidecar_workload_2
 _wait_for_deployment default httpbin
 
-# Set env vars used by subsequent snips
-export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].metadata.name}')
-export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
-export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
+# Set env vars used by all subsequent verify steps
+snip_enable_on_a_sidecar_workload_3
 
 # Verify the mTLS listeners (15091, 15092) are active on the httpbin sidecar
-_verify_like snip_enable_on_a_sidecar_workload_3 "$snip_enable_on_a_sidecar_workload_3_out"
+_verify_like snip_enable_on_a_sidecar_workload_4 "$snip_enable_on_a_sidecar_workload_4_out"
 
-# Verify mTLS scraping succeeds: Prometheus pod's sidecar curls httpbin with workload certs → HTTP 200
+# Verify mTLS scraping succeeds: Prometheus pod's sidecar curls httpbin with workload certs -> HTTP 200
 _verify_same snip_verify_secure_metrics_scraping_with_prometheus_1 "$snip_verify_secure_metrics_scraping_with_prometheus_1_out"
 
 # Verify mTLS is enforced: plain HTTP to the secure port must be rejected
