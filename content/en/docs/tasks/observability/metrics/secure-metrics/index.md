@@ -4,7 +4,7 @@ description: This task shows how to securely scrape Istio workload and gateway m
 weight: 50
 keywords: [telemetry,metrics,prometheus,istio,mtls,secure-metrics]
 owner: istio/wg-policies-and-telemetry-maintainers
-test: no
+test: yes
 ---
 
 This task demonstrates how to **securely scrape Istio sidecar and gateway metrics** using Prometheus over **Istio mTLS**. By default, Prometheus scrapes metrics from Istio workloads and gateways over plain HTTP. In this task, you configure Istio and Prometheus so that metrics are scraped securely over mutually-authenticated TLS connections. This document focuses on Envoy and Istio-generated telemetry exposed by sidecars and gateways. For general Prometheus integration with Istio, including application metrics, see the [Prometheus integration](/docs/ops/integrations/prometheus/) documentation.
@@ -31,85 +31,26 @@ The approach in this task adds dedicated mTLS-protected listeners so that Promet
 
 Prometheus must present a valid certificate trusted by the mesh CA when scraping the secure ports. The simplest way to provision those credentials is to inject an Istio sidecar into the Prometheus pod and use `OUTPUT_CERTS` to write the workload certificate to a shared volume.
 
-The steps below use the Istio sample Prometheus addon (`samples/addons/prometheus.yaml`), which deploys Prometheus into the `istio-system` namespace. The sidecar is injected via a pod-level annotation, so no namespace-level injection label is needed.
+The `prometheus-secure-metrics` sample (`samples/addons/extras/prometheus-secure-metrics.yaml`) is a standalone Prometheus deployment with sidecar injection, certificate export, and the mTLS scrape jobs pre-configured. Use it **instead of** `samples/addons/prometheus.yaml` - do not apply both files, as they define the same resource names.
 
-1. Deploy Prometheus and inject the sidecar
-
-    Apply the Istio sample Prometheus addon, then patch the `prometheus` Deployment to enable sidecar injection and certificate export:
+1. Deploy Prometheus with mTLS scraping pre-configured:
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/addons/prometheus.yaml@
-    $ cat <<'EOF' > /tmp/prometheus-secure-patch.yaml
-    spec:
-      template:
-        metadata:
-          labels:
-            sidecar.istio.io/inject: "true"
-          annotations:
-            sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-certs"}]'
-            proxy.istio.io/config: |
-              proxyMetadata:
-                OUTPUT_CERTS: /etc/istio-certs
-                INBOUND_CAPTURE_PORTS: ""
-        spec:
-          containers:
-          - name: prometheus-server
-            volumeMounts:
-            - name: istio-certs
-              mountPath: /etc/istio-certs
-          volumes:
-          - name: istio-certs
-            emptyDir: {}
-    EOF
-    $ kubectl patch deployment prometheus -n istio-system --type=strategic --patch-file=/tmp/prometheus-secure-patch.yaml
+    $ kubectl apply -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
     $ kubectl rollout status deployment/prometheus -n istio-system
     {{< /text >}}
 
+    The sample configures the following key settings compared to the standard Prometheus addon:
+
+    * `sidecar.istio.io/inject: "true"` **label** - overrides the `"false"` default on the Prometheus pod, enabling sidecar injection.
+    * `OUTPUT_CERTS: /etc/istio-certs` - instructs the sidecar to write the workload certificate, key, and root CA to a shared volume so Prometheus can read them for mTLS scraping.
+    * `INBOUND_CAPTURE_PORTS: ""` - prevents the sidecar from intercepting inbound Prometheus traffic; the sidecar is used solely for certificate provisioning.
+    * `sidecar.istio.io/userVolumeMount` - mounts the certificate volume into the `istio-proxy` container so it can write certificates. The same volume is also mounted into `prometheus-server` so it can read them. Both mounts are required.
+    * **Scrape jobs** - the ConfigMap contains two pre-configured mTLS scrape jobs (`istio-secure-merged-metrics` on port `15092`, `istio-secure-envoy-metrics` on port `15091`) that discover pods via the `prometheus.istio.io/secure-port` and `prometheus.istio.io/secure-envoy-port` annotations.
+
     {{< tip >}}
-    The Istio sidecar injected into the Prometheus pod is used only to provision an Istio workload certificate for mTLS authentication. Traffic interception is explicitly disabled via `INBOUND_CAPTURE_PORTS: ""` and Prometheus continues to operate as a standard Kubernetes workload. As an alternative, Istio can be integrated with [cert-manager](/docs/ops/integrations/certmanager/) to provision certificates for Prometheus. In that model, an Istio sidecar is not required.
+    As an alternative to sidecar-based certificate provisioning, Istio can be integrated with [cert-manager](/docs/ops/integrations/certmanager/) to provision certificates for Prometheus. In that model, an Istio sidecar is not required.
     {{< /tip >}}
-
-    **Notes:**
-
-    * The `sidecar.istio.io/inject: "true"` **label** overrides the `"false"` label set by the Prometheus Helm chart, enabling sidecar injection.
-    * `OUTPUT_CERTS` instructs the sidecar to write the workload certificate, key, and root CA to `/etc/istio-certs` so Prometheus can read them.
-    * `INBOUND_CAPTURE_PORTS: ""` prevents the sidecar from intercepting inbound Prometheus traffic.
-    * `userVolumeMount` mounts the certificate directory into the sidecar (`istio-proxy`) so it can write certificates via `OUTPUT_CERTS`. The explicit `volumeMounts` entry on `prometheus-server` mounts the same volume into the Prometheus container so it can read those certificates. Both mounts are required.
-
-1. Add a secure scrape job to the Prometheus configuration
-
-    Edit the `prometheus` ConfigMap in the `istio-system` namespace and add the following job to `scrape_configs`:
-
-    {{< text bash >}}
-    $ kubectl edit configmap prometheus -n istio-system
-    {{< /text >}}
-
-    Locate the `scrape_configs:` key inside `prometheus.yml` and insert the job below it:
-
-    {{< text yaml >}}
-    - job_name: 'istio-secure-metrics'
-      kubernetes_sd_configs:
-      - role: pod
-      relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_istio_io_secure_port]
-        action: keep
-        regex: .+
-      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
-        action: replace
-        target_label: __metrics_path__
-        regex: (.+)
-      - source_labels: [__meta_kubernetes_pod_ip, __meta_kubernetes_pod_annotation_prometheus_istio_io_secure_port]
-        action: replace
-        target_label: __address__
-        regex: (.+);(.+)
-        replacement: $1:$2
-      scheme: https
-      tls_config:
-        ca_file: /etc/istio-certs/root-cert.pem
-        cert_file: /etc/istio-certs/cert-chain.pem
-        key_file: /etc/istio-certs/key.pem
-        insecure_skip_verify: true
-    {{< /text >}}
 
 1. Verify the Prometheus pod has an Istio sidecar injected and is running:
 
@@ -121,7 +62,7 @@ The steps below use the Istio sample Prometheus addon (`samples/addons/prometheu
 
 ## Enable native mTLS metrics ports (Istio 1.31+)
 
-Istio 1.31 introduced two environment variables that inject mTLS-protected static bootstrap listeners directly into every Envoy proxy — both sidecar and gateway proxies:
+Istio 1.31 introduced two environment variables that inject mTLS-protected static bootstrap listeners directly into every Envoy proxy - both sidecar and gateway proxies:
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
@@ -184,7 +125,7 @@ The same variables work identically on gateway proxies since they use the same `
 1. Patch the ingress gateway Deployment:
 
     {{< text bash >}}
-    $ cat <<'EOF' > /tmp/gateway-secure-metrics-patch.yaml
+    $ cat <<EOF > /tmp/gateway-secure-metrics-patch.yaml
     spec:
       template:
         metadata:
@@ -223,7 +164,7 @@ The same variables work identically on gateway proxies since they use the same `
 1. Patch the `Gateway` resource to enable the secure listeners:
 
     {{< text bash >}}
-    $ cat <<'EOF' > /tmp/gateway-api-secure-metrics-patch.yaml
+    $ cat <<EOF > /tmp/gateway-api-secure-metrics-patch.yaml
     spec:
       infrastructure:
         annotations:
@@ -303,7 +244,7 @@ EOF
 $ istioctl install -f ./istio-secure-metrics.yaml
 {{< /text >}}
 
-When installed this way, `istioctl` renders the gateway Deployment with the `proxyMetadata` values as container env vars directly, activating the secure listeners on both sidecars and gateways. The `components.ingressGateways.k8s.podAnnotations` block adds the Prometheus discovery annotations to gateway pods. For sidecar workloads, `prometheus.istio.io/secure-port` is automatically set by the sidecar injector to the value of `ENVOY_SECURE_MERGED_METRICS_PORT` — no per-Deployment annotation is needed.
+When installed this way, `istioctl` renders the gateway Deployment with the `proxyMetadata` values as container env vars directly, activating the secure listeners on both sidecars and gateways. The `components.ingressGateways.k8s.podAnnotations` block adds the Prometheus discovery annotations to gateway pods. For sidecar workloads, `prometheus.istio.io/secure-port` is automatically set by the sidecar injector to the value of `ENVOY_SECURE_MERGED_METRICS_PORT` - no per-Deployment annotation is needed.
 {{< /tip >}}
 
 ## Verification
@@ -312,20 +253,26 @@ When installed this way, `istioctl` renders the gateway Deployment with the `pro
 
 After completing the configuration, verify that Prometheus is successfully scraping metrics over **mutual TLS**.
 
-1. Open the Prometheus dashboard
+1. Verify mTLS scraping succeeds by curling the secure port from the Prometheus pod using its workload certificate:
 
     {{< text bash >}}
-    $ istioctl dashboard prometheus
+    $ export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
+    $ export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
+    $ kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
+        curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
+        --cacert /etc/istio-certs/root-cert.pem \
+        --cert /etc/istio-certs/cert-chain.pem \
+        --key /etc/istio-certs/key.pem \
+        --insecure \
+        https://$HTTPBIN_IP:15092/stats/prometheus
+    200
     {{< /text >}}
 
-    This command opens the Prometheus dashboard in your default browser.
+    An HTTP `200` response confirms that the Prometheus pod successfully completed an mTLS handshake with httpbin's port `15092` and retrieved metrics. The `--insecure` flag skips hostname verification only - Istio workload certificates use SPIFFE URI SANs (e.g. `spiffe://cluster.local/ns/default/sa/httpbin`) rather than IP addresses, so curl cannot match the pod IP against the cert. The mutual TLS handshake and certificate exchange still occur, which is why `--cacert`, `--cert`, and `--key` are still required. This is also why the Prometheus scrape job uses `insecure_skip_verify: true`.
 
-1. Verify scrape targets
+1. Verify scrape targets in the Prometheus UI
 
-    1. In the Prometheus UI, navigate to **Status → Targets**.
-    1. Locate the job named `istio-secure-metrics`.
-
-    Verify that the targets for the httpbin workload and the Istio Ingress Gateway are listed with endpoints similar to `https://<pod-ip>:15092/stats/prometheus` and a status of **UP**.
+    Open the Prometheus dashboard with `istioctl dashboard prometheus -n istio-system`, then navigate to **Status → Targets**. Verify that the `istio-secure-merged-metrics` and `istio-secure-envoy-metrics` jobs list the `httpbin` pod with a status of **UP** and endpoints in the form `https://<pod-ip>:15092/stats/prometheus`.
 
 1. Verify mTLS is enforced by confirming that a plain HTTP request to the secure port is rejected:
 
@@ -336,13 +283,40 @@ After completing the configuration, verify that Prometheus is successfully scrap
     upstream connect error or disconnect/reset before headers. reset reason: connection termination
     {{< /text >}}
 
-    The connection termination error confirms the port only accepts TLS connections — a plain HTTP request is rejected immediately.
+    The connection termination error confirms the port only accepts TLS connections - a plain HTTP request is rejected immediately.
 
 This confirms that Prometheus is scraping metrics using **HTTPS over Istio mTLS** via the native secure ports, rather than directly accessing the plaintext telemetry ports (`15020` or `15090`).
 
+## Cleanup
+
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text bash >}}
+$ kubectl delete -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
+$ kubectl delete -f @samples/httpbin/httpbin.yaml@
+$ kubectl label namespace default istio-injection-
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
+$ kubectl delete -f @samples/httpbin/httpbin.yaml@
+$ kubectl delete gateway istio-ingressgateway -n istio-system
+$ kubectl label namespace default istio-injection-
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 ## Legacy workaround (Istio < 1.31)
 
-If you are running Istio older than 1.31, the native env-var approach is not available. The steps below demonstrate one way to achieve secure metrics scraping using Istio CRDs: a secure TLS frontend is created on port `15091` (exposed to Prometheus) that routes internally to either port `15020` (merged metrics — Envoy + application + agent) or `15090` (Envoy-only metrics). Scrapers connect to `15091` over `ISTIO_MUTUAL` TLS; the `ServiceEntry` and `VirtualService` handle the internal routing to the plaintext backend.
+If you are running Istio older than 1.31, the native env-var approach is not available. The steps below demonstrate one way to achieve secure metrics scraping using Istio CRDs: a secure TLS frontend is created on port `15091` (exposed to Prometheus) that routes internally to either port `15020` (merged metrics - Envoy + application + agent) or `15090` (Envoy-only metrics). Scrapers connect to `15091` over `ISTIO_MUTUAL` TLS; the `ServiceEntry` and `VirtualService` handle the internal routing to the plaintext backend.
 
 ### Legacy: Secure metrics for sidecars
 
@@ -461,42 +435,14 @@ If you are running Istio older than 1.31, the native env-var approach is not ava
       --overwrite
     {{< /text >}}
 
-## Cleanup
-
-### Cleanup: native mTLS metrics ports (Istio 1.31+)
-
-{{< tabset category-name="config-api" >}}
-
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
-
-{{< text bash >}}
-$ kubectl delete -f @samples/addons/prometheus.yaml@
-$ kubectl delete -f @samples/httpbin/httpbin.yaml@
-$ killall istioctl
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Gateway API" category-value="gateway-api" >}}
-
-{{< text bash >}}
-$ kubectl delete -f @samples/addons/prometheus.yaml@
-$ kubectl delete -f @samples/httpbin/httpbin.yaml@
-$ kubectl delete gateway istio-ingressgateway -n istio-system
-$ killall istioctl
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-### Cleanup: legacy workaround (Istio < 1.31)
+### Cleanup
 
 {{< text bash >}}
 $ kubectl delete sidecar secure-metrics -n default
 $ kubectl delete gateway metrics-gateway -n istio-system
 $ kubectl delete serviceentry gateway-admin -n istio-system
 $ kubectl delete virtualservice gateway-metrics -n istio-system
-$ kubectl delete -f @samples/addons/prometheus.yaml@
+$ kubectl delete -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
+$ kubectl label namespace default istio-injection-
 {{< /text >}}
