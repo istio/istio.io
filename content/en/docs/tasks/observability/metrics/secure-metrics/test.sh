@@ -50,4 +50,6 @@ _verify_same snip_verify_secure_metrics_scraping_with_prometheus_1 "$snip_verify
 _verify_contains snip_verify_secure_metrics_scraping_with_prometheus_2 "connection termination"
 
 # @cleanup
-snip_cleanup_1
+kubectl delete -n istio-system -f samples/addons/extras/prometheus-secure-metrics.yaml
+kubectl delete -f samples/httpbin/httpbin.yaml
+kubectl label namespace default istio-injection-

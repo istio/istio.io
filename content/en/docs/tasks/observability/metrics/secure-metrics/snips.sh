@@ -61,7 +61,7 @@ export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prom
 }
 
 snip_enable_on_a_sidecar_workload_4() {
-istioctl proxy-config listeners $HTTPBIN_POD -n default | grep -E "15090|15091|15092"
+istioctl proxy-config listeners "$HTTPBIN_POD" -n default | grep -E "15090|15091|15092"
 }
 
 ! IFS=$'\n' read -r -d '' snip_enable_on_a_sidecar_workload_4_out <<\ENDSNIP
@@ -93,7 +93,7 @@ kubectl rollout status deployment/istio-ingressgateway -n istio-system
 
 snip_enable_on_a_gateway_2() {
 export GW_POD=$(kubectl get pod -n istio-system -l app=istio-ingressgateway -o jsonpath='{.items[0].metadata.name}')
-istioctl proxy-config listeners $GW_POD -n istio-system | grep -E "15090|15091|15092"
+istioctl proxy-config listeners "$GW_POD" -n istio-system | grep -E "15090|15091|15092"
 }
 
 ! IFS=$'\n' read -r -d '' snip_enable_on_a_gateway_2_out <<\ENDSNIP
@@ -119,7 +119,7 @@ kubectl patch gateway istio-ingressgateway -n istio-system --type=merge --patch-
 
 snip_enable_on_a_gateway_4() {
 export GW_POD=$(kubectl get pod -n istio-system -l gateway.networking.k8s.io/gateway-name=istio-ingressgateway -o jsonpath='{.items[0].metadata.name}')
-istioctl proxy-config listeners $GW_POD -n istio-system | grep -E "15090|15091|15092"
+istioctl proxy-config listeners "$GW_POD" -n istio-system | grep -E "15090|15091|15092"
 }
 
 ! IFS=$'\n' read -r -d '' snip_enable_on_a_gateway_4_out <<\ENDSNIP
@@ -168,13 +168,13 @@ istioctl install -f ./istio-secure-metrics.yaml
 }
 
 snip_verify_secure_metrics_scraping_with_prometheus_1() {
-kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
+kubectl exec -n istio-system "$PROM_POD" -c istio-proxy -- \
     curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
     --cacert /etc/istio-certs/root-cert.pem \
     --cert /etc/istio-certs/cert-chain.pem \
     --key /etc/istio-certs/key.pem \
     --insecure \
-    https://$HTTPBIN_IP:15092/stats/prometheus
+    https://"$HTTPBIN_IP":15092/stats/prometheus
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_secure_metrics_scraping_with_prometheus_1_out <<\ENDSNIP
@@ -182,18 +182,12 @@ kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
 ENDSNIP
 
 snip_verify_secure_metrics_scraping_with_prometheus_2() {
-kubectl exec -n default $HTTPBIN_POD -c istio-proxy -- curl -s --max-time 3 http://$HTTPBIN_IP:15091/stats/prometheus
+kubectl exec -n default "$HTTPBIN_POD" -c istio-proxy -- curl -s --max-time 3 http://"$HTTPBIN_IP":15091/stats/prometheus
 }
 
 ! IFS=$'\n' read -r -d '' snip_verify_secure_metrics_scraping_with_prometheus_2_out <<\ENDSNIP
 upstream connect error or disconnect/reset before headers. reset reason: connection termination
 ENDSNIP
-
-snip_cleanup_1() {
-kubectl delete -n istio-system -f samples/addons/extras/prometheus-secure-metrics.yaml
-kubectl delete -f samples/httpbin/httpbin.yaml
-kubectl label namespace default istio-injection-
-}
 
 snip_cleanup_2() {
 kubectl delete -n istio-system -f samples/addons/extras/prometheus-secure-metrics.yaml

@@ -113,7 +113,7 @@ This example uses `httpbin` as the workload.
 1. Verify the secure listeners are configured on the `httpbin` sidecar:
 
     {{< text bash >}}
-    $ istioctl proxy-config listeners $HTTPBIN_POD -n default | grep -E "15090|15091|15092"
+    $ istioctl proxy-config listeners "$HTTPBIN_POD" -n default | grep -E "15090|15091|15092"
     0.0.0.0       15090 ALL                                                                                     Inline Route: /stats/prometheus*
     0.0.0.0       15091 Trans: tls                                                                              Inline Route: /stats/prometheus*
     0.0.0.0       15092 Trans: tls                                                                              Inline Route: /stats/prometheus*, /metrics*
@@ -156,7 +156,7 @@ The same variables work identically on gateway proxies since they use the same `
 
     {{< text bash >}}
     $ export GW_POD=$(kubectl get pod -n istio-system -l app=istio-ingressgateway -o jsonpath='{.items[0].metadata.name}')
-    $ istioctl proxy-config listeners $GW_POD -n istio-system | grep -E "15090|15091|15092"
+    $ istioctl proxy-config listeners "$GW_POD" -n istio-system | grep -E "15090|15091|15092"
     0.0.0.0   15090 ALL        Inline Route: /stats/prometheus*
     0.0.0.0   15091 Trans: tls Inline Route: /stats/prometheus*
     0.0.0.0   15092 Trans: tls Inline Route: /stats/prometheus*, /metrics*
@@ -189,7 +189,7 @@ The same variables work identically on gateway proxies since they use the same `
 
     {{< text bash >}}
     $ export GW_POD=$(kubectl get pod -n istio-system -l gateway.networking.k8s.io/gateway-name=istio-ingressgateway -o jsonpath='{.items[0].metadata.name}')
-    $ istioctl proxy-config listeners $GW_POD -n istio-system | grep -E "15090|15091|15092"
+    $ istioctl proxy-config listeners "$GW_POD" -n istio-system | grep -E "15090|15091|15092"
     0.0.0.0   15090 ALL        Inline Route: /stats/prometheus*
     0.0.0.0   15091 Trans: tls Inline Route: /stats/prometheus*
     0.0.0.0   15092 Trans: tls Inline Route: /stats/prometheus*, /metrics*
@@ -263,13 +263,13 @@ After completing the configuration, verify that Prometheus is successfully scrap
 1. Verify mTLS scraping succeeds by curling the secure port from the Prometheus pod using its workload certificate:
 
     {{< text bash >}}
-    $ kubectl exec -n istio-system $PROM_POD -c istio-proxy -- \
+    $ kubectl exec -n istio-system "$PROM_POD" -c istio-proxy -- \
         curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
         --cacert /etc/istio-certs/root-cert.pem \
         --cert /etc/istio-certs/cert-chain.pem \
         --key /etc/istio-certs/key.pem \
         --insecure \
-        https://$HTTPBIN_IP:15092/stats/prometheus
+        https://"$HTTPBIN_IP":15092/stats/prometheus
     200
     {{< /text >}}
 
@@ -282,7 +282,7 @@ After completing the configuration, verify that Prometheus is successfully scrap
 1. Verify mTLS is enforced by confirming that a plain HTTP request to the secure port is rejected:
 
     {{< text bash >}}
-    $ kubectl exec -n default $HTTPBIN_POD -c istio-proxy -- curl -s --max-time 3 http://$HTTPBIN_IP:15091/stats/prometheus
+    $ kubectl exec -n default "$HTTPBIN_POD" -c istio-proxy -- curl -s --max-time 3 http://"$HTTPBIN_IP":15091/stats/prometheus
     upstream connect error or disconnect/reset before headers. reset reason: connection termination
     {{< /text >}}
 
@@ -296,7 +296,7 @@ This confirms that Prometheus is scraping metrics using **HTTPS over Istio mTLS*
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-{{< text bash >}}
+{{< text bash snip_id=none >}}
 $ kubectl delete -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 $ kubectl label namespace default istio-injection-
