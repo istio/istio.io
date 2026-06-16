@@ -31,9 +31,9 @@ The approach in this task adds dedicated mTLS-protected listeners so that Promet
 
 Prometheus must present a valid certificate trusted by the mesh CA when scraping the secure ports. The simplest way to provision those credentials is to inject an Istio sidecar into the Prometheus pod and use `OUTPUT_CERTS` to write the workload certificate to a shared volume.
 
-The `prometheus-secure-metrics` sample (`samples/addons/extras/prometheus-secure-metrics.yaml`) is a standalone replacement for `samples/addons/prometheus.yaml` with sidecar injection, certificate export, and the mTLS scrape jobs pre-configured.
+The `prometheus-secure-metrics` sample (`samples/addons/extras/prometheus-secure-metrics.yaml`) is a standalone replacement for `samples/addons/prometheus.yaml` with sidecar injection, certificate export, and the mTLS scrape jobs preconfigured.
 
-1. Deploy Prometheus with mTLS scraping pre-configured:
+1. Deploy Prometheus with mTLS scraping preconfigured:
 
     {{< text bash >}}
     $ kubectl apply -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
@@ -46,7 +46,7 @@ The `prometheus-secure-metrics` sample (`samples/addons/extras/prometheus-secure
     * `OUTPUT_CERTS: /etc/istio-certs` - instructs the sidecar to write the workload certificate, key, and root CA to a shared volume so Prometheus can read them for mTLS scraping.
     * `INBOUND_CAPTURE_PORTS: ""` - prevents the sidecar from intercepting inbound Prometheus traffic; the sidecar is used solely for certificate provisioning.
     * `sidecar.istio.io/userVolumeMount` - mounts the certificate volume into the `istio-proxy` container so it can write certificates. The same volume is also mounted into `prometheus-server` so it can read them. Both mounts are required.
-    * **Scrape jobs** - the ConfigMap contains two pre-configured mTLS scrape jobs (`istio-secure-merged-metrics` on port `15092`, `istio-secure-envoy-metrics` on port `15091`) that discover pods via the `prometheus.istio.io/secure-port` and `prometheus.istio.io/secure-envoy-port` annotations.
+    * **Scrape jobs** - the ConfigMap contains two preconfigured mTLS scrape jobs (`istio-secure-merged-metrics` on port `15092`, `istio-secure-envoy-metrics` on port `15091`) that discover pods via the `prometheus.istio.io/secure-port` and `prometheus.istio.io/secure-envoy-port` annotations.
 
     {{< tip >}}
     As an alternative to sidecar-based certificate provisioning, Istio can be integrated with [cert-manager](/docs/ops/integrations/certmanager/) to provision certificates for Prometheus. In that model, an Istio sidecar is not required.
@@ -438,7 +438,7 @@ If you are running Istio older than 1.31, the native env-var approach is not ava
       --overwrite
     {{< /text >}}
 
-### Cleanup
+### Legacy cleanup
 
 {{< text bash >}}
 $ kubectl delete sidecar secure-metrics -n default

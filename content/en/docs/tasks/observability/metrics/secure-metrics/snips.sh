@@ -297,7 +297,7 @@ kubectl annotate pod -n istio-system \
   --overwrite
 }
 
-snip_cleanup_1() {
+snip_legacy_cleanup_1() {
 kubectl delete sidecar secure-metrics -n default
 kubectl delete gateway metrics-gateway -n istio-system
 kubectl delete serviceentry gateway-admin -n istio-system

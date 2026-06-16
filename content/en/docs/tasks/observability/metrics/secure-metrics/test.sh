@@ -21,7 +21,7 @@ set -e
 set -u
 set -o pipefail
 
-# Deploy Prometheus with mTLS scraping pre-configured
+# Deploy Prometheus with mTLS scraping preconfigured
 snip_configure_prometheus_for_mtls_scraping_1
 _wait_for_deployment istio-system prometheus
 
