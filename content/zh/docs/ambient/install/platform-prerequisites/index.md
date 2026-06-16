@@ -17,35 +17,6 @@ test: no
 
 ### Google Kubernetes Engine（GKE） {#google-kubernetes-engine-gke}
 
-#### 命名空间限制 {#namespace-restrictions}
-
-在 GKE 上，任何具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
-`priorityClassName` 的 Pod 只能安装在定义了
-[ResourceQuota](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/) 的命名空间中。
-默认情况下，在 GKE 中，只有 `kube-system` 为 `node-critical` 类定义了 ResourceQuota。
-Istio CNI 节点代理和 `ztunnel` 都需要 `node-critical` 类，
-因此在 GKE 中，两个组件都必须满足以下任一条件：
-
-- 安装到 `kube-system`（**不是** `istio-system`）
-- 安装到另一个已手动创建 ResourceQuota 的命名空间（如 `istio-system`），例如：
-
-{{< text syntax=yaml >}}
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: gcp-critical-pods
-  namespace: istio-system
-spec:
-  hard:
-    pods: 1000
-  scopeSelector:
-    matchExpressions:
-    - operator: In
-      scopeName: PriorityClass
-      values:
-      - system-node-critical
-{{< /text >}}
-
 #### 平台配置文件 {#platform-profile}
 
 使用 GKE 时，您必须将正确的 `platform` 值附加到安装命令中，
@@ -70,6 +41,34 @@ spec:
 {{< /tab >}}
 
 {{< /tabset >}}
+
+#### 命名空间限制 {#namespace-restrictions}
+
+在 GKE 上，任何具有 [system-node-critical](https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/)
+`priorityClassName` 的 Pod 只能安装在定义了 [ResourceQuota](https://kubernetes.io/zh-cn/docs/concepts/policy/resource-quotas/)
+的命名空间中。Istio CNI 节点代理和 `ztunnel` 都需要 `node-critical` 类。
+
+在 GKE 中，默认情况下只有 `kube-system` 命名空间为 `node-critical` 类定义了 ResourceQuota。
+使用 `ambient` 配置安装 Istio 时，会在 `istio-system` 命名空间中创建一个 ResourceQuota。
+
+要在任何其他命名空间中安装 Istio，您必须手动创建 ResourceQuota：
+
+{{< text syntax=yaml >}}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: gcp-critical-pods
+  namespace: istio-system
+spec:
+  hard:
+    pods: 1000
+  scopeSelector:
+    matchExpressions:
+    - operator: In
+      scopeName: PriorityClass
+      values:
+      - system-node-critical
+{{< /text >}}
 
 ### Amazon Elastic Kubernetes Service（EKS） {#amazon-elastic-kubernetes-service-EKS}
 
@@ -256,11 +255,11 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni` 组件，
 并且要求为所有 Chart 设置 `global.platform=openshift`。
 
-在 OpenShift 上部署 Ambient 数据平面模式时，请在 `gatewayConfig`
-规范中设置 `routingViaHost: true` 以启用 OVN-Kubernetes `local` 网关模式。
-如果您的 Pod 清单包含存活或就绪探测，则需要进行此一次性配置，
-因为它可以确保探测流量通过主机路由并应用到主机的路由表，这对于探测正常运行至关重要。
-要在运行时配置网关模式，请按照[此处](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway)中描述的步骤进行操作。
+在 OpenShift 上部署 Ambient 数据平面模式时，请在 `gatewayConfig` 规范中设置
+`routingViaHost: true` 以启用 OVN-Kubernetes `local` 网关模式。
+如果您的 Pod 清单包含存活探测或就绪探测，则需要进行此一次性配置，
+因为它可确保探测流量通过主机路由并应用到主机的路由表中，这对于探测正常工作至关重要。
+要在运行时配置网关模式，请按照[此处](https://docs.redhat.com/zh-cn/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway)中描述的步骤进行操作。
 
 {{< tabset category-name="install-method" >}}
 
@@ -335,6 +334,6 @@ OpenShift 要求在 `kube-system` 命名空间中安装 `ztunnel` 和 `istio-cni
     更多细节请参阅 [Issue #49277](https://github.com/istio/istio/issues/49277)
     和 [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy)。
 
-当使用 Cilium 替换 kube-proxy 时，请注意需要进行额外的配置，
-以确保其在 Istio Ambient 模式下正常运行，具体配置方法请参阅
-[Cilium 文档](https://docs.cilium.io/en/stable/network/servicemesh/istio/)。
+当使用 Cilium 替换 kube-proxy 时，请注意
+[Cilium 文档](https://docs.cilium.io/en/stable/network/servicemesh/istio/)中描述的，
+为确保在 Ambient 模式下与 Istio 正确运行所需的额外配置选项。
