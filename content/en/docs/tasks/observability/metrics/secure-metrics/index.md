@@ -296,7 +296,7 @@ This confirms that Prometheus is scraping metrics using **HTTPS over Istio mTLS*
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
-{{< text bash snip_id=none >}}
+{{< text syntax=bash snip_id=none >}}
 $ kubectl delete -n istio-system -f @samples/addons/extras/prometheus-secure-metrics.yaml@
 $ kubectl delete -f @samples/httpbin/httpbin.yaml@
 $ kubectl label namespace default istio-injection-
