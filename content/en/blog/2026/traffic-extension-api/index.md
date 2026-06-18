@@ -2,7 +2,7 @@
 title: "Introducing the TrafficExtension API"
 description: A new unified API for extending Envoy proxies in Istio with WebAssembly and Lua, supporting both sidecar and ambient mode.
 publishdate: 2026-05-18
-attribution: "Liam White"
+attribution: "Liam White - Docusign"
 keywords: [istio, wasm, lua, extensibility, ambient, traffic extension]
 target_release: "1.30"
 ---
