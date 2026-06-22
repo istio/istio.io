@@ -39,6 +39,8 @@ _wait_for_deployment default httpbin
 
 # Set env vars used by all subsequent verify steps
 snip_enable_on_a_sidecar_workload_3
+# Override HTTPBIN_POD to ensure we have the new running pod, not a stale terminating one
+export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin --field-selector=status.phase=Running -o jsonpath='{.items[0].metadata.name}')
 
 # Verify the mTLS listeners (15091, 15092) are active on the httpbin sidecar
 _verify_like snip_enable_on_a_sidecar_workload_4 "$snip_enable_on_a_sidecar_workload_4_out"
