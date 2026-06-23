@@ -74,8 +74,7 @@ When set, Envoy adds the configured listeners at bootstrap time. Scrapers must p
 ### Enable on a sidecar workload
 
 This example uses `httpbin` as the workload. The manifest below is based on
-[samples/httpbin/httpbin.yaml]({{< github_file >}}/samples/httpbin/httpbin.yaml)
-with the secure metrics annotations added to the Deployment.
+the [httpbin]({{< github_tree >}}/samples/httpbin) sample with the secure metrics annotations added to the Deployment.
 
 1. Deploy `httpbin` with secure metrics ports enabled:
 
