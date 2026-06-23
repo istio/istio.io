@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 89
+number_of_entries: 90
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -587,6 +587,18 @@ For example, a user could enable min TLS version for ISTIO_MUTUAL traffic and sp
 <td>
 <p>Configuration of TLS for all traffic except for ISTIO_MUTUAL mode.
 For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-default_traffic_policy">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-default_traffic_policy">defaultTrafficPolicy</a></code></div>
+<div class="type"><a href="#MeshConfig-DefaultTrafficPolicy">DefaultTrafficPolicy</a></div>
+</div></td>
+<td>
+<p>The default traffic policy applied to outbound clusters in the mesh, providing a
+baseline that DestinationRules inherit and override per block. Without this, a
+DestinationRule that sets <code>connectionPool</code> or <code>outlierDetection</code> has no mesh-level
+baseline, and unset blocks fall back to Istio&rsquo;s built-in defaults.</p>
 
 </td>
 </tr>
@@ -3017,6 +3029,44 @@ AES128-GCM-SHA256
 <td><code><a href="#MeshConfig-TLSConfig-TLSProtocol-TLSV1_3">TLSV1_3</a></code></td>
 <td>
 <p>TLS version 1.3</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="MeshConfig-DefaultTrafficPolicy">DefaultTrafficPolicy</h3>
+<section>
+<p>DefaultTrafficPolicy defines mesh-wide baseline traffic settings for outbound
+clusters. Only connection pool and outlier detection are configurable here, the
+two settings that benefit from a mesh-wide baseline. A DestinationRule overrides a
+baseline block when it sets the corresponding policy, and inherits it otherwise.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-DefaultTrafficPolicy-connection_pool">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-DefaultTrafficPolicy-connection_pool">connectionPool</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings">ConnectionPoolSettings</a></div>
+</div></td>
+<td>
+<p>Baseline connection pool settings for outbound clusters. A DestinationRule that
+sets <code>connectionPool</code> overrides this whole block; otherwise this baseline applies.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-DefaultTrafficPolicy-outlier_detection">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-DefaultTrafficPolicy-outlier_detection">outlierDetection</a></code></div>
+<div class="type"><a href="/zh/docs/reference/config/networking/destination-rule/#OutlierDetection">OutlierDetection</a></div>
+</div></td>
+<td>
+<p>Baseline outlier detection for outbound clusters. A DestinationRule that sets
+<code>outlierDetection</code> overrides this whole block; otherwise this baseline applies.</p>
 
 </td>
 </tr>
