@@ -28,22 +28,15 @@ _wait_for_deployment istio-system prometheus
 # Verify Prometheus has sidecar injected (3/3 ready)
 _verify_like snip_configure_prometheus_for_mtls_scraping_2 "$snip_configure_prometheus_for_mtls_scraping_2_out"
 
-# Deploy httpbin
-kubectl label namespace default istio-injection=enabled --overwrite
-kubectl apply -f samples/httpbin/httpbin.yaml
-_wait_for_deployment default httpbin
-
-# Patch httpbin to enable the mTLS metrics listeners
-snip_enable_on_a_sidecar_workload_2
+# Deploy httpbin with secure metrics ports enabled in one shot
+snip_enable_on_a_sidecar_workload_1
 _wait_for_deployment default httpbin
 
 # Set env vars used by all subsequent verify steps
-snip_enable_on_a_sidecar_workload_3
-# Override HTTPBIN_POD to ensure we have the new running pod, not a stale terminating one
-export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin --field-selector=status.phase=Running -o jsonpath='{.items[0].metadata.name}')
+snip_enable_on_a_sidecar_workload_2
 
 # Verify the mTLS listeners (15091, 15092) are active on the httpbin sidecar
-_verify_like snip_enable_on_a_sidecar_workload_4 "$snip_enable_on_a_sidecar_workload_4_out"
+_verify_like snip_enable_on_a_sidecar_workload_3 "$snip_enable_on_a_sidecar_workload_3_out"
 
 # Verify mTLS scraping succeeds: Prometheus pod's sidecar curls httpbin with workload certs -> HTTP 200
 _verify_same snip_verify_secure_metrics_scraping_with_prometheus_1 "$snip_verify_secure_metrics_scraping_with_prometheus_1_out"
@@ -53,5 +46,5 @@ _verify_contains snip_verify_secure_metrics_scraping_with_prometheus_2 "connecti
 
 # @cleanup
 kubectl delete -n istio-system -f samples/addons/extras/prometheus-secure-metrics.yaml
-kubectl delete -f samples/httpbin/httpbin.yaml
+kubectl delete deployment,service,serviceaccount httpbin -n default
 kubectl label namespace default istio-injection-

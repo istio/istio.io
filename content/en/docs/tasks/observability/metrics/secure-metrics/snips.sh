@@ -36,35 +36,70 @@ ENDSNIP
 
 snip_enable_on_a_sidecar_workload_1() {
 kubectl label namespace default istio-injection=enabled --overwrite
-kubectl apply -f samples/httpbin/httpbin.yaml
-}
-
-snip_enable_on_a_sidecar_workload_2() {
-cat <<EOF > /tmp/httpbin-secure-metrics-patch.yaml
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: httpbin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin
+  labels:
+    app: httpbin
+    service: httpbin
 spec:
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8080
+  selector:
+    app: httpbin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin
+      version: v1
   template:
     metadata:
+      labels:
+        app: httpbin
+        version: v1
       annotations:
         proxy.istio.io/config: |
           proxyMetadata:
             ENVOY_SECURE_METRICS_PORT: "15091"
             ENVOY_SECURE_MERGED_METRICS_PORT: "15092"
         prometheus.io/path: "/stats/prometheus"
+    spec:
+      serviceAccountName: httpbin
+      containers:
+      - image: docker.io/mccutchen/go-httpbin:v2.15.0
+        imagePullPolicy: IfNotPresent
+        name: httpbin
+        ports:
+        - containerPort: 8080
 EOF
-kubectl patch deployment httpbin -n default --type=merge --patch-file=/tmp/httpbin-secure-metrics-patch.yaml
 }
 
-snip_enable_on_a_sidecar_workload_3() {
+snip_enable_on_a_sidecar_workload_2() {
 export HTTPBIN_POD=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].metadata.name}')
 export HTTPBIN_IP=$(kubectl get pod -n default -l app=httpbin -o jsonpath='{.items[0].status.podIP}')
 export PROM_POD=$(kubectl get pod -n istio-system -l app.kubernetes.io/name=prometheus -o jsonpath='{.items[0].metadata.name}')
 }
 
-snip_enable_on_a_sidecar_workload_4() {
+snip_enable_on_a_sidecar_workload_3() {
 istioctl proxy-config listeners "$HTTPBIN_POD" -n default | grep -E "15090|15091|15092"
 }
 
-! IFS=$'\n' read -r -d '' snip_enable_on_a_sidecar_workload_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_enable_on_a_sidecar_workload_3_out <<\ENDSNIP
 0.0.0.0       15090 ALL                                                                                     Inline Route: /stats/prometheus*
 0.0.0.0       15091 Trans: tls                                                                              Inline Route: /stats/prometheus*
 0.0.0.0       15092 Trans: tls                                                                              Inline Route: /stats/prometheus*, /metrics*

@@ -73,34 +73,69 @@ When set, Envoy adds the configured listeners at bootstrap time. Scrapers must p
 
 ### Enable on a sidecar workload
 
-This example uses `httpbin` as the workload.
+This example uses `httpbin` as the workload. The manifest below is based on
+[samples/httpbin/httpbin.yaml]({{< github_file >}}/samples/httpbin/httpbin.yaml)
+with the secure metrics annotations added to the Deployment.
 
-1. Deploy `httpbin` with secure metrics ports enabled
+1. Deploy `httpbin` with secure metrics ports enabled:
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled --overwrite
-    $ kubectl apply -f @samples/httpbin/httpbin.yaml@
-    {{< /text >}}
-
-1. Patch the `httpbin` deployment to enable the secure listeners
-
-    {{< text bash >}}
-    $ cat <<EOF > /tmp/httpbin-secure-metrics-patch.yaml
+    $ kubectl apply -f - <<EOF
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: httpbin
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: httpbin
+      labels:
+        app: httpbin
+        service: httpbin
     spec:
+      ports:
+      - name: http
+        port: 8000
+        targetPort: 8080
+      selector:
+        app: httpbin
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: httpbin
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: httpbin
+          version: v1
       template:
         metadata:
+          labels:
+            app: httpbin
+            version: v1
           annotations:
             proxy.istio.io/config: |
               proxyMetadata:
                 ENVOY_SECURE_METRICS_PORT: "15091"
                 ENVOY_SECURE_MERGED_METRICS_PORT: "15092"
             prometheus.io/path: "/stats/prometheus"
+        spec:
+          serviceAccountName: httpbin
+          containers:
+          - image: docker.io/mccutchen/go-httpbin:v2.15.0
+            imagePullPolicy: IfNotPresent
+            name: httpbin
+            ports:
+            - containerPort: 8080
     EOF
-    $ kubectl patch deployment httpbin -n default --type=merge --patch-file=/tmp/httpbin-secure-metrics-patch.yaml
     {{< /text >}}
 
-    * The value of `ENVOY_SECURE_METRICS_PORT` (`15091`) is the mTLS listener port for **Envoy-only** stats.
-    * The value of `ENVOY_SECURE_MERGED_METRICS_PORT` (`15092`) is the mTLS listener port for **merged** metrics (Envoy + application + agent).
+    * `ENVOY_SECURE_METRICS_PORT` (`15091`) is the mTLS listener port for **Envoy-only** stats.
+    * `ENVOY_SECURE_MERGED_METRICS_PORT` (`15092`) is the mTLS listener port for **merged** metrics (Envoy + application + agent).
 
 1. Set environment variables used in the following verification steps:
 
