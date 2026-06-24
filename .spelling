@@ -123,6 +123,8 @@ Acmeair
 addon
 addons
 Aeraki
+AES-256-CBC
+AES-256-GCM
 AES-NI
 Agentgateway
 agentgateway
@@ -235,6 +237,7 @@ Bottlerocket
 bring-your-own-CA
 bring-your-own-identity
 Brooks
+brotli
 bt
 Budinsky
 buildah
@@ -271,6 +274,7 @@ Chun
 CIDRs
 Cilium
 CIOs
+ciphertext
 Circonus
 Ciążyński
 Cleartext
@@ -468,7 +472,21 @@ CVE-2026-31837
 CVE-2026-31838
 CVE-2026-39350
 CVE-2026-41413
+CVE-2026-47204
+CVE-2026-47205
+CVE-2026-47207
+CVE-2026-47220
+CVE-2026-47221
+CVE-2026-47692
 CVE-2026-47774
+CVE-2026-47775
+CVE-2026-47778
+CVE-2026-48042
+CVE-2026-48044
+CVE-2026-48090
+CVE-2026-48497
+CVE-2026-48706
+CVE-2026-48743
 CVEs
 cves
 cvss
@@ -582,6 +600,8 @@ ext-authz
 extensibility
 extensionProviders
 ExternalName
+ext_authz
+ext_proc
 Ezequiel
 facto
 failover
@@ -621,6 +641,7 @@ Gather.town
 Gaudet
 GB
 gbd
+gcm
 GCP
 GCP-IAM
 GCP_OPTS
@@ -634,6 +655,7 @@ GHSA-8mq4-c2v5-3h39
 GHSA-974c-2wxh-g4ww
 GHSA-9gcg-w975-3rjh
 GHSA-fgw5-hp8f-xfhc
+GHSA-p7c7-7c47-pwch
 GHSA-v75c-crr9-733c
 GiB
 GIDs
@@ -743,6 +765,7 @@ ipBlock
 ipBlocks
 IPs
 IPsec
+ipset
 ipsets
 iptables
 IPv4
@@ -789,6 +812,7 @@ ISTIO-SECURITY-2024-007
 ISTIO-SECURITY-2025-001
 ISTIO-SECURITY-2026-001
 ISTIO-SECURITY-2026-002
+ISTIO-SECURITY-2026-005
 istio-system
 istio.io
 istio.io.
@@ -945,6 +969,7 @@ Manolache
 Mansing
 Marshalers
 Mattix
+MaxInflateRatio
 MB
 McAllister
 Meetup
@@ -1051,6 +1076,7 @@ non-sandboxed
 non-UTF8
 noop
 normalization
+notTrustDomains
 ns
 nsenter
 NUL
@@ -1069,6 +1095,7 @@ Onboard
 onboard
 Onboarding
 onboarding
+onDestroy
 OneCloud
 onramp
 onsite
@@ -1158,6 +1185,7 @@ prepending
 prepends
 PriorityClass
 prober
+ProcessingResponses
 programmatically
 Prometheus
 PromQL
@@ -1205,6 +1233,7 @@ rearchitect
 rebalance
 rebalances
 recomposition
+recomputations
 redeployments
 RedHat
 Redis
@@ -1393,6 +1422,7 @@ TCP
 tcp
 TCP-level
 Tcpdump
+TcpStatsdSync
 team1
 team1-ns
 team2
@@ -1416,6 +1446,7 @@ timestamps
 TLS
 TLS-secured
 TLSRoute
+TLVs
 ToC
 Tokio
 tolerations
@@ -1435,6 +1466,7 @@ Trivedi
 Trulia
 trunked
 trustability
+trustDomains
 tunneling
 U.S.
 UID
@@ -1643,6 +1675,7 @@ Zipkin
 Ziyang
 Zolotusky
 Zsh
+Zstd
 ztunnel
 ztunnels
 Zufar
