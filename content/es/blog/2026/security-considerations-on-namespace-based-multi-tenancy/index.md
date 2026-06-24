@@ -6,7 +6,7 @@ attribution: "Lorin Lehawany - ERNW, Sven Nobis - ERNW"
 keywords: [Istio,Security,Multi-Tenancy,MITM,Man-in-the-Middle]
 ---
 
-El proyecto Istio quiere abordar un posible escenario de ataque de tipo Man-in-the-Middle (MITM) en el que un `VirtualService` puede redirigir o interceptar tráfico dentro de la service mesh. Esto afecta a clústeres multi-tenant basados en namespaces donde los inquilinos tienen permisos para desplegar recursos de Istio (`networking.istio.io/v1`).
+El proyecto Istio quiere abordar un posible escenario de ataque de tipo Man-in-the-Middle (MITM) en el que un `VirtualService` puede redirigir o interceptar tráfico dentro de la service mesh. Esto afecta a clústeres multi-tenant basados en namespaces donde los usuarios tienen permisos para desplegar recursos de Istio (`networking.istio.io/v1`).
 
 Esta publicación destaca los riesgos de usar Istio en clústeres multi-tenant y explica cómo los usuarios pueden mitigar estos riesgos y operar Istio de forma segura en sus despliegues.
 
@@ -20,7 +20,7 @@ El comportamiento descrito en esta publicación aplica a Istio versión 1.29.0 y
 
 Los namespaces en Kubernetes proporcionan un mecanismo para organizar grupos de recursos dentro de un clúster. Los namespaces ofrecen una abstracción lógica que permite a equipos, aplicaciones o entornos compartir un mismo clúster mientras aíslan sus recursos mediante controles como Network Policies, RBAC, etc.
 
-En esta publicación, nos enfocamos en ejecutar Istio en clústeres donde múltiples inquilinos comparten el mismo clúster y la misma service mesh, y pueden desplegar recursos de Istio (`networking.istio.io/v1`) en sus namespaces mientras confían en los límites de namespace para el aislamiento.
+En esta publicación, nos enfocamos en ejecutar Istio en clústeres donde múltiples usuarios comparten el mismo clúster y la misma service mesh, y pueden desplegar recursos de Istio (`networking.istio.io/v1`) en sus namespaces mientras confían en los límites de namespace para el aislamiento.
 
 ### Enrutamiento de tráfico en Istio
 
@@ -67,7 +67,7 @@ Los operadores que ejecutan Istio en configuraciones multi-tenant basadas en nam
 
 Idealmente, los permisos para crear o modificar recursos de red de Istio (`networking.istio.io/v1` así como `security.istio.io/v1`) deben limitarse a los operadores de la plataforma responsables del enrutamiento global.
 
-Como alternativa, los operadores pueden ofrecer a los inquilinos acceso a la más reciente [Gateway API](https://gateway-api.sigs.k8s.io/), que fue diseñada pensando en el soporte seguro entre namespaces. Sin embargo, los operadores de la plataforma aún necesitan controlar el acceso a los recursos compartidos, como los gateways.
+Como alternativa, los operadores pueden ofrecer a los usuarios acceso a la más reciente [Gateway API](https://gateway-api.sigs.k8s.io/), que fue diseñada pensando en el soporte seguro entre namespaces. Sin embargo, los operadores de la plataforma aún necesitan controlar el acceso a los recursos compartidos, como los gateways.
 
 El [Configuration Scoping](/docs/ops/configuration/mesh/configuration-scoping/#scoping-mechanisms) puede implementarse como un control adicional.
 

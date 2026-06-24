@@ -35,7 +35,7 @@ Consulta más detalles a continuación.
 
 Aunque planeamos mantener las imágenes disponibles en `gcr.io/istio-release` hasta finales de 2026,
 hemos configurado `registry.istio.io` como el nuevo hogar para las imágenes de Istio.
-Por favor, migra a usar `registry.istio.io` lo antes posible.
+Por favor, migra a `registry.istio.io` lo antes posible.
 
 ### Usando `istioctl`
 

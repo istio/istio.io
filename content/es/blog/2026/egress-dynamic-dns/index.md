@@ -55,7 +55,7 @@ Sin embargo, el modelo de enrutamiento de Istio normalmente requiere que el dest
 
 ## Enrutamiento SNI a través del Egress Gateway
 
-Este problema se abordó anteriormente en la publicación del blog de Istio [Routing egress traffic to wildcard destinations](/blog/2023/egress-sni/). La arquitectura incluía un egress gateway dedicado que funcionaba como proxy de reenvío SNI.
+Este problema se abordó anteriormente en la publicación del blog de Istio [Enrutamiento de salida hacia dominios comodín](/blog/2023/egress-sni/). La arquitectura incluía un egress gateway dedicado que funcionaba como proxy de reenvío SNI.
 
 {{< image width="90%" link="./egress-sni-flow.svg" alt="Enrutamiento SNI de egress con nombres de dominio arbitrarios" title="Enrutamiento SNI de egress con nombres de dominio arbitrarios" caption="Aplicación → sidecar → egress gateway → inspección SNI → destino externo" >}}
 
@@ -64,10 +64,10 @@ El diagrama anterior se publicó originalmente en [Routing egress traffic to wil
 Como se muestra arriba:
 
 1. La aplicación inicia una conexión HTTPS.
-1. El proxy sidecar intercepta esta conexión e inicia una conexión mTLS interna al egress gateway.
-1. El gateway termina esta conexión mTLS interna.
-1. Un listener interno inspecciona el valor SNI del handshake TLS original.
-1. El tráfico se reenvía dinámicamente al hostname extraído del SNI.
+2. El proxy sidecar intercepta esta conexión e inicia una conexión mTLS interna al egress gateway.
+3. El gateway termina esta conexión mTLS interna.
+4. Un listener interno inspecciona el valor SNI del handshake TLS original.
+5. El tráfico se reenvía dinámicamente al hostname extraído del SNI.
 
 Implementar esto requería varios recursos personalizados:
 
