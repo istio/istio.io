@@ -12,7 +12,7 @@ On AWS, Security Groups and VPC boundaries enforce service boundaries quietly in
 
 You can get that isolation back through firewall rules and network segmentation, but on most on-prem setups that means working through infra teams with their own change management cycles. When you are mid-migration and trying to move fast, that is a meaningful constraint.
 
-So on an EKS Hybrid deployment that we were running, we decided to solve this at the mesh layer instead. We already had Istio in the stack, and it gave us a way to enforce workload-level isolation without waiting on network-level changes. The security team reviewed the model and signed off, because the controls we built mapped directly to what they would have required from the firewall anyway. This [talk](https://one2n.io/talks/kubernetes-for-hybrid-cloud-environments---harshwardhan-mehrotra---60-kubernetes-pune-meetup) covers the broader EKS Hybrid setup if you want that context.
+So, on an EKS Hybrid deployment that we were running, we decided to solve this at the mesh layer instead. We already had Istio in the stack, and it gave us a way to enforce workload-level isolation without waiting for network-level changes. The security team reviewed the model and signed off, because the controls we built mapped directly to what they would have required from the firewall anyway. This [talk](https://one2n.io/talks/kubernetes-for-hybrid-cloud-environments---harshwardhan-mehrotra---60-kubernetes-pune-meetup) covers the broader EKS Hybrid setup if you want that context.
 
 {{< tip >}}
 This post is about how we built that isolation layer, layer by layer, and what we learned doing it.
@@ -30,7 +30,7 @@ You don't need a massive microservices architecture to benefit from Istio. Even 
 
 There are two ways to run Istio. The traditional model injects a small proxy (called a sidecar) into every pod. Every service gets its own proxy, which handles encryption and policy enforcement for that service.
 
-We chose the newer approach:**Istio Ambient Mode**. Instead of a proxy per pod, Ambient runs a single shared component called ztunnel on each node. It handles the same job (encrypting traffic, enforcing identity) but does it at the node level rather than inside every individual pod.
+We chose the newer approach:**Istio Ambient Mode**. Instead of a proxy per pod, Ambient runs a single shared component called ztunnel on each node. It handles the same job (encrypting traffic, enforcing identity) but operates strictly at the Layer 4 (L4) transport layer, running at the node level rather than inside every individual pod.
 
 | Feature | Sidecar Mode | Ambient Mode |
 |---|---|---|
@@ -45,7 +45,7 @@ We chose the newer approach:**Istio Ambient Mode**. Instead of a proxy per pod, 
 Ambient mode is not a drop-in replacement for sidecars yet. The gaps worth knowing before you commit:
 
 * **Advanced HTTP features (L7) need an extra component**: Things like header-based routing, retries, and per-request metrics are not handled by ztunnel. You need to deploy a Waypoint Proxy for these.
-* **Custom filters do not work on ztunnel**: If you are using custom WebAssembly plugins or the `EnvoyFilter` API today, those require a Waypoint Proxy too.
+* **Custom filters do not work on ztunnel**: if you want to run custom WebAssembly plugins or Lua scripts via the modern TrafficExtension API, those require a Waypoint Proxy. Because ztunnel operates strictly at Layer 4, it cannot process the Layer 7 application logic that most custom filters and plug-ins rely on.
 * **Virtual Machines are not supported**: Ambient only works for Kubernetes workloads. If you need to include VMs in the mesh, you still need the sidecar model.
 * **Multi-cluster setups need extra care**: Cross-cluster support between sidecar-mode and Ambient-mode clusters is in beta and has specific configuration requirements.
 
@@ -150,17 +150,17 @@ metadata:
   labels:
     istio.io/use-waypoint: production-egress-gateway # Explicitly binds SE to our gateway
 spec:
-hosts:
-- api.external.com
-ports:
-  - number: 443
-    name: https
-    protocol: HTTPS
-location: MESH_EXTERNAL
-resolution: DNS
+  hosts:
+    - api.external.com
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
 {{< /text >}}
 
-The `istio.io/use-waypointlabel` is what tells ztunnel to send this traffic through the gateway instead of passing it through directly.
+The `istio.io/use-waypoint` label is what tells ztunnel to route this outbound traffic through our Egress Waypoint, which is simply a standard Waypoint Proxy acting as an egress gateway instead of letting it pass directly out to the internet.
 
 ### Layer 4: the kernel-level backstop
 
@@ -175,29 +175,31 @@ Kubernetes has its own network rules (`NetworkPolicies`) that work at a lower le
 # Eg 4: Restricting pod egress to the Mesh and DNS only
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
   name: deny-all-egress-except-mesh
   namespace: production
 spec:
   podSelector: {} # Applies to all pods in the namespace
-  policyTypes: ["Egress"]
-egress:
-  - to: # Allow DNS
-      - namespaceSelector: {} # any namespace
-    ports:
-      - protocol: UDP
-        port: 53
-  - to: # Allow traffic to istio-system (for control plane/discovery)
-      - namespaceSelector:
-          matchLabels:
-            kubernetes.io/metadata.name: istio-system
-    ports: # Allow HBONE tunnel to Egress Gateway/Waypoint
-      - protocol: TCP
-        port: 15008
+  policyTypes:
+    - Egress
+  egress:
+    - to: # Allow DNS
+        - namespaceSelector: {} # any namespace
+      ports:
+        - protocol: UDP
+          port: 53
+    - to: # Allow traffic to istio-system (for control plane/discovery)
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-system
+      ports: # Allow HBONE tunnel to Egress Gateway/Waypoint
+        - protocol: TCP
+          port: 15008
 ---
 # Eg 5: Allowing the Egress Gateway to reach the internet
-kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
   name: allow-egress-gateway-to-internet
   namespace: production
@@ -206,15 +208,15 @@ spec:
     matchLabels:
       gateway.networking.k8s.io/gateway-name: production-egress-gateway
   policyTypes: ["Egress"]
-egress:
-  - {} # Unrestricted egress for the gateway itself
+  egress:
+    - {} # Unrestricted egress for the gateway itself
 {{< /text >}}
 
 ## What we learned
 
-1. **Start with the why**: We adopted Istio here not because it is interesting technology, but because the infrastructure could not give us the isolation we needed without months of back-and-forth. That framing matters when you are explaining the decision to a security team.
+1. **Focus on the business problem, not the tech**: We adopted Istio here not because it is interesting technology, but because the infrastructure could not give us the isolation we needed without months of back-and-forth. That framing matters when you are explaining the decision to a security team.
 1. **Ambient mode is worth it, but go in with open eyes**: It removes a lot of operational overhead, but you will need the Waypoint Proxy for anything beyond basic traffic encryption, and VMs are not supported yet.
-1. **Istio and Kubernetes network rules are not the same thing**: Istio works at the application layer. Kubernetes `NetworkPolicies` work at the network layer. You need both. Each catches things the other cannot.
+1. **Istio and Kubernetes network rules are not the same thing**: Istio secures traffic based on workload identity at the transport and application layers. Kubernetes `NetworkPolicies` work at the network layer. You need both. Each catches things the other cannot.
 
 Hardening a network on flat infrastructure is rarely a clean process. It starts with the messy reality of services talking freely to each other and involves a lot of careful testing with default-deny rules before you can trust what you have built. But by moving from "trust this IP" to "trust this verified identity", we turned a high-risk on-premises environment into something we could actually defend, without filing a single infrastructure ticket to get there.
 
