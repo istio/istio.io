@@ -138,3 +138,26 @@ In addition to checking ztunnel logs and other monitoring options noted above, y
 * [Querying Metrics from Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
 
 If a service is only using the secure overlay provided by ztunnel, the Istio metrics reported will only be the L4 TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported if a waypoint proxy is used.
+
+## IPv6 `network is unreachable` warnings on IPv4-only clusters
+
+Services that have an [auto-allocated address](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
+(for example a `ServiceEntry` without an explicit `spec.addresses`) are assigned
+both an IPv4 and an IPv6 virtual IP. On a single-stack IPv4 cluster, pods have no
+usable IPv6 address, so a client that prefers IPv6 attempts the IPv6 VIP first,
+fails, and falls back to the IPv4 VIP. You may see repeated warnings like this in
+client or ztunnel logs:
+
+{{< text plain >}}
+grpc: addrConn.createTransport failed to connect to {Addr: "[2001:2::2]:4317", ...}. Err: ... dial tcp [2001:2::2]:4317: connect: network is unreachable
+{{< /text >}}
+
+This is expected and is not a failure on its own: the connection falls back to
+IPv4 and traffic flows normally. Some clients (for example gRPC-based ones) keep a
+connection attempt to each resolved address and will log the IPv6 attempt
+repeatedly while still sending data over IPv4.
+
+If your cluster has no usable IPv6 and you want to avoid the IPv6 attempts and the
+warnings, set the `IPV6_ENABLED` environment variable to `false` on ztunnel (it
+defaults to `true`). With IPv6 disabled, ztunnel does not return IPv6 (`AAAA`)
+records, so clients only receive the IPv4 VIP.
