@@ -21,6 +21,8 @@ set -e
 set -u
 set -o pipefail
 
+_skip_if_kind_ipv6 "test connects to external hosts via egress gateway"
+
 GATEWAY_API="${GATEWAY_API:-false}"
 
 source "tests/util/samples.sh"

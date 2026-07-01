@@ -37,6 +37,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     kubectl wait --for=condition=programmed gtw -n foo httpbin-gateway --timeout=90s
     _verify_contains snip_before_you_begin_6 "rbac: debug"
     snip_before_you_begin_7
+    _normalize_ingress_host
 else
     snip_before_you_begin_2
     _verify_contains snip_before_you_begin_3 "rbac: debug"
@@ -102,24 +103,21 @@ fi
 _verify_same snip_ipbased_allow_list_and_deny_list_14 "$snip_ipbased_allow_list_and_deny_list_14_out"
 
 # Test client IP denied
+# CLIENT_IP is already set from the ALLOW section above (snip 6/7/8/9 called directly)
 
 if [ "$GATEWAY_API" == "true" ]; then
-    CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
     snip_ipbased_allow_list_and_deny_list_17
     _wait_for_resource authorizationpolicy foo ingress-policy
 else
-    CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
     snip_ipbased_allow_list_and_deny_list_15
     _wait_for_resource authorizationpolicy istio-system ingress-policy
 fi
 _verify_same snip_ipbased_allow_list_and_deny_list_19 "$snip_ipbased_allow_list_and_deny_list_19_out"
 
 if [ "$GATEWAY_API" == "true" ]; then
-    CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
     snip_ipbased_allow_list_and_deny_list_18
     _wait_for_resource authorizationpolicy foo ingress-policy
 else
-    CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
     snip_ipbased_allow_list_and_deny_list_16
     _wait_for_resource authorizationpolicy istio-system ingress-policy
 fi

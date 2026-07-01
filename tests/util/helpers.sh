@@ -46,6 +46,14 @@ function _set_kube_vars()
   echo "KUBE_CONTEXTS=${KUBE_CONTEXTS[*]}"
 }
 
+# Normalize INGRESS_HOST for IPv6: wrap bare IPv6 addresses in brackets for correct
+# URL and curl --resolve formatting.
+_normalize_ingress_host() {
+    if [[ -n "${INGRESS_HOST:-}" && "$INGRESS_HOST" == *:* && "$INGRESS_HOST" != \[* ]]; then
+        export INGRESS_HOST="[$INGRESS_HOST]"
+    fi
+}
+
 # Set the INGRESS_HOST, INGRESS_PORT, SECURE_INGRESS_PORT, and TCP_INGRESS_PORT environment variables
 _set_ingress_environment_variables() {
     # check for external load balancer
@@ -63,6 +71,7 @@ _set_ingress_environment_variables() {
         export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
         export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].nodePort}')
     fi
+    _normalize_ingress_host
 }
 
 # TODO: should we have functions for these?
@@ -159,5 +168,65 @@ _rewrite_helm_repo() {
     popd || exit
   fi
 
+  eval "${cmd}"
+}
+
+# Pre-generated JWT tokens for docs tests, signed with security/tools/jwt/samples/key.pem.
+# demo.jwt: exp 4685989700 (year 2118), iss testing@secure.istio.io, foo=bar
+# shellcheck disable=SC2034
+_DOCS_DEMO_JWT="eyJhbGciOiJSUzI1NiIsImtpZCI6IkRIRmJwb0lVcXJZOHQyenBBMnFYZkNtcjVWTzVaRXI0UnpIVV8tZW52dlEiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjQ2ODU5ODk3MDAsImZvbyI6ImJhciIsImlhdCI6MTUzMjM4OTcwMCwiaXNzIjoidGVzdGluZ0BzZWN1cmUuaXN0aW8uaW8iLCJzdWIiOiJ0ZXN0aW5nQHNlY3VyZS5pc3Rpby5pbyJ9.CfNnxWP2tcnR9q0vxyxweaF3ovQYHYZl82hAUsn21bwQd9zP7c-LS9qd_vpdLG4Tn1A15NxfCjp5f7QNBUo-KC9PJqYpgGbaXhaGx7bEdFWjcwv3nZzvc7M__ZpaCERdwU7igUmJqYGBYQ51vr2njU9ZimyKkfDe3axcyiBZde7G6dabliUosJvvKOPcKIWPccCgefSj_GNfwIip3-SsFdlR7BtbVUcqR-yv-XOxJ3Uc1MI0tz3uMiiZcyPV7sNCU4KRnemRIMHVOfuvHsU60_GhGbiSFzgPTAa9WTltbnarTbxudb_YEOx12JiwYToeX0DCPb43W1tzIBxgm8NxUg"
+
+# groups-scope.jwt: exp 3537391104 (year 2082), iss testing@secure.istio.io, groups=[group1,group2]
+# shellcheck disable=SC2034
+_DOCS_GROUPS_SCOPE_JWT="eyJhbGciOiJSUzI1NiIsImtpZCI6IkRIRmJwb0lVcXJZOHQyenBBMnFYZkNtcjVWTzVaRXI0UnpIVV8tZW52dlEiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjM1MzczOTExMDQsImdyb3VwcyI6WyJncm91cDEiLCJncm91cDIiXSwiaWF0IjoxNTM3MzkxMTA0LCJpc3MiOiJ0ZXN0aW5nQHNlY3VyZS5pc3Rpby5pbyIsInNjb3BlIjpbInNjb3BlMSIsInNjb3BlMiJdLCJzdWIiOiJ0ZXN0aW5nQHNlY3VyZS5pc3Rpby5pbyJ9.EdJnEZSH6X8hcyEii7c8H5lnhgjB5dwo07M5oheC8Xz8mOllyg--AHCFWHybM48reunF--oGaG6IXVngCEpVF0_P5DwsUoBgpPmK1JOaKN6_pe9sh0ZwTtdgK_RP01PuI7kUdbOTlkuUi2AO-qUyOm7Art2POzo36DLQlUXv8Ad7NBOqfQaKjE9ndaPWT7aexUsBHxmgiGbz1SyLH879f7uHYPbPKlpHU6P9S-DaKnGLaEchnoKnov7ajhrEhGXAQRukhDPKUHO9L30oPIr5IJllEQfHYtt6IZvlNUGeLUcif3wpry1R5tBXRicx2sXMQ7LyuDremDbcNy_iE76Upg"
+
+# Rewrite a snip to replace external jwksUri with an inline jwks value, avoiding
+# external network fetches for JWT public keys. Also rewrites inline curl calls
+# that fetch static JWT token files from raw.githubusercontent.com.
+# raw.githubusercontent.com is unreachable in IPv6-only Kind clusters because
+# Docker's embedded DNS is IPv4-only (kubernetes-sigs/kind#3114).
+# usage: _rewrite_jwks_uri <snip_function>
+# shellcheck disable=SC2001
+_rewrite_jwks_uri() {
+  local _docs_jwks='{"keys":[{"e":"AQAB","kid":"DHFbpoIUqrY8t2zpA2qXfCmr5VO5ZEr4RzHU_-envvQ","kty":"RSA","n":"xAE7eB6qugXyCAG3yhh7pkDkT65pHymX-P7KfIupjf59vsdo91bSP9C8H07pSAGQO1MV_xFj9VswgsCg4R6otmg5PV2He95lZdHtOcU5DXIg_pbhLdKXbi66GlVeK6ABZOUW3WYtnNHD-91gVuoeJT_DwtGGcp4ignkgXfkiEm4sw-4sfb4qdt5oLbyVpmW6x9cfa7vs2WTfURiCrBoUqgBo_-4WTiULmmHSGZHOjzwa8WtrtOQGsAFjIbno85jp6MnGGGZPYZbDAa_b3y5u-YpW7ypZrvD8BgtKVjgtQgZhLAGezMt0ua3DRrWnKqTZ0BJ_EyxOGuHJrLsn00fnMQ"}]}'
+  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
+  # Replace jwksUri pointing to raw.githubusercontent.com with inline jwks
+  cmd="$(echo "${cmd}" | sed "s|jwksUri: \"https://raw\.githubusercontent\.com/[^\"]*jwks\.json\"|jwks: '${_docs_jwks}'|g")"
+  # Replace inline curl fetches of demo.jwt with the pre-generated token
+  cmd="$(echo "${cmd}" | sed "s|curl https://raw\.githubusercontent\.com/[^ ]*/demo\.jwt -s|echo \"${_DOCS_DEMO_JWT}\"|g")"
+  # Replace wget fetches of gen-jwt.py and key.pem with copies from tests/util/
+  # (populated by bin/init.sh from security/tools/jwt/samples/ in the istio repo)
+  cmd="$(echo "${cmd}" | sed "s|wget --no-verbose https://raw\.githubusercontent\.com/[^ ]*/gen-jwt\.py|cp \"\${REPO_ROOT}/tests/util/gen-jwt.py\" . #|g")"
+  cmd="$(echo "${cmd}" | sed "s|wget --no-verbose https://raw\.githubusercontent\.com/[^ ]*/key\.pem|cp \"\${REPO_ROOT}/tests/util/key.pem\" . #|g")"
+  eval "${cmd}"
+}
+
+# Skip the current test if running on an IPv6-only Kind cluster. In such clusters
+# there is no IPv6 internet connectivity because Docker's embedded DNS is IPv4-only
+# (kubernetes-sigs/kind#3114). Pass a short reason string to describe what the
+# test requires (e.g. "test requires internet egress").
+# usage: _skip_if_kind_ipv6 <reason>
+_skip_if_kind_ipv6() {
+  if [[ "${KIND_IP_FAMILY:-}" == "ipv6" ]]; then
+    echo "Skipping (KIND_IP_FAMILY=ipv6): ${1:?reason} (no IPv6 internet connectivity in Kind; kubernetes-sigs/kind#3114)"
+    exit 0
+  fi
+}
+
+# Rewrite a snip to replace oci://ghcr.io/ OCI registry URLs with the local
+# kind-registry when running in IPv6-only Kind CI. ghcr.io is unreachable because
+# Docker's embedded DNS is IPv4-only (kubernetes-sigs/kind#3114).
+# The kind-registry must be pre-seeded with the required images via crane copy
+# in prow/integ-suite-kind.sh before tests run.
+# usage: _rewrite_oci_registry <snip_function>
+# shellcheck disable=SC2001
+_rewrite_oci_registry() {
+  if [[ "${KIND_IP_FAMILY:-}" != "ipv6" ]]; then
+    "${1:?snip}"
+    return
+  fi
+  local registry="kind-registry:${KIND_REGISTRY_PORT:-5000}"
+  cmd="$(type "${1:?snip}" | sed '1,3d;$d')"
+  cmd="$(echo "${cmd}" | sed "s|oci://ghcr\.io/|oci://${registry}/|g")"
   eval "${cmd}"
 }

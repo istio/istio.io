@@ -29,6 +29,8 @@ set -u
 # Print commands
 set -x
 
+# shellcheck source=prow/lib.sh
+source "${WD}/lib.sh"
 # shellcheck source=common/scripts/kind_provisioner.sh
 source "${ROOT}/common/scripts/kind_provisioner.sh"
 
@@ -140,6 +142,36 @@ if [[ -z "${SKIP_SETUP:-}" ]]; then
     export DOCTEST_NETWORK_TOPOLOGY
     DOCTEST_NETWORK_TOPOLOGY=$(IFS=','; echo "${NETWORK_TOPOLOGIES[*]}")
   fi
+
+  # On IPv6-only clusters, ghcr.io is unreachable because Docker's embedded DNS is
+  # IPv4-only (kubernetes-sigs/kind#3114, moby#48125). Set up a local registry,
+  # pre-load the wasm image, and patch CoreDNS so in-cluster workloads can
+  # resolve "kind-registry".
+  if [[ "${KIND_IP_FAMILY:-}" == "ipv6" ]]; then
+    setup_kind_registry
+
+    # Pre-load wasm plugin image used by extensibility/wasm-modules and
+    # ambient/usage/extend-waypoint-wasm doc tests.
+    # Extract the version dynamically from the snips so this stays in sync with the docs.
+    wasm_basic_auth_tag=$(grep -oE 'basic_auth:[0-9][^"]+' \
+      "${WD}/../content/en/docs/tasks/extensibility/wasm-modules/snips.sh" | head -1 | sed 's/basic_auth://')
+    crane copy \
+      "ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:${wasm_basic_auth_tag}" \
+      "localhost:${KIND_REGISTRY_PORT}/istio-ecosystem/wasm-extensions/basic_auth:${wasm_basic_auth_tag}" \
+      --insecure
+
+    kind_registry_ipv6=$(docker inspect \
+      -f '{{range $k, $v := .NetworkSettings.Networks}}{{if eq $k "kind"}}{{.GlobalIPv6Address}}{{end}}{{end}}' \
+      kind-registry)
+    kubectl get -oyaml -n=kube-system configmap/coredns | \
+      sed -e '/^ *ready/i\
+        hosts {\
+            '"${kind_registry_ipv6}"' kind-registry\
+            fallthrough\
+        }' | kubectl apply -f -
+    kubectl rollout restart -n kube-system deployment/coredns
+    kubectl rollout status -n kube-system deployment/coredns --timeout=60s
+  fi
 fi
 
-make "${PARAMS[@]}"
+[[ ${#PARAMS[@]} -gt 0 ]] && make "${PARAMS[@]}"

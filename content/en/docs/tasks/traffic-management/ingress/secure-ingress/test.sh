@@ -44,6 +44,7 @@ if [ "$GATEWAY_API" == "true" ]; then
     snip_configure_a_tls_ingress_gateway_for_a_single_host_5
     _wait_for_gateway istio-system mygateway
     snip_configure_a_tls_ingress_gateway_for_a_single_host_6
+    _normalize_ingress_host
 else
     # deploying httpbin gateway
     snip_configure_a_tls_ingress_gateway_for_a_single_host_2
