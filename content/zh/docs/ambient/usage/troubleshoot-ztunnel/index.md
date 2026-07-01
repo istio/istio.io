@@ -159,3 +159,23 @@ waypoint 代理上而不是 ztunnel 代理上。
 如果服务仅使用 ztunnel 提供的安全覆盖，则报告的 Istio 指标将仅为 L4 TCP 指标
 （即 `istio_tcp_sent_bytes_total`、`istio_tcp_received_bytes_total`、`istio_tcp_connections_opened_total`、`istio_tcp_connections_filled_total`）。
 如果使用 waypoint 代理，则会报告全套 Istio 和 Envoy 指标。
+
+## 仅支持 IPv4 的集群出现 IPv6 `network is unreachable` 警告 {#ipv6-network-is-unreachable-warnings-on-ipv4-only clusters}
+
+对于具有[自动分配地址](/zh/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)特性的服务（例如未明确指定
+`spec.addresses` 的 `ServiceEntry`），系统会同时为其分配 IPv4 和 IPv6 虚拟 IP（VIP）。
+在仅支持 IPv4 的集群（single-stack IPv4 cluster）中，Pod 无法使用 IPv6 地址；
+因此，优先选择 IPv6 的客户端会先尝试连接 IPv6 VIP，在失败后回退到 IPv4 VIP。
+您可能会在客户端或 ztunnel 的日志中看到类似以下的重复警告信息：
+
+{{< text plain >}}
+grpc: addrConn.createTransport failed to connect to {Addr: "[2001:2::2]:4317", ...}. Err: ... dial tcp [2001:2::2]:4317: connect: network is unreachable
+{{< /text >}}
+
+这是预期的情况，并且其本身并不是故障：连接回退到 IPv4 并且流量正常流动。
+某些客户端（例如基于 gRPC 的客户端）会保留对每个解析地址的连接尝试，
+并会重复记录 IPv6 尝试，同时仍通过 IPv4 发送数据。
+
+如果您的集群没有可用的 IPv6，并且您想避免 IPv6 尝试和警告，
+请在 ztunnel 上将 `IPV6_ENABLED` 环境变量设置为 `false`（默认为 `true`）。
+禁用 IPv6 后，ztunnel 不会返回 IPv6 (`AAAA`) 记录，因此客户端仅接收 IPv4 VIP。
