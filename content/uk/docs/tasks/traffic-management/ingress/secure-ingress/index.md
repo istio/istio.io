@@ -530,7 +530,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Оскільки Kubernetes Gateway API наразі не підтримує термінацію mutual TLS в [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway), ми використовуємо Istio-специфічну опцію, `gateway.istio.io/tls-terminate-mode: MUTUAL`,  щоб зробити це:
+Додайте посилання на ConfigMap або Secret із ключем `ca.crt` або `cacert`, який містить сертифікати CA.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -550,8 +550,11 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
+      frontendValidation:
+        caCertificateRefs:
+        - group: ""
+          kind: Secret
+          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector
@@ -609,8 +612,7 @@ Istio підтримує кілька різних форматів секрет
 * TLS Secret з ключами `tls.key` і `tls.crt`, як описано вище. Для взаємного TLS, окремий загальний Secret з назвою `<secret>-cacert`, з ключем `cacert`. Наприклад, `httpbin-credential` має `tls.key` і `tls.crt`, а `httpbin-credential-cacert` має `cacert`.
 * Загальний Secret з ключами `key` та `cert`. Для взаємного TLS можна використовувати ключ `cacert`.
 * Загальний Secret з ключами `key` та `cert`. Для взаємного TLS можна використовувати окремий загальний секрет з назвою `<secret>-cacert`, який містить ключ `cacert`. Наприклад, `httpbin-credential` має `key` та `cert`, а `httpbin-credential-cacert` має `cacert`.
-* Для взаємного TLS можна посилатися на окремий загальний Secret з ключем `cacert` або `ca.crt` за допомогою `caCertCredentialName`. Він має перевагу над сертифікатами CA в Secret, на який посилаються з `credentialName(s)`.
-* Значення ключа `cacert` може бути зв'язкою сертифікатів CA, яка складається з окремих об'єднаних сертифікатів CA.
+* Значення ключа `cacert` може бути звʼязкою сертифікатів CA, яка складається з окремих обʼєднаних сертифікатів CA.
 
 ### SNI маршрутизація {#sni-routing}
 
