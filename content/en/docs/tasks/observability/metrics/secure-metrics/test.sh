@@ -34,6 +34,10 @@ _wait_for_deployment default httpbin
 
 # Set env vars used by all subsequent verify steps
 snip_enable_on_a_sidecar_workload_2
+# Wrap IPv6 pod IPs in brackets so they're valid in URLs.
+if [[ "$HTTPBIN_IP" == *:* ]]; then
+    HTTPBIN_IP="[$HTTPBIN_IP]"
+fi
 
 # Verify the mTLS listeners (15091, 15092) are active on the httpbin sidecar
 _verify_like snip_enable_on_a_sidecar_workload_3 "$snip_enable_on_a_sidecar_workload_3_out"
