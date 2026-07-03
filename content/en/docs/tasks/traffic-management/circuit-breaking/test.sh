@@ -21,6 +21,12 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+# CI has some issues with IPv6 DNS resolution, due to which we are not able to
+# directly use the host name in the connectivity tests (see istio/istio:
+# tests/integration/pilot/common/routing.go). Since docs tests must use the
+# documented hostname-based commands, we skip this test on IPv6 Kind clusters.
+_skip_if_kind_ipv6 "fortio Go DNS resolver cannot resolve in-cluster names in IPv6-only Kind (NXDOMAIN for A records treated as authoritative)"
+
 # @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
