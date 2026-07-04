@@ -37,7 +37,7 @@ kubectl label namespace default istio.io/dataplane-mode=ambient
 _verify_like snip_get_gateway "$snip_get_gateway_out"
 
 # Configure WASM plugin for gateway
-snip_apply_wasmplugin_gateway
+_rewrite_oci_registry snip_apply_wasmplugin_gateway
 
 # verify traffic via gateway
 _verify_same snip_test_gateway_productpage_without_credentials "$snip_test_gateway_productpage_without_credentials_out"
@@ -53,7 +53,7 @@ _verify_same snip_verify_traffic "$snip_verify_traffic_out"
 _verify_like snip_get_gateway_waypoint "$snip_get_gateway_waypoint_out"
 
 # apply wasmplugin at waypoint proxy
-snip_apply_wasmplugin_waypoint_all
+_rewrite_oci_registry snip_apply_wasmplugin_waypoint_all
 
 # Display applied trafficextensions and verify output
 _verify_like snip_get_trafficextension "$snip_get_trafficextension_out"
@@ -63,7 +63,7 @@ _verify_same snip_test_waypoint_productpage_without_credentials "$snip_test_wayp
 _verify_same snip_test_waypoint_productpage_with_credentials "$snip_test_waypoint_productpage_with_credentials_out"
 
 # apply wasmplugin for one specific service through the waypoint
-snip_apply_wasmplugin_waypoint_service
+_rewrite_oci_registry snip_apply_wasmplugin_waypoint_service
 
 # verify the traffic targeting the service
 _verify_same snip_test_waypoint_service_productpage_with_credentials "$snip_test_waypoint_service_productpage_with_credentials_out"

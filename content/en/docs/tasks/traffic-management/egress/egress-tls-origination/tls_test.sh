@@ -19,6 +19,8 @@ set -e
 set -u
 set -o pipefail
 
+_skip_if_kind_ipv6 "test connects to edition.cnn.com via TLS origination"
+
 GATEWAY_API="${GATEWAY_API:-false}"
 
 source "tests/util/samples.sh"
