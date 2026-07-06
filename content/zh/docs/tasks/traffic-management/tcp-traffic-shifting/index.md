@@ -177,7 +177,7 @@ spec:
 
 {{< text bash >}}
 $ kubectl get tcproute tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1
 kind: TCPRoute
   ...
 spec:

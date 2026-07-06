@@ -109,7 +109,7 @@ kubectl get tcproute tcp-echo -o yaml -n istio-io-tcp-traffic-shifting
 }
 
 ! IFS=$'\n' read -r -d '' snip_apply_weightbased_tcp_routing_8_out <<\ENDSNIP
-apiVersion: gateway.networking.k8s.io/v1alpha2
+apiVersion: gateway.networking.k8s.io/v1
 kind: TCPRoute
   ...
 spec:
