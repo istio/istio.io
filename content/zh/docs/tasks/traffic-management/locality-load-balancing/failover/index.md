@@ -97,7 +97,7 @@ Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 $ kubectl --context="${CTX_R1_Z1}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app=helloworld \
   -l version=region1.zone1 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 从 `curl` Pod 调用 `HelloWorld` 服务：
@@ -120,7 +120,7 @@ Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 $ kubectl --context="${CTX_R1_Z2}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app=helloworld \
   -l version=region1.zone2 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 从 `curl` Pod 调用 `HelloWorld` 服务：
@@ -143,7 +143,7 @@ Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 $ kubectl --context="${CTX_R2_Z3}" exec \
   "$(kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app=helloworld \
   -l version=region2.zone3 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 从 `curl` Pod 调用 `HelloWorld` 服务：
