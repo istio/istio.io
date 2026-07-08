@@ -54,7 +54,7 @@ test: yes
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -84,7 +84,7 @@ test: yes
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
