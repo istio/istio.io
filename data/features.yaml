@@ -362,7 +362,7 @@ features:
     id: "core.ipv6"
     level:
       checklist: features/ipv6-support.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Core
   - name: "Dual Stack IPv4/IPv6"
