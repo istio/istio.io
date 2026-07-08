@@ -100,7 +100,6 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
         * https://istio.io/latest/docs/tasks/traffic-management
         * https://istio.io/latest/docs/tasks/security/
         * https://istio.io/latest/docs/tasks/policy-enforcement/
-        * https://istio.io/latest/docs/tasks/policy-enforcement/
       * Review the list of actively supported releases, CVE publications and our hardening guide:
         * https://istio.io/latest/docs/releases/supported-releases/
         * https://istio.io/latest/news/security/
