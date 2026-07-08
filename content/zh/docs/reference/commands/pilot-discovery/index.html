@@ -450,6 +450,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code>false</code></td>
 <td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
 </tr>
+<tr id='ambient-scoped-address-pushes'>
+<td><a href='#ambient-scoped-address-pushes'><code>AMBIENT_SCOPED_ADDRESS_PUSHES</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, ambient Address updates only trigger pushes for waypoints whose attached services or workloads changed, and are skipped entirely for sidecar and gateway proxies. If disabled, every Address update triggers a full LDS/CDS/EDS push to all waypoints and an RDS push to all proxies.</td>
+</tr>
 <tr id='audience'>
 <td><a href='#audience'><code>AUDIENCE</code></a></td>
 <td>String</td>

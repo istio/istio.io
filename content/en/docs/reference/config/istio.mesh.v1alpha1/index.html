@@ -7,7 +7,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 90
+number_of_entries: 94
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -599,6 +599,18 @@ For ISTIO_MUTUAL TLS settings, use meshMTLS configuration.</p>
 baseline that DestinationRules inherit and override per block. Without this, a
 DestinationRule that sets <code>connectionPool</code> or <code>outlierDetection</code> has no mesh-level
 baseline, and unset blocks fall back to Istio&rsquo;s built-in defaults.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-service_entry_visibility">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-service_entry_visibility">serviceEntryVisibility</a></code></div>
+<div class="type"><a href="#ServiceEntryVisibility">ServiceEntryVisibility</a></div>
+</div></td>
+<td>
+<p>ServiceEntryVisibility lets a mesh administrator control the visibility
+of ServiceEntry resources mesh-wide, without relying on external admission
+validation. When unset, ServiceEntry behaves as it does today (public visibility,
+cluster-wide; ambient ignores <code>exportTo</code>).</p>
 
 </td>
 </tr>
@@ -3296,6 +3308,174 @@ Valid operators are In, NotIn, Exists and DoesNotExist.</p>
 the values array must be non-empty. If the operator is Exists or DoesNotExist,
 the values array must be empty. This array is replaced during a strategic
 merge patch.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="ServiceEntryVisibility">ServiceEntryVisibility</h2>
+<section>
+<p>ServiceEntryVisibility controls the visibility of ServiceEntry resources
+across the mesh, giving a mesh administrator a way to constrain ServiceEntry
+visibility without relying on external (VAP/CEL/OPA) admission validation.</p>
+<p>Policies are evaluated in order; the first policy whose rules all match sets
+the ServiceEntry&rsquo;s visibility. If no policy matches, <code>defaultVisibility</code>
+applies. When this entire message is absent from <code>MeshConfig</code>, every
+ServiceEntry is visible <code>PUBLIC</code>, preserving current Istio behavior.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntryVisibility-default_visibility">
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryVisibility-default_visibility">defaultVisibility</a></code></div>
+<div class="type"><a href="#ServiceEntryVisibility-Visibility">Visibility</a></div>
+</div></td>
+<td>
+<p>The visibility used when no policy matches a ServiceEntry. If left
+<code>VISIBILITY_UNSPECIFIED</code>, it resolves to <code>PUBLIC</code>.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntryVisibility-apply_to_sidecars">
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryVisibility-apply_to_sidecars">applyToSidecars</a></code></div>
+<div class="type">bool</div>
+</div></td>
+<td>
+<p>Whether sidecars honor these visibility semantics. When false (default),
+only ambient proxies (ztunnel and waypoints) apply them and sidecars
+continue to use <code>exportTo</code>. This enables incremental adoption during an
+ambient migration without affecting a working sidecar environment.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntryVisibility-policies">
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryVisibility-policies">policies</a></code></div>
+<div class="type"><a href="#ServiceEntryVisibility-Policy">Policy[]</a></div>
+</div></td>
+<td>
+<p>An ordered list of policies. Each policy is evaluated in turn; the first
+policy whose rules all match determines the ServiceEntry&rsquo;s visibility.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="ServiceEntryVisibility-Policy">Policy</h3>
+<section>
+<p>Policy assigns a visibility to ServiceEntries that match all of its rules.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntryVisibility-Policy-visibility">
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryVisibility-Policy-visibility">visibility</a></code></div>
+<div class="type"><a href="#ServiceEntryVisibility-Visibility">Visibility</a></div>
+</div></td>
+<td>
+<p>The visibility applied to a ServiceEntry when all <code>matchingRules</code> match.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntryVisibility-Policy-matching_rules">
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryVisibility-Policy-matching_rules">matchingRules</a></code></div>
+<div class="type"><a href="#ServiceEntryVisibility-MatchRule">MatchRule[]</a></div>
+</div></td>
+<td>
+<p>The rules to evaluate. All rules must match (AND semantics) for this
+policy to apply.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="ServiceEntryVisibility-MatchRule">MatchRule</h3>
+<section>
+<p>MatchRule is a single matcher.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntryVisibility-MatchRule-namespace_selector" class="oneof oneof-start">
+<td><div class="field"><div class="name"><code><a href="#ServiceEntryVisibility-MatchRule-namespace_selector">namespaceSelector</a></code></div>
+<div class="type"><a href="#LabelSelector">LabelSelector (oneof)</a></div>
+</div></td>
+<td>
+<p>Matches when the namespace the ServiceEntry is defined in matches this
+label selector.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="ServiceEntryVisibility-Visibility">Visibility</h3>
+<section>
+<p>Visibility defines how widely a matching ServiceEntry is visible.</p>
+
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="ServiceEntryVisibility-Visibility-VISIBILITY_UNSPECIFIED">
+<td><code><a href="#ServiceEntryVisibility-Visibility-VISIBILITY_UNSPECIFIED">VISIBILITY_UNSPECIFIED</a></code></td>
+<td>
+<p>Default. Resolves to <code>PUBLIC</code> to preserve legacy behavior.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntryVisibility-Visibility-NONE">
+<td><code><a href="#ServiceEntryVisibility-Visibility-NONE">NONE</a></code></td>
+<td>
+<p>Not visible anywhere: the ServiceEntry may be written, but Istio
+configures no dataplane for it. Useful to expressly forbid a class of
+ServiceEntry.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntryVisibility-Visibility-NAMESPACE">
+<td><code><a href="#ServiceEntryVisibility-Visibility-NAMESPACE">NAMESPACE</a></code></td>
+<td>
+<p>Visible only within the namespace the ServiceEntry is defined in.
+Equivalent to the legacy <code>exportTo: &quot;.&quot;</code>.</p>
+
+</td>
+</tr>
+<tr id="ServiceEntryVisibility-Visibility-PUBLIC">
+<td><code><a href="#ServiceEntryVisibility-Visibility-PUBLIC">PUBLIC</a></code></td>
+<td>
+<p>Visible to every workload the holding control plane configures.
+Equivalent to the legacy <code>exportTo: &quot;*&quot;</code>.</p>
+<p>The reach of <code>PUBLIC</code> is a control-plane-connectivity boundary, not a
+fixed topological one: it extends exactly as far as the control plane
+that holds this ServiceEntry distributes configuration. Mesh topology
+therefore determines how far <code>PUBLIC</code> actually reaches, and the same
+entry scopes differently under different topologies. For example, in a
+single-primary multi-cluster mesh a <code>PUBLIC</code> ServiceEntry reaches every
+proxy that primary configures, spanning clusters; in a multi-primary
+mesh it reaches only the proxies of the control plane that holds the
+entry and does not propagate to the other control planes.</p>
 
 </td>
 </tr>

@@ -624,6 +624,20 @@ The supported list of ciphers are:</p>
 
 </td>
 </tr>
+<tr id="ServerTLSSettings-insecure_skip_verify">
+<td><div class="field"><div class="name"><code><a href="#ServerTLSSettings-insecure_skip_verify">insecureSkipVerify</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
+<td>
+<p>If set to true, the proxy will try to validate the certificate, but even if the
+validation fails, it will allow the connection through.</p>
+<p>It&rsquo;s needed to implement Gateway API AllowInsecureFallback feature. The different between
+AllowInsecureFallback and not verifying client certificate at all is that Gateway is able
+to pass the client certificate to the backend in the x-forwarded-client-cert HTTP header and
+backend can verify the certificate.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
