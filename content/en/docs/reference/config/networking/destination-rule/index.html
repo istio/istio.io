@@ -626,6 +626,8 @@ spec:
 <div class="type"><a href="#LoadBalancerSettings-SimpleLB">SimpleLB (oneof)</a></div>
 </div></td>
 <td>
+<p>Standard load balancing algorithms that require no tuning.</p>
+
 </td>
 </tr>
 <tr id="LoadBalancerSettings-consistent_hash" class="oneof">
@@ -633,6 +635,8 @@ spec:
 <div class="type"><a href="#LoadBalancerSettings-ConsistentHashLB">ConsistentHashLB (oneof)</a></div>
 </div></td>
 <td>
+<p>Consistent Hash-based load balancing can be used to provide soft session affinity based on HTTP headers, cookies or other properties.</p>
+
 </td>
 </tr>
 <tr id="LoadBalancerSettings-locality_lb_setting">
@@ -640,7 +644,7 @@ spec:
 <div class="type"><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></div>
 </div></td>
 <td>
-<p>Locality load balancer settings, this will override mesh-wide settings in entirety, meaning no merging would be performed
+<p>Locality load balancer settings. This will override mesh-wide settings in entirety, meaning no merging would be performed
 between this object and the object one in MeshConfig</p>
 
 </td>
