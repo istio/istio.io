@@ -32,3 +32,7 @@ This release contains bug fixes to improve robustness. This release note describ
   ([Issue ztunnel/1674](https://github.com/istio/ztunnel/issues/1674))
 
 - **Fixed** a memory leak in Istiod where `needResync` entries for failed pod IPs were never cleaned up.
+
+- **Fixed** cross-network traffic through the east-west gateway being blocked by a spurious
+  deny-all RBAC filter when the destination service has L7 `AuthorizationPolicies`.
+  ([Issue #60806](https://github.com/istio/istio/issues/60806))

@@ -76,3 +76,7 @@ This release contains bug fixes to improve robustness. This release note describ
   the waypoint, but the ECDS lookup path rejected it as cross-namespace, leaving Envoy waiting for a
   resource that would never arrive.
   ([Issue #60530](https://github.com/istio/istio/issues/60530))
+
+- **Fixed** cross-network traffic through the east-west gateway being blocked by a spurious
+  deny-all RBAC filter when the destination service has L7 `AuthorizationPolicies`.
+  ([Issue #60806](https://github.com/istio/istio/issues/60806))
