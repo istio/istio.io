@@ -27,7 +27,7 @@ aliases:
 - **Añadida** la variable de entorno `DISABLE_SHADOW_HOST_SUFFIX` para controlar el comportamiento del sufijo de host shadow en las políticas de mirroring. Cuando se establece en `true` (predeterminado), se añaden sufijos de host shadow a los nombres de host de las solicitudes reflejadas. Cuando se establece en `false`, no se añaden sufijos de host shadow. Esto proporciona compatibilidad con versiones anteriores para los usuarios que actualizan desde versiones anteriores de Istio donde los sufijos de host shadow se añadían por defecto a través de perfiles de compatibilidad.
   ([Issue #57530](https://github.com/istio/istio/issues/57530))
 
-- **Añadido** soporte para `sectionName` en `BackendTLSPolicy` de la Gateway API para habilitar la configuración TLS específica por puerto. Esto permite seleccionar puertos específicos de un Service por nombre, habilitando diferentes configuraciones TLS por puerto.
+- **Añadido** soporte para `sectionName` en `BackendTLSPolicy` de la Gateway API para habilitar la configuración TLS específica por puerto. Esto permite seleccionar puertos específicos de un Service por nombre, habilitando diferentes configuraciones TLS por puerto. Por ejemplo, ahora es posible configurar TLS únicamente para el puerto `https` de un `Service`, sin afectar los demás puertos.
 
 - **Añadido** soporte para `ServiceEntry` como `targetRef` en `BackendTLSPolicy`. Esto permite a los usuarios aplicar configuraciones TLS a servicios externos definidos por recursos `ServiceEntry`.
   ([Issue #57521](https://github.com/istio/istio/issues/57521))
@@ -61,7 +61,7 @@ aliases:
 - **Corregido** un problema donde la configuración del pool de conexiones HTTP/2 no se aplicaba al habilitar las actualizaciones HTTP/2.
   ([Issue #57583](https://github.com/istio/istio/issues/57583))
 
-- **Corregidos** los despliegues de waypoint para usar el `terminationGracePeriodSeconds` predeterminado de Kubernetes (30 segundos) en lugar de un valor codificado de 2 segundos.
+- **Corregidos** los despliegues de waypoint para usar el `terminationGracePeriodSeconds` predeterminado de Kubernetes (30 segundos) en lugar de un valor fijo de 2 segundos.
 
 - **Añadido** soporte para `InferencePool` v1.
   ([Issue #57219](https://github.com/istio/istio/issues/57219))
@@ -76,7 +76,7 @@ aliases:
   Consulta [uso](/docs/tasks/traffic-management/ingress/secure-ingress/#key-formats) o [referencia](/docs/reference/config/networking/gateway/#ServerTLSSettings-ca_cert_credential_name) para más información.
   ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
-- **Añadido** el despliegue opcional de `NetworkPolicy` para istiod. Puedes establecer `global.networkPolicy.enabled=true` para desplegar una `NetworkPolicy` predeterminada para istiod y gateways.
+- **Añadido** el despliegue opcional de `NetworkPolicy` para istiod. Puedes establecer `global.networkPolicy.enabled=true` para desplegar una `NetworkPolicy` predeterminada para istiod y gateways. Se planea ampliar esta funcionalidad más adelante para incluir también `NetworkPolicy` para istio-cni y ztunnel.
   ([Issue #56877](https://github.com/istio/api/issues/56877))
 
 - **Añadido** soporte para configurar `seccompProfile` en los contenedores `istio-validation` e `istio-proxy` dentro de la plantilla de inyección sidecar. Los usuarios ahora pueden establecer `seccompProfile.type` a `RuntimeDefault` para mejorar el cumplimiento de seguridad.
@@ -86,7 +86,7 @@ aliases:
   Consulta [uso](/docs/tasks/traffic-management/ingress/secure-ingress/#configure-a-mutual-tls-ingress-gateway) y [referencia](https://gateway-api.sigs.k8s.io/reference/spec/#frontendtlsvalidation) para más información.
   ([Issue #43966](https://github.com/istio/istio/issues/43966))
 
-- **Corregida** la configuración del filtro JWT para soportar claims personalizados delimitados por espacios. La configuración del filtro JWT ahora incluye correctamente los claims personalizados delimitados por espacios especificados por el usuario además de los claims predeterminados ("scope" y "permission"). Para configurar claims personalizados delimitados por espacios, usa el campo `spaceDelimitedClaims` en la configuración de la regla JWT dentro del recurso `RequestAuthentication`.
+- **Corregida** la configuración del filtro JWT para soportar claims personalizados delimitados por espacios. La configuración del filtro JWT ahora incluye correctamente los claims personalizados delimitados por espacios especificados por el usuario además de los claims predeterminados ("scope" y "permission"). Esto garantiza que el filtro JWT de Envoy trate estos claims como cadenas delimitadas por espacios, permitiendo la validación correcta de los tokens JWT que los contienen. Para configurar claims personalizados delimitados por espacios, usa el campo `spaceDelimitedClaims` en la configuración de la regla JWT dentro del recurso `RequestAuthentication`.
   ([Issue #56873](https://github.com/istio/istio/issues/56873))
 
 - **Eliminado** el uso de MD5 para optimizar comparaciones. Istio no ha usado MD5 para propósitos criptográficos. El cambio es simplemente para hacer el código más fácil de auditar y ejecutar en [modo FIPS 140-3](https://go.dev/doc/security/fips140).
@@ -100,7 +100,7 @@ aliases:
 - **Añadido** soporte para la configuración `TraceContextOption` de Zipkin para habilitar la propagación dual de cabeceras B3/W3C.
   Configura con `trace_context_option: USE_B3_WITH_W3C_PROPAGATION` en `extensionProviders` de MeshConfig para
   extraer cabeceras B3 preferentemente, recurrir a cabeceras W3C `traceparent` como alternativa, e inyectar ambos tipos de cabeceras
-  en el upstream para una mejor interoperabilidad de trazado.
+  en el upstream para una mejor interoperabilidad de trazado. Consulta la [documentación de Envoy](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/trace/v3/zipkin.proto#envoy-v3-api-enum-config-trace-v3-zipkinconfig-tracecontextoption), la [referencia de `MeshConfig`](/docs/reference/config/istio.mesh.v1alpha1/) y la [guía de uso](/docs/tasks/observability/distributed-tracing/) para obtener más información.
 
 - **Eliminado** el soporte de vencimiento de métricas. Usa `StatsEviction` en la configuración de bootstrap en su lugar.
 
@@ -120,7 +120,7 @@ aliases:
 - **Añadido** soporte para instalaciones "basadas en persona" a nuestros charts de Helm basado en el alcance de los recursos generados/aplicados.
     - Si no se establece `resourceScope`, se instalarán todos los recursos. Este es el mismo comportamiento que un usuario esperaría de los charts de 1.27.
     - Si `resourceScope` se establece en `namespace`, solo se instalarán los recursos con alcance de namespace.
-    - Si `resourceScope` se establece en `cluster`, solo se instalarán los recursos con alcance de clúster.
+    - Si `resourceScope` se establece en `cluster`, solo se instalarán los recursos con alcance de clúster. Esto puede permitir que un administrador de Kubernetes gestione los recursos del clúster y que el administrador del mesh gestione los recursos del mesh.
   Para el chart de ztunnel, `resourceScope` es un campo de nivel superior. Para todos los demás charts, es un campo bajo `global`.
   ([Issue #57530](https://github.com/istio/istio/issues/57530))
 
@@ -129,11 +129,12 @@ aliases:
 
 - **Añadidos** `.Values.podLabels` y `.Values.daemonSetLabels` al chart de Helm de istio-cni.
 
-- **Añadida** la configuración `service.clusterIP` al chart de Gateway para soportar la anulación del `spec.clusterIP` del recurso `Service`.
+- **Añadida** la configuración `service.clusterIP` al chart de Gateway para soportar la anulación del `spec.clusterIP` del recurso `Service`. Esto puede resultar útil cuando el usuario desea establecer una dirección IP de clúster específica para el servicio Gateway en lugar de depender de la asignación automática.
 
 - **Añadida** una nueva representación de las etiquetas de revisión usando servicios de IP de clúster, diseñada para dejar de usar webhooks mutantes en modo ambient.
+  Tanto `istioctl tag set <tag> --revision <rev>` como el valor `revisionTags` del chart de Helm crearán un `MutatingWebhook` utilizando las especificaciones actuales y un `Service` similar al `Service` de istiod, pero con la etiqueta `istio.io/tag` para almacenar el mapeo.
 
-- **Añadida** la opción `internalTrafficPolicy` para el servicio de gateway.
+- **Añadida** la opción `internalTrafficPolicy` para el servicio de gateway (necesaria, por ejemplo, al instalar ArgoCD con gateway, ya que se trata de una aplicación interna).
 
 - **Corregido** un problema donde el PDB creado por una instalación predeterminada bloqueaba el drenado de nodos de Kubernetes.
   ([Issue #12602](https://github.com/istio/istio/issues/12602))

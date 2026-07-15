@@ -31,7 +31,7 @@ Esta versión contiene correcciones de errores para mejorar la robustez. Estas n
 
 - **Corregidos** los fallos de sondeo de salud de kubelet para los pods de mesh ambient en AWS EKS al usar Security Groups for Pods (branch ENI). istio-cni ahora detecta los pods branch ENI y añade reglas IP para enrutar el tráfico de sondeo a través del par veth en lugar del tejido VPC. Controlado por el flag de características `AMBIENT_ENABLE_AWS_BRANCH_ENI_PROBE` (activado por defecto).
 
-- **Corregidos** los endpoints de depuración XDS (`istio.io/debug/syncz` e `istio.io/debug/config_dump`) servidos por `StatusGen` para aplicar autorización del mismo namespace a los llamantes que no son del sistema. Anteriormente, un workload autenticado de cualquier namespace podía enumerar proxies y recuperar volcados de configuración de workloads en otros namespaces.
+- **Corregidos** los endpoints de depuración XDS (`istio.io/debug/syncz` e `istio.io/debug/config_dump`) servidos por `StatusGen` para exigir autorización dentro del mismo namespace a quienes no pertenecen a un namespace del sistema. Anteriormente, un workload autenticado de cualquier namespace podía enumerar proxies y obtener volcados de configuración de workloads ubicados en otros namespaces.
 
 **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [1seal](https://github.com/1seal).
 

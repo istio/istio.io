@@ -15,7 +15,7 @@ Esta versión contiene correcciones de seguridad. Estas notas de versión descri
 
 ## Cambios
 
-- **Añadido** soporte de Helm v4 (apply del lado del servidor). Corregido un conflicto de propiedad del campo `failurePolicy` del webhook que causaba que `helm upgrade` con SSA fallara.
+- **Añadido** soporte para Helm v4 (SSA / apply del lado del servidor). Corregido un conflicto de propiedad del campo `failurePolicy` del webhook que causaba que `helm upgrade` con SSA fallara.
   ([Issue #58302](https://github.com/istio/istio/issues/58302)) ([Issue #59367](https://github.com/istio/istio/issues/59367))
 
 - **Añadida** la posibilidad de especificar namespaces autorizados para los endpoints de depuración cuando `ENABLE_DEBUG_ENDPOINT_AUTH=true`. Se habilita configurando `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` con una lista separada por comas de namespaces autorizados. El namespace del sistema (normalmente `istio-system`) siempre está autorizado.
