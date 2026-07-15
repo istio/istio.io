@@ -41,7 +41,7 @@ This release contains bug fixes to improve robustness. This release note describ
   (e.g. Helm annotations, Argo CD labels, or `kubectl.kubernetes.io/last-applied-configuration`)
   triggered unnecessary XDS pushes to all proxies. This could cause a significant increase in
   control plane CPU usage and push latency in clusters with many `VirtualServices` managed by GitOps
-  tooling. The fix restores the pre-1.30 behavior where only spec changes or `istio.io`
+  tooling. The fix restores the previous behavior where only spec changes or `istio.io`
   label/annotation changes trigger a push.
   ([Issue #60629](https://github.com/istio/istio/issues/60629))
 
