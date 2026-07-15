@@ -33,7 +33,7 @@ ha sido reemplazado por `inferencePool.spec.endpointPickerRef.port.number`. El c
 
 Durante una actualización de una versión anterior a una que soporte servicios "PASSTHROUGH", las imágenes antiguas de ztunnel reportarán un NACK en XDS porque no soportan este nuevo tipo de servicio. Esto es esperado y no debería ser excesivamente problemático; sin embargo, puede representar un cambio de comportamiento del data plane cuando veas el NACK. Durante la actualización, un NACK podría resultar en:
 
-1. La configuración del data plane no fue actualizada porque no podía manejar el nuevo tipo de servicio. Esto es efectivamente una actualización sin cambios.
+1. La configuración del data plane no fue actualizada porque no podía manejar el nuevo tipo de servicio. En la práctica, se trata de una actualización que no produce ningún cambio.
 1. El servicio es nuevo y la configuración no fue aceptada por el data plane. Esto resultará en un comportamiento donde el data plane actúa como si el ServiceEntry no existiera. Esto resulta en un comportamiento passthrough donde ztunnel no reconoce el servicio y no puede determinar si se requiere un waypoint.
 
 En ambos casos, el comportamiento de NACK se resolverá una vez que ztunnel sea actualizado a una versión que soporte el nuevo tipo de servicio.
