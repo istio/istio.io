@@ -194,6 +194,61 @@ When set on a <code>Namespace</code>, this applies to all <code>Pod</code>/<code
     </tr>
   </tbody>
 </table>
+<h2 id="IoIstioUseWaypointCanary">istio.io/use-waypoint-canary</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint-canary</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a <code>Service</code> or <code>ServiceEntry</code> (or its <code>Namespace</code>), names a second, canary waypoint for the
+service in addition to the primary <code>istio.io/use-waypoint</code>. A configurable share of the service&rsquo;s
+in-mesh connections (and, with <code>istio.io/ingress-use-waypoint</code>, ingress requests) is directed to
+this canary waypoint, controlled by the <code>istio.io/use-waypoint-canary-weight</code> annotation.
+This is the migration primitive for canarying a service between two waypoints (for example
+two waypoint revisions, or two waypoint implementations).</p>
+
+<p>The canary is assumed to be in the same namespace; for cross-namespace, see
+<code>istio.io/use-waypoint-canary-namespace</code>. The canary waypoint must allow the type, see
+<code>istio.io/waypoint-for</code>.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="IoIstioUseWaypointCanaryNamespace">istio.io/use-waypoint-canary-namespace</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint-canary-namespace</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>When set on a resource, indicates the canary waypoint (<code>istio.io/use-waypoint-canary</code>) is in
+the provided namespace. This must be set in addition to <code>istio.io/use-waypoint-canary</code>, when a
+cross-namespace reference is desired.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="IoIstioUseWaypointNamespace">istio.io/use-waypoint-namespace</h2>
 <table class="annotations">
   <tbody>

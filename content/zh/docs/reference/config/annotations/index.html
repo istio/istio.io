@@ -169,6 +169,36 @@ Note: When using docker-in-docker container, the default bridge interface name i
     </tr>
   </tbody>
 </table>
+<h2 id="IoIstioUseWaypointCanaryWeight">istio.io/use-waypoint-canary-weight</h2>
+<table class="annotations">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><code>istio.io/use-waypoint-canary-weight</code></td>
+    </tr>
+    <tr>
+      <th>Feature Status</th>
+      <td>Alpha</td>
+    </tr>
+    <tr>
+      <th>Resource Types</th>
+      <td>[Service ServiceEntry Namespace]</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td><p>Sets the relative weight (0-100) of the canary waypoint (<code>istio.io/use-waypoint-canary</code>); the
+primary <code>istio.io/use-waypoint</code> receives the remainder. On the in-mesh path a waypoint is
+selected per connection, so this is the share of new connections directed to the canary, not a
+per-request split: a connection is pinned to its selected waypoint for its lifetime, and the
+realized share converges over many connections. On the ingress path
+(<code>istio.io/ingress-use-waypoint</code>) selection is per request. Defaults to 0 (canary resolved for
+validation but receives no connections) when unset. A value of 100 directs all selection to the
+canary (a transient promotion step). Invalid values (non-integer or outside 0-100) are rejected
+and the service stays on the primary waypoint.</p>
+</td>
+    </tr>
+  </tbody>
+</table>
 <h2 id="IoKubernetesIngressClass">kubernetes.io/ingress.class</h2>
 <table class="annotations">
   <tbody>

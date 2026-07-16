@@ -373,8 +373,25 @@ type.</p>
 <td>
 <p>Locality based load balancing distribution or failover settings.
 If unspecified, locality based load balancing will be enabled by default.
-However, this requires outlierDetection to actually take effect for a particular
+Only one of locality_lb_setting and zone_aware_lb_setting should be enabled;
+if both are set, zone_aware_lb_setting takes precedence and this setting is ignored.
+Failover settings, require outlierDetection to actually take effect for a particular
 service, see <a href="/docs/tasks/traffic-management/locality-load-balancing/failover/">https://istio.io/latest/docs/tasks/traffic-management/locality-load-balancing/failover/</a></p>
+
+</td>
+</tr>
+<tr id="MeshConfig-zone_aware_lb_setting">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-zone_aware_lb_setting">zoneAwareLbSetting</a></code></div>
+<div class="type"><a href="/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting">ZoneAwareLoadBalancerSetting</a></div>
+</div></td>
+<td>
+<p>Zone Aware based load balancing settings.
+Only one of locality_lb_setting and zone_aware_lb_setting should be enabled,
+if unspecified zone_aware_lb_setting is disabled by default.
+If both are set, zone_aware_lb_setting takes precedence over locality_lb_setting.
+Additionally, Zone Aware LB is only supported in Sidecar mode and only takes effect
+on proxies configured with <code>ISTIO_META_ENABLE_SELF_DISCOVERY=true</code> (via <code>proxyMetadata</code>); see
+<a href="/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting">ZoneAwareLoadBalancerSetting</a>.</p>
 
 </td>
 </tr>
