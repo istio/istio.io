@@ -33,10 +33,10 @@ Before you begin, please do the following:
 1. Validate the `cosign` binary signature:
 
    {{< text bash >}}
-$ openssl dgst -sha256 \
-    -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pub) \
-    -signature <(cat /path/to/cosign.sig | base64 -d) \
-    /path/to/cosign-binary
+   $ openssl dgst -sha256 \
+       -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pub) \
+       -signature <(cat /path/to/cosign.sig | base64 -d) \
+       /path/to/cosign-binary
     {{< /text >}}
 
 1. Make the binary executable (`chmod +x`) and move to a location on the `PATH`

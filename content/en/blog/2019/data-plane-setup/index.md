@@ -114,20 +114,20 @@ To use modified configmaps or local configmaps:
 - Create `inject-config.yaml` and `mesh-config.yaml` from the configmaps
 
     {{< text bash >}}
-$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
-$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
+    $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
+    $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
     {{< /text >}}
 
 - Modify the existing pod template, in my case, `demo-red.yaml`:
 
     {{< text bash >}}
-$ istioctl kube-inject --injectConfigFile inject-config.yaml --meshConfigFile mesh-config.yaml --filename demo-red.yaml --output demo-red-injected.yaml
+    $ istioctl kube-inject --injectConfigFile inject-config.yaml --meshConfigFile mesh-config.yaml --filename demo-red.yaml --output demo-red-injected.yaml
     {{< /text >}}
 
 - Apply the `demo-red-injected.yaml`
 
     {{< text bash >}}
-$ kubectl apply -f demo-red-injected.yaml
+    $ kubectl apply -f demo-red-injected.yaml
     {{< /text >}}
 
 As seen above, we create a new template using the `sidecar-injector` and the mesh configuration to then apply that new template using `kubectl`. If we look at the injected YAML file, it has the configuration of the Istio-specific containers, as we discussed above. Once we apply the injected YAML file, we see two containers running. One of them is the actual application container, and the other is the `istio-proxy` sidecar.

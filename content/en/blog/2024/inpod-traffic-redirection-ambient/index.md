@@ -160,17 +160,17 @@ every popular CNI?
 
 In the new ambient model, this is how application pod is added to the ambient mesh:
 - The `istio-cni` node agent detects a Kubernetes pod (existing or newly-started) with its namespace labeled with `istio.io/dataplane-mode=ambient`, indicating that it should be included in the ambient mesh.
-  - If a *new* pod is started that should be added to the ambient mesh, a CNI plugin (as installed and managed by the `istio-cni` agent) is triggered by the CRI.
+    - If a *new* pod is started that should be added to the ambient mesh, a CNI plugin (as installed and managed by the `istio-cni` agent) is triggered by the CRI.
   This plugin is used to push a new pod event to the node’s `istio-cni` agent, and block pod startup until the agent successfully configures
   redirection. Since CNI plugins are invoked by the CRI as early as possible in the Kubernetes pod creation process, this ensures that we can
   establish traffic redirection early enough to prevent traffic escaping during startup, without relying on things like init containers.
-  - If an *already-running* pod becomes added to the ambient mesh, a new pod event is triggered. The `istio-cni` node agent’s Kubernetes
+    - If an *already-running* pod becomes added to the ambient mesh, a new pod event is triggered. The `istio-cni` node agent’s Kubernetes
   API watcher detects this, and redirection is configured in the same manner.
 - The `istio-cni` node agent enters the pod’s network namespace and establishes network redirection rules inside the pod network namespace, such that packets entering and leaving the pod are intercepted and transparently redirected to the node-local ztunnel proxy instance listening on [well-known ports](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports) (15008, 15006, 15001).
 - The `istio-cni` node agent then informs the node ztunnel over a Unix domain socket that it should establish local proxy
 listening ports inside the pod’s network namespace, (on 15008, 15006, and 15001), and provides ztunnel with a low-level
 Linux [file descriptor](https://en.wikipedia.org/wiki/File_descriptor) representing the pod’s network namespace.
-  - While typically sockets are created within a Linux network namespace by the process actually running inside that
+    - While typically sockets are created within a Linux network namespace by the process actually running inside that
 network namespace, it is perfectly possible to leverage Linux’s low-level socket API to allow a process running in one
 network namespace to create listening sockets in another network namespace, assuming the target network namespace is known
 at creation time.

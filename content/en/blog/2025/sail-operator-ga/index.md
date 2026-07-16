@@ -27,12 +27,12 @@ If you are migrating from the [since-removed Istio in-cluster operator](/blog/20
 
 ## Main features and support
 
-- Each component of the Istio control plane is managed independently by the Sail Operator through dedicated Kubernetes Custom Resources (CRs). The Sail Operator provides separate CRDs for components such as `Istio`, `IstioCNI`, and `ZTunnel`, allowing you to configure, manage, and upgrade them individually. Additionally, there are CRDs for `IstioRevision` and `IstioRevisionTag` to manage Istio control plane revisions.
-- Support for multiple Istio versions. Currently the 1.0.0 version supports: 1.24.3, 1.24.2, 1.24.1, 1.23.5, 1.23.4, 1.23.3, 1.23.0.
-- Two update strategies are supported: `InPlace` and `RevisionBased`. Check our documentation for more information about the update types supported.
-- Support for multicluster Istio [deployment models](/docs/setup/install/multicluster/): multi-primary, primary-remote, external control plane. More information and examples in our [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multi-cluster).
-- Ambient mode support is Alpha: check our specific [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/common/istio-ambient-mode.md).
-- Addons are managed separately from the Sail Operator. They can be easily integrated with the Sail Operator, check this section for the [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#addons) for examples and more information.
+* Each component of the Istio control plane is managed independently by the Sail Operator through dedicated Kubernetes Custom Resources (CRs). The Sail Operator provides separate CRDs for components such as `Istio`, `IstioCNI`, and `ZTunnel`, allowing you to configure, manage, and upgrade them individually. Additionally, there are CRDs for `IstioRevision` and `IstioRevisionTag` to manage Istio control plane revisions.
+* Support for multiple Istio versions. Currently the 1.0.0 version supports: 1.24.3, 1.24.2, 1.24.1, 1.23.5, 1.23.4, 1.23.3, 1.23.0.
+* Two update strategies are supported: `InPlace` and `RevisionBased`. Check our documentation for more information about the update types supported.
+* Support for multicluster Istio [deployment models](/docs/setup/install/multicluster/): multi-primary, primary-remote, external control plane. More information and examples in our [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#multi-cluster).
+* Ambient mode support is Alpha: check our specific [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/common/istio-ambient-mode.md).
+* Addons are managed separately from the Sail Operator. They can be easily integrated with the Sail Operator, check this section for the [documentation](https://github.com/istio-ecosystem/sail-operator/blob/main/docs/README.md#addons) for examples and more information.
 
 ## Why now?
 
@@ -44,10 +44,10 @@ Would you like to try out Sail Operator?
 This example will show you how to safely do an update of your Istio control plane by using the revision-based upgrade strategy. This means you will have two Istio control planes running at the same time, allowing you to migrate workloads easily, minimizing the risk of traffic disruptions.
 
 Prerequisites:
-- Running cluster
-- Helm
-- Kubectl
-- Istioctl
+* Running cluster
+* Helm
+* Kubectl
+* Istioctl
 
 ### Install the Sail Operator using Helm
 
@@ -109,7 +109,7 @@ EOF
 Note that the `IstioRevisionTag` has a target reference to the `Istio` resource with the name `default`
 
 Check the state of the resources created:
-- `istiod` pods are running
+* `istiod` pods are running
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -117,7 +117,7 @@ Check the state of the resources created:
     istiod-default-v1-24-2-bd8458c4-jl8zm   1/1     Running   0          3m45s
     {{< /text >}}
 
-- `Istio` resource created
+* `Istio` resource created
 
     {{< text bash >}}
     $ kubectl get istio
@@ -125,7 +125,7 @@ Check the state of the resources created:
     default   1           1       1        default-v1-24-2   Healthy   v1.24.2   4m27s
     {{< /text >}}
 
-- `IstioRevisionTag` resource created
+* `IstioRevisionTag` resource created
 
     {{< text bash >}}
     $ kubectl get istiorevisiontag
@@ -237,7 +237,7 @@ sleep-6f87fcf556-k9nh9.sample     Kubernetes     SYNCED (29s)     SYNCED (29s)  
 
 When an `IstioRevision` is no longer in use and is not the active revision of an `Istio` resource (for example, when it is not the version that is set in the `spec.version` field), the Sail Operator will delete it after a grace period, which defaults to 30 seconds. Confirm the deletion of the old control plane and `IstioRevision`:
 
-- The old control plane pod is deleted
+* The old control plane pod is deleted
 
     {{< text bash >}}
     $ kubectl get pods -n istio-system
@@ -245,7 +245,7 @@ When an `IstioRevision` is no longer in use and is not the active revision of an
     istiod-default-v1-24-3-68df97dfbb-v7ndm   1/1     Running   0          10m
     {{< /text >}}
 
-- The old `IstioRevision` is deleted
+* The old `IstioRevision` is deleted
 
     {{< text bash >}}
     $ kubectl get istiorevision
@@ -253,7 +253,7 @@ When an `IstioRevision` is no longer in use and is not the active revision of an
     default-v1-24-3          True    Healthy   True     v1.24.3   13m
     {{< /text >}}
 
-- The `Istio` resource now only has one revision
+* The `Istio` resource now only has one revision
 
     {{< text bash >}}
     $ kubectl get istio

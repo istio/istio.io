@@ -43,9 +43,9 @@ Implementations under test:
 * Istio: version 1.26 (prerelease), default settings
 * <a href="https://linkerd.io/">Linkerd</a>: version `edge-25.2.2`, default settings
 * <a href="https://cilium.io/">Cilium</a>: version `v1.16.6` with `kubeProxyReplacement=true`
-  * WireGuard uses `encryption.type=wireguard`
-  * IPsec uses `encryption.type=ipsec` with the `GCM-128-AES` algorithm
-  * Additionally, both modes were tested with all of the recommendations in <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/">Cilium's tuning guide</a> (including `netkit`, `native` routing mode, BIGTCP (for WireGuard; IPsec is incompatible), BPF masquerade, and BBR bandwidth manager). However, the results were the same with and without these settings applied, so only one result is reported.
+    * WireGuard uses `encryption.type=wireguard`
+    * IPsec uses `encryption.type=ipsec` with the `GCM-128-AES` algorithm
+    * Additionally, both modes were tested with all of the recommendations in <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/">Cilium's tuning guide</a> (including `netkit`, `native` routing mode, BIGTCP (for WireGuard; IPsec is incompatible), BPF masquerade, and BBR bandwidth manager). However, the results were the same with and without these settings applied, so only one result is reported.
 * <a href="https://www.tigera.io/project-calico/">Calico</a>: version `v3.29.2` with `calicoNetwork.linuxDataplane=BPF` and `wireguardEnabled=true`
 * <a href="https://kindnet.es/">Kindnet</a>: version `v1.8.5` with `--ipsec-overlay=true`.
 
