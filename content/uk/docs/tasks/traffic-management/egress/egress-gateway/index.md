@@ -356,7 +356,7 @@ $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c i
 {{< /text >}}
 
 {{< tip >}}
-Якщо увімкнено [взаємну автентифікацію TLS] (/docs/tasks/security/authentication/authn-policy/), і у вас виникли проблеми з підключенням до egress gateway, виконайте наступну команду, щоб перевірити правильність сертифіката:
+Якщо увімкнено [взаємну автентифікацію TLS](/docs/tasks/security/authentication/authn-policy/), і у вас виникли проблеми з підключенням до egress gateway, виконайте наступну команду, щоб перевірити правильність сертифіката:
 
 {{< text bash >}}
 $ istioctl pc secret "$(kubectl get pod -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -o jsonpath='{.items[0].metadata.name}')" -ojson | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -text -noout | grep 'Subject Alternative Name' -A 1

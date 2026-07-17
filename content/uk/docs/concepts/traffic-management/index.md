@@ -221,7 +221,7 @@ spec:
 - Зважений (Weighted): Запити пересилаються до екземплярів у пулі відповідно до певного відсотка.
 - Кільцевий (Round robin): Запити пересилаються кожному екземпляру послідовно.
 - Послідовний хеш (Consistent hash): Забезпечує мʼяку спорідненість сесій на основі заголовків HTTP, файлів cookie або інших властивостей.
-- Кільцеве хешування (Ring hash): Реалізує послідовне хешування для висхідних хостів за допомогою [алгоритму Кетама] (https://www.metabrew.com/article/libketama-consistent-hashing-algo-memcached-clients).
+- Кільцеве хешування (Ring hash): Реалізує послідовне хешування для висхідних хостів за допомогою [алгоритму Кетама](https://www.metabrew.com/article/libketama-consistent-hashing-algo-memcached-clients).
 - Maglev: реалізує послідовне хешування на висхідних хостах, як описано в [Maglev paper](https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/).
 
 Докладніше про кожен варіант можна дізнатися в [документації з балансування навантаження Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers).

@@ -27,8 +27,8 @@ keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
     alt="IstioDay, кввітень 1, 2025, Лондон. #istioday"
     >}}
 
-- Відвідайте сесію Istio Maintainers' Track: [Istio: минуле, сьогодення та майбутнє проєкту та спільноти] (https://sched.co/1tczp)
-- Завітайте на сесію Istio Contribfest: [Посібник для початківців по внеску в Istio — практичний воркшоп по розробці та внеску] (https://sched.co/1wau5)
+- Відвідайте сесію Istio Maintainers' Track: [Istio: минуле, сьогодення та майбутнє проєкту та спільноти](https://sched.co/1tczp)
+- Завітайте на сесію Istio Contribfest: [Посібник для початківців по внеску в Istio — практичний воркшоп по розробці та внеску](https://sched.co/1wau5)
 
 - Додайте до свого розкладу наступні сесії KubeCon, кожна з яких присвячена Istio:
     - [Project Lightning Talk: Що нового в Istio?](https://sched.co/1tcvB)
