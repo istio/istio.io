@@ -40,14 +40,14 @@ Over the last 4 releases, the performance of Ztunnel has improved by 75%!
 <summary>Testing Details</summary>
 
 Implementations under test:
-* Istio: version 1.26 (prerelease), default settings
-* <a href="https://linkerd.io/">Linkerd</a>: version `edge-25.2.2`, default settings
-* <a href="https://cilium.io/">Cilium</a>: version `v1.16.6` with `kubeProxyReplacement=true`
-    * WireGuard uses `encryption.type=wireguard`
-    * IPsec uses `encryption.type=ipsec` with the `GCM-128-AES` algorithm
-    * Additionally, both modes were tested with all of the recommendations in <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/">Cilium's tuning guide</a> (including `netkit`, `native` routing mode, BIGTCP (for WireGuard; IPsec is incompatible), BPF masquerade, and BBR bandwidth manager). However, the results were the same with and without these settings applied, so only one result is reported.
-* <a href="https://www.tigera.io/project-calico/">Calico</a>: version `v3.29.2` with `calicoNetwork.linuxDataplane=BPF` and `wireguardEnabled=true`
-* <a href="https://kindnet.es/">Kindnet</a>: version `v1.8.5` with `--ipsec-overlay=true`.
+- Istio: version 1.26 (prerelease), default settings
+- <a href="https://linkerd.io/">Linkerd</a>: version `edge-25.2.2`, default settings
+- <a href="https://cilium.io/">Cilium</a>: version `v1.16.6` with `kubeProxyReplacement=true`
+    - WireGuard uses `encryption.type=wireguard`
+    - IPsec uses `encryption.type=ipsec` with the `GCM-128-AES` algorithm
+    - Additionally, both modes were tested with all of the recommendations in <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/">Cilium's tuning guide</a> (including `netkit`, `native` routing mode, BIGTCP (for WireGuard; IPsec is incompatible), BPF masquerade, and BBR bandwidth manager). However, the results were the same with and without these settings applied, so only one result is reported.
+- <a href="https://www.tigera.io/project-calico/">Calico</a>: version `v3.29.2` with `calicoNetwork.linuxDataplane=BPF` and `wireguardEnabled=true`
+- <a href="https://kindnet.es/">Kindnet</a>: version `v1.8.5` with `--ipsec-overlay=true`.
 
 Some implementations only encrypt traffic cross-node, so are excluded from the same-node tests.
 
@@ -73,15 +73,15 @@ In contrast, user-space implementations are able to rapidly change and adapt to 
 Ztunnel is a great example of this effect in action, with substantial performance improvements coming in each quarterly release.
 A few of the most impactful changes:
 
-* Migrating to `rustls`, a high performance TLS library focusing on safety ([#820](https://github.com/istio/ztunnel/pull/820)).
-* Reducing data copying on outbound traffic ([#1012](https://github.com/istio/ztunnel/pull/1012)).
-* Dynamically tuning buffer sizes of active connections ([#1024](https://github.com/istio/ztunnel/pull/1024)).
-* Optimizing memory copies ([#1169](https://github.com/istio/ztunnel/pull/1169)).
-* Moving the cryptography library to `AWS-LC`, a high-performance cryptography library optimized for modern hardware ([#1466](https://github.com/istio/ztunnel/pull/1466)).
+- Migrating to `rustls`, a high performance TLS library focusing on safety ([#820](https://github.com/istio/ztunnel/pull/820)).
+- Reducing data copying on outbound traffic ([#1012](https://github.com/istio/ztunnel/pull/1012)).
+- Dynamically tuning buffer sizes of active connections ([#1024](https://github.com/istio/ztunnel/pull/1024)).
+- Optimizing memory copies ([#1169](https://github.com/istio/ztunnel/pull/1169)).
+- Moving the cryptography library to `AWS-LC`, a high-performance cryptography library optimized for modern hardware ([#1466](https://github.com/istio/ztunnel/pull/1466)).
 
 Some other factors include:
-* WireGuard and Linkerd use the `ChaCha20-Poly1305` encryption algorithm, while Istio uses `AES-GCM`. The latter is highly optimized on modern hardware.
-* WireGuard and IPsec operate on individual packets (typically at most 1500 bytes, bound by the network MTU) while TLS operates on records of up to 16KB.
+- WireGuard and Linkerd use the `ChaCha20-Poly1305` encryption algorithm, while Istio uses `AES-GCM`. The latter is highly optimized on modern hardware.
+- WireGuard and IPsec operate on individual packets (typically at most 1500 bytes, bound by the network MTU) while TLS operates on records of up to 16KB.
 
 ## Try ambient mode today
 
