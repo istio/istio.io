@@ -1587,7 +1587,6 @@ whitelists
 whitespace
 Wikipedia
 wikipedia.org
-www.wikipedia.org
 wildcard
 wildcarded
 wildcards
@@ -1599,6 +1598,7 @@ workload
 WorkloadEntry
 workstream
 www.google.com
+www.wikipedia.org
 x-envoy-upstream-rq-timeout-ms
 X.509
 X.509.
