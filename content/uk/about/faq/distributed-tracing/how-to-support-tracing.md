@@ -11,7 +11,7 @@ Istio дозволяє звітувати про трейс-відрізки (sp
 - `traceparent`
 - `tracestate`
 
-  Користувачі Zipkin повинні переконатися, що вони [поширюють заголовки трейсів B3] (https://github.com/openzipkin/b3-propagation).
+  Користувачі Zipkin повинні переконатися, що вони [поширюють заголовки трейсів B3](https://github.com/openzipkin/b3-propagation).
 
 - `x-b3-traceid`
 - `x-b3-spanid`

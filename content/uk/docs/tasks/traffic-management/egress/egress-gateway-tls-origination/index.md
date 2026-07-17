@@ -295,7 +295,7 @@ EOF
     EOF
     {{< /text >}}
 
-6)  Надішліть HTTP-запит до [http://edition.cnn.com/politics] (https://edition.cnn.com/politics).
+6)  Надішліть HTTP-запит до [http://edition.cnn.com/politics](https://edition.cnn.com/politics).
 
     {{< text bash >}}
     $ kubectl exec "${SOURCE_POD}" -c curl -- curl -sSL -o /dev/null -D - http://edition.cnn.com/politics
@@ -447,7 +447,7 @@ $ kubectl delete destinationrule originate-tls-for-edition-cnn-com
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-1. Створіть Kubernetes [Secrets] (https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів сервера та центру сертифікації.
+1. Створіть Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів сервера та центру сертифікації.
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt

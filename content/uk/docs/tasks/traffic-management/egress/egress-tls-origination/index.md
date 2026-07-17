@@ -233,7 +233,7 @@ $ kubectl delete destinationrule edition-cnn-com
     $ kubectl create namespace mesh-external
     {{< /text >}}
 
-2. Створіть Kubernetes [Secrets] (https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів сервера та центру сертифікації.
+2. Створіть Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів сервера та центру сертифікації.
 
     {{< text bash >}}
     $ kubectl create -n mesh-external secret tls nginx-server-certs --key my-nginx.mesh-external.svc.cluster.local.key --cert my-nginx.mesh-external.svc.cluster.local.crt
@@ -341,7 +341,7 @@ $ kubectl delete destinationrule edition-cnn-com
 
 ### Налаштуйте клієнта (curl pod) {#configure-the-client-curl-pod}
 
-1.  Створіть Kubernetes [Secrets] (https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів клієнта:
+1.  Створіть Kubernetes [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) для зберігання сертифікатів клієнта:
 
     {{< text bash >}}
     $ kubectl create secret generic client-credential --from-file=tls.key=client.example.com.key \
