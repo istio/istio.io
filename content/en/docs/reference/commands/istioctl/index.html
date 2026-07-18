@@ -9122,6 +9122,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>false</code></td>
 <td>If enabled, zTunnel will receive synthetic authorization policies for each workload ALLOW the Waypoint&#39;s identity. Unless other ALLOW policies are created, this effectively denies traffic that doesn&#39;t go through the waypoint.</td>
 </tr>
+<tr id='pilot-auto-send-unhealthy-endpoints'>
+<td><a href='#pilot-auto-send-unhealthy-endpoints'><code>PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include unhealthy endpoints in EDS pushes by default. Unhealthy endpoints are excluded only when OutlierDetection is configured with minHealthPercent &gt; 0, to prevent Envoy from routing traffic to non-ready endpoints when the panic threshold is triggered.</td>
+</tr>
 <tr id='pilot-ca-cert-configmap'>
 <td><a href='#pilot-ca-cert-configmap'><code>PILOT_CA_CERT_CONFIGMAP</code></a></td>
 <td>String</td>
