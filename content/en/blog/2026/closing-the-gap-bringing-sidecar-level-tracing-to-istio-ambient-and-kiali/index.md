@@ -43,7 +43,9 @@ This gap was closed in Istio 1.29. By introducing explicit attributes such as `i
 
 ### Kiali: The Unified Observability Plane
 
-How does this look in Kiali? Thanks to these new attributes, Kiali’s **Trace Overlay** feature is now more powerful than ever. When selecting a trace, Kiali highlights the entire request path, including both services and the specific workloads involved, completing the view for a trace in the versioned app graph.
+[Kiali](https://kiali.io/) is the console for Istio service mesh. It helps you configure, visualize, validate, and troubleshoot your mesh by correlating metrics, traces, and configuration into a single view.
+
+So how do these tracing improvements show up in Kiali? Thanks to these new attributes, Kiali’s **Trace Overlay** feature is now more powerful than ever. When selecting a trace, Kiali highlights the entire request path, including both services and the specific workloads involved, completing the view for a trace in the versioned app graph.
 
 Kiali builds the traffic graph from metrics data, which provides the topology, and gives a visual representation of how requests flow through the mesh. The Trace Overlay feature then uses the selected trace to highlight the nodes and edges that belong to that specific request path. In other words, metrics provide the structure of the graph, and tracing identifies the exact route taken by the request within that structure.
 
