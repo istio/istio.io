@@ -1566,6 +1566,22 @@ applicable in k8s environments with few pods per service.</p>
 
 </td>
 </tr>
+<tr id="OutlierDetection-outlier_detection_http_error_codes">
+<td><div class="field"><div class="name"><code><a href="#OutlierDetection-outlier_detection_http_error_codes">outlierDetectionHttpErrorCodes</a></code></div>
+<div class="type">uint32[]</div>
+</div></td>
+<td>
+<p>Specifies the HTTP response status codes that are treated as outlier
+detection errors. If specified, only responses with one of these status
+codes will be treated as errors by outlier detection. If not specified,
+only 5xx responses are treated as errors.</p>
+<p>Note: Host ejection is still driven by the <code>consecutive5xxErrors</code> and
+<code>consecutiveGatewayErrors</code> thresholds; this field only redefines which
+HTTP status codes are counted as errors toward those thresholds.</p>
+<p>Values must be in the range [100, 599].</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
