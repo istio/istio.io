@@ -6,7 +6,7 @@ attribution: Steven Jin (Microsoft)
 keywords: [Istio,Container Registry]
 ---
 
-In a previous blog post, we announced that Istio will retire the `gcr.io/istio-release` container registry in late 2026 and switch to `registry.istio.io/release` as the new home for Istio images.
+In a [previous blog post](../retirement-of-gcr.io/), we announced that Istio will retire the `gcr.io/istio-release` container registry in late 2026 and switch to `registry.istio.io/release` as the new home for Istio images.
 The original design was that `registry.istio.io/release` would be a Cloudflare worker that proxied requests to any OCI-compliant registry, allowing us to switch registries without any interruption to Istio users.
 Currently, we proxy to `gcr.io/istio-release`.
 
