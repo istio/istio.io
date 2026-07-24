@@ -1659,6 +1659,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
+<tr id='pilot-enable-headless-filter-chain-listener'>
+<td><a href='#pilot-enable-headless-filter-chain-listener'><code>PILOT_ENABLE_HEADLESS_FILTER_CHAIN_LISTENER</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, headless TCP services use a single wildcard listener with per-pod /32 CIDR filter chain matches instead of one listener per pod IP. Reduces xDS size and listener count for large headless services.</td>
+</tr>
 <tr id='pilot-enable-ip-autoallocate'>
 <td><a href='#pilot-enable-ip-autoallocate'><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></a></td>
 <td>Boolean</td>
