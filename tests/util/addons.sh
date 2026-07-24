@@ -16,27 +16,32 @@
 # limitations under the License.
 
 source "tests/util/helpers.sh"
+# Apply an addon manifest and wait for the deployment to be ready.
+# usage: _apply_addon_and_wait <manifest> <deployment>
+function _apply_addon_and_wait() {
+  local manifest="$1"
+  local deployment="$2"
+
+  kubectl apply -f "$manifest"
+  _wait_for_deployment istio-system "$deployment"
+}
 
 # Deploy the addons specified and wait for the deployment to complete. Currently
 # Zipkin, Jaeger, Grafana, Kiali and Prometheus are supported.
 function _deploy_and_wait_for_addons() {
   for arg in "$@"; do
     case "$arg" in
-    zipkin)     kubectl apply -f samples/addons/extras/zipkin.yaml
-                 _wait_for_deployment istio-system zipkin
+    zipkin)     _apply_addon_and_wait samples/addons/extras/zipkin.yaml zipkin
                  ;;
-    grafana)    kubectl apply -f samples/addons/grafana.yaml
-                 _wait_for_deployment istio-system grafana
+    grafana)    _apply_addon_and_wait samples/addons/grafana.yaml grafana
                  ;;
-    jaeger)     kubectl apply -f samples/addons/jaeger.yaml
-                 _wait_for_deployment istio-system jaeger
+    jaeger)     _apply_addon_and_wait samples/addons/jaeger.yaml jaeger
                  ;;
     kiali)      kubectl apply -f samples/addons/kiali.yaml || true # ignore first errors
                  kubectl apply -f samples/addons/kiali.yaml # Need to apply twice due to a race condition
                  _wait_for_deployment istio-system kiali
                  ;;
-    prometheus) kubectl apply -f samples/addons/prometheus.yaml
-                 _wait_for_deployment istio-system prometheus
+    prometheus) _apply_addon_and_wait samples/addons/prometheus.yaml prometheus
                  ;;
     skywalking) kubectl apply -f samples/addons/extras/skywalking.yaml
                  _wait_for_deployment istio-system skywalking-oap
