@@ -249,7 +249,7 @@ data:
   service: |
     spec:
       ports:
-      - "\$patch": delete
+      - "$patch": delete
         port: 15021
 {{< /text >}}
 
