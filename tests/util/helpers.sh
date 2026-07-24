@@ -80,11 +80,18 @@ _set_ingress_environment_variables() {
 
 # Wait for rollout of named deployment
 # usage: _wait_for_deployment <namespace> <deployment name> <optional: context>
+_kubectl_context_args() {
+    local context="${1:-}"
+    if [[ -n "$context" ]]; then
+        echo "--context=$context"
+    fi
+}
+
 _wait_for_deployment() {
     local namespace="$1"
     local name="$2"
     local context="${3:-}"
-    if ! kubectl --context="$context" -n "$namespace" rollout status deployment "$name" --timeout 5m; then
+    if ! kubectl $(_kubectl_context_args "$context") -n "$namespace" rollout status deployment "$name" --timeout 5m; then
         echo "Failed rollout of deployment $name in namespace $namespace"
         exit 1
     fi
@@ -96,7 +103,7 @@ _wait_for_daemonset() {
     local namespace="$1"
     local name="$2"
     local context="${3:-}"
-    if ! kubectl --context="$context" -n "$namespace" rollout status daemonset "$name" --timeout 5m; then
+    if ! kubectl $(_kubectl_context_args "$context") -n "$namespace" rollout status daemonset "$name" --timeout 5m; then
         echo "Failed rollout of daemonset $name in namespace $namespace"
         exit 1
     fi
@@ -108,7 +115,7 @@ _wait_for_statefulset() {
     local namespace="$1"
     local name="$2"
     local context="${3:-}"
-    if ! kubectl --context="$context" -n "$namespace" rollout status statefulset "$name" --timeout 5m; then
+    if ! kubectl $(_kubectl_context_args "$context") -n "$namespace" rollout status statefulset "$name" --timeout 5m; then
         echo "Failed rollout of statefulset $name in namespace $namespace"
         exit 1
     fi
@@ -136,7 +143,7 @@ _wait_for_gateway() {
     local namespace="$1"
     local name="$2"
     local context="${3:-}"
-    if ! kubectl --context="$context" -n "$namespace" wait --for=condition=programmed gtw "$name" --timeout=2m; then
+    if ! kubectl $(_kubectl_context_args "$context") -n "$namespace" wait --for=condition=programmed gtw "$name" --timeout=2m; then
         echo "Failed to deploy gateway $name in namespace $namespace"
         exit 1
     fi
