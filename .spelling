@@ -278,6 +278,7 @@ cleartext
 cli
 ClientCAs
 ClientHello
+Cloudflare
 CloudNativeCon
 CloudWatch
 cluster.local
