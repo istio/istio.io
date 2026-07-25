@@ -6,6 +6,10 @@ attribution: Steven Jin (Microsoft), John Howard (Solo.io)
 keywords: [Istio,Helm,Container Registry]
 ---
 
+{{< warning >}}
+The information in this post has been updated. See [An Update on Our Container Registry Migration](../retirement-of-gcr.io-follow-up/) for the latest guidance.
+{{< /warning >}}
+
 Due to changes in Istio's funding model, Istio images will no longer be available at `gcr.io/istio-release` starting January 1st, 2027.
 That is, clusters that reference images hosted on `gcr.io/istio-release` might fail to create new pods in 2027.
 
