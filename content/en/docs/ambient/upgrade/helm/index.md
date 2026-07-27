@@ -195,6 +195,8 @@ It is recommended that you closely monitor the health of applications using the 
 $ helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags="{$MYTAG}" --set revision="$OLD_REVISION" -n istio-system | kubectl apply -f -
 {{< /text >}}
 
+Moving a tag upgrades every waypoint referencing it in one step. If you would rather validate a new waypoint revision under a fraction of a service's real traffic first, you can deploy the new waypoint separately and [shift traffic to it gradually](/docs/ambient/usage/waypoint/#waypoint-canary) before promoting it.
+
 ### Upgrade manually deployed gateways (optional)
 
 `Gateway`s that were [deployed manually](/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) must be upgraded individually using Helm:

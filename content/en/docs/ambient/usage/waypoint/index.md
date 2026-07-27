@@ -213,6 +213,73 @@ The original destination type of the traffic is used to determine if a service o
 For instance, traffic which is addressed to a service, even though ultimately resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint.
 {{< /tip >}}
 
+### Shift traffic between waypoints {#waypoint-canary}
+
+{{< warning >}}
+Shifting traffic between waypoints is supported starting with Istio 1.31 and is considered [Alpha](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md). The labels, annotation, and behavior may change in future releases.
+{{< /warning >}}
+
+Changing the `istio.io/use-waypoint` label on a service moves all of its traffic to the new waypoint at once. To move a service between two waypoints gradually, for example to validate a new waypoint revision during an upgrade, name a second *canary* waypoint alongside the primary and give it a share of the service's traffic. The configuration lives entirely on the destination service: clients are unaware of it, and no second `Service` is required.
+
+| Name | Kind | Purpose |
+| --- | --- | --- |
+| [`istio.io/use-waypoint-canary`](/docs/reference/config/labels/#IoIstioUseWaypointCanary) | label | Name of the canary waypoint `Gateway`. |
+| [`istio.io/use-waypoint-canary-namespace`](/docs/reference/config/labels/#IoIstioUseWaypointCanaryNamespace) | label | Namespace of the canary waypoint, if it is not the namespace of the service. |
+| [`istio.io/use-waypoint-canary-weight`](/docs/reference/config/annotations/#IoIstioUseWaypointCanaryWeight) | annotation | Share of traffic sent to the canary, as an integer from 0 to 100. The primary waypoint receives the remainder. Defaults to 0. |
+
+Continuing with the `reviews` service from above, deploy a second waypoint and send 5% of the service's traffic to it, leaving the remaining 95% on `reviews-svc-waypoint`:
+
+{{< text syntax=bash >}}
+$ istioctl waypoint apply -n default --name reviews-svc-waypoint-v2
+waypoint default/reviews-svc-waypoint-v2 applied
+{{< /text >}}
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/use-waypoint-canary=reviews-svc-waypoint-v2
+$ kubectl annotate service reviews istio.io/use-waypoint-canary-weight=5
+{{< /text >}}
+
+Raise the weight as you gain confidence in the canary. Once the canary is carrying all of the traffic, promote it by making it the primary waypoint and removing the canary configuration:
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint-v2 --overwrite
+$ kubectl label service reviews istio.io/use-waypoint-canary-
+$ kubectl annotate service reviews istio.io/use-waypoint-canary-weight-
+{{< /text >}}
+
+To roll back at any point, remove the canary label. The service returns to sending all of its traffic through the primary waypoint.
+
+#### Supported resources
+
+The canary labels and annotation are supported on `Service`, `ServiceEntry`, and `Namespace`. Unlike `istio.io/use-waypoint`, they are **not** supported on `Pod` or `WorkloadEntry`: the split is defined at the service level so that it behaves the same for mesh and ingress traffic.
+
+A canary configured on a namespace only applies to services that also inherit their primary waypoint from that namespace. If a service sets its own `istio.io/use-waypoint`, it must set its own canary configuration too; the namespace's canary labels are ignored for that service.
+
+Both waypoints must be able to front the service. Each must be ready, must allow attachment from the service's namespace, and must handle `service` or `all` traffic.
+
+#### What the weight applies to
+
+* **Mesh traffic** is split by {{< gloss >}}ztunnel{{< /gloss >}} **per connection**: the weight is the share of *new* connections that select the canary. Established connections are never moved, so a service whose clients hold long-lived connections will approach the configured weight only as those clients reconnect. For the same reason, the observed split is approximate, and is only meaningful over a large number of connections.
+* **Ingress traffic** is split by the ingress gateway **per request**, and only for services that opt in with `istio.io/ingress-use-waypoint` as described in [Ingress gateways and waypoints](#ingress-and-waypoints). Without that opt-in, ingress traffic continues to bypass both waypoints.
+
+The mesh split requires a ztunnel from Istio 1.31 or later. While the data plane is being upgraded, nodes still running an older ztunnel send all of their connections to the primary waypoint, so the split across the mesh lags the configured weight until every node is upgraded. The ingress split does not depend on ztunnel.
+
+#### Configuration attached to the waypoint
+
+Both waypoints serve the same service, so any configuration that must remain in effect during the shift has to apply at both. Policies and routes that target the `Service`, such as an `AuthorizationPolicy` or an `HTTPRoute` with the service as its `parentRef`, are enforced by whichever waypoint handles the traffic and need no duplication.
+
+Configuration attached to a waypoint `Gateway` itself is a different matter. A `WasmPlugin` selecting the waypoint, or a policy whose `targetRef` names the `Gateway`, applies only to that waypoint. Replicate it on the canary before shifting traffic, otherwise the share of traffic going through the canary is handled with a different set of policies.
+
+#### Invalid configuration
+
+An unusable canary is not fatal. The service keeps using its primary waypoint alone, and the reason is reported in the `istio.io/WaypointBound` condition on the service:
+
+{{< text syntax=bash >}}
+$ kubectl get service reviews -o jsonpath='{.status.conditions}'
+{{< /text >}}
+
+This fallback applies when the canary waypoint does not exist, is not ready, does not allow attachment from the service's namespace, or cannot handle service traffic; when the weight is not an integer between 0 and 100 (`CanaryInvalidWeight`); and when the canary names the same waypoint as the primary (`CanarySameAsPrimary`).
+
 ## Cross-namespace waypoint use {#usewaypointnamespace}
 
 Straight out of the box, a waypoint proxy is usable by resources within the same namespace. Beginning with Istio 1.23, it is possible to use waypoints in different namespaces. In this section, we will examine
