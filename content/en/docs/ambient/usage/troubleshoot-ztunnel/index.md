@@ -139,6 +139,24 @@ In addition to checking ztunnel logs and other monitoring options noted above, y
 
 If a service is only using the secure overlay provided by ztunnel, the Istio metrics reported will only be the L4 TCP metrics (namely `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). The full set of Istio and Envoy metrics will be reported if a waypoint proxy is used.
 
+### Diagnosing failed connections from metrics
+
+Because ztunnel is not based on Envoy, the `response_flags` label on those L4 TCP metrics uses
+[its own set of values](/docs/reference/config/metrics/#labels) rather than the Envoy response flags. When a
+connection fails, the flag records the reason, which is often the quickest way to tell an authorization
+denial apart from a transport failure without reading through logs. If you have
+[installed Prometheus](/docs/ops/integrations/prometheus/#installation), you can list the connections that
+closed with a failure flag using a query such as:
+
+{{< text syntax=plain >}}
+istio_tcp_connections_closed_total{response_flags!="-"}
+{{< /text >}}
+
+For example, a connection rejected by an `AuthorizationPolicy` is counted as
+`istio_tcp_connections_closed_total{response_flags="DENY"}`, while a failure to reach the destination is
+counted with `response_flags="CONNECT"`. Since these are L4 metrics, such a denial does not appear in any
+request-level metric unless the traffic also goes through a waypoint proxy.
+
 ## IPv6 `network is unreachable` warnings on IPv4-only clusters
 
 Services that have an [auto-allocated address](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)
