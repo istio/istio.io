@@ -51,6 +51,8 @@ TOPOLOGY="SINGLE_CLUSTER"
 # This is relevant only when multicluster topology is picked
 CLUSTER_TOPOLOGY_CONFIG_FILE="./prow/config/topology/multi-cluster.json"
 
+export NOMETALBINSTALL="${NOMETALBINSTALL:-}"
+
 PARAMS=()
 
 while (( "$#" )); do
