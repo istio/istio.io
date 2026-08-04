@@ -138,7 +138,3 @@ The asymmetry gets worse with scale. A mesh spanning many namespaces and cluster
 We built progressive delivery because shipping code straight to 100% of traffic turned out to be a bad idea. Mesh configuration is shipped straight to 100% of the mesh, several times a day, by a pipeline that checks whether the YAML parses.
 
 The tooling to fix this mostly exists. The metrics are already emitted. What's missing is treating configuration as a deployment that deserves the same care as the ones it governs.
-
----
-
-*Santhosh Kumar Somarapu is a senior infrastructure engineer working on platform reliability. He has spent most of the last decade on configuration-change safety and progressive delivery for large-scale infrastructure at Amazon, Microsoft, Meta and eBay.*
