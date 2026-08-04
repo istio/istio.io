@@ -53,9 +53,48 @@ None of this requires waiting for new features.
 
 **Diff before apply, and look at the delta rather than the document.** `istioctl analyze` tells you whether a config is coherent. It does not tell you that you just went from four subsets to one. Compute that in CI and make a large reduction fail the pipeline unless the change is annotated as intentional. The point is not the specific threshold — it is separating two questions that usually get conflated: *is this change large?*, which you can compute, and *was a large change expected?*, which only the author knows and should have to say out loud. A guardrail that trips only when those two disagree stays quiet in normal operation, and quiet is what determines whether a guardrail survives contact with a real team. Guardrails that fire on legitimate changes get disabled.
 
+In CI, that check can be as small as this:
+
+{{< text plain >}}
+FILE=networking/reviews-destinationrule.yaml
+before=$(git show "origin/main:$FILE" | yq '.spec.subsets | length')
+after=$(yq '.spec.subsets | length' "$FILE")
+
+if [ "$after" -lt "$before" ] &&
+   ! git log -1 --format=%B | grep -q 'mesh-config: intentional reduction'; then
+  echo "subsets go from $before to $after; say so in the commit message if that is intended"
+  exit 1
+fi
+{{< /text >}}
+
+The commit-message marker is the out-of-band declaration. It costs the author one line when they mean it, and it fails the build when they don't.
+
 **Give mesh config its own canary namespace.** Apply routing changes to a low-traffic namespace or a single cluster first, with the same manifest, and watch real traffic through it before it goes anywhere else. Istio's per-namespace scoping makes this straightforward and almost nobody uses it this way.
 
 **Watch destination distribution, not just error rate.** `istio_requests_total` broken down by `destination_workload` and `destination_version` will show you a subset that quietly stopped receiving traffic. A dashboard of request share per destination is the single most useful mesh-config canary signal I know of, and it is available out of the box.
+
+Share of mesh traffic per destination, in PromQL:
+
+{{< text plain >}}
+sum by (destination_workload, destination_version) (
+  rate(istio_requests_total{reporter="destination"}[5m])
+)
+/ scalar(sum(rate(istio_requests_total{reporter="destination"}[5m])))
+{{< /text >}}
+
+And the version of it that catches the silent case — a destination that was receiving traffic an hour ago and receives none now:
+
+{{< text plain >}}
+sum by (destination_workload, destination_version) (
+  rate(istio_requests_total{reporter="destination"}[5m])
+) == 0
+and
+sum by (destination_workload, destination_version) (
+  rate(istio_requests_total{reporter="destination"}[5m] offset 1h)
+) > 0
+{{< /text >}}
+
+Neither of these looks at error rate at all, which is the point.
 
 **Treat config rollback as a first-class path.** Keep the previous known-good config ready to apply in one command, and rehearse doing it. Most teams can roll back a deployment in seconds and take minutes to work out what the routing looked like yesterday.
 
