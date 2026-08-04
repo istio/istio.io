@@ -42,20 +42,6 @@ snip_deploy_an_https_proxy_3
 snip_deploy_an_https_proxy_4
 _wait_for_deployment external squid
 
-# DEBUG (temporary, do not merge): confirm whether squid ever binds 3128.
-# Suspected cause of the CI failure is an unbounded RLIMIT_NOFILE on the AWS
-# prow nodes, which makes squid 3.5 size its fd table to ~2^31 and hang before
-# it starts listening. Every command is best-effort so it cannot fail the test.
-echo "=== DEBUG: squid pod state ==="
-kubectl get pods -n external -o wide || true
-echo "=== DEBUG: squid RLIMIT_NOFILE ==="
-kubectl exec -n external deploy/squid -- cat /proc/1/limits || true
-echo "=== DEBUG: squid process ==="
-kubectl exec -n external deploy/squid -- ps aux || true
-echo "=== DEBUG: squid logs ==="
-kubectl logs -n external -l app=squid --tail=50 || true
-echo "=== DEBUG: end ==="
-
 # create curl
 snip_deploy_an_https_proxy_5
 _wait_for_deployment external curl
