@@ -38,6 +38,8 @@ http_access deny manager
 http_access allow all
 
 coredump_dir /var/spool/squid
+
+max_filedescriptors 1024
 EOF
 }
 

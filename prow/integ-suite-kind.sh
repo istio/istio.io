@@ -53,6 +53,8 @@ TOPOLOGY="SINGLE_CLUSTER"
 # This is relevant only when multicluster topology is picked
 CLUSTER_TOPOLOGY_CONFIG_FILE="./prow/config/topology/multi-cluster.json"
 
+export NOMETALBINSTALL="${NOMETALBINSTALL:-}"
+
 PARAMS=()
 
 while (( "$#" )); do
@@ -115,7 +117,7 @@ elif [[ "$IP_FAMILIES" =~ "IPv6" ]] && [[ "$IP_FAMILIES" =~ "IPv4" ]]; then
    KIND_IP_FAMILY="dual"
 fi
 export KIND_IP_FAMILY
-export NODE_IMAGE="gcr.io/istio-testing/kind-node:v1.35.0"
+export NODE_IMAGE="registry.istio.io/testing/kind-node:v1.35.0"
 
 if [[ -z "${SKIP_SETUP:-}" ]]; then
   export ARTIFACTS="${ARTIFACTS:-$(mktemp -d)}"
