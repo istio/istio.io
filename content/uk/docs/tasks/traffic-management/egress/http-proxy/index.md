@@ -42,6 +42,8 @@ test: yes
     http_access allow all
 
     coredump_dir /var/spool/squid
+
+    max_filedescriptors 1024
     EOF
     {{< /text >}}
 

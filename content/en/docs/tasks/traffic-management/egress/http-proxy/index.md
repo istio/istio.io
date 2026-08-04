@@ -52,6 +52,8 @@ This example uses [Squid](http://www.squid-cache.org) but you can use any HTTPS 
     http_access allow all
 
     coredump_dir /var/spool/squid
+
+    max_filedescriptors 1024
     EOF
     {{< /text >}}
 
