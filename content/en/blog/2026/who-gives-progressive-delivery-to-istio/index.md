@@ -6,7 +6,7 @@ attribution: "Santhosh Kumar Somarapu"
 keywords: [Istio, traffic management, operations, reliability, configuration, progressive delivery]
 ---
 
-Istio is very good at not letting a bad application deployment take down your service. You shift 5% of traffic to the new version, watch it, and shift the rest or roll it back. Flagger automates the whole loop. This is one of the main reasons teams adopt a mesh.
+Istio is very good at not letting a bad application deployment take down your service. You shift 5% of traffic to the new version, watch it, and shift the rest or roll it back. [Flagger](https://fluxcd.io/flagger/) automates the whole loop. This is one of the main reasons teams adopt a mesh.
 
 Now consider the `VirtualService` that expresses that rollout.
 
@@ -18,7 +18,9 @@ That asymmetry is worth sitting with. We have built careful machinery for the ch
 
 The mesh-config incidents I have seen are rarely dramatic at the moment they happen. Nothing crashes. Nothing pages. The config was valid YAML, it passed admission, `istioctl analyze` was happy with it, and istiod accepted and distributed it without complaint.
 
-A `VirtualService` with a host that doesn't match what callers actually use routes nowhere. A `DestinationRule` declaring a subset whose labels no longer match any pod produces no endpoints. A tightened `PeerAuthentication` silently strands the one workload that wasn't ready for strict mTLS. In each case every individual component did exactly what it was told. The change was well-formed and it was permitted. What was wrong was its *effect*, and nothing in the path from `kubectl apply` to the data plane was looking at effect.
+A `VirtualService` whose `hosts` don't match what callers actually use never applies at all, so traffic quietly keeps taking the route you thought you had just changed. A `DestinationRule` subset that still matches pods, but the wrong ones, sends traffic somewhere plausible and wrong. A tightened `PeerAuthentication` silently strands the one workload that wasn't ready for strict mTLS.
+
+The loud version of this is easier: a subset whose labels match *no* pod produces a cluster with no endpoints, and that announces itself as a 503 more or less immediately. It is the changes that leave the mesh in a valid, serving, subtly wrong state that go unnoticed. In each case every individual component did exactly what it was told. The change was well-formed and it was permitted. What was wrong was its *effect*, and nothing in the path from `kubectl apply` to the data plane was looking at effect.
 
 This is the general shape of configuration incidents, and it is why they behave differently from code incidents. A bad binary usually announces itself — it panics, it fails a health check, the container restarts. A bad configuration is frequently a *correct system doing the wrong thing*, and correctness checks do not catch that.
 
@@ -56,9 +58,28 @@ None of this requires waiting for new features.
 In CI, that check can be as small as this:
 
 {{< text plain >}}
+set -euo pipefail
 FILE=networking/reviews-destinationrule.yaml
-before=$(git show "origin/main:$FILE" | yq '.spec.subsets | length')
-after=$(yq '.spec.subsets | length' "$FILE")
+
+# Count subsets across every document in the file. Manifests are often
+# multi-document, and yq evaluates once per document, so reading the result as a
+# single number silently breaks the comparison below. Collecting them into one
+# array first gives a single count, and an absent file yields zero rather than
+# an empty string.
+count() {
+  yq ea '[.. | select(has("subsets")).subsets[]] | length' -
+}
+
+# A file added on this branch has no previous version. Test for that explicitly:
+# letting git fail here would abort the check under `set -e` rather than
+# reporting anything.
+if git cat-file -e "origin/main:$FILE" 2>/dev/null; then
+  before=$(git show "origin/main:$FILE" | count)
+else
+  before=0
+fi
+
+after=$(count < "$FILE")
 
 if [ "$after" -lt "$before" ] &&
    ! git log -1 --format=%B | grep -q 'mesh-config: intentional reduction'; then
@@ -71,7 +92,7 @@ The commit-message marker is the out-of-band declaration. It costs the author on
 
 **Give mesh config its own canary namespace.** Apply routing changes to a low-traffic namespace or a single cluster first, with the same manifest, and watch real traffic through it before it goes anywhere else. Istio's per-namespace scoping makes this straightforward and almost nobody uses it this way.
 
-**Watch destination distribution, not just error rate.** `istio_requests_total` broken down by `destination_workload` and `destination_version` will show you a subset that quietly stopped receiving traffic. A dashboard of request share per destination is the single most useful mesh-config canary signal I know of, and it is available out of the box.
+**Watch destination distribution, not just error rate.** `istio_requests_total` broken down by `destination_workload` and `destination_version` will show you a destination that quietly stopped receiving traffic. One caveat worth knowing: `destination_version` reports the version of the destination *workload*, taken from its `service.istio.io/canonical-revision` or `version` label — it is not the `DestinationRule` subset name. It tracks your subsets only when those subsets select on the version label, which is the common convention but not a guarantee, and it reads `unknown` for workloads carrying no version label at all. A dashboard of request share per destination is the most useful mesh-config canary signal I know of, and it is available out of the box.
 
 Share of mesh traffic per destination, in PromQL:
 
@@ -102,11 +123,13 @@ Neither of these looks at error rate at all, which is the point.
 
 This is worth naming as an ecosystem problem rather than a project one. It shows up wherever configuration is applied automatically.
 
-The OpenTelemetry OpAMP protocol manages configuration for agent fleets. Its specification describes in detail how a server delivers configuration and how agents report status — including health — but says nothing about staged rollout, or about halting when part of the fleet reports unhealthy. The signals a gate would need are already in the protocol. Nothing closes the loop. I [raised this recently](https://github.com/open-telemetry/opamp-spec/issues/384) with the OpAMP SIG.
+The OpenTelemetry OpAMP protocol manages configuration for agent fleets. Its specification describes in detail how a server delivers configuration and how agents report status — including health — but says nothing about staged rollout, or about halting when part of the fleet reports unhealthy. I [asked the OpAMP SIG whether that was in scope](https://github.com/open-telemetry/opamp-spec/issues/384), and the answer was clear: it is deliberately out of scope. The specification covers the protocol only, and how to sequence a rollout, when to canary and when to roll back are decisions each implementation makes for itself.
+
+That is the right call, and it locates the problem precisely. The signals a gate would need are already in the protocol. What is missing is not protocol surface — it is an implementation that reads those signals and refuses to continue.
 
 In GitOps the same gap has a sharper edge. A [long-standing Flux issue](https://github.com/fluxcd/flux2/issues/5512) describes a user who pointed a source at an empty path and watched the reconciler delete everything it managed — valid, permitted, and catastrophic.
 
-Different projects, same missing check.
+Different projects, same missing layer: the gate belongs to whatever applies the configuration, and in each case nothing applies one.
 
 ## Why this matters more as meshes grow
 
