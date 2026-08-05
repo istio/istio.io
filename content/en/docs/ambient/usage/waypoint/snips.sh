@@ -135,6 +135,29 @@ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 ENDSNIP
 
+snip_shift_traffic_between_waypoints_1() {
+istioctl waypoint apply -n default --name reviews-svc-waypoint-v2
+}
+
+! IFS=$'\n' read -r -d '' snip_shift_traffic_between_waypoints_1_out <<\ENDSNIP
+waypoint default/reviews-svc-waypoint-v2 applied
+ENDSNIP
+
+snip_shift_traffic_between_waypoints_2() {
+kubectl label service reviews istio.io/use-waypoint-canary=reviews-svc-waypoint-v2
+kubectl annotate service reviews istio.io/use-waypoint-canary-weight=5
+}
+
+snip_shift_traffic_between_waypoints_3() {
+kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint-v2 --overwrite
+kubectl label service reviews istio.io/use-waypoint-canary-
+kubectl annotate service reviews istio.io/use-waypoint-canary-weight-
+}
+
+snip_invalid_configuration_1() {
+kubectl get service reviews -o jsonpath='{.status.conditions}'
+}
+
 ! IFS=$'\n' read -r -d '' snip_configure_a_waypoint_for_crossnamespace_use_1 <<\ENDSNIP
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
