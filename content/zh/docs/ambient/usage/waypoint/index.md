@@ -321,7 +321,6 @@ $ kubectl annotate service reviews istio.io/use-waypoint-canary-weight-
   权重是选择金丝雀的**新**连接的份额。已建立的连接永远不会移动，
   因此，其客户端持有长期连接的服务只有在这些客户端重新连接时才会接近配置的权重。
   出于同样的原因，观察到的分割是近似的，并且仅在大量连接上才有意义。
-* **Ingress traffic** is split by the ingress gateway **per request**, and only for services that opt in with `istio.io/ingress-use-waypoint` as described in [Ingress gateways and waypoints](#ingress-and-waypoints). Without that opt-in, ingress traffic continues to bypass both waypoints.
 * **入口流量**由入口网关**按请求**分割，并且仅适用于选择使用
   `istio.io/ingress-use-waypoint` 的服务，
   如[入口网关和 waypoint](#ingress-and-waypoints) 中所述。
