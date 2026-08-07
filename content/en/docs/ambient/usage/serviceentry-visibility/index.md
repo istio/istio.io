@@ -120,7 +120,13 @@ Namespace
 
 The condition's status is always `True`; the `reason` field carries the resolved visibility (`Public` or `Namespace`). When `serviceEntryVisibility` is not configured, the condition is not written.
 
-{{< warning >}
+{{< warning >}}
+A `NONE` `ServiceEntry` currently receives no condition at all. This is a known limitation: do not use the absence of the condition to conclude that visibility is not being applied.
+{{< /warning >}}
+
+You can also inspect the visibility ztunnel is applying for every service it knows about. The JSON and YAML outputs of `istioctl ztunnel-config service` include a `visibility` field:
+
+{{< text syntax=bash >}}
 $ istioctl ztunnel-config service --service-namespace team-a -o yaml
 {{< /text >}}
 
