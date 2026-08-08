@@ -67,6 +67,13 @@ metadata:
 spec: ...
 {{< /text >}}
 
+{{< tip >}}
+由于 `exportTo` 由每个资源的作者声明，因此服务所有者可以控制自己的配置范围，
+但网格管理员无法控制其他人发布的内容。从 Istio 1.31 开始，
+网格管理员可以使用 [`meshConfig.serviceEntryVisibility`](/zh/docs/ambient/usage/serviceentry-visibility/)
+控制 `ServiceEntry` 资源的可见性，Ambient 数据平面始终遵循此设置。
+{{< /tip >}}
+
 ### `DiscoverySelectors` {#discoveryselectors}
 
 虽然以前的控制操作在工作负载或服务所有者级别上运行，
