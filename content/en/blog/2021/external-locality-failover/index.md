@@ -12,8 +12,8 @@ Similar to services running inside the service mesh, you can configure Istio to 
 
 |Routing|Endpoint|
 |--- |--- |
-|Primary|http://dynamodb.us-east-1.amazonaws.com|
-|Failover|http://dynamodb.us-west-1.amazonaws.com|
+|Primary|<http://dynamodb.us-east-1.amazonaws.com>|
+|Failover|<http://dynamodb.us-west-1.amazonaws.com>|
 
 ![failover](./external-locality-failover.png)
 
