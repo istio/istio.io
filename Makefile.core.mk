@@ -45,7 +45,7 @@ export ISTIO_LONG_SHA
 # we only need to export the pipeline HUB value.
 # If the images were built as part of the private pipeline (as for security releases),
 # we export the HUB and TAG for the images once they are published.
-HUB ?= gcr.io/istio-testing
+HUB ?= registry.istio.io/testing
 # export HUB := docker.io/istio
 # export TAG ?= 1.7.3
 
@@ -91,7 +91,7 @@ export NETLIFY_URL
 
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= master
+export SOURCE_BRANCH_NAME ?= release-1.31
 
 site:
 	@scripts/gen_site.sh
