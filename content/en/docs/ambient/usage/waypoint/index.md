@@ -217,7 +217,7 @@ For instance, traffic which is addressed to a service, even though ultimately re
 
 The `istio.io/use-waypoint` label records your intent to send traffic through a waypoint, but on its own it does not guarantee that this happens. If the named waypoint does not exist or is not ready, ztunnel routes traffic directly to the destination rather than failing the request. Any Layer 7 policy that the waypoint would have enforced never takes effect, and traffic flows as though no waypoint were configured.
 
-If enforcing a waypoint's Layer 7 policies is a security requirement, make the waypoint mandatory with an `AuthorizationPolicy` that admits only the waypoint's identity. A waypoint uses the service account named after its `Gateway`, so a policy on the destination workloads that allows only that identity denies any client that reaches them without first passing through the waypoint. Continuing with the `reviews-svc-waypoint` waypoint from above:
+If enforcing a waypoint's Layer 7 policies is a security requirement, make the waypoint mandatory with an `AuthorizationPolicy` that allows only the waypoint's identity. A waypoint uses the service account named after its `Gateway`, so a policy on the destination workloads that allows only that identity denies any client that reaches them without first passing through the waypoint. Continuing with the `reviews-svc-waypoint` waypoint from above:
 
 {{< text syntax=yaml >}}
 apiVersion: security.istio.io/v1
