@@ -52,7 +52,7 @@ In ambient mode, authorization policies can either be *targeted* (for ztunnel en
 
 The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted with a workload selector (rather than attached with a `targetRef`), such that it is enforced by a ztunnel, it will fail safe by becoming a `DENY` policy.
 
-A policy attached to a waypoint is only enforced for traffic that actually reaches the waypoint. If a service or namespace is labeled with `istio.io/use-waypoint` but the waypoint does not exist or is not ready, ztunnel sends traffic straight to the destination and the waypoint's Layer 7 policies are not applied. To require that traffic traverses the waypoint, pair the waypoint policy with an `AuthorizationPolicy` enforced by ztunnel that admits only the waypoint's identity. See [Require traffic to traverse the waypoint](/docs/ambient/usage/waypoint/#require-waypoint).
+A policy attached to a waypoint is only enforced for traffic that actually reaches the waypoint. Traffic can bypass the waypoint, and its Layer 7 policies, when the waypoint does not exist or is not ready, or when a client addresses a workload directly rather than the service that a default (service-scoped) waypoint fronts. To require that traffic traverses the waypoint, pair the waypoint policy with an `AuthorizationPolicy` enforced by ztunnel that admits only the waypoint's identity. See [Require traffic to traverse the waypoint](/docs/ambient/usage/waypoint/#require-waypoint).
 
 See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 
