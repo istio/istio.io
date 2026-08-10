@@ -213,6 +213,32 @@ The original destination type of the traffic is used to determine if a service o
 For instance, traffic which is addressed to a service, even though ultimately resolved to a pod IP, is always treated by the ambient mesh as to-service and would use a service-attached waypoint.
 {{< /tip >}}
 
+### Require traffic to traverse the waypoint {#require-waypoint}
+
+The `istio.io/use-waypoint` label records your intent to send traffic through a waypoint, but on its own it does not guarantee that this happens. If the named waypoint does not exist or is not ready, ztunnel routes traffic directly to the destination rather than failing the request. Any Layer 7 policy that the waypoint would have enforced never takes effect, and traffic flows as though no waypoint were configured.
+
+If enforcing a waypoint's Layer 7 policies is a security requirement, make the waypoint mandatory with an `AuthorizationPolicy` that admits only the waypoint's identity. A waypoint uses the service account named after its `Gateway`, so a policy on the destination workloads that allows only that identity denies any client that reaches them without first passing through the waypoint. Continuing with the `reviews-svc-waypoint` waypoint from above:
+
+{{< text syntax=yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-waypoint
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: reviews
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/reviews-svc-waypoint
+{{< /text >}}
+
+This policy uses a workload `selector` rather than a `targetRef`, so it is enforced at Layer 4 by ztunnel and takes effect even when the waypoint itself is unavailable.
+
 ### Shift traffic between waypoints {#waypoint-canary}
 
 {{< warning >}}
