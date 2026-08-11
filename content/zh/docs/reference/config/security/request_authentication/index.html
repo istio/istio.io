@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.security.v1beta1.RequestAuthentication
 aliases: [/zh/docs/reference/config/security/v1beta1/request_authentication, /docs/reference/config/security/v1beta1/jwt, /docs/reference/config/security/v1beta1/jwt.html]
-number_of_entries: 5
+number_of_entries: 4
 ---
 <p>RequestAuthentication defines what request authentication methods are supported by a workload.
 It will reject a request if the request contains invalid authentication information, based on the
@@ -480,50 +480,6 @@ treats &lsquo;scope&rsquo; and &lsquo;permission&rsquo; claims as space-delimite
 claim strings, maintaining compatibility with existing JWT token formats.</p>
 <p>Note: The default claims &lsquo;scope&rsquo; and &lsquo;permission&rsquo; are always treated as space-delimited
 regardless of this setting.</p>
-
-</td>
-</tr>
-<tr id="JWTRule-presence">
-<td><div class="field"><div class="name"><code><a href="#JWTRule-presence">presence</a></code></div>
-<div class="type"><a href="#JWTRule-JWTRequirement">JWTRequirement</a></div>
-</div></td>
-<td>
-<p>Configures whether the JWT token must be present in the request.
-When set to <code>REQUIRED</code>, requests without this token will be rejected with 401
-even if other JWT rules are satisfied. When <code>OPTIONAL</code> (the default), a missing
-token is allowed as long as no invalid token is present. This is useful when
-multiple JWT rules are configured and all tokens must be present and valid simultaneously.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h3 id="JWTRule-JWTRequirement">JWTRequirement</h3>
-<section>
-<p>Specifies whether the JWT token is required or optional in the request.</p>
-
-<table class="enum-values">
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="JWTRule-JWTRequirement-OPTIONAL">
-<td><code><a href="#JWTRule-JWTRequirement-OPTIONAL">OPTIONAL</a></code></td>
-<td>
-<p>The JWT token is optional. Requests without a token are allowed as long as
-no invalid token is present. This is the default behavior.</p>
-
-</td>
-</tr>
-<tr id="JWTRule-JWTRequirement-REQUIRED">
-<td><code><a href="#JWTRule-JWTRequirement-REQUIRED">REQUIRED</a></code></td>
-<td>
-<p>The JWT token must be present and valid. Requests without this token will
-be rejected with 401 even if other JWT rules are satisfied.</p>
 
 </td>
 </tr>
