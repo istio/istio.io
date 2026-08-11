@@ -576,29 +576,6 @@ configured globally via this field.</p>
 
 </td>
 </tr>
-<tr id="MeshConfig-default_inbound_http_retry_policy">
-<td><div class="field"><div class="name"><code><a href="#MeshConfig-default_inbound_http_retry_policy">defaultInboundHttpRetryPolicy</a></code></div>
-<div class="type"><a href="/zh/docs/reference/config/networking/virtual-service/#HTTPRetry">HTTPRetry</a></div>
-</div></td>
-<td>
-<p>Configure the default retry policy for inbound routes on sidecars.</p>
-<p>By default, a sidecar retries requests that were reset before they reached the
-application, using Envoy&rsquo;s <code>reset-before-request</code> condition with 2 attempts.
-Because such a request never reached the application, retrying it is safe even
-for non-idempotent methods. This shields clients from races where the
-application closes an idle connection while a request is in flight.</p>
-<p>Setting the number of attempts to 0 disables the inbound retry policy
-mesh-wide, for example <code>defaultInboundHttpRetryPolicy: {}</code>.</p>
-<p>Only <code>attempts</code>, <code>retryOn</code> and <code>backoff</code> apply here. <code>perTryTimeout</code>,
-<code>retryRemoteLocalities</code> and <code>retryIgnorePreviousHosts</code> are ignored, since an
-inbound route always targets the single local application cluster.</p>
-<p>The inbound retry policy is never applied to ports declared as gRPC, where
-<code>reset-before-request</code> does not work well for streaming services.</p>
-<p>Note this is distinct from <code>defaultHttpRetryPolicy</code>, which applies to outbound
-traffic to other services. Configuring one does not affect the other.</p>
-
-</td>
-</tr>
 <tr id="MeshConfig-mesh_mTLS">
 <td><div class="field"><div class="name"><code><a href="#MeshConfig-mesh_mTLS">meshMTLS</a></code></div>
 <div class="type"><a href="#MeshConfig-TLSConfig">TLSConfig</a></div>
