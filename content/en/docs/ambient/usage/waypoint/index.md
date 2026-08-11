@@ -217,8 +217,8 @@ For instance, traffic which is addressed to a service, even though ultimately re
 
 The `istio.io/use-waypoint` label records your intent to send traffic through a waypoint, but on its own it does not guarantee that this happens. ztunnel routes traffic directly to the destination, rather than failing the request, when:
 
-* the named waypoint does not exist or is not ready; or
-* the traffic is addressed to a workload (a pod or VM IP) rather than to a service, and the waypoint only handles service traffic, which is the [default](#waypoint-traffic-types).
+* the named waypoint does not exist or has no address; or
+* the traffic type does not match the traffic the waypoint handles; for example, a request sent directly to a workload (a pod or VM IP) when the waypoint only handles service traffic, which is the [default](#waypoint-traffic-types).
 
 In either case, any Layer 7 policy that the waypoint would have enforced never takes effect, and traffic flows as though no waypoint were configured.
 
