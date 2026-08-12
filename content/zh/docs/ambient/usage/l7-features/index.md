@@ -64,6 +64,14 @@ ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而�
 来定位具有与 L7 属性匹配的规则的策略，从而由 ztunnel 强制执行，
 则该策略将由于安全被变更为 `DENY` 策略而失效。
 
+附加到 waypoint 的策略仅对实际到达该 waypoint 的流量强制执行。
+当 waypoint 不存在或没有地址，或者流量类型与 waypoint 处理的流量不匹配时，
+流量可以绕过 waypoint 及其 L7 策略
+（请参阅 [waypoint 流量类型](/zh/docs/ambient/usage/waypoint/#waypoint-traffic-types)）。
+要要求流量遍历 waypoint，请将 waypoint 策略与 ztunnel 强制执行的
+`AuthorizationPolicy` 配对，该策略仅允许 waypoint 的身份。
+请参阅[需要流量才能穿越 waypoint](/zh/docs/ambient/usage/waypoint/#require-waypoint)。
+
 有关更多信息，请参阅 [L4 策略指南](/zh/docs/ambient/usage/l4-policy/)，
 包括何时将策略附加到仅限 TCP 用例的 waypoint。
 
