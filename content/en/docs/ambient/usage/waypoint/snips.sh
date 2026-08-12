@@ -135,6 +135,24 @@ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod
 pod/reviews-v2-5b667bcbf8-spnnh labeled
 ENDSNIP
 
+! IFS=$'\n' read -r -d '' snip_require_traffic_to_traverse_the_waypoint_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-waypoint
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: reviews
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/reviews-svc-waypoint
+ENDSNIP
+
 snip_shift_traffic_between_waypoints_1() {
 istioctl waypoint apply -n default --name reviews-svc-waypoint-v2
 }
