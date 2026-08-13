@@ -210,6 +210,11 @@ $ helm upgrade ztunnel istio/ztunnel -n istio-system --set revision="$REVISION" 
 
 {{< tab name="就地升级" category-value="in-place" >}}
 
+移动标签可一步完成对所有引用该标签的 waypoint 的升级。
+如果您希望先利用服务的一小部分实际流量来验证新的 waypoint 版本，
+则可以单独部署该新 waypoint，并[逐步将流量切换至该 waypoint](/zh/docs/ambient/usage/waypoint/#waypoint-canary)，
+然后再将其正式启用。
+
 ### 对手动部署的网关 Chart 进行升级（可选） {#upgrade-manually-deployed-gateway-chart-optional}
 
 必须使用 Helm 单独升级[手动部署](/zh/docs/tasks/traffic-management/ingress/gateway-api/#manual-deployment) 的 `Gateway`：
