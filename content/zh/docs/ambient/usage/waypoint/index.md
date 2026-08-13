@@ -259,6 +259,45 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 发往服务的流量也始终被 Ambient 网格视为到服务，并使用服务附加的 waypoint。
 {{< /tip >}}
 
+### 要求流量经过航点 waypoint {#require-waypoint}
+
+`istio.io/use-waypoint` 标签记录了您通过 waypoint 发送流量的意图，
+但它本身并不能保证这种情况会发生。ztunnel 在以下情况下将流量直接路由到目的地，而不是使请求失败：
+
+* 指定的 waypoint 不存在或没有地址；或
+* 流量类型与 waypoint 处理的流量不匹配；例如，当 waypoint 仅处理服务流量时，
+  直接发送到工作负载（Pod 或 VM IP）的请求，这是[默认](#waypoint-traffic-types)。
+
+在任何一种情况下，waypoint 执行的任何 L7 策略都不会生效，并且流量就像未配置 waypoint 一样流动。
+
+如果强制执行某个 waypoint 的 L7 策略是一项安全要求，
+请使用仅允许该 waypoint 身份的 `AuthorizationPolicy` 强制该 waypoint。
+waypoint 使用以其 `Gateway` 命名的服务帐户，
+因此仅允许该身份的目标工作负载策略会拒绝任何未经先通过 waypoint 就到达它们的客户端。
+继续上面的 `reviews-svc-waypoint` waypoint：
+
+{{< text syntax=yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-waypoint
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: reviews
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/reviews-svc-waypoint
+{{< /text >}}
+
+此策略使用工作负载 `selector` 而不是 `targetRef`，
+因此它由 ztunnel 在 L4 层强制执行。因此，它在两种旁路情况下都有效：
+当 waypoint 不可用时，以及当客户端直接调用工作负载时。
+
 ### 在 waypoint 之间转移流量 {#waypoint-canary}
 
 {{< warning >}}
