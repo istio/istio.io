@@ -297,6 +297,98 @@ spec:
 此策略使用工作负载 `selector` 而不是 `targetRef`，
 因此它由 ztunnel 在 L4 层强制执行。因此，它在两种旁路情况下都有效：
 当 waypoint 不可用时，以及当客户端直接调用工作负载时。
+### 在 waypoint 之间转移流量 {#waypoint-canary}
+
+{{< warning >}}
+从 Istio 1.31 开始支持在 waypoint 之间转移流量，并被视为
+[Alpha](https://github.com/istio/community/blob/master/FEATURE-LIFECYCLE.md)。
+未来版本中的标签、注解和行为可能会发生变化。
+{{< /warning >}}
+
+更改服务上的 `istio.io/use-waypoint` 标签会将其所有流量立即移动到新的 waypoint。
+要逐渐在两个 waypoint 之间移动服务，例如在升级期间验证新 waypoint 版本，
+请在主 waypoint 旁边命名第二个“金丝雀” waypoint，并为其分配服务流量。
+配置完全依赖于目标服务：客户端不知道它，并且不需要第二个 `Service`。
+
+| 名称 | 类型 | 目的 |
+| --- | --- | --- |
+| [`istio.io/use-waypoint-canary`](/zh/docs/reference/config/labels/#IoIstioUseWaypointCanary) | 标签 | 金丝雀 waypoint `Gateway` 的名称。 |
+| [`istio.io/use-waypoint-canary-namespace`](/zh/docs/reference/config/labels/#IoIstioUseWaypointCanaryNamespace) | 标签 | 金丝雀 waypoint 的命名空间（如果它不是服务的命名空间）。 |
+| [`istio.io/use-waypoint-canary-weight`](/zh/docs/reference/config/annotations/#IoIstioUseWaypointCanaryWeight) | 注解 | 发送到金丝雀的流量份额，为 0 到 100 之间的整数。主 waypoint 接收余数。默认为 0。 |
+
+继续上面的 `reviews` 服务，部署第二个 waypoint 并向其发送 5% 的服务流量，
+将剩余的 95% 留在 `reviews-svc-waypoint` 上：
+
+{{< text syntax=bash >}}
+$ istioctl waypoint apply -n default --name reviews-svc-waypoint-v2
+waypoint default/reviews-svc-waypoint-v2 applied
+{{< /text >}}
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/use-waypoint-canary=reviews-svc-waypoint-v2
+$ kubectl annotate service reviews istio.io/use-waypoint-canary-weight=5
+{{< /text >}}
+
+当你对金丝雀部署有了信心时，就增加权重。一旦金丝雀部署承载了所有流量，
+通过将其设为主 waypoint 并删除金丝雀配置来提升它：
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint-v2 --overwrite
+$ kubectl label service reviews istio.io/use-waypoint-canary-
+$ kubectl annotate service reviews istio.io/use-waypoint-canary-weight-
+{{< /text >}}
+
+要随时回滚，请删除金丝雀标签。该服务返回通过主 waypoint 发送其所有流量。
+
+#### 支持的资源 {#supported-resources}
+
+`Service`、`ServiceEntry` 和 `Namespace` 支持金丝雀标签和注解。
+与 `istio.io/use-waypoint` 不同，`Pod` 或 `WorkloadEntry` **不**支持它们：
+拆分是在服务级别定义的，因此它对于网格和入口流量的行为相同。
+
+在命名空间上配置的金丝雀仅适用于也从该命名空间继承其主 waypoint 的服务。
+如果服务设置了自己的 `istio.io/use-waypoint`，它也必须设置自己的金丝雀配置；
+该服务将忽略命名空间的金丝雀标签。
+
+两个 waypoint 都能够面向服务。每个都必须准备好，
+必须允许从服务的命名空间附加，并且必须处理 `service` 或 `all` 流量。
+
+#### 权重适用的对象 {#what-the-weight-applies-to}
+
+* **网格流量**由 {{< gloss >}}ztunnel{{< /gloss >}} **每个连接**分割：
+  权重是选择金丝雀的**新**连接的份额。已建立的连接永远不会移动，
+  因此，其客户端持有长期连接的服务只有在这些客户端重新连接时才会接近配置的权重。
+  出于同样的原因，观察到的分割是近似的，并且仅在大量连接上才有意义。
+* **入口流量**由入口网关**按请求**分割，并且仅适用于选择使用
+  `istio.io/ingress-use-waypoint` 的服务，
+  如[入口网关和 waypoint](#ingress-and-waypoints) 中所述。
+  如果没有选择加入，入口流量将继续绕过这两个 waypoint。
+
+网格分割需要 Istio 1.31 或更高版本的 ztunnel。在升级数据平面时，
+仍在运行较旧 ztunnel 的节点将其所有连接发送到主 waypoint，
+因此网格上的分割滞后于配置的权重，直到每个节点都升级为止。入口分割不依赖于 ztunnel。
+
+#### 附加到 waypoint 的配置 {#configuration-attached-to-the-waypoint}
+
+两个 waypoint 提供相同的服务，因此在轮班期间必须保持有效的任何配置都必须在两个 waypoint 都适用。
+以 `Service` 为目标的策略和路由（例如 `AuthorizationPolicy` 或以服务作为其 `parentRef` 的 `HTTPRoute`）
+由处理流量的任何 waypoint 强制执行，无需重复。
+
+附加到 waypoint `Gateway` 本身的配置是另一回事。
+选择路径点的 `WasmPlugin` 或 `targetRef` 命名为 `Gateway` 的策略仅适用于该 waypoint。
+在转移流量之前将其复制到金丝雀上，否则通过金丝雀的流量份额将使用一组不同的策略进行处理。
+
+#### 无效配置 {#invalid-configuration}
+
+无法使用的金丝雀并不致命。该服务继续单独使用其主 waypoint，原因在服务的 `istio.io/WaypointBound` 条件中报告：
+
+{{< text syntax=bash >}}
+$ kubectl get service reviews -o jsonpath='{.status.conditions}'
+{{< /text >}}
+
+当金丝雀 waypoint 不存在、未准备好、不允许从服务的命名空间附加或无法处理服务流量时，
+将应用此回退；当权重不是 0 到 100 之间的整数时（`CanaryInvalidWeight`）；
+当金丝雀命名与主要路径点相同的路径点时（`CanarySameAsPrimary`）。
 
 ## 跨命名空间使用 waypoint {#usewaypointnamespace}
 
