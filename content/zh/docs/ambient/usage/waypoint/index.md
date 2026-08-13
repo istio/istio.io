@@ -297,6 +297,7 @@ spec:
 此策略使用工作负载 `selector` 而不是 `targetRef`，
 因此它由 ztunnel 在 L4 层强制执行。因此，它在两种旁路情况下都有效：
 当 waypoint 不可用时，以及当客户端直接调用工作负载时。
+
 ### 在 waypoint 之间转移流量 {#waypoint-canary}
 
 {{< warning >}}
