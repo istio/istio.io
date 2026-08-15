@@ -8830,6 +8830,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>false</code></td>
 <td>If enabled, ServiceEntries with wildcard hosts and dynamic dns resolution will be allowed for TLS traffic. This is a security risk, susceptible to SNI spoofing, and should be used with caution. Only consider using this feature if the client is trusted and you understand the risks.</td>
 </tr>
+<tr id='enable-xds-api-generator-auth'>
+<td><a href='#enable-xds-api-generator-auth'><code>ENABLE_XDS_API_GENERATOR_AUTH</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, the XDS &#39;api&#39; generator (MCP-over-xDS config serving) is restricted to callers with a verified control-plane (root namespace) identity. Prevents an unauthenticated client on the plaintext xDS port, or a workload in an unrelated namespace on the mTLS port, from reading cluster-wide Istio config.</td>
+</tr>
 <tr id='envoy-status-port-enable-proxy-protocol'>
 <td><a href='#envoy-status-port-enable-proxy-protocol'><code>ENVOY_STATUS_PORT_ENABLE_PROXY_PROTOCOL</code></a></td>
 <td>Boolean</td>
