@@ -8,7 +8,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/zh/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 32
+number_of_entries: 31
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -2241,7 +2241,7 @@ For this to be effective consider one of the following:</p>
 </tr>
 <tr id="ZoneAwareLoadBalancerSetting-min_cluster_size">
 <td><div class="field"><div class="name"><code><a href="#ZoneAwareLoadBalancerSetting-min_cluster_size">minClusterSize</a></code></div>
-<div class="type"><a href="#google-protobuf-UInt64Value">UInt64Value</a></div>
+<div class="type"><a href="#google-protobuf-UInt32Value">UInt32Value</a></div>
 </div></td>
 <td>
 <p>Minimum number of hosts in the upstream cluster&rsquo;s local region required for zone-aware
@@ -2316,31 +2316,6 @@ the &lsquo;from&rsquo; region becomes unhealthy.</p>
 </div></td>
 <td>
 <p>The uint32 value.</p>
-
-</td>
-</tr>
-</tbody>
-</table>
-</section>
-<h4 id="google-protobuf-UInt64Value">UInt64Value</h4>
-<section>
-<p>Wrapper message for <code>uint64</code>.</p>
-<p>The JSON representation for <code>UInt64Value</code> is JSON string.</p>
-
-<table class="message-fields">
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr id="google-protobuf-UInt64Value-value">
-<td><div class="field"><div class="name"><code><a href="#google-protobuf-UInt64Value-value">value</a></code></div>
-<div class="type">uint64</div>
-</div></td>
-<td>
-<p>The uint64 value.</p>
 
 </td>
 </tr>
