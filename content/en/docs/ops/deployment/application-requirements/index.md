@@ -39,26 +39,28 @@ To be part of a mesh, Kubernetes pods must satisfy the following requirements:
 - **`NET_ADMIN` and `NET_RAW` capabilities**: Unless you use the
     [Istio CNI Plugin](/docs/setup/additional-setup/cni/), the `istio-init` container requires
     `NET_ADMIN` and `NET_RAW` capabilities to configure iptables traffic redirection. The
-    namespace must use the `baseline` or `privileged`
+    namespace must use the `privileged`
     [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/)
-    enforcement level. The `restricted` level blocks these capabilities and will prevent the
-    `istio-init` container from running.
+    enforcement level. Both the `baseline` and `restricted` levels block these capabilities and
+    will prevent the `istio-init` container from running.
 
-    To check the current enforcement level on a namespace and set it if needed:
+    To check the `pod-security.kubernetes.io/enforce` label on a namespace:
 
     {{< text bash >}}
     $ kubectl get namespace <your namespace> --show-labels
-    $ kubectl label namespace <your namespace> pod-security.kubernetes.io/enforce=baseline
+    NAME       STATUS   AGE   LABELS
+    myapp      Active   3d    pod-security.kubernetes.io/enforce=privileged,...
     {{< /text >}}
 
-    If your security policy requires `restricted` enforcement on the namespace, use the
+    To set the namespace to `privileged` enforcement:
+
+    {{< text bash >}}
+    $ kubectl label namespace <your namespace> pod-security.kubernetes.io/enforce=privileged --overwrite
+    {{< /text >}}
+
+    If your security policy does not allow `privileged` enforcement on the namespace, use the
     [Istio CNI Plugin](/docs/setup/additional-setup/cni/) instead, which handles traffic
     redirection without requiring elevated capabilities in the pod.
-
-    {{< tip >}}
-    [PodSecurityPolicy](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) was
-    removed in Kubernetes 1.25 and replaced by Pod Security Admission.
-    {{< /tip >}}
 
 - **Pod labels**: We recommend explicitly declaring pods with an application identifier and version by using a pod label.
   These labels add contextual information to the metrics and telemetry that Istio collects.
