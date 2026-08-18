@@ -40,5 +40,4 @@ namespace-based multi-tenant environments. Meshes where only administrators can 
 - As an interim measure, restrict `EnvoyFilter` create and update permissions to trusted
   administrators using Kubernetes RBAC.
 
-The Istio Security Committee would like to thank Artem Cherezov
-(https://github.com/cherez0ff) for responsibly disclosing this issue.
+The Istio Security Committee would like to thank [`Artem Cherezov`](https://github.com/cherez0ff) for responsibly disclosing this issue.
