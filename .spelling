@@ -1284,6 +1284,7 @@ RootCAs
 routable
 RPC
 RPCs
+RPMs
 runtime
 runtimes
 sa
@@ -1369,6 +1370,7 @@ Speedrun
 Speedscale
 SPIFFE
 SPIFFE-compliant
+SPDX
 Splunk
 SPOFs
 Spond
