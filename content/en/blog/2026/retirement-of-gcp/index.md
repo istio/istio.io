@@ -6,18 +6,23 @@ attribution: Steven Jin (Microsoft), Keith Mattix (Solo.io)
 keywords: [Istio,Container Registry,Helm]
 ---
 
-In a [previous blog post](../retirement-of-gcr.io-follow-up/), we announced that Istio will retire the `gcr.io/istio-release` container registry in December 2026 and switch to `registry.istio.io/release` as the replacement registry for Istio images.
-This post describes the transition of our Helm charts and signing keys.
+This year, Istio is migrating all of our infrastructure from Google Cloud Platform to Amazon Web Services due to changes in our funding model.
+This post describes the transition of our container images, Helm charts, other release artifacts (rpms, debs, source code, spdx, istioctl, and licenses), signing keys, and upcoming scream tests.
 
-As a reminder, **we will retire `registry.istio.io/release` and `gcr.io/istio-release` in December 2026**.
-We have yet to decide the exact date, but we will make a follow-up post with the exact date by the end of November 2026.
+## Container Images
 
-## Helm Charts
+In a [previous blog post](../retirement-of-gcr.io-follow-up/), we announced that the `gcr.io/istio-release` and `registry.istio.io` container registries will be decomissioned in December 2026 and we would only publish Istio container images to Docker Hub.
+Starting with Istio 1.31, we will only publish Istio container images to `docker.io/istio`.
+Please see [the previous blog post](../retirement-of-gcr.io-follow-up/) for details on migrating away from `gcr.io/istio-release` and `registry.istio.io`.
+
+## Helm Charts and Other Artifacts Release Artifacts
 
 Historically, Istio published Helm charts to `https://istio-release.storage.googleapis.com/charts` as well as `gcr.io/istio-release/charts` as OCI artifacts.
-We will remove Helm charts from the above locations in December 2026.
+Similarly, we published other release artifacts (rpms, debs, source code, spdx, istioctl, and licenses) to `https://istio-release.storage.googleapis.com/releases`.
+Helm charts and other release artifacts will be removed from the above locations in December 2026.
 All Helm charts of all Istio versions are currently available at `https://blob.istio.io/istio-release/charts` and we will continue to publish them there for the foreseeable future.
 All OCI Helm charts of all Istio versions are currently available at `ghcr.io/istio/release/charts` and we will continue to publish them there for the foreseeable future.
+All other release artifacts of all Istio versions are currently available at `https://blob.istio.io/istio-release/releases` and we will continue to publish them there for the foreseeable future.
 Istio 1.30 will be the last minor version with Helm charts, OCI Helm charts, and images published to `gcr.io/istio-release` and `https://istio-release.storage.googleapis.com/charts`.
 Istio 1.31 will **not** have Helm charts, OCI Helm charts, nor images published to `gcr.io/istio-release/` or `https://istio-release.storage.googleapis.com/charts`.
 More information will be available in the release notes.
@@ -42,7 +47,7 @@ We expect the following signing keys to be used for each release:
 
 If you are using `registry.istio.io/release` or `gcr.io/istio-release`, you should migrate to `docker.io/istio` or a pull-through cache as soon as possible.
 If you install Istio using our non-OCI Helm charts at `https://istio-release.storage.googleapis.com/charts`, you should migrate to `https://blob.istio.io/istio-release/charts` as soon as possible.
-If you install Istio using OCI Helm charts at `gcr.io/istio-release/charts`, you should migrate to `ghcr.io/istio/release/charts` the next time you upgrade Istio.
+If you install Istio using OCI Helm charts at `gcr.io/istio-release/charts`, you should migrate to `ghcr.io/istio/release/charts` as soon as possible
 If you verify the signature of Istio images, keep an eye out for which signing key is used for your Istio version and update your public key accordingly.
 This information will be available in the release notes for each Istio version from now on.
 You should complete your migration before December 2026 to avoid any disruption in your Istio deployments.
