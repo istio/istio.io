@@ -1,5 +1,5 @@
 ---
-title: "An update on our move to AWS"
+title: "ACTION REQUIRED FOR GOOGLE CONTAINER REGISTRY USERS, scream tests, and our move to AWS"
 description: What you can do with your Helm charts and signing keys to ensure you are not impacted by the migration to AWS.
 publishdate: 2026-08-21
 attribution: Steven Jin (Microsoft), Keith Mattix (Solo.io)
@@ -7,7 +7,7 @@ keywords: [Istio,Container Registry,Helm]
 ---
 
 This year, Istio is migrating all of our infrastructure from Google Cloud Platform to Amazon Web Services due to changes in our funding model.
-This post describes the transition of our container images, Helm charts, other release artifacts (RPMs, DEBs, source code, SPDX documents, `istioctl`, and licenses), signing keys, and upcoming scream tests.
+This post describes the transition of our container images, Helm charts, other release artifacts (RPMs, DEBs, source code, SPDX documents, `istioctl`, and licenses), signing keys, and **upcoming scream tests where we will disable access to all GCP-hosted artifacts**.
 
 ## Container Images
 
@@ -43,12 +43,14 @@ We expect the following signing keys to be used for each release:
 
 ## Scream Tests and What You Need to Do
 
+We will be conducting a series of "scream tests" where we will temporarily disable access to `gcr.io/istio-release`, `registry.istio.io/release`, and `https://blob.istio.io/istio-release/charts`.
+The first scream test will be September 15th, 2026 from 3:00 PM to 4:00 PM UTC.
+The second scream test will be October 13th, 2026 from 3:00 PM to 6:00 PM UTC.
+The third scream test will be November 17th, 2026 from 3:00 PM to 9:00 PM UTC.
+The fourth and last scream test will be from December 8th, 2026 3:00 PM UTC to December 9th, 2026 3:00 PM UTC.
+
 If you are using `registry.istio.io/release` or `gcr.io/istio-release`, you should migrate to `docker.io/istio` or a pull-through cache as soon as possible.
 If you install Istio using Helm charts from `https://istio-release.storage.googleapis.com/charts`, you should migrate to `https://blob.istio.io/istio-release/charts` as soon as possible.
 If you install Istio using OCI Helm charts at `gcr.io/istio-release/charts`, you should migrate to `ghcr.io/istio/release/charts` as soon as possible.
 If you verify the signature of Istio images, keep an eye out for which signing key is used for your Istio version and update your public key accordingly.
-This information will be available in the release notes for each Istio version from now on.
-You should complete your migration before December 2026 to avoid any disruption in your Istio deployments.
-
-To minimize disruption to our users, we will conduct a series of "scream tests" in December, where we will temporarily disable access to `gcr.io/istio-release`.
-We will have more details on the exact dates and times of these tests in a follow-up post in November 2026.
+You should complete your migration as soon as possible to avoid any disruption in your Istio deployments.
