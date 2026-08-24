@@ -106,6 +106,7 @@
 50Mb
 5ms
 5xx
+63-character
 6ms
 6s
 7.5
@@ -165,6 +166,7 @@ Ansible
 Ant
 AntiAffinity
 API
+api
 api-server
 Apigee
 APIs
@@ -270,6 +272,7 @@ callouts
 camelCase
 canaried
 canarying
+canonical-name
 Careem
 CAs
 CDNs
@@ -281,6 +284,7 @@ Chaand
 Chandrasekhara
 channel
 Chaomeng
+chars
 chatbots
 Chavali
 CheckRequest
@@ -315,6 +319,8 @@ ClusterTrustBundle
 ClusterTrustBundles
 CNCF-hosted
 CNI
+cni
+cni.istio.io
 CNIs
 CNmaintainersummit
 cnn.com
@@ -588,6 +594,7 @@ e.g.
 e2e
 eBPF
 ECDHE
+ECDHE_
 ECDSA
 ECR
 edition.cnn.com
@@ -639,6 +646,7 @@ faq.md
 Faseela
 Fawad
 fcm.googleapis.com
+fd
 FDs
 feature_block
 FedRAMP
@@ -670,6 +678,7 @@ Gather.town
 Gaudet
 GB
 gbd
+GCM
 gcm
 GCP
 GCP-IAM
@@ -769,6 +778,7 @@ InferenceModel
 InferenceObjective
 InferencePool
 InferencePools
+informer
 ingress2gateway
 initContainer
 initializer
@@ -927,7 +937,9 @@ krt
 KServe
 Kuat
 Kube
+kube
 kube-apiserver
+kube-gateway
 kube-proxy
 kubebuilder
 KubeCon
@@ -1016,6 +1028,9 @@ Mengxue
 Merbridge
 merbridge
 MeshConfig
+meshConfig
+meshConfig.defaultServiceExportTo
+meshConfig.defaultVirtualServiceExportTo
 MeshNetworks
 MESH_EXTERNAL
 MESH_INTERNAL
@@ -1110,6 +1125,7 @@ non-sandboxed
 non-UTF8
 noop
 normalization
+not-ready
 notTrustDomains
 ns
 nsenter
@@ -1186,6 +1202,7 @@ performant
 Petr
 Pettit
 Phippy
+PILOT_ENABLE_QUIC_LISTENERS
 PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE
 PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE
 PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME
@@ -1207,12 +1224,14 @@ Posta
 PostgreSQL
 pprof
 Pratima
+pre-1
 pre-alpha
 pre-ambient
 pre-connected
 pre-parsed
 pre-release
 pre-specified
+pre-swap
 precheck
 preconfigured
 Predibase
@@ -1328,6 +1347,7 @@ RootCAs
 routable
 RPC
 RPCs
+RSA
 runtime
 runtimes
 sa
@@ -1358,6 +1378,7 @@ selinux
 Sergey
 serverless
 service-apis
+service.istio.io
 serviceaccount
 ServiceEntries
 ServiceEntry
@@ -1366,6 +1387,7 @@ servicegraph-example
 ServiceMesh
 ServiceMeshCon
 ServiceMesher
+SHA
 sha256
 Shamsher
 Shaojun
@@ -1592,9 +1614,11 @@ v1.4.
 v1.4.1.
 v1.5
 v1.5.0
+v1.5.0.
 v1.55
 v1.55.1
 v1.6.0
+v1.6.0.
 v1.7.4
 v1.7.6_coreos.0
 v1.79.0.
@@ -1612,6 +1636,7 @@ v2-mysql
 v2.0
 v2.17.0.
 v2.26.0
+v2.26.0.
 v3
 v3.18.5
 v4
@@ -1680,6 +1705,7 @@ Wireguard
 Wolfi
 workgroup
 workload
+workload-socket
 WorkloadEntries
 WorkloadEntry
 workstream
@@ -1690,6 +1716,7 @@ X.509.
 x509
 x86
 XBackendTrafficPolicy
+XDS
 xDS
 Xeon
 Xia
@@ -1735,9 +1762,12 @@ Zstd
 ztunnel
 ztunnels
 Zufar
+_
 _build
 _CA_
 _data
+_GCM_SHA
+_WITH_AES_
 _V2_
 _v2_
 _v3_
