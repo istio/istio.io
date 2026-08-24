@@ -18,4 +18,4 @@ Each of these returning members has contributed significantly to the architectur
 
 We extend our sincere gratitude to all four candidates who stepped forward. Having competitive elections with strong nominees across the community reflects the health, active engagement, and collaborative spirit of the Istio ecosystem.
 
-On behalf of the entire Istio community, the Steering Committee congratulates our re-elected TOC members and thanks everyone who participated in the nomination and voting process.  
+On behalf of the entire Istio community, the Steering Committee congratulates our re-elected TOC members and thanks everyone who participated in the nomination and voting process.
