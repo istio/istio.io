@@ -11,7 +11,7 @@ Changes are only included if the new behavior would be unexpected to a user of I
 
 ## Default behavior for sending unhealthy endpoints
 
-By default, Istio will now send unhealthy endpoints unless `OutlierDetection.minHealthPercent` is being configured on a Service. 
+By default, Istio will now send unhealthy endpoints unless `OutlierDetection.minHealthPercent` is being configured on a Service.
 This can be disabled by setting `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` to `false` or using compatibility profiles.
 
 ## Existing auto-registered WorkloadEntries need re-registration or a manual label for HBONE

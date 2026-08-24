@@ -22,7 +22,7 @@ logged at `info` level and easy to miss, which made TLS passthrough breakage aft
 `Address` changes to only the affected waypoints, instead of pushing to all waypoints and proxies.
 Can be disabled with `AMBIENT_SCOPED_ADDRESS_PUSHES=false`.
 
-- **Added** support for a custom taint name for the pilot node untaint controller via 
+- **Added** support for a custom taint name for the pilot node untaint controller via
 PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME environment variable. Defaults to cni.istio.io/not-ready
   ([Issue #57844](https://github.com/istio/istio/issues/57844))
 
@@ -33,13 +33,14 @@ prevent specific policies from being translated into Istio configuration,
 when policy is intended for a different gateway controller than Istio.
 
 Example usage:
-```yaml
+
+{{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: BackendTLSPolicy
 metadata:
   annotations:
     istio.io/ignore-policy-attachment: "true"
-```
+{{< /text >}}
   ([Issue #60122](https://github.com/istio/istio/issues/60122))
 
 - **Added** support for excluding namespaces and hosts from a `Sidecar` egress listener's `hosts`
@@ -50,7 +51,7 @@ namespaces (e.g. `*/*` plus `~ns1/*`) without enumerating a long allowlist.
   ([Issue #60139](https://github.com/istio/istio/issues/60139))
 
 - **Added** an initialization check that verifies the bundled `nft` binary
-supports JSON output. The native nftables backend requires JSON to read 
+supports JSON output. The native nftables backend requires JSON to read
 configuration during pod removal. On hosts whose `nft` binary doesn't
 support JSON, those calls fail with `Error: JSON support not compiled-in` on
 every removal, and the CNI agent retries indefinitely. The new check detects
@@ -68,12 +69,12 @@ the retry budget. The default value, 0ms, retains the existing behavior of
 considering only in-flight requests.
   ([Issue #60389](https://github.com/istio/istio/issues/60389))
 
-- **Added** support for weighted waypoint canaries in ambient mode. 
-A service (or namespace) can now reference a primary and a canary waypoint 
-via the `istio.io/use-waypoint-canary` and `istio.io/use-waypoint-canary-namespace` 
-labels, with the `istio.io/use-waypoint-canary-weight` annotation directing a 
-configurable share of the service's in-mesh connections (and, 
-with `istio.io/ingress-use-waypoint`, ingress requests) to the canary waypoint 
+- **Added** support for weighted waypoint canaries in ambient mode.
+A service (or namespace) can now reference a primary and a canary waypoint
+via the `istio.io/use-waypoint-canary` and `istio.io/use-waypoint-canary-namespace`
+labels, with the `istio.io/use-waypoint-canary-weight` annotation directing a
+configurable share of the service's in-mesh connections (and,
+with `istio.io/ingress-use-waypoint`, ingress requests) to the canary waypoint
 without any client changes.
   ([Issue #60801](https://github.com/istio/istio/issues/60801))
 
@@ -132,9 +133,9 @@ priority tiers can be layered on top via `failoverPriority`. Zone-aware load bal
 `ISTIO_META_ENABLE_SELF_DISCOVERY: "true"` in `meshConfig.defaultConfig.proxyMetadata` to
 inject the self-discovery `local_cluster` into sidecar bootstraps. It is not supported in Ambient,
 only Sidecar mode.
- ([reference]( https://istio.io/latest/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting))([reference]( https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig))
+  ([reference](https://istio.io/latest/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting))([reference](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig))
 
-- **Enabled** Sending unhealthy endpoints by default unless `OutlierDetection.minHealthPercent` is being configured, 
+- **Enabled** Sending unhealthy endpoints by default unless `OutlierDetection.minHealthPercent` is being configured,
 can be disabled by setting `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` to `false`.
 
 - **Fixed** on Gateway API, implement BackendTLSPolicyConflictResolution.
@@ -390,7 +391,7 @@ goroutines and memory to accumulate over time as clusters were removed or reconf
   ([Issue #60033](https://github.com/istio/istio/issues/60033))
 
 - **Fixed** a memory leak in the `krt` controller framework where changing the key used in a `Fetch` filter
-(for example, relabeling a pod to point to a different waypoint) left stale reverse-index entries that were 
+(for example, relabeling a pod to point to a different waypoint) left stale reverse-index entries that were
 never cleaned up. Over time this could grow memory usage and cause unnecessary recomputations.
 
 - **Fixed** a goroutine leak in istiod leader election where every election cycle
@@ -457,7 +458,6 @@ scanning every service visible to the namespace, reducing the per-listener cost 
 to `O(imported hosts)` and eliminating the full-list allocation.
   ([Issue #60473](https://github.com/istio/istio/issues/60473))
 
-
 ## Security
 
 - **Improved** Added `PILOT_ENABLE_STRICT_GATEWAY_MERGING` to prevent cross-namespace merging
@@ -496,7 +496,7 @@ Go's native FIPS 140-3 module.
 could drive excessive istiod memory and CPU during regex compilation. The match expression
 is now limited to 1024 characters.
 
-**Credit**: This issue was reported by Artem Cherezov (https://github.com/cherez0ff).
+**Credit**: This issue was reported by Artem Cherezov ([cherez0ff](https://github.com/cherez0ff)).
 
 - **Fixed** external SDS providers configured through `extensionProviders` to use the configured service hostname
 as the gRPC authority.
