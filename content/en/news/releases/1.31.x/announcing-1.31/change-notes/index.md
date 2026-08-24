@@ -41,6 +41,7 @@ metadata:
   annotations:
     istio.io/ignore-policy-attachment: "true"
 {{< /text >}}
+
   ([Issue #60122](https://github.com/istio/istio/issues/60122))
 
 - **Added** support for excluding namespaces and hosts from a `Sidecar` egress listener's `hosts`
@@ -133,7 +134,7 @@ priority tiers can be layered on top via `failoverPriority`. Zone-aware load bal
 `ISTIO_META_ENABLE_SELF_DISCOVERY: "true"` in `meshConfig.defaultConfig.proxyMetadata` to
 inject the self-discovery `local_cluster` into sidecar bootstraps. It is not supported in Ambient,
 only Sidecar mode.
-  ([reference](https://istio.io/latest/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting))([reference](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig))
+  ([reference](/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting))([reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig))
 
 - **Enabled** Sending unhealthy endpoints by default unless `OutlierDetection.minHealthPercent` is being configured,
 can be disabled by setting `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` to `false`.
