@@ -324,7 +324,7 @@ generates configuration for the agentgateway it does not filter out ListenerSets
 routes attached to them, enabling agentgateway in Istio to handle ListenerSets properly.
 
 - **Fixed** ListenerSet status reporting when ListenerSet is not allowed by the parent
-Gateway resource for agentgateway. When ListnerSet is not allowed by the parent Gateway
+Gateway resource for agentgateway. When ListenerSet is not allowed by the parent Gateway
 we must report `Accepted` condition status as `False`, but it wasn't the case.
 Additionally, given that ListenerSet feature is not experimental as of Gateway API v1.5.0,
 it's no longer guarded by the `PILOT_ENABLE_ALPHA_GATEWAY_API` feature flag.
