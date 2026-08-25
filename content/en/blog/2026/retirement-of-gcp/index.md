@@ -23,8 +23,8 @@ Helm charts and other release artifacts will be removed from the above locations
 All Helm charts of all Istio versions are currently available at `https://blob.istio.io/istio-release/charts` and we will continue to publish them there for the foreseeable future.
 All OCI Helm charts of all Istio versions are currently available at `ghcr.io/istio/release/charts` and we will continue to publish them there for the foreseeable future.
 All other release artifacts of all Istio versions are currently available at `https://blob.istio.io/istio-release/releases` and we will continue to publish them there for the foreseeable future.
-Istio 1.30 will be the last minor version with Helm charts, OCI Helm charts, and images published to `gcr.io/istio-release` and `https://istio-release.storage.googleapis.com/charts`.
-Istio 1.31 will **not** have Helm charts, OCI Helm charts, nor images published to `gcr.io/istio-release/` or `https://istio-release.storage.googleapis.com/charts`.
+Istio 1.30 will be the last minor version with Helm charts, OCI Helm charts, and images published to `gcr.io/istio-release`, `registry.istio.io/release` and `https://istio-release.storage.googleapis.com/charts`.
+Istio 1.31 will **not** have Helm charts, OCI Helm charts, nor images published to `gcr.io/istio-release/` , `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/charts`.
 More information will be available in the release notes.
 
 ## Signing Keys
