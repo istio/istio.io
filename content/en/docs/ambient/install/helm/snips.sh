@@ -22,7 +22,7 @@
 source "content/en/boilerplates/snips/gateway-api-install-crds.sh"
 
 snip_configure_helm() {
-helm repo add istio https://istio-release.storage.googleapis.com/charts
+helm repo add istio https://blob.istio.io/istio-release/charts
 helm repo update
 }
 
