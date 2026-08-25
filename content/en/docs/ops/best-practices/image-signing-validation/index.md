@@ -43,7 +43,7 @@ $ openssl dgst -sha256 \
 
 ## Validating Image
 
-Images from Istio 1.30.4+ and 1.31.1+ are signed with the
+Versions 1.31.1+ are signed with the
 `https://istio.io/misc/istio-key-v2.pub` public key. Use
 `https://istio.io/misc/istio-key.pub` for older releases.
 
