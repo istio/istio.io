@@ -21,6 +21,6 @@
 ####################################################################################################
 
 bpsnip_helm_prereqs_prerequisites_1() {
-helm repo add istio https://istio-release.storage.googleapis.com/charts
+helm repo add istio https://blob.istio.io/istio-release/charts
 helm repo update
 }

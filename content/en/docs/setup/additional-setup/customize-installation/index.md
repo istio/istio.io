@@ -266,7 +266,7 @@ apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: empty
-  hub: registry.istio.io/release
+  hub: docker.io/istio
   tag: 1.1.6
   components:
     pilot:
