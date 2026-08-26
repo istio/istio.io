@@ -3,7 +3,7 @@ title: Announcing Istio 1.31.0
 linktitle: 1.31.0
 subtitle: Major Release
 description: Istio 1.31 Release Announcement.
-publishdate: 2026-08-20
+publishdate: 2026-08-31
 release: 1.31.0
 aliases:
     - /news/announcing-1.31
