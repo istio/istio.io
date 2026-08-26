@@ -53,7 +53,7 @@ Istio now implements the Gateway API `AllowInsecureFallback` feature for client 
 - **Kiali** addon updated to v2.26.0.
 - **ztunnel CPU-aware worker threads** via `ZTUNNEL_RESOURCE_CPU_LIMIT` and `ZTUNNEL_RESOURCE_CPU_REQUEST` environment variables.
 - **`istioctl manifest generate -o`** flag writes generated manifests to a file instead of stdout.
-- **`global.readerServiceAccount`** allows binding the `istio-reader` ClusterRole to a custom service account.
+- **`global.readerServiceAccount`** allows binding the `istio-reader` `ClusterRole` to a custom service account.
 
 ### Telemetry
 
