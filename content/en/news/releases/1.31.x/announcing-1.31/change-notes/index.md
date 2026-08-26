@@ -124,22 +124,22 @@ behavior is unchanged. The baseline `connectionPool` is also applied to inbound 
 passthrough cluster.
 
 - **Added** support for Envoy's zone-aware load balancing via a new `zoneAwareLbSetting` field
-on `DestinationRule.TrafficPolicy.LoadBalancerSettings` and `MeshConfig`. When enabled, Envoy
-automatically routes traffic to endpoints in the same availability zone as the downstream proxy,
-spilling over to other zones only when local capacity is insufficient. This differs from the
-existing `localityLbSetting` in that zone-level routing is handled automatically
-by Envoy using the proxy's zone distribution, rather than through static percentages.
-Cross-region failover ordering can be configured via the `failover` field, and label-based
-priority tiers can be layered on top via `failoverPriority`. Zone-aware load balancing requires
-`ISTIO_META_ENABLE_SELF_DISCOVERY: "true"` in `meshConfig.defaultConfig.proxyMetadata` to
-inject the self-discovery `local_cluster` into sidecar bootstraps. It is not supported in Ambient,
-only Sidecar mode.
+  on `DestinationRule.TrafficPolicy.LoadBalancerSettings` and `MeshConfig`. When enabled, Envoy
+  automatically routes traffic to endpoints in the same availability zone as the downstream proxy,
+  spilling over to other zones only when local capacity is insufficient. This differs from the
+  existing `localityLbSetting` in that zone-level routing is handled automatically
+  by Envoy using the proxy's zone distribution, rather than through static percentages.
+  Cross-region failover ordering can be configured via the `failover` field, and label-based
+  priority tiers can be layered on top via `failoverPriority`. Zone-aware load balancing requires
+  `ISTIO_META_ENABLE_SELF_DISCOVERY: "true"` in `meshConfig.defaultConfig.proxyMetadata` to
+  inject the self-discovery `local_cluster` into sidecar bootstraps. It is supported in sidecar
+  mode only, and is not supported in ambient mode.
   ([reference](/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting))([reference](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig))
 
-- **Enabled** Sending unhealthy endpoints by default unless `OutlierDetection.minHealthPercent` is being configured,
-can be disabled by setting `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` to `false`.
+- **Enabled** sending unhealthy endpoints by default unless `OutlierDetection.minHealthPercent` is configured.
+  This can be disabled by setting `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` to `false`.
 
-- **Fixed** on Gateway API, implement BackendTLSPolicyConflictResolution.
+- **Fixed** Gateway API handling to implement `BackendTLSPolicy` conflict resolution.
   ([Issue #57817](https://github.com/istio/istio/issues/57817))
 
 - **Fixed** a bug where inbound clusters were missing for proxies that reconnected to a new istiod
@@ -148,14 +148,14 @@ Workload labels are now populated before service targets are computed, so the me
 in `GetProxyServiceTargets` correctly matches services instead of returning an empty list.
   ([Issue #58125](https://github.com/istio/istio/issues/58125))
 
-- **Fixed** When PILOT_ENABLE_QUIC_LISTENERS is enabled, generated Gateway API
-Services will listen on the corresponding UDP port for each HTTPS listener.
+- **Fixed** an issue where, when `PILOT_ENABLE_QUIC_LISTENERS` is enabled, generated Gateway API
+  `Service` resources did not listen on the corresponding UDP port for each HTTPS listener.
   ([Issue #58247](https://github.com/istio/istio/issues/58247))
 
 - **Fixed** an issue where HTTPS listeners defined via `ListenerSet` failed to deliver TLS certificates when the parent Gateway used manual deployment.
   ([Issue #59535](https://github.com/istio/istio/issues/59535))
 
-- **Fixed** an issue where HTTPRoute and GRPCRoute filters with invalid header values were silently dropped from the Envoy config instead of reporting an InvalidFilter status.
+- **Fixed** an issue where `HTTPRoute` and `GRPCRoute` filters with invalid header values were silently dropped from the Envoy config instead of reporting an `InvalidFilter` status.
   ([Issue #59933](https://github.com/istio/istio/issues/59933))
 
 - **Fixed** a brief traffic outage when changing the `istio.io/rev` label on a Kubernetes
@@ -165,24 +165,24 @@ revision. Status writes for non-owning revisions are still suppressed, so revisi
 not flap on each other's status.
   ([Issue #59959](https://github.com/istio/istio/issues/59959))
 
-- **Fixed** multi-network ambient now routes to the waypoint when the ingress
-on one network calls a service on a different network, and only if the
-Service is configured with `istio.io/ingress-use-waypoint`.
+- **Fixed** multi-network ambient so that it now routes to the waypoint when the ingress
+  on one network calls a service on a different network, and only if the
+  `Service` is configured with `istio.io/ingress-use-waypoint`.
 
 - **Fixed** an issue where the waypoint listener config on IPv6 clusters
-contained an `IPMatcher.RangeMatcher` with an empty `ranges` field when a
-headless Service (`spec.clusterIP: None`) was present in the waypoint's
-scope. This was produced because the IPv4-encoded `constants.UnspecifiedIP`
-placeholder used for headless services' `DefaultAddress` is filtered out
-for IPv6-only proxies by `FilterAddressesByIPFamily`. Envoy 1.38
-strict-validates the proto's `repeated.min_items=1` rule on
-`IPMatcher.RangeMatcher.ranges` and rejects the LDS push. The waypoint
-listener builder now elides the `IPRangeMatcher` entry when there are no
-addresses to put into it, matching the existing behaviour of the
-surrounding code that already removes the hostname half from
-`svcHostnameMap` for the same case. IPv4 clusters are unaffected
-behaviourally — the placeholder matcher that was previously emitted
-matched nothing.
+  contained an `IPMatcher.RangeMatcher` with an empty `ranges` field when a
+  headless Service (`spec.clusterIP: None`) was present in the waypoint's
+  scope. This was produced because the IPv4-encoded `constants.UnspecifiedIP`
+  placeholder used for headless services' `DefaultAddress` is filtered out
+  for IPv6-only proxies by `FilterAddressesByIPFamily`. Envoy 1.38
+  strict-validates the proto's `repeated.min_items=1` rule on
+  `IPMatcher.RangeMatcher.ranges` and rejects the LDS push. The waypoint
+  listener builder now elides the `IPRangeMatcher` entry when there are no
+  addresses to put into it, matching the existing behavior of the
+  surrounding code that already removes the hostname half from
+  `svcHostnameMap` for the same case. IPv4 clusters are unaffected
+  behaviorally — the placeholder matcher that was previously emitted
+  matched nothing.
   ([Issue #60310](https://github.com/istio/istio/issues/60310))
 
 - **Fixed** an issue where `consistentHash` load balancing in `DestinationRule` would not send traffic
@@ -190,8 +190,8 @@ to new endpoints after scaling, due to an Envoy regression (`envoyproxy/envoy#45
 RING_HASH ring was not rebuilt on endpoint changes during batched updates.
   ([Issue #60312](https://github.com/istio/istio/issues/60312))
 
-- **Fixed** a fatal `concurrent map writes` panic in the istio-cni agent when
-two pods were added to the ambient mesh on the same node at the same time.
+- **Fixed** a fatal `concurrent map writes` panic in the `istio-cni` agent when
+  two pods were added to the ambient mesh on the same node at the same time.
   ([Issue #60328](https://github.com/istio/istio/issues/60328))
 
 - **Fixed** a `DestinationRule` and a Gateway API backend policy (`BackendTLSPolicy` or `XBackendTrafficPolicy`)
@@ -205,9 +205,9 @@ fills in fields the `DestinationRule` leaves unset, regardless of which was crea
 - **Fixed** an issue where proxy draining could panic instead of returning an error when the Envoy admin endpoint was unavailable.
 
 - **Fixed** an issue where additional namespaces in
-meshConfig.defaultServiceExportTo and
-meshConfig.defaultVirtualServiceExportTo were not being honored when the
-default included the current namespace as ".".
+  `meshConfig.defaultServiceExportTo` and
+  `meshConfig.defaultVirtualServiceExportTo` were not honored when the
+  default included the current namespace as `.`.
   ([Issue #60560](https://github.com/istio/istio/issues/60560))
 
 - **Fixed** a bug where removing a listener from a `ListenerSet` left an orphaned entry
@@ -219,7 +219,7 @@ listeners that are no longer present in the spec, matching the existing behavior
 `Gateway` resources.
   ([Issue #60578](https://github.com/istio/istio/issues/60578))
 
-- **Fixed** DestinationRule validation incorrectly rejecting warmup aggression values between 0 and 1.
+- **Fixed** `DestinationRule` validation incorrectly rejecting warmup aggression values between 0 and 1.
   ([Issue #3395](https://github.com/istio/api/issues/3395)),([Issue #55153](https://github.com/istio/istio/issues/55153))
 
 - **Fixed** a bug where istiod did not pick up updated remote cluster secrets (e.g. during
@@ -227,15 +227,15 @@ credential/token rotation) until restarted. The new cluster registry could deadl
 to sync, leaving the service registry stale for the affected remote cluster.
   ([Issue #60612](https://github.com/istio/istio/issues/60612))
 
-- **Fixed** an issue introduced in Istio 1.30 where metadata-only changes to VirtualService objects
-(e.g. Helm annotations, Argo CD labels, or `kubectl.kubernetes.io/last-applied-configuration`)
-triggered unnecessary XDS pushes to all proxies. This could cause a significant increase in
-control plane CPU usage and push latency in clusters with many VirtualServices managed by GitOps
-tooling. The fix restores the pre-1.30 behavior where only spec changes or `istio.io`
-label/annotation changes trigger a push.
+- **Fixed** an issue introduced in Istio 1.30 where metadata-only changes to `VirtualService` resources
+  (e.g. Helm annotations, Argo CD labels, or `kubectl.kubernetes.io/last-applied-configuration`)
+  triggered unnecessary XDS pushes to all proxies. This could cause a significant increase in
+  control plane CPU usage and push latency in clusters with many `VirtualService` resources managed by GitOps
+  tooling. The fix restores the pre-1.30 behavior where only spec changes or `istio.io`
+  label/annotation changes trigger a push.
   ([Issue #60629](https://github.com/istio/istio/issues/60629))
 
-- **Fixed** Duplicate and excessive pushes when using WasmPlugins due to TrafficExtension conversions.
+- **Fixed** duplicate and excessive pushes when using `WasmPlugin` resources due to `TrafficExtension` conversions.
 
 - **Fixed** a deadlock where the istio-cni node agent pod could fail to start (for
 example after a node reboot) because the CNI plugin only skipped the kube client
@@ -244,16 +244,16 @@ check now runs in sidecar mode as well, so the agent pod no longer blocks on a
 kubeconfig it has not written yet.
   ([Issue #60668](https://github.com/istio/istio/issues/60668))
 
-- **Fixed** default http retries for inbound routes of waypoints. The mesh config's defaultHttpRetryPolicy will apply to
-local services attached to waypoints.
+- **Fixed** default HTTP retries for inbound routes of waypoints. The `meshConfig.defaultHttpRetryPolicy` setting now
+  applies to local services attached to waypoints.
   ([Issue #60682](https://github.com/istio/istio/issues/60682))
 
 - **Fixed** an issue where `EXIT_ON_ZERO_ACTIVE_CONNECTIONS` never fired on ambient ingress gateways and waypoints because pilot-agent's drain loop counted in-process connections on Envoy's HBONE internal listeners (`connect_originate`, `connect_terminate`, `main_internal`, etc.), preventing the active-connection count from reaching zero and forcing the proxy to wait until `terminationGracePeriodSeconds`.
   ([Issue #60728](https://github.com/istio/istio/issues/60728))
 
-- **Fixed** an issue where service.istio.io/canonical-name label can end up
-ending in an invalid "." or "_" when truncated to 63 chars in the injection
-template.
+- **Fixed** an issue where the `service.istio.io/canonical-name` label could end
+  with an invalid `.` or `_` when truncated to 63 characters in the injection
+  template.
 
 - **Fixed** an issue where an `HTTPRoute` with empty or omitted `backendRefs`
 returned an HTTP 404 status code instead of 500. This matches the behavior
@@ -261,15 +261,15 @@ enforced by the `HTTPRouteNoBackendRefs` Gateway API conformance test,
 introduced in v1.6.0.
 
 - **Fixed** an issue where the advertised HBONE capability was not
-propagated onto auto-registered WorkloadEntries for non-Kubernetes workloads.
+  propagated onto auto-registered `WorkloadEntry` resources for non-Kubernetes workloads.
 
-- **Fixed** an issue where the Accepted condition on a Gateway was not set to
-False when referencing an invalid or non-existent parametersRef. This
-matches the behavior enforced by the `GatewayInvalidParametersRef` Gateway
-API conformance test, introduced in v1.6.0.
+- **Fixed** an issue where the `Accepted` condition on a `Gateway` was not set to
+  `False` when referencing an invalid or non-existent `parametersRef`. This
+  matches the behavior enforced by the `GatewayInvalidParametersRef` Gateway
+  API conformance test, introduced in v1.6.0.
 
 - **Fixed** cross-network traffic through the east-west gateway being blocked by a spurious
-deny-all RBAC filter when the destination service has L7 AuthorizationPolicies.
+  deny-all RBAC filter when the destination service has L7 `AuthorizationPolicy` resources.
   ([Issue #60806](https://github.com/istio/istio/issues/60806))
 
 - **Fixed** a bug where a remote cluster's network gateway could disappear from
@@ -318,22 +318,23 @@ was not applied. The pod did not recover on its own; only restarting istiod repa
 enrollment.
   ([Issue #61168](https://github.com/istio/istio/issues/61168))
 
-- **Fixed** when pilot generated configuration for the agentgateway, due to a number of
-issues, it basically ignored ListenerSets and routes attached to them. Now, when pilot
-generates configuration for the agentgateway it does not filter out ListenerSets and
-routes attached to them, enabling agentgateway in Istio to handle ListenerSets properly.
+- **Fixed** an issue where, due to a number of problems, pilot ignored `ListenerSet` resources
+  and the routes attached to them when generating configuration for agentgateway. Pilot no
+  longer filters out `ListenerSet` resources and their attached routes, enabling agentgateway
+  in Istio to handle `ListenerSet` resources properly.
 
-- **Fixed** ListenerSet status reporting when ListenerSet is not allowed by the parent
-Gateway resource for agentgateway. When ListenerSet is not allowed by the parent Gateway
-we must report `Accepted` condition status as `False`, but it wasn't the case.
-Additionally, given that ListenerSet feature is not experimental as of Gateway API v1.5.0,
-it's no longer guarded by the `PILOT_ENABLE_ALPHA_GATEWAY_API` feature flag.
+- **Fixed** `ListenerSet` status reporting when a `ListenerSet` is not allowed by the parent
+  `Gateway` resource for agentgateway. When a `ListenerSet` is not allowed by the parent
+  `Gateway`, the `Accepted` condition status is now reported as `False`, which was not
+  previously the case. Additionally, because the `ListenerSet` feature is no longer
+  experimental as of Gateway API v1.5.0, it is no longer guarded by the
+  `PILOT_ENABLE_ALPHA_GATEWAY_API` feature flag.
 
-- **Fixed** an `agentgateway` Gateway now connects to sidecar-injected (mesh) backends using
-Istio mutual TLS instead of plaintext. Previously, raw TCP routed to a mesh backend (via
-`TCPRoute`, or a `TLSRoute` in Terminate mode) could hang for server-first protocols — where
-the backend speaks first, such as SMTP or MySQL — and backends enforcing `STRICT` mutual TLS
-were unreachable.
+- **Fixed** an issue where an agentgateway `Gateway` connected to sidecar-injected (mesh) backends
+  using plaintext instead of Istio mutual TLS. Previously, raw TCP routed to a mesh backend (via
+  `TCPRoute`, or a `TLSRoute` in Terminate mode) could hang for server-first protocols — where
+  the backend speaks first, such as SMTP or MySQL — and backends enforcing `STRICT` mutual TLS
+  were unreachable.
 
 - **Fixed** a memory and goroutine leak in Istiod ambient multi-cluster mode where the per-cluster
 node locality collections were scoped to the process lifetime instead of the cluster lifetime, so
@@ -360,24 +361,24 @@ dropped without being closed, pinning the namespace in the kernel until garbage 
 concurrent with a ztunnel (re)connection could permanently block the ZDS server.
   ([Issue #1674](https://github.com/istio/ztunnel/issues/1674))
 
-- **Fixed** an issue where endpoint mTLS mode was not derived from the DestinationRule's
-top-level traffic policy when a targeted subset did not specify a TLS mode for the port.
-The subset traffic policy now correctly falls back to the DestinationRule-level TLS setting.
+- **Fixed** an issue where endpoint mTLS mode was not derived from the `DestinationRule`
+  top-level traffic policy when a targeted subset did not specify a TLS mode for the port.
+  The subset traffic policy now correctly falls back to the `DestinationRule`-level TLS setting.
 
-- **Fixed** status reporting for certificate references in Gateway resources to comply with the Gateway API specification v1.5.0.
-It changes the Gateway status to report conditions of type ResolvedRefs and also adds extra details to the Accepted condition when it fails
-due to invalid or non-existent certificates.
+- **Fixed** status reporting for certificate references in `Gateway` resources to comply with the Gateway API specification v1.5.0.
+  It changes the `Gateway` status to report conditions of type `ResolvedRefs`, and also adds extra details to the `Accepted` condition when it fails
+  due to invalid or non-existent certificates.
 
-- **Fixed** the `Accepted` condition on a Kubernetes Gateway to reflect the validity of its
-listeners. When one or more listeners are not accepted (for example, an unsupported listener
-protocol), the Gateway now reports the `ListenersNotValid` reason, and is only set to
-`Accepted=False` when none of its listeners are accepted. Previously the Gateway was always
-reported as `Accepted` regardless of its listeners.
+- **Fixed** the `Accepted` condition on a Kubernetes `Gateway` to reflect the validity of its
+  listeners. When one or more listeners are not accepted (for example, an unsupported listener
+  protocol), the `Gateway` now reports the `ListenersNotValid` reason, and is only set to
+  `Accepted=False` when none of its listeners are accepted. Previously the `Gateway` was always
+  reported as `Accepted` regardless of its listeners.
 
 - **Fixed** an issue where proxyless gRPC xDS clients could receive over-broad RDS `RouteConfiguration` responses from Istiod.
 
-- **Fixed** a bug where an internal listener was incorrectly created when the listener is of HTTPS or TLS but without a TLS section defined.
-A following version of the Gateway API will [prevent](https://github.com/kubernetes-sigs/gateway-api/pull/4788) this combination of inputs from ever reaching a controller.
+- **Fixed** a bug where an internal listener was incorrectly created when the listener was of type HTTPS or TLS but had no TLS section defined.
+  A following version of the Gateway API will [prevent](https://github.com/kubernetes-sigs/gateway-api/pull/4788) this combination of inputs from ever reaching a controller.
   ([Issue #60562](https://github.com/istio/istio/issues/60562))
 
 - **Fixed** config generation for sidecars prior to 1.29.2.
@@ -416,14 +417,14 @@ rebuilt on the new client.
 - **Fixed** a memory leak in Istiod where `needResync` entries for failed pod IPs were never cleaned up.
 
 - **Fixed** failover routing when the network is included.
-Network is considered preferred but not required when determining failover priority.
-As an example PreferSameZone will have the following priority:
-  Network+Region+Zone, Network+Region, Network, Region+Zone, Zone, No match.
+  The network is considered preferred, but not required, when determining failover priority.
+  For example, `PreferSameZone` has the following priority order:
+  Network+Region+Zone, Network+Region, Network, Region+Zone, Zone, and no match.
 
-- **Fixed** generated Gateway `Service`s being rejected when two listener names sanitize to the
-same Service port name (names differing only by periods versus dashes, or only past the
-63-character limit), which blocked every unpublished port on the Gateway. Colliding port names
-are now disambiguated with the listener's port number.
+- **Fixed** generated `Gateway` `Service` resources being rejected when two listener names sanitize
+  to the same `Service` port name (names differing only by periods versus dashes, or only past the
+  63-character limit), which blocked every unpublished port on the `Gateway`. Colliding port names
+  are now disambiguated with the listener's port number.
 
 - **Fixed** a bug where the istio-cni node agent could pair an ambient pod with another
 pod's network namespace when a third-party process was inside that namespace during a
@@ -461,11 +462,11 @@ to `O(imported hosts)` and eliminating the full-list allocation.
 
 ## Security
 
-- **Improved** Added `PILOT_ENABLE_STRICT_GATEWAY_MERGING` to prevent cross-namespace merging
-of Istio Gateways with managed GatewayAPI Gateways. When enabled (the default), Istio Gateway
-CRDs from different namespaces will not be merged with managed GatewayAPI Gateway proxies.
-Unmanaged (manual deployment) GatewayAPI Gateways
-are not affected. Set `PILOT_ENABLE_STRICT_GATEWAY_MERGING` to `false` to disable.
+- **Added** `PILOT_ENABLE_STRICT_GATEWAY_MERGING` to prevent cross-namespace merging
+  of Istio `Gateway` resources with managed Gateway API `Gateway` resources. When enabled (the
+  default), Istio `Gateway` CRDs from different namespaces are not merged with managed
+  Gateway API `Gateway` proxies. Unmanaged (manual deployment) Gateway API `Gateway` resources
+  are not affected. Set `PILOT_ENABLE_STRICT_GATEWAY_MERGING` to `false` to disable.
 
 - **Added** `trustDomains` and `notTrustDomains` fields to the `Source` in `AuthorizationPolicy`,
 allowing users to match or exclude requests based on the trust domain derived from the peer certificate.
@@ -490,7 +491,7 @@ Go's native FIPS 140-3 module.
 - **Fixed** pilot-agent missing certificate reloads on second and subsequent Kubernetes secret rotations for file-mounted certs.
   ([Issue #59912](https://github.com/istio/istio/issues/59912))
 
-- **Fixed** an issue where `caCertificateRefs[].kind: Secret` in Gateway API frontend mTLS (`spec.tls.frontend.default.validation.caCertificateRefs`) was rejected by SDS at runtime despite valid Gateway configuration, including same-namespace references and cross-namespace references allowed by `ReferenceGrant`
+- **Fixed** an issue where `caCertificateRefs[].kind: Secret` in Gateway API frontend mTLS (`spec.tls.frontend.default.validation.caCertificateRefs`) was rejected by SDS at runtime despite valid `Gateway` configuration, including same-namespace references and cross-namespace references allowed by `ReferenceGrant`.
   ([Issue #60277](https://github.com/istio/istio/issues/60277))
 
 - **Fixed** an `EnvoyFilter` validation gap where an uncapped `proxyVersion` match expression
@@ -503,19 +504,19 @@ is now limited to 1024 characters.
 as the gRPC authority.
 
 - **Fixed** external SDS provider for gateways to use the credential name (after stripping the `sds://`
-prefix) as the SDS resource name instead of the provider name. This allows multiple gateways using the
-same SDS provider to request different certificates. For MUTUAL TLS, the CA certificate resource name
-is correctly derived as `<credential-name>-cacert`. When neither a UDS socket nor an SDS extension
-provider is configured, the gateway now falls back to fetching certificates via ADS (Kubernetes Secrets)
-instead of failing silently.
+  prefix) as the SDS resource name instead of the provider name. This allows multiple gateways using the
+  same SDS provider to request different certificates. For `MUTUAL` TLS, the CA certificate resource name
+  is correctly derived as `<credential-name>-cacert`. When neither a UDS socket nor an SDS extension
+  provider is configured, the gateway now falls back to fetching certificates via ADS (Kubernetes Secrets)
+  instead of failing silently.
   ([Issue #57080](https://github.com/istio/istio/issues/57080))
 
 - **Fixed** a bug where istiod did not reload its CA root certificate when it rotated if the
 certificate is provided via files (for example, when using an external CA such as istio-csr).
 
 - **Fixed** the XDS `api` generator (MCP config serving) to require a verified control-plane identity.
-Previously any client that could reach istiod's XDS port could read Istio config across all namespaces.
-Disable with ENABLE_XDS_API_GENERATOR_AUTH=false if needed for compatibility.
+  Previously, any client that could reach istiod's XDS port could read Istio config across all namespaces.
+  Disable with `ENABLE_XDS_API_GENERATOR_AUTH=false` if needed for compatibility.
 
 ## Telemetry
 
@@ -543,16 +544,16 @@ declare multiple application-metrics endpoints per pod as a comma-separated
 data-plane port are rejected at injection time with a human-readable error.
   ([Issue #59567](https://github.com/istio/istio/issues/59567))
 
-- **Added** Two new opt-in environment variables, `ENVOY_SECURE_METRICS_PORT` and `ENVOY_SECURE_MERGED_METRICS_PORT`,
-that expose mTLS-protected Prometheus scrape endpoints on every Envoy sidecar proxy.
-When set, the sidecar adds static bootstrap listeners on the configured ports that require
-mutual TLS, allowing Prometheus to scrape metrics securely without relying on pod-network-level access controls.
-See the [RFC](https://docs.google.com/document/d/1BiBOrYU06x5xdsnU0YDlMGOV-iHjZ2m9UVcZ62wKAn8/edit?usp=sharing) for details.
+- **Added** two new opt-in environment variables, `ENVOY_SECURE_METRICS_PORT` and `ENVOY_SECURE_MERGED_METRICS_PORT`,
+  that expose mTLS-protected Prometheus scrape endpoints on every Envoy sidecar proxy.
+  When set, the sidecar adds static bootstrap listeners on the configured ports that require
+  mutual TLS, allowing Prometheus to scrape metrics securely without relying on pod-network-level access controls.
+  See the [RFC](https://docs.google.com/document/d/1BiBOrYU06x5xdsnU0YDlMGOV-iHjZ2m9UVcZ62wKAn8/edit?usp=sharing) for details.
   ([Issue #50114](https://github.com/istio/istio/issues/50114))
 
-- **Fixed** an issue when pilot-agent metric merging produces incorrect result when Envoy reports metrics using protobuf
-content type. The logic currently implemented in pilot-agent cannot handle protobuf content type correctly, so the change
-restrict allowed content types to text/plain and application/openmetrics-text only.
+- **Fixed** an issue where pilot-agent metric merging produced an incorrect result when Envoy reported metrics using the
+  protobuf content type. The logic implemented in pilot-agent cannot handle the protobuf content type correctly, so this
+  change restricts the allowed content types to `text/plain` and `application/openmetrics-text` only.
   ([Issue #60322](https://github.com/istio/istio/issues/60322))
 
 - **Removed** the `PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY` feature flag. The behavior of spawning
@@ -561,7 +562,7 @@ upstream spans for gateway requests is now always enabled. Users who previously 
 
 ## Extensibility
 
-- **Fixed** a bug where a Service referring to a Waypoint in a different namespace did not have the namespace wide Telemetry resource included as part of its configuration.
+- **Fixed** a bug where a `Service` referring to a waypoint in a different namespace did not have the namespace-wide `Telemetry` resource included as part of its configuration.
   ([Issue #60665](https://github.com/istio/istio/issues/60665))
 
 - **Fixed** a bug where a `WasmPlugin` in an application namespace targeting a `Service` via `targetRefs`
@@ -574,12 +575,12 @@ resource that would never arrive.
 
 - **Updated** Kiali addon to version v2.26.0.
 
-- **Added** `ZTUNNEL_RESOURCE_CPU_LIMIT` and `ZTUNNEL_RESOURCE_CPU_REQUEST`
-environment variables to the ztunnel DaemonSet, populated from the
-configured `resources.limits.cpu` / `resources.requests.cpu` when set.
-ztunnel uses these to derive CPU-aware worker-thread counts.
+- **Added** the `ZTUNNEL_RESOURCE_CPU_LIMIT` and `ZTUNNEL_RESOURCE_CPU_REQUEST`
+  environment variables to the ztunnel `DaemonSet`, populated from the
+  configured `resources.limits.cpu` / `resources.requests.cpu` when set.
+  ztunnel uses these to derive CPU-aware worker-thread counts.
 
-- **Added** `terminationMessagePolicy` helm field for the istiod (pilot) container, allowing configuration of how termination messages are populated.
+- **Added** the `terminationMessagePolicy` Helm field for the istiod (pilot) container, allowing configuration of how termination messages are populated.
 
 - **Added** `dnsPolicy` and `dnsConfig` fields to the gateway Helm chart for custom DNS configuration in environments with non-standard DNS requirements.
 
@@ -590,15 +591,15 @@ environments where no shell is available (for example, hardened `istioctl`
 images that ship without one).
 
 - **Added** `values.global.readerServiceAccount` with `name` and `namespace` fields to bind
-the `istio-reader` ClusterRole to a custom service account. When set, the default
-`istio-reader-service-account` is not created, and the ClusterRoleBinding references the
-specified service account instead. Setting `global.enableReaderRBAC` to `false` suppresses
-the `istio-reader` ClusterRole and ClusterRoleBinding regardless of `readerServiceAccount` settings.
+  the `istio-reader` `ClusterRole` to a custom service account. When set, the default
+  `istio-reader-service-account` is not created, and the `ClusterRoleBinding` references the
+  specified service account instead. Setting `global.enableReaderRBAC` to `false` suppresses
+  the `istio-reader` `ClusterRole` and `ClusterRoleBinding` regardless of `readerServiceAccount` settings.
 
 - **Fixed** an issue where the `istio-init` container would use the wrong image when `global.proxy_init.image` and `global.proxy.image` were configured differently.
   ([Issue #59066](https://github.com/istio/istio/issues/59066))
 
-- **Fixed** Waypoint and kube-gateway workload-socket volume incompatible with SPIRE CSI driver configuration.
+- **Fixed** the waypoint and kube-gateway workload-socket volume being incompatible with the SPIRE CSI driver configuration.
   ([Issue #60108](https://github.com/istio/istio/issues/60108))
 
 - **Fixed** Helm chart rendering when `global.istioNamespace` or the release namespace is numeric-only (for example, `1234`). Namespace fields in rendered manifests are now quoted so YAML parsers treat them as strings instead of numbers.
@@ -608,20 +609,20 @@ the `istio-reader` ClusterRole and ClusterRoleBinding regardless of `readerServi
 
 - **Added** support for `istioctl remote-clusters` to display revisions.
 
-- **Added** `istioctl analyze` now warns (IST0177) when multiple ServiceEntries define the same host and port with conflicting protocols.
+- **Added** an `istioctl analyze` warning (`IST0177`) for when multiple `ServiceEntry` resources define the same host and port with conflicting protocols.
   ([Issue #60447](https://github.com/istio/istio/issues/60447))
 
-- **Added** `istioctl analyze` check `IST0176` that flags Gateway API CRDs installed at a
-version below the minimum required by the current Istio version. Resources backed by such
-CRDs are silently filtered by istiod, which previously made TLS passthrough breakage after
-upgrading to Istio 1.30 with stale Gateway API CRDs hard to discover.
+- **Added** an `istioctl analyze` check, `IST0176`, that flags Gateway API CRDs installed at a
+  version below the minimum required by the current Istio version. Resources backed by such
+  CRDs are silently filtered by istiod, which previously made TLS passthrough breakage after
+  upgrading to Istio 1.30 with stale Gateway API CRDs hard to discover.
 
 - **Fixed** `istioctl` failing to discover istiod when Istio is installed in a non-default namespace
 (other than `istio-system`) with a revision tag. The `DefaultWatcher` now constructs the expected
 webhook name based on the Istio namespace passed via the `-i` flag.
   ([Issue #60232](https://github.com/istio/istio/issues/60232))
 
-- **Fixed** `istioctl tag remove` not deleting the `istiod-default-validator` ValidatingWebhookConfiguration when removing the default revision tag.
+- **Fixed** `istioctl tag remove` not deleting the `istiod-default-validator` `ValidatingWebhookConfiguration` when removing the default revision tag.
   ([Issue #60537](https://github.com/istio/istio/issues/60537))
 
 - **Fixed** an issue where `istioctl` manifest `--set` values containing `=` were parsed as malformed input.
