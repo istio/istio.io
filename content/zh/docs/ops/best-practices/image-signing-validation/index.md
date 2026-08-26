@@ -36,10 +36,13 @@ $ openssl dgst -sha256 \
 
 ## 验证镜像 {#validating-image}
 
+版本 1.31.1+ 使用 `https://istio.io/misc/istio-key-v2.pub` 公钥进行签名。
+对于旧版本，请使用 `https://istio.io/misc/istio-key.pub`。
+
 要验证容器镜像，请执行以下操作：
 
 {{< text bash >}}
-$ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_docker_image "pilot" >}}
+$ ./cosign-binary verify --key <public key url> {{< istio_docker_image "pilot" >}}
 {{< /text >}}
 
 此过程适用于使用 Istio 构建基础设施构建的任何已发布镜像或待发布镜像。
@@ -47,13 +50,14 @@ $ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_d
 输出示例：
 
 {{< text bash >}}
-$ cosign verify --key "https://istio.io/misc/istio-key.pub" registry.istio.io/release/pilot:1.12.0
+$ cosign verify --key "https://istio.io/misc/istio-key-v2.pub" docker.io/istio/pilot:1.31.1
 
 
-registry.istio.io/release/pilot:1.12.0 的验证——对这些签名中的每一个都进行了以下检查：
-  - 联合署名声明得到验证
-  - 签名已根据指定的公钥进行验证
-  - 任何证书都已针对 Fulcio 根进行了验证。
+Verification for docker.io/istio/pilot:1.31.1 --
+The following checks were performed on each of these signatures:
+  - The cosign claims were validated
+  - The signatures were verified against the specified public key
+  - Any certificates were verified against the Fulcio roots.
 
-[{"critical":{"identity":{"docker-reference":"registry.istio.io/release/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
+[{"critical":{"identity":{"docker-reference":"docker.io/istio/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
 {{< /text >}}

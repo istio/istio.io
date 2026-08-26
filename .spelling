@@ -1347,6 +1347,7 @@ RootCAs
 routable
 RPC
 RPCs
+RPMs
 RSA
 runtime
 runtimes
@@ -1430,6 +1431,7 @@ SolarWinds
 Solo.io
 Solo.io.
 SongYang
+SPDX
 Specko
 Speedrun
 Speedscale
