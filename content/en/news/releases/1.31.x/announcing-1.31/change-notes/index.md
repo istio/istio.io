@@ -64,10 +64,10 @@ in redirect rules. This allows stripping or replacing the matched path prefix wh
 redirecting, e.g. redirecting `example.com/foo/bar` to `foo.example.com/bar`.
   ([Issue #47500](https://github.com/istio/istio/issues/47500)),([Issue #47777](https://github.com/istio/istio/issues/47777)),([Issue #52521](https://github.com/istio/istio/issues/52521))
 
-- **Added** `budget_interval` field to the RetryBudget TrafficPolicy API to
-configure the interval with which requests are considered when calculating
-the retry budget. The default value, 0ms, retains the existing behavior of
-considering only in-flight requests.
+- **Added** the `budget_interval` field to the `RetryBudget` `TrafficPolicy` API to
+  configure the interval with which requests are considered when calculating
+  the retry budget. The default value, 0ms, retains the existing behavior of
+  considering only in-flight requests.
   ([Issue #60389](https://github.com/istio/istio/issues/60389))
 
 - **Added** support for weighted waypoint canaries in ambient mode.
