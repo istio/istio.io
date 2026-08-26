@@ -627,4 +627,3 @@ annotations:
 
 - **Fixed** an issue where `istioctl` manifest `--set` values containing `=` were parsed as malformed input.
 
-## Documentation changes
