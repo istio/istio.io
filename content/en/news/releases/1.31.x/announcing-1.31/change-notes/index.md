@@ -106,11 +106,11 @@ and `HTTP_ROUTE` patch targets. Lists nested inside `Any`-typed filter configura
 network, and listener filters, and transport sockets) are not affected and continue to follow
 `MERGE` semantics.
 
-- **Added** implementation of the Gateway API AllowInsecureFallback feature in the client certificate validation logic.
-This feature allows gateway to request client certificate and try to validate it, but if the client does not present
-a certificate or certificate is not valid, gateway will still allow the connection. By default, Istio will populate
-`x-forward-client-cert` HTTP header, so when AllowInsecureFallback is enabled, the backend can verify certificate
-instead of the gateway, if AllowInsecureFallback is enabled.
+- **Added** implementation of the Gateway API `AllowInsecureFallback` feature in the client certificate validation logic.
+  This feature allows a gateway to request a client certificate and try to validate it, but if the client does not present
+  a certificate, or the certificate is not valid, the gateway will still allow the connection. By default, Istio populates
+  the `x-forwarded-client-cert` HTTP header, so when `AllowInsecureFallback` is enabled, the backend can verify the
+  certificate instead of the gateway.
   ([Issue #60018](https://github.com/istio/istio/issues/60018))
 
 - **Added** support for configuring HTTP/2 keepalive PING settings on upstream connections through `DestinationRule`.
