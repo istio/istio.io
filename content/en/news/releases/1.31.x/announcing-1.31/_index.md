@@ -68,7 +68,7 @@ Istio now implements the Gateway API `AllowInsecureFallback` feature for client 
 - **`prefix_rewrite` in `HTTPRedirect`** for prefix-aware path rewriting in redirect rules
 - **HTTP/2 keepalive PING settings** configurable on upstream connections through `DestinationRule`
 - **`ServiceEntry` visibility control** via `meshConfig.serviceEntryVisibility`
-- **`budget_interval`** field in the RetryBudget TrafficPolicy API
+- **`budget_interval`** field in the `RetryBudget` `TrafficPolicy` API
 - **`istioctl analyze`** warnings for conflicting `ServiceEntry` protocols and outdated Gateway API CRDs
 
 Read about these and more in the full [release notes](change-notes/).
