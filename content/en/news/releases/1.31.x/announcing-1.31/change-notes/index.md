@@ -27,10 +27,10 @@ Can be disabled with `AMBIENT_SCOPED_ADDRESS_PUSHES=false`.
   ([Issue #57844](https://github.com/istio/istio/issues/57844))
 
 - **Added** support for excluding policy configuration from Istio when the
-`istio.io/ignore-policy-attachment` annotation is set to "true" on a
-BackendTLSPolicy, or XBackendTrafficPolicy object. This allows users to
-prevent specific policies from being translated into Istio configuration,
-when policy is intended for a different gateway controller than Istio.
+  `istio.io/ignore-policy-attachment` annotation is set to `true` on a
+  `BackendTLSPolicy` or `XBackendTrafficPolicy` object. This allows users to
+  prevent specific policies from being translated into Istio configuration
+  when the policy is intended for a different gateway controller than Istio.
 
 Example usage:
 
