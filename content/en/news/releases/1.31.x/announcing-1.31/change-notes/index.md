@@ -85,7 +85,7 @@ classic sidecars additionally honor it when `applyToSidecars` is set. The featur
 inert unless configured, so existing meshes are unaffected by default.
   ([Issue #60870](https://github.com/istio/istio/issues/60870))
 
-- **Added** `istio-agentgateway-waypoint` GatewayClass for deploying agentgateway as a waypoint.
+- **Added** the `istio-agentgateway-waypoint` `GatewayClass` for deploying agentgateway as a waypoint.
 
 - **Added** `ALLOW_ANY_DYNAMIC_DNS` outbound traffic policy mode. When set in
 `meshConfig.outboundTrafficPolicy.mode`, plaintext HTTP requests to unknown destinations are
