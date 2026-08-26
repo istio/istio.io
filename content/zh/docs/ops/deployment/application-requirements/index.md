@@ -34,32 +34,30 @@ Istio 为应用程序提供了大量的功能，而对应用程序代码本身�
 
 - **应用 UID**：确保您的 Pod 不会被 ID（UID）为 `1337` 的用户运行应用，因为 `1337` 是为 Sidecar 代理保留的。
 
-- **`NET_ADMIN` 和 `NET_RAW` 权限**：如果您的集群[强制执行](https://kubernetes.io/zh-cn/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies)了
-  [Pod 安全策略](https://kubernetes.io/zh-cn/docs/concepts/policy/pod-security-policy/)，
-  必须给 Pod 配置 `NET_ADMIN` 和 `NET_RAW` 权限。如果您使用
-  [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)，可以不配置。
+- **`NET_ADMIN` 和 `NET_RAW` 能力**：除非使用
+  [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)，
+  否则 `istio-init` 容器需要 `NET_ADMIN` 和 `NET_RAW` 权限来配置 iptables 流量重定向。
+  该命名空间必须使用 `privileged` 级别的
+  [Pod 安全准入（Pod Security Admission）](https://kubernetes.io/docs/concepts/security/pod-security-admission/)策略；
+  `baseline` 和 `restricted` 级别都会禁止这些权限，从而导致 `istio-init` 容器无法运行。
 
-    要检查您的 Pod 是否有 `NET_ADMIN` 和 `NET_RAW` 权限，您需要检查这些 Pod
-    的[服务账户](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-service-account/)是否有
-    `NET_ADMIN` 和 `NET_RAW` 权限的 Pod 安全策略。如果您没有在 Pod 部署中指定服务账户，
-    Pod 会使用其命名空间中的默认服务账户运行。
-
-    要列出服务账户的权限，请在下面的命令中用您的值替换 `<your namespace>` 和
-    `<your service account>`。
+    要检查命名空间上的 `pod-security.kubernetes.io/enforce` 标签：
 
     {{< text bash >}}
-    $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+    $ kubectl get namespace <your namespace> --show-labels
+    NAME       STATUS   AGE   LABELS
+    myapp      Active   3d    pod-security.kubernetes.io/enforce=privileged,...
     {{< /text >}}
 
-    例如，要检查 `default` 命名空间中的 `default` 服务账户，运行以下命令：
+    要将命名空间设置为 `privileged` 强制：
 
     {{< text bash >}}
-    $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+    $ kubectl label namespace <your namespace> pod-security.kubernetes.io/enforce=privileged --overwrite
     {{< /text >}}
 
-    如果您在服务账户的允许策略的功能列表中看到 `NET_ADMIN`、`NET_RAW` 或 `*`，
-    则您的 Pod 有权限运行 Istio Init 容器。否则，
-    您将需要[提供权限](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-policy)。
+    如果您的安全策略不允许在命名空间上执行 `privileged`，
+    请改用 [Istio CNI 插件](/zh/docs/setup/additional-setup/cni/)，
+    它可以处理流量重定向，而无需在 Pod 中提升功能。
 
 - **Pod 标签（label）**：我们建议使用 Pod 标签显式声明带有应用程序标识符和版本的 Pod。
   这些标签将上下文信息添加到 Istio 收集的指标和遥测数据中。
