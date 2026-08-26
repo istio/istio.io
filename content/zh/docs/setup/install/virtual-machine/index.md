@@ -356,7 +356,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
     {{< tab name="Debian" category-value="debian" >}}
 
     {{< text bash >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -367,7 +367,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
     注意：目前仅支持 CentOS 8。
 
     {{< text bash >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
     $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}
 

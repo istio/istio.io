@@ -26,7 +26,7 @@ ztunnel 和 waypoint，因此升级涉及这些组件的单独步骤。）
 1. 配置 Helm 仓库：
 
     {{< text syntax=bash snip_id=configure_helm >}}
-    $ helm repo add istio https://istio-release.storage.googleapis.com/charts
+    $ helm repo add istio https://blob.istio.io/istio-release/charts
     $ helm repo update
     {{< /text >}}
 
