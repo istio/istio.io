@@ -44,8 +44,8 @@ Istio now implements the Gateway API `AllowInsecureFallback` feature for client 
 ### Security
 
 - **FIPS 140-3 compliance policy.** A new `fips-140-3` value for the `COMPLIANCE_POLICY` environment variable enforces TLS 1.2+ with FIPS-compliant cipher suites and P-256/P-384 curves. Go components must be built with Go 1.24+ using `GOFIPS140=v1.0.0`.
-- **Trust domain matching in AuthorizationPolicy.** New `trustDomains` and `notTrustDomains` fields on `Source` allow matching or excluding requests based on the trust domain derived from the peer certificate.
-- **Strict gateway merging.** `PILOT_ENABLE_STRICT_GATEWAY_MERGING` (enabled by default) prevents cross-namespace merging of Istio Gateway CRDs with managed Gateway API Gateway proxies.
+- **Trust domain matching in `AuthorizationPolicy`.** New `trustDomains` and `notTrustDomains` fields on `Source` allow matching or excluding requests based on the trust domain derived from the peer certificate.
+- **Strict gateway merging.** `PILOT_ENABLE_STRICT_GATEWAY_MERGING` (enabled by default) prevents cross-namespace merging of Istio `Gateway` CRDs with managed Gateway API `Gateway` proxies.
 - **XDS API generator authentication.** The MCP config-serving endpoint now requires a verified control-plane identity. Standard sidecar, gateway, and ztunnel traffic is unaffected.
 
 ### Installation and operability
