@@ -52,11 +52,11 @@ namespaces (e.g. `*/*` plus `~ns1/*`) without enumerating a long allowlist.
   ([Issue #60139](https://github.com/istio/istio/issues/60139))
 
 - **Added** an initialization check that verifies the bundled `nft` binary
-supports JSON output. The native nftables backend requires JSON to read
-configuration during pod removal. On hosts whose `nft` binary doesn't
-support JSON, those calls fail with `Error: JSON support not compiled-in` on
-every removal, and the CNI agent retries indefinitely. The new check detects
-this error at startup and falls back to the iptables backend.
+  supports JSON output. The native nftables backend requires JSON to read
+  configuration during pod removal. On hosts whose `nft` binary doesn't
+  support JSON, those calls fail with `Error: JSON support not compiled-in` on
+  every removal, and the CNI agent retries indefinitely. The new check detects
+  this error at startup and falls back to the `iptables` backend.
   ([Issue #60328](https://github.com/istio/istio/issues/60328))
 
 - **Added** `prefix_rewrite` field to `HTTPRedirect`, enabling prefix-aware path rewriting
