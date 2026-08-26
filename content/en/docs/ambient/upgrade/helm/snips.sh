@@ -54,7 +54,7 @@ helm install istiod-"$REVISION" istio/istiod -n istio-system --set revision="$RE
 }
 
 snip_upgrade_cni() {
-helm upgrade istio-cni istio/cni -n istio-system
+helm upgrade istio-cni istio/cni -n istio-system --set profile=ambient --wait
 }
 
 snip_upgrade_ztunnel_inplace() {
