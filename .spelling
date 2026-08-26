@@ -99,7 +99,6 @@
 50Mb
 5ms
 5xx
-63-character
 6ms
 6s
 7.5
@@ -206,7 +205,6 @@ backends
 BackendTLSPolicy
 backoff
 backport
-backported
 Bartosz
 base64
 Bazel
@@ -507,7 +505,6 @@ CVE-2026-73550
 CVE-2026-73551
 CVE-2026-73552
 CVE-2026-73553
-CVE-XXXX-XXXXX
 CVEs
 cves
 cvss

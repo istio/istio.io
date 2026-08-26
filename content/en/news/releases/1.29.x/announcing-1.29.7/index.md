@@ -35,7 +35,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 ### Istio CVEs
 
-- __[CVE-XXXX-XXXXX](https://nvd.nist.gov/vuln/detail/CVE-XXXX-XXXXX)__ / [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx): (CVSS score 6.8): Fixed `BackendTLSPolicy` failing open to plaintext on sidecar proxies when its CA certificate reference is unresolved.
+- [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx) (CVSS score 6.8, Moderate): `BackendTLSPolicy` fails open to plaintext on sidecar proxies when its CA reference is unresolved.
 
 ### Other Istio Security Fixes
 
@@ -43,7 +43,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 ## Changes
 
-- **Upgraded** version of `nftables` used by Istio distroless images. The `nftables` version was previously pinned to 1.1.1 to avoid a bug that could cause older versions of `nftables` on Kubernetes nodes to crash after Istio used a newer version packaged in its images on the same node. Major Linux distributions have been informed of the issue and have released fixes. As a result, Istio is removing the `nftables` version pinning. Users are advised to update the `nftables` package on their nodes to the latest available version to ensure that the fixed version is installed. If you continue to experience `nftables` crashes on your nodes, downgrade to an older version of Istio and contact your node OS provider to request that the fix be backported to your OS version. ([Issue #58492](https://github.com/istio/istio/issues/58492))
+- **Upgraded** version of `nftables` used by Istio distroless images. The `nftables` version was previously pinned to 1.1.1 to avoid a bug that could cause older versions of `nftables` on K8s nodes to crash after Istio used a newer version packaged in its images on the same node. Major Linux distributions have been informed of the issue and have released fixes. As a result, Istio is removing the `nftables` version pinning. Users are advised to update the `nftables` package on their nodes to the latest available version to ensure that the fixed version is installed. If you continue to experience `nftables` crashes on your nodes, downgrade to an older version of Istio and contact your node OS provider to request that the fix be patched into your OS version. ([Issue #58492](https://github.com/istio/istio/issues/58492))
 
 - **Fixed** a race condition on istiod startup where the readiness probe could report ready before the dedicated injection and validation webhook server (`--httpsAddr`, default `:15017`) was accepting connections, causing intermittent `failed calling webhook` timeouts when creating resources immediately after istiod became ready. This does not affect deployments where webhooks share the main HTTP server (empty `--httpsAddr`). ([Issue #61049](https://github.com/istio/istio/issues/61049))
 
@@ -65,7 +65,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 - **Fixed** an SSRF gap in istiod's `RequestAuthentication` `jwksUri` fetching. istiod now blocks link-local and known cloud metadata addresses (such as `169.254.169.254`) at the dial level by default and rejects fetched responses that are not a valid JWKS. Private and loopback ranges remain reachable and can be blocked with `BLOCKED_CIDRS_IN_JWKS_URIS`.
 
-- **Fixed** the XDS `api` generator (MCP config serving) to require a verified control-plane identity. Previously any client that could reach istiod's XDS port could read Istio config across all namespaces. Disable with `ENABLE_XDS_API_GENERATOR_AUTH=false` if needed for compatibility.
+- **Fixed** the XDS `api` generator (MCP config serving) to require a verified control-plane identity. Previously, any client that could reach Istiod's XDS port could read Istio config across all namespaces. Default `ENABLE_XDS_API_GENERATOR_AUTH=true`; disable with `ENABLE_XDS_API_GENERATOR_AUTH=false` if needed for compatibility.
 
 - **Fixed** several `sidecar.istio.io/*` annotations (`proxyImage`, `bootstrapOverride`, `logLevel`, `componentLogLevel`, `agentLogLevel`) being interpolated into the sidecar/gateway injection templates without output escaping, which could allow a crafted annotation value to inject additional fields into the generated pod or deployment spec. These annotations are now escaped consistently at every template sink. **Credit**: This vulnerability was discovered and reported by `localhost-detect`.
 
@@ -75,6 +75,6 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 - **Fixed** an issue where istiod CPU usage increased as the number of `AuthorizationPolicy` resources increased. ([Issue #61254](https://github.com/istio/istio/issues/61254))
 
-- **Fixed** generated Gateway `Service`s being rejected when two listener names sanitize to the same Service port name (names differing only by periods versus dashes, or only past the 63-character limit), which blocked every unpublished port on the Gateway. Colliding port names are now disambiguated with the listener's port number.
+- **Fixed** generated Gateway `Service`s being rejected when two listener names sanitize to the same Service port name (names differing only by periods versus dashes, or only past the limit of 63 characters), which blocked every unpublished port on the Gateway. Colliding port names are now disambiguated with the listener's port number.
 
 - **Improved** performance when fetching `PeerAuthentication` resources for a given workload.

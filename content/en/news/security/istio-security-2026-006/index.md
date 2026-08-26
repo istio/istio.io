@@ -2,7 +2,7 @@
 title: ISTIO-SECURITY-2026-006
 subtitle: Security Bulletin
 description: CVEs reported by Envoy, plus Istio security fixes for an EnvoyFilter control-plane denial of service and a BackendTLSPolicy fail-open on sidecars.
-cves: [CVE-2026-73513, CVE-2026-73552, CVE-2026-73512, CVE-2026-73547, CVE-2026-73549, CVE-2026-50572, CVE-2026-73546, CVE-2026-48521, CVE-2026-73551, CVE-2026-73511, CVE-2026-73548, CVE-2026-73550, CVE-2026-73553, CVE-XXXX-XXXXX]
+cves: [CVE-2026-73513, CVE-2026-73552, CVE-2026-73512, CVE-2026-73547, CVE-2026-73549, CVE-2026-50572, CVE-2026-73546, CVE-2026-48521, CVE-2026-73551, CVE-2026-73511, CVE-2026-73548, CVE-2026-73550, CVE-2026-73553]
 cvss: "7.7"
 vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
 releases: ["1.29.0 to 1.29.6", "1.30.0 to 1.30.3"]
@@ -33,7 +33,7 @@ skip_seealso: true
 
 ### Istio CVEs
 
-- __[CVE-XXXX-XXXXX](https://nvd.nist.gov/vuln/detail/CVE-XXXX-XXXXX)__ / __[GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx)__: (CVSS score 6.8): Fixed `BackendTLSPolicy` failing open to plaintext on sidecar proxies when its CA certificate reference is unresolved.
+- [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx) (CVSS score 6.8, Moderate): `BackendTLSPolicy` fails open to plaintext on sidecar proxies when its CA reference is unresolved.
   Reported by [@thc1006](https://github.com/thc1006).
 
 ## Control plane denial of service via `EnvoyFilter` `proxyVersion`

@@ -35,7 +35,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 ### Istio CVEs
 
-- __[CVE-XXXX-XXXXX](https://nvd.nist.gov/vuln/detail/CVE-XXXX-XXXXX)__ / [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx): (CVSS score 6.8): Fixed `BackendTLSPolicy` failing open to plaintext on sidecar proxies when its CA certificate reference is unresolved.
+- [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx) (CVSS score 6.8, Moderate): `BackendTLSPolicy` fails open to plaintext on sidecar proxies when its CA reference is unresolved.
 
 ### Other Istio Security Fixes
 
@@ -71,6 +71,10 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 - **Fixed** a bug where a ztunnel reconnect (such as the periodic connection recycle from `keepaliveMaxServerConnectionAge`) triggered a full workload (WDS) push. Istiod now assigns each WDS resource a content-based version and, when a reconnecting client reports the versions it already holds via `initial_resource_versions`, re-sends only resources that changed while the client was disconnected. Older ztunnel versions that do not report versions continue to receive the full set. ([Issue #1966](https://github.com/istio/ztunnel/issues/1966))
 
-- **Fixed** the XDS `api` generator (MCP config serving) to require a verified control-plane identity. Previously any client that could reach istiod's XDS port could read Istio config across all namespaces. Disable with `ENABLE_XDS_API_GENERATOR_AUTH=false` if needed for compatibility.
+- **Fixed** the XDS `api` generator (MCP config serving) to require a verified control-plane identity. Previously, any client that could reach Istiod's XDS port could read Istio config across all namespaces. Default `ENABLE_XDS_API_GENERATOR_AUTH=true`; disable with `ENABLE_XDS_API_GENERATOR_AUTH=false` if needed for compatibility.
+
+- **Fixed** a Gateway API issue where a cross-namespace TLS `certificateRef` or `caCertificateRef` was resolved before the `ReferenceGrant` authorization check, so a listener's `ResolvedRefs` status could reveal whether the referenced `Secret` or `ConfigMap` existed even when no grant permitted the reference. Authorization now runs first, returning `RefNotPermitted` for any cross-namespace reference not permitted by a grant. **Credit**: This issue was reported by Darryl Jaskolski.
+
+- **Fixed** an SSRF gap in istiod's `RequestAuthentication` `jwksUri` fetching. istiod now blocks link-local and known cloud metadata addresses (such as `169.254.169.254`) at the dial level by default and rejects fetched responses that are not a valid JWKS. Private and loopback ranges remain reachable and can be blocked with `BLOCKED_CIDRS_IN_JWKS_URIS`.
 
 - **Fixed** several `sidecar.istio.io/*` annotations (`proxyImage`, `bootstrapOverride`, `logLevel`, `componentLogLevel`, `agentLogLevel`) being interpolated into the sidecar/gateway injection templates without output escaping, which could allow a crafted annotation value to inject additional fields into the generated pod or deployment spec. These annotations are now escaped consistently at every template sink. **Credit**: This vulnerability was discovered and reported by `localhost-detect`.
