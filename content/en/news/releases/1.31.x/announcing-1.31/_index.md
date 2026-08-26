@@ -23,7 +23,7 @@ Istio 1.31.0 is officially supported on Kubernetes versions 1.32 to 1.36.
 
 ### Agentgateway as a waypoint
 
-Building on the experimental gateway-only support introduced in 1.30, Istio 1.31 adds the `istio-agentgateway-waypoint` GatewayClass for deploying [agentgateway](https://agentgateway.dev) as a waypoint proxy. This release also fixes several issues with ListenerSet handling and mTLS connectivity for agentgateway backends.
+Building on the experimental gateway-only support introduced in 1.30, Istio 1.31 adds the `istio-agentgateway-waypoint` `GatewayClass` for deploying [agentgateway](https://agentgateway.dev) as a waypoint proxy. This release also fixes several issues with `ListenerSet` handling and mTLS connectivity for agentgateway backends.
 
 ### Gateway API: AllowInsecureFallback
 
