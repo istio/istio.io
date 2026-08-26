@@ -99,6 +99,7 @@
 50Mb
 5ms
 5xx
+63-character
 6ms
 6s
 7.5
@@ -141,6 +142,7 @@ Alexa
 Alibaba
 allowlist
 allow_missing
+ALPN-based
 alt
 Amalgam8
 ambient.istio.io
@@ -201,8 +203,10 @@ az
 Babo
 backend
 backends
+BackendTLSPolicy
 backoff
 backport
+backported
 Bartosz
 base64
 Bazel
@@ -268,6 +272,8 @@ Chavali
 CheckRequest
 CheckResponse
 checksum
+cherez0ff
+Cherezov
 Chircop
 Chrony
 Chun
@@ -486,8 +492,22 @@ CVE-2026-48042
 CVE-2026-48044
 CVE-2026-48090
 CVE-2026-48497
+CVE-2026-48521
 CVE-2026-48706
 CVE-2026-48743
+CVE-2026-50572
+CVE-2026-73511
+CVE-2026-73512
+CVE-2026-73513
+CVE-2026-73546
+CVE-2026-73547
+CVE-2026-73548
+CVE-2026-73549
+CVE-2026-73550
+CVE-2026-73551
+CVE-2026-73552
+CVE-2026-73553
+CVE-XXXX-XXXXX
 CVEs
 cves
 cvss
@@ -499,6 +519,8 @@ DaemonSets
 Dai
 DaoCloud
 Datadog
+datagram
+datagrams
 datapath
 dataplane
 dataplanes
@@ -605,6 +627,7 @@ ext_authz
 ext_proc
 Ezequiel
 facto
+fail-open
 failover
 failovers
 faq
@@ -657,6 +680,7 @@ GHSA-974c-2wxh-g4ww
 GHSA-9gcg-w975-3rjh
 GHSA-fgw5-hp8f-xfhc
 GHSA-p7c7-7c47-pwch
+GHSA-qm8v-g4f9-qhjx
 GHSA-v75c-crr9-733c
 GiB
 GIDs
@@ -674,6 +698,7 @@ GmbH
 googleapis.com
 googlegroups.com
 goroutine
+goroutines
 GoTo
 GPUs
 Grafana
@@ -814,6 +839,7 @@ ISTIO-SECURITY-2025-001
 ISTIO-SECURITY-2026-001
 ISTIO-SECURITY-2026-002
 ISTIO-SECURITY-2026-005
+ISTIO-SECURITY-2026-006
 istio-system
 istio.io
 istio.io.
@@ -835,6 +861,7 @@ iter8
 Izzy
 Jacek
 Jannot
+Jaskolski
 jason
 Jayaraman
 Jeet
@@ -895,6 +922,7 @@ krt
 KServe
 Kuat
 Kube
+kube
 kube-apiserver
 kube-proxy
 kubebuilder
@@ -1074,6 +1102,7 @@ non-L4
 non-mTLS
 non-revisioned
 non-sandboxed
+non-UTF-8
 non-UTF8
 noop
 normalization
@@ -1174,6 +1203,7 @@ pre-connected
 pre-parsed
 pre-release
 pre-specified
+pre-swap
 precheck
 preconfigured
 Predibase
@@ -1440,6 +1470,7 @@ templating
 Tencent
 test-api
 Tetrate
+thc1006
 Tigera
 timeframe
 timestamp
