@@ -922,7 +922,6 @@ krt
 KServe
 Kuat
 Kube
-kube
 kube-apiserver
 kube-proxy
 kubebuilder

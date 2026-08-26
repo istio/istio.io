@@ -26,7 +26,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 - __[CVE-2026-73549](https://nvd.nist.gov/vuln/detail/CVE-2026-73549)__: (CVSS score 5.3): Fixed abnormal termination for scoped IPv6 client addresses with HTTP/3.
 - __[CVE-2026-50572](https://nvd.nist.gov/vuln/detail/CVE-2026-50572)__: (CVSS score 5.9): Fixed a use-after-free in the `ext_authz` raw HTTP client.
 - __[CVE-2026-73546](https://nvd.nist.gov/vuln/detail/CVE-2026-73546)__: (CVSS score 7.4): Fixed a stored cross-site scripting vulnerability in the HTML stats interface.
-- __[CVE-2026-48521](https://nvd.nist.gov/vuln/detail/CVE-2026-48521)__: (CVSS score 5.9): Fixed a null-pointer dereference during `ALPN`-based HTTP/3 connection-pool selection.
+- __[CVE-2026-48521](https://nvd.nist.gov/vuln/detail/CVE-2026-48521)__: (CVSS score 5.9): Fixed a null-pointer dereference during ALPN-based HTTP/3 connection-pool selection.
 - __[CVE-2026-73551](https://nvd.nist.gov/vuln/detail/CVE-2026-73551)__: (CVSS score 5.3): Fixed URL normalization of dot and dot-dot path segments with parameters.
 - __[CVE-2026-73511](https://nvd.nist.gov/vuln/detail/CVE-2026-73511)__: (CVSS score 5.3): Fixed path matching for per-segment parameters.
 - __[CVE-2026-73548](https://nvd.nist.gov/vuln/detail/CVE-2026-73548)__: (CVSS score 7.5): Fixed cross-user response poisoning on generic HTTP upgrades.
@@ -43,25 +43,25 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 ## Changes
 
-- **Upgraded** version of `nftables` used by Istio distroless images. The `nftables` version was previously pinned to 1.1.1 to avoid a bug that could cause older versions of `nftables` on K8s nodes to crash after Istio used a newer version packaged in its images on the same node. Major Linux distributions have been informed of the issue and have released fixes. As a result, Istio is removing the `nftables` version pinning. Users are advised to update the `nftables` package on their nodes to the latest available version to ensure that the fixed version is installed. If you continue to experience `nftables` crashes on your nodes, downgrade to an older version of Istio and contact your node OS provider to request that the fix be backported to your OS version. ([Issue #58492](https://github.com/istio/istio/issues/58492))
+- **Upgraded** version of `nftables` used by Istio distroless images. The `nftables` version was previously pinned to 1.1.1 to avoid a bug that could cause older versions of `nftables` on Kubernetes nodes to crash after Istio used a newer version packaged in its images on the same node. Major Linux distributions have been informed of the issue and have released fixes. As a result, Istio is removing the `nftables` version pinning. Users are advised to update the `nftables` package on their nodes to the latest available version to ensure that the fixed version is installed. If you continue to experience `nftables` crashes on your nodes, downgrade to an older version of Istio and contact your node OS provider to request that the fix be backported to your OS version. ([Issue #58492](https://github.com/istio/istio/issues/58492))
 
 - **Fixed** a race condition on istiod startup where the readiness probe could report ready before the dedicated injection and validation webhook server (`--httpsAddr`, default `:15017`) was accepting connections, causing intermittent `failed calling webhook` timeouts when creating resources immediately after istiod became ready. This does not affect deployments where webhooks share the main HTTP server (empty `--httpsAddr`). ([Issue #61049](https://github.com/istio/istio/issues/61049))
 
 - **Fixed** an issue where ingress gateways bypassed waypoint proxies for multi-cluster services when remote workloads were on a different network, causing authorization policies to not be enforced. ([Issue #61092](https://github.com/istio/istio/issues/61092))
 
-- **Fixed** an issue where gateway proxy Deployments could permanently fail to be created during istiod startup. ([Issue #61095](https://github.com/istio/istio/issues/61095))
+- **Fixed** an issue where gateway proxy `Deployment` resources could permanently fail to be created during istiod startup. ([Issue #61095](https://github.com/istio/istio/issues/61095))
 
 - **Fixed** an issue where `istio-cni` considered `hostNetwork` pods eligible for ambient enrollment. ([Issue #61168](https://github.com/istio/istio/issues/61168))
 
-- **Fixed** a file descriptor leak in the istio-cni node agent: when the `procfs` scan found more than one network namespace for the same pod, the losing candidate's netns file descriptor was dropped without being closed, pinning the namespace in the kernel until garbage collection.
+- **Fixed** a file descriptor leak in the `istio-cni` node agent: when the `procfs` scan found more than one network namespace for the same pod, the losing candidate's netns file descriptor was dropped without being closed, pinning the namespace in the kernel until garbage collection.
 
-- **Fixed** a bug where the istio-cni node agent could pair an ambient pod with another pod's network namespace when a third-party process was inside that namespace during a scan, which could cause traffic to be proxied with the wrong identity. The node agent now verifies that a namespace holds one of the pod's IPs before enrolling the pod. ([Issue #61211](https://github.com/istio/istio/issues/61211))
+- **Fixed** a bug where the `istio-cni` node agent could pair an ambient pod with another pod's network namespace when a third-party process was inside that namespace during a scan, which could cause traffic to be proxied with the wrong identity. The node agent now verifies that a namespace holds one of the pod's IPs before enrolling the pod. ([Issue #61211](https://github.com/istio/istio/issues/61211))
 
 - **Fixed** an issue where istiod permanently retained a copy of every workload resource name for each envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
 
 - **Fixed** a bug where a ztunnel reconnect (such as the periodic connection recycle from `keepaliveMaxServerConnectionAge`) triggered a full workload (WDS) push. Istiod now assigns each WDS resource a content-based version and, when a reconnecting client reports the versions it already holds via `initial_resource_versions`, re-sends only resources that changed while the client was disconnected. Older ztunnel versions that do not report versions continue to receive the full set. ([Issue #1966](https://github.com/istio/ztunnel/issues/1966))
 
-- **Fixed** a Gateway API issue where a cross-namespace TLS `certificateRef` or `caCertificateRef` was resolved before the `ReferenceGrant` authorization check, so a listener's `ResolvedRefs` status could distinguish whether the referenced Secret or ConfigMap existed even when no grant permitted the reference. Authorization now runs first, returning `RefNotPermitted` for any cross-namespace reference not permitted by a grant. **Credit**: This issue was reported by Darryl Jaskolski.
+- **Fixed** a Gateway API issue where a cross-namespace TLS `certificateRef` or `caCertificateRef` was resolved before the `ReferenceGrant` authorization check, so a listener's `ResolvedRefs` status could reveal whether the referenced `Secret` or `ConfigMap` existed even when no grant permitted the reference. Authorization now runs first, returning `RefNotPermitted` for any cross-namespace reference not permitted by a grant. **Credit**: This issue was reported by Darryl Jaskolski.
 
 - **Fixed** an SSRF gap in istiod's `RequestAuthentication` `jwksUri` fetching. istiod now blocks link-local and known cloud metadata addresses (such as `169.254.169.254`) at the dial level by default and rejects fetched responses that are not a valid JWKS. Private and loopback ranges remain reachable and can be blocked with `BLOCKED_CIDRS_IN_JWKS_URIS`.
 
