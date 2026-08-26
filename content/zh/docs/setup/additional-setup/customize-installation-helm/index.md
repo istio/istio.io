@@ -94,7 +94,7 @@ EOF
 ### 为 Istio 添加 Helm 存储库  {#add-the-helm-repository-for-istio}
 
 {{< text bash >}}
-$ helm repo add istio https://istio-release.storage.googleapis.com/charts
+$ helm repo add istio https://blob.istio.io/istio-release/charts
 $ helm repo update
 {{< /text >}}
 
