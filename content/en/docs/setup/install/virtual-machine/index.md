@@ -354,7 +354,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< tab name="Debian" category-value="debian" >}}
 
     {{< text syntax=bash snip_id=none >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -365,7 +365,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     Note: only CentOS 8 is currently supported.
 
     {{< text syntax=bash snip_id=none >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
     $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}
 
