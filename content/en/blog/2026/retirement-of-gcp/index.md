@@ -43,7 +43,7 @@ We expect the following signing keys to be used for each release:
 
 ## Scream Tests and What You Need to Do
 
-We will be conducting a series of "scream tests" where we will temporarily disable access to `gcr.io/istio-release`, `registry.istio.io/release`, and `https://blob.istio.io/istio-release/charts`.
+We will be conducting a series of "scream tests" where we will temporarily disable access to `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/`.
 The first scream test will be September 15th, 2026 from 3:00 PM to 4:00 PM UTC.
 The second scream test will be October 13th, 2026 from 3:00 PM to 6:00 PM UTC.
 The third scream test will be November 17th, 2026 from 3:00 PM to 9:00 PM UTC.
