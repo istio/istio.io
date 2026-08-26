@@ -34,13 +34,13 @@ aliases:
 
   Example usage:
 
-  {{< text yaml >}}
-  apiVersion: gateway.networking.k8s.io/v1
-  kind: BackendTLSPolicy
-  metadata:
-  annotations:
-    istio.io/ignore-policy-attachment: "true"
-  {{< /text >}}
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+annotations:
+  istio.io/ignore-policy-attachment: "true"
+{{< /text >}}
 
   ([Issue #60122](https://github.com/istio/istio/issues/60122))
 
