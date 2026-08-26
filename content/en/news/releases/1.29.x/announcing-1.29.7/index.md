@@ -57,7 +57,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 - **Fixed** a bug where the `istio-cni` node agent could pair an ambient pod with another pod's network namespace when a third-party process was inside that namespace during a scan, which could cause traffic to be proxied with the wrong identity. The node agent now verifies that a namespace holds one of the pod's IPs before enrolling the pod. ([Issue #61211](https://github.com/istio/istio/issues/61211))
 
-- **Fixed** an issue where istiod permanently retained a copy of every workload resource name for each envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
+- **Fixed** an issue where istiod permanently retained a copy of every workload resource name for each Envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
 
 - **Fixed** a bug where a ztunnel reconnect (such as the periodic connection recycle from `keepaliveMaxServerConnectionAge`) triggered a full workload (WDS) push. Istiod now assigns each WDS resource a content-based version and, when a reconnecting client reports the versions it already holds via `initial_resource_versions`, re-sends only resources that changed while the client was disconnected. Older ztunnel versions that do not report versions continue to receive the full set. ([Issue #1966](https://github.com/istio/ztunnel/issues/1966))
 

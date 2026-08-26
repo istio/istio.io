@@ -67,7 +67,7 @@ For more information, see [ISTIO-SECURITY-2026-006](/news/security/istio-securit
 
 - **Fixed** an issue where istiod CPU usage increased as the number of `AuthorizationPolicy` resources increased. ([Issue #61254](https://github.com/istio/istio/issues/61254))
 
-- **Fixed** ListenerSet conflict resolution for hostname and protocol conflicts. Conflicting listeners are now correctly rejected and ListenerSet status conditions report in compliance with Gateway API 1.5. ([Issue #60775](https://github.com/istio/istio/pull/60775))
+- **Fixed** `ListenerSet` conflict resolution for hostname and protocol conflicts. Conflicting listeners are now correctly rejected and `ListenerSet` status conditions report in compliance with Gateway API 1.5. ([PR #60775](https://github.com/istio/istio/pull/60775))
 
 - **Fixed** a bug where a ztunnel reconnect (such as the periodic connection recycle from `keepaliveMaxServerConnectionAge`) triggered a full workload (WDS) push. Istiod now assigns each WDS resource a content-based version and, when a reconnecting client reports the versions it already holds via `initial_resource_versions`, re-sends only resources that changed while the client was disconnected. Older ztunnel versions that do not report versions continue to receive the full set. ([Issue #1966](https://github.com/istio/ztunnel/issues/1966))
 
