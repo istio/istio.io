@@ -63,8 +63,8 @@ Istio now implements the Gateway API `AllowInsecureFallback` feature for client 
 
 ### Plus much more
 
-- **ProxyConfig `connectionSettings`** with an opinionated `EDGE` profile for gateway proxies
-- **`MERGE_AND_REPLACE_LIST`** EnvoyFilter patch operation for replacing list fields instead of appending
+- **`ProxyConfig` `connectionSettings`** with an opinionated `EDGE` profile for gateway proxies
+- **`MERGE_AND_REPLACE_LIST`** `EnvoyFilter` patch operation for replacing list fields instead of appending
 - **`prefix_rewrite` in `HTTPRedirect`** for prefix-aware path rewriting in redirect rules
 - **HTTP/2 keepalive PING settings** configurable on upstream connections through `DestinationRule`
 - **`ServiceEntry` visibility control** via `meshConfig.serviceEntryVisibility`
