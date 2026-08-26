@@ -88,11 +88,11 @@ inert unless configured, so existing meshes are unaffected by default.
 - **Added** the `istio-agentgateway-waypoint` `GatewayClass` for deploying agentgateway as a waypoint.
 
 - **Added** `ALLOW_ANY_DYNAMIC_DNS` outbound traffic policy mode. When set in
-`meshConfig.outboundTrafficPolicy.mode`, plaintext HTTP requests to unknown destinations are
-forwarded via Envoy's Dynamic Forward Proxy, resolving hostnames from the Host header at
-request time. Non-HTTP traffic (TLS, raw TCP) continues to use PassthroughCluster.
-Scoped to sidecar proxies only. Not supported in the Sidecar CRD. Optional upstream TLS
-origination can be configured via `meshConfig.outboundTrafficPolicy.tls`.
+  `meshConfig.outboundTrafficPolicy.mode`, plaintext HTTP requests to unknown destinations are
+  forwarded via Envoy's Dynamic Forward Proxy, resolving hostnames from the `Host` header at
+  request time. Non-HTTP traffic (TLS and raw TCP) continues to use `PassthroughCluster`.
+  Scoped to sidecar proxies only. Not supported in the `Sidecar` CRD. Optional upstream TLS
+  origination can be configured via `meshConfig.outboundTrafficPolicy.tls`.
 
 - **Added** support for `connectionSettings` in `ProxyConfig`, allowing configuration of
 listener buffer limits, HTTP timeouts, HTTP/2 settings, and path/header normalization.
