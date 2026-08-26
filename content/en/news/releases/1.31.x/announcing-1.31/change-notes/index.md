@@ -23,7 +23,7 @@ logged at `info` level and easy to miss, which made TLS passthrough breakage aft
 Can be disabled with `AMBIENT_SCOPED_ADDRESS_PUSHES=false`.
 
 - **Added** support for a custom taint name for the pilot node untaint controller via
-PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME environment variable. Defaults to cni.istio.io/not-ready
+  the `PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME` environment variable. Defaults to `cni.istio.io/not-ready`.
   ([Issue #57844](https://github.com/istio/istio/issues/57844))
 
 - **Added** support for excluding policy configuration from Istio when the
