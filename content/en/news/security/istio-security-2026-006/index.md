@@ -50,7 +50,7 @@ The `proxyVersion` match expression is now limited to 1024 characters.
 
 - **EnvoyFilter denial of service:** You are impacted if users other than mesh administrators are allowed to create or update `EnvoyFilter` resources, for example in namespace-based multi-tenant environments. Meshes where only administrators can manage `EnvoyFilter` resources are not exposed to untrusted input, but should still upgrade.
 
-- **BackendTLSPolicy fail-open:** You are impacted if you use a `BackendTLSPolicy` for mesh (sidecar) upstream traffic and the policy's `caCertificateRefs` can become unresolvable (for example, the referenced `ConfigMap` is deleted, renamed, or absent). In that case the sidecar sends the upstream traffic in plaintext instead of blocking it, losing the encryption and CA validation the policy required. Gateway (ingress) proxies are not impacted; they fail closed.
+- **`BackendTLSPolicy` fail-open:** You are impacted if you use a `BackendTLSPolicy` for mesh (sidecar) upstream traffic and the policy's `caCertificateRefs` can become unresolvable (for example, the referenced `ConfigMap` is deleted, renamed, or absent). In that case the sidecar sends the upstream traffic in plaintext instead of blocking it, losing the encryption and CA validation the policy required. Gateway (ingress) proxies are not impacted; they fail closed.
 
 ## Mitigation
 
