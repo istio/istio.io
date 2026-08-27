@@ -899,6 +899,7 @@ Kenan
 KEP-3257
 Ketama
 key.pem
+keycards
 Keycloak
 Kgateway
 Khaliq
@@ -1260,6 +1261,7 @@ rebalance
 rebalances
 recomposition
 recomputations
+recomputations
 redeployments
 RedHat
 Redis
@@ -1502,6 +1504,7 @@ UID
 UIDs
 uint32
 ulimit
+un-enroll
 un-enrolled
 un-injecting
 un-trust
