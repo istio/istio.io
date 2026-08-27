@@ -3,7 +3,7 @@ title: Announcing Istio 1.29.7
 linktitle: 1.29.7
 subtitle: Patch Release
 description: Istio 1.29.7 patch release.
-publishdate: 2026-08-26
+publishdate: 2026-08-27
 release: 1.29.7
 aliases:
     - /news/announcing-1.29.7

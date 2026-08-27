@@ -3,7 +3,7 @@ title: Announcing Istio 1.30.4
 linktitle: 1.30.4
 subtitle: Patch Release
 description: Istio 1.30.4 patch release.
-publishdate: 2026-08-26
+publishdate: 2026-08-27
 release: 1.30.4
 aliases:
     - /news/announcing-1.30.4

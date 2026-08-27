@@ -6,7 +6,7 @@ cves: [CVE-2026-73513, CVE-2026-73552, CVE-2026-73512, CVE-2026-73547, CVE-2026-
 cvss: "7.7"
 vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
 releases: ["1.29.0 to 1.29.6", "1.30.0 to 1.30.3"]
-publishdate: 2026-08-26
+publishdate: 2026-08-27
 keywords: [CVE]
 skip_seealso: true
 ---
