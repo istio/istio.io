@@ -1478,6 +1478,7 @@ UID
 UIDs
 uint32
 ulimit
+un-enroll
 un-enrolled
 un-injecting
 un-trust
