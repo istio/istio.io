@@ -1,6 +1,6 @@
 ---
 title: 使用 agentgateway
-description: 将 agentgateway 配置为入口网关和 AMbient 模式下的 waypoint。
+description: 将 agentgateway 配置为入口网关和 Ambient 模式下的 waypoint。
 weight: 40
 owner: istio/wg-networking-maintainers
 test: yes
@@ -22,7 +22,7 @@ test: yes
 ## 集成是如何运作的 {#how-the-integration-works}
 
 Istiod **仅通过 Kubernetes Gateway API 资源**配置 agentgateway，
-并通过 xDS 将其传递给代理。代理是与 Envoy 不同的{{< gloss >}}数据平面{{< /gloss >}}实现：
+并通过 xDS 将其传递给代理。代理是与 Envoy 不同的 {{< gloss >}}data plane{{< /gloss >}} 实现：
 当 `Gateway` 选择一个 agentgateway
 [`GatewayClass`](https://gateway-api.sigs.k8s.io/api-types/gatewayclass/) 时，
 Istiod 为其配置和管理 agentgateway `Deployment` 和 `Service`，
