@@ -270,7 +270,7 @@ $ kubectl delete httproute bookinfo
 $ kubectl delete gateway bookinfo-gateway
 {{< /text >}}
 
-Remove the waypoint and unenroll the `reviews` service:
+Remove the waypoint and un-enroll the `reviews` service:
 
 {{< text syntax=bash snip_id=cleanup_waypoint >}}
 $ kubectl label service reviews istio.io/use-waypoint-
