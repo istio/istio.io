@@ -23,10 +23,10 @@ Istio 1.31.0 is officially supported on Kubernetes versions 1.32 to 1.36.
 
 From Istio 1.31 forwards, we will no longer publish artifacts to `gcr.io/istio-release`, `registry.istio.io`, and `istio-release.storage.googleapis.com`.
 
-* Docker images will still be available on DockerHub.
-* Helm charts will be available on `blob.istio.io/istio-release/charts`.
-* Other artifacts will be available on `blob.istio.io/istio-release`.
-* OCI Helm charts will be available at `ghcr.io/istio/release/charts](http://ghcr.io/istio/release/charts`.
+- Docker images will still be available on Docker Hub.
+- Helm charts will be available on `blob.istio.io/istio-release/charts`.
+- Other artifacts will be available on `blob.istio.io/istio-release`.
+- OCI Helm charts will be available at `ghcr.io/istio/release/charts](http://ghcr.io/istio/release/charts`.
 
 We will have scream tests where we will disable all GCP hosted artifacts for brief periods of time.
 
@@ -35,7 +35,8 @@ The second scream test will be October 13th, 2026 from 3:00 PM to 6:00 PM UTC.
 The third scream test will be November 17th, 2026 from 3:00 PM to 9:00 PM UTC.
 The fourth and last scream test will be from December 8th, 2026 3:00 PM UTC to December 9th, 2026 3:00 PM UTC.
 
-For more details, see [this blog post](https://istio.io/latest/blog/2026/retirement-of-gcp/)
+For more details, see [this blog post](/blog/2026/retirement-of-gcp/).
+
 ## What's new?
 
 ### Agentgateway as a waypoint

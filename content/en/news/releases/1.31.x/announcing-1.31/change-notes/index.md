@@ -626,4 +626,3 @@ annotations:
   ([Issue #60537](https://github.com/istio/istio/issues/60537))
 
 - **Fixed** an issue where `istioctl` manifest `--set` values containing `=` were parsed as malformed input.
-
