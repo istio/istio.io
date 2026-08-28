@@ -6,7 +6,7 @@ description: Istio 1.30.4 patch release.
 publishdate: 2026-08-27
 release: 1.30.4
 aliases:
-    - /news/announcing-1.30.4
+    - /zh/news/announcing-1.30.4
 ---
 
 此版本包含一些安全修复，以提高稳定性。
