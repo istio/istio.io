@@ -148,7 +148,6 @@ Al-Masry
 Alex
 Alexa
 Alibaba
-AllowInsecureFallback
 allowlist
 allow_missing
 ALPN-based
@@ -167,7 +166,6 @@ Ansible
 Ant
 AntiAffinity
 API
-api
 api-server
 Apigee
 APIs
@@ -215,8 +213,6 @@ az
 Babo
 backend
 backends
-BackendTLSPolicy
-BackendTLSPolicyConflictResolution
 backoff
 backport
 backported
@@ -224,8 +220,6 @@ Bartosz
 base64
 Bazel
 BCubed
-behaviour
-behaviourally
 Berben
 Berkus
 BeyondProd
@@ -285,7 +279,6 @@ Chaand
 Chandrasekhara
 channel
 Chaomeng
-chars
 chatbots
 Chavali
 CheckRequest
@@ -314,14 +307,11 @@ cluster.local
 cluster1
 cluster2
 ClusterRole
-ClusterRoleBinding
 ClusterSPIFFEID
 ClusterTrustBundle
 ClusterTrustBundles
 CNCF-hosted
 CNI
-cni
-cni.istio.io
 CNIs
 CNmaintainersummit
 cnn.com
@@ -556,9 +546,6 @@ decapsulated
 declaratively
 decompressor
 decompressors
-defaultHttpRetryPolicy
-defaultServiceExportTo
-defaultVirtualServiceExportTo
 Delayering
 Delucca
 Demailly
@@ -624,7 +611,6 @@ emojis
 Emre
 enablement
 ENABLE_DEBUG_ENDPOINT_AUTH
-ENABLE_XDS_API_GENERATOR_AUTH
 endUser-to-Service
 Enno
 enqueue
@@ -663,7 +649,6 @@ faq.md
 Faseela
 Fawad
 fcm.googleapis.com
-fd
 FDs
 feature_block
 FedRAMP
@@ -1035,7 +1020,6 @@ Mansing
 Marshalers
 Mattix
 MaxInflateRatio
-MAXRECVMSGSIZE
 MB
 McAllister
 Meetup
@@ -1207,7 +1191,6 @@ PaaS
 Padmanabhan
 Pankaj
 Papertrail
-parametersRef
 parenthesization
 Parienty
 Passthrough
@@ -1223,11 +1206,8 @@ performant
 Petr
 Pettit
 Phippy
-PILOT_ENABLE_QUIC_LISTENERS
 PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE
 PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE
-PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME
-PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY
 Piotr
 pipelined
 PKI
@@ -1256,7 +1236,6 @@ pre-swap
 precheck
 preconfigured
 Predibase
-PreferSameZone
 prefetching
 preflights
 preformatted
@@ -1666,7 +1645,6 @@ v3
 v3.18.5
 v4
 validatable
-ValidatingWebhookConfiguration
 validator
 ValueType
 Vasu
