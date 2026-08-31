@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg width="790px" height="56px" viewBox="0 0 790 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <title>
+    Artboard
+    </title>
+
+
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+
+        <g id="Group-IP">
+
+            <path d="M65.5,0.5 L65.5,55.5 L3,55.5 C2.30964406,55.5 1.68464406,55.220178 1.23223305,54.767767 C0.779822031,54.3153559 0.5,53.6903559 0.5,53 L0.5,3 C0.5,2.30964406 0.779822031,1.68464406 1.23223305,1.23223305 C1.68464406,0.779822031 2.30964406,0.5 3,0.5 L65.5,0.5 Z" id="bg" stroke="#888888" fill="#E8C0B8"/>
+
+            <text id="IP" font-family="ArialMT, Arial" font-size="20" font-weight="normal" line-spacing="20" fill="#333333">
+
+                <tspan x="23" y="36">
+                IP
+                </tspan>
+
+            </text>
+
+        </g>
+
+
+
+        <g id="Istio-/-block-txt" transform="translate(65, 0)">
+
+            <rect id="bg" stroke="#888888" fill="#D9D9D9" x="0.5" y="0.5" width="75" height="55"/>
+
+            <text id="TEXT" font-family="ArialMT, Arial" font-size="20" font-weight="normal" line-spacing="20" fill="#333333">
+
+                <tspan x="18" y="36">
+                TCP
+                </tspan>
+
+            </text>
+
+        </g>
+
+
+
+        <g id="Istio-/-block-txt-Copy" transform="translate(140, 0)">
+
+            <rect id="bg" stroke="#888888" fill="#E7BBD0" x="0.5" y="0.5" width="72" height="55"/>
+
+            <text id="TEXT" font-family="ArialMT, Arial" font-size="20" font-weight="normal" line-spacing="20" fill="#333333">
+
+                <tspan x="18" y="36">
+                TLS
+                </tspan>
+
+            </text>
+
+        </g>
+
+
+
+        <g id="Istio-/-block-txt-Copy-2" transform="translate(212, 0)">
+
+            <rect id="bg" stroke="#888888" fill="#C4E4B8" x="0.5" y="0.5" width="300" height="55"/>
+
+            <text id="TEXT" font-family="ArialMT, Arial" font-size="20" font-weight="normal" line-spacing="20" fill="#333333">
+
+                <tspan x="15" y="36">
+                HTTP/2 &amp; CONNECT 标头
+                </tspan>
+
+            </text>
+
+        </g>
+
+
+
+        <g id="Istio-/-block-txt-Copy-3" transform="translate(512, 0)">
+
+            <path d="M275,0.5 C275.690356,0.5 276.315356,0.779822031 276.767767,1.23223305 C277.220178,1.68464406 277.5,2.30964406 277.5,3 L277.5,53 C277.5,53.6903559 277.220178,54.3153559 276.767767,54.767767 C276.315356,55.220178 275.690356,55.5 275,55.5 L0.5,55.5 L0.5,0.5 Z" id="bg" stroke="#888888" fill="#B4D2EE"/>
+
+            <text id="TEXT" font-family="ArialMT, Arial" font-size="20" font-weight="normal" line-spacing="20" fill="#333333">
+
+                <tspan x="16" y="36">
+                以隧道连接的客户端字节流
+                </tspan>
+
+            </text>
+
+
+
+        </g>
+
+
+
+    </g>
+
+
+
+</svg>
