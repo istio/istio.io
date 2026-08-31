@@ -3,6 +3,7 @@
 0.2.x
 0.20.0
 0.8.x
+0ms
 1.0.x
 1.0.x.
 1.1.x
@@ -49,6 +50,9 @@
 1.30.0
 1.30.x
 1.30.x.
+1.31.0
+1.31.x
+1.31.x.
 1.4.x
 1.4.x.
 1.5.x
@@ -70,6 +74,7 @@
 14.60
 15.30
 18x
+1MiB
 1ms
 1qps
 1s
@@ -87,11 +92,13 @@
 2x
 3.99ms
 32-core
+32MiB
 3ms
 3s
 404s
 40m
 4Kb
+4MiB
 4ms
 4s
 5000qps
@@ -99,6 +106,7 @@
 50Mb
 5ms
 5xx
+63-character
 6ms
 6s
 7.5
@@ -125,6 +133,7 @@ addons
 Aeraki
 AES-256-CBC
 AES-256-GCM
+AES-GCM
 AES-NI
 Agentgateway
 agentgateway
@@ -139,6 +148,7 @@ Al-Masry
 Alex
 Alexa
 Alibaba
+AllowInsecureFallback
 allowlist
 allow_missing
 ALPN-based
@@ -157,6 +167,7 @@ Ansible
 Ant
 AntiAffinity
 API
+api
 api-server
 Apigee
 APIs
@@ -174,6 +185,7 @@ ArgoCD
 args.yaml
 Arielli
 arm64
+Artem
 ArtifactHub
 Arunkumar
 AssemblyScript
@@ -185,6 +197,7 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 Authn
+AuthorizationPolicies
 AuthorizationPolicy
 authorizer
 AuthPolicy
@@ -202,12 +215,17 @@ az
 Babo
 backend
 backends
+BackendTLSPolicy
+BackendTLSPolicyConflictResolution
 backoff
 backport
+backported
 Bartosz
 base64
 Bazel
 BCubed
+behaviour
+behaviourally
 Berben
 Berkus
 BeyondProd
@@ -232,6 +250,7 @@ Bolot
 Bookinfo
 bookinfo
 boolean
+BoringCrypto
 BoringSSL
 Bottlenose
 Bottlerocket
@@ -240,6 +259,7 @@ bring-your-own-identity
 Brooks
 brotli
 bt
+budget_interval
 Budinsky
 buildah
 bytecode
@@ -253,6 +273,7 @@ callouts
 camelCase
 canaried
 canarying
+canonical-name
 Careem
 CAs
 CDNs
@@ -264,6 +285,7 @@ Chaand
 Chandrasekhara
 channel
 Chaomeng
+chars
 chatbots
 Chavali
 CheckRequest
@@ -292,11 +314,14 @@ cluster.local
 cluster1
 cluster2
 ClusterRole
+ClusterRoleBinding
 ClusterSPIFFEID
 ClusterTrustBundle
 ClusterTrustBundles
 CNCF-hosted
 CNI
+cni
+cni.istio.io
 CNIs
 CNmaintainersummit
 cnn.com
@@ -531,6 +556,9 @@ decapsulated
 declaratively
 decompressor
 decompressors
+defaultHttpRetryPolicy
+defaultServiceExportTo
+defaultVirtualServiceExportTo
 Delayering
 Delucca
 Demailly
@@ -581,6 +609,9 @@ Dynatrace
 e.g.
 e2e
 eBPF
+ECDHE
+ECDHE_
+ECDSA
 ECR
 edition.cnn.com
 Eilers
@@ -593,6 +624,7 @@ emojis
 Emre
 enablement
 ENABLE_DEBUG_ENDPOINT_AUTH
+ENABLE_XDS_API_GENERATOR_AUTH
 endUser-to-Service
 Enno
 enqueue
@@ -631,6 +663,7 @@ faq.md
 Faseela
 Fawad
 fcm.googleapis.com
+fd
 FDs
 feature_block
 FedRAMP
@@ -656,11 +689,13 @@ gamified
 gapped
 gateway-api
 gateway-api-inference-extension
+GatewayAPI
 GatewayClass
 Gather.town
 Gaudet
 GB
 gbd
+GCM
 gcm
 GCP
 GCP-IAM
@@ -761,6 +796,7 @@ InferenceModel
 InferenceObjective
 InferencePool
 InferencePools
+informer
 ingress2gateway
 initContainer
 initializer
@@ -779,6 +815,7 @@ intra-cluster
 intra-mesh
 intrahost
 intranode
+InvalidFilter
 Invasiveness
 IOPs
 ip
@@ -799,6 +836,7 @@ istio-agent
 istio-cni
 istio-cni-node
 istio-control
+istio-csr
 istio-discovery
 istio-ecosystem
 istio-identity
@@ -919,7 +957,9 @@ krt
 KServe
 Kuat
 Kube
+kube
 kube-apiserver
+kube-gateway
 kube-proxy
 kubebuilder
 KubeCon
@@ -995,6 +1035,7 @@ Mansing
 Marshalers
 Mattix
 MaxInflateRatio
+MAXRECVMSGSIZE
 MB
 McAllister
 Meetup
@@ -1007,6 +1048,9 @@ Mengxue
 Merbridge
 merbridge
 MeshConfig
+meshConfig
+meshConfig.defaultServiceExportTo
+meshConfig.defaultVirtualServiceExportTo
 MeshNetworks
 MESH_EXTERNAL
 MESH_INTERNAL
@@ -1102,6 +1146,7 @@ non-UTF-8
 non-UTF8
 noop
 normalization
+not-ready
 notTrustDomains
 ns
 nsenter
@@ -1131,6 +1176,7 @@ OpenCensus
 OpenID
 OpenID_Connect
 OpenMetrics
+openmetrics-text
 OpenPolicyAgent
 OpenShift
 openshift
@@ -1152,6 +1198,8 @@ outsized
 overridden
 Ovidiu
 OVN-Kubernetes
+P-256
+P-384
 p50
 p90
 p99
@@ -1159,6 +1207,7 @@ PaaS
 Padmanabhan
 Pankaj
 Papertrail
+parametersRef
 parenthesization
 Parienty
 Passthrough
@@ -1174,8 +1223,11 @@ performant
 Petr
 Pettit
 Phippy
+PILOT_ENABLE_QUIC_LISTENERS
 PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE
 PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE
+PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME
+PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY
 Piotr
 pipelined
 PKI
@@ -1193,6 +1245,7 @@ Posta
 PostgreSQL
 pprof
 Pratima
+pre-1
 pre-alpha
 pre-ambient
 pre-connected
@@ -1203,6 +1256,7 @@ pre-swap
 precheck
 preconfigured
 Predibase
+PreferSameZone
 prefetching
 preflights
 preformatted
@@ -1213,6 +1267,7 @@ prepends
 PriorityClass
 prober
 ProcessingResponses
+procfs
 programmatically
 Prometheus
 PromQL
@@ -1256,6 +1311,7 @@ RDS
 re-applied
 re-patch
 reachability
+readerServiceAccount
 rearchitect
 rebalance
 rebalances
@@ -1287,6 +1343,7 @@ RequestAuthentication
 requires_any
 resized
 Reskill
+ResolvedRefs
 ResourceQuota
 resources.limits.cpu
 resources.limits.memory
@@ -1294,11 +1351,13 @@ resources.request.cpu
 resources.request.memory
 resumption
 rethink
+RetryBudget
 reusability
 Reviewer1
 Reviewer2
 revisioned
 Rey
+RING_HASH
 Riskified
 roadmap
 roadmaps
@@ -1310,6 +1369,7 @@ routable
 RPC
 RPCs
 RPMs
+RSA
 runtime
 runtimes
 sa
@@ -1340,6 +1400,7 @@ selinux
 Sergey
 serverless
 service-apis
+service.istio.io
 serviceaccount
 ServiceEntries
 ServiceEntry
@@ -1348,6 +1409,7 @@ servicegraph-example
 ServiceMesh
 ServiceMeshCon
 ServiceMesher
+SHA
 sha256
 Shamsher
 Shaojun
@@ -1572,11 +1634,16 @@ v1.35
 v1.36
 v1.37
 v1.38
+v1.39
 v1.4.
 v1.4.1.
 v1.5
+v1.5.0
+v1.5.0.
 v1.55
 v1.55.1
+v1.6.0
+v1.6.0.
 v1.7.4
 v1.7.6_coreos.0
 v1.79.0.
@@ -1593,10 +1660,13 @@ v2
 v2-mysql
 v2.0
 v2.17.0.
+v2.26.0
+v2.26.0.
 v3
 v3.18.5
 v4
 validatable
+ValidatingWebhookConfiguration
 validator
 ValueType
 Vasu
@@ -1613,6 +1683,7 @@ Vij
 Virtualization
 virtualization
 VirtualService
+VirtualServices
 virtualservices-destrules
 vLLM
 VM
@@ -1630,6 +1701,7 @@ Warman
 Wasm
 wasme
 WasmPlugin
+WasmPlugins
 waypoint
 waypoints
 WeaveWorks
@@ -1658,6 +1730,8 @@ Wireguard
 Wolfi
 workgroup
 workload
+workload-socket
+WorkloadEntries
 WorkloadEntry
 workstream
 www.google.com
@@ -1666,6 +1740,8 @@ X.509
 X.509.
 x509
 x86
+XBackendTrafficPolicy
+XDS
 xDS
 Xeon
 Xia
@@ -1711,9 +1787,12 @@ Zstd
 ztunnel
 ztunnels
 Zufar
+_
 _build
 _CA_
 _data
+_GCM_SHA
 _V2_
 _v2_
 _v3_
+_WITH_AES_
