@@ -16,7 +16,7 @@ From Istio 1.31 forwards, we will no longer publish artifacts to `gcr.io/istio-r
 - Docker images will still be available on Docker Hub.
 - Helm charts will be available on `blob.istio.io/istio-release/charts`.
 - Other artifacts will be available on `blob.istio.io/istio-release`.
-- OCI Helm charts will be available at `ghcr.io/istio/release/charts](http://ghcr.io/istio/release/charts`.
+- OCI Helm charts will be available at `ghcr.io/istio/release/charts`.
 
 We will have scream tests where we will disable all GCP hosted artifacts for brief periods of time.
 
