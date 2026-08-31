@@ -85,15 +85,15 @@ remove_toc_prefix: 'install-cni '
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -191,15 +191,15 @@ See each sub-command&#39;s help for details on how to use the generated script.
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -243,15 +243,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -294,15 +294,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -343,15 +343,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -399,15 +399,15 @@ If it is not installed already, you can install it via your OS&#39;s package man
 </tr>
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -450,17 +450,17 @@ If it is not installed already, you can install it via your OS&#39;s package man
 <tr>
 <td><code>--log_caller &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation]  (default ``)</td>
+<td>Comma-separated list of scopes for which to include caller information, scopes can be any of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_output_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
+<td>Comma-separated minimum per-scope logging level of messages to output, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope&gt;:&lt;level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default ``)</td>
 </tr>
 <tr>
 <td><code>--log_stacktrace_level &lt;string&gt;</code></td>
 <td></td>
-<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
+<td>Comma-separated minimum per-scope logging level at which stack traces are captured, in the form of &lt;scope&gt;:&lt;level&gt;,&lt;scope:level&gt;,... where scope can be one of [ads, all, ca, cni-agent, cni-plugin, controllers, default, grpc, klog, krt, model, monitoring, security, spiffe, trustBundle, validation] and level can be one of [debug, info, warn, error, fatal, none]  (default `default:none`)</td>
 </tr>
 <tr>
 <td><code>--log_target &lt;stringArray&gt;</code></td>
@@ -556,6 +556,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td>String</td>
 <td><code></code></td>
 <td>Comma separated list of CIDR ranges that are blocked in JWKS URIs (e.g., 10.0.0.0/8,192.168.1.0/24).</td>
+</tr>
+<tr id='blocked-cidrs-in-wasm-fetch'>
+<td><a href='#blocked-cidrs-in-wasm-fetch'><code>BLOCKED_CIDRS_IN_WASM_FETCH</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of CIDR ranges that are blocked when fetching Wasm modules (e.g., 10.0.0.0/8,192.168.1.0/24).</td>
 </tr>
 <tr id='ca-trusted-node-accounts'>
 <td><a href='#ca-trusted-node-accounts'><code>CA_TRUSTED_NODE_ACCOUNTS</code></a></td>
@@ -1279,6 +1285,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
+<tr id='pilot-enable-headless-filter-chain-listener'>
+<td><a href='#pilot-enable-headless-filter-chain-listener'><code>PILOT_ENABLE_HEADLESS_FILTER_CHAIN_LISTENER</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, headless TCP services use a single wildcard listener with per-pod /32 CIDR filter chain matches instead of one listener per pod IP. Reduces xDS size and listener count for large headless services.</td>
+</tr>
 <tr id='pilot-enable-ip-autoallocate'>
 <td><a href='#pilot-enable-ip-autoallocate'><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></a></td>
 <td>Boolean</td>
@@ -1759,6 +1771,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>istio-system</code></td>
 <td>istio system namespace</td>
 </tr>
+<tr id='token-audiences'>
+<td><a href='#token-audiences'><code>TOKEN_AUDIENCES</code></a></td>
+<td>String</td>
+<td><code>istio-ca</code></td>
+<td>A list of comma separated audiences to check in the JWT token before issuing a certificate. The token is accepted if it matches with one of the audiences</td>
+</tr>
 <tr id='trusted-gateway-cidr'>
 <td><a href='#trusted-gateway-cidr'><code>TRUSTED_GATEWAY_CIDR</code></a></td>
 <td>String</td>
@@ -1795,6 +1813,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If true, will authenticate XDS clients.</td>
 </tr>
+<tr id='xds-auth-plaintext'>
+<td><a href='#xds-auth-plaintext'><code>XDS_AUTH_PLAINTEXT</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>authenticate plain text requests - used if Istiod is running on a secure/trusted network</td>
+</tr>
 <tr id='ztunnel-uds-address'>
 <td><a href='#ztunnel-uds-address'><code>ZTUNNEL_UDS_ADDRESS</code></a></td>
 <td>String</td>
@@ -1817,6 +1841,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>istio_cni_plugin_requests_total</code></td><td><code>Sum</code></td><td>The total number of CNI plugin requests handled by the node agent.</td></tr>
 <tr><td><code>istio_cni_repair_pods_repaired_total</code></td><td><code>Sum</code></td><td>Total number of pods repaired by repair controller</td></tr>
 <tr><td><code>nodeagent_reconcile_events_total</code></td><td><code>Sum</code></td><td>The total number of node agent reconcile events.</td></tr>
+<tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
 <tr><td><code>pilot_destrule_subsets</code></td><td><code>LastValue</code></td><td>Duplicate subsets across destination rules for same host</td></tr>

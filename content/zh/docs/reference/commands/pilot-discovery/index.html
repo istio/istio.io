@@ -468,6 +468,12 @@ These environment variables affect the behavior of the <code>pilot-discovery</co
 <td><code></code></td>
 <td>Comma separated list of CIDR ranges that are blocked in JWKS URIs (e.g., 10.0.0.0/8,192.168.1.0/24).</td>
 </tr>
+<tr id='blocked-cidrs-in-wasm-fetch'>
+<td><a href='#blocked-cidrs-in-wasm-fetch'><code>BLOCKED_CIDRS_IN_WASM_FETCH</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma separated list of CIDR ranges that are blocked when fetching Wasm modules (e.g., 10.0.0.0/8,192.168.1.0/24).</td>
+</tr>
 <tr id='ca-trusted-node-accounts'>
 <td><a href='#ca-trusted-node-accounts'><code>CA_TRUSTED_NODE_ACCOUNTS</code></a></td>
 <td>String</td>
@@ -1178,6 +1184,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If this is set to true, gateway-api resources will have status written to them</td>
 </tr>
+<tr id='pilot-enable-headless-filter-chain-listener'>
+<td><a href='#pilot-enable-headless-filter-chain-listener'><code>PILOT_ENABLE_HEADLESS_FILTER_CHAIN_LISTENER</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, headless TCP services use a single wildcard listener with per-pod /32 CIDR filter chain matches instead of one listener per pod IP. Reduces xDS size and listener count for large headless services.</td>
+</tr>
 <tr id='pilot-enable-ip-autoallocate'>
 <td><a href='#pilot-enable-ip-autoallocate'><code>PILOT_ENABLE_IP_AUTOALLOCATE</code></a></td>
 <td>Boolean</td>
@@ -1737,6 +1749,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>remote_cluster_secret_events_total</code></td><td><code>Sum</code></td><td>Number of remote cluster secret events.</td></tr>
 <tr><td><code>remote_cluster_sync_timeouts_total</code></td><td><code>Sum</code></td><td>Number of times remote clusters took too long to sync, causing slow startup that excludes remote clusters.</td></tr>
 <tr><td><code>scrape_failures_total</code></td><td><code>Sum</code></td><td>The total number of failed scrapes.</td></tr>
+<tr><td><code>scrape_format_total</code></td><td><code>Sum</code></td><td>The total number of scrapes broken down by delivered exposition format.</td></tr>
 <tr><td><code>scrapes_total</code></td><td><code>Sum</code></td><td>The total number of scrapes.</td></tr>
 <tr><td><code>sidecar_injection_failure_total</code></td><td><code>Sum</code></td><td>Total number of failed sidecar injection requests.</td></tr>
 <tr><td><code>sidecar_injection_requests_total</code></td><td><code>Sum</code></td><td>Total number of sidecar injection requests.</td></tr>
