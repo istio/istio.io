@@ -42,7 +42,7 @@ annotations:
   ([Issue #60122](https://github.com/istio/istio/issues/60122))
 
 - **新增** 添加了支持使用命名空间上的 `~` 前缀从 `Sidecar` 出口侦听器的 `hosts` 中排除命名空间和主机。
-  没有前缀的条目会像以前一样导入，带有 `~`  前缀的条目会从中减去：
+  没有前缀的条目会像以前一样导入，带有 `~` 前缀的条目会从中减去：
   `~ns1/*` 排除 `ns1` 中的所有主机，`~/foo.com` 从每个命名空间中排除 `foo.com`。
   这使得大型网格可以导入除少数命名空间之外的所有内容（例如 `*/*` 加上 `~ns1/*`），而无需枚举很长的白名单。
   ([Issue #60139](https://github.com/istio/istio/issues/60139))
@@ -452,7 +452,7 @@ annotations:
 - **修复** 修复了 `EnvoyFilter` 验证差距，其中无上限的 `proxyVersion`
   匹配表达式可能会在正则表达式编译期间驱动过多的 istiod 内存和 CPU。
   匹配表达式现在限制为 1024 个字符。
-  
+
   **来源**：此问题由 [`Artem Cherezov`](https://github.com/cherez0ff) 报告。
 
 - **修复** 修复了通过 `extensionProviders` 配置的外部 SDS 提供程序，
