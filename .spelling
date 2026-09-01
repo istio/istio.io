@@ -195,7 +195,6 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 Authn
-AuthorizationPolicies
 AuthorizationPolicy
 authorizer
 AuthPolicy
@@ -253,7 +252,6 @@ bring-your-own-identity
 Brooks
 brotli
 bt
-budget_interval
 Budinsky
 buildah
 bytecode
@@ -267,7 +265,6 @@ callouts
 camelCase
 canaried
 canarying
-canonical-name
 Careem
 CAs
 CDNs
@@ -596,7 +593,6 @@ Dynatrace
 e.g.
 e2e
 eBPF
-ECDHE
 ECDHE_
 ECDSA
 ECR
@@ -674,13 +670,11 @@ gamified
 gapped
 gateway-api
 gateway-api-inference-extension
-GatewayAPI
 GatewayClass
 Gather.town
 Gaudet
 GB
 gbd
-GCM
 gcm
 GCP
 GCP-IAM
@@ -800,7 +794,6 @@ intra-cluster
 intra-mesh
 intrahost
 intranode
-InvalidFilter
 Invasiveness
 IOPs
 ip
@@ -1032,9 +1025,6 @@ Mengxue
 Merbridge
 merbridge
 MeshConfig
-meshConfig
-meshConfig.defaultServiceExportTo
-meshConfig.defaultVirtualServiceExportTo
 MeshNetworks
 MESH_EXTERNAL
 MESH_INTERNAL
@@ -1160,7 +1150,6 @@ OpenCensus
 OpenID
 OpenID_Connect
 OpenMetrics
-openmetrics-text
 OpenPolicyAgent
 OpenShift
 openshift
@@ -1290,7 +1279,6 @@ RDS
 re-applied
 re-patch
 reachability
-readerServiceAccount
 rearchitect
 rebalance
 rebalances
@@ -1322,7 +1310,6 @@ RequestAuthentication
 requires_any
 resized
 Reskill
-ResolvedRefs
 ResourceQuota
 resources.limits.cpu
 resources.limits.memory
@@ -1330,7 +1317,6 @@ resources.request.cpu
 resources.request.memory
 resumption
 rethink
-RetryBudget
 reusability
 Reviewer1
 Reviewer2
@@ -1379,7 +1365,6 @@ selinux
 Sergey
 serverless
 service-apis
-service.istio.io
 serviceaccount
 ServiceEntries
 ServiceEntry
@@ -1661,7 +1646,6 @@ Vij
 Virtualization
 virtualization
 VirtualService
-VirtualServices
 virtualservices-destrules
 vLLM
 VM
@@ -1679,7 +1663,6 @@ Warman
 Wasm
 wasme
 WasmPlugin
-WasmPlugins
 waypoint
 waypoints
 WeaveWorks
@@ -1709,7 +1692,6 @@ Wolfi
 workgroup
 workload
 workload-socket
-WorkloadEntries
 WorkloadEntry
 workstream
 www.google.com
@@ -1718,7 +1700,6 @@ X.509
 X.509.
 x509
 x86
-XBackendTrafficPolicy
 XDS
 xDS
 Xeon
