@@ -148,7 +148,6 @@ Al-Masry
 Alex
 Alexa
 Alibaba
-AllowInsecureFallback
 allowlist
 allow_missing
 ALPN-based
@@ -167,7 +166,6 @@ Ansible
 Ant
 AntiAffinity
 API
-api
 api-server
 Apigee
 APIs
@@ -197,7 +195,6 @@ AttributeGen
 Auth0
 AuthenticationPolicy
 Authn
-AuthorizationPolicies
 AuthorizationPolicy
 authorizer
 AuthPolicy
@@ -215,8 +212,6 @@ az
 Babo
 backend
 backends
-BackendTLSPolicy
-BackendTLSPolicyConflictResolution
 backoff
 backport
 backported
@@ -224,8 +219,6 @@ Bartosz
 base64
 Bazel
 BCubed
-behaviour
-behaviourally
 Berben
 Berkus
 BeyondProd
@@ -259,7 +252,6 @@ bring-your-own-identity
 Brooks
 brotli
 bt
-budget_interval
 Budinsky
 buildah
 bytecode
@@ -273,7 +265,6 @@ callouts
 camelCase
 canaried
 canarying
-canonical-name
 Careem
 CAs
 CDNs
@@ -285,7 +276,6 @@ Chaand
 Chandrasekhara
 channel
 Chaomeng
-chars
 chatbots
 Chavali
 CheckRequest
@@ -314,14 +304,11 @@ cluster.local
 cluster1
 cluster2
 ClusterRole
-ClusterRoleBinding
 ClusterSPIFFEID
 ClusterTrustBundle
 ClusterTrustBundles
 CNCF-hosted
 CNI
-cni
-cni.istio.io
 CNIs
 CNmaintainersummit
 cnn.com
@@ -556,9 +543,6 @@ decapsulated
 declaratively
 decompressor
 decompressors
-defaultHttpRetryPolicy
-defaultServiceExportTo
-defaultVirtualServiceExportTo
 Delayering
 Delucca
 Demailly
@@ -609,7 +593,6 @@ Dynatrace
 e.g.
 e2e
 eBPF
-ECDHE
 ECDHE_
 ECDSA
 ECR
@@ -624,7 +607,6 @@ emojis
 Emre
 enablement
 ENABLE_DEBUG_ENDPOINT_AUTH
-ENABLE_XDS_API_GENERATOR_AUTH
 endUser-to-Service
 Enno
 enqueue
@@ -663,7 +645,6 @@ faq.md
 Faseela
 Fawad
 fcm.googleapis.com
-fd
 FDs
 feature_block
 FedRAMP
@@ -689,13 +670,11 @@ gamified
 gapped
 gateway-api
 gateway-api-inference-extension
-GatewayAPI
 GatewayClass
 Gather.town
 Gaudet
 GB
 gbd
-GCM
 gcm
 GCP
 GCP-IAM
@@ -815,7 +794,6 @@ intra-cluster
 intra-mesh
 intrahost
 intranode
-InvalidFilter
 Invasiveness
 IOPs
 ip
@@ -1035,7 +1013,6 @@ Mansing
 Marshalers
 Mattix
 MaxInflateRatio
-MAXRECVMSGSIZE
 MB
 McAllister
 Meetup
@@ -1048,9 +1025,6 @@ Mengxue
 Merbridge
 merbridge
 MeshConfig
-meshConfig
-meshConfig.defaultServiceExportTo
-meshConfig.defaultVirtualServiceExportTo
 MeshNetworks
 MESH_EXTERNAL
 MESH_INTERNAL
@@ -1176,7 +1150,6 @@ OpenCensus
 OpenID
 OpenID_Connect
 OpenMetrics
-openmetrics-text
 OpenPolicyAgent
 OpenShift
 openshift
@@ -1207,7 +1180,6 @@ PaaS
 Padmanabhan
 Pankaj
 Papertrail
-parametersRef
 parenthesization
 Parienty
 Passthrough
@@ -1223,11 +1195,8 @@ performant
 Petr
 Pettit
 Phippy
-PILOT_ENABLE_QUIC_LISTENERS
 PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE
 PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE
-PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME
-PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY
 Piotr
 pipelined
 PKI
@@ -1256,7 +1225,6 @@ pre-swap
 precheck
 preconfigured
 Predibase
-PreferSameZone
 prefetching
 preflights
 preformatted
@@ -1311,7 +1279,6 @@ RDS
 re-applied
 re-patch
 reachability
-readerServiceAccount
 rearchitect
 rebalance
 rebalances
@@ -1343,7 +1310,6 @@ RequestAuthentication
 requires_any
 resized
 Reskill
-ResolvedRefs
 ResourceQuota
 resources.limits.cpu
 resources.limits.memory
@@ -1351,7 +1317,6 @@ resources.request.cpu
 resources.request.memory
 resumption
 rethink
-RetryBudget
 reusability
 Reviewer1
 Reviewer2
@@ -1400,7 +1365,6 @@ selinux
 Sergey
 serverless
 service-apis
-service.istio.io
 serviceaccount
 ServiceEntries
 ServiceEntry
@@ -1666,7 +1630,6 @@ v3
 v3.18.5
 v4
 validatable
-ValidatingWebhookConfiguration
 validator
 ValueType
 Vasu
@@ -1683,7 +1646,6 @@ Vij
 Virtualization
 virtualization
 VirtualService
-VirtualServices
 virtualservices-destrules
 vLLM
 VM
@@ -1701,7 +1663,6 @@ Warman
 Wasm
 wasme
 WasmPlugin
-WasmPlugins
 waypoint
 waypoints
 WeaveWorks
@@ -1731,7 +1692,6 @@ Wolfi
 workgroup
 workload
 workload-socket
-WorkloadEntries
 WorkloadEntry
 workstream
 www.google.com
@@ -1740,7 +1700,6 @@ X.509
 X.509.
 x509
 x86
-XBackendTrafficPolicy
 XDS
 xDS
 Xeon
