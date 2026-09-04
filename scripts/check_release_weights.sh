@@ -26,6 +26,8 @@
 # So 1.31.x is 869, 1.32.x is 868, 2.0.x is 800, and 0.x is 1000. Adding a new
 # minor release only ever adds one file; no existing weight has to change.
 #
+# Locales listed in SKIP_LOCALES below are not checked.
+#
 # Usage:
 #   scripts/check_release_weights.sh          # verify, exit 1 on mismatch
 #   scripts/check_release_weights.sh --fix    # rewrite the wrong weights
@@ -33,6 +35,11 @@
 set -euo pipefail
 
 BASE=1000
+
+# Locales left out of this check. Their release announcements are not kept in
+# sync with content/en, so holding them to the formula would block the build on
+# a translation nobody is currently maintaining.
+SKIP_LOCALES=("es")
 
 FIX=0
 if [[ "${1:-}" == "--fix" ]]; then
@@ -70,6 +77,18 @@ checked=0
 
 while IFS= read -r index; do
     dir_name="$(basename "$(dirname "${index}")")"
+    locale="$(echo "${index}" | cut -d / -f 2)"
+
+    skip=0
+    for skipped in "${SKIP_LOCALES[@]}"; do
+        if [[ "${locale}" == "${skipped}" ]]; then
+            skip=1
+            break
+        fi
+    done
+    if (( skip )); then
+        continue
+    fi
 
     if ! want="$(expected_weight "${dir_name}")"; then
         echo "SKIP  ${index}: directory name '${dir_name}' is not <major>.<minor>.x"
