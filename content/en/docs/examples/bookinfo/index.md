@@ -236,6 +236,15 @@ To enforce mutual TLS, use the destination rules in `samples/bookinfo/networking
 
 Wait a few seconds for the destination rules to propagate.
 
+{{< tip >}}
+The `destination-rule-all.yaml` file defines subsets for all Bookinfo service versions,
+including `v2-mysql` and `v2-mysql-vm` variants of the ratings service that are not deployed
+as part of the standard Bookinfo installation. If you run `istioctl analyze` after applying
+this file, you may see `IST0173` warnings indicating these subsets do not select any pods.
+This is expected behavior for a standard Bookinfo deployment and can be safely ignored unless
+you have deployed the MySQL-based ratings variants.
+{{< /tip >}}
+
 You can display the destination rules with the following command:
 
 {{< text bash >}}
