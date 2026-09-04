@@ -45,12 +45,8 @@ archive_analytics_id: "G-5XBWY4YJ1E"
 supported_languages:
   - name: "English"
     code: "en"
-  - name: "Español"
-    code: "es"
   - name: "中文"
     code: "zh"
-  - name: "Українська"
-    code: "uk"
 
 # Kubernetes Gateway API
 k8s_gateway_api_version: "v1.6.0"
