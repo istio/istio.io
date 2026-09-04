@@ -108,10 +108,18 @@ format-spelling:
 
 gen: tidy-go format-go update-gateway-version snips format-spelling
 
-gen-check: gen check-clean-repo check-localization
+gen-check: gen check-clean-repo check-localization check-release-weights
 
 check-localization:
 	@scripts/check_localization.sh
+
+# Verify that the release announcement section weights match the version they
+# describe, so the newest minor release always sorts first.
+check-release-weights:
+	@scripts/check_release_weights.sh
+
+fix-release-weights:
+	@scripts/check_release_weights.sh --fix
 
 build: site
 	@scripts/build_site.sh ""
@@ -250,4 +258,4 @@ update-gateway-version: tidy-go
 
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version check-release-weights fix-release-weights
