@@ -39,7 +39,7 @@ BASE=1000
 # Locales left out of this check. Their release announcements are not kept in
 # sync with content/en, so holding them to the formula would block the build on
 # a translation nobody is currently maintaining.
-SKIP_LOCALES=("es")
+SKIP_LOCALES=("es" "uk")
 
 FIX=0
 if [[ "${1:-}" == "--fix" ]]; then
