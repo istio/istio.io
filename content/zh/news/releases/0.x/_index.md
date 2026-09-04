@@ -1,7 +1,7 @@
 ---
 title: 0.x 版本
 description: 关于 Istio 早期发布的公告。
-weight: 32
+weight: 1000
 list_by_publishdate: true
 layout: release-grid
 ---
