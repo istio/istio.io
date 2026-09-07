@@ -194,7 +194,7 @@ Istio інтегрується з [різними застосунками дл�
 1. Встановіть [Kiali та інші надбудови]({{< github_tree >}}/samples/addons) та дочекайтесь їх розгортання.
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/addons@
+    $ kubectl apply -f @samples/addons/kiali.yaml@
     $ kubectl rollout status deployment/kiali -n istio-system
     Waiting for deployment "kiali" rollout to finish: 0 of 1 updated replicas are available...
     deployment "kiali" successfully rolled out
@@ -239,7 +239,7 @@ Istio інтегрується з [різними застосунками дл�
 
 ## Долучайтеся до спільноти Istio {#join-the-istio-community}
 
-Ми запрошуємо вас ставити питання та надати зворотний зв'язок, приєднавшись до [спільноти Istio](/get-involved/).
+Ми запрошуємо вас ставити питання та надати зворотний звʼязок, приєднавшись до [спільноти Istio](/get-involved/).
 
 ## Видалення {#uninstall}
 

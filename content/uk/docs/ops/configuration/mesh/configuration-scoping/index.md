@@ -40,7 +40,7 @@ spec:
     - "external-services/example.com" # Імплементувати тільки 'example.com' з простору імен external-services
 {{< /text >}}
 
-### `exportTo` {#exportTo}
+### `exportTo` {#exportto}
 
 Istio's `VirtualService`, `DestinationRule` і `ServiceEntry` мають поле `spec.exportTo`. Аналогічно, `Service` можна налаштувати з анотацією `networking.istio.io/exportTo`.
 
@@ -57,6 +57,10 @@ metadata:
     networking.istio.io/exportTo: ".,client"
 spec: ...
 {{< /text >}}
+
+{{< tip >}}
+Оскільки `exportTo` оголошується автором кожного ресурсу, він дозволяє власникам сервісів обмежувати власну конфігурацію, але не дає адміністратору сервісної мережі контролю над тим, що публікують інші. Починаючи з Istio 1.31, адміністратор сервісної мережі може контролювати видимість ресурсів `ServiceEntry` за допомогою [`meshConfig.serviceEntryVisibility`](/docs/ambient/usage/serviceentry-visibility/), яку панель даних режиму оточення завжди враховує.
+{{< /tip >}}
 
 ### `DiscoverySelectors` {#discoveryselectors}
 
@@ -79,7 +83,7 @@ meshConfig:
 Istiod завжди відкриває спостереження за всіма просторами імен. Однак, discovery selectors будуть ігнорувати обʼєкти, які не вибрані на дуже ранньому етапі обробки, мінімізуючи витрати.
 {{</ warning >}}
 
-## Часті питання {#frequestly-asked-questions}
+## Часті питання {#frequently-asked-questions}
 
 ### Як дізнатися вартість певної конфігурації? {#how-can-i-understand-the-cost-of-a-certain-configuration}
 

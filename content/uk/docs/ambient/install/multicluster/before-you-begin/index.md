@@ -9,8 +9,6 @@ next: /docs/ambient/install/multicluster/multi-primary_multi-network
 prev: /docs/ambient/install/multicluster
 ---
 
-{{< boilerplate alpha >}}
-
 Перш ніж розпочинати встановлення мультикластеру, ознайомтеся з [посібником з моделей розгортання](/docs/ops/deployment/deployment-models), в якому описано основні поняття, що використовуються в цьому посібнику.
 
 Крім того, перегляньте вимоги та виконайте початкові кроки нижче.

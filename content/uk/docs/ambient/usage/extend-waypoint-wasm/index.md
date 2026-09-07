@@ -10,14 +10,14 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio надає можливість [розширити свої функціональні можливості за допомогою WebAssembly (Wasm)](/docs/concepts/wasm/). Однією з ключових переваг розширюваності Wasm є те, що розширення можуть завантажуватися динамічно під час роботи. У цьому документі описується, як розширити режим ambient в Istio за допомогою можливостей Wasm. У режимі ambient конфігурація Wasm повинна бути застосована до waypoint-проксі, розгорнутого в кожному просторі імен.
+Istio надає можливість розширювати waypoint-проксі за допомогою модулів [WebAssembly (Wasm)](/docs/concepts/extensibility/#webassembly-filters) через API [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/). У режимі ambient ресурси `TrafficExtension` повинні бути прикріплені до waypoint-проксі за допомогою `targetRefs`.
 
 ## Перед початком роботи {#before-you-begin}
 
-1. Налаштуйте Istio, дотримуючись інструкцій у [посібнику з початку роботи в режимі ambient](/docs/ambient/getting-started).
+1. Налаштуйте Istio, дотримуючись [посібника з початку роботи в режимі ambient](/docs/ambient/getting-started).
 2. Розгорніть [демонстраційний застосунок Bookinfo](/docs/ambient/getting-started/deploy-sample-app).
 3. [Додайте простір імен default до ambient mesh](/docs/ambient/getting-started/secure-and-visualize).
-4. Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), щоб використовувати його як джерело для надсилання тестових запитів.
+4. Розгорніть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl) як тестове джерело:
 
     {{< text syntax=bash >}}
     $ kubectl apply -f @samples/curl/curl.yaml@
@@ -25,13 +25,13 @@ Istio надає можливість [розширити свої функці�
 
 ## На шлюзі {#at-a-gateway}
 
-Завдяки Kubernetes Gateway API, Istio надає централізовану точку входу для керування трафіком у сервісних мережах. Ми налаштуємо WasmPlugin на рівні шлюзу, забезпечуючи, щоб весь трафік, який проходить через шлюз, підлягав розширеним правилам автентифікації.
+Завдяки Kubernetes Gateway API, Istio надає централізовану точку входу для керування трафіком у сервісній мережі. Ми налаштуємо `TrafficExtension` на рівні шлюзу, забезпечуючи, щоб весь трафік, який проходить через шлюз, підлягав розширеним правилам автентифікації.
 
 ### Налаштування втулка WebAssembly для шлюзу {#configure-a-webassembly-plugin-for-a-gateway}
 
-У цьому прикладі ви додасте модуль HTTP [Basic auth](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) до вашого mesh. Ви налаштуєте Istio на завантаження модуля Basic auth із віддаленого реєстру образів та його завантаження. Він буде налаштований для виконання при викликах до `/productpage`. Ці кроки схожі на ті, що описані в [Розповсюдження модулів WebAssembly](/docs/tasks/extensibility/wasm-module-distribution/), з тією різницею, що використовується поле `targetRefs` замість селекторів міток.
+У цьому прикладі ви додасте модуль HTTP [Basic auth](https://github.com/istio-ecosystem/wasm-extensions/tree/master/extensions/basic_auth) до вашого mesh. Ви налаштуєте Istio на завантаження модуля Basic auth із віддаленого реєстру образів та його завантаження. Він буде налаштований для виконання при викликах до `/productpage`. Ці кроки схожі на ті, що описані в [Виконання модулів WebAssembly](/docs/tasks/extensibility/wasm-modules/), з тією різницею, що використовується поле `targetRefs` замість селекторів міток.
 
-Щоб налаштувати фільтр WebAssembly з віддаленим модулем Wasm, створіть ресурс `WasmPlugin`, націлений на `bookinfo-gateway`:
+Отримайте назву шлюзу:
 
 {{< text syntax=bash snip_id=get_gateway >}}
 $ kubectl get gateway
@@ -39,34 +39,37 @@ NAME               CLASS            ADDRESS                                     
 bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.local   True         42m
 {{< /text >}}
 
+Створіть `TrafficExtension`, націлений на `bookinfo-gateway`:
+
 {{< text syntax=bash snip_id=apply_wasmplugin_gateway >}}
 $ kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth-at-gateway
 spec:
   targetRefs:
     - kind: Gateway
       group: gateway.networking.k8s.io
-      name: bookinfo-gateway # ім'я шлюзу, отримане з попереднього кроку
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+      name: bookinfo-gateway
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/productpage"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "YWRtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/productpage"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "YWRtaW4zOmFkbWluMw=="
 EOF
 {{< /text >}}
 
-Буде виконано інʼєкцію HTTP-фільра на шлюзі як фільтр автентифікації. Агент Istio інтерпретуватиме конфігурацію WasmPlugin, завантажуватиме віддалені модулі Wasm з реєстру образів OCI до локального файлу та вбудовувати HTTP-фільтр на шлюзі, посилаючись на цей файл.
+Буде виконано інʼєкцію HTTP-фільтра на шлюзі як фільтр автентифікації. Агент Istio інтерпретуватиме конфігурацію `TrafficExtension`, завантажуватиме віддалені модулі Wasm з реєстру образів OCI до локального файлу та вбудовувати HTTP-фільтр на шлюзі, посилаючись на цей файл.
 
-### Перевірка трафіку через Gateway {#verify-the-traffic-via-the-gateway}
+### Перевірка трафіку через шлюз {#verify-the-traffic-via-the-gateway}
 
 1. Перевірте `/productpage` без облікових даних:
 
@@ -75,7 +78,7 @@ EOF
     401
     {{< /text >}}
 
-2. Перевірте `/productpage` з обліковими даними, налаштованими у ресурсі WasmPlugin:
+2. Перевірте `/productpage` з обліковими даними, налаштованими у ресурсі `TrafficExtension`:
 
     {{< text syntax=bash snip_id=test_gateway_productpage_with_credentials >}}
     $ kubectl exec deploy/curl -- curl -s -o /dev/null -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" -w "%{http_code}" "http://bookinfo-gateway-istio.default.svc.cluster.local/productpage"
@@ -88,7 +91,7 @@ Waypoint-проксі відіграють важливу роль у режим
 
 ### Розгортання waypoint-проксі {#deploy-a-waypoint-proxy}
 
-Дотримуйтесь [інструкцій з розгортання waypoint](/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy) для розгортання waypoint-проксі у просторі імен bookinfo.
+Дотримуйтесь [інструкцій з розгортання waypoint](/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy) для розгортання waypoint-проксі у просторі імен bookinfo:
 
 {{< text syntax=bash snip_id=create_waypoint >}}
 $ istioctl waypoint apply --enroll-namespace --wait
@@ -103,7 +106,7 @@ $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null http://prod
 
 ### Налаштування втулка WebAssembly для waypoint {#configure-a-webassembly-plugin-for-a-waypoint}
 
-Щоб налаштувати фільтр WebAssembly з віддаленим модулем Wasm, створіть ресурс `WasmPlugin`, який націлюється на gateway `waypoint`:
+Отримайте назву waypoint-шлюзу:
 
 {{< text syntax=bash snip_id=get_gateway_waypoint >}}
 $ kubectl get gateway
@@ -112,41 +115,44 @@ bookinfo-gateway   istio            bookinfo-gateway-istio.default.svc.cluster.l
 waypoint           istio-waypoint   10.96.202.82                                       True         21h
 {{< /text >}}
 
+Створіть `TrafficExtension`, націлений на waypoint:
+
 {{< text syntax=bash snip_id=apply_wasmplugin_waypoint_all >}}
 $ kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth-at-waypoint
 spec:
   targetRefs:
     - kind: Gateway
       group: gateway.networking.k8s.io
-      name: waypoint # ім'я gateway, отримане з попереднього кроку
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+      name: waypoint
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/productpage"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "YWRtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/productpage"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "YWRtaW4zOmFkbWluMw=="
 EOF
 {{< /text >}}
 
 ### Перегляд сконфігурованого втулка {#view-the-configured-plugin}
 
-{{< text syntax=bash snip_id=get_wasmplugin >}}
-$ kubectl get wasmplugin
+{{< text syntax=bash snip_id=get_trafficextension >}}
+$ kubectl get trafficextension
 NAME                     AGE
 basic-auth-at-gateway    28m
 basic-auth-at-waypoint   14m
 {{< /text >}}
 
-### Перевірка трафіку через waypoint-проксі{#verify-the-traffic-via-the-waypoint-proxy}
+### Перевірка трафіку через waypoint-проксі {#verify-the-traffic-via-the-waypoint-proxy}
 
 1. Перевірте внутрішню точку доступу `/productpage` без облікових даних:
 
@@ -164,14 +170,12 @@ basic-auth-at-waypoint   14m
 
 ## На waypoint для конкретного сервісу {#at-a-waypoint-for-a-specific-service}
 
-Щоб налаштувати фільтр WebAssembly з віддаленим модулем Wasm для конкретного сервісу, створіть ресурс WasmPlugin, який націлюється безпосередньо на цей сервіс.
-
-Створіть `WasmPlugin`, націлений на сервіс `reviews`, щоб розширення застосовувалося лише до цього сервісу. У цій конфігурації автентифікаційний токен і префікс налаштовані спеціально для сервісу reviews, забезпечуючи, що лише запити, спрямовані до нього, підлягають цьому механізму автентифікації.
+Створіть `TrafficExtension`, націлений на сервіс `reviews`, щоб розширення застосовувалося лише до сервісу `reviews`. У цій конфігурації автентифікаційний токен і префікс налаштовані спеціально для сервісу reviews, забезпечуючи, що лише запити, спрямовані до нього, підлягають цьому механізму автентифікації.
 
 {{< text syntax=bash snip_id=apply_wasmplugin_waypoint_service >}}
 $ kubectl apply -f - <<EOF
 apiVersion: extensions.istio.io/v1alpha1
-kind: WasmPlugin
+kind: TrafficExtension
 metadata:
   name: basic-auth-for-service
 spec:
@@ -179,17 +183,18 @@ spec:
     - kind: Service
       group: ""
       name: reviews
-  url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
   phase: AUTHN
-  pluginConfig:
-    basic_auth_rules:
-      - prefix: "/reviews"
-        request_methods:
-          - "GET"
-          - "POST"
-        credentials:
-          - "ok:test"
-          - "MXQtaW4zOmFkbWluMw=="
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/reviews"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "MXQtaW4zOmFkbWluMw=="
 EOF
 {{< /text >}}
 
@@ -202,7 +207,7 @@ EOF
     200
     {{< /text >}}
 
-2. Перевірте внутрішню точку доступу `/reviews` з обліковими даними, налаштованими на конкретному проксі `reviews-svc-waypoint`:
+2. Перевірте внутрішню точку доступу `/reviews` з обліковими даними, налаштованими для сервісу `reviews`:
 
     {{< text syntax=bash snip_id=test_waypoint_service_reviews_with_credentials >}}
     $ kubectl exec deploy/curl -- curl -s -w "%{http_code}" -o /dev/null -H "Authorization: Basic MXQtaW4zOmFkbWluMw==" http://reviews:9080/reviews/1
@@ -216,14 +221,12 @@ EOF
     401
     {{< /text >}}
 
-Виконуючи команду без облікових даних, ви переконаєтеся, що доступ до внутрішньої точки доступу `/productpage` повертає відповідь 401 (неавторизовано), що демонструє очікувану поведінку — неможливість доступу до ресурсу без відповідних автентифікаційних даних.
-
 ## Очищення {#cleanup}
 
-1. Видаліть конфігурацію WasmPlugin:
+1. Видаліть ресурси `TrafficExtension`:
 
     {{< text syntax=bash snip_id=remove_wasmplugin >}}
-    $ kubectl delete wasmplugin basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
+    $ kubectl delete trafficextension basic-auth-at-gateway basic-auth-at-waypoint basic-auth-for-service
     {{< /text >}}
 
 2. Дотримуйтесь [керівництва з видалення в режимі ambient](/docs/ambient/getting-started/#uninstall), щоб видалити Istio та демонстраційні застосунки.

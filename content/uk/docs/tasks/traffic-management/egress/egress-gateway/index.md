@@ -60,13 +60,13 @@ Istio використовує [ingress та egress gateways](/docs/reference/co
     $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 
-## Розгортання egress gateway Istio {#deploy-isito-egress-gateway}
+## Розгортання egress gateway Istio {#deploy-istio-egress-gateway}
 
 {{< tip >}}
 Egress gateways автоматично [розгортаються](/docs/tasks/traffic-management/ingress/gateway-api/#deployment-methods) при використанні Gateway API для їх налаштування. Ви можете пропустити цей розділ, якщо ви користуєтеся інструкціями `Gateway API` в наступних розділах.
 {{< /tip >}}
 
-1.  Перевірте чи розгорнтуо Istio egress gateway:
+1.  Перевірте чи розгорнуто Istio egress gateway:
 
     {{< text bash >}}
     $ kubectl get pod -l istio=egressgateway -n istio-system
@@ -148,7 +148,7 @@ Egress gateways автоматично [розгортаються](/docs/tasks/
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< tip >}}
-Щоб спрямувати кілька хостів через  egress gateway, ви можете включити список хостів або використовувати `*`, щоб мати збіг зі всім, у полі `Gateway`. Поле `subset` в `DestinationRule` слід використовувати повторно для додаткових хостів.
+Щоб спрямувати кілька хостів через egress gateway, ви можете включити список хостів або використовувати `*`, щоб мати збіг зі всім, у полі `Gateway`. Поле `subset` в `DestinationRule` слід використовувати повторно для додаткових хостів.
 {{< /tip >}}
 
 {{< text bash >}}
@@ -343,7 +343,7 @@ $ istioctl pc secret -n istio-system "$(kubectl get pod -l istio=egressgateway -
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Отримайте доступ до журналу, що відповідає egress gateway, використовуючи згенеровану Istio мітку poʼа:
+Отримайте доступ до журналу, що відповідає egress gateway, використовуючи згенеровану Istio мітку podʼа:
 
 {{< text bash >}}
 $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail
@@ -443,7 +443,7 @@ $ kubectl delete httproute forward-cnn-from-egress-gateway
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< tip >}}
-Щоб спрямувати кілька хостів через  egress gateway, ви можете включити список хостів або використовувати `*`, щоб мати збіг зі всім, у полі `Gateway`. Поле `subset` в `DestinationRule` слід використовувати повторно для додаткових хостів.
+Щоб спрямувати кілька хостів через egress gateway, ви можете включити список хостів або використовувати `*`, щоб мати збіг зі всім, у полі `Gateway`. Поле `subset` в `DestinationRule` слід використовувати повторно для додаткових хостів.
 {{< /tip >}}
 
 {{< text bash >}}
@@ -793,7 +793,7 @@ EOF
 
 {{< /tabset >}}
 
-9)  Повторно надішліть HTTPS-запит до [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Тепер він має не виконатися, оскільки трафік заблокований мережевою політикою. Зверніть увагу, що pod `curl` не може оминути шлюз вихідного трафіку. Єдиний спосіб, яким він може отримати доступ до `edition.cnn.com`, — це використання sudecar проксі Istio та спрямування трафіку через шлюз вихідного трафіку. Це налаштування демонструє, що навіть якщо якийсь шкідливий pod зуміє обійти свій sidecar проксі, він не зможе отримати доступ до зовнішніх сайтів і буде заблокований мережевою політикою.
+9)  Повторно надішліть HTTPS-запит до [https://edition.cnn.com/politics](https://edition.cnn.com/politics). Тепер він має не виконатися, оскільки трафік заблокований мережевою політикою. Зверніть увагу, що pod `curl` не може оминути шлюз вихідного трафіку. Єдиний спосіб, яким він може отримати доступ до `edition.cnn.com`, — це використання sidecar проксі Istio та спрямування трафіку через шлюз вихідного трафіку. Це налаштування демонструє, що навіть якщо якийсь шкідливий pod зуміє обійти свій sidecar проксі, він не зможе отримати доступ до зовнішніх сайтів і буде заблокований мережевою політикою.
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -c curl -- curl -v -sS https://edition.cnn.com/politics
@@ -810,7 +810,7 @@ EOF
     connect to 151.101.65.67 port 443 failed: Connection timed out
     {{< /text >}}
 
-10)  Тепер додай проксі Istio sidecar у pod `curl` в просторі імен `test-egress`, спочатку увімкнувши автоматичне додавання sidecar проксі в просторі імен `test-egress`:
+10)  Тепер додайте проксі Istio sidecar у pod `curl` в просторі імен `test-egress`, спочатку увімкнувши автоматичне додавання sidecar проксі в просторі імен `test-egress`:
 
     {{< text bash >}}
     $ kubectl label namespace test-egress istio-injection=enabled
@@ -823,15 +823,15 @@ EOF
     $ kubectl apply -f @samples/curl/curl.yaml@ -n test-egress
     {{< /text >}}
 
-12)  Перевір, що у розгорнутому pod є два контейнери, включаючи проксі Istio sidecar (`istio-proxy`):
+12) Перевірте, що у розгорнутому podʼі є проксі Istio sidecar (`istio-proxy`). Починаючи з Kubernetes 1.33+, sidecar-и впроваджуються як [нативні sidecarʼи](/blog/2023/native-sidecars/) (`initContainers` з `restartPolicy: Always`), тому виведіть як `containers`, так і `initContainers`:
 
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-curl istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}{" "}{.spec.initContainers[*].name}'
+curl istio-validation istio-proxy
 {{< /text >}}
 
 Перш ніж продовжити, потрібно створити аналогічне правило призначення, як і для pod `curl` у просторі імен `default`, щоб спрямувати трафік простору імен `test-egress` через шлюз egress:
@@ -854,8 +854,8 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 {{< text bash >}}
-$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}'
-curl istio-proxy
+$ kubectl get pod "$(kubectl get pod -n test-egress -l app=curl -o jsonpath={.items..metadata.name})" -n test-egress -o jsonpath='{.spec.containers[*].name}{" "}{.spec.initContainers[*].name}'
+curl istio-validation istio-proxy
 {{< /text >}}
 
 {{< /tab >}}
@@ -891,7 +891,7 @@ $ kubectl logs -l istio=egressgateway -n istio-system
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Отримайте доступ до журналу, що відповідає egress gateway , використовуючи згенеровану Istio мітку podʼа:
+Отримайте доступ до журналу, що відповідає egress gateway, використовуючи згенеровану Istio мітку podʼа:
 
 {{< text bash >}}
 $ kubectl logs -l gateway.networking.k8s.io/gateway-name=cnn-egress-gateway -c istio-proxy | tail

@@ -37,6 +37,10 @@ test: yes
 
 Це завдання вимагає кілька наборів сертифікатів та ключів, які використовуються в наведених нижче прикладах. Ви можете скористатися улюбленим інструментом для їх створення або скористатися командами нижче для генерації за допомогою [openssl](https://man.openbsd.org/openssl.1).
 
+{{< tip >}}
+Сертифікати, згенеровані нижче, призначені лише для тестування. Команди включають прапорець `-extfile` для додавання розширення Subject Alternative Name (SAN), яке вимагається сучасними оглядачами, такими як Chrome. Без SAN оглядачі відхилять сертифікат з помилкою `ERR_CERT_COMMON_NAME_INVALID`. Ці самопідписні сертифікати не будуть автоматично отримувати довіру від оглядачів; вам потрібно буде додати їх до сховища довіри вашого оглядача або використовувати `curl` з прапорцем `--cacert` для тестування.
+{{< /tip >}}
+
 1.  Створіть кореневий сертифікат і приватний ключ для підпису сертифікатів для ваших сервісів:
 
     {{< text bash >}}
@@ -48,7 +52,7 @@ test: yes
 
     {{< text bash >}}
     $ openssl req -out example_certs1/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  Створіть другий набір таких самих сертифікатів та ключів:
@@ -57,21 +61,21 @@ test: yes
     $ mkdir example_certs2
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs2/example.com.key -out example_certs2/example.com.crt
     $ openssl req -out example_certs2/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs2/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  Згенеруйте сертифікат та приватний ключ для `helloworld.example.com`:
 
     {{< text bash >}}
     $ openssl req -out example_certs1/helloworld.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/helloworld.example.com.key -subj "/CN=helloworld.example.com/O=helloworld organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt -extfile <(printf "subjectAltName=DNS:helloworld.example.com")
     {{< /text >}}
 
 1.  Згенеруйте клієнтський сертифікат та приватний ключ:
 
     {{< text bash >}}
     $ openssl req -out example_certs1/client.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/client.example.com.key -subj "/CN=client.example.com/O=client organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt -extfile <(printf "subjectAltName=DNS:client.example.com")
     {{< /text >}}
 
 {{< tip >}}
@@ -120,7 +124,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # використовуйте станадртний istio ingress gateway
+    istio: ingressgateway # використовуйте стандартний istio ingress gateway
   servers:
   - port:
       number: 443
@@ -312,14 +316,14 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
       --cert=example_certs1/helloworld.example.com.crt
     {{< /text >}}
 
-3. Налаштуйте ingress gatewayз хостами `httpbin.example.com` та `helloworld.example.com`:
+3. Налаштуйте ingress gateway з хостами `httpbin.example.com` та `helloworld.example.com`:
 
 {{< tabset category-name="config-api" >}}
 
 {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
 Визначте шлюз з двома секціями server для порту 443. Встановіть значення параметра
-`credentialName` на кожному порту на `httpbin-credential` і `helloworld-credential` відповідно. Встановіть режим TLS на `SIMPLE`.
+`credentialName` для кожного порту на `httpbin-credential` і `helloworld-credential` відповідно. Встановіть режим TLS на `SIMPLE`.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -382,7 +386,7 @@ EOF
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
 Налаштуйте `Gateway` з двома слухачами для порту 443. Встановіть значення
-`certificateRefs` на кожному слухачі на `httpbin-credential` та `helloworld-credential`
+`certificateRefs` для кожного слухача на `httpbin-credential` та `helloworld-credential`
 відповідно.
 
 {{< text bash >}}
@@ -541,6 +545,14 @@ metadata:
   namespace: istio-system
 spec:
   gatewayClassName: istio
+  tls:
+    frontend:
+      default:
+        validation:
+          caCertificateRefs:
+          - group: ""
+            kind: Secret
+            name: httpbin-credential
   listeners:
   - name: https
     hostname: "httpbin.example.com"
@@ -550,11 +562,6 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      frontendValidation:
-        caCertificateRefs:
-        - group: ""
-          kind: Secret
-          name: httpbin-credential
     allowedRoutes:
       namespaces:
         from: Selector

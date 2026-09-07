@@ -238,7 +238,7 @@ spec:
 Якщо ви використовуєте мережевий балансувальник навантаження TCP/UDP, який зберігає IP-адресу клієнта (AWS Network Load Balancer, GCP External Network Load Balancer, Azure Load Balancer) або використовуєте Round-Robin DNS, ви можете використовувати параметр `externalTrafficPolicy: Local`, щоб також зберегти IP-адресу клієнта всередині Kubernetes, обходячи kube-proxy і запобігаючи надсиланню трафіку на інші вузли.
 
 {{< warning >}}
-Для операційних розгортань наполегливо рекомендується **розгорнути Pod вхідного шлюзу на кількох вузлах**, якщо ви вимкаєте `externalTrafficPolicy: Local`. Інакше це створює ситуацію, коли **тільки** вузли з активним Pod вхідного шлюзу зможуть приймати та розподіляти вхідний трафік NLB на решту кластеру, що може призвести до потенційних вузьких місць у трафіку вхідного шлюзу та зменшення можливостей внутрішнього балансування навантаження або навіть повної втрати вхідного трафіку в кластері, якщо підмножина вузлів з Podʼами вхідного шлюзу вийде з ладу. Дивіться [IP-адреса джерела для сервісів з `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) для отримання додаткової інформації.
+Для операційних розгортань наполегливо рекомендується **розгорнути Pod вхідного шлюзу на кількох вузлах**, якщо ви вимикаєте `externalTrafficPolicy: Local`. Інакше це створює ситуацію, коли **тільки** вузли з активним Pod вхідного шлюзу зможуть приймати та розподіляти вхідний трафік NLB на решту кластеру, що може призвести до потенційних вузьких місць у трафіку вхідного шлюзу та зменшення можливостей внутрішнього балансування навантаження або навіть повної втрати вхідного трафіку в кластері, якщо підмножина вузлів з Podʼами вхідного шлюзу вийде з ладу. Дивіться [IP-адреса джерела для сервісів з `Type=NodePort`](https://kubernetes.io/docs/tutorials/services/source-ip/#source-ip-for-services-with-type-nodeport) для отримання додаткової інформації.
 {{< /warning >}}
 
 Оновіть вхідний шлюз, щоб встановити `externalTrafficPolicy: Local`, щоб зберегти
@@ -406,14 +406,14 @@ EOF
 ***ipBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
 ***remoteIpBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
@@ -424,14 +424,14 @@ $ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway |
 ***ipBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 
 ***remoteIpBlocks:***
 
 {{< text bash >}}
-$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+$ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 192.168.10.15
 {{< /text >}}
 

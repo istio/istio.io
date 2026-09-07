@@ -34,10 +34,12 @@ $ openssl dgst -sha256 \
 
 ## Валідація образу {#validating-image}
 
+Версії 1.31.1+ підписуються публічним ключем `https://istio.io/misc/istio-key-v2.pub`. Для старіших релізів використовуйте `https://istio.io/misc/istio-key.pub`.
+
 Щоб перевірити образ контейнера, виконайте наступне:
 
 {{< text bash >}}
-$ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_docker_image "pilot" >}}
+$ ./cosign-binary verify --key <public key url> {{< istio_docker_image "pilot" >}}
 {{< /text >}}
 
 Цей процес працюватиме для будь-якого випущеного образу або кандидата на випуск, зібраного за допомогою інфраструктури збирання Istio.
@@ -45,14 +47,14 @@ $ ./cosign-binary verify --key "https://istio.io/misc/istio-key.pub" {{< istio_d
 Приклад з виводом:
 
 {{< text bash >}}
-$ cosign verify --key "https://istio.io/misc/istio-key.pub" gcr.io/istio-release/pilot:1.12.0
+$ cosign verify --key "https://istio.io/misc/istio-key-v2.pub" docker.io/istio/pilot:1.31.1
 
 
-Verification for gcr.io/istio-release/pilot:1.12.0 --
+Verification for docker.io/istio/pilot:1.31.1 --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - The signatures were verified against the specified public key
   - Any certificates were verified against the Fulcio roots.
 
-[{"critical":{"identity":{"docker-reference":"gcr.io/istio-release/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
+[{"critical":{"identity":{"docker-reference":"docker.io/istio/pilot"},"image":{"docker-manifest-digest":"sha256:c37fd83f6435ca0966d653dc6ac42c9fe5ac11d0d5d719dfe97de84acbf7a32d"},"type":"cosign container image signature"},"optional":null}]
 {{< /text >}}

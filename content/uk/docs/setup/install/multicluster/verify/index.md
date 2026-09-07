@@ -8,7 +8,7 @@ owner: istio/wg-environments-maintainers
 ---
 Слідуйте цьому посібнику, щоб перевірити, що ваша установка Istio для кількох кластерів працює належним чином.
 
-Перед тим як продовжити, обовʼязково завершите кроки в розділі [перш ніж почати](/docs/setup/install/multicluster/before-you-begin), а також виберіть і дотримуйтесь одного з посібників з установки для кількох кластерів.
+Перед тим як продовжити, обовʼязково завершіть кроки в розділі [перш ніж почати](/docs/setup/install/multicluster/before-you-begin), а також виберіть і дотримуйтесь одного з посібників з установки для кількох кластерів.
 
 У цьому посібнику ми перевіримо працездатність мультикластера, розгорнемо застосунок `HelloWorld` `V1` у `cluster1` і `V2` у `cluster2`. Отримавши запит, `HelloWorld` додасть у відповідь свою версію.
 
@@ -20,9 +20,9 @@ owner: istio/wg-environments-maintainers
 
 {{< text bash >}}
 $ istioctl remote-clusters --context="${CTX_CLUSTER1}"
-NAME         SECRET                                        STATUS      ISTIOD
-cluster1                                                   synced      istiod-7b74b769db-kb4kj
-cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
+NAME         SECRET                                        STATUS     ISTIOD                      REVISION
+cluster1                                                   synced     istiod-7b74b769db-kb4kj     default
+cluster2     istio-system/istio-remote-secret-cluster2     synced     istiod-7b74b769db-kb4kj     default
 {{< /text >}}
 
 Всі кластери повинні мати статус `synced`. Якщо кластер вказано зі статусом `STATUS` `timeout`, це означає, що Istiod на головному кластері не може звʼязатися з віддаленим кластером. Докладні повідомлення про помилки дивіться у журналах Istiod.
@@ -131,7 +131,7 @@ curl-754684654f-dzl9j            2/2     Running   0          5s
 
 Дочекайтесь, поки статус podʼа `curl` буде `Running`.
 
-## Перевірка міжкластерного трафіку {#verify-cross-cluster-traffic}
+## Перевірка міжкластерного трафіку {#verifying-cross-cluster-traffic}
 
 Щоб перевірити, чи працює міжкластерне балансування навантаження як очікується, викликайте сервіс `HelloWorld` кілька разів за допомогою podʼа `curl`. Щоб забезпечити правильність балансування навантаження, викликайте сервіс `HelloWorld` з усіх кластерів у вашій установці.
 

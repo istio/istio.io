@@ -138,3 +138,15 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "outbound"
 * [Запити метрик з Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
 
 Якщо сервіс використовує тільки secure overlay, наданий ztunnel, Istio буде повідомляти лише метрики L4 TCP (зокрема, `istio_tcp_sent_bytes_total`, `istio_tcp_received_bytes_total`, `istio_tcp_connections_opened_total`, `istio_tcp_connections_closed_total`). Повний набір метрик Istio та Envoy буде наданий у разі використання проксі waypoint.
+
+## IPv6 попередження `network is unreachable` на кластерах лише з IPv4 {#ipv6-network-is-unreachable-warnings-on-ipv4-only-clusters}
+
+Сервіси, які мають [автоматично призначену адресу](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)(наприклад, `ServiceEntry` без явного `spec.addresses`), отримують як IPv4, так і IPv6 віртуальні IP-адреси. У кластері лише з IPv4 podʼи не мають придатної IPv6-адреси, тому клієнт, який надає перевагу IPv6, спочатку намагається використати IPv6 VIP, зазнає невдачі та повертається до IPv4 VIP. Ви можете бачити повторювані попередження, подібні до цих, у логах клієнта або ztunnel:
+
+{{< text plain >}}
+grpc: addrConn.createTransport failed to connect to {Addr: "[2001:2::2]:4317", ...}. Err: ... dial tcp [2001:2::2]:4317: connect: network is unreachable
+{{< /text >}}
+
+Це очікувана поведінка і сама по собі не є помилкою: зʼєднання повертається до IPv4, і трафік передається нормально. Деякі клієнти (наприклад, на основі gRPC) зберігають спробу зʼєднання до кожної розпізнаної адреси та будуть повторно реєструвати спробу IPv6 у логах, продовжуючи надсилати дані через IPv4.
+
+Якщо ваш кластер не має придатного IPv6 і ви хочете уникнути спроб IPv6 та попереджень, встановіть змінну середовища `IPV6_ENABLED` у значення `false` на ztunnel (за стандартом вона дорівнює `true`). З вимкненим IPv6 ztunnel не повертає записи IPv6 (`AAAA`), тому клієнти отримують лише IPv4 VIP.

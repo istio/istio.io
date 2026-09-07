@@ -23,7 +23,7 @@ aliases:
 
 * Запустіть демонстраційний застосунок [curl]({{< github_tree >}}/samples/curl), який буде використовуватися як тестове джерело для зовнішніх викликів.
 
-    Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду, розгорніть застосунок `curl`:
+    Якщо у вас увімкнено [автоматичну інʼєкцію sidecar](/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection), виконайте наступну команду, щоб розгорнути застосунок `curl`:
 
     {{< text bash >}}
     $ kubectl apply -f @samples/curl/curl.yaml@
@@ -92,9 +92,9 @@ aliases:
 
 ## Створення TLS для вихідного трафіку {#tls-origination-for-egress-traffic}
 
-1.  Перевизначте ваш `ServiceEntry` з попереднього розділу, щоб перенаправляти HTTP-запити на порт 443 і додайте `DestinationRule` для виконання створення TLS:
+1.  Перевизначте ваш `ServiceEntry` з попереднього розділу, щоб перенаправляти HTTP-запити на порт 443:
 
-    {{< text syntax=bash snip_id=apply_origination >}}
+    {{< text syntax=bash snip_id=apply_origination_serviceentry >}}
     $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: ServiceEntry
@@ -112,7 +112,17 @@ aliases:
         name: https-port
         protocol: HTTPS
       resolution: DNS
-    ---
+    EOF
+    {{< /text >}}
+
+1.  Додайте політику для виконання створення TLS:
+
+    {{< tabset category-name="tls-origination" >}}
+
+    {{< tab name="Istio API" category-value="istio-api" >}}
+
+    {{< text syntax=bash snip_id=apply_origination_destinationrule >}}
+    $ kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: DestinationRule
     metadata:
@@ -129,6 +139,34 @@ aliases:
     {{< /text >}}
 
     Вищевказане `DestinationRule` виконає створення TLS для HTTP-запитів на порту 80, а `ServiceEntry` буде перенаправляти запити на порт 80 на цільовий порт 443.
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    {{< text syntax=bash snip_id=apply_origination_backendtlspolicy >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: BackendTLSPolicy
+    metadata:
+      name: edition-cnn-com
+    spec:
+      targetRefs:
+      - group: networking.istio.io
+        kind: ServiceEntry
+        name: edition-cnn-com
+        sectionName: http-port
+      validation:
+        hostname: edition.cnn.com
+        wellKnownCACertificates: System
+    EOF
+    {{< /text >}}
+
+    Вищевказаний `BackendTLSPolicy` виконає створення TLS для HTTP-запитів на порту `http`, а `ServiceEntry` буде перенаправляти запити на порт 80 на цільовий порт 443.
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
 2. Надішліть HTTP-запит на `http://edition.cnn.com/politics`, як у попередньому розділі:
 
@@ -160,10 +198,27 @@ aliases:
 
 Видаліть створені вами елементи конфігурації Istio:
 
+{{< tabset category-name="cleanup-tls-origination" >}}
+
+{{< tab name="Istio API" category-value="istio-api" >}}
+
 {{< text bash >}}
 $ kubectl delete serviceentry edition-cnn-com
 $ kubectl delete destinationrule edition-cnn-com
 {{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text bash >}}
+$ kubectl delete serviceentry edition-cnn-com
+$ kubectl delete backendtlspolicy edition-cnn-com
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
 
 ## Взаємний TLS для вихідного трафіку {#mutual-tls-origination-for-egress-traffic}
 
@@ -354,7 +409,7 @@ $ kubectl delete destinationrule edition-cnn-com
     {{< boilerplate crl-tip >}}
     {{< /tip >}}
 
-1. Створіть необхідний `RBAC`, щоб переконатися, що секрет, створений на попередньому кроці, доступний клієнтському pod, який ' у цьому випадку — `curl`.
+1. Створіть необхідний `RBAC`, щоб переконатися, що секрет, створений на попередньому кроці, доступний клієнтському pod, який у цьому випадку — `curl`.
 
     {{< text bash >}}
     $ kubectl create role client-credential-role --resource=secret --verb=list
@@ -431,7 +486,7 @@ $ kubectl delete destinationrule edition-cnn-com
     ...
     {{< /text >}}
 
-4.  Перевірте лог podʼа `curl` на наявність радка, що відповідає вашому запиту.
+4.  Перевірте лог podʼа `curl` на наявність рядка, що відповідає вашому запиту.
 
     {{< text bash >}}
     $ kubectl logs -l app=curl -c istio-proxy | grep 'my-nginx.mesh-external.svc.cluster.local'

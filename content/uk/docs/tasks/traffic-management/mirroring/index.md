@@ -18,7 +18,7 @@ See the callout below.
 
 Це завдання демонструє можливості дзеркалювання трафіку в Istio.
 
-Дзеркалювання трафіку, яке також називають тінізацією, - це потужна концепція, яка дозволяє командам розробників вносити зміни у операційну діяльність з якомога меншим ризиком. Дзеркалювання надсилає копію реального трафіку на дзеркальний сервіс. Віддзеркалений трафік потрапляє за межі діапазону критичного шляху запиту для основного сервісу.
+Дзеркалювання трафіку, яке також називають тінізацією, — це потужна концепція, яка дозволяє командам розробників вносити зміни у операційну діяльність з якомога меншим ризиком. Дзеркалювання надсилає копію реального трафіку на дзеркальний сервіс. Віддзеркалений трафік потрапляє за межі діапазону критичного шляху запиту для основного сервісу.
 
 У цьому завданні ви спочатку примусово перенаправите весь трафік на `v1` тестового сервісу. Потім ви застосуєте правило для дзеркалювання частини трафіку на `v2`.
 
@@ -53,7 +53,7 @@ See the callout below.
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -83,7 +83,7 @@ See the callout below.
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -379,7 +379,7 @@ See the callout below.
 
     {{< /tabset >}}
 
-1. Вилучіть розгортання `httpbin` та `curl` та сервіс `httpbin` service:
+1. Вилучіть розгортання `httpbin` та `curl` та сервіс `httpbin`:
 
     {{< text bash >}}
     $ kubectl delete deploy httpbin-v1 httpbin-v2 curl

@@ -23,13 +23,13 @@ doc_type: get-involved
 {{% involve_block title="Ставте питання" subtitle="Є багато способів звернутися до спільноти за порадою." icon="user" %}}
 
 1. Свої питання про Istio ви можете задати **через гейміфікованих помічників** [**Stack Overflow**](https://stackoverflow.com/questions/tagged/istio).
-2. **Обговорення** в розділі [**Discussion репо Istio**](https://github.com/istio/istio/discussions) з іншими користувачами Istio. Долучайтеся, щоб поставити запитання та обговорити питання повʼязані з Istio.
+2. **Обговорення** в розділі [**Discussion репо Istio**](https://github.com/istio/istio/discussions) з іншими користувачами Istio. Долучайтеся, щоб поставити запитання та обговорити питання, повʼязані з Istio.
 3. **Приєднуйтесь до нашого** [**Slack**](https://slack.istio.io/) і спілкуйтеся в режимі реального часу з іншими членами спільноти Istio.
 {{% /involve_block %}}
 
 {{% involve_block title="Приєднуйтесь до спільноти" subtitle="Є багато тем для обговорення навколо Istio. Ми раді вашому голосу!" icon="events" %}}
 
-1. **Відвідайте подію!** [Слідкуйте за нашим календарем](https://calendar.google.com/calendar/embed?src=i10ogf58krfbrsjai5qi16g4do@group.calendar.google.com), щоб дізнатися про майбутні події!
+1. **Відвідайте подію!** [Слідкуйте за нашим календарем](https://calendar.google.com/calendar/embed?src=c_fe9cd8d091d0d4d2818d01a930dc925f00d4f97995efe50a8d72512b241568f5@group.calendar.google.com), щоб дізнатися про майбутні події!
 1. Слідкуйте за нами у [**Twitter - @IstioMesh**](https://twitter.com/IstioMesh)
 {{% /involve_block %}}
 
@@ -50,6 +50,6 @@ doc_type: get-involved
 
 {{% involve_block title="Зрозумійте нагляд і планування" subtitle="Istio має два ключові комітети, які здійснюють нагляд за проєктом: Steering та Technical Oversight." icon="magnifier" %}}
 
-1. Управління та адвокація проєкту здійснюється [**Istio Steering Committee**](https://github.com/istio/community/tree/master/steering).
+1. Управління та адвокація проєкту здійснюються [**Istio Steering Committee**](https://github.com/istio/community/tree/master/steering).
 2. Технічний напрямок і планування проєкту є роллю [**Istio Technical Oversight Committee**](https://github.com/istio/community/blob/master/TECH-OVERSIGHT-COMMITTEE.md).
 {{% /involve_block %}}

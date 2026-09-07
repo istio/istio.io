@@ -7,6 +7,7 @@ test: yes
 owner: istio/wg-environments-maintainers
 prev: /docs/ambient/install/multicluster/multi-primary_multi-network
 ---
+
 Дотримуйтесь цього посібника, щоб переконатися, що ваша мультикластерна установка Istio працює належним чином.
 
 Перед продовженням обовʼязково виконайте кроки в розділі [Як розпочати](/docs/ambient/install/multicluster/before-you-begin), а також виберіть і дотримуйтесь одного з [посібників з установки мультикластерів](/docs/ambient/install/multicluster).
@@ -21,9 +22,9 @@ prev: /docs/ambient/install/multicluster/multi-primary_multi-network
 
 {{< text bash >}}
 $ istioctl remote-clusters --context="${CTX_CLUSTER1}"
-NAME         SECRET                                        STATUS      ISTIOD
-cluster1                                                   synced      istiod-7b74b769db-kb4kj
-cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b74b769db-kb4kj
+NAME         SECRET                                        STATUS     ISTIOD                      REVISION
+cluster1                                                   synced     istiod-7b74b769db-kb4kj     default
+cluster2     istio-system/istio-remote-secret-cluster2     synced     istiod-7b74b769db-kb4kj     default
 {{< /text >}}
 
 Усі кластери повинні вказувати свій статус як `synced`. Якщо кластер показується зі статусом `timeout`, це означає, що Istiod у основному кластері не може звʼязатися з віддаленим кластером. Дивіться журнали Istiod для отримання детальних повідомлень про помилки.
@@ -152,7 +153,7 @@ curl-754684654f-dzl9j            1/1     Running   0          5s
 
 ## Перевірка міжкластерного трафіку {#verifying-cross-cluster-traffic}
 
-Щоб перевірити, чи працює балансування навантаження між кластерами, кілька разів викликайте сервіс `HelloWorld`, використовуючи под `curl`. Щоб забезпечити навантаження балансування, викликайте сервіс `HelloWorld` з усіх кластерів у вашому розгортанні.
+Щоб перевірити, чи працює балансування навантаження між кластерами, кілька разів викликайте сервіс `HelloWorld`, використовуючи под `curl`. Щоб забезпечити балансування навантаження, викликайте сервіс `HelloWorld` з усіх кластерів у вашому розгортанні.
 
 Надішліть один запит з пода `curl` на `cluster1` до сервісу `HelloWorld`:
 
@@ -190,4 +191,8 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 
 **Вітаємо!** Ви успішно встановили та перевірили Istio на кількох кластерах!
 
-<!-- TODO: Link to guide for locality load balancing once we add waypoint instructions -->
+## Наступні кроки {#next-steps}
+
+Налаштуйте [locality failover](/docs/ambient/install/multicluster/failover) для вашого мультикластерного розгортання.
+
+Розгорніть [Kiali](/docs/ambient/install/multicluster/observability) для вашого мультикластерного розгортання.

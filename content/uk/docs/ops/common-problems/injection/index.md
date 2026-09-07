@@ -93,7 +93,7 @@ test: n/a
 
     Дозволені значення політики — `disabled` та `enabled`. Стандартна політика застосовується лише в разі відповідності `namespaceSelector` вебхука до цільового простору імен. Невідомі політики повністю вимикають інʼєкцію.
 
-5. Перевірте переважну анотацію для podʼа
+5. Перевірте переважну мітку для podʼа
 
     Стандартну політику можна перевизначити за допомогою мітки `sidecar.istio.io/inject` у _метаданих шаблону podʼа_. Метадані розгортання ігноруються. Значення мітки `true` виконує примусову інʼєкцію sidecar, тоді як значення `false` не виконує примусової інʼєкції sidecar.
 
@@ -203,7 +203,7 @@ W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing 
 
 Одним зі способів вирішення є видалення налаштувань проксі з маніфесту `kube-apiserver`, іншим — включення `istio-sidecar-injector.istio-system.svc` або `.svc` у значення `no_proxy`. Переконайтеся, що `kube-apiserver` перезапущено після кожного способу розвʼязання.
 
-Була сповіщено про [проблему](https://github.com/kubernetes/kubeadm/issues/666) у Kubernetes, повʼязану з цим, і згодом вона була закрита.
+Було сповіщено про [проблему](https://github.com/kubernetes/kubeadm/issues/666) у Kubernetes, повʼязану з цим, і згодом вона була закрита.
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
 
 ## Обмеження при використанні Tcpdump у podʼах {#limitations-for-using-tcpdump-in-pods}
@@ -214,7 +214,7 @@ Tcpdump не працює у sidecar podʼі — контейнер не зап
 
 ## Кластер не масштабується автоматично {#cluster-is-not-scaled-down-automatically}
 
-Через те, що контейнер sidecar монтує локальний том для зберігання, автомастабувач вузлів не може видалити вузли з podʼами, до яких було виконано інʼєкції. Це є [відомою проблемою](https://github.com/kubernetes/autoscaler/issues/3947). Вирішенням є додавання анотації podʼа `"cluster-autoscaler.kubernetes.io/safe-to-evict": "true"` до podʼів з інʼєкіями.
+Через те, що контейнер sidecar монтує локальний том для зберігання, автомастабувач вузлів не може видалити вузли з podʼами, до яких було виконано інʼєкції. Це є [відомою проблемою](https://github.com/kubernetes/autoscaler/issues/3947). Вирішенням є додавання анотації podʼа `"cluster-autoscaler.kubernetes.io/safe-to-evict": "true"` до podʼів з інʼєкціями.
 
 ## Pod або контейнери запускаються з мережевими проблемами, якщо istio-proxy не готовий {#pod-or-containers-start-with-network-issues-if-istio-proxy-is-not-ready}
 

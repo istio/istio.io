@@ -52,9 +52,9 @@ spec:
           value: "string(destination.port)"
 {{< /text >}}
 
-### Використання WasmPlugin API для розширення можливостей Wasm панелі даних {#use-wasmplugin-api-for-wasm-data-plane-extensibility}
+### Використання TrafficExtension API для розширення можливостей Wasm панелі даних {#use-the-trafficextension-api-for-wasm-data-plane-extensibility}
 
-Використання `EnvoyFilter` для додавання фільтрів Wasm було замінено на [WasmPlugin API](/docs/tasks/extensibility/wasm-module-distribution). WasmPlugin API дозволяє динамічне завантаження втулків з реєстрів артефактів, URL-адрес або локальних файлів. Виконавчий файл втулка "Null" більше не є рекомендованим варіантом для розгортання коду Wasm.
+Використання `EnvoyFilter` для додавання фільтрів Wasm було замінено на [TrafficExtension API](/docs/tasks/extensibility/wasm-modules). `TrafficExtension` API дозволяє динамічне завантаження втулків з реєстрів артефактів, URL-адрес або локальних файлів. Виконавчий файл втулка "Null" більше не є рекомендованим варіантом для розгортання коду Wasm.
 
 ### Використання топології шлюза для встановлення кількості довірених хопів {#use-gateway-topology-to-set-the-number-of-the-trusted-hops}
 

@@ -12,14 +12,14 @@ test: n/a
 
 ## В Zipkin не зʼявляються трейси при запуску Istio локально на Mac {#no-traces-appearing-in-zipkin-when-running-istio-locally-on-mac}
 
-Istio встановлено, і все здається працює, але в Zipkin не зʼявляються трейси, хоча повинні бути.
+Istio встановлено, і все, здається, працює, але в Zipkin не зʼявляються трейси, хоча повинні бути.
 
 Це може бути викликано відомою [проблемою Docker](https://github.com/docker/for-mac/issues/1260), коли час всередині контейнерів може суттєво відрізнятися від часу на хост-машині. Якщо це так, коли ви вибираєте дуже довгий інтервал дат у Zipkin, ви побачите, що трейси зʼявляються на кілька днів раніше.
 
 Ви також можете підтвердити цю проблему, порівнявши дату всередині Docker-контейнера з датою за його межами:
 
 {{< text bash >}}
-$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+$ docker run --entrypoint date registry.istio.io/testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
 {{< /text >}}
 
@@ -43,7 +43,7 @@ Thu Jun 15 02:25:42 UTC 2017
 1. Перевірте, що podʼи `istio-cni-node` працюють:
 
     {{< text bash >}}
-    $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
+    $ kubectl -n istio-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-2. Якщо в вашому кластері застосовується `PodSecurityPolicy`, переконайтеся, що службовий обліковий запис `istio-cni` може використовувати `PodSecurityPolicy`, яка [дозволяє можливості `NET_ADMIN` та `NET_RAW`](/docs/ops/deployment/application-requirements/).
+2. Якщо в вашому кластері застосовується [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/), переконайтеся, що простір імен, де працюють podʼи `istio-cni-node` (типово `istio-system`), використовує профіль `privileged` [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged), щоб дозволити можливості `NET_ADMIN` та `NET_RAW`.

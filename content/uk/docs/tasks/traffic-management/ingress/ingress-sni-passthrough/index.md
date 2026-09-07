@@ -26,7 +26,7 @@ test: yes
 1.  Створіть кореневий сертифікат і приватний ключ для підпису сертифікатів для ваших сервісів:
 
     {{< text bash >}}
-    $ mkdir example_certs
+    $ mkdir -p example_certs
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs/example.com.key -out example_certs/example.com.crt
     {{< /text >}}
 
@@ -63,6 +63,7 @@ test: yes
 
       server {
         listen 443 ssl;
+        listen [::]:443 ssl;
 
         root /usr/share/nginx/html;
         index index.html;
@@ -302,7 +303,7 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -o jsonpath='{.spec.lis
 
 {{< /tabset >}}
 
-4)  Доступ до служби NGINX ззовні кластера. Зверніть увагу, що сервер повертає правильний сертифікат і його успішно перевірено (надруковано _SSL certificate verify ok_).
+4)  Отримайте доступ до служби NGINX ззовні кластера. Зверніть увагу, що сервер повертає правильний сертифікат і його успішно перевірено (надруковано _SSL certificate verify ok_).
 
     {{< text bash >}}
     $ curl -v --resolve "nginx.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" --cacert example_certs/example.com.crt "https://nginx.example.com:$SECURE_INGRESS_PORT"

@@ -8,7 +8,7 @@ owner: istio/wg-networking-maintainers
 ---
 Дотримуйтесь цього посібника, щоб налаштувати вашу мережу для аварійного перемикання локацій.
 
-Перед тим як продовжити, обовʼязково завершите кроки з розділу [перш ніж розпочати](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
+Перед тим як продовжити, обовʼязково завершіть кроки з розділу [перш ніж розпочати](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
 У цьому завданні ви будете використовувати pod `curl` у `region1.zone1` як джерело запитів до сервісу `HelloWorld`. Потім ви ініціюєте відмови, які спричинять аварійне перемикання між локаціями в наступній послідовності:
 
@@ -63,7 +63,7 @@ spec:
 EOF
 {{< /text >}}
 
-## Перевірте, що трафік залишається в `region1.zone1` {#verify-traffic-stays-in-region1.zone1}
+## Перевірте, що трафік залишається в `region1.zone1` {#verify-traffic-stays-in-region1zone1}
 
 Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
 
@@ -79,7 +79,7 @@ Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 
 Повторіть це кілька разів і переконайтеся, що відповідь завжди однакова.
 
-## Перемикання на `region1.zone2` {#failover-to-region1.zone2}
+## Перемикання на `region1.zone2` {#failover-to-region1zone2}
 
 Наступним кроком є ініціювання аварійного перемикання на `region1.zone2`. Для цього [спорожніть sidecar проксі Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/draining#draining) для `HelloWorld` у `region1.zone1`:
 
@@ -87,7 +87,7 @@ Hello version: region1.zone1, instance: helloworld-region1.zone1-86f77cd7b-cpxhv
 $ kubectl --context="${CTX_R1_Z1}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app=helloworld \
   -l version=region1.zone1 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
@@ -102,7 +102,7 @@ Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 
 Перший запит зазнає невдачі, що ініціює аварійне перемикання. Повторіть команду кілька разів і перевірте, що `version` у відповіді завжди дорівнює `region1.zone2`.
 
-## Перемикання на `region2.zone3` {#failover-to-region2.zone3}
+## Перемикання на `region2.zone3` {#failover-to-region2zone3}
 
 Тепер запустіть аварійне перемикання на `region2.zone3`. Як і раніше, налаштуйте `HelloWorld` в `region1.zone2` на відмову при виклику:
 
@@ -110,7 +110,7 @@ Hello version: region1.zone2, instance: helloworld-region1.zone2-86f77cd7b-cpxhv
 $ kubectl --context="${CTX_R1_Z2}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app=helloworld \
   -l version=region1.zone2 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
@@ -125,7 +125,7 @@ Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 
 Перший виклик буде невдалим, що призведе до аварійного перемикання. Повторіть команду ще кілька разів і переконайтеся, що `version` у відповіді завжди дорівнює `region2.zone3`.
 
-## Перемикання на `region3.zone4` {#failover-to-region3.zone4}
+## Перемикання на `region3.zone4` {#failover-to-region3zone4}
 
 Тепер запустіть аварійне перемикання на `region3.zone4`. Як і раніше, налаштуйте `HelloWorld` в `region2.zone3` на відмову при виклику:
 
@@ -133,7 +133,7 @@ Hello version: region2.zone3, instance: helloworld-region2.zone3-86f77cd7b-cpxhv
 $ kubectl --context="${CTX_R2_Z3}" exec \
   "$(kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app=helloworld \
   -l version=region2.zone3 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 {{< /text >}}
 
 Зробіть запит до сервісу `HelloWorld` з podʼа `curl`:
