@@ -40,7 +40,9 @@ export TEST_ENV=kind
 # KinD will have the images loaded into it; it should not attempt to pull them
 # See https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster
 export PULL_POLICY=IfNotPresent
-export HUB=${HUB:-"gcr.io/istio-testing"}
+# Do not default HUB here. Makefile.core.mk owns the value (registry.istio.io/testing).
+# A default in this script wins over the Makefile's `?=`, so a stale value here
+# silently sends every doc test to a registry that no longer holds dev images.
 
 # Setup junit report and verbose logging
 export T="${T:-"-v"}"
