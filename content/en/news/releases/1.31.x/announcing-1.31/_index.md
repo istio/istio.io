@@ -43,7 +43,7 @@ For more details, see [this blog post](/blog/2026/retirement-of-gcp/).
 
 Building on the experimental gateway-only support introduced in 1.30, Istio 1.31 adds the `istio-agentgateway-waypoint` `GatewayClass` for deploying [agentgateway](https://agentgateway.dev) as a waypoint proxy. This release also fixes several issues with `ListenerSet` handling and mTLS connectivity for agentgateway backends.
 
-### Gateway API: AllowInsecureFallback
+### Gateway API: `AllowInsecureFallback`
 
 Istio now implements the Gateway API `AllowInsecureFallback` feature for client certificate validation. When enabled, the gateway requests a client certificate and attempts to validate it, but still allows the connection if no certificate is presented or validation fails. The `x-forwarded-client-cert` header is populated so backends can perform their own verification.
 

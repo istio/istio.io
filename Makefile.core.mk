@@ -31,7 +31,7 @@ export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
 # For example, a value of 1.6.0-alpha will assume a default TAG value of 1.6.0-alpha.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.31.0-alpha
+ISTIO_IMAGE_VERSION ?= 1.32.0-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -91,7 +91,7 @@ export NETLIFY_URL
 
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= release-1.31
+export SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh
@@ -108,10 +108,18 @@ format-spelling:
 
 gen: tidy-go format-go update-gateway-version snips format-spelling
 
-gen-check: gen check-clean-repo check-localization
+gen-check: gen check-clean-repo check-localization check-release-weights
 
 check-localization:
 	@scripts/check_localization.sh
+
+# Verify that the release announcement section weights match the version they
+# describe, so the newest minor release always sorts first.
+check-release-weights:
+	@scripts/check_release_weights.sh
+
+fix-release-weights:
+	@scripts/check_release_weights.sh --fix
 
 build: site
 	@scripts/build_site.sh ""
@@ -250,4 +258,4 @@ update-gateway-version: tidy-go
 
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version check-release-weights fix-release-weights
