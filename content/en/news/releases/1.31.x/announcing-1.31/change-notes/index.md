@@ -237,7 +237,7 @@ annotations:
 
 - **Fixed** duplicate and excessive pushes when using `WasmPlugin` resources due to `TrafficExtension` conversions.
 
-- **Fixed** a deadlock where the istio-cni node agent pod could fail to start (for
+- **Fixed** a deadlock where the `istio-cni` node agent pod could fail to start (for
   example after a node reboot) because the CNI plugin only skipped the kube client
   creation for its own agent pod when ambient mode was enabled. The preemptive
   check now runs in sidecar mode as well, so the agent pod no longer blocks on a
@@ -353,8 +353,8 @@ annotations:
   node agent restarted. On startup the node agent could evict still-enrolled pods from the ipset when their IP
   was not yet observable, and it now re-asserts probe ipset membership for enrolled pods during reconciliation.
 
-- **Fixed** a file descriptor leak in the istio-cni node agent: when the procfs scan found
-  more than one network namespace for the same pod, the losing candidate's netns fd was
+- **Fixed** a file descriptor leak in the `istio-cni` node agent: when the procfs scan found
+  more than one network namespace for the same pod, the losing candidate's netns file descriptor was
   dropped without being closed, pinning the namespace in the kernel until garbage collection.
 
 - **Fixed** a deadlock in the ambient CNI node agent where a pod deletion event
@@ -426,7 +426,7 @@ annotations:
   63-character limit), which blocked every unpublished port on the `Gateway`. Colliding port names
   are now disambiguated with the listener's port number.
 
-- **Fixed** a bug where the istio-cni node agent could pair an ambient pod with another
+- **Fixed** a bug where the `istio-cni` node agent could pair an ambient pod with another
   pod's network namespace when a third-party process was inside that namespace during a
   scan, which could cause traffic to be proxied with the wrong identity. The node agent
   now verifies that a namespace holds one of the pod's IPs before enrolling the pod.
@@ -534,7 +534,7 @@ annotations:
 - **Added** a new environment variable `PILOT_AGENT_MERGE_ENVOY_STATS` to control whether pilot-agent merges Envoy stats
   into its stats endpoint. Set to `false` to disable merging Envoy stats with agent stats.
 
-- **Added** a new metric, `istio_cni_plugin_requests_total`, to the istio-cni node agent. It counts CNI plugin
+- **Added** a new metric, `istio_cni_plugin_requests_total`, to the `istio-cni` node agent. It counts CNI plugin
   add-event requests handled by the node agent, labeled by `response_code`.
   ([Issue #60878](https://github.com/istio/istio/pull/60878))
 

@@ -18,7 +18,7 @@ linters:
     - revive
     - staticcheck
     - unconvert
-    # - unparam # disabled: panics on Go 1.27 with generics (golangci-lint#6755); re-enable after v2.13.2+ is released
+    - unparam
     - unused
   settings:
     depguard:
@@ -157,6 +157,9 @@ linters:
       - linters:
           - staticcheck
         text: 'SA1019: "github.com/golang/protobuf/jsonpb"'
+      - linters:
+          - staticcheck
+        text: 'SA1019: github.com/golang/protobuf/jsonpb is deprecated'
       - linters:
           - staticcheck
         text: 'SA1019: grpc.Dial is deprecated: use NewClient instead'
