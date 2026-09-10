@@ -22,7 +22,7 @@ draft: true
 1. Налаштуйте репозиторій Helm:
 
     {{< text syntax=bash snip_id=configure_helm >}}
-    $ helm repo add istio https://istio-release.storage.googleapis.com/charts
+    $ helm repo add istio https://blob.istio.io/istio-release/charts
     $ helm repo update
     {{< /text >}}
 
@@ -39,7 +39,7 @@ draft: true
 
 {{< boilerplate gateway-api-install-crds >}}
 
-### Встановлення панелі управління та панелі даних для Istio ambient {#install-the-isito-ambient-control-plane-and-data-plane}
+### Встановлення панелі управління та панелі даних для Istio ambient {#install-the-istio-ambient-control-plane-and-data-plane}
 
 Чарт `ambient` встановлює всі компоненти панелі даних та панелі управління Istio, необхідні для ambient, використовуючи Helm wrapper chart, який складається з чартів окремих компонентів.
 
@@ -82,13 +82,13 @@ Wrapper chart ambient складається з наступних чартів 
 Приклад:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istiod istio/istiod --set hub=gcr.io/istio-testing
+$ helm install istiod istio/istiod --set hub=registry.istio.io/testing
 {{< /text >}}
 
 Стає:
 
 {{< text syntax=bash snip_id=none >}}
-$ helm install istio-ambient istio/ambient --set istiod.hub=gcr.io/istio-testing
+$ helm install istio-ambient istio/ambient --set istiod.hub=registry.istio.io/testing
 {{< /text >}}
 
 при встановленні через wrapper chart.

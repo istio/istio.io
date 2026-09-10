@@ -31,7 +31,7 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 Стандартне значення конфігурації можна змінити, використовуючи один або кілька параметрів `--set <parameter>=<value>`. Альтернативно, ви можете вказати кілька параметрів у власному файлі значень, використовуючи аргумент `--values <file>`.
 
 {{< tip >}}
-Ви можете показати стандатні значення конфігураційних параметрів, використовуючи команду `helm show values <chart>`, або звернутися до документації чарту на `artifacthub` за посиланнями [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) та [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
+Ви можете показати стандартні значення конфігураційних параметрів, використовуючи команду `helm show values <chart>`, або звернутися до документації чарту на `artifacthub` за посиланнями [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) та [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
 1. Встановіть базовий чарт Istio, який містить кластерні Custom Resource Definitions (CRDs), які повинні бути встановлені перед розгортанням панелі управління Istio:
@@ -131,17 +131,31 @@ $ helm install <release> <chart> --namespace <namespace> --create-namespace [--s
 
 ## Оновлення конфігурації Istio {#updating-your-istio-configuration}
 
-Ви можете вказати параметри перевизначення для будь-кого з чартів Istio Helm, використаних вище, і слідувати робочому процесу оновлення Helm, щоб налаштувати встановлення вашої меш-мережі Istio. Доступні параметри конфігурації можна знайти за допомогою команди `helm show values istio/<chart>`; наприклад, `helm show values istio/gateway`.
+Ви можете вказати параметри перевизначення для будь-якого з чартів Istio Helm, використаних вище, і слідувати робочому процесу оновлення Helm, щоб налаштувати встановлення вашого Istio mesh. Доступні параметри конфігурації можна знайти за допомогою команди `helm show values istio/<chart>`; наприклад, `helm show values istio/gateway`.
 
 ### Міграція з установок без Helm {#migrating-from-non-helm-installations}
 
-Якщо ви переходите з версії Istio, встановленої за допомогою `istioctl`, на Helm (Istio 1.5 або раніше), вам потрібно видалити ваші поточні ресурси панелі управління Istio та перевстановити Istio за допомогою Helm, як описано вище. При видаленні поточної установки Istio не слід видаляти Custom Resource Definitions (CRDs) Istio, оскільки це може призвести до втрати ваших власних ресурсів Istio.
+Якщо ви переходите з версії Istio, встановленої за допомогою `istioctl`, на Helm, ви можете дозволити Helm перейняти наявні ресурси на місці за допомогою прапорця `--take-ownership`. Це позбавляє необхідності видаляти та перевстановлювати Istio:
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --take-ownership
+$ helm install istiod istio/istiod -n istio-system --take-ownership
+{{< /text >}}
+
+{{< tip >}}
+Helm 4 зазвичай використовує [server-side apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) (SSA). Якщо ваші ресурси Istio були створені за допомогою `istioctl`, Helm 4 завершиться з помилкою конфлікту володіння полями, оскільки ресурсами керує `istio-operator`. Щоб обійти це, вимкніть SSA:
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< warning >}}
-Рекомендується зробити резервну копію ваших ресурсів Istio за допомогою наведених вище кроків перед видаленням поточної установки Istio у вашому кластері.
+Наполегливо рекомендується зробити резервну копію ваших ресурсів Istio перед міграцією.
 {{< /warning >}}
 
-Ви можете слідувати крокам, наведеним у [посібнику з видалення Istioctl](/docs/setup/install/istioctl#uninstall-istio).
+Альтернативно, ви можете видалити вашу поточну установку Istio та перевстановити Istio за допомогою Helm, як описано вище. При видаленні не видаляйте CRD Istio — видалення CRD змушує Kubernetes каскадно видаляти всі ресурси цих типів (ваші `VirtualService`, `DestinationRule`, `AuthorizationPolicy` тощо). Див. [посібник з видалення Istioctl](/docs/setup/install/istioctl#uninstall-istio).
 
 ### Видалення {#uninstall}
 
@@ -225,19 +239,4 @@ $ helm template istiod istio/istiod -n istio-system --kube-version {версія
 $ kubectl apply -f istiod.yaml
 {{< /text >}}
 
-{{< warning >}}
-Якщо ви намагаєтеся встановити та керувати Istio за допомогою `helm template`, зверніть увагу на наступні застереження:
-
-1. Простір імен Istio (стандартно `istio-system`) повинен бути створений вручну.
-
-1. Ресурси можуть не встановлюватися з тією ж послідовністю залежностей, як при `helm install`.
-
-1. Цей метод не тестується як частина випусків Istio.
-
-1. Хоча `helm install` автоматично виявляє налаштування середовища з вашого контексту Kubernetes, `helm template` не може це робити, оскільки він працює офлайн, що може призвести до несподіваних результатів. Зокрема, ви повинні переконатися, що ви дотримуєтеся [цих кроків](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens), якщо ваше середовище Kubernetes не підтримує токени сторонніх службових облікових записів.
-
-1. `kubectl apply` згенерованого маніфесту може показувати тимчасові помилки через те, що ресурси не доступні в кластері в правильному порядку.
-
-1. `helm install` автоматично видаляє будь-які ресурси, які повинні бути видалені при зміні конфігурації (наприклад, якщо ви видаляєте шлюз). Це не відбувається, коли ви використовуєте `helm template` з `kubectl`, і ці ресурси повинні бути видалені вручну.
-
-{{< /warning >}}
+{{< boilerplate helm-template-caveats >}}

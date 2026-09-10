@@ -19,6 +19,7 @@ test: no
 * [Інфопанель продуктивності](https://grafana.com/grafana/dashboards/11829) моніторить використання ресурсів мережі.
 * [Інфопанель панелі управління](https://grafana.com/grafana/dashboards/7645) моніторить справність та продуктивність панелі управління.
 * [Інфопанель розширення WASM](https://grafana.com/grafana/dashboards/13277) надає огляд стану виконання та завантаження розширення WebAssembly по всій мережі.
+* [Інфопанель Ztunnel](https://grafana.com/grafana/dashboards/21306) моніторить компонент ztunnel, який використовується в режимі оточення Istio.
 
 Є кілька способів налаштувати Grafana для використання цих панелей:
 
@@ -33,7 +34,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/grafana.yaml
 Це розгорне Grafana у вашому кластері. Це призначено лише для демонстрації
 та не оптимізовано для продуктивності або безпеки.
 
-### Варіант 2: Імпорт з `grafana.com` в наявне розгортання {#option-2-import-from-grafana-com-into-an-existing-deployment}
+### Варіант 2: Імпорт з `grafana.com` в наявне розгортання {#option-2-import-from-grafanacom-into-an-existing-deployment}
 
 Щоб швидко імплементувати інфопанелі Istio в наявний екземпляр Grafana, ви можете використовувати [кнопку **Імпорт** в UI Grafana](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) для додавання вище наведених посилань в панелі. При імпорті панелей, зверніть увагу, що ви повинні вибрати джерело даних Prometheus.
 
@@ -49,7 +50,7 @@ $ GRAFANA_DATASOURCE="Prometheus"
 $ # Версія Istio для розгортання
 $ VERSION={{< istio_full_version >}}
 $ # Імпорт усіх інфопанелей Istio
-$ for DASHBOARD in 7639 11829 7636 7630 7645 13277; do
+$ for DASHBOARD in 7639 11829 7636 7630 7645 13277 21306; do
 $     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}\")) | .revision" | tail -n 1)"
 $     curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions/${REVISION}/download > /tmp/dashboard.json
 $     echo "Імпорт $(cat /tmp/dashboard.json | jq -r '.title') (revision ${REVISION}, id ${DASHBOARD})..."

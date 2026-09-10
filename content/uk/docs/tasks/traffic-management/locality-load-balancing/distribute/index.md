@@ -1,6 +1,6 @@
 ---
 title: Розподіл за коефіцієнтами локацій
-description: Цей посібник демонструє, як налаштувати розподіл локацій за коефіціентами.
+description: Цей посібник демонструє, як налаштувати розподіл локацій за коефіцієнтами.
 weight: 20
 keywords: [locality,load balancing,kubernetes,multicluster]
 test: yes
@@ -21,6 +21,10 @@ owner: istio/wg-networking-maintainers
 `region1` | `zone2` | 20
 `region2` | `zone3` | 0
 `region3` | `zone4` | 10
+
+{{< tip >}}
+Istio зчитує локацію з вузла, на якому працює pod. Використовуйте мітку [топологічної локації](/docs/reference/config/labels/#TopologyLocality), щоб перевизначити її.
+{{< /tip >}}
 
 ## Налаштування розподілу за коефіцієнтами {#configure-weighted-distribution}
 

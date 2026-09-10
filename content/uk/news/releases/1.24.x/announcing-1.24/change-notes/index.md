@@ -18,7 +18,7 @@ aliases:
 
 - **Додано** нову анотацію, `networking.istio.io/traffic-distribution`, яка дозволяє ztunnel надавати перевагу локальним подам при передачі трафіку. Це працює так само як поле [`spec.trafficDistribution`](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) у `Service`, але дозволяє використання на старіших версіях Kubernetes (оскільки поле було додано як бета у Kubernetes 1.31). Зазначимо, що waypointʼи автоматично налаштовують цю анотацію.
 
-- **Виправлено** проблему, яка заважала працювати [протоколам з ініціативою від сервера](/docs/ops/deployment/application-requirements/#server-first-protocols) з waypoint'ами.
+- **Виправлено** проблему, яка заважала працювати [протоколам з ініціативою від сервера](/docs/ops/deployment/application-requirements/#server-first-protocols) з waypointʼами.
 
 - **Покращено** журнали Envoy, що містять деталі про збої зʼєднання в ambient mode.
 
@@ -31,13 +31,13 @@ aliases:
 
 - **Покращено** спосіб, яким ztunnel визначає, від імені якого podʼа він діє. Раніше це залежало від IP-адрес, що було ненадійним у деяких сценаріях.
 
-- **Виправлено** проблему, через яку ігнорувалися будь-які `portLevelSettings` у `DestinationRule` у waypoint'ах.
+- **Виправлено** проблему, через яку ігнорувалися будь-які `portLevelSettings` у `DestinationRule` у waypointʼах.
   ([Issue #52532](https://github.com/istio/istio/issues/52532))
 
 - **Виправлено** проблему з використанням політик дзеркалювання з waypointʼами.
   ([Issue #52713](https://github.com/istio/istio/issues/52713))
 
-- **Додано** підтримку правила `connection.sni` у `AuthorizationPolicy`, застосованого до waypoint'а.
+- **Додано** підтримку правила `connection.sni` у `AuthorizationPolicy`, застосованого до waypointʼа.
   ([Issue #52752](https://github.com/istio/istio/issues/52752))
 
 - **Оновлено** метод перенаправлення, що використовується в Ambient, з `TPROXY` на `REDIRECT`. Для більшості користувачів це не повинно вплинути на роботу, але вирішує деякі проблеми сумісності з `TPROXY`.

@@ -9,8 +9,6 @@ next: /docs/ambient/install/multicluster/verify
 prev: /docs/ambient/install/multicluster/before-you-begin
 ---
 
-{{< boilerplate alpha >}}
-
 {{< tip >}}
 Цей посібник вимагає встановлення CRD Gateway API.
 {{< boilerplate gateway-api-install-crds >}}
@@ -61,6 +59,8 @@ spec:
         env:
           - name: AMBIENT_ENABLE_MULTI_NETWORK
             value: "true"
+          - name: AMBIENT_ENABLE_BAGGAGE
+            value: "true"
   values:
     global:
       meshID: mesh1
@@ -90,7 +90,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Потім встановіть чарт `istiod` у `cluster1` із такими налаштуваннями для мультикластеру:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER1}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster1 --set global.network=network1 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true" --set env.AMBIENT_ENABLE_BAGGAGE="true"
 {{< /text >}}
 
 Далі встановіть агента вузла CNI в режимі ambient:
@@ -99,7 +99,7 @@ $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER
 $ helm install istio-cni istio/cni -n istio-system --kube-context "${CTX_CLUSTER1}" --set profile=ambient
 {{< /text >}}
 
-Нарешті, встановіть пенель даних ztunnel:
+Нарешті, встановіть панель даних ztunnel:
 
 {{< text syntax=bash snip_id=install_ztunnel_cluster1 >}}
 $ helm install ztunnel istio/ztunnel -n istio-system --kube-context "${CTX_CLUSTER1}" --set multiCluster.clusterName=cluster1 --set global.network=network1
@@ -208,6 +208,8 @@ spec:
         env:
           - name: AMBIENT_ENABLE_MULTI_NETWORK
             value: "true"
+          - name: AMBIENT_ENABLE_BAGGAGE
+            value: "true"
   values:
     global:
       meshID: mesh1
@@ -237,7 +239,7 @@ $ helm install istio-base istio/base -n istio-system --kube-context "${CTX_CLUST
 Потім встановіть чарт `istiod` у `cluster2` із такими налаштуваннями для мультикластеру:
 
 {{< text bash >}}
-$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true"
+$ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER2}" --set global.meshID=mesh1 --set global.multiCluster.clusterName=cluster2 --set global.network=network2 --set profile=ambient --set env.AMBIENT_ENABLE_MULTI_NETWORK="true" --set env.AMBIENT_ENABLE_BAGGAGE="true"
 {{< /text >}}
 
 Далі встановіть агент вузла CNI в режимі ambient:
@@ -346,7 +348,7 @@ $ istioctl create-remote-secret \
 
 Тепер ви можете [перевірити встановлення](/docs/ambient/install/multicluster/verify).
 
-## Очищення {#Cleanup}
+## Очищення {#cleanup}
 
 Видаліть Istio з обох кластерів `cluster1` та `cluster2`, використовуючи той самий механізм, яким ви встановлювали Istio (istioctl або Helm).
 

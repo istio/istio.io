@@ -87,6 +87,10 @@ $ helm install istiod istio/istiod -n istio-system --kube-context "${CTX_CLUSTER
 
 Встановіть шлюз в `cluster1`, який призначений для [east-west](https://en.wikipedia.org/wiki/East-west_traffic) трафіку. Стандартно цей шлюз буде доступний в Інтернеті. Операційні розгортання можуть вимагати додаткових обмежень доступу (наприклад, через правила брандмауера), щоб запобігти зовнішнім атакам. Зверніться до свого хмарного постачальника, щоб дізнатися про доступні варіанти.
 
+{{< warning >}}
+Балансувальники навантаження Layer 7 завершують TLS та несумісні з `AUTO_PASSTHROUGH`, що може призвести до помилок рукостискання mTLS та помилок 503. Не експонуйте шлюз схід-захід через балансувальник навантаження Layer 7.
+{{< /warning >}}
+
 {{< tabset category-name="east-west-gateway-install-type-cluster-1" >}}
 
 {{< tab name="IstioOperator" category-value="iop" >}}

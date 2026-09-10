@@ -31,23 +31,23 @@ Istio надає широкі функціональні можливості з
 
 - **UID застосунку**: Переконайтеся, що ваші podʼи **не** запускають застосунки від імені користувача з ідентифікатором користувача (UID) зі значенням `1337`, оскільки `1337` зарезервований для sidecar proxy.
 
-- **Можливості `NET_ADMIN` та `NET_RAW`**: Якщо [політики безпеки podʼів](https://kubernetes.io/docs/concepts/policy/pod-security-policy/) застосовані у вашому кластері та якщо ви не використовуєте [втулок Istio CNI](/docs/setup/additional-setup/cni/), ваші podʼи повинні мати дозволені можливості `NET_ADMIN` та `NET_RAW`. Контейнери ініціалізації proxy Envoy потребують цих можливостей.
+- **Можливості `NET_ADMIN` та `NET_RAW`**: Якщо ви не використовуєте [втулок Istio CNI](/docs/setup/additional-setup/cni/), контейнер `istio-init` потребує можливостей `NET_ADMIN` та `NET_RAW` для налаштування перенаправлення трафіку iptables. Простір імен повинен використовувати рівень примусового застосування `privileged` [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/). Рівні `baseline` та `restricted` блокують ці можливості та перешкоджатимуть запуску контейнера `istio-init`.
 
-    Щоб перевірити, чи дозволені можливості `NET_ADMIN` та `NET_RAW` для ваших podʼів, вам потрібно перевірити, чи може [обліковий запис сервісу](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) використовувати політику безпеки podʼів, яка дозволяє можливості `NET_ADMIN` та `NET_RAW`. Якщо ви не вказали обліковий запис сервісу в deployment podʼів, podʼи запускаються з використанням службового облікового запису `default` у просторі імен розгортання.
-
-    Щоб вивести перелік можливостей службового облікового запису, замініть `<your namespace>` та `<your service account>` на ваші значення у наступній команді:
+    Щоб перевірити мітку `pod-security.kubernetes.io/enforce` на просторі імен:
 
     {{< text bash >}}
-    $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:<your namespace>:<your service account>) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+    $ kubectl get namespace <your namespace> --show-labels
+    NAME       STATUS   AGE   LABELS
+    myapp      Active   3d    pod-security.kubernetes.io/enforce=privileged,...
     {{< /text >}}
 
-    Наприклад, щоб перевірити службовий обліковий запис `default` у просторі імен `default`, виконайте наступну команду:
+    Щоб встановити для простору імен примусове застосування `privileged`:
 
     {{< text bash >}}
-    $ for psp in $(kubectl get psp -o jsonpath="{range .items[*]}{@.metadata.name}{'\n'}{end}"); do if [ $(kubectl auth can-i use psp/$psp --as=system:serviceaccount:default:default) = yes ]; then kubectl get psp/$psp --no-headers -o=custom-columns=NAME:.metadata.name,CAPS:.spec.allowedCapabilities; fi; done
+    $ kubectl label namespace <your namespace> pod-security.kubernetes.io/enforce=privileged --overwrite
     {{< /text >}}
 
-    Якщо ви бачите `NET_ADMIN` та `NET_RAW` або `*` у списку можливостей однієї з дозволених політик для вашого облікового запису сервісу, ваші podʼи мають дозвіл на запуск контейнерів ініціалізації Istio. В іншому випадку вам доведеться [надати цей дозвіл](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies).
+    Якщо ваша політика безпеки не дозволяє примусове застосування `privileged` у просторі імен, натомість використовуйте [втулок Istio CNI](/docs/setup/additional-setup/cni/), який виконує перенаправлення трафіку без необхідності підвищених можливостей у podʼі.
 
 - **Мітки podʼів**: Рекомендуємо явно оголошувати podʼи з ідентифікатором застосунку та версією, використовуючи мітку podʼа. Ці мітки додають контекстну інформацію до метрик та телеметрії, які збирає Istio. Кожне з цих значень зчитується з кількох міток, впорядкованих від найвищого до найнижчого пріоритету:
 

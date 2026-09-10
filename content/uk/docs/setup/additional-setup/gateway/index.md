@@ -252,7 +252,7 @@ spec:
 
 {{< image width="50%" link="inplace-upgrade.svg" caption="Оновлення на місці в процесі" >}}
 
-### Канаркове оновлення (розширене) {#canary-upgrade}
+### Канаркове оновлення (розширене) {#canary-upgrade-advanced}
 
 {{< warning >}}
 Цей метод оновлення залежить від ревізій панелі управління, тому його можна використовувати лише разом із [канарковим оновленням панелі управління](/docs/setup/upgrade/canary/).
@@ -286,7 +286,7 @@ spec:
 Коли це розгортання буде створено, ви матимете дві версії шлюзу, обидві з яких будуть вибрані тим самим сервісом:
 
 {{< text bash >}}
-$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name" 2>/dev/null
 NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 {{< /text >}}
@@ -299,9 +299,9 @@ istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 Оскільки інші методи встановлення включають шлюз `Service`, який керує його зовнішньою IP-адресою, разом із розгортанням шлюзу `Deployment`, тільки метод [Kubernetes YAML](/docs/setup/additional-setup/gateway/#tabset-docs-setup-additional-setup-gateway-1-2-tab) підтримується для цього методу оновлення.
 {{< /warning >}}
 
-### Канаркове оновлення із зовнішнім перемиканням трафіку (розширене) {#canary-upgrade-external-with-external-traffic-shifting-advanced}
+### Канаркове оновлення із зовнішнім перемиканням трафіку (розширене) {#canary-upgrade-with-external-traffic-shifting-advanced}
 
-Варіантом підходу [канаркового оновлення](#canary-upgrade) є перемикання трафіку між версіями, використовуючи високорівневу конструкцію поза Istio, наприклад, зовнішній балансувальник навантаження або DNS.
+Варіантом підходу [канаркового оновлення](#canary-upgrade-advanced) є перемикання трафіку між версіями, використовуючи високорівневу конструкцію поза Istio, наприклад, зовнішній балансувальник навантаження або DNS.
 
 {{< image width="50%" link="high-level-canary.svg" caption="Канаркове оновлення в процесі із зовнішнім перемиканням трафіку" >}}
 

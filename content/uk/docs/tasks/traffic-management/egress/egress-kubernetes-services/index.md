@@ -37,7 +37,7 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
     $ export SOURCE_POD_WITHOUT_ISTIO="$(kubectl get pod -n without-istio -l app=curl -o jsonpath={.items..metadata.name})"
     {{< /text >}}
 
-*   Переконайтеся, що sidecar Istio не була додано, тобто pod має один контейнер:
+*   Переконайтеся, що sidecar Istio не було додано, тобто pod має один контейнер:
 
     {{< text bash >}}
     $ kubectl get pod "$SOURCE_POD_WITHOUT_ISTIO" -n without-istio
@@ -86,7 +86,7 @@ Kubernetes-сервіси [ExternalName](https://kubernetes.io/docs/concepts/ser
     }
     {{< /text >}}
 
-1.  У цьому прикладі незашифровані HTTP-запити надсилаються на `httpbin.org`. Лише для прикладу, ви відключаєте режим TLS і дозволити незашифрований трафік до зовнішнього сервісу. У реальних сценаріях ми рекомендуємо виконати [Створення TLS для вихідного трафіку](/docs/tasks/traffic-management/egress/egress-tls-origination/) за допомогою Istio.
+1.  У цьому прикладі незашифровані HTTP-запити надсилаються на `httpbin.org`. Лише для прикладу, ви відключаєте режим TLS і дозволяєте незашифрований трафік до зовнішнього сервісу. У реальних сценаріях ми рекомендуємо виконати [Створення TLS для вихідного трафіку](/docs/tasks/traffic-management/egress/egress-tls-origination/) за допомогою Istio.
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -146,9 +146,10 @@ $ kubectl delete service my-httpbin
     EOF
     {{< /text >}}
 
-2.  Створіть точки доступу для вашого сервісу. Виберіть кілька IP-адрес зі списку діапазонів Вікіпедії (https://www.mediawiki.org/wiki/Wikipedia_Zero/IP_Addresses).
+2.  Створіть точки доступу для вашого сервісу. Відповідна IP-адреса залежить від розташування мережі. Наведені нижче команди визначають її динамічно:
 
     {{< text bash >}}
+    $ export WIKI_IP=$(getent ahostsv4 en.wikipedia.org | awk 'NR==1{print $1}')
     $ kubectl apply -f - <<EOF
     kind: Endpoints
     apiVersion: v1
@@ -156,8 +157,7 @@ $ kubectl delete service my-httpbin
       name: my-wikipedia
     subsets:
       - addresses:
-          - ip: 198.35.26.96
-          - ip: 208.80.153.224
+          - ip: $WIKI_IP
         ports:
           - port: 443
             name: tls
@@ -179,7 +179,7 @@ $ kubectl delete service my-httpbin
     <title>Wikipedia, the free encyclopedia</title>
     {{< /text >}}
 
-5.  У цьому випадку робоче навантаження надсилає HTTPS-запити (відкрите TLS-зʼєднання) до `wikipedia.org`. Трафік вже зашифрований робочим навантаженням зашифрований робочим навантаженням, тому ви можете безпечно відключити взаємний TLS в Istio:
+5.  У цьому випадку робоче навантаження надсилає HTTPS-запити (відкрите TLS-зʼєднання) до `wikipedia.org`. Трафік вже зашифрований робочим навантаженням, тому ви можете безпечно відключити взаємний TLS в Istio:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF

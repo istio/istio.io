@@ -160,13 +160,15 @@ EOF
         # Це використовується для налаштування шаблону sidecar.
         # Додає як мітку, щоб вказати, що SPIRE повинен керувати
         # ідентичністю цього pod, так і монтуванням драйвера CSI.
+        # У випадку використання нативних sidecars (стандартно в Kubernetes 1.33 і новіших версіях) istio-proxy
+        # вбудовується як initContainer, тому внесіть зміни саме туди.
         sidecarInjectorWebhook:
           templates:
             spire: |
               labels:
                 spiffe.io/spire-managed-identity: "true"
               spec:
-                containers:
+                initContainers:
                 - name: istio-proxy
                   volumeMounts:
                   - name: workload-socket
@@ -203,29 +205,13 @@ EOF
                         name: workload-socket
                         mountPath: "/run/secrets/workload-spiffe-uds"
                         readOnly: true
-                    - path: spec.template.spec.initContainers
-                      value:
-                        - name: wait-for-spire-socket
-                          image: busybox:1.36
-                          volumeMounts:
-                            - name: workload-socket
-                              mountPath: /run/secrets/workload-spiffe-uds
-                              readOnly: true
-                          env:
-                            - name: CHECK_FILE
-                              value: /run/secrets/workload-spiffe-uds/socket
-                          command:
-                            - sh
-                            - "-c"
-                            - |-
-                              echo "$(date -Iseconds)" Waiting for: ${CHECK_FILE}
-                              while [[ ! -e ${CHECK_FILE} ]] ; do
-                                echo "$(date -Iseconds)" File does not exist: ${CHECK_FILE}
-                                sleep 15
-                              done
-                              ls -l ${CHECK_FILE}
     EOF
     {{< /text >}}
+
+    {{< warning >}}
+    Наведений вище шаблон sidecar виправляє параметр `initContainers`, оскільки [нативні sidecars](/blog/2023/native-sidecars/) (як стандартне значення в Kubernetes 1.33+) вводять `istio-proxy` як initContainer. Якщо ви явно вимкнули підтримку нативних sidecar у панелі управління Istio, змініть `initContainers` назад на `containers` у шаблоні `spire`.
+    **ПРИМІТКА:** Шаблон SPIRE для шлюзів повинен і надалі використовувати звичайні `containers` незалежно від режиму нативних sidecar.
+    {{< /warning >}}
 
 1. Застосуйте конфігурацію:
 

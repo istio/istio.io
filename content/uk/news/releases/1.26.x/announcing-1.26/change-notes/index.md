@@ -89,7 +89,7 @@ aliases:
 * **Виправлено** ваду у шаблоні інʼєкції sidecar, яка некоректно видаляла наявні контейнери init, коли було вимкнено перехоплення трафіку та власний sidecar.
   ([Тікет #54562](https://github.com/istio/istio/issues/54562))
 
-* **Виправлено** відсутність міток `topology.istio.io/network` на pod'ах шлюзу при використанні `--set networkGateway`.
+* **Виправлено** відсутність міток `topology.istio.io/network` на podʼах шлюзу при використанні `--set networkGateway`.
   ([Тікет #54909](https://github.com/istio/istio/issues/54909))
 
 * **Виправлено** проблему, коли встановлення `replicaCount=0` у чарті `istio/gateway` Helm призводило до того, що поле `replicas` було пропущено замість того, щоб бути явно встановленим у `0`.

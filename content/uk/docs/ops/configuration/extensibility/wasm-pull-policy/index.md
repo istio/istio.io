@@ -10,7 +10,7 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-API [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin) надає метод для [розповсюдження модулів Wasm](/docs/tasks/extensibility/wasm-module-distribution) на проксі. Оскільки кожен проксі буде витягувати модулі Wasm з віддаленого реєстру або HTTP-сервера, розуміння того, як Istio вибирає витягування модулів, важливо як з погляду зручності використання, так і продуктивності.
+API [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin) надає метод для [розповсюдження модулів Wasm](/docs/tasks/extensibility/wasm-modules) на проксі. Оскільки кожен проксі буде витягувати модулі Wasm з віддаленого реєстру або HTTP-сервера, розуміння того, як Istio вибирає витягування модулів, важливо як з погляду зручності використання, так і продуктивності.
 
 ## Політика витягування образів та винятки {#image-pull-policy-and-exceptions}
 

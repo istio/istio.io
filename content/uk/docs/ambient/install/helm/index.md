@@ -21,12 +21,12 @@ test: yes
 
 1. Перевірте [платформо-специфічні вимоги](/docs/ambient/install/platform-prerequisites).
 
-1. [Встановіть клієнт Helm](https://helm.sh/docs/intro/install/), версія 3.6 або вище.
+1. [Встановіть клієнта Helm](https://helm.sh/docs/intro/install/), версії 3.6 або вище. Helm 4 також підтримується.
 
 1. Налаштуйте репозиторій Helm:
 
     {{< text syntax=bash snip_id=configure_helm >}}
-    $ helm repo add istio https://istio-release.storage.googleapis.com/charts
+    $ helm repo add istio https://blob.istio.io/istio-release/charts
     $ helm repo update
     {{< /text >}}
 
@@ -56,7 +56,7 @@ $ helm install istio-base istio/base -n istio-system --create-namespace --wait
 
 ### Панель управління istiod {#istiod-control-plane}
 
-Чарт `istiod` встановлює версію Istiod. Istiod є компонентом панелі правління, який керує та налаштовує проксі для маршрутизації трафіку всередині mesh.
+Чарт `istiod` встановлює версію Istiod. Istiod є компонентом панелі управління, який керує та налаштовує проксі для маршрутизації трафіку всередині mesh.
 
 {{< text syntax=bash snip_id=install_istiod >}}
 $ helm install istiod istio/istiod --namespace istio-system --set profile=ambient --wait
@@ -175,7 +175,7 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 1. Видаліть чарт Istio base:
 
     {{< tip >}}
-    Стандартно, видалення чартц через Helm не видаляє встановлені Custom
+    Стандартно, видалення чарта через Helm не видаляє встановлені Custom
     Resource Definitions (CRDs), встановлені через чарт.
     {{< /tip >}}
 
@@ -219,19 +219,4 @@ $ helm template istiod istio/istiod -n istio-system --kube-version {версія
 $ kubectl apply -f istiod.yaml
 {{< /text >}}
 
-{{< warning >}}
-Якщо ви намагаєтеся встановити та керувати Istio за допомогою `helm template`, зверніть увагу на наступні застереження:
-
-1. Простір імен Istio (стандартно `istio-system`) повинен бути створений вручну.
-
-1. Ресурси можуть не встановлюватися з тією ж послідовністю залежностей, як `helm install`.
-
-1. Цей метод не тестується як частина випусків Istio.
-
-1. Хоча `helm install` автоматично виявляє налаштування середовища з вашого контексту Kubernetes, `helm template` не може це робити, оскільки він працює офлайн, що може призвести до несподіваних результатів. Зокрема, ви повинні переконатися, що ви дотримуєтеся [цих кроків](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens), якщо ваше середовище Kubernetes не підтримує токени сторонніх службових облікових записів.
-
-1. Виконання `kubectl apply` для згенерованого маніфесту може показувати тимчасові помилки через те, що ресурси не доступні в кластері в правильному порядку.
-
-1. `helm install` автоматично видаляє будь-які ресурси, які повинні бути видалені при зміні конфігурації (наприклад, якщо ви видаляєте шлюз). Це не відбувається, коли ви використовуєте `helm template` з `kubectl`, і ці ресурси повинні бути видалені вручну.
-
-{{< /warning >}}
+{{< boilerplate helm-template-caveats >}}

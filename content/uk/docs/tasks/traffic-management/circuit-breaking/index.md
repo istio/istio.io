@@ -9,7 +9,7 @@ test: yes
 
 У цьому завданні показано, як налаштувати розмикання ланцюга (запобіжника) для зʼєднань, запитів і виявлення відхилень.
 
-Розмикання ланцюга є важливим шаблоном для створення відмовостійких мікросервісних застосунків. Розмикання ланцюгів дозволяє створювати застосунки, які обмежують вплив збоїв, стрибків затримок та інших небажаних ефектів, пов'язаних з особливостями мережі.
+Розмикання ланцюга є важливим шаблоном для створення відмовостійких мікросервісних застосунків. Розмикання ланцюгів дозволяє створювати застосунки, які обмежують вплив збоїв, стрибків затримок та інших небажаних ефектів, повʼязаних з особливостями мережі.
 
 У цьому завданні ви налаштуєте правила розмикання ланцюга, а потім протестуєте конфігурацію, навмисно «вимкнувши» запобіжник.
 
@@ -237,8 +237,7 @@ test: yes
 2.  Щоб дізнатися більше, перегляньте статистику `istio-proxy`:
 
     {{< text bash >}}
-    $ kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats | grep httpbin | grep pending
-    cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.remaining_pending: 1
+    $ kubectl exec "$FORTIO_POD" -c istio-proxy -- pilot-agent request GET stats 2>/dev/null | grep httpbin | grep pending
     cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.rq_pending_open: 0
     cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.high.rq_pending_open: 0
     cluster.outbound|8000||httpbin.default.svc.cluster.local;.upstream_rq_pending_active: 0

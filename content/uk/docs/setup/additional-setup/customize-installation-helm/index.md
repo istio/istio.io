@@ -85,7 +85,7 @@ EOF
 ### Додати репозиторій Helm для Istio {#add-the-helm-repository-for-istio}
 
 {{< text bash >}}
-$ helm repo add istio https://istio-release.storage.googleapis.com/charts
+$ helm repo add istio https://blob.istio.io/istio-release/charts
 $ helm repo update
 {{< /text >}}
 

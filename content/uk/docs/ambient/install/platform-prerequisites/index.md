@@ -17,30 +17,6 @@ test: no
 
 ### Google Kubernetes Engine (GKE) {#google-kubernetes-engine-gke}
 
-#### Обмеження простору імен {#namespace-restrictions}
-
-У GKE будь-які podʼи з `priorityClassName` [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) можуть бути встановлені лише в просторах імен, в яких визначено [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/). Стандартно у GKE лише `kube-system` має визначений ResourceQuota для класу `node-critical`. Історичний агент CNI та `ztunnel` обидва потребують класу `node-critical`, тому в GKE обидва компоненти повинні бути:
-
-- Встановлені в `kube-system` (_не_ в `istio-system`)
-- Встановлені в інший простір імен (наприклад, `istio-system`), в якому вручну створено ResourceQuota, наприклад:
-
-{{< text syntax=yaml >}}
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: gcp-critical-pods
-  namespace: istio-system
-spec:
-  hard:
-    pods: 1000
-  scopeSelector:
-    matchExpressions:
-    - operator: In
-      scopeName: PriorityClass
-      values:
-      - system-node-critical
-{{< /text >}}
-
 #### Профіль платформи {#platform-profile}
 
 Під час використання GKE ви повинні додавати правильне значення `platform` до команд встановлення, оскільки GKE використовує нестандартне розташування двійкових файлів CNI, що вимагає перевизначення змінних в Helm.
@@ -64,6 +40,31 @@ spec:
 {{< /tab >}}
 
 {{< /tabset >}}
+
+#### Обмеження простору імен {#namespace-restrictions}
+
+У GKE будь-які podʼи з `priorityClassName` [system-node-critical](https://kubernetes.io/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/) можуть бути встановлені лише в просторах імен, в яких визначено [ResourceQuota](https://kubernetes.io/docs/concepts/policy/resource-quotas/). Агент вузла Istio CNI та `ztunnel` обидва потребують класу `node-critical`.
+
+Стандартно у GKE лише `kube-system` має визначений ResourceQuota для класу `node-critical`. Встановлення Istio з профілем `ambient` створює ResourceQuota у просторі імен `istio-system`.
+
+Щоб встановити Istio в будь-який інший простір імен, ви повинні вручну створити ResourceQuota:
+
+{{< text syntax=yaml >}}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: gcp-critical-pods
+  namespace: istio-system
+spec:
+  hard:
+    pods: 1000
+  scopeSelector:
+    matchExpressions:
+    - operator: In
+      scopeName: PriorityClass
+      values:
+      - system-node-critical
+{{< /text >}}
 
 ### Amazon Elastic Kubernetes Service (EKS) {#amazon-elastic-kubernetes-service-eks}
 
@@ -226,6 +227,8 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 
 OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni` були встановлені в просторі імен `kube-system`, і щоб для всіх чартів було встановлено `global.platform=openshift`.
 
+Під час розгортання режиму панелі даних Ambient на OpenShift встановіть `routingViaHost: true` у специфікації `gatewayConfig`, щоб увімкнути режим шлюзу `local` для OVN-Kubernetes. Це одноразове налаштування є обовʼязковим, якщо ваші маніфести podʼів містять проби liveness або readiness, оскільки воно гарантує, що трафік проб маршрутизується через хост і застосовується до таблиці маршрутизації хоста, що необхідно для правильної роботи проб. Щоб налаштувати режим шлюзу під час роботи, виконайте кроки, описані [тут](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/ovn-kubernetes_network_plugin/configuring-gateway).
+
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
@@ -284,3 +287,5 @@ OpenShift вимагає, щоб компоненти `ztunnel` та `istio-cni`
     {{< /text >}}
 
     Див. [тікет #49277](https://github.com/istio/istio/issues/49277) та [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) для більш детальної інформації.
+
+Коли Cilium використовується для заміни kube-proxy, зверніть увагу на додаткові параметри конфігурації, необхідні для забезпечення правильної роботи з Istio в режимі ambient, описані в [документації Cilium](https://docs.cilium.io/en/stable/network/servicemesh/istio/).

@@ -11,6 +11,10 @@ test: yes
 
 ## Перед тим як почати {#before-you-begin}
 
+{{< warning >}}
+Обмеження швидкості, описані в цьому документі, реалізовані за допомогою API EnvoyFilter. EnvoyFilter розкриває внутрішні деталі реалізації, які можуть змінитися в будь-який момент. Будь ласка, будьте вкрай обережні, особливо під час оновлень.
+{{< /warning >}}
+
 1. Налаштуйте Istio в кластері Kubernetes, дотримуючись інструкцій з [Посібника з установки](/docs/setup/getting-started/).
 
 1. Розгорніть демонстраційний застосунок [Bookinfo](/docs/examples/bookinfo/).
@@ -35,7 +39,7 @@ Envoy можна використовувати для [налаштування
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: ratelimit
+        domain: product
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -60,7 +64,7 @@ Envoy можна використовувати для [налаштування
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
     {{< /text >}}
 
-1. Застосуйте `EnvoyFilter` до `ingressgateway`, щоб увімкнути глобальне обмеження швидкості, використовуючи глобальний фільтр обмеження швидкості Envoy.
+1. Застосуйте `EnvoyFilter` до `ingressgateway`, щоб увімкнути глобальне обмеження швидкості, використовуючи глобальний http фільтр обмеження швидкості Envoy.
 
     Патч вставляє `envoy.filters.http.ratelimit` [глобальний фільтр envoy](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit) у ланцюг `HTTP_FILTER`. Поле `rate_limit_service` вказує на зовнішню службу обмеження швидкості, `outbound|8081||ratelimit.default.svc.cluster.local` у цьому випадку.
 
@@ -94,7 +98,7 @@ Envoy можна використовувати для [налаштування
               name: envoy.filters.http.ratelimit
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
-                # домен може бути будь-яким! Порівняйте його з конфігом сервісу ratelimter
+                # домен може бути будь-яким! Або зіставте його з конфігом сервісу ratelimiter (один домен), або встановіть домен для кожної конфігурації маршруту (кілька доменів). Дивіться приклади нижче
                 domain: ratelimit
                 failure_mode_deny: true
                 timeout: 10s
@@ -107,7 +111,7 @@ Envoy можна використовувати для [налаштування
     EOF
     {{< /text >}}
 
-1. Застосуйте інший `EnvoyFilter` до `ingressgateway`, який визначає конфігурацію маршруту, на якому слід обмежити швидкість. Це додає [дії обмеження швидкості](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit) для будь-якого маршруту з віртуального хосту з назвою `bookinfo.com:80`.
+1. Застосуйте інший `EnvoyFilter` до `ingressgateway`, який визначає конфігурацію маршруту, на якому слід обмежити швидкість. Це додає [дії обмеження швидкості](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit) для будь-якого маршруту з віртуального хосту з назвою `bookinfo.com:80` і встановлює домен дії через [розширення фільтра `RateLimitPerRoute`](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#extensions-filters-http-ratelimit-v3-ratelimitperroute).
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -133,6 +137,10 @@ Envoy можна використовувати для [налаштування
             operation: MERGE
             # Applies the rate limit rules.
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product # overrides 'ratelimit' domain
               rate_limits:
                 - actions: # any actions in here
                   - request_headers:
@@ -185,7 +193,7 @@ Envoy можна використовувати для [налаштування
     EOF
     {{< /text >}}
 
-1. Застосуйте EnvoyFilter, щоб додати дію обмеження швидкості на рівні маршруту для будь-якого продукту з 1 до 99:
+1. Застосуйте EnvoyFilter, щоб додати дію обмеження швидкості на рівні маршруту для будь-якого продукту з 1 до 99 і перевизначити домен `ratelimit`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -210,6 +218,10 @@ Envoy можна використовувати для [налаштування
           patch:
             operation: MERGE
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product
               route:
                 rate_limits:
                 - actions:
@@ -394,7 +406,15 @@ $ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev
 
 ### Перевірка локального обмеження швидкості {#verify-local-rate-limit}
 
-Хоча глобальне обмеження швидкості на шлюзі вхідних запитів обмежує запити до сервісу `productpage` до 1 запиту/хв, локальне обмеження швидкості для екземплярів `productpage` дозволяє 4 запити/хв. Щоб підтвердити це, надішліть внутрішні запити до `productpage` з podʼа `ratings`, використовуючи наступну команду `curl`:
+Хоча глобальне обмеження швидкості на шлюзі вхідних запитів обмежує запити до сервісу `productpage` до 1 запиту/хв, локальне обмеження швидкості для екземплярів `productpage` дозволяє 4 запити/хв. Щоб підтвердити це, спочатку зачекайте, поки `EnvoyFilter` пошириться на sidecar-проксі `productpage`. Ви можете перевірити поширення, переконавшись, що `local_ratelimit` зʼявляється в конфігурації слухача:
+
+{{< text bash >}}
+$ PRODUCTPAGE_POD=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
+$ istioctl proxy-config listener "$PRODUCTPAGE_POD" -o json | grep local_ratelimit
+                    "name": "envoy.filters.http.local_ratelimit",
+{{< /text >}}
+
+Потім надішліть внутрішні запити до `productpage` з podʼа `ratings`, використовуючи наступну команду `curl`:
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'
