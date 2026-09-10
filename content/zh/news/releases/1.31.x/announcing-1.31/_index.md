@@ -47,7 +47,7 @@ Kubernetes 版本 1.32 至 1.36 正式支持 Istio 1.31.0。{{< /tip >}}
 用于将 [agentgateway](https://agentgateway.dev)
 部署为 waypoint 代理。此版本还修复了 agentgateway 后端的 `ListenerSet` 处理和 mTLS 连接的多个问题。
 
-### Gateway API: AllowInsecureFallback
+### Gateway API: `AllowInsecureFallback`
 
 Istio 现在实现了用于客户端证书验证的 Gateway API `AllowInsecureFallback` 功能。
 启用后，网关会请求客户端证书并尝试验证它，但如果未提供证书或验证失败，
