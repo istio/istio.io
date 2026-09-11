@@ -1843,6 +1843,22 @@ sidecars will continue to use the certificate paths.</p>
 
 </td>
 </tr>
+<tr id="ClientTLSSettings-ca_cert_credential_name">
+<td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-ca_cert_credential_name">caCertCredentialName</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>The name of the secret or the configmap that holds CA certificates used to
+verify the server&rsquo;s certificate. Allows sourcing the trust bundle
+independently from <code>credentialName</code>.</p>
+<p>Applies to <code>SIMPLE</code> and <code>MUTUAL</code> TLS modes. Should be empty when using <code>ISTIO_MUTUAL</code>.</p>
+<p><strong>NOTE:</strong> This field is applicable at sidecars only if
+<code>DestinationRule</code> has a <code>workloadSelector</code> specified.
+Otherwise the field will be applicable only at gateways, and
+sidecars will continue to use the certificate paths.</p>
+
+</td>
+</tr>
 <tr id="ClientTLSSettings-subject_alt_names">
 <td><div class="field"><div class="name"><code><a href="#ClientTLSSettings-subject_alt_names">subjectAltNames</a></code></div>
 <div class="type">string[]</div>
