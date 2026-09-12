@@ -87,7 +87,7 @@ Create a client to send traffic to the `httpbin` service. The client is
 a simple load-testing client called [fortio](https://github.com/istio/fortio).
 Fortio lets you control the number of connections, concurrency, and
 delays for outgoing HTTP calls. You will use this client to "trip" the circuit breaker
-policies you set in the `DestinationRule`. 
+policies you set in the `DestinationRule`.
 
 1. Inject the client with the Istio sidecar proxy so network interactions are
 governed by Istio.

@@ -291,7 +291,7 @@ EOF
 
 {{< /tabset >}}
 
-2)  Create a `ServiceEntry` for the destination server, _www.wikipedia.org_:
+2)  Create a `ServiceEntry` for the destination server, _[www.wikipedia.org](https://www.wikipedia.org)_:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
