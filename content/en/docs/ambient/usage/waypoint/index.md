@@ -324,7 +324,7 @@ In order to enable cross-namespace use of a waypoint, the `Gateway` should be co
 The keyword `All` may be specified as the value for `allowedRoutes.namespaces.from` in order to allow routes from any namespace.
 {{< /tip >}}
 
-The following `Gateway` would allow resources in a namespace called "cross-namespace-waypoint-consumer" to use this `egress-gateway`:
+The following `Gateway` would allow resources in a namespace called "cross-namespace-waypoint-consumer" to use this `egress-gateway`. For a complete walkthrough of using a waypoint as an egress gateway, see [Egress gateways](/docs/ambient/usage/egress-gateway/).
 
 {{< text syntax=yaml >}}
 apiVersion: gateway.networking.k8s.io/v1

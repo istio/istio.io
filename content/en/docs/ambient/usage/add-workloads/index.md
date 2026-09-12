@@ -44,7 +44,7 @@ A `PeerAuthentication` policy with mTLS mode set to `STRICT` will allow traffic 
 
 ### Ingress and egress gateways and ambient mode pods
 
-An ingress gateway may run in a non-ambient namespace, and expose services provided by ambient mode, sidecar mode or non-mesh pods. Interoperability is also supported between pods in ambient mode and Istio egress gateways. To send ingress traffic through a destination **waypoint** in ambient mode, use the `istio.io/ingress-use-waypoint` label as described in [Ingress gateways and waypoints](/docs/ambient/usage/waypoint/#ingress-and-waypoints).
+An ingress gateway may run in a non-ambient namespace, and expose services provided by ambient mode, sidecar mode or non-mesh pods. Interoperability is also supported between pods in ambient mode and Istio egress gateways. See [Egress gateways](/docs/ambient/usage/egress-gateway/) to learn how to use a waypoint as a dedicated egress gateway in ambient mode. To send ingress traffic through a destination **waypoint** in ambient mode, use the `istio.io/ingress-use-waypoint` label as described in [Ingress gateways and waypoints](/docs/ambient/usage/waypoint/#ingress-and-waypoints).
 
 ## Pod selection logic for ambient and sidecar modes
 
