@@ -6,19 +6,19 @@ attribution: "Francisco Herrera (Red Hat)"
 keywords: [Istio, Kubernetes, testing, CI]
 ---
 
-The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions. Going forward, our CI will only test against Kubernetes 1.33 and newer. 
+The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions. Beginning with Istio 1.31, our CI will only test against the versions of Kubernetes supported for that minor version.
 
 ## What's changing
 
-We are removing the integration test jobs for **Kubernetes 1.23 through 1.32**.
+We are removing the integration test jobs for **Kubernetes 1.23 through 1.32**, and any version of Kubernetes that falls outside of the supported Kubernetes versions going forward.
 
-Following [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048), only Kubernetes 1.33 and newer will remain in Istio's continuous integration pipeline.
+For example, following [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048), only Kubernetes 1.33 and newer will remain in Istio's continuous integration pipeline for Istio 1.31.
 
 ## Why we're making this change
 
 These Kubernetes versions are either already end-of-life (EOL) or rapidly approaching it. Upstream Kubernetes supports minor releases for roughly 14 months, and the vast majority of our users have already migrated to newer versions (see the [Kubernetes releases page](https://kubernetes.io/releases/) for official support status).
 
-Maintaining old node images and running tests against EOL versions consumes valuable CI infrastructure and time. Retiring these jobs allows the working group to focus our testing resources on the actively supported versions that the community actually runs.
+Maintaining old node images and running tests against EOL versions consumes valuable CI infrastructure and time. Retiring these jobs allows the working group to focus our testing resources on the actively supported versions that the vast majority of the community runs.
 
 ## What this means for you
 
@@ -28,7 +28,7 @@ The [`integ-suite-kind.sh`](https://github.com/istio/istio/blob/master/prow/inte
 
 {{< text bash >}}
 # Replace the node-image and config with the versions previously used in CI
-prow/integ-suite-kind.sh \
+$ prow/integ-suite-kind.sh \
       --node-image kind-node-target-version \
       --kind-config prow/config/mixedlb-service.yaml \
       test.integration.kube
