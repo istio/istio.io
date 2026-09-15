@@ -7,7 +7,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-An egress gateway is a dedicated proxy that all outbound traffic to external services must pass through. It provides a single, auditable exit point for traffic leaving the mesh, where you can apply authorization policies, enable observability, and originate TLS.
+An egress gateway is a dedicated proxy that all outbound traffic to external services must pass through. It provides a single, verifiable exit point for traffic leaving the mesh, where you can apply authorization policies, enable observability, and originate TLS.
 
 In {{< gloss "sidecar" >}}sidecar mode{{< /gloss >}}, configuring an egress gateway for a single host requires coordinating five separate objects: a `ServiceEntry`, a `Gateway`, two `HTTPRoute` resources (one to steer mesh traffic into the gateway, one to forward traffic from the gateway to the destination), and a `DestinationRule`. Each new external host repeats most of that work.
 
