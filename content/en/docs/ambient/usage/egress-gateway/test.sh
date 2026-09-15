@@ -35,7 +35,6 @@ snip_label_default_ambient
 
 # Create egress namespace and deploy waypoint
 snip_create_egress_ns
-snip_apply_egress_waypoint
 _verify_contains snip_apply_egress_waypoint "$snip_apply_egress_waypoint_out"
 
 _wait_for_deployment istio-egress waypoint
