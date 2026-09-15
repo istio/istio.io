@@ -22,9 +22,9 @@ Maintaining old node images and running tests against EOL versions consumes valu
 
 ## What this means for you
 
-If you still need to test against these older versions, you can run the integration suite locally using [kind](https://kind.sigs.k8s.io/). 
+If you still need to test against these older versions, you can run the integration suite locally using [kind](https://kind.sigs.k8s.io/).
 
-The [`integ-suite-kind.sh`](https://github.com/istio/istio/blob/master/prow/integ-suite-kind.sh) script is the exact entry point our CI uses. You can run it against the Kubernetes version you need by checking the [test-infra](https://github.com/istio/test-infra/blob/master/prow/aws/config/jobs/istio.yaml) commit history for the specific node image and configuration:
+The [`integ-suite-kind.sh`]({{< github_blob >}}/prow/integ-suite-kind.sh) script is the exact entry point our CI uses. You can run it against the Kubernetes version you need by checking the [test-infra](https://github.com/istio/test-infra/blob/master/prow/aws/config/jobs/istio.yaml) commit history for the specific node image and configuration:
 
 {{< text bash >}}
 $ prow/integ-suite-kind.sh \
@@ -37,6 +37,6 @@ Note: Replace the `--node-image` and `--kind-config` values with the versions pr
 
 ## What's next
 
-You can always check the current set of tested Kubernetes versions for each Istio release in our [support status table](/docs/releases/supported-releases/). 
+You can always check the current set of tested Kubernetes versions for each Istio release in our [support status table](/docs/releases/supported-releases/).
 
 If you have any questions, reach out to the Istio Test and Release Working Group on Slack.
