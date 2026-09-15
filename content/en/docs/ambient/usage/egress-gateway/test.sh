@@ -46,7 +46,6 @@ _wait_for_resource serviceentry istio-egress httpbin-org
 
 # Verify basic egress traffic routes through the waypoint
 _verify_same snip_verify_egress_traffic "$snip_verify_egress_traffic_out"
-_verify_contains snip_check_waypoint_logs "upstream_rq_total"
 
 # Apply L7 authorization policy
 snip_apply_authz_policy
@@ -55,12 +54,16 @@ _wait_for_resource authorizationpolicy istio-egress httpbin-org
 _verify_same snip_verify_allowed_request "$snip_verify_allowed_request_out"
 _verify_same snip_verify_denied_request "$snip_verify_denied_request_out"
 
+# After L7 enforcement is confirmed, check that the waypoint processed traffic
+_verify_contains snip_check_waypoint_logs "upstream_rq_total"
+
 # Apply TLS origination
 snip_apply_tls_origination
 _wait_for_resource serviceentry istio-egress httpbin-org
 _wait_for_resource destinationrule istio-egress httpbin-org-tls
 
-_verify_contains snip_verify_tls_origination "url"
+# "args" appears on line 2 of the httpbin JSON response, well within head -5
+_verify_contains snip_verify_tls_origination "args"
 
 # Add a second external service and verify it routes through the same waypoint
 snip_apply_second_serviceentry
