@@ -47,6 +47,16 @@ _wait_for_resource serviceentry istio-egress httpbin-org
 # Verify basic egress traffic routes through the waypoint
 _verify_same snip_verify_egress_traffic "$snip_verify_egress_traffic_out"
 
+# Verify the waypoint processed the traffic by checking its Envoy stats.
+# upstream_rq_total only exists after at least one request flows through the
+# waypoint cluster, so we send a request on each retry attempt to guarantee
+# the stat will appear once xDS has propagated the ServiceEntry.
+snip_send_and_check_waypoint_stats() {
+    snip_verify_egress_traffic > /dev/null 2>&1 || true
+    snip_check_waypoint_logs
+}
+_verify_contains snip_send_and_check_waypoint_stats "upstream_rq_total"
+
 # Apply L7 authorization policy
 snip_apply_authz_policy
 _wait_for_resource authorizationpolicy istio-egress httpbin-org
@@ -54,15 +64,11 @@ _wait_for_resource authorizationpolicy istio-egress httpbin-org
 _verify_same snip_verify_allowed_request "$snip_verify_allowed_request_out"
 _verify_same snip_verify_denied_request "$snip_verify_denied_request_out"
 
-# After L7 enforcement is confirmed, check that the waypoint processed traffic
-_verify_contains snip_check_waypoint_logs "upstream_rq_total"
-
 # Apply TLS origination
 snip_apply_tls_origination
 _wait_for_resource serviceentry istio-egress httpbin-org
 _wait_for_resource destinationrule istio-egress httpbin-org-tls
 
-# "args" appears on line 2 of the httpbin JSON response, well within head -5
 _verify_contains snip_verify_tls_origination "args"
 
 # Add a second external service and verify it routes through the same waypoint
