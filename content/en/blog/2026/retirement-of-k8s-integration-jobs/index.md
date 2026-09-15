@@ -27,12 +27,13 @@ If you still need to test against these older versions, you can run the integrat
 The [`integ-suite-kind.sh`](https://github.com/istio/istio/blob/master/prow/integ-suite-kind.sh) script is the exact entry point our CI uses. You can run it against the Kubernetes version you need by checking the [test-infra](https://github.com/istio/test-infra/blob/master/prow/aws/config/jobs/istio.yaml) commit history for the specific node image and configuration:
 
 {{< text bash >}}
-# Replace the node-image and config with the versions previously used in CI
 $ prow/integ-suite-kind.sh \
       --node-image kind-node-target-version \
       --kind-config prow/config/mixedlb-service.yaml \
       test.integration.kube
 {{< /text >}}
+
+Note: Replace the `--node-image` and `--kind-config` values with the versions previously used in CI for the Kubernetes version you want to test against.
 
 ## What's next
 
