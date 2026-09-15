@@ -1,0 +1,41 @@
+---
+title: "Retirement of Kubernetes integration jobs for Kubernetes 1.32 and older"
+description: Istio's continuous integration will no longer run integration tests against Kubernetes 1.32 and older.
+publishdate: 2026-09-15
+attribution: "Francisco Herrera (Red Hat)"
+keywords: [Istio, Kubernetes, testing, CI]
+---
+
+The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions. Going forward, our CI will only test against Kubernetes 1.33 and newer. 
+
+## What's changing
+
+We are removing the integration test jobs for **Kubernetes 1.23 through 1.32**.
+
+Following [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048), only Kubernetes 1.33 and newer will remain in Istio's continuous integration pipeline.
+
+## Why we're making this change
+
+These Kubernetes versions are either already end-of-life (EOL) or rapidly approaching it. Upstream Kubernetes supports minor releases for roughly 14 months, and the vast majority of our users have already migrated to newer versions (see the [Kubernetes releases page](https://kubernetes.io/releases/) for official support status).
+
+Maintaining old node images and running tests against EOL versions consumes valuable CI infrastructure and time. Retiring these jobs allows the working group to focus our testing resources on the actively supported versions that the community actually runs.
+
+## What this means for you
+
+If you still need to test against these older versions, you can run the integration suite locally using [kind](https://kind.sigs.k8s.io/). 
+
+The [`integ-suite-kind.sh`](https://github.com/istio/istio/blob/master/prow/integ-suite-kind.sh) script is the exact entry point our CI uses. You can run it against the Kubernetes version you need by checking the [test-infra](https://github.com/istio/test-infra/blob/master/prow/aws/config/jobs/istio.yaml) commit history for the specific node image and configuration:
+
+{{< text bash >}}
+# Replace the node-image and config with the versions previously used in CI
+prow/integ-suite-kind.sh \
+      --node-image kind-node-target-version \
+      --kind-config prow/config/mixedlb-service.yaml \
+      test.integration.kube
+{{< /text >}}
+
+## What's next
+
+You can always check the current set of tested Kubernetes versions for each Istio release in our [support status table](/docs/releases/supported-releases/). 
+
+If you have any questions, reach out to the Istio Test and Release Working Group on Slack.
