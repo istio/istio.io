@@ -6,17 +6,21 @@ attribution: "Francisco Herrera (Red Hat)"
 keywords: [Istio, Kubernetes, testing, CI]
 ---
 
-The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions. Beginning with Istio 1.31, our CI will only test against the versions of Kubernetes supported for that minor version.
+The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions from the `master` branch.
+The Istio 1.31 release branch retains its existing integration tests and is not affected by this change.
+Starting with the upcoming Istio 1.32 release, CI will only run integration tests against the Kubernetes versions that are within the supported range for that minor release.
 
 ## What's changing
 
-We are removing the integration test jobs for **Kubernetes 1.23 through 1.32**, and any version of Kubernetes that falls outside of the supported Kubernetes versions going forward.
+We are removing the integration test jobs for **Kubernetes 1.23 through 1.32** from the `master` branch, effective with [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048).
+Any Kubernetes version that falls outside the supported range for a given Istio release will no longer be included in that release's CI going forward.
 
-For example, following [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048), only Kubernetes 1.33 and newer will remain in Istio's continuous integration pipeline for Istio 1.31.
+The Istio 1.31 release branch is **not** affected, its integration tests against the supported Kubernetes versions for that release continue to run unchanged.
+This change will first take effect for the upcoming Istio 1.32 release.
 
 ## Why we're making this change
 
-These Kubernetes versions are either already end-of-life (EOL) or rapidly approaching it. Upstream Kubernetes supports minor releases for roughly 14 months, and the vast majority of our users have already migrated to newer versions (see the [Kubernetes releases page](https://kubernetes.io/releases/) for official support status).
+These Kubernetes versions are either already end-of-life (EOL) or rapidly approaching it. Upstream Kubernetes supports minor releases for roughly 14 months; see the [Kubernetes releases page](https://kubernetes.io/releases/) for official support status.
 
 Maintaining old node images and running tests against EOL versions consumes valuable CI infrastructure and time. Retiring these jobs allows the working group to focus our testing resources on the actively supported versions that the vast majority of the community runs.
 
