@@ -1,22 +1,18 @@
 ---
-title: "Retirement of Kubernetes integration jobs for Kubernetes 1.32 and older"
-description: Istio's continuous integration will no longer run integration tests against Kubernetes 1.32 and older.
+title: "Retirement of Kubernetes integration jobs for unsupported Kubernetes versions"
+description: Istio's continuous integration will no longer run integration tests against unsupported Kubernetes versions.
 publishdate: 2026-09-16
-attribution: "Francisco Herrera (Red Hat)"
+attribution: "Francisco Herrera (Red Hat), Daniel Hawton (solo.io)"
 keywords: [Istio, Kubernetes, testing, CI]
 ---
 
-The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions from the `master` branch.
-The Istio 1.31 release branch retains its existing integration tests and is not affected by this change.
-Starting with the upcoming Istio 1.32 release, CI will only run integration tests against the Kubernetes versions that are within the supported range for that minor release.
+The Istio Test and Release Working Group is retiring CI integration tests for older Kubernetes versions from the `master` branch, affecting Istio versions 1.32 and newer.
 
 ## What's changing
 
-We are removing the integration test jobs for **Kubernetes 1.23 through 1.32** from the `master` branch, effective with [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048).
-Any Kubernetes version that falls outside the supported range for a given Istio release will no longer be included in that release's CI going forward.
+Previously, Istio would have a supported range of Kubernetes versions that were typically N-3 or N-4 of the latest Kubernetes version, but would continue testing older Kubernetes versions. Currently, this means we are testing Kubernetes 1.23 through 1.36.
 
-The Istio 1.31 release branch is **not** affected, its integration tests against the supported Kubernetes versions for that release continue to run unchanged.
-This change will first take effect for the upcoming Istio 1.32 release.
+With [test-infra PR 6048](https://github.com/istio/test-infra/pull/6048), we are removing the tested older Kubernetes versions from testing, limiting our testing to only the supported Kubernetes range. This change is being made to the `master` branch, so will affect Istio versions 1.32 and forward.
 
 ## Why we're making this change
 
