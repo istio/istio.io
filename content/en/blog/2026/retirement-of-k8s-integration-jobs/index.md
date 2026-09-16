@@ -1,7 +1,7 @@
 ---
 title: "Retirement of Kubernetes integration jobs for Kubernetes 1.32 and older"
 description: Istio's continuous integration will no longer run integration tests against Kubernetes 1.32 and older.
-publishdate: 2026-09-15
+publishdate: 2026-09-16
 attribution: "Francisco Herrera (Red Hat)"
 keywords: [Istio, Kubernetes, testing, CI]
 ---
