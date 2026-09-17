@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Improved** performance when fetching PeerAuthentications for a given workload.
+- **Improved** performance when fetching `PeerAuthentications` for a given workload.
 
 - **Updated** Kiali addon to version v2.31.0.
 
@@ -24,7 +24,7 @@ This release contains bug fixes to improve robustness. This release note describ
   redirect rules to be written into already-enrolled pods.
   ([Issue #61020](https://github.com/istio/istio/issues/61020))
 
-- **Fixed** the ability to clear the Certificate Revocation List (CRL) by either specifying the empty string as the ca-crl.pem or removing it.
+- **Fixed** the ability to clear the Certificate Revocation List (CRL) by either specifying the empty string as the `ca-crl.pem` or removing it.
   ([Issue #61073](https://github.com/istio/istio/issues/61073))
 
 - **Fixed** the JWKS resolver forcing all public-key fetches to HTTP/1.1. The custom
@@ -34,7 +34,7 @@ This release contains bug fixes to improve robustness. This release note describ
   through some HTTP CONNECT proxies.
   ([Issue #61250](https://github.com/istio/istio/issues/61250))
 
-- **Fixed** an issue where istiod CPU usage increased as the number of AuthorizationPolicies increased.
+- **Fixed** an issue where istiod CPU usage increased as the number of `AuthorizationPolicies` increased.
   ([Issue #61254](https://github.com/istio/istio/issues/61254))
 
 - **Fixed** `ALLOW_ANY_DYNAMIC_DNS` traffic failing in IPv6-only clusters because Envoy used the
