@@ -282,7 +282,7 @@ As you saw above, routing rules are a powerful tool for routing particular
 subsets of traffic to particular destinations. You can set match conditions on
 traffic ports, header fields, URIs, and more. For example, this virtual service
 lets users send traffic to two separate services, ratings and reviews, as if
-they were part of a bigger virtual service at `http://bookinfo.com/.` The
+they were part of a bigger virtual service at `http://bookinfo.com/`. The
 virtual service rules match traffic based on request URIs and direct requests to
 the appropriate service.
 
