@@ -49,7 +49,7 @@ Accepted speakers will receive a complimentary All-Access In-Person ticket for *
 
 ## Sponsor the event
 
-Do you want to put your product or service in front of the most discerning Cloud Native users: those who demand _25% more conference_ than the crowd? Check out [page 19 of the CNCF events prospectus](https://events.linuxfoundation.org/wp-content/uploads/2023/06/sponsor-cncf-2023-061523.pdf) to learn more. Contact sponsor@cncf.io to secure your sponsorship today! Signed contracts must be received by September 20.
+Do you want to put your product or service in front of the most discerning Cloud Native users: those who demand _25% more conference_ than the crowd? Check out [page 19 of the CNCF events prospectus](https://events.linuxfoundation.org/wp-content/uploads/2023/06/sponsor-cncf-2023-061523.pdf) to learn more. Contact <sponsor@cncf.io> to secure your sponsorship today! Signed contracts must be received by September 20.
 
 ## Register to attend
 
