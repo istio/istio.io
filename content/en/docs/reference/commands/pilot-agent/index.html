@@ -2199,6 +2199,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>socket</code></td>
 <td>SPIRE workload identity SDS socket filename. If set, an SDS socket with this name must exist at ./var/run/secrets/workload-spiffe-uds</td>
 </tr>
+<tr id='workload-identity-socket-timeout'>
+<td><a href='#workload-identity-socket-timeout'><code>WORKLOAD_IDENTITY_SOCKET_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>How long to wait at startup for the workload identity SDS socket at ./var/run/secrets/workload-spiffe-uds to appear and become healthy. This is useful when an external SDS provider, such as SPIRE, may bind its socket after the agent starts. If zero (the default), the socket is checked once and the agent does not wait.</td>
+</tr>
 <tr id='workload-rsa-key-size'>
 <td><a href='#workload-rsa-key-size'><code>WORKLOAD_RSA_KEY_SIZE</code></a></td>
 <td>Integer</td>
