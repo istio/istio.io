@@ -10,7 +10,7 @@ prev: /docs/ambient/install/multicluster/verify
 Sigue esta guía para personalizar el comportamiento de failover en tu instalación multiclúster de Istio en modo ambient usando waypoint proxies.
 
 Antes de proceder, asegúrate de completar la instalación de Istio multiclúster en modo ambient siguiendo una de las
-[guías de instalación multiclúster](/docs/ambient/install/multicluster) y verificar que la instalación funciona correctamente.
+[guías de instalación multiclúster](/es/docs/ambient/install/multicluster) y verificar que la instalación funciona correctamente.
 
 En esta guía, construiremos sobre la aplicación `HelloWorld` usada para verificar la instalación multiclúster. Configuraremos
 el failover por localidad para el servicio `HelloWorld` para preferir endpoints en el clúster local al cliente usando un
@@ -114,11 +114,11 @@ EOF
 
 Este `DestinationRule` configura lo siguiente:
 
-- [Detección de anomalías](/docs/reference/config/networking/destination-rule/#OutlierDetection) para el servicio `HelloWorld`.
+- [Detección de anomalías](/es/docs/reference/config/networking/destination-rule/#OutlierDetection) para el servicio `HelloWorld`.
   Esto indica a los waypoint proxies cómo identificar cuándo los endpoints de un servicio no están saludables. Es necesario para que
   el failover funcione correctamente.
 
-- [Prioridad de failover](/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) que indica
+- [Prioridad de failover](/es/docs/reference/config/networking/destination-rule/#LocalityLoadBalancerSetting) que indica
   al waypoint proxy cómo priorizar los endpoints al enrutar requests. En este ejemplo, el waypoint proxy preferirá endpoints
   en el mismo clúster que el waypoint proxy cuando estén disponibles y se consideren saludables según la configuración de detección de anomalías.
 

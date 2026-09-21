@@ -42,7 +42,7 @@ ztunnel, causando interrupciones en tus workloads.
 Omite este paso si no estás usando waypoints.
 {{< /tip >}}
 
-Activa los waypoints desplegados en el [paso anterior](/docs/ambient/migrate/install-ambient-components/)
+Activa los waypoints desplegados en el [paso anterior](/es/docs/ambient/migrate/install-ambient-components/)
 agregando la etiqueta `istio.io/use-waypoint`.
 
 Para activar un waypoint para todo un namespace:
@@ -213,7 +213,7 @@ mientras que las métricas de los waypoint proxies usan `reporter="waypoint"`. A
 regla de alertas que dependa de la etiqueta `reporter`.
 
 **Fusión de métricas**: En modo sidecar, el agente proxy soporta la
-[fusión de métricas](/docs/ops/integrations/prometheus/#option-1-metrics-merging), que
+[fusión de métricas](/es/docs/ops/integrations/prometheus/#option-1-metrics-merging), que
 combina las métricas de Istio y las de la aplicación en un único destino de scrape usando las anotaciones estándar
 `prometheus.io`. Esta característica no está disponible en modo ambient. Después de
 la migración, debes configurar Prometheus para hacer scrape de los componentes de Istio (pods de ztunnel y waypoint)
@@ -229,5 +229,5 @@ por waypoint. Actualiza los SLOs basados en trazas en consecuencia.
 
 Para más información, consulta:
 
-- [Solución de problemas de ztunnel](/docs/ambient/usage/troubleshoot-ztunnel/)
-- [Solución de problemas de waypoints](/docs/ambient/usage/troubleshoot-waypoint/)
+- [Solución de problemas de ztunnel](/es/docs/ambient/usage/troubleshoot-ztunnel/)
+- [Solución de problemas de waypoints](/es/docs/ambient/usage/troubleshoot-waypoint/)

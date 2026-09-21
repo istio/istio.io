@@ -14,7 +14,7 @@ Tus sidecars seguirán manejando el tráfico normalmente durante este paso.
 
 {{< warning >}}
 No elimines la inyección de sidecar ni agregues la etiqueta `istio.io/dataplane-mode=ambient` a ningún
-namespace hasta el paso [Habilitar el modo ambient](/docs/ambient/migrate/enable-ambient-mode/).
+namespace hasta el paso [Habilitar el modo ambient](/es/docs/ambient/migrate/enable-ambient-mode/).
 {{< /warning >}}
 
 ## Actualizar al perfil ambient
@@ -122,7 +122,7 @@ entrega el tráfico directamente al destino sin procesarlo nuevamente en el wayp
 Si usas una política de prevención de bypass del waypoint (una política DENY que rechaza el tráfico que no
 proviene del waypoint), esa política también rechazará el tráfico de los workloads en modo sidecar,
 ya que estos omiten el waypoint. Consulta
-[Prevenir el bypass del waypoint](/docs/ambient/migrate/migrate-policies/#prevent-waypoint-bypass)
+[Prevenir el bypass del waypoint](/es/docs/ambient/migrate/migrate-policies/#prevent-waypoint-bypass)
 para obtener orientación sobre cómo manejar esto durante una migración incremental.
 {{< /warning >}}
 
@@ -130,7 +130,7 @@ para obtener orientación sobre cómo manejar esto durante una migración increm
 
 {{< tip >}}
 Omite esta sección si solo necesitas mTLS L4 y políticas de autorización. Los waypoints solo son
-necesarios para características L7. Consulta [Migrar políticas](/docs/ambient/migrate/migrate-policies/)
+necesarios para características L7. Consulta [Migrar políticas](/es/docs/ambient/migrate/migrate-policies/)
 para determinar si los necesitas.
 {{< /tip >}}
 
@@ -153,17 +153,17 @@ $ kubectl get pods -n <namespace> -l gateway.istio.io/managed=istio.io-mesh-cont
 {{< warning >}}
 **No** agregues la etiqueta `istio.io/use-waypoint` a ningún namespace o servicio todavía.
 Activar waypoints antes de que se eliminen los sidecars puede hacer que el tráfico se procese dos veces.
-Espera hasta el paso [Habilitar el modo ambient](/docs/ambient/migrate/enable-ambient-mode/).
+Espera hasta el paso [Habilitar el modo ambient](/es/docs/ambient/migrate/enable-ambient-mode/).
 {{< /warning >}}
 
 Para más detalles sobre las opciones de configuración de waypoints (a nivel de servicio, workload o
-waypoints entre namespaces), consulta [Usar waypoint proxies](/docs/ambient/usage/waypoint/).
+waypoints entre namespaces), consulta [Usar waypoint proxies](/es/docs/ambient/usage/waypoint/).
 
 ## Próximos pasos
 
-Continúa con [Migrar políticas](/docs/ambient/migrate/migrate-policies/) para actualizar tus políticas de tráfico y
+Continúa con [Migrar políticas](/es/docs/ambient/migrate/migrate-policies/) para actualizar tus políticas de tráfico y
 autorización para el modo ambient.
 
 Si no tienes recursos `VirtualService` o `DestinationRule`, y tus recursos `AuthorizationPolicy`
 solo usan reglas L4 (sin coincidencia de método/path/header HTTP), omite esa página y ve
-directamente a [Habilitar el modo ambient](/docs/ambient/migrate/enable-ambient-mode/).
+directamente a [Habilitar el modo ambient](/es/docs/ambient/migrate/enable-ambient-mode/).

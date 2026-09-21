@@ -10,7 +10,7 @@ prev: /docs/ambient/install/multicluster
 ---
 
 Antes de comenzar una instalación multiclúster, revisa la
-[guía de modelos de despliegue](/docs/ops/deployment/deployment-models)
+[guía de modelos de despliegue](/es/docs/ops/deployment/deployment-models)
 que describe los conceptos fundamentales usados a lo largo de esta guía.
 
 Además, revisa los requisitos y realiza los pasos iniciales a continuación.
@@ -20,7 +20,7 @@ Además, revisa los requisitos y realiza los pasos iniciales a continuación.
 ### Clúster
 
 Esta guía requiere que tengas dos clústeres de Kubernetes con soporte para Services de tipo `LoadBalancer` en cualquiera de las
-[versiones de Kubernetes soportadas:](/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
+[versiones de Kubernetes soportadas:](/es/docs/releases/supported-releases#support-status-of-istio-releases) {{< supported_kubernetes_versions >}}.
 
 ### Acceso al API Server
 
@@ -48,21 +48,21 @@ $ export CTX_CLUSTER2=<tu contexto del cluster2>
 Un despliegue de mesh de servicio multiclúster requiere que establezcas confianza
 entre todos los clústeres de la mesh. Dependiendo de los requisitos de tu
 sistema, puede haber múltiples opciones disponibles para establecer confianza.
-Consulta [gestión de certificados](/docs/tasks/security/cert-management/) para
+Consulta [gestión de certificados](/es/docs/tasks/security/cert-management/) para
 descripciones detalladas e instrucciones de todas las opciones disponibles.
 Dependiendo de la opción que elijas, las instrucciones de instalación de
 Istio pueden cambiar ligeramente.
 
 Esta guía asumirá que usas una raíz común para generar certificados intermedios
 para cada clúster primario.
-Sigue las [instrucciones](/docs/tasks/security/cert-management/plugin-ca-cert/)
+Sigue las [instrucciones](/es/docs/tasks/security/cert-management/plugin-ca-cert/)
 para generar y enviar un secreto de certificado CA a ambos clústeres `cluster1` y `cluster2`.
 
 {{< tip >}}
 Si actualmente tienes un solo clúster con una CA auto-firmada (como se describe
-en [Comenzando](/docs/setup/getting-started/)), necesitas
+en [Comenzando](/es/docs/setup/getting-started/)), necesitas
 cambiar la CA usando uno de los métodos descritos en
-[gestión de certificados](/docs/tasks/security/cert-management/). Cambiar la
+[gestión de certificados](/es/docs/tasks/security/cert-management/). Cambiar la
 CA generalmente requiere reinstalar Istio. Las instrucciones de instalación
 a continuación pueden necesitar modificarse según tu elección de CA.
 {{< /tip >}}
@@ -71,9 +71,9 @@ a continuación pueden necesitar modificarse según tu elección de CA.
 
 Ahora estás listo para instalar una mesh ambient de Istio en múltiples clústeres.
 
-- [Instalar multi-primary en redes diferentes](/docs/ambient/install/multicluster/multi-primary_multi-network)
+- [Instalar multi-primary en redes diferentes](/es/docs/ambient/install/multicluster/multi-primary_multi-network)
 
 {{< tip >}}
 Si planeas instalar Istio multiclúster usando Helm, primero sigue los
-[prerequisitos de Helm](/docs/setup/install/helm/#prerequisites) en la guía de instalación con Helm.
+[prerequisitos de Helm](/es/docs/setup/install/helm/#prerequisites) en la guía de instalación con Helm.
 {{< /tip >}}

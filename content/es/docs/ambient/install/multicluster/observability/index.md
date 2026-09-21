@@ -11,7 +11,7 @@ Sigue esta guía para desplegar Kiali multiclúster en un despliegue ambient mul
 cómo fluye el tráfico entre los clústeres.
 
 Antes de proceder, asegúrate de completar los pasos en
-[antes de comenzar](/docs/ambient/install/multicluster/before-you-begin), las [guías de instalación multiclúster](/docs/ambient/install/multicluster) y [verificar tu despliegue](/docs/ambient/install/multicluster/verify).
+[antes de comenzar](/es/docs/ambient/install/multicluster/before-you-begin), las [guías de instalación multiclúster](/es/docs/ambient/install/multicluster) y [verificar tu despliegue](/es/docs/ambient/install/multicluster/verify).
 
 En esta guía comenzaremos desplegando una instancia federada de Prometheus para agregar métricas de
 todos los clústeres juntos. Luego procederemos a desplegar una instancia personalizada de Kiali que se conecta a todos los
@@ -20,7 +20,7 @@ clústeres y presenta una vista unificada del tráfico de la mesh.
 {{< warning >}}
 La configuración mostrada en esta guía está pensada para ser simple y no es una
 configuración recomendada para producción. Para mejores prácticas en la configuración de Prometheus en producción, consulta
-[Usar Prometheus para monitoreo a escala de producción](/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring).
+[Usar Prometheus para monitoreo a escala de producción](/es/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring).
 Para más detalles sobre los despliegues de Kiali, consulta la [documentación de Kiali](https://kiali.io/docs/).
 {{< /warning >}}
 

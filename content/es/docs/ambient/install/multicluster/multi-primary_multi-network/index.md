@@ -21,7 +21,7 @@ red `network2`. Esto significa que no hay conectividad directa entre pods
 a través de los límites del clúster.
 
 Antes de proceder, asegúrate de completar los pasos en
-[antes de comenzar](/docs/ambient/install/multicluster/before-you-begin).
+[antes de comenzar](/es/docs/ambient/install/multicluster/before-you-begin).
 
 {{< boilerplate multi-cluster-with-metallb >}}
 
@@ -362,7 +362,7 @@ clústeres primarios en redes diferentes.
 
 ## Próximos pasos
 
-Ahora puedes [verificar la instalación](/docs/ambient/install/multicluster/verify).
+Ahora puedes [verificar la instalación](/es/docs/ambient/install/multicluster/verify).
 
 ## Limpieza
 

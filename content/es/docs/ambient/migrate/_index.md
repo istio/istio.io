@@ -70,7 +70,7 @@ Necesitas waypoint proxies si tus workloads usan alguno de los siguientes:
 - `RequestAuthentication` (validación JWT).
 - Enriquecimiento de telemetría L7.
 
-Si no estás seguro, la página [migrar políticas](/docs/ambient/migrate/migrate-policies/)
+Si no estás seguro, la página [migrar políticas](/es/docs/ambient/migrate/migrate-policies/)
 te ayuda a auditar tus recursos existentes.
 
 ## Qué no está soportado
@@ -105,5 +105,5 @@ Las siguientes son limitaciones conocidas que afectan el comportamiento durante 
 
 ## Próximos pasos
 
-Comienza con [Antes de comenzar](/docs/ambient/migrate/before-you-begin/) para verificar
+Comienza con [Antes de comenzar](/es/docs/ambient/migrate/before-you-begin/) para verificar
 tu entorno y hacer una copia de seguridad de tu configuración.

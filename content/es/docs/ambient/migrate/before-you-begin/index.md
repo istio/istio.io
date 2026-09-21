@@ -52,8 +52,8 @@ a entender los pasos de migración y anticipar dónde se necesitan cambios.
 
 ## Requisitos
 
-- Una [versión de Istio soportada](/docs/releases/supported-releases/)
-- [Versión soportada](/docs/releases/supported-releases#support-status-of-istio-releases) de Kubernetes ({{< supported_kubernetes_versions >}})
+- Una [versión de Istio soportada](/es/docs/releases/supported-releases/)
+- [Versión soportada](/es/docs/releases/supported-releases#support-status-of-istio-releases) de Kubernetes ({{< supported_kubernetes_versions >}})
 - CRDs de Gateway API instalados (necesarios para los waypoint proxies)
 
 Si aún no tienes instalados los CRDs de Gateway API, instálalos ahora:
@@ -123,8 +123,8 @@ Guarda estas copias de seguridad en un lugar seguro fuera del clúster.
 
 ## Configurar el monitoreo de tráfico (opcional)
 
-Usa Kiali u otra herramienta de observabilidad para capturar una línea base de tus patrones de tráfico actuales antes de hacer cambios. Consulta [Kiali](/docs/ops/integrations/kiali/) para las instrucciones de configuración.
+Usa Kiali u otra herramienta de observabilidad para capturar una línea base de tus patrones de tráfico actuales antes de hacer cambios. Consulta [Kiali](/es/docs/ops/integrations/kiali/) para las instrucciones de configuración.
 
 ## Próximos pasos
 
-Continúa con [Instalar componentes ambient](/docs/ambient/migrate/install-ambient-components/).
+Continúa con [Instalar componentes ambient](/es/docs/ambient/migrate/install-ambient-components/).

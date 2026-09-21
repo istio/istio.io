@@ -13,7 +13,7 @@ next: /docs/ambient/migrate/enable-ambient-mode
 (sin coincidencia de `methods`, `paths` ni `headers`), no tienes recursos `VirtualService` o
 `DestinationRule`, y no tienes recursos `EnvoyFilter`, `WasmPlugin` ni
 `RequestAuthentication`, tus políticas existentes funcionarán en modo ambient sin
-cambios. Ve directamente a [Habilitar el modo ambient](/docs/ambient/migrate/enable-ambient-mode/).
+cambios. Ve directamente a [Habilitar el modo ambient](/es/docs/ambient/migrate/enable-ambient-mode/).
 {{< /tip >}}
 
 En modo ambient, la gestión de tráfico L7 la manejan los proxies {{< gloss >}}waypoint{{< /gloss >}}
@@ -29,7 +29,7 @@ en lugar de los proxies sidecar. Esto cambia cómo se expresan y aplican las pol
 - Los recursos **`AuthorizationPolicy`** que usan reglas L7 (métodos HTTP, paths o headers),
   o que usan `action: CUSTOM` o `action: AUDIT`, deben usar `targetRefs` (en lugar del
   `selector` de workload) para adjuntar la política a los recursos soportados; para más información consulta la
-  [documentación de AuthorizationPolicy](/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-targetRefs).
+  [documentación de AuthorizationPolicy](/es/docs/reference/config/security/authorization-policy/#AuthorizationPolicy-targetRefs).
 - Los recursos **`RequestAuthentication`** y **`WasmPlugin`** requieren un waypoint proxy y
   deben apuntarse usando `targetRefs` para apuntar al waypoint.
 - Los recursos **`EnvoyFilter`** **no están soportados en los waypoints**. Si tienes recursos `EnvoyFilter`
@@ -181,7 +181,7 @@ spec:
 {{< /text >}}
 
 Para una referencia completa sobre las capacidades de `HTTPRoute`, consulta la
-[documentación de gestión de tráfico](/docs/tasks/traffic-management/).
+[documentación de gestión de tráfico](/es/docs/tasks/traffic-management/).
 
 ## Migrar AuthorizationPolicy para reglas L7
 
@@ -381,5 +381,5 @@ para todo el tráfico a ese workload.
 
 ## Próximos pasos
 
-Continúa con [Habilitar el modo ambient](/docs/ambient/migrate/enable-ambient-mode/) para etiquetar
+Continúa con [Habilitar el modo ambient](/es/docs/ambient/migrate/enable-ambient-mode/) para etiquetar
 namespaces, activar waypoints y eliminar la inyección de sidecar.
