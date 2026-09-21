@@ -24,7 +24,8 @@ This release contains bug fixes to improve robustness. This release note describ
   redirect rules to be written into already-enrolled pods.
   ([Issue #61020](https://github.com/istio/istio/issues/61020))
 
-- **Fixed** the ability to clear the Certificate Revocation List (CRL) by either specifying the empty string as the `ca-crl.pem` or removing it.
+- **Fixed** the ability to clear the Certificate Revocation List (CRL) by either specifying an
+  empty string as the `ca-crl.pem` or removing it.
   ([Issue #61073](https://github.com/istio/istio/issues/61073))
 
 - **Fixed** the JWKS resolver forcing all public-key fetches to HTTP/1.1. The custom
