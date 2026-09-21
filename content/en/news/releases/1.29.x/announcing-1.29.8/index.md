@@ -15,7 +15,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Changes
 
-- **Fixed** an issue in ambient mode where the CNI node agent auto-detected iptables backend
+- **Fixed** an issue in ambient mode where the CNI node agent's auto-detected iptables backend
   (`legacy` vs `nft`) could flip between agent restarts, causing duplicate
   redirect rules to be written into already-enrolled pods.
   ([Issue #61020](https://github.com/istio/istio/issues/61020))
@@ -33,7 +33,7 @@ This release contains bug fixes to improve robustness. This release note describ
 
 - **Fixed** an issue where the network gateway selected for a workload was picked in a random
   order when a network had more than one gateway entry, which caused unnecessary workload
-  (WDS) pushes on every recompute and could alternate the gateway address a workload uses.
+  (WDS) pushes on every recompute and could cause a workload's gateway address to alternate.
 
 - **Fixed** `istioctl analyze` building Kubernetes clients directly from `istio-system`
   multicluster secrets without sanitizing the kubeconfig, which could allow a crafted
