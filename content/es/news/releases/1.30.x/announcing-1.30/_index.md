@@ -1,7 +1,7 @@
 ---
 title: Anuncio de Istio 1.30.0
 linktitle: 1.30.0
-subtitle: Versión Mayor
+subtitle: Versión Principal
 description: Anuncio de la versión Istio 1.30.
 publishdate: 2026-05-18
 release: 1.30.0
@@ -10,7 +10,7 @@ aliases:
     - /news/announcing-1.30.0
 ---
 
-Nos complace anunciar el lanzamiento de Istio 1.30. ¡Gracias a todos nuestros colaboradores, testers, usuarios y entusiastas por ayudarnos a publicar la versión 1.30.0!
+Nos complace anunciar el lanzamiento de Istio 1.30. ¡Gracias a todos nuestros contribuidores, testers, usuarios y entusiastas por ayudarnos a publicar la versión 1.30.0!
 Nos gustaría agradecer a los Release Managers de esta versión, **Petr McAllister** de Solo.io, **Jacek Ewertowski** de Red Hat, y **Jackson Greer** de Microsoft.
 
 {{< relnote >}}

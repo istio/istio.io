@@ -1,6 +1,6 @@
 ---
 title: ISTIO-SECURITY-2026-003
-subtitle: Security Bulletin
+subtitle: Boletín de seguridad
 description: Correcciones de seguridad de Istio para bypass de autorización y SSRF.
 cves: [CVE-2026-39350, CVE-2026-XXXXX]
 cvss: "5.4"

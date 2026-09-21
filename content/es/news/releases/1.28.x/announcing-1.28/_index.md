@@ -1,7 +1,7 @@
 ---
 title: Anuncio de Istio 1.28.0
 linktitle: 1.28.0
-subtitle: Versión Mayor
+subtitle: Versión Principal
 description: Anuncio de la versión Istio 1.28.
 publishdate: 2025-11-05
 release: 1.28.0
@@ -10,7 +10,7 @@ aliases:
     - /news/announcing-1.28.0
 ---
 
-Nos complace anunciar el lanzamiento de Istio 1.28. ¡Gracias a todos nuestros colaboradores, testers, usuarios y entusiastas por ayudarnos a publicar la versión 1.28.0!
+Nos complace anunciar el lanzamiento de Istio 1.28. ¡Gracias a todos nuestros contribuidores, testers, usuarios y entusiastas por ayudarnos a publicar la versión 1.28.0!
 Nos gustaría agradecer a los Release Managers de esta versión, **Gustavo Meira** de Microsoft, **Francisco Herrera** de Red Hat, y **Darrin Cecil** de Microsoft.
 
 {{< relnote >}}
@@ -52,7 +52,7 @@ Esta versión incluye varias mejoras de seguridad importantes:
 - **Autenticación JWT mejorada**: La configuración mejorada del filtro JWT ahora soporta claims personalizados delimitados por espacios además de los claims predeterminados como "scope" y "permission". Esta mejora garantiza la validación correcta de tokens JWT con claims personalizados usando el campo `spaceDelimitedClaims` en los recursos `RequestAuthentication`
 - **Soporte de `NetworkPolicy`**: Despliegue opcional de `NetworkPolicy` para istiod con `global.networkPolicy.enabled=true`
 - **Seguridad de contenedor mejorada**: Soporte para configurar `seccompProfile` en los contenedores istio-validation e istio-proxy para un mejor cumplimiento de seguridad
-- **Seguridad de la Gateway API**: Soporte para `FrontendTLSValidation` (GEP-91) habilitando configuraciones de gateway de ingreso mTLS mutuo
+- **Seguridad de la Gateway API**: Soporte para `FrontendTLSValidation` (GEP-91) habilitando configuraciones de gateway de ingreso mTLS
 - **Manejo de certificados mejorado**: Mejor análisis de certificados raíz que filtra los certificados mal formados en lugar de rechazar el bundle completo
 
 ### Mejoras en Gateway API y Gestión de Tráfico

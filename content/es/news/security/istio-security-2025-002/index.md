@@ -1,6 +1,6 @@
 ---
 title: ISTIO-SECURITY-2025-002
-subtitle: Security Bulletin
+subtitle: Boletín de seguridad
 description: CVEs reportados por Envoy.
 cves: [CVE-2025-55162, CVE-2025-54588]
 cvss: "6.6"

@@ -1,6 +1,6 @@
 ---
 title: ISTIO-SECURITY-2026-002
-subtitle: Security Bulletin
+subtitle: Boletín de seguridad
 description: Ataque Man-in-the-Middle a través de VirtualService.
 cves: []
 cvss: "5.9"
