@@ -13,7 +13,7 @@ La anotación `networking.istio.io/traffic-distribution` controla cómo {{< glos
 | Valor | Comportamiento |
 | --- | --- |
 | `PreferSameZone` | Prioriza los endpoints por proximidad: red, región, zona y subzona. El tráfico va primero a los endpoints más cercanos y disponibles. |
-| `PreferClose` | Alias obsoleto de `PreferSameZone`. Ver [propuesta de mejora de Kubernetes 3015](https://github.com/kubernetes/enhancements/tree/master/keps/sig-network/3015-prefer-same-node). |
+| `PreferClose` | Alias obsoleto de `PreferSameZone`. Consulta la [propuesta de mejora de Kubernetes 3015](https://github.com/kubernetes/enhancements/tree/master/keps/sig-network/3015-prefer-same-node). |
 | `PreferSameNode` | Prefiere endpoints en el mismo nodo que el cliente. |
 | (sin definir) | Sin preferencia de localidad. El tráfico se distribuye entre todos los endpoints disponibles. |
 
@@ -109,7 +109,7 @@ Con `PreferSameZone`, ztunnel categoriza los endpoints por localidad y enruta ha
 1. Misma red
 1. Cualquier endpoint disponible
 
-Si todos los endpoints de una localidad más cercana quedan no disponibles, el tráfico hace failover automáticamente al siguiente nivel.
+Si todos los endpoints de una localidad más cercana dejan de estar disponibles, el tráfico hace failover automáticamente al siguiente nivel.
 
 Por ejemplo, un servicio con endpoints en las zonas `us-west`, `us-west` y `us-east`:
 
@@ -119,11 +119,11 @@ Por ejemplo, un servicio con endpoints en las zonas `us-west`, `us-west` y `us-e
 
 ### `PreferSameNode`
 
-Con `PreferSameNode`, ztunnel prefiere los endpoints que se ejecutan en el mismo nodo de Kubernetes que el cliente. Esto minimiza los saltos de red y la latencia para la comunicación local al nodo.
+Con `PreferSameNode`, ztunnel prefiere los endpoints que se ejecutan en el mismo nodo de Kubernetes que el cliente. Esto minimiza los saltos de red y la latencia para la comunicación dentro del mismo nodo.
 
 ## Relación con `trafficDistribution` de Kubernetes
 
-Kubernetes 1.31 introdujo el campo [`spec.trafficDistribution`](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) en los `Service`s. Esta anotación de Istio proporciona la misma funcionalidad con beneficios adicionales:
+Kubernetes 1.31 introdujo el campo [`spec.trafficDistribution`](https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution) en los `Service`. Esta anotación de Istio proporciona la misma funcionalidad con beneficios adicionales:
 
 | | `spec.trafficDistribution` | Anotación |
 | --- | --- | --- |

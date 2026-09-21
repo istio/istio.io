@@ -9,7 +9,7 @@ next: /docs/ambient/migrate/enable-ambient-mode
 ---
 
 {{< tip >}}
-**Es posible que puedas omitir esta página.** Si solo usas reglas L4 de `AuthorizationPolicy`
+**Puedes omitir esta página** si solo usas reglas L4 de `AuthorizationPolicy`
 (sin coincidencia de `methods`, `paths` ni `headers`), no tienes recursos `VirtualService` o
 `DestinationRule`, y no tienes recursos `EnvoyFilter`, `WasmPlugin` ni
 `RequestAuthentication`, tus políticas existentes funcionarán en modo ambient sin
@@ -76,7 +76,7 @@ $ kubectl get destinationrule -A --no-headers | while read ns name rest; do
 {{< warning >}}
 El soporte de `VirtualService` con waypoints es Alpha y puede fallar en versiones futuras.
 Migra tus recursos `VirtualService` a `HTTPRoute` antes de completar la migración.
-No dejes tanto recursos `VirtualService` como `HTTPRoute` apuntando al mismo workload, ya que
+No dejes tanto recursos `VirtualService` como recursos `HTTPRoute` apuntando al mismo workload, ya que
 esto lleva a comportamiento indefinido.
 {{< /warning >}}
 
@@ -88,7 +88,7 @@ puede automatizar parte de esta conversión. Su
 [proveedor de Istio](https://github.com/kubernetes-sigs/ingress2gateway/blob/main/pkg/i2gw/providers/istio/README.md)
 traduce recursos `VirtualService` a `HTTPRoute`, `TLSRoute` y `TCPRoute`, y
 genera recursos `ReferenceGrant` para referencias entre namespaces. Los campos que no se pueden
-traducir directamente se registran y omiten, por lo que siempre revisa la salida generada
+traducir directamente se registran y se omiten, por lo que siempre revisa la salida generada
 antes de aplicarla a tu clúster. Ten en cuenta que también se traducen los recursos `IngressGateway` a recursos Gateway de la Gateway API, por lo que esta herramienta puede usarse para la migración tanto de VirtualService como de recursos Gateway.
 {{< /tip >}}
 
@@ -216,7 +216,7 @@ spec:
 
 {{< warning >}}
 La migración de políticas L7 implica una breve brecha de aplicación. Las antiguas políticas basadas en selector deben
-eliminarse antes o al reiniciar el pod, y las nuevas políticas basadas en waypoint surten efecto
+eliminarse antes de o durante el reinicio del pod, y las nuevas políticas basadas en waypoint surten efecto
 inmediatamente una vez creadas. Entre estas dos operaciones, las reglas L7 no se aplican. Si
 se requiere la aplicación continua de políticas L7, planifica una ventana de mantenimiento. Esta brecha es una limitación conocida y se está siguiendo para su mejora en versiones futuras.
 {{< /warning >}}

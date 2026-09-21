@@ -17,7 +17,7 @@ waypoint no se aplican para el tráfico proveniente de fuentes sidecar. Además,
 políticas L7 basadas en selector deben eliminarse al reiniciar el pod y ser reemplazadas por equivalentes
 basados en waypoint — hay una breve ventana entre estas dos operaciones donde las reglas L7 no se
 aplican. Esta es una brecha conocida. Planifica una ventana de mantenimiento si se requiere la aplicación
-continua de políticas L7. Esta brecha es una limitación conocida y se está siguiendo para su mejora en versiones futuras.
+continua de políticas L7.
 {{< /warning >}}
 
 ## Migración de un namespace
@@ -120,7 +120,7 @@ $ kubectl rollout status deployment -n <namespace>
 ### Paso 5: Eliminar las antiguas políticas de sidecar
 
 {{< warning >}}
-Haz esto inmediatamente después del reinicio del pod, antes de ejecutar cualquier validación. Una vez que se
+Haz esto inmediatamente después del reinicio del pod, antes de realizar cualquier validación. Una vez que se
 eliminan los sidecars, ztunnel toma el control de la aplicación de políticas. ztunnel solo comprende atributos L4
 y descarta silenciosamente cualquier condición L7 (métodos HTTP, paths, headers, request principals)
 de las reglas de `AuthorizationPolicy`. El efecto depende de la acción de la política:
@@ -175,7 +175,7 @@ definen tus recursos `HTTPRoute` y `AuthorizationPolicy`.
 
 ## Repetir para cada namespace
 
-Repite los pasos de [Migración de un namespace](#migrating-a-namespace) para cada namespace que
+Repite los pasos de [Migración de un namespace](#migración-de-un-namespace) para cada namespace que
 quieras migrar. Los namespaces no etiquetados con `istio.io/dataplane-mode=ambient` continúan
 usando sus sidecars y no se ven afectados.
 
@@ -197,7 +197,7 @@ continuar.
 
 {{< warning >}}
 Revertir después del Paso 5 usando `kubectl apply -f istio-config-backup.yaml` restaura los
-recursos de estilo sidecar originales, pero también **sobreescribe cualquier recurso ambient nuevo** creado
+recursos de estilo sidecar originales, pero también **sobrescribe cualquier recurso ambient nuevo** creado
 durante la migración (como las reglas `HTTPRoute` y los recursos `AuthorizationPolicy` basados en `targetRefs`)
 que compartan el mismo nombre. Antes de aplicar la copia de seguridad, elimina primero los recursos ambient,
 o usa `kubectl apply` selectivo en recursos individuales en lugar del archivo de copia de seguridad completo.

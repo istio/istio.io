@@ -7,12 +7,13 @@ test: yes
 owner: istio/wg-environments-maintainers
 prev: /docs/ambient/install/multicluster/verify
 ---
+
 Sigue esta guía para personalizar el comportamiento de failover en tu instalación multiclúster de Istio en modo ambient usando waypoint proxies.
 
 Antes de proceder, asegúrate de completar la instalación de Istio multiclúster en modo ambient siguiendo una de las
 [guías de instalación multiclúster](/es/docs/ambient/install/multicluster) y verificar que la instalación funciona correctamente.
 
-En esta guía, construiremos sobre la aplicación `HelloWorld` usada para verificar la instalación multiclúster. Configuraremos
+En esta guía, ampliaremos la configuración de la aplicación `HelloWorld` usada para verificar la instalación multiclúster. Configuraremos
 el failover por localidad para el servicio `HelloWorld` para preferir endpoints en el clúster local al cliente usando un
 `DestinationRule` y desplegaremos un waypoint proxy para aplicar la configuración.
 
@@ -88,7 +89,7 @@ spec:
 EOF
 {{< /text >}}
 
-Aplica el mismo `DestinationRule` también en `cluster2`:
+También aplica el mismo `DestinationRule` en `cluster2`:
 
 {{< text bash >}}
 $ kubectl --context "${CTX_CLUSTER2}" apply -n sample -f - <<EOF
@@ -136,8 +137,8 @@ $ kubectl exec --context "${CTX_CLUSTER1}" -n sample -c curl \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 
-Ahora, si repites este request varias veces y verificas que la versión de `HelloWorld` siempre debería ser `v1` porque el
-tráfico permanece en `cluster1`:
+Repite este request varias veces. La versión de `HelloWorld` siempre debería ser `v1`
+porque el tráfico permanece en `cluster1`:
 
 {{< text plain >}}
 Hello version: v1, instance: helloworld-v1-954745fd-z6qcn
@@ -154,7 +155,7 @@ $ kubectl exec --context "${CTX_CLUSTER2}" -n sample -c curl \
     -- curl -sS helloworld.sample:5000/hello
 {{< /text >}}
 
-Deberías ver que todos los requests son procesados en `cluster2` mirando la versión en la respuesta:
+Deberías ver que todos los requests son procesados en `cluster2` verificando la versión en la respuesta:
 
 {{< text plain >}}
 Hello version: v2, instance: helloworld-v2-7b768b9bbd-7zftm
