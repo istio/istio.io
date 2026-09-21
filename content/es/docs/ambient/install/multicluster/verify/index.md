@@ -12,8 +12,8 @@ Sigue esta guía para verificar que tu instalación multiclúster de Istio en mo
 funcionando correctamente.
 
 Antes de proceder, asegúrate de completar los pasos en
-[antes de comenzar](/docs/ambient/install/multicluster/before-you-begin) así como
-elegir y seguir una de las [guías de instalación multiclúster](/docs/ambient/install/multicluster).
+[antes de comenzar](/es/docs/ambient/install/multicluster/before-you-begin) así como
+elegir y seguir una de las [guías de instalación multiclúster](/es/docs/ambient/install/multicluster).
 
 En esta guía, verificaremos que el multiclúster es funcional, desplegaremos la aplicación `HelloWorld`
 `v1` en `cluster1` y `v2` en `cluster2`. Al recibir un request,
@@ -50,7 +50,7 @@ coincida con el certificado que usa el host intermediario.
 
 Para que el servicio `HelloWorld` sea accesible desde cualquier clúster, la búsqueda DNS
 debe tener éxito en cada clúster (consulta
-[modelos de despliegue](/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
+[modelos de despliegue](/es/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
 para más detalles). Lo abordaremos desplegando el servicio `HelloWorld` en
 cada clúster de la mesh.
 
@@ -219,6 +219,6 @@ clústeres.
 
 ## Próximos pasos
 
-Configura el [failover por localidad](/docs/ambient/install/multicluster/failover) para tu despliegue multiclúster.
+Configura el [failover por localidad](/es/docs/ambient/install/multicluster/failover) para tu despliegue multiclúster.
 
-Despliega [Kiali](/docs/ambient/install/multicluster/observability) para tu despliegue multiclúster.
+Despliega [Kiali](/es/docs/ambient/install/multicluster/observability) para tu despliegue multiclúster.

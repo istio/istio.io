@@ -138,5 +138,5 @@ Los waypoints configuran esta anotación automáticamente.
 
 ## Ver también
 
-- [Balanceo de carga por localidad](/docs/tasks/traffic-management/locality-load-balancing/) para el enrutamiento por localidad basado en sidecar
-- [Referencia de anotaciones](/docs/reference/config/annotations/#NetworkingTrafficDistribution)
+- [Balanceo de carga por localidad](/es/docs/tasks/traffic-management/locality-load-balancing/) para el enrutamiento por localidad basado en sidecar
+- [Referencia de anotaciones](/es/docs/reference/config/annotations/#NetworkingTrafficDistribution)

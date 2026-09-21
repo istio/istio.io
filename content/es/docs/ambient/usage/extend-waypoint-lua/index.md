@@ -11,14 +11,14 @@ status: Alpha
 {{< boilerplate alpha >}}
 
 Istio permite extender los waypoint proxies usando scripts [Lua](https://www.lua.org/) inline
-a través de la API [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/).
+a través de la API [`TrafficExtension`](/es/docs/reference/config/proxy_extensions/traffic_extension/).
 En modo ambient, los recursos `TrafficExtension` deben adjuntarse a un waypoint proxy usando `targetRefs`.
 
 ## Antes de comenzar
 
-1. Configura Istio siguiendo la [guía de inicio rápido en modo ambient](/docs/ambient/getting-started).
-1. Despliega la [aplicación de ejemplo Bookinfo](/docs/ambient/getting-started/deploy-sample-app).
-1. [Agrega el namespace default a la mesh ambient](/docs/ambient/getting-started/secure-and-visualize).
+1. Configura Istio siguiendo la [guía de inicio rápido en modo ambient](/es/docs/ambient/getting-started).
+1. Despliega la [aplicación de ejemplo Bookinfo](/es/docs/ambient/getting-started/deploy-sample-app).
+1. [Agrega el namespace default a la mesh ambient](/es/docs/ambient/getting-started/secure-and-visualize).
 1. Despliega la aplicación de ejemplo [curl]({{< github_tree >}}/samples/curl) como fuente de prueba:
 
     {{< text syntax=bash >}}
@@ -81,7 +81,7 @@ x-parity: even
 
 ### Desplegar un waypoint proxy
 
-Sigue las [instrucciones de despliegue de waypoint](/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy)
+Sigue las [instrucciones de despliegue de waypoint](/es/docs/ambient/usage/waypoint/#deploy-a-waypoint-proxy)
 para desplegar un waypoint proxy en el namespace de bookinfo:
 
 {{< text syntax=bash snip_id=create_waypoint >}}
@@ -201,5 +201,5 @@ x-parity: odd
     $ kubectl delete trafficextension parity-at-gateway parity-for-reviews
     {{< /text >}}
 
-1. Sigue la [guía de desinstalación del modo ambient](/docs/ambient/getting-started/#uninstall) para eliminar
+1. Sigue la [guía de desinstalación del modo ambient](/es/docs/ambient/getting-started/#uninstall) para eliminar
    Istio y las aplicaciones de prueba de ejemplo.
