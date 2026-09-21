@@ -15,7 +15,9 @@ This release contains bug fixes to improve robustness. This release note describ
 
 ## Security Update
 
-- __[GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx)__ (CVSS score 6.8, Moderate): a fail-open in `BackendTLSPolicy` where sidecar proxies sent upstream traffic in plaintext instead of failing closed when a policy's `caCertificateRefs` could not be resolved.
+### Istio CVEs
+
+- __[GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx)__ (CVSS score 6.8, Moderate): `BackendTLSPolicy` fails open to plaintext on sidecar proxies when its CA reference is unresolved.
 
 ## Changes
 
