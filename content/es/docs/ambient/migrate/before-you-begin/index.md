@@ -33,8 +33,8 @@ migración no requiere cambios en las políticas.
 
 ## Contexto: cómo cambia la aplicación de políticas
 
-Comprender las diferencias clave entre la aplicación de políticas en modo sidecar y en modo ambient te ayudará
-a entender los pasos de migración y anticipar dónde se necesitan cambios.
+Comprender las diferencias clave entre la aplicación de políticas en modo sidecar y en modo ambient
+te permitirá anticipar los cambios necesarios en cada paso de la migración.
 
 **En modo sidecar:**
 - Las políticas usan un `selector` para apuntar a pods por etiqueta.
@@ -107,7 +107,7 @@ Cualquier `PeerAuthentication` con `mode: DISABLE` debe eliminarse o cambiarse a
 ya que el modo ambient siempre aplica mTLS entre los workloads de la mesh.
 
 Los recursos `PeerAuthentication` con `mode: STRICT` o `mode: PERMISSIVE` no son bloqueadores,
-pero se vuelven redundantes después de la migración: el modo ambient aplica mTLS mediante ztunnel sin importar
+pero se vuelven redundantes después de la migración: el modo ambient aplica mTLS mediante ztunnel independientemente de
 estas políticas. Puedes eliminarlos de forma segura una vez completada la migración.
 
 ## Hacer una copia de seguridad de tu configuración

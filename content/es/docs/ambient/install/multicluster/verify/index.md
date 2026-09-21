@@ -26,8 +26,7 @@ qué clúster recibió los requests.
 
 ## Verificar el multiclúster
 
-Para confirmar que Istiod ahora puede comunicarse con el control plane de Kubernetes
-del clúster remoto.
+Confirma que Istiod puede comunicarse con el control plane de Kubernetes del clúster remoto.
 
 {{< text bash >}}
 $ istioctl remote-clusters --context="${CTX_CLUSTER1}"
@@ -37,7 +36,7 @@ cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b
 {{< /text >}}
 
 Todos los clústeres deberían indicar su estado como `synced`. Si un clúster está listado con
-un `STATUS` de `timeout` significa que Istiod en el clúster primario no puede
+un `STATUS` de `timeout`, significa que Istiod en el clúster primario no puede
 comunicarse con el clúster remoto. Consulta los logs de Istiod para mensajes de error detallados.
 
 Nota: si ves problemas de `timeout` y hay un host intermediario (como el [proxy de autenticación de Rancher](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/manage-clusters/access-clusters/authorized-cluster-endpoint#two-authentication-methods-for-rke-clusters))
@@ -105,7 +104,7 @@ helloworld-v1-86f77cd7bd-cpxhv  1/1       Running   0          40s
 
 Espera hasta que el estado de `helloworld-v1` sea `Running`.
 
-Ahora, marca el servicio helloworld en `cluster1` como global para que pueda accederse desde otros clústeres de la mesh:
+Ahora, marca el servicio helloworld en `cluster1` como global para que sea accesible desde otros clústeres de la mesh:
 
 {{< text bash >}}
 $ kubectl label --context="${CTX_CLUSTER1}" svc helloworld -n sample \
@@ -132,7 +131,7 @@ helloworld-v2-758dd55874-6x4t8  1/1       Running   0          40s
 
 Espera hasta que el estado de `helloworld-v2` sea `Running`.
 
-Ahora, marca el servicio helloworld en `cluster2` como global para que pueda accederse desde otros clústeres de la mesh:
+Ahora, marca el servicio helloworld en `cluster2` como global para que sea accesible desde otros clústeres de la mesh:
 
 {{< text bash >}}
 $ kubectl label --context="${CTX_CLUSTER2}" svc helloworld -n sample \
@@ -187,7 +186,7 @@ $ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
 {{< /text >}}
 
 Repite este request varias veces y verifica que la versión de `HelloWorld`
-debe cambiar entre `v1` y `v2`, lo que indica que se están usando endpoints en ambos
+debería cambiar entre `v1` y `v2`, lo que indica que se están usando endpoints en ambos
 clústeres:
 
 {{< text plain >}}
@@ -206,7 +205,7 @@ $ kubectl exec --context="${CTX_CLUSTER2}" -n sample -c curl \
 {{< /text >}}
 
 Repite este request varias veces y verifica que la versión de `HelloWorld`
-debe alternar entre `v1` y `v2`:
+debería alternar entre `v1` y `v2`:
 
 {{< text plain >}}
 Hello version: v2, instance: helloworld-v2-758dd55874-6x4t8

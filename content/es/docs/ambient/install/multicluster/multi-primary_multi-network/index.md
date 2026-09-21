@@ -39,7 +39,7 @@ El gateway en cada clúster debe ser accesible desde el otro clúster.
 
 ## Establecer la red predeterminada para `cluster1`
 
-Si el namespace istio-system ya fue creado, necesitamos establecer la red del clúster ahí:
+Si el namespace istio-system ya fue creado, debes establecer la red del clúster ahí:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
@@ -163,7 +163,7 @@ spec:
     port: 15008
     protocol: HBONE
     tls:
-      mode: Terminate # representa double-HBONE
+      mode: Terminate # representa HBONE doble
       options:
         gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
@@ -193,14 +193,14 @@ istio-eastwestgateway   LoadBalancer   10.80.6.124   34.75.71.237   ...       51
 
 ## Establecer la red predeterminada para `cluster2`
 
-Si el namespace istio-system ya fue creado, necesitamos establecer la red del clúster ahí:
+Si el namespace istio-system ya fue creado, debes establecer la red del clúster ahí:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
   kubectl --context="${CTX_CLUSTER2}" label namespace istio-system topology.istio.io/network=network2
 {{< /text >}}
 
-## Configurar cluster2 como primario
+## Configurar `cluster2` como primario
 
 Crea la configuración de `istioctl` para `cluster2`:
 
@@ -309,7 +309,7 @@ spec:
     port: 15008
     protocol: HBONE
     tls:
-      mode: Terminate # representa double-HBONE
+      mode: Terminate # representa HBONE doble
       options:
         gateway.istio.io/tls-terminate-mode: ISTIO_MUTUAL
 EOF
@@ -366,7 +366,7 @@ Ahora puedes [verificar la instalación](/es/docs/ambient/install/multicluster/v
 
 ## Limpieza
 
-Desinstala Istio de ambos `cluster1` y `cluster2` usando el mismo mecanismo con el que instalaste Istio (istioctl o Helm).
+Desinstala Istio tanto de `cluster1` como de `cluster2` usando el mismo mecanismo con el que instalaste Istio (istioctl o Helm).
 
 {{< tabset category-name="multicluster-uninstall-type-cluster-1" >}}
 

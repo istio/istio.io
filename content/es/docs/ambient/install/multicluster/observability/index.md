@@ -13,8 +13,8 @@ cómo fluye el tráfico entre los clústeres.
 Antes de proceder, asegúrate de completar los pasos en
 [antes de comenzar](/es/docs/ambient/install/multicluster/before-you-begin), las [guías de instalación multiclúster](/es/docs/ambient/install/multicluster) y [verificar tu despliegue](/es/docs/ambient/install/multicluster/verify).
 
-En esta guía comenzaremos desplegando una instancia federada de Prometheus para agregar métricas de
-todos los clústeres juntos. Luego procederemos a desplegar una instancia personalizada de Kiali que se conecta a todos los
+En esta guía, despliega primero una instancia federada de Prometheus para agregar métricas de
+todos los clústeres. Luego despliega una instancia personalizada de Kiali que se conecta a todos los
 clústeres y presenta una vista unificada del tráfico de la mesh.
 
 {{< warning >}}
@@ -26,7 +26,7 @@ Para más detalles sobre los despliegues de Kiali, consulta la [documentación d
 
 ## Preparar el despliegue de Kiali
 
-Instalaremos Prometheus y Kiali personalizados en un namespace separado, así que comencemos
+Instala Prometheus y Kiali personalizados en un namespace separado. Comienza
 creando el namespace en ambos clústeres:
 
 {{< text bash >}}
@@ -34,7 +34,7 @@ $ kubectl --context="${CTX_CLUSTER1}" create namespace kiali
 $ kubectl --context="${CTX_CLUSTER2}" create namespace kiali
 {{< /text >}}
 
-También usaremos `helm` para desplegar Kiali, así que agreguemos los repositorios de Helm relevantes:
+También usa `helm` para desplegar Kiali. Agrega los repositorios de Helm relevantes:
 
 {{< text bash >}}
 $ helm repo add kiali https://kiali.org/helm-charts
@@ -42,10 +42,10 @@ $ helm repo add kiali https://kiali.org/helm-charts
 
 ## Prometheus federado
 
-Istio proporciona una instalación de ejemplo básica para poner en marcha Prometheus rápidamente en despliegues de un solo clúster — usaremos eso para instalar Prometheus en cada clúster. Luego desplegaremos otra
-instancia de Prometheus que hará scraping de Prometheus en cada clúster y agregará las métricas juntas.
+Istio proporciona una instalación de ejemplo básica para poner en marcha Prometheus rápidamente en despliegues de un solo clúster — úsalo para instalar Prometheus en cada clúster. Luego despliega otra
+instancia de Prometheus que hará scraping de Prometheus en cada clúster y consolidará las métricas.
 
-Para poder hacer scraping de Prometheus en el clúster remoto, expondremos la instancia de Prometheus a través de un Ingress
+Para poder hacer scraping de Prometheus en el clúster remoto, expón la instancia de Prometheus a través de un Ingress
 Gateway.
 
 ### Desplegar Prometheus en cada clúster
@@ -55,7 +55,7 @@ $ kubectl --context="${CTX_CLUSTER1}" apply -f {{< github_file >}}/samples/addon
 $ kubectl --context="${CTX_CLUSTER2}" apply -f {{< github_file >}}/samples/addons/prometheus.yaml
 {{< /text >}}
 
-Los comandos anteriores instalarán Prometheus que recopila métricas locales del clúster de waypoints y
+Los comandos anteriores instalarán Prometheus, que recopilará métricas locales del clúster de waypoints y
 ztunnels.
 
 ### Exponer Prometheus
@@ -99,7 +99,7 @@ spec:
 EOF
 {{< /text >}}
 
-Haremos lo mismo en el segundo clúster también:
+También repite el proceso en el segundo clúster:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl --context="${CTX_CLUSTER2}" apply -f -
@@ -140,9 +140,9 @@ EOF
 
 ### Agregar métricas
 
-Con las instancias de Prometheus locales de cada clúster en funcionamiento, ahora podemos configurar otra instancia de Prometheus
-que las hará scraping para recopilar métricas de ambos clústeres en un solo lugar. Comenzaremos creando una
-configuración para la nueva instancia de Prometheus que la apuntará a las instancias locales de Prometheus de cada clúster:
+Con las instancias de Prometheus locales de cada clúster en funcionamiento, configura otra instancia de Prometheus
+que les hará scraping para recopilar métricas de ambos clústeres en un solo lugar. Comienza creando una
+configuración para la nueva instancia de Prometheus que apuntará a las instancias locales de Prometheus de cada clúster:
 
 {{< text bash >}}
 $ TARGET1="$(kubectl --context="${CTX_CLUSTER1}" get gtw prometheus-gateway -n istio-system -o jsonpath='{.status.addresses[0].value}')"
@@ -178,7 +178,7 @@ EOF
 $ kubectl --context="${CTX_CLUSTER1}" create configmap prometheus-config -n kiali --from-file prometheus.yml
 {{< /text >}}
 
-Ahora podemos usar esa configuración para desplegar una nueva instancia de Prometheus:
+Usa esa configuración para desplegar una nueva instancia de Prometheus:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl --context="${CTX_CLUSTER1}" apply -f - -n kiali
@@ -230,7 +230,7 @@ Una vez desplegada, la nueva instancia de Prometheus comenzará a hacer scraping
 
 ### Verificar Prometheus federado
 
-Para probar, podemos generar algo de tráfico ejecutando `curl` varias veces para llegar a backends en ambos
+Para probar, genera algo de tráfico ejecutando `curl` varias veces para llegar a backends en ambos
 clústeres:
 
 {{< text bash >}}
@@ -246,11 +246,11 @@ Hello version: v1, instance: helloworld-v1-86f77cd7bd-cpxhv
 ...
 {{< /text >}}
 
-Luego podemos consultar Prometheus usando `curl` para ver si tenemos métricas reportadas de todos los clústeres:
+Luego consulta Prometheus usando `curl` para verificar que hay métricas reportadas de todos los clústeres:
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_CLUSTER1}" -n sample -c curl \
-    "$(kubectl get pods ---context="${CTX_CLUSTER1}" -n sample -l \
+    "$(kubectl get pods --context="${CTX_CLUSTER1}" -n sample -l \
     app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -s prometheus.kiali:9090/api/v1/query?query=istio_tcp_received_bytes_total | jq '.'
 {{< /text >}}
@@ -311,15 +311,15 @@ reportada por `ztunnel` deberías poder ver valores de ambos clústeres en la sa
 
 ### Preparar el clúster remoto
 
-Solo desplegaremos Kiali propiamente en un clúster — `cluster1`, sin embargo aún necesitamos preparar
-`cluster2` para que Kiali pueda acceder a los recursos ahí. Para esto comenzaremos
+Solo despliega Kiali propiamente en un clúster — `cluster1`, sin embargo aún necesitas preparar
+`cluster2` para que Kiali pueda acceder a los recursos ahí. Para esto comienza
 desplegando el Operador de Kiali:
 
 {{< text bash >}}
 $ helm --kube-context="${CTX_CLUSTER2}" install --namespace kiali kiali-operator kiali/kiali-operator --wait
 {{< /text >}}
 
-Una vez que tengamos el Operador de Kiali desplegado, podemos preparar todas las cuentas de servicio, role bindings y tokens necesarios. El Operador de Kiali creará la cuenta de servicio y los role bindings, pero tendremos que crear el token para la cuenta de servicio manualmente:
+Una vez que tengas el Operador de Kiali desplegado, puedes preparar todas las cuentas de servicio, role bindings y tokens necesarios. El Operador de Kiali creará la cuenta de servicio y los role bindings, pero tendrás que crear el token para la cuenta de servicio manualmente:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl --context="${CTX_CLUSTER2}" apply -f - -n kiali
@@ -348,15 +348,15 @@ EOF
 
 ### Desplegar Kiali
 
-Con el clúster remoto listo, ahora podemos desplegar el servidor Kiali. Necesitaremos configurar Kiali con
+Con el clúster remoto listo, ahora despliega el servidor Kiali. Necesitas configurar Kiali con
 la dirección del endpoint de Prometheus y el secreto para acceder al clúster remoto. Como antes,
-comenzaremos desplegando el Operador de Kiali:
+comienza desplegando el Operador de Kiali:
 
 {{< text bash >}}
 $ helm --kube-context="${CTX_CLUSTER1}" install --namespace kiali kiali-operator kiali/kiali-operator --wait
 {{< /text >}}
 
-El proyecto Kiali proporciona un script que podemos usar para crear el secreto necesario para acceder a los recursos del clúster remoto:
+El proyecto Kiali proporciona un script que puedes usar para crear el secreto necesario para acceder a los recursos del clúster remoto:
 
 {{< text bash >}}
 $ curl -L -o kiali-prepare-remote-cluster.sh https://raw.githubusercontent.com/kiali/kiali/master/hack/istio/multicluster/kiali-prepare-remote-cluster.sh
@@ -373,7 +373,7 @@ $ ./kiali-prepare-remote-cluster.sh \
     --remote-cluster-name cluster2
 {{< /text >}}
 
-Con el secreto remoto listo, ahora podemos desplegar el servidor Kiali:
+Con el secreto remoto listo, ahora despliega el servidor Kiali:
 
 {{< text bash >}}
 $ cat <<EOF | kubectl --context="${CTX_CLUSTER1}" apply -f - -n kiali
@@ -395,7 +395,7 @@ EOF
 $ kubectl --context="${CTX_CLUSTER1}" wait --timeout=5m --for=condition=Successful kiali kiali -n kiali
 {{< /text >}}
 
-Una vez que el servidor Kiali esté en ejecución, podemos hacer port-forward de un puerto local al deployment de Kiali para acceder localmente:
+Una vez que el servidor Kiali esté en ejecución, haz port-forward de un puerto local al deployment de Kiali para acceder localmente:
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl --context="${CTX_CLUSTER1}" port-forward svc/kiali 20001:20001 -n kiali
@@ -410,7 +410,7 @@ los clústeres:
 {{< tip >}}
 Si no ves el gráfico de tráfico, intenta generar más tráfico y/o extender la ventana de tiempo que
 considera Kiali.
-{{</ tip >}}
+{{< /tip >}}
 
 **¡Felicitaciones!** Instalaste exitosamente Kiali para el despliegue ambient multiclúster.
 
@@ -424,7 +424,7 @@ $ kubectl --context="${CTX_CLUSTER2}" delete kiali kiali -n kiali
 {{< /text >}}
 
 El Operador de Kiali detendrá el servidor Kiali una vez que se elimine el recurso personalizado. Si también quieres
-eliminar el Operador de Kiali puedes hacerlo:
+eliminar el Operador de Kiali, puedes hacerlo:
 
 {{< text bash >}}
 $ helm --kube-context="${CTX_CLUSTER1}" uninstall --namespace kiali kiali-operator

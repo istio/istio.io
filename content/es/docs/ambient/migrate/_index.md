@@ -8,7 +8,7 @@ skip_list: true
 next: /docs/ambient/migrate/before-you-begin
 ---
 
-Esta guía te lleva a través del proceso de migración de un despliegue de Istio existente desde el modo
+Esta guía te guía por el proceso de migración de un despliegue de Istio existente desde el modo
 {{< gloss >}}sidecar{{< /gloss >}} al {{< gloss "ambient" >}}modo ambient{{< /gloss >}}.
 La migración está diseñada para ser gradual y reversible: los workloads en modo sidecar y en modo ambient pueden
 coexistir en la misma mesh durante el proceso, lo que te permite migrar un namespace a la vez.
@@ -85,8 +85,8 @@ Los siguientes son bloqueadores críticos; la migración no es posible hasta que
 - **SPIRE** como proveedor de certificados. El modo ambient no soporta la integración con SPIRE.
 - **`PeerAuthentication` con `mode: DISABLE`**. Ambient siempre aplica mTLS entre
   workloads de la mesh. Las políticas con modo `DISABLE` serán ignoradas y no se pueden migrar.
-- **Configuraciones multiclúster primary-remote**. Solo se soportan múltiples clústeres primary.
-  Los despliegues con uno o más clústeres remote no funcionarán correctamente.
+- **Configuraciones multiclúster primary-remote**. Solo se soportan múltiples clústeres primarios.
+  Los despliegues con uno o más clústeres remotos no funcionarán correctamente.
 
 Las siguientes son limitaciones conocidas que afectan el comportamiento durante o después de la migración:
 
@@ -101,7 +101,7 @@ Las siguientes son limitaciones conocidas que afectan el comportamiento durante 
 - **Los ingress gateways omiten los waypoints por defecto**, pero se pueden configurar para enrutar el tráfico
   a través de un waypoint agregando la etiqueta `istio.io/ingress-use-waypoint` al recurso Gateway.
 - **No se soporta mezclar `VirtualService` y `HTTPRoute` para el mismo workload** y
-  lleva a comportamiento indefinido. Migra cada workload completamente a una API antes de continuar.
+  llevan a un comportamiento indefinido. Migra cada workload completamente a una API antes de continuar.
 
 ## Próximos pasos
 

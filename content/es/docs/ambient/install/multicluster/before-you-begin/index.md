@@ -75,5 +75,5 @@ Ahora estás listo para instalar una mesh ambient de Istio en múltiples clúste
 
 {{< tip >}}
 Si planeas instalar Istio multiclúster usando Helm, primero sigue los
-[prerequisitos de Helm](/es/docs/setup/install/helm/#prerequisites) en la guía de instalación con Helm.
+[prerrequisitos de Helm](/es/docs/setup/install/helm/#prerequisites) en la guía de instalación con Helm.
 {{< /tip >}}
