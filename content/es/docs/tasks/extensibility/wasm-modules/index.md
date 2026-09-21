@@ -15,14 +15,14 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-Istio proporciona la capacidad de extender la funcionalidad del proxy usando [WebAssembly (Wasm)](/docs/concepts/extensibility/).
+Istio proporciona la capacidad de extender la funcionalidad del proxy usando [WebAssembly (Wasm)](/es/docs/concepts/extensibility/).
 Una de las ventajas clave de la extensibilidad Wasm es que las extensiones pueden cargarse dinámicamente en tiempo de ejecución.
 Estas extensiones deben distribuirse primero al proxy Envoy.
 Istio hace esto posible permitiendo que el agente proxy descargue módulos Wasm dinámicamente.
 
 ## Antes de comenzar
 
-Despliega la aplicación de ejemplo [Bookinfo](/docs/examples/bookinfo/#deploying-the-application).
+Despliega la aplicación de ejemplo [Bookinfo](/es/docs/examples/bookinfo/#deploying-the-application).
 
 ## Configurar un módulo Wasm
 
@@ -78,7 +78,7 @@ namespace. Si el recurso se crea en el namespace `istio-system`, todos los names
     401
     {{< /text >}}
 
-1. Prueba `/productpage` con credenciales:
+2. Prueba `/productpage` con credenciales:
 
     {{< text bash >}}
     $ curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
@@ -134,7 +134,7 @@ mantenido por la comunidad de Istio y usado para desarrollar la extensión Wasm 
 - [Escribir pruebas unitarias para extensiones Wasm en C++](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-cpp-unit-test.md)
 - [Escribir pruebas de integración para extensiones Wasm](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-integration-test.md)
 
-Para más detalles sobre la API, consulta la [referencia de `TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/).
+Para más detalles sobre la API, consulta la [referencia de `TrafficExtension`](/es/docs/reference/config/proxy_extensions/traffic_extension/).
 
 ## Limitaciones
 

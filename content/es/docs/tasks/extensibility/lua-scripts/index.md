@@ -11,14 +11,14 @@ status: Alpha
 {{< boilerplate alpha >}}
 
 Istio proporciona la capacidad de extender la funcionalidad del proxy usando scripts [Lua](https://www.lua.org/) inline
-a través de la API [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/).
-Los filtros Lua son una alternativa ligera a [WebAssembly](/docs/tasks/extensibility/wasm-modules/)
+a través de la API [`TrafficExtension`](/es/docs/reference/config/proxy_extensions/traffic_extension/).
+Los filtros Lua son una alternativa ligera a [WebAssembly](/es/docs/tasks/extensibility/wasm-modules/)
 para transformaciones simples de requests y responses — el script se embebe directamente en el recurso y
 se ejecuta dentro del proxy Envoy, sin requerir distribución de módulos.
 
 ## Antes de comenzar
 
-Despliega la aplicación de ejemplo [Bookinfo](/docs/examples/bookinfo/#deploying-the-application).
+Despliega la aplicación de ejemplo [Bookinfo](/es/docs/examples/bookinfo/#deploying-the-application).
 
 ## Configurar un script Lua
 
@@ -68,7 +68,7 @@ EOF
 
 ## Verificar el script Lua
 
-[Determina la IP y el puerto del ingress](/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
+[Determina la IP y el puerto del ingress](/es/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports).
 
 Envía un request con un header `x-number` y verifica que `x-parity` esté configurado en la response:
 

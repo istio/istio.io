@@ -15,7 +15,7 @@ Istio proporciona dos mecanismos de extensión principales: extensiones de Envoy
 ## Extender los proxies Envoy
 
 Istio proporciona dos mecanismos para extender los proxies basados en Envoy: WebAssembly (Wasm) y Lua.
-Ambos se configuran usando la API [`TrafficExtension`](/docs/reference/config/proxy_extensions/traffic_extension/),
+Ambos se configuran usando la API [`TrafficExtension`](/es/docs/reference/config/proxy_extensions/traffic_extension/),
 que provee una forma unificada de adjuntar extensiones a workloads con targeting consistente y ordenamiento por phase/priority.
 
 ### Elegir el tipo de filtro
@@ -43,7 +43,7 @@ Objetivos del sandbox WebAssembly:
 - **Funcionalidad** - Una extensión puede aplicar políticas, recopilar telemetría y realizar mutaciones de payload.
 - **Aislamiento** - Un error de programación o crash en un plugin no afecta a otros plugins.
 - **Configuración** - Los plugins se configuran usando una API consistente con otras APIs de Istio. Una extensión puede configurarse dinámicamente.
-- **Operador** - Una extensión puede desplegarse con canary y en modo log-only, fail-open o fail-close.
+- **Operaciones** - Una extensión puede desplegarse con canary y en modo log-only, fail-open o fail-close.
 - **Desarrollador de extensiones** - El plugin puede escribirse en varios lenguajes de programación.
 
 Esta [charla en video](https://youtu.be/XdWmm_mtVXI) es una introducción a la arquitectura de la integración de WebAssembly.
