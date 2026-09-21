@@ -13,6 +13,10 @@ This release contains bug fixes to improve robustness. This release note describ
 
 {{< relnote >}}
 
+## Security Update
+
+- __[GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx)__ (CVSS score 6.8, Moderate): a fail-open in `BackendTLSPolicy` where sidecar proxies sent upstream traffic in plaintext instead of failing closed when a policy's `caCertificateRefs` could not be resolved.
+
 ## Changes
 
 - **Improved** performance when fetching `PeerAuthentications` for a given workload.
@@ -67,8 +71,6 @@ This release contains bug fixes to improve robustness. This release note describ
   way istiod already sanitizes these secrets.
 
   **Credit**: This vulnerability was discovered and reported by Adam Korczynski.
-
-- **Fixed** [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx): a fail-open in `BackendTLSPolicy` where sidecar proxies sent upstream traffic in plaintext instead of failing closed when a policy's `caCertificateRefs` could not be resolved. Reported by [@thc1006](https://github.com/thc1006).
 
 - **Fixed** the `istio.io/use-waypoint-canary` label bypassing the `serviceEntryVisibility`
   NAMESPACE isolation: a NAMESPACE-visibility `ServiceEntry` could route its canary share of
