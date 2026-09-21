@@ -1,6 +1,6 @@
 ---
 title: El soporte para Istio 1.27 ha terminado
-subtitle: Support Announcement
+subtitle: Anuncio de soporte
 description: Anuncio de fin de vida de Istio 1.27.
 publishdate: 2026-04-07
 ---
