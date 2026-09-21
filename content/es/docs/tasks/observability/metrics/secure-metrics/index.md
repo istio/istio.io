@@ -21,7 +21,7 @@ Esta tarea reemplaza el scraping por defecto con una **configuración segura hab
 
 ## Antes de comenzar
 
-* [Instala Istio](/docs/setup) en tu clúster usando el **perfil default**.
+* [Instala Istio](/es/docs/setup) en tu clúster usando el **perfil default**.
 
 ## Instalar Prometheus con scraping seguro
 
@@ -40,7 +40,7 @@ Para habilitar el scraping seguro de métricas, Prometheus requiere un sidecar d
     El sidecar de Istio inyectado en el pod de Prometheus se usa únicamente para aprovisionar un certificado de workload de Istio para autenticación mTLS. La intercepción de tráfico está explícitamente deshabilitada y Prometheus continúa operando como un workload estándar de Kubernetes. Como alternativa, Istio puede integrarse con [cert-manager](docs/ops/integrations/certmanager/) para aprovisionar certificados para Prometheus. En ese modelo, no se requiere un sidecar de Istio.
     {{< /tip >}}
 
-1. Actualiza la plantilla del pod del Deployment de Prometheus
+2. Actualiza la plantilla del pod del Deployment de Prometheus
 
     Istio proporciona una instalación de ejemplo de Prometheus en `samples/addons/prometheus.yaml`. Modifica `samples/addons/prometheus.yaml` para anotar el deployment de Prometheus y habilitar la inyección de sidecar, montar los certificados de Istio y configurar el proxy:
 
@@ -77,7 +77,7 @@ Para habilitar el scraping seguro de métricas, Prometheus requiere un sidecar d
     * `INBOUND_CAPTURE_PORTS: ""` evita que el sidecar intercepte el tráfico de Prometheus.
     * `userVolumeMount` monta los certificados dentro de Prometheus.
 
-1. Modifica la configuración del Job de scraping de Prometheus en `samples/addons/prometheus.yaml` para agregar un job adicional para hacer scraping de métricas seguras:
+3. Modifica la configuración del Job de scraping de Prometheus en `samples/addons/prometheus.yaml` para agregar un job adicional para hacer scraping de métricas seguras:
 
     {{< text yaml >}}
     - job_name: 'istio-secure-merged-metrics'
@@ -125,7 +125,7 @@ Esta tarea usa `httpbin` como workload de ejemplo para generar tráfico y métri
     $ kubectl apply -f @samples/httpbin/httpbin.yaml
     {{< /text >}}
 
-1. Anota el pod de httpbin para el scraping seguro de Prometheus
+2. Anota el pod de httpbin para el scraping seguro de Prometheus
 
     Asegúrate de que Prometheus hace scraping de métricas de forma segura a través del puerto mTLS (`15091`):
 
@@ -140,7 +140,7 @@ Esta tarea usa `httpbin` como workload de ejemplo para generar tráfico y métri
 
     Estas anotaciones permiten que Prometheus descubra el pod de httpbin y haga scraping de métricas a través del listener seguro.
 
-1. Crea un listener seguro en el puerto 15091
+3. Crea un listener seguro en el puerto 15091
 
     Las métricas del workload pueden exponerse de forma segura usando un listener de sidecar en el puerto `15091`. Esto reenvía requests desde el listener seguro al puerto de telemetría del sidecar `15020`. Para métricas solo de Envoy, usa el puerto `15090`.
 
@@ -195,7 +195,7 @@ Los gateways de Istio exponen métricas que Prometheus puede recopilar. Por defe
     EOF
     {{< /text >}}
 
-1. Crea un `ServiceEntry` para el puerto de telemetría del `Gateway` (15020 o 15090)
+2. Crea un `ServiceEntry` para el puerto de telemetría del `Gateway` (15020 o 15090)
 
     Prometheus no puede acceder directamente a los puertos internos del gateway a menos que estén expuestos en la mesh. Un `ServiceEntry` permite que Prometheus enrute requests dentro de la mesh a estos puertos. Puedes elegir 15020 para telemetría combinada o 15090 para telemetría solo de Envoy.
 
@@ -219,7 +219,7 @@ Los gateways de Istio exponen métricas que Prometheus puede recopilar. Por defe
     EOF
     {{< /text >}}
 
-1. Crea un `VirtualService` para enrutar las métricas
+3. Crea un `VirtualService` para enrutar las métricas
 
     El `VirtualService` mapea los requests del listener seguro (15091) al `ServiceEntry` que apunta al puerto de telemetría (15020 o 15090). Esto asegura que los requests de métricas enviados a `https://<gateway-ip>:15091/stats/prometheus` se enruten correctamente dentro de la mesh.
 
@@ -245,7 +245,7 @@ Los gateways de Istio exponen métricas que Prometheus puede recopilar. Por defe
     EOF
     {{< /text >}}
 
-1. Anota el pod del `Gateway`
+4. Anota el pod del `Gateway`
 
     {{< text bash >}}
     $ kubectl annotate pod -n istio-system <ingress-pod> prometheus.istio.io/secure-port=15091 --overwrite
@@ -265,7 +265,7 @@ Después de completar la configuración, verifica que Prometheus está haciendo 
 
     Este comando abre el dashboard de Prometheus en tu navegador por defecto.
 
-1. Verifica los targets de scraping
+2. Verifica los targets de scraping
 
     1. En la interfaz de Prometheus, navega a **Status → Targets**.
     1. Localiza el job llamado `istio-secure-merged-metrics` que es lo que usamos al configurar el nuevo job de scraping de Prometheus.

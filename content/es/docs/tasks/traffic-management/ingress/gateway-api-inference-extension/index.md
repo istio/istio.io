@@ -9,7 +9,7 @@ test: yes
 
 Esta tarea describe cómo configurar Istio para usar la [Extensión de Inferencia de la Gateway API](https://gateway-api-inference-extension.sigs.k8s.io/) de Kubernetes.
 La Extensión de Inferencia de la Gateway API tiene como objetivo mejorar y estandarizar el enrutamiento hacia modelos de IA auto-alojados en Kubernetes.
-Utiliza CRDs de la [Gateway API de Kubernetes](/docs/tasks/traffic-management/ingress/gateway-api-inference-extension) y aprovecha el filtro [External Processing](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter) de Envoy para convertir cualquier Gateway en un inference gateway.
+Utiliza CRDs de la [Gateway API de Kubernetes](/docs/tasks/traffic-management/ingress/gateway-api) y aprovecha el filtro [External Processing](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter) de Envoy para convertir cualquier Gateway en un inference gateway.
 
 ## Recursos de la API
 
@@ -31,7 +31,7 @@ El filtro `ext_proc` de Envoy se usa para enrutar los requests entrantes al serv
       { kubectl kustomize "github.com/kubernetes-sigs/gateway-api-inference-extension/config/crd?ref={{< k8s_gateway_api_inference_extension_version >}}" | kubectl apply -f -; }
     {{< /text >}}
 
-1. Instala Istio usando el perfil `minimal`:
+2. Instala Istio usando el perfil `minimal`:
 
     {{< text bash >}}
     $ istioctl install --set profile=minimal --set values.pilot.env.SUPPORT_GATEWAY_API_INFERENCE_EXTENSION=true --set values.pilot.env.ENABLE_GATEWAY_API_INFERENCE_EXTENSION=true -y
@@ -146,7 +146,7 @@ En este ejemplo, desplegaremos un servicio de modelo de inferencia usando un sim
     EOF
     {{< /text >}}
 
-1. Despliega el servicio selector de endpoints y crea un `InferencePool`:
+2. Despliega el servicio selector de endpoints y crea un `InferencePool`:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -304,14 +304,14 @@ En este ejemplo, desplegaremos un servicio de modelo de inferencia usando un sim
     EOF
     {{< /text >}}
 
-1.  Establece la variable de entorno del Ingress Host:
+3.  Establece la variable de entorno del Ingress Host:
 
     {{< text bash >}}
     $ kubectl wait -n istio-ingress --for=condition=programmed gateways.gateway.networking.k8s.io gateway
     $ export INGRESS_HOST=$(kubectl get gateways.gateway.networking.k8s.io gateway -n istio-ingress -ojsonpath='{.status.addresses[0].value}')
     {{< /text >}}
 
-1.  Envía un request de inferencia usando _curl_; deberías ver una respuesta exitosa del servidor de modelo backend:
+4.  Envía un request de inferencia usando _curl_; deberías ver una respuesta exitosa del servidor de modelo backend:
 
     {{< text bash >}}
     $ curl -s -i "http://$INGRESS_HOST/v1/completions" -d '{"model": "reviews-1", "prompt": "What do reviewers think about The Comedy of Errors?", "max_tokens": 100, "temperature": 0}'
@@ -335,14 +335,14 @@ En este ejemplo, desplegaremos un servicio de modelo de inferencia usando un sim
     $ kubectl delete ns istio-ingress inference-model-server
     {{< /text >}}
 
-1. Desinstala Istio:
+2. Desinstala Istio:
 
     {{< text bash >}}
     $ istioctl uninstall -y --purge
     $ kubectl delete ns istio-system
     {{< /text >}}
 
-1. Elimina los CRDs de la Gateway API y de la Extensión de Inferencia si ya no se necesitan:
+3. Elimina los CRDs de la Gateway API y de la Extensión de Inferencia si ya no se necesitan:
 
     {{< text bash >}}
     $ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl delete -f -
