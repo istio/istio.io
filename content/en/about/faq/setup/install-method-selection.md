@@ -16,33 +16,16 @@ The following lists some of the pros and cons of each of the available methods:
 
     - Thorough configuration validation and health verification.
     - Uses the `IstioOperator` API which provides extensive configuration/customization options.
-    - No in-cluster privileged pods needed. Changes are actuated by running the `istioctl` command.
 
     Cons:
 
     - Multiple binaries must be managed, one per Istio minor version.
-    - The `istioctl` command can set values like `JWT_POLICY` based on your running environment,
+    - The `istioctl` command can set values automatically based on your running environment,
       thereby producing varying installations in different Kubernetes environments.
-
-1. [istioctl manifest generate](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
-
-    Generate the Kubernetes manifest and then apply with `kubectl apply --prune`.
-    This method is suitable where strict auditing or augmentation of output manifests is needed.
-
-    Pros:
-
-    - Resources are generated from the same `IstioOperator` API as used in `istioctl install` and Operator.
-    - Uses the `IstioOperator` API which provides extensive configuration/customization options.
-
-    Cons:
-
-    - Some checks performed in `istioctl install` and Operator are not done.
-    - UX is less streamlined compared to `istioctl install`.
-    - Error reporting is not as robust as `istioctl install` for the apply step.
 
 1. [Install using Helm](/docs/setup/install/helm/)
 
-    Using Helm charts allows easy integration with Helm based workflows and automated resource pruning during upgrades.
+    Allows easy integration with Helm-based workflows and automated resource pruning during upgrades.
 
     Pros:
 
@@ -51,28 +34,26 @@ The following lists some of the pros and cons of each of the available methods:
 
     Cons:
 
-    - Fewer checks and validations compared to `istioctl install` and Operator.
+    - Fewer checks and validations compared to `istioctl install`.
     - Some administrative tasks require more steps and have higher complexity.
 
-1. [Istio Operator](/docs/setup/install/operator/)
+1. Apply a generated Kubernetes manifest
 
-    {{< warning >}}
-    Using the operator is not recommended for new installations. While the operator will continue to be supported,
-    new feature requests will not be prioritized.
-    {{< /warning >}}
+    - [Generating Kubernetes manifests with `istioctl`](/docs/setup/install/istioctl/#generate-a-manifest-before-installation)
+    - [Generating Kubernetes manifests with `helm`](/docs/setup/install/helm/#generate-a-manifest-before-installation)
 
-    The Istio operator provides an installation path without needing the `istioctl` binary.
-    This can be used for simplified upgrade workflows where running an in-cluster privileged controller is not a concern.
-    This method is suitable where strict auditing or augmentation of output manifests is not needed.
+    This method is suitable where strict auditing or augmentation of output manifests is required, or there are third-party tooling constraints.
 
     Pros:
 
-    - Same API as `istioctl install` but actuation is through a controller pod in the cluster with a fully declarative operation.
-    - Uses the `IstioOperator` API which provides extensive configuration/customization options.
-    - No need to manage multiple `istioctl` binaries.
+    - Easier to integrate with tooling that doesn't use `helm` or `istioctl`.
+    - No installation tools required other than `kubectl`.
 
     Cons:
 
-    - High privilege controller running in the cluster poses security risks.
+    - No install-time checks, environment detection, or validations supported by either of the above methods are performed.
+    - No installation management or upgrade capability is supported.
+    - UX is less streamlined.
+    - Error reporting during installation is not as robust.
 
 Installation instructions for all of these methods are available on the [Istio install page](/docs/setup/install).

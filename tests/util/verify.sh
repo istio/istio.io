@@ -133,9 +133,10 @@ __cmp_like() {
     local out="${1//$'\r'}"
     local expected=$2
     local ipregex="^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$"
+    local ip6regex="^[0-9a-fA-F:]*:[0-9a-fA-F:]*$"
     local durationregex="^([0-9]+[smhd])+$"
     local versionregex="^[0-9]+\.[0-9]+\.[0-9]+$"
-    local dateregex="^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
+    local dateregex="^[0-9]{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$"
     local timeregex="^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9]).[0-9]+$"
 
     if [[ "$out" != "$expected" ]]; then
@@ -210,9 +211,9 @@ __cmp_like() {
                 fi
 
                 # Check for IP addresses.
-                if [[ "$etok" =~ $ipregex ]]; then
-                    if [[ "$otok" =~ $ipregex ]]; then
-                      # We got an IP address. It's a match.
+                if [[ "$etok" =~ $ipregex || "$etok" =~ $ip6regex ]]; then
+                    if [[ "$otok" =~ $ipregex || "$otok" =~ $ip6regex ]]; then
+                      # We got an IP address (IPv4 or IPv6). It's a match.
                       continue
                     fi
 

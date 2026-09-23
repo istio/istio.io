@@ -22,7 +22,7 @@ This is useful for IPv6-only cluster environments such as EKS which manages both
 - **Fixed** an issue where multiple header matches in root virtual service generate incorrect routes.  ([Issue #47148](https://github.com/istio/istio/issues/47148))
 
 - **Fixed** DNS Proxy resolution for wildcard `ServiceEntry` with the search domain suffix for `glibc` based containers.
-  ([Issue #47264](https://github.com/istio/istio/issues/47264)),([Issue #31250](https://github.com/istio/istio/issues/31250)),([Issue #33360](https://github.com/istio/istio/issues/33360)),([Issue #30531](https://github.com/istio/istio/issues/30531)),([Issue #38484](https://github.com/istio/istio/issues/38484))
+  ([Issue #47264](https://github.com/istio/istio/issues/47264)), ([Issue #31250](https://github.com/istio/istio/issues/31250)), ([Issue #33360](https://github.com/istio/istio/issues/33360)), ([Issue #30531](https://github.com/istio/istio/issues/30531)), ([Issue #38484](https://github.com/istio/istio/issues/38484))
 
 - **Fixed** an issue where using a Sidecar resource using `IstioIngressListener.defaultEndpoint` cannot use [::1]:PORT if the default IP addressing is not IPv6.
   ([Issue #47412](https://github.com/istio/istio/issues/47412))

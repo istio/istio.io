@@ -1,17 +1,18 @@
 ---
-title: "Ambient Mesh 安全深入探讨"
-description: "深入研究最近发布的 Istio 无边车数据平面 Ambient Mesh 的安全隐患。"
+title: "Ambient 模式安全深入探讨"
+description: "深入研究最近发布的 Istio 无边车数据平面 Ambient 模式的安全隐患。"
 publishdate: 2022-09-07T09:00:00-06:00
 attribution: "Ethan Jackson (Google), Yuval Kohavi (Solo.io), Justin Pettit (Google), Christian Posta (Solo.io)"
 keywords: [ambient]
 ---
 
-我们最近发布了名为 Istio Ambient Mesh 的一种 Istio 无边车数据平面。
+我们最近发布了 Istio Ambient 模式，
+它是一种 Istio 无边车数据平面以及 Ambient 网格模式的参考实现。
 正如在[公告博客](/zh/blog/2022/introducing-ambient-mesh/)中的所述，
-我们对 Ambient Mesh 的首要关注是简化操作、更广泛的应用程序兼容性、
+我们对 Ambient 网格的首要关注是简化操作、更广泛的应用程序兼容性、
 降低基础设施成本以及提高性能。在设计 Ambient 数据平面时，
 我们希望在不牺牲安全性或功能的前提下仔细思考对于操作、
-成本和性能的平衡。随着 Ambient 的组件在应用程序 Pod 之外运行，
+成本和性能的平衡。随着 Ambient 网格的组件在应用程序 Pod 之外运行，
 安全边界发生了变化 —— 我们相信这会变得更好。在此博客中，
 我们将详细介绍这些更改以及它们与 Sidecar 部署模式的比较。
 
@@ -20,7 +21,7 @@ keywords: [ambient]
     caption="Ambient Mesh 数据平面分层"
     >}}
 
-回顾一下，Istio Ambient Mesh 引入了一个分层的网格数据平面，
+回顾一下，Istio 的 Ambient 模式引入了一个分层的网格数据平面，
 它带有一个负责传输安全和路由的安全覆盖层，可以为需要它们的命名空间选择添加 L7 能力。
 需要了解更多信息，
 请参阅[公告博客](/zh/blog/2022/introducing-ambient-mesh/)和[入门博客](/zh/blog/2022/get-started-ambient)。
@@ -64,7 +65,7 @@ L7 中分层限制相关功能的暴露。此外，L7 组件与应用程序完�
 
 ## 将 L4 支持推进到 CNI {#pushing-l4-down-into-the-cni}
 
-Ambient 数据平面的 L4 组件是以 DaemonSet 形式，或者基于每个节点的形式来运行。
+Ambient 模式数据平面的 L4 组件是以 DaemonSet 形式，或者基于每个节点的形式来运行。
 这意味着它是以共享基础设施的方式在特定节点上与其他 Pod 一同运行的。
 由于该组件特别敏感，因此该组件应与节点上的其他共享组件（例如其他
 CNI 代理、kube-proxy、kubelet 甚至 Linux 内核）处于同等级别。
@@ -99,7 +100,7 @@ CVE 都可能在网格中其他工作负载中复现。
 正如我们在公告博客中指出的那样，操作 Sidecar 可能会更加复杂，
 因为它们具有侵入性（注入 Sidecar/更改 Deployment 描述符、重新启动应用程序、
 容器之间的竞争条件等）。将工作负载中的 Sidecar 进行升级需要更多的计划和滚动重启，
-这可能需要协调才能不导致应用程序崩溃。而使用 Ambient Mesh 时，对 ztunnel
+这可能需要协调才能不导致应用程序崩溃。而使用 Ambient 模式时，对 ztunnel
 的升级可以与任何正常的节点修补或升级同时进行，而路点代理是网络的一部分，
 可以根据需要完全透明地升级到应用程序。
 
@@ -115,7 +116,7 @@ Wasm 和/或 Lua 进行自定义操作，比支持 L4 复杂得多。
     caption="每个命名空间/身份都有自己的 L7 代理；没有多租户代理"
     >}}
 
-在 Ambient Mesh 中，我们不会在代理中跨多个身份共享 L7 处理。
+在 Ambient 模式中，我们不会在代理中跨多个身份共享 L7 处理。
 每个身份（Kubernetes 中的服务帐户）都有自己专用的 L7
 代理（路点代理），这与我们使用 Sidecar 模式非常相似。
 尝试将多个身份及其独特的复杂策略以及定制功能放在一起会给共享资源增加很多可变性，
@@ -127,5 +128,5 @@ Wasm 和/或 Lua 进行自定义操作，比支持 L4 复杂得多。
 对于 Istio 来说，Sidecar 是网格的首推模式，平台所有者可以选择继续使用它们。
 如果平台所有者想要同时支持 Sidecar 和 Ambient 两种模式也是可以的。
 具有 Ambient 数据平面的工作负载可以在本地与部署了 Sidecar 的工作负载进行通信。
-随着大家更好地了解 Ambient Mesh 的安全态势，我们相信 Ambient 将成为 Istio
-服务网格的首选模式，并带有用于特定优化的 Sidecar。
+随着大家更好地了解 Ambient 模式的安全态势，我们相信它将成为 Istio
+服务网格数据平面的首选模式，并带有用于特定优化的 Sidecar。

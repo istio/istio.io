@@ -18,6 +18,10 @@ Ambient mode can be seamlessly enabled (or disabled) completely transparently as
 
 The secure L4 overlay supports authentication and authorization policies. [Learn about L4 policy support in ambient mode](/docs/ambient/usage/l4-policy/). To opt-in to use Istio's L7 functionality, such as traffic routing, you will need to [deploy a waypoint proxy and enroll your workloads to use it](/docs/ambient/usage/waypoint/).
 
+### Ambient and Kubernetes NetworkPolicy
+
+See [ambient and Kubernetes NetworkPolicy](/docs/ambient/usage/networkpolicy/).
+
 ## Communicating between pods in different data plane modes
 
 There are multiple options for interoperability between application pods using the ambient data plane mode, and non-ambient endpoints (including Kubernetes application pods, Istio gateways or Kubernetes Gateway API instances). This interoperability provides multiple options for seamlessly integrating ambient and non-ambient workloads within the same Istio mesh, allowing for phased introduction of ambient capability as best suits the needs of your mesh deployment and operation.
@@ -40,7 +44,10 @@ A `PeerAuthentication` policy with mTLS mode set to `STRICT` will allow traffic 
 
 ### Ingress and egress gateways and ambient mode pods
 
-An ingress gateway may run in a non-ambient namespace, and expose services provided by ambient mode, sidecar mode or non-mesh pods. Interoperability is also supported between pods in ambient mode and Istio egress gateways.
+An ingress gateway may run in a non-ambient namespace, and expose services provided by ambient mode, sidecar mode or non-mesh pods. Interoperability is also supported between pods in ambient mode and
+Istio egress gateways. See [egress gateways](/docs/ambient/usage/egress-gateway/) to learn how to use a waypoint as a dedicated egress gateway
+in ambient mode. To send ingress traffic through a destination waypoint in ambient mode, use the `istio.io/ingress-use-waypoint`
+label as described in [Ingress gateways and waypoints](/docs/ambient/usage/waypoint/#ingress-and-waypoints).
 
 ## Pod selection logic for ambient and sidecar modes
 
@@ -67,6 +74,7 @@ The following labels control if a resource is included in the mesh in ambient mo
 | --- | --- | --- | --- |
 | `istio.io/dataplane-mode` | Beta | `Namespace` or `Pod` (latter has precedence) |  Add your resource to an ambient mesh. <br><br> Valid values: `ambient` or `none`. |
 | `istio.io/use-waypoint` | Beta | `Namespace`, `Service` or `Pod` | Use a waypoint for traffic to the labeled resource for L7 policy enforcement. <br><br> Valid values: `{waypoint-name}` or `none`. |
+| `istio.io/ingress-use-waypoint` | Beta | `Namespace`, `Service` or `ServiceEntry` | When `true`, opt **ingress** traffic to the labeled resource into the destination waypoint path (in addition to east-west traffic governed by `istio.io/use-waypoint`). Requires `ENABLE_INGRESS_WAYPOINT_ROUTING` on the control plane. <br><br> Valid values: `true` or `false`. See [Ingress gateways and waypoints](/docs/ambient/usage/waypoint/#ingress-and-waypoints). |
 | `istio.io/waypoint-for` | Alpha | `Gateway` | Specifies what types of endpoints the waypoint will process traffic for. <br><br> Valid values: `service`, `workload`, `none` or `all`. This label is optional and the default value is `service`. |
 
-In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the waypoint is configured for the resource types it will be handling traffic for. By default waypoints accept traffic for services. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labeled `istio.io./waypoint-for` with the value `workload` or `all`.
+In order for your `istio.io/use-waypoint` label value to be effective, you have to ensure the waypoint is configured for the resource types it will be handling traffic for. By default waypoints accept traffic for services. For example, when you label a pod to use a specific waypoint via the `istio.io/use-waypoint` label, the waypoint should be labeled `istio.io/waypoint-for` with the value `workload` or `all`.

@@ -92,7 +92,7 @@ Now that the Kustomization file is ready, let us use Helm to make sure this gets
 ### Add the Helm repository for Istio
 
 {{< text bash >}}
-$ helm repo add istio https://istio-release.storage.googleapis.com/charts
+$ helm repo add istio https://blob.istio.io/istio-release/charts
 $ helm repo update
 {{< /text >}}
 

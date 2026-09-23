@@ -69,6 +69,14 @@ metadata:
 spec: ...
 {{< /text >}}
 
+{{< tip >}}
+Because `exportTo` is declared by the author of each resource, it lets service owners scope their own configuration,
+but it does not give a mesh administrator control over what others publish. Beginning with Istio 1.31, a mesh
+administrator can control the visibility of `ServiceEntry` resources with
+[`meshConfig.serviceEntryVisibility`](/docs/ambient/usage/serviceentry-visibility/), which the ambient data plane
+always honors.
+{{< /tip >}}
+
 ### `DiscoverySelectors`
 
 While the previous controls operate on a workload or service owner level, [`DiscoverySelectors`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) provides mesh wide control over configuration visibility.

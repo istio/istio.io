@@ -14,42 +14,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+set -ex
 
-mkdir -p generated/css generated/js generated/img tmp/js
+mkdir -p generated/js generated/img tmp/js
 
-sass src/sass/_all.scss all.css -s compressed --no-source-map
-mv all.css* generated/css
-tsc
 
-babel --source-maps --minified --no-comments --presets minify \
-  tmp/js/constants.js \
-  tmp/js/utils.js \
-  tmp/js/feedback.js \
-  tmp/js/kbdnav.js \
-  tmp/js/themes.js \
-  tmp/js/menu.js \
-  tmp/js/header.js \
-  tmp/js/sidebar.js \
-  tmp/js/tabset.js \
-  tmp/js/prism.js \
-  tmp/js/codeBlocks.js \
-  tmp/js/links.js \
-  tmp/js/resizeObserver.js \
-  tmp/js/scroll.js \
-  tmp/js/overlays.js \
-  tmp/js/lang.js \
-  tmp/js/callToAction.js \
-  tmp/js/events.js \
-  tmp/js/faq.js \
-  --out-file generated/js/all.min.js
 
-babel --source-maps --minified --no-comments --presets minify \
-  tmp/js/headerAnimation.js \
-  --out-file generated/js/headerAnimation.min.js
+# Bundle + minify with sourcemap
+esbuild ./src/ts/entrypoint.ts \
+  --bundle \
+  --minify \
+  --sourcemap \
+  --target=es6 \
+  --outfile=generated/js/all.min.js
 
-babel --source-maps --minified --no-comments \
-  tmp/js/themes_init.js \
-  --out-file generated/js/themes_init.min.js
+esbuild ./src/ts/headerAnimation.js \
+  --minify \
+  --sourcemap \
+  --target=es6 \
+  --outfile=generated/js/headerAnimation.min.js
 
-svgstore -o generated/img/icons.svg src/icons/**/*.svg
+esbuild ./src/ts/themes_init.js \
+  --bundle \
+  --minify \
+  --sourcemap \
+  --target=es6 \
+  --outfile=generated/js/themes_init.min.js
+
+svg-symbol-sprite -i src/icons -o generated/img/icons.svg --prefix ""

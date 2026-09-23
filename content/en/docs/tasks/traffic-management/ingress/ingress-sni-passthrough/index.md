@@ -31,7 +31,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
 1.  Create a root certificate and private key to sign the certificate for your services:
 
     {{< text bash >}}
-    $ mkdir example_certs
+    $ mkdir -p example_certs
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs/example.com.key -out example_certs/example.com.crt
     {{< /text >}}
 
@@ -69,6 +69,7 @@ For this task you can use your favorite tool to generate certificates and keys. 
 
       server {
         listen 443 ssl;
+        listen [::]:443 ssl;
 
         root /usr/share/nginx/html;
         index index.html;

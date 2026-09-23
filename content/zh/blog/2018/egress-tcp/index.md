@@ -17,11 +17,11 @@ target_release: 1.0
 
 在我之前的博客文章[使用外部 Web 服务](/zh/blog/2018/egress-https/)中，我描述了如何通过 HTTPS 在网格 Istio 应用程序中使用外部服务，在这篇文章中，我演示了通过 TCP 使用外部服务。你会用到 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)，这是将书籍评级数据保存在 MySQL 数据库中的版本。你会在集群外部署此数据库并配置 _ratings_ 服务以使用它，你还会定义[服务 Entry](/zh/docs/reference/config/networking/service-entry/) 以允许网格内应用程序访问外部数据库。
 
-## Bookinfo 示例应用程序与外部评级数据库{#Bookinfo-sample-application-with-external-ratings-database}
+## Bookinfo 示例应用程序与外部评级数据库 {#bookinfo-sample-application-with-external-ratings-database}
 
 首先，在 Kubernetes 集群之外设置了一个 MySQL 数据库实例来保存 Bookinfo 评级数据，然后修改 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)以使用这个数据库。
 
-### 为评级数据设置数据库{#setting-up-the-database-for-ratings-data}
+### 为评级数据设置数据库 {#setting-up-the-database-for-ratings-data}
 
 为此，你设置了 [MySQL](https://www.mysql.com) 的实例，你可以使用任何 MySQL 实例; 我使用 [Compose for MySQL](https://www.ibm.com/cloud/compose/mysql)，我使用 `mysqlsh`（[MySQL Shell](https://dev.mysql.com/doc/mysql-shell/en/)）作为 MySQL 客户端来提供评级数据。
 
@@ -128,7 +128,7 @@ target_release: 1.0
 
 现在你已经可以去部署使用外部数据库的 Bookinfo 应用程序版本了。
 
-### Bookinfo 应用程序的初始设置{#initial-setting-of-Bookinfo-application}
+### Bookinfo 应用程序的初始设置 {#initial-setting-of-bookinfo-application}
 
 为了演示使用外部数据库的场景，你首先使用安装了 [Istio](/zh/docs/setup/getting-started/) 的 Kubernetes 集群，然后部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)、[应用默认的 destination rule](/zh/docs/examples/bookinfo/#apply-default-destination-rules) 并[将 Istio 默认策略修改为禁止 Egress](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
 
@@ -143,7 +143,7 @@ target_release: 1.0
     caption="原始的 Bookinfo 应用程序"
     >}}
 
-### 将数据库用于 Bookinfo 应用程序中的评级数据{#use-the-database-for-ratings-data-in-Bookinfo-application}
+### 将数据库用于 Bookinfo 应用程序中的评级数据 {#use-the-database-for-ratings-data-in-bookinfo-application}
 
 1. 修改使用 MySQL 数据库的 _ratings_ 服务版本的 `deployment spec`，以使用你的数据库实例。该 `spec` 位于 Istio 发行档案的 [`samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml`]({{<github_blob>}}/samples/bookinfo/platform/kube/bookinfo-ratings-v2-mysql.yaml) 中。编辑以下几行：
 
@@ -185,7 +185,7 @@ target_release: 1.0
 
 请注意，MySQL 数据库位于 Istio 服务网格之外，或者更准确地说是在 Kubernetes 集群之外，服务网格的边界由虚线标记。
 
-### 访问网页{#access-the-webpage}
+### 访问网页 {#access-the-webpage}
 
 在[确定入口 IP 和端口](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)之后，访问应用程序的网页。
 
@@ -197,7 +197,7 @@ target_release: 1.0
 
 你遇到的问题与[使用外部 Web 服务](/zh/blog/2018/egress-https/)中的问题相同，即 Kubernetes 集群外的所有流量（TCP 和 HTTP）都被 sidecar 代理默认阻止，要为 TCP 启用此类流量，必须定义 TCP 的网格外部服务入口。
 
-### 外部 MySQL 实例的网格外部服务入口{#mesh-external-service-entry-for-an-external-MySQL-instance}
+### 外部 MySQL 实例的网格外部服务入口 {#mesh-external-service-entry-for-an-external-mysql-instance}
 
 "TCP 网格外部服务入口"功能可以解决上面的问题。
 
@@ -252,13 +252,13 @@ target_release: 1.0
 
 与 HTTP/HTTPS 的服务入口一样，你可以动态地使用 `kubectl` 删除和创建 TCP 的服务入口。
 
-## 出口 TCP 流量控制的动机{#motivation-for-egress-TCP-traffic-control}
+## 出口 TCP 流量控制的动机 {#motivation-for-egress-tcp-traffic-control}
 
 一些网内 Istio 应用程序必须访问外部服务，例如遗留系统，在许多情况下，不通过 HTTP 或 HTTPS 协议执行访问，使用其他 TCP 协议，例如 [MongoDB Wire 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)和 [MySQL 客户端/服务器协议](https://dev.mysql.com/doc/internals/en/client-server-protocol.html)等特定于数据库的协议，与外部数据库通信。
 
 接下来我会再说说 TCP 流量的服务入口。
 
-## TCP 流量的服务入口{#service-entries-for-tcp-traffic}
+## TCP 流量的服务入口 {#service-entries-for-tcp-traffic}
 
 启用到特定端口的 TCP 流量的服务入口必须指定 `TCP` 作为端口的协议，此外，对于 [MongoDB Wire 协议](https://docs.mongodb.com/manual/reference/mongodb-wire-protocol/)，协议可以指定为 `MONGO`，而不是 `TCP`。
 
@@ -270,14 +270,14 @@ target_release: 1.0
 
 另请注意，外部服务的 IP 并不总是静态的，例如在 [CDN](https://en.wikipedia.org/wiki/Content_delivery_network) 的情况下，有时 IP 在大多数情况下是静态的，但可以不时地更改，例如由于基础设施的变化。在这些情况下，如果已知可能 IP 的范围，则应通过 CIDR 块指定范围。如果不知道可能的 IP 的范围，则不能使用 TCP 服务入口，并且[必须直接调用外部服务](/zh/docs/tasks/traffic-management/egress/egress-control/#direct-access-to-external-services)，绕过 sidecar 代理。
 
-## 与网格扩展的关系{#relation-to-virtual-machines-support}
+## 与网格扩展的关系 {#relation-to-virtual-machines-support}
 
 请注意，本文中描述的场景与[集成虚拟机](/zh/docs/examples/virtual-machines/bookinfo/)示例中描述的网格扩展场景不同。在这种情况下，MySQL 实例在与 Istio 服务网格集成的外部（集群外）机器（裸机或 VM）上运行 ，MySQL 服务成为网格的一等公民，具有 Istio 的所有有益功能，除此之外，服务可以通过本地集群域名寻址，例如通过 `mysqldb.vm.svc.cluster.local`，并且可以通过[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)保护与它的通信，无需创建服务入口来访问此服务; 但是，该服务必须在 Istio 注侧，要启用此类集成，必须在计算机上安装 Istio 组件（_Envoy proxy_ ，_node-agent_ ，`_istio-agent_` ），并且必须可以从中访问 Istio 控制平面（_Pilot_ ，_Mixer_ ，_Citadel_ ）。有关详细信息，请参阅 [Istio VM 相关](/zh/docs/examples/virtual-machines/)。
 
 在这个的示例中，MySQL 实例可以在任何计算机上运行，也可以由云提供商作为服务进行配置，无需集成机器
 与 Istio ，无需从机器访问 Istio 控制平面，在使用 MySQL 作为服务的情况下，运行 MySQL 的计算机可能无法访问，并且可能无法在其上安装必需的组件。在这个的例子中，MySQL 实例可以通过其全局域名进行寻址，如果消费应用程序希望使用该域名，这可能是有益的，当在消费应用程序的部署配置中无法更改预期的域名时，这尤其重要。
 
-## 清理{#cleanup}
+## 清理 {#cleanup}
 
 1. 删除 `test` 数据库和 `bookinfo` 用户：
 
@@ -315,6 +315,6 @@ target_release: 1.0
     Deleted config: serviceentry mysql-external
     {{< /text >}}
 
-## 结论{#conclusion}
+## 结论 {#conclusion}
 
 在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 TCP 使用外部服务，默认情况下，Istio 会阻止所有流量（TCP 和 HTTP）到集群外的主机，要为 TCP 启用此类流量，必须为服务网格创建 TCP 网格外部服务入口。

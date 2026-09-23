@@ -12,20 +12,30 @@ test: n/a
 Distributed tracing enables users to track a request through mesh that is distributed across multiple services.
 This allows a deeper understanding about request latency, serialization and parallelism via visualization.
 
-Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/v1.12.0/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
-Specifically, Istio provides options to install various tracing backends and configure proxies to send trace spans to them automatically. See [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/), [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), and [Lightstep](/docs/tasks/observability/distributed-tracing/lightstep/) task docs about how Istio works with those tracing systems.
+Istio leverages [Envoy's distributed tracing](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/observability/tracing) feature to provide tracing integration out of the box.
 
-## Trace context propagation
+Most tracing backends now accept [OpenTelemetry](/docs/tasks/observability/distributed-tracing/opentelemetry/) protocol to receive traces, though Istio also supports legacy protocols for projects like [Zipkin](/docs/tasks/observability/distributed-tracing/zipkin/) and [Apache SkyWalking](/docs/tasks/observability/distributed-tracing/skywalking/).
+
+## Configuring tracing
+
+Istio provides a [Telemetry API](/docs/tasks/observability/distributed-tracing/telemetry-api/) which can be used to configure distributed tracing, including selecting a provider, setting [sampling rate](/docs/tasks/observability/distributed-tracing/sampling/) and header modification.
+
+## Extension providers
+
+[Extension providers](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) are defined in `MeshConfig`, and allow defining the configuration for a trace backend. Supported providers are OpenTelemetry, Zipkin, SkyWalking, Datadog and Stackdriver.
+
+## Building applications to support trace context propagation
 
 Although Istio proxies can automatically send spans, extra information is needed to join those spans into a single trace. Applications must propagate this information in HTTP headers, so that when proxies send spans, the backend can join them together into a single trace.
 
 To do this, each application must collect headers from each incoming request and forward the headers to all outgoing requests triggered by that incoming request. The choice of headers to forward depends on the configured trace backend. The set of headers to forward are described in each trace backend-specific task page. The following is a summary:
 
-All applications should forward the following header:
+All applications should forward the following headers:
 
-* `x-request-id`: this is an envoy-specific header that is used to consistently sample logs and traces.
+* `x-request-id`: an Envoy-specific header that is used to consistently sample logs and traces.
+* `traceparent` and `tracestate`: [W3C standard headers](https://www.w3.org/TR/trace-context/)
 
-For Zipkin, Jaeger, and Stackdriver the B3 multi-header format should be forwarded:
+For Zipkin, the [B3 multi-header format](https://github.com/openzipkin/b3-propagation) should be forwarded:
 
 * `x-b3-traceid`
 * `x-b3-spanid`
@@ -33,39 +43,17 @@ For Zipkin, Jaeger, and Stackdriver the B3 multi-header format should be forward
 * `x-b3-sampled`
 * `x-b3-flags`
 
-These are supported by Zipkin, Jaeger, and many other tools.
+For commercial observability tools, refer to their documentation.
 
-For Datadog, the following headers should be forwarded. Forwarding these is handled automatically by Datadog client libraries for many languages and frameworks.
-
-* `x-datadog-trace-id`.
-* `x-datadog-parent-id`.
-* `x-datadog-sampling-priority`.
-
-For Lightstep, the OpenTracing span context header should be forwarded:
-
-* `x-ot-span-context`
-
-For Stackdriver, you can choose to use any one of the following headers instead of the B3 multi-header format.
-
-* `grpc-trace-bin`: Standard grpc trace header.
-* `traceparent`: W3C Trace Context standard for tracing. Supported by OpenTelemetry and an increasing number of Jaeger client libraries.
-* `x-cloud-trace-context`: used by Google Cloud product APIs.
-
-If you look at the sample Python `productpage` service, for example, you see that the application extracts the required headers for all tracers from an HTTP request using [OpenTracing](https://opentracing.io/) libraries:
+If you look at the [sample Python `productpage` service]({{< github_blob >}}/samples/bookinfo/src/productpage/productpage.py#L125), for example, you see that the application extracts the required headers for all tracers from an HTTP request using OpenTelemetry libraries:
 
 {{< text python >}}
 def getForwardHeaders(request):
     headers = {}
 
-    # x-b3-*** headers can be populated using the opentracing span
-    span = get_current_span()
-    carrier = {}
-    tracer.inject(
-        span_context=span.context,
-        format=Format.HTTP_HEADERS,
-        carrier=carrier)
-
-    headers.update(carrier)
+    # x-b3-*** headers can be populated using the OpenTelemetry span
+    ctx = propagator.extract(carrier={k.lower(): v for k, v in request.headers})
+    propagator.inject(headers, ctx)
 
     # ...
 
@@ -94,7 +82,7 @@ def getForwardHeaders(request):
     return headers
 {{< /text >}}
 
-The reviews application (Java) does something similar using `requestHeaders`:
+The [reviews application]({{< github_blob >}}/samples/bookinfo/src/reviews/reviews-application/src/main/java/application/rest/LibertyRestEndpoint.java#L186) (Java) does something similar using `requestHeaders`:
 
 {{< text java >}}
 @GET

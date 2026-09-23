@@ -106,11 +106,11 @@ test: n/a
     以下标签会覆盖默认策略并强制注入 Sidecar：
 
     {{< text bash yaml >}}
-    $ kubectl get deployment sleep -o yaml | grep "sidecar.istio.io/inject:" -B4
+    $ kubectl get deployment curl -o yaml | grep "sidecar.istio.io/inject:" -B4
     template:
       metadata:
         labels:
-          app: sleep
+          app: curl
           sidecar.istio.io/inject: "true"
     {{< /text >}}
 
@@ -158,10 +158,10 @@ Pod 创建也会失败。在这种情况下，您可以检查 Pod 的部署状�
 例如，如果在您尝试部署 Pod 时 `istiod` 控制平面 Pod 没有运行，则事件将显示以下错误：
 
 {{< text bash >}}
-$ kubectl get events -n sleep
+$ kubectl get events -n curl
 ...
-23m Normal   SuccessfulCreate replicaset/sleep-9454cc476  Created pod: sleep-9454cc476-khp45
-22m Warning  FailedCreate     replicaset/sleep-9454cc476  Error creating: Internal error occurred: failed calling webhook "namespace.sidecar-injector.istio.io": failed to call webhook: Post "https://istiod.istio-system.svc:443/inject?timeout=10s": dial tcp 10.96.44.51:443: connect: connection refused
+23m Normal   SuccessfulCreate replicaset/curl-9454cc476  Created pod: curl-9454cc476-khp45
+22m Warning  FailedCreate     replicaset/curl-9454cc476  Error creating: Internal error occurred: failed calling webhook "namespace.sidecar-injector.istio.io": failed to call webhook: Post "https://istiod.istio-system.svc:443/inject?timeout=10s": dial tcp 10.96.44.51:443: connect: connection refused
 {{< /text >}}
 
 {{< text bash >}}

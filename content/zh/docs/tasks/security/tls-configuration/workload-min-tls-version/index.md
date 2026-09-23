@@ -37,19 +37,19 @@ Istio 工作负载当前支持的最高 TLS 版本为 1.3。
 配置完 Istio 工作负载的最低 TLS 版本后，
 您可以验证最低版本的 TLS 是否已配置，并是否按预期工作。
 
-* 部署两个工作负载：`httpbin` 和 `sleep`。并将它们部署到单个的命名空间中，
+* 部署两个工作负载：`httpbin` 和 `curl`。并将它们部署到单个的命名空间中，
   例如 `foo`，两个工作负载都在各自服务的前面使用 Envoy 作为流量代理运行。
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     {{< /text >}}
 
-* 使用以下命令验证 `sleep` 是否成功地与 `httpbin` 建立通信：
+* 使用以下命令验证 `curl` 是否成功地与 `httpbin` 建立通信：
 
     {{< text bash >}}
-    $ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c sleep -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl http://httpbin.foo:8000/ip -sS -o /dev/null -w "%{http_code}\n"
     200
     {{< /text >}}
 
@@ -62,7 +62,7 @@ Istio 工作负载当前支持的最高 TLS 版本为 1.3。
 您可以使用以下命令查看 TLS 1.3 协议是否被允许使用：
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_3 -connect httpbin.foo:8000 | grep "TLSv1.3"
 {{< /text >}}
 
 文本输出应该包括如下内容:
@@ -74,7 +74,7 @@ TLSv1.3
 要检查是否允许 TLS 的 1.2 版本，您可以运行以下命令：
 
 {{< text bash >}}
-$ kubectl exec "$(kubectl get pod -l app=sleep -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
+$ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c istio-proxy -n foo -- openssl s_client -alpn istio -tls1_2 -connect httpbin.foo:8000 | grep "Cipher is (NONE)"
 {{< /text >}}
 
 文本输出应该包括如下内容：
@@ -85,11 +85,11 @@ Cipher is (NONE)
 
 ## 清理{#cleanup}
 
-从 `foo` 命名空间中删除样例应用 `sleep` 和 `httpbin`：
+从 `foo` 命名空间中删除样例应用 `curl` 和 `httpbin`：
 
 {{< text bash >}}
 $ kubectl delete -f samples/httpbin/httpbin.yaml -n foo
-$ kubectl delete -f samples/sleep/sleep.yaml -n foo
+$ kubectl delete -f samples/curl/curl.yaml -n foo
 {{< /text >}}
 
 从集群中卸载 Istio：

@@ -47,9 +47,9 @@ EOF
 }
 
 snip_verify_traffic_stays_in_region1zone1_1() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
@@ -61,13 +61,13 @@ snip_failover_to_region1zone2_1() {
 kubectl --context="${CTX_R1_Z1}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l app=helloworld \
   -l version=region1.zone1 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 }
 
 snip_failover_to_region1zone2_2() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
@@ -79,13 +79,13 @@ snip_failover_to_region2zone3_1() {
 kubectl --context="${CTX_R1_Z2}" exec \
   "$(kubectl get pod --context="${CTX_R1_Z2}" -n sample -l app=helloworld \
   -l version=region1.zone2 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 }
 
 snip_failover_to_region2zone3_2() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 
@@ -97,13 +97,13 @@ snip_failover_to_region3zone4_1() {
 kubectl --context="${CTX_R2_Z3}" exec \
   "$(kubectl get pod --context="${CTX_R2_Z3}" -n sample -l app=helloworld \
   -l version=region2.zone3 -o jsonpath='{.items[0].metadata.name}')" \
-  -n sample -c istio-proxy -- curl -sSL -X POST 127.0.0.1:15000/drain_listeners
+  -n sample -c istio-proxy -- curl -sSL -X POST localhost:15000/drain_listeners
 }
 
 snip_failover_to_region3zone4_2() {
-kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 }
 

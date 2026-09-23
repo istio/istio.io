@@ -271,14 +271,14 @@ spec:
 
 Service 定义中的端口名称 `http-web` 为该端口显式指定 http 协议。
 
-假设在 default 命名空间中也有一个 [sleep]({{< github_tree >}}/samples/sleep)
+假设在 default 命名空间中也有一个 [curl]({{< github_tree >}}/samples/curl)
 Pod `Deployment`。当使用 Pod IP（这是访问 Headless Service 的一种常见方式）从这个
-`sleep` Pod 访问 `nginx` 时，请求经由 `PassthroughCluster` 到达服务器侧，
+`curl` Pod 访问 `nginx` 时，请求经由 `PassthroughCluster` 到达服务器侧，
 但服务器侧的 Sidecar 代理找不到前往 `nginx` 的路由入口，且出现错误 `HTTP 503 UC`。
 
 {{< text bash >}}
-$ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-$ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+$ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+$ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
   503
 {{< /text >}}
 
@@ -292,8 +292,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
     在指向 `nginx` 的请求中将 Host 头指定为 `nginx.default`，成功返回 `HTTP 200 OK`。
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
@@ -307,13 +307,13 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
     这可用于客户端无法在请求中包含头信息的某些场景。
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
     {{< text bash >}}
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl -H "Host: nginx.default" 10.1.1.171 -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 
@@ -322,8 +322,8 @@ $ kubectl exec -it $SOURCE_POD -c sleep -- curl 10.1.1.171 -s -o /dev/null -w "%
     Headless Service 的特定实例也可以仅使用域名进行访问。
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items..metadata.name}')
-    $ kubectl exec -it $SOURCE_POD -c sleep -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
+    $ kubectl exec -it $SOURCE_POD -c curl -- curl web-0.nginx.default -s -o /dev/null -w "%{http_code}"
       200
     {{< /text >}}
 

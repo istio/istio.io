@@ -14,12 +14,12 @@ aliases:
 
 {{< relnote >}}
 
-## 安全更新{#security-update}
+## 安全更新 {#security-update}
 
 - __[CVE-2022-24726](https://github.com/istio/istio/security/advisories/GHSA-8w5h-qr4r-2h6g)__:
   (CVSS Score 7.5, High): Istio 控制平面容易受到请求处理错误的影响，允许未经验证的恶意攻击者发送特制或超大消息，从而堆栈耗尽造成控制平面崩溃。
 
-## 新增{#changes}
+## 新增 {#changes}
 
 - **新增** 新增一个 OpenTelemetry 访问日志程序。
 ([Issue #36637](https://github.com/istio/istio/issues/36637))
@@ -36,7 +36,7 @@ aliases:
 - **修复** 修复了使用 Telemetry API 启用 Stackdriver 指标收集时，在某些场景中错误地启用日志记录的问题。
   ([Issue #37667](https://github.com/istio/istio/issues/37667))
 
-### Envoy CVEs{#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 目前，人们认为 Istio 不会受到 Envoy 中这些 CVE 的攻击。然而还是将它们在下面列举出来，
 以让 Istio 的使用者们都能够知道。

@@ -1,0 +1,170 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="简化到通配符目标的出站路由"><meta name=description content="Istio 现在支持带有 DYNAMIC_DNS 解析的通配符 ServiceEntry，允许 Sidecar 将流量直接路由到通配符 HTTPS 目标，同时简化出站配置。"><meta name=author content="Rudrakh Panigrahi (Salesforce); Translated by Wilson Wu (DaoCloud)"><meta name=keywords content="microservices,services,mesh,traffic-management,gateway,mesh,egress,wildcard,service-entry,ambient,waypoint"><meta property="og:title" content="简化到通配符目标的出站路由"><meta property="og:type" content="website"><meta property="og:description" content="Istio 现在支持带有 DYNAMIC_DNS 解析的通配符 ServiceEntry，允许 Sidecar 将流量直接路由到通配符 HTTPS 目标，同时简化出站配置。"><meta property="og:url" content="/v1.30/zh/blog/2026/egress-dynamic-dns/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"><meta property="og:image:alt" content="The Istio sailboat logo"><meta property="og:image:width" content="4096"><meta property="og:image:height" content="2048"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@IstioMesh"><title>Istio / 简化到通配符目标的出站路由</title><script async src="https://www.googletagmanager.com/gtag/js?id=G-RNS1643NL0"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RNS1643NL0")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.30/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.30/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.30/feed.xml><link rel="shortcut icon" href=/v1.30/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.30/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.30/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.30/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.30/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.30/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.30/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.30/favicons/android-96x96.png sizes=96x96><link rel=icon type=image/png href=/v1.30/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.30/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.30/favicons/favicon.svg><link rel=icon type=image/png href=/v1.30/favicons/favicon.png><link rel=mask-icon href=/v1.30/favicons/safari-pinned-tab.svg color=#466BB0><link rel=manifest href=/v1.30/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.30/css/style.min.467d5eec6fc07e5f8240dda946ed55ef76a7997b946985aef5b447240a6e3ed0.css integrity="sha256-Rn1e7G/Afl+CQN2pRu1V73anmXuUaYWu9bRHJApuPtA=" crossorigin=anonymous><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.30/js/themes_init.min.js></script></head><body class=language-unknown><script>const branchName="release-1.30",docTitle="简化到通配符目标的出站路由",iconFile="/v1.30//img/icons.svg",buttonCopy="复制到剪贴板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.30/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.30/zh/ aria-label=Istio><span class=logo><svg width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span>
+</a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation">
+<svg class="icon menu-hamburger"><use xlink:href="/v1.30/img/icons.svg#menu-hamburger"/></svg>
+</button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation">
+<svg class="icon menu-close"><use xlink:href="/v1.30/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span>
+<svg class="icon dropdown-arrow"><use xlink:href="/v1.30/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.30/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.30/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.30/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.30/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.30/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.30/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.30/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.30/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.30/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.30/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.30/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.30/zh/docs/overview/quickstart class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:veyyqmfmpj4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/latest/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.30/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container><a href=/v1.30/zh/news/releases/1.30.x/announcing-1.30.4/ class=banner data-title="最新版本-2026-08-27 00:00:00 +0000 UTC" data-period-start=1787788800000 data-period-end=1788393600000 data-max-impressions=3 data-timeout><div class=content><p>Istio 1.30 现在可用！点击这里下载。</p></div><div class=frame></div></a></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>简化到通配符目标的出站路由</h1><p>Istio 现在支持带有 DYNAMIC_DNS 解析的通配符 ServiceEntry，允许 Sidecar 将流量直接路由到通配符 HTTPS 目标，同时简化出站配置。</p></div><p class=post-author>Mar 20, 2026 <span>| </span>作者 Rudrakh Panigrahi - Salesforce; Translated by Wilson Wu - DaoCloud</p><div><h2 id=overview>概述</h2><p>控制出站流量是服务网格部署中的常见需求。许多组织通过设置以下参数来配置其服务网格，以仅允许显式注册的外部服务：</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>meshConfig.outboundTrafficPolicy.mode = REGISTRY_ONLY</code></pre><p>通过这种配置，任何外部目标都必须使用诸如 <code>ServiceEntry</code> 之类的资源，
+通过完全限定域名和 DNS 解析类型在网格中注册。</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-wikipedia-https
+  namespace: istio-system
+spec:
+  hosts:
+  - &#34;www.wikipedia.org&#34;
+  ports:
+  - name: tls
+    number: 443
+    protocol: TLS
+  location: MESH_EXTERNAL
+  resolution: DNS
+  exportTo:
+  - &#34;*&#34;</code></pre><p>然而，某些外部服务会公开许多动态子域，应用程序可能需要访问诸如以下端点：</p><pre><code class=language-plain data-expandlinks=true data-repo=istio>https://en.wikipedia.org
+https://de.wikipedia.org
+https://upload.wikipedia.org</code></pre><p>随着主机名列表的增长，逐个注册主机名很快就会变得难以管理和扩展。
+为了解决这个问题，Istio 需要支持通配符主机名注册。</p><h2 id=why-wildcard-https-egress-is-difficult>为什么通配符 HTTPS 出站难以实现</h2><p>当工作负载发起 HTTPS 连接时，目标主机名通过 TLS 握手中的**服务器名称指示（SNI）**字段进行传输。</p><p>例如，调用 <code>https://en.wikipedia.org</code> 的客户端会在 TLS 握手期间，
+在 ClientHello SNI 字段中发送主机名 <code>en.wikipedia.org</code>。Istio Sidecar 会拦截出站连接，
+并确定目标地址是否已注册以及应如何路由。</p><p>然而，Istio 的路由模型通常要求预先知道上游目标地址。即使在路由规则中使用通配符匹配，
+最终的上游集群仍然必须对应于静态配置的服务。由于不同的子域名可能解析到不同的端点，
+因此直接路由到通配符主机在历史上并非易事。</p><h2 id=sni-routing-via-egress-gateway>通过出站网关进行 SNI 路由</h2><p>这个问题之前在 Istio 博客文章<a href=/v1.30/zh/blog/2023/egress-sni/>将出站流量路由到通配符目标</a>中讨论过。
+该架构包含一个专用的出站网关设置，用作 SNI 转发代理。</p><figure style=width:90%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:43.73843306600864%><a data-skipendnotes=true href=/v1.30/zh/blog/2026/egress-dynamic-dns/egress-sni-flow.svg title="使用任意域名进行出站 SNI 路由"><img class=element-to-stretch src=/v1.30/zh/blog/2026/egress-dynamic-dns/egress-sni-flow.svg alt="使用任意域名进行出站 SNI 路由"></a></div><figcaption>应用程序 → Sidecar → 出站网关 → SNI 检测 → 外部目标</figcaption></figure><p>上图最初发表于<a href=/v1.30/zh/blog/2023/egress-sni/>将出站流量路由到通配符目的地</a>。</p><p>如上图所示：</p><ol><li>应用程序发起 HTTPS 连接。</li><li>Sidecar 代理拦截此连接，并向出站网关发起内部 mTLS 连接。</li><li>网关终止此内部 mTLS 连接。</li><li>内部监听器检查原始 TLS 握手中的 SNI 值。</li><li>流量动态转发到从 SNI 中提取的主机名。</li></ol><p>实现此功能需要多个自定义资源：</p><ul><li><code>ServiceEntry</code> 和 <code>VirtualService</code> 用于将通配符域名流量转发到出站网关。</li><li><code>DestinationRule</code> 用于边车服务器和网关之间的 mTLS 通信。</li><li><code>EnvoyFilter</code> 配置使出站网关能够执行动态 SNI 转发，这是该解决方案中最复杂的部分。
+该过滤器通过引入三个组件来扩展网关，利用了 Envoy 的底层功能：一个<strong>对网关 TCP 代理的补丁</strong>，
+用于将流量路由到内部监听器；一个<strong>监听器中的 SNI 检查器</strong>，
+用于从 TLS ClientHello 中提取 SNI；以及一个<strong>动态转发代理集群</strong>，
+用于执行 SNI 的动态 DNS 解析。</li></ul><p>虽然这种方法可行，但它会引入额外的网络跃点，并为该跃点增加一层内部 mTLS。
+此外，由于需要大量的自定义配置，操作也变得更加复杂，这些配置难以管理且容易出错。
+但最近的改进使得用更简单的配置即可实现相同的结果。</p><h2 id=wildcard-serviceentry-with-dynamic-dns-resolution>具有 <code>DYNAMIC_DNS</code> 解析的通配符 <code>ServiceEntry</code></h2><p>Istio 现在支持在 <code>ServiceEntry</code> 中使用 <code>DYNAMIC_DNS</code> 解析的通配符主机名，
+使 Sidecar 代理能够直接路由通配符出站 TLS 流量，而无需出站网关。</p><p>例如，以下配置允许访问所有 <code>*.wikipedia.org</code> 端点：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-wildcard-https
+  namespace: istio-system
+spec:
+  hosts:
+  - &#34;*.wikipedia.org&#34;
+  ports:
+  - name: tls
+    number: 443
+    protocol: TLS
+  location: MESH_EXTERNAL
+  resolution: DYNAMIC_DNS
+  exportTo:
+  - &#34;*&#34;</code></pre><p>应用此资源后，网格中的工作负载可以通过此 ServiceEntry 连接到任何匹配的子域。</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl exec $POD_NAME -n default -c ratings -- curl -sS -o /dev/null -w &#34;HTTP %{http_code}\n&#34; https://de.wikipedia.org &amp;&amp; echo &#34;Checking stats after request...&#34; &amp;&amp; kubectl exec $POD_NAME -c istio-proxy -- curl -s localhost:15000/clusters | grep &#34;outbound|443||\*\.wikipedia\.org&#34; | grep -E &#34;rq|cx&#34;
+
+HTTP 200
+Checking stats after request...
+outbound|443||*.wikipedia.org::142.251.223.228:443::cx_active::0
+outbound|443||*.wikipedia.org::142.251.223.228:443::cx_connect_fail::0
+outbound|443||*.wikipedia.org::142.251.223.228:443::cx_total::3
+outbound|443||*.wikipedia.org::142.251.223.228:443::rq_active::0
+outbound|443||*.wikipedia.org::142.251.223.228:443::rq_error::0
+outbound|443||*.wikipedia.org::142.251.223.228:443::rq_success::0
+outbound|443||*.wikipedia.org::142.251.223.228:443::rq_timeout::0
+outbound|443||*.wikipedia.org::142.251.223.228:443::rq_total::3</code></pre><h3 id=how-the-configuration-works>配置工作原理</h3><figure style=width:90%><div class=wrapper-with-intrinsic-ratio style=padding-bottom:35.461451610655004%><a data-skipendnotes=true href=/v1.30/zh/blog/2026/egress-dynamic-dns/egress-dynamic-dns.svg title="具有 DYNAMIC_DNS 解析的通配符 ServiceEntry"><img class=element-to-stretch src=/v1.30/zh/blog/2026/egress-dynamic-dns/egress-dynamic-dns.svg alt="具有 DYNAMIC_DNS 解析的通配符 ServiceEntry"></a></div><figcaption>应用程序 → Sidecar → 外部目的地</figcaption></figure><p>使用 <code>resolution: DYNAMIC_DNS</code> 的通配符 <code>ServiceEntry</code> 会导致
+Istio 创建一个动态转发代理 (DFP) 集群，该集群会根据 SNI 字段中的主机名转发 TLS 连接。
+通配符主机（例如 <code>*.wikipedia.org</code>）首先在网格服务注册表中注册，
+以便 Sidecar 能够路由主机名与该模式匹配的出站请求。当工作负载发起 TLS 连接时，
+监听器中的 SNI Inspector 会配置为从握手中读取 SNI 值。
+然后，DFP 集群会使用该值作为上游主机名来转发连接。
+这实际上实现了通配符 HTTPS 出站流量，允许代理动态解析连接并将连接转发到匹配的子域名，
+而无需静态配置端点。同时，它还能保持客户端发起的 TLS 会话，原封不动地转发加密流量。</p><h2 id=other-use-cases>其他用例</h2><p>这种方法适用于应用程序需要连接到通配符域，同时还要获得网格可观测性和弹性功能的用例。</p><h3 id=egress-traffic-in-ambient-mode>Ambient 模式下的出站流量</h3><p>在 <a href=/v1.30/zh/docs/ambient/overview/>Ambient 网格</a>中，节点级 ztunnel 处理 L4 流量，
+可选的 <a href=/v1.30/zh/docs/ambient/usage/waypoint/>waypoint 代理</a>可在显式连接时应用 L7 策略和遥测数据。
+例如，为了处理通过路点的出站流量，以便为调用多个 AWS 服务终端节点保持一致的策略路径，
+可以将 <code>ServiceEntry</code> 标记为 <code>istio.io/use-waypoint</code>，
+以便控制平面将匹配的流量定向到指定的路点 <code>Gateway</code>。</p><p>以下示例将 <code>*.amazonaws.com</code> 注册为外部 TLS (<code>443</code>) ServiceEntry，
+并将其绑定到名为 <code>waypoint</code> 的 waypoint 网关：</p><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: amazonaws-wildcard
+  namespace: istio-system
+  labels:
+    istio.io/use-waypoint: waypoint # attached to a waypoint gateway
+spec:
+  exportTo:
+  - .
+  hosts:
+  - &#39;*.amazonaws.com&#39;
+  location: MESH_EXTERNAL
+  ports:
+  - name: tls
+    number: 443
+    protocol: TLS
+  resolution: DYNAMIC_DNS</code></pre><h3 id=traffic-to-unknown-internal-destinations>发往未知内部目标的流量</h3><p>调用方配置中可能只包含有限数量的服务，但仍然需要通过 mTLS 连接到其他内部服务。具体设置如下：</p><ul><li>一个 <code>Sidecar</code> 资源，它将评分服务的出站主机限制在 <code>istio-system</code>
+命名空间内，也就是说，它不能直接调用 details 服务：</li></ul><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: restrict-default
+  namespace: default
+spec:
+  workloadSelector:
+    labels:
+      app: ratings
+  egress:
+  - hosts:
+    - &#34;istio-system/*&#34;</code></pre><ul><li><code>ServiceEntry</code> 用于定义其他内部服务的通配符服务：</li></ul><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: internal-wildcard-http
+  namespace: istio-system
+spec:
+  hosts:
+  - &#34;*.svc.cluster.local&#34;
+  ports:
+  - name: http
+    number: 9080
+    protocol: HTTP
+  location: MESH_INTERNAL
+  resolution: DYNAMIC_DNS
+  exportTo:
+  - &#34;*&#34;</code></pre><ul><li>定义此 <code>ServiceEntry</code> 的 mTLS 配置的 <code>DestinationRule</code>：</li></ul><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: internal-wildcard-dr
+  namespace: istio-system
+spec:
+  host: &#34;*.svc.cluster.local&#34;
+  trafficPolicy:
+    tls:
+      mode: MUTUAL_TLS # needs DNS SAN in cert
+  exportTo:
+  - &#34;*&#34;</code></pre><p>即使评分服务在其配置中没有包含其他服务，
+它现在也可以通过使用 DNS 动态解析主机名来调用网格中的其他服务：</p><pre><code class=language-bash data-expandlinks=true data-repo=istio>$ kubectl exec $POD_NAME -n default -c ratings -- curl -sS -o /dev/null -w &#34;HTTP %{http_code}\n&#34; details.default.svc.cluster.local:9080/details/0 &amp;&amp; echo &#34;Checking stats after request...&#34; &amp;&amp; kubectl exec $POD_NAME -c istio-proxy -- curl -s localhost:15000/clusters | grep &#34;outbound|9080||\*\.svc\.cluster\.local&#34; | grep -E &#34;rq_total|rq_success&#34;
+
+Making test request...
+HTTP 200
+Checking stats after request...
+outbound|9080||*.svc.cluster.local::10.96.35.238:9080::rq_success::1
+outbound|9080||*.svc.cluster.local::10.96.35.238:9080::rq_total::1</code></pre><p>注意：在此用例中，mTLS 需要证书具有 DNS SAN，
+因为 Envoy 的动态转发代理利用主机名执行自动 SAN 验证。</p><h2 id=conclusion>结论</h2><p>通过引入通配符 <code>ServiceEntry</code> 支持和 <code>DYNAMIC_DNS</code> 解析，
+Istio Sidecar 代理现在可以直接处理发往通配符域名的 HTTP 和 TLS 出站流量。
+这简化了配置，提供了更直接的请求路径，无需中间出站网关即可降低延迟，同时仍能保留现有的安全性和策略控制。</p><h2 id=references>参考</h2><ul><li><a href=/v1.30/zh/blog/2023/egress-sni/>将出站流量路由到通配符目标</a></li><li><a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/listeners/network_filters/sni_dynamic_forward_proxy_filter>SNI 动态转发代理 - Envoy 文档</a></li><li><a href=https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/http/http_proxy#arch-overview-http-dynamic-forward-proxy>HTTP 动态转发代理 - Envoy 文档</a></li></ul></div><div class=share-social><div class=heading>Share this post</div><div class=share-buttons><a href="https://www.linkedin.com/shareArticle?mini=true&url=%2fv1.30%2fzh%2fblog%2f2026%2fegress-dynamic-dns%2f" target=_blank><img class=share-icon src=/v1.30/img/social/linkedin.svg alt="Share to LinkedIn">
+</a><a href="https://twitter.com/intent/tweet?text=%e7%ae%80%e5%8c%96%e5%88%b0%e9%80%9a%e9%85%8d%e7%ac%a6%e7%9b%ae%e6%a0%87%e7%9a%84%e5%87%ba%e7%ab%99%e8%b7%af%e7%94%b1&url=%2fv1.30%2fzh%2fblog%2f2026%2fegress-dynamic-dns%2f" target=_blank><img class=share-icon src=/v1.30/img/social/twitterx.svg alt="Share to X">
+</a><a href="https://www.facebook.com/sharer/sharer.php?u=%2fv1.30%2fzh%2fblog%2f2026%2fegress-dynamic-dns%2f" target=_blank><img class=share-icon src=/v1.30/img/social/facebook.svg alt="Share to Facebook"></a></div></div><nav class=pagenav><div class=left><a title=解决基于命名空间的多租户架构中的中间人攻击弱点。 href=/v1.30/zh/blog/2026/security-considerations-on-namespace-based-multi-tenancy/ class=next-link><svg class="icon left-arrow"><use xlink:href="/v1.30/img/icons.svg#left-arrow"/></svg>基于命名空间的多租户 Istio CRD 的安全注意事项</a></div><div class=right><a title="在 2026 年欧洲 KubeCon + CloudNativeCon 大会中共庆 Istio。" href=/v1.30/zh/blog/2026/kubecon-eu/ class=next-link>Istio 亮相 2026 年欧洲 KubeCon 大会：让我们在阿姆斯特丹相聚！<svg class="icon right-arrow"><use xlink:href="/v1.30/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.30/img/icons.svg#github"/></svg>
+</a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.30/img/icons.svg#drive"/></svg>
+</a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.30/img/icons.svg#slack"/></svg>
+</a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.30/img/icons.svg#stackoverflow"/></svg>
+</a><a class=channel title='关注我们的 LinkedIn 来获取最新信息' href=https://www.linkedin.com/company/istio/ aria-label=LinkedIn><svg class="icon linkedin"><use xlink:href="/v1.30/img/icons.svg#linkedin"/></svg>
+</a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.30/img/icons.svg#twitter"/></svg>
+</a><a class=channel title='关注我们的 Bluesky 来获取最新信息' href=https://bsky.app/profile/istio.io aria-label=Bluesky><svg class="icon bluesky"><use xlink:href="/v1.30/img/icons.svg#bluesky"/></svg>
+</a><a class=channel title='关注我们的 Mastodon 来获取最新信息' href=https://mastodon.social/@istio aria-label=Mastodon rel=me><svg class="icon mastodon"><use xlink:href="/v1.30/img/icons.svg#mastodon"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.30/zh/ aria-label=logotype><svg width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English
+</a><a tabindex=-1 lang=es id=switch-lang-es class=footer-languages-item>Español
+</a><a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.30/img/icons.svg#tick"/></svg>
+中文
+</a><a tabindex=-1 lang=uk id=switch-lang-uk class=footer-languages-item>Українська</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/trademark-usage>商标
+</a>|
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.30/content/zh/blog/2026/egress-dynamic-dns/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2026 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步翻译工作正在进行中<br>版本
+Istio
+1.30.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/blog/2026/egress-dynamic-dns/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1>
+<svg class="icon top"><use xlink:href="/v1.30/img/icons.svg#top"/></svg></button></div></body></html>

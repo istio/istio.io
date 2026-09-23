@@ -25,7 +25,7 @@ install_gateway_api_crds
 # deploy test application
 source "tests/util/samples.sh"
 startup_bookinfo_sample
-startup_sleep_sample
+startup_curl_sample
 
 # snip_annotate_bookinfo_gateway
 kubectl annotate gateway bookinfo-gateway networking.istio.io/service-type=ClusterIP --namespace=default
@@ -37,7 +37,7 @@ kubectl label namespace default istio.io/dataplane-mode=ambient
 _verify_like snip_get_gateway "$snip_get_gateway_out"
 
 # Configure WASM plugin for gateway
-snip_apply_wasmplugin_gateway
+_rewrite_oci_registry snip_apply_wasmplugin_gateway
 
 # verify traffic via gateway
 _verify_same snip_test_gateway_productpage_without_credentials "$snip_test_gateway_productpage_without_credentials_out"
@@ -53,17 +53,17 @@ _verify_same snip_verify_traffic "$snip_verify_traffic_out"
 _verify_like snip_get_gateway_waypoint "$snip_get_gateway_waypoint_out"
 
 # apply wasmplugin at waypoint proxy
-snip_apply_wasmplugin_waypoint_all
+_rewrite_oci_registry snip_apply_wasmplugin_waypoint_all
 
-# Display applied wasmplugins and verify output
-_verify_like snip_get_wasmplugin "$snip_get_wasmplugin_out"
+# Display applied trafficextensions and verify output
+_verify_like snip_get_trafficextension "$snip_get_trafficextension_out"
 
 # verify the traffic via waypoint proxy
 _verify_same snip_test_waypoint_productpage_without_credentials "$snip_test_waypoint_productpage_without_credentials_out"
 _verify_same snip_test_waypoint_productpage_with_credentials "$snip_test_waypoint_productpage_with_credentials_out"
 
 # apply wasmplugin for one specific service through the waypoint
-snip_apply_wasmplugin_waypoint_service
+_rewrite_oci_registry snip_apply_wasmplugin_waypoint_service
 
 # verify the traffic targeting the service
 _verify_same snip_test_waypoint_service_productpage_with_credentials "$snip_test_waypoint_service_productpage_with_credentials_out"
@@ -78,6 +78,6 @@ kubectl label namespace default istio.io/use-waypoint-
 
 istioctl x waypoint delete --all
 
-cleanup_sleep_sample
+cleanup_curl_sample
 cleanup_bookinfo_sample
 remove_gateway_api_crds

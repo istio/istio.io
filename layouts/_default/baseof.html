@@ -40,7 +40,7 @@
             <meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png">
             <meta property="og:image:alt" content="The Istio sailboat logo">
             <meta property="og:image:width" content="4096">
-            <meta property="og:image:height" content="2048">    
+            <meta property="og:image:height" content="2048">
         {{ end }}
         <meta property="og:site_name" content="Istio">
 
@@ -99,7 +99,7 @@
         <link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
         <link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
         <link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
-        <link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96xW96">
+        <link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
         <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
         <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
         <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
@@ -117,7 +117,11 @@
         <meta name="theme-color" content="#466BB0">
 
         <!-- style sheets -->
-        <link rel="stylesheet" href="/css/all.css">
+
+        {{- $opts := dict "transpiler" "libsass" "targetPath" "css/style.css" -}}
+        {{- with resources.Get "sass/_all.scss" | toCSS $opts | minify | fingerprint -}}
+        <link rel="stylesheet" href="{{ .Permalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+        {{- end -}}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap">
@@ -152,6 +156,18 @@
 
         {{ partial "events.html" (dict "page" . "kind" "sticker") }}
         {{ partial "header.html" . }}
+
+        <!-- Archived Documentation Header -->
+        {{ if and (eq .Section "docs") .Site.Data.args.archive}}
+        <div class="archive-warning-banner" role="alert">
+            {{ (printf (i18n "archive_banner_text") .Site.Data.args.version) | safeHTML }}
+            {{ $rel := .RelPermalink }}
+            {{ $path := replaceRE `^/v[0-9]+\.[0-9]+/` "" $rel | strings.TrimPrefix "/" }}
+            {{ $latestURL := printf "https://istio.io/latest/%s" $path }}
+            <a href="{{ $latestURL | safeURL }}">{{ i18n "archive_banner_link" }}</a>
+        </div>
+        {{ end }}
+
         {{ partial "events.html" (dict "page" . "kind" "banner") }}
 
         {{ block "main" . }}{{ end }}

@@ -171,7 +171,7 @@ you ensure Istiod is working as expected:
     2021-04-23T20:53:29.507641Z info ads XDS: Pushing:2021-04-23T20:53:29Z/23 Services:15 ConnectedEndpoints:2  Version:2021-04-23T20:53:29Z/23
     2021-04-23T20:53:29.507911Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
         * found 0 CUSTOM actions
-    2021-04-23T20:53:29.508077Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+    2021-04-23T20:53:29.508077Z debug authorization Processed authorization policy for curl-557747455f-6dxbl.foo with details:
         * found 0 CUSTOM actions
     2021-04-23T20:53:29.508128Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
         * found 1 DENY actions, 0 ALLOW actions, 0 AUDIT actions
@@ -179,11 +179,11 @@ you ensure Istiod is working as expected:
         * built 1 HTTP filters for DENY action
         * added 1 HTTP filters to filter chain 0
         * added 1 HTTP filters to filter chain 1
-    2021-04-23T20:53:29.508158Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+    2021-04-23T20:53:29.508158Z debug authorization Processed authorization policy for curl-557747455f-6dxbl.foo with details:
         * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
-    2021-04-23T20:53:29.509097Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+    2021-04-23T20:53:29.509097Z debug authorization Processed authorization policy for curl-557747455f-6dxbl.foo with details:
         * found 0 CUSTOM actions
-    2021-04-23T20:53:29.509167Z debug authorization Processed authorization policy for sleep-557747455f-6dxbl.foo with details:
+    2021-04-23T20:53:29.509167Z debug authorization Processed authorization policy for curl-557747455f-6dxbl.foo with details:
         * found 0 DENY actions, 0 ALLOW actions, 0 AUDIT actions
     2021-04-23T20:53:29.509501Z debug authorization Processed authorization policy for httpbin-74fb669cc6-lpscm.foo with details:
         * found 0 CUSTOM actions
@@ -198,7 +198,7 @@ you ensure Istiod is working as expected:
         * added 1 TCP filters to filter chain 2
         * added 1 TCP filters to filter chain 3
         * added 1 TCP filters to filter chain 4
-    2021-04-23T20:53:29.510903Z info ads LDS: PUSH for node:sleep-557747455f-6dxbl.foo resources:18 size:85.0kB
+    2021-04-23T20:53:29.510903Z info ads LDS: PUSH for node:curl-557747455f-6dxbl.foo resources:18 size:85.0kB
     2021-04-23T20:53:29.511487Z info ads LDS: PUSH for node:httpbin-74fb669cc6-lpscm.foo resources:18 size:86.4kB
     {{< /text >}}
 
@@ -323,7 +323,7 @@ are not using `httpbin`.
 
     {{< text plain >}}
     ...
-    2021-04-23T20:43:18.552857Z debug envoy rbac checking request: requestedServerName: outbound_.8000_._.httpbin.foo.svc.cluster.local, sourceIP: 10.44.3.13:46180, directRemoteIP: 10.44.3.13:46180, remoteIP: 10.44.3.13:46180,localAddress: 10.44.1.18:80, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/foo/sa/sleep, dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin:8000'
+    2021-04-23T20:43:18.552857Z debug envoy rbac checking request: requestedServerName: outbound_.8000_._.httpbin.foo.svc.cluster.local, sourceIP: 10.44.3.13:46180, directRemoteIP: 10.44.3.13:46180, remoteIP: 10.44.3.13:46180,localAddress: 10.44.1.18:80, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/foo/sa/curl, dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin:8000'
     ':path', '/headers'
     ':method', 'GET'
     ':scheme', 'http'
@@ -335,14 +335,14 @@ are not using `httpbin`.
     'x-b3-traceid', '8a124905edf4291a21df326729b264e9'
     'x-b3-spanid', '21df326729b264e9'
     'x-b3-sampled', '0'
-    'x-forwarded-client-cert', 'By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=d64cd6750a3af8685defbbe4dd8c467ebe80f6be4bfe9ca718e81cd94129fc1d;Subject="";URI=spiffe://cluster.local/ns/foo/sa/sleep'
+    'x-forwarded-client-cert', 'By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=d64cd6750a3af8685defbbe4dd8c467ebe80f6be4bfe9ca718e81cd94129fc1d;Subject="";URI=spiffe://cluster.local/ns/foo/sa/curl'
     , dynamicMetadata: filter_metadata {
       key: "istio_authn"
       value {
         fields {
           key: "request.auth.principal"
           value {
-            string_value: "cluster.local/ns/foo/sa/sleep"
+            string_value: "cluster.local/ns/foo/sa/curl"
           }
         }
         fields {
@@ -354,13 +354,13 @@ are not using `httpbin`.
         fields {
           key: "source.principal"
           value {
-            string_value: "cluster.local/ns/foo/sa/sleep"
+            string_value: "cluster.local/ns/foo/sa/curl"
           }
         }
         fields {
           key: "source.user"
           value {
-            string_value: "cluster.local/ns/foo/sa/sleep"
+            string_value: "cluster.local/ns/foo/sa/curl"
           }
         }
       }
@@ -377,7 +377,7 @@ are not using `httpbin`.
 
     {{< text plain >}}
     ...
-    2021-04-23T20:59:11.838468Z debug envoy rbac checking request: requestedServerName: outbound_.8000_._.httpbin.foo.svc.cluster.local, sourceIP: 10.44.3.13:49826, directRemoteIP: 10.44.3.13:49826, remoteIP: 10.44.3.13:49826,localAddress: 10.44.1.18:80, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/foo/sa/sleep, dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin:8000'
+    2021-04-23T20:59:11.838468Z debug envoy rbac checking request: requestedServerName: outbound_.8000_._.httpbin.foo.svc.cluster.local, sourceIP: 10.44.3.13:49826, directRemoteIP: 10.44.3.13:49826, remoteIP: 10.44.3.13:49826,localAddress: 10.44.1.18:80, ssl: uriSanPeerCertificate: spiffe://cluster.local/ns/foo/sa/curl, dnsSanPeerCertificate: , subjectPeerCertificate: , headers: ':authority', 'httpbin:8000'
     ':path', '/headers'
     ':method', 'GET'
     ':scheme', 'http'
@@ -389,14 +389,14 @@ are not using `httpbin`.
     'x-b3-traceid', '696607fc4382b50017c1f7017054c751'
     'x-b3-spanid', '17c1f7017054c751'
     'x-b3-sampled', '0'
-    'x-forwarded-client-cert', 'By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=d64cd6750a3af8685defbbe4dd8c467ebe80f6be4bfe9ca718e81cd94129fc1d;Subject="";URI=spiffe://cluster.local/ns/foo/sa/sleep'
+    'x-forwarded-client-cert', 'By=spiffe://cluster.local/ns/foo/sa/httpbin;Hash=d64cd6750a3af8685defbbe4dd8c467ebe80f6be4bfe9ca718e81cd94129fc1d;Subject="";URI=spiffe://cluster.local/ns/foo/sa/curl'
     , dynamicMetadata: filter_metadata {
       key: "istio_authn"
       value {
         fields {
           key: "request.auth.principal"
           value {
-            string_value: "cluster.local/ns/foo/sa/sleep"
+            string_value: "cluster.local/ns/foo/sa/curl"
           }
         }
         fields {
@@ -408,13 +408,13 @@ are not using `httpbin`.
         fields {
           key: "source.principal"
           value {
-            string_value: "cluster.local/ns/foo/sa/sleep"
+            string_value: "cluster.local/ns/foo/sa/curl"
           }
         }
         fields {
           key: "source.user"
           value {
-            string_value: "cluster.local/ns/foo/sa/sleep"
+            string_value: "cluster.local/ns/foo/sa/curl"
           }
         }
       }
@@ -436,7 +436,7 @@ are not using `httpbin`.
 If you suspect that some of the keys and/or certificates used by Istio aren't correct, you can inspect the contents from any pod:
 
 {{< text bash >}}
-$ istioctl proxy-config secret sleep-8f795f47d-4s4t7
+$ istioctl proxy-config secret curl-8f795f47d-4s4t7
 RESOURCE NAME     TYPE           STATUS     VALID CERT     SERIAL NUMBER                               NOT AFTER                NOT BEFORE
 default           Cert Chain     ACTIVE     true           138092480869518152837211547060273851586     2020-11-11T16:39:48Z     2020-11-10T16:39:48Z
 ROOTCA            CA             ACTIVE     true           288553090258624301170355571152070165215     2030-11-08T16:34:52Z     2020-11-10T16:34:52Z
@@ -445,7 +445,7 @@ ROOTCA            CA             ACTIVE     true           288553090258624301170
 By passing the `-o json` flag, you can pass the full certificate content to `openssl` to analyze its contents:
 
 {{< text bash >}}
-$ istioctl proxy-config secret sleep-8f795f47d-4s4t7 -o json | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -noout -text
+$ istioctl proxy-config secret curl-8f795f47d-4s4t7 -o json | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -noout -text
 Certificate:
     Data:
         Version: 3 (0x2)

@@ -11,9 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+export {}; // Make this file a module
 
 const callToActionDelayMs = 250;
-
+declare global {
+    interface Window {
+        handleCallToAction: () => void;
+    }
+}
 function handleCallToAction(): void {
     window.setTimeout(() => {
         document.querySelectorAll<HTMLElement>(".call-to-action").forEach(el => {
@@ -22,4 +27,5 @@ function handleCallToAction(): void {
     }, callToActionDelayMs);
 }
 
+window.handleCallToAction = handleCallToAction;
 handleCallToAction();

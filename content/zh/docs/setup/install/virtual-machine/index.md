@@ -104,7 +104,7 @@ test: yes
 
     {{< tab name="自动化 WorkloadEntry 创建" category-value="autoreg" >}}
 
-    {{< boilerplate experimental >}}
+    {{< boilerplate alpha >}}
 
     {{< text bash >}}
     $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
@@ -225,7 +225,7 @@ EOF
 
 首先，为虚拟机创建 `WorkloadGroup` 模板：
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -269,7 +269,7 @@ spec:
       app: "${VM_APP}"
   template:
     serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${NETWORK}"
+    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
@@ -317,7 +317,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 {{< tab name="自动化 WorkloadEntry 创建" category-value="autoreg" >}}
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
@@ -356,7 +356,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
     {{< tab name="Debian" category-value="debian" >}}
 
     {{< text bash >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -367,7 +367,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
     注意：目前仅支持 CentOS 8。
 
     {{< text bash >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
     $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}
 

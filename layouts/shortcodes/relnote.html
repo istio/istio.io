@@ -25,6 +25,8 @@
 {{ $lang := $home.Lang }}
 {{ if eq $lang "en" }}
     {{ $lang = "" }}
+{{ else if eq $lang "uk"}}
+    {{ $lang = "/uk" }}
 {{ else }}
     {{ $lang = "/zh" }}
 {{ end }}

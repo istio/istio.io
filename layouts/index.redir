@@ -4,6 +4,12 @@
 # test at https://play.netlify.com/redirects  #
 ###############################################
 
+# archive site
+http://archive.istio.io/ http://istio.io/archive/ 301!
+http://archive.istio.io/* http://istio.io/:splat 301!
+https://archive.istio.io/ https://istio.io/archive/ 301!
+https://archive.istio.io/* https://istio.io/:splat 301!
+
 # Redirect golang vanity imports for istio.io
 /istio/* go-get=1 /latest/golang/istio.html 200
 /pkg/* go-get=1 /latest/golang/pkg.html 200
@@ -23,6 +29,14 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /  /latest/zh   302  Language=zh
 /zh /latest/zh
 /zh/* /latest/zh/:splat
+
+/  /latest/es   302  Language=es
+/es /latest/es
+/es/* /latest/es/:splat
+
+/  /latest/uk   302  Language=uk
+/uk /latest/uk
+/uk/* /latest/uk/:splat
 
 # Redirect for the helm charts
 /charts/ https://storage.googleapis.com/istio-release/releases/{{ .Site.Data.args.full_version }}/charts/ 301
@@ -46,11 +60,14 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 /favicon.ico /latest/favicons/favicon.ico 200
 /logos/* /latest/logos/:splat
 
-# navigating to a page without /latest on front, add /latest
-{{ range $p := .Site.Pages }}
-{{ strings.TrimPrefix "/latest" $p.Permalink }} {{ $p.Permalink}}
-{{ strings.TrimPrefix "/latest" (printf "%s.html" (substr $p.Permalink 0 -1)) }} {{ $p.Permalink}}
-{{- end }}
+# Redirect root paths without /latest
+/about/* /latest/about/:splat
+/blog/* /latest/blog/:splat
+/docs/* /latest/docs/:splat
+/get-involved/* /latest/get-involved/:splat
+/news/* /latest/news/:splat
+/search/* /latest/search/:splat
+/test/* /latest/test/:splat
 
 # redirect current version to /latest
 /v{{ .Site.Data.args.version }}/* /latest/:splat
@@ -58,23 +75,14 @@ https://istio.netlify.com/* https://istio.io/:splat 301!
 #redirect next version to preliminary
 /v{{ .Site.Data.versions.preliminary }}/* https://preliminary.istio.io/latest/:splat
 
-http://archive.istio.io/ http://istio.io/archive 301!
-http://archive.istio.io/* http://istio.io/:splat 301!
-https://archive.istio.io/ https://istio.io/archive 301!
-https://archive.istio.io/* https://istio.io/:splat 301!
-
 # migration from old design to new
 /about / 301!
 /latest/about /latest 301!
-# /faq/ /about/faq
-/faq/* /about/faq/
-# /latest/faq/ /about/faq
-/latest/faq/* /about/faq/
-/about/faq/* /about/faq/
-/latest/about/faq/* /about/faq/
+/faq/* /latest/about/faq/
+/latest/faq/* /latest/about/faq/
+/about/faq/* /latest/about/faq/
 
 # media-resources page
-
 /about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
 /latest/about/media-resources https://github.com/cncf/artwork/tree/master/projects/istio
 /about/zh/media-resources https://github.com/cncf/artwork/tree/master/projects/istio

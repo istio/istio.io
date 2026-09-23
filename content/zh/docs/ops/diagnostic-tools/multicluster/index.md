@@ -17,7 +17,7 @@ test: no
 通常表现为仅看到来自服务的集群本地实例（cluster-local instance）的响应：
 
 {{< text bash >}}
-$ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec sleep-dd98b5f48-djwdw -c sleep -- curl -s helloworld:5000/hello; done
+$ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec curl-dd98b5f48-djwdw -c curl -- curl -s helloworld:5000/hello; done
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
@@ -67,9 +67,9 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/helloworld/helloworld.yaml \
     -l version=v2 -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER1}" \
-    -f samples/sleep/sleep.yaml -n uninjected-sample
+    -f samples/curl/curl.yaml -n uninjected-sample
 $ kubectl apply --context="${CTX_CLUSTER2}" \
-    -f samples/sleep/sleep.yaml -n uninjected-sample
+    -f samples/curl/curl.yaml -n uninjected-sample
 {{< /text >}}
 
 使用 `-o wide` 参数验证 `cluster2` 集群中是否有一个正在运行的 helloworld Pod，
@@ -78,8 +78,8 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
 NAME                             READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+curl-557747455f-jdsd8            1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
 helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
-sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2   node-2   <none>           <none>
 {{< /text >}}
 
 记下 `helloworld` 的 `IP` 地址列。在本例中，它是 `10.100.0.1`：
@@ -88,12 +88,12 @@ sleep-557747455f-jdsd8           1/1     Running   0          41s   10.100.0.2  
 $ REMOTE_POD_IP=10.100.0.1
 {{< /text >}}
 
-接下来，尝试从 `cluster1` 中的 `sleep` Pod 直接向此 Pod IP 发送流量：
+接下来，尝试从 `cluster1` 中的 `curl` Pod 直接向此 Pod IP 发送流量：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c sleep \
+$ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c curl \
     "$(kubectl get pod --context="${CTX_CLUSTER1}" -n uninjected-sample -l \
-    app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    app=curl -o jsonpath='{.items[0].metadata.name}')" \
     -- curl -sS $REMOTE_POD_IP:5000/hello
 Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
 {{< /text >}}
@@ -135,12 +135,12 @@ $ diff \
 如果您已经阅读了上面的章节，但问题仍没有解决，那么可能需要进行更深入的探讨。
 
 下面这些步骤假定您已经完成了 [HelloWorld 认证](/zh/docs/setup/install/multicluster/verify/)指南，
-并且确保 `helloworld` 和 `sleep` 服务已经在每个集群中被正确部署。
+并且确保 `helloworld` 和 `curl` 服务已经在每个集群中被正确部署。
 
-针对每个集群，找到 `sleep` 服务对应的 `helloworld` 的 `endpoints`：
+针对每个集群，找到 `curl` 服务对应的 `helloworld` 的 `endpoints`：
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 {{< /text >}}
 
 故障诊断信息因流量来源的集群不同而不同：
@@ -150,7 +150,7 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.s
 {{< tab name="Primary cluster" category-value="primary" >}}
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.0.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -172,7 +172,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 {{< tab name="Remote cluster" category-value="remote" >}}
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER2 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER2 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.1.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
@@ -200,7 +200,7 @@ $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiClu
 主集群和从集群的步骤仍然适用于多网络，尽管多网络有其他情况：
 
 {{< text bash >}}
-$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint sleep-dd98b5f48-djwdw.sample | grep helloworld
+$ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 10.0.5.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
@@ -232,7 +232,7 @@ istio-eastwestgateway    LoadBalancer   10.8.17.119   <PENDING>        15021:317
 在源 Pod 上查看代理元数据。
 
 {{< text bash >}}
-$ kubectl get pod $SLEEP_POD_NAME \
+$ kubectl get pod $CURL_POD_NAME \
   -o jsonpath="{.spec.containers[*].env[?(@.name=='ISTIO_META_NETWORK')].value}"
 {{< /text >}}
 

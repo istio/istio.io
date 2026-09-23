@@ -15,6 +15,12 @@ test: no
 
 ## 开始之前  {#before-you-begin}
 
+{{< warning >}}
+本文档中描述的限流是通过 EnvoyFilter API 实现的。
+EnvoyFilter 会公开一些内部实现细节，这些细节可能随时更改。
+请务必格外谨慎，尤其是在升级过程中。
+{{< /warning >}}
+
 1. 参照[安装指南](/zh/docs/setup/getting-started/)，在 Kubernetes 集群中安装 Istio。
 
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/) 示例应用程序。
@@ -46,7 +52,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
       name: ratelimit-config
     data:
       config.yaml: |
-        domain: ratelimit
+        domain: product
         descriptors:
           - key: PATH
             value: "/productpage"
@@ -74,7 +80,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
     $ kubectl apply -f @samples/ratelimit/rate-limit-service.yaml@
     {{< /text >}}
 
-1. 对 `ingressgateway` 应用 `EnvoyFilter`，以使用 Envoy 的全局速率限制过滤器来启用全局速率限制。
+1. 对 `ingressgateway` 应用 `EnvoyFilter`，以使用 Envoy 的全局速率限制 HTTP 过滤器来启用全局速率限制。
 
     此 patch 将 `envoy.filters.http.ratelimit`
     [Envoy 全局限流过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#envoy-v3-api-msg-extensions-filters-http-ratelimit-v3-ratelimit)插入到
@@ -111,7 +117,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
               name: envoy.filters.http.ratelimit
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit
-                # 域名可以是任何东西！将其与 ratelitter 服务配置相匹配
+                # 域名可以是任何值！您可以将其与限流服务配置（单个域名）匹配，也可以为每个路由配置设置不同的域名（多个域名）。请参见以下示例。
                 domain: ratelimit
                 failure_mode_deny: true
                 timeout: 10s
@@ -126,7 +132,8 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
 
 1. 对定义限速路由配置的 `ingressgateway` 应用另一个 `EnvoyFilter`。
    对于来自名为 `bookinfo.com:80` 的虚拟主机的任何路由，这增加了
-   [速率限制动作](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)。
+   [速率限制动作](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-msg-config-route-v3-ratelimit)，
+   并通过 [`RateLimitPerRoute` 过滤器扩展](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ratelimit/v3/rate_limit.proto#extensions-filters-http-ratelimit-v3-ratelimitperroute)设置操作域。
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -152,6 +159,10 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
             operation: MERGE
             # 应用速率限制规则。
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product # overrides 'ratelimit' domain
               rate_limits:
                 - actions: # 此处的任何操作
                   - request_headers:
@@ -206,7 +217,7 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
     EOF
     {{< /text >}}
 
-1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作：
+1. 应用 EnvoyFilter 在结果为 1 到 99 的任一路由级别添加速率限制操作并覆盖 `ratelimit` 域名：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -231,6 +242,10 @@ Envoy 中的全局速率限制使用 gRPC API 向速率限制服务请求配额�
           patch:
             operation: MERGE
             value:
+              typed_per_filter_config:
+                envoy.filters.http.ratelimit:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimitPerRoute
+                  domain: product
               route:
                 rate_limits:
                 - actions:
@@ -428,10 +443,18 @@ $ for i in {1..3}; do curl -s "http://$GATEWAY_URL/api/v1/products/${i}" -o /dev
 
 ### 验证本地速率限制  {#verify-local-rate-limit}
 
-虽然入口网关的全局速率限制将对 `productpage` 服务的请求限制在每分钟 1 个请求，但
-`productpage` 实例的本地速率限制允许每分钟 4 个请求。
+尽管入口网关（Ingress Gateway）处的全局限流策略将发往 `productpage` 服务的请求限制为 1 次/分钟，
+但针对 `productpage` 实例的本地限流策略却允许 4 次/分钟。
+为了验证这一点，请首先等待 `EnvoyFilter` 配置传播至 `productpage` 服务的 Sidecar 代理。
+您可以通过检查监听器配置中是否出现了 `local_ratelimit` 字段来确认配置已成功传播：
 
-为了确认这一点，使用下面的 `curl` 命令从 `ratings` Pod 发送内部 `productpage` 请求：
+{{< text bash >}}
+$ PRODUCTPAGE_POD=$(kubectl get pod -l app=productpage -o jsonpath='{.items[0].metadata.name}')
+$ istioctl proxy-config listener "$PRODUCTPAGE_POD" -o json | grep local_ratelimit
+                    "name": "envoy.filters.http.local_ratelimit",
+{{< /text >}}
+
+接着，从 `ratings` Pod 发送内部 `productpage` 请求，使用以下 `curl` 命令：
 
 {{< text bash >}}
 $ kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- bash -c 'for i in {1..5}; do curl -s productpage:9080/productpage -o /dev/null -w "%{http_code}\n"; sleep 1; done'

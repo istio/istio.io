@@ -62,6 +62,21 @@ serviceSettings:
 
 {{< /tabset >}}
 
+您还可以通过设置全局集群本地规则并添加显式例外（可以是特定例外或通配符）来细化服务访问。
+在以下示例中，集群中的所有服务都将保持集群本地，但 `myns` 命名空间中的任何服务除外：
+
+{{< text yaml >}}
+serviceSettings:
+- settings:
+    clusterLocal: true
+  hosts:
+  - "*"
+- settings:
+    clusterLocal: false
+  hosts:
+  - "*.myns.svc.cluster.local"
+{{< /text >}}
+
 ## 分区服务 {#partitioning-services}
 
 [`DestinationRule.subsets`](/zh/docs/reference/config/networking/destination-rule/#Subset)

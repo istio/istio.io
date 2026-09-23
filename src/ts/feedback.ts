@@ -11,10 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { getById } from "./utils";
 declare function gtag(type: string, action: string, payload: any): void;
 
-function sendFeedback(language: string, value: number): void {
+export{};
+declare global {
+    interface Window {
+        sendFeedback: (language: string, value: number) => void;
+    }
+}
+
+export function sendFeedback(language: string, value: number): void {
     gtag("event", "click-" + language, {
         event_category: "Helpful",
         event_label: window.location.pathname,
@@ -70,3 +77,4 @@ function sendFeedback(language: string, value: number): void {
     });
      */
 }
+window.sendFeedback = sendFeedback;

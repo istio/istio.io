@@ -13,7 +13,7 @@ Ambient 使用 Istio {{< gloss "control plane" >}}控制平面{{< /gloss>}}。
 该图显示了 ztunnel 代理和 `istiod` 控制平面及控制平面相关组件的流程概述。
 
 {{< image width="100%"
-link="ztunnel-architecture.png"
+link="ztunnel-architecture.svg"
 caption="Ztunnel 架构"
 >}}
 

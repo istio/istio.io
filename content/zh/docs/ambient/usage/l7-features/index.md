@@ -10,9 +10,16 @@ test: no
 waypoint 使用 {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}} 配置。
 
 {{< warning >}}
-Istio 经典流量管理 API（虚拟服务、目标规则等）在与 Ambient 数据平面模式一起使用时仍处于 Alpha 阶段。
+VirtualService 与 Ambient 数据平面模式的结合使用仍处于 Alpha 阶段。
+不支持与 Gateway API 配置混合使用，否则会导致未定义的行为。
+{{< /warning >}}
 
-不支持混合使用 Istio 经典 API 和 Gateway API 配置，这会导致未定义的行为。
+{{< warning >}}
+`EnvoyFilter` 是 Istio 的应急 API，用于对 Envoy 代理进行高级配置。
+请注意，**`EnvoyFilter` 目前不支持任何带有 waypoint 代理的现有 Istio 版本**。
+虽然在有限的场景下可以使用带有 waypoint 的 `EnvoyFilter`，
+但目前尚不支持该 API，并且维护人员也极力劝阻。随着 Alpha API 的不断发展，
+未来版本中可能会出现问题。我们预计官方支持将在稍后提供。
 {{< /warning >}}
 
 ## 路由和策略附件 {#route-and-policy-attachment}
@@ -24,7 +31,6 @@ Gateway API 根据**附件**来定义对象（例如路由和网关）之间的�
 * 策略对象被视为 [**metaresources**](https://gateway-api.sigs.k8s.io/geps/gep-713/)：
   以标准方式增强**目标**对象行为的对象。
 
-The tables below show the type of attachment that is configured for each object.
 下表展示了为每个对象配置的附件类型。
 
 ## 流量路由 {#traffic-routing}
@@ -58,6 +64,14 @@ ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而�
 来定位具有与 L7 属性匹配的规则的策略，从而由 ztunnel 强制执行，
 则该策略将由于安全被变更为 `DENY` 策略而失效。
 
+附加到 waypoint 的策略仅对实际到达该 waypoint 的流量强制执行。
+当 waypoint 不存在或没有地址，或者流量类型与 waypoint 处理的流量不匹配时，
+流量可以绕过 waypoint 及其 L7 策略
+（请参阅 [waypoint 流量类型](/zh/docs/ambient/usage/waypoint/#waypoint-traffic-types)）。
+要要求流量遍历 waypoint，请将 waypoint 策略与 ztunnel 强制执行的
+`AuthorizationPolicy` 配对，该策略仅允许 waypoint 的身份。
+请参阅[需要流量才能穿越 waypoint](/zh/docs/ambient/usage/waypoint/#require-waypoint)。
+
 有关更多信息，请参阅 [L4 策略指南](/zh/docs/ambient/usage/l4-policy/)，
 包括何时将策略附加到仅限 TCP 用例的 waypoint。
 
@@ -68,13 +82,14 @@ ztunnel 无法强制执行 L7 策略。如果使用工作负载选择器（而�
 ## 扩展 {#extension}
 
 由于 waypoint 代理是 {{< gloss >}}Envoy{{< /gloss >}} 的部署，
-因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的扩展机制模式也可用于 waypoint 代理。
+因此在 {{< gloss "sidecar">}}Sidecar 模式{{< /gloss >}}中 Envoy 可以使用的某些扩展机制模式也可用于 waypoint 代理。
 
 |  名称  | 功能状态 | 附加方式 |
 | --- | --- | --- |
+| `TrafficExtension` ‡ | Alpha | `targetRefs` |
 | `WasmPlugin` †  | Alpha | `targetRefs` |
-| `EnvoyFilter` | Alpha | `targetRefs` |
 
+‡ [阅读更多关于如何使用 Lua 脚本扩展路点的内容](/zh/docs/ambient/usage/extend-waypoint-lua/)
 † [阅读更多关于如何使用 WebAssembly 插件扩展 waypoint 的信息](/zh/docs/ambient/usage/extend-waypoint-wasm/)。
 
 扩展配置被 Gateway API 定义视为策略。

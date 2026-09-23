@@ -17,9 +17,9 @@ Istio provides a [Telemetry API](/docs/reference/config/telemetry/) that enables
 
 Telemetry API resources inherit configuration from parent resources in the Istio configuration hierarchy:
 
-1.  root configuration namespace (example: `istio-system`)
-1.  local namespace (namespace-scoped resource with **no** workload `selector`)
-1.  workload (namespace-scoped resource with a workload `selector`)
+1. root configuration namespace (example: `istio-system`)
+1. local namespace (namespace-scoped resource with **no** workload `selector`)
+1. workload (namespace-scoped resource with a workload `selector`)
 
 A Telemetry API resource in the root configuration namespace, typically `istio-system`, provides mesh-wide defaults for behavior.
 Any workload-specific selector in the root configuration namespace will be ignored/rejected. It is not valid to define multiple
@@ -41,7 +41,8 @@ distinct `Telemetry` resources in a namespace with no `selector` specified.
 
 ### Provider Selection
 
-The Telemetry API uses the concept of providers to indicate the protocol or type of integration to use. Providers can be configured in [`MeshConfig`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider).
+The Telemetry API uses the concept of providers to indicate the protocol or type of integration to use. Providers can be configured in
+[`MeshConfig`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider).
 
 An example set of provider configuration in `MeshConfig` is:
 
@@ -61,21 +62,26 @@ data:
 
 For convenience, Istio comes with a few providers configured out of the box with default settings:
 
-| Provider Name | Functionality                    |
-| ------------- | -------------------------------- |
-| `prometheus`  | Metrics                          |
-| `stackdriver` | Metrics, Tracing, Access Logging |
-| `envoy`       | Access Logging                   |
+| Provider Name | Functionality              |
+| ------------- | -------------------------- |
+| `prometheus`  | Metrics                    |
+| `stackdriver` | Tracing (legacy / limited) |
+| `envoy`       | Access Logging             |
 
-In additional, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
+The `stackdriver` provider is retained for legacy compatibility and limited tracing use.
+It is not a Telemetry v2 metrics backend and does not export access logs.
+
+In addition, a [default provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-DefaultProviders) can be set which
 will be used when the `Telemetry` resources do not specify a provider.
 
 {{< tip >}}
-If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configuration, do not forget to add provider's service.
+If you're using [Sidecar](/docs/reference/config/networking/sidecar/) configuration, do not forget to add the provider's service.
 {{< /tip >}}
 
 {{< tip >}}
-Providers do not support `$(HOST_IP)`. If you're running collector in agent mode, you can use [service internal traffic policy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/#using-service-internal-traffic-policy), and set `InternalTrafficPolicy` to `Local` for better performance.
+Providers do not support `$(HOST_IP)`. If you're running a collector in agent mode, you can use
+[service internal traffic policy](https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy/#using-service-internal-traffic-policy),
+and set `InternalTrafficPolicy` to `Local` for better performance.
 {{< /tip >}}
 
 ## Examples
@@ -133,11 +139,13 @@ When deployed into a mesh with the prior mesh-wide example configuration, this w
 tracing behavior in the `myapp` namespace that sends trace spans to the `localtrace` provider and
 randomly selects requests for tracing at a `100%` rate, but that sets custom tags for each span with
 a name of `userId` and a value taken from the `userId` request header.
+
 Importantly, the `foo: bar` tag from the parent configuration will not be used in the `myapp` namespace.
 The custom tags behavior completely overrides the behavior configured in the `mesh-default.istio-system` resource.
 
 {{< tip >}}
-Any configuration in a `Telemetry` resource completely overrides configuration of its parent resource in the configuration hierarchy. This includes provider selection.
+Any configuration in a `Telemetry` resource completely overrides configuration of its parent resource in the configuration hierarchy.
+This includes provider selection.
 {{< /tip >}}
 
 ### Configuring workload-specific behavior
@@ -166,5 +174,6 @@ In this case, tracing will be disabled for the `frontend` workload in the `myapp
 Istio will still forward the tracing headers, but no spans will be reported to the configured tracing provider.
 
 {{< tip >}}
-It is not valid to have two `Telemetry` resources with workload selectors select the same workload. In those cases, behavior is undefined.
+It is not valid to have two `Telemetry` resources with workload selectors select the same workload.
+In those cases, behavior is undefined.
 {{< /tip >}}

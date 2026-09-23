@@ -160,11 +160,6 @@ feature of [Istio DNS Proxying](/docs/ops/configuration/traffic-management/dns-p
 {{< tip >}}
 There are a few efforts in progress that will help simplify the DNS story:
 
-- [DNS sidecar proxy](/blog/2020/dns-proxy/)
-  support is available for preview in Istio 1.8. This provides DNS interception
-  for all workloads with a sidecar, allowing Istio to perform DNS lookup
-  on behalf of the application.
-
 - [Admiral](https://github.com/istio-ecosystem/admiral) is an Istio community
   project that provides a number of multicluster capabilities. If you need to support multi-network
   topologies, managing this configuration across multiple clusters at scale is challenging.

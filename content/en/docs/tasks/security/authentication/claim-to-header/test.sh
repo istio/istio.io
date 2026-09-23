@@ -27,26 +27,21 @@ export VERIFY_TIMEOUT=300
 snip_before_you_begin_1
  
 _wait_for_deployment foo httpbin
-_wait_for_deployment foo sleep
- 
-# Pull the Istio branch from the docs configuration file.
-ISTIO_BRANCH=$(yq '.source_branch_name' "${REPO_ROOT}"/data/args.yml)
- 
-TOKEN_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/demo.jwt"
+_wait_for_deployment foo curl
  
 export TOKEN
 export TOKEN_GROUP
  
 _verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out"
  
-snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
-_wait_for_istio requestauthentication foo jwt-example
+_rewrite_jwks_uri snip_allow_requests_with_valid_jwt_and_listtyped_claims_1
+_wait_for_resource requestauthentication foo jwt-example
  
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_2 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_2_out"
  
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_3 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_3_out"
 
-TOKEN=$(curl "${TOKEN_URL}" -s)
+TOKEN="${_DOCS_DEMO_JWT}"
  
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_4 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_4_out"
  

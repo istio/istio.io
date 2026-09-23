@@ -59,7 +59,7 @@ func (s *Snapshotter) run(ctx framework.TestContext) {
 
 	outputFile := filepath.Join(ctx.WorkDir(), s.StepName+".json")
 	if err := os.WriteFile(outputFile, []byte(snapshotJSON), os.ModePerm); err != nil {
-		ctx.Fatal("failed writing snapshot file: %v", err)
+		ctx.Fatalf("failed writing snapshot file: %v", err)
 	}
 
 	scopes.Framework.Infof("Created mesh snapshot file %s", outputFile)

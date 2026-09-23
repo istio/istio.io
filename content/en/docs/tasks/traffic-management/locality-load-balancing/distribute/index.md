@@ -11,7 +11,7 @@ Follow this guide to configure the distribution of traffic across localities.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/tasks/traffic-management/locality-load-balancing/before-you-begin).
 
-In this task, you will use the `Sleep` pod in `region1` `zone1` as the source of
+In this task, you will use the `curl` pod in `region1` `zone1` as the source of
 requests to the `HelloWorld` service. You will configure Istio with the following
 distribution across localities:
 
@@ -21,6 +21,10 @@ Region | Zone | % of traffic
 `region1` | `zone2` | 20
 `region2` | `zone3` | 0
 `region3` | `zone4` | 10
+
+{{< tip >}}
+Istio reads locality from the node where the pod is running. Use the [topology locality](/docs/reference/config/labels/#TopologyLocality) label to override it.
+{{< /tip >}}
 
 ## Configure Weighted Distribution
 
@@ -61,12 +65,12 @@ EOF
 
 ## Verify the distribution
 
-Call the `HelloWorld` service from the `Sleep` pod:
+Call the `HelloWorld` service from the `curl` pod:
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 {{< /text >}}
 

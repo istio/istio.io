@@ -84,7 +84,7 @@ istiod-canary-6956db645c-vwhsk
 `istiod-canary` 控制平面。这是在基于命名空间标签的 Sidecar 注入期间控制的 `istio.io/rev`。
 
 创建一个命名空间 `test-ns` 并启用 `istio-injection`。
-在 `test-ns` 命名空间中，部署一个示例 sleep Pod：
+在 `test-ns` 命名空间中，部署一个示例 curl Pod：
 
 1. 创建命名空间 `test-ns`。
 
@@ -98,10 +98,10 @@ istiod-canary-6956db645c-vwhsk
     $ kubectl label namespace test-ns istio-injection=enabled
     {{< /text >}}
 
-1. 在 `test-ns` 命名空间中启动一个示例 sleep Pod。
+1. 在 `test-ns` 命名空间中启动一个示例 curl Pod。
 
     {{< text bash >}}
-    $ kubectl apply -n test-ns -f samples/sleep/sleep.yaml
+    $ kubectl apply -n test-ns -f samples/curl/curl.yaml
     {{< /text >}}
 
 要升级命名空间 `test-ns`，请删除 `istio-injection` 标签，然后添加 `istio.io/rev` 标签以指向
@@ -164,12 +164,12 @@ $ istioctl proxy-status | grep "\.test-ns "
     $ kubectl label ns app-ns-3 istio.io/rev=prod-canary
     {{< /text >}}
 
-1. 在每个命名空间中部署一个 sleep Pod 示例:
+1. 在每个命名空间中部署一个 curl Pod 示例:
 
     {{< text bash >}}
-    $ kubectl apply -n app-ns-1 -f samples/sleep/sleep.yaml
-    $ kubectl apply -n app-ns-2 -f samples/sleep/sleep.yaml
-    $ kubectl apply -n app-ns-3 -f samples/sleep/sleep.yaml
+    $ kubectl apply -n app-ns-1 -f samples/curl/curl.yaml
+    $ kubectl apply -n app-ns-2 -f samples/curl/curl.yaml
+    $ kubectl apply -n app-ns-3 -f samples/curl/curl.yaml
     {{< /text >}}
 
 1. 使用 `istioctl proxy-status` 命令验证应用程序与控制平面的映射:
@@ -177,9 +177,9 @@ $ istioctl proxy-status | grep "\.test-ns "
     {{< text bash >}}
     $ istioctl ps
     NAME                                CLUSTER        CDS        LDS        EDS        RDS        ECDS         ISTIOD                             VERSION
-    sleep-78ff5975c6-62pzf.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
-    sleep-78ff5975c6-8kxpl.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
-    sleep-78ff5975c6-8q7m6.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
+    curl-78ff5975c6-62pzf.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-s8zfg     {{< istio_full_version >}}
+    curl-78ff5975c6-8kxpl.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version >}}.1
+    curl-78ff5975c6-8q7m6.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED     NOT SENT     istiod-{{< istio_previous_version_revision >}}-1-bdf5948d5-n72r2      {{< istio_previous_version_revision >}}.1
     {{< /text >}}
 
 {{< boilerplate revision-tags-middle >}}
@@ -200,9 +200,9 @@ $ kubectl rollout restart deployment -n app-ns-2
 {{< text bash >}}
 $ istioctl ps
 NAME                                                   CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                             VERSION
-sleep-5984f48bc7-kmj6x.app-ns-1                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
-sleep-78ff5975c6-jldk4.app-ns-3                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
-sleep-7cdd8dccb9-5bq5n.app-ns-2                        Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-5984f48bc7-kmj6x.app-ns-1                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-78ff5975c6-jldk4.app-ns-3                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
+curl-7cdd8dccb9-5bq5n.app-ns-2                         Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-{{< istio_full_version_revision >}}-7f6fc6cfd6-jsktb     {{< istio_full_version >}}
 {{< /text >}}
 
 ### 默认版本 {#default-tag}

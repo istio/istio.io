@@ -344,7 +344,7 @@ Istio only supports one of the two versions for a given workload:
 * If there is only `v1alpha1` policy for a workload, the `v1alpha1` policy
   will be used.
 * If there are both `v1beta1` and `v1alpha1` policies for a workload,
-  only the `v1beta1` policy will be used and the the `v1alpha1` policy
+  only the `v1beta1` policy will be used and the `v1alpha1` policy
   will be ignored.
 
 ### General Guideline

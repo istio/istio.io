@@ -44,6 +44,35 @@ For example, in the [authorization for HTTP traffic task](/docs/tasks/security/a
 the authorization policy named `allow-nothing` makes sure all traffic is denied by default.
 From there, other authorization policies allow traffic based on specific conditions.
 
+#### Default-deny pattern with waypoints
+
+Istio's new ambient data plane mode introduced a new split dataplane architecture.
+In this architecture, the waypoint proxy is configured using Kubernetes Gateway API which uses more explicit binding to gateways using `parentRef` and `targetRef`.
+Because waypoints adhere more closely to the principles of Kubernetes Gateway API, the default-deny pattern is enabled in a slightly different way when policy is applied waypoints.
+Beginning with Istio 1.25, you may bind `AuthorizationPolicy` resources to the `istio-waypoint` `GatewayClass`.
+By binding `AuthorizationPolicy` to the `GatewayClass`, you can configure all gateways which implement that `GatewayClass` with a default policy.
+It is important to note that `GatewayClass` is a cluster-scoped resource, and binding namespace-scoped policies to it requires special care.
+Istio requires that policies which are bound to a `GatewayClass` reside in the root namespace, typically `istio-system`.
+
+For waypoints, standard allow-nothing policy would be:
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing-istio-waypoint
+  namespace: istio-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: GatewayClass
+    name: istio-waypoint
+{{< /text >}}
+
+{{< tip >}}
+When using the default-deny pattern with waypoints, the policy bound to the `istio-waypoint` `GatewayClass` should be used in addition to the "classic" default-deny policy. The "classic" default-deny policy will be enforced by ztunnel against the workloads in your mesh and still provides meaningful value.
+{{< /tip >}}
+
 #### Use `ALLOW-with-positive-matching` and `DENY-with-negative-match` patterns
 
 Use the `ALLOW-with-positive-matching` or `DENY-with-negative-matching` patterns whenever possible. These authorization policy
@@ -627,18 +656,30 @@ Istio configures a [variety of ports](/docs/ops/deployment/application-requireme
 
 ### Control Plane
 
-Istiod exposes a few unauthenticated plaintext ports for convenience by default. If desired, these can be closed:
+Istiod exposes several ports for debugging and monitoring. By default, debug endpoints now require authentication:
 
 * Port `8080` exposes the debug interface, which offers read access to a variety of details about the clusters state.
   This can be disabled by set the environment variable `ENABLE_DEBUG_ON_HTTP=false` on Istiod. Warning: many `istioctl` commands
   depend on this interface and will not function if it is disabled.
-* Port `15010` exposes the XDS service over plaintext. This can be disabled by adding the `--grpcAddr=""` flag to the Istiod Deployment.
+* Port `15010` exposes the XDS service over plaintext gRPC. XDS debug endpoints (`syncz`, `config_dump`) on this port require authentication by default,
+  which effectively blocks plaintext access when enabled. Use port 15012 (TLS) for authenticated XDS debug access.
+  The plaintext XDS service itself can be disabled by adding the `--grpcAddr=""` flag to the istiod deployment.
   Note: highly sensitive services, such as the certificate signing and distribution services, are never served over plaintext.
+* Port `15012` exposes the XDS service over TLS/mTLS gRPC (recommended for production). XDS debug endpoints are available via this port
+  with automatic mTLS authentication.
+* Port `15014` exposes debug endpoints (`/debug/syncz`, `/debug/registryz`, `/debug/config_dump`, etc.) over HTTP (plaintext).
+  These endpoints require authentication via service account tokens with `istio-ca` audience by default.
+
+Debug endpoint authentication is controlled by the `ENABLE_DEBUG_ENDPOINT_AUTH` environment variable (enabled by default).
+When enabled, namespace-based authorization restricts non-system namespaces to specific endpoints (`config_dump`, `ndsz`, `edsz`) for same-namespace proxies only.
+To disable authentication and restore legacy behavior, set `ENABLE_DEBUG_ENDPOINT_AUTH=false` on istiod.
+
+See the [Integration Guide](/docs/ops/integrations/integration-guide/debug-endpoints/) for details on accessing debug endpoints from integrations.
 
 ### Data Plane
 
-The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry) and port `15021` (health check).
-Ports `15020` and `15000` provide debugging endpoints. These are exposed over `localhost` only.
+The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry), port `15021` (health check), and port `15020` (merged Prometheus telemetry from Istio agent, Envoy, and the application).
+Port `15000` provides debugging endpoints and is exposed over `localhost` only.
 As a result, the applications running in the same pod as the proxy have access; there is no trust boundary between the sidecar and application.
 
 ## Configure third party service account tokens

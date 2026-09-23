@@ -286,7 +286,8 @@ messages:
   - name: "ServiceEntryAddressesRequired"
     code: IST0134
     level: Warning
-    description: "Virtual IP addresses are required for ports serving TCP (or unset) protocol when ISTIO_META_DNS_AUTO_ALLOCATE is not set on a proxy"
+    description: "Virtual IP addresses are required for ports serving TCP (or unset) protocol when PILOT_ENABLE_IP_AUTOALLOCATE is not set on a proxy"
+
     template: "ServiceEntry addresses are required for this protocol."
 
   - name: "DeprecatedAnnotation"
@@ -494,6 +495,17 @@ messages:
     - name: minimumVersion
       type: string
 
+  - name: "FutureUnsupportedGatewayAPIVersion"
+    code: IST0172
+    level: Warning
+    description: "The Gateway API CRD version will not be supported in the future"
+    template: "The Gateway API CRD version %v is lower than the minimum version: %v"
+    args:
+    - name: version
+      type: string
+    - name: minimumVersion
+      type: string
+
   - name: "InvalidTelemetryProvider"
     code: IST0157
     level: Warning
@@ -656,4 +668,74 @@ messages:
     - name: clusters
       type: "[]string"
     - name: error
+      type: string
+
+  - name: "NegativeConditionStatus"
+    code: IST0171
+    level: Warning
+    description: "A condition with a negative status is present"
+    template: "A condition with a negative status is present: type=%s, reason=%s, message=%s."
+    args:
+      - name: conditionType
+        type: string
+      - name: reason
+        type: string
+      - name: message
+        type: string
+
+  - name: "DestinationRuleSubsetNotSelectPods"
+    code: IST0173
+    level: Error
+    description: "Subsets defined in destination does not select any pods."
+    template: "The Subset %s defined in the DestinationRule does not select any pods. Which may lead to 503 UH (NoHealthyUpstream)."
+    args:
+    - name: subset
+      type: string
+
+  - name: "UnknownDestinationRuleHost"
+    code: IST0174
+    level: Warning
+    description: "Host defined in destination rule does not match any services in the mesh."
+    template: "The host %s defined in the DestinationRule does not match any services in the mesh."
+    args:
+    - name: host
+      type: string
+
+  - name: "JwksUriFetchUnrestricted"
+    code: IST0175
+    level: Warning
+    description: "RequestAuthentication resources exist but BLOCKED_CIDRS_IN_JWKS_URIS is not configured on istiod."
+    template: "BLOCKED_CIDRS_IN_JWKS_URIS is not configured but %d RequestAuthentication resource(s) exist (%s). Consider configuring it to restrict JWKS URI fetches to trusted networks."
+    args:
+    - name: count
+      type: int
+    - name: names
+      type: string
+
+  - name: "GatewayAPICRDVersionBelowMinimum"
+    code: IST0176
+    level: Warning
+    description: "A Gateway API CRD is installed at a version below the minimum required by this Istio version. Resources of this kind will not be processed."
+    template: "Gateway API CRD %q is at version %q but Istio requires at least %q; resources of this kind will not be processed. Upgrade the Gateway API CRDs to satisfy the minimum version."
+    args:
+    - name: crd
+      type: string
+    - name: installedVersion
+      type: string
+    - name: minimumVersion
+      type: string
+
+  - name: "ConflictingServiceEntryProtocol"
+    code: IST0177
+    level: Warning
+    description: "Multiple ServiceEntries define the same host and port with conflicting protocols."
+    template: "Multiple ServiceEntries (%s) define the same host %q and port %d with conflicting protocols (%s)."
+    args:
+    - name: serviceEntryNames
+      type: string
+    - name: host
+      type: string
+    - name: port
+      type: int
+    - name: protocols
       type: string

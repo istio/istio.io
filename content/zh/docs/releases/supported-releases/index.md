@@ -68,10 +68,12 @@ Istio 控制面可以比数据面高一个版本。但数据面的版本不能�
 Istio 不保证超出支持窗口期的次要版本都有已知的 CVE 补丁。请使用最新和受支持的版本。
 {{< /warning >}}
 
-| 次要版本          | 没有已知 CVE 的补丁版本               |
-|------------------|------------------------------------|
-| 1.22.x           | 1.22.2+                            |
-| 1.21.x           | 1.21.4+                            |
+| 次要版本          | 没有已知 CVE 的补丁版本 |
+|----------------|----------------|
+| 1.31.x         | 1.31.0+          |
+| 1.30.x         | 1.30.0+          |
+| 1.29.x         | 1.29.2+          |
+| 1.28.x         | 1.28.6+          |
 
 ## 支持的 Envoy 版本 {#supported-envoy-versions}
 
@@ -81,8 +83,10 @@ Istio 的数据面基于 [Envoy](https://github.com/envoyproxy/envoy)。
 
 | Istio 版本     | Envoy 发布分支        |
 |---------------|----------------------|
-| 1.22.x        | release/v1.30        |
-| 1.21.x        | release/v1.29        |
+| 1.31.x        | release/v1.39        |
+| 1.30.x        | release/v1.38        |
+| 1.29.x        | release/v1.37        |
+| 1.28.x        | release/v1.36        |
 
 您可以在 [`istio/proxy` 仓库](https://github.com/istio/proxy/blob/{{< source_branch_name >}}/WORKSPACE#L26)中找到
 Istio 使用的具体 Envoy 提交：查找 `ENVOY_SHA` 变量。

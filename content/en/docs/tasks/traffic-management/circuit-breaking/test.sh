@@ -21,6 +21,12 @@ set -o pipefail
 
 source "tests/util/samples.sh"
 
+# CI has some issues with IPv6 DNS resolution, due to which we are not able to
+# directly use the host name in the connectivity tests (see istio/istio:
+# tests/integration/pilot/common/routing.go). Since docs tests must use the
+# documented hostname-based commands, we skip this test on IPv6 Kind clusters.
+_skip_if_kind_ipv6 "fortio Go DNS resolver cannot resolve in-cluster names in IPv6-only Kind (NXDOMAIN for A records treated as authoritative)"
+
 # @setup profile=default
 
 kubectl label namespace default istio-injection=enabled --overwrite
@@ -34,7 +40,7 @@ snip_configuring_the_circuit_breaker_1
 # Confirm destination rule set
 _verify_elided snip_configuring_the_circuit_breaker_2 "$snip_configuring_the_circuit_breaker_2_out"
 
-_wait_for_istio destinationrule default httpbin
+_wait_for_resource destinationrule default httpbin
 
 # Deploy fortio client
 snip_adding_a_client_1
@@ -70,8 +76,7 @@ _verify_lines snip_tripping_the_circuit_breaker_3 "
 "
 
 # Query the istio-proxy stats
-expected="cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.remaining_pending: ...
-cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.rq_pending_open: ...
+expected="cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.default.rq_pending_open: ...
 cluster.outbound|8000||httpbin.default.svc.cluster.local;.circuit_breakers.high.rq_pending_open: ...
 cluster.outbound|8000||httpbin.default.svc.cluster.local;.upstream_rq_pending_active: ...
 cluster.outbound|8000||httpbin.default.svc.cluster.local;.upstream_rq_pending_failure_eject: ...

@@ -25,7 +25,7 @@ spec:
   rules:
     - from:
         - source:
-            principals: ["cluster.local/ns/default/sa/sleep"]
+            principals: ["cluster.local/ns/default/sa/curl"]
         - source:
             namespaces: ["httpbin"]
       to:

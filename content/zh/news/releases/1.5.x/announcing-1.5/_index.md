@@ -37,7 +37,7 @@ Istio 一直都是可扩展性最好的服务网格，其 Mixer 插件允许自�
 
 ## 更简单{#easier-to-use}
 
-我们一直致力于使 Istio 更容易被接受和使用，尤其是此版本进行了一些很酷的增强。现在，使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 的 Istio 命令行安装是安装的测试版，这适用于大多数用户。通过 Operator 管理安装的 Istio 仍处于 Alpha 状态，但是我们会使用新的 [`IstioOperator API`](/zh/docs/reference/config/istio.operator.v1alpha1/) 对其进行升级。
+我们一直致力于使 Istio 更容易被接受和使用，尤其是此版本进行了一些很酷的增强。现在，使用 [`istioctl`](/zh/docs/reference/commands/istioctl) 的 Istio 命令行安装是安装的测试版，这适用于大多数用户。通过 Operator 管理安装的 Istio 仍处于 Alpha 状态，但是我们会使用新的 `IstioOperator` API 对其进行升级。
 
 关于 `istioctl`，它有十几项改进，可以分析新项、更好的验证规则、更好的与 CI 系统集成（请查看即将推出的示例！）。
 现在，它是了解正在运行 Istio 系统的状态、确保配置安全更改的必要工具。`istioctl analysis` 已从实验性阶段毕业。

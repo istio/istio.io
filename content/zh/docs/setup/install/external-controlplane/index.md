@@ -1,7 +1,7 @@
 ---
 title: 使用外部控制平面安装 Istio
-description: 安装外部控制平面和从集群。
-weight: 80
+description: 使用外部控制平面和从集群数据平面安装 Istio。
+weight: 50
 aliases:
     - /zh/docs/setup/additional-setup/external-controlplane/
     - /latest/zh/docs/setup/additional-setup/external-controlplane/
@@ -11,11 +11,10 @@ test: yes
 ---
 
 本指南将引导您完成安装{{< gloss "external control plane">}}外部控制平面{{< /gloss >}}，
-然后将一个或多个{{< gloss "remote cluster" >}}从集群{{< /gloss >}}连接到该平面的过程。
-
+然后将一个或多个{{< gloss "remote cluster" >}}从集群{{< /gloss >}}连接到这个外部控制平面。
 外部控制平面[部署模型](/zh/docs/ops/deployment/deployment-models/#control-plane-models)
-允许网格操作员在与组成网格的数据平面集群（或多个集群）分开的外部集群上安装和管理控制平面。
-这种部署模型可以将网状网络运营商和网状网络管理员明确区分。网格操作员可以安装和管理 Istio 控制平面，
+允许网格运维人员在与组成网格的数据平面集群（或多个集群）分开的外部集群上安装和管理控制平面。
+这种部署模型可以确保网格运维人员和网格管理员有明确的分工。网格运维人员可以安装和管理 Istio 控制平面，
 而网格管理员只需配置网格即可。
 
 {{< image width="75%"
@@ -26,10 +25,10 @@ test: yes
 在从集群中运行的 Envoy 代理（Sidecar 和 Gateway）通过 Ingress Gateway
 访问外部 Istiod，向外暴露了需要被发现，CA，注入和验证的端点。
 
-虽然外部控制平面的配置和管理是由外部集群中的网格操作员完成的，
-但连接到外部控制平面的第一个从集群充当了网格本身的配置集群。除了网状服务本身之外，
-网格管理员还将使用配置集群来配置网状资源（Gateway、虚拟服务等）。外部控制平面将从
-Kubernetes API Server 远程访问此配置，如上图所示。
+虽然外部控制平面的配置和管理是由外部集群中的网格运维人员完成的，
+但连接到外部控制平面的第一个从集群充当了网格本身的配置集群。除了网格服务本身之外，
+网格管理员还将使用配置集群来配置网格资源（Gateway、虚拟服务等）。外部控制平面将从
+Kubernetes API 服务器远程访问此配置，如上图所示。
 
 ## 准备开始  {#before-you-begin}
 
@@ -38,19 +37,20 @@ Kubernetes API Server 远程访问此配置，如上图所示。
 本指南要求您有任意两个[受支持版本的 Kubernetes](/zh/docs/releases/supported-releases#support-status-of-istio-releases)
 集群：{{< supported_kubernetes_versions >}}。
 
-第一个集群将托管安装在 `external-istiod` 命名空间中的{{< gloss "external control plane">}}外部控制平面{{< /gloss >}}。
+第一个集群将托管安装在 `external-istiod`
+命名空间中的{{< gloss "external control plane">}}外部控制平面{{< /gloss >}}。
 Ingress Gateway 也安装在 `istio-system` 命名空间中，以提供对外部控制平面的跨集群访问。
 
-第二个集群是将运行网格应用程序工作负载的{{< gloss "remote cluster">}}从集群{{< /gloss >}}。
-它的 Kubernetes API Server 还提供了外部控制平面（Istiod）用来配置工作负载代理的网状配置。
+第二个集群是将运行网格应用工作负载的{{< gloss "remote cluster">}}从集群{{< /gloss >}}。
+它的 Kubernetes API 服务器还提供了外部控制平面（Istiod）用来配置工作负载代理的网格配置。
 
-### API Server 访问  {#API-server-access}
+### API 服务器访问  {#api-server-access}
 
-外部控制平面集群必须可以访问从集群中的 Kubernetes API Server。
-许多云提供商通过网络负载均衡器（NLB）公开访问 API Server。
-如果无法直接访问 API Server，则需要修改安装过程以启用访问权限。
+外部控制平面集群必须可以访问从集群中的 Kubernetes API 服务器。
+许多云提供商通过网络负载均衡器（NLB）公开访问 API 服务器。
+如果无法直接访问 API 服务器，则需要修改安装过程以启用访问权限。
 例如，在[多集群配置](#adding-clusters)中使用的[东西向](https://en.wikipedia.org/wiki/East-west_traffic)
-Gateway 也可以用于启用对 API Server 的访问。
+Gateway 也可以用于启用对 API 服务器的访问。
 
 ### 环境变量  {#environment-variables}
 
@@ -74,9 +74,9 @@ $ export REMOTE_CLUSTER_NAME=<您的从集群名称>
 
 ## 集群配置  {#cluster-configuration}
 
-### 网格操作步骤  {#mesh-operator-steps}
+### 网格运维人员步骤  {#mesh-operator-steps}
 
-网格操作员负责在外部集群上安装和管理外部 Istio 控制平面。
+网格运维人员负责在外部集群上安装和管理外部 Istio 控制平面。
 这包括在外部集群上配置 Ingress Gateway，允许从集群访问控制平面，并在从集群上安装所需的
 Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
 
@@ -135,8 +135,8 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
 
 1. 使用带有 TLS 的公共主机名配置您的环境来暴露 Istio Ingress Gateway 服务。
 
-   将 `EXTERNAL_ISTIOD_ADDR` 环境变量设置为主机名，将 `SSL_SECRET_NAME`
-   环境变量设置为包含 TLS 证书的 Secret：
+    将 `EXTERNAL_ISTIOD_ADDR` 环境变量设置为主机名，将 `SSL_SECRET_NAME`
+    环境变量设置为包含 TLS 证书的 Secret：
 
     {{< text syntax=bash snip_id=none >}}
     $ export EXTERNAL_ISTIOD_ADDR=<您的外部 istiod 主机>
@@ -165,7 +165,7 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     这样做还需要对配置进行一些其他更改。请务必按照以下说明中的所有相关步骤进行操作。
     {{< /tip >}}
 
-#### 设置从集群  {#set-up-the-remote-cluster}
+#### 设置从配置集群  {#set-up-the-remote-config-cluster}
 
 1. 使用 `remote` 配置文件配置从集群上安装的 Istio。这将安装一个使用外部控制平面注入器的注入 Webhook，
    而不是本地部署的注入器。因为这个集群也将作为配置集群，所以安装从集群上所需的 Istio CRD 和其他资源时将
@@ -193,7 +193,7 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     {{< /text >}}
 
     {{< tip >}}
-    如果您的集群名称包含`/`（斜杠）字符，请在 `injectionURL` 中将其替换为 `--slash--`，
+    如果您的集群名称包含 `/`（斜杠）字符，请在 `injectionURL` 中将其替换为 `--slash--`，
     例如 `injectionURL: https://1.2.3.4:15017/inject/cluster/`<mark>`cluster--slash--1`</mark>`/net/network1`。
     {{< /tip >}}
 
@@ -217,15 +217,16 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
 
     {{< text bash >}}
     $ kubectl create namespace external-istiod --context="${CTX_REMOTE_CLUSTER}"
-    $ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl apply --context="${CTX_REMOTE_CLUSTER}" -f -
+    $ istioctl install -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
 1. 确认从集群的注入 Webhook 配置已经安装：
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration --context="${CTX_REMOTE_CLUSTER}"
-    NAME                                     WEBHOOKS   AGE
-    istio-sidecar-injector-external-istiod   4          6m24s
+    NAME                                         WEBHOOKS   AGE
+    istio-revision-tag-default-external-istiod   4          2m2s
+    istio-sidecar-injector-external-istiod       4          2m5s
     {{< /text >}}
 
 1. 确认已安装从集群的验证 Webhook 配置：
@@ -249,7 +250,6 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
    Secret，以访问从集群的 `kube-apiserver` 并将其安装在外部集群中：
 
     {{< text bash >}}
-    $ kubectl create sa istiod-service-account -n external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
     $ istioctl create-remote-secret \
       --context="${CTX_REMOTE_CLUSTER}" \
       --type=config \
@@ -259,10 +259,16 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
       kubectl apply -f - --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
+    {{< tip >}}
+    如果您在 `kind` 中运行，那么您需要将 `--server https://<api-server-node-ip>:6443`
+    传递给 `istioctl create-remote-secret` 命令，其中 `<api-server-node-ip>`
+    是运行 API 服务器的节点的 IP 地址。
+    {{< /tip >}}
+
 1. 创建 Istio 配置以在外部集群的 `external-istiod` 命名空间中安装控制平面。
     请注意，istiod 配置为使用本地安装的 `istio` ConfigMap，并且 `SHARED_MESH_CONFIG`
     环境变量设置为 `istio`。这指示 istiod 将网格管理员在配置集群的 ConfigMap
-    中设置的值与网格操作员在本地 ConfigMap 中设置的值合并，如果有任何冲突，这将优先考虑：
+    中设置的值与网格运维人员在本地 ConfigMap 中设置的值合并，如果有任何冲突，这将优先考虑：
 
     {{< text syntax=bash snip_id=get_external_istiod_iop >}}
     $ cat <<EOF > external-istiod.yaml
@@ -320,11 +326,15 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
               value: istio
       values:
         global:
+          externalIstiod: true
           caAddress: $EXTERNAL_ISTIOD_ADDR:15012
           istioNamespace: external-istiod
           operatorManageWebhooks: true
           configValidation: false
           meshID: mesh1
+          multiCluster:
+            clusterName: ${REMOTE_CLUSTER_NAME}
+          network: network1
     EOF
     {{< /text >}}
 
@@ -462,7 +472,7 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     $ kubectl apply -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
     {{< /text >}}
 
-### 网格管理步骤  {#mesh-admin-steps}
+### 网格管理员步骤  {#mesh-admin-steps}
 
 现在 Istio 已启动并运行，网格管理员只需在网格中部署和配置服务，包括 Gateway（如果需要）。
 
@@ -480,28 +490,28 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
     $ kubectl label --context="${CTX_REMOTE_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. 部署示例 `helloworld`（`v1`）和 `sleep`：
+1. 部署示例 `helloworld`（`v1`）和 `curl`：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_REMOTE_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v1 -n sample --context="${CTX_REMOTE_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
     {{< /text >}}
 
-1. 等几秒钟，Pod `helloworld` 和 `sleep` 将以 Sidecar 注入的方式运行：
+1. 等几秒钟，Pod `helloworld` 和 `curl` 将以 Sidecar 注入的方式运行：
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_REMOTE_CLUSTER}"
     NAME                             READY   STATUS    RESTARTS   AGE
+    curl-64d7d56698-wqjnm            2/2     Running   0          9s
     helloworld-v1-5b75657f75-ncpc5   2/2     Running   0          10s
-    sleep-64d7d56698-wqjnm           2/2     Running   0          9s
     {{< /text >}}
 
-1. 从 Pod `sleep` 向 Pod `helloworld` 服务发送请求：
+1. 从 Pod `curl` 向 Pod `helloworld` 服务发送请求：
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_REMOTE_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_REMOTE_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v1, instance: helloworld-v1-776f57d5f6-s7zfc
     {{< /text >}}
@@ -525,6 +535,8 @@ Webhook、ConfigMap 和 Secret，以便使用外部控制平面。
 $ cat <<EOF > istio-ingressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: ingress-install
 spec:
   profile: empty
   components:
@@ -563,6 +575,8 @@ $ helm install istio-ingressgateway istio/gateway -n external-istiod --kube-cont
 $ cat <<EOF > istio-egressgateway.yaml
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: egress-install
 spec:
   profile: empty
   components:
@@ -601,7 +615,7 @@ $ helm install istio-egressgateway istio/gateway -n external-istiod --kube-conte
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 确认 Istio Ingress Gateway 正在运行：
 
@@ -631,7 +645,7 @@ $ kubectl get crd gateways.gateway.networking.k8s.io --context="${CTX_REMOTE_CLU
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl apply -f @samples/helloworld/helloworld-gateway.yaml@ -n sample --context="${CTX_REMOTE_CLUSTER}"
@@ -653,7 +667,7 @@ $ kubectl apply -f @samples/helloworld/gateway-api/helloworld-gateway.yaml@ -n s
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ export INGRESS_HOST=$(kubectl -n external-istiod --context="${CTX_REMOTE_CLUSTER}" get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -685,11 +699,12 @@ $ export GATEWAY_URL=$INGRESS_HOST:80
 ## 将集群添加到网格（可选） {#adding-clusters}
 
 本节介绍如何通过添加另一个从集群将现有的外部控制平面网格扩展到多集群。
-这使您可以轻松分发服务并使用[位置感知路由和故障转移](/zh/docs/tasks/traffic-management/locality-load-balancing/)，以支持应用程序的高可用性。
+这使您可以轻松分发服务并使用[位置感知路由和故障转移](/zh/docs/tasks/traffic-management/locality-load-balancing/)，
+以支持应用的高可用性。
 
 {{< image width="75%"
     link="external-multicluster.svg"
-    caption="多从集群的外部控制平面"
+    caption="外部控制平面带多个从集群"
     >}}
 
 与第一个从集群不同，添加到同一外部控制平面的第二个以及后续集群不提供网格配置，而仅提供端点配置的来源，
@@ -723,7 +738,8 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
     EOF
     {{< /text >}}
 
-1. 如果您使用的是 `EXTERNAL_ISTIOD_ADDR` 的 IP 地址，而不是合适的 DNS 主机名，请修改配置以指定发现地址和路径，而不是注入 URL：
+1. 如果您使用的是 `EXTERNAL_ISTIOD_ADDR` 的 IP 地址，而不是合适的 DNS
+   主机名，请修改配置以指定发现地址和路径，而不是注入 URL：
 
     {{< warning >}}
     在生产环境中不推荐这样做。
@@ -750,7 +766,7 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 1. 在从集群上安装配置：
 
     {{< text bash >}}
-    $ istioctl manifest generate -f second-remote-cluster.yaml | kubectl apply --context="${CTX_SECOND_CLUSTER}" -f -
+    $ istioctl install -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
 1. 确认从集群的注入 Webhook 配置已经安装：
@@ -825,28 +841,28 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
     $ kubectl label --context="${CTX_SECOND_CLUSTER}" namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. 部署 `helloworld`（`v2` 版本）和 `sleep` 的示例：
+1. 部署 `helloworld`（`v2` 版本）和 `curl` 的示例：
 
     {{< text bash >}}
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l service=helloworld -n sample --context="${CTX_SECOND_CLUSTER}"
     $ kubectl apply -f @samples/helloworld/helloworld.yaml@ -l version=v2 -n sample --context="${CTX_SECOND_CLUSTER}"
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n sample --context="${CTX_SECOND_CLUSTER}"
     {{< /text >}}
 
-1. 等待几秒钟，让 `helloworld` 和 Pod `sleep` 在注入 Sidecar 的情况下运行：
+1. 等待几秒钟，让 `helloworld` 和 Pod `curl` 在注入 Sidecar 的情况下运行：
 
     {{< text bash >}}
     $ kubectl get pod -n sample --context="${CTX_SECOND_CLUSTER}"
     NAME                            READY   STATUS    RESTARTS   AGE
+    curl-557747455f-wtdbr           2/2     Running   0          9s
     helloworld-v2-54df5f84b-9hxgw   2/2     Running   0          10s
-    sleep-557747455f-wtdbr          2/2     Running   0          9s
     {{< /text >}}
 
-1. 从 Pod `sleep` 向 `helloworld` 服务发送请求：
+1. 从 Pod `curl` 向 `helloworld` 服务发送请求：
 
     {{< text bash >}}
-    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c sleep \
-        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+    $ kubectl exec --context="${CTX_SECOND_CLUSTER}" -n sample -c curl \
+        "$(kubectl get pod --context="${CTX_SECOND_CLUSTER}" -n sample -l app=curl -o jsonpath='{.items[0].metadata.name}')" \
         -- curl -sS helloworld.sample:5000/hello
     Hello version: v2, instance: helloworld-v2-54df5f84b-9hxgw
     {{< /text >}}
@@ -868,7 +884,7 @@ $ export SECOND_CLUSTER_NAME=<您的第二个从集群名称>
 
 {{< text bash >}}
 $ kubectl delete -f external-istiod-gw.yaml --context="${CTX_EXTERNAL_CLUSTER}"
-$ istioctl uninstall -y --purge --context="${CTX_EXTERNAL_CLUSTER}"
+$ istioctl uninstall -y --purge -f external-istiod.yaml --context="${CTX_EXTERNAL_CLUSTER}"
 $ kubectl delete ns istio-system external-istiod --context="${CTX_EXTERNAL_CLUSTER}"
 $ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 {{< /text >}}
@@ -877,7 +893,7 @@ $ rm controlplane-gateway.yaml external-istiod.yaml external-istiod-gw.yaml
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_REMOTE_CLUSTER}"
-$ istioctl manifest generate -f remote-config-cluster.yaml --set values.defaultRevision=default | kubectl delete --context="${CTX_REMOTE_CLUSTER}" -f -
+$ istioctl uninstall -y --purge -f remote-config-cluster.yaml --set values.defaultRevision=default --context="${CTX_REMOTE_CLUSTER}"
 $ kubectl delete ns external-istiod --context="${CTX_REMOTE_CLUSTER}"
 $ rm remote-config-cluster.yaml istio-ingressgateway.yaml
 $ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
@@ -887,7 +903,7 @@ $ rm istio-egressgateway.yaml eastwest-gateway-1.yaml || true
 
 {{< text bash >}}
 $ kubectl delete ns sample --context="${CTX_SECOND_CLUSTER}"
-$ istioctl manifest generate -f second-remote-cluster.yaml | kubectl delete --context="${CTX_SECOND_CLUSTER}" -f -
+$ istioctl uninstall -y --purge -f second-remote-cluster.yaml --context="${CTX_SECOND_CLUSTER}"
 $ kubectl delete ns external-istiod --context="${CTX_SECOND_CLUSTER}"
 $ rm second-remote-cluster.yaml eastwest-gateway-2.yaml
 {{< /text >}}

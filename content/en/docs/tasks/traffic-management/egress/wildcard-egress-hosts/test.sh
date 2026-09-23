@@ -21,6 +21,8 @@ set -e
 set -u
 set -o pipefail
 
+_skip_if_kind_ipv6 "test connects to wikipedia.org via wildcard egress"
+
 GATEWAY_API="${GATEWAY_API:-false}"
 
 if [ "$GATEWAY_API" == "true" ]; then
@@ -33,16 +35,16 @@ _wait_for_deployment istio-system istiod
 kubectl label namespace default istio-injection=enabled --overwrite
 
 snip_before_you_begin_3
-_wait_for_deployment default sleep
+_wait_for_deployment default curl
 snip_before_you_begin_5
 
 confirm_blocking() {
-kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c sleep -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
+kubectl exec "$SOURCE_POD" -c curl -- curl -sS -I https://www.google.com | grep  "HTTP/"; kubectl exec "$SOURCE_POD" -c curl -- curl -sS -I https://edition.cnn.com | grep "HTTP/"
 }
 _verify_contains confirm_blocking "command terminated with exit code 35"
 
 snip_configure_direct_traffic_to_a_wildcard_host_1
-_wait_for_istio serviceentry default wikipedia
+_wait_for_resource serviceentry default wikipedia
 
 _verify_same snip_configure_direct_traffic_to_a_wildcard_host_2 "$snip_configure_direct_traffic_to_a_wildcard_host_2_out"
 
@@ -53,13 +55,13 @@ if [ "$GATEWAY_API" == "true" ]; then
     kubectl wait --for=condition=programmed gtw wikipedia-egress-gateway
 else
     snip_configure_egress_gateway_traffic_to_a_wildcard_host_1
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-wikipedia
-    _wait_for_istio virtualservice default direct-wikipedia-through-egress-gateway
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-wikipedia
+    _wait_for_resource virtualservice default direct-wikipedia-through-egress-gateway
 fi
 
 snip_configure_egress_gateway_traffic_to_a_wildcard_host_3
-_wait_for_istio serviceentry default www-wikipedia
+_wait_for_resource serviceentry default www-wikipedia
 
 _verify_same snip_configure_egress_gateway_traffic_to_a_wildcard_host_4 "$snip_configure_egress_gateway_traffic_to_a_wildcard_host_4_out"
 

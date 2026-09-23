@@ -21,6 +21,8 @@ set -e
 set -u
 set -o pipefail
 
+_skip_if_kind_ipv6 "test connects to external hosts via egress gateway"
+
 GATEWAY_API="${GATEWAY_API:-false}"
 
 source "tests/util/samples.sh"
@@ -28,10 +30,10 @@ source "tests/util/samples.sh"
 # Make sure default namespace is injected
 kubectl label namespace default istio-injection=enabled || true
 
-# Deploy sleep sample and set up variable pointing to it
-# Start the sleep sample
-startup_sleep_sample
-export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}')
+# Deploy curl sample and set up variable pointing to it
+# Start the curl sample
+startup_curl_sample
+export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')
 
 # Create ServiceEntry
 snip_egress_gateway_for_http_traffic_1
@@ -46,11 +48,11 @@ if [ "$GATEWAY_API" == "true" ]; then
     sleep 30 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_http_traffic_3
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-cnn
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-cnn
 
     snip_egress_gateway_for_http_traffic_5
-    _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
+    _wait_for_resource virtualservice default direct-cnn-through-egress-gateway
 fi
 
 # Verify successful curl
@@ -85,9 +87,9 @@ if [ "$GATEWAY_API" == "true" ]; then
     sleep 30 # TODO: remove this delay once we can reliably detect route rules have propogated
 else
     snip_egress_gateway_for_https_traffic_3
-    _wait_for_istio gateway default istio-egressgateway
-    _wait_for_istio destinationrule default egressgateway-for-cnn
-    _wait_for_istio virtualservice default direct-cnn-through-egress-gateway
+    _wait_for_resource gateway default istio-egressgateway
+    _wait_for_resource destinationrule default egressgateway-for-cnn
+    _wait_for_resource virtualservice default direct-cnn-through-egress-gateway
 fi
 
 # Verify successful curl
@@ -112,7 +114,7 @@ fi
 # Create namespace
 snip_apply_kubernetes_network_policies_1
 
-# Deploy sleep
+# Deploy curl
 snip_apply_kubernetes_network_policies_2
 
 # Verify 200 response
@@ -141,20 +143,26 @@ fi
 # Enable sidecar injection
 snip_apply_kubernetes_network_policies_11
 
-# Delete older sleep and reapply
+# Delete older curl and reapply
 snip_apply_kubernetes_network_policies_12
-_wait_for_deployment test-egress sleep
+_wait_for_deployment test-egress curl
+
+# Restart the deployment to ensure sidecar is injected; there is a timing race
+# where the pod may be created before the admission webhook processes the new
+# istio-injection label on the namespace.
+kubectl rollout restart deployment/curl -n test-egress
+_wait_for_deployment test-egress curl
 
 if [ "$GATEWAY_API" == "true" ]; then
     # verify containers
-    _verify_contains snip_apply_kubernetes_network_policies_15 "sleep istio-proxy"
+    _verify_contains snip_apply_kubernetes_network_policies_15 "istio-proxy"
 else
     # verify containers
-    _verify_contains snip_apply_kubernetes_network_policies_13 "sleep istio-proxy"
+    _verify_contains snip_apply_kubernetes_network_policies_13 "istio-proxy"
 
     # configure DR
     snip_apply_kubernetes_network_policies_14
-    _wait_for_istio destinationrule test-egress egressgateway-for-cnn
+    _wait_for_resource destinationrule test-egress egressgateway-for-cnn
 fi
 
 # Verify 200 response

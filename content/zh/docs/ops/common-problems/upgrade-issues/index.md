@@ -57,11 +57,11 @@ spec:
           value: "string(destination.port)"
 {{< /text >}}
 
-### 使用 WasmPlugin API 扩展 Wasm 数据面 {#use-wasmplugin-api-for-wasm-extensibility}
+### 使用 TrafficExtension API 扩展 Wasm 数据面 {#use-trafficextension-api-for-wasm-extensibility}
 
 使用 `EnvoyFilter` 注入 Wasm 过滤器的做法已替换为
-[WasmPlugin API](/zh/docs/tasks/extensibility/wasm-module-distribution)。
-这是因为 WasmPlugin API 允许从镜像仓库、URL 或本地文件动态加载插件。
+[TrafficExtension API](/zh/docs/tasks/extensibility/wasm-modules)。
+这是因为 TrafficExtension API 允许从镜像仓库、URL 或本地文件动态加载插件。
 对于部署 Wasm 代码而言，“Null” 插件运行时不再是推荐的选项。
 
 ### 使用网关拓扑设置可信跳数 {#use-gateway-topology-to-set-the-number-of-trusted-hops}

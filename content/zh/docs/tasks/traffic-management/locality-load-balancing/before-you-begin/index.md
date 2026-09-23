@@ -57,7 +57,8 @@ $ kubectl label node kind-worker3 topology.kubernetes.io/zone=us-south13
 
 ## 环境变量 {#environment-variables}
 
-本指南假定将通过默认的 [Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文访问所有集群。
+本指南假定将通过默认的
+[Kubernetes 配置文件](https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)中的上下文访问所有集群。
 以下环境变量将用于各种上下文：
 
 变量 | 描述
@@ -126,13 +127,13 @@ $ kubectl apply --context="${CTX_R3_Z4}" -n sample \
   -f helloworld-region3.zone4.yaml
 {{< /text >}}
 
-## 部署 `Sleep` {#deploy-sleep}
+## 部署 `curl` {#deploy-curl}
 
-部署 `Sleep` 应用到 `region1` `zone1`：
+部署 `curl` 应用到 `region1` `zone1` 中：
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_R1_Z1}" \
-  -f @samples/sleep/sleep.yaml@ -n sample
+  -f @samples/curl/curl.yaml@ -n sample
 {{< /text >}}
 
 ## 等待 `HelloWorld` Pod {#wait-for-helloworld-pods}
@@ -167,7 +168,7 @@ NAME                                       READY   STATUS    RESTARTS   AGE
 helloworld-region3.zone4-86f77cd7b-cpxhv   2/2     Running   0          30s
 {{< /text >}}
 
-**恭喜您！** 您已成功完成系统配置，现在可以开始进行地域负载均衡任务了！
+**恭喜！** 您已成功完成系统配置，现在可以开始进行地域负载均衡任务了！
 
 ## 下一步 {#next-steps}
 

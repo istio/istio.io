@@ -9,18 +9,18 @@
     则将启用 Egress Gateway 和访问日志。
     {{< /tip >}}
 
-*   将 [sleep]({{< github_tree >}}/samples/sleep) 示例应用程序部署为发送请求的测试源。
+*   将 [curl]({{< github_tree >}}/samples/curl) 示例应用程序部署为发送请求的测试源。
     如果您启用了[自动 Sidecar 注入](/zh/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection)，
     运行以下命令部署示例应用程序：
 
     {{< text bash >}}
-    $ kubectl apply -f @samples/sleep/sleep.yaml@
+    $ kubectl apply -f @samples/curl/curl.yaml@
     {{< /text >}}
 
-    否则，在使用以下命令部署 `sleep` 应用程序之前，手动注入 Sidecar：
+    否则，在使用以下命令部署 `curl` 应用程序之前，手动注入 Sidecar：
 
     {{< text bash >}}
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@)
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@)
     {{< /text >}}
 
     {{< tip >}}
@@ -30,5 +30,5 @@
 *   为了发送请求，您需要创建 `SOURCE_POD` 环境变量来存储源 Pod 的名称：
 
     {{< text bash >}}
-    $ export SOURCE_POD=$(kubectl get pod -l app=sleep -o jsonpath={.items..metadata.name})
+    $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
     {{< /text >}}

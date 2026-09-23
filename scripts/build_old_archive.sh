@@ -17,7 +17,7 @@
 # NOTE: this only works for v1.5+ because it needs an `archive-version`
 #       make target to create an archive.
 
-set -e
+set -ex
 
 [[ $1 =~ ^build-old-archive-([0-9]\.[0-9]+)\.0$ ]] ||
     { echo "Target format error: should be 'build-old-archive-x.x.0', got '$1'"; exit 1; }
@@ -37,7 +37,7 @@ git checkout "${CURRENT_BRANCH}"
 rm -rf "archive/v${VERSION}"
 mv "archived_version/v${VERSION}" archive
 
-if [[ $(git status --porcelain) ]]; then
+if [[ $(git status --porcelain) && "${DRY_RUN:-}" != '1' ]]; then
     git add "archive/v${VERSION}"
     git commit -m "build an archive of v${VERSION} in ${CURRENT_BRANCH}"
     git push origin "${CURRENT_BRANCH}"

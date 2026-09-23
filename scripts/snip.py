@@ -93,6 +93,7 @@ try:
     istio_full_version_revision = istio_full_version.replace(".", "-")
     istio_previous_version_revision = istio_previous_version.replace(".", "-")
     k8s_gateway_api_version = docs_config['k8s_gateway_api_version']
+    k8s_gateway_api_inference_extension_version = docs_config['k8s_gateway_api_inference_extension_version']
 except:
     sys.stderr.write('failed to retrieve data from "data/args.yml"\n')
     sys.exit(1)
@@ -104,7 +105,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
         # Replace github file token with release-specific URL.
         github_url = "https://raw.githubusercontent.com/istio/istio/" + source_branch_name
         line = line.replace("{{< github_file >}}", github_url)
-        line = line.replace("istioctl install", "istioctl install --set values.pilot.env.PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING=true")
+        line = line.replace("kubectl delete gtw", "kubectl delete gtw --cascade=foreground")
 
         match = sectionhead.match(line)
         if match:
@@ -185,6 +186,7 @@ with open(markdown, 'rt', encoding='utf-8') as mdfile:
                 line = line.replace("{{< istio_full_version_revision >}}", istio_full_version_revision)
                 line = line.replace("{{< istio_previous_version_revision >}}", istio_previous_version_revision)
                 line = line.replace("{{< k8s_gateway_api_version >}}", k8s_gateway_api_version)
+                line = line.replace("{{< k8s_gateway_api_inference_extension_version >}}", k8s_gateway_api_inference_extension_version)
                 current_snip["script"].append(line)
 
 if len(boilerplates) > 0:

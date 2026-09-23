@@ -101,21 +101,20 @@ For more information, see [Common Expression Language](https://opensource.google
 Istio exposes all standard [Envoy attributes](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/advanced/attributes).
 Peer metadata is available as attributes `upstream_peer` for outbound and `downstream_peer` for inbound with the following fields:
 
-|Field   | Type  | Value |
-|---|---|---|
-| `name` | `string` | Name of the pod. |
-| `namespace` | `string` | Namespace that the pod runs in. |
-| `labels` | `map` | Workload labels. |
-| `owner` | `string` | Workload owner. |
-| `workload_name` | `string` | Workload name. |
-| `platform_metadata` | `map` |  Platform metadata with prefixed keys. |
-| `istio_version` | `string` | Version identifier for the proxy. |
-| `mesh_id` | `string` | Unique identifier for the mesh. |
-| `app_containers` | `list<string>` | List of short names for application containers. |
-| `cluster_id` | `string` | Identifier for the cluster to which this workload belongs. |
+| Field       | Type     | Value                                                      |
+|-------------|----------|------------------------------------------------------------|
+| `app`       | `string` | Application name.                                          |
+| `version`   | `string` | Application version.                                       |
+| `service`   | `string` | Service instance.                                          |
+| `revision`  | `string` | Service version.                                           |
+| `name`      | `string` | Name of the pod.                                           |
+| `namespace` | `string` | Namespace that the pod runs in.                            |
+| `type`      | `string` | Workload type.                                             |
+| `workload`  | `string` | Workload name.                                             |
+| `cluster`   | `string` | Identifier for the cluster to which this workload belongs. |
 
 For example, the expression for the peer `app` label to be used in an outbound configuration is
-`upstream_peer.labels['app'].value`.
+`filter_state.downstream_peer.app` or `filter_state.upstream_peer.app`.
 
 ## Cleanup
 

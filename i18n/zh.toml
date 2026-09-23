@@ -7,6 +7,15 @@ other = "加入 Istio discussion board 参与讨论获取帮助"
 [twitter_desc]
 other = "关注我们的 Twitter 来获取最新信息"
 
+[bluesky_desc]
+other = "关注我们的 Bluesky 来获取最新信息"
+
+[mastodon_desc]
+other = "关注我们的 Mastodon 来获取最新信息"
+
+[linkedin_desc]
+other = "关注我们的 LinkedIn 来获取最新信息"
+
 [stackoverflow_desc]
 other = "Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答"
 
@@ -26,7 +35,7 @@ other = "如果您想深入了解 Istio 的技术细节，请查看我们日益�
 other = "如果您想为 Istio 项目做出贡献，请考虑加入我们的工作组"
 
 [slack_desc]
-other = "在 Slack 上与 Istio 社区交互讨论开发问题（仅限邀请）"
+other = "在 Slack 上与 Istio 社区交互讨论开发问题"
 
 [report_site_bugs]
 other = "报告网站上的 Bug"
@@ -137,7 +146,7 @@ other = "下载安装该发行版。"
 other = "文档"
 
 [relnote_docs_detail]
-other = " 访问该发行版的文档。"
+other = "访问该发行版的文档。"
 
 [relnote_helm_changes_title]
 other = "Helm 变更"
@@ -155,7 +164,7 @@ other = "查看源码变更的详细信息。"
 other = "作者 "
 
 [button_copy]
-other = "复制到剪切板"
+other = "复制到剪贴板"
 
 [button_print]
 other = "打印"
@@ -191,10 +200,10 @@ other = "最新版本"
 other = "Helm Chart"
 
 [partner_component_istio_versions]
-other = "%s 已在如下 Istio 版本中测试通过"
+other = "%s 已在如下 Istio 版本中通过测试"
 
 [partner_component_supported_templates]
-other = "支持的模版"
+other = "支持的模板"
 
 [adapter]
 other = "适配器"
@@ -206,7 +215,7 @@ other = "支持的模板"
 other = "适配器"
 
 [template]
-other = "模版"
+other = "模板"
 
 [subscribe]
 other = "订阅"
@@ -224,7 +233,7 @@ other = "这是一个自动生成的文件，要修改其中的内容，请修�
 other = "切换到英文版"
 
 [advisory]
-other = "部分内容可能滞后于英文版本，同步工作正在进行中"
+other = "部分内容可能滞后于英文版本，同步翻译工作正在进行中"
 
 [syntax_coloring]
 other = "代码高亮"
@@ -242,7 +251,7 @@ other = "描述"
 other = "等级"
 
 [target_release]
-other = "该博客文章是在 Istio %v 的版本下编写的，因此其中某些内容现在可能已过时。"
+other = "这篇博客文章是在 Istio %v 的版本下编写的，因此其中某些内容现在可能已过时。"
 
 [security_disclosure]
 other = "安全漏洞"
@@ -260,13 +269,13 @@ other = "受影响的版本"
 other = "影响评分"
 
 [mark_all_as_read]
-other = "全部标位已读"
+other = "全部标为已读"
 
 [security_bulletin_title]
 other = "安全漏洞详情"
 
 [security_bulletin_cves]
-other = "CVE(s)"
+other = "CVE"
 
 [security_bulletin_cvss]
 other = "CVSS 影响评分"
@@ -311,10 +320,10 @@ other = "更改"
 other = "页面测试"
 
 [has_test]
-other = "这个页面的自动化测试是可用的，点击详情。"
+other = "这个页面的自动化测试是可用的，点击了解详情。"
 
 [needs_test]
-other = "这个页面没有自动测试可用，点击详情或帮助创建一个。"
+other = "这个页面没有自动测试可用，点击了解详情或帮助创建一个。"
 
 [try_istio]
 other = "试用 Istio"
@@ -323,7 +332,7 @@ other = "试用 Istio"
 other = "服务网格"
 
 [what_is_istio]
-other = "什么是 Istio ？"
+other = "什么是 Istio？"
 
 [join_the_community]
 other = "加入社区"
@@ -375,3 +384,9 @@ other = "转到解决方案"
 
 [case_study_slogan]
 other = "阅读因实施 Istio 而受益的公司案例"
+
+[archive_banner_text]
+other = "⚠️ 此文档针对过时的版本 (<strong>%s</strong>)，将不在维护和更新。"
+
+[archive_banner_link]
+other = "查看最新文档。"

@@ -16,7 +16,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 在 [Istio Tools 仓库](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark)中，您将找到用于测量 Istio 数据平面性能的脚本和说明，以及有关如何使用另一服务网格实现 [Linkerd](https://linkerd.io) 运行脚本的其他说明。在我们详细介绍性能测试框架的每个步骤的一些最佳实践时，请[遵循](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark#setup)。
 
-## 1. 使用生产就绪的 Istio 安装{#1-use-a-production-ready-Istio-installation}
+## 1. 使用生产就绪的 Istio 安装 {#1-use-a-production-ready-istio-installation}
 
 为了准确地大规模度量服务网格的性能，使用[适当大小的](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/istio-install#istio-setup) Kubernetes 集群很重要。我们使用三个工作节点进行测试，每个工作节点至少具有 4 vCPU 和 15 GB 的内存。
 
@@ -24,7 +24,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 {{< warning_icon >}} Istio 的 [demo 安装](/zh/docs/setup/getting-started/)不适合进行性能测试，因为它被设计为部署在小型试用群集中，并且具有完整的跟踪和访问日志，可显示 Istio 的功能。
 
-## 2. 专注于数据平面{#2-focus-on-the-data-plane}
+## 2. 专注于数据平面 {#2-focus-on-the-data-plane}
 
 我们的基准测试脚本专注于评估 Istio 数据平面：{{<gloss>}}Envoy{{</gloss>}} 代理，可在应用容器之间进行流量调度。为什么要关注数据平面？因为在大规模使用大量应用容器时，数据平面的 **内存** 和 **CPU** 使用率很快就会超过 Istio 控制平面。让我们看一个具体的例子：
 
@@ -43,7 +43,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 为什么只用两个 pod 测试？因为增加吞吐量（RPS）和连接（线程）对 Envoy 的性能的影响比增加服务注册表的总大小（或 Kubernetes 集群中 Pod 和服务的总数）更大。当服务注册表的大小增加时，Envoy 必须跟踪更多的端点，并且每个请求的查找时间确实增加了，但是增加了一个很小的常数。如果您有许多服务，并且此常数成为延迟问题，则 Istio 提供 [Sidecar 资源](/zh/docs/reference/config/networking/sidecar/)，它使您可以限制每个 Envoy 知道的服务。
 
-## 3. 有/无 度量的代理{#3-measure-with-and-without-proxies}
+## 3. 有/无 度量的代理 {#3-measure-with-and-without-proxies}
 
 尽管 Istio 的许多特性，例如[双向 TLS 身份验证](/zh/docs/concepts/security/#mutual-TLS-authentication)，都依赖于应用 pod 的 Envoy 代理，但是您可以[选择性地禁用](/zh/docs/setup/additional-setup/sidecar-injection/#disabling-or-updating-the-webhook)一些网格服务的 sidecar 代理注入。在扩展 Istio 以进行生产时，您可能需要将 sidecar 代理增量添加到工作负载中。
 
@@ -51,7 +51,7 @@ keywords: [performance,scalability,scale,benchmarks]
 
 您还可以在性能测试期间禁用 [Mixer](/zh/docs/concepts/observability/) 以停止 Istio 的遥测，这将得到与 Mixer V2 工作完成时我们期望的性能相符的结果。Istio 还支持 [Envoy 本地遥测](https://github.com/istio/istio/wiki/Envoy-native-telemetry)，其功能类似于禁用 Istio 的遥测。
 
-## Istio 1.2 性能{#Istio-1-2-performance}
+## Istio 1.2 性能 {#istio-1-2-performance}
 
 让我们看看如何使用该测试环境来分析 Istio 1.2 数据平面的性能。我们还提供了运行 [Linkerd 数据平面的相同性能测试](https://github.com/istio/tools/tree/3ac7ab40db8a0d595b71f47b8ba246763ecd6213/perf/benchmark/linkerd)的说明。Linkerd 目前仅支持延迟基准测试。
 
@@ -93,7 +93,7 @@ keywords: [performance,scalability,scale,benchmarks]
     caption=""
     >}}
 
-## 总结{#summary}
+## 总结 {#summary}
 
 在对 Istio 的性能进行基准测试的过程中，我们吸取了一些重要的经验教训：
 

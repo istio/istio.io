@@ -55,5 +55,5 @@ spec:
 
 ## 使用 {#usage}
 
-有关使用 SkyWalking 的更多信息，请参阅
+有关使用 SkyWalking 的信息，请参阅
 [SkyWalking 任务](/zh/docs/tasks/observability/distributed-tracing/skywalking/)。

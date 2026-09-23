@@ -1,18 +1,22 @@
 ---
-title: "Istio ambient 模式中使用 eBPF 进行流量重定向"
+title: "Istio Ambient 模式中使用 eBPF 进行流量重定向"
 description: 将 POD 流量重定向至每节点 ztunnel 代理的另一种方法。
 publishdate: 2023-03-31
-
 attribution: "丁少君 (Intel), 李纯 (Intel)"
 keywords: [istio,ambient,ztunnel,eBPF]
 ---
 
-在 Istio [Ambient](/zh/blog/2022/introducing-ambient-mesh/) 模式中，运行在每个 Kubernetes
-工作节点上的 `istio-cni` 组件负责将应用程序流量重定向到该节点上的零信任隧道代理（ztunnel）。
-默认情况下，这依赖于 iptables 和 [Generic Network Virtualization Encapsulation (Geneve)](https://www.rfc-editor.org/rfc/rfc8926.html)
+{{< idea >}}
+Ambient 模式现在使用 [in-Pod 重定向](/zh/blog/2024/inpod-traffic-redirection-ambient/)在工作负载
+Pod 和 ztunnel 之间重定向流量。本博客中描述的方法不再需要，此文章已留作历史参考。
+{{< /idea >}}
+
+在 Istio [Ambient](/zh/blog/2022/introducing-ambient-mesh/) 模式中，
+运行在每个 Kubernetes 工作节点上的 `istio-cni` 组件负责将应用程序流量重定向到该节点上的零信任隧道代理（ztunnel）。
+默认情况下，这依赖于 iptables 和 [Generic Network Virtualization Encapsulation（Geneve）](https://www.rfc-editor.org/rfc/rfc8926.html)
 隧道来实现这种重定向。现在我们增加了基于 eBPF 的流量重定向方法的支持。
 
-## 为何采用 eBPF
+## 为何采用 eBPF {#why-ebpf}
 
 虽然在实现 Istio Ambient 模式重定向时需要考虑性能问题，但对于可编程性的考量也非常重要，
 以满足转发规则多样化和可定制化的要求。使用 eBPF，
@@ -21,7 +25,7 @@ keywords: [istio,ambient,ztunnel,eBPF]
 此外，与 iptables 相比，eBPF 对内核中数据包具有更深入的可见性以及额外的上下文操作，
 使更有效和灵活的管理数据流成为可能。
 
-## eBPF 流量重定向如何工作
+## eBPF 流量重定向如何工作 {#how-it-works}
 
 一个 eBPF 程序被预编译到 Istio CNI 组件中，这个 eBPF 程序会被加载到
 [traffic control](https://man7.org/linux/man-pages/man8/tc-bpf.8.html) ingress
@@ -40,7 +44,7 @@ keywords: [istio,ambient,ztunnel,eBPF]
 在 ztunnel 一侧，eBPF 程序将根据 connection 状态的查找结果执行对应的重定向操作。
 这提供了更有效的控制应用程序 Pod 和 ztunnel Pod 之间网络流量的方法。
 
-## 在 Ambient 模式下如何使用 eBPF
+## 在 Ambient 模式下如何使用 eBPF {#how-to-enable-ebpf-redirection-in-istio-ambient-mode}
 
 请按照 [Istio Ambient 模式入门](/zh/blog/2022/get-started-ambient/)设置您的集群，
 但需以下一个小修改：在安装 Istio 时，请将 `values.cni.ambient.redirectMode` 配置参数设置为 `ebpf`。
@@ -55,7 +59,7 @@ $ istioctl install --set profile=ambient --set values.cni.ambient.redirectMode="
 ambient Writing ambient config: {"ztunnelReady":true,"redirectMode":"eBPF"}
 {{< /text >}}
 
-## 性能提升
+## 性能提升 {#performance-gains}
 
 使用 eBPF 重定向的延迟和吞吐量（QPS）比使用 iptables 稍好。以下测试是在一个 `kind`
 集群中运行，其中 Fortio 客户端向在 Ambient 模式下运行的 Fortio 服务器发送请求
@@ -73,7 +77,7 @@ $ fortio load -uniform -t 60s -qps 8000 -c <num_connections> http://<fortio-svc-
 
 {{< image width="90%" link="./P75-Latency-with-8000-qps.png" alt="Latency (ms) for QPS 8000 with varying number of connections" title="P75 Latency (ms) for 8000 QPS, with varying number of connections" caption="P75 Latency (ms) for QPS 8000 with varying number of connections" >}}
 
-## 总结
+## 总结 {#wrapping-up}
 
 在流量重定向方面，eBPF 和 iptables 都有其优缺点。eBPF 是一种现代、灵活和强大的替代方案，
 允许在规则创建方面进行更多的自定义，并提供更好的性能。但是，它需要一个较新的内核版本（4.20 或更高版本），
@@ -85,4 +89,4 @@ $ fortio load -uniform -t 60s -qps 8000 -c <num_connections> http://<fortio-svc-
 而另一些用户可能需要 eBPF 的灵活性和性能。
 
 目前，仍有许多工作需要完成，包括与各种 CNI 插件的集成，非常欢迎大家一同贡献以改善其易用性。
-请加入我们在 [Istio slack](https://slack.istio.io/) 上的 #ambient 频道与我们一起交流。
+请加入我们在 [Istio Slack](https://slack.istio.io/) 中的 #ambient 频道与我们一起交流。

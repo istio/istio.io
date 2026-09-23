@@ -88,17 +88,17 @@ test: no
     reviews-v1-77c65dc5c6-r55tl     1/1     Running   0          49s
     {{< /text >}}
 
-1. 在服务达到 `Running` 状态后，部署一个测试 Pod：[sleep]({{< github_tree >}}/samples/sleep)。
+1. 在服务达到 `Running` 状态后，部署一个测试 Pod：[curl]({{< github_tree >}}/samples/curl)。
    此 Pod 用来向您的微服务发送请求：
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/curl/curl.yaml
     {{< /text >}}
 
 1. 从测试 Pod 中用 curl 命令发送请求给 Bookinfo 应用，以确认该应用运行正常：
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec $(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}') -c curl -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 

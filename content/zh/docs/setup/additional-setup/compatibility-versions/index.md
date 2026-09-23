@@ -42,9 +42,10 @@ $ helm install ... --set compatibilityVersion={{< istio_previous_version >}}
 
 ## 什么时候应该使用兼容版本？ {#when-should-i-use-compatibility-versions}
 
-建议仅在发现不兼容时才使用兼容版本，而不是默认使用。
-每个兼容版本只会持续两三个发布版本，因此最终您将需要迁移到新的行为。
-目前，每个兼容版本打算保留至少两个版本，尽管这也可能会发生变化。
+仅当版本之间存在不兼容时，才应使用兼容版本作为临时措施。您应尽快计划迁移到新行为。
+
+当兼容版本所指的版本达到使用寿命时，该兼容版本将被移除，并且将不再受支持。
+请参阅[当前 Istio 版本支持状态图表](/zh/docs/releases/supported-releases/#support-status-of-istio-releases)了解特定版本的状态。
 
 为了帮助检测是否应使用兼容版本，可以将
 `istioctl x precheck` 与 `--from-version` 标志一同使用。

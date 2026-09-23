@@ -303,8 +303,11 @@ Istio 流量路由功能的关键部分。您可以将虚拟服务视为将流�
 -   随机：请求以随机的方式转发到池中的实例。
 -   权重：请求根据指定的百分比转发到池中的实例。
 -   最少请求：请求被转发到最少被访问的实例。
+-   一致性哈希：根据 HTTP 标头、Cookie 或其他属性提供软会话亲和性。
+-   环形哈希：使用 [Ketama 算法](https://www.metabrew.com/article/libketama-consistent-hashing-algo-memcached-clients)实现对上游主机的一致性哈希。
+-   Maglev：按照 [Maglev 论文](https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/)中的描述，实现对上游主机的一致性哈希。
 
-查看 [Envoy 负载均衡文档](https://www.envoyproxy.io/docs/envoy/v1.5.0/intro/arch_overview/load_balancing)获取这部分的更多信息。
+查看 [Envoy 负载均衡文档](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers)获取这部分的更多信息。
 
 ### 目标规则示例 {#destination-rule-example}
 

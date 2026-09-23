@@ -11,8 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { listen } from "./utils"
 const faqBlockCollapsed = "faq-block--collapsed";
+export { };
+declare global {
+    interface Window {
+        handleFaqBlocks: () => void;
+    }
+}
 
 function handleFaqBlocks(): void {
     const faqBlocks: Element[] = [];
@@ -41,5 +47,5 @@ function handleFaqBlocks(): void {
     // Listen to hash change to navigate to another FAQ if necessary
     listen(window, "hashchange", dealWithHash);
 }
-
+window.handleFaqBlocks = handleFaqBlocks;
 handleFaqBlocks();

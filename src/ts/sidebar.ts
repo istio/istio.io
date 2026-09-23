@@ -11,12 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { getById , toggleAttribute , isPrintableCharacter ,keyCodes, getByClass ,listen } from "./utils";
+import { button , click , ariaExpanded , keydown , active} from "./constants";
+import { KbdNav } from "./kbdnav";
+import { observeResize } from "./resizeObserver";
 declare type Callback = (element: HTMLElement) => void;
 
 /* tslint:disable */
-interface Window {
-    observeResize(el: HTMLElement, callback: Callback): void;
+export {}; // Make this a module
+
+declare global {
+  interface Window {
+    handleSidebar: () => void;
+  }
 }
 /* tslint:enable */
 
@@ -55,7 +62,7 @@ function handleSidebar(): void {
             });
         });
 
-        window.observeResize(body, el => {
+        observeResize(body, (el:HTMLElement) => {
             if ((el.style.maxHeight !== null) && (el.style.maxHeight !== "")) {
                 el.style.maxHeight = el.scrollHeight + "px";
             }
@@ -196,5 +203,5 @@ function handleSidebar(): void {
         }
     });
 }
-
+window.handleSidebar = handleSidebar;
 handleSidebar();

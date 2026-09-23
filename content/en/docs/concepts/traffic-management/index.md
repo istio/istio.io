@@ -381,9 +381,12 @@ particular service or service subset.
 -   Weighted: Requests are forwarded to instances in the pool according to a
     specific percentage.
 -   Round robin: Requests are forwarded to each instance in sequence.
+-   Consistent hash: Provides soft session affinity based on HTTP headers, cookies or other properties.
+-   Ring hash: Implements consistent hashing to upstream hosts using the [Ketama algorithm](https://www.metabrew.com/article/libketama-consistent-hashing-algo-memcached-clients).
+-   Maglev: Implements consistent hashing to upstream hosts as described in the [Maglev paper](https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/).
 
 See the
-[Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/v1.5.0/intro/arch_overview/load_balancing)
+[Envoy load balancing documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers)
 for more information about each option.
 
 ### Destination rule example {#destination-rule-example}

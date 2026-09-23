@@ -7,6 +7,10 @@ export GO111MODULE ?= on
 export GOPROXY ?= https://proxy.golang.org
 export GOSUMDB ?= sum.golang.org
 
+# Memory optimization for Go operations to prevent OOM in CI
+export GOGC ?= 50
+export GOMEMLIMIT ?= 20GiB
+
 # If GOPATH is not set by the env, set it to a sane value
 GOPATH ?= $(shell cd ${ISTIOIO_GO}/../../..; pwd)
 export GOPATH
@@ -26,8 +30,8 @@ export GOOS_LOCAL := $(TARGET_OS)
 export IN_BUILD_CONTAINER := $(IN_BUILD_CONTAINER)
 
 # ISTIO_IMAGE_VERSION stores the prefix used by default for the Docker images for Istio.
-# For example, a value of 1.6-alpha will assume a default TAG value of 1.6-dev.<SHA>
-ISTIO_IMAGE_VERSION ?= 1.23-alpha
+# For example, a value of 1.6.0-alpha will assume a default TAG value of 1.6.0-alpha.<SHA>
+ISTIO_IMAGE_VERSION ?= 1.32.0-alpha
 export ISTIO_IMAGE_VERSION
 
 # Determine the SHA for the Istio dependency by parsing the go.mod file.
@@ -41,7 +45,7 @@ export ISTIO_LONG_SHA
 # we only need to export the pipeline HUB value.
 # If the images were built as part of the private pipeline (as for security releases),
 # we export the HUB and TAG for the images once they are published.
-HUB ?= gcr.io/istio-testing
+HUB ?= registry.istio.io/testing
 # export HUB := docker.io/istio
 # export TAG ?= 1.7.3
 
@@ -72,12 +76,22 @@ JUNIT_REPORT := $(shell which go-junit-report 2> /dev/null || echo "${ISTIO_BIN}
 ISTIO_SERVE_DOMAIN ?= localhost
 export ISTIO_SERVE_DOMAIN
 
+# Determine the base URL for the Netlify-hosted site depending on the Hugo context.
+# 'production' context: Use site URL (istio.io, preliminary.istio.io or istio-staging.netlify.app)
+# 'deploy-preview' context: Use per-build URL (deploy-preview-16568--preliminary-istio.netlify.app)
+# any other context: use relative URLs
 ifeq ($(CONTEXT),production)
-baseurl := "$(URL)"
+  NETLIFY_URL := $(URL)/latest
+else ifeq ($(CONTEXT),deploy-preview)
+  NETLIFY_URL := $(DEPLOY_PRIME_URL)/latest
+else
+  NETLIFY_URL := /latest
 endif
+export NETLIFY_URL
+
 
 # Which branch of the Istio source code do we fetch stuff from
-export SOURCE_BRANCH_NAME ?= release-1.23
+export SOURCE_BRANCH_NAME ?= master
 
 site:
 	@scripts/gen_site.sh
@@ -94,10 +108,18 @@ format-spelling:
 
 gen: tidy-go format-go update-gateway-version snips format-spelling
 
-gen-check: gen check-clean-repo check-localization
+gen-check: gen check-clean-repo check-localization check-release-weights
 
 check-localization:
 	@scripts/check_localization.sh
+
+# Verify that the release announcement section weights match the version they
+# describe, so the newest minor release always sorts first.
+check-release-weights:
+	@scripts/check_release_weights.sh
+
+fix-release-weights:
+	@scripts/check_release_weights.sh --fix
 
 build: site
 	@scripts/build_site.sh ""
@@ -139,20 +161,14 @@ archive-version:
 netlify_install:
 	@npm init -y
 	@npm install --omit=dev --global \
-	    sass@v1.52.1 \
-	    typescript@v4.7.2 \
-	    svgstore-cli@v1.3.2 \
-		@babel/core@v7.18.2 \
-		@babel/cli@v7.17.10 \
-		@babel/preset-env@v7.18.2
-	@npm install --omit=dev --save-dev \
-		babel-preset-minify@v0.5.2
-	@npm install --save \
-		core-js@3.31.1
+	    sass@v1.89.1 \
+	    typescript@v5.8.3 \
+	    svg-symbol-sprite@v1.5.2 \
+	    esbuild@v0.25.5
 
 netlify: netlify_install
 	@scripts/gen_site.sh
-	@scripts/build_site.sh "/latest"
+	@scripts/build_site.sh "${NETLIFY_URL}"
 	@scripts/include_archive_site.sh
 
 # ISTIO_API_GIT_SOURCE allows to override the default Istio API repository, https://github.com/istio/api@$(SOURCE_BRANCH_NAME)
@@ -174,7 +190,13 @@ update_ref_docs:
 update_test_reference: get_istio_sha gen
 
 get_istio_sha:
-	@go get istio.io/istio@$(SOURCE_BRANCH_NAME) && go mod tidy
+	@go get istio.io/istio@$(SOURCE_BRANCH_NAME)
+	@API_VERSION=$$(go mod graph | grep "istio.io/istio@.*istio.io/api@" | head -1 | sed 's/.*istio.io\/api@//'); \
+	if [ -n "$$API_VERSION" ]; then \
+		echo "Updating istio.io/api to $$API_VERSION"; \
+		go get istio.io/api@$$API_VERSION; \
+	fi
+	@go mod tidy
 
 update_all: update_ref_docs update_test_reference
 
@@ -188,17 +210,11 @@ export MASTER := master
 prepare-%:
 	@scripts/prepare_release.sh $@
 
-release-%-dry-run:
-	@DRY_RUN=1 scripts/create_version.sh $(subst -dry-run,,$@)
-
-release-%:
-	@scripts/create_version.sh $@
-
 build-old-archive-%:
 	@scripts/build_old_archive.sh $@
 
 # The init recipe was split into two recipes to solve an issue seen in prow
-# where paralyzation is happening and some tasks in a recipe were occuring out
+# where parallelization is happening and some tasks in a recipe were occurring out
 # of order. The desired behavior is for `preinit` to do the clone and set up the
 # istio/istio directory. Then the eval task in `init` will have the directory in
 # which to run the `git command.
@@ -242,4 +258,4 @@ update-gateway-version: tidy-go
 
 include common/Makefile.common.mk
 
-.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version
+.PHONY: site gen build build_nominify opt clean_public clean lint serve netlify_install netlify netlify_archive archive update_ref_docs update_operator_yamls update_all update-gateway-version check-release-weights fix-release-weights

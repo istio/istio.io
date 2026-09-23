@@ -23,9 +23,9 @@ target_release: 1.0
 
 下面会讲到一些从网格中访问外部数据库的具体案例。
 
-## Egress 流量案例{#egress-traffic-cases}
+## Egress 流量案例 {#egress-traffic-cases}
 
-### 案例 1：绕过 Sidecar{#case-1-bypassing-the-sidecar}
+### 案例 1：绕过 Sidecar {#case-1-bypassing-the-sidecar}
 
 在这个案例中，Sidecar 对应用和外部数据库之间的通信不做拦截。这一配置是通过初始化容器中的 `-x` 参数来完成的，将其内容设置为 MongoDB 的 CIDR 即可。这种做法导致 Sidecar 忽略流入/流出指定 IP 地址的流量。举例来说：
 
@@ -37,7 +37,7 @@ target_release: 1.0
     caption="绕过 Sidecar 和外部 MongoDB 进行通信"
     >}}
 
-### 案例 2：使用 Service Entry，通过 Sidecar 完成访问{#case-2-through-the-sidecar-with-service-entry}
+### 案例 2：使用 Service Entry，通过 Sidecar 完成访问 {#case-2-through-the-sidecar-with-service-entry}
 
 在 Sidecar 已经注入到应用 Pod 之后，这种方式是缺省（访问外部服务）的方式。所有的流量都被 Sidecar 拦截，然后根据配置好的规则路由到目的地，这里所说的目的地也包含了外部服务。下面为 MongoDB 配置一个 `ServiceEntry`。
 
@@ -46,7 +46,7 @@ target_release: 1.0
     caption="Sidecar 拦截对外部 MongoDB 的流量"
     >}}
 
-### 案例 3: Egress 网关{#case-3-egress-gateway}
+### 案例 3: Egress 网关 {#case-3-egress-gateway}
 
 配置 Egress 网关以及配套的 Destination Rule 和 Virtual Service，用于访问 MongoDB。所有进出外部数据库的流量都从 Egress 网关（Envoy）通过。
 
@@ -55,7 +55,7 @@ target_release: 1.0
     caption="使用 Egress 网关访问 MongoDB"
     >}}
 
-### 案例 4：在 Sidecar 和 Egress 网关之间的双向 TLS{#case-4-mutual-TLS-between-sidecars-and-the-egress-gateway}
+### 案例 4：在 Sidecar 和 Egress 网关之间的双向 TLS {#case-4-mutual-tls-between-sidecars-and-the-egress-gateway}
 
 这种方式中，在 Sidecar 和 网关之中多出了一个安全层，所以会影响性能。
 
@@ -64,7 +64,7 @@ target_release: 1.0
     caption="在 Sidecar 和 Egress 网关之间启用双向 TLS"
     >}}
 
-### 案例 5：带有 SNI Proxy 的 Egress 网关{#case-5-egress-gateway-with-SNI-proxy}
+### 案例 5：带有 SNI Proxy 的 Egress 网关 {#case-5-egress-gateway-with-sni-proxy}
 
 这个场景中，因为 Envoy 目前存在的一些限制，需要另一个代理来访问通配符域名。这里创建了一个 Nginx 代理，在 Egress 网关 Pod 中作为 Sidecar 来使用。
 
@@ -73,17 +73,17 @@ target_release: 1.0
     caption="带有 SNI Proxy 的 Egress 网关"
     >}}
 
-## 环境{#environment}
+## 环境 {#environment}
 
 * Istio 版本：1.0.2
 * `K8s` 版本：`1.10.5_1517`
 * Acmeair 应用：4 个服务（每个服务一个实例），跨服务事务，外部 MongoDB，平均载荷：620 字节。
 
-## 结果{#results}
+## 结果 {#results}
 
 使用 `Jmeter` 来生成负载，负载包含了一组持续五分钟的访问，每个阶段都会逐步提高客户端数量来发出 http 请求。客户端数量为：1、5、10、20、30、40、50 和 60。
 
-### 吞吐量{#throughput}
+### 吞吐量 {#throughput}
 
 下图展示了不同案例中的吞吐量：
 
@@ -94,7 +94,7 @@ target_release: 1.0
 
 如图可见，在应用和外部数据库中加入 Sidecar 和 Egress 网关并没有对性能产生太大影响；但是启用双向 TLS、又加入 SNI 代理之后，吞吐量分别下降了 10% 和 24%。
 
-### 响应时间{#response-time}
+### 响应时间 {#response-time}
 
 在 20 客户端的情况下，我们对不同请求的平均响应时间也进行了记录。下图展示了各个案例中平均、中位数、90%、95% 以及 99% 百分位的响应时间。
 
@@ -105,7 +105,7 @@ target_release: 1.0
 
 跟吞吐量类似，前面三个案例的响应时间没有很大区别，但是双向 TLS 和 额外的代理造成了明显的延迟。
 
-### CPU 用量{#CPU-utilization}
+### CPU 用量 {#cpu-utilization}
 
 运行过程中还搜集了所有 Istio 组件以及 Sidecar 的 CPU 使用情况。为了公平起见，用吞吐量对 Istio 的 CPU 用量进行了归一化。下图中展示了这一结果：
 
@@ -116,6 +116,6 @@ target_release: 1.0
 
 经过归一化处理之后的 CPU 用量数据表明，Istio 在使用 Egress 网关 + SNI 代理的情况下，消耗了更多的 CPU。
 
-## 结论{#conclusion}
+## 结论 {#conclusion}
 
 在这一系列的测试之中，我们用不同的方式来访问一个启用了 TLS 的 MongoDB 来进行性能对比。Egress 网关的引用没有对性能和 CPU 消耗的显著影响。但是启用了 Sidecar 和 Egress 网关之间的双向 TLS 或者为通配符域名使用了额外的 SNI 代理之后，会看到性能降级的现象。

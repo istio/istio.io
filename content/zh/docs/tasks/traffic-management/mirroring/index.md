@@ -7,6 +7,15 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
+<!--
+请不要尝试编辑此页面来更改缩进以修复示例。缩进是正确的，但模板渲染错误。请参阅下方标注。
+-->
+
+{{< warning >}}
+[Istio 网站代码中的模板错误](https://github.com/istio/istio.io/issues/15689)导致此页面上的示例无法正确渲染。
+您可以[查看页面源码](https://raw.githubusercontent.com/istio/istio.io/master/content/en/docs/tasks/traffic-management/mirroring/index.md)以查看正确的清单。
+{{< /warning >}}
+
 此任务演示了 Istio 的流量镜像功能。
 
 流量镜像，也称为影子流量，是一种以尽可能低的风险允许负责功能特性的团队改动生产环境的强大理念。
@@ -45,7 +54,7 @@ test: yes
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -75,7 +84,7 @@ test: yes
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -101,26 +110,26 @@ test: yes
         EOF
         {{< /text >}}
 
-1. 部署用于向 `httpbin` 服务发送请求的 `sleep` 工作负载：
+1. 部署用于向 `httpbin` 服务发送请求的 `curl` 工作负载：
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       template:
         metadata:
           labels:
-            app: sleep
+            app: curl
         spec:
           containers:
-          - name: sleep
+          - name: curl
             image: curlimages/curl
             command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
@@ -224,7 +233,7 @@ test: yes
 1. 现在所有流量都指向 `httpbin:v1` 服务，并向此服务发送请求：
 
     {{< text bash json >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -338,7 +347,7 @@ test: yes
 1. 发送流量：
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
     现在您应看到 `v1` 和 `v2` 版本中都有了访问日志。
@@ -381,9 +390,9 @@ test: yes
 
     {{< /tabset >}}
 
-1. 删除 `httpbin` 和 `sleep` Deployment 以及 `httpbin` 服务：
+1. 删除 `httpbin` 和 `curl` Deployment 以及 `httpbin` 服务：
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+    $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
     $ kubectl delete svc httpbin
     {{< /text >}}

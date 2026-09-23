@@ -38,11 +38,6 @@ test: yes
 在单集群上部署多个 Istio 控制面可通过为每个控制面使用不同的系统命名空间来达成。
 Istio 修订和 `discoverySelectors` 然后用于确定每个控制面托管的资源和工作负载的作用域。
 
-{{< warning >}}
-Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域。
-若要启用包括配置资源在内的完整资源作用域，`ENABLE_ENHANCED_RESOURCE_SCOPING` 特性标记必须被设置为 true。
-{{< /warning >}}
-
 1. 创建第一个系统命名空间 `usergroup-1` 并在其中部署 istiod：
 
     {{< text bash >}}
@@ -63,9 +58,6 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
       values:
         global:
           istioNamespace: usergroup-1
-        pilot:
-          env:
-            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
@@ -89,9 +81,6 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
       values:
         global:
           istioNamespace: usergroup-2
-        pilot:
-          env:
-            ENABLE_ENHANCED_RESOURCE_SCOPING: true
     EOF
     {{< /text >}}
 
@@ -130,7 +119,7 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
 1. 查看每个控制面的系统命名空间上的标签：
 
     {{< text bash >}}
-    $ kubectl get ns usergroup-1 usergroup2 --show-labels
+    $ kubectl get ns usergroup-1 usergroup-2 --show-labels
     NAME              STATUS   AGE     LABELS
     usergroup-1       Active   13m     kubernetes.io/metadata.name=usergroup-1,usergroup=usergroup-1
     usergroup-2       Active   12m     kubernetes.io/metadata.name=usergroup-2,usergroup=usergroup-2
@@ -192,38 +181,38 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
     $ kubectl label ns app-ns-3 usergroup=usergroup-2 istio.io/rev=usergroup-2
     {{< /text >}}
 
-1. 为每个命名空间部署一个 `sleep` 和 `httpbin` 应用：
+1. 为每个命名空间部署一个 `curl` 和 `httpbin` 应用：
 
     {{< text bash >}}
-    $ kubectl -n app-ns-1 apply -f samples/sleep/sleep.yaml
+    $ kubectl -n app-ns-1 apply -f samples/curl/curl.yaml
     $ kubectl -n app-ns-1 apply -f samples/httpbin/httpbin.yaml
-    $ kubectl -n app-ns-2 apply -f samples/sleep/sleep.yaml
+    $ kubectl -n app-ns-2 apply -f samples/curl/curl.yaml
     $ kubectl -n app-ns-2 apply -f samples/httpbin/httpbin.yaml
-    $ kubectl -n app-ns-3 apply -f samples/sleep/sleep.yaml
+    $ kubectl -n app-ns-3 apply -f samples/curl/curl.yaml
     $ kubectl -n app-ns-3 apply -f samples/httpbin/httpbin.yaml
     {{< /text >}}
 
-1. 等待几秒钟，让 `httpbin` 和 `sleep` Pod 在注入 Sidecar 的情况下运行：
+1. 等待几秒钟，让 `httpbin` 和 `curl` Pod 在注入 Sidecar 的情况下运行：
 
     {{< text bash >}}
     $ kubectl get pods -n app-ns-1
     NAME                      READY   STATUS    RESTARTS   AGE
     httpbin-9dbd644c7-zc2v4   2/2     Running   0          115m
-    sleep-78ff5975c6-fml7c    2/2     Running   0          115m
+    curl-78ff5975c6-fml7c     2/2     Running   0          115m
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get pods -n app-ns-2
     NAME                      READY   STATUS    RESTARTS   AGE
     httpbin-9dbd644c7-sd9ln   2/2     Running   0          115m
-    sleep-78ff5975c6-sz728    2/2     Running   0          115m
+    curl-78ff5975c6-sz728     2/2     Running   0          115m
     {{< /text >}}
 
     {{< text bash >}}
     $ kubectl get pods -n app-ns-3
     NAME                      READY   STATUS    RESTARTS   AGE
     httpbin-9dbd644c7-8ll27   2/2     Running   0          115m
-    sleep-78ff5975c6-sg4tq    2/2     Running   0          115m
+    curl-78ff5975c6-sg4tq     2/2     Running   0          115m
     {{< /text >}}
 
 ### 确认应用到控制面的映射{#verify-app-to-control-plane-mapping}
@@ -235,7 +224,7 @@ Istio 默认仅使用 `discoverySelectors` 确定工作负载端点的作用域�
 $ istioctl ps -i usergroup-1
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-hccpf.app-ns-1     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-9zb77.app-ns-1      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-9zb77.app-ns-1       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-1-5ccc849b5f-wnqd6     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 {{< /text >}}
 
 {{< text bash >}}
@@ -243,16 +232,16 @@ $ istioctl ps -i usergroup-2
 NAME                                 CLUSTER        CDS        LDS        EDS        RDS          ECDS         ISTIOD                                  VERSION
 httpbin-9dbd644c7-vvcqj.app-ns-3     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 httpbin-9dbd644c7-xzgfm.app-ns-2     Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-fthmt.app-ns-2      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
-sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-fthmt.app-ns-2       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
+curl-78ff5975c6-nxtth.app-ns-3       Kubernetes     SYNCED     SYNCED     SYNCED     SYNCED       NOT SENT     istiod-usergroup-2-658d6458f7-slpd9     1.17-alpha.f5212a6f7df61fd8156f3585154bed2f003c4117
 {{< /text >}}
 
 ### 确认应用连接仅在各个用户组内{#verify-app-conn-is-only-within-respective-usergroup}
 
-1. 将 `usergroup-1` 中 `app-ns-1` 中的 `sleep` Pod 的请求发送到 `usergroup-2` 中 `app-ns-2` 中的 `httpbin` 服务：
+1. 将 `usergroup-1` 中 `app-ns-1` 中的 `curl` Pod 的请求发送到 `usergroup-2` 中 `app-ns-2` 中的 `httpbin` 服务：
 
     {{< text bash >}}
-    $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
+    $ kubectl -n app-ns-1 exec "$(kubectl -n app-ns-1 get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sIL http://httpbin.app-ns-2.svc.cluster.local:8000
     HTTP/1.1 503 Service Unavailable
     content-length: 95
     content-type: text/plain
@@ -260,10 +249,10 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
     server: envoy
     {{< /text >}}
 
-1. 将 `usergroup-2` 中 `app-ns-2` 中的 `sleep` Pod 的请求发送到 `usergroup-2` 中 `app-ns-3` 中的 `httpbin` 服务：通信应发挥作用：
+1. 将 `usergroup-2` 中 `app-ns-2` 中的 `curl` Pod 的请求发送到 `usergroup-2` 中 `app-ns-3` 中的 `httpbin` 服务：通信应发挥作用：
 
     {{< text bash >}}
-    $ kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=sleep -o jsonpath={.items..metadata.name})" -c sleep -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
+    $ kubectl -n app-ns-2 exec "$(kubectl -n app-ns-2 get pod -l app=curl -o jsonpath={.items..metadata.name})" -c curl -- curl -sIL http://httpbin.app-ns-3.svc.cluster.local:8000
     HTTP/1.1 200 OK
     server: envoy
     date: Thu, 22 Dec 2022 15:01:36 GMT
@@ -279,14 +268,14 @@ sleep-78ff5975c6-nxtth.app-ns-3      Kubernetes     SYNCED     SYNCED     SYNCED
 1. 清理第一个用户组：
 
     {{< text bash >}}
-    $ istioctl uninstall --revision usergroup-1
+    $ istioctl uninstall --revision usergroup-1 --set values.global.istioNamespace=usergroup-1
     $ kubectl delete ns app-ns-1 usergroup-1
     {{< /text >}}
 
 1. 清理第二个用户组：
 
     {{< text bash >}}
-    $ istioctl uninstall --revision usergroup-2
+    $ istioctl uninstall --revision usergroup-2 --set values.global.istioNamespace=usergroup-2
     $ kubectl delete ns app-ns-2 app-ns-3 usergroup-2
     {{< /text >}}
 

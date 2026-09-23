@@ -48,6 +48,40 @@ default-deny 授权策略意味着您的系统在默认情况下拒绝所有请�
 `allow-nothing` 的授权策略确保了所有流量在默认情况下被拒绝。在此之上，
 其他的授权策略可以基于特定需求允许流量通过。
 
+#### waypoint 的默认拒绝模式 {#default-deny-pattern-with-waypoints}
+
+Istio 新的 Ambient 数据平面模式引入了一种新的拆分数据平面架构。
+在此架构中，waypoint 代理使用 Kubernetes Gateway API 配置，
+该 API 使用 `parentRef` 和 `targetRef` 更显式地绑定到 Gateway。
+由于 waypoint 更严格地遵循 Kubernetes Gateway API 的原则，
+因此在将策略应用于 waypoint 时，默认拒绝模式的启用方式略有不同。
+从 Istio 1.25 开始，您可以将 `AuthorizationPolicy` 资源绑定到
+`istio-waypoint` 的 `GatewayClass`。通过将 `AuthorizationPolicy`
+绑定到 `GatewayClass`，您可以使用默认策略配置所有实现该 `GatewayClass` 的 Gateway。
+需要注意的是，`GatewayClass` 是集群范围的资源，将命名空间范围的策略绑定到它需要特别小心。
+Istio 要求绑定到 `GatewayClass` 的策略位于根命名空间中，通常是 `istio-system`。
+
+对于 waypoint，标准的不允许任何行为的策略是：
+
+{{< text yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-nothing-istio-waypoint
+  namespace: istio-system
+spec:
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: GatewayClass
+    name: istio-waypoint
+{{< /text >}}
+
+{{< tip >}}
+当在 waypoint 中使用默认拒绝模式时，除了“经典”默认拒绝策略外，
+还应使用绑定到 `istio-waypoint` `GatewayClass` 的策略。
+ztunnel 将针对网格中的工作负载强制执行“经典”默认拒绝策略，并且仍然提供有意义的值。
+{{< /tip >}}
+
 #### 使用 `ALLOW-with-positive-matching` 和 `DENY-with-negative-match` 模式 {#use-allow-with-positive-matching-and-deny-with-negative-match-patterns}
 
 尽可能使用 `ALLOW-with-positive-matching` 或 `DENY-with-negative-matching` 授权策略模式。
@@ -411,7 +445,7 @@ Istio 代理，以便现有的连接将被关闭，新的连接将受到新策�
 当结合[网络策略](/zh/docs/tasks/traffic-management/egress/egress-gateway/#apply-kubernetes-network-policies)一起使用时，
 您可以强制所有出站流量，或者部分通过 Egress 网关。这确保了即使客户端因意外或者被恶意绕过它的代理，请求将会被阻止。
 
-## 当使用 TLS 源时在目标规则上配置 TLS 验证 {#configure-TLS-verification-in-destination-rule-when-using-TLS-origination}
+## 当使用 TLS 源时在目标规则上配置 TLS 验证 {#configure-tls-verification-in-destination-rule-when-using-tls-origination}
 
 Istio 提供了从 Sidecar 代理或者网关上[发起 TLS](/zh/docs/tasks/traffic-management/egress/egress-tls-origination/)
 的能力。这使得从应用发出的明文 HTTP 流量可以透明地“升级”到 HTTPS。
@@ -504,7 +538,7 @@ servers:
 同时在一个共享的网关实例上运行多个较不敏感的域，例如 `blog.example.com` 和 `store.example.com`。
 这种方式提供了更好的纵深防御并且利于实现监管准则。
 
-### 显式阻止所有的敏感 http 主机被宽泛的 SNI 匹配 {#explicitly-disable-all-the-sensitive-http-host-under-relaxed-SNI-host-matching}
+### 显式阻止所有的敏感 http 主机被宽泛的 SNI 匹配 {#explicitly-disable-all-the-sensitive-http-host-under-relaxed-sni-host-matching}
 
 使用多个 `Gateway` 资源来在不同的主机上定义多个双向或者单向 TLS 是很合理的。
 例如，在 SNI 主机 `admin.example.com` 上使用双向 TLS，在 SNI 主机 `*.example.com` 上使用单向 TLS。
@@ -580,7 +614,7 @@ Istio 可以[自动确定流量协议](/zh/docs/ops/configuration/traffic-manage
 但为了避免意外或者有意的误检测，从而导致意外流量行为发生。
 推荐[显式地声明协议](/zh/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection)。
 
-## CNI 网络容器接口 {#CNI}
+## CNI 网络容器接口 {#cni}
 
 为了透明地劫持所以流量，Istio 依赖 通过 `istio-init` `initContainer` 配置 `iptables` 规则。
 这增加了一个[要求](/zh/docs/ops/deployment/application-requirements/)，即需要提供给 Pod `NET_ADMIN`
@@ -635,18 +669,34 @@ Istio 配置了[一系列锁定的端口](/zh/docs/ops/deployment/application-re
 
 ### 控制面 {#control-plane}
 
-Istiod 为了便利暴露了几个未认证的明文端口。理想情况下，这些端口应该被关闭：
+Istiod 公开了多个用于调试和监控的端口。默认情况下，调试端点现在需要身份验证：
 
 * 端口 `8080` 暴露了调试接口，提供了针对集群状态细节的读取权限。
   这可以通过在 Istiod 设置环境变量 `ENABLE_DEBUG_ON_HTTP=false` 来关闭。
   警告：许多 `istioctl` 命令依赖该接口，如果该接口被关闭这些命令可能无法运行。
-* 端口 `15010` 将 XDS 服务暴露为明文。这可以通过在 Istiod 部署中添加 `--grpcAddr=""` 标志来关闭。
+* 端口 `15010` 通过明文 gRPC 公开 XDS 服务。此端口上的 XDS
+  调试端点（`syncz`、`config_dump`）默认需要身份验证，
+  启用后会有效地阻止明文访问。请使用端口 15012（TLS）进行经过身份验证的 XDS 调试访问。
+  可以通过在 istiod 部署中添加 `--grpcAddr=""` 标志来禁用明文 XDS 服务本身。
   注释：证书签发和分发服务这类高度敏感的服务绝不允许以明文运行。
+* 端口 `15012` 通过 TLS/mTLS gRPC 协议公开 XDS 服务（推荐用于生产环境）。
+  XDS 调试端点可通过此端口访问，并支持自动 mTLS 身份验证。
+* 端口 `15014` 通过 HTTP（明文）协议暴露调试端点（`/debug/syncz`、`/debug/registryz`、`/debug/config_dump` 等）。
+  默认情况下，这些端点需要使用具有 `istio-ca` 受众的服务帐户令牌进行身份验证。
+
+调试端点身份验证由环境变量 `ENABLE_DEBUG_ENDPOINT_AUTH` 控制（默认启用）。
+启用后，基于命名空间的授权会将非系统命名空间限制为仅对同一命名空间代理使用特定的端点（`config_dump`、`ndsz`、`edsz`）。
+要禁用身份验证并恢复旧版行为，请在 istiod 上设置 `ENABLE_DEBUG_ENDPOINT_AUTH=false`。
+
+有关如何从集成中访问调试端点的详细信息。
+请参阅[集成指南](/zh/docs/ops/integrations/integration-guide/debug-endpoints/)。
 
 ### 数据面 {#data-plane}
 
-代理暴露了一系列端口。暴露给外部的是端口 `15090`（遥测）和端口 `15021`（健康检测）。
-端口 `15020` 和 `15000` 提供了调试终端。这两者只暴露给 `localhost`。
+该代理对外暴露了多种端口。其中，对外暴露的端口包括：`15090`（遥测）、
+`15021`（健康检查）以及 `15020`（整合了来自 Istio 代理、
+Envoy 和应用程序的 Prometheus 遥测数据）。
+端口 `15000` 提供调试端点，且仅通过 `localhost` 对外暴露。
 因此结果是，应用运行在了代理也有访问权限的同一个 Pod 中，即 Sidecar 和应用之间没有信任边界。
 
 ## 配置第三方服务账户 tokens {#configure-third-party-service-account-tokens}

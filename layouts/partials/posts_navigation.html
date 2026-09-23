@@ -1,15 +1,25 @@
 {{ $skipPageNav := .Scratch.Get "skipPageNav" }}
 {{ if not (or .Params.skip_pagenav $skipPageNav) }}
-    {{ if or .NextInSection .PrevInSection }}
+    {{ $prev := .NextInSection }}
+    {{ $next := .PrevInSection }}
+    {{ with .Params.prev }}
+        {{$prev = $.Site.GetPage $.Site.Language.Lang .}}
+    {{ end }}
+
+    {{ with .Params.next }}
+        {{$next = $.Site.GetPage $.Site.Language.Lang .}}
+    {{ end }}
+
+    {{ if or $prev $next }}
         <nav class="pagenav">
             <div class="left">
-                {{ if .NextInSection }}
-                    <a title="{{ .NextInSection.Description }}" href="{{ .NextInSection.Permalink }}" class="next-link">{{- partial "icon.html" "left-arrow" -}}{{- .NextInSection.LinkTitle -}}</a>
+                {{ if $prev }}
+                    <a title="{{ $prev.Description }}" href="{{ $prev.Permalink }}" class="next-link">{{- partial "icon.html" "left-arrow" -}}{{- $prev.LinkTitle -}}</a>
                 {{ end }}
             </div>
             <div class="right">
-                {{ if .PrevInSection }}
-                    <a title="{{ .PrevInSection.Description }}" href="{{ .PrevInSection.Permalink }}" class="next-link">{{- .PrevInSection.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
+                {{ if $next }}
+                    <a title="{{ $next.Description }}" href="{{ $next.Permalink }}" class="next-link">{{- $next.LinkTitle -}}{{- partial "icon.html" "right-arrow" -}}</a>
                 {{ end }}
             </div>
         </nav>

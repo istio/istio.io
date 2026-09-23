@@ -1,14 +1,13 @@
 ---
 ---
-*   Create a namespace for the OpenTelemetry Collector:
+Create a namespace for the OpenTelemetry Collector:
 
-    {{< text bash >}}
-    $ kubectl create namespace observability
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl create namespace observability
+{{< /text >}}
 
-*   Deploy the OpenTelemetry Collector. You can use this example configuration as a starting point:
-    [`otel.yaml`]({{< github_blob >}}/samples/open-telemetry/otel.yaml)
+Deploy the OpenTelemetry Collector. You can use [this example configuration]({{< github_blob >}}/samples/open-telemetry/otel.yaml) as a starting point.
 
-    {{< text bash >}}
-    $ kubectl apply -f @samples/open-telemetry/otel.yaml@ -n observability
-    {{< /text >}}
+{{< text bash >}}
+$ kubectl apply -f @samples/open-telemetry/otel.yaml@ -n observability
+{{< /text >}}

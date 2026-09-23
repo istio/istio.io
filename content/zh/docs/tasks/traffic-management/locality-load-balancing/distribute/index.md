@@ -12,8 +12,8 @@ owner: istio/wg-networking-maintainers
 
 在继续之前，请确保完成[开始之前](/zh/docs/tasks/traffic-management/locality-load-balancing/before-you-begin)这一节所包含的步骤。
 
-在这个任务中，您将使用 `region1` `zone1` 中的 `Sleep` Pod 作为 `HelloWorld` 服务的请求源。
-您将使用以下分布在不同的地域配置Istio：
+在这个任务中，您将使用 `region1` `zone1` 中的 `curl` Pod 作为 `HelloWorld` 服务的请求源。
+您将使用以下分布在不同的地域配置 Istio：
 
 地区 | 区域 | 流量(%)
 ------ | ---- | ------------
@@ -21,6 +21,12 @@ owner: istio/wg-networking-maintainers
 `region1` | `zone2` | 20
 `region2` | `zone3` | 0
 `region3` | `zone4` | 10
+
+{{< tip >}}
+Istio 从 Pod 运行所在的节点读取拓扑位置。
+使用 [Topology Locality](/zh/docs/reference/config/labels/#TopologyLocality)
+标签可以覆盖默认设置。
+{{< /tip >}}
 
 ## 配置权重分布 {#configure-weighted-distribution}
 
@@ -60,12 +66,12 @@ EOF
 
 ## 验证分布 {#verify-the-distribution}
 
-从 `Sleep` Pod 调用 `HelloWorld` 服务：
+从 `curl` Pod 调用 `HelloWorld` 服务：
 
 {{< text bash >}}
-$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c sleep \
+$ kubectl exec --context="${CTX_R1_Z1}" -n sample -c curl \
   "$(kubectl get pod --context="${CTX_R1_Z1}" -n sample -l \
-  app=sleep -o jsonpath='{.items[0].metadata.name}')" \
+  app=curl -o jsonpath='{.items[0].metadata.name}')" \
   -- curl -sSL helloworld.sample:5000/hello
 {{< /text >}}
 

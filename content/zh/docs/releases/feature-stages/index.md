@@ -64,9 +64,9 @@ https://docs.google.com/spreadsheets/d/1Nbjat-juyQ8AWhkq3njLckmHM8TRL4O-sjm9Bfr9
 
 {{< features section="Core" >}}
 
-### Ambient {#ambient}
+### Ambient 模式 {#ambient-mode}
 
-{{< features section="Ambient" >}}
+{{< features section="Ambient 模式" >}}
 
 {{< idea >}}
 如果您希望在我们的未来版本中看到某些功能，

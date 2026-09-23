@@ -26,7 +26,7 @@ target_release: 1.1
 
 祝贺那些来自世界各地的为此次版本发布做出贡献的 Istio 专家。我们对这些结果无比高兴。
 
-## Istio 1.1 性能增强{Istio-1-1-performance-enhancements}
+## Istio 1.1 性能增强 {#istio-1-1-performance-enhancements}
 
 作为 Istio Performance and Scalability （性能和可伸缩）工作组的成员，我们进行了广泛的性能评估。我们与其他 Istio 贡献者合作，为 Istio 1.1 引入了许多旨在提高性能的新特性。1.1 中一些显著的性能增强包括:
 
@@ -38,22 +38,22 @@ target_release: 1.1
 - 为限制遥测数据的可配置过滤器
 - 解除同步瓶颈
 
-## 持续的代码质量和性能验证{continuous-code-quality-and-performance-verification}
+## 持续的代码质量和性能验证 {#continuous-code-quality-and-performance-verification}
 
 回归巡检促进了 Istio 性能和质量的不断提高，在幕后帮助 Istio 开发者识别并修正代码错误。每天的构建都会经过以客户为中心的性能基准 [BluePerf](https://github.com/blueperf/) 的性能检测。测试结果会展示在 [Istio 社区门户网站](https://ibmcloud-perf.istio.io/regpatrol/)。评估了各种应用配置以帮助洞悉 Istio 组件的性能。
 
 另一个用于评估 Istio 构建性能的工具是 [Fortio](https://fortio.org/)，它提供了一个综合的端到端的压力测试基准。
 
-## 概要{summary}
+## 概要 {#summary}
 
 Istio 1.1 旨在提高性能和可扩展性。Istio Performance and Scalability （性能和可扩展性）工作组实现了自 1.0 以来显著的性能改进。
 Istio 1.1 提供的新特性和功能优化，提高了服务网格对企业工作负载的支撑能力。Istio 1.1 性能和调优指南记录了性能模拟，提供了调整和容量规划指导，并包含了调优客户用例的最佳实践。
 
-## 有用的链接{useful-links}
+## 有用的链接 {#useful-links}
 
 - [Istio 服务网格性能 (34:30)](https://www.youtube.com/watch?time_continue=349&v=G4F5aRFEXnU), 作者：Surya Duggirala, Laurent Demailly 和 Fawad Khaliq 于 KubeCon Europe 2018
 - [Istio 性能和可扩展性讨论专题](https://discuss.istio.io/c/performance-and-scalability)
 
-## 免责声明{disclaimer}
+## 免责声明 {#disclaimer}
 
 这里展示的性能数据是在一个可控的隔离环境中产生的。在其他环境中获得的实际结果可能存在较大差异。无法保证在其他地方获得相同或类似的结果。

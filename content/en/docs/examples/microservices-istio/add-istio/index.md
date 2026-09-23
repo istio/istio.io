@@ -55,7 +55,7 @@ disrupt your application, it continues to run and serve user requests.
     reviews-v2-56f6855586-cnrjp       1/1       Running   0          7h
     reviews-v2-56f6855586-lxc49       1/1       Running   0          7h
     reviews-v2-56f6855586-qh84k       1/1       Running   0          7h
-    sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
+    curl-88ddbcfdd-cc85s              1/1       Running   0          7h
     {{< /text >}}
 
 1.  Kubernetes replaced the original pods of `productpage` with the

@@ -13,11 +13,11 @@ target_release: 1.1
 服务。您将使用 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)，它的书籍评级数据保存在 MongoDB 数据库中。您会将此数据库部署在集群外部，并配置 `ratings`
 微服务使用它。您将学习控制到外部 MongoDB 服务流量的多种选择及其利弊。
 
-## 使用外部 ratings 数据库的 Bookinfo {#Bookinfo-with-external-ratings-database}
+## 使用外部 ratings 数据库的 Bookinfo {#bookinfo-with-external-ratings-database}
 
 首先，在您的 Kubernetes 集群外部建立一个 MongoDB 数据库实例以保存书籍评级数据。然后修改 [Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)使用该数据库。
 
-### 建立 ratings 数据库{#setting-up-the-ratings-database}
+### 建立 ratings 数据库 {#setting-up-the-ratings-database}
 
 在这个任务中您将建立一个 [MongoDB](https://www.mongodb.com) 实例。您可以使用任何 MongoDB 实例；我使用 [Compose for MongoDB](https://www.ibm.com/cloud/compose/mongodb)。
 
@@ -83,7 +83,7 @@ target_release: 1.1
     bye
     {{< /text >}}
 
-### Bookinfo 应用程序的初始设置{#Initial-setting-of-Bookinfo-application}
+### Bookinfo 应用程序的初始设置 {#initial-setting-of-bookinfo-application}
 
 为了演示使用外部数据库的场景，请首先运行一个[安装了 Istio](/zh/docs/setup/getting-started/) 的 Kubernetes 集群。然后部署
 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/)并[应用默认 destination rules](/zh/docs/examples/bookinfo/#apply-default-destination-rules) 和[改变 Istio 到 blocking-egress-by-default 策略](/zh/docs/tasks/traffic-management/egress/egress-control/#change-to-the-blocking-by-default-policy)。
@@ -97,7 +97,7 @@ target_release: 1.1
 
 {{< image width="80%" link="/zh/docs/examples/bookinfo/withistio.svg" caption="The original Bookinfo application" >}}
 
-### 在 Bookinfo 应用程序中使用外部数据库{#use-the-external-database-in-Bookinfo-application}
+### 在 Bookinfo 应用程序中使用外部数据库 {#use-the-external-database-in-bookinfo-application}
 
 1. 部署使用 MongoDB 数据库的 _ratings_ 微服务（_ratings v2_）：
 
@@ -131,7 +131,7 @@ target_release: 1.1
 
 请注意，MongoDB 数据库位于 Istio 服务网格之外，或者更确切地说是在 Kubernetes 集群之外。服务网格的边界使用虚线标记。
 
-### 访问网页{#access-the-webpage}
+### 访问网页 {#access-the-webpage}
 
 [确认 ingress IP 和端口之后](/zh/docs/examples/bookinfo/#determine-the-ingress-IP-and-port)，访问应用程序的网页。
 
@@ -141,7 +141,7 @@ target_release: 1.1
 
 在以下部分中，您将使用不同的 Istio egress 控制选项，配置对外部 MongoDB 服务的访问。
 
-## TCP 的 egress 控制{#egress-control-for-TCP}
+## TCP 的 egress 控制 {#egress-control-for-tcp}
 
 由于 [MongoDB 协议](https://zh/docs.mongodb.com/manual/reference/mongodb-wire-protocol/)运行在 TCP 之上，您可以像控制到[其余 TCP 服务](/zh/blog/2018/egress-tcp/)的流量一样控制到 MongoDB 的 egress 流量。为了控制 TCP 流量，您必须指定一个 [CIDR](https://tools.ietf.org/html/rfc2317) 表示的 IP 块，该 IP 块包含 MongoDB 的地址。需要注意的是，有时候 MongoDB 主机的 IP 并不稳定或无法事先得知。
 
@@ -153,7 +153,7 @@ target_release: 1.1
 $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 {{< /text >}}
 
-### 在没有 gateway 的情况下控制 TCP egress 流量{#control-TCP-egress-traffic-without-a-gateway}
+### 在没有 gateway 的情况下控制 TCP egress 流量 {#control-tcp-egress-traffic-without-a-gateway}
 
 如果您不用通过 [egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case) 定向流量，例如不要求所有流量都通过 gateway 流出网格时，请遵循以下部分的说明。或者，如果您确实希望通过 egress gateway 定向流量，请继续阅读[通过 egress gateway 定向 TCP egress 流量](#direct-tcp-egress-traffic-through-an-egress-gateway)。
 
@@ -193,7 +193,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1. 如果要通过出口网关引导流量，请继续下一节。否则，请执行 [cleanup](#cleanup-of-TCP-egress-traffic-control).
 
-### 通过 egress gateway 定向 TCP Egress 流量{#direct-TCP-egress-traffic-through-an-egress-gateway}
+### 通过 egress gateway 定向 TCP Egress 流量 {#direct-tcp-egress-traffic-through-an-egress-gateway}
 
 在本节中，您将处理通过 [egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case) 定向流量的情况。Sidecar 代理通过匹配 MongoDB 主机的 IP 地址（一个 32 位长度的 CIDR 块），将 TCP 连接从 MongoDB 客户端路由到 egress gateway。Egress gateway 按照其 hostname，转发流量到 MongoDB 主机。
 
@@ -205,7 +205,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
    如果你不想开启双向 TLS，参考 [Mutual TLS between the sidecar proxies and the egress gateway](#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway) 小节
   否则，请继续以下部分。
 
-#### 配置从 sidecar 到 egress gateway 的 TCP 流量{#configure-TCP-traffic-from-sidecars-to-the-egress-gateway}
+#### 配置从 sidecar 到 egress gateway 的 TCP 流量 {#configure-tcp-traffic-from-sidecars-to-the-egress-gateway}
 
 1. 定义 `EGRESS_GATEWAY_MONGODB_PORT` 环境变量来保存用于通过 egress gateway 定向流量的端口，例如 `7777`。必须选择没有被网格中其余 service 使用的端口。
 
@@ -315,7 +315,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1. [验证 TCP egress 流量是否被定向到 egress gateway](#verify-that-egress-traffic-is-directed-through-the-egress-gateway).
 
-#### Sidecar 代理和 egress gateway 之间的双向 TLS{#mutual-TLS-between-the-sidecar-proxies-and-the-egress-gateway}
+#### Sidecar 代理和 egress gateway 之间的双向 TLS {#mutual-tls-between-the-sidecar-proxies-and-the-egress-gateway}
 
 1. 删除前面小节中的配置：
 
@@ -430,7 +430,7 @@ $ export MONGODB_IP=$(host $MONGODB_HOST | grep " has address " | cut -d" " -f4)
 
 1. 继续下一节。
 
-#### 验证 TCP egress 流量是否通过 egress gateway 定向{#verify-that-egress-traffic-is-directed-through-the-egress-gateway}
+#### 验证 TCP egress 流量是否通过 egress gateway 定向 {#verify-that-egress-traffic-is-directed-through-the-egress-gateway}
 
 1. 再次刷新应用程序的网页，并验证等级是否仍正确显示。
 
@@ -453,7 +453,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo mongo --ignore-not-foun
 $ kubectl delete policy istio-egressgateway -n istio-system --ignore-not-found=true
 {{< /text >}}
 
-## TLS egress 控制{#egress-control-for-TLS}
+## TLS egress 控制 {#egress-control-for-tls}
 
 在现实生活中，绝大多数到外部服务的通信都必须被加密，而 [MongoDB 协议在 TLS 之上运行](https://zh/docs.mongodb.com/manual/tutorial/configure-ssl/)。
 并且，TLS 客户端经常发送[服务器名称指示](https://en.wikipedia.org/wiki/Server_Name_Indication)，SNI，作为握手的一部分。
@@ -469,7 +469,7 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
 
 如果上述命令打印了一个服务器返回的证书，说明该服务器支持 TLS。如果没有，您就需要像前面小节描述的一样在 TCP 层面控制 MongoDB egress 流量。
 
-### 无 gateway 情况下控制 TLS egress 流量{#control-TLS-egress-traffic-without-a-gateway}
+### 无 gateway 情况下控制 TLS egress 流量 {#control-tls-egress-traffic-without-a-gateway}
 
 如果您[不需要 egress gateway](/zh/docs/tasks/traffic-management/egress/egress-gateway/#use-case)，请遵循本小节中的说明。
 如果您需要通过 egress gateway 定向流量，请继续阅读[通过 egress gateway 定向 TCP Egress 流量](#direct-tcp-egress-traffic-through-an-egress-gateway)。
@@ -495,7 +495,7 @@ $ openssl s_client -connect $MONGODB_HOST:$MONGODB_PORT -servername $MONGODB_HOS
 
 1. 刷新应用程序的网页。应用程序应该正确显示评级数据。
 
-#### 清理 TLS 的 egress 配置{#cleanup-of-the-egress-configuration-for-TLS}
+#### 清理 TLS 的 egress 配置 {#cleanup-of-the-egress-configuration-for-tls}
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -696,7 +696,7 @@ Egress gateway 在 443 端口上接受 MongoDB 流量，按照 SNI 匹配 MongoD
 
 1. [验证 TCP egress 流量是否通过 egress gateway 定向](#verify-that-egress-traffic-is-directed-through-the-egress-gateway)
 
-#### 清除通过 egress gateway 定向 TLS Egress 流量的配置{#cleanup-directing-TLS-Egress-traffic-through-an-egress-gateway}
+#### 清除通过 egress gateway 定向 TLS Egress 流量的配置 {#cleanup-directing-tls-Egress-traffic-through-an-egress-gateway}
 
 {{< text bash >}}
 $ kubectl delete serviceentry mongo
@@ -705,7 +705,7 @@ $ kubectl delete virtualservice direct-mongo-through-egress-gateway
 $ kubectl delete destinationrule egressgateway-for-mongo
 {{< /text >}}
 
-### 启用到任意通配符域名的 MongoDB TLS egress 流量{#enable-MongoDB-TLS-egress-traffic-to-arbitrary-wildcarded-domains}
+### 启用到任意通配符域名的 MongoDB TLS egress 流量 {#enable-mongodb-tls-egress-traffic-to-arbitrary-wildcarded-domains}
 
 有时，您希望将 egress 流量配置为来自同一域的多个主机名，例如到 `*.<your company domain>.com` 中的所有 MongoDB service。
 您不希望创建多个配置项，而是一个用于公司中所有 MongoDB service 的通用配置项。
@@ -718,7 +718,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
 要为通配符域名配置 egress gateway 流量，
 您需要使用[一个额外的 SNI 代理](/zh/docs/tasks/traffic-management/egress/wildcard-egress-hosts/#wildcard-configuration-for-arbitrary-domains)来部署一个自定义的 egress gateway。由于 Envoy（Istio egress gateway 使用的标准代理）目前的限制，这是必须的。
 
-#### 准备一个 SNI 代理使用新的 egress gateway{#prepare-a-new-egress-gateway-with-an-SNI-proxy}
+#### 准备一个 SNI 代理使用新的 Egress Gateway {#prepare-a-new-egress-gateway-with-an-sni-proxy}
 
 在本节中，除了标准的 Istio Envoy 代理之外，您还将部署具有 SNI 代理的 egress gateway。您可以使用任何能够根据任意未预先配置的 SNI 值路由流量的 SNI 代理；我们使用 [Nginx](http://nginx.org) 来实现这一功能。
 
@@ -852,7 +852,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     EOF
     {{< /text >}}
 
-#### 使用新 egress gateway 配置到 `*.com` 的访问{#configure-access-to-com-using-the-new-egress-gateway}
+#### 使用新 egress gateway 配置到 `*.com` 的访问 {#configure-access-to-com-using-the-new-egress-gateway}
 
 1. 为 `*.com` 定义一个 `ServiceEntry`：
 
@@ -1023,7 +1023,7 @@ $ kubectl delete destinationrule egressgateway-for-mongo
     127.0.0.1 [23/Aug/2018:03:28:18 +0000] TCP [<your MongoDB host>]200 2590 1248 0.095
     {{< /text >}}
 
-#### 理解原理{#understanding-what-happened}
+#### 理解原理 {#understanding-what-happened}
 
 在本节中，您使用通配符域名为您的 MongoDB 主机配置了 egress 流量。对于单个 MongoDB 主机使用通配符域名没有任何好处（可以指定确切的主机名），
 而当集群中的应用程序需要访问多个匹配某个通配符域名的 MongoDB 主机时可能有用。
@@ -1033,7 +1033,7 @@ egress 流量可以使用针对泛域名 `*.composedb.com` 的单个配置实现
 当配置一个应用使用另一个主机名匹配本小节中的通配符域名的 MongoDB 实例时，不需要额外的 Istio 配置。
 我将这留作一个练习，让读者自行验证。
 
-#### 清理到任意通配符域名的 MongoDB TLS egress 流量的配置{#cleanup-of-configuration-for-MongoDB-TLS-egress-traffic-to-arbitrary-wildcarded-domains}
+#### 清理到任意通配符域名的 MongoDB TLS egress 流量的配置{#cleanup-of-configuration-for-mongodb-tls-egress-traffic-to-arbitrary-wildcarded-domains}
 
 1. 删除针对 `*.com` 的配置项：
 
@@ -1061,7 +1061,7 @@ egress 流量可以使用针对泛域名 `*.composedb.com` 的单个配置实现
     $ rm ./nginx-sni-proxy.conf
     {{< /text >}}
 
-## 清理{#cleanup}
+## 清理 {#cleanup}
 
 1. 删除`bookinfo`用户：
 
@@ -1102,7 +1102,7 @@ egress 流量可以使用针对泛域名 `*.composedb.com` 的单个配置实现
     deployment "ratings-v2" deleted
     {{< /text >}}
 
-## 总结{#conclusion}
+## 总结 {#conclusion}
 
 在这篇博文中，我演示了 MongoDB egress 流量控制的各种选项。您可以在 TCP 或 TLS 层面上控制 MongoDB egress 流量。
 根据您的组织的安全需求，在 TCP 和 TLS 场景下您都可以将流量从 sidecar 代理定向到外部 MongoDB 主机

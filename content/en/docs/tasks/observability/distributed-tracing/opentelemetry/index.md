@@ -1,20 +1,24 @@
 ---
 title: OpenTelemetry
-description: Learn how to configure the proxies to send OpenTelemetry traces to a Collector.
-weight: 10
+description: Learn how to configure the proxies to send traces in OpenTelemetry format.
+weight: 5
 keywords: [telemetry,tracing,opentelemetry,span,port-forwarding]
 aliases:
  - /docs/tasks/telemetry/distributed-tracing/opentelemetry/
+ - /docs/tasks/observability/distributed-tracing/lightstep/
+ - /latest/docs/tasks/observability/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
+[OpenTelemetry](https://opentelemetry.io/) (OTel) is a vendor-neutral, open source observability framework for instrumenting, generating, collecting, and exporting telemetry data. [OpenTelemetry Protocol](https://opentelemetry.io/docs/specs/otlp/) (OTLP) traces can be sent to [Jaeger](/docs/tasks/observability/distributed-tracing/jaeger/), as well as many commercial services.
+
+To learn how Istio handles tracing, visit this task's [overview](../overview/).
+
 After completing this task, you will understand how to have your application participate in tracing with [OpenTelemetry](https://www.opentelemetry.io/), regardless of the language, framework, or platform you use to build your application.
 
 This task uses the [Bookinfo](/docs/examples/bookinfo/) sample as the example application and the
-[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as the receiver of traces.
-
-To learn how Istio handles tracing, visit this task's [overview](../overview/).
+[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) as the receiver of traces. To see an example of how to send traces directly to an OTLP compatible backend, see the [Jaeger task](/docs/tasks/observability/distributed-tracing/jaeger/).
 
 ## Deploy the OpenTelemetry Collector
 

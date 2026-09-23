@@ -89,7 +89,7 @@ resources via its proxy immediately upon its boot.
 
 Sometimes stale endpoints could make Pilot become unhealthy. [We fixed that](https://github.com/istio/istio/issues/25112).
 
-The [Istio Operator](/docs/setup/install/operator/)
+The [Istio Operator](https://archive.istio.io/v1.23/docs/setup/install/operator/)
 is a great way to install Istio, as it automates a fair amount of toil. Canary
 control plane deployments are also important; they allow ultra-safe upgrades of
 Istio. Unfortunately, you couldn't use them together - [until now](/docs/setup/upgrade/#canary-upgrades).

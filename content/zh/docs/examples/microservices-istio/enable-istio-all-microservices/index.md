@@ -49,7 +49,7 @@ test: no
     productpage-v1-59b4f9f8d5-d4prx   2/2       Running   0          2m
     ratings-v1-b7b7fbbc9-sggxf        2/2       Running   0          2m
     reviews-v2-dfbcf859c-27dvk        2/2       Running   0          2m
-    sleep-88ddbcfdd-cc85s             1/1       Running   0          7h
+    curl-88ddbcfdd-cc85s              1/1       Running   0          7h
     {{< /text >}}
 
 1.  通过您[之前](/zh/docs/examples/microservices-istio/bookinfo-kubernetes/#update-your-etc-hosts-configuration-file)在

@@ -11,18 +11,22 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import { listen } from "./utils";
+import { click } from "./constants";
 declare class Popper {
     constructor(a: HTMLElement, b: HTMLElement, c: any);
     public destroy(): void;
 }
+
+// Path to the SVG icon sprite file
+declare var iconFile: string;
 
 // tracks any overlay displayed on the page (e.g. menu or popover)
 let overlay: HTMLElement | null = null;
 let popper: Popper | null = null;
 
 // show/hide the specific overlay
-function toggleOverlay(element: HTMLElement): void {
+export function toggleOverlay(element: HTMLElement): void {
     if (overlay === element) {
         closeActiveOverlay();
     } else {
@@ -35,7 +39,7 @@ function toggleOverlay(element: HTMLElement): void {
 }
 
 // explicitly show the specific overlay
-function showOverlay(element: HTMLElement): void {
+export function showOverlay(element: HTMLElement): void {
     if (overlay === element) {
         return;
     }
@@ -45,7 +49,7 @@ function showOverlay(element: HTMLElement): void {
 }
 
 // explicitly close the active overlay
-function closeActiveOverlay(): void {
+export function closeActiveOverlay(): void {
     if (overlay) {
         overlay.classList.remove("show");
         overlay = null;
@@ -57,7 +61,7 @@ function closeActiveOverlay(): void {
     }
 }
 
-function handleOverlays(): void {
+export function handleOverlays(): void {
     // Attach a popper to the given anchor
     function attachPopper(anchor: HTMLElement, element: HTMLElement): void {
         if (popper) {

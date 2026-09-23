@@ -1,7 +1,7 @@
 ---
 title: Jaeger
 description: 了解如何配置代理以向 Jaeger 发送追踪请求。
-weight: 10
+weight: 6
 keywords: [telemetry,tracing,jaeger,span,port-forwarding]
 aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/jaeger/
@@ -16,22 +16,58 @@ test: yes
 
 要了解 Istio 如何处理追踪，请查看这个任务的[概述](../overview/)。
 
-## 开始之前{#before-you-begin}
+## 开始之前 {#before-you-begin}
 
 1. 根据 [Jaeger 安装](/zh/docs/ops/integrations/jaeger/#installation )文档将
    Jaeger 安装到您的集群中。
 
-1. 启用追踪时，您可以设置 Istio 用于追踪的 Sampling Rate。
-    安装时使用 `meshConfig.defaultConfig.tracing.sampling`
-    [设置 Sampling Rate](/zh/docs/tasks/observability/distributed-tracing/configurability/#customizing-trace-sampling)。
-    默认的 Sampling Rate 为 1%。
-
 1. 部署 [Bookinfo](/zh/docs/examples/bookinfo/#deploying-the-application) 示例应用程序。
 
-## 访问仪表盘{#accessing-the-dashboard}
+## 配置 Istio 进行分布式链路追踪 {#configure-istio-for-distributed-tracing}
 
-[远程访问遥测插件](/zh/docs/tasks/observability/gateways)详细介绍了如何通过网关配置对
-Istio 插件的访问。
+### 配置扩展提供程序 {#configure-an-extension-provider}
+
+使用引用 Jaeger 收集器服务的[扩展提供程序](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider)安装 Istio：
+
+{{< text bash >}}
+$ cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+      tracing: {} # 禁用旧版 MeshConfig 链路追踪选项
+    extensionProviders:
+    - name: jaeger
+      opentelemetry:
+        port: 4317
+        service: jaeger-collector.istio-system.svc.cluster.local
+EOF
+$ istioctl install -f ./tracing.yaml --skip-confirmation
+{{< /text >}}
+
+### 开启链路追踪 {#enable-tracing}
+
+通过应用以下配置启用链路追踪：
+
+{{< text bash >}}
+$ kubectl apply -f - <<EOF
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: jaeger
+EOF
+{{< /text >}}
+
+## 访问仪表盘 {#accessing-the-dashboard}
+
+[远程访问遥测插件任务](/zh/docs/tasks/observability/gateways)详细说明了如何通过网关配置对 Istio 插件的访问。
 
 对于测试（或临时访问），您也可以使用端口转发。假设已将 Jaeger 部署到 `istio-system`
 命名空间，请使用以下内容：

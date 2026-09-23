@@ -1,7 +1,7 @@
 ---
 title: Apache SkyWalking
 description: 学习如何配置代理将链路追踪请求发送到 Apache SkyWalking。
-weight: 10
+weight: 8
 keywords: [telemetry,tracing,skywalking,span,port-forwarding]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
@@ -16,7 +16,7 @@ test: yes
 
 ## 配置链路追踪  {#configure-tracing}
 
-如果您使用了 `IstioOperator` CR 来安装 Istio，请将以下字段添加到您的配置：
+如果您使用了 `IstioOperator` 配置来安装 Istio，请将以下字段添加到您的配置：
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -64,7 +64,7 @@ SkyWalking 部署到集群中。
 
 ## 访问仪表板  {#accessing-dashboard}
 
-[远程访问遥测插件](/zh/docs/tasks/observability/gateways)详细说明了如何配置通过
+[远程访问遥测插件任务](/zh/docs/tasks/observability/gateways)详细说明了如何配置通过
 Gateway 访问 Istio 插件。
 
 对于测试（和临时访问），您也可以使用端口转发。

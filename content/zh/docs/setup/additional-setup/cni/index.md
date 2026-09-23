@@ -28,7 +28,7 @@ Istio CNI 节点代理在 {{< gloss "sidecar" >}}Ambient{{< /gloss >}} 数据平
 除此之外，它还会安装一个**链式** CNI 插件或云提供商使用的集群 CNI，
 其中这种链式 CNI 插件设计为分层堆叠在另一个先前安装的主接口
 CNI（例如 [Calico](https://docs.projectcalico.org)）之上。
-有关详细信息，请参阅[与 CNI 的兼容性](#compatibility-with-other-cnis)。
+有关详细信息，请参阅[与 CNI 的兼容性](/zh/docs/setup/additional-setup/cni/#compatibility-with-other-cnis)。
 {{< /tip >}}
 
 按照本指南安装、配置和使用具有 Sidecar 数据平面模式的 Istio CNI 节点代理。
@@ -151,7 +151,7 @@ $ helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled=true 
 则可能未正确设置流量重定向，流量将能够绕过 Istio Sidecar。
 
 对于 Sidecar 数据平面模式，此竞争条件可通过“检测和修复”方法缓解。
-请参阅[竞争条件和缓解](#race-condition-mitigation)部分以了解此缓解措施的含义以及配置说明。
+请参阅[竞争条件和缓解](/zh/docs/setup/additional-setup/cni/#race-condition--mitigation)部分以了解此缓解措施的含义以及配置说明。
 {{< /tip >}}
 
 ### 处理修订的 Init 容器注入 {#handling-init-container-injection-for-revisions}
@@ -231,6 +231,81 @@ CNI DaemonSet 将检测并处理任何卡在这种状态的 Pod；如何处理 P
 | `values.cni.repair.labelPods`  | 更新 Pod | Pod 仅带有标签。用户需要采取手动措施来解决。                   |                  |
 | `values.cni.repair.repairPods` | 无      | Pod 会动态地重新配置以获得适当的配置。当容器重新启动时，Pod 将继续正常执行。 | 1.21 及更高版本中的默认设置 |
 
+### 移除污点控制器 {#untaint-controller}
+
+当 CNI 代理尚未准备好时，上述修复机制可解决已在节点上调度的 Pod。
+然而，在某些环境中（特别是使用自动缩放器时），
+在该节点上调度 `istio-cni` `DaemonSet` Pod 之前，
+新节点可能变得可调度。在此类节点上启动的 Pod
+（尤其是那些具有 `restartPolicy: Never` 的节点，
+如 Kubernetes `Job` Pod）可能会在修复机制干预之前永久失败。
+
+Untaint 控制器通过主动控制新节点何时接受工作负载 Pod 来解决这个根本原因。
+当新节点添加到集群时，集群运营商/所有者负责让其基础设施提供商设置污点。
+启用后，一旦该节点上的 `istio-cni` 节点代理报告就绪，
+Untaint 控制器就会指示 `istiod` 自动从节点中删除
+[`NoSchedule` 污点](https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/taint-and-toleration/)、
+`cni.istio.io/not-ready`，从而保证在 CNI 重定向之前不会调度任何工作负载 pod。可用。
+
+{{< tip >}}
+去污控制器是修复机制的补充，而不是替代。
+使用两者来实现完全覆盖：无污染控制器可防止新节点上的竞争，
+修复机制可处理已运行节点上的边缘情况。
+{{< /tip >}}
+
+#### 何时使用 Untaint 控制器 {#when-to-use-the-untaint-controller}
+
+如果您的集群使用节点自动缩放，并且您的工作负载对由于缺少
+CNI 网络配置而导致的 Pod 启动失败敏感，
+尤其是具有 `restartPolicy: Never` 的 `Job` Pod，
+请启用 Untaint 控制器。
+
+#### 启用 Untaint 控制器 {#enabling-the-untaint-controller}
+
+去污控制器需要两个设置：在 CNI Chart 中启用污点/去污行为，
+并在 `istiod` 中启用控制器：
+
+{{< tabset category-name="gateway-install-type" >}}
+
+{{< tab name="IstioOperator" category-value="iop" >}}
+
+{{< text syntax=yaml snip_id=none >}}
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  values:
+    pilot:
+      taint:
+        enabled: true
+      env:
+        PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS: "true"
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< tab name="Helm" category-value="helm" >}}
+
+使用 Helm 安装 `istio` 时，传递以下值：
+
+{{< text syntax=bash snip_id=none >}}
+$ helm install istiod istio/istiod -n istio-system \
+ --set pilot.taint.enabled=true \
+ --set pilot.env.PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS=true \
+ --wait
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+#### 配置参考 {#configuration-reference}
+
+| 设置                                                  | 描述                                                                                                                                       | 默认值         |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| `values.pilot.taint.enabled`                             | 安装 `istiod` 用于移除节点污点所需的 RBAC 规则。                                                                             | `false`         |
+| `values.pilot.env.PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` | 激活 `istiod` 中的 Untaint 控制器。                                                              | `""`（已禁用） |
+| `values.pilot.taint.namespace`                           | 运行 `istio-cni` 的命名空间；用于监视 CNI DaemonSet 的准备情况。如果未设置，则默认为与`istiod`相同的命名空间。 | `""`            |
+
 ### 流量重定向参数 {#traffic-redirection-parameters}
 
 为了将应用程序 Pod 网络命名空间中的流量重定向到 Istio 代理 Sidecar 或从 Istio 代理 Sidecar 重定向，
@@ -254,8 +329,10 @@ Init 容器在 Sidecar 代理启动之前执行，这可能会导致其执行期
 1. 使用 `runAsUser` 将 Init 容器的 `uid` 设置为 `1337`。
    `1337` 是 [Sidecar 代理使用的 `uid`](/zh/docs/ops/deployment/application-requirements/#pod-requirements)。
    此 `uid` 发送的流量不会被 Istio 的 `iptables` 规则捕获。应用程序容器流量仍将照常被捕获。
-1. 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges` 注解以禁止将流量重定向到与 Init 容器通信的任何 CIDR。
-1. 设置 `traffic.sidecar.istio.io/excludeOutboundPorts` 注解以禁用将流量重定向到 Init 容器使用的特定出站端口。
+1. 设置 `traffic.sidecar.istio.io/excludeOutboundIPRanges`
+   注解以禁止将流量重定向到与 Init 容器通信的任何 CIDR。
+1. 设置 `traffic.sidecar.istio.io/excludeOutboundPorts`
+   注解以禁用将流量重定向到 Init 容器使用的特定出站端口。
 
 {{< tip >}}
 如果启用了 [DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/)，
@@ -263,7 +340,8 @@ Init 容器在 Sidecar 代理启动之前执行，这可能会导致其执行期
 {{< /tip >}}
 
 {{< tip >}}
-某些平台（例如 OpenShift）不使用 `1337` 作为 Sidecar `uid`，而是使用仅在运行时才知道的伪随机数。在这种情况下，
+某些平台（例如 OpenShift）不使用 `1337` 作为
+Sidecar `uid`，而是使用仅在运行时才知道的伪随机数。在这种情况下，
 您可以利用[自定义注入功能](/zh/docs/setup/additional-setup/sidecar-injection/#customizing-injection)指示代理以预定义的
 `uid` 运行，并将相同的 `uid` 用于 Init 容器。
 {{< /tip >}}
@@ -284,4 +362,5 @@ Istio CNI 插件以链式 CNI 插件的形式运行。这意味着其配置将�
 当 Pod 被创建或删除时，容器运行时会按顺序调用列表中的每个插件。
 
 Istio CNI 插件执行一些操作来设置应用程序 Pod 的流量重定向，比如在 Sidecar 数据平面模式下，
-这意味着在 Pod 的网络命名空间中应用 `iptables` 规则以将 Pod 内的流量重定向到注入的 Istio 代理 Sidecar。
+这意味着在 Pod 的网络命名空间中应用 `iptables`
+规则以将 Pod 内的流量重定向到注入的 Istio 代理 Sidecar。

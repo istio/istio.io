@@ -162,25 +162,8 @@ $ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-ga
 7) 运行下面的 `curl` 命令，模拟在 `X-Forwarded-For` 头中包含代理地址的请求：
 
     {{< text syntax=bash snip_id=curl_xff_headers >}}
-    $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true"
-    {
-    "args": {
-      "show_env": "true"
-    },
-      "headers": {
-      "Accept": ...
-      "Host": ...
-      "User-Agent": ...
-      "X-Envoy-Attempt-Count": ...
-      "X-Envoy-External-Address": "72.9.5.6",
-      "X-Forwarded-Client-Cert": ...
-      "X-Forwarded-For": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
-      "X-Forwarded-Proto": ...
-      "X-Request-Id": ...
-    },
-      "origin": "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1",
-      "url": ...
-    }
+    $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true" | jq '.headers["X-Forwarded-For"][0]'
+      "56.5.6.7, 72.9.5.6, 98.1.2.3,10.244.0.1"
     {{< /text >}}
 
 {{< tip >}}

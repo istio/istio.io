@@ -17,7 +17,7 @@ Mixer 在 [Istio 1.8 版本中被移除](/zh/news/releases/1.8.x/announcing-1.8/
   该解决方案支持与 [OPA 策略代理的集成](https://www.openpolicyagent.org/docs/latest/envoy-introduction/)。
 
 对于自定义进程外适配器，强烈建议迁移到基于 Wasm 的扩展。请参阅有关
-[Wasm 模块开发](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)和[扩展分发](/zh/docs/tasks/extensibility/wasm-module-distribution/)的指南。
+[Wasm 模块开发](https://github.com/istio-ecosystem/wasm-extensions/blob/master/doc/write-a-wasm-extension-with-cpp.md)和[扩展分发](/zh/docs/tasks/extensibility/wasm-modules/)的指南。
 作为临时解决方案，您可以在 [Mixer 中启用 Envoy ext-authz 和 gRPC 访问日志 API 支持](https://github.com/istio/istio/wiki/Enabling-Envoy-Authorization-Service-and-gRPC-Access-Log-Service-With-Mixer)，
 这允许您将 Istio 升级到发布 1.7 版本，同时仍然使用 1.7 Mixer 的进程外适配器。
 这将使您有更多时间迁移到基于 Wasm 的扩展。请注意，此临时解决方案未经实战测试，

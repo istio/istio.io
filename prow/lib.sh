@@ -85,3 +85,46 @@ function setup_kind_cluster() {
     exit 1
   fi
 }
+
+export KIND_REGISTRY_NAME="kind-registry"
+export KIND_REGISTRY_PORT="5000"
+export KIND_REGISTRY="localhost:${KIND_REGISTRY_PORT}"
+export KIND_REGISTRY_DIR="/etc/containerd/certs.d/localhost:${KIND_REGISTRY_PORT}"
+
+# setup_kind_registry creates a local Docker registry container and connects it
+# to the kind network so that kind nodes can pull images from it.
+# Ported from https://github.com/istio/istio/blob/master/prow/lib.sh#L144
+function setup_kind_registry() {
+  # Create a registry container if it is not running already
+  local running
+  running="$(docker inspect -f '{{.State.Running}}' "${KIND_REGISTRY_NAME}" 2>/dev/null || true)"
+  if [[ "${running}" != 'true' ]]; then
+    docker run \
+      -d --restart=always -p "${KIND_REGISTRY_PORT}:5000" --name "${KIND_REGISTRY_NAME}" \
+      registry.istio.io/testing/registry:2
+
+    # Allow kind nodes to reach the registry
+    docker network connect "kind" "${KIND_REGISTRY_NAME}"
+  fi
+
+  for node in $(kind get nodes --name="istio-testing"); do
+    docker exec "${node}" mkdir -p "${KIND_REGISTRY_DIR}"
+    cat <<EOF | docker exec -i "${node}" cp /dev/stdin "${KIND_REGISTRY_DIR}/hosts.toml"
+[host."http://${KIND_REGISTRY_NAME}:5000"]
+EOF
+    kubectl annotate node "${node}" "kind.x-k8s.io/registry=kind-registry:${KIND_REGISTRY_PORT}" --overwrite
+  done
+
+  # Document the local registry
+  cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-registry-hosting
+  namespace: kube-public
+data:
+  localRegistryHosting.v1: |
+    host: "localhost:${KIND_REGISTRY_PORT}"
+    help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
+EOF
+}

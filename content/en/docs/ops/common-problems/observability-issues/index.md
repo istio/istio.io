@@ -22,7 +22,7 @@ when you select a very long date range in Zipkin you will see the traces appeari
 You can also confirm this problem by comparing the date inside a Docker container to outside:
 
 {{< text bash >}}
-$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+$ docker run --entrypoint date registry.istio.io/testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
 {{< /text >}}
 
@@ -52,7 +52,7 @@ The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kube
 1. Verify that the `istio-cni-node` pods are running:
 
     {{< text bash >}}
-    $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
+    $ kubectl -n istio-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-1. If `PodSecurityPolicy` is being enforced in your cluster, ensure the `istio-cni` service account can use a `PodSecurityPolicy` which [allows the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/).
+1. If [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) is enforced in your cluster, ensure the namespace where `istio-cni-node` pods run (by default `istio-system`) uses the `privileged` [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged) profile to allow the `NET_ADMIN` and `NET_RAW` capabilities.

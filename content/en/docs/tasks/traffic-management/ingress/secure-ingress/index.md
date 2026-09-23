@@ -43,6 +43,15 @@ This task requires several sets of certificates and keys which are used in the f
 You can use your favorite tool to create them or use the commands below to generate them using
 [openssl](https://man.openbsd.org/openssl.1).
 
+{{< tip >}}
+The certificates generated below are for testing purposes only. The commands include the
+`-extfile` flag to add a Subject Alternative Name (SAN) extension, which is required by
+modern browsers such as Chrome. Without a SAN, browsers will reject the certificate with
+a `ERR_CERT_COMMON_NAME_INVALID` error. These self-signed certificates will not be trusted
+by browsers automatically; you will need to add them to your browser's trust store or use
+`curl` with the `--cacert` flag for testing.
+{{< /tip >}}
+
 1.  Create a root certificate and private key to sign the certificates for your services:
 
     {{< text bash >}}
@@ -54,7 +63,7 @@ You can use your favorite tool to create them or use the commands below to gener
 
     {{< text bash >}}
     $ openssl req -out example_certs1/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  Create a second set of the same kind of certificates and keys:
@@ -63,21 +72,21 @@ You can use your favorite tool to create them or use the commands below to gener
     $ mkdir example_certs2
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs2/example.com.key -out example_certs2/example.com.crt
     $ openssl req -out example_certs2/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs2/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  Generate a certificate and a private key for `helloworld.example.com`:
 
     {{< text bash >}}
     $ openssl req -out example_certs1/helloworld.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/helloworld.example.com.key -subj "/CN=helloworld.example.com/O=helloworld organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt -extfile <(printf "subjectAltName=DNS:helloworld.example.com")
     {{< /text >}}
 
 1.  Generate a client certificate and private key:
 
     {{< text bash >}}
     $ openssl req -out example_certs1/client.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/client.example.com.key -subj "/CN=client.example.com/O=client organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt -extfile <(printf "subjectAltName=DNS:client.example.com")
     {{< /text >}}
 
 {{< tip >}}
@@ -251,15 +260,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
     The `httpbin` service will return the [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) code.
@@ -282,15 +284,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 1) If you try to access `httpbin` using the previous certificate chain, the attempt now fails:
@@ -490,21 +485,16 @@ EOF
     ...
     {{< /text >}}
 
-1) Send an HTTPS request to `httpbin.example.com` and still get a teapot in return:
+1) Send an HTTPS request to `httpbin.example.com` and still get [HTTP 418](https://datatracker.ietf.org/doc/html/rfc2324) in return:
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
     {{< /text >}}
 
 ### Configure a mutual TLS ingress gateway
@@ -562,10 +552,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-Because the Kubernetes Gateway API does not currently support mutual TLS termination in a
-[Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway),
-we use an Istio-specific option, `gateway.istio.io/tls-terminate-mode: MUTUAL`,
-to configure it:
+Add a reference to a ConfigMap or a Secret with `ca.crt` or `cacert` key that holds CA certificates.
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -576,6 +563,14 @@ metadata:
   namespace: istio-system
 spec:
   gatewayClassName: istio
+  tls:
+    frontend:
+      default:
+        validation:
+          caCertificateRefs:
+          - group: ""
+            kind: Secret
+            name: httpbin-credential
   listeners:
   - name: https
     hostname: "httpbin.example.com"
@@ -585,8 +580,6 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
     allowedRoutes:
       namespaces:
         from: Selector
@@ -628,15 +621,12 @@ EOF
       --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
       "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 ## More info
@@ -646,8 +636,10 @@ EOF
 Istio supports reading a few different Secret formats, to support integration with various tools such as [cert-manager](/docs/ops/integrations/certmanager/):
 
 * A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a `ca.crt` key can be used.
+* A TLS Secret with keys `tls.key` and `tls.crt`, as described above. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `tls.key` and `tls.crt`, and `httpbin-credential-cacert` has `cacert`.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a `cacert` key can be used.
 * A generic Secret with keys `key` and `cert`. For mutual TLS, a separate generic Secret named `<secret>-cacert`, with a `cacert` key. For example, `httpbin-credential` has `key` and `cert`, and `httpbin-credential-cacert` has `cacert`.
+* For mutual TLS, a separate generic Secret with a `cacert` or `ca.crt` key can be referenced with `caCertCredentialName`. It takes precedence over CA certificates in the Secret referenced with `credentialName(s)`.
 * The `cacert` key value can be a CA bundle consisting of concatenated individual CA certificates.
 
 ### SNI Routing

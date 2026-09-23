@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-class KbdNav {
+export class KbdNav {
     private readonly elements: HTMLElement[];
 
     constructor(elements: HTMLElement[]) {

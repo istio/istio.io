@@ -102,7 +102,7 @@ You are impacted by this vulnerability if:
 ### CVE-2021-32778
 
 Envoy contains a remotely exploitable vulnerability where an Envoy client opening and then resetting a large number of HTTP/2 requests could lead to excessive CPU consumption.
-See [CVE-2021-32778](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32778) for for information.
+See [CVE-2021-32778](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-32778) for information.
 
 * CVSS Score: 8.6
 

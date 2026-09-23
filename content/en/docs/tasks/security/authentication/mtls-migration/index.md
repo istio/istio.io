@@ -36,35 +36,35 @@ the policies to enforce STRICT mutual TLS between the workloads.
 
 ## Set up the cluster
 
-* Create two namespaces, `foo` and `bar`, and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [sleep]({{< github_tree >}}/samples/sleep) with sidecars on both of them:
+* Create two namespaces, `foo` and `bar`, and deploy [httpbin]({{< github_tree >}}/samples/httpbin) and [curl]({{< github_tree >}}/samples/curl) with sidecars on both of them:
 
     {{< text bash >}}
     $ kubectl create ns foo
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n foo
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n foo
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n foo
     $ kubectl create ns bar
     $ kubectl apply -f <(istioctl kube-inject -f @samples/httpbin/httpbin.yaml@) -n bar
-    $ kubectl apply -f <(istioctl kube-inject -f @samples/sleep/sleep.yaml@) -n bar
+    $ kubectl apply -f <(istioctl kube-inject -f @samples/curl/curl.yaml@) -n bar
     {{< /text >}}
 
-* Create another namespace, `legacy`, and deploy [sleep]({{< github_tree >}}/samples/sleep) without a sidecar:
+* Create another namespace, `legacy`, and deploy [curl]({{< github_tree >}}/samples/curl) without a sidecar:
 
     {{< text bash >}}
     $ kubectl create ns legacy
-    $ kubectl apply -f @samples/sleep/sleep.yaml@ -n legacy
+    $ kubectl apply -f @samples/curl/curl.yaml@ -n legacy
     {{< /text >}}
 
-* Verify the setup by sending http requests (using curl) from the sleep pods, in namespaces `foo`, `bar` and `legacy`, to `httpbin.foo` and `httpbin.bar`.
+* Verify the setup by sending http requests (using curl) from the curl pods, in namespaces `foo`, `bar` and `legacy`, to `httpbin.foo` and `httpbin.bar`.
     All requests should succeed with return code 200.
 
     {{< text bash >}}
-    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-    sleep.foo to httpbin.foo: 200
-    sleep.foo to httpbin.bar: 200
-    sleep.bar to httpbin.foo: 200
-    sleep.bar to httpbin.bar: 200
-    sleep.legacy to httpbin.foo: 200
-    sleep.legacy to httpbin.bar: 200
+    $ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+    curl.foo to httpbin.foo: 200
+    curl.foo to httpbin.bar: 200
+    curl.bar to httpbin.foo: 200
+    curl.bar to httpbin.bar: 200
+    curl.legacy to httpbin.foo: 200
+    curl.legacy to httpbin.bar: 200
     {{< /text >}}
 
     {{< tip >}}
@@ -100,17 +100,17 @@ spec:
 EOF
 {{< /text >}}
 
-Now, you should see the request from `sleep.legacy` to `httpbin.foo` failing.
+Now, you should see the request from `curl.legacy` to `httpbin.foo` failing.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
-sleep.foo to httpbin.foo: 200
-sleep.foo to httpbin.bar: 200
-sleep.bar to httpbin.foo: 200
-sleep.bar to httpbin.bar: 200
-sleep.legacy to httpbin.foo: 000
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
+curl.foo to httpbin.foo: 200
+curl.foo to httpbin.bar: 200
+curl.bar to httpbin.foo: 200
+curl.bar to httpbin.bar: 200
+curl.legacy to httpbin.foo: 000
 command terminated with exit code 56
-sleep.legacy to httpbin.bar: 200
+curl.legacy to httpbin.bar: 200
 {{< /text >}}
 
 If you installed Istio with `values.global.proxy.privileged=true`, you can use `tcpdump` to verify
@@ -122,7 +122,7 @@ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 {{< /text >}}
 
-You will see plain text and encrypted text in the output when requests are sent from `sleep.legacy` and `sleep.foo`
+You will see plain text and encrypted text in the output when requests are sent from `curl.legacy` and `curl.foo`
 respectively.
 
 If you can't migrate all your services to Istio (i.e., inject Envoy sidecar in all of them), you will need to continue to use `PERMISSIVE` mode.
@@ -145,11 +145,11 @@ spec:
 EOF
 {{< /text >}}
 
-Now, both the `foo` and `bar` namespaces enforce mutual TLS only traffic, so you should see requests from `sleep.legacy`
+Now, both the `foo` and `bar` namespaces enforce mutual TLS only traffic, so you should see requests from `curl.legacy`
 failing for both.
 
 {{< text bash >}}
-$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=sleep -n ${from} -o jsonpath={.items..metadata.name})" -c sleep -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "sleep.${from} to httpbin.${to}: %{http_code}\n"; done; done
+$ for from in "foo" "bar" "legacy"; do for to in "foo" "bar"; do kubectl exec "$(kubectl get pod -l app=curl -n ${from} -o jsonpath={.items..metadata.name})" -c curl -n ${from} -- curl http://httpbin.${to}:8000/ip -s -o /dev/null -w "curl.${from} to httpbin.${to}: %{http_code}\n"; done; done
 {{< /text >}}
 
 ## Clean up the example

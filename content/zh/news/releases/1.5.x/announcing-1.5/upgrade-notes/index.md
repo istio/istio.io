@@ -6,7 +6,7 @@ weight: 20
 
 此页面描述了从 Istio 1.4.x 升级到 1.5.x 时需要注意的更改。在这里，我们详细介绍了有意不再向下兼容情况。还提到了保留向下兼容但引入了新行为的情况，熟悉 Istio 1.4 的使用和操作的人可能会感到惊讶。
 
-## 重构控制平面{#control-plane-restructuring}
+## 重构控制平面 {#control-plane-restructuring}
 
 在 Istio 1.5 中，我们开始使用新的控制平面 deployment 模型，其中整合了许多组件。下面各功能迁移位置的说明。
 
@@ -14,7 +14,7 @@ weight: 20
 
 Istio 1.5，会有一个新的 deployment：`istiod`。该组件是控制平面的核心，负责处理配置、证书分发以及 sidecar 注入等。
 
-### sidecar 注入{#sidecar-injection}
+### sidecar 注入 {#sidecar-injection}
 
 以前，sidecar 注入是通过一个可变的 webhook 处理的，该 webhook 由名为 `istio-sidecar-injector` 的 deployment 处理。在 Istio 1.5 中，保留了相同的可变 webhook，但现在它指向 `istiod` deployment，其它所有注入逻辑保持不变。
 
@@ -28,7 +28,7 @@ Istio 1.5，会有一个新的 deployment：`istiod`。该组件是控制平面�
 
 以前，Citadel 有两个功能：将证书写入至每个命名空间中的 secret、在使用 SDS 时通过 gRPC 将 secret 提供给 `nodeagent`。在 Istio 1.5 中，secret 不再写入至每个命名空间。而是仅通过 gRPC 提供服务。并且，此功能已迁移至 `istiod` deployment。
 
-### SDS 节点代理{#sds-node-agent}
+### SDS 节点代理 {#sds-node-agent}
 
 移除 `nodeagent` deployment。现在，此功能存在于 Envoy sidecar 中。
 
@@ -44,7 +44,7 @@ Istio 1.5，会有一个新的 deployment：`istiod`。该组件是控制平面�
 
 移除 `istio-pilot` deployment，以便支持 `istiod` deployment，`istiod` 包含了 Pilot 曾经拥有的所有功能。为了向下兼容，保留了一些对 Pilot 的引用。
 
-## 弃用 Mixer{#mixer-deprecation}
+## 弃用 Mixer {#mixer-deprecation}
 
 Mixer，即 `istio-telemetry` 和 `istio-policy` deployment 背后的过程，在 1.5 版本中被弃用了。Istio 1.3 开始，默认禁用了 `istio-policy`，而 Istio 1.5 ，默认禁用了 `istio-telemetry`。
 
@@ -56,7 +56,7 @@ Mixer，即 `istio-telemetry` 和 `istio-policy` deployment 背后的过程，�
 
 查看[弃用 Mixer](https://tinyurl.com/mixer-deprecation) 获取详细信息。
 
-### Telemetry V2 和 Mixer Telemetry 的差异{#feature-gaps-between-telemetry-v2-and-mixer-telemetry}
+### Telemetry V2 和 Mixer Telemetry 的差异 {#feature-gaps-between-telemetry-v2-and-mixer-telemetry}
 
 * 不支持网格外遥测。如果流量源或目的地未注入 sidecar，则会缺少某些遥测数据。
 * [不支持](https://github.com/istio/istio/issues/19385) Egress gateway 遥测。
@@ -64,7 +64,7 @@ Mixer，即 `istio-telemetry` 和 `istio-policy` deployment 背后的过程，�
 * 不支持针对 TCP 和 HTTP 的黑洞遥测。
 * 直方图与 [Mixer Telemetry](https://github.com/istio/istio/issues/20483) 显著不同，且无法更改。
 
-## 认证策略{#authentication-policy}
+## 认证策略 {#authentication-policy}
 
 Istio 1.5 引入了 [`PeerAuthentication`](/zh/docs/reference/config/security/peer_authentication/) 和 [`RequestAuthentication`](/zh/docs/reference/config/security/request_authentication) （它们取代了 Authentication API 的 Alpha 版本）。有关新 API 的更多信息，请参见 [authentication policy](/zh/docs/tasks/security/authentication/authn-policy) 教程。
 
@@ -77,12 +77,12 @@ $ kubectl delete policies.authentication.istio.io --all-namespaces --all
 $ kubectl delete meshpolicies.authentication.istio.io --all
 {{< /text >}}
 
-## Istio workload 密钥及证书配置{#Istio-workload-key-and-certificate-provisioning}
+## Istio workload 密钥及证书配置 {#istio-workload-key-and-certificate-provisioning}
 
 * 我们已经稳定了 SDS 证书和密钥配置流程。现在，Istio workload 使用 SDS 来提供证书。不建议再使用通过 secret 卷挂载的方法。
 * 请注意，启用双向 TLS 后，需要手动修改 Prometheus deployment 以监控 workload。详细信息在此 [issue](https://github.com/istio/istio/issues/21843) 中。该问题将在 1.5.1 中解决。
 
-## 控制平面安全{#control-plane-security}
+## 控制平面安全 {#control-plane-security}
 
 作为 Istiod 努力的一部分，我们已经更改了代理与控制平面安全通信的方式。在以前的版本中，当配置了 `values.global.controlPlaneSecurityEnabled=true` 设置时，代理将安全地连接到控制平面，这也是 Istio 1.4 的默认设置。每个控制平面组件都运行带有 Citadel 证书的 sidecar，并且代理通过端口 15011 连接到 Pilot。
 
@@ -90,7 +90,7 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 
 注意：尽管如此，但在 Istio 1.5 中，将 `controlPlaneSecurityEnabled` 设置为 `false` 时，默认情况下控制平面之间的通信已经是安全的。
 
-## 多集群安装{#multicluster-setup}
+## 多集群安装 {#multicluster-setup}
 
 {{< warning >}}
 如果您使用的是多集群，建议您不要升级到 Istio 1.5.0!
@@ -98,6 +98,6 @@ $ kubectl delete meshpolicies.authentication.istio.io --all
 多集群 Istio 1.5.0 目前存在几个已知问题，这些问题（[27102](https://github.com/istio/istio/issues/21702), [21676](https://github.com/istio/istio/issues/21676)）使其在共享控制平面和控制平面副本集 deployment 中均无法使用。这些问题将在 Istio 1.5.1 中解决。
 {{< /warning >}}
 
-## Helm 升级{#helm-upgrade}
+## Helm 升级 {#helm-upgrade}
 
 如果您使用 `helm upgrade` 将群集更新到较新的 Istio 版本，则建议您使用 [`istioctl upgrade`](/zh/docs/setup/upgrade/istioctl-upgrade/) 或遵循 [helm template](/zh/docs/setup/upgrade/cni-helm-upgrade/) 的步骤。

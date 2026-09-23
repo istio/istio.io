@@ -13,7 +13,7 @@ aliases:
 
 {{< relnote >}}
 
-## 变动#{changes}
+## 变动 {#changes}
 
 - **修复** 导致遥测 HPA 设置被在线副本覆盖的问题。([Issue #28916](https://github.com/istio/istio/issues/28916))
 

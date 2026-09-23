@@ -6,7 +6,7 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-Now we have a waypoint proxy installed, we will learn how to split traffic between services.
+Now you have a waypoint proxy installed, you will learn how to split traffic between services.
 
 ## Split traffic between services
 
@@ -40,11 +40,11 @@ EOF
 To confirm that roughly 10% of the of the traffic from 100 requests goes to `reviews-v2`, you can run the following command:
 
 {{< text syntax=bash snip_id=test_traffic_split >}}
-$ kubectl exec deploy/sleep -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
+$ kubectl exec deploy/curl -- sh -c "for i in \$(seq 1 100); do curl -s http://productpage:9080/productpage | grep reviews-v.-; done"
 {{< /text >}}
 
 You'll notice the majority of requests go to `reviews-v1`. You can confirm the same if you open the Bookinfo application in your browser and refresh the page multiple times. Notice the requests from the `reviews-v1` don't have any stars, while the requests from `reviews-v2` have black stars.
 
 ## Next steps
 
-This section concludes the Getting Started guide for ambient mode. You can continue to the [Cleanup](/docs/ambient/getting-started/cleanup) section to remove Istio or continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.
+This section concludes the Getting Started guide for Istio's ambient mode. You can continue to the [Cleanup](/docs/ambient/getting-started/cleanup) section to remove Istio or continue exploring the [ambient mode user guides](/docs/ambient/usage/) to learn more about Istio's features and capabilities.

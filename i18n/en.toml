@@ -7,6 +7,15 @@ other = "Join the Istio discussion board to participate in discussions and get h
 [twitter_desc]
 other = "Follow us on Twitter to get the latest news"
 
+[bluesky_desc]
+other = "Follow us on Bluesky to get the latest news"
+
+[mastodon_desc]
+other = "Follow us on Mastodon to get the latest news"
+
+[linkedin_desc]
+other = "Follow us on LinkedIn to get the latest news"
+
 [stackoverflow_desc]
 other = "Stack Overflow is where you can ask questions and find curated answers on deploying, configuring, and using Istio"
 
@@ -376,3 +385,15 @@ other = "Go to solutions"
 
 [case_study_slogan]
 other = "Read case studies of companies that benefited from implementing Istio"
+
+[archive_banner_text]
+other = "⚠️ This documentation is for an older version (<strong>%s</strong>) and is no longer updated."
+
+[archive_banner_link]
+other = "Read the latest version."
+
+[not_found_message]
+other = "We're sorry, the page you requested cannot be found"
+
+[not_found_explanation]
+other = "The URL may be misspelled or the page you're looking for is no longer available"

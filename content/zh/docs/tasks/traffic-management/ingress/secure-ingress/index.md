@@ -15,7 +15,7 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
 
 {{< boilerplate gateway-api-support >}}
 
-## 准备工作{#before-you-begin}
+## 准备工作  {#before-you-begin}
 
 * 参考[安装指南](/zh/docs/setup/)部署 Istio。
 
@@ -25,20 +25,28 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
     $ kubectl apply -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-* 对于 macOS 用户，请验证您是否使用通过 [LibreSSL](http://www.libressl.org) 库编译的 `curl`：
+* 对于 macOS 用户，请验证您使用的 `curl` 是通过 [LibreSSL](http://www.libressl.org) 库编译而成的：
 
     {{< text bash >}}
     $ curl --version | grep LibreSSL
     curl 7.54.0 (x86_64-apple-darwin17.0) libcurl/7.54.0 LibreSSL/2.0.20 zlib/1.2.11 nghttp2/1.24.0
     {{< /text >}}
 
-    如果上述命令输出的是如图所示的 LibreSSL 版本，则 `curl` 命令应按照此任务中的说明正确运行。
-    否则，请尝试使用 `curl` 的其他实现，例如在 Linux 机器上。
+    如果上述命令输出的是如图所示的 LibreSSL 版本，则 `curl` 命令应正确处理此任务中的各个指令。
+    否则，请尝试在某台 Linux 机器上使用 `curl` 的其他实现。
 
-## 生成客户端和服务器证书和密钥{#generate-client-and-server-certificates-and-keys}
+## 生成客户端和服务器证书和密钥  {#generate-client-and-server-certificates-and-keys}
 
 对于此任务，您可以使用自己喜欢的工具来生成证书和密钥。
 下面的命令使用 [openssl](https://man.openbsd.org/openssl.1)。
+
+{{< tip >}}
+下方生成的证书仅供测试使用。相关命令中包含了 `-extfile` 标志，
+用于添加“主体备用名称”（SAN）扩展；这是 Chrome 等现代浏览器所必需的配置。
+若缺少 SAN，浏览器将拒绝接受该证书，并报错 `ERR_CERT_COMMON_NAME_INVALID`。
+由于这些是自签名证书，浏览器不会自动将其视为可信；因此，
+您需要将其手动添加到浏览器的信任存储中，或者在进行测试时配合 `curl` 命令并使用 `--cacert` 标志。
+{{< /tip >}}
 
 1.  创建用于服务签名的根证书和私钥：
 
@@ -51,7 +59,7 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
 
     {{< text bash >}}
     $ openssl req -out example_certs1/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 0 -in example_certs1/httpbin.example.com.csr -out example_certs1/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  创建第二组相同类型的证书和密钥：
@@ -60,21 +68,21 @@ HTTP 服务。此任务描述如何使用 TLS 或 mTLS 公开安全的 HTTPS 服
     $ mkdir example_certs2
     $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs2/example.com.key -out example_certs2/example.com.crt
     $ openssl req -out example_certs2/httpbin.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs2/httpbin.example.com.key -subj "/CN=httpbin.example.com/O=httpbin organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs2/example.com.crt -CAkey example_certs2/example.com.key -set_serial 0 -in example_certs2/httpbin.example.com.csr -out example_certs2/httpbin.example.com.crt -extfile <(printf "subjectAltName=DNS:httpbin.example.com")
     {{< /text >}}
 
 1.  为 `helloworld.example.com` 生成证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out example_certs1/helloworld.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/helloworld.example.com.key -subj "/CN=helloworld.example.com/O=helloworld organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/helloworld.example.com.csr -out example_certs1/helloworld.example.com.crt -extfile <(printf "subjectAltName=DNS:helloworld.example.com")
     {{< /text >}}
 
 1.  生成客户端证书和私钥：
 
     {{< text bash >}}
     $ openssl req -out example_certs1/client.example.com.csr -newkey rsa:2048 -nodes -keyout example_certs1/client.example.com.key -subj "/CN=client.example.com/O=client organization"
-    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt
+    $ openssl x509 -req -sha256 -days 365 -CA example_certs1/example.com.crt -CAkey example_certs1/example.com.key -set_serial 1 -in example_certs1/client.example.com.csr -out example_certs1/client.example.com.crt -extfile <(printf "subjectAltName=DNS:client.example.com")
     {{< /text >}}
 
 {{< tip >}}
@@ -97,7 +105,7 @@ example.com.key         httpbin.example.com.csr
 
 ### 配置单机 TLS 入口网关 {#configure-a-tls-ingress-gateway-for-a-single-host}
 
-1.  为入口网关创建 Secret:
+1.  为入口网关创建 Secret：
 
     {{< text bash >}}
     $ kubectl create -n istio-system secret tls httpbin-credential \
@@ -109,7 +117,7 @@ example.com.key         httpbin.example.com.csr
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 首先，使用 `servers:` 为 443 端口定义一个网关，并将 `credentialName` 的值设置为 `httpbin-credential`。
 该值与 Secret 的名称相同。TLS 模式的值应为 `SIMPLE`。
@@ -122,7 +130,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 Istio 默认入口网关
   servers:
   - port:
       number: 443
@@ -130,7 +138,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: SIMPLE
-      credentialName: httpbin-credential # must be the same as secret
+      credentialName: httpbin-credential # 必须与 Secret 相同
     hosts:
     - httpbin.example.com
 EOF
@@ -163,14 +171,15 @@ spec:
 EOF
 {{< /text >}}
 
-最后，按照[这些说明](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)
-设置访问网关的 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 变量。
+最后，按照[这些说明](/zh/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports)设置
+`INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 变量以访问网关。
 
 {{< /tab >}}
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-首先，创建一个 [Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)：
+首先，创建一个
+[Kubernetes Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)：
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -246,15 +255,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
     `httpbin` 服务将返回 [418 I'm a Teapot](https://tools.ietf.org/html/rfc7168#section-2.3.3) 代码。
@@ -276,15 +278,8 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     ...
     HTTP/2 418
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 1) 如果您使用之前的证书链来访问 `httpbin`，则会失败：
@@ -300,10 +295,10 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
     * curl: (35) error:04FFF06A:rsa routines:CRYPTO_internal:block type is not 01
     {{< /text >}}
 
-### 为多个主机配置 TLS 入口网关 {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
+### 为多个主机配置 TLS 入口网关  {#configure-a-TLS-ingress-gateway-for-multiple-hosts}
 
 您可以为多个主机（例如 `httpbin.example.com` 和 `helloworld.example.com`）配置入口网关。
-入口网关配置有与每个主机相对应的唯一凭据。
+入口网关配置为使用每个主机对应的唯一凭据。
 
 1.  通过删除并使用原始证书和密钥重新创建 Secret 来恢复上一个示例中的 `httpbin` 凭据：
 
@@ -333,9 +328,9 @@ $ export SECURE_INGRESS_PORT=$(kubectl get gtw mygateway -n istio-system -o json
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
-为 443 端口定义一个具有两个服务器部分的网关。将每个端口上的 `credentialName`
+使用 port 为 443 的两个服务器代码段来定义网关。将每个端口上的 `credentialName`
 值分别设置为 `httpbin-credential` 和 `helloworld-credential`。将 TLS 模式设置为 `SIMPLE`。
 
 {{< text bash >}}
@@ -346,7 +341,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 Istio 默认入口网关
   servers:
   - port:
       number: 443
@@ -480,21 +475,16 @@ EOF
     ...
     {{< /text >}}
 
-1) 向 `httpbin.example.com` 发送一个 HTTPS 请求，仍然返回一个茶壶：
+1) 向 `httpbin.example.com` 发送一个 HTTPS 请求，仍然返回一个 [HTTP 418](https://datatracker.ietf.org/doc/html/rfc2324)：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
     {{< /text >}}
 
 ### 配置双向 TLS 入口网关 {#configure-a-mutual-tls-ingress-gateway}
@@ -516,7 +506,7 @@ EOF
 
     {{< boilerplate crl-tip >}}
 
-    凭据也可以包括 [OCSP Staple](https://datatracker.ietf.org/doc/html/rfc6961)
+    凭据也可以包括 [OCSP Staple](https://datatracker.ietf.org/doc/html/rfc6961)，
     使用参数 `--from-file=tls.ocsp-staple=/some/path/to/your-ocsp-staple.pem` 指定的
     `tls.ocsp-staple` 作为键名。
 
@@ -526,7 +516,7 @@ EOF
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 更改网关的定义以将 TLS 模式设置为 `MUTUAL`。
 
@@ -538,7 +528,7 @@ metadata:
   name: mygateway
 spec:
   selector:
-    istio: ingressgateway # use istio default ingress gateway
+    istio: ingressgateway # 使用 Istio 默认入口网关
   servers:
   - port:
       number: 443
@@ -546,7 +536,7 @@ spec:
       protocol: HTTPS
     tls:
       mode: MUTUAL
-      credentialName: httpbin-credential # must be the same as secret
+      credentialName: httpbin-credential # 必须与 Secret 相同
     hosts:
     - httpbin.example.com
 EOF
@@ -556,8 +546,7 @@ EOF
 
 {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-因为 Kubernetes Gateway API 目前不支持 [Gateway](https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.Gateway)
-中的双向 TLS 终止，所以我们使用 Istio 特定的选项 `gateway.istio.io/tls-terminate-mode: MUTUAL` 来配置它：
+添加对包含 CA 证书的带有 `ca.crt` 或 `cacert` 键的 ConfigMap 或 Secret 的引用。
 
 {{< text bash >}}
 $ cat <<EOF | kubectl apply -f -
@@ -568,6 +557,14 @@ metadata:
   namespace: istio-system
 spec:
   gatewayClassName: istio
+  tls:
+    frontend:
+      default:
+        validation:
+          caCertificateRefs:
+          - group: ""
+            kind: Secret
+            name: httpbin-credential
   listeners:
   - name: https
     hostname: "httpbin.example.com"
@@ -577,8 +574,6 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: httpbin-credential
-      options:
-        gateway.istio.io/tls-terminate-mode: MUTUAL
     allowedRoutes:
       namespaces:
         from: Selector
@@ -611,22 +606,19 @@ EOF
     * OpenSSL SSL_read: error:1409445C:SSL routines:ssl3_read_bytes:tlsv13 alert certificate required, errno 0
     {{< /text >}}
 
-1) 将客户端证书和私钥传递给 `curl` 并重新发送请求。将带有  `--cert` 标志的客户证书和带有 `--key` 标志的私钥传递给 `curl`：
+1) 将客户端证书和私钥传递给 `curl` 并重新发送请求。将带有 `--cert` 标志的客户端证书和带有 `--key` 标志的私钥传递给 `curl`：
 
     {{< text bash >}}
     $ curl -v -HHost:httpbin.example.com --resolve "httpbin.example.com:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
       --cacert example_certs1/example.com.crt --cert example_certs1/client.example.com.crt --key example_certs1/client.example.com.key \
       "https://httpbin.example.com:$SECURE_INGRESS_PORT/status/418"
     ...
-        -=[ teapot ]=-
-
-           _...._
-         .'  _ _ `.
-        | ."` ^ `". _,
-        \_;`"---"`|//
-          |       ;/
-          \_     _/
-            `"""`
+    HTTP/2 418
+    ...
+    server: istio-envoy
+    ...
+    I'm a teapot!
+    ...
     {{< /text >}}
 
 ## 更多信息 {#more-info}
@@ -636,9 +628,14 @@ EOF
 Istio 支持读取几种不同的 Secret 格式，以支持与各种工具的集成，例如 [cert-manager](/zh/docs/ops/integrations/certmanager/)：
 
 * 带有 `tls.key` 和 `tls.crt` 的 TLS Secret，如上所述。对于双向 TLS，`ca.crt` 可以作为密钥。
+* 如上所述，TLS Secret 具有密钥 `tls.key` 和 `tls.crt`。
+  对于双向 TLS，单独的通用 Secret 名为 `<secret>-cacert`，带有 `cacert` 密钥。
+  例如，`httpbin-credential` 具有 `tls.key` 和 `tls.crt`，而 `httpbin-credential-cacert` 具有 `cacert`。
 * 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，`cacert` 可以作为密钥。
 * 带有 `key` 和 `cert` 键的通用 Secret。对于双向 TLS，名为 `<secret>-cacert` 的带有 `cacert` 键的通用 Secret。
   例如，`httpbin-credential` 有 `key` 和 `cert`，`httpbin-credential-cacert` 有 `cacert`。
+* 对于双向 TLS，可以使用 `caCertCredentialName` 引用带有`cacert`或 `ca.crt`
+  键的单独通用 Secret。它优先于使用 `credentialName(s)` 引用的 Secret 中的 CA 证书。
 * `cacert` 键值可以是一个 CA 捆绑包，由串联的各个 CA 证书组成。
 
 ### SNI 路由 {#sni-routing}
@@ -649,7 +646,7 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
 
 ## 问题排查 {#troubleshooting}
 
-*   检查 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量的值。根据以下命令的输出，确保它们具有有效值：
+*   检查 `INGRESS_HOST` 和 `SECURE_INGRESS_PORT` 环境变量的值。根据以下命令的输出，确保这两个环境变量的值有效：
 
     {{< text bash >}}
     $ kubectl get svc -n istio-system
@@ -657,7 +654,7 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
     {{< /text >}}
 
 *   确保 `INGRESS_HOST` 的值是一个 IP 地址。在某些云平台（例如 AWS）中，您可能会得到一个域名而不是 IP 地址。
-    此任务需要一个 IP 地 址，因此您需要使用类似以下的命令进行转换：
+    此任务需要一个 IP 地址，因此您需要使用类似以下的命令进行转换：
 
     {{< text bash >}}
     $ nslookup ab52747ba608744d8afd530ffd975cbf-330887905.us-east-1.elb.amazonaws.com
@@ -670,8 +667,8 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
     $ kubectl logs -n istio-system <gateway-service-pod>
     {{< /text >}}
 
-*   如果使用 macOS，请验证您使用的是使用 [LibreSSL](http://www.libressl.org/) `curl`
-    库编译的，如[准备工作](#before-you-begin)部分中所述。
+*   如果使用 macOS，请验证您使用的 `curl` 是通过 [LibreSSL](http://www.libressl.org/)
+    库编译的，如[准备工作](#before-you-begin)一节中所述。
 
 *   验证已在 `istio-system` 命名空间中成功创建 Secret：
 
@@ -699,7 +696,7 @@ HTTPS `Gateway` 将在转发请求之前对其配置的主机执行 [SNI](https:
 
 {{< tabset category-name="config-api" >}}
 
-{{< tab name="Istio APIs" category-value="istio-apis" >}}
+{{< tab name="Istio API" category-value="istio-apis" >}}
 
 {{< text bash >}}
 $ kubectl delete gateway mygateway

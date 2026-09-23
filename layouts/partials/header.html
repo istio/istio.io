@@ -5,7 +5,7 @@
 <header class="main-navigation {{ if .IsHome }}main-navigation--transparent{{ end }}">
     <nav class="main-navigation-wrapper container-l">
         <div class="main-navigation-header">
-            <a id="brand" href="{{ $home.Permalink }}" aria-label="logotype">
+            <a id="brand" href="{{ $home.Permalink }}" aria-label="Istio">
                 <span class="logo">{{ with resources.Get "inline_images/istio-logo-with-brand.svg" }}{{ .Content | safeHTML }}{{ end }}</span>
             </a>
 
@@ -23,7 +23,26 @@
                 {{ $currentPage := .}}
                 {{ range .Site.Menus.main }}
                     {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
-                    {{ if .HasChildren }}
+                    {{ if and (eq .Identifier "docs") (eq $.Section "docs") (not $.Site.Data.args.archive) }}
+                    <li class="main-navigation-links-item">
+                    <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
+                        <span>{{ .Name }}</span>
+                        {{ partial "icon.html" "dropdown-arrow" }}
+                    </a>
+
+                    <ul class="main-navigation-links-dropdown">
+                        {{ range .Children }}
+                        <li class="main-navigation-links-dropdown-item">
+                            <a href="{{ .URL | relLangURL }}" class="main-navigation-links-link">{{ .Name }}</a>
+                        </li>
+                        {{ end }}
+
+
+                        {{ partial "version-selector.html" $ }}
+
+                    </ul>
+                    </li>
+                    {{else if .HasChildren }}
                         <li class="main-navigation-links-item">
                             <a {{ if ne .URL "" }}href="{{ .URL | relLangURL  }}"{{end}} class="main-navigation-links-link has-dropdown {{ if $active }}active{{ end }}">
                                 <span>{{ .Name }}</span>
@@ -48,11 +67,12 @@
                 {{ end }}
             </ul>
 
+
+
             <div class="main-navigation-footer">
                 <button id="search-show" class="search-show" title='{{ i18n "search" }}' aria-label='{{ i18n "search_label" }}'>{{ partial "icon.html" "magnifier" }}</button>
-                <a href='{{ "/docs/setup/getting-started" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
+                <a href='{{ "/docs/overview/quickstart" | relLangURL }}' class="btn btn--primary" id="try-istio">{{ i18n "try_istio" }}</a>
             </div>
-            
         </div>
 
         <form id="search-form" class="search" name="cse" role="search">
@@ -65,9 +85,11 @@
             {{ end }}
             <input type="hidden" name="ie" value="utf-8" />
             <input type="hidden" name="hl" value="{{ .Page.Lang }}" />
-            <input type="hidden" id="search-page-url" value="{{ "/search" | relLangURL }}" />
+            <input type="hidden" id="search-page-url" value="{{ "/latest/search" | relLangURL }}" />
             <input id="search-textbox" class="search-textbox form-control" name="q" type="search" aria-label='{{ i18n "search" }}' placeholder='{{ i18n "search_label" }}' />
             <button id="search-close" title='{{ i18n "search_cancel" }}' type="reset" aria-label='{{ i18n "search_cancel" }}'>{{ partial "icon.html" "menu-close" }}</button>
         </form>
+
+
     </nav>
 </header>

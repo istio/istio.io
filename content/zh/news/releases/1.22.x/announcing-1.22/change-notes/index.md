@@ -24,10 +24,6 @@ aliases:
   这在进行 TLS 发起时特别有用，允许设置 `port:80, targetPort: 443`。
   如果不需要，请设置 `--compatibilityVersion=1.21` 以恢复到旧行为或删除 `targetPort` 规范。
 
-- **改进** 改进了尽可能利用更少的资源生成 XDS，有时会完全忽略响应。
-  如果需要，可以通过 `PILOT_PARTIAL_FULL_PUSHES=false` 环境变量禁用此功能。
-  ([Issue #37989](https://github.com/istio/istio/issues/37989)),([Issue #37974](https://github.com/istio/istio/issues/37974))
-
 - **新增** 添加了支持完全跳过 CNI 的初始安装。
 
 - **新增** 向 istiod 添加了一个节点污点控制器，一旦 Istio CNI Pod 在该节点上准备就绪，

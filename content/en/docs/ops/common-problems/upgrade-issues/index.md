@@ -61,11 +61,11 @@ spec:
           value: "string(destination.port)"
 {{< /text >}}
 
-### Use the WasmPlugin API for Wasm data plane extensibility
+### Use the TrafficExtension API for Wasm data plane extensibility
 
 The usage of `EnvoyFilter` to inject Wasm filters has been replaced by the
-[WasmPlugin API](/docs/tasks/extensibility/wasm-module-distribution).
-WasmPlugin API allows dynamic loading of the plugins from artifact registries,
+[TrafficExtension API](/docs/tasks/extensibility/wasm-modules).
+The `TrafficExtension` API allows dynamic loading of the plugins from artifact registries,
 URLs, or local files. The "Null" plugin runtime is no longer a recommended option
 for deployment of Wasm code.
 

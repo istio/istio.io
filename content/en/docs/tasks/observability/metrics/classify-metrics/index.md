@@ -78,7 +78,7 @@ spec:
             mode: CLIENT_AND_SERVER
           tagOverrides:
             request_operation:
-              value: istio_operationId
+              value: filter_state['wasm.istio_operationId']
       providers:
         - name: prometheus
     {{< /text >}}
@@ -147,7 +147,7 @@ spec:
             mode: CLIENT_AND_SERVER
           tagOverrides:
             response_code:
-              value: istio_responseClass
+              value: filter_state['wasm.istio_responseClass']
       providers:
         - name: prometheus
     {{< /text >}}

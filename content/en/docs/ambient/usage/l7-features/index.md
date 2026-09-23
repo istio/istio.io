@@ -9,9 +9,11 @@ test: no
 By adding a waypoint proxy to your traffic flow you can enable more of [Istio's features](/docs/concepts). Waypoints are configured using the {{< gloss "gateway api" >}}Kubernetes Gateway API{{< /gloss >}}.
 
 {{< warning >}}
-The Istio classic traffic management APIs (virtual service, destination rules etc) remain at Alpha when used with the ambient data plane mode.
+Usage of VirtualService with the ambient data plane mode is considered Alpha. Mixing with Gateway API configuration is not supported, and will lead to undefined behavior.
+{{< /warning >}}
 
-Mixing Istio classic API and Gateway API configuration is not supported, and will lead to undefined behavior.
+{{< warning >}}
+`EnvoyFilter` is Istio's break-glass API for advanced configuration of Envoy proxies. Please note that *`EnvoyFilter` is not currently supported for any existing Istio version with waypoint proxies*. While it may be possible to use `EnvoyFilter` with waypoints in limited scenarios, its use is not supported, and is actively discouraged by the maintainers. The alpha API may break in future releases as it evolves. We expect official support will be provided at a later date.
 {{< /warning >}}
 
 ## Route and policy attachment
@@ -50,6 +52,8 @@ In ambient mode, authorization policies can either be *targeted* (for ztunnel en
 
 The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attributes is targeted with a workload selector (rather than attached with a `targetRef`), such that it is enforced by a ztunnel, it will fail safe by becoming a `DENY` policy.
 
+A policy attached to a waypoint is only enforced for traffic that actually reaches the waypoint. Traffic can bypass the waypoint, and its Layer 7 policies, when the waypoint does not exist or has no address, or when the traffic type does not match the traffic the waypoint handles (see [Waypoint traffic types](/docs/ambient/usage/waypoint/#waypoint-traffic-types)). To require that traffic traverses the waypoint, pair the waypoint policy with an `AuthorizationPolicy` enforced by ztunnel that allows only the waypoint's identity. See [Require traffic to traverse the waypoint](/docs/ambient/usage/waypoint/#require-waypoint).
+
 See [the L4 policy guide](/docs/ambient/usage/l4-policy/) for more information, including when to attach policies to waypoints for TCP-only use cases.
 
 ## Observability
@@ -58,13 +62,14 @@ The [full set of Istio traffic metrics](/docs/reference/config/metrics/) are exp
 
 ## Extension
 
-As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, the extension mechanisms that are available for Envoy in {{< gloss "sidecar">}}sidecar mode{{< /gloss >}} are also available to waypoint proxies.
+As the waypoint proxy is a deployment of {{< gloss >}}Envoy{{< /gloss >}}, some of the extension mechanisms that are available for Envoy in {{< gloss "sidecar">}}sidecar mode{{< /gloss >}} are also available to waypoint proxies.
 
 |  Name  | Feature Status | Attachment |
 | --- | --- | --- |
+| `TrafficExtension` ‡ | Alpha | `targetRefs` |
 | `WasmPlugin` † | Alpha | `targetRefs` |
-| `EnvoyFilter` | Alpha | `targetRefs` |
 
+‡ [Read more on how to extend waypoints with Lua scripts](/docs/ambient/usage/extend-waypoint-lua/).
 † [Read more on how to extend waypoints with WebAssembly plugins](/docs/ambient/usage/extend-waypoint-wasm/).
 
 Extension configurations are considered policy by the Gateway API definition.

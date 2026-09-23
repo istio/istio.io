@@ -105,7 +105,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-    {{< boilerplate experimental >}}
+    {{< boilerplate alpha >}}
 
     {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
@@ -226,7 +226,7 @@ EOF
 
 First, create a template `WorkloadGroup` for the VM(s):
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -268,7 +268,7 @@ spec:
       app: "${VM_APP}"
   template:
     serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${NETWORK}"
+    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
@@ -315,7 +315,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 
 {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
 
-{{< boilerplate experimental >}}
+{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
 $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
@@ -354,7 +354,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     {{< tab name="Debian" category-value="debian" >}}
 
     {{< text syntax=bash snip_id=none >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -365,7 +365,7 @@ Run the following commands on the virtual machine you want to add to the Istio m
     Note: only CentOS 8 is currently supported.
 
     {{< text syntax=bash snip_id=none >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
     $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}
 

@@ -19,7 +19,7 @@ target_release: 1.1
 我将展示如何使用 _mesh-external service entries_ 在 Istio 中启用外部 HTTPS 流量。最后，
 我解释了当前与 Istio 出口流量控制相关的问题。
 
-## 初始设定{#initial-setting}
+## 初始设定 {#initial-setting}
 
 为了演示使用外部 Web 服务的场景，我首先使用安装了 [Istio](/zh/docs/setup/getting-started/) 的
  Kubernetes 集群, 然后我部署 [Istio Bookinfo 示例应用程序](/zh/docs/examples/bookinfo/),
@@ -39,7 +39,7 @@ target_release: 1.1
 执行[部署应用程序](/zh/docs/examples/bookinfo/#deploying-the-application)、[确认应用正在运行](/zh/docs/examples/bookinfo/#confirm-the-app-is-accessible-from-outside-the-cluster)，以及
 [应用默认目标规则](/zh/docs/examples/bookinfo/#apply-default-destination-rules)中的步骤部分。
 
-### Bookinfo 使用 HTTPS 访问 Google 图书网络服务{#Bookinfo-with-https-access-to-a-google-books-web-service}
+### Bookinfo 使用 HTTPS 访问 Google 图书网络服务 {#bookinfo-with-https-access-to-a-google-books-web-service}
 
 让我们添加一个新版本的 _details_ 微服务，_v2_，从 [Google Books APIs](https://developers.google.com/books/docs/v1/getting_started) 中获取图书详细信息。
 它设定了服务容器的 `DO_NOT_ENCRYPT` 环境变量为 `false`。此设置将指示已部署服务使用 HTTPS（而不是 HTTP ）来访问外部服务。
@@ -81,7 +81,7 @@ $ kubectl apply -f @samples/bookinfo/networking/virtual-service-details-v2.yaml@
 默认情况下，Istio sidecar 代理（[Envoy proxies](https://www.envoyproxy.io)）
 **阻止到集群外目的地的所有流量**, 要启用此类流量，我们必须定义 [mesh-external service entry](/zh/docs/reference/config/networking/service-entry/)。
 
-### 启用对 Google Books 网络服务的 HTTPS 访问{#enable-https-access-to-a-google-books-web-service}
+### 启用对 Google Books 网络服务的 HTTPS 访问 {#enable-https-access-to-a-google-books-web-service}
 
 不用担心，让我们定义**网格外部 `ServiceEntry`** 并修复我们的应用程序。您还必须定义 _virtual
 service_ 使用 [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 对外部服务执行路由。
@@ -148,7 +148,7 @@ serviceentry "googleapis" deleted
 正如我们所看到的，与许多其他 Istio 配置一样，`ServiceEntry` 是**动态定义**的 , Istio 运算符可以动态决定
 它们允许微服务访问哪些域, 他们可以动态启用和禁用外部域的流量，而无需重新部署微服务。
 
-### 清除对 Google 图书网络服务的 HTTPS 访问权限{#cleanup-of-https-access-to-a-google-books-web-service}
+### 清除对 Google 图书网络服务的 HTTPS 访问权限 {#cleanup-of-https-access-to-a-google-books-web-service}
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
@@ -157,7 +157,7 @@ $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 {{< /text >}}
 
-## 由 Istio 发起的 TLS{#TLS-origination-by-Istio}
+## 由 Istio 发起的 TLS {#tls-origination-by-istio}
 
 这个故事有一个警告。假设您要监视您的微服务使用 [Google API](https://developers.google.com/apis-explorer/) 的哪个特定集
 （[书籍](https://developers.google.com/books/docs/v1/getting_started)，[日历](https://developers.google.com/calendar/)，[任务](https://developers.google.com/tasks/)等）
@@ -208,7 +208,7 @@ env:
 
 在下一节中，您将配置 TLS 发起以访问外部 Web 服务。
 
-## 具有 TLS 的 Bookinfo 起源于 Google Books 网络服务{#Bookinfo-with-TLS-origination-to-a-google-books-web-service}
+## 具有 TLS 的 Bookinfo 起源于 Google Books 网络服务 {#bookinfo-with-TLS-origination-to-a-google-books-web-service}
 
 1. 部署 _details v2_ 版本，将 HTTP 请求发送到 [Google Books API](https://developers.google.com/books/docs/v1/getting_started)。
     在 [`bookinfo-details-v2.yaml`]({{<github_file>}}/samples/bookinfo/platform/kube/bookinfo-details-v2.yaml) 中，
@@ -292,7 +292,7 @@ env:
     请注意日志中的 URL 路径，可以监视路径并根据它来应用访问策略。要了解有关 HTTP 出口流量的监控和访问策略
     的更多信息，请查看[归档博客之出口流量监控之日志](https://archive.istio.io/v0.8/blog/2018/egress-monitoring-access-control/#logging)。
 
-### 清除 TLS 原始数据到 Google Books 网络服务{#cleanup-of-TLS-origination-to-a-google-books-web-service}
+### 清除 TLS 原始数据到 Google Books 网络服务 {#cleanup-of-tls-origination-to-a-google-books-web-service}
 
 {{< text bash >}}
 $ kubectl delete serviceentry googleapis
@@ -302,7 +302,7 @@ $ kubectl delete -f @samples/bookinfo/networking/virtual-service-details-v2.yaml
 $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 {{< /text >}}
 
-### Istio 双向 TLS 的关系{#relation-to-Istio-mutual-TLS}
+### Istio 双向 TLS 的关系 {#relation-to-istio-mutual-tls}
 
 请注意，在这种情况下，TLS 的源与 Istio 应用的[双向 TLS](/zh/docs/concepts/security/#mutual-TLS-authentication) 无关,
 无论 Istio 双向 TLS 是否启用，外部服务的 TLS 源都将起作用 , 保证服务网**内**的服务到服务通信，
@@ -310,7 +310,7 @@ $ kubectl delete -f @samples/bookinfo/platform/kube/bookinfo-details-v2.yaml@
 这是用于保护 Web 浏览器和 Web 服务器之间通信的相同机制 , TLS 应用于与外部服务的通信，
 以验证外部服务器的身份并加密流量。
 
-## 结论{#conclusion}
+## 结论 {#conclusion}
 
 在这篇博文中，我演示了 Istio 服务网格中的微服务如何通过 HTTPS 使用外部 Web 服务, 默认情况下，
 Istio 会阻止集群外主机的所有流量, 要启用此类流量，请使用 mesh-external, 必须为服务网格创建 `ServiceEntry` ,

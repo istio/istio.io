@@ -14,7 +14,7 @@ This release note describes what’s different between Istio 1.20.1 and 1.20.2.
 ## Changes
 
 - **Added** configurable scaling behavior for Gateway `HorizontalPodAutoscaler` in the helm chart.
-  ([usage]( https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior))
+  ([usage](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior))
 
 - **Fixed** a bug where overlapping wildcard hosts in a `VirtualService` produces incorrect routing configurations
   when wildcard services were selected (e.g. in `ServiceEntry`).

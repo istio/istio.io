@@ -60,7 +60,7 @@ aliases:
 
 要看全部的变动，请参阅[安装选项变动页面](/zh/news/releases/1.2.x/announcing-1.2/helm-changes/)。
 
-## `istioctl` 和 `kubectl` {#Istio-control-and-Kube-control}
+## `istioctl` 和 `kubectl` {#istioctl-and-kubectl}
 
 - **毕业** `istioctl verify-install` 走出实验标签。
 - **改进** `istioctl verify-install` 可以验证给定的 Kubernetes 环境是否满足 Istio 的要求。

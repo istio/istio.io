@@ -1,6 +1,6 @@
 ---
 title: 升级指南
-description: Istio Ambient 模式升级指南。
+description: Ambient 模式下的 Istio 升级指南。
 weight: 10
 aliases:
   - /zh/docs/ops/ambient/upgrade

@@ -1,5 +1,9 @@
+# We only want istio.io/latest/ indexed.
+# Preliminary and archive sites are excluded.
+
 User-agent: *
-Disallow:
+Disallow: /v0.*
+Disallow: /v1.*
 {{ if not .Site.Data.args.archive_landing -}}
-Sitemap: {{ .Site.BaseURL }}/sitemap.xml
+Sitemap: https://istio.io/sitemap.xml
 {{- end -}}

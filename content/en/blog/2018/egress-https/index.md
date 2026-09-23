@@ -302,9 +302,9 @@ In the next section you will configure TLS origination for accessing an external
 
 1.  Access the web page of the application and verify that the book details are displayed without errors.
 
-1.  [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
+1.  [Enable Envoy's access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
 
-1.  Check the log of of the sidecar proxy of _details v2_ and see the HTTP request.
+1.  Check the log of the sidecar proxy of _details v2_ and see the HTTP request.
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=details -l version=v2 -o jsonpath='{.items[0].metadata.name}') istio-proxy | grep googleapis

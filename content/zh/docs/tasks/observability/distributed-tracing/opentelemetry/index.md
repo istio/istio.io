@@ -1,21 +1,31 @@
 ---
 title: OpenTelemetry
-description: 了解如何配置代理将 OpenTelemetry 链路发送至 Collector。
-weight: 10
+description: 了解如何配置代理以 OpenTelemetry 格式发送链路。
+weight: 5
 keywords: [telemetry,tracing,opentelemetry,span,port-forwarding]
 aliases:
  - /zh/docs/tasks/telemetry/distributed-tracing/opentelemetry/
+ - /zh/docs/tasks/observability/distributed-tracing/lightstep/
+ - /zh/latest/docs/tasks/observability/distributed-tracing/lightstep/
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
+
+[OpenTelemetry](https://opentelemetry.io/) (OTel) 是一个与供应商无关的开源可观测性框架，
+用于检测、生成、收集和导出遥测数据。
+[OpenTelemetry 协议](https://opentelemetry.io/docs/specs/otlp/) (OTLP) 链路可以发送到
+[Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/) 以及许多商业服务。
+
+要了解 Istio 如何处理链路追踪，请访问此任务的[概述](../overview/)。
 
 完成此任务后，无论您使用什么语言、框架或平台来构建应用程序，
 您都将了解如何让您的应用程序接入
 [OpenTelemetry](https://www.opentelemetry.io/) 的链路追踪。
 
-此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/)
-作为示例应用程序，并使用
-[OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) 作为链路接收器。
+此任务使用 [Bookinfo](/zh/docs/examples/bookinfo/) 示例作为示例应用程序，
+并使用 [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) 作为链路接收器。
+要查看如何将链路直接发送到 OTLP 兼容后端的示例，
+请参阅 [Jaeger 任务](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。
 
 要了解 Istio 如何处理链路追踪，请访问此任务的[概述](../overview/)。
 

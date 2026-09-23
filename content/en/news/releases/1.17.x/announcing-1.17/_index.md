@@ -41,7 +41,7 @@ Istio's implementation of the [Gateway API](https://gateway-api.sigs.k8s.io/) ha
 - Enable users to deploy a service with a single or dual stack IP family on a dual stack cluster. For instance, a user can separately deploy 3 services with IPv4 only, IPv6 only and dual stack IP families on a dual stack Kubernetes cluster, enabling these services to be accessible to each other via sidecar.
 - Added extra source address configuration for gateway's listeners to support dual stack mode, so that IPv4 and IPV6 clients outside of the service mesh can access the gateway. This is applicable only for auto deployed gateways via the gateway controller, and the native gateway of Kubernetes should already support dual stack.
 
-This is an experimental feature and is currently under [active development]( https://github.com/istio/istio/issues/40394).
+This is an experimental feature and is currently under [active development](https://github.com/istio/istio/issues/40394).
 
 ### Added support for filter patching in Istio
 
@@ -49,7 +49,7 @@ Added support for listener filter patching which enables users to perform `ADD`,
 
 ### Added support for using `QuickAssist Technology` (QAT) `PrivateKeyProvider` in Istio
 
-Added support for using `QuickAssist Technology` (QAT) `PrivateKeyProvider` in SDS and added corresponding configuration for selecting QAT private key provider for gateways and sidecars. This builds on the fact that Envoy added [support for QAT]( https://github.com/envoyproxy/envoy/issues/21531) as another private key provider in addition to [CryptoMB]( https://istio.io/latest/blog/2022/cryptomb-privatekeyprovider/). For more information on QAT, you can refer [here]( https://www.intel.com/content/www/us/en/developer/articles/technical/envoy-tls-acceleration-with-quickassist-technology.html).
+Added support for using `QuickAssist Technology` (QAT) `PrivateKeyProvider` in SDS and added corresponding configuration for selecting QAT private key provider for gateways and sidecars. This builds on the fact that Envoy added [support for QAT](https://github.com/envoyproxy/envoy/issues/21531) as another private key provider in addition to [CryptoMB](/blog/2022/cryptomb-privatekeyprovider/). For more information on QAT, you can refer [here](https://www.intel.com/content/www/us/en/developer/articles/technical/envoy-tls-acceleration-with-quickassist-technology.html).
 
 ### Enhancements to the `RequestAuth` API
 

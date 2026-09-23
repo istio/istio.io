@@ -3,7 +3,7 @@ title: 基于 Envoy 的跟踪如何工作？
 weight: 11
 ---
 
-对于基于 Envoy 的跟踪集成，Envoy（Sidecar 代理）代表所代理的应用程序将跟踪信息直接发送到跟踪后端。
+在基于 Envoy 的跟踪集成中，Envoy（Sidecar 代理）代表所代理的应用程序将跟踪信息直接发送到后端服务。
 
 Envoy：
 
@@ -12,4 +12,7 @@ Envoy：
 - 将生成的跟踪范围发送到跟踪后端
 - 将跟踪头转发到代理的应用程序
 
-Istio 支持基于 Envoy 的 [LightStep](/zh/docs/tasks/observability/distributed-tracing/lightstep/) 和 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/) 的集成，以及所有与 Zipkin API 兼容的后端，包括 [Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。
+Istio 支持 [OpenTelemetry](/zh/docs/tasks/observability/distributed-tracing/opentelemetry/)
+和兼容的后端，包括 [Jaeger](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。
+其他支持的平台包括 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)
+和 [Apache SkyWalking](/zh/docs/tasks/observability/distributed-tracing/skywalking/)。

@@ -77,11 +77,11 @@ $ istioctl manifest apply --set telemetry.enabled=false
 
 更多信息请参考 Istio [安装说明](/zh/docs/setup/install/istioctl)。
 
-## Istio Controller (alpha){#Istio-controller-alpha}
+## Istio Controller (alpha) {#istio-controller-alpha}
 
 Operator 实现使用 Kubernetes controller 来持续监控它们的自定义资源并应用相应的配置更改。Istio controller 监控一个 `IstioControlPlane` 资源，并通过更新相应集群中的 Istio 安装配置来响应更改。
 
-在 1.4 版中，Istio controller 处于开发的 alpha 阶段，没有完全集成到 `istioctl` 中。但是，可以使用 `kubectl` 命令来做[实验](/zh/docs/setup/install/standalone-operator/)。例如，要将 controller 和默认版本的 Istio 安装到集群中，请运行以下命令:
+在 1.4 版中，Istio controller 处于开发的 alpha 阶段，没有完全集成到 `istioctl` 中。但是，可以使用 `kubectl` 命令来做[实验](https://archive.istio.io/v1.23/docs/setup/install/operator/)。例如，要将 controller 和默认版本的 Istio 安装到集群中，请运行以下命令:
 
 {{< text bash >}}
 $ kubectl apply -f https://<repo URL>/operator.yaml
@@ -98,7 +98,7 @@ $ kubectl edit istiocontrolplane example-istiocontrolplane -n istio-system
 
 Operator controller 和 `istioctl` 命令共享相同的实现。重要的区别在于其执行上下文。对于 `istioctl`，操作在管理用户的命令执行和安全上下文中运行。对于 controller，集群中的一个 pod 在其安全上下文中运行代码。在这两种情况下，都根据一个 schema 来验证配置，并执行相同的正确性检查。
 
-## 从 Helm 迁移{#migration-from-helm}
+## 从 Helm 迁移 {#migration-from-helm}
 
 为了方便从使用 Helm 过渡，`istioctl` 和 controller 支持对 Helm 安装 API 的透传访问。
 
@@ -120,13 +120,13 @@ $ istioctl manifest generate ... --set values.global.mtls.enabled=true
 另一个可以帮助从 Helm 迁移的特性是这个 alpha 命令：[{{< istioctl >}} manifest migrate](/zh/docs/reference/commands/istioctl/#istioctl-manifest-migrate)。
 此命令可用于将 Helm `values.yaml` 文件自动转换为相应的 `IstioControlPlane` 配置。
 
-## 实现{#implementation}
+## 实现 {#implementation}
 
 已经创建了几个框架，通过为部分或所有组件生成存根来帮助实现 Operator。Istio Operator 是在 [kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) 和 [Operator Framework](https://github.com/operator-framework) 的帮助下创建的。Istio 的安装现在使用 proto 来描述 API，这样就可以通过 schema 对执行运行时进行验证。
 
 有关实现的更多信息可以在 [Istio Operator 仓库](https://github.com/istio/operator) 中的 README 和 ARCHITECTURE 文档中找到。
 
-## 总结{#summary}
+## 总结 {#summary}
 
 从 Istio 1.4 开始，Helm 安装将被新的 `istioctl` 命令所取代，该命令使用新的 Operator 自定义资源定义，`IstioControlPlane`，作为配置 API。一个 alpha controller 也被提供用于 Operator 的早期实验。
 

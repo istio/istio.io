@@ -22,6 +22,7 @@ for all of the most important metrics for the mesh and for the control plane.
 * [Performance Dashboard](https://grafana.com/grafana/dashboards/11829) monitors the resource usage of the mesh.
 * [Control Plane Dashboard](https://grafana.com/grafana/dashboards/7645) monitors the health and performance of the control plane.
 * [WASM Extension Dashboard](https://grafana.com/grafana/dashboards/13277) provides an overview of mesh wide WebAssembly extension runtime and loading state.
+* [Ztunnel Dashboard](https://grafana.com/grafana/dashboards/21306) monitors the ztunnel component used in Istio ambient mode.
 
 There are a few ways to configure Grafana to use these dashboards:
 
@@ -55,7 +56,7 @@ $ GRAFANA_DATASOURCE="Prometheus"
 $ # The version of Istio to deploy
 $ VERSION={{< istio_full_version >}}
 $ # Import all Istio dashboards
-$ for DASHBOARD in 7639 11829 7636 7630 7645 13277; do
+$ for DASHBOARD in 7639 11829 7636 7630 7645 13277 21306; do
 $     REVISION="$(curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions -s | jq ".items[] | select(.description | contains(\"${VERSION}\")) | .revision" | tail -n 1)"
 $     curl -s https://grafana.com/api/dashboards/${DASHBOARD}/revisions/${REVISION}/download > /tmp/dashboard.json
 $     echo "Importing $(cat /tmp/dashboard.json | jq -r '.title') (revision ${REVISION}, id ${DASHBOARD})..."
@@ -81,4 +82,4 @@ Grafana can be installed and configured through other methods. To import Istio d
 refer to the documentation for the installation method. For example:
 
 * [Grafana provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards) official documentation.
-* [Importing dashboards](https://github.com/helm/charts/tree/master/stable/grafana#import-dashboards) for the `stable/grafana` Helm chart.
+* [Importing dashboards](https://github.com/grafana/helm-charts/tree/main/charts/grafana#import-dashboards) for the `stable/grafana` Helm chart.

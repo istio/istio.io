@@ -3,7 +3,7 @@ title: 文档在哪里？
 weight: 80
 ---
 
-在 istio.io 查看[文档](/zh/docs/)。
+在 [istio.io](https://istio.io) 查看[文档](/zh/docs/)。
 文档包括[概念概述](/zh/docs/concepts/)、
 [任务指南](/zh/docs/tasks/)、
 [指南](/zh/docs/examples/)、

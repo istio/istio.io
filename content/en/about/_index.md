@@ -6,10 +6,10 @@ sidebar_none: true
 weight: 15
 doc_type: about
 cascade:
-  _build:
+  build:
     render: always
     list: always
-_build:
+build:
   render: never
   list: never
 ---

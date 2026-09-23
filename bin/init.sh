@@ -94,6 +94,11 @@ cp -a "${ISTIO_GO}/tests/integration/iop-integration-test-defaults.yaml" "${ISTI
 cp -a "${ISTIO_GO}/tests/integration/base.yaml" "${ISTIOIO_GO}/tests/integration/"
 sed -i "s/ENABLE_EXTERNAL_NAME_ALIAS: true$/ENABLE_EXTERNAL_NAME_ALIAS: false/" "${ISTIOIO_GO}/tests/integration/base.yaml"
 cp -a "${ISTIO_GO}/manifests" "${ISTIOIO_GO}/manifests"
+# Copy JWT tools from istio/istio (security/tools/jwt/samples/) needed by doc tests
+# in IPv6-only Kind CI: raw.githubusercontent.com is unreachable because Docker's
+# embedded DNS is IPv4-only (kubernetes-sigs/kind#3114).
+cp -a "${ISTIO_GO}/security/tools/jwt/samples/gen-jwt.py" "${ISTIOIO_GO}/tests/util/gen-jwt.py"
+cp -a "${ISTIO_GO}/security/tools/jwt/samples/key.pem"    "${ISTIOIO_GO}/tests/util/key.pem"
 
 # For generating junit.xml files
 function install-junit-report() {

@@ -34,15 +34,6 @@ Default configuration values can be changed using one or more `--set <parameter>
 You can display the default values of configuration parameters using the `helm show values <chart>` command or refer to `artifacthub` chart documentation at [Custom Resource Definition parameters](https://artifacthub.io/packages/helm/istio-official/base?modal=values), [Istiod chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/istiod?modal=values) and [Gateway chart configuration parameters](https://artifacthub.io/packages/helm/istio-official/gateway?modal=values).
 {{< /tip >}}
 
-1. Create the namespace, `istio-system`, for the Istio components:
-    {{< tip >}}
-    This step can be skipped if using the `--create-namespace` argument in step 2.
-    {{< /tip >}}
-
-    {{< text syntax=bash snip_id=create_istio_system_namespace >}}
-    $ kubectl create namespace istio-system
-    {{< /text >}}
-
 1. Install the Istio base chart which contains cluster-wide Custom Resource Definitions (CRDs) which must be installed prior to the deployment of the Istio control plane:
 
     {{< warning >}}
@@ -51,7 +42,7 @@ You can display the default values of configuration parameters using the `helm s
     {{< /warning >}}
 
     {{< text syntax=bash snip_id=install_base >}}
-    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default
+    $ helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace
     {{< /text >}}
 
 1. Validate the CRD installation with the `helm ls` command:
@@ -104,7 +95,6 @@ You can display the default values of configuration parameters using the `helm s
         * https://istio.io/latest/docs/tasks/traffic-management
         * https://istio.io/latest/docs/tasks/security/
         * https://istio.io/latest/docs/tasks/policy-enforcement/
-        * https://istio.io/latest/docs/tasks/policy-enforcement/
       * Review the list of actively supported releases, CVE publications and our hardening guide:
         * https://istio.io/latest/docs/releases/supported-releases/
         * https://istio.io/latest/news/security/
@@ -151,21 +141,33 @@ for example `helm show values istio/gateway`.
 
 ### Migrating from non-Helm installations
 
-If you're migrating from a version of Istio installed using `istioctl` or
-Operator to Helm (Istio 1.5 or earlier), you need to delete your current Istio
-control plane resources and re-install Istio using Helm as described above. When
-deleting your current Istio installation, you must not remove the Istio Custom Resource
-Definitions (CRDs) as that can lead to loss of your custom Istio resources.
+If you're migrating from a version of Istio installed using `istioctl` to Helm, you can have Helm adopt the existing
+resources in-place using the `--take-ownership` flag. This avoids the need to uninstall and reinstall Istio:
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --take-ownership
+$ helm install istiod istio/istiod -n istio-system --take-ownership
+{{< /text >}}
+
+{{< tip >}}
+Helm 4 uses [server-side apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) (SSA) by default.
+If your Istio resources were created by `istioctl`, Helm 4 will fail with field ownership conflicts because the
+resources are managed by `istio-operator`. To work around this, disable SSA:
+
+{{< text syntax=bash >}}
+$ helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
+{{< /text >}}
+
+{{< /tip >}}
 
 {{< warning >}}
-It is highly recommended to take a backup of your Istio resources using steps
-described above before deleting current Istio installation in your cluster.
+It is highly recommended to back up your Istio resources before migrating.
 {{< /warning >}}
 
-You can follow steps mentioned in the
-[Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio) or
-[Operator uninstall guide](/docs/setup/install/operator/#uninstall)
-depending upon your installation method.
+Alternatively, you can uninstall your current Istio installation and reinstall using Helm as described above.
+When uninstalling, do not remove the Istio CRDs — deleting CRDs causes Kubernetes to cascade-delete all
+resources of those types (your `VirtualService`, `DestinationRule`, `AuthorizationPolicy`, etc.).
+See the [Istioctl uninstall guide](/docs/setup/install/istioctl#uninstall-istio).
 
 ## Uninstall
 
@@ -215,7 +217,7 @@ installed above.
 
 If you decide to continue using the old control plane, instead of completing the update,
 you can uninstall the newer revision and its tag by first issuing
-`helm template istiod istio/istiod -s templates/revision-tags.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
+`helm template istiod istio/istiod -s templates/revision-tags-mwc.yaml --set revisionTags={prod-canary} --set revision=canary -n istio-system | kubectl delete -f -`.
 You must then uninstall the revision of Istio that it pointed to by following the uninstall procedure above.
 
 If you installed the gateway(s) for this revision using in-place upgrades, you must also reinstall the gateway(s) for the previous revision manually.
@@ -229,3 +231,27 @@ To delete Istio CRDs installed in your cluster:
 {{< text syntax=bash snip_id=delete_crds >}}
 $ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 {{< /text >}}
+
+## Generate a manifest before installation
+
+You can generate the manifests for each component before installing Istio using the `helm template`
+sub-command.
+For example, to generate a manifest that can be installed with `kubectl` for the `istiod` component:
+
+{{< text syntax=bash snip_id=none >}}
+$ helm template istiod istio/istiod -n istio-system --kube-version {Kubernetes version of target cluster} > istiod.yaml
+{{< /text >}}
+
+The generated manifest can be used to inspect what exactly is installed as well as to track changes to the manifest over time.
+
+{{< tip >}}
+Any additional flags or custom values overrides you would normally use for installation should also be supplied to the `helm template` command.
+{{< /tip >}}
+
+To install the manifest generated above, which will create the `istiod` component in the target cluster:
+
+{{< text syntax=bash snip_id=none >}}
+$ kubectl apply -f istiod.yaml
+{{< /text >}}
+
+{{< boilerplate helm-template-caveats >}}

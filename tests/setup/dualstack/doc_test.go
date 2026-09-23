@@ -36,7 +36,7 @@ func TestDocs(t *testing.T) {
 		Run(istioio.NewTestDocsFunc("dualstack"))
 }
 
-func setupConfig(ctx resource.Context, cfg *istio.Config) {
+func setupConfig(_ resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = `
 meshConfig:
   defaultConfig:
@@ -45,7 +45,6 @@ meshConfig:
 values:
   pilot:
     env:
-      PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING: true
       PILOT_ENABLE_ALPHA_GATEWAY_API: false
       ISTIO_DUAL_STACK: true
   gateways:

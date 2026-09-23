@@ -33,3 +33,53 @@ Include clusters in your deployment **across multiple availability regions
 and zones** within each geographic region. This approach limits the size of the
 {{< gloss "failure domain" >}}failure domains{{< /gloss >}} of your deployment,
 and helps you avoid global failures.
+
+## Run multiple istiod replicas
+
+By default, `istiod` is deployed with a single replica. When that replica
+becomes unavailable — for example, during a node drain or a rolling update — the
+mutating webhook for sidecar injection (`failurePolicy: Fail`) rejects all pod
+creation requests cluster-wide. This effectively makes a single `istiod`
+replica a single point of failure for any operation that creates pods.
+
+To avoid this, set `autoscaleMin` to at least `2` in your Helm values
+override for the `istio/istiod` chart. The chart ships with
+`autoscaleEnabled: true` by default, so the Horizontal Pod Autoscaler
+controls the replica count. Setting the minimum to 2 ensures at least one
+replica remains available during disruptions:
+
+{{< text yaml >}}
+autoscaleMin: 2
+{{< /text >}}
+
+Add the following to your Helm values override for the `istio/istiod` chart
+to spread replicas across nodes and zones.
+Use `requiredDuringSchedulingIgnoredDuringExecution` for node-level separation
+to guarantee replicas run on different nodes. If capacity is insufficient, the
+unschedulable pod surfaces the issue instead of silently colocating both
+replicas on a single node. Use `preferredDuringSchedulingIgnoredDuringExecution`
+for zone-level spreading to avoid blocking scheduling in clusters with fewer
+zones than replicas:
+
+{{< text yaml >}}
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - istiod
+      topologyKey: kubernetes.io/hostname
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - istiod
+        topologyKey: topology.kubernetes.io/zone
+{{< /text >}}

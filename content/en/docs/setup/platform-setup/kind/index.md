@@ -68,7 +68,7 @@ Follow these instructions to prepare a kind cluster for Istio installation.
     Deleting cluster "istio-testing" ...
     {{< /text >}}
 
-## Setup MetalLB for kind
+## Setup LoadBalancer for kind
 
 kind does not have any built-in way to provide IP addresses to your `Loadbalancer` service types, to ensure IP address assignments to `Gateway` Services please consult [this guide](https://kind.sigs.k8s.io/docs/user/loadbalancer/) for more information.
 

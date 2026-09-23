@@ -26,6 +26,8 @@ samples/**
 # copied from istio repository
 tests/integration/**
 manifests/**
+tests/util/gen-jwt.py
+tests/util/key.pem
 
 # certs for test framework
 tools/certs/**
@@ -38,3 +40,12 @@ go/**
 
 # archived site version
 archived_version
+
+# Local Netlify folder
+.netlify
+
+# Local artifacts when running tests
+artifacts
+
+# Certs generated during tests
+certs

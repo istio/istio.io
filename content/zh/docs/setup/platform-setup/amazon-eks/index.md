@@ -8,4 +8,5 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-按照 [Istio 的 EKS 蓝图](https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/istio/)说明在 AWS 云中使用 Istio 设置配置 EKS 集群。
+按照 [EKS 上的 Istio](https://github.com/aws-samples/istio-on-eks)
+说明在 AWS 云中使用 Istio 设置配置 EKS 集群。

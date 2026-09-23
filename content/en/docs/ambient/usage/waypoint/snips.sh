@@ -37,6 +37,7 @@ istioctl waypoint generate --for service -n default
 }
 
 ! IFS=$'\n' read -r -d '' snip_gen_waypoint_resource_out <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -61,6 +62,7 @@ ENDSNIP
 
 snip_deploy_a_waypoint_proxy_4() {
 kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   labels:
@@ -93,6 +95,14 @@ kubectl label ns default istio.io/use-waypoint=waypoint
 namespace/default labeled
 ENDSNIP
 
+snip_ingress_gateways_and_waypoints_1() {
+kubectl label service reviews istio.io/ingress-use-waypoint=true
+}
+
+! IFS=$'\n' read -r -d '' snip_ingress_gateways_and_waypoints_1_out <<\ENDSNIP
+service/reviews labeled
+ENDSNIP
+
 snip_configure_a_service_to_use_a_specific_waypoint_1() {
 istioctl waypoint apply -n default --name reviews-svc-waypoint
 }
@@ -123,6 +133,77 @@ kubectl label pod -l version=v2,app=reviews istio.io/use-waypoint=reviews-v2-pod
 
 ! IFS=$'\n' read -r -d '' snip_configure_a_pod_to_use_a_specific_waypoint_2_out <<\ENDSNIP
 pod/reviews-v2-5b667bcbf8-spnnh labeled
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_require_traffic_to_traverse_the_waypoint_1 <<\ENDSNIP
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-waypoint
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: reviews
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/reviews-svc-waypoint
+ENDSNIP
+
+snip_shift_traffic_between_waypoints_1() {
+istioctl waypoint apply -n default --name reviews-svc-waypoint-v2
+}
+
+! IFS=$'\n' read -r -d '' snip_shift_traffic_between_waypoints_1_out <<\ENDSNIP
+waypoint default/reviews-svc-waypoint-v2 applied
+ENDSNIP
+
+snip_shift_traffic_between_waypoints_2() {
+kubectl label service reviews istio.io/use-waypoint-canary=reviews-svc-waypoint-v2
+kubectl annotate service reviews istio.io/use-waypoint-canary-weight=5
+}
+
+snip_shift_traffic_between_waypoints_3() {
+kubectl label service reviews istio.io/use-waypoint=reviews-svc-waypoint-v2 --overwrite
+kubectl label service reviews istio.io/use-waypoint-canary-
+kubectl annotate service reviews istio.io/use-waypoint-canary-weight-
+}
+
+snip_invalid_configuration_1() {
+kubectl get service reviews -o jsonpath='{.status.conditions}'
+}
+
+! IFS=$'\n' read -r -d '' snip_configure_a_waypoint_for_crossnamespace_use_1 <<\ENDSNIP
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: egress-gateway
+  namespace: common-infrastructure
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: cross-namespace-waypoint-consumer
+ENDSNIP
+
+snip_configure_resources_to_use_a_crossnamespace_waypoint_proxy_1() {
+kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint=egress-gateway
+}
+
+! IFS=$'\n' read -r -d '' snip_configure_resources_to_use_a_crossnamespace_waypoint_proxy_1_out <<\ENDSNIP
+serviceentries.networking.istio.io/istio-site labeled
+kubectl label serviceentries.networking.istio.io istio-site istio.io/use-waypoint-namespace=common-infrastructure
+serviceentries.networking.istio.io/istio-site labeled
 ENDSNIP
 
 snip_delete_waypoint() {

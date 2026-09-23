@@ -111,7 +111,7 @@ on usage.
 When deploying the gateway in an OpenShift cluster, use the `openshift` profile to override the default values, for example:
 
 {{< text bash >}}
-$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set profile=openshift
+$ helm install istio-ingressgateway istio/gateway -n istio-ingress --set global.platform=openshift
 {{< /text >}}
 
 {{< /tip >}}
@@ -320,7 +320,7 @@ spec:
 When this deployment is created, you will then have two versions of the gateway, both selected by the same Service:
 
 {{< text bash >}}
-$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name"
+$ kubectl get endpoints -n istio-ingress -o "custom-columns=NAME:.metadata.name,PODS:.subsets[*].addresses[*].targetRef.name" 2>/dev/null
 NAME                   PODS
 istio-ingressgateway   istio-ingressgateway-...,istio-ingressgateway-canary-...
 {{< /text >}}

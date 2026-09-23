@@ -27,11 +27,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/extras/zipkin.yaml
 
 参阅 [Zipkin 文档](https://zipkin.io/)开始安装。Zipkin 集成 Istio 使用时无需进行特殊修改。
 
-Zipkin 安装完成后，您需要指定 Istio 代理用来向 Deployment 发送追踪数据。
-可以在安装时通过指定参数 `--set values.global.tracer.zipkin.address=<zipkin-collector-address>:9411`
-进行配置。更高级配置例如：TLS 配置可以参考
-[`ProxyConfig.Tracing`](/zh/docs/reference/config/istio.mesh.v1alpha1/#Tracing) 链接。
-
 ## 使用 {#usage}
 
-有关使用 Zipkin 的更多信息，请参阅 [Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)。
+有关使用 Zipkin 的信息，请参阅
+[Zipkin](/zh/docs/tasks/observability/distributed-tracing/zipkin/)。

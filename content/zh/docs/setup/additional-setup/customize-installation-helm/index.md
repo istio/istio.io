@@ -33,7 +33,7 @@ Istio 的 Helm chart 尝试结合用户满足其特定需求所需的大部分�
 这使得具有高级配置需求的用户可以使用像 Kustomize 这样的工具来应用配置更改，
 而不需要原始 Chart 维护人员提供的任何额外支持。
 
-### 向现有图表添加值  {#adding-a-value-to-an-already-existing-chart}
+### 向现有 Chart 添加值  {#adding-a-value-to-an-already-existing-chart}
 
 在本例中，我们将为 Istio 的 `ingress-gateway` 部署添加一个 `sysctl` 值。我们需要：
 
@@ -94,7 +94,7 @@ EOF
 ### 为 Istio 添加 Helm 存储库  {#add-the-helm-repository-for-istio}
 
 {{< text bash >}}
-$ helm repo add istio https://istio-release.storage.googleapis.com/charts
+$ helm repo add istio https://blob.istio.io/istio-release/charts
 $ helm repo update
 {{< /text >}}
 

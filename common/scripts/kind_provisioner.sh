@@ -32,7 +32,10 @@ set -x
 ####################################################################
 
 # DEFAULT_KIND_IMAGE is used to set the Kubernetes version for KinD unless overridden in params to setup_kind_cluster(s)
-DEFAULT_KIND_IMAGE="gcr.io/istio-testing/kind-node:v1.28.4"
+DEFAULT_KIND_IMAGE="registry.istio.io/testing/kind-node:v1.36.0"
+
+# the default kind cluster should be ipv4 if not otherwise specified
+KIND_IP_FAMILY="${KIND_IP_FAMILY:-ipv4}"
 
 # COMMON_SCRIPTS contains the directory this file is in.
 COMMON_SCRIPTS=$(dirname "${BASH_SOURCE:-$0}")
@@ -144,14 +147,14 @@ function setup_kind_cluster_retry() {
 # 1. NAME: Name of the Kind cluster (optional)
 # 2. IMAGE: Node image used by KinD (optional)
 # 3. CONFIG: KinD cluster configuration YAML file. If not specified then DEFAULT_CLUSTER_YAML is used
-# 4. NOMETALBINSTALL: Dont install matllb if set.
+# 4. NOMETALBINSTALL: Dont install metalb if set.
 # This function returns 0 when everything goes well, or 1 otherwise
 # If Kind cluster was already created then it would be cleaned up in case of errors
 function setup_kind_cluster() {
   local NAME="${1:-istio-testing}"
   local IMAGE="${2:-"${DEFAULT_KIND_IMAGE}"}"
   local CONFIG="${3:-}"
-  local NOMETALBINSTALL="${4:-}"
+  local NOMETALBINSTALL="${4:-${NOMETALBINSTALL:-}}"
   local CLEANUP="${5:-true}"
 
   check_default_cluster_yaml
@@ -174,11 +177,6 @@ function setup_kind_cluster() {
     CONFIG=${DEFAULT_CLUSTER_YAML}
   fi
 
-  # Configure the ipFamily of the cluster
-  if [ -n "${IP_FAMILY}" ]; then
-      yq eval ".networking.ipFamily = \"${IP_FAMILY}\"" -i "${CONFIG}"
-  fi
-
   KIND_WAIT_FLAG="--wait=180s"
   KIND_DISABLE_CNI="false"
   if [[ -n "${KUBERNETES_CNI:-}" ]]; then
@@ -187,16 +185,26 @@ function setup_kind_cluster() {
   fi
 
   # Create KinD cluster
-  if ! (yq eval "${CONFIG}" --expression ".networking.disableDefaultCNI = ${KIND_DISABLE_CNI}" | \
+  if ! (yq eval "${CONFIG}" --expression ".networking.disableDefaultCNI = ${KIND_DISABLE_CNI}" \
+    --expression ".networking.ipFamily = \"${KIND_IP_FAMILY}\"" | \
     kind create cluster --name="${NAME}" -v4 --retain --image "${IMAGE}" ${KIND_WAIT_FLAG:+"$KIND_WAIT_FLAG"} --config -); then
     echo "Could not setup KinD environment. Something wrong with KinD setup. Exporting logs."
     return 9
+    # kubectl config set clusters.kind-istio-testing.server https://istio-testing-control-plane:6443
   fi
+
+  if [[ -n "${DEVCONTAINER:-}" ]]; then
+    # identify our docker container id using proc and regex
+    containerid=$(grep 'resolv.conf' /proc/self/mountinfo | sed 's/.*\/docker\/containers\/\([0-9a-f]*\).*/\1/')
+    docker network connect kind "$containerid"
+    kind export kubeconfig --name="${NAME}" --internal
+  fi
+
   # Workaround kind issue causing taints to not be removed in 1.24
   kubectl taint nodes "${NAME}"-control-plane node-role.kubernetes.io/control-plane- 2>/dev/null || true
 
   # Determine what CNI to install
-  case "${KUBERNETES_CNI:-}" in 
+  case "${KUBERNETES_CNI:-}" in
 
     "calico")
       echo "Installing Calico CNI"
@@ -231,7 +239,7 @@ function setup_kind_cluster() {
   # https://github.com/coredns/coredns/issues/2494#issuecomment-457215452
   # CoreDNS should handle those domains and answer with NXDOMAIN instead of SERVFAIL
   # otherwise pods stops trying to resolve the domain.
-  if [ "${IP_FAMILY}" = "ipv6" ] || [ "${IP_FAMILY}" = "dual" ]; then
+  if [ "${KIND_IP_FAMILY}" = "ipv6" ] || [ "${KIND_IP_FAMILY}" = "dual" ]; then
     # Get the current config
     original_coredns=$(kubectl get -oyaml -n=kube-system configmap/coredns)
     echo "Original CoreDNS config:"
@@ -268,14 +276,14 @@ function cleanup_kind_clusters() {
 # setup_kind_clusters sets up a given number of kind clusters with given topology
 # as specified in cluster topology configuration file.
 # 1. IMAGE = docker image used as node by KinD
-# 2. IP_FAMILY = either ipv4 or ipv6
+# 2. KIND_IP_FAMILY = either ipv4 or ipv6 or dual
 #
 # NOTE: Please call load_cluster_topology before calling this method as it expects
 # cluster topology information to be loaded in advance
 function setup_kind_clusters() {
   IMAGE="${1:-"${DEFAULT_KIND_IMAGE}"}"
   KUBECONFIG_DIR="${ARTIFACTS:-$(mktemp -d)}/kubeconfig"
-  IP_FAMILY="${2:-ipv4}"
+  KIND_IP_FAMILY="${2:-ipv4}"
 
   check_default_cluster_yaml
 
@@ -337,7 +345,9 @@ EOF
   for CLUSTER_NAME in "${CLUSTER_NAMES[@]}"; do
     KUBECONFIG_FILE="${KUBECONFIG_DIR}/${CLUSTER_NAME}"
     if [[ ${NUM_CLUSTERS} -gt 1 ]]; then
-      retry install_metallb "${KUBECONFIG_FILE}"
+      if [[ -z "${NOMETALBINSTALL}" ]]; then
+        retry install_metallb "${KUBECONFIG_FILE}"
+      fi
     fi
     KUBECONFIGS+=("${KUBECONFIG_FILE}")
   done
@@ -397,9 +407,65 @@ function install_calico {
   kubectl --kubeconfig="$KUBECONFIG" wait --for condition=ready -n kube-system pod -l k8s-app=calico-kube-controllers --timeout 90s
 }
 
+function configure_ecr_image_pull_secret() {
+  local KUBECONFIG="${1}"
+  local ecr_password
+  local xtrace_enabled=false
+
+  if [[ -z "${ECR_REGISTRY:-}" ]]; then
+    return
+  fi
+
+  if [[ "$-" == *x* ]]; then
+    xtrace_enabled=true
+    set +x
+  fi
+
+  ecr_password=$(aws ecr get-login-password)
+  kubectl --kubeconfig="$KUBECONFIG" --namespace metallb-system create secret docker-registry ecr-pull-secret \
+    --docker-server="${ECR_REGISTRY}" \
+    --docker-username=AWS \
+    --docker-password="${ecr_password}" \
+    --dry-run=client \
+    --output=yaml | kubectl --kubeconfig="$KUBECONFIG" --namespace metallb-system apply -f -
+  unset ecr_password
+
+  if [[ "${xtrace_enabled}" == true ]]; then
+    set -x
+  fi
+}
+
+function configure_metallb_image_pull_secret() {
+  local KUBECONFIG="${1}"
+
+  if [[ -z "${ECR_REGISTRY:-}" ]]; then
+    return
+  fi
+
+  for service_account in controller speaker; do
+    cat <<EOF | kubectl --kubeconfig="$KUBECONFIG" apply --server-side --field-manager=istio-ecr-pull-secret -f -
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ${service_account}
+  namespace: metallb-system
+imagePullSecrets:
+- name: ecr-pull-secret
+EOF
+  done
+
+}
+
 function install_metallb() {
   KUBECONFIG="${1}"
-  kubectl --kubeconfig="$KUBECONFIG" apply -f "${COMMON_SCRIPTS}/metallb-native.yaml"
+  if [[ -n "${ECR_REGISTRY:-}" ]]; then
+    kubectl --kubeconfig="$KUBECONFIG" create namespace metallb-system --dry-run=client --output=yaml | \
+      kubectl --kubeconfig="$KUBECONFIG" apply -f -
+    configure_ecr_image_pull_secret "$KUBECONFIG"
+    configure_metallb_image_pull_secret "$KUBECONFIG"
+  fi
+  sed "s?registry.istio.io/testing?${METALLB_REGISTRY:-registry.istio.io/testing}?g" \
+    "${COMMON_SCRIPTS}/metallb-native.yaml" | kubectl --kubeconfig="$KUBECONFIG" apply -f -
   kubectl --kubeconfig="$KUBECONFIG" wait -n metallb-system pod --timeout=120s -l app=metallb --for=condition=Ready
 
   if [ -z "${METALLB_IPS4+x}" ]; then
@@ -408,20 +474,20 @@ function install_metallb() {
     METALLB_IPS4=()
     while read -r ip; do
       METALLB_IPS4+=("$ip")
-    done < <(cidr_to_ips "$DOCKER_KIND_SUBNET" | tail -n 100)
+    done < <(cidr_to_ips "$DOCKER_KIND_SUBNET" | tail -n 400)
     METALLB_IPS6=()
     if [[ "$(docker inspect kind | jq '.[0].IPAM.Config | length' -r)" == 2 ]]; then
       # Two configs? Must be dual stack.
       DOCKER_KIND_SUBNET="$(docker inspect kind | jq '.[0].IPAM.Config[1].Subnet' -r)"
       while read -r ip; do
         METALLB_IPS6+=("$ip")
-      done < <(cidr_to_ips "$DOCKER_KIND_SUBNET" | tail -n 100)
+      done < <(cidr_to_ips "$DOCKER_KIND_SUBNET" | tail -n 400)
     fi
   fi
 
   # Give this cluster of those IPs
   RANGE="["
-  for i in {0..19}; do
+  for i in {0..49}; do
     RANGE+="${METALLB_IPS4[1]},"
     METALLB_IPS4=("${METALLB_IPS4[@]:1}")
     if [[ "${#METALLB_IPS6[@]}" != 0 ]]; then

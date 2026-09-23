@@ -14,9 +14,9 @@
 
     <tr>
         {{ if $feature.link }}
-        <td><a href={{ $feature.link }}>{{ $feature.name }}</a></td>
+        <td><a href={{ $feature.link }}>{{ $feature.name | markdownify }}</a></td>
         {{ else }}
-        <td>{{ $feature.name }}</td>
+        <td>{{ $feature.name | markdownify }}</td>
         {{end}}
         <td>
             {{if and ($featureDeprecation) (eq $featureDeprecation.state "deprecated") }}

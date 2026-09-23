@@ -49,6 +49,8 @@ elif [[ ${LOCAL_ARCH} == s390x ]]; then
     TARGET_ARCH=s390x
 elif [[ ${LOCAL_ARCH} == ppc64le ]]; then
     TARGET_ARCH=ppc64le
+elif [[ ${LOCAL_ARCH} == riscv64 ]]; then
+    TARGET_ARCH=riscv64
 else
     echo "This system's architecture, ${LOCAL_ARCH}, isn't supported"
     exit 1
@@ -72,10 +74,10 @@ else
 fi
 
 # Build image to use
-TOOLS_REGISTRY_PROVIDER=${TOOLS_REGISTRY_PROVIDER:-gcr.io}
-PROJECT_ID=${PROJECT_ID:-istio-testing}
+TOOLS_REGISTRY_PROVIDER=${TOOLS_REGISTRY_PROVIDER:-registry.istio.io}
+PROJECT_ID=${PROJECT_ID:-testing}
 if [[ "${IMAGE_VERSION:-}" == "" ]]; then
-  IMAGE_VERSION=master-8cdcac292440a2a4c5b6ebaba49bcea2d57d4ecd
+  IMAGE_VERSION=master-3d06fb2820260b49713de5d906e085598facaa43
 fi
 if [[ "${IMAGE_NAME:-}" == "" ]]; then
   IMAGE_NAME=build-tools
@@ -120,24 +122,27 @@ done
 CONDITIONAL_HOST_MOUNTS="${CONDITIONAL_HOST_MOUNTS:-} "
 container_kubeconfig=''
 
+# When adding volumes, bind mounts must use --volume so that they
+# can be configured for SELinux labeling
+
 # docker conditional host mount (needed for make docker push)
 if [[ -d "${HOME}/.docker" ]]; then
-  CONDITIONAL_HOST_MOUNTS+="--mount type=bind,source=${HOME}/.docker,destination=/config/.docker,readonly "
+  CONDITIONAL_HOST_MOUNTS+="--volume ${HOME}/.docker:/config/.docker:ro "
 fi
 
 # gcloud conditional host mount (needed for docker push with the gcloud auth configure-docker)
 if [[ -d "${HOME}/.config/gcloud" ]]; then
-  CONDITIONAL_HOST_MOUNTS+="--mount type=bind,source=${HOME}/.config/gcloud,destination=/config/.config/gcloud,readonly "
+  CONDITIONAL_HOST_MOUNTS+="--volume ${HOME}/.config/gcloud:/config/.config/gcloud:ro "
 fi
 
 # gitconfig conditional host mount (needed for git commands inside container)
 if [[ -f "${HOME}/.gitconfig" ]]; then
-  CONDITIONAL_HOST_MOUNTS+="--mount type=bind,source=${HOME}/.gitconfig,destination=/home/.gitconfig,readonly "
+  CONDITIONAL_HOST_MOUNTS+="--volume ${HOME}/.gitconfig:/home/.gitconfig:ro "
 fi
 
 # .netrc conditional host mount (needed for git commands inside container)
 if [[ -f "${HOME}/.netrc" ]]; then
-  CONDITIONAL_HOST_MOUNTS+="--mount type=bind,source=${HOME}/.netrc,destination=/home/.netrc,readonly "
+  CONDITIONAL_HOST_MOUNTS+="--volume ${HOME}/.netrc:/home/.netrc:ro "
 fi
 
 # echo ${CONDITIONAL_HOST_MOUNTS}
@@ -153,7 +158,7 @@ add_KUBECONFIG_if_exists () {
 
     kubeconfig_random="$(od -vAn -N4 -tx /dev/random | tr -d '[:space:]' | cut -c1-8)"
     container_kubeconfig+="/config/${kubeconfig_random}:"
-    CONDITIONAL_HOST_MOUNTS+="--mount type=bind,source=${local_config},destination=/config/${kubeconfig_random} "
+    CONDITIONAL_HOST_MOUNTS+="--volume ${local_config}:/config/${kubeconfig_random} "
   fi
 }
 

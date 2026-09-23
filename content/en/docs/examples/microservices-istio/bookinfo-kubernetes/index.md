@@ -86,18 +86,18 @@ microservice.
     {{< /text >}}
 
 1.  After the services achieve the `Running` status, deploy a testing pod,
-    [sleep]({{< github_tree >}}/samples/sleep), to use for sending requests
+    [curl]({{< github_tree >}}/samples/curl), to use for sending requests
     to your microservices:
 
     {{< text bash >}}
-    $ kubectl apply -f {{< github_file >}}/samples/sleep/sleep.yaml
+    $ kubectl apply -f {{< github_file >}}/samples/curl/curl.yaml
     {{< /text >}}
 
 1.  To confirm that the Bookinfo application is running, send a request to it
     with a curl command from your testing pod:
 
     {{< text bash >}}
-    $ kubectl exec $(kubectl get pod -l app=sleep -o jsonpath='{.items[0].metadata.name}') -c sleep -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
+    $ kubectl exec $(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}') -c curl -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
     <title>Simple Bookstore App</title>
     {{< /text >}}
 

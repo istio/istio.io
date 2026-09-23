@@ -16,7 +16,7 @@ If you are using EnvoyFilter API, please use canonical filter names. The use of 
 
 ## `base` Helm Chart removals
 
-A number of configurations previously present in the the `base` Helm chart were *copied* to the `istiod` chart in a previous releases.
+A number of configurations previously present in the `base` Helm chart were *copied* to the `istiod` chart in a previous releases.
 
 In this release, the duplicated configurations are fully removed from the `base` chart.
 

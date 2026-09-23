@@ -34,25 +34,18 @@ _set_ingress_environment_variables
 _verify_same snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
 # Apply the request authentication and virtual service.
-snip_configuring_ingress_routing_based_on_jwt_claims_1
+_rewrite_jwks_uri snip_configuring_ingress_routing_based_on_jwt_claims_1
 snip_configuring_ingress_routing_based_on_jwt_claims_2
 
 _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_1 "$snip_validating_ingress_routing_based_on_jwt_claims_1_out"
 _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_2 "$snip_validating_ingress_routing_based_on_jwt_claims_2_out"
 
-# Pull the Istio branch from the docs configuration file.
-ISTIO_BRANCH=$(yq '.source_branch_name' "${REPO_ROOT}"/data/args.yml)
-
 _verify_same snip_validating_ingress_routing_based_on_jwt_claims_3 "$snip_validating_ingress_routing_based_on_jwt_claims_3_out"
-TOKEN_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/groups-scope.jwt"
-export TOKEN_GROUP
-TOKEN_GROUP=$(curl "${TOKEN_GROUP_URL}" -s)
+export TOKEN_GROUP="${_DOCS_GROUPS_SCOPE_JWT}"
 _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_4 "$snip_validating_ingress_routing_based_on_jwt_claims_4_out"
 
 _verify_same snip_validating_ingress_routing_based_on_jwt_claims_5 "$snip_validating_ingress_routing_based_on_jwt_claims_5_out"
-TOKEN_NO_GROUP_URL="https://raw.githubusercontent.com/istio/istio/${ISTIO_BRANCH}/security/tools/jwt/samples/demo.jwt"
-export TOKEN_NO_GROUP
-TOKEN_NO_GROUP=$(curl "${TOKEN_NO_GROUP_URL}" -s)
+export TOKEN_NO_GROUP="${_DOCS_DEMO_JWT}"
 _verify_elided snip_validating_ingress_routing_based_on_jwt_claims_6 "$snip_validating_ingress_routing_based_on_jwt_claims_6_out"
 
 # @cleanup

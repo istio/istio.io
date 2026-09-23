@@ -7,6 +7,18 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
+<!--
+Please don't attempt to edit this page to change the indentation to fix the
+examples. The indentation is correct, but the template rendering is wrong.
+See the callout below.
+-->
+
+{{< warning >}}
+A [template bug in the Istio website code](https://github.com/istio/istio.io/issues/15689)
+means that the examples on this page do not render properly.
+You can [view the page source](https://raw.githubusercontent.com/istio/istio.io/master/content/en/docs/tasks/traffic-management/mirroring/index.md) to see the correct manifests.
+{{< /warning >}}
+
 This task demonstrates the traffic mirroring capabilities of Istio.
 
 Traffic mirroring, also called shadowing, is a powerful concept that allows
@@ -48,7 +60,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -78,7 +90,7 @@ you will apply a rule to mirror a portion of traffic to `v2`.
               - image: docker.io/kennethreitz/httpbin
                 imagePullPolicy: IfNotPresent
                 name: httpbin
-                command: ["gunicorn", "--access-logfile", "-", "-b", "0.0.0.0:80", "httpbin:app"]
+                command: ["gunicorn", "--access-logfile", "-", "-b", "[::]:80", "httpbin:app"]
                 ports:
                 - containerPort: 80
         EOF
@@ -104,26 +116,26 @@ you will apply a rule to mirror a portion of traffic to `v2`.
         EOF
         {{< /text >}}
 
-1. Deploy the `sleep` workload you'll use to send requests to the `httpbin` service:
+1. Deploy the `curl` workload you'll use to send requests to the `httpbin` service:
 
     {{< text bash >}}
     $ cat <<EOF | kubectl create -f -
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: sleep
+      name: curl
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: sleep
+          app: curl
       template:
         metadata:
           labels:
-            app: sleep
+            app: curl
         spec:
           containers:
-          - name: sleep
+          - name: curl
             image: curlimages/curl
             command: ["/bin/sleep","3650d"]
             imagePullPolicy: IfNotPresent
@@ -227,7 +239,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1. Now, with all traffic directed to `httpbin:v1`, send a request to the service:
 
     {{< text bash json >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {
       "headers": {
         "Accept": "*/*",
@@ -344,7 +356,7 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 1. Send the traffic:
 
     {{< text bash >}}
-    $ kubectl exec deploy/sleep -c sleep -- curl -sS http://httpbin:8000/headers
+    $ kubectl exec deploy/curl -c curl -- curl -sS http://httpbin:8000/headers
     {{< /text >}}
 
     Now, you should see access logging for both `v1` and `v2`. The access logs
@@ -387,9 +399,9 @@ In this step, you will change that behavior so that all traffic goes to `v1`.
 
     {{< /tabset >}}
 
-1. Delete `httpbin` and `sleep` deployments and `httpbin` service:
+1. Delete `httpbin` and `curl` deployments and `httpbin` service:
 
     {{< text bash >}}
-    $ kubectl delete deploy httpbin-v1 httpbin-v2 sleep
+    $ kubectl delete deploy httpbin-v1 httpbin-v2 curl
     $ kubectl delete svc httpbin
     {{< /text >}}

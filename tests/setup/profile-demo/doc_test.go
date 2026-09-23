@@ -36,13 +36,12 @@ func TestDocs(t *testing.T) {
 		Run(istioio.NewTestDocsFunc("profile=demo"))
 }
 
-func setupConfig(ctx resource.Context, cfg *istio.Config) {
+func setupConfig(_ resource.Context, cfg *istio.Config) {
 	cfg.ControlPlaneValues = `
 profile: demo
 values:
   pilot:
     env:
-      PILOT_ENABLE_CONFIG_DISTRIBUTION_TRACKING: true
       PILOT_ENABLE_ALPHA_GATEWAY_API: false
 `
 }

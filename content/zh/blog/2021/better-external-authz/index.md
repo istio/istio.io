@@ -467,7 +467,7 @@ EOF
 
 {{< /tabset >}}
 
-### 测试 OPA 策略  {##test-the-opa-policy}
+### 测试 OPA 策略  {#test-the-opa-policy}
 
 1. 创建一个客户端 Pod 来发送请求：
 

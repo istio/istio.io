@@ -13,9 +13,9 @@ skip_seealso: true
 
 {{< security_bulletin >}}
 
-## CVE{#cve}
+## CVE
 
-### CVE-2022-24726{#cve-2022-24726}
+### CVE-2022-24726
 
 - __[CVE-2022-24726](https://github.com/istio/istio/security/advisories/GHSA-8w5h-qr4r-2h6g)__:
   (CVSS Score 7.5, High): 由于堆栈耗尽而导致控制平面不能拒绝未经身份验证的服务攻击。
@@ -26,7 +26,7 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 
 由于 Go 团队发布了 [CVE-2022-24921](https://github.com/advisories/GHSA-6685-ffxp-xm6f)，所以 Istio 认为这是一个零日漏洞。
 
-### Envoy CVEs{#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 以下的 Envoy CVE 也针对 Istio 1.11.8、1.12.5 和 Istio 1.13.2 进行了修复。它们已在 [https://github.com/envoyproxy/envoy](https://github.com/envoyproxy/envoy) 中公开修复，用于早先 Istio 版本中使用的 Envoy 版本。如 [ISTIO-SECURITY-2022-003](/zh/news/security/istio-security-2022-003) 中所述，Istio 不会受到 Envoy 中的这些 CVE 的攻击。
 
@@ -38,10 +38,10 @@ Istio 控制平面 istiod 容易受到请求处理错误的影响，允许恶意
 - __[CVE-2022-21656](https://github.com/envoyproxy/envoy/security/advisories/GHSA-c9g7-xwcv-pjx2)__
   (CVSS Score 3.1, Low): X.509 `subjectAltName` 匹配（和 `nameConstraints`） 旁路。
 
-## 我受到影响了吗？{#am-i-impacted?}
+## 我受到影响了吗？ {#am-i-impacted}
 
 如果您在外部 istiod 环境中运行 Istio，或者您已将 istiod 暴露在外部，那么您面临的风险最大。
 
-## 赞扬{#credit}
+## 赞扬 {#credit}
 
 我们要感谢来自谷歌的 John Howard 的报告和修复。

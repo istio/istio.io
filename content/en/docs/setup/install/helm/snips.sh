@@ -21,42 +21,38 @@
 ####################################################################################################
 source "content/en/boilerplates/snips/helm-prereqs.sh"
 
-snip_create_istio_system_namespace() {
-kubectl create namespace istio-system
-}
-
 snip_install_base() {
-helm install istio-base istio/base -n istio-system --set defaultRevision=default
+helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace
 }
 
-snip_installation_steps_4() {
+snip_installation_steps_3() {
 helm ls -n istio-system
 }
 
-! IFS=$'\n' read -r -d '' snip_installation_steps_4_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_3_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART        APP VERSION
-istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.23.0  1.23.0
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.32.0  1.32.0
 ENDSNIP
 
 snip_install_discovery() {
 helm install istiod istio/istiod -n istio-system --wait
 }
 
-snip_installation_steps_6() {
+snip_installation_steps_5() {
 helm ls -n istio-system
 }
 
-! IFS=$'\n' read -r -d '' snip_installation_steps_6_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_5_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
-istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.23.0   1.23.0
-istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.23.0 1.23.0
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.32.0   1.32.0
+istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.32.0 1.32.0
 ENDSNIP
 
-snip_installation_steps_7() {
+snip_installation_steps_6() {
 helm status istiod -n istio-system
 }
 
-! IFS=$'\n' read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_6_out <<\ENDSNIP
 NAME: istiod
 LAST DEPLOYED: Fri Jan 20 22:00:44 2023
 NAMESPACE: istio-system
@@ -76,7 +72,6 @@ Next steps:
     * https://istio.io/latest/docs/tasks/traffic-management
     * https://istio.io/latest/docs/tasks/security/
     * https://istio.io/latest/docs/tasks/policy-enforcement/
-    * https://istio.io/latest/docs/tasks/policy-enforcement/
   * Review the list of actively supported releases, CVE publications and our hardening guide:
     * https://istio.io/latest/docs/releases/supported-releases/
     * https://istio.io/latest/news/security/
@@ -87,18 +82,27 @@ For further documentation see https://istio.io website
 Tell us how your install/upgrade experience went at https://forms.gle/99uiMML96AmsXY5d6
 ENDSNIP
 
-snip_installation_steps_8() {
+snip_installation_steps_7() {
 kubectl get deployments -n istio-system --output wide
 }
 
-! IFS=$'\n' read -r -d '' snip_installation_steps_8_out <<\ENDSNIP
+! IFS=$'\n' read -r -d '' snip_installation_steps_7_out <<\ENDSNIP
 NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                         SELECTOR
-istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.23.0   istio=pilot
+istiod   1/1     1            1           10m   discovery    docker.io/istio/pilot:1.32.0   istio=pilot
 ENDSNIP
 
 snip_install_ingressgateway() {
 kubectl create namespace istio-ingress
 helm install istio-ingress istio/gateway -n istio-ingress --wait
+}
+
+snip_migrating_from_nonhelm_installations_1() {
+helm install istio-base istio/base -n istio-system --take-ownership
+helm install istiod istio/istiod -n istio-system --take-ownership
+}
+
+snip_migrating_from_nonhelm_installations_2() {
+helm install istio-base istio/base -n istio-system --server-side=false --take-ownership
 }
 
 snip_helm_ls() {
@@ -107,8 +111,8 @@ helm ls -n istio-system
 
 ! IFS=$'\n' read -r -d '' snip_helm_ls_out <<\ENDSNIP
 NAME       NAMESPACE    REVISION UPDATED                                 STATUS   CHART         APP VERSION
-istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.23.0   1.23.0
-istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.23.0 1.23.0
+istio-base istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed base-1.32.0   1.32.0
+istiod     istio-system 1        2024-04-17 22:14:45.964722028 +0000 UTC deployed istiod-1.32.0 1.32.0
 ENDSNIP
 
 snip_delete_delete_gateway_charts() {

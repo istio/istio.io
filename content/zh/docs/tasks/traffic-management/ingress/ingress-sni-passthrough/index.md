@@ -9,8 +9,8 @@ owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为 HTTP 服务配置 HTTPS 访问入口。
-而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，
+[安全网关](/zh/docs/tasks/traffic-management/ingress/secure-ingress/)说明了如何为
+HTTP 服务配置 HTTPS 访问入口。而本示例将说明如何为 HTTPS 服务配置 HTTPS 访问入口，
 即配置 Ingress Gateway 以执行 SNI 透传，而不是对传入请求进行 TLS 终止。
 
 本任务中的 HTTPS 示例服务是一个简单的
@@ -32,7 +32,8 @@ test: yes
 1. 创建根证书和私钥来为您的服务签名证书：
 
     {{< text bash >}}
-    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
+    $ mkdir -p example_certs
+    $ openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example_certs/example.com.key -out example_certs/example.com.crt
     {{< /text >}}
 
 1. 为 `nginx.example.com` 创建证书和私钥：
@@ -68,6 +69,7 @@ test: yes
 
       server {
         listen 443 ssl;
+        listen [::]:443 ssl;
 
         root /usr/share/nginx/html;
         index index.html;

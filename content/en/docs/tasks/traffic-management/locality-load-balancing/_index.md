@@ -57,3 +57,15 @@ is **not** considered to be local to a pod running in zone `bar` of region
 Istio uses this locality information to control load balancing behavior.
 Follow one of the tasks in this series to configure locality load balancing for
 your mesh.
+
+{{< tip >}}
+Istio's default mesh configuration enables locality load balancing
+(`localityLbSetting.enabled: true`). This means that configuring
+[`OutlierDetection`](/docs/reference/config/networking/destination-rule/#OutlierDetection)
+in a `DestinationRule` will **automatically activate locality-aware failover**,
+even if you have not explicitly set a `localityLbSetting` in the rule. Envoy
+relies on outlier detection to identify unhealthy endpoints and trigger failover
+to the next locality. To opt out of this implicit behavior, set
+`localityLbSetting.enabled: false` in the `DestinationRule`'s load balancer
+settings.
+{{< /tip >}}

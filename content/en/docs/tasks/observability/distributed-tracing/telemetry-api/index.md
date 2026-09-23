@@ -1,14 +1,13 @@
 ---
 title: Configure tracing with Telemetry API
 description: How to configure tracing options using Telemetry API.
-weight: 8
+weight: 2
 keywords: [telemetry,tracing]
 owner: istio/wg-policies-and-telemetry-maintainers
 test: yes
 ---
 
-Istio provides the ability to configure advanced tracing options,
-such as sampling rate and adding custom tags to reported spans.
+Istio provides the ability to configure tracing options, such as sampling rate and adding custom tags to reported spans.
 This task shows you how to customize the tracing options with Telemetry API.
 
 ## Before you begin
@@ -16,12 +15,16 @@ This task shows you how to customize the tracing options with Telemetry API.
 1.  Ensure that your applications propagate tracing headers as described [here](/docs/tasks/observability/distributed-tracing/overview/).
 
 1.  Follow the tracing installation guide located under [Integrations](/docs/ops/integrations/)
-    based on your preferred tracing backend to install the appropriate addon and
-    configure your Istio proxies to send traces to the tracing deployment.
+    based on your preferred tracing backend to install the appropriate software and
+    configure an extension provider.
 
 ## Installation
 
-In this example, we will send tracing to [`zipkin`](/docs/ops/integrations/zipkin/) so make sure it is installed:
+In this example, we will send traces to [Zipkin](/docs/ops/integrations/zipkin/). Install Zipkin before you continue.
+
+### Configure an extension provider
+
+Install Istio with an [extension provider](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ExtensionProvider) referring to the Zipkin service:
 
 {{< text bash >}}
 $ cat <<EOF > ./tracing.yaml
@@ -31,10 +34,9 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled MeshConfig tracing options
+      tracing: {} # disable legacy MeshConfig tracing options
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
@@ -42,7 +44,7 @@ EOF
 $ istioctl install -f ./tracing.yaml --skip-confirmation
 {{< /text >}}
 
-### Enable tracing for mesh
+### Enable tracing
 
 Enable tracing by applying the following configuration:
 
@@ -55,12 +57,18 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
+  - providers:
+    - name: "zipkin"
 EOF
 {{< /text >}}
 
-## Customizing Trace sampling
+### Verify the results
+
+You can verify the results by [accessing the Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).
+
+## Customization
+
+### Customizing trace sampling
 
 The sampling rate option can be used to control what percentage of requests get
 reported to your tracing system. This should be configured based upon your
@@ -76,13 +84,13 @@ metadata:
   namespace: istio-system
 spec:
   tracing:
-    - providers:
-        - name: "zipkin"
-      randomSamplingPercentage: 100.00
+  - providers:
+    - name: "zipkin"
+    randomSamplingPercentage: 100.00
 EOF
 {{< /text >}}
 
-## Customizing tracing tags
+### Customizing tracing tags
 
 Custom tags can be added to spans based on literals, environmental variables and
 client request headers in order to provide additional information in spans
@@ -103,9 +111,9 @@ You can customize the tags using any of the three supported options below.
     name: mesh-default
     namespace: istio-system
     spec:
-    tracing:
-        - providers:
-            - name: "zipkin"
+      tracing:
+      - providers:
+        - name: "zipkin"
         randomSamplingPercentage: 100.00
         customTags:
           "provider":
@@ -125,7 +133,7 @@ You can customize the tags using any of the three supported options below.
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
+          - name: "zipkin"
           randomSamplingPercentage: 100.00
           customTags:
             "cluster_id":
@@ -151,7 +159,7 @@ You can customize the tags using any of the three supported options below.
     spec:
       tracing:
         - providers:
-            - name: "zipkin"
+          - name: "zipkin"
           randomSamplingPercentage: 100.00
           customTags:
             my_tag_header:
@@ -160,7 +168,7 @@ You can customize the tags using any of the three supported options below.
                 defaultValue: <VALUE>      # optional
     {{< /text >}}
 
-## Customizing tracing tag length
+### Customizing tracing tag length
 
 By default, the maximum length for the request path included as part of the `HttpUrl` span tag is 256.
 To modify this maximum length, add the following to your `tracing.yaml` file.
@@ -172,16 +180,11 @@ spec:
   meshConfig:
     enableTracing: true
     defaultConfig:
-      tracing: {} # disabled tracing options via `MeshConfig`
+      tracing: {} # disable legacy tracing options via `MeshConfig`
     extensionProviders:
-    # add zipkin provider
-    - name: zipkin
+    - name: "zipkin"
       zipkin:
         service: zipkin.istio-system.svc.cluster.local
         port: 9411
         maxTagLength: <VALUE>
 {{< /text >}}
-
-## Verify the results
-
-You can verify the results with [Zipkin UI](/docs/tasks/observability/distributed-tracing/zipkin/).

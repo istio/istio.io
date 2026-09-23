@@ -10,7 +10,7 @@ target_release: 1.3
 
 这篇文章演示了如何使用 [Mixer](/zh/faq/mixer/) 把应用逻辑放进 Istio。它描述了一个用简单的代码实现了 Knative scale-from-zero 逻辑的 Mixer 适配器，该适配器和原有实现的性能相差无几。
 
-## Knative Serving{#Knative-serving}
+## Knative Serving
 
 [Knative Serving](https://knative.dev/docs/serving/) 基于 [Kubernetes](https://kubernetes.io/zh-cn/) 来支持 Serverless 应用的部署和服务（Serving）。一个 Serverless 平台的核心功能就是 scale-to-zero，该功能可减少非活动工作负载的资源使用量和成本。当空闲应用收到新请求时，需要一种新的机制来 scale-from-zero。
 
@@ -26,7 +26,7 @@ target_release: 1.3
 
 一旦应用启动并再次运行，Knative 就会把请求路由到正在运行的应用上（之前请求是路由到 **Activator** 的）。
 
-## Mixer 适配器{#mixer-adapter}
+## Mixer 适配器 {#mixer-adapter}
 
 [Mixer](/zh/faq/mixer/) 在 Istio 组件和基础设施后端之间提供了一个丰富的中介层。它是独立于 [Envoy](https://www.envoyproxy.io/) 的组件，并且具有简单的可扩展性模型，该扩展模型使 Istio 可以与大部分后端进行交互。Mixer 本质上比 Envoy 更容易扩展。
 
@@ -51,7 +51,7 @@ Istio 的 Mixer 适配器模式使得我们可以用更简单的方式实现原�
 
 当适配器从 **Mixer** 接收到消息时，它会使用 Knative 协议直接向 **Autoscaler** 发送一个 `StatMessage`。Istio 代理将 **Autoscaler** 所需的元数据信息（`namespace` 和 `service name`）传输到 **Mixer**，再从那里传输到适配器。
 
-## 总结{#summary}
+## 总结 {#summary}
 
 我将 Knative 原有的参考架构的冷启动（cold-start）时间与新的 Istio Mixer 适配器参考架构进行了比较。结果显示它们的冷启动时间很接近。使用 Mixer 适配器的实现更加简单。无需处理基于底层网络的机制，因为这些机制是由 Envoy 处理的。
 

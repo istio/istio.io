@@ -21,7 +21,7 @@ Istio 已经完成安装且正常工作，但是 Zipkin 中没有显示任何 tr
 您还可以通过对比 Docker 容器内和容器外的日期来确认此问题：
 
 {{< text bash >}}
-$ docker run --entrypoint date gcr.io/istio-testing/ubuntu-16-04-slave:latest
+$ docker run --entrypoint date registry.istio.io/testing/ubuntu-16-04-slave:latest
 Sun Jun 11 11:44:18 UTC 2017
 {{< /text >}}
 
@@ -52,9 +52,9 @@ Istio CNI 插件取代了 `istio-init` 容器提供的功能。
 1. 验证 `istio-cni-node` Pod 是否正在运行：
 
     {{< text bash >}}
-    $ kubectl -n kube-system get pod -l k8s-app=istio-cni-node
+    $ kubectl -n istio-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-1. 如果 `PodSecurityPolicy` 在您的集群中正在工作，确认 `istio-cni`
-   Service Account 可以使用 `PodSecurityPolicy` 的
-   [`NET_ADMIN` 和 `NET_RAW` 功能](/zh/docs/ops/deployment/application-requirements/)。
+1. 如果在集群中强制执行 [Pod 安全准入](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-admission/)，
+   请确保运行 `istio-cni-node` Pod 的命名空间（默认为 `istio-system`）使用 `privileged`
+   [Pod 安全标准](https://kubernetes.io/zh-cn/docs/concepts/security/pod-security-standards/#privileged)配置文件以允许 `NET_ADMIN` 和 `NET_RAW` 功能。

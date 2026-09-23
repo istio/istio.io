@@ -27,11 +27,7 @@ $ kubectl apply -f {{< github_file >}}/samples/addons/jaeger.yaml
 参考 [Jaeger 文档](https://www.jaegertracing.io/)开始使用。
 Jaeger 与 Istio 一起使用时无需特殊的配置。
 
-安装 Jaeger 完毕后，需要指定 Istio 代理向 Deployment 发送流量。
-在安装时，可以使用 `--set meshConfig.defaultConfig.tracing.zipkin.address=<jaeger-collector-address>:9411`
-进行配置。参考更多 [`ProxyConfig.Tracing`](/zh/docs/reference/config/istio.mesh.v1alpha1/#Tracing)
-高级配置，如 TLS 设置。
-
 ## 使用 {#usage}
 
-有关使用 Jaeger 的更多信息，请参考 [Jaeger Task](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。
+有关使用 Jaeger 的信息，请参阅
+[Jaeger Task](/zh/docs/tasks/observability/distributed-tracing/jaeger/)。

@@ -16,7 +16,7 @@ skip_seealso: true
 
 ## CVE
 
-### Envoy CVEs{#envoy-cves}
+### Envoy CVE {#envoy-cves}
 
 - __[CVE-2023-27487](https://github.com/envoyproxy/envoy/security/advisories/GHSA-5375-pq35-hf2g)__:
   (CVSS Score 8.2, High)：客户端可能会伪造 `x-envoy-original-path` 头信息。
@@ -36,6 +36,6 @@ skip_seealso: true
 - __[CVE-2023-27496](https://github.com/envoyproxy/envoy/security/advisories/GHSA-j79q-2g66-2xv5)__:
   (CVSS Score 6.5, Moderate)：在 OAuth 过滤器中收到没有 state 参数的重定向 URL 时导致崩溃。
 
-## 我受到影响了吗？{#am-i-impacted}
+## 我受到影响了吗？ {#am-i-impacted}
 
 如果您使用了 Istio Gateway 或者使用外部 istiod 可能面临风险。

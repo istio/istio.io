@@ -17,7 +17,7 @@ aliases:
 
 {{< relnote >}}
 
-## 安全更新
+## 安全更新 {#security-update}
 
 - **ISTIO-SECURITY-2020-006** 处理了当有过多参数的 HTTP/2 SETTINGS 帧时 CPU 的使用率过高，可能导致服务禁止的问题。
 
@@ -31,6 +31,6 @@ __[CVE-2020-11080](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-11080
 - **修复** 修复了当 DNS 不可访问时，Istio CNI 导致 pod 初始化时花费 30-40 秒的延迟的问题。
 ([Issue 23770](https://github.com/istio/istio/issues/23770))
 
-## 安全修复 Bookinfo 示例应用程序{#Bookinfo sample application security fixes}
+## 安全修复 Bookinfo 示例应用程序 {#bookinfo-sample-application-security-fixes}
 
 我们更新了 Bookinfo 示例应用程序中使用的 Node.js 和 jQuery 的版本。 Node.js 已经从 12.9 版本升级到 12.18 版本。jQuery 已经从 2.1.4 版本升级到 3.5.0。评分最高的漏洞已修复：*HTTP 请求夹带使用 Transfer-Encoding 头   (Critical) (CVE-2019-15605)*

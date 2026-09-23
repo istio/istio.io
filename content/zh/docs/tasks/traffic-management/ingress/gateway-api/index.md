@@ -38,7 +38,7 @@ test: yes
     $ istioctl install --set profile=minimal -y
     {{< /text >}}
 
-## 与 Istio API 的区别  {#differences-from-istio-apis}
+## 与 Istio API 的区别 {#differences-from-istio-apis}
 
 Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之处。
 主资源使用相同的 `Gateway` 名称，并且这些资源服务于相类似的目标。
@@ -122,7 +122,9 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 
     {{< text bash >}}
     $ curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST/get"
+    ...
     HTTP/1.1 200 OK
+    ...
     server: istio-envoy
     ...
     {{< /text >}}
@@ -176,66 +178,131 @@ Gateway API 与 Istio API（如 Gateway 和 VirtualService）有很多相似之�
 1.  再次访问 `/headers`，注意到 `My-Added-Header` 标头已被添加到请求：
 
     {{< text bash >}}
-    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers"
-    {
-      "headers": {
-        "Accept": "*/*",
-        "Host": "httpbin.example.com",
-        "My-Added-Header": "added-value",
+    $ curl -s -HHost:httpbin.example.com "http://$INGRESS_HOST/headers" | jq '.headers["My-Added-Header"][0]'
+    ...
+    "added-value"
     ...
     {{< /text >}}
 
-## 部署方法  {#deployment-methods}
+## 部署方法 {#deployment-methods}
 
 在上面的示例中，在配置网关之前，您不需要安装 Ingress 网关 `Deployment`。
 因为在默认配置中会根据 `Gateway` 配置自动分发网关 `Deployment` 和 `Service`。
 但是对于高级别的用例，仍然允许手动部署。
 
-### 自动部署  {#automated-deployment}
+### 自动部署 {#automated-deployment}
 
-默认情况下，每个 `Gateway` 将自动提供相同名称的 `Service` 和 `Deployment`。
-如果 `Gateway` 发生变化（例如添加了一个新端口），这些配置将会自动更新。
+默认情况下，每个 `Gateway` 将被自动​​配置一个 `Service` 和 `Deployment`。
+它们将被命名为 `<Gateway name>-<GatewayClass name>`
+（`istio-waypoint` `GatewayClass` 除外，它不被添加后缀）。
+如果 `Gateway` 发生变化（例如，如果被添加了新端口），这些配置将被自动更新。
 
-这些资源可以通过以下几种方式进行定义：
+可以使用 `infrastructure` 字段定制这些资源：
 
-* 将`Gateway` 上的注释和标签复制到 `Service` 和 `Deployment`。
-  这就允许配置从上述字段中读取到的内容，
-  如配置[内部负载均衡器](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/#internal-load-balancer)等。
-* Istio 提供了一个额外的注释来配置生成的资源：
+{{< text yaml >}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  infrastructure:
+    annotations:
+      some-key: some-value
+    labels:
+      key: value
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: gw-options
+  gatewayClassName: istio
+{{< /text >}}
 
-    |注解 | 用途                                                         |
-    |----------|-------|
-    |`networking.istio.io/service-type`|控制 `Service.spec.type` 字段。例如，设置 `ClusterIP` 为不对外暴露服务，将会默认为`LoadBalancer`。|
+`labels` 和 `annotations` 下的键值对将被复制到生成的资源上。
+`parametersRef` 可用于完全自定义生成的资源。
+这必须引用与 `Gateway` 位于同一命名空间中的 `ConfigMap`。
 
-* 通过配置 `addresses` 字段可以显式设置 `Service.spec.loadBalancerIP` 字段：
+示例配置：
 
-    {{< text yaml >}}
-    apiVersion: gateway.networking.k8s.io/v1
-    kind: Gateway
-    metadata:
-      name: gateway
+{{< text yaml >}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gw-options
+data:
+  horizontalPodAutoscaler: |
     spec:
-      addresses:
-      - value: 192.0.2.0
-        type: IPAddress
-    ...
-    {{< /text >}}
+      minReplicas: 2
+      maxReplicas: 2
 
-    请注意：仅能指定一个地址。
+  deployment: |
+    metadata:
+      annotations:
+        additional-annotation: some-value
+    spec:
+      replicas: 4
+      template:
+        spec:
+          containers:
+          - name: istio-proxy
+            resources:
+              requests:
+                cpu: 1234m
 
-* （高级用法）生成的 Pod 配置可以通过[自定义注入模板](/zh/docs/setup/additional-setup/sidecar-injection/#custom-templates-experimental)进行配置。
+  service: |
+    spec:
+      ports:
+      - "\$patch": delete
+        port: 15021
+{{< /text >}}
 
-#### 资源附加和扩缩  {#resource-attachment-and-scaling}
+这些配置将使用[策略合并补丁](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/strategic-merge-patch.md)策略覆盖在生成的资源之上。
+以下键有效：
+* `service`
+* `deployment`
+* `serviceAccount`
+* `horizontalPodAutoscaler`
+* `podDisruptionBudget`
 
-{{< warning >}}
-资源附加目前是实验性的功能。
-{{< /warning >}}
+{{< tip >}}
+默认情况下不会创建 `Horizo​​ntalPodAutoscaler` 和 `PodDisruptionBudget`。
+但是，如果自定义中存在相应字段，则会创建它们。
+{{< /tip >}}
+
+#### GatewayClass 默认值 {#gatewayclass-defaults}
+
+可以为每个 `GatewayClass` 配置所有 `Gateway` 的默认值。
+这通过带有标签 `gateway.istio.io/defaults-for-class: <gateway class name>`
+的 `ConfigMap` 完成。此 `ConfigMap`
+必须位于[根命名空间](/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-root_namespace)
+（通常为 `istio-system`）中。每个 `GatewayClass` 只允许一个 `ConfigMap`。
+此 `ConfigMap` 采用与 `Gateway` 的 `ConfigMap` 相同的格式。
+
+自定义可能同时存在于 `GatewayClass` 和 `Gateway` 上。
+如果两者都存在，则 `Gateway` 自定义在 `GatewayClass` 自定义之后应用。
+
+这个 `ConfigMap` 也可以在安装时被创建。例如：
+
+{{< text yaml >}}
+kind: IstioOperator
+spec:
+  values:
+    gatewayClasses:
+      istio:
+        deployment:
+          spec:
+            replicas: 2
+{{< /text >}}
+
+#### 资源附加和扩缩 {#resource-attachment-and-scaling}
 
 资源可以附加到 `Gateway` 进行自定义。
 然而，大多数 Kubernetes 资源目前不支持直接附加到 `Gateway`，
 但这些资源可以转为直接被附加到相应生成的 `Deployment` 和 `Service`。
-这个操作比较简单，因为这两种资源被生成时名称为 `<gateway name>-<gateway class name>`
-且带有标签 `gateway.networking.k8s.io/gateway-name: <gateway name>`。
+这很容易做到，因为[资源是用众所周知的标签](https://gateway-api.sigs.k8s.io/geps/gep-1762/#resource-attachment)
+（`gateway.networking.k8s.io/gateway-name: <gateway name>`）和名称生成的：
+
+* Gateway: `<gateway name>-<gateway class name>`
+* waypoint: `<gateway name>`
 
 例如，参照以下部署类别为 `HorizontalPodAutoscaler` 和 `PodDisruptionBudget` 的 `Gateway`：
 
@@ -288,14 +355,23 @@ spec:
       gateway.networking.k8s.io/gateway-name: gateway
 {{< /text >}}
 
-### 手动部署  {#manual-deployment}
+### 手动部署 {#manual-deployment}
 
 如果您不希望使用自动部署，可以进行[手动配置](/zh/docs/setup/additional-setup/gateway/)
 `Deployment` 和 `Service`。
 
 完成此选项后，您将需要手动将 `Gateway` 链接到 `Service`，并保持它们的端口配置同步。
 
+为了支持策略附件，例如当您在 AuthorizationPolicy 上使用
+[`targetRef`](/zh/docs/reference/config/type/workload-selector/#PolicyTargetReference) 字段时，
+您还需要通过向网关 Pod 添加以下标签来引用 `Gateway` 的名称：
+`gateway.networking.k8s.io/gateway-name: <gateway name>`。
+
 要将 `Gateway` 链接到 `Service`，需要将 `addresses` 字段配置为指向**单个** `Hostname`。
+
+{{< tip >}}
+如果 `Service` 与 `Gateway` 位于不同的命名空间中，Istio 的控制器将不会配置 `Service`。
+{{< /tip >}}
 
 {{< text yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -309,7 +385,7 @@ spec:
 ...
 {{< /text >}}
 
-## 网格流量  {#mesh-traffic}
+## 网格流量 {#mesh-traffic}
 
 Gateway API 也可以用来配置网格流量。
 具体做法是配置 `parentRef` 指向一个服务，而不是指向一个 Gateway。
@@ -340,7 +416,7 @@ spec:
 
 有关更多详情和示例，请参阅其他[流量管理](/zh/docs/tasks/traffic-management/)。
 
-## 清理  {#cleanup}
+## 清理 {#cleanup}
 
 1. 删除 `httpbin` 示例和网关：
 

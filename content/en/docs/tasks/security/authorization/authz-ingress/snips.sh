@@ -245,7 +245,7 @@ curl "$INGRESS_HOST:$INGRESS_PORT"/headers -s -o /dev/null -w "%{http_code}\n"
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_6() {
-CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 }
 
 ! IFS=$'\n' read -r -d '' snip_ipbased_allow_list_and_deny_list_6_out <<\ENDSNIP
@@ -253,7 +253,7 @@ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | s
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_7() {
-CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n istio-system | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 }
 
 ! IFS=$'\n' read -r -d '' snip_ipbased_allow_list_and_deny_list_7_out <<\ENDSNIP
@@ -261,7 +261,7 @@ CLIENT_IP=$(kubectl get pods -n istio-system -o name -l istio=ingressgateway | s
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_8() {
-CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $3}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 }
 
 ! IFS=$'\n' read -r -d '' snip_ipbased_allow_list_and_deny_list_8_out <<\ENDSNIP
@@ -269,7 +269,7 @@ CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway
 ENDSNIP
 
 snip_ipbased_allow_list_and_deny_list_9() {
-CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | awk -F: '{print $2}' | sed 's/ //') && echo "$CLIENT_IP"
+CLIENT_IP=$(kubectl get pods -n foo -o name -l gateway.networking.k8s.io/gateway-name=httpbin-gateway | sed 's|pod/||' | while read -r pod; do kubectl logs "$pod" -n foo | grep remoteIP; done | tail -1 | awk -F, '{print $4}' | sed 's/.*: //;s/:[0-9]*$//;s/[][]//g') && echo "$CLIENT_IP"
 }
 
 ! IFS=$'\n' read -r -d '' snip_ipbased_allow_list_and_deny_list_9_out <<\ENDSNIP
