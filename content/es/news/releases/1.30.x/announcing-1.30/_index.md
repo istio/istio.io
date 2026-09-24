@@ -55,7 +55,7 @@ Istio 1.30 añade soporte para Helm v4 (apply del lado del servidor). También s
 ### Seguridad
 
 - **Autenticación de endpoints de depuración reforzada.** Los endpoints de depuración XDS (`syncz`, `config_dump`) en el puerto 15010 ahora requieren autenticación cuando `ENABLE_DEBUG_ENDPOINT_AUTH=true` (predeterminado). Una nueva configuración `DEBUG_ENDPOINT_AUTH_ALLOWED_NAMESPACES` permite a los operadores autorizar namespaces específicos más allá del namespace del sistema. Consulta las [notas de actualización](upgrade-notes/) para los detalles del cambio disruptivo.
-- **Flag de versión TLS mínima** para `pilot-discovery` (`--tls-min-version`), permitiendo a los operadores establecer el mínimo para TLS del plano de control.
+- **Flag de versión TLS mínima** para `pilot-discovery` (`--tls-min-version`), permitiendo a los operadores establecer el mínimo para TLS del control plane.
 - **Registro predeterminado** para imágenes de Istio ahora es `registry.istio.io`. El registro anterior sigue siendo accesible, pero las nuevas instalaciones tienen como predeterminado la nueva ubicación.
 
 ### Instalación y Operabilidad
