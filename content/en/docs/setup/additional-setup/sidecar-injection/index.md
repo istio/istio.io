@@ -260,7 +260,7 @@ spec:
 
 Kubernetes native sidecars can opt in to private Unix-domain socket (UDS) administration.
 
-Set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
+You can set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
 mesh `defaultConfig.proxyMetadata`, the `proxy.istio.io/config` annotation, or a
 `ProxyConfig` resource's `environmentVariables`:
 
