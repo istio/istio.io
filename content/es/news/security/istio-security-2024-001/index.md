@@ -17,7 +17,7 @@ skip_seealso: true
 
 ### CVEs de Envoy
 
-**Nota**: En el momento de la publicación, los siguientes avisos de seguridad aún no habían sido publicados, pero deberían publicarse en breve.
+**Nota**: En el momento de la publicación, los siguientes avisos de seguridad aún no han sido publicados, pero deberían publicarse en breve.
 
 - __[CVE-2024-23322](https://github.com/envoyproxy/envoy/security/advisories/GHSA-6p83-mfmh-qv38)__: (CVSS Score 7.5, High): Envoy causa un crash cuando se produce un tiempo de espera de solicitud por intento dentro del intervalo de backoff en estado inactivo.
 - __[CVE-2024-23323](https://github.com/envoyproxy/envoy/security/advisories/GHSA-x278-4w4x-r7ch)__: (CVSS Score 4.3, Moderate): Uso excesivo de CPU cuando el matcher de plantillas URI está configurado usando regex.
