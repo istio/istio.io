@@ -259,19 +259,8 @@ spec:
 ### Native-sidecar administration
 
 Kubernetes native sidecars can opt in to private Unix-domain socket (UDS) administration.
-The default transport is `TCP`; traditional sidecars support only `TCP`.
-To select `UDS`, set these annotations on the workload's pod template:
 
-{{< text yaml >}}
-spec:
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/nativeSidecar: "true"
-        sidecar.istio.io/adminTransport: "UDS"
-{{< /text >}}
-
-You can also set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
+Set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
 mesh `defaultConfig.proxyMetadata`, the `proxy.istio.io/config` annotation, or a
 `ProxyConfig` resource's `environmentVariables`:
 
