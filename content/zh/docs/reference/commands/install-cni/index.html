@@ -1543,6 +1543,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code></code></td>
 <td>Comma separated list of additional labels to be added to metadata exchange filter.</td>
 </tr>
+<tr id='pilot-node-untaint-check-ztunnel'>
+<td><a href='#pilot-node-untaint-check-ztunnel'><code>PILOT_NODE_UNTAINT_CHECK_ZTUNNEL</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, the node-untaint controller also requires ztunnel to be ready on a node before removing the readiness taint. Only applies when ambient is enabled.</td>
+</tr>
 <tr id='pilot-node-untaint-controllers-taint-name'>
 <td><a href='#pilot-node-untaint-controllers-taint-name'><code>PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME</code></a></td>
 <td>String</td>
