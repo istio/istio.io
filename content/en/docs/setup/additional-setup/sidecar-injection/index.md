@@ -265,9 +265,9 @@ UDS removes these HTTP access paths by placing Envoy administration on a socket 
 and disabling the agent's HTTP shutdown and drain handlers.
 This is defense in depth; it does not change the [shared trust boundary between the application and sidecar](/docs/ops/deployment/security-model/#workload-compromise).
 
-You can set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
-mesh `defaultConfig.proxyMetadata`, the `proxy.istio.io/config` annotation, or a
-`ProxyConfig` resource's `environmentVariables`:
+Prefer configuring the transport through proxy configuration. You can set
+`ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through mesh `defaultConfig.proxyMetadata`,
+the `proxy.istio.io/config` annotation, or a `ProxyConfig` resource's `environmentVariables`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1beta1
@@ -283,6 +283,18 @@ spec:
     ISTIO_ENVOY_ADMIN_TRANSPORT: UDS
 {{< /text >}}
 
+For a per-pod override, set `sidecar.istio.io/adminTransport` on the workload's pod template.
+For example, to use TCP for a workload when proxy configuration selects UDS:
+
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/adminTransport: "TCP"
+{{< /text >}}
+
+Set the annotation to `UDS` to override TCP for a native sidecar.
 The pod annotation takes precedence over effective proxy metadata, followed by the `TCP` default.
 
 Changing the transport, including rolling back to `TCP`, requires pod recreation.
