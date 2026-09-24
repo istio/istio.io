@@ -1,13 +1,36 @@
 ---
-title: Notas de Actualización
+title: Notas de Actualización de Istio 1.30
 description: Cambios importantes a considerar al actualizar a Istio 1.30.0.
 weight: 20
+publishdate: 2026-05-18
 ---
 
-Al actualizar de Istio 1.29.0 a Istio 1.30.0, debes considerar los cambios en esta página.
+Al actualizar de Istio 1.29.x a Istio 1.30.x, debes considerar los cambios en esta página.
 Estas notas detallan los cambios que rompen intencionalmente la compatibilidad con versiones anteriores de Istio 1.29.x.
 Las notas también mencionan cambios que preservan la compatibilidad con versiones anteriores al mismo tiempo que introducen nuevos comportamientos.
 Solo se incluyen cambios si el nuevo comportamiento sería inesperado para un usuario de Istio 1.29.x.
+
+## Los CRDs de la Gateway API deben actualizarse a `v1.5.x`
+
+Istio 1.30 actualiza su dependencia de la Gateway API a `v1.5.1` y lee `TLSRoute` y
+`ReferenceGrant` del canal estándar (`gateway.networking.k8s.io/v1`).
+
+Si actualizas Istio a 1.30 sin actualizar también los CRDs de la Gateway API en tu clúster a
+`v1.5.x`, los recursos `TLSRoute` y `ReferenceGrant` se volverán invisibles para istiod. Los
+listeners de `Gateway` TLS passthrough existentes reportarán silenciosamente
+`status.listeners[].attachedRoutes: 0` y el listener de Envoy no se programará.
+
+Antes de actualizar a Istio 1.30, instala los CRDs de la Gateway API `v1.5.x` del canal estándar:
+
+{{< text bash >}}
+$ kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.5.1"
+{{< /text >}}
+
+O, si usas el canal experimental:
+
+{{< text bash >}}
+$ kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=v1.5.1"
+{{< /text >}}
 
 ## Permisos del archivo de configuración CNI cambiados a 0600
 
@@ -22,8 +45,8 @@ la configuración de la variable de entorno `values.cni.env.CNI_CONF_GROUP_READ=
 
 Anteriormente, solo el Plugin CNI respetaba la configuración `excludeNamespaces` omitiendo el procesamiento de los pods de namespaces excluidos,
 mientras que el Agente CNI aún reconciliaba y añadía pods con etiqueta ambient en un namespace excluido al mesh.
-Ahora, el Agente CNI respeta los namespaces excluidos, lo que significa que los pods existentes y matriculados en un namespace excluido serán des-matriculados, y
-los nuevos pods con etiqueta ambient en un namespace excluido no serán matriculados.
+Ahora, el Agente CNI respeta los namespaces excluidos, lo que significa que los pods existentes e inscritos en un namespace excluido serán desinscritos, y
+los nuevos pods con etiqueta ambient en un namespace excluido no serán inscritos.
 
 ## Controlador de descontaminación
 
