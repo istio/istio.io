@@ -35,10 +35,10 @@ Esta versión contiene correcciones de errores para mejorar la robustez. Estas n
 
 - **Corregidos** los pushes duplicados y excesivos al usar recursos `WasmPlugin` debido a las conversiones de `TrafficExtension`.
 
-- **Corregido** un problema donde un pod matriculado en ambient podía quedar fuera del ipset de sondeo de salud del host tras un
+- **Corregido** un problema donde un pod inscrito en ambient podía quedar fuera del ipset de sondeo de salud del host tras un
   reinicio del nodo o kubelet, causando que las sondas de kubelet se redirigieran a ztunnel y se rechazaran hasta que el agente de nodo `istio-cni`
-  se reiniciara. Al inicio, el agente de nodo podía expulsar pods aún matriculados del ipset cuando su IP
-  no era aún observable, y ahora vuelve a establecer la membresía en el ipset de sondeo para los pods matriculados durante la reconciliación.
+  se reiniciara. Al inicio, el agente de nodo podía expulsar pods aún inscritos del ipset cuando su IP
+  no era aún observable, y ahora vuelve a establecer la membresía en el ipset de sondeo para los pods inscritos durante la reconciliación.
 
 - **Corregida** la generación de configuración para sidecars anteriores a 1.29.2.
 

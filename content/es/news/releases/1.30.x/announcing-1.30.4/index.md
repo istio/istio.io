@@ -20,7 +20,7 @@ Para más información, consulta [ISTIO-SECURITY-2026-006](/news/security/istio-
 ### CVEs de Envoy
 
 - __[CVE-2026-73513](https://nvd.nist.gov/vuln/detail/CVE-2026-73513)__: (puntuación CVSS 7.5): Corregido un heap use-after-free en `oghttp2` cuando se reciben trailers HTTP/2 sin el flag `END_STREAM`.
-- __[CVE-2026-73552](https://nvd.nist.gov/vuln/detail/CVE-2026-73552)__: (puntuación CVSS 7.5): Corregido un error donde `safe_regex` fallaba abiertamente con bytes de cabecera no UTF-8 en políticas RBAC de coincidencia negativa.
+- __[CVE-2026-73552](https://nvd.nist.gov/vuln/detail/CVE-2026-73552)__: (puntuación CVSS 7.5): Corregido un error donde `safe_regex` fallaba en modo fail-open ante bytes de cabecera no UTF-8 en políticas RBAC de coincidencia negativa.
 - __[CVE-2026-73512](https://nvd.nist.gov/vuln/detail/CVE-2026-73512)__: (puntuación CVSS 7.5): Corregido un use-after-free en el gestor de datagramas HTTP QUIC.
 - __[CVE-2026-73547](https://nvd.nist.gov/vuln/detail/CVE-2026-73547)__: (puntuación CVSS 7.5): Corregida la terminación anormal en `ext_authz` al gestionar solicitudes CONNECT sin cabecera `:path`.
 - __[CVE-2026-73549](https://nvd.nist.gov/vuln/detail/CVE-2026-73549)__: (puntuación CVSS 5.3): Corregida la terminación anormal para direcciones de cliente IPv6 con ámbito con HTTP/3.
@@ -35,7 +35,7 @@ Para más información, consulta [ISTIO-SECURITY-2026-006](/news/security/istio-
 
 ### CVEs de Istio
 
-- [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx) (puntuación CVSS 6.8, Moderada): `BackendTLSPolicy` falla abiertamente a texto plano en proxies sidecar cuando su referencia CA no está resuelta.
+- [GHSA-qm8v-g4f9-qhjx](https://github.com/istio/istio/security/advisories/GHSA-qm8v-g4f9-qhjx) (puntuación CVSS 6.8, Moderada): `BackendTLSPolicy` falla en modo fail-open a texto plano en proxies sidecar cuando su referencia CA no está resuelta.
 
 ### Otras correcciones de seguridad de Istio
 
@@ -57,7 +57,7 @@ Para más información, consulta [ISTIO-SECURITY-2026-006](/news/security/istio-
 
 - **Corregido** un problema donde un pod seleccionado por un `workloadSelector` de `ServiceEntry` podía arrancar sin ese servicio en la configuración entrante de su sidecar. El tráfico al puerto no se gestionaba como el protocolo declarado en el `ServiceEntry`, y la `PeerAuthentication` a nivel de puerto no se aplicaba. El pod no se recuperaba por sí solo; solo reiniciar istiod lo reparaba. ([Issue #61157](https://github.com/istio/istio/issues/61157))
 
-- **Corregido** un problema donde `istio-cni` consideraba los pods `hostNetwork` elegibles para la matriculación ambient. ([Issue #61168](https://github.com/istio/istio/issues/61168))
+- **Corregido** un problema donde `istio-cni` consideraba los pods `hostNetwork` elegibles para la inscripción en ambient. ([Issue #61168](https://github.com/istio/istio/issues/61168))
 
 - **Corregida** una fuga de descriptores de archivo en el agente de nodo `istio-cni`: cuando el escaneo de `procfs` encontraba más de un namespace de red para el mismo pod, el descriptor de archivo netns del candidato perdedor se descartaba sin cerrarlo, anclando el namespace en el kernel hasta la recolección de basura.
 

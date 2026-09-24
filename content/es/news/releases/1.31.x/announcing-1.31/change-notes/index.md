@@ -424,7 +424,7 @@ annotations:
 
 - **Corregido** un error donde el agente de nodo `istio-cni` podía asociar un pod ambient con el network namespace
   de otro pod cuando un proceso de terceros estaba dentro de ese namespace durante un análisis, lo que podía causar
-  que el tráfico se proxiara con la identidad incorrecta. El agente de nodo ahora verifica que un namespace tenga
+  que el tráfico se enrutara a través del proxy con la identidad incorrecta. El agente de nodo ahora verifica que un namespace tenga
   una de las IPs del pod antes de incorporarlo.
   ([Issue #61211](https://github.com/istio/istio/issues/61211))
 
