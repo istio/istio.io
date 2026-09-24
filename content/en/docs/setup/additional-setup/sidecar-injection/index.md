@@ -279,16 +279,6 @@ spec:
 {{< /text >}}
 
 The pod annotation takes precedence over effective proxy metadata, followed by the `TCP` default.
-Values are case-sensitive: only `TCP` and `UDS` are accepted; explicitly empty or unknown values are errors.
-To opt out of metadata-selected UDS, set the pod annotation to `TCP`:
-
-{{< text yaml >}}
-spec:
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/adminTransport: "TCP"
-{{< /text >}}
 
 Changing the transport, including rolling back to `TCP`, requires pod recreation.
 UDS requires native-sidecar injection and Kubernetes native-sidecar support.
