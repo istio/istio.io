@@ -15,7 +15,7 @@ Esta versión contiene correcciones de errores para mejorar la robustez. Estas n
 
 ## Actualización de seguridad
 
-- [CVE-2026-47774](https://github.com/envoyproxy/envoy/security/advisories/GHSA-22m2-hvr2-xqc8) (CVSS score 7.5, High): Un atacante remoto no autenticado puede causar una denegación de servicio agotando la memoria en el proceso de Envoy. Los bytes de la cabecera Cookie no se contabilizan completamente durante la validación del tamaño de la cabecera de solicitud, y los límites de bloques de cabecera HPACK se aplican sobre bytes codificados sin un límite correspondiente al tamaño total de cabecera decodificada, lo que permite a un atacante desencadenar un consumo excesivo de memoria mediante solicitudes HTTP/2 especialmente diseñadas.
+- [CVE-2026-47774](https://github.com/envoyproxy/envoy/security/advisories/GHSA-22m2-hvr2-xqc8) (puntuación CVSS 7.5, Alta): Un atacante remoto no autenticado puede causar una denegación de servicio agotando la memoria en el proceso de Envoy. Los bytes de la cabecera Cookie no se contabilizan completamente durante la validación del tamaño de la cabecera de solicitud, y los límites de bloques de cabecera HPACK se aplican sobre bytes codificados sin un límite correspondiente al tamaño total de cabecera decodificada, lo que permite a un atacante desencadenar un consumo excesivo de memoria mediante solicitudes HTTP/2 especialmente diseñadas.
 
 ## Cambios
 

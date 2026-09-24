@@ -45,8 +45,8 @@ la configuración de la variable de entorno `values.cni.env.CNI_CONF_GROUP_READ=
 
 Anteriormente, solo el Plugin CNI respetaba la configuración `excludeNamespaces` omitiendo el procesamiento de los pods de namespaces excluidos,
 mientras que el Agente CNI aún reconciliaba y añadía pods con etiqueta ambient en un namespace excluido al mesh.
-Ahora, el Agente CNI respeta los namespaces excluidos, lo que significa que los pods existentes y matriculados en un namespace excluido serán des-matriculados, y
-los nuevos pods con etiqueta ambient en un namespace excluido no serán matriculados.
+Ahora, el Agente CNI respeta los namespaces excluidos, lo que significa que los pods existentes e inscritos en un namespace excluido serán desinscritos, y
+los nuevos pods con etiqueta ambient en un namespace excluido no serán inscritos.
 
 ## Controlador de descontaminación
 
