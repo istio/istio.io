@@ -1,7 +1,7 @@
 ---
 title: Notas de Cambios de Istio 1.30.0
 linktitle: 1.30.0
-subtitle: Versión Menor
+subtitle: Versión Principal
 description: Notas de versión de Istio 1.30.0.
 publishdate: 2026-05-18
 release: 1.30.0
@@ -41,7 +41,9 @@ aliases:
 
 - **Añadido** soporte para cargar secrets remotos multiclúster desde una ruta del sistema de archivos local especificada por
   `PILOT_MULTICLUSTER_KUBECONFIG_PATH`. Cuando se establece, Istiod monitorea el directorio montado (para
-  claves `.yaml` o `.yml`) y actualiza dinámicamente los registros de clústeres remotos.
+  claves `.yaml` o `.yml`) y actualiza dinámicamente los registros de clústeres remotos. Si tanto
+  `PILOT_MULTICLUSTER_KUBECONFIG_PATH` como `LOCAL_CLUSTER_SECRET_WATCHER` están configurados,
+  `PILOT_MULTICLUSTER_KUBECONFIG_PATH` tiene precedencia.
   ([Issue #58927](https://github.com/istio/istio/issues/58927))
 
 - **Añadido** soporte experimental para agentgateway en Istio. La configuración de agentgateway
@@ -56,7 +58,8 @@ aliases:
 
 - **Añadida** la posibilidad de configurar los tamaños iniciales de la ventana de flujo y conexión HTTP/2 para los clústeres HBONE CONNECT upstream
   (generados para waypoints y gateways east-west) mediante los flags de características
-  `PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` y `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`.
+  `PILOT_HBONE_INITIAL_STREAM_WINDOW_SIZE` y `PILOT_HBONE_INITIAL_CONNECTION_WINDOW_SIZE`. Pueden usarse para
+  reducir el buffering no deseado.
   ([Issue #59961](https://github.com/istio/istio/issues/59961))
 
 - **Añadida** una anotación `istio.io/connect-strategy` a los `ServiceEntries` para permitir diferentes semánticas de conexión DNS. Los usuarios pueden establecer esto a `RACE_FIRST_TCP_CONNECT` cuando los servidores DNS devuelven múltiples registros A y el cliente debe probar cada endpoint y elegir el primero que resulte en una conexión TCP exitosa.
@@ -65,17 +68,21 @@ aliases:
 - **Añadido** soporte de prioridad de failover para clústeres DNS.
   ([Issue #58674](https://github.com/istio/istio/issues/58674))
 
-- **Añadido** el tiempo de espera de DNS upstream configurable mediante la variable de entorno `DNS_FORWARD_TIMEOUT`. El tiempo de espera predeterminado sigue siendo 5 segundos.
+- **Añadido** el tiempo de espera de DNS upstream configurable mediante la variable de entorno `DNS_FORWARD_TIMEOUT`. El tiempo de espera predeterminado sigue siendo 5 segundos. Los usuarios pueden aumentar el tiempo de espera para servidores DNS de alta latencia o reducirlo para minimizar la latencia de impacto al usuario cuando los servidores DNS no responden. Se configura mediante `DNS_FORWARD_TIMEOUT=10s` en el contenedor `istio-proxy` o de forma global mediante `proxyMetadata`.
   ([Issue #59813](https://github.com/istio/istio/issues/59813))
 
 - **Añadido** soporte para listeners TLS passthrough en gateways east-west, permitiendo que
-  los puertos que no son HBONE se expongan a través de la Gateway API.
+  los puertos que no son HBONE se expongan a través de la Gateway API (p.ej., para enrutar tráfico hacia el
+  servidor de API de Kubernetes a través de límites de red). Requiere que
+  `AMBIENT_ENABLE_MULTI_NETWORK` esté habilitado.
   ([Issue #59223](https://github.com/istio/istio/issues/59223))
 
 - **Añadida** la anotación de distribución de tráfico a nivel de namespace. Los servicios heredan la distribución de tráfico de la anotación del namespace cuando no está explícitamente configurada en el servicio.
   ([Issue #58701](https://github.com/istio/istio/issues/58701))
 
 - **Añadido** soporte de `ServiceEntry` con `DYNAMIC_DNS` comodín para proxies sidecar tanto para ubicaciones `MESH_INTERNAL` como `MESH_EXTERNAL`.
+  Habilita el enrutamiento HTTP L7 (mediante cabecera Host) y el enrutamiento TLS L4 (mediante SNI) con observabilidad para hosts comodín (p.ej., `*.example.com`)
+  en modo sidecar tradicional.
   ([Issue #58244](https://github.com/istio/istio/issues/58244))
 
 - **Añadida** la [API `TrafficExtension`](/blog/2026/traffic-extension-api/) al paquete de extensiones, habilitando el soporte de primera clase para la extensibilidad con Lua.
@@ -84,7 +91,7 @@ aliases:
   TLS` (usados para TLS passthrough a través de `TLSRoute`) ahora se aceptan sin requerir
   `PILOT_ENABLE_ALPHA_GATEWAY_API=true`, ya que `TLSRoute` se graduó a GA en la Gateway API `v1.5.0`.
 
-- **Corregido** un problema que impedía el uso de pods de Namespaces de Usuario de Kubernetes (`hostUsers: false`) junto con istio-cni.
+- **Corregido** un problema que impedía el uso de pods de Namespaces de Usuario de Kubernetes (`hostUsers: false`) junto con istio-cni. El soporte está limitado a sistemas operativos que disponen del binario `nsenter`.
   ([Issue #58750](https://github.com/istio/istio/issues/58750))
 
 - **Corregido** el manejo de CORS de la Gateway API: análisis correcto del encabezado `Origin` cuando se usan orígenes comodín, ignorar solicitudes preflight no coincidentes, y aplicar un análisis más estricto del encabezado `Origin` en general.
@@ -115,11 +122,12 @@ aliases:
 
 - **Corregido** un problema donde un `HTTPRoute` sin `backendRefs` devolvía un código de estado HTTP 500
   en lugar del 404 esperado. Según la especificación de la Gateway API, las rutas sin referencias de backend
-  deben devolver 404, mientras que las rutas con referencias de backend con peso cero deben devolver 500.
+  deben devolver 404, mientras que las rutas con referencias de backend que tienen peso cero
+  deben devolver 500.
   ([Issue #59356](https://github.com/istio/istio/issues/59356))
 
 - **Corregidas** las instalaciones multi-clúster que intentaban validar el dominio de confianza incorrecto cuando el
-  plano de control no tiene un `ClusterRole` `istio-reader` actualizado.
+  control plane no tiene un `ClusterRole` `istio-reader` actualizado, fallando al leer el dominio de confianza del `ConfigMap` remoto. Ahora, istiod usará como alternativa el dominio de confianza especificado en la configuración de mesh local hasta que pueda leer el remoto.
   ([Issue #59474](https://github.com/istio/istio/issues/59474))
 
 - **Corregida** la aplicación de múltiples recursos `VirtualService` para el mismo nombre de host a los waypoints.
@@ -142,7 +150,7 @@ aliases:
 - **Corregido** que istiod empujara endpoints de gateway IPv6 inalcanzables a proxies solo IPv4 (y viceversa)
   en meshes multi-red con balanceadores de carga de gateway east-west dual-stack.
 
-- **Corregida** una condición de carrera que causaba un pánico cuando se añadían y eliminaban inmediatamente `HTTPRoutes`.
+- **Corregida** una condición de carrera que causaba un pánico cuando se añadían y eliminaban inmediatamente `HTTPRoutes`. Esto podía ocurrir cuando un usuario aplicaba un `HTTPRoute` y lo eliminaba antes de que el controlador tuviera la oportunidad de procesarlo.
 
 - **Corregido** un problema que impedía que `HTTPRoute` y `GRPCRoute` coexistieran en el mismo nombre de host del gateway sin conflictos.
   ([Issue #59222](https://github.com/istio/istio/issues/59222))
@@ -150,14 +158,17 @@ aliases:
 - **Corregida** la devolución de `GetAllAddressesForProxy` de direcciones de servicio inalcanzables a los proxies cuando la
   familia IP de `DefaultAddress` no coincide con la familia IP compatible del proxy.
 
-- **Corregido** el campo `to` de `ReferenceGrant` para manejar múltiples entradas; anteriormente solo era efectiva la última entrada.
+- **Corregido** el campo `to` de `ReferenceGrant` para manejar múltiples entradas; anteriormente solo era efectiva la última entrada, causando un `RefNotPermitted` incorrecto para las referencias que coincidían con una entrada anterior.
 
 - **Corregido** el reporte de estado para los recursos `Gateway` y `ListenerSet` para cumplir con la especificación de la Gateway API `v1.5.0`.
+  Cambia el reporte de estado del `Gateway` para incluir el número de `ListenerSets` en el campo `AttachedListenerSets`
+  del recurso `Gateway`, en lugar del número de listeners. También cambia el reporte de estado para los `ListenerSets` para
+  reportar el número de rutas adjuntas a cada listener en el `ListenerSet`.
 
 - **Corregido** un error donde el `percent` predeterminado para `retryBudget` en `DestinationRule` se establecía incorrectamente en 0.2% en lugar del 20% previsto.
   ([Issue #59504](https://github.com/istio/istio/issues/59504))
 
-- **Corregido** un error donde el `retryBudget` configurado en la `trafficPolicy` de nivel superior de una `DestinationRule` se descartaba silenciosamente cuando el destino también tenía un subconjunto con su propia `trafficPolicy`.
+- **Corregido** un error donde el `retryBudget` configurado en la `trafficPolicy` de nivel superior de una `DestinationRule` se descartaba silenciosamente cuando el destino también tenía un subconjunto con su propia `trafficPolicy`. Además, el `retryBudget` definido a nivel de subconjunto también era ignorado.
   ([Issue #59667](https://github.com/istio/istio/issues/59667))
 
 - **Corregidas** las `status.addresses` obsoletas que no se borraban cuando se actualizaba un `ServiceEntry`
@@ -177,7 +188,7 @@ aliases:
 - **Corregido** el mapeo incorrecto de `meshConfig.tlsDefaults.minProtocolVersion` a `tls_minimum_protocol_version` en el contexto TLS descendente.
   ([Issue #58912](https://github.com/istio/istio/issues/58912))
 
-- **Corregida** la expresión regular del comparador `serviceAccount` en `AuthorizationPolicy` para citar correctamente el nombre de la cuenta de servicio. ([CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350))
+- **Corregida** la expresión regular del comparador `serviceAccount` en `AuthorizationPolicy` para citar correctamente el nombre de la cuenta de servicio, permitiendo la coincidencia correcta de cuentas de servicio con caracteres especiales en sus nombres. ([CVE-2026-39350](https://nvd.nist.gov/vuln/detail/CVE-2026-39350))
   ([Issue #59700](https://github.com/istio/istio/issues/59700))
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por Wernerina (<https://github.com/Wernerina>).
@@ -185,20 +196,23 @@ aliases:
 - **Corregido** un problema donde Istiod podía emitir certificados de hoja con un tiempo `NotAfter` más allá del vencimiento del certificado de firma.
   ([Issue #59768](https://github.com/istio/istio/issues/59768))
 
-- **Corregido** un bypass de autorización en la coincidencia de `AuthorizationPolicy` para identidades SPIFFE y namespaces.
+- **Corregido** un bypass de autorización en la coincidencia de `AuthorizationPolicy` para identidades SPIFFE y namespaces. Los metacaracteres de expresiones regulares en campos como `source.principals` (coincidencia por sufijo) y `source.namespaces` no se escapaban correctamente en la configuración de Envoy generada, lo que potencialmente permitía que identidades no deseadas coincidieran con las reglas de la política.
   ([Issue #59992](https://github.com/istio/istio/issues/59992))
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por Alex (<https://github.com/Alex0Young>).
 
 - **Corregido** un error donde la rotación del bundle CA no ocurría cuando los certificados aparecían en diferentes órdenes.
+  Solo se consideran los bloques PEM `CERTIFICATE` estándar durante la comparación; otros tipos de bloque
+  (p.ej., `TRUSTED CERTIFICATE`) se ignoran, de forma consistente con el manejo existente del bundle CA en Istio.
   ([Issue #59909](https://github.com/istio/istio/issues/59909))
 
-- **Corregida** una vulnerabilidad de seguridad crítica donde el mecanismo de fallback de JWKS de Istio filtraba una clave privada RSA. Ver [CVE-2026-31837](https://nvd.nist.gov/vuln/detail/CVE-2026-31837) para detalles.
+- **Corregida** una vulnerabilidad de seguridad crítica donde el mecanismo de fallback de JWKS de Istio filtraba una clave privada RSA, permitiendo a los atacantes falsificar tokens JWT y eludir la autenticación cuando la obtención de JWKS falla. Ver [CVE-2026-31837](https://nvd.nist.gov/vuln/detail/CVE-2026-31837) para detalles.
   ([Advisory GHSA-v75c-crr9-733c](https://github.com/istio/istio/security/advisories/GHSA-v75c-crr9-733c))
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por 1seal (<https://github.com/1seal>).
 
-- **Corregido** el bloqueo de CIDR en URI de JWKS mediante el uso de una función de control personalizada en un `DialContext` personalizado. ([CVE-2026-41413](https://nvd.nist.gov/vuln/detail/CVE-2026-41413))
+- **Corregido** el bloqueo de CIDR en URI de JWKS mediante el uso de una función de control personalizada en un `DialContext` personalizado.
+  La función de control filtra las conexiones después de la resolución DNS pero antes de marcar, permitiendo que el bloqueo siga las redirecciones y la ruta de descubrimiento del emisor. Esto también preserva las características del `DialContext` predeterminado como happy eyeballs y `dialSerial` (intentando cada IP resuelta en orden). ([CVE-2026-41413](https://nvd.nist.gov/vuln/detail/CVE-2026-41413))
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por KoreaSecurity (<https://github.com/KoreaSecurity>), 1seal (<https://github.com/1seal>), y AKiileX (<https://github.com/AKiileX>).
 
@@ -208,7 +222,7 @@ aliases:
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por 1seal (<https://github.com/1seal>).
 
-- **Corregidos** los endpoints de depuración XDS (`istio.io/debug/syncz`, `istio.io/debug/config_dump`) servidos por `StatusGen` para aplicar autorización del mismo namespace a los llamantes que no son del sistema.
+- **Corregidos** los endpoints de depuración XDS (`istio.io/debug/syncz`, `istio.io/debug/config_dump`) servidos por `StatusGen` para aplicar autorización del mismo namespace a los llamantes que no son del sistema. Anteriormente, un workload autenticado de cualquier namespace podía enumerar proxies y obtener volcados de configuración de workloads en otros namespaces.
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por 1seal (<https://github.com/1seal>).
 
@@ -216,7 +230,8 @@ aliases:
 
   **Crédito**: Esta vulnerabilidad fue descubierta y reportada por Sergey Kanibor en Luntry (<https://github.com/r0binak>).
 
-- **Corregidos** los `ReadHeaderTimeout` e `IdleTimeout` faltantes en el servidor HTTPS del webhook de istiod (puerto 15017).
+- **Corregidos** los `ReadHeaderTimeout` e `IdleTimeout` faltantes en el servidor HTTPS del webhook de istiod (puerto 15017),
+  alineándolos con los tiempos de espera existentes en el servidor HTTP (puerto 8080).
 
 - **Corregido** el endpoint de depuración XDS para pasar el namespace del llamante para las comprobaciones de autorización adecuadas.
 
@@ -225,21 +240,28 @@ aliases:
 - **Añadido** soporte para las etiquetas `app.kubernetes.io/name` y `service.istio.io/canonical-name`
   al poblar las etiquetas de métricas `source_app` y `destination_app`. El orden de prioridad es:
   `app` (para compatibilidad con versiones anteriores), luego `app.kubernetes.io/name`, luego `service.istio.io/canonical-name`.
+  Esto permite a los usuarios que solo tienen etiquetas `app.kubernetes.io/name` que sus métricas se poblen correctamente.
   ([Issue #58436](https://github.com/istio/istio/issues/58436))
 
 - **Añadido** el campo `disableContextPropagation` a la API de Tracing de Telemetría, permitiendo a los usuarios deshabilitar
   la propagación de cabeceras de contexto de trazado (p.ej., `X-B3-*`, `traceparent`) independientemente del reporte de spans.
+  Esto es útil para prevenir la filtración de contexto de trazado en gateways de salida manteniendo la observabilidad interna.
   ([Issue #58871](https://github.com/istio/istio/issues/58871))
 
 - **Añadido** soporte para el enriquecimiento de atributos de servicio alineado con las convenciones semánticas de OpenTelemetry
-  para spans de trazado.
+  para spans de trazado. Cuando se establece `serviceAttributeEnrichment: OTEL_SEMANTIC_CONVENTIONS` en el
+  `OpenTelemetryTracingProvider` en `MeshConfig`, `service.name` se calcula siguiendo la
+  cadena de alternativas de atributos de servicio K8s de OTel. Adicionalmente, `service.namespace`,
+  `service.version` y `service.instance.id` se inyectan como `OTEL_RESOURCE_ATTRIBUTES` en
+  el sidecar en tiempo de inyección, y el detector de recursos Environment se habilita automáticamente para que
+  Envoy recoja estos atributos al inicio.
   ([Issue #55026](https://github.com/istio/istio/issues/55026))
 
 - **Añadido** un panel de Uso de Recursos al dashboard Grafana de Ztunnel que superpone conexiones TCP activas, descriptores de archivo abiertos y sockets abiertos por instancia.
 
 - **Corregido** un problema donde el descubrimiento de metadatos de peers basado en baggage interfería con las políticas de tráfico TLS o
   PROXY. Como solución a corto plazo, se deshabilita el descubrimiento de metadatos basado en baggage
-  para las rutas con políticas de tráfico TLS o PROXY configuradas, lo que puede resultar en telemetría incompleta en despliegues multiclúster.
+  para las rutas con políticas de tráfico TLS o PROXY configuradas, lo que puede resultar en telemetría incompleta en despliegues multiclúster. Se está trabajando en abordar esta limitación en versiones futuras.
   ([Issue #59117](https://github.com/istio/istio/issues/59117))
 
 ## Extensibilidad
@@ -253,13 +275,20 @@ aliases:
 ## Instalación
 
 - **Añadido** el valor `useAppArmorAnnotation` al chart de Helm de istio-cni. Predeterminado en `true`.
+  Cuando es `true`, el perfil AppArmor se establece con la anotación `container.apparmor.security.beta.kubernetes.io` (obsoleta en Kubernetes 1.30).
+  En caso contrario, se usa el campo `appArmorProfile` en `securityContext`.
   ([Issue #54721](https://github.com/istio/istio/issues/54721))
 
 - **Añadido** `values.global.enableReaderRBAC` (predeterminado: `true`) para controlar la instalación de
-  `istio-reader-service-account` y su `ClusterRole`/`ClusterRoleBinding` `istio-reader` relacionados.
+  `istio-reader-service-account` y su `ClusterRole`/`ClusterRoleBinding` `istio-reader` relacionados
+  para los flujos de trabajo de secret remoto multiclúster. Establece a `false` para deshabilitar la instalación de estos
+  recursos. Al instalar con Helm, establece `global.enableReaderRBAC=false` tanto en los charts base como en
+  istiod, ya que el `ServiceAccount` es renderizado por el chart base mientras que el `ClusterRole`/`ClusterRoleBinding` relacionado
+  es renderizado por el chart `istiod`.
   ([Issue #56326](https://github.com/istio/istio/issues/56326))
 
-- **Añadido** soporte de Helm v4 (apply del lado del servidor). Corregido un conflicto de propiedad del campo `failurePolicy` del webhook que causaba que `helm upgrade` con SSA fallara.
+- **Añadido** soporte de Helm v4 (apply del lado del servidor). Corregido un conflicto de propiedad del campo `failurePolicy` del webhook
+  que causaba que `helm upgrade` con SSA fallara.
   ([Issue #58302](https://github.com/istio/istio/issues/58302)), ([Issue #59367](https://github.com/istio/istio/issues/59367))
 
 - **Añadidas** anulaciones de puertos configurables para el servicio de gateway de red mediante los valores `networkGatewayPorts`.
@@ -269,7 +298,9 @@ aliases:
   ([Issue #59072](https://github.com/istio/istio/issues/59072))
 
 - **Añadido** el registro de advertencias y errores de análisis de configuración en los registros de istiod
-  para todos los tipos de recursos de Istio (`DestinationRule`, `EnvoyFilter`, `Sidecar`, etc.).
+  para todos los tipos de recursos de Istio (`DestinationRule`, `EnvoyFilter`, `Sidecar`, etc.),
+  de modo que los operadores ya no necesiten inspeccionar los campos de estado de recursos individuales para
+  descubrir configuraciones incorrectas.
   ([Issue #59105](https://github.com/istio/istio/issues/59105))
 
 - **Añadida** la condición de estado `WaypointBound` a los recursos `WorkloadEntry`, reportando si el workload está
@@ -285,12 +316,14 @@ aliases:
 - **Añadidos** los campos `dnsPolicy` y `dnsConfig` al chart de Helm de ztunnel para la configuración DNS personalizada en entornos con requisitos DNS no estándar.
 
 - **Corregidos** los permisos de archivo de configuración CNI al predeterminado 0600 en lugar de 0644 para el cumplimiento del benchmark de Kubernetes CIS `v1.12`.
+  El acceso de lectura de grupo puede habilitarse estableciendo la variable de entorno `values.cni.env.CNI_CONF_GROUP_READ=true` en el
+  `DaemonSet` `istio-cni-node`, lo que establece los permisos en 0640.
   ([Issue #59071](https://github.com/istio/istio/issues/59071))
 
 - **Corregida** una referencia nula que ocurría durante el proceso de actualización en un despliegue multi-primary.
   ([Issue #59153](https://github.com/istio/istio/issues/59153))
 
-- **Corregido** un problema donde establecer los límites o solicitudes de recursos a `null` causaba errores de validación.
+- **Corregido** un problema donde establecer los límites o solicitudes de recursos a `null` causaba errores de validación (`cpu request must be less than or equal to cpu limit of 0`). Esto afectaba a la inyección de proxy, la generación de gateway y los despliegues de charts de Helm.
   ([Issue #58805](https://github.com/istio/istio/issues/58805))
 
 - **Corregida** la variable de entorno `PILOT_ENABLE_NODE_UNTAINT_CONTROLLERS` faltante en el despliegue `istiod` al habilitar el controlador de descontaminación.
@@ -299,7 +332,10 @@ aliases:
 - **Corregidas** las reconciliaciones innecesarias de Helm causadas por `from: []` en las reglas de entrada de `NetworkPolicy`.
 
 - **Corregido** un conflicto del gestor de campos en `ValidatingWebhookConfiguration` durante `helm upgrade` con
-  apply del lado del servidor en herramientas que respetan `.Release.IsUpgrade` (Helm 4, Flux).
+  apply del lado del servidor en herramientas que respetan `.Release.IsUpgrade` (Helm 4, Flux). El campo `failurePolicy`
+  ahora se omite de la plantilla del webhook al actualizar, preservando el valor establecido en tiempo de ejecución
+  por el controlador del webhook. Para herramientas que usan `helm template` con SSA, establece
+  `base.validationFailurePolicy: Fail` para evitar el conflicto.
 
 ## istioctl
 
