@@ -256,6 +256,67 @@ spec:
         allowPrivilegeEscalation: false
 {{< /text >}}
 
+### Native-sidecar administration
+
+Kubernetes native sidecars can opt in to private Unix-domain socket (UDS) administration.
+The default transport is `TCP`; traditional sidecars support only `TCP`.
+To select `UDS`, set these annotations on the workload's pod template:
+
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/nativeSidecar: "true"
+        sidecar.istio.io/adminTransport: "UDS"
+{{< /text >}}
+
+You can also set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
+mesh `defaultConfig.proxyMetadata`, the `proxy.istio.io/config` annotation, or a
+`ProxyConfig` resource's `environmentVariables`:
+
+{{< text yaml >}}
+apiVersion: networking.istio.io/v1beta1
+kind: ProxyConfig
+metadata:
+  name: private-admin
+  namespace: example
+spec:
+  selector:
+    matchLabels:
+      private-admin: "true"
+  environmentVariables:
+    ISTIO_ENVOY_ADMIN_TRANSPORT: UDS
+{{< /text >}}
+
+The pod annotation takes precedence over effective proxy metadata, followed by the `TCP` default.
+Values are case-sensitive: only `TCP` and `UDS` are accepted; explicitly empty or unknown values are errors.
+To opt out of metadata-selected UDS, set the pod annotation to `TCP`:
+
+{{< text yaml >}}
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/adminTransport: "TCP"
+{{< /text >}}
+
+Changing the transport, including rolling back to `TCP`, requires pod recreation.
+UDS requires native-sidecar injection and Kubernetes native-sidecar support.
+Injection rejects UDS with custom bootstrap files, bootstrap templates or overrides,
+custom injection templates, custom proxy lifecycle hooks, or application mounts of the volume containing the admin socket.
+Remove these customizations or select `TCP`.
+
+In UDS mode, Envoy's TCP admin listener is disabled and the agent's `/quitquitquit` and `/drain` endpoints return HTTP 404.
+Readiness, rewritten application probes, Envoy metrics, and merged metrics remain available.
+The injected preStop hook calls `pilot-agent request POST 'drain_listeners?inboundonly&graceful&skip_exit'`.
+Kubernetes terminates the native sidecar after application containers finish; the agent then exits without
+an additional termination drain wait, including when preStop was skipped or failed.
+Jobs do not need to call an HTTP shutdown endpoint.
+
+See [data-plane security considerations](/docs/ops/best-practices/security/#data-plane) and
+[diagnostic access requirements](/docs/ops/diagnostic-tools/proxy-cmd/#accessing-private-administration).
+
 ### Custom templates (experimental)
 
 {{< warning >}}

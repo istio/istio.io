@@ -679,8 +679,15 @@ See the [Integration Guide](/docs/ops/integrations/integration-guide/debug-endpo
 ### Data Plane
 
 The proxy exposes a variety of ports. Exposed externally are port `15090` (telemetry), port `15021` (health check), and port `15020` (merged Prometheus telemetry from Istio agent, Envoy, and the application).
-Port `15000` provides debugging endpoints and is exposed over `localhost` only.
+By default, port `15000` provides debugging endpoints and is exposed over `localhost` only.
 As a result, the applications running in the same pod as the proxy have access; there is no trust boundary between the sidecar and application.
+
+For defense in depth against application HTTP SSRF, native sidecars can
+[select UDS administration](/docs/setup/additional-setup/sidecar-injection/#native-sidecar-administration).
+This removes Envoy's TCP admin listener and the agent's HTTP shutdown and drain handlers.
+Envoy instead listens on `/etc/istio/proxy/admin/admin.sock`, with directory mode `0700` and socket mode `0600`,
+owned by the effective Envoy identity. Application containers must not mount the volume containing this socket.
+Readiness and metrics remain available. This option does not change the application–sidecar trust boundary.
 
 ## Configure third party service account tokens
 
