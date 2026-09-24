@@ -297,7 +297,7 @@ Elimine el namespace `foo`:
 $ kubectl delete namespace foo
 {{< /text >}}
 
-Si descargó `gen-jwt.py` y `key.pem` para la sección de claims delimitados por espacios,
+Si descargaste `gen-jwt.py` y `key.pem` para la sección de claims delimitados por espacios,
 elimínelos:
 
 {{< text bash >}}
