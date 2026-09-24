@@ -31,6 +31,8 @@ _wait_for_deployment foo curl
 
 export TOKEN
 export TOKEN_GROUP
+export TOKEN_ROLES
+export TOKEN_NO_ADMIN
 
 _verify_same  snip_before_you_begin_2 "$snip_before_you_begin_2_out"
 
@@ -66,5 +68,22 @@ _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_10 "$snip_a
 
 _verify_same snip_allow_requests_with_valid_jwt_and_listtyped_claims_11 "$snip_allow_requests_with_valid_jwt_and_listtyped_claims_11_out"
 
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_1
+
+_rewrite_jwks_uri snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_2
+_wait_for_resource requestauthentication foo jwt-example
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_3
+_wait_for_resource authorizationpolicy foo require-jwt
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_4
+
+_verify_same snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_5 "$snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_5_out"
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_6
+
+_verify_same snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_7 "$snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_7_out"
+
 # @cleanup
 snip_clean_up_1
+snip_clean_up_2
