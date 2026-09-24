@@ -687,7 +687,8 @@ For defense in depth against application HTTP SSRF, native sidecars can
 This removes Envoy's TCP admin listener and the agent's HTTP shutdown and drain handlers.
 Envoy instead listens on `/etc/istio/proxy/admin/admin.sock`, with directory mode `0700` and socket mode `0600`,
 owned by the effective Envoy identity. Application containers must not mount the volume containing this socket.
-Readiness and metrics remain available. This option does not change the application–sidecar trust boundary.
+Readiness and metrics remain available. This option does not change the
+[application–sidecar trust boundary](/docs/ops/deployment/security-model/#workload-compromise).
 
 ## Configure third party service account tokens
 

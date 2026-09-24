@@ -259,6 +259,11 @@ spec:
 ### Native-sidecar administration
 
 Kubernetes native sidecars can opt in to private Unix-domain socket (UDS) administration.
+Use UDS to reduce the impact of server-side request forgery (SSRF) vulnerabilities that let an attacker
+make HTTP requests from your application to the proxy's administrative or shutdown endpoints.
+UDS removes these HTTP access paths by placing Envoy administration on a socket available only in the proxy container
+and disabling the agent's HTTP shutdown and drain handlers.
+This is defense in depth; it does not change the [shared trust boundary between the application and sidecar](/docs/ops/deployment/security-model/#workload-compromise).
 
 You can set `ISTIO_ENVOY_ADMIN_TRANSPORT` in effective proxy metadata, through
 mesh `defaultConfig.proxyMetadata`, the `proxy.istio.io/config` annotation, or a
