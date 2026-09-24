@@ -115,12 +115,6 @@ into `istio-proxy`, including when it is an init container. Operators need permi
 and use `pods/exec`. TCP proxies continue to use port forwarding.
 An exec authorization failure is reported without falling back to TCP.
 
-Older `istioctl` versions may require manual exec:
-
-{{< text bash >}}
-$ kubectl exec POD -n NAMESPACE -c istio-proxy -- pilot-agent request GET config_dump
-{{< /text >}}
-
 If the socket is missing or inaccessible, admin requests fail and readiness reflects the failure.
 Check the proxy volume permissions and agent logs, and restart the pod after correcting configuration.
 
