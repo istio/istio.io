@@ -860,7 +860,7 @@ services.</p>
 <p>For example, the following configures the scope of all services with the &ldquo;istio.io/global&rdquo; label
 in matching namespaces to be available globally:</p>
 <pre><code class="language-yaml">serviceScopeConfigs:
- - namespacesSelector:
+ - namespaceSelector:
      matchExpressions:
        - key: istio.io/global
          operator: In
