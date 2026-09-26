@@ -850,6 +850,18 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>protobuf</code></td>
 <td>The content type to use for Kubernetes clients. Defaults to protobuf. Valid options: [protobuf, json]</td>
 </tr>
+<tr id='istio-kube-header-timeout'>
+<td><a href='#istio-kube-header-timeout'><code>ISTIO_KUBE_HEADER_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>1m30s</code></td>
+<td>How long a Kubernetes API request may wait for its response headers. Must exceed the API server&#39;s --request-timeout (60s by default). 0 disables the timeout.</td>
+</tr>
+<tr id='istio-kube-request-timeout'>
+<td><a href='#istio-kube-request-timeout'><code>ISTIO_KUBE_REQUEST_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>15m0s</code></td>
+<td>Default time limit for a Kubernetes API request that does not set its own deadline. 0 disables the limit.</td>
+</tr>
 <tr id='istio-multiroot-mesh'>
 <td><a href='#istio-multiroot-mesh'><code>ISTIO_MULTIROOT_MESH</code></a></td>
 <td>Boolean</td>
@@ -1706,6 +1718,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>istiod_mesh_config_load_errors_total</code></td><td><code>Sum</code></td><td>Total number of errors encountered while loading mesh configuration sources.</td></tr>
 <tr><td><code>istiod_remote_cluster_sync_status</code></td><td><code>LastValue</code></td><td>Current synchronization state of remote clusters managed by istiod. One sample per cluster and state; a value of 1 indicates the cluster is in that state.</td></tr>
 <tr><td><code>istiod_uptime_seconds</code></td><td><code>LastValue</code></td><td>Current istiod server uptime in seconds</td></tr>
+<tr><td><code>kube_client_deadline_fired_total</code></td><td><code>Sum</code></td><td>Number of Kubernetes API requests canceled by a client-side timeout. The window label is header (no response headers arrived) or total (the request did not finish). The host label is the API server.</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
 <tr><td><code>pilot_conflict_outbound_listener_tcp_over_current_tcp</code></td><td><code>LastValue</code></td><td>Number of conflicting tcp listeners with current tcp listener.</td></tr>
