@@ -154,6 +154,10 @@ In the sidecar model, the proxy is co-located with the pod, and runs within the 
 A compromised application can tamper with the proxy through the admin API or other surfaces, including exfiltration of private key material, allowing another agent to impersonate the workload.
 It should be assumed that a compromised workload also includes a compromise of the sidecar proxy.
 
+Native sidecars can [use private UDS administration](/docs/setup/additional-setup/sidecar-injection/#native-sidecar-administration)
+to reduce exposure to application HTTP SSRF by removing TCP admin access and HTTP lifecycle handlers.
+This defense-in-depth option does not change the assumption that a fully compromised workload also compromises its sidecar.
+
 Given this, a compromised workload may:
 * Send arbitrary traffic, with or without mutual TLS.
   These may bypass any proxy configuration, or even the proxy entirely.
