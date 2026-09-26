@@ -58,7 +58,7 @@ function handleLanguageSwitch(): void {
         if (newLang === "en") {
             newLang = "";
             // remove the trailing slash
-            versionString = versionString.substr(0, versionString.length);
+            versionString = versionString.substr(0, versionString.length - 1);
         }
         url.pathname = versionString + newLang + path;
 
