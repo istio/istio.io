@@ -11,8 +11,8 @@ test: yes
 ---
 
 This task shows you how to set up an Istio authorization policy to enforce access
-based on a JSON Web Token (JWT). An Istio authorization policy supports both string typed
-and list-of-string typed JWT claims.
+based on a JSON Web Token (JWT). An Istio authorization policy supports string typed,
+list-of-string typed, and space-delimited string typed JWT claims.
 
 ## Before you begin
 
@@ -180,10 +180,123 @@ Caching and propagation can cause a delay.
     403
     {{< /text >}}
 
+## Allow requests with valid JWT and space-delimited claims
+
+Some JWT claims encode multiple values as a single space-delimited string rather than a JSON
+array. The OAuth2 `scope` claim is a well-known example of this pattern, defined in
+[RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3) as a space-separated list.
+
+Istio always treats the `scope` and `permission` claims as space-delimited, splitting them into
+individual values that authorization policies can match against. For other custom claims that use
+the same encoding, use the `spaceDelimitedClaims` field in your `JWTRule` to opt them in
+explicitly. Without this field, a custom claim value like `"admin editor"` is matched as a
+single exact string.
+
+{{< text json >}}
+{"iss": "testing@secure.istio.io", "roles": "admin editor"}
+{{< /text >}}
+
+1. Download the JWT generation script and signing key:
+
+    {{< text bash >}}
+    $ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
+    $ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/key.pem
+    {{< /text >}}
+
+    {{< tip >}}
+    Download the [jwcrypto](https://pypi.org/project/jwcrypto) library if it is not already
+    installed on your system.
+    {{< /tip >}}
+
+1. The following command updates the `jwt-example` request authentication policy to declare
+   that the `roles` claim is space-delimited:
+
+    {{< text syntax="bash" expandlinks="false" >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1
+    kind: RequestAuthentication
+    metadata:
+      name: "jwt-example"
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: httpbin
+      jwtRules:
+      - issuer: "testing@secure.istio.io"
+        jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+        spaceDelimitedClaims: ["roles"]
+    EOF
+    {{< /text >}}
+
+    {{< warning >}}
+    Without `spaceDelimitedClaims`, a value like `"admin editor"` is treated as a single
+    opaque string. An authorization policy requiring `admin` will never match it, and requests
+    will be denied even when the token contains the right value.
+    {{< /warning >}}
+
+1. The following command updates the `require-jwt` authorization policy to require the `roles`
+   claim to include the value `admin`:
+
+    {{< text syntax="bash" expandlinks="false" >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
+    metadata:
+      name: require-jwt
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: httpbin
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+           requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
+        when:
+        - key: request.auth.claims[roles]
+          values: ["admin"]
+    EOF
+    {{< /text >}}
+
+1. Get a JWT whose `roles` claim is set to the space-delimited string `"admin editor"`:
+
+    {{< text bash >}}
+    $ TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"admin editor"}')
+    {{< /text >}}
+
+1. Verify that a request with that JWT is allowed, because `admin` is present in the
+   space-delimited `roles` claim:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_ROLES" -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+1. Get a JWT whose `roles` claim does not include `admin`:
+
+    {{< text bash >}}
+    $ TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"editor"}')
+    {{< /text >}}
+
+1. Verify that the request is denied:
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_NO_ADMIN" -w "%{http_code}\n"
+    403
+    {{< /text >}}
+
 ## Clean up
 
 Remove the namespace `foo`:
 
 {{< text bash >}}
 $ kubectl delete namespace foo
+{{< /text >}}
+
+If you downloaded `gen-jwt.py` and `key.pem` for the space-delimited claims section, remove them:
+
+{{< text bash >}}
+$ rm -f ./gen-jwt.py ./key.pem
 {{< /text >}}
