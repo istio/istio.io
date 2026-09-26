@@ -945,6 +945,18 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>protobuf</code></td>
 <td>The content type to use for Kubernetes clients. Defaults to protobuf. Valid options: [protobuf, json]</td>
 </tr>
+<tr id='istio-kube-header-timeout'>
+<td><a href='#istio-kube-header-timeout'><code>ISTIO_KUBE_HEADER_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>1m30s</code></td>
+<td>How long a Kubernetes API request may wait for its response headers. Must exceed the API server&#39;s --request-timeout (60s by default). 0 disables the timeout.</td>
+</tr>
+<tr id='istio-kube-request-timeout'>
+<td><a href='#istio-kube-request-timeout'><code>ISTIO_KUBE_REQUEST_TIMEOUT</code></a></td>
+<td>Time Duration</td>
+<td><code>15m0s</code></td>
+<td>Default time limit for a Kubernetes API request that does not set its own deadline. 0 disables the limit.</td>
+</tr>
 <tr id='istio-multiroot-mesh'>
 <td><a href='#istio-multiroot-mesh'><code>ISTIO_MULTIROOT_MESH</code></a></td>
 <td>Boolean</td>
@@ -1847,6 +1859,7 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <tr><td><code>istio_cni_plugin_requests_total</code></td><td><code>Sum</code></td><td>The total number of CNI plugin requests handled by the node agent.</td></tr>
 <tr><td><code>istio_cni_repair_pods_repaired_total</code></td><td><code>Sum</code></td><td>Total number of pods repaired by repair controller</td></tr>
 <tr><td><code>istiod_mesh_config_load_errors_total</code></td><td><code>Sum</code></td><td>Total number of errors encountered while loading mesh configuration sources.</td></tr>
+<tr><td><code>kube_client_deadline_fired_total</code></td><td><code>Sum</code></td><td>Number of Kubernetes API requests canceled by a client-side timeout. The window label is header (no response headers arrived) or total (the request did not finish). The host label is the API server.</td></tr>
 <tr><td><code>nodeagent_reconcile_events_total</code></td><td><code>Sum</code></td><td>The total number of node agent reconcile events.</td></tr>
 <tr><td><code>num_outgoing_retries</code></td><td><code>Sum</code></td><td>Number of outgoing retry requests (e.g. to a token exchange server, CA, etc.)</td></tr>
 <tr><td><code>pilot_conflict_inbound_listener</code></td><td><code>LastValue</code></td><td>Number of conflicting inbound listeners.</td></tr>
