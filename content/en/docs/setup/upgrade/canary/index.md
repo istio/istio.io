@@ -141,11 +141,14 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
 
 {{< boilerplate revision-tags-usage >}}
 
-1. Install two revisions of control plane:
+1. Download both Istio releases and install each control plane with the
+   `istioctl` binary from its matching release:
 
     {{< text bash >}}
-    $ istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
-    $ istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_previous_version >}}.1 sh -
+    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
+    $ ./istio-{{< istio_previous_version >}}.1/bin/istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
+    $ ./istio-{{< istio_full_version >}}/bin/istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
     {{< /text >}}
 
 1. Create `stable` and `canary` revision tags and associate them to the respective revisions:
