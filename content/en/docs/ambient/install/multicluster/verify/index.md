@@ -49,11 +49,14 @@ match the certificate being used by the intermediate host.
 
 ## Deploy the `HelloWorld` Service
 
-In order to make the `HelloWorld` service callable from any cluster, the DNS
-lookup must succeed in each cluster (see
-[deployment models](/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
-for details). We will address this by deploying the `HelloWorld` Service to
-each cluster in the mesh.
+Each cluster's DNS server resolves service names using the Kubernetes Services
+defined in that cluster. A `curl` pod needs a local virtual IP for `HelloWorld`
+before it can send a request; Istio can then route that request to workloads in
+either cluster. This is why the `HelloWorld` Service must be deployed in both
+clusters, even if one cluster has no local `HelloWorld` pods. A `ServiceEntry`
+can also provide the DNS entry, but this guide uses Kubernetes Services. See
+[DNS with multiple clusters](/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
+for more details.
 
 {{< tip >}}
 Before proceeding, ensure that the istio-system namespaces in both clusters have the `istio.io/topology-network` set to the appropriate value (e.g., `network1` for `cluster1` and `network2` for `cluster2`).
