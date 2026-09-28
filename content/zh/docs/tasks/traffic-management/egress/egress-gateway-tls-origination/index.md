@@ -60,7 +60,7 @@ Istio 来通过专门的 Egress 网关服务引导出口流量。
 * [开启 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)，
     如果尚未启用。例如，使用 `istioctl`：
 
-    {{< text bask >}}
+    {{< text bash >}}
     $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 

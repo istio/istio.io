@@ -63,7 +63,7 @@ traffic to external services.
 *   [Enable Envoy’s access logging](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
     if not already enabled. For example, using `istioctl`:
 
-    {{< text bask >}}
+    {{< text bash >}}
     $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 

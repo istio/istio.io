@@ -70,7 +70,7 @@ Egress 网关允许您将 Istio 的功能（例如监控和路由规则）应用
 *   如果访问日志尚未启用，则[启用 Envoy 的访问日志](/zh/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)。
     例如，使用 `istioctl` 命令：
 
-    {{< text bask >}}
+    {{< text bash >}}
     $ istioctl install <安装 Istio 所用的参数> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 
