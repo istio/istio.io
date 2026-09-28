@@ -18,6 +18,8 @@ La salida estándar de los contenedores de Envoy se puede imprimir con el comand
 
 {{< boilerplate start-httpbin-service >}}
 
+<div id="enable-envoy-s-access-logging"></div>
+
 ## Habilitar el registro de acceso de Envoy
 
 Istio ofrece varias formas de habilitar los registros de acceso. Se recomienda el uso de la API de Telemetría.

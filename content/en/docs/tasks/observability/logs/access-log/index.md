@@ -19,6 +19,8 @@ The standard output of Envoy's containers can then be printed by the `kubectl lo
 
 {{< boilerplate start-httpbin-service >}}
 
+<div id="enable-envoy-s-access-logging"></div>
+
 ## Enable Envoy's access logging
 
 Istio offers a few ways to enable access logs. Use of the Telemetry API is recommended
