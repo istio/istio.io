@@ -16,9 +16,9 @@ your mesh. For example, dashboards that support Istio include:
 * [Kiali](/docs/tasks/observability/kiali/)
 * [Prometheus](/docs/tasks/observability/metrics/querying-metrics/)
 
-By default, Istio defines and generates a set of standard metrics (e.g.
-`requests_total`), but you can also customize them and create new metrics
-using the [Telemetry API](/docs/tasks/observability/telemetry/).
+By default, Istio generates a set of [standard metrics](/docs/reference/config/metrics/),
+such as `istio_requests_total`. The [Telemetry API](/docs/reference/config/telemetry/)
+lets you enable or disable these metrics and customize their dimensions.
 
 ## Before you begin
 
@@ -32,7 +32,7 @@ the example application throughout this task. For installation instructions, see
 ## Enable custom metrics
 
 To customize telemetry metrics, for example, to add `request_host`
-and `destination_port` dimensions to the `requests_total` metric emitted by both
+and `destination_port` dimensions to the `istio_requests_total` metric emitted by both
 gateways and sidecars in the inbound and outbound direction, use the following:
 
 {{< text bash >}}
