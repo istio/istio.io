@@ -51,3 +51,11 @@ metadata:
         inclusionSuffixes:
         - "upstream_rq_timeout"
 ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_outboundClusterStatName <<\ENDSNIP
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    outboundClusterStatName: "%SERVICE%_%SERVICE_PORT%"
+ENDSNIP

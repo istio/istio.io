@@ -77,6 +77,23 @@ POD="$(kubectl get pod -l app=curl -o jsonpath='{.items[0].metadata.name}')"
 export POD
 _verify_contains snip_get_stats "circuit_breakers"
 
+#configure outbound cluster stat names and confirm they are used
+echo "Verify outbound cluster stat name"
+export IFS=
+echo "$snip_proxyStatsMatcher" > proxyStatsMatcher.yaml
+echo "$snip_outboundClusterStatName" > outboundClusterStatName.yaml
+unset IFS
+istioctl install --set profile=default -y -f proxyStatsMatcher.yaml -f outboundClusterStatName.yaml
+kubectl label namespace default istio-injection=enabled --overwrite
+
+kubectl rollout restart deployment curl
+_wait_for_deployment default curl
+POD="deploy/curl"
+export POD
+# Envoy creates cluster stats on first use, so send a request before checking them.
+kubectl exec "$POD" -c curl -- curl -sS -o /dev/null httpbin:8000/get
+_verify_contains snip_get_stats "cluster.httpbin.default_8000;.upstream_cx_total"
+
 # @cleanup
 set +e
 cleanup_httpbin_sample
