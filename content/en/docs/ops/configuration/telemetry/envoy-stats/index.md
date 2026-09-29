@@ -92,18 +92,13 @@ Note: If you are using `sidecar.istio.io/statsInclusionPrefixes`, `sidecar.istio
 
 ## Istio naming of Envoy resources
 
-Envoy scopes most statistics by the cluster, connection manager, or listener address they belong to.
-Istio generates the cluster and connection manager names when it translates the mesh configuration into Envoy configuration, so they
-also appear in statistic names, Prometheus labels, and access logs.
+Envoy scopes most statistics by the cluster, connection manager, or listener address they belong to. Istio generates the cluster and connection manager names when it translates the mesh configuration into Envoy configuration, so they also appear in statistic names, Prometheus labels, and access logs.
 
 {{< warning >}}
-The names below describe the current behavior of Istio. They are not a stable API and can change between releases.
-Examine the statistics in a canary environment before you upgrade. To keep cluster statistics
-independent of these names, [customize the cluster stat names](#customize-cluster-stat-names).
+The names below describe the current behavior of Istio. They are not a stable API and can change between releases. Examine the statistics in a canary environment before you upgrade. To keep cluster statistics independent of these names, [customize the cluster stat names](#customize-cluster-stat-names).
 {{< /warning >}}
 
-These names apply to sidecar proxies and gateways. Waypoint proxies in ambient mode use different
-cluster names, and ztunnel does not use Envoy.
+These names apply to sidecar proxies and gateways. Waypoint proxies in ambient mode use different cluster names, and ztunnel does not use Envoy.
 
 | Resource | Name format | Example |
 |----------|-------------|---------|
@@ -116,23 +111,16 @@ cluster names, and ztunnel does not use Envoy.
 | Inbound HTTP connection manager | `inbound_<bind address>_<target port>` | `inbound_0.0.0.0_9080` |
 | TCP proxy | the destination cluster stat name, or `<name>.<namespace>` of the `VirtualService` for weighted routes | `outbound\|3306\|\|mysql.default.svc.cluster.local` |
 
-The subset segment of an outbound cluster name is empty when no [`DestinationRule`](/docs/reference/config/networking/destination-rule/)
-subset applies, for example `outbound|9080||reviews.default.svc.cluster.local`.
-Envoy creates the traffic statistics of a cluster, such as `upstream_rq_total`, when the proxy first sends
-traffic to it, so they are missing for clusters that have not received traffic yet.
-To list the clusters and listeners of a proxy, see [debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration).
+The subset segment of an outbound cluster name is empty when no [`DestinationRule`](/docs/reference/config/networking/destination-rule/) subset applies, for example `outbound|9080||reviews.default.svc.cluster.local`. Envoy creates the traffic statistics of a cluster, such as `upstream_rq_total`, when the proxy first sends traffic to it, so they are missing for clusters that have not received traffic yet. To list the clusters and listeners of a proxy, see [debugging Envoy and Istiod](/docs/ops/diagnostic-tools/proxy-cmd/#deep-dive-into-envoy-configuration).
 
-Istio ends most cluster and HTTP connection manager names used in statistics with a `;` delimiter,
-for example:
+Istio ends most cluster and HTTP connection manager names used in statistics with a `;` delimiter, for example:
 
 {{< text syntax=plain snip_id=none >}}
 cluster.outbound|9080||reviews.default.svc.cluster.local;.upstream_rq_total
 http.outbound_0.0.0.0_9080;.downstream_rq_total
 {{< /text >}}
 
-The proxy bootstrap configuration extracts these names into tags, which become labels in the Prometheus
-output of Envoy. For example, `envoy_cluster_upstream_rq_total` has a `cluster_name` label with the value
-`outbound|9080||reviews.default.svc.cluster.local`. The most commonly used tags are:
+The proxy bootstrap configuration extracts these names into tags, which become labels in the Prometheus output of Envoy. For example, `envoy_cluster_upstream_rq_total` has a `cluster_name` label with the value `outbound|9080||reviews.default.svc.cluster.local`. The most commonly used tags are:
 
 - `cluster_name`: the cluster name.
 - `http_conn_manager_prefix`: the HTTP connection manager name.
@@ -140,16 +128,11 @@ output of Envoy. For example, `envoy_cluster_upstream_rq_total` has a `cluster_n
 - `response_code` and `response_code_class`: the HTTP response code, such as `200` or `2xx`.
 - `listener_address`: the address of the listener, such as `0.0.0.0_15006`.
 
-To see the full list of tags and the expressions that extract them, look at the `stats_config`
-element in the output of [`istioctl proxy-config bootstrap`](/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap).
+To see the full list of tags and the expressions that extract them, look at the `stats_config` element in the output of [`istioctl proxy-config bootstrap`](/docs/reference/commands/istioctl/#istioctl-proxy-config-bootstrap).
 
 ## Customize cluster stat names
 
-The [`inboundClusterStatName`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-inbound_cluster_stat_name) and
-[`outboundClusterStatName`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-outbound_cluster_stat_name)
-mesh config options replace the cluster names in statistics with a pattern that you control.
-The names of the clusters themselves do not change, so routing and `istioctl proxy-config` output are not affected.
-The pattern can use the following variables:
+The [`inboundClusterStatName`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-inbound_cluster_stat_name) and [`outboundClusterStatName`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-outbound_cluster_stat_name) mesh config options replace the cluster names in statistics with a pattern that you control. The names of the clusters themselves do not change, so routing and `istioctl proxy-config` output are not affected. The pattern can use the following variables:
 
 | Variable | Value |
 |----------|-------|
@@ -161,12 +144,9 @@ The pattern can use the following variables:
 | `%TARGET_PORT%` | The target port of the workload. Only meaningful in `inboundClusterStatName` cluster names |
 | `%SUBSET_NAME%` | The `DestinationRule` subset name. Only for `outboundClusterStatName` |
 
-Istio appends the `;` delimiter to the result, so the `cluster_name` tag keeps working.
-The same patterns also name the statistics of TCP proxies, without the delimiter.
-They do not change the cluster names in access logs.
+Istio appends the `;` delimiter to the result, so the `cluster_name` tag keeps working. The same patterns also name the statistics of TCP proxies, without the delimiter. They do not change the cluster names in access logs.
 
-If a pattern leaves out `%SUBSET_NAME%`, the clusters of all subsets of a service share the same statistics.
-For example, to name the outbound cluster statistics after the service and port:
+If a pattern leaves out `%SUBSET_NAME%`, the clusters of all subsets of a service share the same statistics. For example, to name the outbound cluster statistics after the service and port:
 
 {{< text syntax=yaml snip_id=outboundClusterStatName >}}
 apiVersion: install.istio.io/v1alpha1
@@ -176,6 +156,4 @@ spec:
     outboundClusterStatName: "%SERVICE%_%SERVICE_PORT%"
 {{< /text >}}
 
-With this setting, the statistics for requests to the `httpbin` service on port `8000` in the `default`
-namespace start with `cluster.httpbin.default_8000;` instead of
-`cluster.outbound|8000||httpbin.default.svc.cluster.local;`.
+With this setting, the statistics for requests to the `httpbin` service on port `8000` in the `default` namespace start with `cluster.httpbin.default_8000;` instead of `cluster.outbound|8000||httpbin.default.svc.cluster.local;`.

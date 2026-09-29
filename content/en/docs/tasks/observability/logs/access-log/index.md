@@ -112,9 +112,7 @@ The following table shows an example using the default access log format for a r
 | `%REQUESTED_SERVER_NAME%`                                          | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
 | `%ROUTE_NAME%`                                                     | `default` | `default`
 
-The values of `%UPSTREAM_CLUSTER_RAW%` and `%REQUESTED_SERVER_NAME%` are names that Istio generates for Envoy.
-See [Istio naming of Envoy resources](/docs/ops/configuration/telemetry/envoy-stats/#istio-naming-of-envoy-resources)
-for their format, which can change between releases.
+The values of `%UPSTREAM_CLUSTER_RAW%` and `%REQUESTED_SERVER_NAME%` are names that Istio generates for Envoy. See [Istio naming of Envoy resources](/docs/ops/configuration/telemetry/envoy-stats/#istio-naming-of-envoy-resources) for their format, which can change between releases.
 
 If `accessLogEncoding` is set to `JSON`, Istio uses the same operators with the following keys:
 
