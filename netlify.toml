@@ -10,7 +10,7 @@
     NODE_VERSION = "22.21.1"
     BUILD_WITH_CONTAINER = "0"
     GO_VERSION = "1.26.0"
-    PYTHON_VERSION = "3.12.3"
+    PYTHON_VERSION = "3.12.14"
     RUBY_VERSION = "3.2.3"
 
 [[headers]]
