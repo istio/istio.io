@@ -29,24 +29,18 @@ the current state and limitations of this feature.
 
 #### Interoperability with Sidecar deployments
 
-There are multiple known issues with enabling ambient multicluster alongside sidecar deployments.
-Here are some of them:
+There are multiple issues with enabling ambient multicluster alongside sidecar deployments.
+The known issues are tracked under [migrate-sidecar-to-ambient label](https://github.com/istio/istio/issues?q=is%3Aissue+state%3Aopen+label%3Amigrate-sidecar-to-ambient).
 
-- [#60343](https://github.com/istio/istio/issues/60343) - ambient multi-network when enabled
-  changes how `ServiceEntry` is treated in remote-primary deployments
-- [#60609](https://github.com/istio/istio/issues/60609) - ambient multi-network when enabled
-  breaks ingress gateway routing to sidecar workloads
-- [#61713](https://github.com/istio/istio/issues/61713) - ambient multi-network when enabled
-  prevents cross-cluster communication between sidecar workloads for services that are not
-  explicitly marked as global.
-
+{{< warning >}}
 If you're willing to try mixing ambient multicluster with sidecar deployments, we will welcome
-feedback, bug reports and fixes. However, as of now, we do not recommend enabling ambient
+feedback, bug reports, and fixes. However, as of now, we do not recommend enabling ambient
 multicluster in an existing production sidecar deployment.
 
 We are working on documenting how to safely enable ambient multicluster in existing sidecar
 deployments, you can indicate your interest and follow along on the progress in
 [#61746](https://github.com/istio/istio/issues/61746).
+{{< /warning >}}
 
 #### Network Topology Restrictions
 
