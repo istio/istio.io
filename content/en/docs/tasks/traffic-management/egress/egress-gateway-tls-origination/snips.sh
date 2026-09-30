@@ -41,9 +41,9 @@ openssl version -a | grep OpenSSL
 OpenSSL 1.1.1g  21 Apr 2020
 ENDSNIP
 
-! IFS=$'\n' read -r -d '' snip_before_you_begin_5 <<\ENDSNIP
-$ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
-ENDSNIP
+snip_before_you_begin_5() {
+istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
+}
 
 snip_perform_tls_origination_with_an_egress_gateway_1() {
 kubectl apply -f - <<EOF
