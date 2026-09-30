@@ -8592,6 +8592,12 @@ These environment variables affect the behavior of the <code>istioctl</code> com
 <td><code>false</code></td>
 <td>If enabled, status messages for ambient mode will be written to resources. Currently, this does not do leader election, so may be unsafe to enable with multiple replicas.</td>
 </tr>
+<tr id='ambient-enable-tls-proxy-http-metrics'>
+<td><a href='#ambient-enable-tls-proxy-http-metrics'><code>AMBIENT_ENABLE_TLS_PROXY_HTTP_METRICS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, enables waypoints to register HTTP metrics for cross-cluster requests when using protocols like TLS or PROXY.</td>
+</tr>
 <tr id='ambient-scoped-address-pushes'>
 <td><a href='#ambient-scoped-address-pushes'><code>AMBIENT_SCOPED_ADDRESS_PUSHES</code></a></td>
 <td>Boolean</td>
