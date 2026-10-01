@@ -200,14 +200,14 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 ENDSNIP
 
-snip_enable_endpoint_discovery_1() {
+snip_enable_crosscluster_service_discovery_1() {
 istioctl create-remote-secret \
   --context="${CTX_CLUSTER1}" \
   --name=cluster1 | \
   kubectl apply -f - --context="${CTX_CLUSTER2}"
 }
 
-snip_enable_endpoint_discovery_2() {
+snip_enable_crosscluster_service_discovery_2() {
 istioctl create-remote-secret \
   --context="${CTX_CLUSTER2}" \
   --name=cluster2 | \
