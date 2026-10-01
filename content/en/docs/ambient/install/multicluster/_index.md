@@ -27,6 +27,21 @@ the current state and limitations of this feature.
 
 ### Known Limitations
 
+#### Interoperability with Sidecar deployments
+
+There are multiple issues with enabling ambient multicluster alongside sidecar deployments.
+The known issues are tracked under [migrate-sidecar-to-ambient label](https://github.com/istio/istio/issues?q=is%3Aissue+state%3Aopen+label%3Amigrate-sidecar-to-ambient).
+
+{{< warning >}}
+If you're willing to try mixing ambient multicluster with sidecar deployments, we will welcome
+feedback, bug reports, and fixes. However, as of now, we do not recommend enabling ambient
+multicluster in an existing production sidecar deployment.
+
+We are working on documenting how to safely enable ambient multicluster in existing sidecar
+deployments, you can indicate your interest and follow along on the progress in
+[#61746](https://github.com/istio/istio/issues/61746).
+{{< /warning >}}
+
 #### Network Topology Restrictions
 
 Multicluster single-network configurations are untested, and may be broken:
@@ -73,12 +88,6 @@ Traffic going to a remote network is not equally distributed between endpoints:
   disproportionate number of requests due to multiplexing of HTTP requests and connection pooling
 - A very similar issue currently exists for sidecar mode as well
 - The solution to this issue is tracked [here](https://github.com/istio/istio/issues/58039)
-
-#### Gateway Limitations
-
-Ambient east-west gateways currently only support meshed mTLS traffic:
-
-- Cannot currently expose `istiod` across networks using ambient east-west gateways. You can still use a classic e/w gateway for this.
 
 {{< tip >}}
 As ambient multicluster matures, many of these limitations will be addressed.
