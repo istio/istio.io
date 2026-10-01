@@ -40,5 +40,5 @@ aliases:
   这可能允许精心设计的机密在运行 `istioctl` 的机器上运行 `exec`
   凭证插件（或通过其他不安全的身份验证字段读取本地文件）。
   现在 kubeconfig 的清理方式与 istiod 清理这些秘密的方式相同。
-  
+
   **感谢**：此漏洞由 Adam Korczynski 发现并报告。
