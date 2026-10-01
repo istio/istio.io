@@ -51,7 +51,7 @@ test: yes
 
 *   [Увімкніть ведення журналу доступу Envoy](/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging) якщо його ще не ввімкнено. Наприклад, за допомогою `istioctl`:
 
-    {{< text bask >}}
+    {{< text bash >}}
     $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 

@@ -75,7 +75,7 @@ controlada.
 *	[Habilite el registro de acceso de Envoy](/es/docs/tasks/observability/logs/access-log/#enable-envoy-s-access-logging)
     si aún no está habilitado. Por ejemplo, usando `istioctl`:
 
-    {{< text bask >}}
+    {{< text bash >}}
     $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
     {{< /text >}}
 

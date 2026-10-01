@@ -29,9 +29,9 @@ snip_before_you_begin_2() {
 export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath={.items..metadata.name})
 }
 
-! IFS=$'\n' read -r -d '' snip_before_you_begin_3 <<\ENDSNIP
-$ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
-ENDSNIP
+snip_before_you_begin_3() {
+istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogFile=/dev/stdout
+}
 
 snip_deploy_istio_egress_gateway_1() {
 kubectl get pod -l istio=egressgateway -n istio-system
