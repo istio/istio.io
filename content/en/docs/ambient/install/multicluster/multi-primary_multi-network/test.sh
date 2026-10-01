@@ -70,8 +70,8 @@ function install_istio_istioctl {
 }
 
 function enable_endpoint_discovery {
-  snip_enable_endpoint_discovery_1
-  snip_enable_endpoint_discovery_2
+  snip_enable_crosscluster_service_discovery_1
+  snip_enable_crosscluster_service_discovery_2
 }
 
 time setup_kiali_helm_repo
