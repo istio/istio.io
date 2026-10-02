@@ -337,8 +337,9 @@ NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)   AG
 istio-eastwestgateway   LoadBalancer   10.0.12.121   34.122.91.98   ...       51s
 {{< /text >}}
 
-## Habilitar el descubrimiento de endpoints
+## Habilitar el descubrimiento de servicios entre clústeres {#enable-endpoint-discovery}
 
+Los secretos remotos permiten que cada control plane descubra los servicios del otro clúster.
 Instala un secreto remoto en `cluster2` que proporcione acceso al API Server de `cluster1`.
 
 {{< text bash >}}
