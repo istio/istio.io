@@ -16,9 +16,9 @@ su malla. Por ejemplo, los dashboards que soportan Istio incluyen:
 * [Kiali](/es/docs/tasks/observability/kiali/)
 * [Prometheus](/es/docs/tasks/observability/metrics/querying-metrics/)
 
-Por defecto, Istio define y genera un conjunto de métricas estándar (por ejemplo,
-`requests_total`), pero también puede personalizarlas y crear nuevas métricas
-utilizando la [API de Telemetría](/es/docs/tasks/observability/telemetry/).
+Por defecto, Istio genera un conjunto de [métricas estándar](/es/docs/reference/config/metrics/),
+como `istio_requests_total`. La [API de Telemetría](/es/docs/reference/config/telemetry/)
+le permite habilitar o deshabilitar estas métricas y personalizar sus dimensiones.
 
 ## Antes de empezar
 
@@ -32,7 +32,7 @@ application de ejemplo a lo largo de esta tarea. Para obtener instrucciones de i
 ## Habilitar métricas personalizadas
 
 Para personalizar las métricas de telemetría, por ejemplo, para agregar las dimensiones `request_host`
-y `destination_port` a la métrica `requests_total` emitida tanto por los
+y `destination_port` a la métrica `istio_requests_total` emitida tanto por los
 gateways como por los sidecars en la dirección de entrada y salida, use lo siguiente:
 
 {{< text bash >}}

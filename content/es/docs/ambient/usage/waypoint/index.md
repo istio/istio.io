@@ -98,7 +98,7 @@ EOF
 
 Después de que se aplique el recurso de Gateway, Istiod monitoreará el recurso, desplegará y gestionará el despliegue y el servicio del waypoint correspondiente para los usuarios automáticamente.
 
-### Tipos de tráfico de waypoint
+### Tipos de tráfico de waypoint {#waypoint-traffic-types}
 
 Por defecto, un waypoint solo manejará el tráfico destinado a los **servicios** en sus namespaces. Esta elección se hizo porque el tráfico dirigido solo a un pod es raro y, a menudo, se usa para fines internos, como el raspado de Prometheus, y es posible que no se desee la sobrecarga adicional del procesamiento L7.
 
@@ -149,6 +149,25 @@ servicio [headless](https://kubernetes.io/docs/concepts/services-networking/serv
 Si la etiqueta `istio.io/use-waypoint` existe tanto en un namespace como en un servicio, el waypoint del servicio tiene prioridad sobre el waypoint del namespace siempre que el waypoint del servicio pueda manejar el tráfico de `service` o `all`. Del mismo modo, una etiqueta en un pod tendrá prioridad sobre una etiqueta de namespace.
 {{< /tip >}}
 
+### Gateways de entrada y waypoints {#ingress-and-waypoints}
+
+La etiqueta `istio.io/use-waypoint` rige el tráfico **east-west**: las solicitudes desde otros pods de la mesh hacia el namespace, servicio o workload etiquetado se envían a través del waypoint de destino para aplicar políticas de capa 7 y recopilar telemetría.
+
+El tráfico desde una **Istio ingress gateway** hacia ese `Service` se modela por separado. De forma predeterminada, el tráfico originado en la ingress gateway **no** usará el waypoint del servicio de destino, incluso cuando `istio.io/use-waypoint` esté definido en el servicio o en el namespace.
+
+Para dirigir el tráfico de entrada a través del mismo waypoint que el tráfico de la mesh, define **`istio.io/ingress-use-waypoint`** como `true` en el `Service` de Kubernetes, o en el `Namespace` para aplicarlo a todos los servicios de ese namespace (soportado a partir de Istio 1.25). Consulta la referencia de [etiquetas de recursos](/docs/reference/config/labels/#IoIstioIngressUseWaypoint) para ver los tipos de recursos soportados.
+
+{{< text syntax=bash >}}
+$ kubectl label service reviews istio.io/ingress-use-waypoint=true
+service/reviews labeled
+{{< /text >}}
+
+{{< tip >}}
+Habilitar esta ruta provoca **procesamiento de capa 7 tanto en la ingress gateway como en el waypoint** (un patrón de gateway de dos niveles). Ten en cuenta las reglas de autorización, la latencia y las métricas de ambos saltos.
+{{< /tip >}}
+
+El control plane solo aplica este comportamiento cuando **`ENABLE_INGRESS_WAYPOINT_ROUTING`** está habilitado en istiod; su valor predeterminado es `false`. Consulta [`ENABLE_INGRESS_WAYPOINT_ROUTING`](/docs/reference/commands/pilot-discovery/#enable-ingress-waypoint-routing) en la referencia de variables de entorno de pilot-discovery.
+
 ### Configurar un servicio para que use un waypoint específico
 
 Usando los servicios de la aplicación de ejemplo [bookinfo](/es/docs/examples/bookinfo/), podemos desplegar un waypoint llamado `reviews-svc-waypoint` para el servicio `reviews`:
@@ -194,6 +213,37 @@ El tipo de destino original del tráfico se utiliza para determinar si se utiliz
 Por ejemplo, el tráfico que se dirige a un servicio, aunque finalmente se resuelva en una IP de pod, siempre es tratado por la mesh ambient como para el servicio y usaría un waypoint adjunto al servicio.
 {{< /tip >}}
 
+### Requerir que el tráfico atraviese el waypoint {#require-waypoint}
+
+La etiqueta `istio.io/use-waypoint` registra tu intención de enviar el tráfico a través de un waypoint, pero por sí sola no garantiza que esto ocurra. ztunnel enruta el tráfico directamente al destino, en lugar de fallar la solicitud, cuando:
+
+* el waypoint indicado no existe o no tiene dirección; o
+* el tipo de tráfico no coincide con el tráfico que maneja el waypoint; por ejemplo, una solicitud enviada directamente a un workload (una IP de pod o de VM) cuando el waypoint solo maneja tráfico de servicio, que es el valor [predeterminado](#waypoint-traffic-types).
+
+En cualquiera de los dos casos, las políticas de capa 7 que el waypoint habría aplicado nunca llegan a tener efecto, y el tráfico fluye como si no hubiera ningún waypoint configurado.
+
+Si aplicar las políticas de capa 7 de un waypoint es un requisito de seguridad, haz que el waypoint sea obligatorio con una `AuthorizationPolicy` que solo permita la identidad del waypoint. Un waypoint usa la cuenta de servicio con el mismo nombre que su `Gateway`, por lo que una política en los workloads de destino que solo permita esa identidad deniega a cualquier cliente que llegue a ellos sin pasar primero por el waypoint. Continuando con el waypoint `reviews-svc-waypoint` anterior:
+
+{{< text syntax=yaml >}}
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-waypoint
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: reviews
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/reviews-svc-waypoint
+{{< /text >}}
+
+Esta política usa un `selector` de workload en lugar de un `targetRef`, por lo que ztunnel la aplica en capa 4. Por tanto, tiene efecto en ambos casos de evasión: cuando el waypoint no está disponible y cuando un cliente se conecta directamente al workload.
+
 ## Uso de waypoint entre namespaces {#usewaypointnamespace}
 
 De forma predeterminada, un proxy de waypoint es utilizable por los recursos dentro del mismo namespace. A partir de Istio 1.23, es posible usar waypoints en diferentes namespaces. En esta sección, examinaremos
@@ -207,7 +257,7 @@ Para habilitar el uso entre namespaces de un waypoint, la `Gateway` debe configu
 La palabra clave `All` se puede especificar como el valor para `allowedRoutes.namespaces.from` para permitir rutas desde cualquier namespace.
 {{< /tip >}}
 
-La siguiente `Gateway` permitiría que los recursos en un namespace llamado "cross-namespace-waypoint-consumer" usen esta `egress-gateway`:
+La siguiente `Gateway` permitiría que los recursos en un namespace llamado "cross-namespace-waypoint-consumer" usen esta `egress-gateway`. Para una guía completa paso a paso sobre cómo usar un waypoint como gateway de salida, consulta [Gateways de salida](/es/docs/ambient/usage/egress-gateway/).
 
 {{< text syntax=yaml >}}
 kind: Gateway
