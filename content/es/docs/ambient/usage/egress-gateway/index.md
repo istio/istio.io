@@ -97,7 +97,7 @@ $ kubectl exec -n istio-egress deploy/waypoint -c istio-proxy -- pilot-agent req
 Un valor distinto de cero en `upstream_rq_total` (el número de solicitudes que el waypoint reenvió upstream) confirma que el waypoint está actuando como gateway de salida.
 
 {{< warning >}}
-Inscribir un namespace hace que el tráfico pase por el waypoint, pero no impide rutas directas si el waypoint no está disponible. Si el control de salida es un requisito de seguridad, agrega una `AuthorizationPolicy` que solo permita la identidad del waypoint, aplicada en L4 por ztunnel. Consulta [Requerir que el tráfico atraviese el waypoint](/docs/ambient/usage/waypoint/#require-waypoint).
+Inscribir un namespace hace que el tráfico pase por el waypoint, pero no impide rutas directas si el waypoint no está disponible. Si el control de salida es un requisito de seguridad, agrega una `AuthorizationPolicy` que solo permita la identidad del waypoint, aplicada en L4 por ztunnel. Consulta [Requerir que el tráfico atraviese el waypoint](/es/docs/ambient/usage/waypoint/#require-waypoint).
 {{< /warning >}}
 
 ## Aplicar políticas de acceso
@@ -227,7 +227,7 @@ $ kubectl label namespace default istio.io/dataplane-mode-
 ## Ver también
 
 - [Configurar proxies de waypoint](/es/docs/ambient/usage/waypoint/): despliegue e inscripción general de waypoints
-- [Requerir que el tráfico atraviese el waypoint](/docs/ambient/usage/waypoint/#require-waypoint): fuerza que el tráfico de salida no pueda evitar el waypoint
-- [Visibilidad de ServiceEntry](/es/docs/ambient/usage/serviceentry-visibility/): controla qué namespaces pueden descubrir cada `ServiceEntry`
+- [Requerir que el tráfico atraviese el waypoint](/es/docs/ambient/usage/waypoint/#require-waypoint): fuerza que el tráfico de salida no pueda evitar el waypoint
+- [Visibilidad de ServiceEntry](/docs/ambient/usage/serviceentry-visibility/): controla qué namespaces pueden descubrir cada `ServiceEntry`
 - [Usar características de capa 7](/es/docs/ambient/usage/l7-features/): lista completa de políticas y rutas L7 disponibles en un waypoint
 - [Gateways de salida (modo sidecar)](/es/docs/tasks/traffic-management/egress/egress-gateway/): la configuración equivalente en modo sidecar para comparar

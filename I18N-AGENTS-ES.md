@@ -107,4 +107,3 @@ Use these canonical choices across Spanish content for consistency:
 
 Add a short note in the PR describing the choice and rationale (accuracy/consistency). If a term is controversial, prefer matching **existing Istio Spanish glossary usage** unless it conflicts with the “keep in English” list above.
 
-

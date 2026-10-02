@@ -44,7 +44,10 @@ Una política `PeerAuthentication` con el modo mTLS establecido en `STRICT` perm
 
 ### gateways de entrada y salida y pods en modo ambient
 
-Una gateway de entrada puede ejecutarse en un namespace no ambient y exponer los servicios proporcionados por los pods en modo ambient, modo sidecar o que no están en la mesh. También se admite la interoperabilidad entre los pods en modo ambient y las gateways de Istio.
+Una gateway de entrada puede ejecutarse en un namespace no ambient y exponer los servicios proporcionados por los pods en modo ambient, modo sidecar o que no están en la mesh. También se admite la interoperabilidad entre los pods en modo ambient
+y las gateways de salida de Istio. Consulta [gateways de salida](/es/docs/ambient/usage/egress-gateway/) para aprender a usar un waypoint como gateway de salida dedicado
+en modo ambient. Para enviar tráfico de entrada a través de un waypoint de destino en modo ambient, usa la etiqueta `istio.io/ingress-use-waypoint`
+tal como se describe en [Gateways de entrada y waypoints](/es/docs/ambient/usage/waypoint/#ingress-and-waypoints).
 
 ## Lógica de selección de pods para los modos ambient y sidecar
 
