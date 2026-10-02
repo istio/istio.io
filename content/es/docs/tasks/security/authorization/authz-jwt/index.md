@@ -276,7 +276,7 @@ como `"admin editor"` se compara como una única cadena exacta.
     200
     {{< /text >}}
 
-1. Obtenga un JWT cuyo claim `roles` no incluya `admin`:
+6. Obtenga un JWT cuyo claim `roles` no incluya `admin`:
 
     {{< text bash >}}
     $ TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"editor"}')
