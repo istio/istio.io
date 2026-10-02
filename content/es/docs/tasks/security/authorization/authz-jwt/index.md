@@ -209,7 +209,7 @@ como `"admin editor"` se compara como una única cadena exacta.
     en su sistema.
     {{< /tip >}}
 
-1. El siguiente comando actualiza la política de autenticación de solicitudes `jwt-example`
+2. El siguiente comando actualiza la política de autenticación de solicitudes `jwt-example`
    para declarar que el claim `roles` es delimitado por espacios:
 
     {{< text syntax="bash" expandlinks="false" >}}
@@ -236,7 +236,7 @@ como `"admin editor"` se compara como una única cadena exacta.
     las solicitudes serán denegadas incluso cuando el token contenga el valor correcto.
     {{< /warning >}}
 
-1. El siguiente comando actualiza la política de autorización `require-jwt` para requerir
+3. El siguiente comando actualiza la política de autorización `require-jwt` para requerir
    que el claim `roles` incluya el valor `admin`:
 
     {{< text syntax="bash" expandlinks="false" >}}
@@ -261,14 +261,14 @@ como `"admin editor"` se compara como una única cadena exacta.
     EOF
     {{< /text >}}
 
-1. Obtenga un JWT cuyo claim `roles` esté establecido en la cadena delimitada por espacios
+4. Obtenga un JWT cuyo claim `roles` esté establecido en la cadena delimitada por espacios
    `"admin editor"`:
 
     {{< text bash >}}
     $ TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"admin editor"}')
     {{< /text >}}
 
-1. Verifique que una solicitud con ese JWT es permitida, porque `admin` está presente en el
+5. Verifique que una solicitud con ese JWT es permitida, porque `admin` está presente en el
    claim `roles` delimitado por espacios:
 
     {{< text bash >}}
@@ -282,7 +282,7 @@ como `"admin editor"` se compara como una única cadena exacta.
     $ TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"editor"}')
     {{< /text >}}
 
-1. Verifique que la solicitud es denegada:
+7. Verifique que la solicitud es denegada:
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_NO_ADMIN" -w "%{\n}"
