@@ -27,6 +27,21 @@ el estado actual y las limitaciones de esta característica.
 
 ### Limitaciones conocidas
 
+#### Interoperabilidad con despliegues de sidecar
+
+Existen múltiples problemas al habilitar multiclúster en modo ambient junto con despliegues de sidecar.
+Los problemas conocidos se rastrean bajo la [etiqueta migrate-sidecar-to-ambient](https://github.com/istio/istio/issues?q=is%3Aissue+state%3Aopen+label%3Amigrate-sidecar-to-ambient).
+
+{{< warning >}}
+Si quieres probar a combinar multiclúster en modo ambient con despliegues de sidecar, agradeceremos
+tu feedback, reportes de bugs y correcciones. Sin embargo, por ahora no recomendamos habilitar
+multiclúster en modo ambient en un despliegue de sidecar existente en producción.
+
+Estamos trabajando en documentar cómo habilitar de forma segura multiclúster en modo ambient en
+despliegues de sidecar existentes; puedes indicar tu interés y seguir el progreso en
+[#61746](https://github.com/istio/istio/issues/61746).
+{{< /warning >}}
+
 #### Restricciones de topología de red
 
 Las configuraciones multiclúster de red única no han sido probadas y pueden estar rotas:
@@ -70,12 +85,6 @@ El tráfico hacia una red remota no se distribuye igualmente entre endpoints:
 - Al hacer failover a una red remota, un solo endpoint en una red remota puede recibir un número desproporcionado de requests debido al multiplexing de requests HTTP y el pooling de conexiones
 - Un problema muy similar existe actualmente también en modo sidecar
 - La solución a este problema se rastrea [aquí](https://github.com/istio/istio/issues/58039)
-
-#### Limitaciones del gateway
-
-Los gateways east-west en modo ambient actualmente solo soportan tráfico mTLS en la mesh:
-
-- Actualmente no es posible exponer `istiod` entre redes usando gateways east-west en modo ambient. Puedes seguir usando un gateway e/w clásico para esto.
 
 {{< tip >}}
 A medida que el multiclúster en modo ambient madura, muchas de estas limitaciones se abordarán.

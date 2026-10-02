@@ -277,7 +277,7 @@ Como vio anteriormente, las reglas de enrutamiento son una herramienta poderosa 
 particulares de tráfico a destinos particulares. Puede establecer condiciones de coincidencia en
 puertos de tráfico, campos de cabecera, URIs y más. Por ejemplo, este virtual service
 permite a los usuarios enviar tráfico a dos services separados, ratings y reviews, como si
-fueran parte de un virtual service más grande en `http://bookinfo.com/.` Las
+fueran parte de un virtual service más grande en `http://bookinfo.com/`. Las
 reglas del virtual service coinciden con el tráfico basándose en las URIs de solicitud y dirigen las solicitudes al
 service apropiado.
 
