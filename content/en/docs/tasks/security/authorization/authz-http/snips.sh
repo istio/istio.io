@@ -51,7 +51,26 @@ spec:
 EOF
 }
 
-snip_configure_access_control_for_workloads_using_http_traffic_3() {
+snip_bookinfo_gateway_viewer() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: bookinfo-gateway-viewer
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      gateway.networking.k8s.io/gateway-name: bookinfo-gateway
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+EOF
+}
+
+snip_configure_access_control_for_workloads_using_http_traffic_4() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -73,7 +92,7 @@ spec:
 EOF
 }
 
-snip_configure_access_control_for_workloads_using_http_traffic_4() {
+snip_configure_access_control_for_workloads_using_http_traffic_5() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -95,7 +114,7 @@ spec:
 EOF
 }
 
-snip_configure_access_control_for_workloads_using_http_traffic_5() {
+snip_configure_access_control_for_workloads_using_http_traffic_6() {
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
@@ -123,4 +142,8 @@ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
 kubectl delete authorizationpolicy.security.istio.io/details-viewer
 kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
 kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+}
+
+snip_cleanup_bookinfo_gateway() {
+kubectl delete authorizationpolicy.security.istio.io/bookinfo-gateway-viewer --ignore-not-found
 }
