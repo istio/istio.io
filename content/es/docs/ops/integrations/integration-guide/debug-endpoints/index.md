@@ -23,7 +23,7 @@ Los endpoints de depuración requieren autenticación mediante tokens de cuenta 
 
 **Puerto 15012 (gRPC con TLS):** Los endpoints de depuración de XDS están disponibles a través del puerto TLS seguro. La autenticación se realiza automáticamente mediante validación de certificados mTLS.
 
-**Puerto 15014 (HTTP):** Autenticación mediante token portador (bearer token) en el encabezado Authorization o mediante evasión por localhost.
+**Puerto 15014 (HTTP):** Autenticación mediante token portador (bearer token) en el encabezado Authorization u omisión de la autenticación mediante localhost.
 
 La autenticación se controla mediante `ENABLE_DEBUG_ENDPOINT_AUTH` (habilitada de forma predeterminada). Para deshabilitar la autenticación por completo y restaurar el comportamiento heredado en texto plano, establece `ENABLE_DEBUG_ENDPOINT_AUTH=false` en istiod. Ten en cuenta que deshabilitar la autenticación puede exponer información sensible del clúster.
 
@@ -44,7 +44,7 @@ Cuando la autenticación está habilitada:
 
 **Mediante localhost (recomendado):**
 
-El port-forwarding hacia istiod evita la autenticación, ya que las solicitudes provienen de localhost. Así es como funciona istioctl, y es el enfoque recomendado para la mayoría de las integraciones:
+La redirección de puertos (`port-forward`) hacia istiod evita la autenticación, ya que las solicitudes provienen de localhost. Así es como funciona istioctl, y es el enfoque recomendado para la mayoría de las integraciones:
 
 {{< text bash >}}
 $ kubectl port-forward -n istio-system deploy/istiod 15014:15014

@@ -55,7 +55,7 @@ propias APIs de configuración de Istio —como `VirtualService`, `DestinationRu
 `PeerAuthentication`, `RequestAuthentication`, `Telemetry`, `WasmPlugin` y `EnvoyFilter`— **no**
 se aplican a los proxies de agentgateway. Usa la Gateway API para expresar el enrutamiento y las políticas en su lugar.
 
-El formato de configuración nativo propio de agentgateway y sus recursos personalizados tampoco son gestionados por
+La configuración nativa propia de agentgateway y sus recursos personalizados tampoco son gestionados por
 Istio; Istio programa el proxy únicamente a través de los recursos de Gateway API descritos en esta guía.
 {{< /warning >}}
 

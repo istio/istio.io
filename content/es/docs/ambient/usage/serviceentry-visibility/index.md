@@ -11,7 +11,7 @@ Un [`ServiceEntry`](/es/docs/reference/config/networking/service-entry/) agrega 
 
 El campo [`exportTo`](/es/docs/ops/configuration/mesh/configuration-scoping/) no protege contra esto, porque lo declara el propio autor del `ServiceEntry`: permite que el propietario de un servicio delimite lo que publica, pero no impone ninguna restricción firme. Históricamente, un administrador de la mesh necesitaría restringir la creación de `ServiceEntry` con un control de admisión externo, como un `ValidatingAdmissionPolicy` o un webhook de Kubernetes.
 
-A partir de Istio 1.31, la configuración de mesh [`serviceEntryVisibility`](/es/docs/reference/config/istio.mesh.v1alpha1/#ServiceEntryVisibility) le da al administrador de la mesh ese control desde un único lugar. El data plane {{< gloss >}}ambient{{< /gloss >}} ({{< gloss >}}ztunnel{{< /gloss >}} y {{< gloss "waypoint" >}}waypoints{{< /gloss >}}) respeta la visibilidad siempre que esté configurada; los sidecars y gateways pueden [habilitarla de forma explícita](#extending-visibility-to-sidecars-and-gateways). La característica es inerte a menos que se configure: si `serviceEntryVisibility` no está establecido, nada cambia.
+A partir de Istio 1.31, la configuración de mesh [`serviceEntryVisibility`](/docs/reference/config/istio.mesh.v1alpha1/#ServiceEntryVisibility) le da al administrador de la mesh ese control desde un único lugar. El data plane {{< gloss >}}ambient{{< /gloss >}} ({{< gloss >}}ztunnel{{< /gloss >}} y {{< gloss "waypoint" >}}waypoints{{< /gloss >}}) respeta la visibilidad siempre que esté configurada; los sidecars y gateways pueden [habilitarla de forma explícita](#extending-visibility-to-sidecars-and-gateways). La característica es inerte a menos que se configure: si `serviceEntryVisibility` no está establecido, nada cambia.
 
 El diseño refleja deliberadamente un patrón familiar de Kubernetes: un `RoleBinding` solo tiene efecto dentro de su propio namespace, mientras que crear un efecto a nivel de clúster con un `ClusterRoleBinding` está reservado para los administradores del clúster. `serviceEntryVisibility` le permite al administrador de la mesh aplicar el mismo modelo a `ServiceEntry`: al establecer `defaultVisibility: NAMESPACE`, un administrador hace que cada `ServiceEntry` se comporte como cualquier otro recurso delimitado por namespace, y la visibilidad más allá del propio namespace de un `ServiceEntry` se convierte en una capacidad que el administrador otorga explícitamente.
 
@@ -36,7 +36,7 @@ Un `ServiceEntry` se resuelve en una de tres visibilidades:
 | `NAMESPACE` | Visible únicamente dentro del namespace en el que está definido el `ServiceEntry`. |
 | `NONE` | No es visible para nadie: el `ServiceEntry` se puede escribir, pero Istio no configura ningún data plane para él. Útil para prohibir expresamente una clase de `ServiceEntry`. |
 
-Consulta la [referencia de configuración de mesh](/es/docs/reference/config/istio.mesh.v1alpha1/#ServiceEntryVisibility) para la documentación completa de los campos.
+Consulta la [referencia de configuración de mesh](/docs/reference/config/istio.mesh.v1alpha1/#ServiceEntryVisibility) para la documentación completa de los campos.
 
 ## Configurar la visibilidad
 
@@ -48,10 +48,10 @@ kind: IstioOperator
 spec:
   meshConfig:
     serviceEntryVisibility:
-      # Los ServiceEntries que no coincidan con ninguna política a continuación permanecen en su propio namespace.
+      # ServiceEntries matching no policy below stay in their own namespace.
       defaultVisibility: NAMESPACE
       policies:
-        # Los ServiceEntries en istio-system son visibles en toda la mesh.
+        # ServiceEntries in istio-system are visible mesh-wide.
         - visibility: PUBLIC
           matchingRules:
             - namespaceSelector:
@@ -89,7 +89,7 @@ Enlazar un waypoint en el *mismo* namespace funciona normalmente, y los recursos
 
 ## Extender la visibilidad a sidecars y gateways {#extending-visibility-to-sidecars-and-gateways}
 
-En {{< gloss >}}modo sidecar{{< /gloss >}}, los propietarios de servicios ya delimitan sus recursos `ServiceEntry` con `exportTo`, por lo que respetar la visibilidad es opcional para los sidecars, lo que permite una adopción incremental durante una migración a ambient sin cambiar un despliegue sidecar que ya funciona:
+En {{< gloss "sidecar" >}}modo sidecar{{< /gloss >}}, los propietarios de servicios ya delimitan sus recursos `ServiceEntry` con `exportTo`, por lo que respetar la visibilidad es opcional para los sidecars, lo que permite una adopción incremental durante una migración a ambient sin cambiar un despliegue sidecar que ya funciona:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -141,7 +141,7 @@ Los `Service` de Kubernetes siempre reportan `Public`; los servicios respaldados
 
 ## Ver también
 
-* [Referencia de configuración de mesh `ServiceEntryVisibility`](/es/docs/reference/config/istio.mesh.v1alpha1/#ServiceEntryVisibility)
+* [Referencia de configuración de mesh `ServiceEntryVisibility`](/docs/reference/config/istio.mesh.v1alpha1/#ServiceEntryVisibility)
 * [Delimitación de configuración](/es/docs/ops/configuration/mesh/configuration-scoping/) — `exportTo` y `Sidecar` para el modo sidecar, además de `discoverySelectors`, que se aplican en todos los modos de data plane
 * [Proxying de DNS](/es/docs/ops/configuration/traffic-management/dns-proxy/)
 * [Configurar proxies waypoint](/es/docs/ambient/usage/waypoint/)
