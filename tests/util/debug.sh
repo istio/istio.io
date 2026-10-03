@@ -13,6 +13,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+if [[ -z "${TEST_DEBUG_FILE:-}" ]]; then
+  echo "TEST_DEBUG_FILE must be set before enabling test debug output"
+  exit 1
+fi
 
 echo "Creating test debug file: ${TEST_DEBUG_FILE}"
 

@@ -18,14 +18,23 @@ source "content/en/boilerplates/snips/args.sh"
 
 K8S_GATEWAY_API_CRDS="github.com/kubernetes-sigs/gateway-api/config/crd/experimental?ref=${bpsnip_args_gateway_api_version}"
 GATEWAY_API="true"
+# Build optional kubectl context argument
+function _gateway_context_arg() {
+    local context="${1:-}"
+    if [[ -n "$context" ]]; then
+        echo "--context=$context"
+    fi
+}
 
 function install_gateway_api_crds() {
-    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply --server-side -f - --context="$1"
+    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl apply --server-side -f - $(_gateway_context_arg "$1")
+
 }
 
 function remove_gateway_api_crds() {
-    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl delete -f - --context="$1"
+    kubectl kustomize "${K8S_GATEWAY_API_CRDS}" | kubectl delete -f - $(_gateway_context_arg "$1")
 
-    kubectl get --context="$1" gateways.gateway.networking.k8s.io >/dev/null 2>&1 || true
+
+    kubectl get $(_gateway_context_arg "$1") gateways.gateway.networking.k8s.io >/dev/null 2>&1 || true
     # TODO ^^^ remove this kludge which forces the name "gateway" to not stay bound to the deleted crd
 }
