@@ -259,7 +259,7 @@ pod/reviews-v2-5b667bcbf8-spnnh labeled
 发往服务的流量也始终被 Ambient 网格视为到服务，并使用服务附加的 waypoint。
 {{< /tip >}}
 
-### 要求流量经过航点 waypoint {#require-waypoint}
+### 要求流量经过 waypoint {#require-waypoint}
 
 `istio.io/use-waypoint` 标签记录了您通过 waypoint 发送流量的意图，
 但它本身并不能保证这种情况会发生。ztunnel 在以下情况下将流量直接路由到目的地，而不是使请求失败：
@@ -406,8 +406,8 @@ $ kubectl get service reviews -o jsonpath='{.status.conditions}'
 可以将关键字 `All` 指定为 `allowedRoutes.namespaces.from` 的值，以允许来自任何命名空间的路由。
 {{< /tip >}}
 
-以下 `Gateway` 将允许名为 `cross-namespace-waypoint-consumer`
-的命名空间中的资源使用此 `egress-gateway`：
+以下 `Gateway` 将允许名为“cross-namespace-waypoint-consumer”的命名空间中的资源使用此 `egress-gateway`。
+有关使用 waypoint 作为出口网关的完整分步指南，请参阅[出口网关](/zh/docs/ambient/usage/egress-gateway/)。
 
 {{< text syntax=yaml >}}
 apiVersion: gateway.networking.k8s.io/v1
