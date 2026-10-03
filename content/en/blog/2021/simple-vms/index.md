@@ -81,7 +81,7 @@ Maybe installing envoy on every virtual machine is still too complex. An alterna
 
 ## Part 2…
 
-In part 2, I will explain how to configure Istio as well as a virtual machine to communicate within the mesh. If you would like a preview, feel free to reach out to nick.nellis@solo.io
+In part 2, I will explain how to configure Istio as well as a virtual machine to communicate within the mesh. If you would like a preview, feel free to reach out to <nick.nellis@solo.io>
 
 ### Special Thanks
 
