@@ -156,6 +156,83 @@ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata
 403
 ENDSNIP
 
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_1 <<\ENDSNIP
+{"iss": "testing@secure.istio.io", "roles": "admin editor"}
+ENDSNIP
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_2() {
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
+}
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_3() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: "jwt-example"
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  jwtRules:
+  - issuer: "testing@secure.istio.io"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    spaceDelimitedClaims: ["roles"]
+EOF
+}
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_4() {
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+  namespace: foo
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+       requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
+    when:
+    - key: request.auth.claims[roles]
+      values: ["admin"]
+EOF
+}
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_5() {
+TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"admin editor"}')
+}
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_6() {
+kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_ROLES" -w "%{http_code}\n"
+}
+
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_6_out <<\ENDSNIP
+200
+ENDSNIP
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_7() {
+TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"editor"}')
+}
+
+snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_8() {
+kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_NO_ADMIN" -w "%{http_code}\n"
+}
+
+! IFS=$'\n' read -r -d '' snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_8_out <<\ENDSNIP
+403
+ENDSNIP
+
 snip_clean_up_1() {
 kubectl delete namespace foo
+}
+
+snip_clean_up_2() {
+rm -f ./gen-jwt.py ./key.pem
 }
