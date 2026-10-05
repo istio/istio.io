@@ -49,15 +49,15 @@ always takes precedence over profile defaults.
 
 | Setting | Default value |
 |---------|---------------|
-| `listenerPerConnectionBufferLimitBytes` | 32768 (32 KiB) |
-| `clusterPerConnectionBufferLimitBytes` | 32768 (32 KiB) |
-| `httpIdleTimeout` | 3600s (1 hour) |
-| `httpRequestTimeout` | 300s (5 minutes) |
-| `httpStreamIdleTimeout` | 300s (5 minutes) |
+| `listenerPerConnectionBufferLimitBytes` | `32768 (32 KiB)` |
+| `clusterPerConnectionBufferLimitBytes` | `32768 (32 KiB)` |
+| `httpIdleTimeout` | `3600s` (1 hour) |
+| `httpRequestTimeout` | `300s` (5 minutes) |
+| `httpStreamIdleTimeout` | `300s` (5 minutes) |
 | `httpMaxConcurrentStreams` | 100 |
-| `http2InitialStreamWindowSize` | 65536 (64 KiB) |
+| `http2InitialStreamWindowSize` | `65536 (64 KiB)` |
 | `http2InitialConnectionWindowSize` | 1048576 (1 MiB) |
-| `httpRequestHeadersTimeout` | 60s (1 minute) |
+| `httpRequestHeadersTimeout` | `60s` (1 minute) |
 | `httpHeadersWithUnderscoresAction` | `REJECT_REQUEST` |
 | `httpMergeSlashes` | true |
 | `httpPathWithEscapedSlashesAction` | `UNESCAPE_AND_REDIRECT` |
