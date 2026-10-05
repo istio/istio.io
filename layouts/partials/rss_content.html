@@ -1,0 +1,15 @@
+{{- $content := .Content -}}
+{{- $base := urls.Parse .Permalink -}}
+{{- range findRE `\s(?:href|src|xlink:href)=["'][^"']+["']` $content -}}
+    {{- $attribute := . -}}
+    {{- $url := replaceRE `^\s[^=]+=["']([^"']+)["']$` "$1" $attribute -}}
+    {{- $parsed := urls.Parse $url -}}
+    {{- $absolute := $url -}}
+    {{- if and (hasPrefix $url "/") (not (hasPrefix $url "//")) -}}
+        {{- $absolute = absURL (strings.TrimPrefix "/" $url) -}}
+    {{- else if not $parsed.IsAbs -}}
+        {{- $absolute = ($base.ResolveReference $parsed).String -}}
+    {{- end -}}
+    {{- $content = replace $content $attribute (replace $attribute $url $absolute) -}}
+{{- end -}}
+{{- return ($content | safeHTML) -}}
