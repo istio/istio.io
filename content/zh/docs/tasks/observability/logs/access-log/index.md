@@ -109,6 +109,41 @@ $ istioctl install <flags-you-used-to-install-Istio> --set meshConfig.accessLogF
 | `%REQUESTED_SERVER_NAME%`                                          | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
 | `%ROUTE_NAME%`                                                     | `default` | `default`
 
+`%UPSTREAM_CLUSTER_RAW%` 和 `%REQUESTED_SERVER_NAME%` 的值是 Istio 为 Envoy 生成的名称。
+请参阅 [Istio Envoy 资源命名](/zh/docs/ops/configuration/telemetry/envoy-stats/#istio-naming-of-envoy-resources)了解其格式，
+该格式可能会在版本之间发生变化。
+
+如果 `accessLogEncoding` 设置为 `JSON`，Istio 使用具有以下键的相同运算符：
+
+{{< text syntax=json snip_id=none >}}
+{
+  "start_time": "%START_TIME%",
+  "method": "%REQ(:METHOD)%",
+  "path": "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%",
+  "protocol": "%PROTOCOL%",
+  "response_code": "%RESPONSE_CODE%",
+  "response_flags": "%RESPONSE_FLAGS%",
+  "response_code_details": "%RESPONSE_CODE_DETAILS%",
+  "connection_termination_details": "%CONNECTION_TERMINATION_DETAILS%",
+  "upstream_transport_failure_reason": "%UPSTREAM_TRANSPORT_FAILURE_REASON%",
+  "bytes_received": "%BYTES_RECEIVED%",
+  "bytes_sent": "%BYTES_SENT%",
+  "duration": "%DURATION%",
+  "upstream_service_time": "%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%",
+  "x_forwarded_for": "%REQ(X-FORWARDED-FOR)%",
+  "user_agent": "%REQ(USER-AGENT)%",
+  "request_id": "%REQ(X-REQUEST-ID)%",
+  "authority": "%REQ(:AUTHORITY)%",
+  "upstream_host": "%UPSTREAM_HOST%",
+  "upstream_cluster": "%UPSTREAM_CLUSTER_RAW%",
+  "upstream_local_address": "%UPSTREAM_LOCAL_ADDRESS%",
+  "downstream_local_address": "%DOWNSTREAM_LOCAL_ADDRESS%",
+  "downstream_remote_address": "%DOWNSTREAM_REMOTE_ADDRESS%",
+  "requested_server_name": "%REQUESTED_SERVER_NAME%",
+  "route_name": "%ROUTE_NAME%"
+}
+{{< /text >}}
+
 ## 测试访问日志  {#test-the-access-log}
 
 1. 从 `curl` 向 `httpbin` 发送一个请求：
