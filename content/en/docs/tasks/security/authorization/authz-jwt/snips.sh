@@ -206,7 +206,7 @@ EOF
 }
 
 snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_5() {
-TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"admin editor"}')
+TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims "roles:admin editor")
 }
 
 snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_6() {
@@ -218,7 +218,7 @@ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata
 ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_7() {
-TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"editor"}')
+TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims "roles:editor")
 }
 
 snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_8() {

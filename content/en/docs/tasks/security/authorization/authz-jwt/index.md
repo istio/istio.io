@@ -263,7 +263,7 @@ single exact string.
 1. Get a JWT whose `roles` claim is set to the space-delimited string `"admin editor"`:
 
     {{< text bash >}}
-    $ TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"admin editor"}')
+    $ TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims "roles:admin editor")
     {{< /text >}}
 
 1. Verify that a request with that JWT is allowed, because `admin` is present in the
@@ -277,7 +277,7 @@ single exact string.
 1. Get a JWT whose `roles` claim does not include `admin`:
 
     {{< text bash >}}
-    $ TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims '{"roles":"editor"}')
+    $ TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims "roles:editor")
     {{< /text >}}
 
 1. Verify that the request is denied:
