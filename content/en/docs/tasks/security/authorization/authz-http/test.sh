@@ -26,7 +26,7 @@ source "tests/util/samples.sh"
 REPEAT=${REPEAT:-100}
 THRESHOLD=${THRESHOLD:-1}
 
-# verify calls curl to send requests to productpage via ingressgateway.
+# verify calls curl to send requests to productpage via the selected gateway.
 # - The 1st argument is the expected http response code
 # - The remaining arguments are the expected text in the http response
 # Return 0 if both the code and text is found in the response for continuously $THRESHOLD times,
@@ -43,12 +43,16 @@ function verify {
   wantText=("$@")
   goodResponse=0
 
-  ingress_url="http://istio-ingressgateway.istio-system/productpage"
+  if [ "$GATEWAY_API" == "true" ]; then
+    ingress_url="http://bookinfo-gateway-istio.default/productpage"
+  else
+    ingress_url="http://istio-ingressgateway.istio-system/productpage"
+  fi
   curl_pod=$(kubectl get pod -l app=curl -n default -o 'jsonpath={.items..metadata.name}')
 
   for ((i=1; i<="$REPEAT"; i++)); do
     set +e
-    response=$(kubectl exec "${curl_pod}" -c curl -n "default" -- curl "${ingress_url}" -sS -w "\n%{http_code}\n")
+    response=$(kubectl exec "${curl_pod}" -c curl -n "default" -- curl "${ingress_url}" -X "${METHOD:-GET}" -sS -w "\n%{http_code}\n")
     set -e
     mapfile -t respArray <<< "$response"
     code=${respArray[-1]}
@@ -90,8 +94,13 @@ startup_bookinfo_sample
 
 # TODO: Using reviews-v3 in this test. Should update the doc to do so as well, to make sure ratings request
 #       are configured when it demonstrates denial of access to the ratings service.
-kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
-_wait_for_resource virtualservice default reviews
+if [ "$GATEWAY_API" == "true" ]; then
+  kubectl apply -f samples/bookinfo/gateway-api/route-reviews-v3.yaml
+  _wait_for_resource httproute default reviews
+else
+  kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+  _wait_for_resource virtualservice default reviews
+fi
 
 snip_configure_access_control_for_workloads_using_http_traffic_1
 _wait_for_resource authorizationpolicy default allow-nothing
@@ -102,27 +111,39 @@ verify 403 "RBAC: access denied"
 snip_configure_access_control_for_workloads_using_http_traffic_2
 _wait_for_resource authorizationpolicy default productpage-viewer
 
+if [ "$GATEWAY_API" == "true" ]; then
+  snip_bookinfo_gateway_viewer
+  _wait_for_resource authorizationpolicy default bookinfo-gateway-viewer
+fi
+
 # Verify we have access to the productpage, but not to details and reviews.
 verify 200 "William Shakespeare" "Error fetching product details" "Error fetching product reviews"
 
-snip_configure_access_control_for_workloads_using_http_traffic_3
+if [ "$GATEWAY_API" == "true" ]; then
+  # Allowing GET through the gateway must not allow other methods.
+  METHOD=POST verify 403 "RBAC: access denied"
+fi
+
 snip_configure_access_control_for_workloads_using_http_traffic_4
+snip_configure_access_control_for_workloads_using_http_traffic_5
 _wait_for_resource authorizationpolicy default details-viewer
 _wait_for_resource authorizationpolicy default reviews-viewer
 
 # Verify we have access to the productpage, but ratings are still not available.
-verify 200 "William Shakespeare" "Ratings service is currently unavailable"
+verify 200 "William Shakespeare" "PublisherA" "Ratings service is currently unavailable"
 
-snip_configure_access_control_for_workloads_using_http_traffic_5
+snip_configure_access_control_for_workloads_using_http_traffic_6
 _wait_for_resource authorizationpolicy default ratings-viewer
 
 # Verify we now have access.
-verify 200 "William Shakespeare" "Book Details" "Book Reviews"
+verify 200 "William Shakespeare" "Book Details" "Book Reviews" "glyphicon glyphicon-star"
 
 # @cleanup
-snip_clean_up_1
-# remaining cleanup (undocumented).
-cleanup_bookinfo_sample
-cleanup_curl_sample
-kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
-kubectl label namespace default istio-injection-
+if [ "$GATEWAY_API" != "true" ]; then
+  snip_clean_up_1
+  # remaining cleanup (undocumented).
+  cleanup_bookinfo_sample
+  cleanup_curl_sample
+  kubectl delete -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+  kubectl label namespace default istio-injection-
+fi
