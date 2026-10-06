@@ -16,7 +16,7 @@ one step using the `EDGE` profile, or configure individual settings for any prox
 
 For the complete field reference, see [`ProxyConfig.ConnectionSettings`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ConnectionSettings).
 
-## Applying the EDGE profile
+## Applying the `EDGE` profile
 
 Set `profile: EDGE` within `connectionSettings` to apply Envoy's recommended edge proxy
 defaults to a gateway. The profile can be set globally via `MeshConfig` or per gateway
@@ -42,7 +42,7 @@ metadata:
     "proxy.istio.io/config": '{"connectionSettings": {"profile": "EDGE"}}'
 {{< /text >}}
 
-### EDGE profile defaults
+### `EDGE` profile defaults
 
 The `EDGE` profile applies the following defaults. Explicitly setting any field
 always takes precedence over profile defaults.
