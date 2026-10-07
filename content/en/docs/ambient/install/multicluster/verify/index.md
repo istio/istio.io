@@ -53,8 +53,12 @@ Each cluster's DNS server resolves service names using the Kubernetes Services
 defined in that cluster. A `curl` pod needs a local virtual IP for `HelloWorld`
 before it can send a request; Istio can then route that request to workloads in
 either cluster. This is why the `HelloWorld` Service must be deployed in both
-clusters, even if one cluster has no local `HelloWorld` pods. A `ServiceEntry`
-can also provide the DNS entry, but this guide uses Kubernetes Services. See
+clusters, even if one cluster has no local `HelloWorld` pods.
+
+A `ServiceEntry` can be used instead of a Kubernetes `Service`, but it does not
+configure Kubernetes DNS. DNS must therefore be configured manually or through
+[Istio DNS proxying with address auto-allocation](/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation).
+This guide uses Kubernetes Services. See
 [DNS with multiple clusters](/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
 for more details.
 
