@@ -19,6 +19,10 @@ with its own `Deployment`, `Service`, etc.
 
 ## Before you upgrade
 
+[Download the Istio releases](/docs/setup/additional-setup/download-istio-release/)
+for both the installed and target versions so that their matching `istioctl`
+binaries are available before you start.
+
 Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
 
 {{< text bash >}}
@@ -141,12 +145,10 @@ If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgr
 
 {{< boilerplate revision-tags-usage >}}
 
-1. Download both Istio releases and install each control plane with the
-   `istioctl` binary from its matching release:
+1. Install two revisions of the control plane, using the `istioctl` binary
+   from the matching release for each revision:
 
     {{< text bash >}}
-    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_previous_version >}}.1 sh -
-    $ curl -L https://istio.io/downloadIstio | ISTIO_VERSION={{< istio_full_version >}} sh -
     $ ./istio-{{< istio_previous_version >}}.1/bin/istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
     $ ./istio-{{< istio_full_version >}}/bin/istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
     {{< /text >}}
