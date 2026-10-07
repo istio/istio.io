@@ -187,6 +187,10 @@ for lang in $LANGS; do
 done
 
 if [ -d ./public ]; then
+    if ! python3 scripts/test_rss_links.py; then
+        FAILED=1
+    fi
+
     if ! python3 scripts/check_rss_links.py public; then
         FAILED=1
     fi

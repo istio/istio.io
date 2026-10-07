@@ -24,14 +24,22 @@ from urllib.parse import urlsplit
 
 
 class LinkParser(HTMLParser):
-    def __init__(self):
+    def __init__(self, site_url):
         super().__init__()
-        self.relative_urls = []
+        self.site_url = urlsplit(site_url)
+        self.invalid_urls = []
 
     def handle_starttag(self, tag, attrs):
         for name, value in attrs:
-            if name in ("href", "src", "xlink:href") and value and not urlsplit(value).scheme:
-                self.relative_urls.append(value)
+            if name not in ("href", "src", "xlink:href") or not value:
+                continue
+            url = urlsplit(value)
+            # Local lint builds have no scheme; deployed feeds must have absolute URLs.
+            if not url.scheme and (self.site_url.scheme or not value.startswith("/")):
+                self.invalid_urls.append(value)
+            base_path = self.site_url.path.rstrip("/")
+            if base_path and url.netloc == self.site_url.netloc and url.path.startswith(base_path + base_path + "/"):
+                self.invalid_urls.append(value)
 
 
 def main():
@@ -42,15 +50,16 @@ def main():
 
     failed = False
     for feed in feeds:
-        parser = LinkParser()
-        for item in ET.parse(feed).findall("channel/item"):
+        tree = ET.parse(feed)
+        parser = LinkParser(tree.findtext("channel/link", ""))
+        for item in tree.findall("channel/item"):
             parser.feed(item.findtext("description", ""))
-        if parser.relative_urls:
-            print(f"{feed}: {len(parser.relative_urls)} relative URLs, including {parser.relative_urls[:3]}")
+        if parser.invalid_urls:
+            print(f"{feed}: {len(parser.invalid_urls)} invalid URLs, including {parser.invalid_urls[:3]}")
             failed = True
     if failed:
         sys.exit(1)
-    print(f"Checked absolute URLs in {len(feeds)} RSS feeds")
+    print(f"Checked URLs in {len(feeds)} RSS feeds")
 
 
 if __name__ == "__main__":
