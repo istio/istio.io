@@ -6,10 +6,6 @@ weight: 10
 In addition to the simple [getting started](/docs/setup/getting-started) evaluation install, there are several different
 methods you can use to install Istio. Which one you should use depends on your production requirements.
 
-The [in-cluster Istio Operator](/blog/2024/in-cluster-operator-deprecation-announcement/)
-was deprecated in Istio 1.23 and removed in Istio 1.24. This does not affect
-installations using `istioctl install` with an `IstioOperator` YAML file.
-
 The following lists some of the pros and cons of each of the available methods:
 
 1. [istioctl install](/docs/setup/install/istioctl/)
