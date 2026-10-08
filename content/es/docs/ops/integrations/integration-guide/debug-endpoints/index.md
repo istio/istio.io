@@ -61,7 +61,7 @@ Para herramientas que se ejecutan dentro del clúster (por ejemplo, Kiali, monit
 
 {{< text bash >}}
 $ TOKEN=$(kubectl create token my-sa --audience istio-ca -n my-namespace)
-$ curl -H "Authorization: ******" https://istiod.istio-system:15014/debug/syncz
+$ curl -H "Authorization: Bearer $TOKEN" https://istiod.istio-system:15014/debug/syncz
 {{< /text >}}
 
 {{< warning >}}
