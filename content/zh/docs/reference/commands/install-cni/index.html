@@ -1429,6 +1429,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If true, pilot will add telemetry related metadata to cluster and endpoint resources, which will be consumed by telemetry filter.</td>
 </tr>
+<tr id='pilot-enable-wds-debounce'>
+<td><a href='#pilot-enable-wds-debounce'><code>PILOT_ENABLE_WDS_DEBOUNCE</code></a></td>
+<td>Boolean</td>
+<td><code>true</code></td>
+<td>If enabled, Pilot will include WDS pushes in the push debouncing, configured by PILOT_DEBOUNCE_AFTER and PILOT_DEBOUNCE_MAX. WDS pushes may be delayed, but there will be fewer pushes. By default this is enabled</td>
+</tr>
 <tr id='pilot-enable-workload-entry-autoregistration'>
 <td><a href='#pilot-enable-workload-entry-autoregistration'><code>PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION</code></a></td>
 <td>Boolean</td>
