@@ -30,7 +30,7 @@ Istio CA 签发中间证书。Istio CA 可以使用管理员指定的证书和�
 
 {{< warning >}}
 以下内容仅用于演示。对于生产型集群的设置，强烈建议使用生产型 CA，如
-[Hashicorp Vault](https://www.hashicorp.com/products/vault)。
+[OpenBao](https://openbao.org/)。
 在具有强大安全保护功能的离线机器上管理根 CA 是一个很好的做法。
 {{< /warning >}}
 
