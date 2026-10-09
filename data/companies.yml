@@ -686,6 +686,13 @@ training:
     description: "ICA Istio Certified Associate"
     details:
     - "In this 3-day ICA Istio Certified Associate training, you will learn to consolidate your fundamental knowledge of Istio principles, terminology and best practices. You will be able to set up Istio successfully and the course will show you how to put your knowledge into practice in this regard. This course prepares you for the ICA Istio Certified Associate certification."
+  - name: "Astrona"
+    logo: "/logos/astrona.svg"
+    url: "https://astrona.io/courses/istio-certified-associate-ica"
+    description: "Istio Certified Associate (ICA)"
+    details:
+      - "Astrona is a free, open learning platform for the cloud native ecosystem. Its Istio Certified Associate (ICA) course follows the exam domains, from installation and traffic management to security and troubleshooting."
+      - "Every module combines readings with hands-on labs that run on your own machine with the Astrona CLI, and mock exams explain every answer. Free to learn — Astrona runs on community donations and enterprise partnerships."
   - name: "Your Name Here"
     logo: "/logos/istio.svg"
     url: "https://github.com/istio/community/blob/master/CONTRIBUTING.md#promote-your-company-on-istioio"
