@@ -980,6 +980,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>1</code></td>
 <td>The maximum number of connections to accept from the kernel per socket event. Set this to &#39;0&#39; to accept unlimited connections.</td>
 </tr>
+<tr id='max-ra-workload-cert-ttl'>
+<td><a href='#max-ra-workload-cert-ttl'><code>MAX_RA_WORKLOAD_CERT_TTL</code></a></td>
+<td>Time Duration</td>
+<td><code>48h0m0s</code></td>
+<td>Upper bound on the TTL a workload may request when Istiod uses the Kubernetes CSR API as its registration authority (EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API). Certificates issued via this path are not revocable, so a tighter cap limits the blast radius of a stolen istio-token. Defaults to 48h.</td>
+</tr>
 <tr id='max-workload-cert-ttl'>
 <td><a href='#max-workload-cert-ttl'><code>MAX_WORKLOAD_CERT_TTL</code></a></td>
 <td>Time Duration</td>
