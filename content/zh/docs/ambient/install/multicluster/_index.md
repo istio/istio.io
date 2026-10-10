@@ -25,6 +25,20 @@ Istio {{< gloss "ambient" >}}Ambient 服务网格{{< /gloss >}}。
 
 ### 已知限制 {#known-limitations}
 
+#### 与 Sidecar 部署的互操作性 {#interoperability-with-sidecar-deployments}
+
+在 Sidecar 部署的同时启用 Ambient 多集群存在多个问题。
+已知问题在 [migrate-sidecar-to-ambient 标签](https://github.com/istio/istio/issues?q=is%3Aissue+state%3Aopen+label%3Amigrate-sidecar-to-ambient)下跟踪。
+
+{{< warning >}}
+如果您愿意尝试将 Ambient 多集群与 Sidecar 部署混合在一起，
+我们将欢迎反馈、错误报告和修复。但是，到目前为止，
+我们不建议在现有生产 Sidecar 部署中启用 Ambient 多集群。
+
+我们正在努力记录如何在现有 Sidecar 部署中安全地启用 Ambient 多集群，
+您可以表明您的兴趣并关注 [#61746](https://github.com/istio/istio/issues/61746) 中的进展。
+{{< /warning >}}
+
 #### 网络拓扑限制 {#network-topology-restrictions}
 
 多集群单网络配置未经测试，可能会出现问题：
