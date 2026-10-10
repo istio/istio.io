@@ -187,6 +187,14 @@ for lang in $LANGS; do
 done
 
 if [ -d ./public ]; then
+    if ! python3 scripts/test_rss_links.py; then
+        FAILED=1
+    fi
+
+    if ! python3 scripts/check_rss_links.py public; then
+        FAILED=1
+    fi
+
     if [[ ${#SKIP_LANGS[@]} -ne 0 ]]; then
         printf -v find_exclude " -name %s -prune -o" "${SKIP_LANGS[@]}"; read -r -a find_exclude <<< "$find_exclude"
     fi
