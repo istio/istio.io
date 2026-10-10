@@ -64,12 +64,13 @@ Istio 支持同一网格内带有 Sidecar 的 Pod 和使用 Ambient 模式的 Po
 
 ### 入口和出口网关以及 Ambient 模式 Pod {#ingress-and-egress-gateways-and-ambient-mode-pods}
 
-入口网关（Ingress Gateway）可以运行在非 Ambient 模式的命名空间中，
-并对外暴露由 Ambient 模式、Sidecar 模式或非网格 Pod 所提供的服务。
-此外，Ambient 模式下的 Pod 与 Istio 出口网关（Egress Gateway）之间也支持互操作。
-若要将入口流量通过 Ambient 模式下的目标 **waypoint** 进行转发，
+入口网关可以在非 Ambient 命名空间中运行，并公开由 Ambient 模式、
+Sidecar 模式或非网格 Pod 提供的服务。Ambient 模式下的 Pod 与 Istio 出口网关之间也支持互操作性。
+请参阅[出口网关](/zh/docs/ambient/usage/egress-gateway/)，
+了解如何在 Ambient 模式下使用 waypoint 作为专用出口网关。
+要在 Ambient 模式下通过目标 waypoint 发送入口流量，
 请使用 `istio.io/ingress-use-waypoint` 标签，
-具体用法详见文档[入口网关与 waypoint](/zh/docs/ambient/usage/waypoint/#ingress-and-waypoints)。
+如[入口网关和 waypoint](/zh/docs/ambient/usage/waypoint/#ingress-and-waypoints) 中所述。
 
 ## Ambient 模式和 Sidecar 模式的 Pod 选择逻辑 {#pod-selection-logic-for-ambient-and-sidecar-modes}
 
