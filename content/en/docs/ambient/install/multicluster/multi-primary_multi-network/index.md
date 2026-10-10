@@ -23,6 +23,21 @@ across cluster boundaries.
 Before proceeding, be sure to complete the steps under
 [before you begin](/docs/ambient/install/multicluster/before-you-begin).
 
+{{< warning >}}
+In a mesh where ambient and sidecar multi-network coexist, enabling ambient
+multi-network changes how an ingress gateway reaches workloads on another
+network. Even when the destination workload uses sidecar mode, ingress traffic
+uses double HBONE through the ambient east-west gateway on port `15008`, rather
+than the classic east-west gateway on port `15443`. The destination sidecar must
+therefore have inbound HBONE support enabled with
+`ISTIO_META_ENABLE_HBONE=true` in its proxy metadata. This setting is enabled by
+default in `MeshConfig` when using the ambient profile, but existing sidecar
+workloads must be restarted to pick it up. Sidecar-to-sidecar traffic can
+continue to use the classic east-west gateway. See the
+[migration guide](/docs/ambient/migrate/install-ambient-components/)
+for restart and verification instructions.
+{{< /warning >}}
+
 {{< boilerplate multi-cluster-with-metallb >}}
 
 In this configuration, both `cluster1` and `cluster2` observe the API Servers
