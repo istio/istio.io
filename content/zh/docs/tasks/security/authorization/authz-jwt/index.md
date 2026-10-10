@@ -10,8 +10,8 @@ owner: istio/wg-security-maintainers
 test: yes
 ---
 
-本教程向您展示如何通过设置 Istio 授权策略来实现基于 JSON Web Token（JWT）的强制访问控制。
-Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
+此任务向您展示如何设置 Istio 授权策略以强制基于 JSON Web Token (JWT) 的访问。
+Istio 授权策略支持字符串类型、字符串列表类型和空格分隔字符串类型的 JWT 声明。
 
 ## 开始之前 {#before-you-begin}
 
@@ -172,6 +172,107 @@ Istio 授权策略同时支持字符串类型和列表类型的 JWT 声明。
 
     {{< text bash >}}
     $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN" -w "%{http_code}\n"
+    403
+    {{< /text >}}
+
+## 允许具有有效 JWT 和空格分隔声明的请求 {#allow-requests-with-valid-jwt-and-space-delimited-claims}
+
+一些 JWT 声明将多个值编码为单个空格分隔的字符串，而不是 JSON 数组。
+OAuth2 `scope` 声明是此模式的一个众所周知的示例，在
+[RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749#section-3.3) 中定义为空格分隔的列表。
+
+Istio 始终将 `scope` 和 `permission` 声明视为以空格分隔，
+将它们拆分为授权策略可以匹配的单独值。对于使用相同编码的其他自定义声明，
+请使用 `JWTRule` 中的 `spaceDelimitedClaims` 字段来显式选择它们。
+如果没有此字段，自定义声明值（如 `"admin editor"`）将作为单个精确字符串进行匹配。
+
+{{< text json >}}
+{"iss": "testing@secure.istio.io", "roles": "admin editor"}
+{{< /text >}}
+
+1. 下载 JWT 生成脚本和签名密钥：
+
+    {{< text bash >}}
+    $ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/gen-jwt.py
+    $ wget --no-verbose {{< github_file >}}/security/tools/jwt/samples/key.pem
+    {{< /text >}}
+
+    {{< tip >}}
+    如果您的系统上尚未安装 [jwcrypto](https://pypi.org/project/jwcrypto) 库，请下载它。
+    {{< /tip >}}
+
+1. 以下命令更新 `jwt-example` 请求身份验证策略以声明 `roles` 声明以空格分隔：
+
+    {{< text syntax="bash" expandlinks="false" >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1
+    kind: RequestAuthentication
+    metadata:
+      name: "jwt-example"
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: httpbin
+      jwtRules:
+      - issuer: "testing@secure.istio.io"
+        jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
+        spaceDelimitedClaims: ["roles"]
+    EOF
+    {{< /text >}}
+
+    {{< warning >}}
+    如果没有 `spaceDelimitedClaims`，`"admin editor"` 之类的值将被视为单个不透明字符串。
+    需要 `admin` 的授权策略永远不会匹配它，即使令牌包含正确的值，请求也会被拒绝。
+    {{< /warning >}}
+
+1. 以下命令更新 `require-jwt` 授权策略，要求 `roles` 声明包含值 `admin`：
+
+    {{< text syntax="bash" expandlinks="false" >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
+    metadata:
+      name: require-jwt
+      namespace: foo
+    spec:
+      selector:
+        matchLabels:
+          app: httpbin
+      action: ALLOW
+      rules:
+      - from:
+        - source:
+           requestPrincipals: ["testing@secure.istio.io/testing@secure.istio.io"]
+        when:
+        - key: request.auth.claims[roles]
+          values: ["admin"]
+    EOF
+    {{< /text >}}
+
+1. 获取一个 JWT，其 `roles` 声明设置为空格分隔的字符串 `"admin editor"`：
+
+    {{< text bash >}}
+    $ TOKEN_ROLES=$(python3 ./gen-jwt.py ./key.pem --claims "roles:admin editor")
+    {{< /text >}}
+
+1. 验证是否允许使用该 JWT 的请求，因为空格分隔的 `roles` 声明中存在 `admin`：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_ROLES" -w "%{http_code}\n"
+    200
+    {{< /text >}}
+
+1. 获取一个 `roles` 声明不包含 `admin` 的 JWT：
+
+    {{< text bash >}}
+    $ TOKEN_NO_ADMIN=$(python3 ./gen-jwt.py ./key.pem --claims "roles:editor")
+    {{< /text >}}
+
+1. 验证请求是否被拒绝：
+
+    {{< text bash >}}
+    $ kubectl exec "$(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name})" -c curl -n foo -- curl "http://httpbin.foo:8000/headers" -sS -o /dev/null -H "Authorization: Bearer $TOKEN_NO_ADMIN" -w "%{http_code}\n"
     403
     {{< /text >}}
 
