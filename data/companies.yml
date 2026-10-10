@@ -307,6 +307,14 @@ integrations:
       - "Creates lightweight 'Sandboxes' without duplicating infrastructure by leveraging Istio's traffic routing capabilities for request-level isolation, including support for Istio ambient mode."
       - "Enables teams to test microservices changes in isolated environments while sharing the underlying cluster infrastructure."
       - "Runs existing test suites directly on customer Kubernetes clusters for improved parallelism, security, and cost effectiveness."
+  - name: "mirrord"
+    logo: "/logos/mirrord.svg"
+    url: "https://metalbear.com/mirrord/"
+    description: "mirrord lets developers and AI coding agents test a change to one service in a live Istio mesh, by running it on their own machine as if it were a pod in the cluster, with no deploy."
+    details:
+      - "Requests that reach the service through the mesh, including STRICT mTLS traffic after the mesh decrypts it, go to the developer's local process, and its calls to other services go out through the mesh."
+      - "Many developers and agents share one meshed staging cluster: the mirrord Operator sends each session only the requests that carry its HTTP header, and all other requests go to the deployed service."
+      - "Works with Istio sidecar and ambient modes, and needs no changes to the mesh configuration."
 
 pro_services:
   - name: "CloudZone"
