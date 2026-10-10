@@ -5,17 +5,18 @@ weight: 10
 
 In addition to the simple [getting started](/docs/setup/getting-started) evaluation install, there are several different
 methods you can use to install Istio. Which one you should use depends on your production requirements.
+
 The following lists some of the pros and cons of each of the available methods:
 
 1. [istioctl install](/docs/setup/install/istioctl/)
 
-    The simplest and most qualified installation and management path with high security.
-    This is the community recommended method for most use cases.
+    Installs Istio from the command line using a built-in profile or an
+    `IstioOperator` configuration file.
 
     Pros:
 
     - Thorough configuration validation and health verification.
-    - Uses the `IstioOperator` API which provides extensive configuration/customization options.
+    - Uses the `IstioOperator` configuration API, which provides extensive customization options.
 
     Cons:
 
