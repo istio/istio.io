@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="440" viewBox="0 0 1080 440" role="img" aria-labelledby="title description">
+  <title id="title">Identity and effect boundaries in the Istio tool example</title>
+  <desc id="description">An agent connects to the gateway using its workload identity. The gateway validates arguments and connects to the sink using the gateway identity. The sink commits the row. Mesh and application denials occur before the commit.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10" fill="#334155"/></marker>
+    <style>text{font-family:Arial,sans-serif;fill:#182435}.title{font-size:24px;font-weight:700}.name{font-size:22px;font-weight:700}.body{font-size:18px}.small{font-size:16px}.box{fill:#fff;stroke:#64748b;stroke-width:2}.line{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1080" height="440" fill="#fff"/>
+  <text x="35" y="44" class="title">Each hop has its own authenticated peer</text>
+  <rect x="35" y="110" width="225" height="135" rx="8" class="box"/>
+  <text x="55" y="146" class="name">Agent worker</text>
+  <text x="55" y="181" class="body">SA: agent-alpha</text>
+  <text x="55" y="214" class="small">Synthetic HTTP client</text>
+  <rect x="430" y="110" width="245" height="135" rx="8" class="box"/>
+  <text x="450" y="146" class="name">Tool gateway</text>
+  <text x="450" y="181" class="body">Validate JSON</text>
+  <text x="450" y="214" class="small">Tenant, resource, operation</text>
+  <rect x="845" y="110" width="200" height="135" rx="8" class="box"/>
+  <text x="865" y="146" class="name">Action sink</text>
+  <text x="865" y="181" class="body">Commit ledger row</text>
+  <text x="865" y="214" class="small">The entire lab effect</text>
+  <path d="M260 170H421" class="line"/>
+  <text x="282" y="127" class="small">mTLS + route policy</text>
+  <text x="282" y="201" class="small">Peer: agent-alpha</text>
+  <path d="M675 170H836" class="line"/>
+  <text x="696" y="127" class="small">mTLS + route policy</text>
+  <text x="696" y="201" class="small">Peer: tool-gateway</text>
+  <path d="M550 245V283" stroke="#64748b" stroke-width="2"/>
+  <text x="430" y="309" class="body">Application authorization</text>
+  <text x="430" y="337" class="small">Checks configured ownership before forwarding</text>
+  <path d="M945 245V283" stroke="#64748b" stroke-width="2"/>
+  <text x="845" y="309" class="body">Independent observer</text>
+  <text x="845" y="337" class="small">Checks complete ledger</text>
+  <line x1="35" y1="370" x2="1045" y2="370" stroke="#cbd5e1"/>
+  <text x="35" y="403" class="body">A denial must precede the effect. A status code alone cannot prove that it did.</text>
+</svg>
