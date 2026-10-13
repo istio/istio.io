@@ -16,9 +16,9 @@ Istio 可以生成各种仪表盘所使用的遥测数据，帮助您直观地�
 * [Kiali](/zh/docs/tasks/observability/kiali/)
 * [Prometheus](/zh/docs/tasks/observability/metrics/querying-metrics/)
 
-默认情况下，Istio 定义并生成一组标准指标（例如 `requests_total`），但您也可以使用
-[Telemetry API](/zh/docs/tasks/observability/telemetry/)
-自定义标准指标并创建新指标。
+默认情况下，Istio 会生成一组[标准指标](/zh/docs/reference/config/metrics/)，
+例如 `istio_requests_total`。[Telemetry API](/zh/docs/reference/config/telemetry/)
+允许您启用或禁用这些指标并自定义其维度。
 
 ## 开始之前  {#before-you-begin}
 
@@ -31,7 +31,7 @@ Istio 可以生成各种仪表盘所使用的遥测数据，帮助您直观地�
 ## 启用自定义指标  {#enable-custom-metrics}
 
 例如要自定义遥测指标，可以使用以下命令，沿着入站和出站方向，将 `request_host`
-和 `destination_port` 维度添加到同由 Gateway 和 Sidecar 发出的 `requests_total`：
+和 `destination_port` 维度添加到同由 Gateway 和 Sidecar 发出的 `istio_requests_total`：
 
 {{< text bash >}}
 $ cat <<EOF > ./custom_metrics.yaml
