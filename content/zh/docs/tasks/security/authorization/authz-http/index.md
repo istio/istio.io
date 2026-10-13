@@ -86,6 +86,29 @@ test: yes
     EOF
     {{< /text >}}
 
+    如果您使用 Kubernetes Gateway API 部署 Bookinfo，
+    则 `bookinfo-gateway` 工作负载也位于 `default` 命名空间中，
+    并受到 `allow-nothing` 策略的影响。创建附加策略以允许通过此网关的 `GET` 请求：
+
+    {{< text syntax=bash snip_id=bookinfo_gateway_viewer >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
+    metadata:
+      name: bookinfo-gateway-viewer
+      namespace: default
+    spec:
+      selector:
+        matchLabels:
+          gateway.networking.k8s.io/gateway-name: bookinfo-gateway
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+    EOF
+    {{< /text >}}
+
     在浏览器里访问 Bookinfo 的 `productpage` (`http://$GATEWAY_URL/productpage`)。
     您将看到 “Bookinfo Sample” 页面，但会发现页面中有如下的错误：
 
@@ -194,4 +217,10 @@ $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
 $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
 $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
 $ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+{{< /text >}}
+
+如果您创建了 Gateway API 策略，请将其也删除：
+
+{{< text syntax=bash snip_id=cleanup_bookinfo_gateway >}}
+$ kubectl delete authorizationpolicy.security.istio.io/bookinfo-gateway-viewer --ignore-not-found
 {{< /text >}}
