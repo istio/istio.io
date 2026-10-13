@@ -41,9 +41,17 @@ cluster2     istio-system/istio-remote-secret-cluster2     synced      istiod-7b
 
 ## 部署 `HelloWorld` 服务 {#deploy-the-helloworld-service}
 
-为了使 `HelloWorld` 服务能够从任何集群调用，
-DNS 查询必须在每个集群中成功（详情请参阅[部署模型](/zh/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)）。
-我们将通过将 `HelloWorld` 服务部署到网格中的每个集群来解决此问题。
+每个集群的 DNS 服务器都会利用该集群内定义的 Kubernetes Service 来解析服务名称。
+一个用于执行 `curl` 操作的 Pod 必须先获取 `HelloWorld` 服务的本地虚拟 IP（VIP），
+才能发送请求；随后，Istio 便能将该请求路由至任一集群中的工作负载。
+正因如此，即便某个集群中没有本地的 `HelloWorld` Pod，
+`HelloWorld` Service 也必须在两个集群中同时部署。
+
+可以使用 `ServiceEntry` 代替 Kubernetes `Service`，
+但它不会配置 Kubernetes DNS。因此，
+必须手动或通过[具有地址自动分配功能的 Istio DNS 代理](/zh/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation)配置 DNS。
+本指南使用 Kubernetes 服务。有关更多详细信息，
+请参阅[具有多个集群的 DNS](/zh/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)。
 
 {{< tip >}}
 在继续之前，请确保两个集群中的 istio-system 命名空间都将 `istio.io/topology-network`
