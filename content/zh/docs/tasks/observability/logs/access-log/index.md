@@ -18,6 +18,8 @@ Envoy 代理打印访问信息到标准输出。Envoy 容器的标准输出能�
 
 {{< boilerplate start-httpbin-service >}}
 
+<div id="enable-envoy-s-access-logging"></div>
+
 ## 开启 Envoy 访问日志  {#enable-envoy-s-access-logging}
 
 Istio 提供了几种启用访问日志的方法，建议使用 Telemetry API。
