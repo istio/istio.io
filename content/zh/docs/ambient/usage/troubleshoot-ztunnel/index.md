@@ -124,7 +124,8 @@ $ kubectl -n istio-system logs -l app=ztunnel | grep -E "inbound|outbound"
 则源 ztunnel 直接跨这些实例或服务后端执行 L4 负载均衡，
 然后通过与这些后端关联的远程 ztunnel 代理发送流量。如果目标服务配置为使用一个或多个 waypoint 代理，
 则源 ztunnel 代理通过在这些 waypoint 代理之间分配流量来执行负载均衡，
-并通过托管 waypoint 代理实例节点上的远程 ztunnel 代理发送流量。
+并通过 HBONE 将流量直接发送到这些 waypoint 代理。waypoint 完成处理后，
+通过 HBONE 将流量发送到与所选目标工作负载关联的 ztunnel。
 {{< /tip >}}
 
 通过调用具有多个后端的服务，我们可以验证客户端流量在服务副本之间是否平衡。
