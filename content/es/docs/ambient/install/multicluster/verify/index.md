@@ -47,11 +47,18 @@ coincida con el certificado que usa el host intermediario.
 
 ## Desplegar el servicio `HelloWorld`
 
-Para que el servicio `HelloWorld` sea accesible desde cualquier clúster, la búsqueda DNS
-debe tener éxito en cada clúster (consulta
-[modelos de despliegue](/es/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
-para más detalles). Lo abordaremos desplegando el servicio `HelloWorld` en
-cada clúster de la mesh.
+El servidor DNS de cada clúster resuelve los nombres de servicio usando los Services de Kubernetes
+definidos en ese clúster. Un pod `curl` necesita una IP virtual local para `HelloWorld`
+antes de poder enviar una solicitud; Istio puede entonces enrutar esa solicitud a los workloads de
+cualquiera de los clústeres. Por eso el Service `HelloWorld` debe desplegarse en ambos
+clústeres, incluso si uno de ellos no tiene pods `HelloWorld` locales.
+
+Se puede usar un `ServiceEntry` en lugar de un `Service` de Kubernetes, pero no
+configura el DNS de Kubernetes. Por lo tanto, el DNS debe configurarse manualmente o mediante
+el [proxy DNS de Istio con asignación automática de direcciones](/es/docs/ops/configuration/traffic-management/dns-proxy/#address-auto-allocation).
+Esta guía usa Services de Kubernetes. Consulta
+[DNS con múltiples clústeres](/es/docs/ops/deployment/deployment-models#dns-with-multiple-clusters)
+para más detalles.
 
 {{< tip >}}
 Antes de proceder, asegúrate de que los namespaces istio-system en ambos clústeres tengan `istio.io/topology-network` configurado con el valor apropiado (por ejemplo, `network1` para `cluster1` y `network2` para `cluster2`).
