@@ -216,11 +216,6 @@ spec:
 With this configuration, the automatically generated `WorkloadEntry` will not be marked "Ready" until the probe succeeds.
 {{< /tip >}}
 
-{{< warning >}}
-Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
-If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the Istio install commands.
-{{< /warning >}}
-
 Next, use the `istioctl x workload entry` command to generate:
 
 * `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
