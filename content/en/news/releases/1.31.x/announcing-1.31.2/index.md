@@ -24,8 +24,8 @@ For more information, see [ISTIO-SECURITY-2026-007](/news/security/istio-securit
 
 ### Istio CVEs
 
-- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (CVSS score 7.4, High): `AuthorizationPolicy` method rules are bypassed over HTTP/2 by changing the case of the method. **Credit**: This vulnerability was discovered and reported by [@izzy0101010101](https://github.com/izzy0101010101).
-- __[GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6)__ (CVSS score 7.7, High): istiod crashes in ambient mode when a `ServiceEntry` or other service claims the address of an IP-addressed waypoint. **Credit**: This vulnerability was discovered and reported by [@yshch](https://github.com/yshch).
+- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (CVSS score 7.4, High): `AuthorizationPolicy` method rules are bypassed over HTTP/2 by changing the case of the method. **Credit**: This vulnerability was discovered and reported by [izzy0101010101](https://github.com/izzy0101010101).
+- __[GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6)__ (CVSS score 7.7, High): istiod crashes in ambient mode when a `ServiceEntry` or other service claims the address of an IP-addressed waypoint. **Credit**: This vulnerability was discovered and reported by [yshch](https://github.com/yshch).
 
 ### Other Istio Security Fixes
 
@@ -39,9 +39,9 @@ For more information, see [ISTIO-SECURITY-2026-007](/news/security/istio-securit
 
 - **Fixed** the Kubernetes CSR watch loop using an abandoned `time.After` timer that could leave a goroutine running past request completion on the experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`). The loop is now bounded by a properly scoped `context.WithTimeout` and is reliably torn down on timeout or cancellation. Reported by Juno Im.
 
-- **Fixed** client-requested `ValidityDuration` being accepted up to `MAX_WORKLOAD_CERT_TTL` (default 90d) on the experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`). A new `MAX_RA_WORKLOAD_CERT_TTL` environment variable (default `48h`) now caps the TTL, limiting the blast radius of a stolen istio-token. Deployments that legitimately requested certificates with TTL > 48h via this path should raise `MAX_RA_WORKLOAD_CERT_TTL` after upgrade. Reported by Juno Im.
+- **Fixed** client-requested `ValidityDuration` being accepted up to `MAX_WORKLOAD_CERT_TTL` (default `90d`) on the experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`). A new `MAX_RA_WORKLOAD_CERT_TTL` environment variable (default `48h`) now caps the TTL, limiting the blast radius of a stolen istio-token. Deployments that legitimately requested certificates with TTL > `48h` via this path should raise `MAX_RA_WORKLOAD_CERT_TTL` after upgrade. Reported by Juno Im.
 
-- **Fixed** the Wasm OCI image fetcher deciding to retry a failed HTTPS fetch over plaintext HTTP based on the error returned by the registry. Since the registry is untrusted input, a MITM or malicious registry could trigger this fallback on demand to force plaintext transport and, without an optional module digest pinned, serve an arbitrary Wasm binary. The plaintext retry is now only attempted for registries the operator has explicitly allowlisted via `WASM_INSECURE_REGISTRIES`. **Credit**: This vulnerability was discovered and reported by Adam Korczynski.
+- **Fixed** the Wasm OCI image fetcher deciding to retry a failed HTTPS fetch over plaintext HTTP based on the error returned by the registry. Since the registry is untrusted input, a MITM or malicious registry could trigger this fallback on demand to force plaintext transport and, without an optional module digest pinned, serve an arbitrary Wasm binary. The plaintext retry is now only attempted for registries the operator has explicitly allowlist via `WASM_INSECURE_REGISTRIES`. **Credit**: This vulnerability was discovered and reported by Adam Korczynski.
 
 - **Fixed** istiod debug endpoints (`/debug/config_dump`, `/debug/edsz`, and the XDS `istio.io/debug/config_dump` type) matching `proxyID` as a substring, which let a caller read the config of other proxies in its own namespace by passing a partial ID. `proxyID` must now be the exact `<pod>.<namespace>` (or full connection ID); short forms such as `proxyID=istio-ingressgateway` no longer match. **Credit**: This issue was reported by 박현범.
 
@@ -53,9 +53,9 @@ For more information, see [ISTIO-SECURITY-2026-007](/news/security/istio-securit
 
 - **Improved** incremental EDS processing for DestinationRule changes to identify affected services through the sidecar scope, aligning it with CDS and avoiding per-cluster DestinationRule lookups.
 
-- **Fixed** an `HTTPRoute` rule with several `InferencePool` backendRefs configuring only one endpoint picker. The picker of the last backendRef listed scored every request on the rule, so the other pools' pickers were never invoked, and a pool with no ready endpoints failed the whole rule rather than its own weighted share. Each pool now gets its own picker, attached to its own weighted cluster. ([Issue #61594](https://github.com/istio/istio/issues/61594))
+- **Fixed** an `HTTPRoute` rule with several `InferencePool` `backendRefs` configuring only one endpoint picker. The picker of the last `backendRef` listed scored every request on the rule, so the other pools' pickers were never invoked, and a pool with no ready endpoints failed the whole rule rather than its own weighted share. Each pool now gets its own picker, attached to its own weighted cluster. ([Issue #61594](https://github.com/istio/istio/issues/61594))
 
-- **Fixed** two `HTTPRoute`s sharing a `rules[].name` on the same gateway overwriting each other's endpoint picker. Rule names only have to be unique within one `HTTPRoute`, but the pickers were keyed by name across all of them, so a route could be served by another route's picker. Pickers are now resolved per backendRef, so a shared name no longer moves one route's picker onto another. ([Issue #61594](https://github.com/istio/istio/issues/61594))
+- **Fixed** two `HTTPRoute`s sharing a `rules[].name` on the same gateway overwriting each other's endpoint picker. Rule names only have to be unique within one `HTTPRoute`, but the pickers were keyed by name across all of them, so a route could be served by another route's picker. Pickers are now resolved per `backendRef`, so a shared name no longer moves one route's picker onto another. ([Issue #61594](https://github.com/istio/istio/issues/61594))
 
 - **Fixed** a route rule losing its `InferencePool` endpoint picker when it also carried a CORS filter. Both are written into the same per-filter configuration, and the CORS path replaced the map rather than adding to it. ([Issue #61594](https://github.com/istio/istio/issues/61594))
 
@@ -71,7 +71,7 @@ For more information, see [ISTIO-SECURITY-2026-007](/news/security/istio-securit
 
 - **Fixed** an issue where the network gateway selected for a workload was picked in a random order when a network had more than one gateway entry, which caused unnecessary workload (WDS) pushes on every recompute and could alternate the gateway address a workload uses.
 
-- **Fixed** configuration dependency filtering for gateways to exclude unrelated configuration updates. Gateway scope construction also skips collecting mesh VirtualServices used only for waypoint routing.
+- **Fixed** configuration dependency filtering for gateways to exclude unrelated configuration updates. Gateway scope construction also skips collecting mesh `VirtualServices` used only for waypoint routing.
 
 - **Fixed** removing a single event handler from a CRD-backed informer removing every handler on that informer. In ambient multi-cluster mode this fired on every remote cluster credential rotation, leaving istiod waiting forever for the new cluster's collections to sync, so remote network gateways went missing and the workload index could stop updating until restart. ([Issue #61827](https://github.com/istio/istio/issues/61827))
 
