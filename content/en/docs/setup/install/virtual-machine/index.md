@@ -174,36 +174,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
 ## Create files to transfer to the virtual machine
 
-{{< tabset category-name="registration-mode" >}}
-
-{{< tab name="Default" category-value="default" >}}
-
 First, create a template `WorkloadGroup` for the VM(s):
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
-EOF
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-
-First, create a template `WorkloadGroup` for the VM(s):
-
-{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -228,38 +199,22 @@ Then, to allow automated `WorkloadEntry` creation, push the `WorkloadGroup` to t
 $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
-Using the Automated `WorkloadEntry` Creation feature, application health checks are also available. These share the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+{{< tip >}}
+Application health checks are also available, sharing the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+Add a `probe` to the `WorkloadGroup` spec, for example to probe the `/ready` endpoint of your application:
 
-For example, to configure a probe on the `/ready` endpoint of your application:
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
+{{< text yaml >}}
 spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
     httpGet:
       port: 8080
       path: /ready
-EOF
 {{< /text >}}
 
 With this configuration, the automatically generated `WorkloadEntry` will not be marked "Ready" until the probe succeeds.
-
-{{< /tab >}}
-
-{{< /tabset >}}
+{{< /tip >}}
 
 {{< warning >}}
 Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).

@@ -94,23 +94,6 @@ snip_install_sa() {
 kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
 }
 
-snip_create_files_to_transfer_to_the_virtual_machine_1() {
-cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
-EOF
-}
-
 snip_create_wg() {
 cat <<EOF > workloadgroup.yaml
 apiVersion: networking.istio.io/v1
@@ -132,30 +115,17 @@ snip_apply_wg() {
 kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 }
 
-snip_create_files_to_transfer_to_the_virtual_machine_4() {
-cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
+! IFS=$'\n' read -r -d '' snip_create_files_to_transfer_to_the_virtual_machine_3 <<\ENDSNIP
 spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
     httpGet:
       port: 8080
       path: /ready
-EOF
-}
+ENDSNIP
 
-snip_create_files_to_transfer_to_the_virtual_machine_5() {
+snip_create_files_to_transfer_to_the_virtual_machine_4() {
 istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
 }
 
