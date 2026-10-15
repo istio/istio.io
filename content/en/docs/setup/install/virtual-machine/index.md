@@ -39,7 +39,6 @@ and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     $ CLUSTER_NETWORK=""
     $ VM_NETWORK=""
-    $ CLUSTER="Kubernetes"
     {{< /text >}}
 
     {{< /tab >}}
@@ -51,10 +50,9 @@ and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ # Customize values for multi-cluster/multi-network as needed
+    $ # Customize the network names as needed
     $ CLUSTER_NETWORK="kube-network"
     $ VM_NETWORK="vm-network"
-    $ CLUSTER="cluster1"
     {{< /text >}}
 
     {{< /tab >}}
@@ -84,36 +82,15 @@ Install Istio and expose the control plane on cluster so that your virtual machi
     spec:
       values:
         global:
-          meshID: mesh1
-          multiCluster:
-            clusterName: "${CLUSTER}"
           network: "${CLUSTER_NETWORK}"
     EOF
     {{< /text >}}
 
 1. Install Istio.
 
-    {{< tabset category-name="registration-mode" >}}
-
-    {{< tab name="Default" category-value="default" >}}
-
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml
     {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-
-    {{< boilerplate alpha >}}
-
-    {{< text syntax=bash snip_id=install_istio >}}
-    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
 
 1. Deploy the east-west gateway:
 
@@ -308,7 +285,7 @@ the scope of this guide.
 {{< tab name="Default" category-value="default" >}}
 
 {{< text bash >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
+$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -318,7 +295,7 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 {{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
+$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
 {{< /text >}}
 
 {{< /tab >}}
