@@ -235,7 +235,10 @@ the scope of this guide.
 {{< tab name="Default" category-value="default" >}}
 
 {{< text bash >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway
 {{< /text >}}
 
 {{< /tab >}}
@@ -245,12 +248,31 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
 {{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway \
+    --autoregister
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
+
+{{< tip >}}
+The generated `hosts` file maps the istiod hostname to the IP address of the east-west gateway, which the
+command reads from the load balancer or external IP of the `Service` given to `--ingressService`.
+
+If the address cannot be resolved to an IP, either because the `Service` was not found or because the load
+balancer is reachable under a hostname instead, the `hosts` file is generated empty and the virtual machine
+will not be able to reach istiod. Pass `--ingressIP` with the gateway's address to set it explicitly.
+
+Alternatively, expose istiod under a DNS name that the virtual machine can already resolve and skip the
+`/etc/hosts` step altogether. This requires installing the control plane with
+`values.pilot.env.ISTIOD_CUSTOM_HOST` set to that name, so that istiod signs its serving certificate for it,
+replacing `defaultConfig.discoveryAddress` in `mesh.yaml` with `<custom-host>:15012`, and setting `CA_ADDR`
+in `cluster.env` to the same address.
+{{< /tip >}}
 
 ## Configure the virtual machine
 

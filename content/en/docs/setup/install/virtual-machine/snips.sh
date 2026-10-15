@@ -126,11 +126,18 @@ spec:
 ENDSNIP
 
 snip_create_files_to_transfer_to_the_virtual_machine_4() {
-istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}"
+istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway
 }
 
 snip_configure_wg() {
-istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --autoregister
+istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway \
+    --autoregister
 }
 
 snip_configure_the_virtual_machine_1() {
