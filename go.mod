@@ -7,8 +7,8 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
-	golang.org/x/sync v0.22.0
-	istio.io/istio v0.0.0-20261013035339-859d1113bd15
+	golang.org/x/sync v0.24.0
+	istio.io/istio v0.0.0-20261016013845-29d6cc2e8be9
 	k8s.io/apimachinery v0.36.1
 	k8s.io/client-go v0.36.1
 )
@@ -163,16 +163,16 @@ require (
 	go.uber.org/zap v1.28.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	golang.org/x/crypto v0.55.0 // indirect
+	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
-	golang.org/x/mod v0.38.0 // indirect
-	golang.org/x/net v0.58.0 // indirect
+	golang.org/x/mod v0.41.0 // indirect
+	golang.org/x/net v0.61.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
-	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/term v0.45.0 // indirect
-	golang.org/x/text v0.41.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/term v0.47.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.15.0 // indirect
-	golang.org/x/tools v0.48.0 // indirect
+	golang.org/x/tools v0.51.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
 	google.golang.org/api v0.278.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260720211330-0afa2a65878a // indirect
@@ -185,8 +185,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	helm.sh/helm/v4 v4.2.0 // indirect
-	istio.io/api v1.32.0-alpha.0.0.20261012195433-4abde9f8874f // indirect
-	istio.io/client-go v1.32.0-alpha.0.0.20261012200032-06e60d421a2f // indirect
+	istio.io/api v1.32.0-alpha.0.0.20261014022809-71663d2e7922 // indirect
+	istio.io/client-go v1.32.0-alpha.0.0.20261014023109-7a5813baadd6 // indirect
 	k8s.io/api v0.36.1 // indirect
 	k8s.io/apiextensions-apiserver v0.36.1 // indirect
 	k8s.io/apiserver v0.36.1 // indirect
