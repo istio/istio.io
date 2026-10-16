@@ -208,6 +208,7 @@ autoscaling
 AutoTrader
 Avelar
 AVX-512
+Axion
 az
 Babo
 backend
@@ -538,6 +539,7 @@ Datawire
 Davy
 deallocated
 debian
+debouncing
 debuggability
 decapsulated
 declaratively
@@ -685,13 +687,17 @@ GenAI
 Geneve
 GEP-91
 Gergely
+GHSA-47vj-9r25-wv5j
+GHSA-7p2q-4xvg-vxc6
 GHSA-8mq4-c2v5-3h39
+GHSA-8vc2-jrm4-835w
 GHSA-974c-2wxh-g4ww
 GHSA-9gcg-w975-3rjh
 GHSA-fgw5-hp8f-xfhc
 GHSA-p7c7-7c47-pwch
 GHSA-qm8v-g4f9-qhjx
 GHSA-v75c-crr9-733c
+GHSA-w44g-8m76-8gc5
 GiB
 GIDs
 GIE
@@ -725,6 +731,7 @@ h2
 h2c
 Haidian
 Hardcoded
+hardcoding
 Harri
 Harvey
 Hashicorp
@@ -767,6 +774,7 @@ idempotency
 Idit
 iFood
 ILBs
+Im
 impactful
 incentivized
 Incrementality
@@ -852,6 +860,7 @@ ISTIO-SECURITY-2026-001
 ISTIO-SECURITY-2026-002
 ISTIO-SECURITY-2026-005
 ISTIO-SECURITY-2026-006
+ISTIO-SECURITY-2026-007
 istio-system
 istio.io
 istio.io.
@@ -871,6 +880,7 @@ istio_tcp_received_bytes_total
 istio_tcp_sent_bytes_total
 iter8
 Izzy
+izzy0101010101
 Jacek
 Jannot
 Jaskolski
@@ -901,6 +911,7 @@ K8gb
 k8s
 Kafka
 kagent
+Kaizhe
 Kanibor
 Karim
 Karma's
@@ -1151,6 +1162,7 @@ OpenID
 OpenID_Connect
 OpenMetrics
 OpenPolicyAgent
+OpenSec
 OpenShift
 openshift
 OpenSSL
@@ -1218,10 +1230,12 @@ pre-1
 pre-alpha
 pre-ambient
 pre-connected
+pre-marshaled
 pre-parsed
 pre-release
 pre-specified
 pre-swap
+preallocated
 precheck
 preconfigured
 Predibase
@@ -1548,6 +1562,7 @@ underutilization
 unencrypted
 unescaped
 unforgeable
+ungranted
 unmanaged
 Unmarshalers
 Unmarshaling
@@ -1626,6 +1641,7 @@ v2.0
 v2.17.0.
 v2.26.0
 v2.26.0.
+v2.31.0.
 v3
 v3.18.5
 v4
@@ -1722,9 +1738,11 @@ Yingchun
 Yizhou
 Yoichi
 Yossi
+yshch
 Yuval
 Yuxing
 Zack
+Zanarelli
 zc
 Zehuan
 Zeng
@@ -1740,6 +1758,7 @@ Zhou
 Zhu
 Zipkin
 Ziyang
+Zlobecki
 Zolotusky
 Zsh
 Zstd
