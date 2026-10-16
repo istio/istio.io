@@ -68,7 +68,7 @@ This is enabled by default.
 
 This applies to the `methods` and `notMethods` field.
 
-### 1. Case-insensitive matching
+### 1. Case-insensitive method matching
 
 Istio authorization policy will compare the method with a case-insensitive approach, so `post` matches a rule written for `POST`.
 
