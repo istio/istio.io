@@ -14,6 +14,7 @@
 package setupconfig
 
 import (
+	"os"
 	"testing"
 
 	"istio.io/istio.io/pkg/test/istioio"
@@ -43,4 +44,13 @@ values:
     env:
       PILOT_ENABLE_ALPHA_GATEWAY_API: false
 `
+	// IPv6 CI pulls Wasm modules from the plain HTTP kind-registry (see
+	// _rewrite_oci_registry). Istio only falls back to HTTP for allowlisted registries.
+	if os.Getenv("KIND_IP_FAMILY") == "ipv6" {
+		cfg.ControlPlaneValues += `meshConfig:
+  defaultConfig:
+    proxyMetadata:
+      WASM_INSECURE_REGISTRIES: kind-registry:5000
+`
+	}
 }
