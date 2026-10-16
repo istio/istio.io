@@ -26,6 +26,8 @@ git pull --ff-only "${ISTIOIO_GIT_SOURCE}" "${MASTER}"
 
 sed -i "s/^source_branch_name: .*$/source_branch_name: release-${VERSION}/" data/args.yml
 sed -i "s/^export SOURCE_BRANCH_NAME ?=.*$/export SOURCE_BRANCH_NAME ?= release-${VERSION}/" Makefile.core.mk
+# The old value is already exported by the calling make, so override it here.
+export SOURCE_BRANCH_NAME="release-${VERSION}"
 
 echo "Running make update_all..."
 make update_all
