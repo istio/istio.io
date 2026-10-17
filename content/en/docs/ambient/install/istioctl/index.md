@@ -89,7 +89,7 @@ sub-command.
 For example, use the following command to generate a manifest for the `default` profile that can be installed with `kubectl`:
 
 {{< text syntax=bash snip_id=none >}}
-$ istioctl manifest generate > $HOME/generated-manifest.yaml
+$ istioctl manifest generate --set profile=ambient > $HOME/generated-manifest.yaml
 {{< /text >}}
 
 The generated manifest can be used to inspect what exactly is installed as well as to track changes
@@ -111,7 +111,7 @@ If attempting to install and manage Istio using `istioctl manifest generate`, pl
    not create the `istiod-default-validator` validating webhook configuration unless `values.defaultRevision` is set:
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl manifest generate --set values.defaultRevision=default
+    $ istioctl manifest generate --set profile=ambient --set values.defaultRevision=default
     {{< /text >}}
 
 1. Resources may not be installed with the same sequencing of dependencies as
