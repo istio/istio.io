@@ -107,6 +107,17 @@ Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 
 Here you can see that the listeners and routes match but the clusters are out of sync.
 
+## Accessing private administration
+
+For native sidecars configured with [UDS administration](/docs/setup/additional-setup/sidecar-injection/#native-sidecar-administration),
+`istioctl` proxy configuration, statistics, logging, and bug-report admin collection use Kubernetes exec
+into `istio-proxy`, including when it is an init container. Operators need permission to read the pod
+and use `pods/exec`. TCP proxies continue to use port forwarding.
+An exec authorization failure is reported without falling back to TCP.
+
+If the socket is missing or inaccessible, admin requests fail and readiness reflects the failure.
+Check the proxy volume permissions and agent logs, and restart the pod after correcting configuration.
+
 ## Deep dive into Envoy configuration
 
 The `proxy-config` command can be used to see how a given Envoy instance is configured. This can then be used to
