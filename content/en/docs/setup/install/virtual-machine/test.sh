@@ -29,7 +29,6 @@ export WORK_DIR="$(mktemp -d)"
 export SERVICE_ACCOUNT="default"
 export CLUSTER_NETWORK=""
 export VM_NETWORK=""
-export CLUSTER="Kubernetes"
 
 # @setup profile=none
 

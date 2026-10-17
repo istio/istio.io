@@ -27,7 +27,6 @@ WORK_DIR="<a certificate working directory>"
 SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
 CLUSTER_NETWORK=""
 VM_NETWORK=""
-CLUSTER="Kubernetes"
 }
 
 snip_prepare_the_guide_environment_2() {
@@ -35,10 +34,9 @@ VM_APP="<the name of the application this VM will run>"
 VM_NAMESPACE="<the name of your service namespace>"
 WORK_DIR="<a certificate working directory>"
 SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-# Customize values for multi-cluster/multi-network as needed
+# Customize the network names as needed
 CLUSTER_NETWORK="kube-network"
 VM_NETWORK="vm-network"
-CLUSTER="cluster1"
 }
 
 snip_setup_wd() {
@@ -54,26 +52,19 @@ metadata:
 spec:
   values:
     global:
-      meshID: mesh1
-      multiCluster:
-        clusterName: "${CLUSTER}"
       network: "${CLUSTER_NETWORK}"
 EOF
 }
 
-snip_install_the_istio_control_plane_2() {
-istioctl install -f vm-cluster.yaml
-}
-
 snip_install_istio() {
-istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
+istioctl install -f vm-cluster.yaml
 }
 
 snip_install_eastwest() {
 samples/multicluster/gen-eastwest-gateway.sh --single-cluster | istioctl install -y -f -
 }
 
-snip_install_the_istio_control_plane_5() {
+snip_install_the_istio_control_plane_4() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network "${CLUSTER_NETWORK}" | \
     istioctl install -y -f -
@@ -83,15 +74,15 @@ snip_expose_istio() {
 kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 }
 
-snip_install_the_istio_control_plane_7() {
+snip_install_the_istio_control_plane_6() {
 kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 }
 
-snip_install_the_istio_control_plane_8() {
+snip_install_the_istio_control_plane_7() {
 kubectl apply -n istio-system -f samples/multicluster/expose-services.yaml
 }
 
-snip_install_the_istio_control_plane_9() {
+snip_install_the_istio_control_plane_8() {
 kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
 }
 
@@ -101,23 +92,6 @@ kubectl create namespace "${VM_NAMESPACE}"
 
 snip_install_sa() {
 kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
-}
-
-snip_create_files_to_transfer_to_the_virtual_machine_1() {
-cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
-EOF
 }
 
 snip_create_wg() {
@@ -141,35 +115,29 @@ snip_apply_wg() {
 kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 }
 
-snip_create_files_to_transfer_to_the_virtual_machine_4() {
-cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
+! IFS=$'\n' read -r -d '' snip_create_files_to_transfer_to_the_virtual_machine_3 <<\ENDSNIP
 spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
     httpGet:
       port: 8080
       path: /ready
-EOF
-}
+ENDSNIP
 
-snip_create_files_to_transfer_to_the_virtual_machine_5() {
-istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
+snip_create_files_to_transfer_to_the_virtual_machine_4() {
+istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway
 }
 
 snip_configure_wg() {
-istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
+istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway \
+    --autoregister
 }
 
 snip_configure_the_virtual_machine_1() {
