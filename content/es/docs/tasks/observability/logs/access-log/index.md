@@ -110,6 +110,39 @@ La siguiente tabla muestra un ejemplo utilizando el formato de registro de acces
 | `%REQUESTED_SERVER_NAME%`                                          | `-` | `outbound_.8000_._.httpbin.foo.svc.cluster.local`
 | `%ROUTE_NAME%`                                                     | `default` | `default`
 
+Los valores de `%UPSTREAM_CLUSTER_RAW%` y `%REQUESTED_SERVER_NAME%` son nombres que Istio genera para Envoy. Consulta [Nomenclatura de Istio para los recursos de Envoy](/es/docs/ops/configuration/telemetry/envoy-stats/#istio-naming-of-envoy-resources) para ver su formato, que puede cambiar entre versiones.
+
+Si `accessLogEncoding` está configurado como `JSON`, Istio usa los mismos operadores con las siguientes claves:
+
+{{< text syntax=json snip_id=none >}}
+{
+  "start_time": "%START_TIME%",
+  "method": "%REQ(:METHOD)%",
+  "path": "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%",
+  "protocol": "%PROTOCOL%",
+  "response_code": "%RESPONSE_CODE%",
+  "response_flags": "%RESPONSE_FLAGS%",
+  "response_code_details": "%RESPONSE_CODE_DETAILS%",
+  "connection_termination_details": "%CONNECTION_TERMINATION_DETAILS%",
+  "upstream_transport_failure_reason": "%UPSTREAM_TRANSPORT_FAILURE_REASON%",
+  "bytes_received": "%BYTES_RECEIVED%",
+  "bytes_sent": "%BYTES_SENT%",
+  "duration": "%DURATION%",
+  "upstream_service_time": "%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%",
+  "x_forwarded_for": "%REQ(X-FORWARDED-FOR)%",
+  "user_agent": "%REQ(USER-AGENT)%",
+  "request_id": "%REQ(X-REQUEST-ID)%",
+  "authority": "%REQ(:AUTHORITY)%",
+  "upstream_host": "%UPSTREAM_HOST%",
+  "upstream_cluster": "%UPSTREAM_CLUSTER_RAW%",
+  "upstream_local_address": "%UPSTREAM_LOCAL_ADDRESS%",
+  "downstream_local_address": "%DOWNSTREAM_LOCAL_ADDRESS%",
+  "downstream_remote_address": "%DOWNSTREAM_REMOTE_ADDRESS%",
+  "requested_server_name": "%REQUESTED_SERVER_NAME%",
+  "route_name": "%ROUTE_NAME%"
+}
+{{< /text >}}
+
 ## Probar el registro de acceso
 
 1.  Envíe una solicitud de `curl` a `httpbin`:

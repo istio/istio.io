@@ -95,6 +95,29 @@ y luego otorgue más acceso al workload de forma gradual e incremental.
     EOF
     {{< /text >}}
 
+    Si desplegó Bookinfo usando Kubernetes Gateway API, el workload `bookinfo-gateway` también está en el
+    namespace `default` y se ve afectado por la política `allow-nothing`. Cree una política adicional para permitir
+    solicitudes `GET` a través de este gateway:
+
+    {{< text syntax=bash snip_id=bookinfo_gateway_viewer >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: security.istio.io/v1
+    kind: AuthorizationPolicy
+    metadata:
+      name: bookinfo-gateway-viewer
+      namespace: default
+    spec:
+      selector:
+        matchLabels:
+          gateway.networking.k8s.io/gateway-name: bookinfo-gateway
+      action: ALLOW
+      rules:
+      - to:
+        - operation:
+            methods: ["GET"]
+    EOF
+    {{< /text >}}
+
     Apunte su navegador a la `productpage` de Bookinfo (`http://$GATEWAY_URL/productpage`).
     Ahora debería ver la página "Bookinfo Sample".
     Sin embargo, puede ver los siguientes errores en la página:
@@ -208,4 +231,10 @@ $ kubectl delete authorizationpolicy.security.istio.io/productpage-viewer
 $ kubectl delete authorizationpolicy.security.istio.io/details-viewer
 $ kubectl delete authorizationpolicy.security.istio.io/reviews-viewer
 $ kubectl delete authorizationpolicy.security.istio.io/ratings-viewer
+{{< /text >}}
+
+Si creó la política de Gateway API, elimínela también:
+
+{{< text syntax=bash snip_id=cleanup_bookinfo_gateway >}}
+$ kubectl delete authorizationpolicy.security.istio.io/bookinfo-gateway-viewer --ignore-not-found
 {{< /text >}}
