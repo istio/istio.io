@@ -1,0 +1,21 @@
+{{- $content := .Content -}}
+{{- $base := urls.Parse .Permalink -}}
+{{- $sitePath := (urls.Parse (absURL "")).Path -}}
+{{- range findRE `\s(?:href|src|xlink:href)=["'][^"']+["']` $content -}}
+    {{- $attribute := . -}}
+    {{- $url := replaceRE `^\s[^=]+=["']([^"']+)["']$` "$1" $attribute -}}
+    {{- $parsed := urls.Parse $url -}}
+    {{- $absolute := $url -}}
+    {{- if and (hasPrefix $url "/") (not (hasPrefix $url "//")) -}}
+        {{- /* Shortcodes and resource links may already include the base URL's path. */ -}}
+        {{- if or (hasPrefix $url $sitePath) (eq $parsed.Path (strings.TrimSuffix "/" $sitePath)) -}}
+            {{- $absolute = ($base.ResolveReference $parsed).String -}}
+        {{- else -}}
+            {{- $absolute = absURL (strings.TrimPrefix "/" $url) -}}
+        {{- end -}}
+    {{- else if not $parsed.IsAbs -}}
+        {{- $absolute = ($base.ResolveReference $parsed).String -}}
+    {{- end -}}
+    {{- $content = replace $content $attribute (replace $attribute $url $absolute) -}}
+{{- end -}}
+{{- return ($content | safeHTML) -}}

@@ -21,7 +21,7 @@
         {{ if not $post.Draft }}
           <item>
             <title>{{ $post.Title }}</title>
-            <description>{{ `<![CDATA[` | safeHTML }}{{ $post.Content | safeHTML }}{{ `]]>` | safeHTML }}</description>
+            <description>{{ `<![CDATA[` | safeHTML }}{{ partial "rss_content.html" $post }}{{ `]]>` | safeHTML }}</description>
             <pubDate>{{ $post.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
             <link>{{ $post.Permalink }}</link>
             <guid isPermaLink="true">{{ $post.Permalink }}</guid>
@@ -39,7 +39,7 @@
       {{ if and (not $post.Draft) $post.IsPage }}
         <item>
           <title>{{ $post.Title }}</title>
-          <description>{{ `<![CDATA[` | safeHTML }}{{ $post.Content | safeHTML }}{{ `]]>` | safeHTML }}</description>
+          <description>{{ `<![CDATA[` | safeHTML }}{{ partial "rss_content.html" $post }}{{ `]]>` | safeHTML }}</description>
           <pubDate>{{ $post.PublishDate.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
           <link>{{ $post.Permalink }}</link>
           <guid isPermaLink="true">{{ $post.Permalink }}</guid>
