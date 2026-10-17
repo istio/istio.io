@@ -4,7 +4,7 @@ description: Install and customize any Istio configuration profile for in-depth 
 weight: 10
 keywords: [istioctl,kubernetes]
 owner: istio/wg-environments-maintainers
-test: no
+test: yes
 ---
 
 Follow this guide to install and configure an Istio mesh for in-depth evaluation or production use.
