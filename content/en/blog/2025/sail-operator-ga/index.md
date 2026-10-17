@@ -15,11 +15,11 @@ The Sail Operator is engineered to cut down the complexity of installing and run
 We encourage users to go through our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs) to learn more about this new way to manage your Istio environment.
 
 The main resources that are part of the Sail Operator are:
-* `Istio`: manages an Istio control plane.
-* `IstioRevision`: represents a revision of the control plane.
-* `IstioRevisionTag`: represents a stable revision tag, which functions as an alias for an Istio control plane revision.
-* `IstioCNI`: manages Istio's CNI node agent.
-* `ZTunnel`: manage the ambient mode ztunnel DaemonSet (Alpha feature).
+- `Istio`: manages an Istio control plane.
+- `IstioRevision`: represents a revision of the control plane.
+- `IstioRevisionTag`: represents a stable revision tag, which functions as an alias for an Istio control plane revision.
+- `IstioCNI`: manages Istio's CNI node agent.
+- `ZTunnel`: manage the ambient mode ztunnel DaemonSet (Alpha feature).
 
 {{< idea >}}
 If you are migrating from the [since-removed Istio in-cluster operator](/blog/2024/in-cluster-operator-deprecation-announcement/), you can check this section in our [documentation](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#migrating-from-istio-in-cluster-operator) where we explain the equivalence of resources, or you can also try our [resource converter](https://github.com/istio-ecosystem/sail-operator/tree/main/docs#converter-script) to easily convert your `IstioOperator` resource to an `Istio` resource.
@@ -200,9 +200,9 @@ default-v1-24-3          True    Healthy   True     v1.24.3   92s
 {{< /text >}}
 
 The Sail Operator automatically detects whether a given Istio control plane is being used and writes this information in the "In Use" status condition that you see above. Right now, all `IstioRevisions` and our `IstioRevisionTag` are considered "In Use":
-* The old revision `default-v1-24-2` is considered in use because it is referenced by the sample application’s sidecar.
-* The new revision `default-v1-24-3` is considered in use because it is referenced by the tag.
-* The tag is considered in use because it is referenced by the sample namespace.
+- The old revision `default-v1-24-2` is considered in use because it is referenced by the sample application’s sidecar.
+- The new revision `default-v1-24-3` is considered in use because it is referenced by the tag.
+- The tag is considered in use because it is referenced by the sample namespace.
 
 Confirm there are two control plane pods running, one for each revision:
 

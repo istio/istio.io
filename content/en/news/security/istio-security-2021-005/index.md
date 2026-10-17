@@ -66,18 +66,18 @@ The following is another example of vulnerable policy that uses `ALLOW action + 
 
 Your cluster is **NOT impacted** by this vulnerability if:
 
-* You don’t have authorization policies
-* Your authorization policies don’t define `paths` or `notPaths` fields.
-* Your authorization policies use `ALLOW action + paths field` or `DENY action + notPaths field` patterns.
+- You don’t have authorization policies
+- Your authorization policies don’t define `paths` or `notPaths` fields.
+- Your authorization policies use `ALLOW action + paths field` or `DENY action + notPaths field` patterns.
   These patterns could only cause unexpected rejection instead of policy bypasses. The upgrade is optional for these cases.
 
 ## Mitigation
 
 1. Update your cluster to the latest supported version.
    These versions support configuring the Envoy proxies in the system with more normalization options:
-  * Istio 1.8.6, if using 1.8.x
-  * Istio 1.9.5 or up
-  * The patch version specified by your cloud provider
+- Istio 1.8.6, if using 1.8.x
+- Istio 1.9.5 or up
+- The patch version specified by your cloud provider
 1. Follow the [security best practices](/docs/ops/best-practices/security/#authorization-policies)
    to configure your authorization policies.
 
