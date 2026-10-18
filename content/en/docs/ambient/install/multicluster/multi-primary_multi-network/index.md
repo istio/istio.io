@@ -57,7 +57,7 @@ Install Istio as primary in `cluster1` using istioctl and the `IstioOperator` AP
 
 {{< text bash >}}
 $ cat <<EOF > cluster1.yaml
-apiVersion: insall.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: ambient
@@ -212,7 +212,7 @@ Install Istio as primary in `cluster2` using istioctl and the `IstioOperator` AP
 
 {{< text bash >}}
 $ cat <<EOF > cluster2.yaml
-apiVersion: insall.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: ambient

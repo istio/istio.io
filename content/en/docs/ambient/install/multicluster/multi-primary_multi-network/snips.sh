@@ -27,7 +27,7 @@ kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.
 
 snip_configure_cluster1_as_a_primary_1() {
 cat <<EOF > cluster1.yaml
-apiVersion: insall.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: ambient
@@ -117,7 +117,7 @@ kubectl --context="${CTX_CLUSTER2}" get namespace istio-system && \
 
 snip_configure_cluster2_as_a_primary_1() {
 cat <<EOF > cluster2.yaml
-apiVersion: insall.istio.io/v1alpha1
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   profile: ambient
