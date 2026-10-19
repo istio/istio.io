@@ -18,6 +18,9 @@ set -e
 
 FAILED=0
 ARCHIVE=0
+if ! scripts/test_shortcode_links.sh; then
+    FAILED=1
+fi
 
 # If the archive flag is set, we allow links to `/latest/` that won't exist
 # at the time of linting, but will exist when the archive is copied to the
