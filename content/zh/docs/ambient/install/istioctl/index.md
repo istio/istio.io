@@ -91,7 +91,7 @@ $ kubectl delete namespace istio-system
 例如，使用以下命令为可以使用 `kubectl` 安装的 `default` 配置文件生成清单：
 
 {{< text syntax=bash snip_id=none >}}
-$ istioctl manifest generate > $HOME/generated-manifest.yaml
+$ istioctl manifest generate --set profile=ambient > $HOME/generated-manifest.yaml
 {{< /text >}}
 
 生成的清单可用于检查具体安装了什么以及跟踪清单随时间的变化。
@@ -112,7 +112,7 @@ $ istioctl manifest generate > $HOME/generated-manifest.yaml
    验证 webhook 配置，除非设置了 `values.defaultRevision`：
 
     {{< text syntax=bash snip_id=none >}}
-    $ istioctl manifest generate --set values.defaultRevision=default
+    $ istioctl manifest generate --set profile=ambient --set values.defaultRevision=default
     {{< /text >}}
 
 1. 资源可能没有按照与 `istioctl install` 相同的依赖项顺序进行安装。
