@@ -39,7 +39,6 @@ and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     $ CLUSTER_NETWORK=""
     $ VM_NETWORK=""
-    $ CLUSTER="Kubernetes"
     {{< /text >}}
 
     {{< /tab >}}
@@ -51,10 +50,9 @@ and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ # Customize values for multi-cluster/multi-network as needed
+    $ # Customize the network names as needed
     $ CLUSTER_NETWORK="kube-network"
     $ VM_NETWORK="vm-network"
-    $ CLUSTER="cluster1"
     {{< /text >}}
 
     {{< /tab >}}
@@ -84,36 +82,15 @@ Install Istio and expose the control plane on cluster so that your virtual machi
     spec:
       values:
         global:
-          meshID: mesh1
-          multiCluster:
-            clusterName: "${CLUSTER}"
           network: "${CLUSTER_NETWORK}"
     EOF
     {{< /text >}}
 
 1. Install Istio.
 
-    {{< tabset category-name="registration-mode" >}}
-
-    {{< tab name="Default" category-value="default" >}}
-
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml
     {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-
-    {{< boilerplate alpha >}}
-
-    {{< text syntax=bash snip_id=install_istio >}}
-    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
 
 1. Deploy the east-west gateway:
 
@@ -197,36 +174,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
 ## Create files to transfer to the virtual machine
 
-{{< tabset category-name="registration-mode" >}}
-
-{{< tab name="Default" category-value="default" >}}
-
 First, create a template `WorkloadGroup` for the VM(s):
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
-EOF
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-
-First, create a template `WorkloadGroup` for the VM(s):
-
-{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -251,43 +199,22 @@ Then, to allow automated `WorkloadEntry` creation, push the `WorkloadGroup` to t
 $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
-Using the Automated `WorkloadEntry` Creation feature, application health checks are also available. These share the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+{{< tip >}}
+Application health checks are also available, sharing the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+Add a `probe` to the `WorkloadGroup` spec, for example to probe the `/ready` endpoint of your application:
 
-For example, to configure a probe on the `/ready` endpoint of your application:
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
+{{< text yaml >}}
 spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
     httpGet:
       port: 8080
       path: /ready
-EOF
 {{< /text >}}
 
 With this configuration, the automatically generated `WorkloadEntry` will not be marked "Ready" until the probe succeeds.
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-{{< warning >}}
-Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
-If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the Istio install commands.
-{{< /warning >}}
+{{< /tip >}}
 
 Next, use the `istioctl x workload entry` command to generate:
 
@@ -308,7 +235,10 @@ the scope of this guide.
 {{< tab name="Default" category-value="default" >}}
 
 {{< text bash >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway
 {{< /text >}}
 
 {{< /tab >}}
@@ -318,12 +248,31 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 {{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway \
+    --autoregister
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
+
+{{< tip >}}
+The generated `hosts` file maps the istiod hostname to the IP address of the east-west gateway, which the
+command reads from the load balancer or external IP of the `Service` given to `--ingressService`.
+
+If the address cannot be resolved to an IP, either because the `Service` was not found or because the load
+balancer is reachable under a hostname instead, the `hosts` file is generated empty and the virtual machine
+will not be able to reach istiod. Pass `--ingressIP` with the gateway's address to set it explicitly.
+
+Alternatively, expose istiod under a DNS name that the virtual machine can already resolve and skip the
+`/etc/hosts` step altogether. This requires installing the control plane with
+`values.pilot.env.ISTIOD_CUSTOM_HOST` set to that name, so that istiod signs its serving certificate for it,
+replacing `defaultConfig.discoveryAddress` in `mesh.yaml` with `<custom-host>:15012`, and setting `CA_ADDR`
+in `cluster.env` to the same address.
+{{< /tip >}}
 
 ## Configure the virtual machine
 
