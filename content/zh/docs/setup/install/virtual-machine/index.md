@@ -38,7 +38,6 @@ test: yes
     $ SERVICE_ACCOUNT="<为这台虚机提供的 Kubernetes 的服务账号名称>"
     $ CLUSTER_NETWORK=""
     $ VM_NETWORK=""
-    $ CLUSTER="Kubernetes"
     {{< /text >}}
 
     {{< /tab >}}
@@ -50,10 +49,9 @@ test: yes
     $ VM_NAMESPACE="<您的服务所在的命名空间>"
     $ WORK_DIR="<证书工作目录>"
     $ SERVICE_ACCOUNT="<为这台虚机提供的 Kubernetes 的服务账号名称>"
-    $ # 根据您的需要自定义多集群/多网络的参数
+    $ # 根据需要自定义网络名称
     $ CLUSTER_NETWORK="kube-network"
     $ VM_NETWORK="vm-network"
-    $ CLUSTER="cluster1"
     {{< /text >}}
 
     {{< /tab >}}
@@ -83,36 +81,15 @@ test: yes
     spec:
       values:
         global:
-          meshID: mesh1
-          multiCluster:
-            clusterName: "${CLUSTER}"
           network: "${CLUSTER_NETWORK}"
     EOF
     {{< /text >}}
 
 1. 安装 Istio。
 
-    {{< tabset category-name="registration-mode" >}}
-
-    {{< tab name="默认" category-value="default" >}}
-
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml
     {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< tab name="自动化 WorkloadEntry 创建" category-value="autoreg" >}}
-
-    {{< boilerplate alpha >}}
-
-    {{< text bash >}}
-    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
 
 1. 部署东西向网关：
 
@@ -196,36 +173,7 @@ test: yes
 
 ## 创建要传输到虚拟机的文件 {#create-files-to-transfer-to-the-virtual-machine}
 
-{{< tabset category-name="registration-mode" >}}
-
-{{< tab name="默认" category-value="default" >}}
-
 首先，为虚拟机创建 `WorkloadGroup` 模板：
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
-EOF
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="自动化 WorkloadEntry 创建" category-value="autoreg" >}}
-
-首先，为虚拟机创建 `WorkloadGroup` 模板：
-
-{{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -244,53 +192,29 @@ spec:
 EOF
 {{< /text >}}
 
-然后，将 `WorkLoadGroup` 应用到集群中：
+然后，为了支持自动创建 `WorkloadEntry`，将 `WorkloadGroup` 推送到集群中：
 
 {{< text syntax=bash snip_id=apply_wg >}}
 $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
-使用自动创建 `WorkloadEntry` 的特性，还可以进行应用程序的健康检查。
-与 [Kubernetes Readiness Probes](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
-具有相同行为和 API 。
+{{< tip >}}
+还可以进行应用程序健康检查，其 API 和行为与
+[Kubernetes 就绪探针](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)相同。
+只需在 `WorkloadGroup` 的 spec 中添加 `probe`，例如探测应用程序的 `/ready` 端点：
 
-例如，在应用程序的 `/ready` 端点上配置探针：
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
+{{< text yaml >}}
 spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
     httpGet:
       port: 8080
       path: /ready
-EOF
 {{< /text >}}
 
 通过这个配置，自动生成的 `WorkloadEntry` 在探针成功之前不会被标记为 "Ready"。
-
-{{< /tab >}}
-
-{{< /tabset >}}
-
-{{< warning >}}
-在开始生成 `istio-token` 之前，作为 `istioctl x workload entry` 的一部分，
-您应该按照[文档](/zh/docs/ops/best-practices/security/#configure-third-party-service-account-tokens)
-来验证集群中是否使用了第三方服务账号令牌。如果没有使用第三方服务账户令牌，您应该为 Istio
-安装指令添加参数 `--set values.global.jwtPolicy=first-party-jwt`。
-{{< /warning >}}
+{{< /tip >}}
 
 接下来，使用 `istioctl x workload entry` 命令来生成：
 
@@ -310,7 +234,10 @@ EOF
 {{< tab name="默认" category-value="default" >}}
 
 {{< text bash >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway
 {{< /text >}}
 
 {{< /tab >}}
@@ -320,12 +247,30 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 {{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService istio-eastwestgateway \
+    --autoregister
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
+
+{{< tip >}}
+生成的 `hosts` 文件会将 istiod 的主机名映射到东西向网关的 IP 地址，
+该命令会从 `--ingressService` 所指定 `Service` 的负载均衡器或外部 IP 中读取这个地址。
+
+如果该地址无法解析为 IP（无论是因为找不到该 `Service`，还是因为负载均衡器只能通过主机名访问），
+生成的 `hosts` 文件都将为空，虚拟机也将无法访问 istiod。
+此时可以通过 `--ingressIP` 传入网关地址来显式设置。
+
+或者，您也可以使用虚拟机已经能够解析的 DNS 名称来暴露 istiod，从而完全跳过 `/etc/hosts` 这一步。
+这需要在安装控制平面时将 `values.pilot.env.ISTIOD_CUSTOM_HOST` 设置为该名称，
+以便 istiod 为该名称签发服务证书；同时将 `mesh.yaml` 中的 `defaultConfig.discoveryAddress`
+替换为 `<custom-host>:15012`，并将 `cluster.env` 中的 `CA_ADDR` 设置为相同的地址。
+{{< /tip >}}
 
 ## 配置虚拟机 {#configure-the-virtual-machine}
 
