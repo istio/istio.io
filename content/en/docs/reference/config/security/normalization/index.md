@@ -68,9 +68,11 @@ This is enabled by default.
 
 This applies to the `methods` and `notMethods` field.
 
-### 1. Method not in upper case
+### 1. Case-insensitive method matching
 
-Istio will reject requests with HTTP 400 if the verb in the HTTP request is not in upper case.
+Istio authorization policy will compare the method with a case-insensitive approach, so `post` matches a rule written for `POST`.
+
+Over HTTP/1.1, requests with a verb that is not in upper case are rejected with HTTP 400. Over HTTP/2, the request is forwarded as-is and the backend sees the original verb.
 
 This is enabled by default.
 
