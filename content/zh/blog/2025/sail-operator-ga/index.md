@@ -22,11 +22,11 @@ Sail Operator 旨在降低安装和运行 Istio 的复杂性。
 我们鼓励用户阅读我们的[文档](https://github.com/istio-ecosystem/sail-operator/tree/main/docs)以了解有关这种管理 Istio 环境的新方法的更多信息。
 
 Sail Operator 的主要资源包括：
-* `Istio`：管理 Istio 控制平面。
-* `IstioRevision`：表示控制平面的修订版本。
-* `IstioRevisionTag`：表示稳定的修订版本标签，用作 Istio 控制平面修订版本的别名。
-* `IstioCNI`：管理 Istio 的 CNI 节点代理。
-* `ZTunnel`：管理 Ambient 模式 ztunnel DaemonSet（Alpha 功能）。
+- `Istio`：管理 Istio 控制平面。
+- `IstioRevision`：表示控制平面的修订版本。
+- `IstioRevisionTag`：表示稳定的修订版本标签，用作 Istio 控制平面修订版本的别名。
+- `IstioCNI`：管理 Istio 的 CNI 节点代理。
+- `ZTunnel`：管理 Ambient 模式 ztunnel DaemonSet（Alpha 功能）。
 
 {{< idea >}}
 如果您正在从[自从删除 Istio 集群内 Operator](/zh/blog/2024/in-cluster-operator-deprecation-announcement/)进行迁移，
@@ -222,9 +222,9 @@ default-v1-24-3          True    Healthy   True     v1.24.3   92s
 Sail Operator 会自动检测给定的 Istio 控制平面是否正在使用，
 并将此信息写入您在上面看到的“正在使用”状态条件中。目前，
 所有 `IstioRevisions` 和我们的 `IstioRevisionTag` 都被视为“正在使用”：
-* 旧修订版本 `default-v1-24-2` 被视为正在使用，因为它被示例应用程序的 Sidecar 引用。
-* 新修订版本 `default-v1-24-3` 被视为正在使用，因为它被标签引用。
-* 标签被视为正在使用，因为它被示例命名空间引用。
+- 旧修订版本 `default-v1-24-2` 被视为正在使用，因为它被示例应用程序的 Sidecar 引用。
+- 新修订版本 `default-v1-24-3` 被视为正在使用，因为它被标签引用。
+- 标签被视为正在使用，因为它被示例命名空间引用。
 
 确认有两个控制平面 Pod 正在运行，每个修订版本一个：
 

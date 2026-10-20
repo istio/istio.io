@@ -25,11 +25,11 @@ Cosign 是作为 [sigstore](https://www.sigstore.dev) 项目的一部分开发�
 1. 为您的架构下载最新的 [Cosign](https://github.com/sigstore/cosign/releases/latest) 构建及其签名。
 1. 验证 `cosign` 二进制签名：
 
-   {{< text bash >}}
-$ openssl dgst -sha256 \
-    -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pub) \
-    -signature <(cat /path/to/cosign.sig | base64 -d) \
-    /path/to/cosign-binary
+    {{< text bash >}}
+    $ openssl dgst -sha256 \
+        -verify <(curl -ssL https://raw.githubusercontent.com/sigstore/cosign/main/release/release-cosign.pub) \
+        -signature <(cat /path/to/cosign.sig | base64 -d) \
+        /path/to/cosign-binary
     {{< /text >}}
 
 1. 使二进制文件可执行（`chmod +x`），并移动到 `PATH` 上的一个位置。

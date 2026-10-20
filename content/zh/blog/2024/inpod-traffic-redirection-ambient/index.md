@@ -186,13 +186,13 @@ Kubernetes 正常工作，所有人都高兴。
 在新的 Ambient 模式中，应用程序 Pod 被添加到 Ambient 网格的方式如下：
 - `istio-cni` 节点代理检测到一个 Kubernetes Pod（现有的或新启动的），
   其命名空间被标记为 `istio.io/dataplane-mode=ambient`，表明它应该包含在 Ambient 网格中。
-  - 如果启动了一个应添加到 Ambient 网格中的**新** Pod，
-    则 CRI 会触发 CNI 插件（由 `istio-cni` 代理安装和管理）。
-    该插件用于将新的 Pod 事件推送到节点的 `istio-cni` 代理，
-    并阻止 Pod 启动，直到代理成功配置重定向。由于 CNI 插件由 CRI 尽早在 Kubernetes Pod 创建过程中调用，
-    这确保了我们可以足够早地建立流量重定向，以防止启动期间流量逃逸，而无需依赖初始化容器之类的机制。
-  - 如果**已经运行**的 Pod 被添加到 Ambient 网格中，则会触发新的 Pod 事件。
-    `istio-cni` 节点代理的 Kubernetes API 观察程序会检测到这一点，并以相同的方式配置重定向。
+    - 如果启动了一个应添加到 Ambient 网格中的**新** Pod，
+      则 CRI 会触发 CNI 插件（由 `istio-cni` 代理安装和管理）。
+      该插件用于将新的 Pod 事件推送到节点的 `istio-cni` 代理，
+      并阻止 Pod 启动，直到代理成功配置重定向。由于 CNI 插件由 CRI 尽早在 Kubernetes Pod 创建过程中调用，
+      这确保了我们可以足够早地建立流量重定向，以防止启动期间流量逃逸，而无需依赖初始化容器之类的机制。
+    - 如果**已经运行**的 Pod 被添加到 Ambient 网格中，则会触发新的 Pod 事件。
+      `istio-cni` 节点代理的 Kubernetes API 观察程序会检测到这一点，并以相同的方式配置重定向。
 - `istio-cni` 节点代理进入 Pod 的网络命名空间，
   并在 Pod 网络命名空间内建立网络重定向规则，以便拦截进入和离开 Pod 的数据包，
   并将其透明地重定向到侦听[已知端口](https://github.com/istio/ztunnel/blob/master/ARCHITECTURE.md#ports)（15008、15006、15001）的节点本地 ztunnel 代理实例。
@@ -200,9 +200,9 @@ Kubernetes 正常工作，所有人都高兴。
   它应该在 Pod 的网络命名空间内建立本地代理侦听端口
   （在 15008、15006 和 15001 上），并为 ztunnel 提供低等级 Linux
   [文件描述符](https://zh.wikipedia.org/wiki/File_descriptor)用来表示 Pod 的网络命名空间。
-  - 虽然套接字通常是由实际在该网络命名空间内运行的进程在 Linux 网络命名空间内创建的，
-    但完全可以利用 Linux 的低等级套接字 API 来允许在一个网络命名空间中运行的进程在另一个网络命名空间中创建侦听套接字，
-    假设目标网络命名空间在创建时是已知的。
+    - 虽然套接字通常是由实际在该网络命名空间内运行的进程在 Linux 网络命名空间内创建的，
+      但完全可以利用 Linux 的低等级套接字 API 来允许在一个网络命名空间中运行的进程在另一个网络命名空间中创建侦听套接字，
+      假设目标网络命名空间在创建时是已知的。
 - 节点本地 ztunnel 在内部启动一个新的代理实例和侦听端口集，专用于新添加的 Pod。
 - 一旦 in-Pod 重定向规则就位并且 ztunnel 建立完成侦听端口，
   Pod 就会被添加到网格中，并且流量开始像以前一样流经节点本地 ztunnel。

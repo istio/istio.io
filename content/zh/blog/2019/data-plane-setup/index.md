@@ -114,20 +114,20 @@ $ istioctl kube-inject -f demo-red.yaml | kubectl apply -f -
 - 从 configmap 创建 `inject-config.yaml` 和 `mesh-config.yaml`
 
     {{< text bash >}}
-$ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
-$ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
+    $ kubectl -n istio-system get configmap istio-sidecar-injector -o=jsonpath='{.data.config}' > inject-config.yaml
+    $ kubectl -n istio-system get configmap istio -o=jsonpath='{.data.mesh}' > mesh-config.yaml
     {{< /text >}}
 
 - 修改现有的 pod 模板，在这个例子中是，`demo-red.yaml`：
 
     {{< text bash >}}
-$ istioctl kube-inject --injectConfigFile inject-config.yaml --meshConfigFile mesh-config.yaml --filename demo-red.yaml --output demo-red-injected.yaml
+    $ istioctl kube-inject --injectConfigFile inject-config.yaml --meshConfigFile mesh-config.yaml --filename demo-red.yaml --output demo-red-injected.yaml
     {{< /text >}}
 
 - 提交 `demo-red-injected.yaml`
 
     {{< text bash >}}
-$ kubectl apply -f demo-red-injected.yaml
+    $ kubectl apply -f demo-red-injected.yaml
     {{< /text >}}
 
 如上所示，我们使用 `sidecar-injector` 和网格配置创建了一个新模板，然后使用 `kubectl` 应用该新模板。如果我们查看注入后的 YAML 文件，它具有 Istio 特定容器的配置，如上所述。一旦我们应用注入后的 YAML 文件，我们将看到两个容器正在运行。其中一个是实际的应用程序容器，另一个是 `istio-proxy` sidecar。

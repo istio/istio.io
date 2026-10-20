@@ -48,21 +48,21 @@ Istio 的性能由 [ztunnel](https://github.com/istio/ztunnel) 驱动，
 <summary>测试细节</summary>
 
 测试中的实现：
-* Istio：版本 1.26（预发布），默认设置
-* <a href="https://linkerd.io/">Linkerd</a>：
+- Istio：版本 1.26（预发布），默认设置
+- <a href="https://linkerd.io/">Linkerd</a>：
   版本 `edge-25.2.2`，默认设置
-* <a href="https://cilium.io/">Cilium</a>：
+- <a href="https://cilium.io/">Cilium</a>：
   版本 `v1.16.6`，带有 `kubeProxyReplacement=true`
-  * WireGuard 使用 `encryption.type=wireguard`
-  * IPsec 使用 `encryption.type=ipsec` 和 `GCM-128-AES` 算法
-  * 此外，两种模式均按照
-    <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/">Cilium 调优指南</a>中的所有建议进行了测试
-    （包括 `netkit`、`native` 路由模式、
-    BIGTCP（用于 WireGuard；IPsec 不兼容）、BPF 伪装和 BBR 带宽管理器）。
-    但是，应用和不应用这些设置的结果相同，因此仅报告一个结果。
-* <a href="https://www.tigera.io/project-calico/">Calico</a>：版本 `v3.29.2`，
+    - WireGuard 使用 `encryption.type=wireguard`
+    - IPsec 使用 `encryption.type=ipsec` 和 `GCM-128-AES` 算法
+    - 此外，两种模式均按照
+      <a href="https://docs.cilium.io/en/stable/operations/performance/tuning/">Cilium 调优指南</a>中的所有建议进行了测试
+      （包括 `netkit`、`native` 路由模式、
+      BIGTCP（用于 WireGuard；IPsec 不兼容）、BPF 伪装和 BBR 带宽管理器）。
+      但是，应用和不应用这些设置的结果相同，因此仅报告一个结果。
+- <a href="https://www.tigera.io/project-calico/">Calico</a>：版本 `v3.29.2`，
   带有 `calicoNetwork.linuxDataplane=BPF` 和 `wireguardEnabled=true`
-* <a href="https://kindnet.es/">Kindnet</a>：
+- <a href="https://kindnet.es/">Kindnet</a>：
   版本 `v1.8.5`，带有 `--ipsec-overlay=true`。
 
 有些实现仅对跨节点流量进行加密，因此被排除在同节点测试之外。
@@ -92,19 +92,19 @@ Istio 的性能由 [ztunnel](https://github.com/istio/ztunnel) 驱动，
 并在任何内核版本上运行。ztunnel 就是这种效果的一个很好的例子，
 每个季度发布都会带来显着的性能改进。一些最有影响力的变化：
 
-* 迁移到 `rustls`，一个专注于安全性的高性能 TLS 库
+- 迁移到 `rustls`，一个专注于安全性的高性能 TLS 库
   ([#820](https://github.com/istio/ztunnel/pull/820))。
-* 减少出站流量的数据复制 ([#1012](https://github.com/istio/ztunnel/pull/1012))。
-* 动态调整活动连接的缓冲区大小 ([#1024](https://github.com/istio/ztunnel/pull/1024))。
-* 优化内存复制 ([#1169](https://github.com/istio/ztunnel/pull/1169))。
-* 将加密库移至 `AWS-LC`，这是一个针对现代硬件优化的高性能加密库
+- 减少出站流量的数据复制 ([#1012](https://github.com/istio/ztunnel/pull/1012))。
+- 动态调整活动连接的缓冲区大小 ([#1024](https://github.com/istio/ztunnel/pull/1024))。
+- 优化内存复制 ([#1169](https://github.com/istio/ztunnel/pull/1169))。
+- 将加密库移至 `AWS-LC`，这是一个针对现代硬件优化的高性能加密库
   ([#1466](https://github.com/istio/ztunnel/pull/1466))。
 
 其他一些因素包括：
 
-* WireGuard 和 Linkerd 使用 `ChaCha20-Poly1305` 加密算法，
+- WireGuard 和 Linkerd 使用 `ChaCha20-Poly1305` 加密算法，
   而 Istio 使用 `AES-GCM`。后者在现代硬件上进行了高度优化。
-* WireGuard 和 IPsec 对单个数据包进行操作（通常最多 1500 字节，受网络 MTU 限制），
+- WireGuard 和 IPsec 对单个数据包进行操作（通常最多 1500 字节，受网络 MTU 限制），
   而 TLS 对最多 16KB 的记录进行操作。
 
 ## 即刻尝试 Ambient 模式 {#try-ambient-mode-today}
