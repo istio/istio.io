@@ -21,10 +21,10 @@ Para más información, consulta [ISTIO-SECURITY-2026-007](/news/security/istio-
 
 - __[GHSA-8vc2-jrm4-835w](https://github.com/envoyproxy/envoy/security/advisories/GHSA-8vc2-jrm4-835w)__: (puntuación CVSS 7.5): Corregida una terminación anormal remota sin autenticación en el filtro HTTP OAuth2 ante una solicitud CONNECT sin cabecera `:path`.
 - __[GHSA-47vj-9r25-wv5j](https://github.com/envoyproxy/envoy/security/advisories/GHSA-47vj-9r25-wv5j)__: (puntuación CVSS 6.5): Corregida una terminación anormal en el filtro HTTP `api_key_auth` ante una solicitud CONNECT sin cabecera `:path`.
-
+- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__: Se corrigió una vulnerabilidad en la biblioteca de compresión Brotli usada por Envoy. Los usuarios que habiliten la descompresión Brotli, por ejemplo con un `EnvoyFilter`, deben actualizar.
 ### CVEs de Istio
 
-- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (puntuación CVSS 7.4, Alta): Las reglas de método de `AuthorizationPolicy` se eluden sobre HTTP/2 al cambiar entre mayúsculas y minúsculas en el método. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [izzy0101010101](https://github.com/izzy0101010101).
+- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (puntuación CVSS 7.4, Alta): Las reglas de método de `AuthorizationPolicy` se eluden sobre HTTP/2 al cambiar entre mayúsculas y minúsculas en el método. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [izzysec](https://github.com/izzysec).
 - __[GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6)__ (puntuación CVSS 7.7, Alta): istiod termina de forma anormal en modo ambient cuando un `ServiceEntry` u otro servicio reclama la dirección de un waypoint con dirección IP. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [yshch](https://github.com/yshch).
 
 ### Otras correcciones de seguridad de Istio
