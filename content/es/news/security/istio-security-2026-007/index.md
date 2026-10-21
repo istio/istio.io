@@ -19,7 +19,7 @@ skip_seealso: true
 
 - __[GHSA-8vc2-jrm4-835w](https://github.com/envoyproxy/envoy/security/advisories/GHSA-8vc2-jrm4-835w)__: (puntuación CVSS 7.5): Se corrigió una terminación anormal remota sin autenticación (desreferencia de puntero nulo) en el filtro HTTP OAuth2 al procesar una solicitud CONNECT sin cabecera `:path`.
 - __[GHSA-47vj-9r25-wv5j](https://github.com/envoyproxy/envoy/security/advisories/GHSA-47vj-9r25-wv5j)__: (puntuación CVSS 6.5): Se corrigió una terminación anormal en el filtro HTTP `api_key_auth` al ocultar credenciales en una solicitud CONNECT sin cabecera `:path`.
-
+- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__: Se corrigió una vulnerabilidad en la biblioteca de compresión Brotli usada por Envoy. Los usuarios que habiliten la descompresión Brotli, por ejemplo con un `EnvoyFilter`, deben actualizar.
 ### CVEs de Istio
 
 - __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (puntuación CVSS 7.4, Alta): las reglas de método de `AuthorizationPolicy` se eluden sobre HTTP/2 cambiando las mayúsculas/minúsculas del método. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [izzy0101010101](https://github.com/izzy0101010101).
@@ -35,7 +35,7 @@ En modo ambient, istiod resuelve el servicio propietario de un waypoint con dire
 
 ## ¿Estoy afectado?
 
-- **CVEs de Envoy:** Estás potencialmente afectado si ejecutas una versión afectada de Istio y usas los filtros HTTP OAuth2 o `api_key_auth`.
+- **CVEs de Envoy:** Estás potencialmente afectado si ejecutas una versión afectada de Istio y usas los filtros HTTP OAuth2 o `api_key_auth`, or habilitas la descompresión Brotli.
 
 - **Bypass de método en `AuthorizationPolicy`:** Estás afectado si usas reglas `DENY` de `AuthorizationPolicy` con `methods`, o reglas `ALLOW` con `notMethods`, y los clientes pueden alcanzar el workload sobre HTTP/2. Las políticas que solo usan reglas `ALLOW` con una lista `methods` explícita no están afectadas.
 
