@@ -42,6 +42,7 @@ We also recommend these sessions from the main conference with strong service me
 - [*Feeling Lost? A Newcomer's Guide to the Gateway API*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1251218)
 - [*From Bearer Tokens to Mesh-Native mTLS: Modernizing Service Identity at Coinbase*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1250086)
 - [*Follow the GPUs: How a Regulated Fortune 100 Serves Customers When No Single Cloud Has Enough*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1250973)
+- [*Debugging the Invisible: Standardizing Kubernetes Networking Expertise*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1242417)
 
 ## Meet Us in Person
 
