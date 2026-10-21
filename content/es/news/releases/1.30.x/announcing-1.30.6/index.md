@@ -49,7 +49,7 @@ Para más información, consulta [ISTIO-SECURITY-2026-007](/news/security/istio-
 
 ## Cambios
 
-- **Corregido** una regla de `HTTPRoute` con varios `backendRefs` de `InferencePool` que configuraba un único endpoint picker. El picker del último `backendRef` listado puntuaba todas las solicitudes de la regla, por lo que los pickers de los demás pools nunca se invocaban, y un pool sin endpoints listos hacía fallar la regla completa en lugar de solo su parte ponderada. Ahora cada pool tiene su propio picker, asociado a su propio clúster ponderado. ([Issue #61594](https://github.com/istio/istio/issues/61594))
+- **Corregida** una regla de `HTTPRoute` con varios `backendRefs` de `InferencePool` que configuraba un único endpoint picker. El picker del último `backendRef` listado puntuaba todas las solicitudes de la regla, por lo que los pickers de los demás pools nunca se invocaban, y un pool sin endpoints listos hacía fallar la regla completa en lugar de solo su parte ponderada. Ahora cada pool tiene su propio picker, asociado a su propio clúster ponderado. ([Issue #61594](https://github.com/istio/istio/issues/61594))
 
 - **Corregido** que dos `HTTPRoute`s con el mismo `rules[].name` en el mismo gateway se sobrescribieran mutuamente el endpoint picker. Los nombres de regla solo tienen que ser únicos dentro de un `HTTPRoute`, pero los pickers se indexaban por nombre entre todos ellos, de modo que una ruta podía ser atendida por el picker de otra. Ahora los pickers se resuelven por `backendRef`, de modo que un nombre compartido ya no traslada el picker de una ruta a otra. ([Issue #61594](https://github.com/istio/istio/issues/61594))
 
