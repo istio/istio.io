@@ -53,5 +53,5 @@ También recomendamos estas sesiones de la conferencia principal con fuerte rele
 KubeCon + CloudNativeCon siempre es el momento perfecto para conectarse, aprender y celebrar el increíble trabajo que ocurre en toda la comunidad de Istio.
 Manténgase atento para más actualizaciones, demos y anuncios — incluidas conversaciones emocionantes sobre **redes orientadas a IA, escalabilidad multiclúster y la evolución de Ambient Mesh**.
 
-Síganos en [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/), o [Bluesky](https://bsky.app/profile/istio.io) para obtener actualizaciones en vivo del evento.
+Síganos en [X](https://x.com/istiomesh), [LinkedIn](https://www.linkedin.com/company/istio/) o [Bluesky](https://bsky.app/profile/istio.io) para obtener actualizaciones en vivo del evento.
 **¡Nos vemos pronto en Salt Lake City!**
