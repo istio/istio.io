@@ -85,6 +85,53 @@ Chart 提供的配置。
 如果需要，可以在 Pod 上添加 `prometheus.istio.io/merge-metrics: "false"`
 来禁用此功能。
 
+#### 每个 Pod 的多个指标端点 {#multiple-metrics-endpoints-per-pod}
+
+{{< tip >}}
+从 Istio 1.31 开始可用。
+{{< /tip >}}
+
+默认情况下，指标合并只会为每个 Pod 抓取一个应用程序端点，
+该端点由 `prometheus.io/port` 和 `prometheus.io/path` 注解指定。
+如果 Pod 中有多个容器各自暴露自己的指标端点，这种方式就不再适用，
+例如主应用程序容器在 `:8080/metrics` 上暴露指标，
+同时作为 Sidecar 运行的 Exporter 在 `:9100/metrics` 上暴露指标。
+此时只有 `prometheus.io/port` 指定的端点会被抓取，
+因此来自其他容器的指标会在没有任何提示的情况下缺失。
+
+`prometheus.istio.io/scrape-targets` 注解允许 Pod 声明多个端点。
+该注解的值是以逗号分隔的 `port:path` 列表；若省略路径，则默认为 `/metrics`：
+
+{{< text yaml >}}
+metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.istio.io/scrape-targets: "8080:/metrics,9100:/metrics"
+spec:
+  containers:
+    - name: app
+      # 在 :8080/metrics 上暴露指标
+    - name: exporter
+      # 在 :9100/metrics 上暴露指标
+{{< /text >}}
+
+pilot-agent 会并发抓取每个已声明的目标，并按照目标的声明顺序，
+在 `:15020/stats/prometheus` 上合并输出结果。
+未设置此注解的 Pod 将保持现有的单目标行为不变。
+
+需要注意以下几点限制：
+
+* 目标端口不能使用 Istio 保留的数据平面端口（例如 `15020` 或 `15090`）。
+  使用这类端口的目标会在注入时被拒绝并报错。
+* 如果两个目标暴露了同名的指标族（Metric Family），
+  二者都会被包含在合并后的输出中，导致 Prometheus 无法解析该响应。
+  请确保不同容器中目标的指标名称互不重复。
+* 每个目标的响应大小上限为 10 MiB；
+  返回内容超过此上限的目标会被排除在合并结果之外，并计为一次抓取失败。
+* 如果某个目标未能响应，其他目标仍会被抓取并合并；
+  该失败会被记录在
+  `istio_agent_scrape_failures_total{type="application"}` 中。
+
 ### 选项 2：自定义收集配置 {#option-2-customized-scraping-configurations}
 
 要将现有的 Prometheus 示例配置为抓取 Istio 生成的统计信息，需要增加一些 Job。
