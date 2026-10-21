@@ -2,7 +2,7 @@
 title: ISTIO-SECURITY-2026-007
 subtitle: 安全公告
 description: Envoy 报告的 CVE，以及针对 HTTP/2 上利用方法大小写绕过 AuthorizationPolicy 问题和 Ambient 模式下 istiod 拒绝服务问题的 Istio 安全修复。
-cves: []
+cves: [CVE-2026-111497]
 cvss: "7.7"
 vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
 releases: ["1.31.0 to 1.31.1", "1.30.0 to 1.30.5", "1.29.0 to 1.29.8"]
@@ -23,6 +23,10 @@ skip_seealso: true
 
 - __[GHSA-47vj-9r25-wv5j](https://github.com/envoyproxy/envoy/security/advisories/GHSA-47vj-9r25-wv5j)__: (CVSS score 6.5)：
   修复了 `api_key_auth` HTTP 过滤器在对不带 `:path` 标头的 CONNECT 请求隐藏凭证时发生崩溃的问题。
+
+- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__：
+  修复了 Envoy 所使用的 Brotli 压缩库中的一个漏洞。
+  启用了 Brotli 解压缩（例如通过 `EnvoyFilter` 启用）的用户应进行升级。
 
 ### Istio CVE {#istio-cves}
 
@@ -55,7 +59,7 @@ istiod 会发生 Panic 并陷入崩溃循环，直到冲突的资源被删除为
 ## 我受到影响了吗？{#am-i-impacted}
 
 - **Envoy CVE**：如果您运行的是受影响的 Istio 版本，并且使用了 OAuth2 或 `api_key_auth` HTTP 过滤器，
-  则可能会受到影响。
+  或者启用了 Brotli 解压缩，则可能会受到影响。
 
 - **`AuthorizationPolicy` 方法绕过**：如果您使用了带有 `methods` 的 `AuthorizationPolicy` `DENY` 规则
   或带有 `notMethods` 的 `ALLOW` 规则，并且客户端可以通过 HTTP/2 访问工作负载，则会受到影响。
