@@ -23,8 +23,8 @@ Amazon DynamoDB 端点选择与 Google Kubernetes Engine（GKE）
 
 |路由|端点|
 |--- |--- |
-|主路由|http://dynamodb.us-east-1.amazonaws.com|
-|故障路由|http://dynamodb.us-west-1.amazonaws.com|
+|主路由|<http://dynamodb.us-east-1.amazonaws.com>|
+|故障路由|<http://dynamodb.us-west-1.amazonaws.com>|
 
 ![故障转移](./external-locality-failover.png)
 

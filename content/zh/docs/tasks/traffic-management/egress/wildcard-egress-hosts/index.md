@@ -279,7 +279,7 @@ EOF
 
 {{< /tabset >}}
 
-2)  为目标服务器 _www.wikipedia.org_ 创建一个 `ServiceEntry`：
+2)  为目标服务器 _[www.wikipedia.org](https://www.wikipedia.org)_ 创建一个 `ServiceEntry`：
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
