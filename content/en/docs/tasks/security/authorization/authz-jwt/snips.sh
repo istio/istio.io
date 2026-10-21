@@ -161,8 +161,8 @@ ENDSNIP
 ENDSNIP
 
 snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_2() {
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/gen-jwt.py
-wget --no-verbose https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/key.pem
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.31/security/tools/jwt/samples/gen-jwt.py
+wget --no-verbose https://raw.githubusercontent.com/istio/istio/release-1.31/security/tools/jwt/samples/key.pem
 }
 
 snip_allow_requests_with_valid_jwt_and_spacedelimited_claims_3() {
@@ -178,7 +178,7 @@ spec:
       app: httpbin
   jwtRules:
   - issuer: "testing@secure.istio.io"
-    jwksUri: "https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json"
+    jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.31/security/tools/jwt/samples/jwks.json"
     spaceDelimitedClaims: ["roles"]
 EOF
 }
