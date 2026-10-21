@@ -29,6 +29,10 @@ aliases:
 - __[GHSA-47vj-9r25-wv5j](https://github.com/envoyproxy/envoy/security/advisories/GHSA-47vj-9r25-wv5j)__: (CVSS score 6.5)：
   修复了 `api_key_auth` HTTP 过滤器在收到不带 `:path` 标头的 CONNECT 请求时发生崩溃的问题。
 
+- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__：
+  修复了 Envoy 所使用的 Brotli 压缩库中的一个漏洞。
+  启用了 Brotli 解压缩（例如通过 `EnvoyFilter` 启用）的用户应进行升级。
+
 ### Istio CVE {#istio-cves}
 
 - __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (CVSS score 7.4, High)：
