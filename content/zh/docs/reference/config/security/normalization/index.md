@@ -71,9 +71,13 @@ Istio 将根据 [RFC 3986](https://tools.ietf.org/html/rfc3986#section-6)
 
 适用于 `methods` 和 `notMethods` 字段。
 
-### 1. 方法不大写 {#1-method-not-in-upper-case}
+### 1. 不区分大小写的方法匹配 {#1-case-insensitive-method-matching}
 
-如果 HTTP 请求中的动词未大写，Istio 将拒绝该请求，并返回 HTTP 状态码 400。
+Istio 授权策略会将该方法与不区分大小写的方法进行比较，
+因此 `post` 与为 `POST` 编写的规则匹配。
+
+在 HTTP/1.1 上，带有非大写动词的请求将被拒绝，并返回 HTTP 400。
+在 HTTP/2 上，请求按原样转发，后端会看到原始动词。
 
 默认情况下，此功能已启用。
 
