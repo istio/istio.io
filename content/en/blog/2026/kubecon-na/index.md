@@ -13,7 +13,7 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
     alt="KubeCon + CloudNativeCon North America, November 9-12, 2026, Salt Lake City, Utah. #KubeCon"
     >}}
 
-## Istio Day and Key Sessions
+## Istio Day at Cloud Native Theater
 
 **Join us at Istio Day** on **Wednesday, November 11 2026**, part of the **Cloud Native Theater** at KubeCon + CloudNativeCon North America in Salt Lake City. Our hosts, **Faseela K** and **Jackie Maertens**, will open and close the day. These are the sessions lined up for the day:
 
@@ -26,7 +26,7 @@ Get ready for a packed agenda of **[Istio activities at KubeCon + CloudNativeCon
 - [*ServiceEntry Visibility: Tomorrow's ServiceEntry, Today*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1336102)
 - [*Translating Mesh Identity into MCP Impersonation: Governing AI Agent Identities with Istio*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1336104)
 
-## Istio at KubeCon
+## Istio at KubeCon Main Track
 
 - [*ContribFest: Set Sail with Istio: Developing a Production Service Mesh*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1294759), a perfect session for newcomers and aspiring contributors to jump into the codebase and community.
 - [*Managing Network Security in Multi-Tenant Environments with Istio and Cilium*](https://kubecon-cloudnativecon-north-america-2026.sessionize.com/session/1247970)
