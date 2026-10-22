@@ -19,4 +19,4 @@ For more information, see [ISTIO-SECURITY-2026-008](/news/security/istio-securit
 
 - **Removed** trust in the compromised eMudhra intermediate CA certificates. The CA bundle in the `ubuntu`-based and `distroless` images no longer includes `emSign ECC Root CA - G3`.
 - **Updated** `rustls-webpki` in ztunnel to 0.103.16, which rejects certificate chains that contain any of the compromised eMudhra intermediate keys.
-- Istio 1.29 is built with Go 1.25, which no longer receives fixes, so this release does not include the Go fix for [CVE-2026-111943](https://nvd.nist.gov/vuln/detail/CVE-2026-111943) and istiod, `istioctl`, and `pilot-agent` rely on the updated CA bundle only. Upgrade to 1.30.7 or 1.31.3 to get the Go fix.
+- Istio 1.29 is built with Go 1.25, which no longer receives fixes, so this release does not include the Go fix for [CVE-2026-111943](https://nvd.nist.gov/vuln/detail/CVE-2026-111943). istiod, `istioctl`, and `pilot-agent` rely on the updated CA bundle only. Upgrade to 1.30.7 or 1.31.3 to get the Go fix.
