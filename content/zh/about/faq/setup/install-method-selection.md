@@ -5,16 +5,17 @@ weight: 10
 
 除了简单地[入门](/zh//docs/setup/getting-started)评估版安装之外，
 还有其它几种不同的方式安装 Istio，您应该根据您的生产要求来选择安装方式。
+
 下面列出了每种安装方式的优缺点：
 
 1. [使用 istioctl 安装](/zh/docs/setup/install/istioctl/)
 
-    具有高安全性的简单、合格的安装和管理方法，这也是社区推荐的安装方法。
+    通过命令行使用内置配置档或 `IstioOperator` 配置文件来安装 Istio。
 
     优点：
 
     - 完整的配置和运行状态的验证。
-    - 使用提供了扩展的配置、自定义选项的 `IstioOperator` API。
+    - 使用 `IstioOperator` 配置 API，该 API 提供了丰富的自定义选项。
 
     缺点：
 
