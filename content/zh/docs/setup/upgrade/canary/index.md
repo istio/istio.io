@@ -16,6 +16,9 @@ test: yes
 
 ## 升级之前 {#before-you-upgrade}
 
+请为已安装的版本和目标版本分别[下载 Istio 发行版](/zh/docs/setup/additional-setup/download-istio-release/)，
+以便在开始之前准备好与各版本相匹配的 `istioctl` 二进制文件。
+
 在升级 Istio 之前，建议执行 `istioctl x precheck` 命令，以确保升级与您的环境兼容。
 
 {{< text bash >}}
@@ -139,11 +142,12 @@ $ istioctl proxy-status | grep "\.test-ns "
 
 {{< boilerplate revision-tags-usage >}}
 
-1. 安装两套修订版本的控制平面：
+1. 安装两套修订版本的控制平面，
+   每个修订版本都使用对应发行版中的 `istioctl` 二进制文件：
 
     {{< text bash >}}
-    $ istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
-    $ istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
+    $ ./istio-{{< istio_previous_version >}}.1/bin/istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
+    $ ./istio-{{< istio_full_version >}}/bin/istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
     {{< /text >}}
 
 1. 创建 `stable`和 `canary` 修订版本标签，将其与各自的修订相关联:
