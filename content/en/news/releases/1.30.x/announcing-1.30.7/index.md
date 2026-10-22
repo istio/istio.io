@@ -17,7 +17,7 @@ This release contains security fixes. This release note describes what's differe
 
 For more information, see [ISTIO-SECURITY-2026-008](/news/security/istio-security-2026-008).
 
-- **Removed** trust in the compromised eMudhra intermediate CA certificates. The CA bundle in the `ubuntu` based and `distroless` images no longer includes `emSign ECC Root CA - G3`.
+- **Removed** trust in the compromised eMudhra intermediate CA certificates. The CA bundle in the `ubuntu`-based and `distroless` images no longer includes `emSign ECC Root CA - G3`.
 - __[CVE-2026-111943](https://nvd.nist.gov/vuln/detail/CVE-2026-111943)__: Updated Go to 1.26.10, which rejects certificate chains that contain any of the compromised eMudhra intermediate keys in istiod, `istioctl`, and `pilot-agent`.
 - **Updated** `rustls-webpki` in ztunnel to 0.103.16, which rejects certificate chains that contain any of the compromised eMudhra intermediate keys.
 
