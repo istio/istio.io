@@ -9,9 +9,9 @@
         <h3 class="multi-block-header">{{- $header -}}</h3>
 
         {{ if in (string .Inner) "\n\n" }}
-            {{ .Inner | markdownify }}
+            {{ .Page.RenderString .Inner }}
         {{ else }}
-            <p>{{ .Inner | markdownify }}</p>
+            <p>{{ .Page.RenderString .Inner }}</p>
         {{ end }}
     </div>
 </div>
