@@ -24,7 +24,5 @@ For more information, see [ISTIO-SECURITY-2026-008](/news/security/istio-securit
 ## Changes
 
 - **Fixed** the ambient node-untaint controller removing the `cni.istio.io/not-ready` taint when only istio-cni was ready. It can now also wait for ztunnel to be ready on the node, so pods are not scheduled onto a node whose ztunnel is still wedged. This is off by default on this release branch and is enabled with `PILOT_NODE_UNTAINT_CHECK_ZTUNNEL=true`. Only applies when ambient is enabled. ([Issue #52073](https://github.com/istio/istio/issues/52073))
-
 - **Fixed** istiod failing to start when the self-signed CA certificate in `istio-ca-secret` has expired, which can happen when the deployment is scaled to zero for longer than the certificate TTL. The expired certificate is now automatically renewed using the existing private key.
-
 - **Fixed** `istioctl bug-report --duration` not filtering logs when used without `--end-time`.
