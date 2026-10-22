@@ -15,7 +15,7 @@ skip_seealso: true
 
 ## eMudhra intermediate CA compromise
 
-The private keys of eight eMudhra intermediate CA certificates, including their Sectigo cross-signs, were [disclosed as compromised](https://emudhra.we-have-a-problem.com/) on October 20, 2026. Anyone holding one of these keys can issue certificates for any domain that chain to roots trusted by the public CA bundles shipped in Istio images. Browsers that enforce Certificate Transparency were protected, but Envoy, Go, and ztunnel do not enforce Certificate Transparency.
+The private keys of eight eMudhra intermediate CA certificates, including their Sectigo cross-signs, were [disclosed as compromised](https://emudhra.we-have-a-problem.com/) on October 20, 2026. Anyone holding one of these keys can issue certificates for any domain that chains to roots trusted by the public CA bundles shipped in Istio images. Browsers that enforce Certificate Transparency were protected, but Envoy, Go, and ztunnel do not enforce Certificate Transparency.
 
 This release removes trust in these intermediates:
 
