@@ -70,9 +70,9 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases | Patched versions with no known CVEs |
 |----------------|-------------------------------------|
-| 1.31.x         | 1.31.2+                             |
-| 1.30.x         | 1.30.6+                             |
-| 1.29.x         | 1.29.9+                             |
+| 1.31.x         | 1.31.3+                             |
+| 1.30.x         | 1.30.7+                             |
+| 1.29.x         | 1.29.10+                            |
 
 ## Supported Envoy Versions
 

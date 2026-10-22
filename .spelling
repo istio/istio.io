@@ -481,6 +481,7 @@ CVE-2025-64763
 CVE-2025-66220
 CVE-2025-68121
 CVE-2026-111497
+CVE-2026-111943
 CVE-2026-26308
 CVE-2026-26309
 CVE-2026-26310
@@ -608,6 +609,8 @@ Elasticsearch
 embeddable
 emojis
 Emre
+emSign
+eMudhra
 enablement
 ENABLE_DEBUG_ENDPOINT_AUTH
 endUser-to-Service
@@ -796,6 +799,7 @@ int64
 Interdependencies
 interdependencies
 interfered
+intermediates
 intermediation
 interoperate
 interoperation
@@ -862,6 +866,7 @@ ISTIO-SECURITY-2026-002
 ISTIO-SECURITY-2026-005
 ISTIO-SECURITY-2026-006
 ISTIO-SECURITY-2026-007
+ISTIO-SECURITY-2026-008
 istio-system
 istio.io
 istio.io.
@@ -1370,6 +1375,7 @@ schemas
 SDKs
 sds
 Searcy
+Sectigo
 Secura
 SecurityCon
 SecurityGroup
@@ -1690,6 +1696,7 @@ webhooks
 WebSocket
 Websockets
 WebSphere
+wedged
 Weems
 Wehkamp
 Weibo
