@@ -21,7 +21,11 @@
         </tr>
         <tr>
             <td>{{ i18n "security_bulletin_cvss" }}</td>
+            {{ if hasPrefix $cvss_version "4" }}
+            <td>{{ $cvss }} <a href="https://www.first.org/cvss/calculator/4.0#{{ $vector }}">{{ $vector }}</a></td>
+            {{ else }}
             <td>{{ $cvss }} <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector={{ $vector }}&version={{ $cvss_version }}">{{ $vector }}</a></td>
+            {{ end }}
         </tr>
         <tr>
             <td>{{ i18n "security_bulletin_affected_releases" }}</td>
