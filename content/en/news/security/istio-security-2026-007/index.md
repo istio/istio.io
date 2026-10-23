@@ -3,8 +3,9 @@ title: ISTIO-SECURITY-2026-007
 subtitle: Security Bulletin
 description: CVEs reported by Envoy, plus Istio security fixes for an AuthorizationPolicy method-case bypass over HTTP/2 and an istiod denial of service in ambient mode.
 cves: [CVE-2026-111497]
-cvss: "7.7"
-vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
+cvss: "9.2"
+vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+cvss_version: "4.0"
 releases: ["1.31.0 to 1.31.1", "1.30.0 to 1.30.5", "1.29.0 to 1.29.8"]
 publishdate: 2026-10-15
 keywords: [CVE]

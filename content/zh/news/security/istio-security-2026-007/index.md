@@ -3,8 +3,9 @@ title: ISTIO-SECURITY-2026-007
 subtitle: 安全公告
 description: Envoy 报告的 CVE，以及针对 HTTP/2 上利用方法大小写绕过 AuthorizationPolicy 问题和 Ambient 模式下 istiod 拒绝服务问题的 Istio 安全修复。
 cves: [CVE-2026-111497]
-cvss: "7.7"
-vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
+cvss: "9.2"
+vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+cvss_version: "4.0"
 releases: ["1.31.0 to 1.31.1", "1.30.0 to 1.30.5", "1.29.0 to 1.29.8"]
 publishdate: 2026-10-15
 keywords: [CVE]
