@@ -1,7 +1,7 @@
 ---
 title: "Istio at KubeCon North America 2026: Let’s Connect in Salt Lake City!"
 description: Celebrate Istio at KubeCon + CloudNativeCon North America 2026.
-publishdate: 2026-10-21
+publishdate: 2026-10-23
 attribution: "Francisco Herrera, for the Istio Community"
 keywords: [Istio Day,Istio,conference,KubeCon,CloudNativeCon]
 ---
