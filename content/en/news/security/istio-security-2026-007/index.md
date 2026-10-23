@@ -3,8 +3,9 @@ title: ISTIO-SECURITY-2026-007
 subtitle: Security Bulletin
 description: CVEs reported by Envoy, plus Istio security fixes for an AuthorizationPolicy method-case bypass over HTTP/2 and an istiod denial of service in ambient mode.
 cves: [CVE-2026-111497]
-cvss: "7.7"
-vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
+cvss: "9.2"
+vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+cvss_version: "4.0"
 releases: ["1.31.0 to 1.31.1", "1.30.0 to 1.30.5", "1.29.0 to 1.29.8"]
 publishdate: 2026-10-15
 keywords: [CVE]
@@ -19,7 +20,7 @@ skip_seealso: true
 
 - __[GHSA-8vc2-jrm4-835w](https://github.com/envoyproxy/envoy/security/advisories/GHSA-8vc2-jrm4-835w)__: (CVSS score 7.5): Fixed an unauthenticated remote crash (null pointer dereference) in the OAuth2 HTTP filter when handling a CONNECT request without a `:path` header.
 - __[GHSA-47vj-9r25-wv5j](https://github.com/envoyproxy/envoy/security/advisories/GHSA-47vj-9r25-wv5j)__: (CVSS score 6.5): Fixed a crash in the `api_key_auth` HTTP filter when hiding credentials on a CONNECT request without a `:path` header.
-- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__: Fixed a vulnerability in the Brotli compression library used by Envoy. Users who enable Brotli decompression, for example with an `EnvoyFilter`, should upgrade.
+- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__ ([GHSA-3wvj-j6qm-62mr](https://github.com/envoyproxy/envoy/security/advisories/GHSA-3wvj-j6qm-62mr)): (CVSS score 9.2, Critical): Fixed a buffer overflow in the Brotli decompressor that could allow a remote unauthenticated attacker to disclose memory contents, crash the proxy, or potentially execute arbitrary code. Users who enable Brotli decompression, for example with an `EnvoyFilter`, should upgrade. **Credit**: This vulnerability was discovered and reported by OpenAI Security Research.
 
 ### Istio CVEs
 

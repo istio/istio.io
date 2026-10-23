@@ -3,8 +3,9 @@ title: ISTIO-SECURITY-2026-007
 subtitle: Boletín de Seguridad
 description: CVEs reportados por Envoy, además de correcciones de seguridad de Istio para un bypass de AuthorizationPolicy por mayúsculas/minúsculas en el método sobre HTTP/2 y una denegación de servicio en istiod en modo ambient.
 cves: [CVE-2026-111497]
-cvss: "7.7"
-vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H"
+cvss: "9.2"
+vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N"
+cvss_version: "4.0"
 releases: ["1.31.0 to 1.31.1", "1.30.0 to 1.30.5", "1.29.0 to 1.29.8"]
 publishdate: 2026-10-15
 keywords: [CVE]
