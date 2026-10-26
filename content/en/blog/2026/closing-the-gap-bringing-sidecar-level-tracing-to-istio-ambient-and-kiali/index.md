@@ -1,7 +1,7 @@
 ---
 title: "Closing the Gap: Bringing Sidecar-Level Tracing to Istio's Ambient Mode with Kiali"
 description: Tracing parity between ambient and sidecar modes arrives with Istio 1.29 and Kiali 2.25, closing the workload visibility gap.
-publishdate: 2026-10-20
+publishdate: 2026-10-26
 attribution: "Josune Córdoba"
 keywords: [istio, ambient, tracing, kiali, telemetry, observability]
 target_release: "1.30"
