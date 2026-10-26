@@ -35,7 +35,7 @@ Istio 1.30 refined the situation by treating the waypoint as a "first-class citi
 
 ## The Missing Link: Workload Visibility
 
-While service-to-service tracing was functional, there was a significant gap: workload-level granularity. In sidecar mode, we rely on the _node_id_ attribute to identify specific pods. In ambient mode, this was missing. If a service routed traffic to multiple versions of a workload (e.g., v1, v2, and v3), we could see the service hop, but we lost the ability to pinpoint which specific workload was processing the request — losing important debugging information.
+While service-to-service tracing was functional, there was a significant gap: workload-level granularity. In sidecar mode, we rely on the `node_id` attribute to identify specific pods. In ambient mode, this was missing. If a service routed traffic to multiple versions of a workload (e.g., v1, v2, and v3), we could see the service hop, but we lost the ability to pinpoint which specific workload was processing the request — losing important debugging information.
 
 {{< image width="90%" link="./workload-visibility-gap.png" caption="Incomplete traceability without the workloads information" >}}
 
@@ -61,9 +61,9 @@ One of Kiali's missions is to facilitate troubleshooting. In the Workload Detail
 
 While, by default, Kiali looks for traces using the service name, you can fine-tune this behavior. If your environment requires it, based on the Istio version and use of ambient mode, you can configure how Kiali maps these identities, by changing the Kiali configuration `external_services.tracing.use_waypoint_name`, to `true`.
 
-Beyond visualization, this telemetry enrichment opens the door to even more advanced capabilities. With consistent tracing and metrics across the mesh, Kiali's AI-driven features like the [chatbot](https://kiali.io/docs/ai/kiali-chatbot/) can now more accurately assist in root cause analysis. By having all the pieces of the puzzle in place, the assistant can proactively identify bottlenecks or misconfiguration in your ambient mesh, turning raw observability into automated intelligence.
+Beyond visualization, this telemetry enrichment opens the door to even more advanced capabilities. With consistent tracing and metrics across the mesh, Kiali's AI-driven features, including the [Kiali assistant](https://kiali.io/docs/ai/kiali-chatbot/), can now more accurately assist in root cause analysis. By having all the pieces of the puzzle in place, the assistant can proactively identify bottlenecks or misconfiguration in your ambient mesh, turning raw observability into automated intelligence.
 
-{{< image width="90%" link="./kiali-chatbot-trace-overview.png" caption="Kiali chatbot providing a trace overview based on the current context" >}}
+{{< image width="90%" link="./kiali-chatbot-trace-overview.png" caption="Kiali assistant providing a trace overview based on the current context" >}}
 
 {{< quote >}}
 As Istio continues to mature, Kiali ensures that moving to ambient mode doesn't mean losing control. It completes the puzzle, allowing you to focus on your services while Kiali handles the intricate mapping of the mesh.
