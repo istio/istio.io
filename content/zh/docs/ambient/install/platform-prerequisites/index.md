@@ -173,15 +173,19 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 {{< /tabset >}}
 
 但是，根据 K3s 文档，这些位置可能会在 K3s 中被覆盖。
-如果您将 K3s 与自定义、非捆绑的 CNI 一起使用，则必须手动为这些 CNI 指定正确的路径，
-比如 `/etc/cni/net.d` - [有关详细信息，请参阅 K3s 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。例如：
+如果您将 K3s 与自定义、非捆绑的 CNI 一起使用，K3s 不会为 `containerd` 设置 CNI 路径，
+因此 `containerd` 会使用其默认路径，即 `/etc/cni/net.d` 和 `/opt/cni/bin`。
+在这种情况下，请勿设置 `global.platform=k3s`，
+而应设置您的 CNI 所使用的路径 - [有关详细信息，请参阅 K3s 文档](https://docs.k3s.io/zh/networking/basic-network-options#custom-cni)。
+如果节点上的 `/var/lib/rancher/k3s/agent/etc/containerd/config.toml` 设置了 `bin_dir`（或 `bin_dirs`）和 `conf_dir`，
+则 `containerd` 会改用这些目录。例如：
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/etc/cni/net.d --set cniBinDir=/opt/cni/bin
     {{< /text >}}
 
 {{< /tab >}}
@@ -189,7 +193,7 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 {{< tab name="istioctl" category-value="istioctl" >}}
 
     {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+    $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/etc/cni/net.d --set values.cni.cniBinDir=/opt/cni/bin
     {{< /text >}}
 
 {{< /tab >}}
