@@ -72,7 +72,7 @@ The ztunnel cannot enforce L7 policies. If a policy with rules matching L7 attri
 | `DENY` with both L4 and L7 attributes | Only the L4 attributes are enforced; the L7 attributes are ignored | Traffic matching the L4 attributes is denied, which is broader than intended |
 
 {{< warning >}}
-A `DENY` policy whose rules contain only L7 attributes, such as `notRequestPrincipals`, `paths` or `methods`, is not enforced by ztunnel and does not block any traffic. This is the case for the common "require authentication" policy using `notRequestPrincipals: ["*"]`. The status message saying the policy is "more restrictive than intended" applies only to `DENY` rules that also contain L4 attributes. To enforce L7-only `DENY` policies, [deploy a waypoint proxy](/docs/ambient/usage/waypoint/) and attach the policy to it.
+A `DENY` policy whose rules contain only L7 attributes, such as `notRequestPrincipals`, `paths` or `methods`, is not enforced by ztunnel and does not block any traffic. This is the case for the common "require authentication" policy using `notRequestPrincipals: ["*"]`. The status message saying the policy is "more restrictive than intended" applies only to `DENY` rules that also contain L4 attributes. To enforce L7 åonly `DENY` policies, [deploy a waypoint proxy](/docs/ambient/usage/waypoint/) and attach the policy to it.
 {{< /warning >}}
 
 This example adds a check for the HTTP GET method:
