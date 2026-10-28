@@ -63,7 +63,17 @@ Esta lista de atributos determina si una política se considera solo L4:
 
 ### Políticas con condiciones de capa 7
 
-El ztunnel no puede aplicar políticas L7. Si una política con reglas que coinciden con los atributos L7 (es decir, los que no se enumeran en la tabla anterior) se dirige de tal manera que será aplicada por un ztunnel receptor, fallará de forma segura al convertirse en una política de `DENEGACIÓN`.
+El ztunnel no puede aplicar políticas L7. Si una política con reglas que coinciden con los atributos L7 (es decir, los que no se enumeran en la tabla anterior) se dirige de tal manera que será aplicada por un ztunnel receptor, el ztunnel no puede evaluar esas reglas y las omite. El resultado depende de la acción de la política:
+
+| Política | Comportamiento en ztunnel | Resultado |
+|----------|---------------------------|-----------|
+| `ALLOW` con atributos L7 | La regla se omite, por lo que ninguna regla `ALLOW` coincide nunca | El tráfico se deniega |
+| `DENY` con solo atributos L7 | La regla se omite, por lo que ninguna regla `DENY` coincide nunca | El tráfico se **permite** |
+| `DENY` con atributos L4 y L7 | Solo se aplican los atributos L4; los atributos L7 se ignoran | Se deniega el tráfico que coincide con los atributos L4, lo cual es más amplio de lo previsto |
+
+{{< warning >}}
+Una política `DENY` cuyas reglas contienen únicamente atributos L7, como `notRequestPrincipals`, `paths` o `methods`, no es aplicada por el ztunnel y no bloquea ningún tráfico. Este es el caso de la política habitual de "requerir autenticación" que usa `notRequestPrincipals: ["*"]`. El mensaje de estado que indica que la política es "más restrictiva de lo previsto" solo se aplica a las reglas `DENY` que también contienen atributos L4. Para aplicar políticas `DENY` solo con atributos L7, [despliega un waypoint proxy](/es/docs/ambient/usage/waypoint/) y asocia la política a él.
+{{< /warning >}}
 
 Este ejemplo agrega una verificación para el método HTTP GET:
 
