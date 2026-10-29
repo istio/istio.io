@@ -299,3 +299,16 @@ applying any default-DENY `NetworkPolicy` in a Cilium CNI install underlying Ist
     Please see [issue #49277](https://github.com/istio/istio/issues/49277) and [CiliumClusterWideNetworkPolicy](https://docs.cilium.io/en/stable/network/kubernetes/policy/#ciliumclusterwidenetworkpolicy) for more details.
 
 When Cilium is used to replace kube-proxy, take note of the additional configuration options required to ensure proper operation with Istio in ambient mode described in the [Cilium documentation](https://docs.cilium.io/en/stable/network/servicemesh/istio/).
+
+### Antrea
+
+When Antrea runs in CNI chaining mode (`trafficEncapMode: networkPolicyOnly`), it copies the primary CNI config file into `05-antrea.conflist` and only watches that primary file afterwards.
+Keep the Istio CNI plugin in its default chained mode and point it at the primary CNI config file, so both plugins chain on the same file regardless of which one starts first on a node:
+
+{{< text syntax=bash >}}
+$ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set cniConfFileName=10-aws.conflist --wait
+{{< /text >}}
+
+Use the name of your primary CNI config file, for example `10-aws.conflist` on EKS or `10-azure.conflist` on AKS.
+
+Do not enable `istioOwnedCNIConfig` with Antrea chaining. The Istio-owned config file sorts before `05-antrea.conflist`, so the container runtime never uses Antrea's file and Antrea network policies are not enforced for new pods.
