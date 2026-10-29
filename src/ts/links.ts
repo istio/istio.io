@@ -78,11 +78,6 @@ function handleLinks(): void {
                 return;
             }
 
-            if (link.pathname.endsWith("/") && link.hash !== "") {
-                // skip links pointing to the current page
-                return;
-            }
-
             if (link.classList.contains("btn")) {
                 // skip button links
                 return;
