@@ -80,7 +80,23 @@ Ambient 模式中的 L7 策略由通过 {{< gloss "gateway api" >}}Kubernetes Ga
 ### 具有七层条件的策略 {#policies-with-layer-7-conditions}
 
 ztunnel 无法强制执行 L7 策略。如果一个策略中的规则与 L7 属性（即上表中未列出的属性）匹配，
-并且该策略成为被指向的目标，则此策略将由接收的 ztunnel 强制执行，此策略将由于不够安全而变成 `DENY` 策略。
+并且该策略的目标设置使其将由接收端 ztunnel 强制执行，
+则 ztunnel 无法评估这些规则并会跳过它们。具体结果取决于策略的操作：
+
+| 策略 | ztunnel 中的行为 | 结果 |
+|------|------------------|------|
+| 带有 L7 属性的 `ALLOW` | 规则被跳过，因此没有任何 `ALLOW` 规则会匹配 | 流量被拒绝 |
+| 仅带有 L7 属性的 `DENY` | 规则被跳过，因此没有任何 `DENY` 规则会匹配 | 流量被**允许** |
+| 在同一个 `source`、`operation` 或 `when` 条目中同时带有 L4 和 L7 属性的 `DENY` | 仅强制执行 L4 属性；L7 属性被忽略 | 与 L4 属性匹配的流量被拒绝，拒绝范围比预期更广 |
+| 在不同条目中分别带有 L4 和 L7 属性的 `DENY`，例如 `from.source.principals` 和 `to.operation.methods` | 带有 L7 属性的条目被跳过，因此该规则永远不会匹配 | 流量被**允许** |
+
+{{< warning >}}
+如果 `DENY` 策略的规则仅包含 L7 属性（例如 `notRequestPrincipals`、`paths` 或 `methods`），
+则 ztunnel 不会强制执行该策略，也不会阻止任何流量。
+使用 `notRequestPrincipals: ["*"]` 的常见“要求身份验证”策略就属于这种情况。
+提示策略“比请求的更严格”的状态消息仅适用于 L4 和 L7 属性位于同一条目中的 `DENY` 规则。
+要强制执行仅包含 L7 属性的 `DENY` 策略，请[部署 waypoint 代理](/zh/docs/ambient/usage/waypoint/)并将策略挂接到该代理上。
+{{< /warning >}}
 
 以下示例增加了针对 HTTP GET 方法的检查：
 
