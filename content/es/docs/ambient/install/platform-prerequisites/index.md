@@ -151,14 +151,14 @@ Cuando uses [K3s](https://k3s.io/) y uno de sus CNI incluidos, debes agregar el 
 
 {{< /tabset >}}
 
-Sin embargo, estas ubicaciones se pueden anular en K3s, [según la documentación de K3s](https://docs.k3s.io/cli/server#k3s-server-cli-help). Si estás usando K3s con un CNI personalizado no incluido, debes especificar manualmente las rutas correctas para esos CNI, por ejemplo, `/etc/cni/net.d`; [consulta la documentación de K3s para obtener más detalles](https://docs.k3s.io/networking/basic-network-options#custom-cni). Por ejemplo:
+Sin embargo, estas ubicaciones se pueden anular en K3s, [según la documentación de K3s](https://docs.k3s.io/cli/server#k3s-server-cli-help). Si estás usando K3s con un CNI personalizado no incluido, K3s no establece las rutas de CNI para `containerd`, por lo que `containerd` usa sus valores predeterminados, `/etc/cni/net.d` y `/opt/cni/bin`. En ese caso, no establezcas `global.platform=k3s` y define las rutas que usa tu CNI; [consulta la documentación de K3s para obtener más detalles](https://docs.k3s.io/networking/basic-network-options#custom-cni). Si `/var/lib/rancher/k3s/agent/etc/containerd/config.toml` en un nodo define `bin_dir` (o `bin_dirs`) y `conf_dir`, `containerd` usa esos directorios en su lugar. Por ejemplo:
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --wait --set cniConfDir=/etc/cni/net.d --set cniBinDir=/opt/cni/bin
     {{< /text >}}
 
 {{< /tab >}}
@@ -166,7 +166,7 @@ Sin embargo, estas ubicaciones se pueden anular en K3s, [según la documentació
 {{< tab name="istioctl" category-value="istioctl" >}}
 
     {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/var/lib/rancher/k3s/agent/etc/cni/net.d --set values.cni.cniBinDir=/var/lib/rancher/k3s/data/current/bin/
+    $ istioctl install --set profile=ambient --set values.cni.cniConfDir=/etc/cni/net.d --set values.cni.cniBinDir=/opt/cni/bin
     {{< /text >}}
 
 {{< /tab >}}
