@@ -70,6 +70,7 @@ Please keep up-to-date and use a supported version.
 
 | Minor Releases | Patched versions with no known CVEs |
 |----------------|-------------------------------------|
+| 1.32.x         | 1.32.0+                             |
 | 1.31.x         | 1.31.3+                             |
 | 1.30.x         | 1.30.7+                             |
 | 1.29.x         | 1.29.10+                            |
@@ -82,6 +83,7 @@ The relationship between the two project's versions:
 
 | Istio version | Envoy release branch |
 |---------------|----------------------|
+| 1.32.x        | release/v1.40        |
 | 1.31.x        | release/v1.39        |
 | 1.30.x        | release/v1.38        |
 | 1.29.x        | release/v1.37        |
