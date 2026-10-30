@@ -514,6 +514,6 @@ features:
     link: "/news/releases/1.29.x/announcing-1.29/#performance-and-observability-improvements"
     level:
       checklist: features/ambient.md
-      maturity: Alpha
+      maturity: Beta
       nextExpectedPromotion: ""
     area: Ambient mode
