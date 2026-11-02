@@ -26,7 +26,7 @@ Istio 1.32.0 is officially supported on Kubernetes versions 1.33 to 1.37.
 - **`AuthorizationPolicy` targeting `HTTPRoute`.** As an experimental feature, `AuthorizationPolicy` can now target Gateway API `HTTPRoute` resources via `targetRefs`, so `ALLOW` and `DENY` rules apply only to traffic matched by that route.
 - **TLS tuning on gateways.** TLS-terminating gateways can override the advertised ALPN protocols with `alpnProtocols` and configure ECDH curves with `ecdhCurves`.
 - **Experimental `XBackend` support** for describing how clients must connect to specific destinations.
-- **agentgateway** now honors Gateway API frontend client certificate validation.
+- **`agentgateway`** now honors Gateway API frontend client certificate validation.
 
 ### Traffic management
 
@@ -43,7 +43,7 @@ Istio 1.32.0 is officially supported on Kubernetes versions 1.33 to 1.37.
 
 ### Telemetry
 
-- **Native Prometheus histograms.** pilot-agent's metrics merger passes through the Prometheus protobuf format when scrapers request it, with a new `istio_agent_scrape_format_total` counter reporting the negotiated format.
+- **Native Prometheus histograms.** `pilot-agent`'s metrics merger passes through the Prometheus protobuf format when scrapers request it, with a new `istio_agent_scrape_format_total` counter reporting the negotiated format.
 
 ### Plus much more
 

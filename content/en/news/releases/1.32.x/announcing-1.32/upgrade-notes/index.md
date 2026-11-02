@@ -32,7 +32,7 @@ match:
 
 Such a patch no longer matches the `ALLOW` filter. `MERGE`, `REPLACE` and `REMOVE` operations
 silently stop applying to it, while `INSERT_BEFORE` and `INSERT_AFTER` drop the supplied filter
-from the chain entirely rather than falling back to another position. Gateways whose only
+from the chain entirely rather than falling back to another position. `Gateway` resources whose only
 authorization policies use the `ALLOW` action have no filter named
 `envoy.filters.http.rbac` at all.
 

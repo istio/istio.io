@@ -61,7 +61,7 @@ aliases:
   endpoint, and a `?brief` parameter that omits the watched resource name lists, which can be very
   large in big meshes.
 
-- **Added** support for Gateway API client certificate TLS configuration when using `agentgateway`. Gateways now honor
+- **Added** support for Gateway API client certificate TLS configuration when using `agentgateway`. `Gateway` resources now honor
   frontend client certificate validation (`spec.tls.frontend`, including `AllowInsecureFallback` mode) and backend client
   certificates (`spec.tls.backend.clientCertificateRef`), and report the corresponding `ResolvedRefs` and
   `InsecureFrontendValidationMode` conditions in status.
@@ -114,7 +114,7 @@ aliases:
 - **Added** synthesis of `x-forwarded-client-cert` on sidecars for traffic arriving over HBONE.
 
 - **Fixed** the ambient node-untaint controller removing the `cni.istio.io/not-ready` taint when
-  only istio-cni was ready. It now also waits for ztunnel to be ready on the node, so pods are not
+  only `istio-cni` was ready. It now also waits for ztunnel to be ready on the node, so pods are not
   scheduled onto a node whose ztunnel is still wedged. This can be disabled with
   `PILOT_NODE_UNTAINT_CHECK_ZTUNNEL=false`, and only applies when ambient is enabled.
   ([Issue #52073](https://github.com/istio/istio/issues/52073))
@@ -133,7 +133,7 @@ aliases:
 - **Fixed** a bug where a `ServiceEntry` whose address is a CIDR generated an outbound
   listener on the 0.0.0.0 wildcard for a reserved proxy port (for example the
   outbound capture port 15001). The wildcard listener collided with the
-  virtualOutbound listener, the whole listener update was rejected, and the sidecar
+  `virtualOutbound` listener, the whole listener update was rejected, and the sidecar
   failed to start. Such ports are now skipped, matching the behavior for services
   with a concrete address.
   ([Issue #60666](https://github.com/istio/istio/issues/60666))
@@ -166,8 +166,8 @@ aliases:
   pushing workload metadata to Envoy proxies.
   ([Issue #61502](https://github.com/istio/istio/issues/61502))
 
-- **Fixed** an `HTTPRoute` rule with several `InferencePool` backendRefs configuring only one
-  endpoint picker. The picker of the last backendRef listed scored every request on the rule,
+- **Fixed** an `HTTPRoute` rule with several `InferencePool` `backendRefs` configuring only one
+  endpoint picker. The picker of the last `backendRef` listed scored every request on the rule,
   so the other pools' pickers were never invoked, and a pool with no ready endpoints failed
   the whole rule rather than its own weighted share. Each pool now gets its own picker,
   attached to its own weighted cluster.
@@ -176,7 +176,7 @@ aliases:
 - **Fixed** two `HTTPRoute`s sharing a `rules[].name` on the same gateway overwriting each
   other's endpoint picker. Rule names only have to be unique within one `HTTPRoute`, but the
   pickers were keyed by name across all of them, so a route could be served by another
-  route's picker. Pickers are now resolved per backendRef, so a shared name no longer moves
+  route's picker. Pickers are now resolved per `backendRef`, so a shared name no longer moves
   one route's picker onto another.
   ([Issue #61594](https://github.com/istio/istio/issues/61594))
 
@@ -213,14 +213,14 @@ aliases:
   ([Issue #61924](https://github.com/istio/istio/issues/61924))
 
 - **Fixed** an issue where, with `PILOT_FILTER_GATEWAY_CLUSTER_CONFIG` enabled, incremental CDS pushes removed gateway clusters
-  for Services listed in the `envoyfilter.istio.io/referenced-services` annotation of an `EnvoyFilter`. These clusters were
+  for `Service` resources listed in the `envoyfilter.istio.io/referenced-services` annotation of an `EnvoyFilter`. These clusters were
   only restored on the next full push.
   ([Issue #62067](https://github.com/istio/istio/issues/62067))
 
 - **Fixed** a situation where fetching the JWKS could block xDS generation.
   ([PR #62486](https://github.com/istio/istio/pull/62486))
 
-- **Fixed** an issue where an agentgateway waypoint that a service referenced only as its canary,
+- **Fixed** an issue where an `agentgateway` waypoint that a service referenced only as its canary,
   via the `istio.io/use-waypoint-canary` label, was not programmed with the routes and policies
   attached to that service. Connections shifted to the canary waypoint were rejected, because the
   waypoint had no configuration for the service it was fronting.
@@ -257,7 +257,7 @@ aliases:
 
 **Credit**: This issue was reported by Raphael Zanarelli.
 
-- **Fixed** an issue where istio-cni skipped cleanup for an ambient pod deleted together with its namespace, leaving its ztunnel proxy and host probe ipset entry behind.
+- **Fixed** an issue where `istio-cni` skipped cleanup for an ambient pod deleted together with its namespace, leaving its ztunnel proxy and host probe ipset entry behind.
 
 - **Fixed** an issue where istiod permanently retained a copy of every workload resource name for each
   Envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
@@ -315,7 +315,7 @@ aliases:
   other's winning listener as `Conflicted` and stop it from being programmed.
 
 - **Fixed** `ListenerSet` conflict resolution for hostname and protocol conflicts.
-  Conflicting listeners are now correctly rejected and ListenerSet status conditions
+  Conflicting listeners are now correctly rejected and `ListenerSet` status conditions
   report in compliance with Gateway API 1.5.
   ([PR #60775](https://github.com/istio/istio/pull/60775))
 
@@ -342,7 +342,7 @@ aliases:
 
 - **Fixed** unhealthy endpoint propagation when `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` or
   `PILOT_SEND_UNHEALTHY_ENDPOINTS` is enabled. Unready pods selected by `ServiceEntry` resources
-  and unhealthy health-checked `WorkloadEntry` resources selected by Kubernetes Services or
+  and unhealthy health-checked `WorkloadEntry` resources selected by Kubernetes `Service` resources or
   `ServiceEntry` resources are now retained with their health status instead of being omitted.
 
 - **Fixed** `VirtualService` validation skipping the remaining gateway names after an entry without a namespace
@@ -407,7 +407,7 @@ aliases:
   to `0s`, which preserves the existing single-check behavior.
   ([Issue #61343](https://github.com/istio/istio/issues/61343))
 
-- **Added** `PILOT_DISABLE_SELF_SIGNED_CA` environment variable to istiod. When set to `true`, istiod fails to start its CA
+- **Added** the `PILOT_DISABLE_SELF_SIGNED_CA` environment variable to istiod. When set to `true`, istiod fails to start its CA
   instead of generating or reusing a self-signed root CA (`istio-ca-secret`) when no plugged-in `cacerts` bundle is present.
   This allows deployments that must only use a plugged-in CA to fail closed rather than falling back to
   an unintended self-signed root. The default is `false`.
@@ -477,7 +477,7 @@ aliases:
 - **Fixed** client-requested `ValidityDuration` being accepted up to `MAX_WORKLOAD_CERT_TTL`
   (default 90d) on the experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`).
   A new `MAX_RA_WORKLOAD_CERT_TTL` environment variable (default `48h`) now caps the TTL,
-  limiting the blast radius of a stolen istio-token. Deployments that legitimately requested
+  limiting the blast radius of a stolen `istio-token`. Deployments that legitimately requested
   certificates with TTL > 48h via this path should raise `MAX_RA_WORKLOAD_CERT_TTL` after upgrade.
   Reported by Juno Im.
 
@@ -513,7 +513,7 @@ aliases:
 
 - **Fixed** waypoint proxies failing to receive remote JWKS clusters when a `RequestAuthentication` policy uses a service `targetRef`.
 
-- **Fixed** istiod debug endpoints (`/debug/config_dump`, `/debug/edsz`, and the XDS `istio.io/debug/config_dump` type) matching `proxyID` as a substring, which let a caller read the config of other proxies in its own namespace by passing a partial ID. `proxyID` must now be the exact `<pod>.<namespace>` (or full connection ID); short forms such as `proxyID=istio-ingressgateway` no longer match.
+- **Fixed** istiod debug endpoints (`/debug/config_dump`, `/debug/edsz`, and the xDS `istio.io/debug/config_dump` type) matching `proxyID` as a substring, which let a caller read the config of other proxies in its own namespace by passing a partial ID. `proxyID` must now be the exact `<pod>.<namespace>` (or full connection ID); short forms such as `proxyID=istio-ingressgateway` no longer match.
 
 **Credit**: This issue was reported by 박현범.
 
@@ -522,10 +522,10 @@ aliases:
 - **Improved** mesh configuration load failures with source-specific error and fallback logging and the `istiod_mesh_config_load_errors_total` counter.
   ([Issue #61563](https://github.com/istio/istio/issues/61563))
 
-- **Added** native Prometheus protobuf passthrough through pilot-agent's metrics merger. When a Prometheus scraper sends `Accept: application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited`, Envoy's native (sparse) histograms now reach the scraper unchanged instead of being silently degraded by text-format re-encoding. The pre-existing text/OpenMetrics scrape path is byte-for-byte unchanged.
+- **Added** native Prometheus protobuf passthrough through `pilot-agent`'s metrics merger. When a Prometheus scraper sends `Accept: application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited`, Envoy's native (sparse) histograms now reach the scraper unchanged instead of being silently degraded by text-format re-encoding. The pre-existing text/OpenMetrics scrape path is byte-for-byte unchanged.
   ([Issue #49950](https://github.com/istio/istio/issues/49950))
 
-- **Added** a new `istio_agent_scrape_format_total{format,downgrade}` counter to pilot-agent that reports the format negotiation outcome per scrape (text / openmetrics / protobuf, with a downgrade indicator when upstreams disagree).
+- **Added** a new `istio_agent_scrape_format_total{format,downgrade}` counter to `pilot-agent` that reports the format negotiation outcome per scrape (text / openmetrics / protobuf, with a downgrade indicator when upstreams disagree).
   ([Issue #49950](https://github.com/istio/istio/issues/49950))
 
 - **Added** support for waypoints to record HTTP metrics for cross-cluster traffic using protocols such as TLS or PROXY when
@@ -544,9 +544,9 @@ aliases:
   sub-second precision.
 
 - **Fixed** a regression where a `Telemetry` resource in a waypoint's own namespace, selected by
-  `targetRefs` or `selector`, was not applied when the waypoint served a Service in a different
+  `targetRefs` or `selector`, was not applied when the waypoint served a `Service` in a different
   namespace. Access logging, metrics and tracing configured this way were silently dropped for
-  every cross-namespace Service the waypoint handled.
+  every cross-namespace `Service` the waypoint handled.
   ([Issue #61538](https://github.com/istio/istio/issues/61538))
 
 ## Extensibility
@@ -565,7 +565,7 @@ aliases:
 - **Updated** Kiali addon to version v2.31.0.
 
 - **Added** a `terminationGracePeriodSeconds` field to the istiod (Pilot) Helm
-  values, allowing the istiod Deployment's pod termination grace period to be
+  values, allowing the istiod `Deployment`'s pod termination grace period to be
   configured. Defaults to 30 seconds, matching the previous behavior.
 
 - **Added** a `daemonSetAnnotations` value to the `istio-cni` chart, to set annotations on
@@ -583,7 +583,7 @@ aliases:
   ([Issue #48316](https://github.com/istio/istio/issues/48316)), ([Issue #48317](https://github.com/istio/istio/issues/48317))
 
 - **Fixed** istiod preferring the CA cert from the separately-mounted, always-present
-  `istio-ca-root-cert` ConfigMap (`/var/run/secrets/istiod/ca/root-cert.pem`) over the CA cert
+  `istio-ca-root-cert` `ConfigMap` (`/var/run/secrets/istiod/ca/root-cert.pem`) over the CA cert
   co-located with the DNS serving cert (`/var/run/secrets/istiod/tls/ca.crt`) when both exist.
   This could cause the `MutatingWebhookConfiguration`/`ValidatingWebhookConfiguration` `caBundle`
   to not match the CA after the DNS serving cert is provisioned externally (e.g. by cert-manager
@@ -617,7 +617,7 @@ aliases:
   value is now rejected at admission, consistent with the sibling traffic
   port annotations and the CNI redirect path.
 
-- **Removed** `GOMAXPROCS` environment variable from all Istio charts.
+- **Removed** the `GOMAXPROCS` environment variable from all Istio charts.
   Go 1.25 automatically sets `GOMAXPROCS` to match CPU limits.
   ([Issue #60235](https://github.com/istio/istio/issues/60235))
 
@@ -627,7 +627,7 @@ aliases:
 
 - **Updated** minimum supported Kubernetes version to 1.33.x.
 
-- **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to XDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). istioctl now verifies the server against the Istio root certificate from the `istio-ca-root-cert` `ConfigMap` and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
+- **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to xDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). istioctl now verifies the server against the Istio root certificate from the `istio-ca-root-cert` `ConfigMap` and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
   ([Issue #41937](https://github.com/istio/istio/issues/41937))
 
 **Credit**: This issue was reported by [Leon Zlobecki](https://leonz.is).
