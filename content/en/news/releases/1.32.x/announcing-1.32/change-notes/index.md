@@ -16,10 +16,10 @@ aliases:
   from subsequent requests, and the `initial_resource_versions` map sent on reconnect is released
   before response generation for types that do not use it.
 
-- **Improved** incremental EDS processing for DestinationRule changes to identify affected services
-  through the sidecar scope, aligning it with CDS and avoiding per-cluster DestinationRule lookups.
+- **Improved** incremental EDS processing for `DestinationRule` changes to identify affected services
+  through the sidecar scope, aligning it with CDS and avoiding per-cluster `DestinationRule` lookups.
 
-- **Improved** performance when fetching PeerAuthentications for a given workload.
+- **Improved** performance when fetching `PeerAuthentication` resources for a given workload.
 
 - **Improved** performance of sidecar RDS generation by checking the RDS cache before building the
   `VirtualHostWrapper`/route protos, so a cache hit no longer pays the cost of route generation.
@@ -36,11 +36,11 @@ aliases:
 - **Added** an opt-in optimization for headless TCP service listener generation: instead of creating one
   listener per pod IP, Istio can generate a single wildcard `0.0.0.0:Port` listener with per-pod `/32` CIDR
   filter chains. This reduces xDS listener count and payload size for large headless services (e.g.
-  StatefulSets). This is disabled by default; enable it by setting the
+  `StatefulSet` resources). This is disabled by default; enable it by setting the
   `PILOT_ENABLE_HEADLESS_FILTER_CHAIN_LISTENER` environment variable to `true` on istiod.
   ([Issue #60552](https://github.com/istio/istio/issues/60552))
 
-- **Added** `outlierDetectionHttpErrorCodes` field to `DestinationRule.OutlierDetection`,
+- **Added** the `outlierDetectionHttpErrorCodes` field to `DestinationRule.OutlierDetection`,
   allowing users to specify which HTTP status codes are treated as errors for outlier
   detection. If specified, only responses with one of these codes are counted as errors
   toward the `consecutive5xxErrors` and `consecutiveGatewayErrors` ejection thresholds.
@@ -55,7 +55,7 @@ aliases:
 - **Added** a validation warning for `ServiceEntry` addresses that are catch-all (`0.0.0.0`, `::`), have an unspecified network (`0.0.0.0/N`, `::/N`),
   or are a CIDR with a prefix shorter than `/8`. A `ServiceEntry` like this with `resolution: NONE` and the default `exportTo` can make every sidecar
   in the mesh pass through traffic on its ports, bypassing `outboundTrafficPolicy` `REGISTRY_ONLY`. Use a narrower CIDR and `exportTo: ["."]`.
-  For egress enforcement, use an egress gateway with a NetworkPolicy.
+  For egress enforcement, use an egress gateway with a `NetworkPolicy`.
 
 - **Added** a per-type watch summary (resource name count and wildcard flag) to the `/debug/adsz`
   endpoint, and a `?brief` parameter that omits the watched resource name lists, which can be very
@@ -92,13 +92,13 @@ aliases:
   `envoy.transport_sockets.tls` for filter chains that terminate TLS. Unlike `transportProtocol`, which matches
   the traffic a filter chain accepts, this matches the extension that processes the connection bytes.
 
-- **Added** `failurePercentageThreshold` field to `DestinationRule.OutlierDetection`, allowing
+- **Added** the `failurePercentageThreshold` field to `DestinationRule.OutlierDetection`, allowing
   hosts to be ejected based on their failure rate over the analysis `interval` instead of
   requiring consecutive failures. Unlike `consecutive5xxErrors` and `consecutiveGatewayErrors`,
   a host's errors do not need to occur back-to-back, so a host with a high failure rate is
   still ejected even if its failures are interspersed with successful requests.
 
-- **Added** support for overriding the ALPN protocols advertised by TLS-terminating gateways with the Gateway
+- **Added** support for overriding the ALPN protocols advertised by TLS-terminating gateways with the `Gateway`
   resource's `alpnProtocols` field.
 
 - **Added** support for `globalDownstreamConnectionLimit` in `ProxyConfig.connectionSettings`,
@@ -111,7 +111,7 @@ aliases:
   to matching workloads across all namespaces. A matching workload-scoped `ProxyConfig` in the workload's
   own namespace takes precedence over the root namespace configuration.
 
-- **Added** synthesis of `x-forwarded-client-cert` on sidecars when coming over hbone.
+- **Added** synthesis of `x-forwarded-client-cert` on sidecars for traffic arriving over HBONE.
 
 - **Fixed** the ambient node-untaint controller removing the `cni.istio.io/not-ready` taint when
   only istio-cni was ready. It now also waits for ztunnel to be ready on the node, so pods are not
@@ -124,13 +124,13 @@ aliases:
   and ambient co-existing in the same Istio multi-network deployment.
   ([Issue #60609](https://github.com/istio/istio/issues/60609))
 
-- **Fixed** a bug where Gateway API listeners using the OPTIONAL_MUTUAL TLS
+- **Fixed** a bug where Gateway API listeners using the `OPTIONAL_MUTUAL` TLS
   termination mode failed to authorize the client CA secret for SDS, leaving the
   validation context stuck in a WARMING state. The CA certificate reference is now
-  authorized for OPTIONAL_MUTUAL the same way it already was for MUTUAL.
+  authorized for `OPTIONAL_MUTUAL` the same way it already was for `MUTUAL`.
   ([Issue #60618](https://github.com/istio/istio/issues/60618))
 
-- **Fixed** a bug where a ServiceEntry whose address is a CIDR generated an outbound
+- **Fixed** a bug where a `ServiceEntry` whose address is a CIDR generated an outbound
   listener on the 0.0.0.0 wildcard for a reserved proxy port (for example the
   outbound capture port 15001). The wildcard listener collided with the
   virtualOutbound listener, the whole listener update was rejected, and the sidecar
@@ -138,18 +138,18 @@ aliases:
   with a concrete address.
   ([Issue #60666](https://github.com/istio/istio/issues/60666))
 
-- **Fixed** an issue in ambient mode where the CNI node agent auto-detected iptables backend
+- **Fixed** an issue in ambient mode where the CNI node agent auto-detected `iptables` backend
   (`legacy` vs `nft`) could flip between agent restarts, causing duplicate
   redirect rules to be written into already-enrolled pods.
   ([Issue #61020](https://github.com/istio/istio/issues/61020))
 
 - **Fixed** NDS name table generation for headless services to include endpoints from all service ports,
-  not just the first port. Previously, when Kubernetes split EndpointSlices by port subset (e.g., heterogeneous
+  not just the first port. Previously, when Kubernetes split `EndpointSlice` resources by port subset (e.g., heterogeneous
   `targetPort` names across pod pools), only pods present in the first-port slice were included in the DNS
   name table, causing `NXDOMAIN` for other pods' per-pod hostnames on remote clusters.
   ([Issue #61038](https://github.com/istio/istio/issues/61038))
 
-- **Fixed** an issue where istiod CPU usage increased as the number of AuthorizationPolicies increased.
+- **Fixed** an issue where istiod CPU usage increased as the number of `AuthorizationPolicy` resources increased.
   ([Issue #61254](https://github.com/istio/istio/issues/61254))
 
 - **Fixed** `ALLOW_ANY_DYNAMIC_DNS` traffic failing in IPv6-only clusters because Envoy used the
@@ -188,7 +188,7 @@ aliases:
 - **Fixed** the Istio CNI agent panicking when a pod's status contained an invalid IP address.
   Invalid addresses are now logged and skipped.
 
-- **Fixed** a Gateway resource with HBONE listener being sent to sidecars as an
+- **Fixed** a `Gateway` resource with an HBONE listener being sent to sidecars as an
   mTLS gateway.
   ([Issue #61618](https://github.com/istio/istio/issues/61618))
 
@@ -203,13 +203,10 @@ aliases:
   preventing any configuration from being pushed.
   ([Issue #61857](https://github.com/istio/istio/issues/61857))
 
-- **Fixed** an issue where the istio-cni helm chart did not respect the value set for istioOwnedCNIConfigFileName.
-  **Fixed** an issue where updates to the istio-cni config via the helm chart did not restart the istio-cni to pick
-  up the new values.
-  **Fixed** an issue when uninstalling the istio-cni helm chart, the owned istio cni config was not removed or the
-  primary cni config did not have the istio-cni plugin removed.
-  **Fixed** an issue when enabling the owned istio cni config, the primary cni config was not cleaned up.
-  **Fixed** an issue when changing the owned istio cni config filename, the previous filename was not removed.
+- **Fixed** several issues in the `istio-cni` Helm chart. It did not respect the `istioOwnedCNIConfigFileName` value,
+  did not restart `istio-cni` when its config changed, did not remove the owned CNI config or the `istio-cni` plugin
+  from the primary CNI config on uninstall, did not clean up the primary CNI config when the owned config was enabled,
+  and did not remove the previous file when the owned config filename changed.
   ([Issue #61890](https://github.com/istio/istio/issues/61890))
 
 - **Fixed** concurrent push context initialization when EDS debouncing is disabled.
@@ -221,7 +218,7 @@ aliases:
   ([Issue #62067](https://github.com/istio/istio/issues/62067))
 
 - **Fixed** a situation where fetching the JWKS could block xDS generation.
-  ([Issue #62486](https://github.com/istio/istio/pull/62486))
+  ([PR #62486](https://github.com/istio/istio/pull/62486))
 
 - **Fixed** an issue where an agentgateway waypoint that a service referenced only as its canary,
   via the `istio.io/use-waypoint-canary` label, was not programmed with the routes and policies
@@ -229,8 +226,8 @@ aliases:
   waypoint had no configuration for the service it was fronting.
   ([Issue #61036](https://github.com/istio/istio/issues/61036))
 
-- **Fixed**: when multiple `TCPRoute`s or `TLSRoute`s attach to the same `agentgateway` Gateway
-  listener, the oldest route (by creation timestamp, then namespace/name) is now consistently
+- **Fixed** nondeterministic route selection when multiple `TCPRoute`s or `TLSRoute`s attach to the same `agentgateway` `Gateway`
+  listener. The oldest route (by creation timestamp, then namespace/name) is now consistently
   selected, following the Gateway API conflict-resolution rules. Previously the route bound to the
   listener was not deterministic, so traffic could reach the wrong backend.
 
@@ -239,7 +236,7 @@ aliases:
   workloads look modified on every recompute and prevented unchanged workloads from being
   skipped when a client reconnected.
 
-- **Fixed** an issue where the cni does not remove ipset entries for a pod that had failures during creation. All ipset entries associated with the pod are now removed.
+- **Fixed** an issue where the CNI did not remove ipset entries for a pod that had failures during creation. All ipset entries associated with the pod are now removed.
 
 - **Fixed** an issue in ambient multi-network mode where the `kubernetes.default` service could be
   marked as globally scoped by `serviceScopeConfigs`, causing the API server service to be shared
@@ -249,8 +246,9 @@ aliases:
   order when a network had more than one gateway entry, which caused unnecessary workload
   (WDS) pushes on every recompute and could alternate the gateway address a workload uses.
 
-- **Fixed** a memory leak affecting Istiod ambient multi-cluster mode where rotating a remote cluster's
-  credentials leaked that cluster's entire cached state.  ([Issue #60033](https://github.com/istio/istio/issues/60033))
+- **Fixed** a memory leak affecting istiod ambient multi-cluster mode where rotating a remote cluster's
+  credentials leaked that cluster's entire cached state.
+  ([Issue #60033](https://github.com/istio/istio/issues/60033))
 
 - **Fixed** the `istio.io/use-waypoint-canary` label bypassing the `serviceEntryVisibility`
   NAMESPACE isolation: a NAMESPACE-visibility `ServiceEntry` could route its canary share of
@@ -262,19 +260,19 @@ aliases:
 - **Fixed** an issue where istio-cni skipped cleanup for an ambient pod deleted together with its namespace, leaving its ztunnel proxy and host probe ipset entry behind.
 
 - **Fixed** an issue where istiod permanently retained a copy of every workload resource name for each
-  envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
+  Envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
 
 - **Fixed** an `EnvoyFilter` `LISTENER_FILTER` `MERGE` patch corrupting the listener filters
   shared by all proxies and being applied to listener filters that did not match
   `match.listener.listenerFilter`.
 
 - **Fixed** configuration dependency filtering for gateways to exclude unrelated configuration updates.
-  Gateway scope construction also skips collecting mesh VirtualServices used only for waypoint routing.
+  Gateway scope construction also skips collecting mesh `VirtualService` resources used only for waypoint routing.
 
 - **Fixed** a Gateway API issue where a cross-namespace TLS `certificateRef` or
   `caCertificateRef` was resolved before the `ReferenceGrant` authorization
   check, so a listener's `ResolvedRefs` status could distinguish whether the
-  referenced Secret or ConfigMap existed even when no grant permitted the
+  referenced `Secret` or `ConfigMap` existed even when no grant permitted the
   reference. Authorization now runs first, returning `RefNotPermitted` for any
   ungranted cross-namespace reference.
 
@@ -283,9 +281,9 @@ aliases:
 - **Fixed** an HBONE stream leak in ambient mode where `connect_originate` streams
   could stay open forever after a peer fully closed the connection, via the Envoy
   update included in this release.
+  ([Issue #60074](https://github.com/istio/istio/issues/60074))
 
 **Credit**: This issue was reported by Torben Strüver.
-  ([Issue #60074](https://github.com/istio/istio/issues/60074))
 
 - **Fixed** removing a single event handler from a CRD-backed informer removing every handler on
   that informer. In ambient multi-cluster mode this fired on every remote cluster credential
@@ -305,7 +303,7 @@ aliases:
   during the swap could be missed entirely.
   ([Issue #61348](https://github.com/istio/istio/issues/61348))
 
-- **Fixed** Istio components hanging indefinitely when a Kubernetes API request gets no
+- **Fixed** Istio components hanging indefinitely when a Kubernetes API request got no
   response, for example when a load balancer or proxy silently drops the return path.
   Previously such a request could stay open forever, stalling the controller that issued
   it until the process restarted. Requests now time out on the client side, so a stuck
@@ -316,21 +314,21 @@ aliases:
   namespace and name as the same object, which caused a conflict recorded for one to mark the
   other's winning listener as `Conflicted` and stop it from being programmed.
 
-- **Fixed** ListenerSet conflict resolution for hostname and protocol conflicts.
+- **Fixed** `ListenerSet` conflict resolution for hostname and protocol conflicts.
   Conflicting listeners are now correctly rejected and ListenerSet status conditions
   report in compliance with Gateway API 1.5.
-  ([Issue #60775](https://github.com/istio/istio/pull/60775))
+  ([PR #60775](https://github.com/istio/istio/pull/60775))
 
 - **Fixed** an issue where EDS-irrelevant configuration updates coalesced with an endpoint update
   caused full EDS generation instead of updating only the affected endpoint assignments.
 
-- **Fixed** ServiceEntries with a present but empty workload selector incorrectly matching all workloads in their namespace.
+- **Fixed** `ServiceEntry` resources with a present but empty workload selector incorrectly matching all workloads in their namespace.
 
-- **Fixed** a pod in a remote cluster, selected by a `ServiceEntry` may not have been recomputed
+- **Fixed** a pod in a remote cluster selected by a `ServiceEntry` not being recomputed
   when it became an endpoint of that service. The recompute was addressed to the cluster istiod
   runs in rather than the cluster the pod belongs to.
 
-- **Fixed** a WorkloadEntry selected by a `Service` not having its corresponding proxy recomputed
+- **Fixed** a `WorkloadEntry` selected by a `Service` not having its corresponding proxy recomputed
   when it became an endpoint of that service.
 
 - **Fixed** `observedGeneration` getting stuck on a stale value when a resource is modified again
@@ -354,8 +352,8 @@ aliases:
 - **Fixed** `VirtualService` validation accepting HTTP status `600` in `fault.abort.httpStatus` and `directResponse.status`.
   Envoy only allows status codes in the range 200-599 for these fields, so such values are now rejected by validation.
 
-- **Fixed** a regression that prevented WDS pushes from skipping debouncing by adding
-  the `PILOT_ENABLE_WDS_DEBOUNCE` environment variable, enabled by default.
+- **Fixed** a regression that prevented WDS pushes from skipping debouncing. The new
+  `PILOT_ENABLE_WDS_DEBOUNCE` environment variable controls this and is enabled by default.
   Set it to `false` to allow WDS pushes to skip debouncing independently of EDS pushes.
   ([Issue #62125](https://github.com/istio/istio/issues/62125))
 
@@ -394,7 +392,7 @@ aliases:
   ([Issue #60964](https://github.com/istio/istio/issues/60964))
 
 - **Added** analyzer message `IST0178`, which warns when an `EnvoyFilter` inserts an HTTP filter
-  while an `AuthorizationPolicy` targeting an `HTTPRoute` is present. EnvoyFilters that clear the
+  while an `AuthorizationPolicy` targeting an `HTTPRoute` is present. `EnvoyFilter` resources that clear the
   routing cache after a route-dependent filter has run can cause a request to be routed
   differently than it was when the filter was evaluated.
   ([Issue #60964](https://github.com/istio/istio/issues/60964))
@@ -414,7 +412,7 @@ aliases:
   This allows deployments that must only use a plugged-in CA to fail closed rather than falling back to
   an unintended self-signed root. The default is `false`.
 
-- **Added** support for configuring ECDH curves for TLS-terminating gateways with the Gateway resource's `ecdhCurves` field.
+- **Added** support for configuring ECDH curves for TLS-terminating gateways with the `Gateway` resource's `ecdhCurves` field.
 
 - **Added** a `presence` field to `JWTRule` in `RequestAuthentication`. When set to `REQUIRED`, the JWT token for that rule must be present and valid; requests without it are rejected with `401 Unauthorized`.
   Previously, configuring multiple `jwtRules` validated each token independently but allowed requests with only one valid token to pass. Setting `presence: REQUIRED` on each rule enforces that all configured tokens must be present and cryptographically valid.
@@ -423,13 +421,13 @@ aliases:
   When multiple `REQUIRED` rules are configured, claims from all validated tokens are accessible in `AuthorizationPolicy` via `request.auth.claims`. Each provider's payload is stored under its own metadata key, so authorization rules can reference claims from any of the required tokens.
   ([Issue #60823](https://github.com/istio/istio/issues/60823))
 
-- **Fixed** the ability to clear the Certificate Revocation List (CRL) by either specifying the empty string as the ca-crl.pem or removing it.
+- **Fixed** the ability to clear the Certificate Revocation List (CRL) by either specifying the empty string as the `ca-crl.pem` or removing it.
   ([Issue #61073](https://github.com/istio/istio/issues/61073))
 
-- **Fixed** an incorrect status message for DENY AuthorizationPolicies with
+- **Fixed** an incorrect status message for `DENY` `AuthorizationPolicy` resources with
   only HTTP attributes in ambient mode. These policies are not enforced by
   ztunnel (empty matches are skipped), so the status now reports that they
-  have no effect and recommends deploying a waypoint proxy with a targetRef.
+  have no effect and recommends deploying a waypoint proxy with a `targetRef`.
   ([Issue #61126](https://github.com/istio/istio/issues/61126))
 
 - **Fixed** the JWKS resolver forcing all public-key fetches to HTTP/1.1. The custom
@@ -571,8 +569,8 @@ aliases:
   configured. Defaults to 30 seconds, matching the previous behavior.
 
 - **Added** a `daemonSetAnnotations` value to the `istio-cni` chart, to set annotations on
-  the CNI DaemonSet object itself. The chart already supported `daemonSetLabels` for labels
-  and `podAnnotations` for the pods, but the DaemonSet's own annotations could not be set.
+  the CNI `DaemonSet` object itself. The chart already supported `daemonSetLabels` for labels
+  and `podAnnotations` for the pods, but the `DaemonSet`'s own annotations could not be set.
 
 - **Added** support for specifying a custom `nodePort` for each port in the network gateway configuration.
   ([Issue #61569](https://github.com/istio/istio/issues/61569))
@@ -580,16 +578,16 @@ aliases:
 - **Added** `values.sidecarInjectorWebhook.revisionLabelPrecedence` to configure revision-label precedence
   for sidecar injection.
 
-The default value is `namespace`, which preserves existing behavior. Setting this to `pod` allows a pod
-`istio.io/rev` label to override a namespace `istio.io/rev` label.
-  ([Issue #48316](https://github.com/istio/istio/issues/48316)),([Issue #48317](https://github.com/istio/istio/issues/48317))
+  The default value is `namespace`, which preserves existing behavior. Setting this to `pod` allows a pod
+  `istio.io/rev` label to override a namespace `istio.io/rev` label.
+  ([Issue #48316](https://github.com/istio/istio/issues/48316)), ([Issue #48317](https://github.com/istio/istio/issues/48317))
 
 - **Fixed** istiod preferring the CA cert from the separately-mounted, always-present
   `istio-ca-root-cert` ConfigMap (`/var/run/secrets/istiod/ca/root-cert.pem`) over the CA cert
   co-located with the DNS serving cert (`/var/run/secrets/istiod/tls/ca.crt`) when both exist.
   This could cause the `MutatingWebhookConfiguration`/`ValidatingWebhookConfiguration` `caBundle`
   to not match the CA after the DNS serving cert is provisioned externally (e.g. by cert-manager
-  istio-csr or a manually created Secret), even though istiod itself correctly served TLS with
+  istio-csr or a manually created `Secret`), even though istiod itself correctly served TLS with
   the new certificate.
   ([Issue #60774](https://github.com/istio/istio/issues/60774))
 
@@ -629,10 +627,10 @@ The default value is `namespace`, which preserves existing behavior. Setting thi
 
 - **Updated** minimum supported Kubernetes version to 1.33.x.
 
-- **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to XDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). istioctl now verifies the server against the Istio root certificate from the `istio-ca-root-cert` configmap and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
+- **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to XDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). istioctl now verifies the server against the Istio root certificate from the `istio-ca-root-cert` `ConfigMap` and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
+  ([Issue #41937](https://github.com/istio/istio/issues/41937))
 
 **Credit**: This issue was reported by [Leon Zlobecki](https://leonz.is).
-  ([Issue #41937](https://github.com/istio/istio/issues/41937))
 
 - **Fixed** `istioctl analyze` building Kubernetes clients directly from `istio-system`
   multicluster secrets without sanitizing the kubeconfig, which could allow a crafted
@@ -658,7 +656,7 @@ The default value is `namespace`, which preserves existing behavior. Setting thi
   `pilot.trustedZtunnelName`, `global.proxy_init.forceApplyIptables` and
   `global.waypoint.tolerations`.
 
-- **Fixed** `istioctl manifest translate` writing unquoted values from IstioOperator
+- **Fixed** `istioctl manifest translate` writing unquoted values from `IstioOperator`
   input (such as namespace and release name) into generated install shell scripts.
   Crafted values could inject additional shell commands when those scripts were run.
   Arguments are now escaped with `shellescape.Quote`.

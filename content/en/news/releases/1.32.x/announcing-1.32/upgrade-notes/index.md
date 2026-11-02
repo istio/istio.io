@@ -61,5 +61,5 @@ Exec, attach, and port-forward sessions are not affected. A timeout increments
 ## Unhealthy endpoints from pods and WorkloadEntries
 
 With `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` enabled (the default), unready pods selected by
-ServiceEntries and unhealthy health-checked WorkloadEntries can now appear in endpoint
+`ServiceEntry` resources and unhealthy health-checked `WorkloadEntry` resources can now appear in endpoint
 discovery responses with unhealthy status.
