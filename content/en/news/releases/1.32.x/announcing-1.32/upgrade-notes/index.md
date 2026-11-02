@@ -19,7 +19,7 @@ without also affecting the `DENY` and `AUDIT` filters, which continue to use
 
 This affects any `EnvoyFilter` that matches the RBAC filter by name, for example:
 
-```yaml
+{{< text yaml >}}
 match:
   context: GATEWAY
   listener:
@@ -28,7 +28,7 @@ match:
         name: envoy.filters.http.http_connection_manager
         subFilter:
           name: envoy.filters.http.rbac
-```
+{{< /text >}}
 
 Such a patch no longer matches the `ALLOW` filter. `MERGE`, `REPLACE` and `REMOVE` operations
 silently stop applying to it, while `INSERT_BEFORE` and `INSERT_AFTER` drop the supplied filter
@@ -52,13 +52,13 @@ with these environment variables on the affected component.
 
 | Variable | Default | Applies to |
 | --- | --- | --- |
-| `ISTIO_KUBE_HEADER_TIMEOUT` | `90s` | How long any request may wait for its response headers. Must stay above the API server's `--request-timeout` (60s by default). |
+| `ISTIO_KUBE_HEADER_TIMEOUT` | `90s` | How long any request may wait for its response headers. Must stay above the API server's `--request-timeout` (`60s` by default). |
 | `ISTIO_KUBE_REQUEST_TIMEOUT` | `15m` | Total duration of a request that does not set its own deadline, including reading the response. |
 
 Exec, attach, and port-forward sessions are not affected. A timeout increments
 `kube_client_deadline_fired_total` and logs a warning naming the method and path.
 
-## Unhealthy endpoints from pods and WorkloadEntries
+## Unhealthy endpoints from pods and WorkloadEntry resources
 
 With `PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS` enabled (the default), unready pods selected by
 `ServiceEntry` resources and unhealthy health-checked `WorkloadEntry` resources can now appear in endpoint

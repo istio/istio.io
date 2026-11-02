@@ -336,7 +336,7 @@ aliases:
 
 - **Fixed** a crash in istiod when the address of an IP-addressed waypoint was also claimed by another service
   (for example, a `ServiceEntry` in a different namespace). Colliding addresses are now skipped with a warning
-  instead of panicking, which previously allowed a low-privileged tenant to crash the control plane. 
+  instead of panicking, which previously allowed a low-privileged tenant to crash the control plane.
   See [GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6).
   Reported by [@yshch](https://github.com/yshch).
 
@@ -367,7 +367,6 @@ aliases:
 
 - **Optimized** proxyless gRPC route generation by skipping rebuilds for updates that do not affect
   routes, such as endpoint-only changes.
-
 
 ## Security
 
@@ -475,10 +474,10 @@ aliases:
   Reported by Juno Im.
 
 - **Fixed** client-requested `ValidityDuration` being accepted up to `MAX_WORKLOAD_CERT_TTL`
-  (default 90d) on the experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`).
+  (default `90d`) on the experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`).
   A new `MAX_RA_WORKLOAD_CERT_TTL` environment variable (default `48h`) now caps the TTL,
   limiting the blast radius of a stolen `istio-token`. Deployments that legitimately requested
-  certificates with TTL > 48h via this path should raise `MAX_RA_WORKLOAD_CERT_TTL` after upgrade.
+  certificates with TTL > `48h` via this path should raise `MAX_RA_WORKLOAD_CERT_TTL` after upgrade.
   Reported by Juno Im.
 
 - **Fixed** istiod failing to start when the self-signed CA certificate in `istio-ca-secret` has expired,
@@ -525,7 +524,7 @@ aliases:
 - **Added** native Prometheus protobuf passthrough through `pilot-agent`'s metrics merger. When a Prometheus scraper sends `Accept: application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited`, Envoy's native (sparse) histograms now reach the scraper unchanged instead of being silently degraded by text-format re-encoding. The pre-existing text/OpenMetrics scrape path is byte-for-byte unchanged.
   ([Issue #49950](https://github.com/istio/istio/issues/49950))
 
-- **Added** a new `istio_agent_scrape_format_total{format,downgrade}` counter to `pilot-agent` that reports the format negotiation outcome per scrape (text / openmetrics / protobuf, with a downgrade indicator when upstreams disagree).
+- **Added** a new `istio_agent_scrape_format_total{format,downgrade}` counter to `pilot-agent` that reports the format negotiation outcome per scrape (`text` / `openmetrics` / `protobuf`, with a downgrade indicator when upstreams disagree).
   ([Issue #49950](https://github.com/istio/istio/issues/49950))
 
 - **Added** support for waypoints to record HTTP metrics for cross-cluster traffic using protocols such as TLS or PROXY when
@@ -665,4 +664,3 @@ aliases:
 
 - **Fixed** `istioctl analyze` so `VirtualService` references to Kubernetes Gateway API `Gateway` resources no longer produce false `ReferencedResourceNotFound` errors.
   ([Issue #60708](https://github.com/istio/istio/issues/60708))
-
