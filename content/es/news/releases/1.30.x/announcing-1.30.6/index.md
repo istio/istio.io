@@ -21,6 +21,7 @@ Para más información, consulta [ISTIO-SECURITY-2026-007](/news/security/istio-
 
 - __[GHSA-8vc2-jrm4-835w](https://github.com/envoyproxy/envoy/security/advisories/GHSA-8vc2-jrm4-835w)__: (puntuación CVSS 7.5): Corregida una terminación anormal remota sin autenticación en el filtro HTTP de OAuth2 ante una solicitud CONNECT sin cabecera `:path`.
 - __[GHSA-47vj-9r25-wv5j](https://github.com/envoyproxy/envoy/security/advisories/GHSA-47vj-9r25-wv5j)__: (puntuación CVSS 6.5): Corregida una terminación anormal en el filtro HTTP `api_key_auth` ante una solicitud CONNECT sin cabecera `:path`.
+- __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__ ([GHSA-3wvj-j6qm-62mr](https://github.com/envoyproxy/envoy/security/advisories/GHSA-3wvj-j6qm-62mr)): (puntuación CVSS 9.2, Crítica): Se corrigió un desbordamiento de búfer en el descompresor Brotli que podía permitir a un atacante remoto sin autenticación divulgar el contenido de la memoria, provocar la caída del proxy o, potencialmente, ejecutar código arbitrario. Los usuarios que habiliten la descompresión Brotli, por ejemplo con un `EnvoyFilter`, deben actualizar. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por OpenAI Security Research.
 
 ### CVEs de Istio
 
