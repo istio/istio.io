@@ -67,6 +67,34 @@ EOF
     done
 done
 
+# Code blocks inside shortcodes that are indented in a list must keep their own indentation.
+NESTED=(tabset warning)
+for shortcode in "${NESTED[@]}"; do
+    page="$SITE/content/en/docs/${shortcode}_in_list"
+    mkdir -p "$page"
+    {
+        printf '%s\n' '---' "title: $shortcode in list" '---' '1. Step' ''
+        printf '    {{< %s >}}\n\n' "$shortcode"
+        if [[ "$shortcode" == tabset ]]; then
+            printf '    {{< tab name="Example" >}}\n\n'
+        fi
+        cat <<'EOF'
+    {{< text yaml >}}
+    spec:
+      http:
+      - route:
+        - destination:
+            host: httpbin
+    {{< /text >}}
+
+EOF
+        if [[ "$shortcode" == tabset ]]; then
+            printf '    {{< /tab >}}\n\n'
+        fi
+        printf '    {{< /%s >}}\n' "$shortcode"
+    } > "$page/index.md"
+done
+
 FAILED=0
 check() {
     local expected=$1
@@ -97,6 +125,11 @@ for prefix in "" /latest; do
             check 'href="https://example.org/guide/#target"' "$html"
             check '  child: &lt;value&gt;' "$html"
         done
+    done
+    for shortcode in "${NESTED[@]}"; do
+        html="$SITE/public/docs/${shortcode}_in_list/index.html"
+        check '    - destination:' "$html"
+        check '        host: httpbin' "$html"
     done
 done
 
