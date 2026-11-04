@@ -3,7 +3,7 @@ title: Istio 1.32.0 Change Notes
 linktitle: 1.32.0
 subtitle: Minor Release
 description: Istio 1.32.0 release notes.
-publishdate: 2026-11-05
+publishdate: 2026-11-09
 release: 1.32.0
 weight: 10
 aliases:
@@ -581,8 +581,6 @@ aliases:
 **Credit**: This vulnerability was discovered and reported by Adam Korczynski.
 
 ## Installation
-
-- **Updated** Kiali addon to version v2.31.0.
 
 - **Updated** Kiali addon to version v2.34.1.
 

@@ -3,7 +3,7 @@ title: Announcing Istio 1.32.0
 linktitle: 1.32.0
 subtitle: Major Release
 description: Istio 1.32 Release Announcement.
-publishdate: 2026-11-05
+publishdate: 2026-11-09
 release: 1.32.0
 aliases:
     - /news/announcing-1.32
@@ -27,6 +27,10 @@ Istio 1.32.0 is officially supported on Kubernetes versions 1.33 to 1.37.
 - **TLS tuning on gateways.** TLS-terminating gateways can override the advertised ALPN protocols with `alpnProtocols` and configure ECDH curves with `ecdhCurves`.
 - **Experimental `XBackend` support** for describing how clients must connect to specific destinations.
 - **`agentgateway`** now honors Gateway API frontend client certificate validation.
+
+### Ambient mode
+
+- **One east-west gateway for mixed meshes.** An `istio-east-west` gateway can now also serve sidecar multi-network traffic through an `AUTO_PASSTHROUGH` listener on port 15443, so a mesh with both ambient and sidecar workloads no longer needs a separate east-west gateway for sidecars in each cluster. This requires `AMBIENT_ENABLE_MULTI_NETWORK`.
 
 ### Traffic management
 
