@@ -23,7 +23,7 @@ skip_seealso: true
 - __[CVE-2026-111497](https://nvd.nist.gov/vuln/detail/CVE-2026-111497)__: Se corrigió una vulnerabilidad en la biblioteca de compresión Brotli usada por Envoy. Los usuarios que habiliten la descompresión Brotli, por ejemplo con un `EnvoyFilter`, deben actualizar.
 ### CVEs de Istio
 
-- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (puntuación CVSS 7.4, Alta): las reglas de método de `AuthorizationPolicy` se eluden sobre HTTP/2 cambiando las mayúsculas/minúsculas del método. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [izzy0101010101](https://github.com/izzy0101010101).
+- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (puntuación CVSS 7.4, Alta): las reglas de método de `AuthorizationPolicy` se eluden sobre HTTP/2 cambiando las mayúsculas/minúsculas del método. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [izzysec](https://github.com/izzysec).
 - __[GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6)__ (puntuación CVSS 7.7, Alta): istiod se cae (denegación de servicio) en modo ambient cuando un `ServiceEntry` u otro servicio reclama la dirección de un waypoint con dirección IP. **Crédito**: Esta vulnerabilidad fue descubierta y reportada por [yshch](https://github.com/yshch).
 
 ## Reglas de método de `AuthorizationPolicy` eludidas sobre HTTP/2
