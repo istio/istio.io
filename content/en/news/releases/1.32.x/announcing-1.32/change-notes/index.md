@@ -92,6 +92,13 @@ aliases:
   `envoy.transport_sockets.tls` for filter chains that terminate TLS. Unlike `transportProtocol`, which matches
   the traffic a filter chain accepts, this matches the extension that processes the connection bytes.
 
+- **Added** support for `AUTO_PASSTHROUGH` listeners on ambient east-west gateways (`istio-east-west`
+  `GatewayClass`). A TLS passthrough listener on port 15443 (or any port using the
+  `gateway.istio.io/listener-protocol: auto-passthrough` option) now serves sidecar multi-network
+  traffic alongside the HBONE listener, so a mixed ambient and sidecar mesh no longer needs two
+  east-west gateways per cluster. This requires `AMBIENT_ENABLE_MULTI_NETWORK` to be enabled.
+  ([Issue #60887](https://github.com/istio/istio/issues/60887))
+
 - **Added** the `failurePercentageThreshold` field to `DestinationRule.OutlierDetection`, allowing
   hosts to be ejected based on their failure rate over the analysis `interval` instead of
   requiring consecutive failures. Unlike `consecutive5xxErrors` and `consecutiveGatewayErrors`,
@@ -259,8 +266,18 @@ aliases:
 
 - **Fixed** an issue where `istio-cni` skipped cleanup for an ambient pod deleted together with its namespace, leaving its ztunnel proxy and host probe ipset entry behind.
 
+- **Fixed** an issue introduced in Istio 1.31 where a change to a `ConfigMap` containing CA certificates, such as the
+  `kube-root-ca.crt` `ConfigMap` that Kubernetes creates in every namespace, triggered CDS, LDS, RDS and NDS pushes to
+  every proxy. Clusters were rebuilt in full instead of incrementally. Like `Secret` updates, these changes now only
+  trigger SDS pushes. EDS is now skipped for these updates as well.
+  ([Issue #62523](https://github.com/istio/istio/issues/62523))
+
 - **Fixed** an issue where istiod permanently retained a copy of every workload resource name for each
   Envoy MDS (WDS, used for telemetry metadata lookups) connection that sent `initial_resource_versions`.
+
+- **Fixed** an issue where a metadata-only update to an `EndpointSlice`, such as a GitOps tool writing an annotation,
+  triggered an EDS push, and for headless `Service` resources with non-HTTP ports a push to every proxy, even though the
+  endpoints were unchanged.
 
 - **Fixed** an `EnvoyFilter` `LISTENER_FILTER` `MERGE` patch corrupting the listener filters
   shared by all proxies and being applied to listener filters that did not match
@@ -318,6 +335,10 @@ aliases:
   Conflicting listeners are now correctly rejected and `ListenerSet` status conditions
   report in compliance with Gateway API 1.5.
   ([PR #60775](https://github.com/istio/istio/pull/60775))
+
+- **Fixed** an issue where a metadata-only update to an Istio config resource, such as a GitOps tool writing an
+  annotation, triggered a push whenever the resource carried any `istio.io` label or annotation, for example
+  `istio.io/rev`. A push is now triggered only when the spec or the value of an `istio.io` label or annotation changes.
 
 - **Fixed** an issue where EDS-irrelevant configuration updates coalesced with an endpoint update
   caused full EDS generation instead of updating only the affected endpoint assignments.
@@ -563,6 +584,8 @@ aliases:
 
 - **Updated** Kiali addon to version v2.31.0.
 
+- **Updated** Kiali addon to version v2.34.1.
+
 - **Added** a `terminationGracePeriodSeconds` field to the istiod (Pilot) Helm
   values, allowing the istiod `Deployment`'s pod termination grace period to be
   configured. Defaults to 30 seconds, matching the previous behavior.
@@ -615,6 +638,11 @@ aliases:
   `traffic.sidecar.istio.io/includeOutboundPorts` annotation. A malformed
   value is now rejected at admission, consistent with the sibling traffic
   port annotations and the CNI redirect path.
+
+- **Fixed** `istiod` only tolerating the default `cni.istio.io/not-ready` taint. When `taint.name` is set to a
+  custom taint, the `istiod` deployment now tolerates that taint, so `istiod` can be scheduled onto nodes that
+  still carry it.
+  ([Issue #52073](https://github.com/istio/istio/issues/52073))
 
 - **Removed** the `GOMAXPROCS` environment variable from all Istio charts.
   Go 1.25 automatically sets `GOMAXPROCS` to match CPU limits.
