@@ -22,13 +22,23 @@
     {{- end -}}
 
     {{- $text := "" -}}
+    {{- $inCode := false -}}
     {{- range $index, $line := $lines -}}
         {{- if eq $index 0 -}}
             {{- /* skip the first line since it just contains the junk to the right of the shortcode */ -}}
         {{- else if eq $index (sub $numLines 1) -}}
             {{- /* skip the last line since it just contains the junk to the left of the shortcode */ -}}
+        {{- else if $inCode -}}
+            {{- /* keep the indentation of lines inside an already rendered text block */ -}}
+            {{- $text = printf "%s%s\n" $text $line -}}
+            {{- if in $line "</code></pre>" -}}
+                {{- $inCode = false -}}
+            {{- end -}}
         {{- else -}}
             {{- $text = printf "%s%s\n" $text (strings.TrimPrefix $prefix $line) -}}
+            {{- if and (in $line "<pre><code class='language-") (not (in $line "</code></pre>")) -}}
+                {{- $inCode = true -}}
+            {{- end -}}
         {{- end -}}
     {{- end -}}
 
