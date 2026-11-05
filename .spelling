@@ -105,6 +105,7 @@
 5000qps
 50k
 50Mb
+55-byte
 5ms
 5xx
 63-character
@@ -143,14 +144,17 @@ Airbnb
 Aizhamal
 Akamai
 AKiileX
+akoul
 AKS
 AKS-Engine
+akshayreddyb
 Al-Masry
 Alex
 Alexa
 Alibaba
 allowlist
 allow_missing
+Alon
 ALPN-based
 alt
 Amalgam8
@@ -280,6 +284,7 @@ channel
 Chaomeng
 chatbots
 Chavali
+Checkmarx
 CheckRequest
 CheckResponse
 checksum
@@ -338,6 +343,7 @@ config_dump
 conformant
 CONNECT-IP
 CONNECT-UDP
+conntrack
 containerID
 ContribFest
 Contribfest
@@ -560,6 +566,7 @@ deserializing
 DestinationRule
 Deutsche
 dev
+deveshkandpal1224
 Devirtualization
 devirtualization
 devops
@@ -694,14 +701,21 @@ GEP-91
 Gergely
 GHSA-3wvj-j6qm-62mr
 GHSA-47vj-9r25-wv5j
+GHSA-635j-qv98-9275
+GHSA-77vw-rg85-wx5x
+GHSA-7m6f-j3gp-2r53
 GHSA-7p2q-4xvg-vxc6
+GHSA-8jw7-82jp-wr2c
 GHSA-8mq4-c2v5-3h39
 GHSA-8vc2-jrm4-835w
 GHSA-974c-2wxh-g4ww
 GHSA-9gcg-w975-3rjh
+GHSA-cxwg-46mx-q8hf
 GHSA-fgw5-hp8f-xfhc
+GHSA-gf6w-6mxv-5fj4
 GHSA-p7c7-7c47-pwch
 GHSA-qm8v-g4f9-qhjx
+GHSA-rr2c-p22p-6r9r
 GHSA-v75c-crr9-733c
 GHSA-w44g-8m76-8gc5
 GiB
@@ -869,6 +883,7 @@ ISTIO-SECURITY-2026-005
 ISTIO-SECURITY-2026-006
 ISTIO-SECURITY-2026-007
 ISTIO-SECURITY-2026-008
+ISTIO-SECURITY-2026-009
 istio-system
 istio.io
 istio.io.
@@ -1208,6 +1223,7 @@ passthrough
 PassthroughCluster
 Patel
 Patlevič
+Pawan-Bishnoi
 peek
 PeerAuthentication
 pem
@@ -1286,13 +1302,17 @@ quay.io
 Quickstart
 quo
 Quotech
+r0binak
 RabbitMQ
 Raghunath
 Rahul
 Rajagopalan
+ramaraochavali
+RaphaelFakhri
 Rappi
 Ratelimit
 ratelimit-handler
+Ravikanth
 RawVM
 rbac
 rc.1
@@ -1308,6 +1328,7 @@ rebalances
 recomposition
 recomputations
 recomputations
+Reddy.
 redeployments
 RedHat
 Redis
@@ -1520,6 +1541,7 @@ Tencent
 test-api
 Tetrate
 thc1006
+Theori
 Tigera
 timeframe
 timestamp
@@ -1736,6 +1758,7 @@ Xiao
 Xiaopeng
 Xie
 Xining
+Xint
 xRoute
 Xu
 Xuan
@@ -1748,6 +1771,7 @@ Yessenov
 Yingchun
 Yizhou
 Yoichi
+Yonghwa
 Yossi
 yshch
 Yuval
