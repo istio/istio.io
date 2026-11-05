@@ -7,7 +7,7 @@ keywords: [Istio,Container Registry,Helm]
 ---
 
 {{< warning >}}
-This blog has been updated to reflect that `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/` will be begin to be decomissioned on December 16th, 2026 at 3:00 PM UTC.
+This blog has been updated to reflect that `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/` will be begin to be decommissioned on December 16th, 2026 at 3:00 PM UTC.
 All container images, Helm charts, and other release artifacts except for those related to Istio 1.30 will be removed from these locations.
 All container images, Helm charts, and other release artifacts for Istio 1.30 will be removed from these locations on December 22th, 2026 at 3:00 PM UTC.
 That is, by December 22th, 2026 at 3:00 PM UTC, all Istio container images, Helm charts, and other release artifacts will be removed from `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/`.
