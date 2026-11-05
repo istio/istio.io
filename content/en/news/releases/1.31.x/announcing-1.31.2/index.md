@@ -25,7 +25,7 @@ For more information, see [ISTIO-SECURITY-2026-007](/news/security/istio-securit
 
 ### Istio CVEs
 
-- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (CVSS score 7.4, High): `AuthorizationPolicy` method rules are bypassed over HTTP/2 by changing the case of the method. **Credit**: This vulnerability was discovered and reported by [izzy0101010101](https://github.com/izzy0101010101).
+- __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (CVSS score 7.4, High): `AuthorizationPolicy` method rules are bypassed over HTTP/2 by changing the case of the method. **Credit**: This vulnerability was discovered and reported by [izzysec](https://github.com/izzysec).
 - __[GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6)__ (CVSS score 7.7, High): istiod crashes in ambient mode when a `ServiceEntry` or other service claims the address of an IP-addressed waypoint. **Credit**: This vulnerability was discovered and reported by [yshch](https://github.com/yshch).
 
 ### Other Istio Security Fixes
