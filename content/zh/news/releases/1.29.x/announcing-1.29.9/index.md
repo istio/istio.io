@@ -37,7 +37,7 @@ aliases:
 
 - __[GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5)__ (CVSS score 7.4, High)：
   通过在 HTTP/2 上更改方法的大小写，可以绕过 `AuthorizationPolicy` 的方法规则。
-  **致谢**：此漏洞由 [izzy0101010101](https://github.com/izzy0101010101) 发现并报告。
+  **致谢**：此漏洞由 [izzysec](https://github.com/izzysec) 发现并报告。
 
 - __[GHSA-7p2q-4xvg-vxc6](https://github.com/istio/istio/security/advisories/GHSA-7p2q-4xvg-vxc6)__ (CVSS score 7.7, High)：
   在 Ambient 模式下，当 `ServiceEntry` 或其他服务声明了以 IP 地址寻址的 waypoint 的地址时，istiod 会崩溃。
