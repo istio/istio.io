@@ -535,6 +535,16 @@ It may be desired to enforce stricter physical isolation for sensitive services.
 shared gateway instance for less sensitive domains like `blog.example.com` and `store.example.com`.
 This can offer a stronger defense-in-depth and help meet certain regulatory compliance guidelines.
 
+### Gateway credentials in multicluster meshes
+
+In a multicluster mesh, a gateway running in a remote cluster can use a `credentialName` secret stored in the config cluster.
+If the secret is not found in the gateway's own cluster, istiod falls back to the config cluster. Access is authorized
+using the RBAC of the cluster where the gateway runs.
+
+This follows from {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}: a namespace is expected to be
+owned by the same team in every cluster. Keep RBAC for secrets consistent across clusters for the same namespace,
+and avoid sharing a namespace name between clusters when it is owned by different teams.
+
 ### Explicitly disable all the sensitive http host under relaxed SNI host matching
 
 It is reasonable to use multiple `Gateway`s to define mutual TLS and simple TLS on different hosts.
