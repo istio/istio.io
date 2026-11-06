@@ -457,6 +457,26 @@ aliases:
   through some HTTP CONNECT proxies.
   ([Issue #61250](https://github.com/istio/istio/issues/61250))
 
+- **Fixed** `AuthorizationPolicy` `ipBlocks` and `notIpBlocks` matching on
+  waypoint and sidecar HBONE internal listeners to use the downstream
+  client's direct remote IP address instead of the internal Envoy address.
+  ([Issue #62522](https://github.com/istio/istio/issues/62522))
+
+- **Fixed** a crash in istiod in ambient mode when an `AuthorizationPolicy` had an empty `to` or `from` entry.
+  Such entries are now treated as an empty `operation` or `source`, matching the sidecar behavior.
+
+- **Fixed** an mTLS bypass in ambient mode where a port-level `STRICT`
+  `PeerAuthentication` could be left unenforced. An operator-precedence error caused
+  the mesh-wide `STRICT` check to be evaluated without the guard requiring the
+  workload-level mode to be unset, so a `STRICT` port on a workload whose top-level
+  mode was `PERMISSIVE` or `DISABLE`, in a namespace with no `STRICT` policy and under
+  a mesh-wide `STRICT` `PeerAuthentication`, was wrongly skipped and plaintext
+  traffic could reach it.
+
+- **Fixed** `AuthorizationPolicy` conditions on `request.headers[:authority]` and `request.headers[host]`
+  being bypassed by changing the case of the host. These conditions are now matched case-insensitively,
+  the same as `hosts`.
+
 - **Fixed** `AuthorizationPolicy` method rules being bypassed over HTTP/2 by changing
   the case of the method (e.g. `post` for `POST`). Method matching is now case-insensitive.
   See [GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5).
@@ -519,6 +539,10 @@ aliases:
 
 **Credit**: This vulnerability was discovered and reported by localhost-detect.
 
+- **Fixed** an issue where a new inbound connection reusing the 4-tuple of a torn-down connection
+  could bypass the sidecar proxy by matching a stale `conntrack` `ESTABLISHED` entry. A rule matching only `SYN`
+  packets is now evaluated ahead of the `ESTABLISHED` divert rule in both iptables and nftables modes.
+
 - **Fixed** SSRF protection gaps in Wasm module fetching (`pkg/wasm`). The HTTP fetcher
   previously had no restriction on destination IP at all, and the OCI image fetcher's SSRF
   protection only inspected `401` bearer-realm responses, not `3xx` redirects on the actual
@@ -533,9 +557,18 @@ aliases:
 
 - **Fixed** waypoint proxies failing to receive remote JWKS clusters when a `RequestAuthentication` policy uses a service `targetRef`.
 
+- **Fixed** istiod accepting a node metadata `CLUSTER_ID` that differs from the cluster the proxy's token was validated against.
+
 - **Fixed** istiod debug endpoints (`/debug/config_dump`, `/debug/edsz`, and the xDS `istio.io/debug/config_dump` type) matching `proxyID` as a substring, which let a caller read the config of other proxies in its own namespace by passing a partial ID. `proxyID` must now be the exact `<pod>.<namespace>` (or full connection ID); short forms such as `proxyID=istio-ingressgateway` no longer match.
 
 **Credit**: This issue was reported by 박현범.
+
+- **Fixed** a crash in istiod where an `istio.io/debug` xDS request with a malformed resource name caused a nil
+  pointer dereference. The request is now rejected with `InvalidArgument`.
+
+- **Fixed** a crash in ztunnel where an inbound HBONE request with a malformed `traceparent` header caused an
+  index-out-of-bounds panic, dropping all streams on that connection. Invalid `traceparent` headers are now
+  ignored and a new trace ID is generated.
 
 ## Telemetry
 
