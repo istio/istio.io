@@ -1,6 +1,6 @@
 ---
-title: Sidecar Injection Problems
-description: Resolve common problems with Istio's use of Kubernetes webhooks for automatic sidecar injection.
+title: Problemas de inyección de sidecar
+description: Resuelve problemas comunes con el uso que hace Istio de los webhooks de Kubernetes para la inyección automática de sidecar.
 force_inline_toc: true
 weight: 40
 aliases:
@@ -9,25 +9,25 @@ owner: istio/wg-user-experience-maintainers
 test: n/a
 ---
 
-## The result of sidecar injection was not what I expected
+## El resultado de la inyección de sidecar no fue el esperado {#the-result-of-sidecar-injection-was-not-what-i-expected}
 
-This includes an injected sidecar when it wasn't expected and a lack
-of injected sidecar when it was.
+Esto incluye tanto un sidecar inyectado cuando no se esperaba como la ausencia
+de un sidecar inyectado cuando sí se esperaba.
 
-1. Ensure your pod is not in the `kube-system` or `kube-public` namespace.
-   Automatic sidecar injection will be ignored for pods in these namespaces.
+1. Asegúrate de que tu pod no esté en el namespace `kube-system` o `kube-public`.
+   La inyección automática de sidecar se ignora para los pods de estos namespaces.
 
-1. Ensure your pod does not have `hostNetwork: true` in its pod spec.
-   Automatic sidecar injection will be ignored for pods that are on the host network.
+1. Asegúrate de que tu pod no tenga `hostNetwork: true` en su especificación.
+   La inyección automática de sidecar se ignora para los pods que están en la red del host.
 
-    The sidecar model assumes that the iptables changes required for Envoy to intercept
-    traffic are within the pod. For pods on the host network this assumption is violated,
-    and this can lead to routing failures at the host level.
+    El modelo de sidecar asume que los cambios de iptables que Envoy necesita para interceptar
+    el tráfico se aplican dentro del pod. Para los pods en la red del host, esta suposición no se cumple,
+    y esto puede provocar fallos de enrutamiento a nivel del host.
 
-1. Check the webhook's `namespaceSelector` to determine whether the
-   webhook is scoped to opt-in or opt-out for the target namespace.
+1. Revisa el `namespaceSelector` del webhook para determinar si el
+   webhook funciona como opt-in (inclusión explícita) u opt-out (exclusión explícita) para el namespace de destino.
 
-    The `namespaceSelector` for opt-in will look like the following:
+    El `namespaceSelector` para opt-in tendrá el siguiente aspecto:
 
     {{< text bash yaml >}}
     $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
@@ -39,8 +39,8 @@ of injected sidecar when it was.
         - ""
     {{< /text >}}
 
-    The injection webhook will be invoked for pods created
-    in namespaces with the `istio-injection=enabled` label.
+    El webhook de inyección se invocará para los pods creados
+    en namespaces con la etiqueta `istio-injection=enabled`.
 
     {{< text bash >}}
     $ kubectl get namespace -L istio-injection
@@ -51,7 +51,7 @@ of injected sidecar when it was.
     kube-system    Active    18d
     {{< /text >}}
 
-    The `namespaceSelector` for opt-out will look like the following:
+    El `namespaceSelector` para opt-out tendrá el siguiente aspecto:
 
     {{< text bash >}}
     $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml | grep "namespaceSelector:" -A5
@@ -66,8 +66,8 @@ of injected sidecar when it was.
         - ""
     {{< /text >}}
 
-    The injection webhook will be invoked for pods created in namespaces
-    without the `istio-injection=disabled` label.
+    El webhook de inyección se invocará para los pods creados en namespaces
+    sin la etiqueta `istio-injection=disabled`.
 
     {{< text bash >}}
     $ kubectl get namespace -L istio-injection
@@ -78,41 +78,41 @@ of injected sidecar when it was.
     kube-system    Active    18d       disabled
     {{< /text >}}
 
-    Verify the application pod's namespace is labeled properly and (re) label accordingly, e.g.
+    Verifica que el namespace del pod de la aplicación tenga la etiqueta correcta y vuelve a etiquetarlo si es necesario, p. ej.
 
     {{< text bash >}}
     $ kubectl label namespace istio-system istio-injection=disabled --overwrite
     {{< /text >}}
 
-    (repeat for all namespaces in which the injection webhook should be invoked for new pods)
+    (repite esto para todos los namespaces en los que el webhook de inyección deba invocarse para los pods nuevos)
 
     {{< text bash >}}
     $ kubectl label namespace default istio-injection=enabled --overwrite
     {{< /text >}}
 
-1. Check default policy
+1. Revisa la política predeterminada
 
-    Check the default injection policy in the `istio-sidecar-injector configmap`.
+    Revisa la política de inyección predeterminada en el `istio-sidecar-injector configmap`.
 
     {{< text bash yaml >}}
     $ kubectl -n istio-system get configmap istio-sidecar-injector -o jsonpath='{.data.config}' | grep policy:
     policy: enabled
     {{< /text >}}
 
-    Allowed policy values are `disabled` and `enabled`. The default policy
-    only applies if the webhook’s `namespaceSelector` matches the target
-    namespace. Unrecognized policy causes injection to be disabled completely.
+    Los valores de política permitidos son `disabled` y `enabled`. La política predeterminada
+    solo se aplica si el `namespaceSelector` del webhook coincide con el namespace
+    de destino. Una política no reconocida hace que la inyección se deshabilite por completo.
 
-1. Check the per-pod override label
+1. Revisa la etiqueta de anulación por pod
 
-    The default policy can be overridden with the
-    `sidecar.istio.io/inject` label in the _pod template spec’s metadata_.
-    The deployment’s metadata is ignored. Label value
-    of `true` forces the sidecar to be injected while a value of
-    `false` forces the sidecar to _not_ be injected.
+    La política predeterminada se puede anular con la
+    etiqueta `sidecar.istio.io/inject` en los _metadatos de la especificación de la plantilla del pod_.
+    Los metadatos del Deployment se ignoran. Un valor de etiqueta
+    de `true` fuerza la inyección del sidecar, mientras que un valor de
+    `false` fuerza que el sidecar _no_ se inyecte.
 
-    The following label overrides whatever the default `policy` was
-    to force the sidecar to be injected:
+    La siguiente etiqueta anula cualquier `policy` predeterminada
+    para forzar la inyección del sidecar:
 
     {{< text bash yaml >}}
     $ kubectl get deployment curl -o yaml | grep "sidecar.istio.io/inject:" -B4
@@ -123,13 +123,13 @@ of injected sidecar when it was.
           sidecar.istio.io/inject: "true"
     {{< /text >}}
 
-## Pods cannot be created at all
+## No se puede crear ningún pod {#pods-cannot-be-created-at-all}
 
-Run `kubectl describe -n namespace deployment name` on the failing
-pod's deployment. Failure to invoke the injection webhook will
-typically be captured in the event log.
+Ejecuta `kubectl describe -n namespace deployment name` en el Deployment del pod
+que falla. Los fallos al invocar el webhook de inyección
+normalmente quedan registrados en el registro de eventos.
 
-### x509 certificate related errors
+### Errores relacionados con certificados x509 {#x509-certificate-related-errors}
 
 {{< text plain >}}
 Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: Internal error occurred: \
@@ -138,11 +138,11 @@ Warning  FailedCreate  3m (x17 over 8m)  replicaset-controller  Error creating: 
     to verify candidate authority certificate "Kubernetes.cluster.local")
 {{< /text >}}
 
-`x509: certificate signed by unknown authority` errors are typically
-caused by an empty `caBundle` in the webhook configuration.
+Los errores `x509: certificate signed by unknown authority` normalmente
+se deben a un `caBundle` vacío en la configuración del webhook.
 
-Verify the `caBundle` in the `mutatingwebhookconfiguration` matches the
-   root certificate mounted in the `istiod` pod.
+Verifica que el `caBundle` de la `mutatingwebhookconfiguration` coincida con el
+   certificado raíz montado en el pod de `istiod`.
 
 {{< text bash >}}
 $ kubectl get mutatingwebhookconfiguration istio-sidecar-injector -o yaml -o jsonpath='{.webhooks[0].clientConfig.caBundle}' | md5sum
@@ -151,8 +151,8 @@ $ kubectl -n istio-system get configmap istio-ca-root-cert -o jsonpath='{.data.r
 4b95d2ba22ce8971c7c92084da31faf0  -
 {{< /text >}}
 
-The CA certificate should match. If they do not, restart the
-istiod pods.
+Los certificados de CA deben coincidir. Si no coinciden, reinicia los
+pods de istiod.
 
 {{< text bash >}}
 $ kubectl -n istio-system patch deployment istiod \
@@ -160,13 +160,13 @@ $ kubectl -n istio-system patch deployment istiod \
 deployment.extensions "istiod" patched
 {{< /text >}}
 
-### Errors in deployment status
+### Errores en el estado del Deployment {#errors-in-deployment-status}
 
-When automatic sidecar injection is enabled for a pod, and the injection fails for any reason, the pod creation
-will also fail. In such cases, you can check the deployment status of the pod to identify the error. The errors
-will also appear in the events of the namespace associated with the deployment.
+Cuando la inyección automática de sidecar está habilitada para un pod y la inyección falla por cualquier motivo, la creación del pod
+también falla. En esos casos, puedes revisar el estado del Deployment del pod para identificar el error. Los errores
+también aparecen en los eventos del namespace asociado al Deployment.
 
-For example, if the `istiod` control plane pod was not running when you tried to deploy your pod, the events would show the following error:
+Por ejemplo, si el pod del control plane `istiod` no estaba en ejecución cuando intentaste desplegar tu pod, los eventos mostrarían el siguiente error:
 
 {{< text bash >}}
 $ kubectl get events -n curl
@@ -187,9 +187,9 @@ NAME           ENDPOINTS                                                  AGE
 istiod   10.244.2.8:15012,10.244.2.8:15010,10.244.2.8:15017 + 1 more...   3h18m
 {{< /text >}}
 
-If the istiod pod or endpoints aren't ready, check the pod logs and status
-for any indication about why the webhook pod is failing to start and
-serve traffic.
+Si el pod o los endpoints de istiod no están listos, revisa los logs y el estado del pod
+en busca de cualquier indicio de por qué el pod del webhook no logra iniciarse y
+servir tráfico.
 
 {{< text bash >}}
 $ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
@@ -203,9 +203,9 @@ done
 $
 {{< /text >}}
 
-## Automatic sidecar injection fails if the Kubernetes API server has proxy settings
+## La inyección automática de sidecar falla si el servidor de API de Kubernetes tiene configuración de proxy {#automatic-sidecar-injection-fails-if-the-kubernetes-api-server-has-proxy-settings}
 
-When the Kubernetes API server includes proxy settings such as:
+Cuando el servidor de API de Kubernetes incluye configuración de proxy como:
 
 {{< text yaml >}}
 env:
@@ -217,47 +217,47 @@ env:
     value: 127.0.0.1,localhost,dockerhub.foo.com,devhub-docker.foo.com,10.84.100.125,10.84.100.126,10.84.100.127
 {{< /text >}}
 
-With these settings, Sidecar injection fails. The only related failure log can be found in `kube-apiserver` log:
+Con esta configuración, la inyección de sidecar falla. El único log de fallo relacionado se encuentra en el log de `kube-apiserver`:
 
 {{< text plain >}}
 W0227 21:51:03.156818       1 admission.go:257] Failed calling webhook, failing open sidecar-injector.istio.io: failed calling admission webhook "sidecar-injector.istio.io": Post https://istio-sidecar-injector.istio-system.svc:443/inject: Service Unavailable
 {{< /text >}}
 
-Make sure both pod and service CIDRs are not proxied according to `*_proxy` variables.  Check the `kube-apiserver` files and logs to verify the configuration and whether any requests are being proxied.
+Asegúrate de que ni los CIDR de pods ni los de services pasen por el proxy según las variables `*_proxy`. Revisa los archivos y los logs de `kube-apiserver` para verificar la configuración y comprobar si alguna solicitud pasa por el proxy.
 
-One workaround is to remove the proxy settings from the `kube-apiserver` manifest, another workaround is to include `istio-sidecar-injector.istio-system.svc` or `.svc` in the `no_proxy` value. Make sure that `kube-apiserver` is restarted after each workaround.
+Una solución alternativa es eliminar la configuración de proxy del manifiesto de `kube-apiserver`; otra es incluir `istio-sidecar-injector.istio-system.svc` o `.svc` en el valor de `no_proxy`. Asegúrate de reiniciar `kube-apiserver` después de aplicar cualquiera de las dos.
 
-An [issue](https://github.com/kubernetes/kubeadm/issues/666) was filed with Kubernetes related to this and has since been closed.
+Se abrió un [problema](https://github.com/kubernetes/kubeadm/issues/666) en Kubernetes relacionado con esto, que ya se ha cerrado.
 [https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443](https://github.com/kubernetes/kubernetes/pull/58698#discussion_r163879443)
 
-## Limitations for using Tcpdump in pods
+## Limitaciones al usar Tcpdump en pods {#limitations-for-using-tcpdump-in-pods}
 
-Tcpdump doesn't work in the sidecar pod - the container doesn't run as root. However any other container in the same pod will see all the packets, since the
-network namespace is shared. `iptables` will also see the pod-wide configuration.
+Tcpdump no funciona en el pod del sidecar: el contenedor no se ejecuta como root. Sin embargo, cualquier otro contenedor del mismo pod verá todos los paquetes, ya que el
+namespace de red es compartido. `iptables` también verá la configuración de todo el pod.
 
-Communication between Envoy and the app happens on 127.0.0.1, and is not encrypted.
+La comunicación entre Envoy y la aplicación ocurre en 127.0.0.1 y no está cifrada.
 
-## Cluster is not scaled down automatically
+## El clúster no se reduce automáticamente {#cluster-is-not-scaled-down-automatically}
 
-Due to the fact that the sidecar container mounts a local storage volume, the
-node autoscaler is unable to evict nodes with the injected pods. This is
-a [known issue](https://github.com/kubernetes/autoscaler/issues/3947). The workaround is
-to add a pod annotation `"cluster-autoscaler.kubernetes.io/safe-to-evict":
-"true"` to the injected pods.
+Debido a que el contenedor del sidecar monta un volumen de almacenamiento local, el
+escalador automático de nodos no puede desalojar los nodos que tienen pods inyectados. Este es
+un [problema conocido](https://github.com/kubernetes/autoscaler/issues/3947). La solución alternativa es
+agregar la anotación de pod `"cluster-autoscaler.kubernetes.io/safe-to-evict":
+"true"` a los pods inyectados.
 
-## Pod or containers start with network issues if istio-proxy is not ready
+## El pod o los contenedores se inician con problemas de red si istio-proxy no está listo {#pod-or-containers-start-with-network-issues-if-istio-proxy-is-not-ready}
 
-Many applications execute commands or checks during startup, which require network connectivity. This can cause application containers to hang or restart if the `istio-proxy` sidecar container is not ready.
+Muchas aplicaciones ejecutan comandos o comprobaciones durante el inicio que requieren conectividad de red. Esto puede hacer que los contenedores de la aplicación se bloqueen o se reinicien si el contenedor del sidecar `istio-proxy` no está listo.
 
-To avoid this, set `holdApplicationUntilProxyStarts` to `true`. This causes the sidecar injector to inject the sidecar at the start of the pod’s container list, and configures it to block the start of all other containers until the proxy is ready.
+Para evitarlo, establece `holdApplicationUntilProxyStarts` en `true`. Esto hace que el inyector de sidecar inyecte el sidecar al principio de la lista de contenedores del pod y lo configure para bloquear el inicio de todos los demás contenedores hasta que el proxy esté listo.
 
-This can be added as a global config option:
+Esto se puede agregar como opción de configuración global:
 
 {{< text yaml >}}
 values.global.proxy.holdApplicationUntilProxyStarts: true
 {{< /text >}}
 
-or as a pod annotation:
+o como anotación de pod:
 
 {{< text yaml >}}
 proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
