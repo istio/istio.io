@@ -7,7 +7,7 @@ keywords: [Istio,Container Registry]
 ---
 
 {{< warning >}}
-We will start to permanently tear down `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/` December 16th, 2026 at 3:00 PM UTC.
+We will permanently tear down `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/` on December 16th, 2026 at 3:00 PM UTC.
 See [ACTION REQUIRED FOR GOOGLE CONTAINER REGISTRY USERS BY DECEMBER 16th, 2026, scream tests, and our move to AWS](../retirement-of-gcp/) for more guidance.
 {{< /warning >}}
 
