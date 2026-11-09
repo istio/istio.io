@@ -4,13 +4,13 @@ description: Upgrade Istio by first running a canary deployment of a new control
 weight: 10
 keywords: [kubernetes,upgrading,canary]
 owner: istio/wg-environments-maintainers
-test: yes
+test: no
 ---
 
 Upgrading Istio can be done by first running a canary deployment of the new control plane, allowing you
 to monitor the effect of the upgrade with a small percentage of the workloads before migrating all of the
 traffic to the new version. This is much safer than doing an
-[in-place upgrade](/es/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
+[in-place upgrade](/docs/setup/upgrade/in-place/) and is the recommended upgrade method.
 
 When installing Istio, the `revision` installation setting can be used to deploy multiple independent control planes
 at the same time. A canary version of an upgrade can be started by installing the new Istio version's control plane
@@ -18,6 +18,10 @@ next to the old one, using a different `revision` setting. Each revision is a fu
 with its own `Deployment`, `Service`, etc.
 
 ## Before you upgrade
+
+[Download the Istio releases](/docs/setup/additional-setup/download-istio-release/)
+for both the installed and target versions so that their matching `istioctl`
+binaries are available before you start.
 
 Before upgrading Istio, it is recommended to run the `istioctl x precheck` command to make sure the upgrade is compatible with your environment.
 
@@ -74,9 +78,9 @@ istio-sidecar-injector-{{< istio_previous_version_revision >}}-1   2          2m
 istio-sidecar-injector-canary   2          114s
 {{< /text >}}
 
-## data plane
+## Data plane
 
-Refer to [Gateway Canary Upgrade](/es/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) to understand how to run revision specific instances of Istio gateway.
+Refer to [Gateway Canary Upgrade](/docs/setup/additional-setup/gateway/#canary-upgrade-advanced) to understand how to run revision specific instances of Istio gateway.
 In this example, since we use the `default` Istio profile, Istio gateways do not run revision-specific instances, but are instead in-place upgraded to use the new control plane revision. You can verify that the `istio-ingress` gateway is using the `canary` revision by running the following command:
 
 {{< text bash >}}
@@ -132,7 +136,7 @@ The output will show all pods under the namespace that are using the canary revi
 ## Stable revision labels
 
 {{< tip >}}
-If you're using Helm, refer to the [Helm upgrade documentation](/es/docs/setup/upgrade/helm).
+If you're using Helm, refer to the [Helm upgrade documentation](/docs/setup/upgrade/helm).
 {{</ tip >}}
 
 {{< boilerplate revision-tags-preamble >}}
@@ -141,11 +145,12 @@ If you're using Helm, refer to the [Helm upgrade documentation](/es/docs/setup/u
 
 {{< boilerplate revision-tags-usage >}}
 
-1. Install two revisions of control plane:
+1. Install two revisions of the control plane, using the `istioctl` binary
+   from the matching release for each revision:
 
     {{< text bash >}}
-    $ istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
-    $ istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
+    $ ./istio-{{< istio_previous_version >}}.1/bin/istioctl install --revision={{< istio_previous_version_revision >}}-1 --set profile=minimal --skip-confirmation
+    $ ./istio-{{< istio_full_version >}}/bin/istioctl install --revision={{< istio_full_version_revision >}} --set profile=minimal --skip-confirmation
     {{< /text >}}
 
 1. Create `stable` and `canary` revision tags and associate them to the respective revisions:
@@ -239,7 +244,7 @@ NAME                             READY   STATUS    RESTARTS   AGE
 istiod-canary-55887f699c-t8bh8   1/1     Running   0          27m
 {{< /text >}}
 
-Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, refer to the [uninstall guide](/es/docs/setup/install/istioctl/#uninstall-istio).
+Note that the above instructions only removed the resources for the specified control plane revision, but not cluster-scoped resources shared with other control planes. To uninstall Istio completely, refer to the [uninstall guide](/docs/setup/install/istioctl/#uninstall-istio).
 
 ## Uninstall canary control plane
 
