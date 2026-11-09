@@ -1,0 +1,7 @@
+# We only want istio.io/latest/ indexed.
+# Preliminary and archive sites are excluded.
+
+User-agent: *
+Disallow: /v0.*
+Disallow: /v1.*
+Sitemap: https://istio.io/sitemap.xml
