@@ -1,12 +1,16 @@
 ---
-title: "ACTION REQUIRED FOR GOOGLE CONTAINER REGISTRY USERS, scream tests, and our move to AWS"
+title: "ACTION REQUIRED FOR GOOGLE CONTAINER REGISTRY USERS BY DECEMBER 16th, 2026, scream tests, and our move to AWS"
 description: What you can do with your Helm charts and signing keys to ensure you are not impacted by the migration to AWS.
 publishdate: 2026-08-21
 attribution: Steven Jin (Microsoft), Keith Mattix (Solo.io)
 keywords: [Istio,Container Registry,Helm]
 ---
 
-This year, Istio is migrating all of our infrastructure from Google Cloud Platform to Amazon Web Services due to changes in our funding model.
+{{< warning >}}
+This blog has been updated to reflect that `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/` will be decommissioned on December 16th, 2026 at 3:00 PM UTC.
+{{< /warning >}}
+
+This year, Istio is migrating all of our infrastructure from Google Cloud Platform to Amazon Web Services and Cloudflare due to changes in our funding model.
 This post describes the transition of our container images, Helm charts, other release artifacts (RPMs, DEBs, source code, SPDX documents, `istioctl`, and licenses), signing keys, and **upcoming scream tests where we will disable access to all GCP-hosted artifacts**.
 
 ## Container Images
@@ -19,7 +23,7 @@ Please see [the previous blog post](../retirement-of-gcr.io-follow-up/) for deta
 
 Historically, Istio published Helm charts to `https://istio-release.storage.googleapis.com/charts` as well as `gcr.io/istio-release/charts` as OCI artifacts.
 Similarly, we published other release artifacts (RPMs, DEBs, source code, SPDX documents, `istioctl`, and licenses) to `https://istio-release.storage.googleapis.com/releases`.
-Helm charts and other release artifacts will be removed from the above locations in December 2026.
+Helm charts and other release artifacts will be removed from the above locations on December 16th, 2026 at 3:00 PM UTC.
 All Helm charts of all Istio versions are currently available at `https://blob.istio.io/istio-release/charts` and we will continue to publish them there for the foreseeable future.
 All OCI Helm charts of all Istio versions are currently available at `ghcr.io/istio/release/charts` and we will continue to publish them there for the foreseeable future.
 All other release artifacts of all Istio versions are currently available at `https://blob.istio.io/istio-release/releases` and we will continue to publish them there for the foreseeable future.
@@ -48,6 +52,7 @@ The first scream test will be September 15th, 2026 from 3:00 PM to 4:00 PM UTC.
 The second scream test will be October 13th, 2026 from 3:00 PM to 6:00 PM UTC.
 The third scream test will be November 17th, 2026 from 3:00 PM to 9:00 PM UTC.
 The fourth and last scream test will be from December 8th, 2026 3:00 PM UTC to December 9th, 2026 3:00 PM UTC.
+Access to images, Helm charts, and other release artifacts will be permanently disabled on December 16th, 2026 at 3:00 PM UTC.
 
 If you are using `registry.istio.io/release` or `gcr.io/istio-release`, you should migrate to `docker.io/istio` or a pull-through cache as soon as possible.
 If you install Istio using Helm charts from `https://istio-release.storage.googleapis.com/charts`, you should migrate to `https://blob.istio.io/istio-release/charts` as soon as possible.

@@ -5,6 +5,10 @@ publishdate: 2026-03-23
 attribution: Steven Jin (Microsoft), John Howard (Solo.io)
 keywords: [Istio,Helm,Container Registry]
 ---
+{{< warning >}}
+We will permanently tear down `gcr.io/istio-release`, `registry.istio.io/release`, and `https://istio-release.storage.googleapis.com/` on December 16th, 2026 at 3:00 PM UTC.
+See [ACTION REQUIRED FOR GOOGLE CONTAINER REGISTRY USERS BY DECEMBER 16th 2026, scream tests, and our move to AWS](../retirement-of-gcp/) for more guidance.
+{{< /warning >}}
 
 {{< warning >}}
 The information in this post has been updated. See [An Update on Our Container Registry Migration](../retirement-of-gcr.io-follow-up/) for the latest guidance.
