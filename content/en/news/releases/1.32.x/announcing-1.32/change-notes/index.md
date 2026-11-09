@@ -465,13 +465,9 @@ aliases:
 - **Fixed** a crash in istiod in ambient mode when an `AuthorizationPolicy` had an empty `to` or `from` entry.
   Such entries are now treated as an empty `operation` or `source`, matching the sidecar behavior.
 
-- **Fixed** an mTLS bypass in ambient mode where a port-level `STRICT`
-  `PeerAuthentication` could be left unenforced. An operator-precedence error caused
-  the mesh-wide `STRICT` check to be evaluated without the guard requiring the
-  workload-level mode to be unset, so a `STRICT` port on a workload whose top-level
-  mode was `PERMISSIVE` or `DISABLE`, in a namespace with no `STRICT` policy and under
-  a mesh-wide `STRICT` `PeerAuthentication`, was wrongly skipped and plaintext
-  traffic could reach it.
+- **Fixed** an mTLS bypass in ambient mode where a port-level `STRICT` `PeerAuthentication` was not
+  enforced when the workload-level mode was `PERMISSIVE` or `DISABLE` and the mesh-wide mode was `STRICT`.
+  Plaintext traffic could reach that port.
 
 - **Fixed** `AuthorizationPolicy` conditions on `request.headers[:authority]` and `request.headers[host]`
   being bypassed by changing the case of the host. These conditions are now matched case-insensitively,
@@ -541,7 +537,7 @@ aliases:
 
 - **Fixed** an issue where a new inbound connection reusing the 4-tuple of a torn-down connection
   could bypass the sidecar proxy by matching a stale `conntrack` `ESTABLISHED` entry. A rule matching only `SYN`
-  packets is now evaluated ahead of the `ESTABLISHED` divert rule in both iptables and nftables modes.
+  packets is now evaluated ahead of the `ESTABLISHED` divert rule in both `iptables` and `nftables` modes.
 
 - **Fixed** SSRF protection gaps in Wasm module fetching (`pkg/wasm`). The HTTP fetcher
   previously had no restriction on destination IP at all, and the OCI image fetcher's SSRF
@@ -670,8 +666,8 @@ aliases:
   value is now rejected at admission, consistent with the sibling traffic
   port annotations and the CNI redirect path.
 
-- **Fixed** `istiod` only tolerating the default `cni.istio.io/not-ready` taint. When `taint.name` is set to a
-  custom taint, the `istiod` deployment now tolerates that taint, so `istiod` can be scheduled onto nodes that
+- **Fixed** istiod only tolerating the default `cni.istio.io/not-ready` taint. When `taint.name` is set to a
+  custom taint, the istiod `Deployment` now tolerates that taint, so istiod can be scheduled onto nodes that
   still carry it.
   ([Issue #52073](https://github.com/istio/istio/issues/52073))
 
