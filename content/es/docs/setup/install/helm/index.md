@@ -148,7 +148,7 @@ descritos anteriormente antes de eliminar la instalación actual de Istio en tu 
 
 Puedes seguir los pasos mencionados en la [Guía de desinstalación de istioctl](/es/docs/setup/install/istioctl#uninstall-istio).
 
-## Desinstalar
+## Desinstalar {#uninstall}
 
 Puedes desinstalar Istio y sus componentes desinstalando los charts
 instalados anteriormente.

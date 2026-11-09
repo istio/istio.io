@@ -278,7 +278,7 @@ Si deseas cambiar la [revisión del control plane](/es/docs/setup/upgrade/canary
 
 {{< image width="50%" link="inplace-upgrade.svg" caption="In place upgrade en progreso" >}}
 
-### Canary upgrade (avanzado)
+### Canary upgrade (avanzado) {#canary-upgrade-advanced}
 {{< warning >}}
 Este método de actualización depende de las revisiones del control plane, y por lo tanto solo puede ser utilizado junto con
 [actualización canaria del control plane](/es/docs/setup/upgrade/canary/).
