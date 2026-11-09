@@ -90,7 +90,7 @@ kubectl exec "$SOURCE_POD" -c curl -- curl -sS http://httpbin.org/headers
     "Accept": "*/*",
     "Host": "httpbin.org",
     ...
-    "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
+    "X-Envoy-Attempt-Count": "1",
     ...
   }
 }
