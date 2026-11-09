@@ -476,7 +476,7 @@ aliases:
 - **Fixed** `AuthorizationPolicy` method rules being bypassed over HTTP/2 by changing
   the case of the method (e.g. `post` for `POST`). Method matching is now case-insensitive.
   See [GHSA-w44g-8m76-8gc5](https://github.com/istio/istio/security/advisories/GHSA-w44g-8m76-8gc5).
-  Reported by [@izzy0101010101](https://github.com/izzy0101010101).
+  Reported by [@izzysec](https://github.com/izzysec).
 
 - **Fixed** a fail-open in `BackendTLSPolicy` where sidecar proxies sent upstream traffic in plaintext instead of failing closed when a policy's `caCertificateRefs` could not be resolved.
 
