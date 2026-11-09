@@ -145,7 +145,7 @@ aliases:
   with a concrete address.
   ([Issue #60666](https://github.com/istio/istio/issues/60666))
 
-- **Fixed** an issue in ambient mode where the CNI node agent auto-detected `iptables` backend
+- **Fixed** an issue in ambient mode where the CNI node agent's auto-detected `iptables` backend
   (`legacy` vs `nft`) could flip between agent restarts, causing duplicate
   redirect rules to be written into already-enrolled pods.
   ([Issue #61020](https://github.com/istio/istio/issues/61020))
@@ -482,13 +482,13 @@ aliases:
 
 - **Fixed** the JWKS resolver's periodic background refresh caching a fetched response without
   validating that it looks like a JWKS. The synchronous fetch path already rejected a response
-  that isn't shaped like a JWKS (`{"keys": [...]}`), closing off a `RequestAuthentication`
-  `jwksUri` pointed at an unintended internal endpoint from having its response cached and
-  served back as if it were a JWKS; the background refresh path now applies the same check.
+  that isn't shaped like a JWKS (`{"keys": [...]}`), but the background refresh did not, so a
+  `RequestAuthentication` `jwksUri` pointed at an unintended internal endpoint could have its
+  response cached and served back as if it were a JWKS. The background refresh path now applies the same check.
 
   This vulnerability was discovered and reported by Anthropic and Ada Logics.
 
-- **Fixed** an SSRF gap in istiod's `RequestAuthentication` `jwksUri` fetching. istiod now
+- **Fixed** an SSRF gap in istiod's `RequestAuthentication` `jwksUri` fetching. `istiod` now
   blocks link-local and known cloud metadata addresses (such as `169.254.169.254`) at the dial
   level by default and rejects fetched responses that are not a valid JWKS. Private and loopback
   ranges remain reachable and can be blocked with `BLOCKED_CIDRS_IN_JWKS_URIS`.
@@ -568,7 +568,7 @@ aliases:
 
 ## Telemetry
 
-- **Improved** mesh configuration load failures with source-specific error and fallback logging and the `istiod_mesh_config_load_errors_total` counter.
+- **Improved** mesh configuration load failure reporting with source-specific error and fallback logging and a new `istiod_mesh_config_load_errors_total` counter.
   ([Issue #61563](https://github.com/istio/istio/issues/61563))
 
 - **Added** native Prometheus protobuf passthrough through `pilot-agent`'s metrics merger. When a Prometheus scraper sends `Accept: application/vnd.google.protobuf; proto=io.prometheus.client.MetricFamily; encoding=delimited`, Envoy's native (sparse) histograms now reach the scraper unchanged instead of being silently degraded by text-format re-encoding. The pre-existing text/OpenMetrics scrape path is byte-for-byte unchanged.
@@ -681,7 +681,7 @@ aliases:
 
 - **Updated** minimum supported Kubernetes version to 1.33.x.
 
-- **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to xDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). istioctl now verifies the server against the Istio root certificate from the `istio-ca-root-cert` `ConfigMap` and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
+- **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to xDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). `istioctl` now verifies the server against the Istio root certificate from the `istio-ca-root-cert` `ConfigMap` and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
   ([Issue #41937](https://github.com/istio/istio/issues/41937))
 
   This issue was reported by [Leon Zlobecki](https://leonz.is).
