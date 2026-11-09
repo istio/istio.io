@@ -262,7 +262,7 @@ aliases:
   traffic through a waypoint in another namespace. The canary waypoint is now subject to the
   same cross-namespace refusal as the primary.
 
-**Credit**: This issue was reported by Raphael Zanarelli.
+  This issue was reported by Raphael Zanarelli.
 
 - **Fixed** an issue where `istio-cni` skipped cleanup for an ambient pod deleted together with its namespace, leaving its ztunnel proxy and host probe ipset entry behind.
 
@@ -293,14 +293,14 @@ aliases:
   reference. Authorization now runs first, returning `RefNotPermitted` for any
   ungranted cross-namespace reference.
 
-**Credit**: This issue was reported by Darryl Jaskolski.
+  This issue was reported by Darryl Jaskolski.
 
 - **Fixed** an HBONE stream leak in ambient mode where `connect_originate` streams
   could stay open forever after a peer fully closed the connection, via the Envoy
   update included in this release.
   ([Issue #60074](https://github.com/istio/istio/issues/60074))
 
-**Credit**: This issue was reported by Torben Strüver.
+  This issue was reported by Torben Strüver.
 
 - **Fixed** removing a single event handler from a CRD-backed informer removing every handler on
   that informer. In ambient multi-cluster mode this fired on every remote cluster credential
@@ -486,7 +486,7 @@ aliases:
   `jwksUri` pointed at an unintended internal endpoint from having its response cached and
   served back as if it were a JWKS; the background refresh path now applies the same check.
 
-**Credit**: This vulnerability was discovered and reported by Anthropic and Ada Logics.
+  This vulnerability was discovered and reported by Anthropic and Ada Logics.
 
 - **Fixed** an SSRF gap in istiod's `RequestAuthentication` `jwksUri` fetching. istiod now
   blocks link-local and known cloud metadata addresses (such as `169.254.169.254`) at the dial
@@ -497,7 +497,7 @@ aliases:
   `sub` claim. The subject is now validated to have exactly the
   `system:serviceaccount:<namespace>:<serviceaccount>` form before use.
 
-**Credit**: This issue was reported by Kaizhe Huang.
+  This issue was reported by Kaizhe Huang.
 
 - **Fixed** `CreateCertificate` returning raw Kubernetes API error text to callers on the
   experimental Kubernetes CSR RA path (`EXTERNAL_CA=ISTIOD_RA_KUBERNETES_API`), which leaked
@@ -533,7 +533,7 @@ aliases:
   inject additional fields into the generated pod or deployment spec. These annotations are now
   escaped consistently at every template sink.
 
-**Credit**: This vulnerability was discovered and reported by localhost-detect.
+  This vulnerability was discovered and reported by localhost-detect.
 
 - **Fixed** an issue where a new inbound connection reusing the 4-tuple of a torn-down connection
   could bypass the sidecar proxy by matching a stale `conntrack` `ESTABLISHED` entry. A rule matching only `SYN`
@@ -549,7 +549,7 @@ aliases:
   `BLOCKED_CIDRS_IN_WASM_FETCH` environment variable lets operators additionally block
   private ranges or specific in-cluster addresses if desired.
 
-**Credit**: The image fetcher redirect bypass was reported by 박현범 and independently by Svpernova. The unrestricted HTTP fetcher was reported by Aser Ahmed.
+  The image fetcher redirect bypass was reported by 박현범 and independently by Svpernova. The unrestricted HTTP fetcher was reported by Aser Ahmed.
 
 - **Fixed** waypoint proxies failing to receive remote JWKS clusters when a `RequestAuthentication` policy uses a service `targetRef`.
 
@@ -557,7 +557,7 @@ aliases:
 
 - **Fixed** istiod debug endpoints (`/debug/config_dump`, `/debug/edsz`, and the xDS `istio.io/debug/config_dump` type) matching `proxyID` as a substring, which let a caller read the config of other proxies in its own namespace by passing a partial ID. `proxyID` must now be the exact `<pod>.<namespace>` (or full connection ID); short forms such as `proxyID=istio-ingressgateway` no longer match.
 
-**Credit**: This issue was reported by 박현범.
+  This issue was reported by 박현범.
 
 - **Fixed** a crash in istiod where an `istio.io/debug` xDS request with a malformed resource name caused a nil
   pointer dereference. The request is now rejected with `InvalidArgument`.
@@ -607,7 +607,7 @@ aliases:
   arbitrary Wasm binary. The plaintext retry is now only attempted for registries the
   operator has explicitly allowlisted via `WASM_INSECURE_REGISTRIES`.
 
-**Credit**: This vulnerability was discovered and reported by Adam Korczynski.
+  This vulnerability was discovered and reported by Adam Korczynski.
 
 ## Installation
 
@@ -684,7 +684,7 @@ aliases:
 - **Fixed** `istioctl` skipping verification of the istiod certificate when connecting to xDS with a service account token (`istioctl proxy-status`, `istioctl x internal-debug`, and `--xds-address` in general). istioctl now verifies the server against the Istio root certificate from the `istio-ca-root-cert` `ConfigMap` and the expected server name: `--authority` if set, the host of `--xds-address` if it is a DNS name, or `istiod.<istio-namespace>.svc` when connecting to an IP address or localhost. Pass `--insecure` (or set `ISTIOCTL_INSECURE=true`) to explicitly skip verification.
   ([Issue #41937](https://github.com/istio/istio/issues/41937))
 
-**Credit**: This issue was reported by [Leon Zlobecki](https://leonz.is).
+  This issue was reported by [Leon Zlobecki](https://leonz.is).
 
 - **Fixed** `istioctl analyze` building Kubernetes clients directly from `istio-system`
   multicluster secrets without sanitizing the kubeconfig, which could allow a crafted
@@ -692,7 +692,7 @@ aliases:
   fields) on the machine running `istioctl`. The kubeconfig is now sanitized the same
   way istiod already sanitizes these secrets.
 
-**Credit**: This vulnerability was discovered and reported by Adam Korczynski.
+  This vulnerability was discovered and reported by Adam Korczynski.
 
 - **Fixed** `istioctl install --set values.base.validationFailurePolicy` being rejected as an
   unknown field. The value was already supported by the `base` and `istiod` charts, but was
@@ -715,7 +715,7 @@ aliases:
   Crafted values could inject additional shell commands when those scripts were run.
   Arguments are now escaped with `shellescape.Quote`.
 
-**Credit**: This vulnerability was discovered and reported by OpenSec Intelligence.
+  This vulnerability was discovered and reported by OpenSec Intelligence.
 
 - **Fixed** `istioctl analyze` so `VirtualService` references to Kubernetes Gateway API `Gateway` resources no longer produce false `ReferencedResourceNotFound` errors.
   ([Issue #60708](https://github.com/istio/istio/issues/60708))
