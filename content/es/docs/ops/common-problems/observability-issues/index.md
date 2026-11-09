@@ -1,6 +1,6 @@
 ---
-title: Observability Problems
-description: Dealing with telemetry collection issues.
+title: Problemas de observabilidad
+description: Cómo resolver problemas con la recopilación de telemetría.
 force_inline_toc: true
 weight: 30
 aliases:
@@ -10,16 +10,16 @@ owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-## No traces appearing in Zipkin when running Istio locally on Mac
+## No aparecen trazas en Zipkin al ejecutar Istio localmente en Mac {#no-traces-appearing-in-zipkin-when-running-istio-locally-on-mac}
 
-Istio is installed and everything seems to be working except there are no traces showing up in Zipkin when there
-should be.
+Istio está instalado y todo parece funcionar, excepto que no aparecen trazas en Zipkin cuando
+debería haberlas.
 
-This may be caused by a known [Docker issue](https://github.com/docker/for-mac/issues/1260) where the time inside
-containers may skew significantly from the time on the host machine. If this is the case,
-when you select a very long date range in Zipkin you will see the traces appearing as much as several days too early.
+Esto puede deberse a un [problema conocido de Docker](https://github.com/docker/for-mac/issues/1260) por el que la hora dentro de
+los contenedores puede desfasarse significativamente de la hora de la máquina host. Si este es el caso,
+cuando selecciones un rango de fechas muy amplio en Zipkin, verás que las trazas aparecen hasta varios días antes de lo que deberían.
 
-You can also confirm this problem by comparing the date inside a Docker container to outside:
+También puedes confirmar este problema comparando la fecha dentro de un contenedor de Docker con la de fuera:
 
 {{< text bash >}}
 $ docker run --entrypoint date registry.istio.io/testing/ubuntu-16-04-slave:latest
@@ -31,28 +31,28 @@ $ date -u
 Thu Jun 15 02:25:42 UTC 2017
 {{< /text >}}
 
-To fix the problem, you'll need to shutdown and then restart Docker before reinstalling Istio.
+Para solucionar el problema, tendrás que detener y luego reiniciar Docker antes de reinstalar Istio.
 
-## Missing Grafana output
+## Falta la salida de Grafana {#missing-grafana-output}
 
-If you're unable to get Grafana output when connecting from a local web client to Istio remotely hosted, you
-should validate the client and server date and time match.
+Si no puedes obtener la salida de Grafana al conectarte desde un cliente web local a un Istio alojado de forma remota,
+debes comprobar que la fecha y la hora del cliente y del servidor coincidan.
 
-The time of the web client (e.g. Chrome) affects the output from Grafana. A simple solution
-to this problem is to verify a time synchronization service is running correctly within the
-Kubernetes cluster and the web client machine also is correctly using a time synchronization
-service. Some common time synchronization systems are NTP and Chrony. This is especially
-problematic in engineering labs with firewalls. In these scenarios, NTP may not be configured
-properly to point at the lab-based NTP services.
+La hora del cliente web (p. ej., Chrome) afecta a la salida de Grafana. Una solución sencilla
+a este problema es verificar que un servicio de sincronización horaria se esté ejecutando correctamente dentro del
+clúster de Kubernetes y que la máquina del cliente web también esté usando correctamente un servicio de sincronización
+horaria. Algunos sistemas habituales de sincronización horaria son NTP y Chrony. Esto es especialmente
+problemático en laboratorios de ingeniería con firewalls. En estos escenarios, es posible que NTP no esté configurado
+correctamente para apuntar a los servicios NTP del laboratorio.
 
-## Verify Istio CNI pods are running (if used)
+## Verifica que los pods de Istio CNI se estén ejecutando (si se usan) {#verify-istio-cni-pods-are-running-if-used}
 
-The Istio CNI plugin performs the Istio mesh pod traffic redirection in the Kubernetes pod lifecycle’s network setup phase, thereby removing the [requirement for the `NET_ADMIN` and `NET_RAW` capabilities](/docs/ops/deployment/application-requirements/) for users deploying pods into the Istio mesh. The Istio CNI plugin replaces the functionality provided by the `istio-init` container.
+El plugin Istio CNI realiza la redirección del tráfico de los pods de la mesh de Istio en la fase de configuración de red del ciclo de vida del pod de Kubernetes, lo que elimina el [requisito de las capacidades `NET_ADMIN` y `NET_RAW`](/es/docs/ops/deployment/application-requirements/) para los usuarios que despliegan pods en la mesh de Istio. El plugin Istio CNI reemplaza la funcionalidad que proporciona el contenedor `istio-init`.
 
-1. Verify that the `istio-cni-node` pods are running:
+1. Verifica que los pods `istio-cni-node` se estén ejecutando:
 
     {{< text bash >}}
     $ kubectl -n istio-system get pod -l k8s-app=istio-cni-node
     {{< /text >}}
 
-1. If [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) is enforced in your cluster, ensure the namespace where `istio-cni-node` pods run (by default `istio-system`) uses the `privileged` [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged) profile to allow the `NET_ADMIN` and `NET_RAW` capabilities.
+1. Si [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/) se aplica en tu clúster, asegúrate de que el namespace donde se ejecutan los pods `istio-cni-node` (de forma predeterminada, `istio-system`) use el perfil `privileged` de los [Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/#privileged) para permitir las capacidades `NET_ADMIN` y `NET_RAW`.
