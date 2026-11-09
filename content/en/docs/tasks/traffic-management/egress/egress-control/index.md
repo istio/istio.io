@@ -196,13 +196,13 @@ any other unintentional accesses.
         "Accept": "*/*",
         "Host": "httpbin.org",
         ...
-        "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
+        "X-Envoy-Attempt-Count": "1",
         ...
       }
     }
     {{< /text >}}
 
-    Note the headers added by the Istio sidecar proxy: `X-Envoy-Decorator-Operation`.
+    Note the `X-Envoy-*` headers added by the Istio sidecar proxy.
 
 1.  Check the log of the sidecar proxy of `SOURCE_POD`:
 
