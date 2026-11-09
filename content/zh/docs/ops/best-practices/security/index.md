@@ -538,6 +538,16 @@ servers:
 同时在一个共享的网关实例上运行多个较不敏感的域，例如 `blog.example.com` 和 `store.example.com`。
 这种方式提供了更好的纵深防御并且利于实现监管准则。
 
+### 多集群网格中的网关凭据 {#gateway-credentials-in-multicluster-meshes}
+
+在多集群网格中，运行在远程集群中的网关可以使用存储在配置集群中的 `credentialName` Secret。
+如果在网关自身所在的集群中找不到该 Secret，istiod 会回退到配置集群进行查找。
+访问权限依据网关所运行集群的 RBAC 进行授权。
+
+这源于{{< gloss "namespace sameness" >}}命名空间相同性{{< /gloss >}}：同一个命名空间在每个集群中都应由同一团队拥有。
+请在各集群中对同一命名空间保持一致的 Secret RBAC 配置，
+并且当命名空间在不同集群中由不同团队拥有时，应避免在这些集群之间共用同一个命名空间名称。
+
 ### 显式阻止所有的敏感 http 主机被宽泛的 SNI 匹配 {#explicitly-disable-all-the-sensitive-http-host-under-relaxed-sni-host-matching}
 
 使用多个 `Gateway` 资源来在不同的主机上定义多个双向或者单向 TLS 是很合理的。
