@@ -152,7 +152,7 @@ recursos deben ser eliminados manualmente.
 
 Consulta [Personalizar la configuración de la instalación](/es/docs/setup/additional-setup/customize-installation/) para obtener más información sobre la personalización de la instalación.
 
-## Desinstalar Istio
+## Desinstalar Istio {#uninstall-istio}
 
 Para desinstalar completamente Istio de un clúster, ejecuta el siguiente comando:
 
