@@ -5,8 +5,14 @@
   supported: "No, development only"
   releaseDate:
   eolDate:
-  k8sVersions: ["1.32", "1.33", "1.34", "1.35", "1.36", "1.37"]
-  testedK8sVersions: ["1.24", "1.25", "1.26", "1.27", "1.28", "1.29", "1.30"]
+  k8sVersions: ["1.33", "1.34", "1.35", "1.36", "1.37"]
+  testedK8sVersions: []
+- version: "1.32"
+  supported: "Yes"
+  releaseDate: "Nov 9, 2026"
+  eolDate: "~Jun 2027 (Expected)"
+  k8sVersions: ["1.33", "1.34", "1.35", "1.36", "1.37"]
+  testedK8sVersions: []
 - version: "1.31"
   supported: "Yes"
   releaseDate: "Aug 27, 2026"
