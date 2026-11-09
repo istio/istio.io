@@ -13,12 +13,12 @@ test: no
 
 ## Seemingly valid configuration is rejected
 
-Use [istioctl validate -f](/es/docs/reference/commands/istioctl/#istioctl-validate) and [istioctl analyze](/es/docs/reference/commands/istioctl/#istioctl-analyze) for more insight into why the configuration is rejected.  Use an _istioctl_ CLI with a similar version to the control plane version.
+Use [istioctl validate -f](/docs/reference/commands/istioctl/#istioctl-validate) and [istioctl analyze](/docs/reference/commands/istioctl/#istioctl-analyze) for more insight into why the configuration is rejected.  Use an _istioctl_ CLI with a similar version to the control plane version.
 
 The most commonly reported problems with configuration are YAML indentation and array notation (`-`) mistakes.
 
 Manually verify your configuration is correct, cross-referencing
-[Istio API reference](/es/docs/reference/config) when
+[Istio API reference](/docs/reference/config) when
 necessary.
 
 ## Invalid configuration is accepted
