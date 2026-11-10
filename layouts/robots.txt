@@ -1,9 +1,13 @@
-# We only want istio.io/latest/ indexed.
-# Preliminary and archive sites are excluded.
+# Only istio.io/latest/ is indexed. Netlify sets URL per site, so
+# preliminary, staging and deploy previews block everything.
 
 User-agent: *
+{{ if eq (getenv "URL") "https://istio.io" -}}
 Disallow: /v0.*
 Disallow: /v1.*
 {{ if not .Site.Data.args.archive_landing -}}
 Sitemap: https://istio.io/sitemap.xml
 {{- end -}}
+{{- else -}}
+Disallow: /
+{{- end }}
