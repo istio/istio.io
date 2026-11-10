@@ -187,13 +187,13 @@ Istio 代理允许调用未知的服务。如果这个选项设置为 `REGISTRY_
         "Accept": "*/*",
         "Host": "httpbin.org",
         ...
-        "X-Envoy-Decorator-Operation": "httpbin.org:80/*",
+        "X-Envoy-Attempt-Count": "1",
         ...
       }
     }
     {{< /text >}}
 
-    注意由 Istio Sidecar 代理添加的头信息：`X-Envoy-Decorator-Operation`。
+    注意由 Istio Sidecar 代理添加的 `X-Envoy-*` 头信息。
 
 1. 检查 `SOURCE_POD` 的 Sidecar 代理的日志：
 
