@@ -29,33 +29,7 @@ export  const keyCodes = Object.freeze({
 
 // copy the given text to the system clipboard
 export function copyToClipboard(str: string): void {
-    const sel = document.getSelection();
-    if (!sel) {
-        return;
-    }
-
-    const el = document.createElement("textarea");   // Create a <textarea> element
-    el.value = str;                                  // Set its value to the string that you want copied
-    el.setAttribute("readonly", "");                 // Make it readonly to be tamper-proof
-    el.style.position = "absolute";
-    el.style.left = "-9999px";                       // Move outside the screen to make it invisible
-    document.body.appendChild(el);                   // Append the <textarea> element to the HTML document
-
-    if (sel.rangeCount > 0) {
-        const oldSelection = sel.getRangeAt(0);
-
-        el.select();                                     // Select the <textarea> content
-        document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
-        document.body.removeChild(el);                   // Remove the <textarea> element
-
-        // restore the previous selection
-        sel.removeAllRanges();
-        sel.addRange(oldSelection);
-    } else {
-        el.select();                                     // Select the <textarea> content
-        document.execCommand("copy");                    // Copy - only works as a result of a user action (e.g. click events)
-        document.body.removeChild(el);                   // Remove the <textarea> element
-    }
+    navigator.clipboard.writeText(str).catch(err => console.error("Failed to copy to clipboard:", err));
 }
 
 // Saves a string to a particular client-side file
