@@ -53,6 +53,8 @@
 1.31.0
 1.31.x
 1.31.x.
+1.32.x
+1.33.x.
 1.4.x
 1.4.x.
 1.5.x
@@ -154,6 +156,7 @@ Alex
 Alexa
 Alibaba
 allowlist
+allowlisted
 allow_missing
 Alon
 ALPN-based
@@ -192,6 +195,7 @@ arm64
 Artem
 ArtifactHub
 Arunkumar
+Aser
 AssemblyScript
 async
 Atlassian
@@ -753,6 +757,7 @@ h2
 h2c
 Haidian
 Hardcoded
+hardcoded
 hardcoding
 Harri
 Harvey
@@ -825,6 +830,7 @@ intra-cluster
 intra-mesh
 intrahost
 intranode
+invalidations
 Invasiveness
 IOPs
 ip
@@ -943,6 +949,7 @@ Karma's
 katacoda
 Katie
 Kaul
+Kawell
 Keates
 Kebe
 keepalive
@@ -1154,6 +1161,7 @@ non-revisioned
 non-sandboxed
 non-UTF-8
 non-UTF8
+nondeterministic
 noop
 normalization
 not-ready
@@ -1257,6 +1265,7 @@ pre-1
 pre-alpha
 pre-ambient
 pre-connected
+pre-existing
 pre-marshaled
 pre-parsed
 pre-release
@@ -1490,6 +1499,7 @@ Stoney
 strace
 strongSwan
 struct
+Strüver
 Styra
 subcommand
 subcommands
@@ -1514,6 +1524,7 @@ Suri
 svc
 svc.com
 svg
+Svpernova
 Swisscom
 symlink
 symlinked
@@ -1558,6 +1569,7 @@ tolerations
 toolbelt
 toolchain
 topologySpreadConstraints
+Torben
 touchpoints
 TPUs
 tradeoff
@@ -1600,6 +1612,7 @@ ungranted
 unmanaged
 Unmarshalers
 Unmarshaling
+unmarshalling
 unnormalized
 unsampled
 unschedulable
@@ -1650,6 +1663,7 @@ v1.38
 v1.39
 v1.4.
 v1.4.1.
+v1.40
 v1.5
 v1.5.0
 v1.5.0.
@@ -1676,6 +1690,7 @@ v2.17.0.
 v2.26.0
 v2.26.0.
 v2.31.0.
+v2.34.1.
 v3
 v3.18.5
 v4

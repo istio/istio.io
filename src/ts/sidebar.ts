@@ -173,11 +173,11 @@ function handleSidebar(): void {
             });
         }
         if (url.substring(url.length - 5, url.length) === "docs/") {
-            if (link) {
+            if (link && link.length) {
                 link[0].classList.add("current");
             }
         } else {
-            if (link) {
+            if (link && link.length) {
                 link[0].classList.remove("current");
             }
             const list = sidebar.getElementsByTagName("a");

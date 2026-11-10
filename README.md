@@ -106,19 +106,6 @@ This script requires:
 
 1. Once the release is published, or very close to being completed, the docs WG should migrate the https://istio.io Netlify deployment to use this new release branch
 
-1. Go to the [Google Custom Search Engine](https://cse.google.com) and do the following:
-
-    - Download the istio.io CSE context file from the Advanced tab.
-
-    - Add a new FacetItem at the top of the file containing the previous release's version number. In
-    this case, this would be `V1.6`.
-
-    - Upload the updated CSE context file to the site.
-
-    - In the Setup section, add a new site that covers the previous release's archive directory. In this
-    case, the site URL would be `istio.io/v1.6/*`. Set the label of this site to the name of the
-    facet item created above (`V1.6` in this case).
-
 ### Creating a patch release
 
 A few days before the patch release, the release managers should notify the Doc WG that the release
