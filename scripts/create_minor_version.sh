@@ -217,7 +217,6 @@ step2() {
         s/^full_version: .*$/full_version: \"${NEXT_MINOR}.0\"/;
         s/^previous_version: .*$/previous_version: \"${CURR_MINOR}\"/;
         s/^source_branch_name:.*$/source_branch_name: master/;
-        s/^copyright_year: .*$/copyright_year: \"$(date +%Y)\"/;
         s/^doc_branch_name: .*$/doc_branch_name: master/
     " data/args.yml
 
