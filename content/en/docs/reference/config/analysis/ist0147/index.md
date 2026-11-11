@@ -27,4 +27,4 @@ Error [IST0147] (Pod default/istio-ingressgateway-5bdb6f9c8b-xk2vz) Pod istio-in
 
 1. Make sure that the injector webhook is installed and is running.
 
-1. Create the pod again. For a `Deployment`, use `kubectl rollout restart`.
+1. Recreate the pod. For a `Deployment`, use `kubectl rollout restart`.
