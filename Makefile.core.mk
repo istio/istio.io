@@ -255,6 +255,7 @@ test_status:
 update-gateway-version: tidy-go
 	$(eval GATEWAY_VERSION := ${shell scripts/get_gateway_api_version.sh})
 	@${shell sed -Ei 's|k8s_gateway_api_version: ".*"|k8s_gateway_api_version: "${GATEWAY_VERSION}"|' 'data/args.yml'}
+	@sed -Ei '/^- version: "master"/,/^- version: "[0-9]/ s|gatewayAPIVersion: ".*"|gatewayAPIVersion: "${GATEWAY_VERSION}"|' data/compatibility/supportStatus.yml
 
 include common/Makefile.common.mk
 
