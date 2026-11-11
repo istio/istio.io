@@ -6,7 +6,7 @@ test: n/a
 ---
 
 This message occurs when a network in the mesh networks configuration has an endpoint with a
-`fromRegistry` value that Istio does not know.
+`fromRegistry` value that Istio does not recognize.
 
 The known service registries are `Kubernetes`, `External`, and the cluster IDs of the remote
 clusters that have a remote secret (a `Secret` with the label `istio/multiCluster: "true"`).

@@ -6,7 +6,7 @@ test: n/a
 ---
 
 This message occurs when there are `RequestAuthentication` resources in the mesh, but istiod does not have
-the `BLOCKED_CIDRS_IN_JWKS_URIS` environment variable.
+the `BLOCKED_CIDRS_IN_JWKS_URIS` environment variable set.
 
 Istiod gets the JSON Web Key Set (JWKS) from the `jwksUri` of each `RequestAuthentication`. Without
 `BLOCKED_CIDRS_IN_JWKS_URIS`, istiod can send requests to all addresses, including internal
