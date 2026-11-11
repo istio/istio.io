@@ -1,6 +1,6 @@
 ---
-title: Configuring Gateway Network Topology
-description: How to configure gateway network topology.
+title: Configurar la topología de red de los gateways
+description: Cómo configurar la topología de red de los gateways.
 weight: 60
 keywords: [traffic-management,ingress,gateway]
 owner: istio/wg-networking-maintainers
@@ -12,31 +12,31 @@ status: Alpha
 
 {{< boilerplate gateway-api-support >}}
 
-## Forwarding external client attributes (IP address, certificate info) to destination workloads
+## Reenviar atributos del cliente externo (dirección IP, información del certificado) a los workloads de destino {#forwarding-external-client-attributes-ip-address-certificate-info-to-destination-workloads}
 
-Many applications require knowing the client IP address and certificate information of the originating request to behave
-properly. Notable cases include logging and audit tools that require the client IP be populated and security tools,
-such as Web Application Firewalls (WAF), that need this information to apply rule sets properly. The ability to
-provide client attributes to services has long been a staple of reverse proxies. To forward these client
-attributes to destination workloads, proxies use the `X-Forwarded-For` (XFF) and `X-Forwarded-Client-Cert` (XFCC) headers.
+Muchas aplicaciones necesitan conocer la dirección IP del cliente y la información del certificado de la solicitud original para funcionar
+correctamente. Entre los casos más destacados están las herramientas de registro y auditoría, que necesitan que se complete la IP del cliente, y las herramientas de seguridad,
+como los firewalls de aplicaciones web (WAF), que necesitan esta información para aplicar correctamente sus conjuntos de reglas. La capacidad de
+proporcionar atributos del cliente a los servicios es desde hace tiempo una función básica de los proxies inversos. Para reenviar estos atributos
+del cliente a los workloads de destino, los proxies usan los encabezados `X-Forwarded-For` (XFF) y `X-Forwarded-Client-Cert` (XFCC).
 
-Today's networks vary widely in nature, but support for these attributes is a requirement no matter what the network topology is.
-This information should be preserved
-and forwarded whether the network uses cloud-based Load Balancers, on-premise Load Balancers, gateways that are
-exposed directly to the internet, gateways that serve many intermediate proxies, and other deployment topologies not
-specified.
+Las redes actuales son muy diversas, pero el soporte de estos atributos es un requisito sea cual sea la topología de red.
+Esta información debe conservarse
+y reenviarse tanto si la red usa balanceadores de carga en la nube como balanceadores de carga locales (on-premise), gateways
+expuestos directamente a internet, gateways que atienden a muchos proxies intermedios u otras topologías de despliegue no
+especificadas.
 
-While Istio provides an [ingress gateway](/docs/tasks/traffic-management/ingress/ingress-control/), given the varieties
-of architectures mentioned above, reasonable defaults are not able to be shipped that support the proper forwarding of
-client attributes to the destination workloads.
-This becomes ever more vital as Istio multicluster deployment models become more common.
+Aunque Istio proporciona un [ingress gateway](/es/docs/tasks/traffic-management/ingress/ingress-control/), dada la variedad
+de arquitecturas mencionadas, no es posible incluir valores predeterminados razonables que permitan reenviar correctamente
+los atributos del cliente a los workloads de destino.
+Esto es cada vez más importante a medida que los modelos de despliegue multiclúster de Istio se vuelven más comunes.
 
-For more information on `X-Forwarded-For`, see the IETF's [RFC](https://tools.ietf.org/html/rfc7239).
+Para más información sobre `X-Forwarded-For`, consulta el [RFC](https://tools.ietf.org/html/rfc7239) del IETF.
 
-## Configuring network topologies
+## Configurar topologías de red {#configuring-network-topologies}
 
-Configuration of XFF and XFCC headers can be set globally for all gateway workloads via `MeshConfig` or per gateway using
-a pod annotation. For example, to configure globally during install or upgrade when using an `IstioOperator` custom resource:
+Los encabezados XFF y XFCC se pueden configurar de forma global para todos los workloads de gateway mediante `MeshConfig`, o por gateway mediante
+una anotación del pod. Por ejemplo, para configurarlos de forma global durante la instalación o la actualización con un recurso personalizado `IstioOperator`:
 
 {{< text syntax=yaml snip_id=none >}}
 spec:
@@ -47,8 +47,8 @@ spec:
         forwardClientCertDetails: <ENUM_VALUE>
 {{< /text >}}
 
-You can also configure both of these settings by adding the `proxy.istio.io/config` annotation to the Pod spec
-of your Istio ingress gateway.
+También puedes configurar ambos ajustes agregando la anotación `proxy.istio.io/config` a la especificación del Pod
+de tu Istio ingress gateway.
 
 {{< text syntax=yaml snip_id=none >}}
 ...
@@ -57,27 +57,27 @@ of your Istio ingress gateway.
       "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": <VALUE>, "forwardClientCertDetails": <ENUM_VALUE> } }'
 {{< /text >}}
 
-### Configuring X-Forwarded-For Headers
+### Configurar los encabezados X-Forwarded-For {#configuring-x-forwarded-for-headers}
 
-Applications rely on reverse proxies to forward client attributes in a request, such as `X-Forward-For` header. However, due to the variety of network
-topologies that Istio can be deployed in, you must set the `numTrustedProxies` to the number of trusted proxies deployed in front
-of the Istio gateway proxy, so that the client address can be extracted correctly.
-This controls the value populated by the ingress gateway in the `X-Envoy-External-Address` header
-which can be reliably used by the upstream services to access client's original IP address.
+Las aplicaciones dependen de los proxies inversos para reenviar los atributos del cliente en una solicitud, como el encabezado `X-Forward-For`. Sin embargo, debido a la variedad de topologías
+de red en las que se puede desplegar Istio, debes configurar `numTrustedProxies` con el número de proxies de confianza desplegados delante
+del proxy del gateway de Istio, para que la dirección del cliente se pueda extraer correctamente.
+Esto controla el valor que el ingress gateway coloca en el encabezado `X-Envoy-External-Address`,
+que los servicios upstream pueden usar de forma fiable para obtener la dirección IP original del cliente.
 
-For example, if you have a cloud based Load Balancer and a reverse proxy in front of your Istio gateway, set `numTrustedProxies` to `2`.
+Por ejemplo, si tienes un balanceador de carga en la nube y un proxy inverso delante de tu gateway de Istio, configura `numTrustedProxies` en `2`.
 
 {{< idea >}}
-Note that all proxies in front of the Istio gateway proxy must parse HTTP traffic and append to the `X-Forwarded-For`
-header at each hop. If the number of entries in the `X-Forwarded-For` header is less than the number of
-trusted hops configured, Envoy falls back to using the immediate downstream address as the trusted
-client address. Please refer to the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
-to understand how `X-Forwarded-For` headers and trusted client addresses are determined.
+Ten en cuenta que todos los proxies que estén delante del proxy del gateway de Istio deben analizar el tráfico HTTP y agregar datos al encabezado `X-Forwarded-For`
+en cada salto. Si el número de entradas del encabezado `X-Forwarded-For` es menor que el número de
+saltos de confianza configurados, Envoy recurre a la dirección downstream inmediata como dirección de cliente
+de confianza. Consulta la [documentación de Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-for)
+para entender cómo se determinan los encabezados `X-Forwarded-For` y las direcciones de cliente de confianza.
 {{< /idea >}}
 
-#### Example using X-Forwarded-For capability with httpbin
+#### Ejemplo de uso de la funcionalidad X-Forwarded-For con httpbin {#example-using-x-forwarded-for-capability-with-httpbin}
 
-1. Run the following command to create a file named `topology.yaml` with `numTrustedProxies` set to `2` and install Istio:
+1. Ejecuta el siguiente comando para crear un archivo llamado `topology.yaml` con `numTrustedProxies` configurado en `2` e instalar Istio:
 
     {{< text syntax=bash snip_id=install_num_trusted_proxies_two >}}
     $ cat <<EOF > topology.yaml
@@ -93,30 +93,30 @@ to understand how `X-Forwarded-For` headers and trusted client addresses are det
     {{< /text >}}
 
     {{< idea >}}
-    If you previously installed an Istio ingress gateway, restart all ingress gateway pods after step 1.
+    Si ya habías instalado un Istio ingress gateway, reinicia todos los pods del ingress gateway después del paso 1.
     {{</ idea >}}
 
-1. Create an `httpbin` namespace:
+1. Crea un namespace `httpbin`:
 
     {{< text syntax=bash snip_id=create_httpbin_namespace >}}
     $ kubectl create namespace httpbin
     namespace/httpbin created
     {{< /text >}}
 
-1. Set the `istio-injection` label to `enabled` for sidecar injection:
+1. Configura la etiqueta `istio-injection` con el valor `enabled` para la inyección de sidecars:
 
     {{< text syntax=bash snip_id=label_httpbin_namespace >}}
     $ kubectl label --overwrite namespace httpbin istio-injection=enabled
     namespace/httpbin labeled
     {{< /text >}}
 
-1. Deploy `httpbin` in the `httpbin` namespace:
+1. Despliega `httpbin` en el namespace `httpbin`:
 
     {{< text syntax=bash snip_id=apply_httpbin >}}
     $ kubectl apply -n httpbin -f @samples/httpbin/httpbin.yaml@
     {{< /text >}}
 
-1. Deploy a gateway associated with `httpbin`:
+1. Despliega un gateway asociado a `httpbin`:
 
 {{< tabset category-name="config-api" >}}
 
@@ -139,7 +139,7 @@ $ kubectl wait --for=condition=programmed gtw -n httpbin httpbin-gateway
 
 {{< /tabset >}}
 
-6) Set a local `GATEWAY_URL` environmental variable based on your Istio ingress gateway's IP address:
+6) Configura una variable de entorno local `GATEWAY_URL` basada en la dirección IP de tu Istio ingress gateway:
 
 {{< tabset category-name="config-api" >}}
 
@@ -161,7 +161,7 @@ $ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-ga
 
 {{< /tabset >}}
 
-7) Run the following `curl` command to simulate a request with proxy addresses in the `X-Forwarded-For` header:
+7) Ejecuta el siguiente comando `curl` para simular una solicitud con direcciones de proxies en el encabezado `X-Forwarded-For`:
 
     {{< text syntax=bash snip_id=curl_xff_headers >}}
     $ curl -s -H 'X-Forwarded-For: 56.5.6.7, 72.9.5.6, 98.1.2.3' "$GATEWAY_URL/get?show_env=true" | jq '.headers["X-Forwarded-For"][0]'
@@ -169,26 +169,26 @@ $ export GATEWAY_URL=$(kubectl get gateways.gateway.networking.k8s.io httpbin-ga
     {{< /text >}}
 
 {{< tip >}}
-In the above example `$GATEWAY_URL` resolved to 10.244.0.1. This will not be the case in your environment.
+En el ejemplo anterior, `$GATEWAY_URL` se resolvió como 10.244.0.1. En tu entorno no será así.
 {{< /tip >}}
 
-The above output shows the request headers that the `httpbin` workload received. When the Istio gateway received this
-request, it set the `X-Envoy-External-Address` header to the second to last (`numTrustedProxies: 2`) address in the
-`X-Forwarded-For` header from your curl command. Additionally, the gateway appends its own IP to the `X-Forwarded-For`
-header before forwarding it to the httpbin workload.
+La salida anterior muestra los encabezados de la solicitud que recibió el workload `httpbin`. Cuando el gateway de Istio recibió esta
+solicitud, configuró el encabezado `X-Envoy-External-Address` con la penúltima dirección (`numTrustedProxies: 2`) del
+encabezado `X-Forwarded-For` de tu comando curl. Además, el gateway agrega su propia IP al encabezado `X-Forwarded-For`
+antes de reenviar la solicitud al workload httpbin.
 
-### Configuring X-Forwarded-Client-Cert Headers
+### Configurar los encabezados X-Forwarded-Client-Cert {#configuring-x-forwarded-client-cert-headers}
 
-From [Envoy's documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
-regarding XFCC:
+Según la [documentación de Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
+sobre XFCC:
 
 {{< quote >}}
-x-forwarded-client-cert (XFCC) is a proxy header which indicates certificate information of part or all of the clients
-or proxies that a request has flowed through, on its way from the client to the server. A proxy may choose to
-sanitize/append/forward the XFCC header before proxying the request.
+x-forwarded-client-cert (XFCC) es un encabezado de proxy que indica la información de certificado de una parte o de todos los clientes
+o proxies por los que ha pasado una solicitud en su camino del cliente al servidor. Un proxy puede optar por
+sanear/agregar/reenviar el encabezado XFCC antes de enviar la solicitud a través del proxy.
 {{< /quote >}}
 
-To configure how XFCC headers are handled, set `forwardClientCertDetails` in your `IstioOperator`
+Para configurar cómo se gestionan los encabezados XFCC, establece `forwardClientCertDetails` en tu `IstioOperator`
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -200,33 +200,33 @@ spec:
         forwardClientCertDetails: <ENUM_VALUE>
 {{< /text >}}
 
-where `ENUM_VALUE` can be of the following type.
+donde `ENUM_VALUE` puede tomar uno de los siguientes valores.
 
 | `ENUM_VALUE`          |                                                                                                                                                                         |
 |-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `UNDEFINED`           | Field is not set.                                                                                                                                                       |
-| `SANITIZE`            | Do not send the XFCC header to the next hop.                                                                                                                            |
-| `FORWARD_ONLY`        | When the client connection is mTLS (Mutual TLS), forward the XFCC header in the request.                                                                                |
-| `APPEND_FORWARD`      | When the client connection is mTLS, append the client certificate information to the request’s XFCC header and forward it.                                              |
-| `SANITIZE_SET`        | When the client connection is mTLS, reset the XFCC header with the client certificate information and send it to the next hop. This is the default value for a gateway. |
-| `ALWAYS_FORWARD_ONLY` | Always forward the XFCC header in the request, regardless of whether the client connection is mTLS.                                                                     |
+| `UNDEFINED`           | El campo no está configurado.                                                                                                                                           |
+| `SANITIZE`            | No envía el encabezado XFCC al siguiente salto.                                                                                                                         |
+| `FORWARD_ONLY`        | Cuando la conexión del cliente usa mTLS (TLS mutuo), reenvía el encabezado XFCC de la solicitud.                                                                        |
+| `APPEND_FORWARD`      | Cuando la conexión del cliente usa mTLS, agrega la información del certificado del cliente al encabezado XFCC de la solicitud y la reenvía.                             |
+| `SANITIZE_SET`        | Cuando la conexión del cliente usa mTLS, restablece el encabezado XFCC con la información del certificado del cliente y lo envía al siguiente salto. Este es el valor predeterminado para un gateway. |
+| `ALWAYS_FORWARD_ONLY` | Siempre reenvía el encabezado XFCC de la solicitud, independientemente de si la conexión del cliente usa mTLS.                                                          |
 
-See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
-for examples of using this capability.
+Consulta la [documentación de Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-forwarded-client-cert)
+para ver ejemplos de uso de esta funcionalidad.
 
-## PROXY Protocol
+## Protocolo PROXY {#proxy-protocol}
 
-The [PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) allows for exchanging and preservation of client attributes between TCP proxies,
-without relying on L7 protocols such as HTTP and the `X-Forwarded-For` and `X-Envoy-External-Address` headers. It is intended for scenarios where an external TCP load balancer needs to proxy TCP traffic through an Istio gateway to a backend TCP service and still expose client attributes such as source IP to upstream TCP service endpoints. PROXY protocol can be enabled via `EnvoyFilter`.
+El [protocolo PROXY](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) permite intercambiar y conservar los atributos del cliente entre proxies TCP,
+sin depender de protocolos L7 como HTTP ni de los encabezados `X-Forwarded-For` y `X-Envoy-External-Address`. Está pensado para escenarios en los que un balanceador de carga TCP externo necesita enviar tráfico TCP a través de un gateway de Istio hacia un servicio TCP de backend y, aun así, exponer atributos del cliente, como la IP de origen, a los endpoints upstream del servicio TCP. El protocolo PROXY se puede habilitar mediante `EnvoyFilter`.
 
 {{< warning >}}
-PROXY protocol is only supported for TCP traffic forwarding by Envoy. See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for more details, along with some important performance caveats.
+Envoy solo admite el protocolo PROXY para el reenvío de tráfico TCP. Consulta la [documentación de Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) para más detalles, junto con algunas advertencias importantes sobre el rendimiento.
 
-PROXY protocol should not be used for L7 traffic, or for Istio gateways behind L7 load balancers.
+El protocolo PROXY no debe usarse para tráfico L7 ni para gateways de Istio situados detrás de balanceadores de carga L7.
 {{< /warning >}}
 
-If your external TCP load balancer is configured to forward TCP traffic and use the PROXY protocol, the Istio Gateway TCP listener must also be configured to accept the PROXY protocol.
-To enable PROXY protocol on all TCP listeners on the gateways, set `proxyProtocol` in your `IstioOperator`. For example:
+Si tu balanceador de carga TCP externo está configurado para reenviar tráfico TCP y usar el protocolo PROXY, el listener TCP del Gateway de Istio también debe configurarse para aceptar el protocolo PROXY.
+Para habilitar el protocolo PROXY en todos los listeners TCP de los gateways, configura `proxyProtocol` en tu `IstioOperator`. Por ejemplo:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -238,7 +238,7 @@ spec:
         proxyProtocol: {}
 {{< /text >}}
 
-Alternatively, deploy a gateway with the following pod annotation:
+Como alternativa, despliega un gateway con la siguiente anotación de pod:
 
 {{< text yaml >}}
 metadata:
@@ -246,6 +246,6 @@ metadata:
     "proxy.istio.io/config": '{"gatewayTopology" : { "proxyProtocol": {} }}'
 {{< /text >}}
 
-The client IP is retrieved from the PROXY protocol by the gateway and set (or appended) in the `X-Forwarded-For` and `X-Envoy-External-Address` header. Note that the PROXY protocol is mutually exclusive with L7 headers like `X-Forwarded-For` and `X-Envoy-External-Address`. When PROXY protocol is used in conjunction with the `gatewayTopology` configuration, the `numTrustedProxies` and the received `X-Forwarded-For` header takes precedence in determining the trusted client addresses, and PROXY protocol client information will be ignored.
+El gateway obtiene la IP del cliente a partir del protocolo PROXY y la establece (o la agrega) en los encabezados `X-Forwarded-For` y `X-Envoy-External-Address`. Ten en cuenta que el protocolo PROXY es mutuamente excluyente con encabezados L7 como `X-Forwarded-For` y `X-Envoy-External-Address`. Cuando el protocolo PROXY se usa junto con la configuración `gatewayTopology`, `numTrustedProxies` y el encabezado `X-Forwarded-For` recibido tienen prioridad para determinar las direcciones de cliente de confianza, y se ignora la información del cliente que proporciona el protocolo PROXY.
 
-Note that the above example only configures the Gateway to accept incoming PROXY protocol TCP traffic - See the [Envoy documentation](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) for examples of how to configure Envoy itself to communicate with upstream services using PROXY protocol.
+Ten en cuenta que el ejemplo anterior solo configura el Gateway para aceptar tráfico TCP entrante con el protocolo PROXY. Consulta la [documentación de Envoy](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/ip_transparency#proxy-protocol) para ver ejemplos de cómo configurar el propio Envoy para que se comunique con servicios upstream mediante el protocolo PROXY.

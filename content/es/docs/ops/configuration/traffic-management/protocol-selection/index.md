@@ -1,6 +1,6 @@
 ---
-title: Protocol Selection
-description: Information on how to specify protocols.
+title: Selección de protocolo
+description: Información sobre cómo especificar protocolos.
 weight: 10
 keywords: [protocol,protocol sniffing,protocol selection,protocol detection]
 aliases:
@@ -12,46 +12,46 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-Istio supports proxying any TCP traffic. This includes HTTP, HTTPS, gRPC, as well as raw TCP protocols.
-In order to provide additional capabilities, such as routing and rich metrics, the protocol must be determined. This can be done automatically or explicitly specified.
+Istio puede hacer de proxy para cualquier tráfico TCP. Esto incluye HTTP, HTTPS y gRPC, así como protocolos TCP sin procesar.
+Para ofrecer funcionalidades adicionales, como el enrutamiento y métricas detalladas, es necesario determinar el protocolo. Esto se puede hacer automáticamente o especificarlo de forma explícita.
 
-Non-TCP based protocols, such as UDP, are not proxied. These protocols will continue to function as normal, without
-any interception by the Istio proxy but cannot be used in proxy-only components such as ingress or egress gateways.
+Los protocolos que no se basan en TCP, como UDP, no pasan por el proxy. Estos protocolos siguen funcionando con normalidad, sin
+que el proxy de Istio los intercepte, pero no se pueden usar en componentes que solo funcionan como proxy, como los ingress o egress gateways.
 
-## Automatic protocol selection
+## Selección automática de protocolo {#automatic-protocol-selection}
 
-Istio can automatically detect HTTP and HTTP/2 traffic. If the protocol cannot automatically be determined, traffic will be treated as plain TCP traffic.
+Istio puede detectar automáticamente el tráfico HTTP y HTTP/2. Si el protocolo no se puede determinar automáticamente, el tráfico se trata como tráfico TCP simple.
 
 {{< tip >}}
-Server First protocols, such as MySQL, are incompatible with automatic protocol selection. See [Server first protocols](/docs/ops/deployment/application-requirements#server-first-protocols) for more information.
+Los protocolos en los que el servidor habla primero (server first), como MySQL, no son compatibles con la selección automática de protocolo. Consulta [Protocolos server first](/es/docs/ops/deployment/application-requirements#server-first-protocols) para más información.
 {{< /tip >}}
 
-## Explicit protocol selection
+## Selección explícita de protocolo {#explicit-protocol-selection}
 
-Protocols can be specified manually in the Service definition.
+Los protocolos se pueden especificar manualmente en la definición del Service.
 
-This can be configured in two ways:
+Esto se puede configurar de dos maneras:
 
-- By the name of the port: `name: <protocol>[-<suffix>]`.
-- In Kubernetes 1.18+, by the `appProtocol` field: `appProtocol: <protocol>`.
+- Mediante el nombre del puerto: `name: <protocol>[-<suffix>]`.
+- En Kubernetes 1.18+, mediante el campo `appProtocol`: `appProtocol: <protocol>`.
 
-If both are defined, `appProtocol` takes precedence over the port name.
+Si se definen ambos, `appProtocol` tiene prioridad sobre el nombre del puerto.
 
-Note that behavior at the Gateway differs in some cases as the gateway can terminate TLS and the protocol can be negotiated.
+Ten en cuenta que el comportamiento en el Gateway difiere en algunos casos, ya que el gateway puede terminar TLS y el protocolo se puede negociar.
 
-The following protocols are supported:
+Se admiten los siguientes protocolos:
 
-| Protocol                              | Sidecar Purpose                                                                                                                                                         | Gateway Purpose                                                                                                                                                         |
+| Protocolo                             | Propósito en el sidecar                                                                                                                                                 | Propósito en el gateway                                                                                                                                                 |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `http`                                | Plaintext HTTP/1.1 traffic                                                                                                                                              | Plaintext HTTP (1.1 or 2) traffic                                                                                                                                       |
-| `http2`                               | Plaintext HTTP/2 traffic                                                                                                                                                | Plaintext HTTP (1.1 or 2) traffic                                                                                                                                       |
-| `https`                               | TLS Encrypted data. Because the Sidecar does not decrypt TLS traffic, this is the same as `tls`                                                                         | TLS Encrypted HTTP (1.1 or 2) traffic                                                                                                                                   |
-| `tcp`                                 | Opaque TCP data stream                                                                                                                                                  | Opaque TCP data stream                                                                                                                                                  |
-| `tls`                                 | TLS Encrypted data                                                                                                                                                      | TLS Encrypted data                                                                                                                                                      |
-| `grpc`, `grpc-web`                                | Same as `http2`                                                                                                                                                         | Same as `http2`                                                                                                                                                         |  |
-| `mongo`, `mysql`, `redis` | Experimental application protocol support. To enable them, configure the corresponding [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream | Experimental application protocol support. To enable them, configure the corresponding [environment variables](/docs/reference/commands/pilot-discovery/#envvars). If not enabled, treated as opaque TCP data stream |
+| `http`                                | Tráfico HTTP/1.1 en texto plano                                                                                                                                         | Tráfico HTTP (1.1 o 2) en texto plano                                                                                                                                   |
+| `http2`                               | Tráfico HTTP/2 en texto plano                                                                                                                                           | Tráfico HTTP (1.1 o 2) en texto plano                                                                                                                                   |
+| `https`                               | Datos cifrados con TLS. Como el sidecar no descifra el tráfico TLS, equivale a `tls`                                                                                    | Tráfico HTTP (1.1 o 2) cifrado con TLS                                                                                                                                  |
+| `tcp`                                 | Flujo de datos TCP opaco                                                                                                                                                | Flujo de datos TCP opaco                                                                                                                                                |
+| `tls`                                 | Datos cifrados con TLS                                                                                                                                                  | Datos cifrados con TLS                                                                                                                                                  |
+| `grpc`, `grpc-web`                                | Igual que `http2`                                                                                                                                                       | Igual que `http2`                                                                                                                                                       |  |
+| `mongo`, `mysql`, `redis` | Soporte experimental para protocolos de aplicación. Para habilitarlos, configura las [variables de entorno](/es/docs/reference/commands/pilot-discovery/#envvars) correspondientes. Si no están habilitados, se tratan como un flujo de datos TCP opaco | Soporte experimental para protocolos de aplicación. Para habilitarlos, configura las [variables de entorno](/es/docs/reference/commands/pilot-discovery/#envvars) correspondientes. Si no están habilitados, se tratan como un flujo de datos TCP opaco |
 
-Below is an example of a Service that defines a `https` port by `appProtocol` and an `http` port by name:
+A continuación se muestra un ejemplo de un Service que define un puerto `https` mediante `appProtocol` y un puerto `http` mediante su nombre:
 
 {{< text yaml >}}
 kind: Service
@@ -66,8 +66,8 @@ spec:
     name: http-web
 {{< /text >}}
 
-## HTTP gateway protocol selection
+## Selección de protocolo HTTP en gateways {#http-gateway-protocol-selection}
 
-Unlike sidecars, gateways are by default unable to automatically detect the specific HTTP protocol to use when forwarding requests to backend services. Therefore, unless explicit protocol selection is used to specify HTTP/1.1 (`http`) or HTTP/2 (`http2` or `grpc`), gateways will forward all incoming HTTP requests using HTTP/1.1.
+A diferencia de los sidecars, por defecto los gateways no pueden detectar automáticamente qué protocolo HTTP específico deben usar al reenviar solicitudes a los servicios de backend. Por eso, a menos que se use la selección explícita de protocolo para especificar HTTP/1.1 (`http`) o HTTP/2 (`http2` o `grpc`), los gateways reenvían todas las solicitudes HTTP entrantes con HTTP/1.1.
 
-Instead of using explicit protocol selection, you can instruct gateways to forward requests using the same protocol as the incoming request by setting the [`useClientProtocol`](/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) option for a Service. Note, however, that using this option with services that do not support HTTP/2 can be risky because HTTPS gateways always [advertise](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) support for HTTP/1.1 and HTTP/2. So even when a backend service doesn't support HTTP/2, modern clients will think it does and often choose to use it.
+En lugar de usar la selección explícita de protocolo, puedes indicar a los gateways que reenvíen las solicitudes con el mismo protocolo que la solicitud entrante configurando la opción [`useClientProtocol`](/es/docs/reference/config/networking/destination-rule/#ConnectionPoolSettings-HTTPSettings) para un Service. Sin embargo, ten en cuenta que usar esta opción con servicios que no admiten HTTP/2 puede ser arriesgado, porque los gateways HTTPS siempre [anuncian](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation) soporte para HTTP/1.1 y HTTP/2. Así que, aunque un servicio de backend no admita HTTP/2, los clientes modernos creerán que sí lo admite y a menudo elegirán usarlo.
