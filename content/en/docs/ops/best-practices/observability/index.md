@@ -81,6 +81,14 @@ groups:
     expr: |
       sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)
 
+  - record: "workload:istio_request_messages_total"
+    expr: |
+      sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_messages_total)
+
+  - record: "workload:istio_response_messages_total"
+    expr: |
+      sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_messages_total)
+
   - record: "workload:istio_tcp_sent_bytes_total"
     expr: |
       sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_sent_bytes_total)
@@ -137,6 +145,11 @@ spec:
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_sum)"
     - record: "workload:istio_response_bytes_bucket"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)"
+
+    - record: "workload:istio_request_messages_total"
+      expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_messages_total)"
+    - record: "workload:istio_response_messages_total"
+      expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_messages_total)"
 
     - record: "workload:istio_tcp_sent_bytes_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_sent_bytes_total)"
