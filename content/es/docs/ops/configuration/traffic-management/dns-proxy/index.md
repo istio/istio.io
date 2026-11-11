@@ -1,36 +1,36 @@
 ---
-title: DNS Proxying
-description: How to configure DNS proxying.
+title: Proxy de DNS
+description: Cómo configurar el proxy de DNS.
 weight: 60
 keywords: [traffic-management,dns,virtual-machine]
 owner: istio/wg-networking-maintainers
 test: yes
 ---
 
-In addition to capturing application traffic, Istio can also capture DNS requests to improve the performance and usability of your mesh.
-When proxying DNS, all DNS requests from an application will be redirected to the sidecar or ztunnel proxy, which stores a local mapping of domain names to IP addresses. If the request can be handled by the proxy, it will directly return a response to the application, avoiding a roundtrip to the upstream DNS server. Otherwise, the request is forwarded upstream following the standard `/etc/resolv.conf` DNS configuration.
+Además de capturar el tráfico de las aplicaciones, Istio también puede capturar las solicitudes DNS para mejorar el rendimiento y la usabilidad de tu mesh.
+Con el proxy de DNS, todas las solicitudes DNS de una aplicación se redirigen al proxy sidecar o ztunnel, que guarda un mapeo local de nombres de dominio a direcciones IP. Si el proxy puede atender la solicitud, devuelve directamente una respuesta a la aplicación y evita un viaje de ida y vuelta al servidor DNS upstream. Si no, la solicitud se reenvía upstream según la configuración DNS estándar de `/etc/resolv.conf`.
 
-While Kubernetes provides DNS resolution for Kubernetes `Service`s out of the box, any custom `ServiceEntry`s will not be recognized. With this feature, `ServiceEntry` addresses can be resolved without requiring custom configuration of a DNS server. For Kubernetes `Service`s, the DNS response will be the same, but with reduced load on `kube-dns` and increased performance.
+Aunque Kubernetes ofrece resolución DNS para los `Service`s de Kubernetes sin configuración adicional, no reconoce los `ServiceEntry`s personalizados. Con esta funcionalidad, las direcciones de los `ServiceEntry` se pueden resolver sin necesidad de configurar un servidor DNS personalizado. Para los `Service`s de Kubernetes, la respuesta DNS es la misma, pero se reduce la carga sobre `kube-dns` y mejora el rendimiento.
 
-This functionality is also available for services running outside of Kubernetes. This means that all internal services can be resolved without clunky workarounds to expose Kubernetes DNS entries outside of the cluster.
+Esta funcionalidad también está disponible para servicios que se ejecutan fuera de Kubernetes. Esto significa que todos los servicios internos se pueden resolver sin recurrir a soluciones engorrosas para exponer las entradas DNS de Kubernetes fuera del clúster.
 
-## Getting started
+## Primeros pasos {#getting-started}
 
-Istio will generally route traffic based on HTTP headers. If routing based on a HTTP header is not possible - in ambient mode, or with TCP traffic in sidecar mode - DNS proxy can be enabled.
+Por lo general, Istio enruta el tráfico según los encabezados HTTP. Si no es posible enrutar según un encabezado HTTP (en modo ambient, o con tráfico TCP en modo sidecar), puedes habilitar el proxy de DNS.
 
-In ambient mode, the ztunnel only sees traffic at Layer 4, and does not have access to HTTP headers. Therefore, DNS proxying is required to enable resolution of `ServiceEntry` addresses, especially in the case of [sending egress traffic to waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
+En modo ambient, ztunnel solo ve el tráfico en la capa 4 y no tiene acceso a los encabezados HTTP. Por eso, el proxy de DNS es necesario para resolver las direcciones de los `ServiceEntry`, especialmente cuando se [envía tráfico de salida a waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
 
-### Ambient mode
+### Modo ambient {#ambient-mode}
 
-DNS proxying is enabled by default in ambient mode from Istio 1.25 onwards.
+El proxy de DNS está habilitado por defecto en modo ambient a partir de Istio 1.25.
 
-For versions prior to 1.25, you can enable DNS capture by setting `values.cni.ambient.dnsCapture=true` and `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` during installation.
+En versiones anteriores a la 1.25, puedes habilitar la captura de DNS configurando `values.cni.ambient.dnsCapture=true` y `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` durante la instalación.
 
-Individual pods may opt-out of global ambient mode DNS capture by applying the `ambient.istio.io/dns-capture=false` annotation.
+Los pods pueden excluirse individualmente de la captura de DNS global del modo ambient con la anotación `ambient.istio.io/dns-capture=false`.
 
-### Sidecar mode
+### Modo sidecar {#sidecar-mode}
 
-This feature is not currently enabled by default. To enable it, install Istio with the following settings:
+Por ahora, esta funcionalidad no está habilitada por defecto. Para habilitarla, instala Istio con la siguiente configuración:
 
 {{< text bash >}}
 $ cat <<EOF | istioctl install -y -f -
@@ -45,7 +45,7 @@ spec:
 EOF
 {{< /text >}}
 
-This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/):
+También se puede habilitar por pod con la [anotación `proxy.istio.io/config`](/es/docs/reference/config/annotations/):
 
 {{< text syntax=yaml snip_id=none >}}
 kind: Deployment
@@ -63,12 +63,12 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
+Al desplegar en una VM con [`istioctl workload entry configure`](/es/docs/setup/install/virtual-machine/), el proxy de DNS básico se habilita por defecto.
 {{< /tip >}}
 
-## DNS capture in action
+## Captura de DNS en acción {#dns-capture-in-action}
 
-To try out the DNS capture, first set up a `ServiceEntry` for some external service:
+Para probar la captura de DNS, primero configura un `ServiceEntry` para algún servicio externo:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -88,34 +88,34 @@ spec:
 EOF
 {{< /text >}}
 
-Bring up a client application to initiate the DNS request:
+Despliega una aplicación cliente que inicie la solicitud DNS:
 
 {{< text bash >}}
 $ kubectl label namespace default istio-injection=enabled --overwrite
 $ kubectl apply -f @samples/curl/curl.yaml@
 {{< /text >}}
 
-Without the DNS capture, a request to `address.internal` would likely fail to resolve. Once this is enabled, you should instead get a response back based on the configured `address`:
+Sin la captura de DNS, lo más probable es que una solicitud a `address.internal` no se pueda resolver. Una vez habilitada, deberías recibir una respuesta basada en la `address` configurada:
 
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v address.internal
 *   Trying 198.51.100.1:80...
 {{< /text >}}
 
-## Address auto-allocation
+## Asignación automática de direcciones {#address-auto-allocation}
 
-In the above example, you had a predefined IP address for the service to which you sent the request. However, it's common to access external services that do not have stable addresses, and instead rely on DNS. In this case, the DNS proxy will not have enough information to return a response, and will need to forward DNS requests upstream.
+En el ejemplo anterior, tenías una dirección IP predefinida para el servicio al que enviaste la solicitud. Sin embargo, es habitual acceder a servicios externos que no tienen direcciones estables y dependen de DNS. En ese caso, el proxy de DNS no tiene suficiente información para devolver una respuesta y debe reenviar las solicitudes DNS upstream.
 
-This is especially problematic with TCP traffic. Unlike HTTP requests, which are routed based on `Host` headers, TCP carries much less information; you can only route on the destination IP and port number. Because you don't have a stable IP for the backend, you cannot route based on that either, leaving only port number, which leads to conflicts when multiple `ServiceEntry`s for TCP services share the same port. Refer
-to [the following section](#external-tcp-services-without-vips) for more details.
+Esto es especialmente problemático con el tráfico TCP. A diferencia de las solicitudes HTTP, que se enrutan según los encabezados `Host`, TCP transporta mucha menos información: solo puedes enrutar según la IP y el número de puerto de destino. Como no tienes una IP estable para el backend, tampoco puedes enrutar según ella, y solo queda el número de puerto, lo que provoca conflictos cuando varios `ServiceEntry`s para servicios TCP comparten el mismo puerto. Consulta
+[la siguiente sección](#external-tcp-services-without-vips) para más detalles.
 
-To work around these issues, the DNS proxy additionally supports automatically allocating addresses for `ServiceEntry`s that do not explicitly define one. The DNS response will include a distinct and automatically assigned address for each `ServiceEntry`. The proxy is then configured to match requests to this IP address, and forward the request to the corresponding `ServiceEntry`. Istio will automatically allocate non-routable VIPs (from the Class E subnet) to such services as long as they do not use a wildcard host. The Istio agent on the sidecar will use the VIPs as responses to the DNS lookup queries from the application. Envoy can now clearly distinguish traffic bound for each external TCP service and forward it to the right target.
+Para resolver estos problemas, el proxy de DNS también permite asignar direcciones automáticamente a los `ServiceEntry`s que no definen una de forma explícita. La respuesta DNS incluye una dirección distinta y asignada automáticamente para cada `ServiceEntry`. Luego, el proxy se configura para hacer coincidir las solicitudes con esa dirección IP y reenviarlas al `ServiceEntry` correspondiente. Istio asigna automáticamente VIPs no enrutables (de la subred de clase E) a esos servicios, siempre que no usen un host comodín. El agente de Istio en el sidecar usa las VIPs como respuestas a las consultas DNS de la aplicación. Así, Envoy puede distinguir claramente el tráfico destinado a cada servicio TCP externo y reenviarlo al destino correcto.
 
 {{< warning >}}
-Because this feature modifies DNS responses, it may not be compatible with all applications.
+Como esta funcionalidad modifica las respuestas DNS, puede que no sea compatible con todas las aplicaciones.
 {{< /warning >}}
 
-To try this out, configure another `ServiceEntry`:
+Para probarlo, configura otro `ServiceEntry`:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -134,18 +134,18 @@ spec:
 EOF
 {{< /text >}}
 
-Now, send a request:
+Ahora, envía una solicitud:
 
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 *   Trying 240.240.0.1:80...
 {{< /text >}}
 
-As you can see, the request is sent to an automatically allocated address, `240.240.0.1`. These addresses will be picked from the `240.240.0.0/16` reserved IP address range to avoid conflicting with real services.
+Como puedes ver, la solicitud se envía a una dirección asignada automáticamente, `240.240.0.1`. Estas direcciones se toman del rango de direcciones IP reservado `240.240.0.0/16` para evitar conflictos con servicios reales.
 
-Users also have the flexibility for more granular configuration by adding the label `networking.istio.io/enable-autoallocate-ip="true/false"` to their `ServiceEntry`. This label configures whether a `ServiceEntry` without any `spec.addresses` set should get an IP address automatically allocated for it.
+Los usuarios también pueden configurar esto de forma más granular agregando la etiqueta `networking.istio.io/enable-autoallocate-ip="true/false"` a su `ServiceEntry`. Esta etiqueta indica si a un `ServiceEntry` que no define `spec.addresses` se le debe asignar automáticamente una dirección IP.
 
-To try this out, update the existing `ServiceEntry` with the opt-out label:
+Para probarlo, actualiza el `ServiceEntry` existente con la etiqueta de exclusión:
 
 {{< text bash >}}
 $ kubectl apply -f - <<EOF
@@ -166,7 +166,7 @@ spec:
 EOF
 {{< /text >}}
 
-Now, send a request and verify that the auto allocation is no longer happening:
+Ahora, envía una solicitud y verifica que ya no se realiza la asignación automática:
 
 {{< text bash >}}
 $ kubectl exec deploy/curl -- curl -sS -v auto.internal
@@ -175,16 +175,16 @@ $ kubectl exec deploy/curl -- curl -sS -v auto.internal
 * shutting down connection #0
 {{< /text >}}
 
-## External TCP services without VIPs
+## Servicios TCP externos sin VIPs {#external-tcp-services-without-vips}
 
-By default, Istio has a limitation when routing external TCP traffic because it is unable to distinguish between multiple TCP services on the same port. This limitation is particularly apparent when using third party databases such as AWS Relational Database Service or any database setup with geographical redundancy. Similar, but different external TCP services, cannot be handled separately by default. For the sidecar to distinguish traffic between two different TCP services that are outside of the mesh, the services must be on different ports or they need to have globally unique VIPs.
+Por defecto, Istio tiene una limitación al enrutar tráfico TCP externo, porque no puede distinguir entre varios servicios TCP en el mismo puerto. Esta limitación es especialmente evidente al usar bases de datos de terceros, como AWS Relational Database Service, o cualquier base de datos configurada con redundancia geográfica. Por defecto, no se pueden gestionar por separado servicios TCP externos similares pero distintos. Para que el sidecar distinga el tráfico entre dos servicios TCP diferentes que están fuera de la mesh, los servicios deben estar en puertos distintos o tener VIPs globalmente únicas.
 
-For example, if you have two external database services, `mysql-instance1` and `mysql-instance2`, and you create service entries for both, client sidecars will still have a single listener on `0.0.0.0:{port}` that looks up the IP address of only `mysql-instance1`, from public DNS servers, and forwards traffic to it. It cannot route traffic to `mysql-instance2` because it has no way of distinguishing whether traffic arriving at `0.0.0.0:{port}` is bound for `mysql-instance1` or `mysql-instance2`.
+Por ejemplo, si tienes dos servicios de base de datos externos, `mysql-instance1` y `mysql-instance2`, y creas service entries para ambos, los sidecars de los clientes seguirán teniendo un único listener en `0.0.0.0:{port}` que busca la dirección IP solo de `mysql-instance1` en servidores DNS públicos y le reenvía el tráfico. No puede enrutar tráfico a `mysql-instance2` porque no tiene forma de distinguir si el tráfico que llega a `0.0.0.0:{port}` está destinado a `mysql-instance1` o a `mysql-instance2`.
 
-The following example shows how DNS proxying can be used to solve this problem.
-A virtual IP address will be assigned to every service entry so that client sidecars can clearly distinguish traffic bound for each external TCP service.
+El siguiente ejemplo muestra cómo usar el proxy de DNS para resolver este problema.
+Se asigna una dirección IP virtual a cada service entry para que los sidecars de los clientes puedan distinguir claramente el tráfico destinado a cada servicio TCP externo.
 
-1.  Update the Istio configuration specified in the [Getting Started](#getting-started) section to also configure `discoverySelectors` that restrict the mesh to namespaces with `istio-injection` enabled. This will let us use any other namespaces in the cluster to run TCP services outside of the mesh.
+1.  Actualiza la configuración de Istio indicada en la sección [Primeros pasos](#getting-started) para configurar también `discoverySelectors` que restrinjan la mesh a los namespaces que tienen `istio-injection` habilitado. Esto nos permite usar cualquier otro namespace del clúster para ejecutar servicios TCP fuera de la mesh.
 
     {{< text bash >}}
     $ cat <<EOF | istioctl install -y -f -
@@ -204,21 +204,21 @@ A virtual IP address will be assigned to every service entry so that client side
     EOF
     {{< /text >}}
 
-1.  Deploy the first external sample TCP application:
+1.  Despliega la primera aplicación TCP externa de ejemplo:
 
     {{< text bash >}}
     $ kubectl create ns external-1
     $ kubectl -n external-1 apply -f samples/tcp-echo/tcp-echo.yaml
     {{< /text >}}
 
-1.  Deploy the second external sample TCP application:
+1.  Despliega la segunda aplicación TCP externa de ejemplo:
 
     {{< text bash >}}
     $ kubectl create ns external-2
     $ kubectl -n external-2 apply -f samples/tcp-echo/tcp-echo.yaml
     {{< /text >}}
 
-1.  Configure `ServiceEntry` to reach external services:
+1.  Configura `ServiceEntry` para acceder a los servicios externos:
 
     {{< text bash >}}
     $ kubectl apply -f - <<EOF
@@ -250,7 +250,7 @@ A virtual IP address will be assigned to every service entry so that client side
     EOF
     {{< /text >}}
 
-1.  Verify listeners are configured separately for each service at the client side:
+1.  Verifica que los listeners se configuran por separado para cada servicio en el lado del cliente:
 
     {{< text bash >}}
     $ istioctl pc listener deploy/curl | grep tcp-echo | awk '{printf "ADDRESS=%s, DESTINATION=%s %s\n", $1, $4, $5}'
@@ -258,7 +258,7 @@ A virtual IP address will be assigned to every service entry so that client side
     ADDRESS=240.240.69.138, DESTINATION=Cluster: outbound|9000||tcp-echo.external-1.svc.cluster.local
     {{< /text >}}
 
-## Cleanup
+## Limpieza {#cleanup}
 
 {{< text bash >}}
 $ kubectl -n external-1 delete -f @samples/tcp-echo/tcp-echo.yaml@

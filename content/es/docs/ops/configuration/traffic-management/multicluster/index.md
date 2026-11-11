@@ -1,25 +1,25 @@
 ---
-title: Multi-cluster Traffic Management
-description: How to configure how traffic is distributed among clusters in the mesh.
+title: Gestión de tráfico multiclúster
+description: Cómo configurar la forma en que se distribuye el tráfico entre los clústeres de la mesh.
 weight: 70
 keywords: [traffic-management,multicluster]
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-Within a multicluster mesh, traffic rules specific to the cluster topology may be desirable. This document describes
-a few ways to manage traffic in a multicluster mesh. Before reading this guide:
+En una mesh multiclúster, puede ser conveniente aplicar reglas de tráfico específicas para la topología de clústeres. Este documento describe
+algunas formas de gestionar el tráfico en una mesh multiclúster. Antes de leer esta guía:
 
-1. Read [Deployment Models](/docs/ops/deployment/deployment-models/#multiple-clusters)
-1. Make sure your deployed services follow the concept of {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
+1. Lee [Modelos de despliegue](/es/docs/ops/deployment/deployment-models/#multiple-clusters)
+1. Asegúrate de que tus servicios desplegados siguen el concepto de {{< gloss "namespace sameness" >}}namespace sameness{{< /gloss >}}.
 
-## Keeping traffic in-cluster
+## Mantener el tráfico dentro del clúster {#keeping-traffic-in-cluster}
 
-In some cases the default cross-cluster load balancing behavior is not desirable. To keep traffic "cluster-local" (i.e.
-traffic sent from `cluster-a` will only reach destinations in `cluster-a`), mark hostnames or wildcards as `clusterLocal`
-using [`MeshConfig.serviceSettings`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings).
+En algunos casos, el comportamiento predeterminado de balanceo de carga entre clústeres no es deseable. Para mantener el tráfico "local al clúster" (es decir,
+que el tráfico enviado desde `cluster-a` solo llegue a destinos en `cluster-a`), marca los nombres de host o los comodines como `clusterLocal`
+mediante [`MeshConfig.serviceSettings`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings).
 
-For example, you can enforce cluster-local traffic for an individual service, all services in a particular namespace, or globally for all services in the mesh, as follows:
+Por ejemplo, puedes forzar el tráfico local al clúster para un servicio concreto, para todos los servicios de un namespace en particular o de forma global para todos los servicios de la mesh, de la siguiente manera:
 
 {{< tabset category-name="meshconfig" >}}
 
@@ -61,7 +61,7 @@ serviceSettings:
 
 {{< /tabset >}}
 
-You can also refine service access down by setting a global cluster-local rule and adding explicit exceptions, which can be specific or wildcard. In the following example, all services in the cluster will be kept cluster-local, except any service in the `myns` namespace:
+También puedes afinar el acceso a los servicios configurando una regla global local al clúster y agregando excepciones explícitas, que pueden ser específicas o con comodines. En el siguiente ejemplo, todos los servicios del clúster se mantendrán locales al clúster, excepto cualquier servicio del namespace `myns`:
 
 {{< text yaml >}}
 serviceSettings:
@@ -75,12 +75,12 @@ serviceSettings:
   - "*.myns.svc.cluster.local"
 {{< /text >}}
 
-## Partitioning Services {#partitioning-services}
+## Particionar servicios {#partitioning-services}
 
-[`DestinationRule.subsets`](/docs/reference/config/networking/destination-rule/#Subset) allows partitioning a service
-by selecting labels. These labels can be the labels from Kubernetes metadata, or from [built-in labels](/docs/reference/config/labels/).
-One of these built-in labels, `topology.istio.io/cluster`, in the subset selector for a `DestinationRule` allows
-creating per-cluster subsets.
+[`DestinationRule.subsets`](/es/docs/reference/config/networking/destination-rule/#Subset) permite particionar un servicio
+seleccionando etiquetas. Estas etiquetas pueden ser las de los metadatos de Kubernetes o [etiquetas integradas](/es/docs/reference/config/labels/).
+Una de estas etiquetas integradas, `topology.istio.io/cluster`, en el selector de subconjunto de un `DestinationRule` permite
+crear subconjuntos por clúster.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -98,10 +98,10 @@ spec:
       topology.istio.io/cluster: cluster-2
 {{< /text >}}
 
-Using these subsets you can create various routing rules based on the cluster such as [mirroring](/docs/tasks/traffic-management/mirroring/)
-or [shifting](/docs/tasks/traffic-management/traffic-shifting/).
+Con estos subconjuntos puedes crear varias reglas de enrutamiento basadas en el clúster, como el [mirroring](/es/docs/tasks/traffic-management/mirroring/)
+o el [desplazamiento de tráfico](/es/docs/tasks/traffic-management/traffic-shifting/).
 
-This provides another option to create cluster-local traffic rules by restricting the destination subset in a `VirtualService`:
+Esto ofrece otra opción para crear reglas de tráfico locales al clúster: restringir el subconjunto de destino en un `VirtualService`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -130,9 +130,9 @@ spec:
         subset: cluster-2
 {{< /text >}}
 
-Using subset-based routing this way to control cluster-local traffic, as opposed to
-[`MeshConfig.serviceSettings`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings),
-has the downside of mixing service-level policy with topology-level policy.
-For example, a rule that sends 10% of traffic to `v2` of a service will need twice the
-number of subsets (e.g., `cluster-1-v2`, `cluster-2-v2`).
-This approach is best limited to situations where more granular control of cluster-based routing is needed.
+Usar el enrutamiento basado en subconjuntos de esta forma para controlar el tráfico local al clúster, en lugar de
+[`MeshConfig.serviceSettings`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-ServiceSettings-Settings),
+tiene la desventaja de mezclar la política a nivel de servicio con la política a nivel de topología.
+Por ejemplo, una regla que envía el 10% del tráfico a la `v2` de un servicio necesitará el doble
+de subconjuntos (p. ej., `cluster-1-v2`, `cluster-2-v2`).
+Es mejor limitar este enfoque a situaciones en las que se necesita un control más granular del enrutamiento basado en clústeres.
