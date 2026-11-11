@@ -18,13 +18,15 @@ This functionality is also available for services running outside of Kubernetes.
 
 Istio will generally route traffic based on HTTP headers. If routing based on a HTTP header is not possible - in ambient mode, or with TCP traffic in sidecar mode - DNS proxy can be enabled.
 
-In ambient mode, the ztunnel only sees traffic at capa 4, and does not have access to HTTP headers. Therefore, DNS proxying is required to enable resolution of `ServiceEntry` addresses, especially in the case of [sending egress traffic to waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
+In ambient mode, the ztunnel only sees traffic at Layer 4, and does not have access to HTTP headers. Therefore, DNS proxying is required to enable resolution of `ServiceEntry` addresses, especially in the case of [sending egress traffic to waypoints](https://github.com/istio/istio/wiki/Troubleshooting-Istio-Ambient#scenario-ztunnel-is-not-sending-egress-traffic-to-waypoints).
 
 ### Ambient mode
 
 DNS proxying is enabled by default in ambient mode from Istio 1.25 onwards.
 
 For versions prior to 1.25, you can enable DNS capture by setting `values.cni.ambient.dnsCapture=true` and `values.pilot.env.PILOT_ENABLE_IP_AUTOALLOCATE=true` during installation.
+
+Individual pods may opt-out of global ambient mode DNS capture by applying the `ambient.istio.io/dns-capture=false` annotation.
 
 ### Sidecar mode
 
@@ -43,7 +45,7 @@ spec:
 EOF
 {{< /text >}}
 
-This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/es/docs/reference/config/annotations/):
+This can also be enabled on a per-pod basis with the [`proxy.istio.io/config` annotation](/docs/reference/config/annotations/):
 
 {{< text syntax=yaml snip_id=none >}}
 kind: Deployment
@@ -61,7 +63,7 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-When deploying to a VM using [`istioctl workload entry configure`](/es/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
+When deploying to a VM using [`istioctl workload entry configure`](/docs/setup/install/virtual-machine/), basic DNS proxying will be enabled by default.
 {{< /tip >}}
 
 ## DNS capture in action

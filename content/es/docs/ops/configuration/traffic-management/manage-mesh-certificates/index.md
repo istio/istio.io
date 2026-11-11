@@ -16,9 +16,9 @@ stronger bit length for RSA certificates. Configuring certificates within your e
 a daunting task for most users.
 
 This document is only intended to be used for in-mesh communication. For managing certificates at
-your Gateway, see the [Secure Gateways](/es/docs/tasks/traffic-management/ingress/secure-ingress/) document.
+your Gateway, see the [Secure Gateways](/docs/tasks/traffic-management/ingress/secure-ingress/) document.
 For managing the CA used by istiod to generate workload certificates, see
-the [Plugin CA Certificates](/es/docs/tasks/security/cert-management/plugin-ca-cert/) document.
+the [Plugin CA Certificates](/docs/tasks/security/cert-management/plugin-ca-cert/) document.
 
 ## istiod
 
@@ -30,7 +30,7 @@ To change the self-signed CA certificate's bit length, you will need to modify e
 
 {{< tip >}}
 While there are many environment variables that can be changed for
-[pilot-discovery](/es/docs/reference/commands/pilot-discovery/), this document will only
+[pilot-discovery](/docs/reference/commands/pilot-discovery/), this document will only
 outline some of them.
 {{< /tip >}}
 
@@ -71,7 +71,7 @@ this purpose.
 
 {{< tip >}}
 While there are many environment variables that can be changed for
-[pilot-agent](/es/docs/reference/commands/pilot-agent/), this document will only
+[pilot-agent](/docs/reference/commands/pilot-agent/), this document will only
 outline some of them.
 {{< /tip >}}
 
