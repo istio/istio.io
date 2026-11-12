@@ -26,16 +26,17 @@ test: n/a
 - **部署**配置文件用于为特定部署拓扑（如 `default`、`remote`、`ambient` 等）提供合理的默认设置。
 - **平台**配置文件用于为特定目标平台（如 `eks`、`gke`、`openshift` 等）提供必要的平台特定默认设置。
 
-例如，如果您希望在 GKE 上安装 `default` Sidecar 数据面，建议使用如下部署和平台配置文件作为起点：
+例如，如果您希望在 GKE 上安装默认的 Sidecar 数据面，建议使用如下平台配置文件作为起点：
 
 {{< tabset category-name="install-method" >}}
 
 {{< tab name="Helm" category-value="helm" >}}
 
-对于 Helm，请为您安装的每个 Chart 指定相同的 `profile` 和 `platform`，例如安装 `istiod`：
+对于 Helm，请为您安装的每个 Chart 指定相同的 `platform`，例如安装 `istiod`。
+请注意，未指定部署配置文件时，Helm 会使用默认设置：
 
 {{< text syntax=bash snip_id=install_istiod_helm_platform >}}
-$ helm install istiod istio/istiod -n istio-system --set profile=default --set global.platform=gke --wait
+$ helm install istiod istio/istiod -n istio-system --set global.platform=gke --wait
 {{< /text >}}
 
 {{< /tab >}}
@@ -59,13 +60,16 @@ $ istioctl install --set profile=default --set values.global.platform=gke
 而 `helm` 并不会这样做，用户需要单独使用 `helm install` 安装每一个所需的
 Istio 组件，并为每个组件单独提供所需的配置文件参数。
 
-您可以将 `istioctl` 和 `helm` 理解为共享相同名称、相同内容的配置文件，但
-`istioctl` 会基于所选配置文件自动决定安装哪些组件，因此只需一条命令就能实现完整的安装效果。
+请注意，`istioctl` 支持的部署配置文件比 `helm` 更多。对于 `helm`，
+并非所有配置文件在 Chart 中都有对应的配置文件，未指定部署配置文件时，
+将改为使用 Chart 默认的 `values.yaml` 设置。使用 `istioctl` 时，
+它会基于所选配置文件自动决定安装哪些组件，因此只需一条命令就能实现完整的安装效果。
 {{< /warning >}}
 
 ## 部署配置文件 {#deployment-profiles}
 
-以下是当前可用于 `istioctl` 和 `helm` 安装方式的内置于部署配置文件。
+对于 `helm`，并非下面列出的所有配置文件在 Chart 中都有对应的配置文件；
+请查看 [helm-profiles 目录]({{< github_tree >}}/manifests/helm-profiles)了解可用的 Helm 配置文件。
 请注意，这些配置文件本质上只是 Helm 值的预设集合，并不是安装 Istio 的强制要求，
 但它们为新用户提供了便捷的基础配置，推荐使用。此外，
 您还可以[根据具体需求自定义配置](/zh/docs/setup/additional-setup/customize-installation/)，
