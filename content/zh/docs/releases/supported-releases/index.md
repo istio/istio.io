@@ -62,6 +62,9 @@ Istio 控制面可以比数据面高一个版本。但数据面的版本不能�
 
 {{< support_status_table >}}
 
+Gateway API 版本是指每个 Istio 版本构建和测试时所基于的
+[Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) 版本。
+
 ## 没有已知的 CVE 和常见漏洞的受支持版本 {#supported-releases-without-known-common-vulnerabilities-and-exposures-cves}
 
 {{< warning >}}
