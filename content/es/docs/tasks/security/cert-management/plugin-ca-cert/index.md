@@ -33,7 +33,7 @@ para aprovisionar certificados y claves para las CA de Istio que se ejecutan en 
 {{< warning >}}
 Las siguientes instrucciones son solo para fines de demostración.
 Para una configuración de cluster de producción, se recomienda encarecidamente utilizar una CA lista para producción, como
-[Hashicorp Vault](https://www.hashicorp.com/products/vault).
+[OpenBao](https://openbao.org/).
 Es una buena práctica gestionar la CA raíz en una máquina sin conexión con una fuerte
 protección de seguridad.
 {{< /warning >}}
