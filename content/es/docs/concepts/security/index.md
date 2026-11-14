@@ -524,7 +524,7 @@ autorización de Istio utilizando ficheros `.yaml`.
     caption="Arquitectura de Autorización"
     >}}
 
-### Habilitación implícita
+### Habilitación implícita {#implicit-enablement}
 
 No necesita habilitar explícitamente las features de autorización de Istio; están disponibles después de la instalación.
 Para aplicar el control de acceso a sus workloads, aplique una política de autorización.

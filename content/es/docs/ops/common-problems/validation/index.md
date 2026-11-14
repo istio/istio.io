@@ -1,6 +1,6 @@
 ---
-title: Configuration Validation Problems
-description: Describes how to resolve configuration validation problems.
+title: Problemas de validación de configuración
+description: Describe cómo resolver problemas de validación de configuración.
 force_inline_toc: true
 weight: 50
 aliases:
@@ -11,23 +11,23 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-## Seemingly valid configuration is rejected
+## Se rechaza una configuración aparentemente válida {#seemingly-valid-configuration-is-rejected}
 
-Use [istioctl validate -f](/es/docs/reference/commands/istioctl/#istioctl-validate) and [istioctl analyze](/es/docs/reference/commands/istioctl/#istioctl-analyze) for more insight into why the configuration is rejected.  Use an _istioctl_ CLI with a similar version to the control plane version.
+Usa [istioctl validate -f](/es/docs/reference/commands/istioctl/#istioctl-validate) e [istioctl analyze](/es/docs/reference/commands/istioctl/#istioctl-analyze) para entender mejor por qué se rechaza la configuración. Usa una CLI de _istioctl_ con una versión similar a la del control plane.
 
-The most commonly reported problems with configuration are YAML indentation and array notation (`-`) mistakes.
+Los problemas de configuración que se reportan con más frecuencia son errores de indentación de YAML y de notación de arrays (`-`).
 
-Manually verify your configuration is correct, cross-referencing
-[Istio API reference](/es/docs/reference/config) when
-necessary.
+Verifica manualmente que tu configuración sea correcta y consulta la
+[referencia de la API de Istio](/es/docs/reference/config) cuando
+sea necesario.
 
-## Invalid configuration is accepted
+## Se acepta una configuración no válida {#invalid-configuration-is-accepted}
 
-Verify that a `validatingwebhookconfiguration` named `istio-validator-` followed by
-`<revision>-`, if not the default revision, followed by the Istio system namespace
-(e.g., `istio-validator-myrev-istio-system`) exists and is correct.
-The `apiVersion`, `apiGroup`, and `resource` of the
-invalid configuration should be listed in the `webhooks` section of the `validatingwebhookconfiguration`.
+Verifica que exista y sea correcta una `validatingwebhookconfiguration` llamada `istio-validator-` seguida de
+`<revision>-`, si no es la revisión predeterminada, y luego del namespace del sistema de Istio
+(p. ej., `istio-validator-myrev-istio-system`).
+Los campos `apiVersion`, `apiGroup` y `resource` de la
+configuración no válida deberían aparecer en la sección `webhooks` de la `validatingwebhookconfiguration`.
 
 {{< text bash yaml >}}
 $ kubectl get validatingwebhookconfiguration istio-validator-istio-system -o yaml
@@ -89,27 +89,27 @@ webhooks:
   timeoutSeconds: 10
 {{< /text >}}
 
-If the `istio-validator-` webhook does not exist, verify
-the `global.configValidation` installation option is
-set to `true`.
+Si el webhook `istio-validator-` no existe, verifica que
+la opción de instalación `global.configValidation` esté
+establecida en `true`.
 
-The validation configuration is fail-close. If
-configuration exists and is scoped properly, the webhook will be
-invoked. A missing `caBundle`, bad certificate, or network connectivity
-problem will produce an error message when the resource is
-created/updated. If you don’t see any error message and the webhook
-wasn’t invoked and the webhook configuration is valid, your cluster is
-misconfigured.
+La configuración de validación es fail-close. Si la
+configuración existe y tiene el alcance correcto, el webhook se
+invocará. Si falta el `caBundle`, el certificado no es válido o hay un problema de conectividad
+de red, se producirá un mensaje de error al crear o actualizar
+el recurso. Si no ves ningún mensaje de error, el webhook
+no se invocó y la configuración del webhook es válida, tu clúster está
+mal configurado.
 
-## Creating configuration fails with x509 certificate errors
+## La creación de la configuración falla con errores de certificado x509 {#creating-configuration-fails-with-x509-certificate-errors}
 
-`x509: certificate signed by unknown authority` related errors are
-typically caused by an empty `caBundle` in the webhook
-configuration. Verify that it is not empty (see [verify webhook
-configuration](#invalid-configuration-is-accepted)). Istio consciously reconciles webhook configuration
-used the `istio-validation` `configmap` and root certificate.
+Los errores relacionados con `x509: certificate signed by unknown authority`
+normalmente se deben a un `caBundle` vacío en la configuración
+del webhook. Verifica que no esté vacío (consulta [verificar la configuración
+del webhook](#invalid-configuration-is-accepted)). Istio reconcilia deliberadamente la configuración del webhook
+usando el `configmap` `istio-validation` y el certificado raíz.
 
-1. Verify the `istiod` pod(s) are running:
+1. Verifica que los pods de `istiod` estén en ejecución:
 
     {{< text bash >}}
     $  kubectl -n istio-system get pod -lapp=istiod
@@ -117,8 +117,8 @@ used the `istio-validation` `configmap` and root certificate.
     istiod-5dbbbdb746-d676g   1/1       Running   0          2d
     {{< /text >}}
 
-1. Check the pod logs for errors. Failing to patch the
-       `caBundle` should print an error.
+1. Revisa los logs del pod en busca de errores. Si falla la aplicación del patch al
+       `caBundle`, debería mostrarse un error.
 
     {{< text bash >}}
     $ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \
@@ -126,7 +126,7 @@ used the `istio-validation` `configmap` and root certificate.
     done
     {{< /text >}}
 
-1. If the patching failed, verify the RBAC configuration for Istiod:
+1. Si falló la aplicación del patch, verifica la configuración de RBAC de Istiod:
 
     {{< text bash yaml >}}
     $ kubectl get clusterrole istiod-istio-system -o yaml
@@ -142,16 +142,16 @@ used the `istio-validation` `configmap` and root certificate.
       - '*'
     {{< /text >}}
 
-    Istio needs `validatingwebhookconfigurations` write access to
-    create and update the `validatingwebhookconfiguration`.
+    Istio necesita acceso de escritura a `validatingwebhookconfigurations` para
+    crear y actualizar la `validatingwebhookconfiguration`.
 
-## Creating configuration fails with `no such hosts` or `no endpoints available` errors
+## La creación de la configuración falla con errores `no such hosts` o `no endpoints available` {#creating-configuration-fails-with-no-such-hosts-or-no-endpoints-available-errors}
 
-Validation is fail-close. If the `istiod` pod is not ready,
-configuration cannot be created and updated.  In such cases you’ll see
-an error about `no endpoints available`.
+La validación es fail-close. Si el pod de `istiod` no está listo,
+no se puede crear ni actualizar la configuración. En esos casos, verás
+un error sobre `no endpoints available`.
 
-Verify the `istiod` pod(s) are running and endpoints are ready.
+Verifica que los pods de `istiod` estén en ejecución y que los endpoints estén listos.
 
 {{< text bash >}}
 $  kubectl -n istio-system get pod -lapp=istiod
@@ -165,9 +165,9 @@ NAME           ENDPOINTS                          AGE
 istiod         10.48.6.108:15014,10.48.6.108:443   3d
 {{< /text >}}
 
-If the pods or endpoints aren't ready, check the pod logs and
-status for any indication about why the webhook pod is failing to start
-and serve traffic.
+Si los pods o los endpoints no están listos, revisa los logs y el
+estado del pod en busca de cualquier indicio de por qué el pod del webhook no logra iniciarse
+y servir tráfico.
 
 {{< text bash >}}
 $ for pod in $(kubectl -n istio-system get pod -lapp=istiod -o jsonpath='{.items[*].metadata.name}'); do \

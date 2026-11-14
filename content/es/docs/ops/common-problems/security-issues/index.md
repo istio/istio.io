@@ -1,6 +1,6 @@
 ---
-title: Security Problems
-description: Techniques to address common Istio authentication, authorization, and general security-related problems.
+title: Problemas de seguridad
+description: Técnicas para resolver problemas comunes de autenticación, autorización y seguridad en general en Istio.
 force_inline_toc: true
 weight: 20
 keywords: [security,citadel]
@@ -12,11 +12,11 @@ owner: istio/wg-security-maintainers
 test: n/a
 ---
 
-## End-user authentication fails
+## Falla la autenticación de usuarios finales {#end-user-authentication-fails}
 
-With Istio, you can enable authentication for end users through [request authentication policies](/es/docs/tasks/security/authentication/authn-policy/#end-user-authentication). Follow these steps to troubleshoot the policy specification.
+Con Istio, puedes habilitar la autenticación de usuarios finales mediante [políticas de autenticación de solicitudes](/es/docs/tasks/security/authentication/authn-policy/#end-user-authentication). Sigue estos pasos para solucionar problemas con la especificación de la política.
 
-1. If `jwksUri` isn’t set, make sure the JWT issuer is of url format and `url + /.well-known/openid-configuration` can be opened in browser; for example, if the JWT issuer is `https://accounts.google.com`, make sure `https://accounts.google.com/.well-known/openid-configuration` is a valid url and can be opened in a browser.
+1. Si `jwksUri` no está configurado, asegúrate de que el emisor del JWT tenga formato de URL y de que `url + /.well-known/openid-configuration` se pueda abrir en el navegador; por ejemplo, si el emisor del JWT es `https://accounts.google.com`, asegúrate de que `https://accounts.google.com/.well-known/openid-configuration` sea una URL válida y se pueda abrir en un navegador.
 
     {{< text yaml >}}
     apiVersion: security.istio.io/v1
@@ -32,11 +32,11 @@ With Istio, you can enable authentication for end users through [request authent
         jwksUri: "{{< github_file >}}/security/tools/jwt/samples/jwks.json"
     {{< /text >}}
 
-1. If the JWT token is placed in the Authorization header in http requests, make sure the JWT token is valid (not expired, etc). The fields in a JWT token can be decoded by using online JWT parsing tools, e.g., [jwt.io](https://jwt.io/).
+1. Si el token JWT va en la cabecera Authorization de las solicitudes HTTP, asegúrate de que sea válido (que no haya expirado, etc.). Puedes decodificar los campos de un token JWT con herramientas en línea para analizar JWT, p. ej., [jwt.io](https://jwt.io/).
 
-1. Verify the Envoy proxy configuration of the target workload using `istioctl proxy-config` command.
+1. Verifica la configuración del proxy Envoy del workload de destino con el comando `istioctl proxy-config`.
 
-    With the example policy above applied, use the following command to check the `listener` configuration on the inbound port `80`. You should see `envoy.filters.http.jwt_authn` filter with settings matching the issuer and JWKS as specified in the policy.
+    Con la política de ejemplo anterior aplicada, usa el siguiente comando para revisar la configuración de `listener` en el puerto de entrada `80`. Deberías ver el filtro `envoy.filters.http.jwt_authn` con ajustes que coinciden con el emisor y el JWKS especificados en la política.
 
     {{< text bash >}}
     $ POD=$(kubectl get pod -l app=httpbin -n foo -o jsonpath={.items..metadata.name})
@@ -79,11 +79,11 @@ With Istio, you can enable authentication for end users through [request authent
     <redacted>
     {{< /text >}}
 
-## Authorization is too restrictive or permissive
+## La autorización es demasiado restrictiva o permisiva {#authorization-is-too-restrictive-or-permissive}
 
-### Make sure there are no typos in the policy YAML file
+### Asegúrate de que no haya errores tipográficos en el archivo YAML de la política {#make-sure-there-are-no-typos-in-the-policy-yaml-file}
 
-One common mistake is specifying multiple items unintentionally in the YAML. Take the following policy as an example:
+Un error común es especificar varios elementos sin querer en el YAML. Toma como ejemplo la siguiente política:
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -104,67 +104,67 @@ spec:
         - foo
 {{< /text >}}
 
-You may expect the policy to allow requests if the path is `/foo` **and** the source namespace is `foo`.
-However, the policy actually allows requests if the path is `/foo` **or** the source namespace is `foo`, which is
-more permissive.
+Podrías esperar que la política permita solicitudes si la ruta es `/foo` **y** el namespace de origen es `foo`.
+Sin embargo, la política en realidad permite solicitudes si la ruta es `/foo` **o** el namespace de origen es `foo`, lo cual es
+más permisivo.
 
-In the YAML syntax, the `-` in front of the `from:` means it's a new element in the list. This creates 2 rules in the
-policy instead of 1. In authorization policy, multiple rules have the semantics of `OR`.
+En la sintaxis YAML, el `-` delante de `from:` significa que es un nuevo elemento de la lista. Esto crea 2 reglas en la
+política en lugar de 1. En una política de autorización, varias reglas tienen la semántica de `OR`.
 
-To fix the problem, just remove the extra `-` to make the policy have only 1 rule that allows requests if the
-path is `/foo` **and** the source namespace is `foo`, which is more restrictive.
+Para solucionar el problema, simplemente elimina el `-` sobrante para que la política tenga solo 1 regla que permita solicitudes si la
+ruta es `/foo` **y** el namespace de origen es `foo`, lo cual es más restrictivo.
 
-### Make sure you are NOT using HTTP-only fields on TCP ports
+### Asegúrate de NO usar campos exclusivos de HTTP en puertos TCP {#make-sure-you-are-not-using-http-only-fields-on-tcp-ports}
 
-The authorization policy will be more restrictive because HTTP-only fields (e.g. `host`, `path`, `headers`, JWT, etc.)
-do not exist in the raw TCP connections.
+La política de autorización será más restrictiva porque los campos exclusivos de HTTP (p. ej., `host`, `path`, `headers`, JWT, etc.)
+no existen en las conexiones TCP sin procesar.
 
-In the case of `ALLOW` policy, these fields are never matched. In the case of `DENY` and `CUSTOM` action, these fields
-are considered always matched. The final effect is a more restrictive policy that could cause unexpected denies.
+En el caso de una política `ALLOW`, estos campos nunca coinciden. En el caso de las acciones `DENY` y `CUSTOM`, se considera que estos campos
+siempre coinciden. El efecto final es una política más restrictiva que podría causar denegaciones inesperadas.
 
-Check the Kubernetes service definition to verify that the port is [named with the correct protocol properly](/es/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
-If you are using HTTP-only fields on the port, make sure the port name has the `http-` prefix.
+Revisa la definición del servicio de Kubernetes para verificar que el puerto esté [nombrado correctamente con el protocolo adecuado](/es/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection).
+Si usas campos exclusivos de HTTP en el puerto, asegúrate de que el nombre del puerto tenga el prefijo `http-`.
 
-### Make sure the policy is applied to the correct target
+### Asegúrate de que la política se aplique al destino correcto {#make-sure-the-policy-is-applied-to-the-correct-target}
 
-Check the workload selector and namespace to confirm it's applied to the correct targets. You can determine the
-authorization policy in effect by running `istioctl x authz check POD-NAME.POD-NAMESPACE`.
+Revisa el selector de workloads y el namespace para confirmar que se aplica a los destinos correctos. Puedes determinar la
+política de autorización vigente ejecutando `istioctl x authz check POD-NAME.POD-NAMESPACE`.
 
-### Pay attention to the action specified in the policy
+### Presta atención a la acción especificada en la política {#pay-attention-to-the-action-specified-in-the-policy}
 
-- If not specified, the policy defaults to use action `ALLOW`.
+- Si no se especifica, la política usa la acción `ALLOW` de forma predeterminada.
 
-- When a workload has multiple actions (`CUSTOM`, `ALLOW` and `DENY`) applied at the same time, all actions must be
-  satisfied to allow a request. In other words, a request is denied if any of the action denies and is allowed only if
-  all actions allow.
+- Cuando un workload tiene varias acciones (`CUSTOM`, `ALLOW` y `DENY`) aplicadas al mismo tiempo, todas las acciones deben
+  cumplirse para permitir una solicitud. En otras palabras, una solicitud se deniega si cualquiera de las acciones la deniega, y solo se permite si
+  todas las acciones la permiten.
 
-- The `AUDIT` action does not enforce access control and will not deny the request at any cases.
+- La acción `AUDIT` no aplica control de acceso y no denegará la solicitud en ningún caso.
 
-Read [authorization implicit enablement](/es/docs/concepts/security/#implicit-enablement) for more details of the evaluation order.
+Lee [habilitación implícita de la autorización](/es/docs/concepts/security/#implicit-enablement) para obtener más detalles sobre el orden de evaluación.
 
-## Ensure Istiod accepts the policies
+## Asegúrate de que Istiod acepte las políticas {#ensure-istiod-accepts-the-policies}
 
-Istiod converts and distributes your authorization policies to the proxies. The following steps help
-you ensure Istiod is working as expected:
+Istiod convierte y distribuye tus políticas de autorización a los proxies. Los siguientes pasos te ayudan
+a asegurarte de que Istiod funcione como se espera:
 
-1. Run the following command to enable the debug logging in istiod:
+1. Ejecuta el siguiente comando para habilitar el registro de depuración en istiod:
 
     {{< text bash >}}
     $ istioctl admin log --level authorization:debug
     {{< /text >}}
 
-1. Get the Istiod log with the following command:
+1. Obtén los registros de Istiod con el siguiente comando:
 
     {{< tip >}}
-    You probably need to first delete and then re-apply your authorization policies so that
-    the debug output is generated for these policies.
+    Probablemente necesites eliminar primero y luego volver a aplicar tus políticas de autorización para que
+    se genere la salida de depuración de estas políticas.
     {{< /tip >}}
 
     {{< text bash >}}
     $ kubectl logs $(kubectl -n istio-system get pods -l app=istiod -o jsonpath='{.items[0].metadata.name}') -c discovery -n istio-system
     {{< /text >}}
 
-1. Check the output and verify there are no errors. For example, you might see something similar to the following:
+1. Revisa la salida y verifica que no haya errores. Por ejemplo, podrías ver algo similar a lo siguiente:
 
     {{< text plain >}}
     2021-04-23T20:53:29.507314Z info ads Push debounce stable[31] 1: 100.981865ms since last change, 100.981653ms since last push, full=true
@@ -202,34 +202,34 @@ you ensure Istiod is working as expected:
     2021-04-23T20:53:29.511487Z info ads LDS: PUSH for node:httpbin-74fb669cc6-lpscm.foo resources:18 size:86.4kB
     {{< /text >}}
 
-    This shows that Istiod generated:
+    Esto muestra que Istiod generó:
 
-    - An HTTP filter config with policy `ns[foo]-policy[deny-path-headers]-rule[0]` for workload `httpbin-74fb669cc6-lpscm.foo`.
+    - Una configuración de filtro HTTP con la política `ns[foo]-policy[deny-path-headers]-rule[0]` para el workload `httpbin-74fb669cc6-lpscm.foo`.
 
-    - A TCP filter config with policy `ns[foo]-policy[deny-path-headers]-rule[0]` for workload `httpbin-74fb669cc6-lpscm.foo`.
+    - Una configuración de filtro TCP con la política `ns[foo]-policy[deny-path-headers]-rule[0]` para el workload `httpbin-74fb669cc6-lpscm.foo`.
 
-## Ensure Istiod distributes policies to proxies correctly
+## Asegúrate de que Istiod distribuya las políticas a los proxies correctamente {#ensure-istiod-distributes-policies-to-proxies-correctly}
 
-Istiod distributes the authorization policies to proxies. The following steps help you ensure istiod is working as expected:
+Istiod distribuye las políticas de autorización a los proxies. Los siguientes pasos te ayudan a asegurarte de que istiod funcione como se espera:
 
 {{< tip >}}
-The command below assumes you have deployed `httpbin`, you should replace `"-l app=httpbin"` with your actual pod if
-you are not using `httpbin`.
+El comando siguiente asume que desplegaste `httpbin`; debes reemplazar `"-l app=httpbin"` por tu pod real si
+no usas `httpbin`.
 {{< /tip >}}
 
-1. Run the following command to get the proxy configuration dump for the `httpbin` workload:
+1. Ejecuta el siguiente comando para obtener el volcado de la configuración del proxy del workload `httpbin`:
 
     {{< text bash >}}
     $ kubectl exec  $(kubectl get pods -l app=httpbin -o jsonpath='{.items[0].metadata.name}') -c istio-proxy -- pilot-agent request GET config_dump
     {{< /text >}}
 
-1. Check the log and verify:
+1. Revisa el registro y verifica que:
 
-    - The log includes an `envoy.filters.http.rbac` filter to enforce the authorization policy on each incoming request.
-    - Istio updates the filter accordingly after you update your authorization policy.
+    - El registro incluye un filtro `envoy.filters.http.rbac` para aplicar la política de autorización en cada solicitud entrante.
+    - Istio actualiza el filtro en consecuencia después de que actualizas tu política de autorización.
 
-1. The following output means the proxy of `httpbin` has enabled the `envoy.filters.http.rbac` filter with rules that rejects
-   anyone to access path `/headers`.
+1. La siguiente salida significa que el proxy de `httpbin` ha habilitado el filtro `envoy.filters.http.rbac` con reglas que impiden
+   que cualquiera acceda a la ruta `/headers`.
 
     {{< text plain >}}
     {
@@ -280,22 +280,22 @@ you are not using `httpbin`.
     },
     {{< /text >}}
 
-## Ensure proxies enforce policies correctly
+## Asegúrate de que los proxies apliquen las políticas correctamente {#ensure-proxies-enforce-policies-correctly}
 
-Proxies eventually enforce the authorization policies. The following steps help you ensure the proxy is working as expected:
+En última instancia, son los proxies los que aplican las políticas de autorización. Los siguientes pasos te ayudan a asegurarte de que el proxy funcione como se espera:
 
 {{< tip >}}
-The command below assumes you have deployed `httpbin`, you should replace `"-l app=httpbin"` with your actual pod if you
-are not using `httpbin`.
+El comando siguiente asume que desplegaste `httpbin`; debes reemplazar `"-l app=httpbin"` por tu pod real si
+no usas `httpbin`.
 {{< /tip >}}
 
-1. Turn on the authorization debug logging in proxy with the following command:
+1. Activa el registro de depuración de autorización en el proxy con el siguiente comando:
 
     {{< text bash >}}
     $ istioctl proxy-config log deploy/httpbin --level "rbac:debug"
     {{< /text >}}
 
-1. Verify you see the following output:
+1. Verifica que veas la siguiente salida:
 
     {{< text plain >}}
     active loggers:
@@ -304,22 +304,22 @@ are not using `httpbin`.
       ... ...
     {{< /text >}}
 
-1. Send some requests to the `httpbin` workload to generate some logs.
+1. Envía algunas solicitudes al workload `httpbin` para generar registros.
 
-1. Print the proxy logs with the following command:
+1. Imprime los registros del proxy con el siguiente comando:
 
     {{< text bash >}}
     $ kubectl logs $(kubectl get pods -l app=httpbin -o jsonpath='{.items[0].metadata.name}') -c istio-proxy
     {{< /text >}}
 
-1. Check the output and verify:
+1. Revisa la salida y verifica que:
 
-    - The output log shows either `enforced allowed` or `enforced denied` depending on whether the request
-      was allowed or denied respectively.
+    - El registro de salida muestra `enforced allowed` o `enforced denied`, según si la solicitud
+      se permitió o se denegó, respectivamente.
 
-    - Your authorization policy expects the data extracted from the request.
+    - Tu política de autorización espera los datos extraídos de la solicitud.
 
-1. The following is an example output for a request at path `/httpbin`:
+1. El siguiente es un ejemplo de salida para una solicitud a la ruta `/httpbin`:
 
     {{< text plain >}}
     ...
@@ -370,10 +370,10 @@ are not using `httpbin`.
     ...
     {{< /text >}}
 
-    The log `enforced denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` means the request is rejected by
-    the policy `ns[foo]-policy[deny-path-headers]-rule[0]`.
+    El registro `enforced denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` significa que la solicitud fue rechazada por
+    la política `ns[foo]-policy[deny-path-headers]-rule[0]`.
 
-1. The following is an example output for authorization policy in the [dry-run mode](/es/docs/tasks/security/authorization/authz-dry-run):
+1. El siguiente es un ejemplo de salida para una política de autorización en [modo dry-run](/es/docs/tasks/security/authorization/authz-dry-run):
 
     {{< text plain >}}
     ...
@@ -425,15 +425,15 @@ are not using `httpbin`.
     ...
     {{< /text >}}
 
-    The log `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` means the request would be rejected
-    by the **dry-run** policy `ns[foo]-policy[deny-path-headers]-rule[0]`.
+    El registro `shadow denied, matched policy ns[foo]-policy[deny-path-headers]-rule[0]` significa que la solicitud sería rechazada
+    por la política **dry-run** `ns[foo]-policy[deny-path-headers]-rule[0]`.
 
-    The log `no engine, allowed by default` means the request is actually allowed because the dry-run policy is the
-    only policy on the workload.
+    El registro `no engine, allowed by default` significa que la solicitud en realidad se permite porque la política dry-run es la
+    única política en el workload.
 
-## Keys and certificates errors
+## Errores de claves y certificados {#keys-and-certificates-errors}
 
-If you suspect that some of the keys and/or certificates used by Istio aren't correct, you can inspect the contents from any pod:
+Si sospechas que algunas de las claves o de los certificados que usa Istio no son correctos, puedes inspeccionar su contenido desde cualquier pod:
 
 {{< text bash >}}
 $ istioctl proxy-config secret curl-8f795f47d-4s4t7
@@ -442,7 +442,7 @@ default           Cert Chain     ACTIVE     true           138092480869518152837
 ROOTCA            CA             ACTIVE     true           288553090258624301170355571152070165215     2030-11-08T16:34:52Z     2020-11-10T16:34:52Z
 {{< /text >}}
 
-By passing the `-o json` flag, you can pass the full certificate content to `openssl` to analyze its contents:
+Si pasas la opción `-o json`, puedes enviar el contenido completo del certificado a `openssl` para analizarlo:
 
 {{< text bash >}}
 $ istioctl proxy-config secret curl-8f795f47d-4s4t7 -o json | jq '[.dynamicActiveSecrets[] | select(.name == "default")][0].secret.tlsCertificate.certificateChain.inlineBytes' -r | base64 -d | openssl x509 -noout -text
@@ -469,16 +469,16 @@ Certificate:
 ...
 {{< /text >}}
 
-Make sure the displayed certificate contains valid information. In particular, the `Subject Alternative Name` field should be `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`.
+Asegúrate de que el certificado mostrado contenga información válida. En particular, el campo `Subject Alternative Name` debe ser `URI:spiffe://cluster.local/ns/my-ns/sa/my-sa`.
 
-## Mutual TLS errors
+## Errores de TLS mutuo {#mutual-tls-errors}
 
-If you suspect problems with mutual TLS, first ensure that istiod is healthy, and
-second ensure that [keys and certificates are being delivered](#keys-and-certificates-errors) to sidecars properly.
+Si sospechas que hay problemas con TLS mutuo, primero asegúrate de que istiod esté en buen estado y,
+en segundo lugar, de que [las claves y los certificados se estén entregando](#keys-and-certificates-errors) correctamente a los sidecars.
 
-If everything appears to be working so far, the next step is to verify that the right [authentication policy](/es/docs/tasks/security/authentication/authn-policy/)
-is applied and the right destination rules are in place.
+Si todo parece funcionar hasta aquí, el siguiente paso es verificar que se aplique la [política de autenticación](/es/docs/tasks/security/authentication/authn-policy/) correcta
+y que estén configuradas las destination rules correctas.
 
-If you suspect the client side sidecar may send mutual TLS or plaintext traffic incorrectly, check the
-[Grafana Workload dashboard](/es/docs/ops/integrations/grafana/). The outbound requests are annotated whether mTLS
- is used or not. After checking this if you believe the client sidecars are misbehaved, report an issue on GitHub.
+Si sospechas que el sidecar del lado del cliente puede estar enviando tráfico con TLS mutuo o en texto plano de forma incorrecta, revisa el
+[dashboard Workload de Grafana](/es/docs/ops/integrations/grafana/). Las solicitudes salientes indican si se usa mTLS
+ o no. Si después de revisarlo crees que los sidecars del cliente no se comportan como deberían, reporta un issue en GitHub.

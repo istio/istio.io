@@ -1,6 +1,6 @@
 ---
-title: Traffic Management Problems
-description: Techniques to address common Istio traffic management and network problems.
+title: Problemas de gestión de tráfico
+description: Técnicas para resolver problemas comunes de gestión de tráfico y de red en Istio.
 force_inline_toc: true
 weight: 10
 aliases:
@@ -11,61 +11,61 @@ owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-## Requests are rejected by Envoy
+## Envoy rechaza las solicitudes {#requests-are-rejected-by-envoy}
 
-Requests may be rejected for various reasons. The best way to understand why requests are being rejected is
-by inspecting Envoy's access logs. By default, access logs are output to the standard output of the container.
-Run the following command to see the log:
+Las solicitudes pueden rechazarse por varios motivos. La mejor forma de entender por qué se rechazan es
+inspeccionar los registros de acceso de Envoy. De forma predeterminada, los registros de acceso se envían a la salida estándar del contenedor.
+Ejecuta el siguiente comando para ver el registro:
 
 {{< text bash >}}
 $ kubectl logs PODNAME -c istio-proxy -n NAMESPACE
 {{< /text >}}
 
-In the default access log format, Envoy response flags are located after the response code,
-if you are using a custom log format, make sure to include `%RESPONSE_FLAGS%`.
+En el formato predeterminado del registro de acceso, los indicadores de respuesta de Envoy aparecen después del código de respuesta;
+si usas un formato de registro personalizado, asegúrate de incluir `%RESPONSE_FLAGS%`.
 
-Refer to the [Envoy response flags](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)
-for details of response flags.
+Consulta los [indicadores de respuesta de Envoy](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)
+para obtener más detalles sobre ellos.
 
-Common response flags are:
+Los indicadores de respuesta más comunes son:
 
-- `NR`: No route configured, check your `DestinationRule` or `VirtualService`.
-- `UO`: Upstream overflow with circuit breaking, check your circuit breaker configuration in `DestinationRule`.
-- `UF`: Failed to connect to upstream, if you're using Istio authentication, check for a
-[mutual TLS configuration conflict](#503-errors-after-setting-destination-rule).
+- `NR`: no hay ninguna ruta configurada; revisa tu `DestinationRule` o tu `VirtualService`.
+- `UO`: desbordamiento upstream por circuit breaking; revisa la configuración del circuit breaker en la `DestinationRule`.
+- `UF`: no se pudo conectar con el upstream; si usas la autenticación de Istio, comprueba si hay un
+[conflicto de configuración de TLS mutuo](#503-errors-after-setting-destination-rule).
 
-## Route rules don't seem to affect traffic flow
+## Las reglas de enrutamiento no parecen afectar al flujo de tráfico {#route-rules-dont-seem-to-affect-traffic-flow}
 
-With the current Envoy sidecar implementation, up to 100 requests may be required for weighted
-version distribution to be observed.
+Con la implementación actual del sidecar de Envoy, pueden hacer falta hasta 100 solicitudes para que se observe
+la distribución ponderada entre versiones.
 
-If route rules are working perfectly for the [Bookinfo](/es/docs/examples/bookinfo/) sample,
-but similar version routing rules have no effect on your own application, it may be that
-your Kubernetes services need to be changed slightly.
-Kubernetes services must adhere to certain restrictions in order to take advantage of
-Istio's L7 routing features.
-Refer to the [Requirements for Pods and Services](/es/docs/ops/deployment/application-requirements/)
-for details.
+Si las reglas de enrutamiento funcionan perfectamente con el ejemplo [Bookinfo](/es/docs/examples/bookinfo/),
+pero reglas similares de enrutamiento por versión no tienen efecto en tu propia aplicación, puede que
+tus servicios de Kubernetes necesiten pequeños cambios.
+Los servicios de Kubernetes deben cumplir ciertas restricciones para aprovechar
+las funcionalidades de enrutamiento L7 de Istio.
+Consulta los [requisitos para pods y servicios](/es/docs/ops/deployment/application-requirements/)
+para obtener más detalles.
 
-Another potential issue is that the route rules may simply be slow to take effect.
-The Istio implementation on Kubernetes utilizes an eventually consistent
-algorithm to ensure all Envoy sidecars have the correct configuration
-including all route rules. A configuration change will take some time
-to propagate to all the sidecars.  With large deployments the
-propagation will take longer and there may be a lag time on the
-order of seconds.
+Otro posible problema es que las reglas de enrutamiento simplemente tarden en surtir efecto.
+La implementación de Istio en Kubernetes usa un algoritmo de consistencia eventual
+para garantizar que todos los sidecars de Envoy tengan la configuración correcta,
+incluidas todas las reglas de enrutamiento. Un cambio de configuración tarda un tiempo
+en propagarse a todos los sidecars. En despliegues grandes, la
+propagación tarda más y puede haber un retraso del
+orden de segundos.
 
-## 503 errors after setting destination rule
+## Errores 503 después de configurar una destination rule {#503-errors-after-setting-destination-rule}
 
 {{< tip >}}
-You should only see this error if you disabled [automatic mutual TLS](/es/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) during install.
+Solo deberías ver este error si deshabilitaste el [TLS mutuo automático](/es/docs/tasks/security/authentication/authn-policy/#auto-mutual-tls) durante la instalación.
 {{< /tip >}}
 
-If requests to a service immediately start generating HTTP 503 errors after you applied a `DestinationRule`
-and the errors continue until you remove or revert the `DestinationRule`, then the `DestinationRule` is probably
-causing a TLS conflict for the service.
+Si las solicitudes a un servicio empiezan a generar errores HTTP 503 justo después de aplicar una `DestinationRule`
+y los errores continúan hasta que eliminas o reviertes la `DestinationRule`, es probable que la `DestinationRule`
+esté causando un conflicto de TLS para el servicio.
 
-For example, if you configure mutual TLS in the cluster globally, the `DestinationRule` must include the following `trafficPolicy`:
+Por ejemplo, si configuras TLS mutuo de forma global en el clúster, la `DestinationRule` debe incluir la siguiente `trafficPolicy`:
 
 {{< text yaml >}}
 trafficPolicy:
@@ -73,16 +73,16 @@ trafficPolicy:
     mode: ISTIO_MUTUAL
 {{< /text >}}
 
-Otherwise, the mode defaults to `DISABLE` causing client proxy sidecars to make plain HTTP requests
-instead of TLS encrypted requests. Thus, the requests conflict with the server proxy because the server proxy expects
-encrypted requests.
+De lo contrario, el modo toma el valor predeterminado `DISABLE`, lo que hace que los sidecar proxies del cliente envíen solicitudes HTTP en texto plano
+en lugar de solicitudes cifradas con TLS. Por lo tanto, las solicitudes entran en conflicto con el proxy del servidor, porque este espera
+solicitudes cifradas.
 
-Whenever you apply a `DestinationRule`, ensure the `trafficPolicy` TLS mode matches the global server configuration.
+Siempre que apliques una `DestinationRule`, asegúrate de que el modo TLS de la `trafficPolicy` coincida con la configuración global del servidor.
 
-## Route rules have no effect on ingress gateway requests
+## Las reglas de enrutamiento no tienen efecto en las solicitudes del ingress gateway {#route-rules-have-no-effect-on-ingress-gateway-requests}
 
-Let's assume you are using an ingress `Gateway` and corresponding `VirtualService` to access an internal service.
-For example, your `VirtualService` looks something like this:
+Supongamos que usas un `Gateway` de ingress y el `VirtualService` correspondiente para acceder a un servicio interno.
+Por ejemplo, tu `VirtualService` se parece a esto:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -105,7 +105,7 @@ spec:
     ...
 {{< /text >}}
 
-You also have a `VirtualService` which routes traffic for the helloworld service to a particular subset:
+También tienes un `VirtualService` que enruta el tráfico del servicio helloworld a un subconjunto concreto:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -122,15 +122,15 @@ spec:
         subset: v1
 {{< /text >}}
 
-In this situation you will notice that requests to the helloworld service via the ingress gateway will
-not be directed to subset v1 but instead will continue to use default round-robin routing.
+En esta situación, verás que las solicitudes al servicio helloworld a través del ingress gateway
+no se dirigen al subconjunto v1, sino que siguen usando el enrutamiento round-robin predeterminado.
 
-The ingress requests are using the gateway host (e.g., `myapp.com`)
-which will activate the rules in the myapp `VirtualService` that routes to any endpoint of the helloworld service.
-Only internal requests with the host `helloworld.default.svc.cluster.local` will use the
-helloworld `VirtualService` which directs traffic exclusively to subset v1.
+Las solicitudes de ingress usan el host del gateway (p. ej., `myapp.com`),
+lo que activa las reglas del `VirtualService` myapp, que enruta a cualquier endpoint del servicio helloworld.
+Solo las solicitudes internas con el host `helloworld.default.svc.cluster.local` usan el
+`VirtualService` helloworld, que dirige el tráfico exclusivamente al subconjunto v1.
 
-To control the traffic from the gateway, you need to also include the subset rule in the myapp `VirtualService`:
+Para controlar el tráfico que llega desde el gateway, también debes incluir la regla del subconjunto en el `VirtualService` myapp:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -154,7 +154,7 @@ spec:
     ...
 {{< /text >}}
 
-Alternatively, you can combine both `VirtualServices` into one unit if possible:
+Como alternativa, si es posible, puedes combinar ambos `VirtualServices` en una sola unidad:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -187,22 +187,22 @@ spec:
         subset: v1
 {{< /text >}}
 
-## Envoy is crashing under load
+## Envoy falla bajo carga {#envoy-is-crashing-under-load}
 
-Check your `ulimit -a`. Many systems have a 1024 open file descriptor limit by default which will cause Envoy to assert and crash with:
+Revisa tu `ulimit -a`. Muchos sistemas tienen por defecto un límite de 1024 descriptores de archivo abiertos, lo que hará que una aserción de Envoy falle y que Envoy se cierre con:
 
 {{< text plain >}}
 [2017-05-17 03:00:52.735][14236][critical][assert] assert failure: fd_ != -1: external/envoy/source/common/network/connection_impl.cc:58
 {{< /text >}}
 
-Make sure to raise your ulimit. Example: `ulimit -n 16384`
+Asegúrate de aumentar tu ulimit. Ejemplo: `ulimit -n 16384`
 
-## Envoy won't connect to my HTTP/1.0 service
+## Envoy no se conecta a mi servicio HTTP/1.0 {#envoy-wont-connect-to-my-http10-service}
 
-Envoy requires `HTTP/1.1` or `HTTP/2` traffic for upstream services. For example, when using [NGINX](https://www.nginx.com/) for serving traffic behind Envoy, you
-will need to set the [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) directive in your NGINX configuration to be "1.1", since the NGINX default is 1.0.
+Envoy requiere tráfico `HTTP/1.1` o `HTTP/2` para los servicios upstream. Por ejemplo, si usas [NGINX](https://www.nginx.com/) para servir tráfico detrás de Envoy,
+tendrás que establecer la directiva [proxy_http_version](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version) en tu configuración de NGINX con el valor "1.1", ya que el valor predeterminado de NGINX es 1.0.
 
-Example configuration:
+Configuración de ejemplo:
 
 {{< text plain >}}
 upstream http_backend {
@@ -223,14 +223,14 @@ server {
 }
 {{< /text >}}
 
-## 503 error while accessing headless services
+## Error 503 al acceder a servicios headless {#503-error-while-accessing-headless-services}
 
-Assume Istio is installed with the following configuration:
+Supongamos que Istio está instalado con la siguiente configuración:
 
-- `mTLS mode` set to `STRICT` within the mesh
-- `meshConfig.outboundTrafficPolicy.mode` set to `ALLOW_ANY`
+- `mTLS mode` establecido en `STRICT` dentro de la mesh
+- `meshConfig.outboundTrafficPolicy.mode` establecido en `ALLOW_ANY`
 
-Consider `nginx` is deployed as a `StatefulSet` in the default namespace and a corresponding `Headless Service` is defined as shown below:
+Considera que `nginx` está desplegado como un `StatefulSet` en el namespace default y que hay un `Headless Service` correspondiente definido como se muestra a continuación:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -270,10 +270,10 @@ spec:
           name: web
 {{< /text >}}
 
-The port name `http-web` in the Service definition explicitly specifies the http protocol for that port.
+El nombre de puerto `http-web` en la definición del Service especifica explícitamente el protocolo http para ese puerto.
 
-Let us assume we have a [curl]({{< github_tree >}}/samples/curl) pod `Deployment` as well in the default namespace.
-When `nginx` is accessed from this `curl` pod using its Pod IP (this is one of the common ways to access a headless service), the request goes via the `PassthroughCluster` to the server-side, but the sidecar proxy on the server-side fails to find the route entry to `nginx` and fails with `HTTP 503 UC`.
+Supongamos que también tenemos un `Deployment` del pod [curl]({{< github_tree >}}/samples/curl) en el namespace default.
+Cuando se accede a `nginx` desde este pod `curl` usando su IP de pod (una de las formas habituales de acceder a un servicio headless), la solicitud pasa por el `PassthroughCluster` hasta el lado del servidor, pero el sidecar proxy del lado del servidor no encuentra la entrada de ruta hacia `nginx` y falla con `HTTP 503 UC`.
 
 {{< text bash >}}
 $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
@@ -281,13 +281,13 @@ $ kubectl exec -it $SOURCE_POD -c curl -- curl 10.1.1.171 -s -o /dev/null -w "%{
   503
 {{< /text >}}
 
-`10.1.1.171` is the Pod IP of one of the replicas of `nginx` and the service is accessed on `containerPort` 80.
+`10.1.1.171` es la IP de pod de una de las réplicas de `nginx`, y se accede al servicio en el `containerPort` 80.
 
-Here are some of the ways to avoid this 503 error:
+Estas son algunas formas de evitar este error 503:
 
-1. Specify the correct Host header:
+1. Especifica la cabecera Host correcta:
 
-    The Host header in the curl request above will be the Pod IP by default. Specifying the Host header as `nginx.default` in our request to `nginx` successfully returns `HTTP 200 OK`.
+    De forma predeterminada, la cabecera Host de la solicitud curl anterior es la IP del pod. Si especificas `nginx.default` como cabecera Host en nuestra solicitud a `nginx`, se devuelve correctamente `HTTP 200 OK`.
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
@@ -295,13 +295,13 @@ Here are some of the ways to avoid this 503 error:
       200
     {{< /text >}}
 
-1. Set port name to `tcp` or `tcp-web` or `tcp-<custom_name>`:
+1. Establece el nombre del puerto en `tcp`, `tcp-web` o `tcp-<custom_name>`:
 
-    Here the protocol is explicitly specified as `tcp`. In this case, only the `TCP Proxy` network filter on the sidecar proxy is used both on the client-side and server-side. HTTP Connection Manager is not used at all and therefore, any kind of header is not expected in the request.
+    Aquí el protocolo se especifica explícitamente como `tcp`. En este caso, solo se usa el filtro de red `TCP Proxy` del sidecar proxy, tanto en el lado del cliente como en el del servidor. El HTTP Connection Manager no se usa en absoluto y, por lo tanto, no se espera ningún tipo de cabecera en la solicitud.
 
-    A request to `nginx` with or without explicitly setting the Host header successfully returns `HTTP 200 OK`.
+    Una solicitud a `nginx`, con o sin la cabecera Host establecida explícitamente, devuelve correctamente `HTTP 200 OK`.
 
-    This is useful in certain scenarios where a client may not be able to include header information in the request.
+    Esto resulta útil en ciertos escenarios en los que un cliente no puede incluir información de cabeceras en la solicitud.
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
@@ -314,9 +314,9 @@ Here are some of the ways to avoid this 503 error:
       200
     {{< /text >}}
 
-1. Use domain name instead of Pod IP:
+1. Usa el nombre de dominio en lugar de la IP del pod:
 
-    A specific instance of a headless service can also be accessed using just the domain name.
+    También se puede acceder a una instancia concreta de un servicio headless usando solo el nombre de dominio.
 
     {{< text bash >}}
     $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
@@ -324,21 +324,21 @@ Here are some of the ways to avoid this 503 error:
       200
     {{< /text >}}
 
-    Here `web-0` is the pod name of one of the 3 replicas of `nginx`.
+    Aquí, `web-0` es el nombre del pod de una de las 3 réplicas de `nginx`.
 
-Refer to this [traffic routing](/es/docs/ops/configuration/traffic-management/traffic-routing/) page for some additional information on headless services and traffic routing behavior for different protocols.
+Consulta la página de [enrutamiento de tráfico](/es/docs/ops/configuration/traffic-management/traffic-routing/) para obtener más información sobre los servicios headless y el comportamiento del enrutamiento de tráfico con distintos protocolos.
 
-## TLS configuration mistakes
+## Errores de configuración de TLS {#tls-configuration-mistakes}
 
-Many traffic management problems
-are caused by incorrect [TLS configuration](/es/docs/ops/configuration/traffic-management/tls-configuration/).
-The following sections describe some of the most common misconfigurations.
+Muchos problemas de gestión de tráfico
+se deben a una [configuración de TLS](/es/docs/ops/configuration/traffic-management/tls-configuration/) incorrecta.
+Las siguientes secciones describen algunos de los errores de configuración más comunes.
 
-### Sending HTTPS to an HTTP port
+### Enviar HTTPS a un puerto HTTP {#sending-https-to-an-http-port}
 
-If your application sends an HTTPS request to a service declared to be HTTP,
-the Envoy sidecar will attempt to parse the request as HTTP while forwarding the request,
-which will fail because the HTTP is unexpectedly encrypted.
+Si tu aplicación envía una solicitud HTTPS a un servicio declarado como HTTP,
+el sidecar de Envoy intentará analizar la solicitud como HTTP al reenviarla,
+lo que fallará porque el HTTP está cifrado de forma inesperada.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -355,14 +355,14 @@ spec:
   resolution: DNS
 {{< /text >}}
 
-Although the above configuration may be correct if you are intentionally sending plaintext on port 443 (e.g., `curl http://httpbin.org:443`),
-generally port 443 is dedicated for HTTPS traffic.
+Aunque la configuración anterior puede ser correcta si envías texto plano a propósito por el puerto 443 (p. ej., `curl http://httpbin.org:443`),
+por lo general el puerto 443 se reserva para el tráfico HTTPS.
 
-Sending an HTTPS request like `curl https://httpbin.org`, which defaults to port 443, will result in an error like
+Enviar una solicitud HTTPS como `curl https://httpbin.org`, que usa el puerto 443 de forma predeterminada, producirá un error como
 `curl: (35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number`.
-The access logs may also show an error like `400 DPE`.
+Los registros de acceso también pueden mostrar un error como `400 DPE`.
 
-To fix this, you should change the port protocol to HTTPS:
+Para solucionarlo, cambia el protocolo del puerto a HTTPS:
 
 {{< text yaml >}}
 spec:
@@ -372,14 +372,14 @@ spec:
     protocol: HTTPS
 {{< /text >}}
 
-### Gateway to virtual service TLS mismatch {#gateway-mismatch}
+### Discrepancia de TLS entre el gateway y el virtual service {#gateway-mismatch}
 
-There are two common TLS mismatches that can occur when binding a virtual service to a gateway.
+Hay dos discrepancias de TLS habituales que pueden producirse al vincular un virtual service a un gateway.
 
-1. The gateway terminates TLS while the virtual service configures TLS routing.
-1. The gateway does TLS passthrough while the virtual service configures HTTP routing.
+1. El gateway termina TLS mientras que el virtual service configura enrutamiento TLS.
+1. El gateway hace TLS passthrough mientras que el virtual service configura enrutamiento HTTP.
 
-#### Gateway with TLS termination
+#### Gateway con terminación TLS {#gateway-with-tls-termination}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -419,16 +419,16 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-In this example, the gateway is terminating TLS (the `tls.mode` configuration of the gateway is `SIMPLE`,
-not `PASSTHROUGH`) while the virtual service is using TLS-based routing. Evaluating routing rules
-occurs after the gateway terminates TLS, so the TLS rule will have no effect because the
-request is then HTTP rather than HTTPS.
+En este ejemplo, el gateway termina TLS (la configuración `tls.mode` del gateway es `SIMPLE`,
+no `PASSTHROUGH`) mientras que el virtual service usa enrutamiento basado en TLS. Las reglas de enrutamiento se evalúan
+después de que el gateway termine TLS, por lo que la regla TLS no tendrá efecto, ya que la
+solicitud es entonces HTTP en lugar de HTTPS.
 
-With this misconfiguration, you will end up getting 404 responses because the requests will be
-sent to HTTP routing but there are no HTTP routes configured.
-You can confirm this using the `istioctl proxy-config routes` command.
+Con esta configuración incorrecta, acabarás recibiendo respuestas 404, porque las solicitudes se
+envían al enrutamiento HTTP, pero no hay rutas HTTP configuradas.
+Puedes confirmarlo con el comando `istioctl proxy-config routes`.
 
-To fix this problem, you should switch the virtual service to specify `http` routing, instead of `tls`:
+Para solucionar este problema, cambia el virtual service para que especifique enrutamiento `http` en lugar de `tls`:
 
 {{< text yaml >}}
 spec:
@@ -440,7 +440,7 @@ spec:
           regex: "*.example.com"
 {{< /text >}}
 
-#### Gateway with TLS passthrough
+#### Gateway con TLS passthrough {#gateway-with-tls-passthrough}
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -475,11 +475,11 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-In this configuration, the virtual service is attempting to match HTTP traffic against TLS traffic passed through the gateway.
-This will result in the virtual service configuration having no effect. You can observe that the HTTP route is not applied using
-the `istioctl proxy-config listener` and `istioctl proxy-config route` commands.
+En esta configuración, el virtual service intenta hacer coincidir tráfico HTTP con el tráfico TLS que pasa a través del gateway.
+Como resultado, la configuración del virtual service no tiene ningún efecto. Puedes comprobar que la ruta HTTP no se aplica con
+los comandos `istioctl proxy-config listener` e `istioctl proxy-config route`.
 
-To fix this, you should switch the virtual service to configure `tls` routing:
+Para solucionarlo, cambia el virtual service para que configure enrutamiento `tls`:
 
 {{< text yaml >}}
 spec:
@@ -491,7 +491,7 @@ spec:
         host: httpbin.org
 {{< /text >}}
 
-Alternatively, you could terminate TLS, rather than passing it through, by switching the `tls` configuration in the gateway:
+Como alternativa, puedes terminar TLS en lugar de dejarlo pasar, cambiando la configuración `tls` del gateway:
 
 {{< text yaml >}}
 spec:
@@ -501,13 +501,13 @@ spec:
       mode: SIMPLE
 {{< /text >}}
 
-### Double TLS (TLS origination for a TLS request) {#double-tls}
+### TLS doble (originación de TLS para una solicitud TLS) {#double-tls}
 
-When configuring Istio to perform {{< gloss >}}TLS origination{{< /gloss >}}, you need to make sure
-that the application sends plaintext requests to the sidecar, which will then originate the TLS.
+Al configurar Istio para realizar {{< gloss >}}TLS origination{{< /gloss >}}, debes asegurarte de
+que la aplicación envíe solicitudes en texto plano al sidecar, que será el que origine el TLS.
 
-The following `DestinationRule` originates TLS for requests to the `httpbin.org` service,
-but the corresponding `ServiceEntry` defines the protocol as HTTPS on port 443.
+La siguiente `DestinationRule` origina TLS para las solicitudes al servicio `httpbin.org`,
+pero el `ServiceEntry` correspondiente define el protocolo como HTTPS en el puerto 443.
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -534,14 +534,14 @@ spec:
       mode: SIMPLE
 {{< /text >}}
 
-With this configuration, the sidecar expects the application to send TLS traffic on port 443
-(e.g., `curl https://httpbin.org`), but it will also perform TLS origination before forwarding requests.
-This will cause the requests to be double encrypted.
+Con esta configuración, el sidecar espera que la aplicación envíe tráfico TLS por el puerto 443
+(p. ej., `curl https://httpbin.org`), pero también realizará la originación de TLS antes de reenviar las solicitudes.
+Esto hará que las solicitudes se cifren dos veces.
 
-For example, sending a request like `curl https://httpbin.org` will result in an error:
+Por ejemplo, enviar una solicitud como `curl https://httpbin.org` producirá un error:
 `(35) error:1408F10B:SSL routines:ssl3_get_record:wrong version number`.
 
-You can fix this example by changing the port protocol in the `ServiceEntry` to HTTP:
+Puedes corregir este ejemplo cambiando a HTTP el protocolo del puerto en el `ServiceEntry`:
 
 {{< text yaml >}}
 spec:
@@ -553,10 +553,10 @@ spec:
     protocol: HTTP
 {{< /text >}}
 
-Note that with this configuration your application will need to send plaintext requests to port 443,
-like `curl http://httpbin.org:443`, because TLS origination does not change the port.
-However, starting in Istio 1.8, you can expose HTTP port 80 to the application (e.g., `curl http://httpbin.org`)
-and then redirect requests to `targetPort` 443 for the TLS origination:
+Ten en cuenta que, con esta configuración, tu aplicación tendrá que enviar solicitudes en texto plano al puerto 443,
+como `curl http://httpbin.org:443`, porque la originación de TLS no cambia el puerto.
+Sin embargo, a partir de Istio 1.8, puedes exponer el puerto HTTP 80 a la aplicación (p. ej., `curl http://httpbin.org`)
+y luego redirigir las solicitudes al `targetPort` 443 para la originación de TLS:
 
 {{< text yaml >}}
 spec:
@@ -569,38 +569,38 @@ spec:
     targetPort: 443
 {{< /text >}}
 
-### 404 errors occur when multiple gateways configured with same TLS certificate
+### Errores 404 cuando varios gateways se configuran con el mismo certificado TLS {#404-errors-occur-when-multiple-gateways-configured-with-same-tls-certificate}
 
-Configuring more than one gateway using the same TLS certificate will cause browsers
-that leverage [HTTP/2 connection reuse](https://httpwg.org/specs/rfc7540.html#reuse)
-(i.e., most browsers) to produce 404 errors when accessing a second host after a
-connection to another host has already been established.
+Configurar más de un gateway con el mismo certificado TLS hará que los navegadores
+que aprovechan la [reutilización de conexiones de HTTP/2](https://httpwg.org/specs/rfc7540.html#reuse)
+(es decir, la mayoría de los navegadores) produzcan errores 404 al acceder a un segundo host después de que
+ya se haya establecido una conexión con otro host.
 
-For example, let's say you have 2 hosts that share the same TLS certificate like this:
+Por ejemplo, supongamos que tienes 2 hosts que comparten el mismo certificado TLS de esta forma:
 
-- Wildcard certificate `*.test.com` installed in `istio-ingressgateway`
-- `Gateway` configuration `gw1` with host `service1.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
-- `Gateway` configuration `gw2` with host `service2.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
-- `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw1`
-- `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw2`
+- Certificado comodín `*.test.com` instalado en `istio-ingressgateway`
+- Configuración de `Gateway` `gw1` con host `service1.test.com`, selector `istio: ingressgateway` y TLS con el certificado (comodín) montado en el gateway
+- Configuración de `Gateway` `gw2` con host `service2.test.com`, selector `istio: ingressgateway` y TLS con el certificado (comodín) montado en el gateway
+- Configuración de `VirtualService` `vs1` con host `service1.test.com` y gateway `gw1`
+- Configuración de `VirtualService` `vs2` con host `service2.test.com` y gateway `gw2`
 
-Since both gateways are served by the same workload (i.e., selector `istio: ingressgateway`) requests to both services
-(`service1.test.com` and `service2.test.com`) will resolve to the same IP. If `service1.test.com` is accessed first, it
-will return the wildcard certificate (`*.test.com`) indicating that connections to `service2.test.com` can use the same certificate.
-Browsers like Chrome and Firefox will consequently reuse the existing connection for requests to `service2.test.com`.
-Since the gateway (`gw1`) has no route for `service2.test.com`, it will then return a 404 (Not Found) response.
+Como ambos gateways los sirve el mismo workload (es decir, el selector `istio: ingressgateway`), las solicitudes a ambos servicios
+(`service1.test.com` y `service2.test.com`) se resuelven a la misma IP. Si primero se accede a `service1.test.com`, este
+devuelve el certificado comodín (`*.test.com`), lo que indica que las conexiones a `service2.test.com` pueden usar el mismo certificado.
+En consecuencia, navegadores como Chrome y Firefox reutilizan la conexión existente para las solicitudes a `service2.test.com`.
+Como el gateway (`gw1`) no tiene ninguna ruta para `service2.test.com`, devuelve una respuesta 404 (Not Found).
 
-You can avoid this problem by configuring a single wildcard `Gateway`, instead of two (`gw1` and `gw2`).
-Then, simply bind both `VirtualServices` to it like this:
+Puedes evitar este problema configurando un único `Gateway` comodín, en lugar de dos (`gw1` y `gw2`).
+Después, simplemente vincula ambos `VirtualServices` a él de esta forma:
 
-- `Gateway` configuration `gw` with host `*.test.com`, selector `istio: ingressgateway`, and TLS using gateway's mounted (wildcard) certificate
-- `VirtualService` configuration `vs1` with host `service1.test.com` and gateway `gw`
-- `VirtualService` configuration `vs2` with host `service2.test.com` and gateway `gw`
+- Configuración de `Gateway` `gw` con host `*.test.com`, selector `istio: ingressgateway` y TLS con el certificado (comodín) montado en el gateway
+- Configuración de `VirtualService` `vs1` con host `service1.test.com` y gateway `gw`
+- Configuración de `VirtualService` `vs2` con host `service2.test.com` y gateway `gw`
 
-### Configuring SNI routing when not sending SNI
+### Configurar enrutamiento SNI cuando no se envía SNI {#configuring-sni-routing-when-not-sending-sni}
 
-An HTTPS `Gateway` that specifies the `hosts` field will perform an [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) match on incoming requests.
-For example, the following configuration would only allow requests that match `*.example.com` in the SNI:
+Un `Gateway` HTTPS que especifica el campo `hosts` realiza una coincidencia de [SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) en las solicitudes entrantes.
+Por ejemplo, la siguiente configuración solo permitiría solicitudes que coincidan con `*.example.com` en el SNI:
 
 {{< text yaml >}}
 servers:
@@ -612,24 +612,24 @@ servers:
   - "*.example.com"
 {{< /text >}}
 
-This may cause certain requests to fail.
+Esto puede hacer que algunas solicitudes fallen.
 
-For example, if you do not have DNS set up and are instead directly setting the host header, such as `curl 1.2.3.4 -H "Host: app.example.com"`, no SNI will be set, causing the request to fail.
-Instead, you can set up DNS or use the `--resolve` flag of `curl`. See the [Secure Gateways](/es/docs/tasks/traffic-management/ingress/secure-ingress/) task for more information.
+Por ejemplo, si no tienes DNS configurado y, en su lugar, estableces directamente la cabecera host, como en `curl 1.2.3.4 -H "Host: app.example.com"`, no se establecerá ningún SNI y la solicitud fallará.
+En su lugar, puedes configurar DNS o usar la opción `--resolve` de `curl`. Consulta la tarea [Gateways seguros](/es/docs/tasks/traffic-management/ingress/secure-ingress/) para obtener más información.
 
-Another common issue is load balancers in front of Istio.
-Most cloud load balancers will not forward the SNI, so if you are terminating TLS in your cloud load balancer you may need to do one of the following:
+Otro problema habitual son los balanceadores de carga situados delante de Istio.
+La mayoría de los balanceadores de carga en la nube no reenvían el SNI, así que, si terminas TLS en tu balanceador de carga en la nube, puede que tengas que hacer una de estas cosas:
 
-- Configure the cloud load balancer to instead passthrough the TLS connection
-- Disable SNI matching in the `Gateway` by setting the hosts field to `*`
+- Configurar el balanceador de carga en la nube para que, en su lugar, haga passthrough de la conexión TLS
+- Deshabilitar la coincidencia de SNI en el `Gateway` estableciendo el campo hosts en `*`
 
-A common symptom of this is for the load balancer health checks to succeed while real traffic fails.
+Un síntoma habitual de esto es que las comprobaciones de estado del balanceador de carga funcionan mientras que el tráfico real falla.
 
-## Unchanged Envoy filter configuration suddenly stops working
+## Una configuración de filtro de Envoy sin cambios deja de funcionar de repente {#unchanged-envoy-filter-configuration-suddenly-stops-working}
 
-An `EnvoyFilter` configuration that specifies an insert position relative to another filter can be very
-fragile because, by default, the order of evaluation is based on the creation time of the filters.
-Consider a filter with the following specification:
+Una configuración de `EnvoyFilter` que especifica una posición de inserción relativa a otro filtro puede ser muy
+frágil porque, de forma predeterminada, el orden de evaluación se basa en la hora de creación de los filtros.
+Considera un filtro con la siguiente especificación:
 
 {{< text yaml >}}
 spec:
@@ -648,25 +648,25 @@ spec:
         ...
 {{< /text >}}
 
-To work properly, this filter configuration depends on the `istio.stats` filter having an older creation time
-than it. Otherwise, the `INSERT_BEFORE` operation will be silently ignored. There will be nothing in the
-error log to indicate that this filter has not been added to the chain.
+Para funcionar correctamente, esta configuración de filtro depende de que el filtro `istio.stats` se haya creado
+antes que ella. De lo contrario, la operación `INSERT_BEFORE` se ignorará sin avisar. No habrá nada en el
+registro de errores que indique que este filtro no se ha añadido a la cadena.
 
-This is particularly problematic when matching filters, like `istio.stats`, that are version
-specific (i.e., that include the `proxyVersion` field in their match criteria). Such filters may be removed
-or replaced by newer ones when upgrading Istio. As a result, an `EnvoyFilter` like the one above may initially
-be working perfectly but after upgrading Istio to a newer version it will no longer be included in the network
-filter chain of the sidecars.
+Esto es especialmente problemático al hacer coincidir filtros que son específicos de una versión, como `istio.stats`
+(es decir, que incluyen el campo `proxyVersion` en sus criterios de coincidencia). Estos filtros pueden eliminarse
+o sustituirse por otros más recientes al actualizar Istio. Como resultado, un `EnvoyFilter` como el anterior puede
+funcionar perfectamente al principio, pero, tras actualizar Istio a una versión más reciente, dejará de incluirse en la cadena
+de filtros de red de los sidecars.
 
-To avoid this issue, you can either change the operation to one that does not depend on the presence of
-another filter (e.g., `INSERT_FIRST`), or set an explicit priority in the `EnvoyFilter` to override the
-default creation time-based ordering. For example, adding `priority: 10` to the above filter will ensure
-that it is processed after the `istio.stats` filter which has a default priority of 0.
+Para evitar este problema, puedes cambiar la operación por una que no dependa de la presencia de
+otro filtro (p. ej., `INSERT_FIRST`), o establecer una prioridad explícita en el `EnvoyFilter` para anular el
+orden predeterminado basado en la hora de creación. Por ejemplo, añadir `priority: 10` al filtro anterior garantiza
+que se procese después del filtro `istio.stats`, que tiene una prioridad predeterminada de 0.
 
-## Virtual service with fault injection and retry/timeout policies not working as expected
+## Un virtual service con inyección de fallos y políticas de reintento/timeout no funciona como se espera {#virtual-service-with-fault-injection-and-retrytimeout-policies-not-working-as-expected}
 
-Currently, Istio does not support configuring fault injections and retry or timeout policies on the
-same `VirtualService`. Consider the following configuration:
+Actualmente, Istio no admite configurar inyecciones de fallos y políticas de reintento o timeout en el
+mismo `VirtualService`. Considera la siguiente configuración:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -697,11 +697,11 @@ spec:
           number: 5000
 {{< /text >}}
 
-You would expect that given the configured five retry attempts, the user would almost never see any
-errors when calling the `helloworld` service. However since both fault and retries are configured on
-the same `VirtualService`, the retry configuration does not take effect, resulting in a 50% failure
-rate. To work around this issue, you may remove the fault config from your `VirtualService` and
-inject the fault to the upstream Envoy proxy using `EnvoyFilter` instead:
+Cabría esperar que, con los cinco reintentos configurados, el usuario casi nunca viera
+errores al llamar al servicio `helloworld`. Sin embargo, como tanto el fallo como los reintentos están configurados en
+el mismo `VirtualService`, la configuración de reintentos no surte efecto y se obtiene una tasa de fallos
+del 50 %. Para solucionar este problema, puedes eliminar la configuración del fallo de tu `VirtualService` e
+inyectar el fallo en el proxy Envoy upstream con un `EnvoyFilter`:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -733,5 +733,5 @@ spec:
               denominator: HUNDRED
 {{< /text >}}
 
-This works because this way the retry policy is configured for the client proxy while the fault
-injection is configured for the upstream proxy.
+Esto funciona porque, de esta forma, la política de reintentos se configura en el proxy del cliente, mientras que la
+inyección de fallos se configura en el proxy upstream.

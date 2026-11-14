@@ -92,7 +92,7 @@ Dependiendo de la versión de Istio, es posible que vea reglas de destino para h
 `bar` y `legacy`, ni el comodín `*` que coincide con todo.
 {{< /tip >}}
 
-## mTLS automático
+## mTLS automático {#auto-mutual-tls}
 
 Por defecto, Istio rastrea los workloads del servidor migrados a los proxies de Istio, y configura los proxies del cliente para enviar tráfico mTLS a esos workloads automáticamente, y para enviar tráfico de texto plano a los workloads sin sidecars.
 
@@ -327,7 +327,7 @@ $ kubectl delete peerauthentication default overwrite-example -n foo
 $ kubectl delete peerauthentication httpbin -n bar
 {{< /text >}}
 
-## Autenticación de usuario final
+## Autenticación de usuario final {#end-user-authentication}
 
 Para experimentar con esta feature, necesita un JWT válido. El JWT debe corresponder al endpoint JWKS que desea utilizar para la demostración. Este tutorial utiliza el token de prueba [JWT test]({{< github_file >}}/security/tools/jwt/samples/demo.jwt) y
 el [endpoint JWKS]({{< github_file >}}/security/tools/jwt/samples/jwks.json) de la base de código de Istio.

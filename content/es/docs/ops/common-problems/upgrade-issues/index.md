@@ -1,29 +1,29 @@
 ---
-title: Upgrade Problems
-description: Resolve common problems with Istio upgrades.
+title: Problemas de actualización
+description: Resuelve problemas comunes con las actualizaciones de Istio.
 weight: 60
 owner: istio/wg-policies-and-telemetry-maintainers
 test: n/a
 ---
 
-## EnvoyFilter migration
+## Migración de EnvoyFilter {#envoyfilter-migration}
 
-`EnvoyFilter` is an alpha API that is tightly coupled to the implementation
-details of Istio xDS configuration generation. Production use of the
-`EnvoyFilter` alpha API must be carefully curated during the upgrade of Istio's
-control or data plane. In many instances, `EnvoyFilter` can be replaced with a
-first-class Istio API which carries substantially lower upgrade risks.
+`EnvoyFilter` es una API alfa estrechamente acoplada a los detalles de
+implementación de la generación de configuración xDS de Istio. El uso en producción de la
+API alfa `EnvoyFilter` debe gestionarse con cuidado durante la actualización del control plane
+o del data plane de Istio. En muchos casos, `EnvoyFilter` se puede reemplazar por una
+API de Istio de primera clase que conlleva riesgos de actualización considerablemente menores.
 
-### Use Telemetry API for metrics customization
+### Usa la API de Telemetría para personalizar las métricas {#use-telemetry-api-for-metrics-customization}
 
-The usage of `IstioOperator` to customize Prometheus metrics generation has been
-replaced by the [Telemetry API](/es/docs/tasks/observability/metrics/customize-metrics/),
-because `IstioOperator` relies on a template `EnvoyFilter` to change the
-metrics filter configuration. Note that the two methods are incompatible, and
-the Telemetry API does not work with `EnvoyFilter` or `IstioOperator` metric
-customization configuration.
+El uso de `IstioOperator` para personalizar la generación de métricas de Prometheus se ha
+reemplazado por la [API de Telemetría](/es/docs/tasks/observability/metrics/customize-metrics/),
+porque `IstioOperator` depende de un `EnvoyFilter` de plantilla para cambiar la
+configuración del filtro de métricas. Ten en cuenta que ambos métodos son incompatibles y
+que la API de Telemetría no funciona con `EnvoyFilter` ni con `IstioOperator` como configuración de
+personalización de métricas.
 
-As an example, the following `IstioOperator` configuration adds a `destination_port` tag:
+Por ejemplo, la siguiente configuración de `IstioOperator` agrega una dimensión `destination_port`:
 
 {{< text yaml >}}
 apiVersion: install.istio.io/v1alpha1
@@ -41,7 +41,7 @@ spec:
                     destination_port: string(destination.port)
 {{< /text >}}
 
-The following `Telemetry` configuration replaces the above:
+La siguiente configuración de `Telemetry` reemplaza la anterior:
 
 {{< text yaml >}}
 apiVersion: telemetry.istio.io/v1
@@ -61,23 +61,23 @@ spec:
           value: "string(destination.port)"
 {{< /text >}}
 
-### Use the WasmPlugin API for Wasm data plane extensibility
+### Usa la API TrafficExtension para la extensibilidad del data plane con Wasm {#use-the-trafficextension-api-for-wasm-data-plane-extensibility}
 
-The usage of `EnvoyFilter` to inject Wasm filters has been replaced by the
-[WasmPlugin API](/es/docs/tasks/extensibility/wasm-module-distribution).
-WasmPlugin API allows dynamic loading of the plugins from artifact registries,
-URLs, or local files. The "Null" plugin runtime is no longer a recommended option
-for deployment of Wasm code.
+El uso de `EnvoyFilter` para inyectar filtros Wasm se ha reemplazado por la
+[API TrafficExtension](/es/docs/tasks/extensibility/wasm-modules).
+La API `TrafficExtension` permite cargar dinámicamente los plugins desde registros de artefactos,
+URLs o archivos locales. El runtime de plugins "Null" ya no es una opción recomendada
+para desplegar código Wasm.
 
-### Use gateway topology to set the number of the trusted hops
+### Usa la topología del gateway para establecer el número de saltos de confianza {#use-gateway-topology-to-set-the-number-of-the-trusted-hops}
 
-The usage of `EnvoyFilter` to configure the number of the trusted hops in the
-HTTP connection manager has been replaced by the
+El uso de `EnvoyFilter` para configurar el número de saltos de confianza en el
+HTTP connection manager se ha reemplazado por el campo
 [`gatewayTopology`](/es/docs/reference/config/istio.mesh.v1alpha1/#Topology)
-field in
+de
 [`ProxyConfig`](/es/docs/ops/configuration/traffic-management/network-topologies).
-For example, the following `EnvoyFilter` configuration should use an annotation
-on the pod or the mesh default. Instead of:
+Por ejemplo, la siguiente configuración de `EnvoyFilter` debería sustituirse por una anotación
+en el pod o por el valor predeterminado de la mesh. En lugar de:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -104,7 +104,7 @@ spec:
       istio: ingress-gateway
 {{< /text >}}
 
-Use the equivalent ingress gateway pod proxy configuration annotation:
+Usa la anotación equivalente de configuración del proxy en el pod del ingress gateway:
 
 {{< text yaml >}}
 metadata:
@@ -112,16 +112,16 @@ metadata:
     "proxy.istio.io/config": '{"gatewayTopology" : { "numTrustedProxies": 1 }}'
 {{< /text >}}
 
-### Use gateway topology to enable PROXY protocol on the ingress gateways
+### Usa la topología del gateway para habilitar el protocolo PROXY en los ingress gateways {#use-gateway-topology-to-enable-proxy-protocol-on-the-ingress-gateways}
 
-The usage of `EnvoyFilter` to enable [PROXY
-protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) on the
-ingress gateways has been replaced by the
+El uso de `EnvoyFilter` para habilitar el [protocolo
+PROXY](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt) en los
+ingress gateways se ha reemplazado por el campo
 [`gatewayTopology`](/es/docs/reference/config/istio.mesh.v1alpha1/#Topology)
-field in
+de
 [`ProxyConfig`](/es/docs/ops/configuration/traffic-management/network-topologies).
-For example, the following `EnvoyFilter` configuration should use an annotation
-on the pod or the mesh default. Instead of:
+Por ejemplo, la siguiente configuración de `EnvoyFilter` debería sustituirse por una anotación
+en el pod o por el valor predeterminado de la mesh. En lugar de:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -142,7 +142,7 @@ spec:
       istio: ingress-gateway
 {{< /text >}}
 
-Use the equivalent ingress gateway pod proxy configuration annotation:
+Usa la anotación equivalente de configuración del proxy en el pod del ingress gateway:
 
 {{< text yaml >}}
 metadata:
@@ -150,13 +150,13 @@ metadata:
     "proxy.istio.io/config": '{"gatewayTopology" : { "proxyProtocol": {} }}'
 {{< /text >}}
 
-### Use a proxy annotation to customize the histogram bucket sizes
+### Usa una anotación de proxy para personalizar el tamaño de los buckets del histograma {#use-a-proxy-annotation-to-customize-the-histogram-bucket-sizes}
 
-The usage of `EnvoyFilter` and the experimental bootstrap discovery service to
-configure the bucket sizes for the histogram metrics has been replaced by the
-proxy annotation `sidecar.istio.io/statsHistogramBuckets`. For example, the
-following `EnvoyFilter` configuration should use an annotation on the pod.
-Instead of:
+El uso de `EnvoyFilter` y del servicio experimental de descubrimiento de bootstrap para
+configurar el tamaño de los buckets de las métricas de histograma se ha reemplazado por la
+anotación de proxy `sidecar.istio.io/statsHistogramBuckets`. Por ejemplo, la
+siguiente configuración de `EnvoyFilter` debería sustituirse por una anotación en el pod.
+En lugar de:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1alpha3
@@ -180,7 +180,7 @@ spec:
               buckets: [1,5,50,500,5000,10000]
 {{< /text >}}
 
-Use the equivalent pod annotation:
+Usa la anotación equivalente en el pod:
 
 {{< text yaml >}}
 metadata:
