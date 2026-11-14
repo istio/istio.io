@@ -330,6 +330,7 @@ spec:
         config_discovery:
           config_source:
             ads: {}
+            initial_fetch_timeout&quot;: &quot;0s&quot;
           type_urls: [&quot;type.googleapis.com/envoy.extensions.filters.http.wasm.v3.Wasm&quot;]
 </code></pre>
 <p>The following example inserts an <code>envoy.filters.listener.proxy_protocol</code> listener filter before the <code>envoy.filters.listener.tls_inspector</code>.</p>
@@ -1525,8 +1526,7 @@ host in a route configuration.</p>
 <tr id="EnvoyFilter-ApplyTo-EXTENSION_CONFIG">
 <td><code><a href="#EnvoyFilter-ApplyTo-EXTENSION_CONFIG">EXTENSION_CONFIG</a></code></td>
 <td>
-<p>Applies the patch to or adds an extension config in ECDS output. Note that ECDS
-is only supported by HTTP filters.</p>
+<p>Applies the patch to or adds an extension config in ECDS output.</p>
 
 </td>
 </tr>

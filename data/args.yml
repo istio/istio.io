@@ -1,11 +1,11 @@
 # The primary Istio version identifier the docs describe, used throughout the site
-version: "1.32"
+version: "1.33"
 
 # The full Istio version identifier the docs describe
-full_version: "1.32.0"
+full_version: "1.33.0"
 
 # The previous Istio version identifier the docs describe, used for upgrade documentation
-previous_version: "1.31"
+previous_version: "1.32"
 
 # Controls the incarnation of the site
 #
@@ -22,7 +22,7 @@ archive_date: YYYY-MM-DD
 archive_search_refinement: "V1.1"
 
 # GitHub branch names used when the docs have links to GitHub
-source_branch_name: release-1.32
+source_branch_name: master
 doc_branch_name: master
 
 ####### Static values
@@ -50,5 +50,5 @@ supported_languages:
     code: "uk"
 
 # Kubernetes Gateway API
-k8s_gateway_api_version: "v1.6.1"
+k8s_gateway_api_version: "v1.7.0"
 k8s_gateway_api_inference_extension_version: "v1.0.1"
