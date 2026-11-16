@@ -8,7 +8,7 @@ replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 	golang.org/x/sync v0.24.0
-	istio.io/istio v0.0.0-20261108213128-a0956cb85654
+	istio.io/istio v0.0.0-20261116163822-4c7358ad19c1
 	k8s.io/apimachinery v0.37.1
 	k8s.io/client-go v0.37.1
 )
@@ -39,8 +39,8 @@ require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.4.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.13.0 // indirect
-	github.com/envoyproxy/go-control-plane/contrib v1.36.1-0.20261107182105-5ada83ad3be6 // indirect
-	github.com/envoyproxy/go-control-plane/envoy v1.40.1-0.20261107182105-5ada83ad3be6 // indirect
+	github.com/envoyproxy/go-control-plane/contrib v1.36.1-0.20261114165853-485ebf4bfa98 // indirect
+	github.com/envoyproxy/go-control-plane/envoy v1.40.1-0.20261114165853-485ebf4bfa98 // indirect
 	github.com/envoyproxy/protoc-gen-validate v1.3.3 // indirect
 	github.com/evanphx/json-patch v5.9.11+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
