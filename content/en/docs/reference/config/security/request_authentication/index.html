@@ -488,11 +488,12 @@ regardless of this setting.</p>
 <div class="type"><a href="#JWTRule-JWTRequirement">JWTRequirement</a></div>
 </div></td>
 <td>
-<p>Configures whether the JWT token must be present in the request.
+<p>Configures how strictly the JWT token is required.
 When set to <code>REQUIRED</code>, requests without this token will be rejected with 401
 even if other JWT rules are satisfied. When <code>OPTIONAL</code> (the default), a missing
 token is allowed as long as no invalid token is present. This is useful when
-multiple JWT rules are configured and all tokens must be present and valid simultaneously.</p>
+multiple JWT rules are configured and all tokens must be present and valid simultaneously.
+When set to <code>PERMISSIVE</code>, a missing token and an invalid token are both allowed.</p>
 
 </td>
 </tr>
@@ -526,12 +527,26 @@ the payload of every token, and use <code>request.auth.payload*{key}*</code> in
 
 </td>
 </tr>
+<tr id="JWTRule-failed_status_metadata_key">
+<td><div class="field"><div class="name"><code><a href="#JWTRule-failed_status_metadata_key">failedStatusMetadataKey</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>If set, a verification failure is written to the filter&rsquo;s dynamic metadata
+under this key, such that failures are always observable regardless of the
+<code>presence</code> value. The failure is in the form of {code, message}, e.g.
+<code>{&quot;code&quot;: 3, &quot;message&quot;: &quot;Jwt is expired&quot;}</code>. When there are multiple
+providers, each one should use its own key, otherwise failures can
+overwrite each other.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>
 <h3 id="JWTRule-JWTRequirement">JWTRequirement</h3>
 <section>
-<p>Specifies whether the JWT token is required or optional in the request.</p>
+<p>The strictness of the JWT token requirement.</p>
 
 <table class="enum-values">
 <thead>
@@ -545,7 +560,8 @@ the payload of every token, and use <code>request.auth.payload*{key}*</code> in
 <td><code><a href="#JWTRule-JWTRequirement-OPTIONAL">OPTIONAL</a></code></td>
 <td>
 <p>The JWT token is optional. Requests without a token are allowed as long as
-no invalid token is present. This is the default behavior.</p>
+no invalid token is present. This is the default behavior.
+Result: missing token =&gt; allowed, invalid token =&gt; 401</p>
 
 </td>
 </tr>
@@ -553,7 +569,19 @@ no invalid token is present. This is the default behavior.</p>
 <td><code><a href="#JWTRule-JWTRequirement-REQUIRED">REQUIRED</a></code></td>
 <td>
 <p>The JWT token must be present and valid. Requests without this token will
-be rejected with 401 even if other JWT rules are satisfied.</p>
+be rejected with 401 even if other JWT rules are satisfied.
+Result: missing token =&gt; 401, invalid token =&gt; 401</p>
+
+</td>
+</tr>
+<tr id="JWTRule-JWTRequirement-PERMISSIVE">
+<td><code><a href="#JWTRule-JWTRequirement-PERMISSIVE">PERMISSIVE</a></code></td>
+<td>
+<p>The JWT requirement is always satisfied. Requests without a token are
+allowed, requests with an invalid token are also allowed. Note that this
+only relaxes the requirement. A present token is always verified, and
+the claims are always populated when a token is valid.
+Result: missing token =&gt; allowed, invalid token =&gt; allowed</p>
 
 </td>
 </tr>
