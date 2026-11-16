@@ -496,6 +496,36 @@ multiple JWT rules are configured and all tokens must be present and valid simul
 
 </td>
 </tr>
+<tr id="JWTRule-output_payload_to_metadata">
+<td><div class="field"><div class="name"><code><a href="#JWTRule-output_payload_to_metadata">outputPayloadToMetadata</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>This field specifies the key under which the payload of a successfully verified JWT is
+stored in the request&rsquo;s dynamic metadata. If it is not specified, the payload is stored
+under the default key <code>payload</code>, which is what <code>request.auth.principal</code> and
+<code>request.auth.claims</code> in <code>AuthorizationPolicy</code> read from.</p>
+<p>When multiple JWT rules apply to a workload and more than one token can be validated in
+the same request (for example, multiple rules with <code>presence: REQUIRED</code>), the payloads
+stored under the same key overwrite each other. Set a distinct key on each rule to keep
+the payload of every token, and use <code>request.auth.payload*{key}*</code> in
+<code>AuthorizationPolicy</code> to match the claims of a specific token.</p>
+<p>For example:</p>
+<pre><code class="language-yaml">jwtRules:
+- issuer: https://idp.example.com
+  presence: REQUIRED
+  outputPayloadToMetadata: idp
+- issuer: https://scope.example.com
+  fromHeaders:
+  - name: x-scope-token
+  presence: REQUIRED
+  outputPayloadToMetadata: scope
+</code></pre>
+<p>Note: a payload stored under a key other than <code>payload</code> is not visible to
+<code>request.auth.principal</code> and <code>request.auth.claims</code>.</p>
+
+</td>
+</tr>
 </tbody>
 </table>
 </section>

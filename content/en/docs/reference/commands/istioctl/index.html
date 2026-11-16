@@ -9290,6 +9290,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
 </tr>
+<tr id='pilot-enable-delta-rds'>
+<td><a href='#pilot-enable-delta-rds'><code>PILOT_ENABLE_DELTA_RDS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, RDS will use delta xDS to push only the route configurations affected by a config change, instead of rebuilding every route configuration currently watched by the proxy.</td>
+</tr>
 <tr id='pilot-enable-eds-debounce'>
 <td><a href='#pilot-enable-eds-debounce'><code>PILOT_ENABLE_EDS_DEBOUNCE</code></a></td>
 <td>Boolean</td>

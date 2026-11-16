@@ -1,0 +1,75 @@
+#!/bin/bash
+# shellcheck disable=SC2034,SC2153,SC2155,SC2164
+
+# Copyright Istio Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+####################################################################################################
+# WARNING: THIS IS AN AUTO-GENERATED FILE, DO NOT EDIT. PLEASE MODIFY THE ORIGINAL MARKDOWN FILE:
+#          docs/tasks/extensibility/wasm-modules/index.md
+####################################################################################################
+
+snip_configure_a_wasm_module_1() {
+kubectl apply -f - <<EOF
+apiVersion: extensions.istio.io/v1alpha1
+kind: TrafficExtension
+metadata:
+  name: basic-auth
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  phase: AUTHN
+  wasm:
+    url: oci://ghcr.io/istio-ecosystem/wasm-extensions/basic_auth:1.12.0
+    pluginConfig:
+      basic_auth_rules:
+        - prefix: "/productpage"
+          request_methods:
+            - "GET"
+            - "POST"
+          credentials:
+            - "ok:test"
+            - "YWRtaW4zOmFkbWluMw=="
+EOF
+}
+
+snip_verify_the_wasm_module_1() {
+curl -s -o /dev/null -w "%{http_code}" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
+}
+
+! IFS=$'\n' read -r -d '' snip_verify_the_wasm_module_1_out <<\ENDSNIP
+401
+ENDSNIP
+
+snip_verify_the_wasm_module_2() {
+curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Basic YWRtaW4zOmFkbWluMw==" "http://$INGRESS_HOST:$INGRESS_PORT/productpage"
+}
+
+! IFS=$'\n' read -r -d '' snip_verify_the_wasm_module_2_out <<\ENDSNIP
+200
+ENDSNIP
+
+! IFS=$'\n' read -r -d '' snip_ordering_and_scoping_1 <<\ENDSNIP
+spec:
+  match:
+  - mode: CLIENT
+    ports:
+    - number: 8080
+ENDSNIP
+
+snip_clean_up_1() {
+kubectl delete trafficextension -n istio-system basic-auth
+}

@@ -1,0 +1,344 @@
+<!doctype html><html lang=zh itemscope itemtype=https://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=theme-color content="#466BB0"><meta name=title content="Istio 1.31.0 更新说明"><meta name=description content="Istio 1.31.0 更新说明。"><meta name=keywords content="microservices,services,mesh"><meta property="og:title" content="Istio 1.31.0 更新说明"><meta property="og:type" content="website"><meta property="og:description" content="Istio 1.31.0 更新说明。"><meta property="og:url" content="/v1.31/zh/news/releases/1.31.x/announcing-1.31/change-notes/"><meta property="og:image" content="https://raw.githubusercontent.com/istio/istio.io/master/static/img/istio-social.png"><meta property="og:image:alt" content="The Istio sailboat logo"><meta property="og:image:width" content="4096"><meta property="og:image:height" content="2048"><meta property="og:site_name" content="Istio"><meta name=twitter:card content="summary_large_image"><meta name=twitter:site content="@IstioMesh"><title>Istio / Istio 1.31.0 更新说明</title><script async src="https://www.googletagmanager.com/gtag/js?id=G-RNS1643NL0"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-RNS1643NL0")</script><link rel=alternate type=application/rss+xml title="Istio Blog" href=/v1.31/blog/feed.xml><link rel=alternate type=application/rss+xml title="Istio News" href=/v1.31/news/feed.xml><link rel=alternate type=application/rss+xml title="Istio Blog and News" href=/v1.31/feed.xml><link rel="shortcut icon" href=/v1.31/favicons/favicon.ico><link rel=apple-touch-icon href=/v1.31/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/v1.31/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/v1.31/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/v1.31/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/v1.31/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/v1.31/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/v1.31/favicons/android-96x96.png sizes=96x96><link rel=icon type=image/png href=/v1.31/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/v1.31/favicons/android-192x192.png sizes=192x192><link rel=icon type=image/svg+xml href=/v1.31/favicons/favicon.svg><link rel=icon type=image/png href=/v1.31/favicons/favicon.png><link rel=mask-icon href=/v1.31/favicons/safari-pinned-tab.svg color=#466BB0><link rel=manifest href=/v1.31/manifest.json><meta name=apple-mobile-web-app-title content="Istio"><meta name=application-name content="Istio"><meta name=msapplication-config content="/browserconfig.xml"><meta name=msapplication-TileColor content="#466BB0"><meta name=theme-color content="#466BB0"><link rel=stylesheet href=/v1.31/css/style.min.467d5eec6fc07e5f8240dda946ed55ef76a7997b946985aef5b447240a6e3ed0.css integrity="sha256-Rn1e7G/Afl+CQN2pRu1V73anmXuUaYWu9bRHJApuPtA=" crossorigin=anonymous><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap"><script src=/v1.31/js/themes_init.min.js></script></head><body class=language-unknown><script>const branchName="release-1.31",docTitle="Istio 1.31.0 更新说明",iconFile="/v1.31//img/icons.svg",buttonCopy="复制到剪贴板",buttonPrint="打印",buttonDownload="下载"</script><script src="https://www.google.com/cse/brand?form=search-form" defer></script><script src=/v1.31/js/all.min.js data-manual defer></script><header class=main-navigation><nav class="main-navigation-wrapper container-l"><div class=main-navigation-header><a id=brand href=/v1.31/zh/ aria-label=Istio><span class=logo><svg width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></span>
+</a><button id=hamburger class=main-navigation-toggle aria-label="Open navigation">
+<svg class="icon menu-hamburger"><use xlink:href="/v1.31/img/icons.svg#menu-hamburger"/></svg>
+</button>
+<button id=menu-close class=main-navigation-toggle aria-label="Close navigation">
+<svg class="icon menu-close"><use xlink:href="/v1.31/img/icons.svg#menu-close"/></svg></button></div><div id=header-links class=main-navigation-links-wrapper><ul class=main-navigation-links><li class=main-navigation-links-item><a class="main-navigation-links-link has-dropdown"><span>关于</span>
+<svg class="icon dropdown-arrow"><use xlink:href="/v1.31/img/icons.svg#dropdown-arrow"/></svg></a><ul class=main-navigation-links-dropdown><li class=main-navigation-links-dropdown-item><a href=/v1.31/zh/about/service-mesh class=main-navigation-links-link>服务网格</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.31/zh/about/solutions class=main-navigation-links-link>解决方案</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.31/zh/about/case-studies class=main-navigation-links-link>案例学习</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.31/zh/about/ecosystem class=main-navigation-links-link>生态系统</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.31/zh/about/deployment class=main-navigation-links-link>部署</a></li><li class=main-navigation-links-dropdown-item><a href=/v1.31/zh/about/faq class=main-navigation-links-link>FAQ</a></li></ul></li><li class=main-navigation-links-item><a href=/v1.31/zh/blog/ class=main-navigation-links-link><span>博客</span></a></li><li class=main-navigation-links-item><a href=/v1.31/zh/news/ class=main-navigation-links-link><span>新闻</span></a></li><li class=main-navigation-links-item><a href=/v1.31/zh/get-involved/ class=main-navigation-links-link><span>加入我们</span></a></li><li class=main-navigation-links-item><a href=/v1.31/zh/docs/ class=main-navigation-links-link><span>文档</span></a></li></ul><div class=main-navigation-footer><button id=search-show class=search-show title='搜索 istio.io' aria-label=搜索><svg class="icon magnifier"><use xlink:href="/v1.31/img/icons.svg#magnifier"/></svg></button>
+<a href=/v1.31/zh/docs/overview/quickstart class="btn btn--primary" id=try-istio>试用 Istio</a></div></div><form id=search-form class=search name=cse role=search><input type=hidden name=cx value=002184991200833970123:veyyqmfmpj4>
+<input type=hidden name=ie value=utf-8>
+<input type=hidden name=hl value=zh>
+<input type=hidden id=search-page-url value=/zh/latest/search>
+<input id=search-textbox class="search-textbox form-control" name=q type=search aria-label='搜索 istio.io' placeholder=搜索>
+<button id=search-close title=取消搜索 type=reset aria-label=取消搜索><svg class="icon menu-close"><use xlink:href="/v1.31/img/icons.svg#menu-close"/></svg></button></form></nav></header><div class=banner-container><a href=/v1.31/zh/news/releases/1.31.x/announcing-1.31.4/ class=banner data-title="最新版本-2026-11-06 00:00:00 +0000 UTC" data-period-start=1793923200000 data-period-end=1794528000000 data-max-impressions=3 data-timeout><div class=content><p>Istio 1.31 现在可用！点击这里下载。</p></div><div class=frame></div></a></div><article class=post itemscope itemtype=http://schema.org/BlogPosting><div class=header-content><h1>Istio 1.31.0 更新说明</h1><p>Istio 1.31.0 更新说明。</p></div><p class=post-author>Aug 31, 2026</p><div><h2 id=traffic-management>流量治理</h2><ul><li><p><strong>改进</strong> 当集群中安装的 Gateway API CRD 低于此 Istio 版本所需的最低版本时，
+改进日志记录。该消息现在记录在 <code>warn</code> 级别，并解释说在 CRD 升级之前不会处理此类资源。
+以前，这是在 <code>info</code> 级别记录的并且很容易错过，这使得升级到 1.30 后使用过时的 CRD 很难诊断 TLS 直通破坏。</p></li><li><p><strong>改进</strong> 通过将 XDS 推送从工作负载/服务 <code>Address</code> 更改范围限定为仅受影响的 waypoint，
+而不是推送到所有 waypoint 和代理，改进 Ambient 模式下的 istiod 可扩展性。
+可以通过 <code>AMBIENT_SCOPED_ADDRESS_PUSHES=false</code> 禁用。</p></li><li><p><strong>新增</strong> 添加了通过 <code>PILOT_NODE_UNTAINT_CONTROLLERS_TAINT_NAME</code>
+环境变量对试点节点无污染控制器的自定义污染名称的支持。
+默认为 <code>cni.istio.io/not-ready</code>。
+(<a href=https://github.com/istio/istio/issues/57844>Issue #57844</a>)</p></li><li><p><strong>新增</strong> 添加了支持当 <code>BackendTLSPolicy</code> 或 <code>XBackendTrafficPolicy</code> 对象上的
+<code>istio.io/ignore-policy-attachment</code> 注解设置为 <code>true</code> 时从 Istio 排除策略配置。
+当特定策略用于与 Istio 不同的网关控制器时，这允许用户防止将特定策略转换为 Istio 配置。</p><p>用法示例：</p></li></ul><pre><code class=language-yaml data-expandlinks=true data-repo=istio>apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+annotations:
+  istio.io/ignore-policy-attachment: &#34;true&#34;</code></pre><p>(<a href=https://github.com/istio/istio/issues/60122>Issue #60122</a>)</p><ul><li><p><strong>新增</strong> 添加了支持使用命名空间上的 <code>~</code> 前缀从 <code>Sidecar</code> 出口侦听器的 <code>hosts</code> 中排除命名空间和主机。
+没有前缀的条目会像以前一样导入，带有 <code>~</code> 前缀的条目会从中减去：
+<code>~ns1/*</code> 排除 <code>ns1</code> 中的所有主机，<code>~/foo.com</code> 从每个命名空间中排除 <code>foo.com</code>。
+这使得大型网格可以导入除少数命名空间之外的所有内容（例如 <code>*/*</code> 加上 <code>~ns1/*</code>），而无需枚举很长的白名单。
+(<a href=https://github.com/istio/istio/issues/60139>Issue #60139</a>)</p></li><li><p><strong>新增</strong> 添加了初始化检查，验证捆绑的 <code>nft</code> 二进制文件是否支持 JSON 输出。
+本机 nftables 后端需要 JSON 在 Pod 删除期间读取配置。
+在 <code>nft</code> 二进制文件不支持 JSON 的主机上，每次删除时这些调用都会失败并显示
+<code>Error: JSON support not compiled-in</code>，并且 CNI 代理会无限期地重试。
+新的检查在启动时检测到此错误并回退到 <code>iptables</code> 后端。
+(<a href=https://github.com/istio/istio/issues/60328>Issue #60328</a>)</p></li><li><p><strong>新增</strong> 向 <code>HTTPRedirect</code> 添加了 <code>prefix_rewrite</code> 字段，
+在重定向规则中启用前缀感知路径重写。这允许在重定向时剥离或替换匹配的路径前缀，
+例如将 <code>example.com/foo/bar</code> 重定向到 <code>foo.example.com/bar</code>。
+(<a href=https://github.com/istio/istio/issues/47500>Issue #47500</a>),
+(<a href=https://github.com/istio/istio/issues/47777>Issue #47777</a>),
+(<a href=https://github.com/istio/istio/issues/52521>Issue #52521</a>)</p></li><li><p><strong>新增</strong> 在 <code>RetryBudget</code> <code>TrafficPolicy</code> API 中添加了 <code>budget_interval</code> 字段，
+用于配置计算重试预算时考虑请求的时间间隔。默认值 0ms 保留仅考虑正在进行的请求的现有行为。
+(<a href=https://github.com/istio/istio/issues/60389>Issue #60389</a>)</p></li><li><p><strong>新增</strong> 添加了对 Ambient 模式下加权路 waypoint 金丝雀的支持。
+服务（或命名空间）现在可以通过 <code>istio.io/use-waypoint-canary</code> 和
+<code>istio.io/use-waypoint-canary-namespace</code> 标签引用主 waypoint 和金丝雀 waypoint，并使用 <code>istio.io/use-waypoint-canary-weight</code>
+注解将服务的网格内连接的可配置份额（以及 <code>istio.io/ingress-use-waypoint</code> 的入口请求）
+定向到金丝雀 waypoint，而无需任何客户变更。
+(<a href=https://github.com/istio/istio/issues/60801>Issue #60801</a>)</p></li><li><p><strong>新增</strong> 添加了 <code>meshConfig.serviceEntryVisibility</code>，
+让网格管理员控制 <code>ServiceEntry</code> 资源的可见性。Ambient（ztunnel 和 waypoint）默认强制可见性；
+当设置 <code>applyToSidecars</code> 时，经典的 Sidecar 也会尊重它。
+除非配置，否则该功能是惰性的，因此默认情况下现有网格不受影响。
+(<a href=https://github.com/istio/istio/issues/60870>Issue #60870</a>)</p></li><li><p><strong>新增</strong> 添加了 <code>istio-agentgateway-waypoint</code> <code>GatewayClass</code> 用于将代理网关部署为 waypoint。</p></li><li><p><strong>新增</strong> 添加了 <code>ALLOW_ANY_DYNAMIC_DNS</code> 出站流量策略模式。
+当在 <code>meshConfig.outboundTrafficPolicy.mode</code> 中设置时，
+到未知目的地的纯文本 HTTP 请求将通过 Envoy 的动态转发代理转发，
+在请求时从 <code>Host</code> 标头解析主机名。非 HTTP 流量（TLS 和原始 TCP）继续使用 <code>PassthroughCluster</code>。
+仅适用于 Sidecar 代理。 <code>Sidecar</code> CRD 不支持。可选的上游 TLS
+发起可以通过 <code>meshConfig.outboundTrafficPolicy.tls</code> 进行配置。</p></li><li><p><strong>新增</strong> 在 <code>ProxyConfig</code> 中添加了对 <code>connectionSettings</code> 的支持，
+允许配置侦听器缓冲区限制、HTTP 超时、HTTP/2 设置和路径/标头规范化。
+新的 <code>EDGE</code> 配置文件将固执己见的 Envoy 边缘代理默认值应用于网关代理。</p></li><li><p><strong>新增</strong> 向 <code>EnvoyFilter</code> 添加了新的 <code>MERGE_AND_REPLACE_LIST</code> 补丁操作。
+它的行为类似于 <code>MERGE</code>，只不过补丁中存在的重复（列表）字段完全替换生成的配置中的相应列表，
+而不是附加到其中。这适用于 <code>CLUSTER</code>、<code>LISTENER</code>、<code>FILTER_CHAIN</code>、
+<code>ROUTE_CONFIGURATION</code>、<code>VIRTUAL_HOST</code> 和 <code>HTTP_ROUTE</code> 补丁目标。
+嵌套在 <code>Any</code> 类型的过滤器配置（HTTP、网络和侦听器过滤器以及传输套接字）
+内的列表不受影响，并继续遵循 <code>MERGE</code> 语义。</p></li><li><p><strong>新增</strong> 在客户端证书验证逻辑中添加 Gateway API <code>AllowInsecureFallback</code> 功能的实现。
+此功能允许网关请求客户端证书并尝试验证它，但如果客户端未提供证书或证书无效，
+网关仍将允许连接。默认情况下，Istio 填充 <code>x-forwarded-client-cert</code> HTTP 标头，
+因此当启用 <code>AllowInsecureFallback</code> 时，后端可以验证证书而不是网关。
+(<a href=https://github.com/istio/istio/issues/60018>Issue #60018</a>)</p></li><li><p><strong>新增</strong> 添加了支持通过 <code>DestinationRule</code> 在上游连接上配置 HTTP/2 keepalive PING 设置。
+(<a href=https://github.com/istio/istio/issues/55640>Issue #55640</a>)</p></li><li><p><strong>新增</strong> 向 <code>MeshConfig</code> 添加了 <code>defaultTrafficPolicy</code>，
+这是出站集群继承的网格范围基线 <code>connectionPool</code> 和 <code>outlierDetection</code>。
+设置这些块之一的 <code>DestinationRule</code> 会覆盖该块的基线；
+<code>DestinationRule</code> 未设置的块现在继承网格基线，而不是 Istio 的内置默认值。
+当未配置基线时，行为不会改变。基线 <code>connectionPool</code> 也适用于入站集群和直通集群。</p></li><li><p><strong>新增</strong> 通过 <code>DestinationRule.TrafficPolicy.LoadBalancerSettings</code> 和 <code>MeshConfig</code>
+上的新 <code>zoneAwareLbSetting</code> 字段添加了对 Envoy 区域感知负载平衡的支持。
+启用后，Envoy 会自动将流量路由到与下游代理位于同一可用区域中的端点，
+仅当本地容量不足时才溢出到其他区域。这与现有的 <code>localityLbSetting</code> 不同，
+区域级路由由 Envoy 使用代理的区域分布自动处理，而不是通过静态百分比。
+可以通过 <code>failover</code> 字段配置跨区域故障转移顺序，并且可以通过
+<code>failoverPriority</code> 将基于标签的优先级分层。区域感知负载平衡需要
+<code>meshConfig.defaultConfig.proxyMetadata</code> 中的 <code>ISTIO_META_ENABLE_SELF_DISCOVERY: "true"</code>
+将自我发现 <code>local_cluster</code> 注入 Sidecar 引导程序。
+仅在 Sidecar 模式下支持，在 Ambient 模式下不支持。
+(<a href=/v1.31/zh/docs/reference/config/networking/destination-rule/#ZoneAwareLoadBalancerSetting>引用</a>)(<a href=/v1.31/zh/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig>引用</a>)</p></li><li><p><strong>启用</strong> 默认情况下启用发送不健康的端点，除非配置了 <code>OutlierDetection.minHealthPercent</code>。
+可以通过将 <code>PILOT_AUTO_SEND_UNHEALTHY_ENDPOINTS</code> 设置为 <code>false</code> 来禁用此功能。</p></li><li><p><strong>修复</strong> 修复了 Gateway API 处理以实现 <code>BackendTLSPolicy</code> 冲突解决。
+(<a href=https://github.com/istio/istio/issues/57817>Issue #57817</a>)</p></li><li><p><strong>修复</strong> 修复了当 Pod 尚未出现在 kube informer 缓存中时，
+重新连接到新 istiod 实例（例如在滚动重启期间）的代理缺少入站集群的错误。
+现在，工作负载标签是在计算服务目标之前填充的，因此 <code>GetProxyServiceTargets</code>
+中的元数据回退路径可以正确匹配服务，而不是返回空列表。
+(<a href=https://github.com/istio/istio/issues/58125>Issue #58125</a>)</p></li><li><p><strong>修复</strong> 修复了以下问题：启用 <code>PILOT_ENABLE_QUIC_LISTENERS</code> 时，
+生成的 Gateway API <code>Service</code> 资源未在每个 HTTPS 侦听器的相应 UDP 端口上侦听。
+(<a href=https://github.com/istio/istio/issues/58247>Issue #58247</a>)</p></li><li><p><strong>修复</strong> 修复了当父网关使用手动部署时，通过 <code>ListenerSet</code> 定义的
+HTTPS 侦听器无法传递 TLS 证书的问题。
+(<a href=https://github.com/istio/istio/issues/59535>Issue #59535</a>)</p></li><li><p><strong>修复</strong> 修复了以下问题：具有无效标头值的 <code>HTTPRoute</code> 和 <code>GRPCRoute</code>
+过滤器会从 Envoy 配置中静默删除，而不是报告 <code>InvalidFilter</code> 状态。
+(<a href=https://github.com/istio/istio/issues/59933>Issue #59933</a>)</p></li><li><p><strong>修复</strong> 修复了更改 Kubernetes 网关（或 <code>ListenerSet</code>）上的 <code>istio.io/rev</code>
+标签时出现的短暂流量中断。先前拥有的控制平面不再删除资源并将空的 xDS 配置推送到仍在旧版本上运行的网关 Pod。
+非拥有修订版的状态写入仍会受到抑制，因此修订版不会因彼此的状态而波动。
+(<a href=https://github.com/istio/istio/issues/59959>Issue #59959</a>)</p></li><li><p><strong>修复</strong> 修复了多网络 Ambient，以便当一个网络上的入口调用另一网络上的服务时，
+它现在路由到 waypoint，并且仅当 <code>Service</code> 配置为 <code>istio.io/ingress-use-waypoint</code> 时。</p></li><li><p><strong>修复</strong> 修复了以下问题：当路点范围中存在无头服务（<code>spec.clusterIP: None</code>）时，
+IPv6 集群上的路点侦听器配置包含带有空 <code>ranges</code> 字段的 <code>IPMatcher.RangeMatcher</code>。
+产生此问题的原因是，用于无头服务的 IPv4 编码的 <code>constants.UnspecifiedIP</code> 占位符 <code>DefaultAddress</code> 被 <code>FilterAddressesByIPFamily</code> 过滤掉，
+仅用于 IPv6 代理。Envoy 1.38 严格验证原型在 <code>IPMatcher.RangeMatcher.ranges</code>
+上的 <code>repeated.min_items=1</code> 规则，并拒绝 LDS 推送。现在，当没有要放入的地址时，
+waypoint 侦听器构建器会忽略 <code>IPRangeMatcher</code> 条目，与已从 <code>svcHostnameMap</code>
+中删除同一情况下的主机名一半的周围代码的现有行为相匹配。
+IPv4 集群在行为上不受影响——之前发出的占位符匹配器没有匹配任何内容。
+(<a href=https://github.com/istio/istio/issues/60310>Issue #60310</a>)</p></li><li><p><strong>修复</strong> 修复了由于 Envoy 回归 (<code>envoyproxy/envoy#45212</code>) 导致在批量更新期间未根据端点更改重建 RING_HASH 环，
+因此 <code>DestinationRule</code> 中的 <code>confirmHash</code> 负载平衡在扩展后不会将流量发送到新端点的问题。
+(<a href=https://github.com/istio/istio/issues/60312>Issue #60312</a>)</p></li><li><p><strong>修复</strong> 修复了当两个 Pod 同时添加到同一节点上的 Ambient 网格时，
+<code>istio-cni</code> 代理中出现致命的 <code>concurrent map writes</code> Panic 的问题。
+(<a href=https://github.com/istio/istio/issues/60328>Issue #60328</a>)</p></li><li><p><strong>修复</strong> 修复了针对同一主机的 <code>DestinationRule</code> 和 Gateway API 后端策略（<code>BackendTLSPolicy</code> 或 <code>XBackendTrafficPolicy</code>），
+以便 <code>DestinationRule</code> 字段现在优先，并且后端策略仅填充 <code>DestinationRule</code> 未设置的字段，无论哪个字段先创建。
+(<a href=https://github.com/istio/istio/issues/60358>Issue #60358</a>)</p></li><li><p><strong>修复</strong> 修复了一个 Ambient 模式错误，其中单个服务将 <code>publishNotReadyAddresses: true</code>
+与 <code>PreferSameZone</code> 或 <code>PreferSameNode</code> 流量分配相结合，
+导致 ztunnel 使用相同的流量分配预设为每个其他服务接收 <code>healthPolicy: AllowAll</code>，
+从而导致流量被路由到集群范围内未就绪的端点。
+(<a href=https://github.com/istio/istio/issues/60422>Issue #60422</a>)</p></li><li><p><strong>修复</strong> 修复了当 Envoy 管理端点不可用时，代理耗尽可能会出现 Panic 而不是返回错误的问题。</p></li><li><p><strong>修复</strong> 修复了当默认将当前命名空间包含为 <code>.</code> 时，
+<code>meshConfig.defaultServiceExportTo</code> 和 <code>meshConfig.defaultVirtualServiceExportTo</code>
+中的其他命名空间不被接受的问题。
+(<a href=https://github.com/istio/istio/issues/60560>Issue #60560</a>)</p></li><li><p><strong>修复</strong> 修复了从 <code>ListenerSet</code> 中删除侦听器会在资源的 <code>status.listeners</code> 中无限期留下孤立条目的错误。
+过时的条目使 <code>status.listeners</code> 比 <code>spec.listeners</code> 长，
+并且在重复侦听器添加/删除周期后，楔入 <code>ListenerSet</code> 的 <code>observedGeneration</code>，
+因此后来的规范更改不再反映在其状态中。<code>reportListenerSetStatus</code>
+现在会修剪规范中不再存在的侦听器的状态条目，以匹配 <code>Gateway</code> 资源的现有行为。
+(<a href=https://github.com/istio/istio/issues/60578>Issue #60578</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>DestinationRule</code> 验证错误地拒绝 0 到 1 之间的预热攻击值。
+(<a href=https://github.com/istio/api/issues/3395>Issue #3395</a>),
+(<a href=https://github.com/istio/istio/issues/55153>Issue #55153</a>)</p></li><li><p><strong>修复</strong> 修复了 istiod 在重新启动之前无法获取更新的远程集群 Secret（例如在凭证/令牌轮换期间）的错误。
+新的集群注册表可能会死锁等待同步，从而使受影响的远程集群的服务注册表陈旧。
+(<a href=https://github.com/istio/istio/issues/60612>Issue #60612</a>)</p></li><li><p><strong>修复</strong> 修复了 Istio 1.30 中引入的问题，其中对 <code>VirtualService</code> 资源
+（例如 Helm 注释、Argo CD 标签或 <code>kubectl.kubernetes.io/last-applied-configuration</code>）
+的仅元数据更改触发了对所有代理的不必要的 XDS 推送。这可能会导致控制平面 CPU 使用率显着增加，
+并且在具有由 GitOps 工具管理的许多 <code>VirtualService</code> 资源的集群中推送延迟。
+该修复恢复了 1.30 之前的行为，其中只有规范更改或 <code>istio.io</code> 标签/注解更改才会触发推送。
+(<a href=https://github.com/istio/istio/issues/60629>Issue #60629</a>)</p></li><li><p><strong>修复</strong> 修复了使用 <code>WasmPlugin</code> 资源时由于 <code>TrafficExtension</code> 转换而导致的重复和过多推送。</p></li><li><p><strong>修复</strong> 修复了 istio-cni 节点代理 Pod 可能无法启动的死锁（例如在节点重新启动后），
+因为在启用环境模式时，CNI 插件仅跳过为其自己的代理 Pod 创建 Kube 客户端。
+抢占式检查现在也在 Sidecar 模式下运行，因此代理 Pod 不再阻塞尚未写入的 kubeconfig。
+(<a href=https://github.com/istio/istio/issues/60668>Issue #60668</a>)</p></li><li><p><strong>修复</strong> 修复了 waypoint 入站路由的默认 HTTP 重试。
+<code>meshConfig.defaultHttpRetryPolicy</code> 设置现在适用于附加到 waypoint 的本地服务。
+(<a href=https://github.com/istio/istio/issues/60682>Issue #60682</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>EXIT_ON_ZERO_ACTIVE_CONNECTIONS</code> 从未在 Ambient 入口网关和 waypoint 上触发的问题，
+因为 Pilot-agent 的排出循环对 Envoy HBONE 内部侦听器
+（<code>connect_originate</code>、<code>connect_terminate</code>、<code>main_internal</code> 等）
+上的进程内连接进行了计数，从而防止活动连接计数达到零并强制代理等待 <code>terminationGracePeriodSeconds</code>。
+(<a href=https://github.com/istio/istio/issues/60728>Issue #60728</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>service.istio.io/canonical-name</code> 标签在注入模板中被截断为
+63 个字符时可能以无效的 <code>.</code> 或 <code>_</code> 结尾的问题。</p></li><li><p><strong>修复</strong> 修复了带有空或省略 <code>backendRefs</code> 的 <code>HTTPRoute</code> 返回 HTTP 404
+状态代码而不是 500 的问题。这与 v1.6.0 中引入的 <code>HTTPRouteNoBackendRefs</code>
+Gateway API 一致性测试强制执行的行为相匹配。</p></li><li><p><strong>修复</strong> 修复了宣传的 HBONE 功能未传播到非 Kubernetes 工作负载的自动注册 <code>WorkloadEntry</code> 资源上的问题。</p></li><li><p><strong>修复</strong> 修复了引用无效或不存在的 <code>parametersRef</code> 时 <code>Gateway</code> 上的 <code>Accepted</code>
+条件未设置为 <code>False</code> 的问题。这与 v1.6.0 中引入的 <code>GatewayInvalidParametersRef</code> Gateway API
+一致性测试强制执行的行为相匹配。</p></li><li><p><strong>修复</strong> 修复了当目标服务具有 L7 <code>AuthorizationPolicy</code> 资源时，
+通过东西向网关的跨网络流量被虚假拒绝所有 RBAC 过滤器阻止。
+(<a href=https://github.com/istio/istio/issues/60806>Issue #60806</a>)</p></li><li><p><strong>修复</strong> 修复了一个错误，即远程集群的网络网关在凭证轮换后可能会从跨网络路由中消失，
+并且直到 istiod 重新启动后才能恢复。就地注册表交换现在将新注册表重新连接到聚合控制器的处理程序，
+以便其未来的网关和服务事件传播，并重新加载网关一次以获取在预交换同步期间发现的网关。
+(<a href=https://github.com/istio/istio/issues/60920>Issue #60920</a>)</p></li><li><p><strong>修复</strong> 修复了多集群部署中的一个问题，即旋转远程集群的 <code>istio-remote-secret</code>
+可能会永久擦除该集群中具有稳定端点的服务的端点分片，从而使它们在重新启动 istiod 之前无法跨集群访问。
+(<a href=https://github.com/istio/istio/issues/61043>Issue #61043</a>)</p></li><li><p><strong>修复</strong> 修复了当不存在 <code>VirtualService</code> 时，<code>DestinationRule</code> 中的 <code>consistentHash</code>
+负载平衡对于在 Ambient 模式下通过路点代理路由的服务不起作用的问题。
+Envoy 集群正确接收了 <code>lb_policy: RING_HASH</code>，但入站路由缺少 <code>hash_policy</code>，
+导致 Envoy 回退到随机后端选择并破坏粘性会话。以前需要使用无操作直通 <code>VirtualService</code> 作为解决方法。
+(<a href=https://github.com/istio/istio/issues/61045>Issue #61045</a>)</p></li><li><p><strong>修复</strong> 修复了 istiod 启动时的竞争条件，其中就绪探针可以在专用注入和验证 Webhook 服务器
+（<code>--httpsAddr</code>，默认 <code>:15017</code>）接受连接之前报告准备就绪，
+从而在 istiod 准备就绪后立即创建资源时导致间歇性的 <code>failed calling webhook</code> 超时。
+这不会影响 Webhooks 共享主 HTTP 服务器（空 <code>--httpsAddr</code>）的部署。
+(<a href=https://github.com/istio/istio/issues/61049>Issue #61049</a>)</p></li><li><p><strong>修复</strong> 修复了当远程工作负载位于不同网络上时，入口网关绕过多集群服务的 waypoint 代理，导致授权策略无法执行的问题。
+(<a href=https://github.com/istio/istio/issues/61092>Issue #61092</a>)</p></li><li><p><strong>修复</strong> 修复了在 istiod 启动期间可能永久无法创建网关代理部署的问题。
+(<a href=https://github.com/istio/istio/issues/61095>Issue #61095</a>)</p></li><li><p><strong>修复</strong> 修复了由 <code>ServiceEntry</code> <code>workloadSelector</code> 选择的 Pod
+启动时可能会在其 Sidecar 的入站配置中缺少该服务的问题。
+到端口的流量未按照 <code>ServiceEntry</code> 中声明的协议进行处理，
+并且未应用端口级 <code>PeerAuthentication</code>。该 Pod 无法自行恢复；只有重新启动 istiod 才能修复它。
+(<a href=https://github.com/istio/istio/issues/61157>Issue #61157</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>istio-cni</code> 认为 <code>hostNetwork</code> Pod 符合 Ambient 注册条件的问题。
+(<a href=https://github.com/istio/istio/issues/61168>Issue #61168</a>)</p></li><li><p><strong>修复</strong> 修复了由于存在许多问题，Pilot 在生成代理网关配置时忽略了 <code>ListenerSet</code>
+资源以及附加到它们的路由的问题。Pilot 不再过滤掉 <code>ListenerSet</code> 资源及其附加路由，
+使 Istio 中的代理网关能够正确处理 <code>ListenerSet</code> 资源。</p></li><li><p><strong>修复</strong> 修复了当代理网关的父 <code>Gateway</code> 资源不允许 <code>ListenerSet</code> 时，
+<code>ListenerSet</code> 状态报告。当父 <code>Gateway</code> 不允许<code>ListenerSet</code> 时，<code>Accepted</code> 条件状态现在报告为 <code>False</code>，
+而以前的情况并非如此。此外，由于从 Gateway API v1.5.0 开始，<code>ListenerSet</code> 功能不再是实验性的，
+因此它不再受 <code>PILOT_ENABLE_ALPHA_GATEWAY_API</code> 功能标志的保护。</p></li><li><p><strong>修复</strong> 修复了代理网关 <code>Gateway</code> 使用明文而不是 Istio 双向 TLS 连接到 Sidecar 注入（网格）后端的问题。
+以前，路由到网格后端的原始 TCP（通过 <code>TCPRoute</code> 或终止模式下的 <code>TLSRoute</code>）
+可能因服务器优先协议而挂起（其中后端首先发言，例如 SMTP 或 MySQL），
+并且强制执行 <code>STRICT</code> 双向 TLS 的后端无法访问。</p></li><li><p><strong>修复</strong> 修复了 Istiod Ambient 多集群模式中的内存和 goroutine 泄漏，
+其中每个集群节点局部性集合的范围仅限于进程生命周期而不是集群生命周期，
+因此当远程集群被删除时，它们永远不会被拆除。
+(<a href=https://github.com/istio/istio/issues/60033>Issue #60033</a>)</p></li><li><p><strong>修复</strong> 修复了 Istiod Ambient 多集群模式中的一个错误，
+其中聚合（本地 + 远程）集合可以在发现并同步远程集群之前将自己报告为已同步。
+因此，Istiod 可以开始仅使用本地集群数据提供服务，在启动时暂时忽略远程集群中的工作负载、
+服务和端点。聚合集合现在等待多集群控制器和每个远程集群的集合同步，然后再标记为就绪。</p></li><li><p><strong>修复</strong> 修复了以下问题：在节点或 kubelet 重新启动后，Ambient 注册的 Pod
+可能会被排除在主机运行状况探测 ipset 之外，导致 kubelet 探测被重定向到 ztunnel 并被拒绝，
+直到 <code>istio-cni</code> 节点代理重新启动。启动时，节点代理可能会在其 IP 尚未可观察到时从 ipset 中逐出仍注册的 Pod，
+并且现在它会在协调期间重新断言已注册 Pod 的探测 ipset 成员身份。</p></li><li><p><strong>修复</strong> 修复了 <code>istio-cni</code> 节点代理中的文件描述符泄漏：
+当 procfs 扫描发现同一个 pod 有多个网络命名空间时，失败候选者的 netns 文件描述符会被丢弃而没有关闭，
+导致该命名空间被锁定在内核中，直到垃圾回收。</p></li><li><p><strong>修复</strong> 修复了 Ambient CNI 节点代理中的死锁，
+其中与 ztunnel（重新）连接并发的 Pod 删除事件可能会永久阻止 ZDS 服务器。
+(<a href=https://github.com/istio/ztunnel/issues/1674>Issue #1674</a>)</p></li><li><p><strong>修复</strong> 修复了当目标子集未指定端口的 TLS 模式时，端点 mTLS
+模式不是从 <code>DestinationRule</code> 顶级流量策略派生的问题。
+子集流量策略现在可以正确回退到 <code>DestinationRule</code> 级别 TLS 设置。</p></li><li><p><strong>修复</strong> 修复了 <code>Gateway</code> 资源中证书引用的状态报告，以符合网关 API 规范 v1.5.0。
+它更改 <code>Gateway</code> 状态以报告 <code>ResolvedRefs</code> 类型的条件，
+并且当由于证书无效或不存在而失败时，还会向 <code>Accepted</code> 条件添加额外的详细信息。</p></li><li><p><strong>修复</strong> 修复了 Kubernetes <code>Gateway</code> 上的 <code>Accepted</code> 条件以反映其侦听器的有效性。
+当一个或多个侦听器不被接受时（例如，不支持的侦听器协议），
+<code>Gateway</code> 现在会报告 <code>ListenersNotValid</code> 原因，
+并且仅在没有任何侦听器被接受时才设置为 <code>Accepted=False</code>。
+以前，无论监听者是谁，<code>Gateway</code> 总是报告为 <code>Accepted</code>。</p></li><li><p><strong>修复</strong> 修复了无代理 gRPC xDS 客户端可能从 Istiod 接收过于广泛的 RDS <code>RouteConfiguration</code> 响应的问题。</p></li><li><p><strong>修复</strong> 修复了当侦听器类型为 HTTPS 或 TLS 但未定义 TLS 部分时错误创建内部侦听器的错误。
+Gateway API 的以下版本将<a href=https://github.com/kubernetes-sigs/gateway-api/pull/4788>防止</a>这种输入组合到达控制器。
+(<a href=https://github.com/istio/istio/issues/60562>Issue #60562</a>)</p></li><li><p><strong>修复</strong> 修复了 1.29.2 之前的 Sidecar 配置生成。</p></li><li><p><strong>修复</strong> 修复了在使用没有目标的 TCP 或 TLS 路由处理 <code>VirtualService</code> 时出现 istiod Panic，
+这种情况在未安装验证 Webhook 时可能会发生（例如，没有默认修订版的部署）。
+(<a href=https://github.com/istio/istio/issues/60110>Issue #60110</a>)</p></li><li><p><strong>修复</strong> 修复了当远程集群被删除或更新时，Ambient 多集群模式下 istiod 中的 goroutine 和内存泄漏。
+为每个远程集群构建的内部集合在拆除时不会释放它们在输入上注册的事件处理程序，
+导致 goroutine 和内存随着集群被删除或重新配置而随着时间的推移而累积。
+(<a href=https://github.com/istio/istio/issues/60033>Issue #60033</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>krt</code> 控制器框架中的内存泄漏，其中更改 <code>Fetch</code> 过滤器中使用的密钥
+（例如，重新标记 Pod 以指向不同的路径点）会留下从未清理过的陈旧反向索引条目。
+随着时间的推移，这可能会增加内存使用量并导致不必要的重新计算。</p></li><li><p><strong>修复</strong> 修复了 istiod 领导者选举中的一个 goroutine 泄漏，
+其中每个选举周期（领导权丢失和重新获得）都会泄漏一个 goroutine，直到进程退出。
+(<a href=https://github.com/istio/istio/issues/60843>Issue #60843</a>)</p></li><li><p><strong>修复</strong> 修复了 ListenerSet 状态报告，以便没有有效侦听器的 ListenerSet 现在将
+<code>Accepted</code> 和 <code>Programmed</code> 条件报告为 <code>False</code>，原因为 <code>ListenersNotValid</code>。
+以前，即使没有侦听器可用，ListenerSet 级别的条件也可以保持 <code>True</code>。</p></li><li><p><strong>修复</strong> 修复了多集群 <code>ClusterStore</code> 中的死锁，其中 <code>AllReady</code> 可以在写入者等待时递归获取存储
+<code>RWMutex</code> 以通过 <code>triggerRecomputeOnSync</code> -> <code>GetByID</code> 读取，
+从而阻止对存储的进一步读取和写入。</p></li><li><p><strong>修复</strong>修复了 Ambient 多集群在凭证轮换后提供远程集群的过时快照。
+每个集群的集合仅通过集群 ID 进行缓存，因此携带新 kubeconfig 的秘密更新会继续重用为上一代构建的集合，
+一旦新的同步，其客户端和通知程序就会关闭。它们现在按代缓存并在新客户端上重建。
+(<a href=https://github.com/istio/istio/issues/60033>Issue #60033</a>)</p></li><li><p><strong>修复</strong> 修复了 Istiod 中的内存泄漏，其中失败的 Pod IP 的 <code>needResync</code> 条目从未被清理。</p></li><li><p><strong>修复</strong> 修复了包含网络时的故障转移路由。在确定故障转移优先级时，
+该网络被视为首选网络，但不是必需的。例如，<code>PreferSameZone</code> 具有以下优先级顺序：
+网络+区域+区域、网络+区域、网络、区域+区域、区域，并且不匹配。</p></li><li><p><strong>修复</strong> 修复了当两个侦听器名称清理到相同的 <code>Service</code> 端口名称（名称仅句点与破折号不同，或仅超过 63 个字符限制）时，
+生成的 <code>Gateway</code> <code>Service</code> 资源被拒绝，这会阻止 <code>Gateway</code> 上的每个未发布的端口。
+现在，冲突的端口名称与侦听器的端口号已消除歧义。</p></li><li><p><strong>修复</strong> 修复了一个错误，当扫描期间第三方进程位于该命名空间内时，
+istio-cni 节点代理可以将环境 Pod 与另一个 Pod 的网络命名空间配对，
+这可能会导致流量使用错误的身份进行代理。节点代理现在会在注册 Pod 之前验证命名空间是否拥有 Pod 的 IP 之一。
+(<a href=https://github.com/istio/istio/issues/61211>Issue #61211</a>)</p></li><li><p><strong>修复</strong> 修复了 ztunnel 重新连接（例如从 <code>keepaliveMaxServerConnectionAge</code> 定期连接回收）
+触发完整工作负载 (WDS) 推送的错误。Istiod 现在为每个 WDS 资源分配一个基于内容的版本，
+并且当重新连接的客户端通过 <code>initial_resource_versions</code> 报告其已持有的版本时，
+仅重新发送在客户端断开连接时发生更改的资源。不报告版本的较旧 ztunnel 版本将继续接收完整集。
+(<a href=https://github.com/istio/ztunnel/issues/1966>Issue #1966</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>zoneAwareLbSetting.enabled: false</code> 以通过发出
+<code>routing_enabled: 0%</code> 显式禁用 Envoy 的内部区域感知路由。
+以前，<code>enabled: false</code> 是一个无操作：Istio 不发出 <code>ZoneAwareLbConfig</code>，
+导致 Envoy 回退到默认的 <code>routing_enabled: 100%</code>，只要存在自我发现本地集群，
+它就会自动启用区域感知路由。这使得逐步推出变得不安全，
+因为处于混合状态的 Pod（有些具有自我发现，有些没有）会不均匀地分配流量。</p></li><li><p><strong>升级</strong> Istio distroless 镜像使用的 <code>nftables</code> 的升级版本。
+<code>nftables</code> 版本之前固定为 1.1.1，以避免在 Istio 使用打包在同一节点上的镜像中的新版本后，
+可能导致 K8s 节点上的旧版本 <code>nftables</code> 崩溃的错误。</p><p>主要 Linux 发行版已获悉该问题并已发布修复程序。因此，Istio 正在删除 <code>nftables</code> 版本固定。
+建议用户将节点上的 <code>nftables</code> 软件包更新到最新可用版本，以确保安装修复版本。</p><p>如果您的节点上继续遇到 <code>nftables</code> 崩溃，请降级到旧版本的 Istio，
+并联系您的节点操作系统提供商以请求将修复程序向后移植到您的操作系统版本。
+(<a href=https://github.com/istio/istio/issues/58492>Issue #58492</a>)</p></li><li><p><strong>优化</strong> 优化了 Sidecar 出口服务解析：仅导入精确（非通配符）、
+显式命名空间的主机的侦听器现在通过直接服务索引查找来解析服务，
+而不是扫描命名空间可见的每个服务，将每个侦听器的成本从 <code>O(services)</code> 减少到 <code>O(imported hosts)</code>，并消除完整列表分配。
+(<a href=https://github.com/istio/istio/issues/60473>Issue #60473</a>)</p></li></ul><h2 id=security>安全</h2><ul><li><p><strong>新增</strong> 添加了 <code>PILOT_ENABLE_STRICT_GATEWAY_MERGING</code> 以防止 Istio <code>Gateway</code>
+资源与托管 Gateway API <code>Gateway</code> 资源的跨命名空间合并。启用后（默认），
+来自不同命名空间的 Istio <code>Gateway</code> CRD 不会与托管 Gateway API <code>Gateway</code> 代理合并。
+非托管（手动部署）网关 API <code>Gateway</code> 资源不受影响。<code>PILOT_ENABLE_STRICT_GATEWAY_MERGING</code> 设置为 <code>false</code> 以禁用。</p></li><li><p><strong>新增</strong> 在 <code>AuthorizationPolicy</code> 中的 <code>Source</code> 中添加了 <code>trustDomains</code>
+和 <code>notTrustDomains</code> 字段，允许用户根据从对等证书派生的信任域来匹配或排除请求。</p></li><li><p><strong>新增</strong> 添加了对 <code>fips-140-3</code> 的支持，将其作为 <code>COMPLIANCE_POLICY</code> 环境变量的新值。
+这将强制使用符合 FIPS 标准的密码套件（TLS 1.2 使用 ECDHE_[RSA|ECDSA]<em>WITH_AES</em><em>_GCM_SHA</em>，
+TLS 1.3 使用 AES-GCM）的 TLS 1.2 或 1.3，并将密钥协商限制为 P-256 或 P-384 曲线。
+在 Envoy 代理端，这将使用原生的 <code>FIPS_202205</code> 合规性策略。
+Go 组件（istiod、istio-agent）必须使用 Go 1.24 或更高版本，
+并设置 <code>GOFIPS140=v1.0.0</code>（或更高版本的验证版本）才能启用原生的 Go FIPS 140-3 加密模块。
+当通过 Helm <code>env</code> 值配置了 <code>COMPLIANCE_POLICY</code> 时（例如，<code>--set pilot.env.COMPLIANCE_POLICY=fips-140-3</code>），
+<code>GODEBUG=fips140=only</code> 环境变量会在运行时自动注入到 sidecar、网关和 istiod 控制平面中。
+注意：<code>GOEXPERIMENT=boringcrypto</code>（用于 FIPS 140-2）与此策略不兼容，不得使用。
+BoringCrypto 仅支持 FIPS 140-2，并且与 Go 的原生 FIPS 140-3 模块冲突。</p></li><li><p><strong>新增</strong> 添加了一个新的环境变量 <code>PILOT_ENABLE_REMOTE_CREDENTIALS_CONTROLLER</code>
+（默认为 <code>true</code>），用于切换远程集群的凭据控制器。</p></li><li><p><strong>修复</strong> 修复了 pilot-agent 在第二次和后续 Kubernetes Secret 轮换中丢失文件安装证书的证书重新加载。
+(<a href=https://github.com/istio/istio/issues/59912>Issue #59912</a>)</p></li><li><p><strong>修复</strong> 修复了 Gateway API 前端 mTLS（<code>spec.tls.frontend.default.validation.caCertificateRefs</code>）
+中的 <code>caCertificateRefs[].kind: Secret</code> 在运行时被 SDS 拒绝，
+尽管 <code>Gateway</code> 配置有效，包括 <code>ReferenceGrant</code> 允许的相同命名空间引用和跨命名空间引用。
+(<a href=https://github.com/istio/istio/issues/60277>Issue #60277</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>EnvoyFilter</code> 验证差距，其中无上限的 <code>proxyVersion</code>
+匹配表达式可能会在正则表达式编译期间驱动过多的 istiod 内存和 CPU。
+匹配表达式现在限制为 1024 个字符。</p><p><strong>来源</strong>：此问题由 <a href=https://github.com/cherez0ff><code>Artem Cherezov</code></a> 报告。</p></li><li><p><strong>修复</strong> 修复了通过 <code>extensionProviders</code> 配置的外部 SDS 提供程序，
+以使用配置的服务主机名作为 gRPC 权限。</p></li><li><p><strong>修复</strong> 修复了外部 SDS 提供商，以便网关使用凭证名称（去除 <code>sds://</code> 前缀后）
+作为 SDS 资源名称而不是提供商名称。这允许使用同一 SDS 提供商的多个网关请求不同的证书。
+对于 <code>MUTUAL</code> TLS，CA 证书资源名称正确派生为 <code>&lt;credential-name>-cacert</code>。
+当 UDS 套接字和 SDS 扩展提供程序均未配置时，网关现在会回退到通过
+ADS（Kubernetes Secrets）获取证书，而不是默默地失败。
+(<a href=https://github.com/istio/istio/issues/57080>Issue #57080</a>)</p></li><li><p><strong>修复</strong> 修复了如果证书是通过文件提供的（例如，使用 istio-csr 等外部 CA 时），
+istiod 在轮换时不会重新加载其 CA 根证书。</p></li><li><p><strong>修复</strong> 修复了 XDS <code>api</code> 生成器（MCP 配置服务）以需要经过验证的控制平面身份。
+以前，任何可以访问 istiod 的 XDS 端口的客户端都可以跨所有命名空间读取 Istio 配置。
+如果需要兼容性，请使用 <code>ENABLE_XDS_API_GENERATOR_AUTH=false</code> 禁用。</p></li></ul><h2 id=telemetry>可观测</h2><ul><li><p><strong>改进</strong> 改进了 pilot-agent 的 <code>/stats/prometheus</code> 端点，
+使其能够并发抓取由 <code>prometheus.istio.io/scrape-targets</code> 注解声明的多个目标，
+并按声明顺序合并输出。单目标 Pod 保留现有的流式代码路径，逐字节执行。
+对于多目标 Pod，OpenMetrics 响应将被重写，以确保合并后的输出包含一个 <code># EOF</code> 终止符。
+单个目标指标响应的大小上限为 10 MiB，以限制代理内存；超过此限制的响应将被丢弃并计为抓取失败。
+每个目标的抓取失败是非阻塞的，并且会增加 <code>istio_agent_scrape_failures_total{type="application"}</code> 的值。
+(<a href=https://github.com/istio/istio/issues/59567>Issue #59567</a>)</p></li><li><p><strong>新增</strong> 添加了一个新的环境变量 <code>PILOT_AGENT_MERGE_ENVOY_STATS</code>
+来控制 pilot-agent 是否将 Envoy 统计信息合并到其统计端点中。
+设置为 <code>false</code> 以禁用将 Envoy 统计信息与代理统计信息合并。</p></li><li><p><strong>新增</strong> 向 istio-cni 节点代理添加了一个新指标 <code>istio_cni_plugin_requests_total</code>。
+它对节点代理处理的 CNI 插件添加事件请求进行计数，标记为 <code>response_code</code>。
+(<a href=https://github.com/istio/istio/pull/60878>Issue #60878</a>)</p></li><li><p><strong>新增</strong> 添加了一个新的 Pod 注释 <code>prometheus.istio.io/scrape-targets</code>，
+允许用户将每个 Pod 的多个应用程序指标端点声明为逗号分隔的 <code>port:path</code> 列表。
+与代理状态端口或任何 Istio 保留的数据平面端口发生冲突的目标在注入时会被拒绝，并出现人类可读的错误。
+(<a href=https://github.com/istio/istio/issues/59567>Issue #59567</a>)</p></li><li><p><strong>新增</strong> 添加了两个新的选择加入环境变量 <code>ENVOY_SECURE_METRICS_PORT</code>
+和 <code>ENVOY_SECURE_MERGED_METRICS_PORT</code>，它们在每个 Envoy Sidecar
+代理上公开受 mTLS 保护的 Prometheus 抓取端点。设置后，Sidecar 会在需要相互 TLS
+的配置端口上添加静态引导侦听器，从而允许 Prometheus 安全地抓取指标，
+而无需依赖 Pod 网络级访问控制。有关详细信息，请参阅
+<a href="https://docs.google.com/document/d/1BiBOrYU06x5xdsnU0YDlMGOV-iHjZ2m9UVcZ62wKAn8/edit?usp=sharing">RFC</a>。
+(<a href=https://github.com/istio/istio/issues/50114>Issue #50114</a>)</p></li><li><p><strong>修复</strong> 修复了当 Envoy 使用 protobuf 内容类型报告指标时，
+pilot-agent 指标合并产生错误结果的问题。Pilot-agent 中实现的逻辑无法正确处理 protobuf 内容类型，
+因此此更改将允许的内容类型仅限于 <code>text/plain</code> 和 <code>application/openmetrics-text</code>。
+(<a href=https://github.com/istio/istio/issues/60322>Issue #60322</a>)</p></li><li><p><strong>移除</strong> 删除了 <code>PILOT_SPAWN_UPSTREAM_SPAN_FOR_GATEWAY</code> 功能标志。
+现在始终启用为网关请求生成上游跨度的行为。之前将此设置为 <code>false</code> 的用户应删除该配置，因为它将不再产生任何效果。</p></li></ul><h2 id=extensibility>可扩展性</h2><ul><li><p><strong>修复</strong> 修复了一个错误，即引用不同命名空间中的路径点的 <code>Service</code>
+没有将命名空间范围的 <code>Telemetry</code> 资源包含在其配置中。
+(<a href=https://github.com/istio/istio/issues/60665>Issue #60665</a>)</p></li><li><p><strong>修复</strong> 修复了一个错误，即应用程序命名空间中的 <code>WasmPlugin</code> 通过
+<code>targetRefs</code> 定位 <code>Service</code> 会导致 waypoint 代理在启动时崩溃循环。
+LDS 路径正确地包含了 waypoint 的插件，但 ECDS 查找路径将其视为跨命名空间而拒绝，
+使 Envoy 等待永远不会到达的资源。
+(<a href=https://github.com/istio/istio/issues/60530>Issue #60530</a>)</p></li></ul><h2 id=installation>安装</h2><ul><li><p><strong>更新</strong> 更新了 Kiali 插件至版本 v2.26.0。</p></li><li><p><strong>新增</strong> 添加了 <code>ZTUNNEL_RESOURCE_CPU_LIMIT</code> 和 <code>ZTUNNEL_RESOURCE_CPU_REQUEST</code>
+环境变量到 ztunnel <code>DaemonSet</code>，设置时从配置的 <code>resources.limits.cpu</code> / <code>resources.requests.cpu</code> 填充。
+ztunnel 使用这些来派生 CPU 感知的工作线程计数。</p></li><li><p><strong>新增</strong> 添加了 istiod（pilot）容器的 <code>terminationMessagePolicy</code> Helm 字段，
+允许配置终止消息的填充方式。</p></li><li><p><strong>新增</strong> 在网关 Helm Chart 中添加 <code>dnsPolicy</code> 和 <code>dnsConfig</code> 字段，
+以便在具有非标准 DNS 要求的环境中自定义 DNS 配置。</p></li><li><p><strong>新增</strong> 向 <code>istioctl manifestgenerate</code> 添加了一个 <code>-o/--output</code> 标志，
+将生成的清单写入文件而不是 stdout。这避免了依赖 shell 重定向，
+这对于自动化来说很方便，并且在没有可用 shell 的环境中是必需的（例如，没有 shell 的强化 <code>istioctl</code> 映像）。</p></li><li><p><strong>新增</strong> 添加了 <code>values.global.readerServiceAccount</code> 以及 <code>name</code>
+和 <code>namespace</code> 字段，以将 <code>istio-reader</code> <code>ClusterRole</code> 绑定到自定义服务帐户。
+设置后，不会创建默认的 <code>istio-reader-service-account</code>，
+而是 <code>ClusterRoleBinding</code> 引用指定的服务帐户。无论 <code>readerServiceAccount</code> 设置如何，
+将 <code>global.enableReaderRBAC</code> 设置为 <code>false</code> 都会抑制 <code>istio-reader</code>、
+<code>ClusterRole</code> 和 <code>ClusterRoleBinding</code>。</p></li><li><p><strong>修复</strong> 修复了当 <code>global.proxy_init.image</code> 和 <code>global.proxy.image</code> 配置不同时，
+<code>istio-init</code> 容器会使用错误的图像。
+(<a href=https://github.com/istio/istio/issues/59066>Issue #59066</a>)</p></li><li><p><strong>修复</strong> waypoint 和 kube-gateway 工作负载套接字卷与 SPIRE CSI 驱动程序配置不兼容。
+(<a href=https://github.com/istio/istio/issues/60108>Issue #60108</a>)</p></li><li><p><strong>修复</strong> 修复了当 <code>global.istioNamespace</code> 或发布命名空​​间仅为数字（例如 <code>1234</code>）时，
+Helm Chart 呈现。渲染清单中的命名空间字段现在被引用，因此 YAML 解析器将它们视为字符串而不是数字。
+(<a href=https://github.com/istio/istio/issues/60239>Issue #60239</a>)</p></li></ul><h2 id=istioctl>istioctl</h2><ul><li><p><strong>新增</strong> 添加了对 <code>istioctl remote-clusters</code> 的支持以显示修订版本。</p></li><li><p><strong>新增</strong> 添加了当多个 <code>ServiceEntry</code> 资源定义具有冲突协议的相同主机和端口时，
+会出现 <code>istioctl analyze</code> 警告（<code>IST0177</code>）。
+(<a href=https://github.com/istio/istio/issues/60447>Issue #60447</a>)</p></li><li><p><strong>新增</strong> 添加了 <code>istioctlanalyze</code> 检查，<code>IST0176</code>，标记安装的 Gateway API CRD
+的版本低于当前 Istio 版本所需的最低版本。此类 CRD 支持的资源会被 istiod 静默过滤，
+此前，在升级到 Istio 1.30 后，使用过时的 Gateway API CRD 很难发现 TLS 直通破坏。</p></li><li><p><strong>修复</strong> 修复了当 Istio 使用修订标签安装在非默认命名空间（<code>istio-system</code> 除外）中时，
+<code>istioctl</code> 无法发现 istiod。<code>DefaultWatcher</code> 现在根据通过
+<code>-i</code> 标志传递的 Istio 命名空间构造预期的 Webhook 名称。
+(<a href=https://github.com/istio/istio/issues/60232>Issue #60232</a>)</p></li><li><p><strong>修复</strong> 修复了 <code>istioctl tag remove</code> 在删除默认修订标签时不会删除
+<code>istiod-default-validator</code> <code>ValidatingWebhookConfiguration</code>。
+(<a href=https://github.com/istio/istio/issues/60537>Issue #60537</a>)</p></li><li><p><strong>修复</strong> 修复了包含 <code>=</code> 的 <code>istioctl</code> 清单 <code>--set</code> 值被解析为格式错误的输入的问题。</p></li></ul></div><nav class=pagenav><div class=left></div><div class=right><a title="升级到 Istio 1.31.0 时要考虑的重要变更。" href=/v1.31/zh/news/releases/1.31.x/announcing-1.31/upgrade-notes/ class=next-link>升级说明<svg class="icon right-arrow"><use xlink:href="/v1.31/img/icons.svg#right-arrow"/></svg></a></div></nav></article><footer class=footer><div class="footer-wrapper container-l"><div class="user-links footer-links"><a class=channel title='Istio 的代码在 GitHub 上开发' href=https://github.com/istio/community aria-label=GitHub><svg class="icon github"><use xlink:href="/v1.31/img/icons.svg#github"/></svg>
+</a><a class=channel title='如果您想深入了解 Istio 的技术细节，请查看我们日益完善的设计文档' href=https://groups.google.com/forum/#!forum/istio-team-drive-access aria-label="team drive"><svg class="icon drive"><use xlink:href="/v1.31/img/icons.svg#drive"/></svg>
+</a><a class=channel title='在 Slack 上与 Istio 社区交互讨论开发问题' href=https://slack.istio.io aria-label=slack><svg class="icon slack"><use xlink:href="/v1.31/img/icons.svg#slack"/></svg>
+</a><a class=channel title='Stack Overflow 中列举了针对实际问题以及部署、配置和使用 Istio 的各项回答' href=https://stackoverflow.com/questions/tagged/istio aria-label="Stack Overflow"><svg class="icon stackoverflow"><use xlink:href="/v1.31/img/icons.svg#stackoverflow"/></svg>
+</a><a class=channel title='关注我们的 LinkedIn 来获取最新信息' href=https://www.linkedin.com/company/istio/ aria-label=LinkedIn><svg class="icon linkedin"><use xlink:href="/v1.31/img/icons.svg#linkedin"/></svg>
+</a><a class=channel title='关注我们的 Twitter 来获取最新信息' href=https://twitter.com/IstioMesh aria-label=Twitter><svg class="icon twitter"><use xlink:href="/v1.31/img/icons.svg#twitter"/></svg>
+</a><a class=channel title='关注我们的 Bluesky 来获取最新信息' href=https://bsky.app/profile/istio.io aria-label=Bluesky><svg class="icon bluesky"><use xlink:href="/v1.31/img/icons.svg#bluesky"/></svg>
+</a><a class=channel title='关注我们的 Mastodon 来获取最新信息' href=https://mastodon.social/@istio aria-label=Mastodon rel=me><svg class="icon mastodon"><use xlink:href="/v1.31/img/icons.svg#mastodon"/></svg></a></div><hr class=footer-separator role=separator><div class="info footer-info"><a class=logo href=/v1.31/zh/ aria-label=logotype><svg width="128" height="60" viewBox="0 0 128 60"><path d="M58.434 48.823A.441.441.0 0158.3 48.497V22.583a.444.444.0 01.134-.326.446.446.0 01.327-.134h3.527a.447.447.0 01.325.134.447.447.0 01.134.326v25.914a.443.443.0 01-.134.326.444.444.0 01-.325.134h-3.527a.444.444.0 01-.327-.134z"/><path d="m70.969 48.477a6.556 6.556.0 01-2.818-1.955 4.338 4.338.0 01-1-2.78v-.345a.443.443.0 01.134-.326.444.444.0 01.326-.135h3.374a.444.444.0 01.326.135.445.445.0 01.134.326v.077a2.014 2.014.0 001.054 1.667 4.672 4.672.0 002.664.709 4.446 4.446.0 002.492-.633 1.862 1.862.0 00.958-1.591 1.426 1.426.0 00-.786-1.322 12.7 12.7.0 00-2.549-.939l-1.457-.46a21.526 21.526.0 01-3.3-1.227 6.57 6.57.0 01-2.262-1.783 4.435 4.435.0 01-.92-2.894 5.081 5.081.0 012.109-4.275 8.993 8.993.0 015.558-1.591 10.445 10.445.0 014.1.748 6.3 6.3.0 012.722 2.07 5 5 0 01.958 3.009.441.441.0 01-.134.326.441.441.0 01-.325.134h-3.258a.441.441.0 01-.326-.134.443.443.0 01-.134-.326 1.974 1.974.0 00-.978-1.667 4.647 4.647.0 00-2.665-.671 4.741 4.741.0 00-2.435.556 1.724 1.724.0 00-.938 1.553 1.512 1.512.0 00.9 1.4 15.875 15.875.0 003.01 1.055l.843.229a27.368 27.368.0 013.412 1.246 6.67 6.67.0 012.338 1.763 4.387 4.387.0 01.958 2.933 4.988 4.988.0 01-2.146 4.275 9.543 9.543.0 01-5.712 1.552 11.626 11.626.0 01-4.227-.709z"/><path d="m97.039 32.837a.443.443.0 01-.326.135h-3.911a.169.169.0 00-.191.192v9.239a2.951 2.951.0 00.632 2.108 2.7 2.7.0 002.013.652h1.15a.444.444.0 01.325.134.441.441.0 01.134.326v2.875a.471.471.0 01-.459.5l-1.994.039a8 8 0 01-4.524-1.035q-1.495-1.035-1.533-3.91V33.166A.17.17.0 0088.164 32.974H85.978A.441.441.0 0185.652 32.839.441.441.0 0185.518 32.513V29.83a.441.441.0 01.134-.326.444.444.0 01.326-.135h2.186a.169.169.0 00.191-.192v-4.485a.438.438.0 01.134-.326.44.44.0 01.325-.134h3.336a.443.443.0 01.325.134.442.442.0 01.135.326v4.485a.169.169.0 00.191.192h3.911a.446.446.0 01.326.135.446.446.0 01.134.326v2.683a.446.446.0 01-.133.324z"/><path d="m101.694 25.917a2.645 2.645.0 01-.767-1.955 2.65 2.65.0 01.767-1.955 2.65 2.65.0 011.955-.767 2.65 2.65.0 011.955.767 2.652 2.652.0 01.767 1.955 2.647 2.647.0 01-.767 1.955 2.646 2.646.0 01-1.955.767 2.645 2.645.0 01-1.955-.767zm-.211 22.906a.441.441.0 01-.134-.326V29.79a.444.444.0 01.134-.326.446.446.0 01.326-.134h3.527a.446.446.0 01.326.134.445.445.0 01.134.326v18.707a.443.443.0 01-.134.326.443.443.0 01-.326.134h-3.527a.443.443.0 01-.326-.134z"/><path d="m114.019 47.734a8.1 8.1.0 01-3.047-4.255 14.439 14.439.0 01-.652-4.37 14.3 14.3.0 01.614-4.371A7.869 7.869.0 01114 30.56a9.072 9.072.0 015.252-1.5 8.543 8.543.0 015.041 1.5 7.985 7.985.0 013.009 4.14 12.439 12.439.0 01.69 4.37 13.793 13.793.0 01-.651 4.37 8.255 8.255.0 01-3.028 4.275 8.475 8.475.0 01-5.1 1.553 8.754 8.754.0 01-5.194-1.534zm7.629-3.1a4.536 4.536.0 001.476-2.262 11.335 11.335.0 00.383-3.221 10.618 10.618.0 00-.383-3.22 4.169 4.169.0 00-1.457-2.243 4.066 4.066.0 00-2.531-.785 3.942 3.942.0 00-2.453.785 4.376 4.376.0 00-1.5 2.243 11.839 11.839.0 00-.383 3.22 11.84 11.84.0 00.383 3.221 4.222 4.222.0 001.476 2.262 4.075 4.075.0 002.549.8 3.8 3.8.0 002.44-.809z"/><path d="m15.105 32.057v15.565a.059.059.0 01-.049.059L.069 50.25A.06.06.0 01.005 50.167l14.987-33.47a.06.06.0 01.114.025z"/><path d="m17.631 23.087v24.6a.06.06.0 00.053.059l22.449 2.507a.06.06.0 00.061-.084L17.745.032a.06.06.0 00-.114.024z"/><path d="m39.961 52.548-24.833 7.45a.062.062.0 01-.043.0L.079 52.548a.059.059.0 01.026-.113h39.839a.06.06.0 01.017.113z"/></svg></a><div class=footer-languages><a tabindex=-1 lang=en id=switch-lang-en class=footer-languages-item>English
+</a><a tabindex=-1 lang=es id=switch-lang-es class=footer-languages-item>Español
+</a><a tabindex=-1 lang=zh id=switch-lang-zh class="footer-languages-item active"><svg class="icon tick"><use xlink:href="/v1.31/img/icons.svg#tick"/></svg>
+中文
+</a><a tabindex=-1 lang=uk id=switch-lang-uk class=footer-languages-item>Українська</a></div></div><ul class=footer-policies><li class=footer-policies-item><a class=footer-policies-link href=https://www.linuxfoundation.org/legal/terms>条款
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/privacy-policy>隐私政策
+</a>|
+<a class=footer-policies-link href=https://www.linuxfoundation.org/legal/trademark-usage>商标
+</a>|
+<a class=footer-policies-link href=https://github.com/istio/istio.io/edit/release-1.31/content/zh/news/releases/1.31.x/announcing-1.31/change-notes/index.md>在 GitHub 上编辑此页</a></li></ul><div class=footer-base><span class=footer-base-copyright>&copy; 2026 the Istio Authors.</span>
+<span class=footer-base-version>部分内容可能滞后于英文版本，同步翻译工作正在进行中<br>版本
+Istio
+1.31.4</span><ul class=footer-base-releases><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link onclick='return navigateToUrlOrRoot("https://preliminary.istio.io/news/releases/1.31.x/announcing-1.31/change-notes/"),!1'>下个版本</a></li><li class=footer-base-releases-item><a tabindex=-1 class=footer-base-releases-link href=https://istio.io/archive>旧版本</a></li></ul></div></div></footer><div id=scroll-to-top-container aria-hidden=true><button id=scroll-to-top title=回到顶部 tabindex=-1>
+<svg class="icon top"><use xlink:href="/v1.31/img/icons.svg#top"/></svg></button></div></body></html>

@@ -855,6 +855,12 @@ https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl#fip
 <td><code>istio-proxy</code></td>
 <td>Envoy proxy username</td>
 </tr>
+<tr id='experimental-kata-runtimeclass-names'>
+<td><a href='#experimental-kata-runtimeclass-names'><code>EXPERIMENTAL_KATA_RUNTIMECLASS_NAMES</code></a></td>
+<td>String</td>
+<td><code></code></td>
+<td>Comma-separated list of RuntimeClass names that should be treated as kata-containers pods. These pods MUST be running with `l3forwarding` as their internetworking model.</td>
+</tr>
 <tr id='external-istiod'>
 <td><a href='#external-istiod'><code>EXTERNAL_ISTIOD</code></a></td>
 <td>Boolean</td>
@@ -1272,6 +1278,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td>Boolean</td>
 <td><code>true</code></td>
 <td>If enabled, pilot will read WorkloadEntry from other clusters, selectable by Services in that cluster.</td>
+</tr>
+<tr id='pilot-enable-delta-rds'>
+<td><a href='#pilot-enable-delta-rds'><code>PILOT_ENABLE_DELTA_RDS</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If enabled, RDS will use delta xDS to push only the route configurations affected by a config change, instead of rebuilding every route configuration currently watched by the proxy.</td>
 </tr>
 <tr id='pilot-enable-eds-debounce'>
 <td><a href='#pilot-enable-eds-debounce'><code>PILOT_ENABLE_EDS_DEBOUNCE</code></a></td>
