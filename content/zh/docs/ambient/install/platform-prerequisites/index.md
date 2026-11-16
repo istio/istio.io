@@ -239,7 +239,7 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 {{< tab name="Helm" category-value="helm" >}}
 
     {{< text syntax=bash >}}
-    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=minikube --wait"
+    $ helm install istio-cni istio/cni -n istio-system --set profile=ambient --set global.platform=minikube --wait
     {{< /text >}}
 
 {{< /tab >}}
@@ -247,7 +247,7 @@ $ kubectl set env daemonset aws-node -n kube-system POD_SECURITY_GROUP_ENFORCING
 {{< tab name="istioctl" category-value="istioctl" >}}
 
     {{< text syntax=bash >}}
-    $ istioctl install --set profile=ambient --set values.global.platform=minikube"
+    $ istioctl install --set profile=ambient --set values.global.platform=minikube
     {{< /text >}}
 
 {{< /tab >}}
