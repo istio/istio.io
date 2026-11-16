@@ -61,6 +61,8 @@ As of now, data plane to data plane is compatible across all versions; however, 
 
 {{< support_status_table >}}
 
+The Gateway API version is the version of the [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) that each Istio release is built and tested against.
+
 ## Supported releases without known Common Vulnerabilities and Exposures (CVEs)
 
 {{< warning >}}

@@ -9,6 +9,7 @@
       <th>End of Life</th>
       <th>Supported Kubernetes Versions</th>
       <th>Tested, but not supported</th>
+      <th>Gateway API Version</th>
     </tr>
   </thead>
   <tbody>
@@ -30,6 +31,7 @@
           {{- $v -}}
         {{- end -}}
       </td>
+      <td>{{ .gatewayAPIVersion }}</td>
     </tr>
     {{ end }}
   </tbody>
