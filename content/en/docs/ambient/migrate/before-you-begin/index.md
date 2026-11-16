@@ -96,15 +96,15 @@ $ kubectl get authorizationpolicy -A --no-headers | while read ns name rest; do
   done
 {{< /text >}}
 
-Check for `PeerAuthentication` resources with `mode: DISABLE`, these are not compatible
-with ambient mode:
+Check for `PeerAuthentication` resources with `mode: DISABLE`. Ambient mode treats them the
+same as `PERMISSIVE`, so they no longer turn mTLS off:
 
 {{< text syntax=bash snip_id=none >}}
 $ kubectl get peerauthentication -A -o yaml | grep -A2 "mtls:"
 {{< /text >}}
 
-Any `PeerAuthentication` with `mode: DISABLE` must be removed or changed before migration,
-as ambient mode always enforces mTLS between mesh workloads.
+Any workload that relies on `mode: DISABLE` to receive plaintext from other mesh workloads
+must be changed before migration, as ambient mode always uses mTLS between mesh workloads.
 
 `PeerAuthentication` resources with `mode: STRICT` or `mode: PERMISSIVE` are not blockers,
 but they become redundant after migration: ambient mode enforces mTLS via ztunnel regardless

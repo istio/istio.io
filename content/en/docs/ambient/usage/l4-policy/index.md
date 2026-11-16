@@ -120,4 +120,4 @@ Istio's [peer authentication policies](/docs/concepts/security/#peer-authenticat
 
 The default policy for ambient mode is `PERMISSIVE`, which allows pods to accept both mTLS-encrypted traffic (from within the mesh) and plain text traffic (from without). Enabling `STRICT` mode means that pods will only accept mTLS-encrypted traffic.
 
-As ztunnel and {{< gloss >}}HBONE{{< /gloss >}} implies the use of mTLS, it is not possible to use the `DISABLE` mode in a policy. Such policies will be ignored.
+As ztunnel and {{< gloss >}}HBONE{{< /gloss >}} implies the use of mTLS, the `DISABLE` mode can't turn mTLS off. A policy with `DISABLE` mode is treated the same as `PERMISSIVE`: plain text traffic is accepted, but traffic between ambient workloads is still encrypted.

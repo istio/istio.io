@@ -84,7 +84,8 @@ The following are hard blockers, migration is not possible until these are resol
 - **VM workloads** in the mesh. VM-based workloads cannot join the ambient mesh.
 - **SPIRE** as the certificate provider. Ambient mode does not support SPIRE integration.
 - **`PeerAuthentication` with `mode: DISABLE`**. Ambient always enforces mTLS between
-  mesh workloads. Policies with `DISABLE` mode will be ignored and cannot be migrated.
+  mesh workloads. `DISABLE` is treated the same as `PERMISSIVE`, so it can't be used to turn
+  mTLS off, and workloads that depend on that behavior cannot be migrated as is.
 - **Primary-remote multicluster configurations**. Only multiple-primary clusters are
   supported. Deployments with one or more remote clusters will not work correctly.
 
