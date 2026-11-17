@@ -165,6 +165,8 @@ spec:
   parentRefs:
   - name: eastwestgateway
     sectionName: tls-istiod
+  hostnames:
+  - istiod.istio-system.svc
   rules:
   - backendRefs:
     - name: istiod
@@ -179,6 +181,8 @@ spec:
   parentRefs:
   - name: eastwestgateway
     sectionName: tls-istiodwebhook
+  hostnames:
+  - istiod.istio-system.svc
   rules:
   - backendRefs:
     - name: istiod
