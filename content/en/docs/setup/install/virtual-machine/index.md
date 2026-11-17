@@ -284,8 +284,10 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< tab name="Gateway API" category-value="gateway-api" >}}
 
-    Expose the control plane by attaching a `TLSRoute` to each of the istiod listeners. Note that the
-    webhook listener forwards to port `443` of the `istiod` service:
+    Expose the control plane by attaching a `TLSRoute` to each of the istiod listeners. The routes
+    match on the SNI that the virtual machine presents, which is the host part of the
+    `discoveryAddress` that `istioctl x workload entry configure` writes into `mesh.yaml`. Note that
+    the webhook listener forwards to port `443` of the `istiod` service:
 
     {{< text syntax="bash yaml" snip_id=expose_istio_gtwapi >}}
     $ kubectl apply -f - <<EOF
@@ -298,6 +300,8 @@ Install Istio and expose the control plane on cluster so that your virtual machi
       parentRefs:
       - name: eastwestgateway
         sectionName: tls-istiod
+      hostnames:
+      - istiod.istio-system.svc
       rules:
       - backendRefs:
         - name: istiod
@@ -312,12 +316,20 @@ Install Istio and expose the control plane on cluster so that your virtual machi
       parentRefs:
       - name: eastwestgateway
         sectionName: tls-istiodwebhook
+      hostnames:
+      - istiod.istio-system.svc
       rules:
       - backendRefs:
         - name: istiod
           port: 443
     EOF
     {{< /text >}}
+
+    {{< warning >}}
+    If the control plane was installed with a revision, and you don't have a default revision or tag
+    set, the virtual machine connects to `istiod-<rev>.istio-system.svc` instead. Use that hostname in
+    both routes.
+    {{< /warning >}}
 
     {{< tabset category-name="network-mode" >}}
 
