@@ -19,6 +19,10 @@ set -u
 set -o pipefail
 set -x
 
+# Set to "true" by tests/util/gateway-api.sh to exercise the Kubernetes Gateway API
+# flavor of the guide instead of the Istio APIs flavor.
+GATEWAY_API="${GATEWAY_API:-false}"
+
 function setup_cluster_for_vms() {
   snip_setup_wd
 
@@ -26,9 +30,34 @@ function setup_cluster_for_vms() {
 
   echo y | snip_install_istio
 
-  snip_install_eastwest
+  if [ "${GATEWAY_API}" == "true" ]; then
+    snip_install_crds
 
-  snip_expose_istio
+    snip_install_eastwest_gtwapi
+    snip_set_eastwest_service_gtwapi
+
+    # The gateway is deployed asynchronously by istiod, so wait for it before
+    # `istioctl x workload entry configure` reads its load balancer address.
+    _wait_for_gateway istio-system eastwestgateway
+    _wait_for_deployment istio-system "${EASTWEST_GATEWAY_SERVICE}"
+
+    snip_expose_istio_gtwapi
+  else
+    snip_install_eastwest
+    snip_set_eastwest_service
+
+    snip_expose_istio
+  fi
+
+  export EASTWEST_GATEWAY_SERVICE
+}
+
+function cleanup_cluster_for_vms() {
+  if [ "${GATEWAY_API}" == "true" ]; then
+    snip_uninstall_istio_gtwapi
+  else
+    snip_uninstall_istio
+  fi
 }
 
 function setup_vm() {

@@ -49,5 +49,5 @@ _verify_contains check_call "Hello version:"
 
 # @cleanup
 docker stop vm
-snip_uninstall_4
+cleanup_cluster_for_vms
 kubectl delete namespace istio-system vm-namespace sample

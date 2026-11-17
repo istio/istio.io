@@ -64,25 +64,133 @@ snip_install_eastwest() {
 samples/multicluster/gen-eastwest-gateway.sh --single-cluster | istioctl install -y -f -
 }
 
-snip_install_the_istio_control_plane_4() {
+snip_install_eastwest_multinetwork() {
 samples/multicluster/gen-eastwest-gateway.sh \
     --network "${CLUSTER_NETWORK}" | \
     istioctl install -y -f -
+}
+
+snip_set_eastwest_service() {
+EASTWEST_GATEWAY_SERVICE="istio-eastwestgateway"
+}
+
+snip_install_crds() {
+kubectl get crd tlsroutes.gateway.networking.k8s.io &> /dev/null || \
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.7.0" | kubectl apply -f -; }
+}
+
+snip_install_eastwest_gtwapi() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: eastwestgateway
+  namespace: istio-system
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: tls-istiod
+    port: 15012
+    protocol: TLS
+    tls:
+      mode: Passthrough
+  - name: tls-istiodwebhook
+    port: 15017
+    protocol: TLS
+    tls:
+      mode: Passthrough
+EOF
+}
+
+snip_install_eastwest_gtwapi_multinetwork() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: eastwestgateway
+  namespace: istio-system
+  labels:
+    topology.istio.io/network: "${CLUSTER_NETWORK}"
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: tls-passthrough
+    port: 15443
+    protocol: TLS
+    tls:
+      mode: Passthrough
+      options:
+        gateway.istio.io/listener-protocol: auto-passthrough
+  - name: tls-istiod
+    port: 15012
+    protocol: TLS
+    tls:
+      mode: Passthrough
+  - name: tls-istiodwebhook
+    port: 15017
+    protocol: TLS
+    tls:
+      mode: Passthrough
+EOF
+}
+
+snip_set_eastwest_service_gtwapi() {
+EASTWEST_GATEWAY_SERVICE="eastwestgateway-istio"
 }
 
 snip_expose_istio() {
 kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 }
 
-snip_install_the_istio_control_plane_6() {
+snip_expose_istio_multinetwork() {
 kubectl apply -n istio-system -f samples/multicluster/expose-istiod.yaml
 }
 
-snip_install_the_istio_control_plane_7() {
+snip_expose_services_multinetwork() {
 kubectl apply -n istio-system -f samples/multicluster/expose-services.yaml
 }
 
-snip_install_the_istio_control_plane_8() {
+snip_label_istio_system_network() {
+kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
+}
+
+snip_expose_istio_gtwapi() {
+kubectl apply -f - <<EOF
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: istiod
+  namespace: istio-system
+spec:
+  parentRefs:
+  - name: eastwestgateway
+    sectionName: tls-istiod
+  hostnames:
+  - istiod.istio-system.svc
+  rules:
+  - backendRefs:
+    - name: istiod
+      port: 15012
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: TLSRoute
+metadata:
+  name: istiod-webhook
+  namespace: istio-system
+spec:
+  parentRefs:
+  - name: eastwestgateway
+    sectionName: tls-istiodwebhook
+  hostnames:
+  - istiod.istio-system.svc
+  rules:
+  - backendRefs:
+    - name: istiod
+      port: 443
+EOF
+}
+
+snip_label_istio_system_network_gtwapi() {
 kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
 }
 
@@ -125,18 +233,18 @@ spec:
       path: /ready
 ENDSNIP
 
-snip_create_files_to_transfer_to_the_virtual_machine_4() {
+snip_configure_wg_default() {
 istioctl x workload entry configure \
     -f workloadgroup.yaml \
     -o "${WORK_DIR}" \
-    --ingressService istio-eastwestgateway
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}"
 }
 
 snip_configure_wg() {
 istioctl x workload entry configure \
     -f workloadgroup.yaml \
     -o "${WORK_DIR}" \
-    --ingressService istio-eastwestgateway \
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}" \
     --autoregister
 }
 
@@ -214,11 +322,17 @@ snip_uninstall_3() {
 sudo rpm -e istio-sidecar
 }
 
-snip_uninstall_4() {
+snip_uninstall_istio() {
 kubectl delete -n istio-system -f samples/multicluster/expose-istiod.yaml
 istioctl uninstall -y --purge
 }
 
-snip_uninstall_5() {
+snip_uninstall_istio_gtwapi() {
+kubectl delete tlsroute istiod istiod-webhook -n istio-system
+kubectl delete gtw --cascade=foreground eastwestgateway -n istio-system
+istioctl uninstall -y --purge
+}
+
+snip_delete_istio_namespace() {
 kubectl delete namespace istio-system
 }
