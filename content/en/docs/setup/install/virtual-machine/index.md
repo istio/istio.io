@@ -71,6 +71,10 @@ If your cluster already has an Istio control plane, you can skip the installatio
 
 Install Istio and expose the control plane on cluster so that your virtual machine can access it.
 
+{{< tip >}}
+{{< boilerplate gateway-api-choose >}}
+{{< /tip >}}
+
 1. Create the `IstioOperator` spec for installation.
 
     {{< text syntax="bash yaml" snip_id=setup_iop >}}
@@ -94,6 +98,10 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
 1. Deploy the east-west gateway:
 
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
+
     {{< warning >}}
     If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
     {{< /warning >}}
@@ -110,7 +118,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< tab name="Multi-Network" category-value="multiple" >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_eastwest_multinetwork >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --network "${CLUSTER_NETWORK}" | \
         istioctl install -y -f -
@@ -120,7 +128,121 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< /tabset >}}
 
+    This creates a `Service` named `istio-eastwestgateway` in the `istio-system` namespace. Record its
+    name, you will need it when you generate the files for the virtual machine:
+
+    {{< text syntax=bash snip_id=set_eastwest_service >}}
+    $ EASTWEST_GATEWAY_SERVICE="istio-eastwestgateway"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    The Kubernetes Gateway API CRDs do not come installed by default on most Kubernetes clusters, so
+    make sure they are installed before using the Gateway API:
+
+    {{< text syntax=bash snip_id=install_crds >}}
+    $ kubectl get crd tlsroutes.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
+    {{< /text >}}
+
+    {{< warning >}}
+    If you are running a revisioned instance of istiod and you don't have a default revision or tag set,
+    you may need to add the `istio.io/rev` label to the `Gateway` manifest below.
+    {{< /warning >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
+    The virtual machine only needs to reach istiod through the gateway, so the `Gateway` exposes the
+    istiod discovery and webhook ports as TLS passthrough listeners:
+
+    {{< text syntax="bash yaml" snip_id=install_eastwest_gtwapi >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: Gateway
+    metadata:
+      name: eastwestgateway
+      namespace: istio-system
+    spec:
+      gatewayClassName: istio
+      listeners:
+      - name: tls-istiod
+        port: 15012
+        protocol: TLS
+        tls:
+          mode: Passthrough
+      - name: tls-istiodwebhook
+        port: 15017
+        protocol: TLS
+        tls:
+          mode: Passthrough
+    EOF
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    In addition to the istiod ports, the `Gateway` needs a listener that forwards cross-network service
+    traffic. The `topology.istio.io/network` label marks the gateway as a multi-network gateway and the
+    `gateway.istio.io/listener-protocol: auto-passthrough` option makes Istio route that listener by SNI:
+
+    {{< text syntax="bash yaml" snip_id=install_eastwest_gtwapi_multinetwork >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: Gateway
+    metadata:
+      name: eastwestgateway
+      namespace: istio-system
+      labels:
+        topology.istio.io/network: "${CLUSTER_NETWORK}"
+    spec:
+      gatewayClassName: istio
+      listeners:
+      - name: tls-passthrough
+        port: 15443
+        protocol: TLS
+        tls:
+          mode: Passthrough
+          options:
+            gateway.istio.io/listener-protocol: auto-passthrough
+      - name: tls-istiod
+        port: 15012
+        protocol: TLS
+        tls:
+          mode: Passthrough
+      - name: tls-istiodwebhook
+        port: 15017
+        protocol: TLS
+        tls:
+          mode: Passthrough
+    EOF
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+    Istio automatically deploys the gateway and creates a `Service` for it, named after the `Gateway`
+    resource and its gateway class. Record that name, you will need it when you generate the files for
+    the virtual machine:
+
+    {{< text syntax=bash snip_id=set_eastwest_service_gtwapi >}}
+    $ EASTWEST_GATEWAY_SERVICE="eastwestgateway-istio"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. Expose services inside the cluster via the east-west gateway:
+
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
     {{< tabset category-name="network-mode" >}}
 
@@ -138,21 +260,99 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     Expose the control plane:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_istio_multinetwork >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
     Expose cluster services:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_services_multinetwork >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
     Ensure to label the istio-system namespace with the defined cluster network:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=label_istio_system_network >}}
     $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    Expose the control plane by attaching a `TLSRoute` to each of the istiod listeners. The routes
+    match on the SNI that the virtual machine presents, which is the host part of the
+    `discoveryAddress` that `istioctl x workload entry configure` writes into `mesh.yaml`. Note that
+    the webhook listener forwards to port `443` of the `istiod` service:
+
+    {{< text syntax="bash yaml" snip_id=expose_istio_gtwapi >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: TLSRoute
+    metadata:
+      name: istiod
+      namespace: istio-system
+    spec:
+      parentRefs:
+      - name: eastwestgateway
+        sectionName: tls-istiod
+      hostnames:
+      - istiod.istio-system.svc
+      rules:
+      - backendRefs:
+        - name: istiod
+          port: 15012
+    ---
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: TLSRoute
+    metadata:
+      name: istiod-webhook
+      namespace: istio-system
+    spec:
+      parentRefs:
+      - name: eastwestgateway
+        sectionName: tls-istiodwebhook
+      hostnames:
+      - istiod.istio-system.svc
+      rules:
+      - backendRefs:
+        - name: istiod
+          port: 443
+    EOF
+    {{< /text >}}
+
+    {{< warning >}}
+    If the control plane was installed with a revision, and you don't have a default revision or tag
+    set, the virtual machine connects to `istiod-<rev>.istio-system.svc` instead. Use that hostname in
+    both routes.
+    {{< /warning >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
+    No further configuration is required. The virtual machine reaches pods in the cluster directly over
+    L3 networking.
+
+    {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    Cluster services are already exposed by the `auto-passthrough` listener you configured on the
+    `Gateway`, so no route is needed for them. You only need to label the istio-system namespace with
+    the defined cluster network:
+
+    {{< text syntax=bash snip_id=label_istio_system_network_gtwapi >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
     {{< /tab >}}
 
@@ -234,11 +434,11 @@ the scope of this guide.
 
 {{< tab name="Default" category-value="default" >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=configure_wg_default >}}
 $ istioctl x workload entry configure \
     -f workloadgroup.yaml \
     -o "${WORK_DIR}" \
-    --ingressService istio-eastwestgateway
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -251,7 +451,7 @@ $ istioctl x workload entry configure \
 $ istioctl x workload entry configure \
     -f workloadgroup.yaml \
     -o "${WORK_DIR}" \
-    --ingressService istio-eastwestgateway \
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}" \
     --autoregister
 {{< /text >}}
 
@@ -432,14 +632,32 @@ $ sudo rpm -e istio-sidecar
 
 To uninstall Istio, run the following command:
 
-{{< text bash >}}
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text syntax=bash snip_id=uninstall_istio >}}
 $ kubectl delete -n istio-system -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl uninstall -y --purge
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text syntax=bash snip_id=uninstall_istio_gtwapi >}}
+$ kubectl delete tlsroute istiod istiod-webhook -n istio-system
+$ kubectl delete gtw eastwestgateway -n istio-system
+$ istioctl uninstall -y --purge
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 The control plane namespace (e.g., `istio-system`) is not removed by default.
 If no longer needed, use the following command to remove it:
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=delete_istio_namespace >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
