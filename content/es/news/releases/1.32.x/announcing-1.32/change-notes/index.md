@@ -456,8 +456,8 @@ aliases:
   a través de algunos proxies HTTP CONNECT.
   ([Issue #61250](https://github.com/istio/istio/issues/61250))
 
-- **Corregido** que `ipBlocks` y `notIpBlocks` de `AuthorizationPolicy` en
-  los listeners internos HBONE de waypoints y sidecars coincidieran con la dirección IP remota directa
+- **Corregida** la coincidencia de `ipBlocks` y `notIpBlocks` de `AuthorizationPolicy` en
+  los listeners internos HBONE de waypoints y sidecars para que use la dirección IP remota directa
   del cliente downstream en lugar de la dirección interna de Envoy.
   ([Issue #62522](https://github.com/istio/istio/issues/62522))
 
