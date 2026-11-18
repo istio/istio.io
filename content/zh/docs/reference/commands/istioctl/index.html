@@ -9728,6 +9728,12 @@ Only applies when traffic from all groups (i.e. &#34;*&#34;) is being redirected
 <td><code>true</code></td>
 <td>If true, external services will prefer the TLS settings from DestinationRules over the metadata TLS settings.</td>
 </tr>
+<tr id='proxy-readiness-probe-timeout-seconds'>
+<td><a href='#proxy-readiness-probe-timeout-seconds'><code>PROXY_READINESS_PROBE_TIMEOUT_SECONDS</code></a></td>
+<td>Integer</td>
+<td><code>3</code></td>
+<td>The timeout in seconds for each HTTP request the readiness probe issues against the Envoy admin endpoint, applied to both the config-status and server-state checks.</td>
+</tr>
 <tr id='resolve-hostname-gateways'>
 <td><a href='#resolve-hostname-gateways'><code>RESOLVE_HOSTNAME_GATEWAYS</code></a></td>
 <td>Boolean</td>
