@@ -1,6 +1,6 @@
 ---
-title: Common Problems
-description: Describes how to identify and resolve common problems in Istio.
+title: Problemas comunes
+description: Describe cómo identificar y resolver problemas comunes en Istio.
 weight: 40
 keywords: [ops]
 aliases:
