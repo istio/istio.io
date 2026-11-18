@@ -70,6 +70,10 @@ test: yes
 
 安装 Istio，打开控制平面的对外访问，以便您的虚拟机可以访问它。
 
+{{< tip >}}
+{{< boilerplate gateway-api-choose >}}
+{{< /tip >}}
+
 1. 创建用于安装 Istio 的 `IstioOperator`。
 
     {{< text syntax="bash yaml" snip_id=setup_iop >}}
@@ -93,6 +97,10 @@ test: yes
 
 1. 部署东西向网关：
 
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
+
     {{< warning >}}
     如果控制平面安装的是一个修正版本，请将参数 `--revision rev` 添加到 `gen-eastwest-gateway.sh` 命令。
     {{< /warning >}}
@@ -109,7 +117,7 @@ test: yes
 
     {{< tab name="聚合网络" category-value="multiple" >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_eastwest_multinetwork >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
     --network "${CLUSTER_NETWORK}" | \
     istioctl install -y -f -
@@ -119,7 +127,120 @@ test: yes
 
     {{< /tabset >}}
 
+    这会在 `istio-system` 命名空间中创建一个名为 `istio-eastwestgateway` 的 `Service`。
+    请记下它的名称，在为虚拟机生成文件时需要用到：
+
+    {{< text syntax=bash snip_id=set_eastwest_service >}}
+    $ EASTWEST_GATEWAY_SERVICE="istio-eastwestgateway"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    大多数 Kubernetes 集群默认不会安装 Kubernetes Gateway API CRD，
+    因此在使用 Gateway API 之前，请确保已安装这些 CRD：
+
+    {{< text syntax=bash snip_id=install_crds >}}
+    $ kubectl get crd tlsroutes.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
+    {{< /text >}}
+
+    {{< warning >}}
+    如果您运行的是带修订版本的 istiod 实例，并且没有设置默认修订版本或标签，
+    则可能需要在下面的 `Gateway` 清单中添加 `istio.io/rev` 标签。
+    {{< /warning >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="单一网络" category-value="single" >}}
+
+    虚拟机只需要通过网关访问 istiod，因此 `Gateway` 将 istiod
+    的发现端口和 Webhook 端口暴露为 TLS 透传监听器：
+
+    {{< text syntax="bash yaml" snip_id=install_eastwest_gtwapi >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: Gateway
+    metadata:
+      name: eastwestgateway
+      namespace: istio-system
+    spec:
+      gatewayClassName: istio
+      listeners:
+      - name: tls-istiod
+        port: 15012
+        protocol: TLS
+        tls:
+          mode: Passthrough
+      - name: tls-istiodwebhook
+        port: 15017
+        protocol: TLS
+        tls:
+          mode: Passthrough
+    EOF
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="聚合网络" category-value="multiple" >}}
+
+    除了 istiod 端口之外，`Gateway` 还需要一个用于转发跨网络服务流量的监听器。
+    `topology.istio.io/network` 标签将该网关标记为多网络网关，
+    而 `gateway.istio.io/listener-protocol: auto-passthrough` 选项使 Istio 按 SNI 对该监听器进行路由：
+
+    {{< text syntax="bash yaml" snip_id=install_eastwest_gtwapi_multinetwork >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: Gateway
+    metadata:
+      name: eastwestgateway
+      namespace: istio-system
+      labels:
+        topology.istio.io/network: "${CLUSTER_NETWORK}"
+    spec:
+      gatewayClassName: istio
+      listeners:
+      - name: tls-passthrough
+        port: 15443
+        protocol: TLS
+        tls:
+          mode: Passthrough
+          options:
+            gateway.istio.io/listener-protocol: auto-passthrough
+      - name: tls-istiod
+        port: 15012
+        protocol: TLS
+        tls:
+          mode: Passthrough
+      - name: tls-istiodwebhook
+        port: 15017
+        protocol: TLS
+        tls:
+          mode: Passthrough
+    EOF
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+    Istio 会自动部署该网关并为其创建一个 `Service`，该 `Service` 以 `Gateway`
+    资源及其网关类的名称命名。请记下这个名称，在为虚拟机生成文件时需要用到：
+
+    {{< text syntax=bash snip_id=set_eastwest_service_gtwapi >}}
+    $ EASTWEST_GATEWAY_SERVICE="eastwestgateway-istio"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
 1. 使用东西向网关暴露集群内部服务：
+
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
     {{< tabset category-name="network-mode" >}}
 
@@ -137,21 +258,95 @@ test: yes
 
     暴露控制平面：
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_istio_multinetwork >}}
     $ kubectl apply -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
     暴露集群服务：
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_services_multinetwork >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
     确保使用定义的集群网络为 istio-system 命名空间打标签：
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=label_istio_system_network >}}
     $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
     {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    为每个 istiod 监听器挂载一个 `TLSRoute`，以暴露控制平面。这些路由按虚拟机提供的 SNI 进行匹配，
+    该 SNI 即 `istioctl x workload entry configure` 写入 `mesh.yaml` 的 `discoveryAddress` 的主机部分。
+    请注意，Webhook 监听器会转发到 `istiod` 服务的 `443` 端口：
+
+    {{< text syntax="bash yaml" snip_id=expose_istio_gtwapi >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: TLSRoute
+    metadata:
+      name: istiod
+      namespace: istio-system
+    spec:
+      parentRefs:
+      - name: eastwestgateway
+        sectionName: tls-istiod
+      hostnames:
+      - istiod.istio-system.svc
+      rules:
+      - backendRefs:
+        - name: istiod
+          port: 15012
+    ---
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: TLSRoute
+    metadata:
+      name: istiod-webhook
+      namespace: istio-system
+    spec:
+      parentRefs:
+      - name: eastwestgateway
+        sectionName: tls-istiodwebhook
+      hostnames:
+      - istiod.istio-system.svc
+      rules:
+      - backendRefs:
+        - name: istiod
+          port: 443
+    EOF
+    {{< /text >}}
+
+    {{< warning >}}
+    如果控制平面安装时使用了修订版本，并且您没有设置默认修订版本或标签，
+    虚拟机将改为连接 `istiod-<rev>.istio-system.svc`。请在两个路由中都使用该主机名。
+    {{< /warning >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="单一网络" category-value="single" >}}
+
+    无需进一步配置。虚拟机可以通过 L3 网络直接访问集群中的 Pod。
+
+    {{< /tab >}}
+
+    {{< tab name="聚合网络" category-value="multiple" >}}
+
+    集群服务已经通过您在 `Gateway` 上配置的 `auto-passthrough` 监听器暴露，
+    因此无需为它们创建路由。您只需要使用定义的集群网络为 istio-system 命名空间打标签：
+
+    {{< text syntax=bash snip_id=label_istio_system_network_gtwapi >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
 
     {{< /tab >}}
 
@@ -233,11 +428,11 @@ spec:
 
 {{< tab name="默认" category-value="default" >}}
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=configure_wg_default >}}
 $ istioctl x workload entry configure \
     -f workloadgroup.yaml \
     -o "${WORK_DIR}" \
-    --ingressService istio-eastwestgateway
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -250,7 +445,7 @@ $ istioctl x workload entry configure \
 $ istioctl x workload entry configure \
     -f workloadgroup.yaml \
     -o "${WORK_DIR}" \
-    --ingressService istio-eastwestgateway \
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}" \
     --autoregister
 {{< /text >}}
 
@@ -431,14 +626,32 @@ $ sudo rpm -e istio-sidecar
 
 要卸载 Istio，请运行以下命令：
 
-{{< text bash >}}
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text syntax=bash snip_id=uninstall_istio >}}
 $ kubectl delete -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl uninstall -y --purge
 {{< /text >}}
 
+{{< /tab >}}
+
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text syntax=bash snip_id=uninstall_istio_gtwapi >}}
+$ kubectl delete tlsroute istiod istiod-webhook -n istio-system
+$ kubectl delete gtw eastwestgateway -n istio-system
+$ istioctl uninstall -y --purge
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
 默认情况下，控制平面的命名空间（比如：`istio-system`）并不会被删除。
 如果确认不再使用，使用下面命令删除：
 
-{{< text bash >}}
+{{< text syntax=bash snip_id=delete_istio_namespace >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
