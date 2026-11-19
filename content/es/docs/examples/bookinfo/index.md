@@ -53,7 +53,7 @@ en la guía de [instalación](/es/docs/setup/).
 
 {{< boilerplate gateway-api-support >}}
 
-## Desplegando la aplicación
+## Desplegando la aplicación {#deploying-the-application}
 
 Para ejecutar el ejemplo con Istio no se necesitan cambios en
 la aplicación en sí. En su lugar, simplemente necesitas configurar y ejecutar los servicios en un
@@ -66,7 +66,7 @@ Todos los microservicios estarán empaquetados con un sidecar de Envoy que inter
 llamadas entrantes y salientes para los servicios, proporcionando los ganchos necesarios para controlar externamente,
 a través del control plane de Istio, la enrutamiento, la recopilación de métricas, y la aplicación de políticas.
 
-### Iniciar los servicios de la aplicación
+### Iniciar los servicios de la aplicación {#start-the-application-services}
 
 {{< tip >}}
 Si usas GKE, asegúrate de que tu clúster tenga al menos 4 nodos estándar de GKE. Si usas Minikube, asegúrate de que tengas al menos 4GB de RAM.
@@ -127,7 +127,7 @@ Si usas GKE, asegúrate de que tu clúster tenga al menos 4 nodos estándar de G
     <title>Simple Bookstore App</title>
     {{< /text >}}
 
-### Determinar la IP de entrada y el puerto
+### Determinar la IP de entrada y el puerto {#determine-the-ingress-ip-and-port}
 
 Ahora que los servicios de Bookinfo están en funcionamiento, necesitas hacer que la aplicación sea accesible desde fuera de tu
 clúster de Kubernetes, por ejemplo, desde un navegador. Se usa un gateway para este propósito.
