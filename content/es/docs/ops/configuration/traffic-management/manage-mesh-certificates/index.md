@@ -1,7 +1,7 @@
 ---
-title: Managing In-Mesh Certificates
-linktitle: Managing In-Mesh Certificates
-description: How to configure certificates within your mesh.
+title: Gestión de certificados dentro de la mesh
+linktitle: Gestión de certificados dentro de la mesh
+description: Cómo configurar los certificados dentro de tu mesh.
 weight: 30
 keywords: [traffic-management,proxy]
 owner: istio/wg-networking-maintainers,istio/wg-environments-maintainers
@@ -10,28 +10,28 @@ test: n/a
 
 {{< boilerplate experimental >}}
 
-Many users need to manage the types of the certificates used within their environment. For example,
-some users require the use of Elliptical Curve Cryptography (ECC) while others may need to use a
-stronger bit length for RSA certificates. Configuring certificates within your environment can be
-a daunting task for most users.
+Muchos usuarios necesitan gestionar los tipos de certificados que se usan en su entorno. Por ejemplo,
+algunos usuarios necesitan usar criptografía de curva elíptica (ECC), mientras que otros pueden necesitar
+una longitud en bits mayor para los certificados RSA. Configurar los certificados en tu entorno puede ser
+una tarea abrumadora para la mayoría de los usuarios.
 
-This document is only intended to be used for in-mesh communication. For managing certificates at
-your Gateway, see the [Secure Gateways](/es/docs/tasks/traffic-management/ingress/secure-ingress/) document.
-For managing the CA used by istiod to generate workload certificates, see
-the [Plugin CA Certificates](/es/docs/tasks/security/cert-management/plugin-ca-cert/) document.
+Este documento está pensado únicamente para la comunicación dentro de la mesh. Para gestionar los certificados de
+tu Gateway, consulta el documento [Gateways seguros](/es/docs/tasks/traffic-management/ingress/secure-ingress/).
+Para gestionar la CA que usa istiod para generar los certificados de los workloads, consulta
+el documento [Conectar certificados de CA](/es/docs/tasks/security/cert-management/plugin-ca-cert/).
 
 ## istiod
 
-When Istio is installed without a root CA certificate, istiod will generate a self-signed
-CA certificate using RSA 2048.
+Cuando Istio se instala sin un certificado de CA raíz, istiod genera un certificado de CA
+autofirmado con RSA 2048.
 
-To change the self-signed CA certificate's bit length, you will need to modify either the IstioOperator manifest provided to
-`istioctl` or the values file used during the Helm installation of the [istio-discovery]({{< github_tree >}}/manifests/charts/istio-control/istio-discovery) chart.
+Para cambiar la longitud en bits del certificado de CA autofirmado, debes modificar el manifiesto de IstioOperator que se pasa a
+`istioctl` o el archivo de valores que se usa durante la instalación con Helm del chart [istio-discovery]({{< github_tree >}}/manifests/charts/istio-control/istio-discovery).
 
 {{< tip >}}
-While there are many environment variables that can be changed for
-[pilot-discovery](/es/docs/reference/commands/pilot-discovery/), this document will only
-outline some of them.
+Aunque hay muchas variables de entorno que se pueden cambiar en
+[pilot-discovery](/es/docs/reference/commands/pilot-discovery/), este documento solo
+describe algunas de ellas.
 {{< /tip >}}
 
 {{< tabset category-name="certificates" >}}
@@ -64,15 +64,15 @@ pilot:
 
 ## Sidecars
 
-Since sidecars manage their own certificates for in-mesh communication, the sidecars
-are responsible for managing their private keys and generated Certificate Signing Request (CSRs). The sidecar
-injector needs to be modified to inject the environment variables to be used for
-this purpose.
+Como los sidecars gestionan sus propios certificados para la comunicación dentro de la mesh,
+son responsables de gestionar sus claves privadas y las solicitudes de firma de certificado (CSR) que generan. Es necesario
+modificar el inyector de sidecars para que inyecte las variables de entorno que se usarán con
+este fin.
 
 {{< tip >}}
-While there are many environment variables that can be changed for
-[pilot-agent](/es/docs/reference/commands/pilot-agent/), this document will only
-outline some of them.
+Aunque hay muchas variables de entorno que se pueden cambiar en
+[pilot-agent](/es/docs/reference/commands/pilot-agent/), este documento solo
+describe algunas de ellas.
 {{< /tip >}}
 
 {{< tabset category-name="gateway-install-type" >}}
@@ -126,10 +126,10 @@ spec:
 
 {{< /tabset >}}
 
-### Signature Algorithm
+### Algoritmo de firma {#signature-algorithm}
 
-By default, the sidecars will create RSA certificates. If you want to change it to
-ECC, you need to set `ECC_SIGNATURE_ALGORITHM` to `ECDSA`.
+Por defecto, los sidecars crean certificados RSA. Si quieres cambiarlo a
+ECC, debes configurar `ECC_SIGNATURE_ALGORITHM` con el valor `ECDSA`.
 
 {{< tabset category-name="gateway-install-type" >}}
 
@@ -160,7 +160,7 @@ meshConfig:
 
 {{< /tabset >}}
 
-Only P256 and P384 are supported via `ECC_CURVE`.
+Mediante `ECC_CURVE` solo se admiten P256 y P384.
 
-If you prefer to retain RSA signature algorithms and want to modify the RSA key size,
-you can change the value of `WORKLOAD_RSA_KEY_SIZE`.
+Si prefieres mantener los algoritmos de firma RSA y quieres modificar el tamaño de la clave RSA,
+puedes cambiar el valor de `WORKLOAD_RSA_KEY_SIZE`.
