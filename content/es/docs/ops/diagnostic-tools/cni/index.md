@@ -1,64 +1,64 @@
 ---
-title: Troubleshooting the Istio CNI plugin
-description: Describes tools and techniques to diagnose issues using Istio with the CNI plugin.
+title: Solución de problemas del plugin CNI de Istio
+description: Describe herramientas y técnicas para diagnosticar problemas al usar Istio con el plugin CNI.
 weight: 90
 keywords: [debug, cni]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-This page describes how to troubleshoot issues with the Istio CNI plugin.
-Before reading this, you should read the [CNI installation and operation guide](/docs/setup/additional-setup/cni/).
+Esta página describe cómo solucionar problemas con el plugin CNI de Istio.
+Antes de leerla, deberías leer la [guía de instalación y operación de CNI](/es/docs/setup/additional-setup/cni/).
 
-## Log
+## Registro {#log}
 
-The Istio CNI plugin log provides information about how the plugin configures application pod traffic redirection
-based on `PodSpec`.
+El registro del plugin CNI de Istio proporciona información sobre cómo el plugin configura la redirección del tráfico de los pods de aplicación
+en función del `PodSpec`.
 
-The plugin runs in the container runtime process space, so you can see CNI log entries in the `kubelet` log.
-To make debugging easier, the CNI plugin also sends its log to the `istio-cni-node` DaemonSet.
+El plugin se ejecuta en el espacio de procesos del entorno de ejecución de contenedores, por lo que puedes ver las entradas de registro de CNI en el registro de `kubelet`.
+Para facilitar la depuración, el plugin CNI también envía su registro al DaemonSet `istio-cni-node`.
 
-The default log level for the CNI plugin is `info`. To get more detailed log output, you can change the level by editing the `values.cni.logLevel` installation option and restarting the CNI DaemonSet pod.
+El nivel de registro por defecto del plugin CNI es `info`. Para obtener una salida de registro más detallada, puedes cambiar el nivel editando la opción de instalación `values.cni.logLevel` y reiniciando el pod del DaemonSet de CNI.
 
-The Istio CNI DaemonSet pod log also provides information about CNI plugin installation,
-and [race condition repairing](/docs/setup/additional-setup/cni/#race-condition--mitigation).
+El registro del pod del DaemonSet de CNI de Istio también proporciona información sobre la instalación del plugin CNI
+y sobre la [reparación de condiciones de carrera](/es/docs/setup/additional-setup/cni/#race-condition--mitigation).
 
-## Monitoring
+## Monitoreo {#monitoring}
 
-The CNI DaemonSet [generates metrics](/docs/reference/commands/install-cni/#metrics),
-which can be used to monitor CNI installation, readiness, and race condition mitigation.
-Prometheus scraping annotations (`prometheus.io/port`, `prometheus.io/path`) are added to the `istio-cni-node` DaemonSet pod by default.
-You can collect the generated metrics via standard Prometheus configuration.
+El DaemonSet de CNI [genera métricas](/es/docs/reference/commands/install-cni/#metrics)
+que puedes usar para monitorear la instalación de CNI, su estado de preparación y la mitigación de condiciones de carrera.
+Por defecto, se agregan anotaciones de scraping de Prometheus (`prometheus.io/port`, `prometheus.io/path`) al pod del DaemonSet `istio-cni-node`.
+Puedes recopilar las métricas generadas mediante una configuración estándar de Prometheus.
 
-## DaemonSet readiness
+## Estado de preparación del DaemonSet {#daemonset-readiness}
 
-Readiness of the CNI DaemonSet indicates that the Istio CNI plugin is properly installed and configured.
-If Istio CNI DaemonSet is unready, it suggests something is wrong. Look at the `istio-cni-node` DaemonSet logs to diagnose.
-You can also track CNI installation readiness via the `istio_cni_install_ready` metric.
+El estado de preparación (readiness) del DaemonSet de CNI indica que el plugin CNI de Istio está instalado y configurado correctamente.
+Si el DaemonSet de CNI de Istio no está listo, es señal de que algo no funciona bien. Revisa los registros del DaemonSet `istio-cni-node` para diagnosticarlo.
+También puedes hacer seguimiento del estado de preparación de la instalación de CNI mediante la métrica `istio_cni_install_ready`.
 
-## Race condition repair
+## Reparación de condiciones de carrera {#race-condition-repair}
 
-By default, the Istio CNI DaemonSet has [race condition mitigation](/docs/setup/additional-setup/cni/#race-condition--mitigation) enabled,
-which will evict a pod that was started before the CNI plugin was ready.
-To understand which pods were evicted, look for log lines like the following:
+Por defecto, el DaemonSet de CNI de Istio tiene habilitada la [mitigación de condiciones de carrera](/es/docs/setup/additional-setup/cni/#race-condition--mitigation),
+que desaloja cualquier pod que se haya iniciado antes de que el plugin CNI estuviera listo.
+Para saber qué pods se desalojaron, busca líneas de registro como la siguiente:
 
 {{< text plain >}}
 2024-01-11T01:19:56.429220Z info Pod detected as broken, deleting: service-graph00/svc00-0v1-95b5885bf-zhbzm
 {{< /text >}}
 
-You can also track pods repaired via the `istio_cni_repair_pods_repaired_total` metric.
+También puedes hacer seguimiento de los pods reparados mediante la métrica `istio_cni_repair_pods_repaired_total`.
 
-## Diagnose pod start-up failure
+## Diagnosticar fallos de inicio de pods {#diagnose-pod-start-up-failure}
 
-A common issue with the CNI plugin is that a pod fails to start due to container network set-up failure.
-Typically the failure reason is written to the pod events, and is visible via pod description:
+Un problema habitual con el plugin CNI es que un pod no se inicie debido a un fallo en la configuración de red del contenedor.
+Normalmente, el motivo del fallo se escribe en los eventos del pod y puede verse al describir el pod:
 
 {{< text bash >}}
 $ kubectl describe pod POD_NAME -n POD_NAMESPACE
 {{< /text >}}
 
-If a pod keeps getting init error, check the init container `istio-validation` log for
-"connection refused" errors like the following:
+Si un pod sigue obteniendo errores de inicialización, revisa el registro del init container `istio-validation` en busca de
+errores "connection refused" como los siguientes:
 
 {{< text bash >}}
 $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
@@ -69,15 +69,15 @@ $ kubectl logs POD_NAME -n POD_NAMESPACE -c istio-validation
 2021-07-20T05:30:22.111676Z error validation timeout
 {{< /text >}}
 
-The `istio-validation` init container sets up a local dummy server which
-listens on traffic redirection target inbound/outbound ports,
-and checks whether test traffic can be redirected to the dummy server.
-When pod traffic redirection is not set up correctly by the CNI plugin,
-the `istio-validation` init container blocks pod startup, to prevent traffic bypass.
-To see if there were any errors or unexpected network setup behaviors,
-search the `istio-cni-node` for the pod ID.
+El init container `istio-validation` levanta un servidor ficticio local que
+escucha en los puertos de entrada y salida a los que se redirige el tráfico,
+y comprueba si el tráfico de prueba puede redirigirse al servidor ficticio.
+Cuando el plugin CNI no configura correctamente la redirección del tráfico del pod,
+el init container `istio-validation` bloquea el inicio del pod para evitar que el tráfico eluda la redirección.
+Para ver si hubo errores o comportamientos inesperados en la configuración de red,
+busca el ID del pod en los registros de `istio-cni-node`.
 
-Another symptom of a malfunctioned CNI plugin is that the application pod is continuously evicted at start-up time.
-This is typically because the plugin is not properly installed, thus pod traffic redirection cannot be set up.
-CNI [race repair logic](/docs/setup/additional-setup/cni/#race-condition--mitigation) considers the pod is broken due to the race condition and evicts the pod continuously.
-When running into this issue, check the CNI DaemonSet log for information on why the plugin could not be properly installed.
+Otro síntoma de un plugin CNI que no funciona bien es que el pod de la aplicación se desaloja continuamente durante el inicio.
+Esto suele deberse a que el plugin no está instalado correctamente, por lo que no se puede configurar la redirección del tráfico del pod.
+La [lógica de reparación de condiciones de carrera](/es/docs/setup/additional-setup/cni/#race-condition--mitigation) de CNI considera que el pod está roto debido a la condición de carrera y lo desaloja continuamente.
+Si te encuentras con este problema, revisa el registro del DaemonSet de CNI para saber por qué no se pudo instalar correctamente el plugin.

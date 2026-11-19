@@ -1,52 +1,52 @@
 ---
-title: Debugging Virtual Machines
-description: Describes tools and techniques to diagnose issues with Virtual Machines.
+title: Depuración de máquinas virtuales
+description: Describe herramientas y técnicas para diagnosticar problemas con máquinas virtuales.
 weight: 80
 keywords: [debug,virtual-machines,envoy]
 owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-This page describes how to troubleshoot issues with Istio deployed to Virtual Machines.
-Before reading this, you should take the steps in [Virtual Machine Installation](/docs/setup/install/virtual-machine/).
-Additionally, [Virtual Machine Architecture](/docs/ops/deployment/vm-architecture/) can help you understand how the components interact.
+Esta página describe cómo solucionar problemas de Istio desplegado en máquinas virtuales.
+Antes de leerla, deberías seguir los pasos de [Instalación en máquinas virtuales](/es/docs/setup/install/virtual-machine/).
+Además, [Arquitectura de máquinas virtuales](/es/docs/ops/deployment/vm-architecture/) puede ayudarte a entender cómo interactúan los componentes.
 
-Troubleshooting an Istio Virtual Machine installation is similar to troubleshooting issues with proxies running inside Kubernetes, but there are some key differences to be aware of.
+Solucionar problemas de una instalación de Istio en máquinas virtuales es similar a solucionar problemas de proxies que se ejecutan dentro de Kubernetes, pero hay algunas diferencias clave que debes tener en cuenta.
 
-While much of the same information is available on both platforms, accessing this information differs.
+Aunque gran parte de la información está disponible en ambas plataformas, la forma de acceder a ella es diferente.
 
-## Monitoring health
+## Monitoreo del estado {#monitoring-health}
 
-The Istio sidecar is typically run as a `systemd` unit. To ensure its running properly, you can check that status:
+El sidecar de Istio normalmente se ejecuta como una unidad de `systemd`. Para asegurarte de que funciona correctamente, puedes comprobar su estado:
 
 {{< text bash >}}
 $ systemctl status istio
 {{< /text  >}}
 
-Additionally, the sidecar health can be programmatically check at its health endpoint:
+Además, puedes comprobar el estado del sidecar mediante programación en su endpoint de salud:
 
 {{< text bash >}}
 $ curl localhost:15021/healthz/ready -I
 {{< /text  >}}
 
-## Logs
+## Registros {#logs}
 
-Logs for the Istio proxy can be found in a few places.
+Los registros del proxy de Istio se encuentran en varios lugares.
 
-To access the `systemd` logs, which has details about the initialization of the proxy:
+Para acceder a los registros de `systemd`, que contienen detalles sobre la inicialización del proxy:
 
 {{< text bash >}}
 $ journalctl -f -u istio -n 1000
 {{< /text  >}}
 
-The proxy will redirect `stderr` and `stdout` to `/var/log/istio/istio.err.log` and  `/var/log/istio/istio.log`, respectively.
-To view these in a format similar to `kubectl`:
+El proxy redirige `stderr` y `stdout` a `/var/log/istio/istio.err.log` y `/var/log/istio/istio.log`, respectivamente.
+Para verlos en un formato similar al de `kubectl`:
 
 {{< text bash >}}
 $ tail /var/log/istio/istio.err.log /var/log/istio/istio.log -Fq -n 100
 {{< /text  >}}
 
-Log levels can be modified by changing the `cluster.env` configuration file. Make sure to restart `istio` if it is already running:
+Puedes modificar los niveles de registro cambiando el archivo de configuración `cluster.env`. Asegúrate de reiniciar `istio` si ya está en ejecución:
 
 {{< text bash >}}
 $ echo "ISTIO_AGENT_FLAGS=\"--log_output_level=dns:debug --proxyLogLevel=debug\"" >> /var/lib/istio/envoy/cluster.env
@@ -55,7 +55,7 @@ $ systemctl restart istio
 
 ## Iptables
 
-To ensure `iptables` rules have been successfully applied:
+Para asegurarte de que las reglas de `iptables` se aplicaron correctamente:
 
 {{< text bash >}}
 $ sudo iptables-save
@@ -66,7 +66,7 @@ $ sudo iptables-save
 
 ## Istioctl
 
-Most `istioctl` commands will function properly with virtual machines. For example, `istioctl proxy-status` can be used to view all connected proxies:
+La mayoría de los comandos de `istioctl` funcionan correctamente con máquinas virtuales. Por ejemplo, puedes usar `istioctl proxy-status` para ver todos los proxies conectados:
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -74,8 +74,8 @@ NAME           CDS        LDS        EDS        RDS      ISTIOD                 
 vm-1.default   SYNCED     SYNCED     SYNCED     SYNCED   istiod-789ffff8-f2fkt     {{< istio_full_version >}}
 {{< /text  >}}
 
-However, `istioctl proxy-config` relies on functionality in Kubernetes to connect to a proxy, which will not work for virtual machines.
-Instead, a file containing the configuration dump from Envoy can be passed. For example:
+Sin embargo, `istioctl proxy-config` depende de funcionalidades de Kubernetes para conectarse a un proxy, lo que no funciona con máquinas virtuales.
+En su lugar, puedes pasarle un archivo que contenga el volcado de configuración de Envoy. Por ejemplo:
 
 {{< text bash >}}
 $ curl -s localhost:15000/config_dump | istioctl proxy-config clusters --file -
@@ -86,12 +86,12 @@ istiod.istio-system.svc.cluster.local   15012     -       outbound      EDS
 istiod.istio-system.svc.cluster.local   15014     -       outbound      EDS
 {{< /text  >}}
 
-## Automatic registration
+## Registro automático {#automatic-registration}
 
-When a virtual machine connects to Istiod, a `WorkloadEntry` will automatically be created. This enables
-the virtual machine to become a part of a `Service`, similar to an `Endpoint` in Kubernetes.
+Cuando una máquina virtual se conecta a Istiod, se crea automáticamente un `WorkloadEntry`. Esto permite
+que la máquina virtual pase a formar parte de un `Service`, de forma similar a un `Endpoint` en Kubernetes.
 
-To check these are created correctly:
+Para comprobar que se crean correctamente:
 
 {{< text bash >}}
 $ kubectl get workloadentries
@@ -99,13 +99,13 @@ NAME             AGE   ADDRESS
 vm-10.128.0.50   14m   10.128.0.50
 {{< /text  >}}
 
-## Certificates
+## Certificados {#certificates}
 
-Virtual machines handle certificates differently than Kubernetes Pods, which use a Kubernetes-provided service account token
-to authenticate and renew mTLS certificates. Instead, existing mTLS credentials are used to authenticate with the certificate authority and
-renew certificates.
+Las máquinas virtuales gestionan los certificados de forma diferente a los pods de Kubernetes, que usan un token de cuenta de servicio proporcionado por Kubernetes
+para autenticarse y renovar los certificados de TLS mutuo (mTLS). En su lugar, usan las credenciales mTLS existentes para autenticarse ante la autoridad de certificación y
+renovar los certificados.
 
-The status of these certificates can be viewed in the same way as in Kubernetes:
+Puedes ver el estado de estos certificados de la misma forma que en Kubernetes:
 
 {{< text bash >}}
 $ curl -s localhost:15000/config_dump | ./istioctl proxy-config secret --file -
@@ -114,7 +114,7 @@ default           Cert Chain     ACTIVE     true           251932493344649542420
 ROOTCA            CA             ACTIVE     true           81663936513052336343895977765039160718      2031-01-26T17:54:44Z     2021-01-28T17:54:44Z
 {{< /text  >}}
 
-Additionally, these are persisted to disk to ensure downtime or restarts do not lose state.
+Además, los certificados se guardan en disco para que no se pierda el estado en caso de interrupciones o reinicios.
 
 {{< text bash >}}
 $ ls /etc/certs
