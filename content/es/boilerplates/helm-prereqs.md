@@ -11,6 +11,6 @@
 1. Configura el repositorio de Helm:
 
 {{< text bash >}}
-$ helm repo add istio https://istio-release.storage.googleapis.com/charts
+$ helm repo add istio https://blob.istio.io/istio-release/charts
 $ helm repo update
 {{< /text >}}

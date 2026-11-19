@@ -24,7 +24,7 @@ Recomendamos el uso de Helm para instalar Istio para uso en producción en modo 
 1. Configura el repositorio de Helm:
 
     {{< text syntax=bash snip_id=configure_helm >}}
-    $ helm repo add istio https://istio-release.storage.googleapis.com/charts
+    $ helm repo add istio https://blob.istio.io/istio-release/charts
     $ helm repo update
     {{< /text >}}
 
