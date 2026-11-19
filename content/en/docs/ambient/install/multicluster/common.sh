@@ -298,12 +298,12 @@ kubectl create namespace istio-system --context "${CTX_CLUSTER2}"
 }
 
 snip_setup_helm_repo_cluster_1() {
-helm repo add istio https://istio-release.storage.googleapis.com/charts --kube-context "${CTX_CLUSTER1}"
+helm repo add istio https://blob.istio.io/istio-release/charts --kube-context "${CTX_CLUSTER1}"
 helm repo update --kube-context "${CTX_CLUSTER1}"
 }
 
 snip_setup_helm_repo_cluster_2() {
-helm repo add istio https://istio-release.storage.googleapis.com/charts --kube-context "${CTX_CLUSTER2}"
+helm repo add istio https://blob.istio.io/istio-release/charts --kube-context "${CTX_CLUSTER2}"
 helm repo update --kube-context "${CTX_CLUSTER2}"
 }
 
