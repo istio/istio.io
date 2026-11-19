@@ -1,50 +1,50 @@
 ---
-title: Diagnose your Configuration with Istioctl Analyze
-description: Shows you how to use istioctl analyze to identify potential issues with your configuration.
+title: Diagnosticar tu configuración con istioctl analyze
+description: Te muestra cómo usar istioctl analyze para identificar posibles problemas en tu configuración.
 weight: 40
 keywords: [istioctl, debugging, kubernetes]
 owner: istio/wg-user-experience-maintainers
 test: yes
 ---
 
-`istioctl analyze` is a diagnostic tool that can detect potential issues with your
-Istio configuration. It can run against a live cluster or a set of local configuration files.
-It can also run against a combination of the two, allowing you to catch problems before you
-apply changes to a cluster.
+`istioctl analyze` es una herramienta de diagnóstico que puede detectar posibles problemas en tu
+configuración de Istio. Puede ejecutarse contra un clúster en ejecución o contra un conjunto de archivos de configuración locales.
+También puede ejecutarse contra una combinación de ambos, lo que te permite detectar problemas antes de
+aplicar cambios a un clúster.
 
-## Getting started in under a minute
+## Empieza en menos de un minuto {#getting-started-in-under-a-minute}
 
-You can analyze your current live Kubernetes cluster by running:
+Puedes analizar tu clúster de Kubernetes actual en ejecución con:
 
 {{< text syntax=bash snip_id=analyze_all_namespaces >}}
 $ istioctl analyze --all-namespaces
 {{< /text >}}
 
-And that’s it! It’ll give you any recommendations that apply.
+¡Y eso es todo! Te dará las recomendaciones que correspondan.
 
-For example, if you forgot to enable Istio injection (a very common issue), you would get the following 'Info' message:
+Por ejemplo, si olvidaste habilitar la inyección de Istio (un problema muy común), obtendrías el siguiente mensaje 'Info':
 
 {{< text syntax=plain snip_id=analyze_all_namespace_sample_response >}}
 Info [IST0102] (Namespace default) The namespace is not enabled for Istio injection. Run 'kubectl label namespace default istio-injection=enabled' to enable it, or 'kubectl label namespace default istio-injection=disabled' to explicitly mark it as not needing injection.
 {{< /text >}}
 
-Fix the issue:
+Corrige el problema:
 
 {{< text syntax=bash snip_id=fix_default_namespace >}}
 $ kubectl label namespace default istio-injection=enabled
 {{< /text >}}
 
-Then try again:
+Luego vuelve a intentarlo:
 
 {{< text syntax=bash snip_id=try_with_fixed_namespace >}}
 $ istioctl analyze --namespace default
 ✔ No validation issues found when analyzing namespace: default.
 {{< /text >}}
 
-## Analyzing live clusters, local files, or both
+## Analizar clústeres en ejecución, archivos locales o ambos {#analyzing-live-clusters-local-files-or-both}
 
-Analyze the current live cluster, simulating the effect of applying additional yaml files
-like `bookinfo-gateway.yaml` and `destination-rule-all.yaml` in the `samples/bookinfo/networking` directory:
+Analiza el clúster actual en ejecución, simulando el efecto de aplicar archivos yaml adicionales
+como `bookinfo-gateway.yaml` y `destination-rule-all.yaml` del directorio `samples/bookinfo/networking`:
 
 {{< text syntax=bash snip_id=analyze_sample_destrule >}}
 $ istioctl analyze @samples/bookinfo/networking/bookinfo-gateway.yaml@ @samples/bookinfo/networking/destination-rule-all.yaml@
@@ -58,45 +58,45 @@ Error: Analyzers found issues when analyzing namespace: default.
 See https://istio.io/v{{< istio_version >}}/docs/reference/config/analysis for more information about causes and resolutions.
 {{< /text >}}
 
-Analyze the entire `networking` folder:
+Analiza toda la carpeta `networking`:
 
 {{< text syntax=bash snip_id=analyze_networking_directory >}}
 $ istioctl analyze samples/bookinfo/networking/
 {{< /text >}}
 
-Analyze all yaml files in the `networking` folder:
+Analiza todos los archivos yaml de la carpeta `networking`:
 
 {{< text syntax=bash snip_id=analyze_all_networking_yaml >}}
 $ istioctl analyze samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
-The above examples are doing analysis on a live cluster. The tool also supports performing analysis
-of a set of local Kubernetes yaml configuration files, or on a combination of local files and a
-live cluster. When analyzing a set of local files, the file-set is expected to be fully self-contained.
-Typically, this is used to analyze the entire set of configuration files that are intended to be deployed
-to a cluster. To use this feature, simply add the `--use-kube=false` flag.
+Los ejemplos anteriores analizan un clúster en ejecución. La herramienta también permite analizar
+un conjunto de archivos de configuración yaml de Kubernetes locales, o una combinación de archivos locales y un
+clúster en ejecución. Al analizar un conjunto de archivos locales, se espera que ese conjunto sea completamente autocontenido.
+Normalmente, esto se usa para analizar el conjunto completo de archivos de configuración que se van a desplegar
+en un clúster. Para usar esta función, simplemente agrega el flag `--use-kube=false`.
 
-Analyze all yaml files in the `networking` folder:
+Analiza todos los archivos yaml de la carpeta `networking`:
 
 {{< text syntax=bash snip_id=analyze_all_networking_yaml_no_kube >}}
 $ istioctl analyze --use-kube=false samples/bookinfo/networking/*.yaml
 {{< /text >}}
 
-You can run `istioctl analyze --help` to see the full set of options.
+Puedes ejecutar `istioctl analyze --help` para ver el conjunto completo de opciones.
 
-## Advanced
+## Uso avanzado {#advanced}
 
-### Enabling validation messages for resource status
+### Habilitar mensajes de validación en el estado de los recursos {#enabling-validation-messages-for-resource-status}
 
 {{< boilerplate experimental-feature-warning >}}
 
-Starting with v1.5, Istio can be set up to perform configuration analysis alongside
-the configuration distribution that it is primarily responsible for, via the `istiod.enableAnalysis` flag.
-This analysis uses the same logic and error messages as when using `istioctl analyze`.
-Validation messages from the analysis are written to the status subresource of the affected Istio resource.
+A partir de la v1.5, Istio puede configurarse para realizar análisis de configuración junto con
+la distribución de configuración, que es su principal responsabilidad, mediante el flag `istiod.enableAnalysis`.
+Este análisis usa la misma lógica y los mismos mensajes de error que `istioctl analyze`.
+Los mensajes de validación del análisis se escriben en el subrecurso status del recurso de Istio afectado.
 
-For example. if you have a misconfigured gateway on your "ratings" virtual service,
-running `kubectl get virtualservice ratings` would give you something like:
+Por ejemplo, si tienes un gateway mal configurado en tu virtual service "ratings",
+al ejecutar `kubectl get virtualservice ratings` obtendrías algo como:
 
 {{< text syntax=yaml snip_id=vs_yaml_with_status >}}
 apiVersion: networking.istio.io/v1
@@ -117,116 +117,116 @@ status:
       code: IST0101
 {{< /text >}}
 
-`enableAnalysis` runs in the background, and will keep the status field of a resource up to date
-with its current validation status. Note that this isn't a replacement for `istioctl analyze`:
+`enableAnalysis` se ejecuta en segundo plano y mantiene actualizado el campo status de un recurso
+con su estado de validación actual. Ten en cuenta que esto no sustituye a `istioctl analyze`:
 
-- Not all resources have a custom status field (e.g. Kubernetes `namespace` resources),
-  so messages attached to those resources won't show validation messages.
-- `enableAnalysis` only works on Istio versions starting with 1.5, while
-  `istioctl analyze` can be used with older versions.
-- While it makes it easy to see what's wrong with a particular resource,
-  it's harder to get a holistic view of validation status in the mesh.
+- No todos los recursos tienen un campo status personalizado (por ejemplo, los recursos `namespace` de Kubernetes),
+  por lo que esos recursos no mostrarán los mensajes de validación asociados.
+- `enableAnalysis` solo funciona en versiones de Istio a partir de la 1.5, mientras que
+  `istioctl analyze` puede usarse con versiones anteriores.
+- Aunque facilita ver qué falla en un recurso concreto,
+  es más difícil obtener una visión global del estado de validación en la mesh.
 
-You can enable this feature with:
+Puedes habilitar esta función con:
 
 {{< text syntax=bash snip_id=install_with_custom_config_analysis >}}
 $ istioctl install --set values.global.istiod.enableAnalysis=true
 {{< /text >}}
 
-### Ignoring specific analyzer messages via CLI
+### Ignorar mensajes específicos del analizador mediante la CLI {#ignoring-specific-analyzer-messages-via-cli}
 
-Sometimes you might find it useful to hide or ignore analyzer messages in certain cases.
-For example, imagine a situation where a message is emitted about a resource you don't have permissions to update:
+A veces puede resultarte útil ocultar o ignorar mensajes del analizador en determinados casos.
+Por ejemplo, imagina una situación en la que se emite un mensaje sobre un recurso para el que no tienes permisos de actualización:
 
 {{< text syntax=bash snip_id=analyze_k_frod >}}
 $ istioctl analyze -k --namespace frod
 Info [IST0102] (Namespace frod) The namespace is not enabled for Istio injection. Run 'kubectl label namespace frod istio-injection=enabled' to enable it, or 'kubectl label namespace frod istio-injection=disabled' to explicitly mark it as not needing injection.
 {{< /text >}}
 
-Because you don't have permissions to update the namespace, you cannot resolve the message
-by annotating the namespace. Instead, you can direct `istioctl analyze` to suppress the above message on the resource:
+Como no tienes permisos para actualizar el namespace, no puedes resolver el mensaje
+anotando el namespace. En su lugar, puedes indicarle a `istioctl analyze` que suprima el mensaje anterior para ese recurso:
 
 {{< text syntax=bash snip_id=analyze_suppress0102 >}}
 $ istioctl analyze -k --namespace frod --suppress "IST0102=Namespace frod"
 ✔ No validation issues found when analyzing namespace: frod.
 {{< /text >}}
 
-The syntax used for suppression is the same syntax used throughout `istioctl` when referring to
-resources: `<kind> <name>.<namespace>`, or just `<kind> <name>` for cluster-scoped resources like
-`Namespace`. If you want to suppress multiple objects, you can either repeat the `--suppress` argument or use wildcards:
+La sintaxis que se usa para la supresión es la misma que se usa en todo `istioctl` para referirse a
+recursos: `<kind> <name>.<namespace>`, o simplemente `<kind> <name>` para recursos con ámbito de clúster como
+`Namespace`. Si quieres suprimir varios objetos, puedes repetir el argumento `--suppress` o usar comodines:
 
 {{< text syntax=bash snip_id=analyze_suppress_frod_0107_baz >}}
 $ # Suppress code IST0102 on namespace frod and IST0107 on all pods in namespace baz
 $ istioctl analyze -k --all-namespaces --suppress "IST0102=Namespace frod" --suppress "IST0107=Pod *.baz"
 {{< /text >}}
 
-### Ignoring specific analyzer messages via annotations
+### Ignorar mensajes específicos del analizador mediante anotaciones {#ignoring-specific-analyzer-messages-via-annotations}
 
-You can also ignore specific analyzer messages using an annotation on the resource.
-For example, to ignore code IST0107 (`MisplacedAnnotation`) on resource `deployment/my-deployment`:
+También puedes ignorar mensajes específicos del analizador usando una anotación en el recurso.
+Por ejemplo, para ignorar el código IST0107 (`MisplacedAnnotation`) en el recurso `deployment/my-deployment`:
 
 {{< text syntax=bash snip_id=annotate_for_deployment_suppression >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107
 {{< /text >}}
 
-To ignore multiple codes for a resource, separate each code with a comma:
+Para ignorar varios códigos en un recurso, separa cada código con una coma:
 
 {{< text syntax=bash snip_id=annotate_for_deployment_suppression_107 >}}
 $ kubectl annotate deployment my-deployment galley.istio.io/analyze-suppress=IST0107,IST0002
 {{< /text >}}
 
-## Helping us improve this tool
+## Ayúdanos a mejorar esta herramienta {#helping-us-improve-this-tool}
 
-We're continuing to add more analysis capability and we'd love your help in identifying more use cases.
-If you've discovered some Istio configuration "gotcha", some tricky situation that caused you some
-problems, open an issue and let us know. We might be able to automatically flag this problem so that
-others can discover and avoid the problem in the first place.
+Seguimos agregando más capacidades de análisis y nos encantaría que nos ayudaras a identificar más casos de uso.
+Si descubriste alguna trampa de configuración de Istio, alguna situación complicada que te haya causado
+problemas, abre un issue y cuéntanoslo. Quizá podamos detectar ese problema automáticamente para que
+otras personas puedan descubrirlo y evitarlo desde el principio.
 
-To do this, [open an issue](https://github.com/istio/istio/issues) describing your scenario. For example:
+Para ello, [abre un issue](https://github.com/istio/istio/issues) describiendo tu escenario. Por ejemplo:
 
-- Look at all the virtual services
-- For each, look at their list of gateways
-- If some of the gateways don’t exist, produce an error
+- Revisar todos los virtual services
+- Para cada uno, revisar su lista de gateways
+- Si alguno de los gateways no existe, generar un error
 
-We already have an analyzer for this specific scenario, so this is just an example to illustrate what
-kind of information you should provide.
+Ya tenemos un analizador para este escenario concreto, así que esto es solo un ejemplo para ilustrar qué
+tipo de información deberías proporcionar.
 
-## Q&A
+## Preguntas y respuestas {#qa}
 
-- **What Istio release does this tool target?**
+- **¿Para qué versión de Istio está pensada esta herramienta?**
 
-    Like other `istioctl` tools, we generally recommend using a downloaded version
-    that matches the version deployed in your cluster.
+    Como con otras herramientas de `istioctl`, en general recomendamos usar una versión descargada
+    que coincida con la versión desplegada en tu clúster.
 
-    For the time being, analysis is generally backwards compatible, so that you can,
-    for example, run the {{< istio_version >}} version of `istioctl analyze` against
-    a cluster running an older Istio 1.x version and expect to get useful feedback.
-    Analysis rules that are not meaningful with an older Istio release will be skipped.
+    Por ahora, el análisis suele ser compatible con versiones anteriores, de modo que puedes,
+    por ejemplo, ejecutar la versión {{< istio_version >}} de `istioctl analyze` contra
+    un clúster que ejecute una versión anterior de Istio 1.x y esperar obtener resultados útiles.
+    Las reglas de análisis que no tengan sentido con una versión anterior de Istio se omitirán.
 
-    If you decide to use the latest `istioctl` for analysis purposes on a cluster
-    running an older Istio version, we suggest that you keep it in a separate folder
-    from the version of the binary used to manage your deployed Istio release.
+    Si decides usar el `istioctl` más reciente para analizar un clúster
+    que ejecuta una versión anterior de Istio, te sugerimos guardarlo en una carpeta separada
+    de la versión del binario que usas para gestionar tu versión de Istio desplegada.
 
-- **What analyzers are supported today?**
+- **¿Qué analizadores se admiten actualmente?**
 
-    We're still working to documenting the analyzers. In the meantime, you can see
-    all the analyzers in the [Istio source]({{< github_tree >}}/pkg/config/analysis/analyzers).
+    Todavía estamos trabajando en documentar los analizadores. Mientras tanto, puedes ver
+    todos los analizadores en el [código fuente de Istio]({{< github_tree >}}/pkg/config/analysis/analyzers).
 
-    You can also see what [configuration analysis messages](/docs/reference/config/analysis/)
-    are supported to get an idea of what is currently covered.
+    También puedes ver qué [mensajes de análisis de configuración](/es/docs/reference/config/analysis/)
+    se admiten para hacerte una idea de lo que se cubre actualmente.
 
-- **Can analysis do anything harmful to my cluster?**
+- **¿Puede el análisis dañar mi clúster?**
 
-    Analysis never changes configuration state. It is a completely read-only operation
-    that will never alter the state of a cluster.
+    El análisis nunca cambia el estado de la configuración. Es una operación completamente de solo lectura
+    que nunca alterará el estado de un clúster.
 
-- **What about analysis that goes beyond configuration?**
+- **¿Y el análisis que va más allá de la configuración?**
 
-    Today, the analysis is purely based on Kubernetes configuration, but in the future
-    we’d like to expand beyond that. For example, we could allow analyzers to also look
-    at logs to generate recommendations.
+    Hoy en día, el análisis se basa únicamente en la configuración de Kubernetes, pero en el futuro
+    nos gustaría ir más allá. Por ejemplo, podríamos permitir que los analizadores también revisen
+    los registros para generar recomendaciones.
 
-- **Where can I find out how to fix the errors I'm getting?**
+- **¿Dónde puedo averiguar cómo corregir los errores que obtengo?**
 
-    The set of [configuration analysis messages](/docs/reference/config/analysis/)
-    contains descriptions of each message along with suggested fixes.
+    El conjunto de [mensajes de análisis de configuración](/es/docs/reference/config/analysis/)
+    contiene descripciones de cada mensaje junto con las correcciones sugeridas.

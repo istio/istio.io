@@ -1,6 +1,6 @@
 ---
-title: Component Logging
-description: Describes how to use component-level logging to get insights into a running component's behavior.
+title: Registro de componentes
+description: Describe cómo usar el registro a nivel de componente para obtener información sobre el comportamiento de un componente en ejecución.
 weight: 70
 keywords: [ops]
 aliases:
@@ -10,23 +10,23 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-Istio components are built with a flexible logging framework which provides a number of features and controls to
-help operate these components and facilitate diagnostics. You control these logging features by passing
-command-line options when starting the components.
+Los componentes de Istio se construyen con un framework de registro flexible que ofrece varias funciones y controles para
+ayudar a operar estos componentes y facilitar el diagnóstico. Controlas estas funciones de registro pasando
+opciones de línea de comandos al iniciar los componentes.
 
-## Logging scopes
+## Ámbitos de registro {#logging-scopes}
 
-Logging messages output by a component are categorized by *scopes*. A scope represents a set of related log messages which
-you can control as a whole. Different components have different scopes, depending on the features the component
-provides. All components have the `default` scope, which is used for non-categorized log messages.
+Los mensajes de registro que emite un componente se clasifican por *ámbitos* (scopes). Un ámbito representa un conjunto de mensajes de registro relacionados que
+puedes controlar como un todo. Cada componente tiene ámbitos distintos, según las funciones que
+ofrece. Todos los componentes tienen el ámbito `default`, que se usa para los mensajes de registro sin categoría.
 
-As an example, as of this writing, `istioctl` has 25 scopes, representing different functional areas within the command:
+Por ejemplo, en el momento de escribir esto, `istioctl` tiene 25 ámbitos, que representan distintas áreas funcionales del comando:
 
 - `ads`, `adsc`, `all`, `analysis`, `authn`, `authorization`, `ca`, `cache`, `cli`, `default`, `installer`, `klog`, `mcp`, `model`, `patch`, `processing`, `resource`, `source`, `spiffe`, `tpath`, `translator`, `util`, `validation`, `validationController`, `wle`
 
-Pilot-Agent, Pilot-Discovery, and the Istio Operator have their own scopes which you can discover by looking at their [reference documentation](/docs/reference/commands/).
+Pilot-Agent, Pilot-Discovery y el Istio Operator tienen sus propios ámbitos, que puedes descubrir consultando su [documentación de referencia](/es/docs/reference/commands/).
 
-Each scope has a unique output level which is one of:
+Cada ámbito tiene un único nivel de salida, que puede ser uno de los siguientes:
 
 1. none
 1. error
@@ -34,39 +34,39 @@ Each scope has a unique output level which is one of:
 1. info
 1. debug
 
-where `none` produces no output for the scope, and `debug` produces the maximum amount of output. The default level for all scopes
-is `info` which is intended to provide the right amount of logging information for operating Istio in normal conditions.
+donde `none` no produce ninguna salida para el ámbito y `debug` produce la máxima cantidad de salida. El nivel por defecto para todos los ámbitos
+es `info`, que busca proporcionar la cantidad adecuada de información de registro para operar Istio en condiciones normales.
 
-To control the output level, you use the `--log_output_level` command-line option. For example:
+Para controlar el nivel de salida, usa la opción de línea de comandos `--log_output_level`. Por ejemplo:
 
 {{< text bash >}}
 $ istioctl analyze --log_output_level klog:none,cli:info
 {{< /text >}}
 
-In addition to controlling the output level from the command-line, you can also control the output level of a running component
-by using its [ControlZ](/docs/ops/diagnostic-tools/controlz) interface.
+Además de controlar el nivel de salida desde la línea de comandos, también puedes controlar el nivel de salida de un componente en ejecución
+mediante su interfaz [ControlZ](/es/docs/ops/diagnostic-tools/controlz).
 
-## Controlling output
+## Controlar la salida {#controlling-output}
 
-Log messages are normally sent to a component's standard output stream. The `--log_target` option lets you direct the output to
-any number of different locations. You give the option a comma-separated list of file system paths, along with the special
-values `stdout` and `stderr` to indicate the standard output and standard error streams respectively.
+Normalmente, los mensajes de registro se envían al flujo de salida estándar del componente. La opción `--log_target` te permite dirigir la salida a
+cualquier número de ubicaciones distintas. Le pasas a la opción una lista de rutas del sistema de archivos separadas por comas, junto con los valores
+especiales `stdout` y `stderr` para indicar los flujos de salida estándar y de error estándar, respectivamente.
 
-Log messages are normally output in a human-friendly format. The `--log_as_json` option can be used to force the output into JSON,
-which can be easier for tools to process.
+Normalmente, los mensajes de registro se emiten en un formato fácil de leer para las personas. Puedes usar la opción `--log_as_json` para forzar la salida en JSON,
+que puede resultar más fácil de procesar para las herramientas.
 
-## Log rotation
+## Rotación de registros {#log-rotation}
 
-Istio control plane components can automatically manage log rotation, which make it simple to break up large logs into smaller log files.
-The `--log_rotate` option lets you specify the base file name to use for rotation. Derived names will be used for individual
-log files.
+Los componentes del control plane de Istio pueden gestionar automáticamente la rotación de registros, lo que facilita dividir registros grandes en archivos de registro más pequeños.
+La opción `--log_rotate` te permite especificar el nombre de archivo base que se usará para la rotación. Se usarán nombres derivados para cada
+archivo de registro.
 
-The `--log_rotate_max_age` option lets you specify the maximum number of days before file rotation takes place, while the `--log_rotate_max_size` option
-let you specify the maximum size in megabytes before file rotation takes place. Finally, the `--log_rotate_max_backups` option lets you control
-the maximum number of rotated files to keep, older files will be automatically deleted.
+La opción `--log_rotate_max_age` te permite especificar el número máximo de días antes de que se produzca la rotación del archivo, mientras que la opción `--log_rotate_max_size`
+te permite especificar el tamaño máximo en megabytes antes de que se produzca la rotación. Por último, la opción `--log_rotate_max_backups` te permite controlar
+el número máximo de archivos rotados que se conservan; los archivos más antiguos se eliminan automáticamente.
 
-## Component debugging
+## Depuración de componentes {#component-debugging}
 
-The `--log_caller` and `--log_stacktrace_level` options let you control whether log information includes
-programmer-level information. This is useful when trying to track down bugs in a component but is not
-normally used in day-to-day operation.
+Las opciones `--log_caller` y `--log_stacktrace_level` te permiten controlar si la información de registro incluye
+información de nivel de programador. Esto es útil cuando intentas localizar errores en un componente, pero no se
+suele usar en la operación diaria.
