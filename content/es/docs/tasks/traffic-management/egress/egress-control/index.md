@@ -53,7 +53,7 @@ Esta tarea le muestra cómo acceder a services externos de tres maneras diferent
     $ export SOURCE_POD=$(kubectl get pod -l app=curl -o jsonpath='{.items..metadata.name}')
     {{< /text >}}
 
-## Passthrough de Envoy a services externos
+## Passthrough de Envoy a services externos {#envoy-passthrough-to-external-services}
 
 Istio tiene una [opción de instalación](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig-OutboundTrafficPolicy-Mode),
 `meshConfig.outboundTrafficPolicy.mode`, que configura el manejo del sidecar
