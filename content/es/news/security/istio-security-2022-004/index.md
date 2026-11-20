@@ -1,11 +1,11 @@
 ---
 title: ISTIO-SECURITY-2022-004
 subtitle: Boletín de seguridad
-description: Denegación de servicio en el plano de control sin autenticación por agotamiento de la pila.
+description: Denegación de servicio en el control plane sin autenticación por agotamiento de la pila.
 cves: [CVE-2022-24726, CVE-2022-24921]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["Todas las versiones anteriores a 1.11.0", "1.11.0 a 1.11.7", "1.12.0 a 1.12.4", "1.13.0 a 1.13.1"]
+releases: ["All releases prior to 1.11.0", "1.11.0 to 1.11.7", "1.12.0 to 1.12.4", "1.13.0 to 1.13.1"]
 publishdate: 2022-03-09
 keywords: [CVE]
 skip_seealso: true
@@ -18,11 +18,11 @@ skip_seealso: true
 ### CVE-2022-24726
 
 - __[CVE-2022-24726](https://github.com/istio/istio/security/advisories/GHSA-8w5h-qr4r-2h6g)__:
-  (Puntuación CVSS: 7.5, gravedad alta): Denegación de servicio en el plano de control sin autenticación por agotamiento de la pila.
+  (Puntuación CVSS: 7.5, gravedad alta): Denegación de servicio en el control plane sin autenticación por agotamiento de la pila.
 
-Un error al procesar solicitudes puede provocar la caída de Istiod, el plano de control de Istio. El riesgo aumenta si se expone públicamente el servicio de webhooks de validación o mutación de Kubernetes. El endpoint usa TLS en el puerto 15017 y no requiere autenticación.
+Istiod, el control plane de Istio, tiene un error en el procesamiento de solicitudes que puede provocar la caída del proceso. Si el servicio de webhooks de validación o mutación de Kubernetes está expuesto públicamente, un cliente externo puede desencadenar la denegación de servicio sin autenticarse. El endpoint usa TLS en el puerto 15017.
 
-En instalaciones sencillas, normalmente solo se puede acceder a Istiod desde el propio clúster, lo que limita el alcance del impacto. En algunos despliegues, especialmente si el plano de control se ejecuta en un clúster distinto, el puerto queda expuesto a Internet.
+En instalaciones sencillas, normalmente solo se puede acceder a Istiod desde el propio clúster, lo que limita el alcance del impacto. En algunos despliegues, especialmente si el control plane se ejecuta en un clúster distinto, el puerto queda expuesto a Internet.
 
 Istio considera que esta es una vulnerabilidad de día cero debido a la publicación de [CVE-2022-24921](https://github.com/advisories/GHSA-6685-ffxp-xm6f) por parte del equipo de Go.
 

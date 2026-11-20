@@ -5,7 +5,7 @@ description: En ciertas configuraciones, los encabezados mal formados que recibe
 cves: [CVE-2022-31045, CVE-2022-29225, CVE-2022-29224, CVE-2022-29226, CVE-2022-29228, CVE-2022-29227]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["Todas las versiones anteriores a 1.12.0", "1.12.0 a 1.12.7", "1.13.0 a 1.13.4", "1.14.0"]
+releases: ["All releases prior to 1.12.0", "1.12.0 to 1.12.7", "1.13.0 to 1.13.4", "1.14.0"]
 publishdate: 2022-06-09
 keywords: [CVE]
 skip_seealso: true
@@ -25,19 +25,19 @@ skip_seealso: true
 Estas vulnerabilidades de Envoy no afectan directamente a las funcionalidades de Istio. Las correcciones se incluyen en las versiones 1.12.8, 1.13.5 y 1.14.1.
 
 - [CVE-2022-29225](https://github.com/envoyproxy/envoy/security/advisories/GHSA-75hv-2jjj-89hh) (Puntuación CVSS: 7.5, gravedad alta): Riesgo de agotamiento de recursos en los descompresores.
-  Los descompresores acumulan los datos descomprimidos en un búfer intermedio antes de sustituir el cuerpo en `decode/encodeBody`. El crecimiento excesivo de ese búfer puede agotar los recursos del proxy.
+  Los descompresores acumulan los datos descomprimidos en un búfer intermedio antes de sustituir el cuerpo en `decode/encodeBody`. Una expansión desproporcionada de los datos comprimidos puede agotar la memoria del proxy.
 
 - [CVE-2022-29224](https://github.com/envoyproxy/envoy/security/advisories/GHSA-m4j9-86g3-8f49) (Puntuación CVSS: 5.9, gravedad moderada): Fallo de segmentación en `GrpcHealthCheckerImpl`.
-  En ciertas circunstancias, una desreferenciación de puntero nulo durante una comprobación de estado gRPC puede provocar la caída de Envoy.
+  Si Envoy comprueba por gRPC el estado de un servidor upstream controlado por un atacante, en ciertas circunstancias puede desreferenciar un puntero nulo y terminar de forma inesperada.
 
 - [CVE-2022-29226](https://github.com/envoyproxy/envoy/security/advisories/GHSA-h45c-2f94-prxh) (Puntuación CVSS: 10.0, gravedad crítica): Omisión de la autenticación en el filtro OAuth.
-  Un defecto en la validación de tokens del filtro OAuth puede permitir el acceso sin completar el flujo de autenticación previsto.
+  El filtro OAuth da por hecho que los tokens de acceso ya se validaron. Esa suposición puede dar acceso a un cliente sin autenticar y omitir el flujo de autenticación previsto.
 
 - [CVE-2022-29228](https://github.com/envoyproxy/envoy/security/advisories/GHSA-rww6-8h7g-8jf6) (Puntuación CVSS: 7.5, gravedad alta): El filtro OAuth llama a `continueDecoding()` desde `decodeHeaders()`.
   El filtro OAuth intenta continuar la cadena de filtros después de emitir una respuesta local. Esto activa un `ASSERT()` en las versiones más recientes y corrompe la memoria en las anteriores.
 
-- [CVE-2022-29227](https://github.com/envoyproxy/envoy/security/advisories/GHSA-rm2p-qvf6-pvr6) (Puntuación CVSS: 7.5, gravedad alta): Fallo en redirecciones internas de solicitudes con cuerpo o encabezados finales.
-  Envoy puede fallar si una redirección interna de una solicitud con cuerpo o encabezados finales genera una respuesta local.
+- [CVE-2022-29227](https://github.com/envoyproxy/envoy/security/advisories/GHSA-rm2p-qvf6-pvr6) (Puntuación CVSS: 7.5, gravedad alta): Fallo en redirecciones internas de solicitudes con cuerpo o campos de tráiler HTTP.
+  Envoy puede fallar si una redirección interna de una solicitud con cuerpo o campos de tráiler HTTP genera una respuesta local.
 
 ## ¿Estoy afectado?
 

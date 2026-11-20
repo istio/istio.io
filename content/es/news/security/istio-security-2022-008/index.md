@@ -20,7 +20,7 @@ skip_seealso: true
 - __[CVE-2022-39388](https://github.com/istio/istio/security/advisories/GHSA-6c6p-h79f-g6p4)__:
   (Puntuación CVSS: 7.6, gravedad alta): Suplantación de identidad con acceso a localhost.
 
-Un usuario con acceso local a Istiod a través de localhost puede suplantar la identidad de cualquier carga de trabajo dentro de la malla de servicios.
+Un usuario con acceso a Istiod mediante localhost puede suplantar la identidad de cualquier workload dentro de la service mesh.
 
 ## ¿Estoy afectado?
 
