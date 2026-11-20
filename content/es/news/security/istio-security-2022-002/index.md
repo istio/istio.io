@@ -1,11 +1,11 @@
 ---
 title: ISTIO-SECURITY-2022-002
 subtitle: Boletín de seguridad
-description: Escalada de privilegios en la API Gateway de Kubernetes.
+description: Escalada de privilegios en la Gateway API de Kubernetes.
 cves: [CVE-2022-21701]
 cvss: "4.7"
 vector: "AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L"
-releases: ["1.12.0 a 1.12.1"]
+releases: ["1.12.0 to 1.12.1"]
 publishdate: 2022-01-18
 keywords: [CVE]
 skip_seealso: true
@@ -21,7 +21,7 @@ Las versiones 1.12.0 y 1.12.1 de Istio tienen una vulnerabilidad de escalada de 
 
 ## ¿Estoy afectado?
 
-La vulnerabilidad afecta únicamente a una funcionalidad en fase alfa, la [API Gateway de Kubernetes](/docs/tasks/traffic-management/ingress/gateway-api/). El tipo `Gateway` de Istio (`gateways.networking.istio.io`) queda fuera del alcance de esta vulnerabilidad.
+La vulnerabilidad afecta únicamente a una funcionalidad en fase alfa, la [Gateway API de Kubernetes](/es/docs/tasks/traffic-management/ingress/gateway-api/). El tipo `Gateway` de Istio (`gateways.networking.istio.io`) queda fuera del alcance de esta vulnerabilidad.
 
 Tu clúster podría estar afectado si se cumplen estas condiciones:
 

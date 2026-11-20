@@ -5,7 +5,7 @@ description: Vulnerabilidad reportada por Envoy.
 cves: [CVE-2023-35945]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["Todas las versiones anteriores a 1.16.0", "1.16.0 a 1.16.5", "1.17.0 a 1.17.3", "1.18.0"]
+releases: ["All releases prior to 1.16.0", "1.16.0 to 1.16.5", "1.17.0 to 1.17.3", "1.18.0"]
 publishdate: 2023-07-14
 keywords: [CVE]
 skip_seealso: true
@@ -22,4 +22,4 @@ skip_seealso: true
 
 ## ¿Estoy afectado?
 
-Te afecta si aceptas tráfico HTTP/2 de fuentes no confiables, algo que aplica a la mayoría de los usuarios. Esto es especialmente relevante si usas un `Gateway` expuesto a Internet.
+Te afecta si aceptas tráfico HTTP/2 de fuentes no confiables. Esta situación es común, sobre todo si usas un `Gateway` expuesto a Internet.

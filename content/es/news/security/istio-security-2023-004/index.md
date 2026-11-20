@@ -5,7 +5,7 @@ description: Vulnerabilidades reportadas por Envoy y Go.
 cves: [CVE-2023-44487, CVE-2023-39325]
 cvss: "7.5"
 vector: "AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
-releases: ["Todas las versiones anteriores a 1.17.0", "1.17.0 a 1.17.6", "1.18.0 a 1.18.3", "1.19.0 a 1.19.1"]
+releases: ["All releases prior to 1.17.0", "1.17.0 to 1.17.6", "1.18.0 to 1.18.3", "1.19.0 to 1.19.1"]
 publishdate: 2023-10-11
 keywords: [CVE]
 skip_seealso: true
@@ -25,4 +25,4 @@ skip_seealso: true
 
 ## ¿Estoy afectado?
 
-Te afecta si aceptas tráfico HTTP/2 de fuentes no confiables, algo que aplica a la mayoría de los usuarios. Esto es especialmente relevante si usas un `Gateway` expuesto a Internet.
+Te afecta si aceptas tráfico HTTP/2 de fuentes no confiables. Esta situación es común, sobre todo si usas un `Gateway` expuesto a Internet.
