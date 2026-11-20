@@ -1,19 +1,19 @@
 ---
-title: Troubleshooting Multicluster
-description: Describes tools and techniques to diagnose issues with multicluster and multi-network installations.
+title: Solución de problemas multiclúster
+description: Describe herramientas y técnicas para diagnosticar problemas en instalaciones multiclúster y multi-red.
 weight: 90
 keywords: [debug,multicluster,multi-network,envoy]
 owner: istio/wg-environments-maintainers
 test: no
 ---
 
-This page describes how to troubleshoot issues with Istio deployed to multiple clusters and/or networks.
-Before reading this, you should take the steps in [Multicluster Installation](/es/docs/setup/install/multicluster/)
-and read the [Deployment Models](/es/docs/ops/deployment/deployment-models/) guide.
+Esta página describe cómo solucionar problemas de Istio desplegado en varios clústeres y/o redes.
+Antes de leerla, deberías seguir los pasos de [Instalación multiclúster](/es/docs/setup/install/multicluster/)
+y leer la guía [Modelos de despliegue](/es/docs/ops/deployment/deployment-models/).
 
-## Cross-Cluster Load Balancing
+## Balanceo de carga entre clústeres {#cross-cluster-load-balancing}
 
-The most common, but also broad problem with multi-network installations is that cross-cluster load balancing doesn’t work. Usually this manifests itself as only seeing responses from the cluster-local instance of a Service:
+El problema más común, aunque también muy amplio, de las instalaciones multi-red es que el balanceo de carga entre clústeres no funciona. Normalmente se manifiesta en que solo ves respuestas de la instancia de un Service que está en el clúster local:
 
 {{< text bash >}}
 $ for i in $(seq 10); do kubectl --context=$CTX_CLUSTER1 -n sample exec curl-dd98b5f48-djwdw -c curl -- curl -s helloworld:5000/hello; done
@@ -23,33 +23,33 @@ Hello version: v1, instance: helloworld-v1-578dd69f69-j69pf
 ...
 {{< /text >}}
 
-When following the guide to [verify multicluster installation](/es/docs/setup/install/multicluster/verify/)
-we would expect both `v1` and `v2` responses, indicating traffic is going to both clusters.
+Al seguir la guía para [verificar la instalación multiclúster](/es/docs/setup/install/multicluster/verify/),
+esperaríamos respuestas tanto de `v1` como de `v2`, lo que indica que el tráfico llega a ambos clústeres.
 
-There are many possible causes to the problem:
+Hay muchas causas posibles para este problema:
 
-### Connectivity and firewall issues
+### Problemas de conectividad y de firewall {#connectivity-and-firewall-issues}
 
-In some environments it may not be apparent that a firewall is blocking traffic between your clusters. It's possible
-that `ICMP` (ping) traffic may succeed, but HTTP and other types of traffic do not. This can appear as a timeout, or
-in some cases a more confusing error such as:
+En algunos entornos puede no ser evidente que un firewall esté bloqueando el tráfico entre tus clústeres. Es posible
+que el tráfico `ICMP` (ping) funcione, pero que el tráfico HTTP y otros tipos de tráfico no. Esto puede manifestarse como un tiempo de espera agotado o,
+en algunos casos, como un error más confuso, por ejemplo:
 
 {{< text plain >}}
 upstream connect error or disconnect/reset before headers. reset reason: local reset, transport failure reason: TLS error: 268435612:SSL routines:OPENSSL_internal:HTTP_REQUEST
 {{< /text >}}
 
-While Istio provides service discovery capabilities to make it easier, cross-cluster traffic should still succeed
-if pods in each cluster are on a single network without Istio. To rule out issues with TLS/mTLS, you can do a manual
-traffic test using pods without Istio sidecars.
+Aunque Istio ofrece capacidades de descubrimiento de servicios para facilitarlo, el tráfico entre clústeres debería funcionar igualmente
+sin Istio si los pods de cada clúster están en una misma red. Para descartar problemas de TLS/mTLS, puedes hacer una prueba manual
+de tráfico con pods sin sidecars de Istio.
 
-In each cluster, create a new namespace for this test. Do _not_ enable sidecar injection:
+En cada clúster, crea un namespace nuevo para esta prueba. _No_ habilites la inyección de sidecar:
 
 {{< text bash >}}
 $ kubectl create --context="${CTX_CLUSTER1}" namespace uninjected-sample
 $ kubectl create --context="${CTX_CLUSTER2}" namespace uninjected-sample
 {{< /text >}}
 
-Then deploy the same apps used in [verify multicluster installation](/es/docs/setup/install/multicluster/verify/):
+Luego despliega las mismas aplicaciones que se usan en [verificar la instalación multiclúster](/es/docs/setup/install/multicluster/verify/):
 
 {{< text bash >}}
 $ kubectl apply --context="${CTX_CLUSTER1}" \
@@ -70,7 +70,7 @@ $ kubectl apply --context="${CTX_CLUSTER2}" \
     -f samples/curl/curl.yaml -n uninjected-sample
 {{< /text >}}
 
-Verify that there is a helloworld pod running in `cluster2`, using the `-o wide` flag, so we can get the Pod IP:
+Verifica que haya un pod helloworld en ejecución en `cluster2` usando el flag `-o wide`, para poder obtener la IP del pod:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER2}" -n uninjected-sample get pod -o wide
@@ -79,13 +79,13 @@ curl-557747455f-jdsd8            1/1     Running   0          41s   10.100.0.2  
 helloworld-v2-54df5f84b-z28p5    1/1     Running   0          43s   10.100.0.1   node-1   <none>           <none>
 {{< /text >}}
 
-Take note of the `IP` column for `helloworld`. In this case, it is `10.100.0.1`:
+Anota el valor de la columna `IP` de `helloworld`. En este caso, es `10.100.0.1`:
 
 {{< text bash >}}
 $ REMOTE_POD_IP=10.100.0.1
 {{< /text >}}
 
-Next, attempt to send traffic from the `curl` pod in `cluster1` directly to this Pod IP:
+A continuación, intenta enviar tráfico desde el pod `curl` de `cluster1` directamente a esta IP de pod:
 
 {{< text bash >}}
 $ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c curl \
@@ -95,29 +95,29 @@ $ kubectl exec --context="${CTX_CLUSTER1}" -n uninjected-sample -c curl \
 Hello version: v2, instance: helloworld-v2-54df5f84b-z28p5
 {{< /text >}}
 
-If successful, there should be responses only from `helloworld-v2`. Repeat the steps, but send traffic from `cluster2`
-to `cluster1`.
+Si funciona, solo debería haber respuestas de `helloworld-v2`. Repite los pasos, pero envía tráfico desde `cluster2`
+hacia `cluster1`.
 
-If this succeeds, you can rule out connectivity issues. If it does not, the cause of the problem may lie outside your
-Istio configuration.
+Si esto funciona, puedes descartar problemas de conectividad. Si no, la causa del problema puede estar fuera de tu
+configuración de Istio.
 
-### Locality Load Balancing
+### Balanceo de carga por localidad {#locality-load-balancing}
 
-[Locality load balancing](/es/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover)
-can be used to make clients prefer that traffic go to the nearest destination. If the clusters
-are in different localities (region/zone), locality load balancing will prefer the local-cluster and is working as
-intended. If locality load balancing is disabled, or the clusters are in the same locality, there may be another issue.
+El [balanceo de carga por localidad](/es/docs/tasks/traffic-management/locality-load-balancing/failover/#configure-locality-failover)
+se puede usar para que los clientes prefieran enviar el tráfico al destino más cercano. Si los clústeres
+están en localidades diferentes (región/zona), el balanceo de carga por localidad dará preferencia al clúster local y está funcionando según lo
+previsto. Si el balanceo de carga por localidad está deshabilitado, o si los clústeres están en la misma localidad, puede haber otro problema.
 
-### Trust Configuration
+### Configuración de confianza {#trust-configuration}
 
-Cross-cluster traffic, as with intra-cluster traffic, relies on a common root of trust between the proxies. The default
-Istio installation will use their own individually generated root certificate-authorities. For multi-cluster, we
-must manually configure a shared root of trust. Follow Plug-in Certs below or read [Identity and Trust Models](/es/docs/ops/deployment/deployment-models/#identity-and-trust-models)
-to learn more.
+El tráfico entre clústeres, al igual que el tráfico dentro de un clúster, depende de una raíz de confianza común entre los proxies. Por defecto,
+cada instalación de Istio usa sus propias autoridades de certificación raíz, generadas de forma individual. En un entorno multiclúster,
+debemos configurar manualmente una raíz de confianza compartida. Sigue la sección Conectar certificados más abajo o lee [Modelos de identidad y confianza](/es/docs/ops/deployment/deployment-models/#identity-and-trust-models)
+para obtener más información.
 
-**Plug-in Certs:**
+**Conectar certificados:**
 
-To verify certs are configured correctly, you can compare the root-cert in each cluster:
+Para verificar que los certificados estén configurados correctamente, puedes comparar el certificado raíz de cada clúster:
 
 {{< text bash >}}
 $ diff \
@@ -125,23 +125,23 @@ $ diff \
    <(kubectl --context="${CTX_CLUSTER2}" -n istio-system get secret cacerts -ojsonpath='{.data.root-cert\.pem}')
 {{< /text >}}
 
-If the root-certs do not match or the secret does not exist at all, you can follow the [Plugin CA Certs](/es/docs/tasks/security/cert-management/plugin-ca-cert/)
-guide, ensuring to run the steps for every cluster.
+Si los certificados raíz no coinciden o el secreto ni siquiera existe, puedes seguir la guía [Conectar certificados de CA](/es/docs/tasks/security/cert-management/plugin-ca-cert/)
+y asegurarte de ejecutar los pasos en cada clúster.
 
-### Step-by-step Diagnosis
+### Diagnóstico paso a paso {#step-by-step-diagnosis}
 
-If you've gone through the sections above and are still having issues, then it's time to dig a little deeper.
+Si ya revisaste las secciones anteriores y sigues teniendo problemas, es hora de investigar un poco más a fondo.
 
-The following steps assume you're following the [HelloWorld verification](/es/docs/setup/install/multicluster/verify/).
-Before continuing, make sure both `helloworld` and `curl` are deployed in each cluster.
+Los siguientes pasos asumen que estás siguiendo la [verificación con HelloWorld](/es/docs/setup/install/multicluster/verify/).
+Antes de continuar, asegúrate de que tanto `helloworld` como `curl` estén desplegados en cada clúster.
 
-From each cluster, find the endpoints the `curl` service has for `helloworld`:
+Desde cada clúster, busca los endpoints que tiene el servicio `curl` para `helloworld`:
 
 {{< text bash >}}
 $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
 {{< /text >}}
 
-Troubleshooting information differs based on the cluster that is the source of traffic:
+La información para solucionar problemas varía según el clúster que origina el tráfico:
 
 {{< tabset category-name="source-cluster" >}}
 
@@ -152,19 +152,19 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sa
 10.0.0.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-Only one endpoint is shown, indicating the control plane cannot read endpoints from the remote cluster.
-Verify that remote secrets are configured properly.
+Solo se muestra un endpoint, lo que indica que el control plane no puede leer los endpoints del clúster remoto.
+Verifica que los secretos remotos estén configurados correctamente.
 
 {{< text bash >}}
 $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiCluster=true"
 {{< /text >}}
 
-* If the secret is missing, create it.
-* If the secret is present:
-    * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
-    * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
-     remote Kubernetes API server. Log messages may include `Failed to add remote cluster from secret` along with an
-     error reason.
+* Si falta el secreto, créalo.
+* Si el secreto existe:
+    * Revisa la configuración del secreto. Asegúrate de que el nombre del clúster se use como clave de datos para el `kubeconfig` remoto.
+    * Si el secreto parece correcto, revisa los registros de `istiod` en busca de problemas de conectividad o de permisos al acceder al
+     API server de Kubernetes remoto. Los mensajes de registro pueden incluir `Failed to add remote cluster from secret` junto con el
+     motivo del error.
 
 {{< /tab >}}
 
@@ -175,30 +175,30 @@ $ istioctl --context $CTX_CLUSTER2 proxy-config endpoint curl-dd98b5f48-djwdw.sa
 10.0.1.11:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-Only one endpoint is shown, indicating the control plane cannot read endpoints from the remote cluster.
-Verify that remote secrets are configured properly.
+Solo se muestra un endpoint, lo que indica que el control plane no puede leer los endpoints del clúster remoto.
+Verifica que los secretos remotos estén configurados correctamente.
 
 {{< text bash >}}
 $ kubectl get secrets --context=$CTX_CLUSTER1 -n istio-system -l "istio/multiCluster=true"
 {{< /text >}}
 
-* If the secret is missing, create it.
-* If the secret is present and the endpoint is a Pod in the **primary** cluster:
-    * Look at the config in the secret. Make sure the cluster name is used as the data key for the remote `kubeconfig`.
-    * If the secret looks correct, check the logs of `istiod` for connectivity or permissions issues reaching the
-     remote Kubernetes API server. Log messages may include `Failed to add remote cluster from secret` along with an
-     error reason.
-* If the secret is present and the endpoint is a Pod in the **remote** cluster:
-    * The proxy is reading configuration from an istiod inside the remote cluster. When a remote cluster has an in
-     -cluster istiod,  it is only meant for sidecar injection and CA. You can verify this is the problem by looking
-     for a Service named `istiod-remote` in the `istio-system` namespace. If it's missing, reinstall making sure
-     `values.global.remotePilotAddress` is set.
+* Si falta el secreto, créalo.
+* Si el secreto existe y el endpoint es un pod del clúster **primario**:
+    * Revisa la configuración del secreto. Asegúrate de que el nombre del clúster se use como clave de datos para el `kubeconfig` remoto.
+    * Si el secreto parece correcto, revisa los registros de `istiod` en busca de problemas de conectividad o de permisos al acceder al
+     API server de Kubernetes remoto. Los mensajes de registro pueden incluir `Failed to add remote cluster from secret` junto con el
+     motivo del error.
+* Si el secreto existe y el endpoint es un pod del clúster **remoto**:
+    * El proxy está leyendo la configuración de un istiod que está dentro del clúster remoto. Cuando un clúster remoto tiene un istiod
+     dentro del propio clúster, solo está pensado para la inyección de sidecar y como CA. Puedes verificar si este es el problema buscando
+     un Service llamado `istiod-remote` en el namespace `istio-system`. Si no existe, vuelve a instalar asegurándote de que
+     `values.global.remotePilotAddress` esté configurado.
 
 {{< /tab >}}
 
 {{< tab name="Multi-Network" category-value="multi-primary" >}}
 
-The steps for Primary and Remote clusters still apply for multi-network, although multi-network has an additional case:
+Los pasos para clústeres primarios y remotos también se aplican a multi-red, aunque en multi-red hay un caso adicional:
 
 {{< text bash >}}
 $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sample | grep helloworld
@@ -206,15 +206,15 @@ $ istioctl --context $CTX_CLUSTER1 proxy-config endpoint curl-dd98b5f48-djwdw.sa
 10.0.6.13:5000                   HEALTHY     OK                outbound|5000||helloworld.sample.svc.cluster.local
 {{< /text >}}
 
-In multi-network, we expect one of the endpoint IPs to match the remote cluster's east-west gateway public IP. Seeing
-multiple Pod IPs indicates one of two things:
+En multi-red, esperamos que una de las IP de los endpoints coincida con la IP pública del gateway east-west del clúster remoto. Ver
+varias IP de pods indica una de estas dos cosas:
 
-* The address of the gateway for the remote network cannot be determined.
-* The network of either the client or server pod cannot be determined.
+* No se puede determinar la dirección del gateway de la red remota.
+* No se puede determinar la red del pod cliente o del pod servidor.
 
-**The address of the gateway for the remote network cannot be determined:**
+**No se puede determinar la dirección del gateway de la red remota:**
 
-In the remote cluster that cannot be reached, check that the Service has an External IP:
+En el clúster remoto al que no se puede llegar, comprueba que el Service tenga una IP externa:
 
 {{< text bash >}}
 $ kubectl -n istio-system get service -l "istio=eastwestgateway"
@@ -222,16 +222,16 @@ NAME                      TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S) 
 istio-eastwestgateway    LoadBalancer   10.8.17.119   <PENDING>        15021:31781/TCP,15443:30498/TCP,15012:30879/TCP,15017:30336/TCP   76m
 {{< /text >}}
 
-If the `EXTERNAL-IP` is stuck in `<PENDING>`, the environment may not support `LoadBalancer` services. In this case, it
-may be necessary to customize the `spec.externalIPs` section of the Service to manually give the Gateway an IP reachable
-from outside the cluster.
+Si `EXTERNAL-IP` se queda en `<PENDING>`, es posible que el entorno no admita servicios de tipo `LoadBalancer`. En ese caso,
+puede ser necesario personalizar la sección `spec.externalIPs` del Service para asignar manualmente al gateway una IP accesible
+desde fuera del clúster.
 
-If the external IP is present, check that the Service includes a `topology.istio.io/network` label with the correct
-value. If that is incorrect, reinstall the gateway and make sure to set the --network flag on the generation script.
+Si la IP externa existe, comprueba que el Service incluya la etiqueta `topology.istio.io/network` con el valor
+correcto. Si no es correcto, vuelve a instalar el gateway y asegúrate de establecer el flag --network en el script de generación.
 
-**The network of either the client or server cannot be determined.**
+**No se puede determinar la red del cliente o del servidor.**
 
-On the source pod, check the proxy metadata.
+En el pod de origen, revisa los metadatos del proxy.
 
 {{< text bash >}}
 $ kubectl get pod $CURL_POD_NAME \
@@ -243,19 +243,19 @@ $ kubectl get pod $HELLOWORLD_POD_NAME \
   -o jsonpath="{.metadata.labels.topology\.istio\.io/network}"
 {{< /text >}}
 
-If either of these values aren't set, or have the wrong value, istiod may treat the source and client proxies as being on the same network and send network-local endpoints.
-When these aren't set, check that `values.global.network` was set properly during install, or that the injection webhook is configured correctly.
+Si alguno de estos valores no está configurado o tiene un valor incorrecto, istiod puede tratar los proxies de origen y del cliente como si estuvieran en la misma red y enviar endpoints de la red local.
+Si no están configurados, comprueba que `values.global.network` se haya configurado correctamente durante la instalación o que el webhook de inyección esté configurado correctamente.
 
-Istio determines the network of a Pod using the `topology.istio.io/network` label which is set during injection. For
-non-injected Pods, Istio relies on the `topology.istio.io/network` label set on the system namespace in the cluster.
+Istio determina la red de un pod mediante la etiqueta `topology.istio.io/network`, que se establece durante la inyección. Para
+los pods sin inyección, Istio se basa en la etiqueta `topology.istio.io/network` establecida en el namespace del sistema del clúster.
 
-In each cluster, check the network:
+En cada clúster, comprueba la red:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" get ns istio-system -ojsonpath='{.metadata.labels.topology\.istio\.io/network}'
 {{< /text >}}
 
-If the above command doesn't output the expected network name, set the label:
+Si el comando anterior no muestra el nombre de red esperado, establece la etiqueta:
 
 {{< text bash >}}
 $ kubectl --context="${CTX_CLUSTER1}" label namespace istio-system topology.istio.io/network=network1
