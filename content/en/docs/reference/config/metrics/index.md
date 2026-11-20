@@ -123,6 +123,23 @@ label in configuration is shown in parentheses below.
     In case of Envoy, see `%RESPONSE_FLAGS%` in [Envoy Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags)
     for more detail.
 
+    In [ambient mode](/docs/ambient/overview/), the TCP metrics above are reported by ztunnel, which is not
+    based on Envoy and emits its own set of values for this label:
+
+    | Value | Meaning |
+    | ----- | ------- |
+    | `-` | No failure was recorded for the connection. |
+    | `DENY` | The connection was denied by an authorization policy. |
+    | `CONNECT` | ztunnel could not establish the upstream connection. |
+    | `TLS_FAILURE` | The TLS handshake failed. |
+    | `H2_HANDSHAKE_FAILURE` | The HTTP/2 handshake used by the HBONE tunnel failed. |
+    | `NETWORK_POLICY` | The connection was blocked by a network policy. |
+    | `IDENTITY_ERROR` | An identity or certificate error occurred. |
+    | `CERT_REVOKED` | The connection was terminated because a peer certificate was revoked by a CRL. |
+
+    Because these values only appear on the L4 TCP metrics, a connection that ztunnel denies is visible as
+    `istio_tcp_connections_closed_total{response_flags="DENY"}` and does not appear in any request-level metric.
+
 *   **Canonical Service**: A workload belongs to exactly one canonical service, whereas it can belong to multiple services.
     A canonical service has a name and a revision so it results in the following labels.
 
