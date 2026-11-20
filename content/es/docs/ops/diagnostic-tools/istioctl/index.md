@@ -1,6 +1,6 @@
 ---
-title: Using the Istioctl Command-line Tool
-description: Istio includes a supplemental tool that provides debugging and diagnosis for Istio service mesh deployments.
+title: Usar la herramienta de línea de comandos istioctl
+description: Istio incluye una herramienta complementaria para depurar y diagnosticar despliegues del service mesh de Istio.
 weight: 10
 keywords: [istioctl,bash,zsh,shell,command-line]
 aliases:
@@ -10,120 +10,120 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-You can gain insights into what individual components are doing by inspecting their
-[logs](/es/docs/ops/diagnostic-tools/component-logging/) or peering inside via
-[introspection](/es/docs/ops/diagnostic-tools/controlz/). If that's insufficient,
-the steps below explain how to get under the hood.
+Puedes hacerte una idea de lo que hace cada componente inspeccionando sus
+[registros](/es/docs/ops/diagnostic-tools/component-logging/) o examinando su interior mediante
+[introspección](/es/docs/ops/diagnostic-tools/controlz/). Si eso no es suficiente,
+los pasos siguientes explican cómo ver lo que ocurre por dentro.
 
-The [`istioctl`](/es/docs/reference/commands/istioctl) tool is a configuration command line utility
-that allows service operators to debug and diagnose their Istio service mesh deployments.
-The Istio project also includes two helpful scripts for `istioctl` that enable auto-completion
-for Bash and Zsh. Both of these scripts provide support for the currently available `istioctl` commands.
-
-{{< tip >}}
-`istioctl` only has auto-completion enabled for non-deprecated commands.
-{{< /tip >}}
-
-## Before you begin
-
-We recommend you use an `istioctl` version that is the same version as your Istio control plane.
-Using matching versions helps avoid unforeseen issues.
+La herramienta [`istioctl`](/es/docs/reference/commands/istioctl) es una utilidad de línea de comandos de configuración
+que permite a los operadores de servicios depurar y diagnosticar sus despliegues del service mesh de Istio.
+El proyecto Istio también incluye dos scripts útiles para `istioctl` que habilitan el autocompletado
+en Bash y Zsh. Ambos scripts admiten los comandos de `istioctl` disponibles actualmente.
 
 {{< tip >}}
-If you have already [downloaded the Istio release](/es/docs/setup/additional-setup/download-istio-release/), you should
-already have `istioctl` and do not need to install it again.
+`istioctl` solo tiene habilitado el autocompletado para los comandos que no están obsoletos.
 {{< /tip >}}
 
-## Install {{< istioctl >}}
+## Antes de empezar {#before-you-begin}
 
-Install the `istioctl` binary with `curl`:
+Te recomendamos usar una versión de `istioctl` que coincida con la versión de tu control plane de Istio.
+Usar versiones coincidentes ayuda a evitar problemas imprevistos.
 
-1. Download the latest release with the command:
+{{< tip >}}
+Si ya [descargaste la versión de Istio](/es/docs/setup/additional-setup/download-istio-release/), ya deberías
+tener `istioctl` y no necesitas instalarlo de nuevo.
+{{< /tip >}}
+
+## Instalar {{< istioctl >}}
+
+Instala el binario `istioctl` con `curl`:
+
+1. Descarga la versión más reciente con el comando:
 
     {{< text bash >}}
     $ curl -sL https://istio.io/downloadIstioctl | sh -
     {{< /text >}}
 
-1. Add the `istioctl` client to your path, on a macOS or Linux system:
+1. Agrega el cliente `istioctl` a tu PATH en un sistema macOS o Linux:
 
     {{< text bash >}}
     $ export PATH=$HOME/.istioctl/bin:$PATH
     {{< /text >}}
 
-1. You can optionally enable the [auto-completion option](#enabling-auto-completion) when working with a bash or Zsh console.
+1. Opcionalmente, puedes habilitar la [opción de autocompletado](#enabling-auto-completion) cuando trabajes con una consola bash o Zsh.
 
-## Get an overview of your mesh
+## Obtener una visión general de tu mesh {#get-an-overview-of-your-mesh}
 
-You can get an overview of your mesh using the `proxy-status` or `ps` command:
+Puedes obtener una visión general de tu mesh con el comando `proxy-status` o `ps`:
 
 {{< text bash >}}
 $ istioctl proxy-status
 {{< /text >}}
 
-If a proxy is missing from the output list it means that it is not currently connected to an istiod instance and so it
-will not receive any configuration. Additionally, if it is marked stale, it likely means there are networking issues or
-istiod needs to be scaled.
+Si falta un proxy en la lista de salida, significa que no está conectado actualmente a ninguna instancia de istiod y, por lo tanto,
+no recibirá ninguna configuración. Además, si aparece marcado como desactualizado (stale), es probable que haya problemas de red o
+que sea necesario escalar istiod.
 
-## Get proxy configuration
+## Obtener la configuración del proxy {#get-proxy-configuration}
 
-[`istioctl`](/es/docs/reference/commands/istioctl) allows you to retrieve information
-about proxy configuration using the `proxy-config` or `pc` command.
+[`istioctl`](/es/docs/reference/commands/istioctl) te permite obtener información
+sobre la configuración del proxy con el comando `proxy-config` o `pc`.
 
-For example, to retrieve information about cluster configuration for the Envoy instance in a specific pod:
+Por ejemplo, para obtener información sobre la configuración de clusters de la instancia de Envoy en un pod específico:
 
 {{< text bash >}}
 $ istioctl proxy-config cluster <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about bootstrap configuration for the Envoy instance in a specific pod:
+Para obtener información sobre la configuración de bootstrap de la instancia de Envoy en un pod específico:
 
 {{< text bash >}}
 $ istioctl proxy-config bootstrap <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about listener configuration for the Envoy instance in a specific pod:
+Para obtener información sobre la configuración de listeners de la instancia de Envoy en un pod específico:
 
 {{< text bash >}}
 $ istioctl proxy-config listener <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about route configuration for the Envoy instance in a specific pod:
+Para obtener información sobre la configuración de rutas de la instancia de Envoy en un pod específico:
 
 {{< text bash >}}
 $ istioctl proxy-config route <pod-name> [flags]
 {{< /text >}}
 
-To retrieve information about endpoint configuration for the Envoy instance in a specific pod:
+Para obtener información sobre la configuración de endpoints de la instancia de Envoy en un pod específico:
 
 {{< text bash >}}
 $ istioctl proxy-config endpoints <pod-name> [flags]
 {{< /text >}}
 
-See [Debugging Envoy and Istiod](/es/docs/ops/diagnostic-tools/proxy-cmd/) for more advice on interpreting this information.
+Consulta [Depuración de Envoy e Istiod](/es/docs/ops/diagnostic-tools/proxy-cmd/) para obtener más consejos sobre cómo interpretar esta información.
 
-## `istioctl` auto-completion
+## Autocompletado de `istioctl` {#istioctl-auto-completion}
 
 {{< tabset category-name="prereqs" >}}
 
 {{< tab name="macOS" category-value="macos" >}}
 
-If you are using the macOS operating system with the Zsh terminal shell, make sure that
-the `zsh-completions` package is installed. With the [brew](https://brew.sh) package manager
-for macOS, you can check to see if the `zsh-completions` package is installed with the following command:
+Si usas el sistema operativo macOS con la shell Zsh en la terminal, asegúrate de que
+el paquete `zsh-completions` esté instalado. Con el gestor de paquetes [brew](https://brew.sh)
+para macOS, puedes comprobar si el paquete `zsh-completions` está instalado con el siguiente comando:
 
 {{< text bash >}}
 $ brew list zsh-completions
 /usr/local/Cellar/zsh-completions/0.34.0/share/zsh-completions/ (147 files)
 {{< /text >}}
 
-If you receive `Error: No such keg: /usr/local/Cellar/zsh-completion`,
-proceed with installing the `zsh-completions` package with the following command:
+Si recibes `Error: No such keg: /usr/local/Cellar/zsh-completion`,
+instala el paquete `zsh-completions` con el siguiente comando:
 
 {{< text bash >}}
 $ brew install zsh-completions
 {{< /text >}}
 
-Once the `zsh-completions package` has been installed on your macOS system, add the following to your `~/.zshrc` file:
+Una vez que hayas instalado `zsh-completions package` en tu sistema macOS, agrega lo siguiente a tu archivo `~/.zshrc`:
 
 {{< text plain >}}
     if type brew &>/dev/null; then
@@ -134,14 +134,14 @@ Once the `zsh-completions package` has been installed on your macOS system, add 
     fi
 {{< /text >}}
 
-You may also need to force rebuild `zcompdump`:
+Es posible que también tengas que forzar la regeneración de `zcompdump`:
 
 {{< text bash >}}
 $ rm -f ~/.zcompdump; compinit
 {{< /text >}}
 
-Additionally, if you receive `Zsh compinit: insecure directories` warnings
-when attempting to load these completions, you may need to run this:
+Además, si recibes advertencias `Zsh compinit: insecure directories`
+al intentar cargar estos autocompletados, es posible que tengas que ejecutar esto:
 
 {{< text bash >}}
 $ chmod -R go-w "$(brew --prefix)/share"
@@ -151,12 +151,12 @@ $ chmod -R go-w "$(brew --prefix)/share"
 
 {{< tab name="Linux" category-value="linux" >}}
 
-If you are using a Linux-based operating system, you can install the Bash completion package
-with the `apt-get install bash-completion` command for Debian-based Linux distributions or
-`yum install bash-completion` for RPM-based Linux distributions, the two most common occurrences.
+Si usas un sistema operativo basado en Linux, puedes instalar el paquete de autocompletado de Bash
+con el comando `apt-get install bash-completion` en distribuciones de Linux basadas en Debian o
+`yum install bash-completion` en distribuciones de Linux basadas en RPM, los dos casos más comunes.
 
-Once the `bash-completion` package has been installed on your Linux system,
-add the following line to your `~/.bash_profile` file:
+Una vez instalado el paquete `bash-completion` en tu sistema Linux,
+agrega la siguiente línea a tu archivo `~/.bash_profile`:
 
 {{< text plain >}}
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
@@ -166,24 +166,24 @@ add the following line to your `~/.bash_profile` file:
 
 {{< /tabset >}}
 
-### Enabling auto-completion
+### Habilitar el autocompletado {#enabling-auto-completion}
 
-To enable `istioctl` completion on your system, follow the steps for your preferred shell:
+Para habilitar el autocompletado de `istioctl` en tu sistema, sigue los pasos correspondientes a tu shell preferida:
 
 {{< warning >}}
-You will need to download the full Istio release containing the auto-completion files (in the `/tools` directory).
-If you haven't already done so, [download the full release](/es/docs/setup/additional-setup/download-istio-release/) now.
+Necesitarás descargar la versión completa de Istio, que incluye los archivos de autocompletado (en el directorio `/tools`).
+Si todavía no lo has hecho, [descarga la versión completa](/es/docs/setup/additional-setup/download-istio-release/) ahora.
 {{< /warning >}}
 
 {{< tabset category-name="profile" >}}
 
 {{< tab name="Bash" category-value="bash" >}}
 
-Installing the bash auto-completion file
+Instalar el archivo de autocompletado de bash
 
-If you are using bash, the `istioctl` auto-completion file is located in the `tools` directory.
-To use it, copy the `istioctl.bash` file to your home directory, then add the following line to
-source the `istioctl` tab completion file from your `.bashrc` file:
+Si usas bash, el archivo de autocompletado de `istioctl` se encuentra en el directorio `tools`.
+Para usarlo, copia el archivo `istioctl.bash` a tu directorio personal y luego agrega la siguiente línea
+a tu archivo `.bashrc` para cargar el archivo de autocompletado con tabulador de `istioctl`:
 
 {{< text bash >}}
 $ source ~/istioctl.bash
@@ -193,34 +193,34 @@ $ source ~/istioctl.bash
 
 {{< tab name="Zsh" category-value="zsh" >}}
 
-Installing the Zsh auto-completion file
+Instalar el archivo de autocompletado de Zsh
 
-For Zsh users, the `istioctl` auto-completion file is located in the `tools` directory.
-Copy the `_istioctl` file to your home directory, or any directory of your choosing
-(update directory in script snippet below), and source the `istioctl` auto-completion file
-in your `.zshrc` file as follows:
+Si usas Zsh, el archivo de autocompletado de `istioctl` se encuentra en el directorio `tools`.
+Copia el archivo `_istioctl` a tu directorio personal o a cualquier otro directorio que elijas
+(actualiza el directorio en el fragmento de script siguiente) y carga el archivo de autocompletado de `istioctl`
+en tu archivo `.zshrc` de la siguiente manera:
 
 {{< text zsh >}}
 source ~/_istioctl
 {{< /text >}}
 
-You may also add the `_istioctl` file to a directory listed in the `fpath` variable.
-To achieve this, place the `_istioctl` file in an existing directory in the `fpath`,
-or create a new directory and add it to the `fpath` variable in your `~/.zshrc` file.
+También puedes agregar el archivo `_istioctl` a un directorio incluido en la variable `fpath`.
+Para ello, coloca el archivo `_istioctl` en un directorio existente del `fpath`
+o crea un directorio nuevo y agrégalo a la variable `fpath` en tu archivo `~/.zshrc`.
 
 {{< tip >}}
 
-If you get an error like `complete:13: command not found: compdef`,
-then add the following to the beginning of your `~/.zshrc` file:
+Si obtienes un error como `complete:13: command not found: compdef`,
+agrega lo siguiente al principio de tu archivo `~/.zshrc`:
 
 {{< text bash >}}
 $ autoload -Uz compinit
 $ compinit
 {{< /text >}}
 
-If your auto-completion is not working, try again after restarting your terminal.
-If auto-completion still does not work, try resetting the completion cache using
-the above commands in your terminal.
+Si el autocompletado no funciona, vuelve a intentarlo después de reiniciar la terminal.
+Si sigue sin funcionar, intenta restablecer la caché de autocompletado con
+los comandos anteriores en tu terminal.
 
 {{< /tip >}}
 
@@ -228,11 +228,11 @@ the above commands in your terminal.
 
 {{< /tabset >}}
 
-### Using auto-completion
+### Usar el autocompletado {#using-auto-completion}
 
-If the `istioctl` completion file has been installed correctly, press the Tab key
-while writing an `istioctl` command, and it should return a set of command suggestions
-for you to choose from:
+Si el archivo de autocompletado de `istioctl` se instaló correctamente, pulsa la tecla Tab
+mientras escribes un comando `istioctl` y debería mostrarte un conjunto de sugerencias de comandos
+entre las que puedes elegir:
 
 {{< text bash >}}
 $ istioctl proxy-<TAB>

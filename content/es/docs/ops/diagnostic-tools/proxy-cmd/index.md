@@ -1,6 +1,6 @@
 ---
-title: Debugging Envoy and Istiod
-description: Describes tools and techniques to diagnose Envoy configuration issues related to traffic management.
+title: Depuración de Envoy e Istiod
+description: Describe herramientas y técnicas para diagnosticar problemas de configuración de Envoy relacionados con la gestión de tráfico.
 weight: 20
 keywords: [debug,proxy,status,config,pilot,envoy]
 aliases:
@@ -11,26 +11,26 @@ owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-Istio provides two very valuable commands to help diagnose traffic management configuration problems,
-the [`proxy-status`](/es/docs/reference/commands/istioctl/#istioctl-proxy-status)
-and [`proxy-config`](/es/docs/reference/commands/istioctl/#istioctl-proxy-config) commands. The `proxy-status` command
-allows you to get an overview of your mesh and identify the proxy causing the problem. Then `proxy-config` can be used
-to inspect Envoy configuration and diagnose the issue.
+Istio proporciona dos comandos muy útiles para ayudar a diagnosticar problemas de configuración de la gestión de tráfico:
+los comandos [`proxy-status`](/es/docs/reference/commands/istioctl/#istioctl-proxy-status)
+y [`proxy-config`](/es/docs/reference/commands/istioctl/#istioctl-proxy-config). El comando `proxy-status`
+te permite obtener una visión general de tu mesh e identificar el proxy que causa el problema. Después, puedes usar `proxy-config`
+para inspeccionar la configuración de Envoy y diagnosticar el problema.
 
-If you want to try the commands described below, you can either:
+Si quieres probar los comandos que se describen a continuación, puedes:
 
-* Have a Kubernetes cluster with Istio and Bookinfo installed (as described in
-[installation steps](/es/docs/setup/getting-started/) and
-[Bookinfo installation steps](/es/docs/examples/bookinfo/#deploying-the-application)).
+* Tener un clúster de Kubernetes con Istio y Bookinfo instalados (como se describe en los
+[pasos de instalación](/es/docs/setup/getting-started/) y en los
+[pasos de instalación de Bookinfo](/es/docs/examples/bookinfo/#deploying-the-application)).
 
-OR
+O
 
-* Use similar commands against your own application running in a Kubernetes cluster.
+* Usar comandos similares con tu propia aplicación que se ejecute en un clúster de Kubernetes.
 
-## Get an overview of your mesh
+## Obtener una visión general de tu mesh {#get-an-overview-of-your-mesh}
 
-The `proxy-status` command allows you to get an overview of your mesh. If you suspect one of your sidecars isn't
-receiving configuration or is out of sync then `proxy-status` will tell you this.
+El comando `proxy-status` te permite obtener una visión general de tu mesh. Si sospechas que uno de tus sidecars no está
+recibiendo configuración o no está sincronizado, `proxy-status` te lo indicará.
 
 {{< text bash >}}
 $ istioctl proxy-status
@@ -45,19 +45,19 @@ reviews-v2-7d79d5bd5d-tj6kf.default                    SYNCED     SYNCED     SYN
 reviews-v3-7dbcdcbc56-t8wrx.default                    SYNCED     SYNCED     SYNCED     SYNCED       istiod-6cf8d4f9cb-wm7x6     1.7.0
 {{< /text >}}
 
-If a proxy is missing from this list it means that it is not currently connected to a Istiod instance so will not be
-receiving any configuration.
+Si falta un proxy en esta lista, significa que no está conectado actualmente a ninguna instancia de Istiod, por lo que no
+recibirá ninguna configuración.
 
-* `SYNCED` means that Envoy has acknowledged the last configuration {{< gloss >}}Istiod{{< /gloss >}} has sent to it.
-* `NOT SENT` means that Istiod hasn't sent anything to Envoy. This usually is because Istiod has nothing to send.
-* `STALE` means that Istiod has sent an update to Envoy but has not received an acknowledgement. This usually indicates
-a networking issue between Envoy and Istiod or a bug with Istio itself.
+* `SYNCED` significa que Envoy confirmó la recepción de la última configuración que le envió {{< gloss >}}Istiod{{< /gloss >}}.
+* `NOT SENT` significa que Istiod no le ha enviado nada a Envoy. Normalmente se debe a que Istiod no tiene nada que enviar.
+* `STALE` significa que Istiod envió una actualización a Envoy, pero no ha recibido confirmación. Esto suele indicar
+un problema de red entre Envoy e Istiod o un error del propio Istio.
 
-## Retrieve diffs between Envoy and Istiod
+## Obtener las diferencias entre Envoy e Istiod {#retrieve-diffs-between-envoy-and-istiod}
 
-The `proxy-status` command can also be used to retrieve a diff between the configuration Envoy has loaded and the
-configuration Istiod would send, by providing a proxy ID. This can help you determine exactly what is out of sync and
-where the issue may lie.
+El comando `proxy-status` también se puede usar para obtener las diferencias entre la configuración que Envoy tiene cargada y la
+configuración que Istiod enviaría, si le indicas un ID de proxy. Esto puede ayudarte a determinar exactamente qué no está sincronizado y
+dónde puede estar el problema.
 
 {{< text bash json >}}
 $ istioctl proxy-status details-v1-6dcc6fbb9d-wsjz4.default
@@ -105,14 +105,14 @@ Listeners Match
 Routes Match (RDS last loaded at Tue, 04 Aug 2020 11:52:54 IST)
 {{< /text >}}
 
-Here you can see that the listeners and routes match but the clusters are out of sync.
+Aquí puedes ver que los listeners y las rutas coinciden, pero los clusters no están sincronizados.
 
-## Deep dive into Envoy configuration
+## Análisis en profundidad de la configuración de Envoy {#deep-dive-into-envoy-configuration}
 
-The `proxy-config` command can be used to see how a given Envoy instance is configured. This can then be used to
-pinpoint any issues you are unable to detect by just looking through your Istio configuration and custom resources.
-To get a basic summary of clusters, listeners or routes for a given pod use the command as follows (changing clusters
-for listeners or routes when required):
+El comando `proxy-config` se puede usar para ver cómo está configurada una instancia concreta de Envoy. Con esto puedes
+localizar problemas que no podrías detectar solo revisando tu configuración de Istio y tus recursos personalizados.
+Para obtener un resumen básico de los clusters, listeners o rutas de un pod concreto, usa el comando de la siguiente manera (cambia clusters
+por listeners o routes cuando lo necesites):
 
 {{< text bash >}}
 $ istioctl proxy-config cluster -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -142,15 +142,15 @@ xds-grpc                                                                   -    
 zipkin                                                                     -         -          -             STRICT_DNS
 {{< /text >}}
 
-In order to debug Envoy you need to understand Envoy clusters/listeners/routes/endpoints and how they all interact.
-We will use the `proxy-config` command with the `-o json` and filtering flags to follow Envoy as it determines where
-to send a request from the `productpage` pod to the `reviews` pod at `reviews:9080`.
+Para depurar Envoy necesitas entender los clusters/listeners/rutas/endpoints de Envoy y cómo interactúan entre sí.
+Usaremos el comando `proxy-config` con el flag `-o json` y los flags de filtrado para seguir a Envoy mientras determina adónde
+enviar una solicitud del pod `productpage` al pod `reviews` en `reviews:9080`.
 
-1. If you query the listener summary on a pod you will notice Istio generates the following listeners:
-    * A listener on `0.0.0.0:15006` that receives all inbound traffic to the pod and a listener on `0.0.0.0:15001` that receives all outbound traffic to the pod, then hands the request over to a virtual listener.
-    * A virtual listener per service IP, per each non-HTTP for outbound TCP/HTTPS traffic.
-    * A virtual listener on the pod IP for each exposed port for inbound traffic.
-    * A virtual listener on `0.0.0.0` per each HTTP port for outbound HTTP traffic.
+1. Si consultas el resumen de listeners de un pod, verás que Istio genera los siguientes listeners:
+    * Un listener en `0.0.0.0:15006` que recibe todo el tráfico entrante al pod y un listener en `0.0.0.0:15001` que recibe todo el tráfico saliente del pod y luego entrega la solicitud a un listener virtual.
+    * Un listener virtual por cada IP de servicio y por cada puerto no HTTP, para el tráfico TCP/HTTPS saliente.
+    * Un listener virtual en la IP del pod por cada puerto expuesto, para el tráfico entrante.
+    * Un listener virtual en `0.0.0.0` por cada puerto HTTP, para el tráfico HTTP saliente.
 
     {{< text bash >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs
@@ -189,7 +189,7 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     10.111.121.13 15443 ALL                                              Cluster: outbound|15443||istio-ingressgateway.istio-system.svc.cluster.local
     {{< /text >}}
 
-1. From the above summary you can see that every sidecar has a listener bound to `0.0.0.0:15006` which is where IP tables routes all inbound pod traffic to and a listener bound to `0.0.0.0:15001` which is where IP tables routes all outbound pod traffic to. The `0.0.0.0:15001` listener hands the request over to the virtual listener that best matches the original destination of the request, if it can find a matching one. Otherwise, it sends the request to the `PassthroughCluster` which connects to the destination directly.
+1. En el resumen anterior puedes ver que cada sidecar tiene un listener vinculado a `0.0.0.0:15006`, adonde iptables redirige todo el tráfico entrante del pod, y un listener vinculado a `0.0.0.0:15001`, adonde iptables redirige todo el tráfico saliente del pod. El listener `0.0.0.0:15001` entrega la solicitud al listener virtual que mejor coincide con el destino original de la solicitud, si encuentra alguno. En caso contrario, envía la solicitud al `PassthroughCluster`, que se conecta directamente al destino.
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs --port 15001 -o json
@@ -245,9 +245,9 @@ to send a request from the `productpage` pod to the `reviews` pod at `reviews:90
     ]
     {{< /text >}}
 
-1. Our request is an outbound HTTP request to port `9080` this means it gets handed off to the `0.0.0.0:9080` virtual
-listener. This listener then looks up the route configuration in its configured RDS. In this case it will be looking
-up route `9080` in RDS configured by Istiod (via ADS).
+1. Nuestra solicitud es una solicitud HTTP saliente al puerto `9080`, por lo que se entrega al listener virtual `0.0.0.0:9080`.
+Luego, este listener busca la configuración de rutas en el RDS que tiene configurado. En este caso, buscará
+la configuración de rutas `9080` en el RDS configurado por Istiod (mediante ADS).
 
     {{< text bash json >}}
     $ istioctl proxy-config listeners productpage-v1-6c886ff494-7vxhs -o json --address 0.0.0.0 --port 9080
@@ -262,11 +262,11 @@ up route `9080` in RDS configured by Istiod (via ADS).
     ...
     {{< /text >}}
 
-1. The `9080` route configuration only has a virtual host for each service. Our request is heading to the reviews
-service so Envoy will select the virtual host to which our request matches a domain. Once matched on domain Envoy
-looks for the first route that matches the request. In this case we don't have any advanced routing so there is only
-one route that matches on everything. This route tells Envoy to send the request to the
-`outbound|9080||reviews.default.svc.cluster.local` cluster.
+1. La configuración de rutas `9080` solo tiene un virtual host para cada servicio. Nuestra solicitud se dirige al servicio
+reviews, así que Envoy seleccionará el virtual host cuyo dominio coincida con nuestra solicitud. Una vez que el dominio coincide, Envoy
+busca la primera ruta que coincida con la solicitud. En este caso no tenemos ningún enrutamiento avanzado, así que solo hay
+una ruta, que coincide con todo. Esta ruta le indica a Envoy que envíe la solicitud al cluster
+`outbound|9080||reviews.default.svc.cluster.local`.
 
     {{< text bash json >}}
     $ istioctl proxy-config routes productpage-v1-6c886ff494-7vxhs --name 9080 -o json
@@ -298,8 +298,8 @@ one route that matches on everything. This route tells Envoy to send the request
     ...
     {{< /text >}}
 
-1. This cluster is configured to retrieve the associated endpoints from Istiod (via ADS). So Envoy will then use the
-`serviceName` field as a key to look up the list of Endpoints and proxy the request to one of them.
+1. Este cluster está configurado para obtener los endpoints asociados desde Istiod (mediante ADS). Así, Envoy usará el
+campo `serviceName` como clave para buscar la lista de endpoints y reenviar la solicitud a uno de ellos.
 
     {{< text bash json >}}
     $ istioctl proxy-config cluster productpage-v1-6c886ff494-7vxhs --fqdn reviews.default.svc.cluster.local -o json
@@ -329,7 +329,7 @@ one route that matches on everything. This route tells Envoy to send the request
     ]
     {{< /text >}}
 
-1. To see the endpoints currently available for this cluster use the `proxy-config` endpoints command.
+1. Para ver los endpoints disponibles actualmente para este cluster, usa el comando `proxy-config` endpoints.
 
     {{< text bash json >}}
     $ istioctl proxy-config endpoints productpage-v1-6c886ff494-7vxhs --cluster "outbound|9080||reviews.default.svc.cluster.local"
@@ -339,10 +339,10 @@ one route that matches on everything. This route tells Envoy to send the request
     172.17.0.9:9080     HEALTHY     OK                outbound|9080||reviews.default.svc.cluster.local
     {{< /text >}}
 
-## Inspecting bootstrap configuration
+## Inspeccionar la configuración de bootstrap {#inspecting-bootstrap-configuration}
 
-So far we have looked at configuration retrieved (mostly) from Istiod, however Envoy requires some bootstrap configuration that
-includes information like where Istiod can be found. To view this use the following command:
+Hasta ahora vimos la configuración obtenida (principalmente) de Istiod; sin embargo, Envoy necesita cierta configuración de bootstrap que
+incluye información como dónde se encuentra Istiod. Para verla, usa el siguiente comando:
 
 {{< text bash json >}}
 $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48f-qxhn5
@@ -392,28 +392,28 @@ $ istioctl proxy-config bootstrap -n istio-system istio-ingressgateway-7d6874b48
 ...
 {{< /text >}}
 
-## Verifying connectivity to Istiod
+## Verificar la conectividad con Istiod {#verifying-connectivity-to-istiod}
 
-Verifying connectivity to Istiod is a useful troubleshooting step. Every proxy container in the service mesh should be able to communicate with Istiod. This can be accomplished in a few simple steps:
+Verificar la conectividad con Istiod es un paso útil para solucionar problemas. Todos los contenedores de proxy del service mesh deberían poder comunicarse con Istiod. Puedes comprobarlo con unos pocos pasos sencillos:
 
-1.  Create a `curl` pod:
+1.  Crea un pod `curl`:
 
     {{< text bash >}}
     $ kubectl create namespace foo
     $ kubectl apply -f <(istioctl kube-inject -f samples/curl/curl.yaml) -n foo
     {{< /text >}}
 
-1.  Test connectivity to Istiod using `curl`. The following example invokes the v1 registration API using default Istiod configuration parameters and mutual TLS enabled:
+1.  Prueba la conectividad con Istiod usando `curl`. El siguiente ejemplo invoca la API de registro v1 con los parámetros de configuración por defecto de Istiod y con TLS mutuo habilitado:
 
     {{< text bash >}}
     $ kubectl exec $(kubectl get pod -l app=curl -n foo -o jsonpath={.items..metadata.name}) -c curl -n foo -- curl -sS istiod.istio-system:15014/version
     {{< /text >}}
 
-You should receive a response listing the version of Istiod.
+Deberías recibir una respuesta con la versión de Istiod.
 
-## What Envoy version is Istio using?
+## ¿Qué versión de Envoy usa Istio? {#what-envoy-version-is-istio-using}
 
-To find out the Envoy version used in deployment, you can `exec` into the container and query the `server_info` endpoint:
+Para averiguar qué versión de Envoy se usa en tu despliegue, puedes hacer `exec` en el contenedor y consultar el endpoint `server_info`:
 
 {{< text bash >}}
 $ kubectl exec -it productpage-v1-6b746f74dc-9stvs -c istio-proxy -n default  -- pilot-agent request GET server_info --log_as_json | jq {version}

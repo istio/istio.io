@@ -1,35 +1,35 @@
 ---
-title: Verifying Istio Sidecar Injection with Istioctl Check-Inject
-description: Learn how to use istioctl check-inject to confirm if Istio sidecar injection is properly enabled for your deployments.
+title: Verificar la inyección de sidecar de Istio con istioctl check-inject
+description: Aprende a usar istioctl check-inject para confirmar si la inyección de sidecar de Istio está habilitada correctamente para tus deployments.
 weight: 45
 keywords: [istioctl, injection, kubernetes]
 owner: istio/wg-user-experience-maintainers
 test: no
 ---
 
-`istioctl experimental check-inject` is a diagnostic tool that helps you verify if specific webhooks will perform Istio sidecar injection in your pods. Use this tool to check if the sidecar injection configuration is correctly applied to a live cluster.
+`istioctl experimental check-inject` es una herramienta de diagnóstico que te ayuda a verificar si determinados webhooks realizarán la inyección de sidecar de Istio en tus pods. Usa esta herramienta para comprobar si la configuración de inyección de sidecar se aplica correctamente en un clúster en ejecución.
 
-## Quick Start
+## Inicio rápido {#quick-start}
 
-To check why Istio sidecar injection did/didn't (or will/won't) occur for a specific pod, run:
+Para comprobar por qué se produjo o no (o se producirá o no) la inyección de sidecar de Istio en un pod concreto, ejecuta:
 
 {{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> <pod-name>
 {{< /text >}}
 
-For a deployment, run:
+Para un deployment, ejecuta:
 
 {{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> deploy/<deployment-name>
 {{< /text >}}
 
-Or, for label pairs:
+O bien, para pares de etiquetas:
 
 {{< text syntax=bash >}}
 $ istioctl experimental check-inject -n <namespace> -l <label-key>=<label-value>
 {{< /text >}}
 
-For example, if you have a deployment named `httpbin` in the `hello` namespace and a pod named `httpbin-1234` with the label `app=httpbin`, the following commands are equivalent:
+Por ejemplo, si tienes un deployment llamado `httpbin` en el namespace `hello` y un pod llamado `httpbin-1234` con la etiqueta `app=httpbin`, los siguientes comandos son equivalentes:
 
 {{< text syntax=bash >}}
 $ istioctl experimental check-inject -n hello httpbin-1234
@@ -37,7 +37,7 @@ $ istioctl experimental check-inject -n hello deploy/httpbin
 $ istioctl experimental check-inject -n hello -l app=httpbin
 {{< /text >}}
 
-Example results:
+Resultados de ejemplo:
 
 {{< text plain >}}
 WEBHOOK                      REVISION  INJECTED      REASON
@@ -45,18 +45,18 @@ istio-revision-tag-default   default   ✔             Namespace label istio-inj
 istio-sidecar-injector-1-18  1-18      ✘             No matching namespace labels (istio.io/rev=1-18) or pod labels (istio.io/rev=1-18)
 {{< /text >}}
 
-If the `INJECTED` field is marked as `✔`, the webhook in that row will perform the injection, with the reason why the webhook will do the sidecar injection.
+Si el campo `INJECTED` está marcado con `✔`, el webhook de esa fila realizará la inyección, y se muestra el motivo por el que el webhook inyectará el sidecar.
 
-If the `INJECTED` field is marked as `✘`, the webhook in that row will not perform the injection, and the reason is also shown.
+Si el campo `INJECTED` está marcado con `✘`, el webhook de esa fila no realizará la inyección, y también se muestra el motivo.
 
-Possible reasons the webhook won't perform injection or the injection will have errors:
+Posibles motivos por los que el webhook no realizará la inyección o la inyección tendrá errores:
 
-1. **No matching namespace labels or pod labels**: Ensure proper labels are set on the namespace or pod.
+1. **No hay etiquetas de namespace ni de pod que coincidan**: Asegúrate de que el namespace o el pod tengan las etiquetas adecuadas.
 
-1. **No matching namespace labels or pod labels for a specific revision**: Set correct labels to match the desired Istio revision.
+1. **No hay etiquetas de namespace ni de pod que coincidan con una revisión específica**: Configura las etiquetas correctas para que coincidan con la revisión de Istio deseada.
 
-1. **Pod label preventing injection**: Remove the label or set it to the appropriate value.
+1. **Una etiqueta del pod impide la inyección**: Elimina la etiqueta o asígnale el valor adecuado.
 
-1. **Namespace label preventing injection**: Change the label to the appropriate value.
+1. **Una etiqueta del namespace impide la inyección**: Cambia la etiqueta al valor adecuado.
 
-1. **Multiple webhooks injecting sidecars**: Ensure only one webhook is enabled for injection, or set appropriate labels on the namespace or pod to target a specific webhook.
+1. **Varios webhooks inyectan sidecars**: Asegúrate de que solo haya un webhook habilitado para la inyección, o configura las etiquetas adecuadas en el namespace o el pod para seleccionar un webhook específico.
