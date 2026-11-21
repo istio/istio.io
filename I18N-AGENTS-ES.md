@@ -91,6 +91,16 @@ Use these canonical choices across Spanish content for consistency:
   - Do not copy or translate English-only `test.sh` or `snips.sh` files just because a page is translated.
   - Preserve `snip_id` attributes in translated shortcodes; they are identifiers, not prose.
 
+## PR workflow: copy first, then translate
+
+When a PR adds a new Spanish page, or updates an ES page that is outdated or still in English, split the work into commits so reviewers can compare each Spanish line with the current English source:
+
+1. **Copy the English source**: copy the current `content/en/...` file to the matching `content/es/...` path (overwriting the old ES file if there is one), with no other changes.
+2. **Translate**: translate that copy in place. Keep the line structure of the English file (same lines, headings, code blocks, and shortcodes) so the diff of this commit pairs each English line with its Spanish translation.
+3. **Anchors (only if needed)**: if translated links point to headings in other ES pages that were already translated without an explicit anchor, add `{#english-anchor}` to those headings in a separate commit.
+
+Do not squash these commits before review; the repository squash-merges PRs.
+
 ## Quick “Do / Don’t” examples
 
 - **mesh**
