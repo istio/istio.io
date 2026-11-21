@@ -545,6 +545,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td><code>false</code></td>
 <td>If true, enables waypoints to register HTTP metrics for cross-cluster requests when using protocols like TLS or PROXY.</td>
 </tr>
+<tr id='ambient-reconcile-enrollment-interval'>
+<td><a href='#ambient-reconcile-enrollment-interval'><code>AMBIENT_RECONCILE_ENROLLMENT_INTERVAL</code></a></td>
+<td>Time Duration</td>
+<td><code>0s</code></td>
+<td>If greater than 0, periodically check that pods enrolled in ambient mesh still run in the network namespace this agent enrolled, and re-enroll the ones that do not. Disabled by default</td>
+</tr>
 <tr id='ambient-scoped-address-pushes'>
 <td><a href='#ambient-scoped-address-pushes'><code>AMBIENT_SCOPED_ADDRESS_PUSHES</code></a></td>
 <td>Boolean</td>
