@@ -1,40 +1,40 @@
 ---
-title: Configuration Scoping
-description: Shows how to scope configuration in Istio, for operational and performance benefits.
+title: Delimitación de la configuración
+description: Muestra cómo delimitar el alcance de la configuración en Istio para obtener beneficios operativos y de rendimiento.
 weight: 60
 keywords: [scalability]
 owner: istio/wg-networking-maintainers
 test: no
 ---
 
-In order to program the service mesh, the Istio control plane (Istiod) reads a variety of configurations, including core Kubernetes types like `Service` and `Node`,
-and Istio's own types like `Gateway`.
-These are then sent to the data plane (see [Architecture](/docs/ops/deployment/architecture/) for more information).
+Para programar la service mesh, el control plane de Istio (Istiod) lee diversas configuraciones, incluidos tipos básicos de Kubernetes como `Service` y `Node`,
+y tipos propios de Istio como `Gateway`.
+Después, estas configuraciones se envían al data plane (consulta [Arquitectura](/es/docs/ops/deployment/architecture/) para más información).
 
-By default, the control plane will read all configuration in all namespaces.
-Each proxy instance will receive configuration for all namespaces as well.
-This includes information about workloads that are not enrolled in the mesh.
+Por defecto, el control plane lee toda la configuración de todos los namespaces.
+Cada instancia de proxy también recibe la configuración de todos los namespaces.
+Esto incluye información sobre workloads que no forman parte de la mesh.
 
-This default ensures correct behavior out of the box, but comes with a scalability cost.
-Each configuration has a cost (in CPU and memory, primarily) to maintain and keep up to date.
-At large scales, it is critical to limit the configuration scope to avoid excessive resource consumption.
+Este comportamiento por defecto garantiza que todo funcione correctamente desde el primer momento, pero tiene un costo en escalabilidad.
+Mantener cada configuración y tenerla actualizada tiene un costo (principalmente, en CPU y memoria).
+A gran escala, es fundamental limitar el alcance de la configuración para evitar un consumo excesivo de recursos.
 
-## Scoping mechanisms
+## Mecanismos de delimitación {#scoping-mechanisms}
 
-Istio offers a few tools to help control the scope of a configuration to meet different use cases.
-Depending on your requirements, these can be used alone or together.
+Istio ofrece varias herramientas para controlar el alcance de una configuración y adaptarse a distintos casos de uso.
+Según tus requisitos, puedes usarlas por separado o combinadas.
 
-* `Sidecar` provides a mechanism for specific workloads to _import_ a set of configurations
-* `exportTo` provides a mechanism to _export_ a configuration to a set of workloads
-* `discoverySelectors` provides a mechanism to let Istio completely ignore a set of configurations
+* `Sidecar` proporciona un mecanismo para que workloads específicos _importen_ un conjunto de configuraciones
+* `exportTo` proporciona un mecanismo para _exportar_ una configuración a un conjunto de workloads
+* `discoverySelectors` proporciona un mecanismo para que Istio ignore por completo un conjunto de configuraciones
 
-### `Sidecar` import
+### Importación con `Sidecar`
 
-The [`egress.hosts`](/docs/reference/config/networking/sidecar/#IstioEgressListener) field in `Sidecar`
-allows specifying a list of configurations to import.
-Only configurations matching the specified criteria will be seen by sidecars impacted by the `Sidecar` resource.
+El campo [`egress.hosts`](/es/docs/reference/config/networking/sidecar/#IstioEgressListener) de `Sidecar`
+permite especificar una lista de configuraciones que se van a importar.
+Los sidecars afectados por el recurso `Sidecar` solo verán las configuraciones que cumplan los criterios especificados.
 
-For example:
+Por ejemplo:
 
 {{< text yaml >}}
 apiVersion: networking.istio.io/v1
@@ -51,13 +51,13 @@ spec:
 
 ### `exportTo`
 
-Istio's `VirtualService`, `DestinationRule`, and `ServiceEntry` provide a `spec.exportTo` field.
-Similarly, `Service` can be configured with the `networking.istio.io/exportTo` annotation.
+Los recursos `VirtualService`, `DestinationRule` y `ServiceEntry` de Istio ofrecen un campo `spec.exportTo`.
+De forma similar, `Service` se puede configurar con la anotación `networking.istio.io/exportTo`.
 
-Unlike `Sidecar` which allows a workload owner to control what dependencies it has, `exportTo` works in the opposite way, and allows the service owners to control
-their own service's visibility.
+A diferencia de `Sidecar`, que permite al propietario de un workload controlar qué dependencias tiene, `exportTo` funciona al revés y permite a los propietarios de servicios controlar
+la visibilidad de sus propios servicios.
 
-For example, this configuration makes the `details` `Service` only visible to its own namespace, and the `client` namespace:
+Por ejemplo, esta configuración hace que el `Service` `details` solo sea visible en su propio namespace y en el namespace `client`:
 
 {{< text yaml >}}
 apiVersion: v1
@@ -70,20 +70,20 @@ spec: ...
 {{< /text >}}
 
 {{< tip >}}
-Because `exportTo` is declared by the author of each resource, it lets service owners scope their own configuration,
-but it does not give a mesh administrator control over what others publish. Beginning with Istio 1.31, a mesh
-administrator can control the visibility of `ServiceEntry` resources with
-[`meshConfig.serviceEntryVisibility`](/docs/ambient/usage/serviceentry-visibility/), which the ambient data plane
-always honors.
+Como `exportTo` lo declara el autor de cada recurso, permite que los propietarios de servicios delimiten su propia configuración,
+pero no le da a un administrador de la mesh control sobre lo que publican otros. A partir de Istio 1.31, un administrador
+de la mesh puede controlar la visibilidad de los recursos `ServiceEntry` con
+[`meshConfig.serviceEntryVisibility`](/es/docs/ambient/usage/serviceentry-visibility/), que el data plane ambient
+siempre respeta.
 {{< /tip >}}
 
 ### `DiscoverySelectors`
 
-While the previous controls operate on a workload or service owner level, [`DiscoverySelectors`](/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) provides mesh wide control over configuration visibility.
-Discovery selectors allows specifying criteria for which namespaces should be visible to the control plane.
-Any namespaces not matching are ignored by the control plane entirely.
+Mientras que los controles anteriores actúan a nivel del propietario del workload o del servicio, [`DiscoverySelectors`](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) proporciona control sobre la visibilidad de la configuración en toda la mesh.
+Los discovery selectors permiten especificar criterios para determinar qué namespaces deben ser visibles para el control plane.
+El control plane ignora por completo cualquier namespace que no coincida.
 
-This can be configured as part of `meshConfig` during installation. For example:
+Esto se puede configurar como parte de `meshConfig` durante la instalación. Por ejemplo:
 
 {{< text yaml >}}
 meshConfig:
@@ -97,41 +97,41 @@ meshConfig:
 {{< /text >}}
 
 {{< warning >}}
-Istiod will always open a watch to Kubernetes for all namespaces.
-However, discovery selectors will ignore objects that are not selected very early in its processing, minimizing costs.
+Istiod siempre abrirá un watch en Kubernetes sobre todos los namespaces.
+Sin embargo, los discovery selectors descartan los objetos no seleccionados en una fase muy temprana del procesamiento, lo que minimiza los costos.
 {{</ warning >}}
 
-## Frequently asked questions
+## Preguntas frecuentes
 
-### How can I understand the cost of a certain configuration?
+### ¿Cómo puedo saber cuánto cuesta una configuración determinada?
 
-In order to get the best return-on-investment for scoping down configuration, it can be helpful to understand the cost of each object.
-Unfortunately, there is not a straightforward answer; scalability depends on a large number of factors.
-However, there are a few general guidelines:
+Para obtener el mejor retorno de la inversión al reducir el alcance de la configuración, puede ser útil entender el costo de cada objeto.
+Lamentablemente, no hay una respuesta sencilla: la escalabilidad depende de una gran cantidad de factores.
+Aun así, hay algunas pautas generales:
 
-Configuration *changes* are expensive in Istio, as they require recomputation.
-While `Endpoints` changes (generally from a Pod scaling up or down) are heavily optimized, most other configurations are fairly expensive.
-This can be especially harmful when controllers are constantly making changes to an object (sometimes this happens accidentally!).
-Some tools to detect which configurations are changing:
-* Istiod will log each change like: `Push debounce stable 1 for config Gateway/default/gateway: ..., full=true`.
-  This shows a `Gateway` object in the `default` namespace changed. `full=false` would represent and optimized update such as `Endpoint`.
-  Note: changes to `Service` and `Endpoints` will all show as `ServiceEntry`.
-* Istiod exposes metrics `pilot_k8s_cfg_events` and `pilot_k8s_reg_events` for each change.
-* `kubectl get <resource> --watch -oyaml --show-managed-fields` can show changes to an object (or objects) to help understand what is changing, and by whom.
+Los *cambios* de configuración son costosos en Istio, ya que obligan a volver a calcularla.
+Aunque los cambios en `Endpoints` (que suelen producirse al aumentar o reducir el número de Pods) están muy optimizados, la mayoría de las demás configuraciones son bastante costosas.
+Esto puede ser especialmente perjudicial cuando hay controladores que modifican un objeto constantemente (¡a veces ocurre por accidente!).
+Algunas herramientas para detectar qué configuraciones están cambiando:
+* Istiod registra cada cambio con un mensaje como: `Push debounce stable 1 for config Gateway/default/gateway: ..., full=true`.
+  Esto indica que cambió un objeto `Gateway` en el namespace `default`. `full=false` representaría una actualización optimizada, como la de un `Endpoint`.
+  Nota: todos los cambios en `Service` y `Endpoints` aparecen como `ServiceEntry`.
+* Istiod expone las métricas `pilot_k8s_cfg_events` y `pilot_k8s_reg_events` para cada cambio.
+* `kubectl get <resource> --watch -oyaml --show-managed-fields` puede mostrar los cambios en un objeto (o en varios) para ayudarte a entender qué está cambiando y quién lo cambia.
 
-[Headless services](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) (besides ones declared as [HTTP](/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection))
-scale with the number of instances. This makes large headless services expensive, and a good candidate for exclusion with `exportTo` or equivalent.
+Los [Services headless](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services) (salvo los declarados como [HTTP](/es/docs/ops/configuration/traffic-management/protocol-selection/#explicit-protocol-selection))
+escalan con el número de instancias. Por eso, los Services headless grandes son costosos y buenos candidatos para excluirlos con `exportTo` o un mecanismo equivalente.
 
-### What happens if I connect to a service outside of my scope?
+### ¿Qué pasa si me conecto a un servicio que queda fuera del alcance de mi configuración?
 
-When connecting to a service that has been excluded through one of the scoping mechanisms, the data plane will not know anything about the destination,
-so it will be treated as [Unmatched traffic](/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
+Al conectarte a un servicio que se excluyó mediante uno de los mecanismos de delimitación, el data plane no sabrá nada del destino,
+por lo que se tratará como [tráfico sin coincidencia](/es/docs/ops/configuration/traffic-management/traffic-routing/#unmatched-traffic).
 
-### What about Gateways?
+### ¿Y los gateways?
 
-While [Gateways](/docs/setup/additional-setup/gateway/) will respect `exportTo` and `DiscoverySelectors`, `Sidecar` objects do not impact Gateways.
-However, unlike sidecars, gateways do not have configuration for the entire cluster by default.
-Instead, each configuration is explicitly attached to the gateway, which mostly avoids this problem.
+Aunque los [gateways](/es/docs/setup/additional-setup/gateway/) respetan `exportTo` y `DiscoverySelectors`, los objetos `Sidecar` no afectan a los gateways.
+Sin embargo, a diferencia de los sidecars, los gateways no tienen por defecto configuración para todo el clúster.
+En su lugar, cada configuración se asocia explícitamente al gateway, lo que evita este problema en gran medida.
 
-However, [currently](https://github.com/istio/istio/issues/29131) part of the data plane configuration (a "cluster", in Envoy terms), is always sent for
-the entire cluster, even if it is not referenced explicitly.
+No obstante, [actualmente](https://github.com/istio/istio/issues/29131) una parte de la configuración del data plane (un "cluster", en terminología de Envoy) siempre se envía para
+todo el clúster, aunque no se haga referencia a ella explícitamente.

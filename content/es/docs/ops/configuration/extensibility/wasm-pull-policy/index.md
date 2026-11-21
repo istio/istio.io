@@ -1,6 +1,6 @@
 ---
-title: Pull Policy for WebAssembly Modules
-description: Describes how Istio determines whether to pull Wasm modules or use cached versions.
+title: Política de descarga de módulos WebAssembly
+description: Describe cómo determina Istio si debe descargar los módulos Wasm o usar las versiones en caché.
 weight: 10
 keywords: [extensibility,Wasm,WebAssembly]
 owner: istio/wg-policies-and-telemetry-maintainers
@@ -10,31 +10,31 @@ status: Alpha
 
 {{< boilerplate alpha >}}
 
-The [WasmPlugin API](/docs/reference/config/proxy_extensions/wasm-plugin) provides a method for [distributing Wasm modules](/docs/tasks/extensibility/wasm-modules) to proxies.
-Since each proxy will pull Wasm modules from a remote registry or an HTTP server, understanding how Istio chooses to pull modules is important in terms of usability as well as performance.
+La [API WasmPlugin](/es/docs/reference/config/proxy_extensions/wasm-plugin) proporciona un método para [distribuir módulos Wasm](/es/docs/tasks/extensibility/wasm-modules) a los proxies.
+Como cada proxy descarga los módulos Wasm desde un registro de imágenes remoto o un servidor HTTP, es importante entender cómo decide Istio si descarga los módulos, tanto por usabilidad como por rendimiento.
 
-## Image pull policy and exceptions
+## Política de descarga de imágenes y excepciones
 
-Analogous to `ImagePullPolicy` of Kubernetes, [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin/#WasmPlugin) also has the notion of `IfNotPresent` and `Always`, which means "use the cached module" and "always pull the module regardless of the cache", respectively.
+De forma análoga a `ImagePullPolicy` de Kubernetes, [WasmPlugin](/es/docs/reference/config/proxy_extensions/wasm-plugin/#WasmPlugin) también tiene los conceptos `IfNotPresent` y `Always`, que significan "usar el módulo en caché" y "descargar siempre el módulo, independientemente de la caché", respectivamente.
 
-Users explicitly configure the behavior for Wasm module retrieval with the `ImagePullPolicy` field. However, user-provided behavior can be overridden by Istio in the following scenarios:
+Los usuarios configuran explícitamente cómo se obtienen los módulos Wasm con el campo `ImagePullPolicy`. Sin embargo, Istio puede anular el comportamiento definido por el usuario en los siguientes casos:
 
-1. If the user sets `sha256` in [WasmPlugin](/docs/reference/config/proxy_extensions/wasm-plugin/#WasmPlugin), regardless of `ImagePullPolicy`, `IfNotPresent` policy is used.
-1. If the `url` field points to an OCI image and it has a digest suffix (e.g., `gcr.io/foo/bar@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef`), `IfNotPresent` policy is used.
+1. Si el usuario establece `sha256` en [WasmPlugin](/es/docs/reference/config/proxy_extensions/wasm-plugin/#WasmPlugin), se usa la política `IfNotPresent`, independientemente de `ImagePullPolicy`.
+1. Si el campo `url` apunta a una imagen OCI y esta tiene un sufijo de digest (por ejemplo, `gcr.io/foo/bar@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef`), se usa la política `IfNotPresent`.
 
-When `ImagePullPolicy` is not specified for a resource, Istio defaults to `IfNotPresent` behavior. However, if the provided `url` field specifies an OCI image that has a tag value of `latest`, Istio will use `Always` behavior.
+Cuando no se especifica `ImagePullPolicy` para un recurso, Istio usa por defecto el comportamiento `IfNotPresent`. Sin embargo, si el campo `url` especifica una imagen OCI con el tag `latest`, Istio usará el comportamiento `Always`.
 
-## Lifecycle of cached modules
+## Ciclo de vida de los módulos en caché
 
-Each proxy, whether a sidecar proxy or a gateway, caches Wasm modules. The lifetime of the cached Wasm module is therefore bounded by the lifetime of the corresponding pod.
-In addition, there is an expiration mechanism for keeping the proxy memory footprint to a minimum: if a cached Wasm module is not used for a certain amount of the time, the module is purged.
+Cada proxy, ya sea un proxy sidecar o un gateway, almacena en caché los módulos Wasm. Por lo tanto, la vida útil del módulo Wasm en caché está limitada por la del pod correspondiente.
+Además, existe un mecanismo de expiración para mantener al mínimo el uso de memoria del proxy: si un módulo Wasm en caché no se usa durante cierto tiempo, se elimina.
 
-This expiration can be configured via the environment variables `WASM_MODULE_EXPIRY` and `WASM_PURGE_INTERVAL` of [pilot-proxy](/docs/reference/commands/pilot-agent/#envvars), which are the duration of expiration and the interval for checking the expiration respectively.
+Puedes configurar esta expiración mediante las variables de entorno `WASM_MODULE_EXPIRY` y `WASM_PURGE_INTERVAL` de [pilot-proxy](/es/docs/reference/commands/pilot-agent/#envvars), que definen, respectivamente, el tiempo de expiración y el intervalo de comprobación de la expiración.
 
-## The meaning of "Always"
+## Qué significa "Always"
 
-In Kubernetes, `ImagePullPolicy: Always` means that an image is pulled directly from its source each time a pod is created.
-Every time a new pod is started, Kubernetes pulls the image anew.
+En Kubernetes, `ImagePullPolicy: Always` significa que una imagen se descarga directamente desde su origen cada vez que se crea un pod.
+Cada vez que se inicia un pod nuevo, Kubernetes vuelve a descargar la imagen.
 
-For a `WasmPlugin`, `ImagePullPolicy: Always` means that Istio will pull an image directly from its source each time the corresponding `WasmPlugin` Kubernetes resource is created or changed.
-Please note that a change not only in `spec` but also `metadata` triggers the pulling of a Wasm module when the `Always` policy is used. This can mean that an image is pulled from source several times over the lifetime of a pod, and over the lifetime of an individual proxy.
+En un `WasmPlugin`, `ImagePullPolicy: Always` significa que Istio descargará una imagen directamente desde su origen cada vez que se cree o se modifique el recurso de Kubernetes `WasmPlugin` correspondiente.
+Ten en cuenta que, con la política `Always`, un cambio no solo en `spec`, sino también en `metadata`, provoca la descarga de un módulo Wasm. Esto puede hacer que una imagen se descargue desde el origen varias veces durante la vida de un pod y durante la vida de un proxy individual.
