@@ -17,7 +17,7 @@
     &-wrapper {
         display: block;
 
-        @media (min-width: $bp-lg) {
+        @media (min-width: $bp-xl) {
             display: grid;
             grid-template-columns: 1fr auto;
             grid-template-areas:
@@ -52,7 +52,7 @@
             left: -2rem;
         }
 
-        @media (min-width: $bp-lg) {
+        @media (min-width: $bp-xl) {
             display: none;
         }
     }
@@ -60,7 +60,12 @@
     .footer-links {
         grid-area: footer-links;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
+
+        @media (max-width: $bp-xs-max) {
+            justify-content: flex-start;
+        }
     }
 
     .footer-info {
@@ -74,10 +79,12 @@
     .footer-languages {
         margin-top: 1.7rem;
         display: flex;
+        flex-wrap: wrap;
         align-self: center;
 
         &-item {
             display: inline-flex;
+            white-space: nowrap;
             align-items: center;
             font-weight: $mediumWeight;
 
@@ -156,14 +163,14 @@
         }
     }
 
-    @media (max-width: $bp-lg) {
+    @media (max-width: $bp-xl - 1) {
         .footer-base,
         .footer-policies {
             margin-top: 1.25rem;
         }
     }
 
-    @media (min-width: $bp-lg) {
+    @media (min-width: $bp-xl) {
         .footer-links,
         .footer-policies {
             align-self: end;
