@@ -65,7 +65,7 @@ E instala Istio usando esta configuración:
 $ istioctl install -f istiooperator.yaml
 {{< /text >}}
 
-También puedes pasar el registro como argumento de línea de comandos
+También puedes pasar el registro como argumento de línea de comandos:
 
 {{< text bash >}}
 $ istioctl install --set hub=docker.io/istio # or your pull-through cache

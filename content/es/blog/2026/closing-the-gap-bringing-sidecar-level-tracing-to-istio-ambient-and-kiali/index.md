@@ -21,7 +21,7 @@ Como los waypoint proxies son externos al workload, identificar al "propietario"
 
 {{< image width="90%" link="./service-traces-istio-127.png" caption="Trazas de servicio con Istio 1.27" >}}
 
-En Istio 1.28 se introdujo un cambio para atribuir la traza directamente al servicio de destino, en lugar de al waypoint. Este comportamiento se mantuvo durante las versiones 1.29.
+En Istio 1.28 se introdujo un cambio para atribuir la traza directamente al servicio de destino, en lugar de al waypoint. Este comportamiento se mantuvo en la versión 1.29.
 
 {{< tip >}}
 Ten en cuenta que este cambio fue exclusivo del proveedor OpenTelemetry (OTel); los formatos tradicionales como Zipkin siguieron usando la identidad del waypoint.
