@@ -140,6 +140,13 @@ After installing ambient mode with Helm, you can follow the [Deploy the sample a
 
 ## Uninstall
 
+{{< warning >}}
+Before uninstalling Istio, remove all workloads from the ambient data plane while ztunnel and Istio CNI are still running.
+Remove the `istio.io/dataplane-mode=ambient` label from enrolled namespaces and any individually labeled pods.
+See [Remove the namespace from the ambient data plane](/docs/ambient/getting-started/cleanup/#remove-the-namespace-from-the-ambient-data-plane) for an example.
+Uninstalling ztunnel or Istio CNI does not remove existing traffic redirection rules from enrolled pods, which can interrupt workload connectivity.
+{{< /warning >}}
+
 You can uninstall Istio and its components by uninstalling the charts
 installed above.
 
