@@ -703,7 +703,7 @@ acceder a Internet a través de un gateway. Para ello, el administrador del clus
 asignación de IPs públicas a pods que no sean gateways y pueden configurar dispositivos NAT para descartar paquetes que no se originen en
 los egress gateways.
 
-## Aplicar políticas de red de Kubernetes
+## Aplicar políticas de red de Kubernetes {#apply-kubernetes-network-policies}
 
 Esta sección muestra cómo crear una
 [política de red de Kubernetes](https://kubernetes.io/docs/concepts/services-networking/network-policies/) para evitar
