@@ -104,7 +104,7 @@ spec:
         notPaths: ["/public"]
 {{< /text >}}
 
-### Entender la normalización de rutas en la política de autorización
+### Entender la normalización de rutas en la política de autorización {#understand-path-normalization-in-authorization-policy}
 
 El punto de aplicación para las políticas de autorización es el Proxy Envoy en lugar del punto de acceso a recursos usual en la aplicación backend. Un error de coincidencia de política ocurre cuando el Proxy Envoy y la aplicación backend interpretan la solicitud
 de manera diferente.
