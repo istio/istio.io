@@ -1,6 +1,6 @@
 ---
-title: Image Signing and Validation
-description: Describes how to use image signatures to verify the provenance of Istio images.
+title: Firma y validación de imágenes
+description: Describe cómo usar las firmas de imágenes para verificar la procedencia de las imágenes de Istio.
 weight: 35
 aliases: []
 keywords: [install,signing]
@@ -8,29 +8,29 @@ owner: istio/wg-environments-maintainers
 test: n/a
 ---
 
-This page describes how to use [Cosign](https://github.com/sigstore/cosign) to
-validate the provenance of Istio image artifacts.
+Esta página describe cómo usar [Cosign](https://github.com/sigstore/cosign) para
+validar la procedencia de los artefactos de imagen de Istio.
 
-Cosign is a tool developed as part of the
-[sigstore](https://www.sigstore.dev) project, which
-simplifies signing and validation of signed Open Container Initiative (OCI) artifacts,
-such as container images.
+Cosign es una herramienta desarrollada como parte del proyecto
+[sigstore](https://www.sigstore.dev), que
+simplifica la firma y la validación de artefactos firmados de la Open Container Initiative (OCI),
+como las imágenes de contenedor.
 
-Starting with Istio 1.12, we sign all officially published container images as part of our release
-process. End users can then verify these images using
-the process described below.
+A partir de Istio 1.12, firmamos todas las imágenes de contenedor publicadas oficialmente como parte de nuestro proceso
+de lanzamiento. Así, los usuarios finales pueden verificar estas imágenes con
+el proceso que se describe a continuación.
 
-This process is suitable for either manual execution or integration with build
-or deployment pipelines for automated verification of artifacts.
+Este proceso sirve tanto para ejecutarlo manualmente como para integrarlo en pipelines de compilación
+o de despliegue y verificar los artefactos de forma automatizada.
 
-## Prerequisites
+## Requisitos previos
 
-Before you begin, please do the following:
+Antes de empezar, haz lo siguiente:
 
-1. Download the latest
-   [Cosign](https://github.com/sigstore/cosign/releases/latest) build for your
-   architecture, as well as its signature.
-1. Validate the `cosign` binary signature:
+1. Descarga la última
+   compilación de [Cosign](https://github.com/sigstore/cosign/releases/latest) para tu
+   arquitectura, junto con su firma.
+1. Valida la firma del binario `cosign`:
 
     {{< text bash >}}
     $ openssl dgst -sha256 \
@@ -39,23 +39,23 @@ Before you begin, please do the following:
         /path/to/cosign-binary
      {{< /text >}}
 
-1. Make the binary executable (`chmod +x`) and move to a location on the `PATH`
+1. Haz que el binario sea ejecutable (`chmod +x`) y muévelo a una ubicación incluida en el `PATH`
 
-## Validating Image
+## Validar una imagen
 
-Versions 1.31.1+ are signed with the
-`https://istio.io/misc/istio-key-v2.pub` public key. Use
-`https://istio.io/misc/istio-key.pub` for older releases.
+Las versiones 1.31.1 y posteriores están firmadas con la clave pública
+`https://istio.io/misc/istio-key-v2.pub`. Usa
+`https://istio.io/misc/istio-key.pub` para las versiones anteriores.
 
-To validate a container image, do the following:
+Para validar una imagen de contenedor, haz lo siguiente:
 
 {{< text bash >}}
 $ ./cosign-binary verify --key <public key url> {{< istio_docker_image "pilot" >}}
 {{< /text >}}
 
-This process will work for any released image or release candidate built with the Istio build infrastructure.
+Este proceso funciona con cualquier imagen publicada o release candidate compilada con la infraestructura de compilación de Istio.
 
-An example with output:
+Un ejemplo con su salida:
 
 {{< text bash >}}
 $ cosign verify --key "https://istio.io/misc/istio-key-v2.pub" docker.io/istio/pilot:1.31.1

@@ -1,6 +1,6 @@
 ---
-title: Best Practices
-description: Best practices for setting up and managing an Istio service mesh.
+title: Mejores prácticas
+description: Mejores prácticas para configurar y gestionar una service mesh de Istio.
 weight: 30
 keywords: [ops]
 aliases:
