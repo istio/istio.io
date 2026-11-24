@@ -515,6 +515,12 @@ These environment variables affect the behavior of the <code>install-cni</code> 
 <td><code>false</code></td>
 <td>If enabled, ztunnel will be configured with dry-run authorizationPolicies. Ensure ztunnel is 1.29 or above before enabling this feature. Older ztunnel will accept dry-run policies, but enforce them instead of only logging.</td>
 </tr>
+<tr id='ambient-enable-host-probe-local-route'>
+<td><a href='#ambient-enable-host-probe-local-route'><code>AMBIENT_ENABLE_HOST_PROBE_LOCAL_ROUTE</code></a></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, install local host probe SNAT routes for CNIs that return local destinations to host netfilter</td>
+</tr>
 <tr id='ambient-enable-multi-network'>
 <td><a href='#ambient-enable-multi-network'><code>AMBIENT_ENABLE_MULTI_NETWORK</code></a></td>
 <td>Boolean</td>
