@@ -14,8 +14,8 @@ is to use [hierarchical federation](https://prometheus.io/docs/prometheus/latest
 in combination with a collection of [recording rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/).
 
 Although installing Istio does not deploy [Prometheus](http://prometheus.io) by default, the
-[Getting Started](/es/docs/setup/getting-started/) instructions install the `Option 1: Quick Start` deployment
-of Prometheus described in the [Prometheus integration guide](/es/docs/ops/integrations/prometheus/).
+[Getting Started](/docs/setup/getting-started/) instructions install the `Option 1: Quick Start` deployment
+of Prometheus described in the [Prometheus integration guide](/docs/ops/integrations/prometheus/).
 This deployment of Prometheus is intentionally configured with a very short retention window (6 hours). The
 quick-start Prometheus deployment is also configured to collect metrics from each Envoy proxy
 running in the mesh, augmenting each metric with a set of labels about their origin (`instance`,
@@ -81,6 +81,14 @@ groups:
     expr: |
       sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)
 
+  - record: "workload:istio_request_messages_total"
+    expr: |
+      sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_messages_total)
+
+  - record: "workload:istio_response_messages_total"
+    expr: |
+      sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_messages_total)
+
   - record: "workload:istio_tcp_sent_bytes_total"
     expr: |
       sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_sent_bytes_total)
@@ -138,6 +146,11 @@ spec:
     - record: "workload:istio_response_bytes_bucket"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)"
 
+    - record: "workload:istio_request_messages_total"
+      expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_messages_total)"
+    - record: "workload:istio_response_messages_total"
+      expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_messages_total)"
+
     - record: "workload:istio_tcp_sent_bytes_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_sent_bytes_total)"
     - record: "workload:istio_tcp_received_bytes_total"
@@ -154,12 +167,12 @@ spec:
 
 {{< tip >}}
 The recording rules above only aggregate across pods and instances. They still preserve the full set of
-[Istio Standard Metrics](/es/docs/reference/config/metrics/), including all Istio dimensions. While this
+[Istio Standard Metrics](/docs/reference/config/metrics/), including all Istio dimensions. While this
 will help with controlling metrics cardinality via federation, you may want to further optimize the recording rules
 to match your existing dashboards, alerts, and ad-hoc queries.
 
 For more information on tailoring your recording rules, see the section on
-[Optimizing metrics collection with recording rules](/es/docs/ops/best-practices/observability/#optimizing-metrics-collection-with-recording-rules).
+[Optimizing metrics collection with recording rules](/docs/ops/best-practices/observability/#optimizing-metrics-collection-with-recording-rules).
 {{< /tip >}}
 
 ### Federation using workload-level aggregated metrics
@@ -223,7 +236,7 @@ spec:
 
 {{< tip >}}
 The key to the federation configuration is matching on the job in the Istio-deployed Prometheus that is collecting
-[Istio Standard Metrics](/es/docs/reference/config/metrics/) and renaming any metrics collected by removing
+[Istio Standard Metrics](/docs/reference/config/metrics/) and renaming any metrics collected by removing
 the prefix used in the workload-level recording rules (`workload:`). This will allow existing dashboards and
 queries to seamlessly continue working when pointed at the production Prometheus instance (and away from the Istio instance).
 
