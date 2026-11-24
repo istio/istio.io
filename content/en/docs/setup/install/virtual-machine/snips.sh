@@ -76,7 +76,7 @@ EASTWEST_GATEWAY_SERVICE="istio-eastwestgateway"
 
 snip_install_crds() {
 kubectl get crd tlsroutes.gateway.networking.k8s.io &> /dev/null || \
-  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.6.1" | kubectl apply -f -; }
+  { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.7.0" | kubectl apply -f -; }
 }
 
 snip_install_eastwest_gtwapi() {
