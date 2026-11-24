@@ -1,28 +1,28 @@
 ---
-title: Edge Proxy Configuration
-description: Configure Envoy edge proxy best-practice defaults for ingress gateways.
+title: Configuración del proxy de borde
+description: Configura en los ingress gateways los valores por defecto que Envoy recomienda como mejores prácticas para proxies de borde.
 weight: 65
 keywords: [traffic-management,ingress,gateway,edge,security,hardening]
 owner: istio/wg-networking-maintainers
 test: n/a
 ---
 
-When an Istio gateway is deployed as an edge proxy, directly exposed to untrusted
-client traffic, Envoy [recommends specific settings](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge)
-for buffer limits, timeouts, HTTP/2 tuning, header sanitization, and connection limits.
+Cuando un gateway de Istio se despliega como proxy de borde (edge proxy), expuesto directamente a tráfico
+de clientes que no son de confianza, Envoy [recomienda ajustes específicos](https://www.envoyproxy.io/docs/envoy/latest/configuration/best_practices/edge)
+para los límites de buffer, los timeouts, la optimización de HTTP/2, el saneamiento de encabezados y los límites de conexiones.
 
-Istio's `ProxyConfig.ConnectionSettings` API lets you apply these recommendations in
-one step using the `EDGE` profile, or configure individual settings for any proxy.
+La API `ProxyConfig.ConnectionSettings` de Istio te permite aplicar estas recomendaciones en
+un solo paso con el perfil `EDGE`, o configurar ajustes individuales para cualquier proxy.
 
-For the complete field reference, see [`ProxyConfig.ConnectionSettings`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ConnectionSettings).
+Para ver la referencia completa de los campos, consulta [`ProxyConfig.ConnectionSettings`](/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-ConnectionSettings).
 
-## Applying the `EDGE` profile
+## Aplicar el perfil `EDGE`
 
-Set `profile: EDGE` within `connectionSettings` to apply Envoy's recommended edge proxy
-defaults to a gateway. The profile can be set globally via `MeshConfig` or per gateway
-using a pod annotation.
+Establece `profile: EDGE` dentro de `connectionSettings` para aplicar a un gateway los valores por defecto
+de proxy de borde que recomienda Envoy. El perfil se puede establecer de forma global mediante `MeshConfig` o por gateway
+con una anotación de pod.
 
-### Global configuration
+### Configuración global
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -34,7 +34,7 @@ spec:
         profile: EDGE
 {{< /text >}}
 
-### Per-gateway annotation
+### Anotación por gateway
 
 {{< text syntax=yaml snip_id=none >}}
 metadata:
@@ -42,37 +42,37 @@ metadata:
     "proxy.istio.io/config": '{"connectionSettings": {"profile": "EDGE"}}'
 {{< /text >}}
 
-### `EDGE` profile defaults
+### Valores por defecto del perfil `EDGE`
 
-The `EDGE` profile applies the following defaults. Explicitly setting any field
-always takes precedence over profile defaults.
+El perfil `EDGE` aplica los siguientes valores por defecto. Cualquier campo que establezcas explícitamente
+siempre tiene prioridad sobre los valores por defecto del perfil.
 
-| Setting | Default value |
+| Ajuste | Valor por defecto |
 |---------|---------------|
 | `listenerPerConnectionBufferLimitBytes` | `32768 (32 KiB)` |
 | `clusterPerConnectionBufferLimitBytes` | `32768 (32 KiB)` |
-| `httpIdleTimeout` | `3600s` (1 hour) |
-| `httpRequestTimeout` | `300s` (5 minutes) |
-| `httpStreamIdleTimeout` | `300s` (5 minutes) |
+| `httpIdleTimeout` | `3600s` (1 hora) |
+| `httpRequestTimeout` | `300s` (5 minutos) |
+| `httpStreamIdleTimeout` | `300s` (5 minutos) |
 | `httpMaxConcurrentStreams` | 100 |
 | `http2InitialStreamWindowSize` | `65536 (64 KiB)` |
 | `http2InitialConnectionWindowSize` | 1048576 (1 MiB) |
-| `httpRequestHeadersTimeout` | `60s` (1 minute) |
+| `httpRequestHeadersTimeout` | `60s` (1 minuto) |
 | `httpHeadersWithUnderscoresAction` | `REJECT_REQUEST` |
 | `httpMergeSlashes` | true |
 | `httpPathWithEscapedSlashesAction` | `UNESCAPE_AND_REDIRECT` |
 
 {{< tip >}}
-The `EDGE` profile defaults only apply to gateway (Router) proxies, even when the
-setting is applied globally via `MeshConfig`. However, explicitly set
-`connectionSettings` fields (without relying on profile defaults) apply to all
-proxy types, including sidecars.
+Los valores por defecto del perfil `EDGE` solo se aplican a los proxies de gateway (Router), incluso cuando el
+ajuste se aplica de forma global mediante `MeshConfig`. Sin embargo, los campos de
+`connectionSettings` establecidos explícitamente (sin depender de los valores por defecto del perfil) se aplican a todos
+los tipos de proxy, incluidos los sidecars.
 {{< /tip >}}
 
-## Overriding profile defaults
+## Sobrescribir los valores por defecto del perfil
 
-You can set `profile: EDGE` and override specific settings. For example, to raise
-the maximum concurrent streams limit:
+Puedes establecer `profile: EDGE` y sobrescribir ajustes específicos. Por ejemplo, para aumentar
+el límite máximo de streams concurrentes:
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -85,7 +85,7 @@ spec:
         httpMaxConcurrentStreams: 200
 {{< /text >}}
 
-Or via pod annotation:
+O mediante una anotación de pod:
 
 {{< text syntax=yaml snip_id=none >}}
 metadata:
@@ -93,10 +93,10 @@ metadata:
     "proxy.istio.io/config": '{"connectionSettings": {"profile": "EDGE", "httpMaxConcurrentStreams": 200}}'
 {{< /text >}}
 
-## Configuring individual settings without a profile
+## Configurar ajustes individuales sin un perfil
 
-You can set individual `connectionSettings` fields without using a profile. This is
-useful when you want specific connection tuning without the full set of edge defaults.
+Puedes establecer campos individuales de `connectionSettings` sin usar un perfil. Esto es
+útil cuando quieres optimizar aspectos concretos de las conexiones sin aplicar todo el conjunto de valores por defecto de proxy de borde.
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -109,14 +109,14 @@ spec:
         httpMaxConcurrentStreams: 50
 {{< /text >}}
 
-When no profile is set, no additional defaults are applied. Only explicitly set
-fields take effect.
+Si no se establece ningún perfil, no se aplica ningún valor por defecto adicional. Solo tienen efecto los campos
+establecidos explícitamente.
 
-## Global downstream connection limit
+## Límite global de conexiones downstream
 
-The `globalDownstreamConnectionLimit` field configures the maximum number of
-downstream connections the proxy will accept. This uses Envoy's overload manager
-in the bootstrap configuration.
+El campo `globalDownstreamConnectionLimit` configura el número máximo de
+conexiones downstream que acepta el proxy. Para ello, se usa el overload manager de Envoy
+en la configuración de bootstrap.
 
 {{< text syntax=yaml snip_id=none >}}
 apiVersion: install.istio.io/v1alpha1
@@ -129,18 +129,18 @@ spec:
         globalDownstreamConnectionLimit: 10000
 {{< /text >}}
 
-This field takes precedence over the `ISTIO_META_GLOBAL_DOWNSTREAM_MAX_CONNECTIONS`
-proxy metadata value, which in turn takes precedence over the deprecated
-`overload.global_downstream_max_connections` runtime flag.
+Este campo tiene prioridad sobre el valor `ISTIO_META_GLOBAL_DOWNSTREAM_MAX_CONNECTIONS`
+de los metadatos del proxy; este valor, a su vez, tiene prioridad sobre el flag de runtime obsoleto
+`overload.global_downstream_max_connections`.
 
-## Relationship with other APIs
+## Relación con otras APIs
 
-**DestinationRule**: `ConnectionSettings` configures the downstream side of the
-proxy (listeners and the HTTP Connection Manager), while DestinationRule's
-`connectionPoolSettings` configures the upstream cluster side. Both apply
-independently at different hops and do not override each other.
+**DestinationRule**: `ConnectionSettings` configura el lado downstream del
+proxy (los listeners y el HTTP Connection Manager), mientras que, en DestinationRule,
+`connectionPoolSettings` configura el lado del cluster upstream. Ambos se aplican
+de forma independiente en saltos distintos y no se sobrescriben entre sí.
 
-**Path normalization**: The `httpMergeSlashes` and `httpPathWithEscapedSlashesAction`
-fields in `ConnectionSettings` take precedence over the equivalent `MeshConfig`
-`pathNormalization` settings when set. For guidance on choosing path normalization
-options, see the [security best practices](/docs/ops/best-practices/security/#understand-path-normalization-in-authorization-policy).
+**Normalización de rutas**: Los campos `httpMergeSlashes` y `httpPathWithEscapedSlashesAction`
+de `ConnectionSettings`, cuando se establecen, tienen prioridad sobre los ajustes equivalentes que `MeshConfig` define en
+`pathNormalization`. Para ver recomendaciones sobre cómo elegir las opciones
+de normalización de rutas, consulta las [mejores prácticas de seguridad](/es/docs/ops/best-practices/security/#understand-path-normalization-in-authorization-policy).
