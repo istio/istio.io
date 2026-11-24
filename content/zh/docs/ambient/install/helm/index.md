@@ -158,6 +158,16 @@ ztunnel-c2z4s                    1/1     Running   0          10m
 
 ## 卸载 {#uninstall}
 
+{{< warning >}}
+在卸载 Istio 之前，请在 ztunnel 和 Istio CNI 仍在运行时，
+从 Ambient 数据平面中移除所有工作负载。
+请从已加入的命名空间以及任何单独标记的 Pod 上移除
+`istio.io/dataplane-mode=ambient` 标签。
+示例请参阅[从 Ambient 数据平面中删除命名空间](/zh/docs/ambient/getting-started/cleanup/#remove-the-namespace-from-the-ambient-data-plane)。
+卸载 ztunnel 或 Istio CNI 不会移除已加入 Ambient 网格的 Pod 上现有的流量重定向规则，
+这可能会中断工作负载的连接。
+{{< /warning >}}
+
 您可以通过卸载上面安装的 Chart 来卸载 Istio 及其组件。
 
 1. 列出安装在 `istio-system` 命名空间中的所有 Istio Chart：
