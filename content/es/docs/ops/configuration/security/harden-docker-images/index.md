@@ -1,6 +1,6 @@
 ---
-title: Harden Docker Container Images
-description: Use hardened container images to reduce Istio's attack surface.
+title: Reforzar las imágenes de contenedor Docker
+description: Usa imágenes de contenedor reforzadas para reducir la superficie de ataque de Istio.
 weight: 80
 aliases:
   - /help/ops/security/harden-docker-images
@@ -10,36 +10,36 @@ test: n/a
 status: Beta
 ---
 
-Istio's [default images](https://hub.docker.com/r/istio/base) are based on `ubuntu` with some extra tools added.
-An alternative image based on [distroless images](https://github.com/GoogleContainerTools/distroless) is also available.
+Las [imágenes por defecto](https://hub.docker.com/r/istio/base) de Istio se basan en `ubuntu` e incluyen algunas herramientas adicionales.
+También hay disponible una imagen alternativa basada en [imágenes distroless](https://github.com/GoogleContainerTools/distroless).
 
-These images strip all non-essential executables and libraries, offering the following benefits:
+Estas imágenes eliminan todos los ejecutables y bibliotecas no esenciales, lo que ofrece las siguientes ventajas:
 
-- The attack surface is reduced as they include the smallest possible set of vulnerabilities.
-- The images are smaller, which allows faster start-up.
+- Se reduce la superficie de ataque, ya que incluyen el menor conjunto posible de vulnerabilidades.
+- Las imágenes son más pequeñas, lo que permite un arranque más rápido.
 
-See also the [Why should I use distroless images?](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) section in the official distroless README.
+Consulta también la sección [¿Por qué debería usar imágenes distroless?](https://github.com/GoogleContainerTools/distroless#why-should-i-use-distroless-images) del README oficial de distroless.
 
-## Install distroless images
+## Instalar imágenes distroless
 
-Follow the [Installation Steps](/es/docs/setup/install/istioctl/) to set up Istio.
-Add the `variant` option to use the *distroless images*.
+Sigue los [pasos de instalación](/es/docs/setup/install/istioctl/) para configurar Istio.
+Agrega la opción `variant` para usar las *imágenes distroless*.
 
 {{< text bash >}}
 $ istioctl install --set values.global.variant=distroless
 {{< /text >}}
 
-If you are only interested in using distroless images for injected proxy images, you can also use the `image.imageType` field in [Proxy Config](/es/docs/reference/config/networking/proxy-config/#ProxyImage).
-Note the above `variant` flag will automatically set this for you.
+Si solo te interesa usar imágenes distroless para las imágenes de los proxies inyectados, también puedes usar el campo `image.imageType` de [Proxy Config](/es/docs/reference/config/networking/proxy-config/#ProxyImage).
+Ten en cuenta que el flag `variant` anterior lo configura automáticamente por ti.
 
-## Debugging
+## Depuración
 
-Distroless images are missing all debugging tools (including a shell!).
-While great for security, this limits the ability to do ad-hoc debugging using `kubectl exec` into the proxy container.
+Las imágenes distroless no incluyen ninguna herramienta de depuración (¡ni siquiera un shell!).
+Aunque esto es excelente para la seguridad, limita la posibilidad de hacer depuración ad hoc con `kubectl exec` en el contenedor del proxy.
 
-Fortunately, [Ephemeral Containers](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/) can help here.
-`kubectl debug` can attach a temporary container to a pod.
-By using an image with extra tools, we can debug as we used to:
+Por suerte, los [contenedores efímeros](https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/) pueden ayudar en este caso.
+`kubectl debug` puede adjuntar un contenedor temporal a un pod.
+Si usas una imagen con herramientas adicionales, puedes depurar como antes:
 
 {{< text shell >}}
 $ kubectl debug --image istio/base --target istio-proxy -it app-65c6749c9d-t549t
@@ -48,7 +48,7 @@ If you don't see a command prompt, try pressing enter.
 root@app-65c6749c9d-t549t:/# curl example.com
 {{< /text >}}
 
-This deploys a new ephemeral container using the `istio/base`.
-This is the same base image used in non-distroless Istio images, and contains a variety of tools useful to debug Istio.
-However, any image will work.
-The container is also attached to the process namespace of the sidecar proxy (`--target istio-proxy`) and the network namespace of the pod.
+Esto despliega un nuevo contenedor efímero con la imagen `istio/base`.
+Es la misma imagen base que usan las imágenes de Istio que no son distroless, y contiene diversas herramientas útiles para depurar Istio.
+Sin embargo, cualquier imagen sirve.
+El contenedor también se adjunta al namespace de procesos del proxy sidecar (`--target istio-proxy`) y al namespace de red del pod.

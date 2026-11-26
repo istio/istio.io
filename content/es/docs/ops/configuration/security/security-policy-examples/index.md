@@ -1,31 +1,31 @@
 ---
-title: Security policy examples
-description: Shows common examples of using Istio security policy.
+title: Ejemplos de políticas de seguridad
+description: Muestra ejemplos comunes del uso de las políticas de seguridad de Istio.
 weight: 60
 owner: istio/wg-security-maintainers
 test: yes
 ---
 
-## Background
+## Contexto
 
-This page shows common patterns of using Istio security policies. You may find them useful in your deployment or use this
-as a quick reference to example policies.
+Esta página muestra patrones comunes de uso de las políticas de seguridad de Istio. Pueden resultarte útiles en tu despliegue, o puedes usar esta página
+como referencia rápida de políticas de ejemplo.
 
-The policies demonstrated here are just examples and require changes to adapt to your actual environment
-before applying.
+Las políticas que se muestran aquí son solo ejemplos y requieren cambios para adaptarlas a tu entorno real
+antes de aplicarlas.
 
-Also read the [authentication](/es/docs/tasks/security/authentication/authn-policy) and
-[authorization](/es/docs/tasks/security/authorization) tasks for a hands-on tutorial of using the security policy in
-more detail.
+Lee también las tareas de [autenticación](/es/docs/tasks/security/authentication/authn-policy) y
+[autorización](/es/docs/tasks/security/authorization) para seguir un tutorial práctico sobre el uso de la política de seguridad con
+más detalle.
 
-## Require different JWT issuer per host
+## Requerir un emisor de JWT distinto por host
 
-JWT validation is common on the ingress gateway and you may want to require different JWT issuers for different
-hosts. You can use the authorization policy for fine grained JWT validation in addition to the
-[request authentication](/es/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
+La validación de JWT es habitual en el ingress gateway, y puede que quieras requerir emisores de JWT distintos para distintos
+hosts. Puedes usar la política de autorización para una validación de JWT granular, además de la política de
+[autenticación de solicitudes](/es/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
 
-Use the following policy if you want to allow access to the given hosts if JWT principal matches. Access to other hosts
-will always be denied.
+Usa la siguiente política si quieres permitir el acceso a los hosts indicados cuando el principal del JWT coincida. El acceso a otros hosts
+siempre se denegará.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -55,9 +55,9 @@ spec:
         hosts: [".another.org", "*.another.org"]
 {{< /text >}}
 
-## Namespace isolation
+## Aislamiento de namespaces
 
-The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace.
+Las dos políticas siguientes habilitan mTLS estricto en el namespace `foo` y permiten el tráfico procedente del mismo namespace.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -82,10 +82,10 @@ spec:
         namespaces: ["foo"]
 {{< /text >}}
 
-## Namespace isolation with ingress exception
+## Aislamiento de namespaces con excepción para el ingress
 
-The following two policies enable strict mTLS on namespace `foo`, and allow traffic from the same namespace and also
-from the ingress gateway.
+Las dos políticas siguientes habilitan mTLS estricto en el namespace `foo` y permiten el tráfico procedente del mismo namespace y también
+del ingress gateway.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -112,14 +112,14 @@ spec:
         principals: ["cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account"]
 {{< /text >}}
 
-## Require mTLS in authorization layer (defense in depth)
+## Requerir mTLS en la capa de autorización (defensa en profundidad) {#require-mtls-in-authorization-layer-defense-in-depth}
 
-You have configured `PeerAuthentication` to `STRICT` but want to make sure the traffic is indeed protected by mTLS with
-an extra check in the authorization layer, i.e., defense in depth.
+Configuraste `PeerAuthentication` en `STRICT`, pero quieres asegurarte de que el tráfico esté realmente protegido por mTLS con
+una comprobación adicional en la capa de autorización, es decir, defensa en profundidad.
 
-The following policy denies the request if the principal is empty. The principal will be empty if plain text is used.
-In other words, the policy allows requests if the principal is non-empty.
-`"*"` means non-empty match and using with `notPrincipals` means matching on empty principal.
+La siguiente política deniega la solicitud si el principal está vacío. El principal estará vacío si se usa texto plano.
+En otras palabras, la política permite las solicitudes si el principal no está vacío.
+`"*"` significa que coincide con cualquier valor no vacío y, usado con `notPrincipals`, significa que coincide con un principal vacío.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -135,16 +135,16 @@ spec:
         notPrincipals: ["*"]
 {{< /text >}}
 
-## Require mandatory authorization check with `DENY` policy
+## Requerir una comprobación de autorización obligatoria con una política `DENY`
 
-You can use the `DENY` policy if you want to require mandatory authorization check that must be satisfied and cannot be
-bypassed by another more permissive `ALLOW` policy. This works because the `DENY` policy takes precedence over the
-`ALLOW` policy and could deny a request early before `ALLOW` policies.
+Puedes usar la política `DENY` si quieres requerir una comprobación de autorización obligatoria que deba cumplirse y que no se pueda
+eludir con otra política `ALLOW` más permisiva. Esto funciona porque la política `DENY` tiene prioridad sobre la
+política `ALLOW` y puede denegar una solicitud antes de que se evalúen las políticas `ALLOW`.
 
-Use the following policy to enforce mandatory JWT validation in addition to the [request authentication](/es/docs/tasks/security/authentication/authn-policy/#end-user-authentication) policy.
-The policy denies the request if the request principal is empty. The request principal will be empty if JWT validation failed.
-In other words, the policy allows requests if the request principal is non-empty.
-`"*"` means non-empty match and using with `notRequestPrincipals` means matching on empty request principal.
+Usa la siguiente política para requerir una validación de JWT obligatoria, además de la política de [autenticación de solicitudes](/es/docs/tasks/security/authentication/authn-policy/#end-user-authentication).
+La política deniega la solicitud si el principal de la solicitud está vacío. El principal de la solicitud estará vacío si falla la validación del JWT.
+En otras palabras, la política permite las solicitudes si el principal de la solicitud no está vacío.
+`"*"` significa que coincide con cualquier valor no vacío y, usado con `notRequestPrincipals`, significa que coincide con un principal de solicitud vacío.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
@@ -163,9 +163,9 @@ spec:
         notRequestPrincipals: ["*"]
 {{< /text >}}
 
-Similarly, Use the following policy to require mandatory namespace isolation and also allow requests from ingress gateway.
-The policy denies the request if the namespace is not `foo` and the principal is not `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
-In other words, the policy allows the request only if the namespace is `foo` or the principal is `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
+Del mismo modo, usa la siguiente política para requerir el aislamiento obligatorio de namespaces y permitir también las solicitudes del ingress gateway.
+La política deniega la solicitud si el namespace no es `foo` y el principal no es `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
+En otras palabras, la política solo permite la solicitud si el namespace es `foo` o si el principal es `cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account`.
 
 {{< text yaml >}}
 apiVersion: security.istio.io/v1
