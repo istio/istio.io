@@ -1,6 +1,6 @@
 ---
-title: Virtual Machine Installation
-description: Deploy Istio and connect a workload running within a virtual machine to it.
+title: Instalación de Virtual Machine
+description: Despliega Istio y conecta a él un workload que se ejecuta dentro de una virtual machine.
 weight: 60
 keywords:
 - kubernetes
@@ -11,22 +11,22 @@ owner: istio/wg-environments-maintainers
 test: yes
 ---
 
-Follow this guide to deploy Istio and connect a virtual machine to it.
+Sigue esta guía para desplegar Istio y conectar una virtual machine a él.
 
-## Prerequisites
+## Prerrequisitos
 
-1. [Download the Istio release](/es/docs/setup/additional-setup/download-istio-release/)
-1. Perform any necessary [platform-specific setup](/es/docs/setup/platform-setup/)
-1. Check the requirements [for Pods and Services](/es/docs/ops/deployment/application-requirements/)
-1. Virtual machines must have IP connectivity to the ingress gateway in the connecting mesh, and optionally every pod in the mesh via L3 networking if enhanced performance is desired.
-1. Learn about [Virtual Machine Architecture](/es/docs/ops/deployment/vm-architecture/) to gain an understanding of the high level architecture of Istio's virtual machine integration.
+1. [Descarga la versión de Istio](/es/docs/setup/additional-setup/download-istio-release/)
+1. Realiza cualquier [configuración específica de la plataforma](/es/docs/setup/platform-setup/) que sea necesaria
+1. Verifica los requisitos [para Pods y Services](/es/docs/ops/deployment/application-requirements/)
+1. Las virtual machines deben tener conectividad IP con el ingress gateway de la mesh a la que se conectan y, opcionalmente, con cada pod de la mesh mediante redes L3 si se desea un mejor rendimiento.
+1. Conoce la [arquitectura de Virtual Machine](/es/docs/ops/deployment/vm-architecture/) para entender la arquitectura de alto nivel de la integración de virtual machines de Istio.
 
-## Prepare the guide environment
+## Preparar el entorno de la guía
 
-1. Create a virtual machine
-1. Set the environment variables `VM_APP`, `WORK_DIR` , `VM_NAMESPACE`,
-and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
-    (e.g., `WORK_DIR="${HOME}/vmintegration"`):
+1. Crea una virtual machine
+1. Establece las variables de entorno `VM_APP`, `WORK_DIR`, `VM_NAMESPACE`
+y `SERVICE_ACCOUNT` en la máquina que estás usando para configurar el clúster
+    (por ejemplo, `WORK_DIR="${HOME}/vmintegration"`):
 
     {{< tabset category-name="network-mode" >}}
 
@@ -39,7 +39,6 @@ and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
     $ CLUSTER_NETWORK=""
     $ VM_NETWORK=""
-    $ CLUSTER="Kubernetes"
     {{< /text >}}
 
     {{< /tab >}}
@@ -51,29 +50,32 @@ and `SERVICE_ACCOUNT` on your machine that you're using to set up the cluster.
     $ VM_NAMESPACE="<the name of your service namespace>"
     $ WORK_DIR="<a certificate working directory>"
     $ SERVICE_ACCOUNT="<name of the Kubernetes service account you want to use for your VM>"
-    $ # Customize values for multi-cluster/multi-network as needed
+    $ # Customize the network names as needed
     $ CLUSTER_NETWORK="kube-network"
     $ VM_NETWORK="vm-network"
-    $ CLUSTER="cluster1"
     {{< /text >}}
 
     {{< /tab >}}
 
     {{< /tabset >}}
 
-1. Create the working directory on your machine that you're using to set up the cluster:
+1. Crea el directorio de trabajo en la máquina que estás usando para configurar el clúster:
 
     {{< text syntax=bash snip_id=setup_wd >}}
     $ mkdir -p "${WORK_DIR}"
     {{< /text >}}
 
-## Install the Istio control plane
+## Instalar el control plane de Istio
 
-If your cluster already has an Istio control plane, you can skip the installation steps, but will still need to expose the control plane for virtual machine access.
+Si tu clúster ya tiene un control plane de Istio, puedes omitir los pasos de instalación, pero aún necesitarás exponer el control plane para el acceso de la virtual machine.
 
-Install Istio and expose the control plane on cluster so that your virtual machine can access it.
+Instala Istio y expón el control plane en el clúster para que tu virtual machine pueda acceder a él.
 
-1. Create the `IstioOperator` spec for installation.
+{{< tip >}}
+{{< boilerplate gateway-api-choose >}}
+{{< /tip >}}
+
+1. Crea la especificación de `IstioOperator` para la instalación.
 
     {{< text syntax="bash yaml" snip_id=setup_iop >}}
     $ cat <<EOF > ./vm-cluster.yaml
@@ -84,41 +86,24 @@ Install Istio and expose the control plane on cluster so that your virtual machi
     spec:
       values:
         global:
-          meshID: mesh1
-          multiCluster:
-            clusterName: "${CLUSTER}"
           network: "${CLUSTER_NETWORK}"
     EOF
     {{< /text >}}
 
-1. Install Istio.
+1. Instala Istio.
 
-    {{< tabset category-name="registration-mode" >}}
-
-    {{< tab name="Default" category-value="default" >}}
-
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_istio >}}
     $ istioctl install -f vm-cluster.yaml
     {{< /text >}}
 
-    {{< /tab >}}
+1. Despliega el east-west gateway:
 
-    {{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
+    {{< tabset category-name="config-api" >}}
 
-    {{< boilerplate alpha >}}
-
-    {{< text syntax=bash snip_id=install_istio >}}
-    $ istioctl install -f vm-cluster.yaml --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_AUTOREGISTRATION=true --set values.pilot.env.PILOT_ENABLE_WORKLOAD_ENTRY_HEALTHCHECKS=true
-    {{< /text >}}
-
-    {{< /tab >}}
-
-    {{< /tabset >}}
-
-1. Deploy the east-west gateway:
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
 
     {{< warning >}}
-    If the control-plane was installed with a revision, add the `--revision rev` flag to the `gen-eastwest-gateway.sh` command.
+    Si el control plane se instaló con una revisión, agrega la opción `--revision rev` al comando `gen-eastwest-gateway.sh`.
     {{< /warning >}}
 
     {{< tabset category-name="network-mode" >}}
@@ -133,7 +118,7 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< tab name="Multi-Network" category-value="multiple" >}}
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=install_eastwest_multinetwork >}}
     $ @samples/multicluster/gen-eastwest-gateway.sh@ \
         --network "${CLUSTER_NETWORK}" | \
         istioctl install -y -f -
@@ -143,13 +128,127 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< /tabset >}}
 
-1. Expose services inside the cluster via the east-west gateway:
+    Esto crea un `Service` llamado `istio-eastwestgateway` en el namespace `istio-system`. Anota su
+    nombre, lo necesitarás cuando generes los archivos para la virtual machine:
+
+    {{< text syntax=bash snip_id=set_eastwest_service >}}
+    $ EASTWEST_GATEWAY_SERVICE="istio-eastwestgateway"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    Los CRDs de Kubernetes Gateway API no vienen instalados por defecto en la mayoría de los clústeres de Kubernetes, por lo que
+    asegúrate de que estén instalados antes de usar Gateway API:
+
+    {{< text syntax=bash snip_id=install_crds >}}
+    $ kubectl get crd tlsroutes.gateway.networking.k8s.io &> /dev/null || \
+      { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref={{< k8s_gateway_api_version >}}" | kubectl apply -f -; }
+    {{< /text >}}
+
+    {{< warning >}}
+    Si estás ejecutando una instancia de istiod con revisión y no tienes una revisión o tag predeterminados,
+    puede que necesites agregar la etiqueta `istio.io/rev` al manifiesto `Gateway` que aparece a continuación.
+    {{< /warning >}}
 
     {{< tabset category-name="network-mode" >}}
 
     {{< tab name="Single-Network" category-value="single" >}}
 
-    Expose the control plane:
+    La virtual machine solo necesita alcanzar istiod a través del gateway, por lo que el `Gateway` expone los
+    puertos de discovery y webhook de istiod como listeners TLS passthrough:
+
+    {{< text syntax="bash yaml" snip_id=install_eastwest_gtwapi >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: Gateway
+    metadata:
+      name: eastwestgateway
+      namespace: istio-system
+    spec:
+      gatewayClassName: istio
+      listeners:
+      - name: tls-istiod
+        port: 15012
+        protocol: TLS
+        tls:
+          mode: Passthrough
+      - name: tls-istiodwebhook
+        port: 15017
+        protocol: TLS
+        tls:
+          mode: Passthrough
+    EOF
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    Además de los puertos de istiod, el `Gateway` necesita un listener que reenvíe el tráfico de servicios
+    entre redes. La etiqueta `topology.istio.io/network` marca el gateway como un gateway multi-network y la
+    opción `gateway.istio.io/listener-protocol: auto-passthrough` hace que Istio enrute ese listener por SNI:
+
+    {{< text syntax="bash yaml" snip_id=install_eastwest_gtwapi_multinetwork >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: Gateway
+    metadata:
+      name: eastwestgateway
+      namespace: istio-system
+      labels:
+        topology.istio.io/network: "${CLUSTER_NETWORK}"
+    spec:
+      gatewayClassName: istio
+      listeners:
+      - name: tls-passthrough
+        port: 15443
+        protocol: TLS
+        tls:
+          mode: Passthrough
+          options:
+            gateway.istio.io/listener-protocol: auto-passthrough
+      - name: tls-istiod
+        port: 15012
+        protocol: TLS
+        tls:
+          mode: Passthrough
+      - name: tls-istiodwebhook
+        port: 15017
+        protocol: TLS
+        tls:
+          mode: Passthrough
+    EOF
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+    Istio despliega automáticamente el gateway y crea un `Service` para él, con un nombre derivado del recurso `Gateway`
+    y de su gateway class. Anota ese nombre, lo necesitarás cuando generes los archivos para
+    la virtual machine:
+
+    {{< text syntax=bash snip_id=set_eastwest_service_gtwapi >}}
+    $ EASTWEST_GATEWAY_SERVICE="eastwestgateway-istio"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+1. Expón los servicios dentro del clúster a través del east-west gateway:
+
+    {{< tabset category-name="config-api" >}}
+
+    {{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
+    Expón el control plane:
 
     {{< text syntax=bash snip_id=expose_istio >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
@@ -159,21 +258,21 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< tab name="Multi-Network" category-value="multiple" >}}
 
-    Expose the control plane:
+    Expón el control plane:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_istio_multinetwork >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-istiod.yaml@
     {{< /text >}}
 
-    Expose cluster services:
+    Expón los servicios del clúster:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=expose_services_multinetwork >}}
     $ kubectl apply -n istio-system -f @samples/multicluster/expose-services.yaml@
     {{< /text >}}
 
-    Ensure to label the istio-system namespace with the defined cluster network:
+    Asegúrate de etiquetar el namespace istio-system con la red del clúster definida:
 
-    {{< text bash >}}
+    {{< text syntax=bash snip_id=label_istio_system_network >}}
     $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
     {{< /text >}}
 
@@ -181,52 +280,101 @@ Install Istio and expose the control plane on cluster so that your virtual machi
 
     {{< /tabset >}}
 
-## Configure the VM namespace
+    {{< /tab >}}
 
-1. Create the namespace that will host the virtual machine:
+    {{< tab name="Gateway API" category-value="gateway-api" >}}
+
+    Expón el control plane adjuntando un `TLSRoute` a cada uno de los listeners de istiod. Las rutas
+    coinciden con el SNI que presenta la virtual machine, que es la parte del host de
+    `discoveryAddress` que `istioctl x workload entry configure` escribe en `mesh.yaml`. Ten en cuenta que
+    el listener del webhook reenvía al puerto `443` del servicio `istiod`:
+
+    {{< text syntax="bash yaml" snip_id=expose_istio_gtwapi >}}
+    $ kubectl apply -f - <<EOF
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: TLSRoute
+    metadata:
+      name: istiod
+      namespace: istio-system
+    spec:
+      parentRefs:
+      - name: eastwestgateway
+        sectionName: tls-istiod
+      hostnames:
+      - istiod.istio-system.svc
+      rules:
+      - backendRefs:
+        - name: istiod
+          port: 15012
+    ---
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: TLSRoute
+    metadata:
+      name: istiod-webhook
+      namespace: istio-system
+    spec:
+      parentRefs:
+      - name: eastwestgateway
+        sectionName: tls-istiodwebhook
+      hostnames:
+      - istiod.istio-system.svc
+      rules:
+      - backendRefs:
+        - name: istiod
+          port: 443
+    EOF
+    {{< /text >}}
+
+    {{< warning >}}
+    Si el control plane se instaló con una revisión y no tienes una revisión o tag predeterminados,
+    la virtual machine se conecta a `istiod-<rev>.istio-system.svc` en su lugar. Usa ese hostname en
+    ambas rutas.
+    {{< /warning >}}
+
+    {{< tabset category-name="network-mode" >}}
+
+    {{< tab name="Single-Network" category-value="single" >}}
+
+    No se requiere ninguna configuración adicional. La virtual machine alcanza los pods del clúster directamente mediante
+    redes L3.
+
+    {{< /tab >}}
+
+    {{< tab name="Multi-Network" category-value="multiple" >}}
+
+    Los servicios del clúster ya están expuestos por el listener `auto-passthrough` que configuraste en el
+    `Gateway`, por lo que no se necesita ninguna ruta para ellos. Solo necesitas etiquetar el namespace istio-system con
+    la red del clúster definida:
+
+    {{< text syntax=bash snip_id=label_istio_system_network_gtwapi >}}
+    $ kubectl label namespace istio-system topology.istio.io/network="${CLUSTER_NETWORK}"
+    {{< /text >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+    {{< /tab >}}
+
+    {{< /tabset >}}
+
+## Configurar el namespace de la VM
+
+1. Crea el namespace que alojará la virtual machine:
 
     {{< text syntax=bash snip_id=install_namespace >}}
     $ kubectl create namespace "${VM_NAMESPACE}"
     {{< /text >}}
 
-1. Create a serviceaccount for the virtual machine:
+1. Crea una serviceaccount para la virtual machine:
 
     {{< text syntax=bash snip_id=install_sa >}}
     $ kubectl create serviceaccount "${SERVICE_ACCOUNT}" -n "${VM_NAMESPACE}"
     {{< /text >}}
 
-## Create files to transfer to the virtual machine
+## Crear los archivos para transferir a la virtual machine
 
-{{< tabset category-name="registration-mode" >}}
-
-{{< tab name="Default" category-value="default" >}}
-
-First, create a template `WorkloadGroup` for the VM(s):
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
-spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${VM_NETWORK}"
-EOF
-{{< /text >}}
-
-{{< /tab >}}
-
-{{< tab name="Automated WorkloadEntry Creation" category-value="autoreg" >}}
-
-First, create a template `WorkloadGroup` for the VM(s):
-
-{{< boilerplate alpha >}}
+Primero, crea un `WorkloadGroup` de plantilla para la(s) VM:
 
 {{< text syntax=bash snip_id=create_wg >}}
 $ cat <<EOF > workloadgroup.yaml
@@ -245,70 +393,52 @@ spec:
 EOF
 {{< /text >}}
 
-Then, to allow automated `WorkloadEntry` creation, push the `WorkloadGroup` to the cluster:
+Luego, para permitir la creación automatizada de `WorkloadEntry`, envía el `WorkloadGroup` al clúster:
 
 {{< text syntax=bash snip_id=apply_wg >}}
 $ kubectl --namespace "${VM_NAMESPACE}" apply -f workloadgroup.yaml
 {{< /text >}}
 
-Using the Automated `WorkloadEntry` Creation feature, application health checks are also available. These share the same API and behavior as [Kubernetes Readiness Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+{{< tip >}}
+También están disponibles los health checks de la aplicación, que comparten la misma API y comportamiento que los [Readiness Probes de Kubernetes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+Agrega un `probe` a la especificación del `WorkloadGroup`, por ejemplo para sondear el endpoint `/ready` de tu aplicación:
 
-For example, to configure a probe on the `/ready` endpoint of your application:
-
-{{< text bash >}}
-$ cat <<EOF > workloadgroup.yaml
-apiVersion: networking.istio.io/v1
-kind: WorkloadGroup
-metadata:
-  name: "${VM_APP}"
-  namespace: "${VM_NAMESPACE}"
+{{< text yaml >}}
 spec:
-  metadata:
-    labels:
-      app: "${VM_APP}"
-  template:
-    serviceAccount: "${SERVICE_ACCOUNT}"
-    network: "${NETWORK}"
   probe:
     periodSeconds: 5
     initialDelaySeconds: 1
     httpGet:
       port: 8080
       path: /ready
-EOF
 {{< /text >}}
 
-With this configuration, the automatically generated `WorkloadEntry` will not be marked "Ready" until the probe succeeds.
+Con esta configuración, el `WorkloadEntry` generado automáticamente no se marcará como "Ready" hasta que el probe tenga éxito.
+{{< /tip >}}
 
-{{< /tab >}}
+A continuación, usa el comando `istioctl x workload entry` para generar:
 
-{{< /tabset >}}
-
-{{< warning >}}
-Before proceeding to generate the `istio-token`, as part of `istioctl x workload entry`, you should verify third party tokens are enabled in your cluster by following the steps describe [here](/es/docs/ops/best-practices/security/#configure-third-party-service-account-tokens).
-If third party tokens are not enabled, you should add the option `--set values.global.jwtPolicy=first-party-jwt` to the Istio install commands.
-{{< /warning >}}
-
-Next, use the `istioctl x workload entry` command to generate:
-
-* `cluster.env`: Contains metadata that identifies what namespace, service account, network CIDR and (optionally) what inbound ports to capture.
-* `istio-token`: A Kubernetes token used to get certs from the CA.
-* `mesh.yaml`: Provides `ProxyConfig` to configure `discoveryAddress`, health-checking probes, and some authentication options.
-* `root-cert.pem`: The root certificate used to authenticate.
-* `hosts`: An addendum to `/etc/hosts` that the proxy will use to reach istiod for xDS.*
+* `cluster.env`: Contiene metadatos que identifican el namespace, la service account, el CIDR de red y (opcionalmente) qué puertos de entrada capturar.
+* `istio-token`: Un token de Kubernetes usado para obtener certificados de la CA.
+* `mesh.yaml`: Proporciona `ProxyConfig` para configurar `discoveryAddress`, los probes de health checking y algunas opciones de autenticación.
+* `root-cert.pem`: El certificado raíz usado para autenticar.
+* `hosts`: Un complemento para `/etc/hosts` que el proxy usará para alcanzar istiod para xDS.*
 
 {{< idea >}}
-A sophisticated option involves configuring DNS within the virtual
-machine to reference an external DNS server. This option is beyond
-the scope of this guide.
+Una opción más sofisticada consiste en configurar el DNS dentro de la virtual
+machine para que haga referencia a un servidor DNS externo. Esta opción queda fuera
+del alcance de esta guía.
 {{< /idea >}}
 
 {{< tabset category-name="registration-mode" >}}
 
 {{< tab name="Default" category-value="default" >}}
 
-{{< text bash >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}"
+{{< text syntax=bash snip_id=configure_wg_default >}}
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}"
 {{< /text >}}
 
 {{< /tab >}}
@@ -318,43 +448,62 @@ $ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --c
 {{< boilerplate alpha >}}
 
 {{< text syntax=bash snip_id=configure_wg >}}
-$ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --clusterID "${CLUSTER}" --autoregister
+$ istioctl x workload entry configure \
+    -f workloadgroup.yaml \
+    -o "${WORK_DIR}" \
+    --ingressService "${EASTWEST_GATEWAY_SERVICE}" \
+    --autoregister
 {{< /text >}}
 
 {{< /tab >}}
 
 {{< /tabset >}}
 
-## Configure the virtual machine
+{{< tip >}}
+El archivo `hosts` generado asocia el hostname de istiod con la dirección IP del east-west gateway, que el
+comando lee del load balancer o de la IP externa del `Service` indicado en `--ingressService`.
 
-Run the following commands on the virtual machine you want to add to the Istio mesh:
+Si la dirección no se puede resolver a una IP, ya sea porque no se encontró el `Service` o porque el load
+balancer es accesible mediante un hostname, el archivo `hosts` se genera vacío y la virtual machine
+no podrá alcanzar istiod. Pasa `--ingressIP` con la dirección del gateway para establecerla explícitamente.
 
-1. Securely transfer the files from `"${WORK_DIR}"`
-    to the virtual machine.  How you choose to securely transfer those files should be done with consideration for
-    your information security policies. For convenience in this guide, transfer all of the required files to `"${HOME}"` in the virtual machine.
+Como alternativa, expón istiod bajo un nombre DNS que la virtual machine ya pueda resolver y omite por completo el
+paso de `/etc/hosts`. Esto requiere instalar el control plane con
+`values.pilot.env.ISTIOD_CUSTOM_HOST` establecido a ese nombre, para que istiod firme su certificado de servicio para él,
+reemplazar `defaultConfig.discoveryAddress` en `mesh.yaml` por `<custom-host>:15012`, y establecer `CA_ADDR`
+en `cluster.env` a la misma dirección.
+{{< /tip >}}
 
-1. Install the root certificate at `/etc/certs`:
+## Configurar la virtual machine {#configure-the-virtual-machine}
+
+Ejecuta los siguientes comandos en la virtual machine que quieres agregar a la mesh de Istio:
+
+1. Transfiere de forma segura los archivos de `"${WORK_DIR}"`
+    a la virtual machine. La forma de transferir esos archivos de manera segura debe decidirse teniendo en cuenta
+    tus políticas de seguridad de la información. Para mayor comodidad en esta guía, transfiere todos los archivos necesarios a `"${HOME}"` en la virtual machine.
+
+1. Instala el certificado raíz en `/etc/certs`:
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/certs
     $ sudo cp "${HOME}"/root-cert.pem /etc/certs/root-cert.pem
     {{< /text >}}
 
-1. Install the token at `/var/run/secrets/tokens`:
+1. Instala el token en `/var/run/secrets/tokens`:
 
     {{< text bash >}}
     $ sudo  mkdir -p /var/run/secrets/tokens
     $ sudo cp "${HOME}"/istio-token /var/run/secrets/tokens/istio-token
     {{< /text >}}
 
-1. Install the package containing the Istio virtual machine integration runtime:
+1. Instala el paquete que contiene el runtime de integración de virtual machines de Istio:
 
     {{< tabset category-name="vm-os" >}}
 
     {{< tab name="Debian" category-value="debian" >}}
 
     {{< text syntax=bash snip_id=none >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/deb/istio-sidecar.deb
     $ sudo dpkg -i istio-sidecar.deb
     {{< /text >}}
 
@@ -362,10 +511,10 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     {{< tab name="CentOS" category-value="centos" >}}
 
-    Note: only CentOS 8 is currently supported.
+    Nota: actualmente solo se soporta CentOS 8.
 
     {{< text syntax=bash snip_id=none >}}
-    $ curl -LO https://storage.googleapis.com/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
+    $ curl -LO https://blob.istio.io/istio-release/releases/{{< istio_full_version >}}/rpm/istio-sidecar.rpm
     $ sudo rpm -i istio-sidecar.rpm
     {{< /text >}}
 
@@ -373,42 +522,42 @@ Run the following commands on the virtual machine you want to add to the Istio m
 
     {{< /tabset >}}
 
-1. Install `cluster.env` within the directory `/var/lib/istio/envoy/`:
+1. Instala `cluster.env` en el directorio `/var/lib/istio/envoy/`:
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/cluster.env /var/lib/istio/envoy/cluster.env
     {{< /text >}}
 
-1. Install the [Mesh Config](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) to `/etc/istio/config/mesh`:
+1. Instala el [Mesh Config](/es/docs/reference/config/istio.mesh.v1alpha1/#MeshConfig) en `/etc/istio/config/mesh`:
 
     {{< text bash >}}
     $ sudo cp "${HOME}"/mesh.yaml /etc/istio/config/mesh
     {{< /text >}}
 
-1. Add the istiod host to `/etc/hosts`:
+1. Agrega el host de istiod a `/etc/hosts`:
 
     {{< text bash >}}
     $ sudo sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
     {{< /text >}}
 
-1. Transfer ownership of the files in `/etc/certs/` and `/var/lib/istio/envoy/` to the Istio proxy:
+1. Transfiere la propiedad de los archivos en `/etc/certs/` y `/var/lib/istio/envoy/` al proxy de Istio:
 
     {{< text bash >}}
     $ sudo mkdir -p /etc/istio/proxy
     $ sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /etc/istio/config /var/run/secrets /etc/certs/root-cert.pem
     {{< /text >}}
 
-## Start Istio within the virtual machine
+## Iniciar Istio dentro de la virtual machine
 
-1. Start the Istio agent:
+1. Inicia el agente de Istio:
 
     {{< text bash >}}
     $ sudo systemctl start istio
     {{< /text >}}
 
-## Verify Istio Works Successfully
+## Verificar que Istio funciona correctamente
 
-1. Check the log in `/var/log/istio/istio.log`. You should see entries similar to the following:
+1. Revisa el log en `/var/log/istio/istio.log`. Deberías ver entradas similares a las siguientes:
 
     {{< text bash >}}
     $ 2020-08-21T01:32:17.748413Z info sds resource:default pushed key/cert pair to proxy
@@ -423,42 +572,42 @@ Run the following commands on the virtual machine you want to add to the Istio m
     $ 2020-08-21T01:32:20.695595Z info sds resource:default pushed key/cert pair to proxy
     {{< /text >}}
 
-1. Create a Namespace to deploy a Pod-based Service:
+1. Crea un Namespace para desplegar un Service basado en Pods:
 
     {{< text bash >}}
     $ kubectl create namespace sample
     $ kubectl label namespace sample istio-injection=enabled
     {{< /text >}}
 
-1. Deploy the `HelloWorld` Service:
+1. Despliega el Service `HelloWorld`:
 
     {{< text bash >}}
     $ kubectl apply -n sample -f @samples/helloworld/helloworld.yaml@
     {{< /text >}}
 
-1. Send requests from your Virtual Machine to the Service:
+1. Envía solicitudes desde tu Virtual Machine al Service:
 
     {{< text bash >}}
     $ curl helloworld.sample.svc:5000/hello
     Hello version: v1, instance: helloworld-v1-578dd69f69-fxwwk
     {{< /text >}}
 
-## Next Steps
+## Próximos pasos
 
-For more information about virtual machines:
+Para más información sobre virtual machines:
 
-* [Debugging Virtual Machines](/es/docs/ops/diagnostic-tools/virtual-machines/) to troubleshoot issues with virtual machines.
-* [Bookinfo with a Virtual Machine](/es/docs/examples/virtual-machines/) to set up an example deployment of virtual machines.
+* [Depuración de Virtual Machines](/es/docs/ops/diagnostic-tools/virtual-machines/) para solucionar problemas con virtual machines.
+* [Bookinfo con una Virtual Machine](/es/docs/examples/virtual-machines/) para configurar un despliegue de ejemplo de virtual machines.
 
-## Uninstall
+## Desinstalar {#uninstall}
 
-Stop Istio on the virtual machine:
+Detén Istio en la virtual machine:
 
 {{< text bash >}}
 $ sudo systemctl stop istio
 {{< /text >}}
 
-Then, remove the Istio-sidecar package:
+Luego, elimina el paquete istio-sidecar:
 
 {{< tabset category-name="vm-os" >}}
 
@@ -481,16 +630,34 @@ $ sudo rpm -e istio-sidecar
 
 {{< /tabset >}}
 
-To uninstall Istio, run the following command:
+Para desinstalar Istio, ejecuta el siguiente comando:
 
-{{< text bash >}}
+{{< tabset category-name="config-api" >}}
+
+{{< tab name="Istio APIs" category-value="istio-apis" >}}
+
+{{< text syntax=bash snip_id=uninstall_istio >}}
 $ kubectl delete -n istio-system -f @samples/multicluster/expose-istiod.yaml@
 $ istioctl uninstall -y --purge
 {{< /text >}}
 
-The control plane namespace (e.g., `istio-system`) is not removed by default.
-If no longer needed, use the following command to remove it:
+{{< /tab >}}
 
-{{< text bash >}}
+{{< tab name="Gateway API" category-value="gateway-api" >}}
+
+{{< text syntax=bash snip_id=uninstall_istio_gtwapi >}}
+$ kubectl delete tlsroute istiod istiod-webhook -n istio-system
+$ kubectl delete gtw eastwestgateway -n istio-system
+$ istioctl uninstall -y --purge
+{{< /text >}}
+
+{{< /tab >}}
+
+{{< /tabset >}}
+
+El namespace del control plane (por ejemplo, `istio-system`) no se elimina por defecto.
+Si ya no lo necesitas, usa el siguiente comando para eliminarlo:
+
+{{< text syntax=bash snip_id=delete_istio_namespace >}}
 $ kubectl delete namespace istio-system
 {{< /text >}}
