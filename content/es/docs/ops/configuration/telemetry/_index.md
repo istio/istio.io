@@ -1,6 +1,6 @@
 ---
-title: Observability
-description: Helps you manage telemetry collection and visualization in a running mesh.
+title: Observabilidad
+description: Te ayuda a gestionar la recopilación y visualización de telemetría en una mesh en ejecución.
 weight: 40
 keywords: [ops,telemetry]
 aliases:
