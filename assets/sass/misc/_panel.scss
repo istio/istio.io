@@ -3,7 +3,12 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: -2.5rem -2rem 0;
+    margin: -2.5rem -1.75rem 0;
+
+    @media (min-width: $bp-md) {
+        margin-left: -2rem;
+        margin-right: -2rem;
+    }
 
     &--grid {
         display: grid;
