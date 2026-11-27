@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="1450" viewBox="0 0 480 1450" role="img" aria-labelledby="title description">
+  <title id="title">Istio sidecar request authorization and tool application checks</title>
+  <desc id="description">Istio destination sidecars authorize each HTTP request by workload identity, method, path, and port. The tool application parses and validates JSON and authorizes arguments before forwarding. The sink's sidecar authenticates the tool application on the second hop. The sink commits the row. An independent observer checks the ledger. Mesh and application denials must occur before the commit.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10" fill="#334155"/></marker>
+    <style>text{font-family:Arial,sans-serif;font-size:20px;fill:#182435}.title{font-size:24px;font-weight:700}.name{font-size:24px;font-weight:700}.box{fill:#fff;stroke:#64748b;stroke-width:2}.line{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}.evidence{stroke:#334155;stroke-width:2;stroke-dasharray:7 5;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="480" height="1450" fill="#fff"/>
+  <text x="240" y="40" text-anchor="middle" class="title">Istio sidecars authorize</text>
+  <text x="240" y="72" text-anchor="middle" class="title">each HTTP request</text>
+  <text x="240" y="108" text-anchor="middle">Intended two-hop request path</text>
+
+  <rect x="28" y="134" width="424" height="136" rx="8" class="box"/>
+  <text x="50" y="172" class="name">Agent worker</text>
+  <text x="50" y="205">SA: agent-alpha</text>
+  <text x="50" y="238">Synthetic HTTP client; no model</text>
+
+  <path d="M74 270V402" class="line"/>
+  <text x="106" y="310">mTLS + Istio policy</text>
+  <text x="106" y="342">Peer: agent-alpha</text>
+  <text x="106" y="374">Method, path and port</text>
+
+  <rect x="28" y="410" width="424" height="240" rx="8" class="box"/>
+  <text x="50" y="450" class="name">Tool application</text>
+  <text x="50" y="484">SA: tool-gateway</text>
+  <text x="50" y="518">Parse and validate JSON</text>
+  <text x="50" y="552">Authorize tenant, resource</text>
+  <text x="50" y="582">and operation against fixed grant</text>
+  <text x="50" y="616">before forwarding</text>
+
+  <path d="M74 650V782" class="line"/>
+  <text x="106" y="690">mTLS + Istio policy</text>
+  <text x="106" y="722">Peer: tool-gateway</text>
+  <text x="106" y="754">Method, path and port</text>
+
+  <rect x="28" y="790" width="424" height="230" rx="8" class="box"/>
+  <text x="50" y="830" class="name">Action sink</text>
+  <text x="50" y="864">SA: action-sink</text>
+  <rect x="50" y="884" width="380" height="108" rx="6" class="box"/>
+  <text x="66" y="923">Ledger: one committed row</text>
+  <text x="66" y="957">Entire example effect</text>
+
+  <path d="M398 1130V1000" class="evidence"/>
+  <text x="50" y="1064">Ledger read only</text>
+  <text x="50" y="1096">Outside the request path</text>
+  <rect x="28" y="1130" width="424" height="150" rx="8" class="box"/>
+  <text x="50" y="1170" class="name">Independent observer</text>
+  <text x="50" y="1205">Reads complete sorted rows</text>
+  <text x="50" y="1240">Compares row count and contents</text>
+
+  <line x1="28" y1="1305" x2="452" y2="1305" stroke="#cbd5e1"/>
+  <text x="28" y="1340">A denial must precede the effect.</text>
+  <text x="28" y="1372">Denied calls: no added rows;</text>
+  <text x="28" y="1404">complete row set unchanged.</text>
+  <text x="28" y="1436">A status code alone cannot prove this.</text>
+</svg>
