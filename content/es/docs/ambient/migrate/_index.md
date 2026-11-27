@@ -84,7 +84,8 @@ Los siguientes son bloqueadores críticos; la migración no es posible hasta que
 - **Workloads en VM** en la mesh. Los workloads basados en VM no pueden unirse a la mesh ambient.
 - **SPIRE** como proveedor de certificados. El modo ambient no soporta la integración con SPIRE.
 - **`PeerAuthentication` con `mode: DISABLE`**. Ambient siempre aplica mTLS entre
-  workloads de la mesh. Las políticas con modo `DISABLE` serán ignoradas y no se pueden migrar.
+  workloads de la mesh. `DISABLE` se trata igual que `PERMISSIVE`, por lo que no se puede usar para desactivar
+  mTLS, y los workloads que dependen de ese comportamiento no se pueden migrar tal cual.
 - **Configuraciones multiclúster primary-remote**. Solo se soportan múltiples clústeres primarios.
   Los despliegues con uno o más clústeres remotos no funcionarán correctamente.
 
