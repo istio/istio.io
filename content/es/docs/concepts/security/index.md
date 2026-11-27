@@ -165,7 +165,7 @@ junto con las claves cuando corresponda. Además, Istio admite
 la autenticación en modo permisivo para ayudarle a comprender cómo un cambio de política puede
 afectar su postura de seguridad antes de que se aplique.
 
-### Autenticación mTLS
+### Autenticación mTLS {#mutual-tls-authentication}
 
 Istio tuneliza la comunicación service-to-service a través de los PEP del lado del cliente y del servidor,
 que se implementan como [proxies Envoy](https://www.envoyproxy.io/). Cuando un workload envía una solicitud
@@ -197,7 +197,7 @@ las siguientes suites de cifrado:
 
 - `AES128-GCM-SHA256`
 
-#### Modo permisivo
+#### Modo permisivo {#permissive-mode}
 
 Istio mTLS tiene un modo permisivo, que permite que un service acepte tanto
 tráfico de texto plano como tráfico mTLS al mismo tiempo. Esta feature mejora en gran medida
@@ -497,7 +497,7 @@ recomendaciones ayudan a evitar interrupciones al actualizar sus políticas de a
   cuando todo el tráfico cambie al nuevo JWT. Sin embargo, cada JWT debe usar una
   ubicación diferente.
 
-## Autorización
+## Autorización {#authorization}
 
 Las features de autorización de Istio proporcionan control de acceso a nivel de malla, namespace y workload
 para sus workloads en la mesh. Este nivel de control proporciona

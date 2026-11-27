@@ -1,36 +1,36 @@
 ---
-title: Observability Best Practices
-description: Best practices for observing applications using Istio.
+title: Mejores prácticas de observabilidad
+description: Mejores prácticas para observar aplicaciones con Istio.
 force_inline_toc: true
 weight: 50
 owner: istio/wg-policies-and-telemetry-maintainers
 test: no
 ---
 
-## Using Prometheus for production-scale monitoring
+## Usar Prometheus para el monitoreo a escala de producción {#using-prometheus-for-production-scale-monitoring}
 
-The recommended approach for production-scale monitoring of Istio meshes with Prometheus
-is to use [hierarchical federation](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)
-in combination with a collection of [recording rules](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/).
+El enfoque recomendado para el monitoreo a escala de producción de meshes de Istio con Prometheus
+es usar la [federación jerárquica](https://prometheus.io/docs/prometheus/latest/federation/#hierarchical-federation)
+junto con un conjunto de [reglas de grabación (recording rules)](https://prometheus.io/docs/prometheus/latest/configuration/recording_rules/).
 
-Although installing Istio does not deploy [Prometheus](http://prometheus.io) by default, the
-[Getting Started](/es/docs/setup/getting-started/) instructions install the `Option 1: Quick Start` deployment
-of Prometheus described in the [Prometheus integration guide](/es/docs/ops/integrations/prometheus/).
-This deployment of Prometheus is intentionally configured with a very short retention window (6 hours). The
-quick-start Prometheus deployment is also configured to collect metrics from each Envoy proxy
-running in the mesh, augmenting each metric with a set of labels about their origin (`instance`,
-`pod`, and `namespace`).
+Aunque la instalación de Istio no despliega [Prometheus](http://prometheus.io) por defecto, las instrucciones de
+[Comenzando](/es/docs/setup/getting-started/) instalan el despliegue `Option 1: Quick Start`
+de Prometheus que se describe en la [guía de integración de Prometheus](/es/docs/ops/integrations/prometheus/).
+Este despliegue de Prometheus está configurado intencionadamente con un período de retención muy corto (6 horas). El
+despliegue de inicio rápido de Prometheus también está configurado para recopilar métricas de cada proxy Envoy
+que se ejecuta en la mesh y añade a cada métrica un conjunto de etiquetas sobre su origen (`instance`,
+`pod` y `namespace`).
 
 {{< image width="80%"
     link="./production-prometheus.svg"
-    alt="Architecture for production monitoring of Istio using Prometheus."
-    caption="Production-scale Istio monitoring with Istio"
+    alt="Arquitectura para el monitoreo en producción de Istio con Prometheus."
+    caption="Monitoreo de Istio a escala de producción con Prometheus"
     >}}
 
-### Workload-level aggregation via recording rules
+### Agregación a nivel de workload mediante reglas de grabación {#workload-level-aggregation-via-recording-rules}
 
-In order to aggregate metrics across instances and pods, update the default Prometheus configuration with
-the following recording rules:
+Para agregar las métricas de todas las instancias y pods, actualiza la configuración por defecto de Prometheus con
+las siguientes reglas de grabación:
 
 {{< tabset category-name="workload-metrics-aggregation" >}}
 
@@ -80,6 +80,14 @@ groups:
   - record: "workload:istio_response_bytes_bucket"
     expr: |
       sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)
+
+  - record: "workload:istio_request_messages_total"
+    expr: |
+      sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_messages_total)
+
+  - record: "workload:istio_response_messages_total"
+    expr: |
+      sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_messages_total)
 
   - record: "workload:istio_tcp_sent_bytes_total"
     expr: |
@@ -138,6 +146,11 @@ spec:
     - record: "workload:istio_response_bytes_bucket"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_bytes_bucket)"
 
+    - record: "workload:istio_request_messages_total"
+      expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_request_messages_total)"
+    - record: "workload:istio_response_messages_total"
+      expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_response_messages_total)"
+
     - record: "workload:istio_tcp_sent_bytes_total"
       expr: "sum without(instance, kubernetes_namespace, kubernetes_pod_name) (istio_tcp_sent_bytes_total)"
     - record: "workload:istio_tcp_received_bytes_total"
@@ -153,21 +166,21 @@ spec:
 {{< /tabset >}}
 
 {{< tip >}}
-The recording rules above only aggregate across pods and instances. They still preserve the full set of
-[Istio Standard Metrics](/es/docs/reference/config/metrics/), including all Istio dimensions. While this
-will help with controlling metrics cardinality via federation, you may want to further optimize the recording rules
-to match your existing dashboards, alerts, and ad-hoc queries.
+Las reglas de grabación anteriores solo agregan entre pods e instancias. Siguen conservando el conjunto completo de
+[métricas estándar de Istio](/es/docs/reference/config/metrics/), incluidas todas las dimensiones de Istio. Aunque esto
+ayudará a controlar la cardinalidad de las métricas mediante la federación, puede que quieras optimizar aún más las reglas de grabación
+para que se ajusten a tus dashboards, alertas y consultas ad hoc existentes.
 
-For more information on tailoring your recording rules, see the section on
-[Optimizing metrics collection with recording rules](/es/docs/ops/best-practices/observability/#optimizing-metrics-collection-with-recording-rules).
+Para obtener más información sobre cómo adaptar tus reglas de grabación, consulta la sección
+[Optimizar la recopilación de métricas con reglas de grabación](/es/docs/ops/best-practices/observability/#optimizing-metrics-collection-with-recording-rules).
 {{< /tip >}}
 
-### Federation using workload-level aggregated metrics
+### Federación con métricas agregadas a nivel de workload
 
-To establish Prometheus federation, modify the configuration of your production-ready deployment of Prometheus to
-scrape the federation endpoint of the Istio Prometheus.
+Para establecer la federación de Prometheus, modifica la configuración de tu despliegue de Prometheus para producción para que
+haga scraping del endpoint de federación del Prometheus de Istio.
 
-Add the following job to your configuration:
+Añade el siguiente job a tu configuración:
 
 {{< text yaml >}}
 - job_name: 'istio-prometheus'
@@ -188,7 +201,7 @@ Add the following job to your configuration:
     - '{__name__=~"pilot(.*)"}'
 {{< /text >}}
 
-If you are using the [Prometheus Operator](https://github.com/coreos/prometheus-operator), use the following configuration instead:
+Si usas el [Prometheus Operator](https://github.com/coreos/prometheus-operator), usa en su lugar la siguiente configuración:
 
 {{< text yaml >}}
 apiVersion: monitoring.coreos.com/v1
@@ -222,26 +235,26 @@ spec:
 {{< /text >}}
 
 {{< tip >}}
-The key to the federation configuration is matching on the job in the Istio-deployed Prometheus that is collecting
-[Istio Standard Metrics](/es/docs/reference/config/metrics/) and renaming any metrics collected by removing
-the prefix used in the workload-level recording rules (`workload:`). This will allow existing dashboards and
-queries to seamlessly continue working when pointed at the production Prometheus instance (and away from the Istio instance).
+La clave de la configuración de federación es seleccionar el job del Prometheus desplegado por Istio que recopila las
+[métricas estándar de Istio](/es/docs/reference/config/metrics/) y renombrar todas las métricas recopiladas eliminando
+el prefijo que usan las reglas de grabación a nivel de workload (`workload:`). Así, los dashboards y
+las consultas existentes seguirán funcionando sin cambios cuando apunten a la instancia de Prometheus de producción (y ya no a la instancia de Istio).
 
-You can also include additional metrics (for example, envoy, go, etc.) when setting up federation.
+También puedes incluir métricas adicionales (por ejemplo, de envoy, go, etc.) al configurar la federación.
 
-Control plane metrics are also collected and federated up to the production Prometheus.
+Las métricas del control plane también se recopilan y se federan hacia el Prometheus de producción.
 {{< /tip >}}
 
-### Optimizing metrics collection with recording rules
+### Optimizar la recopilación de métricas con reglas de grabación {#optimizing-metrics-collection-with-recording-rules}
 
-Beyond just using recording rules to [aggregate over pods and instances](#workload-level-aggregation-via-recording-rules), you may
-want to use recording rules to generate aggregated metrics tailored specifically to your existing dashboards and alerts. Optimizing
-your collection in this manner can result in large savings in resource consumption in your production instance of Prometheus, in
-addition to faster query performance.
+Además de usar reglas de grabación para [agregar entre pods e instancias](#workload-level-aggregation-via-recording-rules), puede que
+quieras usar reglas de grabación para generar métricas agregadas adaptadas específicamente a tus dashboards y alertas existentes. Optimizar
+la recopilación de esta forma puede suponer un gran ahorro en el consumo de recursos de tu instancia de Prometheus de producción, además
+de un mejor rendimiento de las consultas.
 
-For example, imagine a custom monitoring dashboard that used the following Prometheus queries:
+Por ejemplo, imagina un dashboard de monitoreo personalizado que usa las siguientes consultas de Prometheus:
 
-* Total rate of requests averaged over the past minute by destination service name and namespace
+* Tasa total de solicitudes, promediada durante el último minuto, por nombre del servicio de destino y namespace
 
     {{< text plain >}}
     sum(irate(istio_requests_total{reporter="source"}[1m]))
@@ -251,7 +264,7 @@ For example, imagine a custom monitoring dashboard that used the following Prome
     )
     {{< /text >}}
 
-* P95 client latency averaged over the past minute by source and destination service names and namespace
+* Latencia P95 del cliente, promediada durante el último minuto, por nombres de los servicios de origen y destino y namespace
 
     {{< text plain >}}
     histogram_quantile(0.95,
@@ -266,8 +279,8 @@ For example, imagine a custom monitoring dashboard that used the following Prome
     )
     {{< /text >}}
 
-The following set of recording rules could be added to the Istio Prometheus configuration, using the `istio` prefix
-to make identifying these metrics for federation simple.
+El siguiente conjunto de reglas de grabación se podría añadir a la configuración del Prometheus de Istio, con el prefijo `istio`
+para que resulte sencillo identificar estas métricas para la federación.
 
 {{< text yaml >}}
 groups:
@@ -295,19 +308,19 @@ groups:
       )
 {{< /text >}}
 
-The production instance of Prometheus would then be updated to federate from the Istio instance with:
+Después, la instancia de Prometheus de producción se actualizaría para federar desde la instancia de Istio con:
 
-* match clause of `{__name__=~"istio:(.*)"}`
+* la cláusula de coincidencia `{__name__=~"istio:(.*)"}`
 
-* metric relabeling config with: `regex: "istio:(.*)"`
+* la configuración de reetiquetado de métricas con: `regex: "istio:(.*)"`
 
-The original queries would then be replaced with:
+Después, las consultas originales se sustituirían por:
 
 * `istio_requests:by_destination_service:rate1m`
 
 * `avg(istio_request_duration_milliseconds_bucket:p95:rate1m)`
 
 {{< tip >}}
-A detailed write-up on [metrics collection optimization in production at AutoTrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
-provides a more fleshed out example of aggregating directly to the queries that power dashboards and alerts.
+Un artículo detallado sobre la [optimización de la recopilación de métricas en producción en AutoTrader](https://karlstoney.com/2020/02/25/federated-prometheus-to-reduce-metric-cardinality/)
+ofrece un ejemplo más completo de cómo agregar directamente según las consultas que alimentan los dashboards y las alertas.
 {{< /tip >}}
