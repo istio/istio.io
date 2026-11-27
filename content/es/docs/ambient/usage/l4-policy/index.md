@@ -120,4 +120,4 @@ Las [políticas de autenticación de pares](/es/docs/concepts/security/#peer-aut
 
 La política predeterminada para el modo ambient es `PERMISSIVE`, que permite que los pods acepten tanto el tráfico cifrado con mTLS (desde dentro de la mesh) como el tráfico de texto sin formato (desde fuera). Habilitar el modo `STRICT` significa que los pods solo aceptarán tráfico cifrado con mTLS.
 
-Como ztunnel y {{< gloss >}}HBONE{{< /gloss >}} implican el uso de mTLS, no es posible usar el modo `DISABLE` en una política. Dichas políticas serán ignoradas.
+Como ztunnel y {{< gloss >}}HBONE{{< /gloss >}} implican el uso de mTLS, el modo `DISABLE` no puede desactivar mTLS. Una política con modo `DISABLE` se trata igual que `PERMISSIVE`: se acepta el tráfico de texto sin formato, pero el tráfico entre workloads ambient sigue cifrado.
